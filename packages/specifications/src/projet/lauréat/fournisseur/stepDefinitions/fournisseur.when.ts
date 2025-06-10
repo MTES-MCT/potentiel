@@ -42,6 +42,42 @@ Quand(
   },
 );
 
+Quand('le porteur enregistre un changement de fournisseur', async function (this: PotentielWorld) {
+  await enregistrerChangementFournisseur.call(this);
+});
+
+Quand(
+  'le porteur enregistre un changement de fournisseur avec :',
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    await enregistrerChangementFournisseur.call(
+      this,
+      this.lauréatWorld.fournisseurWorld.mapExempleToFixtureValues(exemple),
+    );
+  },
+);
+
+Quand(
+  'le porteur enregistre un changement de fournisseur sans modification',
+  async function (this: PotentielWorld) {
+    const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
+      type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+      data: {
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      },
+    });
+    assert(Option.isSome(fournisseur), 'Fournisseur non trouvé');
+
+    await enregistrerChangementFournisseur.call(this, {
+      évaluationCarbone: fournisseur.évaluationCarboneSimplifiée,
+      fournisseurs: fournisseur.fournisseurs.map(({ nomDuFabricant, typeFournisseur }) => ({
+        nomDuFabricant,
+        typeFournisseur: typeFournisseur.formatter(),
+      })),
+    });
+  },
+);
+
 export async function modifierÉvaluationCarbone(
   this: PotentielWorld,
   values: {
@@ -61,6 +97,40 @@ export async function modifierÉvaluationCarbone(
         modifiéeLeValue: modifiéeLe,
         modifiéeParValue: modifiéePar,
         évaluationCarboneSimplifiéeValue: évaluationCarbone,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}
+
+export async function enregistrerChangementFournisseur(
+  this: PotentielWorld,
+  values: {
+    évaluationCarbone?: number;
+    fournisseurs?: Array<{
+      typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
+      nomDuFabricant: string;
+    }>;
+  } = {},
+) {
+  try {
+    const { évaluationCarbone, fournisseurs, enregistréLe, enregistréPar, pièceJustificative } =
+      this.lauréatWorld.fournisseurWorld.enregistrerChangementFournisseur.créer({
+        enregistréPar: this.utilisateurWorld.adminFixture.email,
+        ...values,
+      });
+
+    await mediator.send<Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase>({
+      type: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
+      data: {
+        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+        évaluationCarboneSimplifiéeValue: évaluationCarbone,
+        fournisseursValue: fournisseurs,
+        dateChangementValue: enregistréLe,
+        identifiantUtilisateurValue: enregistréPar,
+        raisonValue: '',
+        pièceJustificativeValue: pièceJustificative,
       },
     });
   } catch (e) {

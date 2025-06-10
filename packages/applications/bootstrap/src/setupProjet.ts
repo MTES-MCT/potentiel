@@ -297,6 +297,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       'RebuildTriggered',
       'FournisseurImporté-V1',
       'ÉvaluationCarboneSimplifiéeModifiée-V1',
+      'ChangementFournisseurEnregistré-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<FournisseurProjector.Execute>({
