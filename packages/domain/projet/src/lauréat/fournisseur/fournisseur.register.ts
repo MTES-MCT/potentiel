@@ -16,11 +16,6 @@ export type FournisseurCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerFournisseurUseCases = (dependencies: FournisseurCommandDependencies) => {
-  registerEnregistrerChangementFournisseurCommand(dependencies.getProjetAggregateRoot);
-  registerEnregistrerChangementFournisseurUseCase();
-};
-
 export const registerFournisseurQueries = (dependencies: FournisseurQueryDependencies) => {
   registerConsulterFournisseurQuery(dependencies);
   registerConsulterChangementFournisseurQuery(dependencies);
@@ -29,4 +24,7 @@ export const registerFournisseurQueries = (dependencies: FournisseurQueryDepende
 export const registerFournisseurUseCases = (dependencies: FournisseurCommandDependencies) => {
   registerModifierÉvaluationCarboneUseCase();
   registerModifierÉvaluationCarboneCommand(dependencies.getProjetAggregateRoot);
+
+  registerEnregistrerChangementFournisseurCommand(dependencies.getProjetAggregateRoot);
+  registerEnregistrerChangementFournisseurUseCase();
 };
