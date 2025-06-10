@@ -14,7 +14,7 @@ export const setupÉliminé: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Eliminé',
   });
 
-  const recours = createSubscriptionSetup('éliminé');
+  const recours = createSubscriptionSetup('recours');
 
   RecoursProjector.register();
   await recours.setupSubscription<RecoursProjector.SubscriptionEvent, RecoursProjector.Execute>({
