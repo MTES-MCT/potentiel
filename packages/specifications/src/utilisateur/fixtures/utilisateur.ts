@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 export interface Utilisateur<TRole extends string> {
-  id: string;
   email: string;
   nom: string;
   role: TRole;
@@ -17,17 +16,6 @@ export abstract class AbstractUtilisateur<TRole extends string> implements Utili
   #role: TRole;
   get role(): TRole {
     return this.#role;
-  }
-
-  #id!: string;
-
-  get id(): string {
-    this.vérifierCréé();
-    return this.#id;
-  }
-
-  set id(value: string) {
-    this.#id = value;
   }
 
   #email!: string;
@@ -63,13 +51,11 @@ export abstract class AbstractUtilisateur<TRole extends string> implements Utili
       role: this.role,
       email: faker.internet.email().toLowerCase(),
       nom: faker.person.fullName(),
-      id: faker.string.uuid(),
       ...partial,
     };
 
     this.#email = utilisateur.email;
     this.#nom = utilisateur.nom;
-    this.#id = utilisateur.id;
 
     this.#aÉtéCréé = true;
 
