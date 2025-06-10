@@ -4,6 +4,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '../../../..';
 import { TypeFournisseur } from '../..';
 
+// TODO revoir avec Violette : pourquoi des champs optionnels ?
 export type EnregistrerChangementFournisseurOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;

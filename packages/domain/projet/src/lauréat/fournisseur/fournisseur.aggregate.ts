@@ -1,10 +1,8 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { CahierDesChargesEmpêcheModificationError } from '../lauréat.error';
 
 import { TypeFournisseur } from '.';
 
@@ -14,6 +12,8 @@ import { FournisseurImportéEvent } from './importer/importerFournisseur.event';
 import { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options';
 import { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
 import {
+  ChangementFournisseurValeurIdentiqueError,
+  FournisseursIdentiqueError,
   ÉvaluationCarboneIdentiqueError,
   ÉvaluationCarboneNombreError,
   ÉvaluationCarboneNégativeError,
@@ -75,16 +75,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     modifiéePar,
     évaluationCarboneSimplifiée,
   }: ModifierÉvaluationCarboneOptions) {
-    if (Number.isNaN(évaluationCarboneSimplifiée)) {
-      throw new ÉvaluationCarboneNombreError();
-    }
-    if (évaluationCarboneSimplifiée < 0) {
-      throw new ÉvaluationCarboneNégativeError();
-    }
-
-    if (évaluationCarboneSimplifiée === this.évaluationCarboneSimplifiée) {
-      throw new ÉvaluationCarboneIdentiqueError();
-    }
+    this.vérifierÉvaluationCarbone(évaluationCarboneSimplifiée);
 
     const event: ÉvaluationCarboneModifiéeEvent = {
       type: 'ÉvaluationCarboneSimplifiéeModifiée-V1',
@@ -109,11 +100,14 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   }: EnregistrerChangementFournisseurOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible();
 
-    if (
-      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
-      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
-    ) {
-      throw new CahierDesChargesEmpêcheModificationError();
+    if (évaluationCarboneSimplifiée !== undefined && fournisseurs !== undefined) {
+      this.vérifierÉvaluationCarboneEtFournisseurs(évaluationCarboneSimplifiée, fournisseurs);
+    } else if (évaluationCarboneSimplifiée !== undefined) {
+      this.vérifierÉvaluationCarbone(évaluationCarboneSimplifiée);
+    } else if (fournisseurs !== undefined) {
+      this.vérifierFournisseurs(fournisseurs);
+    } else {
+      // TODO gérer le cas où les deux sont undefined
     }
 
     const event: ChangementFournisseurEnregistréEvent = {
@@ -133,6 +127,72 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     };
 
     await this.publish(event);
+  }
+
+  /**
+   * On vérifie la validité dans le cas où les deux valeurs sont fournies
+   * Les valeurs doivent être valides, et au moins l'une des deux doit être modifiée
+   */
+  private vérifierÉvaluationCarboneEtFournisseurs(
+    évaluationCarboneSimplifiée: number,
+    fournisseurs: Array<{
+      typeFournisseur: TypeFournisseur.ValueType;
+      nomDuFabricant: string;
+    }>,
+  ) {
+    try {
+      this.vérifierÉvaluationCarbone(évaluationCarboneSimplifiée);
+      return;
+    } catch (e) {
+      if (!(e instanceof ÉvaluationCarboneIdentiqueError)) {
+        throw e;
+      }
+    }
+    try {
+      this.vérifierFournisseurs(fournisseurs);
+      return;
+    } catch (e) {
+      if (!(e instanceof FournisseursIdentiqueError)) {
+        throw e;
+      }
+    }
+    throw new ChangementFournisseurValeurIdentiqueError();
+  }
+
+  private vérifierÉvaluationCarbone(évaluationCarboneSimplifiée: number) {
+    if (Number.isNaN(évaluationCarboneSimplifiée)) {
+      throw new ÉvaluationCarboneNombreError();
+    }
+    if (évaluationCarboneSimplifiée < 0) {
+      throw new ÉvaluationCarboneNégativeError();
+    }
+
+    if (évaluationCarboneSimplifiée === this.évaluationCarboneSimplifiée) {
+      throw new ÉvaluationCarboneIdentiqueError();
+    }
+  }
+
+  private vérifierFournisseurs(
+    fournisseurs: Array<{
+      typeFournisseur: TypeFournisseur.ValueType;
+      nomDuFabricant: string;
+    }>,
+  ) {
+    if (fournisseurs.length !== this.#fournisseurs.length) {
+      return;
+    }
+    for (const fournisseur of fournisseurs) {
+      if (
+        !this.#fournisseurs.find(
+          (f) =>
+            f.nomDuFabricant === fournisseur.nomDuFabricant &&
+            f.typeFournisseur.estÉgaleÀ(fournisseur.typeFournisseur),
+        )
+      ) {
+        return;
+      }
+    }
+    throw new FournisseursIdentiqueError();
   }
 
   apply(event: FournisseurEvent): void {

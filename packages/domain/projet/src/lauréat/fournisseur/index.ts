@@ -4,6 +4,7 @@ import {
 } from './consulter/consulterFournisseur.query';
 import { ModifierÉvaluationCarboneUseCase } from './modifier/modifierÉvaluationCarbone.usecase';
 import { ConsulterChangementFournisseurQuery } from './changement/consulter/consulterChangementFournisseur.query';
+import { EnregistrerChangementFournisseurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 
 // Query
 export type FournisseurQuery = ConsulterFournisseurQuery | ConsulterChangementFournisseurQuery;
@@ -13,8 +14,10 @@ export type { ConsulterFournisseurQuery, ConsulterChangementFournisseurQuery };
 export { ConsulterFournisseurReadModel };
 
 // UseCases
-export type FournisseurUseCase = ModifierÉvaluationCarboneUseCase;
-export { ModifierÉvaluationCarboneUseCase };
+export type FournisseurUseCase =
+  | ModifierÉvaluationCarboneUseCase
+  | EnregistrerChangementFournisseurUseCase;
+export { ModifierÉvaluationCarboneUseCase, EnregistrerChangementFournisseurUseCase };
 
 // Event
 export { FournisseurEvent } from './fournisseur.event';

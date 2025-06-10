@@ -16,6 +16,7 @@ export const setupFournisseur: SetupProjet = async () => {
       'RebuildTriggered',
       'FournisseurImporté-V1',
       'ÉvaluationCarboneSimplifiéeModifiée-V1',
+      'ChangementFournisseurEnregistré-V1',
     ],
     messageType: 'System.Projector.Lauréat.Fournisseur',
   });
