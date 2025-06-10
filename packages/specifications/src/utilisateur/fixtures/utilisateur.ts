@@ -1,15 +1,28 @@
 import { faker } from '@faker-js/faker';
 
-export interface Utilisateur {
+export interface Utilisateur<TRole extends string> {
   id: string;
   email: string;
   nom: string;
+  role: TRole;
 }
 
-export abstract class AbstractUtilisateur implements Utilisateur {
+export abstract class AbstractUtilisateur<TRole extends string> implements Utilisateur<TRole> {
+  #aÉtéCréé: boolean = false;
+
+  get aÉtéCréé() {
+    return this.#aÉtéCréé;
+  }
+
+  #role: TRole;
+  get role(): TRole {
+    return this.#role;
+  }
+
   #id!: string;
 
   get id(): string {
+    this.vérifierCréé();
     return this.#id;
   }
 
@@ -20,6 +33,7 @@ export abstract class AbstractUtilisateur implements Utilisateur {
   #email!: string;
 
   get email(): string {
+    this.vérifierCréé();
     return this.#email;
   }
 
@@ -30,6 +44,7 @@ export abstract class AbstractUtilisateur implements Utilisateur {
   #nom!: string;
 
   get nom(): string {
+    this.vérifierCréé();
     return this.#nom;
   }
 
@@ -37,8 +52,15 @@ export abstract class AbstractUtilisateur implements Utilisateur {
     this.#nom = value;
   }
 
-  protected créer(partial?: Partial<Readonly<Omit<Utilisateur, 'role>'>>>): Readonly<Utilisateur> {
-    const utilisateur: Utilisateur = {
+  constructor(role: TRole) {
+    this.#role = role;
+  }
+
+  créer(
+    partial?: Partial<Readonly<Omit<Utilisateur<TRole>, 'role>'>>>,
+  ): Readonly<Utilisateur<TRole>> {
+    const utilisateur: Utilisateur<TRole> = {
+      role: this.role,
       email: faker.internet.email().toLowerCase(),
       nom: faker.person.fullName(),
       id: faker.string.uuid(),
@@ -49,6 +71,14 @@ export abstract class AbstractUtilisateur implements Utilisateur {
     this.#nom = utilisateur.nom;
     this.#id = utilisateur.id;
 
+    this.#aÉtéCréé = true;
+
     return utilisateur;
+  }
+
+  private vérifierCréé() {
+    if (!this.aÉtéCréé) {
+      throw new Error(`Utilisateur ${this.#role} non créé`);
+    }
   }
 }

@@ -49,11 +49,11 @@ export class UtilisateurWorld {
   }
 
   constructor() {
-    this.#porteurFixture = new PorteurFixture();
-    this.#validateurFixture = new ValidateurFixture();
-    this.#drealFixture = new DREALFixture();
-    this.#grdFixture = new GRDFixture();
-    this.#adminFixture = new AdminFixture();
+    this.#porteurFixture = new PorteurFixture('porteur-projet');
+    this.#validateurFixture = new ValidateurFixture('dgec-validateur');
+    this.#drealFixture = new DREALFixture('dreal');
+    this.#grdFixture = new GRDFixture('grd');
+    this.#adminFixture = new AdminFixture('admin');
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
     this.#réclamerProjet = new RéclamerProjetFixture();
   }
