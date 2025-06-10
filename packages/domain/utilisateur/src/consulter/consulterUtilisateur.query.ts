@@ -16,7 +16,6 @@ export type ConsulterUtilisateurReadModel = {
   fonction: Option.Type<string>;
   région: Option.Type<string>;
   identifiantGestionnaireRéseau: Option.Type<string>;
-  nombreDeProjets: Option.Type<number>;
   invitéLe: DateTime.ValueType;
   invitéPar: Email.ValueType;
   désactivé?: true;
@@ -62,7 +61,6 @@ export const mapToReadModel = (utilisateur: UtilisateurEntity): ConsulterUtilisa
   région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
   identifiantGestionnaireRéseau:
     utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
-  nombreDeProjets: utilisateur.rôle === 'porteur-projet' ? utilisateur.projets.length : Option.none,
   invitéLe: DateTime.convertirEnValueType(utilisateur.invitéLe),
   invitéPar: Email.convertirEnValueType(utilisateur.invitéPar),
   désactivé: utilisateur.désactivé,

@@ -1,10 +1,15 @@
 import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
-import { GetProjetUtilisateurScope, ProjetUtilisateurScope } from '@potentiel-domain/projet';
-import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { UtilisateurInconnuError } from '@potentiel-domain/utilisateur';
+import {
+  GetProjetUtilisateurScope,
+  ProjetUtilisateurScope,
+  Accès,
+  IdentifiantProjet,
+} from '@potentiel-domain/projet';
+import { UtilisateurEntity, UtilisateurInconnuError } from '@potentiel-domain/utilisateur';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Where } from '@potentiel-domain/entity';
 
 export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async (email) => {
   const utilisateur = await findProjection<UtilisateurEntity>(`utilisateur|${email.formatter()}`);
@@ -14,26 +19,20 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
   }
 
   return match(utilisateur)
-    .returnType<ProjetUtilisateurScope>()
-    .with(
-      {
-        rôle: 'dreal',
-      },
-      (value) => ({
-        type: 'region',
-        region: value.région,
-      }),
-    )
-    .with(
-      {
-        rôle: 'porteur-projet',
-      },
-      (value) => ({
+    .returnType<Promise<ProjetUtilisateurScope>>()
+    .with({ rôle: 'dreal' }, async (value) => ({ type: 'region', region: value.région }))
+    .with({ rôle: 'porteur-projet' }, async () => {
+      const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
+        where: {
+          utilisateursAyantAccès: Where.contain(utilisateur.identifiantUtilisateur),
+        },
+      });
+      return {
         type: 'projet',
-        identifiantProjets: value.projets,
-      }),
-    )
-    .otherwise(() => ({
-      type: 'all',
-    }));
+        identifiantProjets: items.map(({ identifiantProjet }) =>
+          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+        ),
+      };
+    })
+    .otherwise(async () => ({ type: 'all' }));
 };

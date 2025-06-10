@@ -486,12 +486,14 @@ const référencielPermissions = {
     command: {
       inviter: 'Utilisateur.Command.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.Command.InviterPorteur',
+      créerPorteur: 'Utilisateur.Command.CréerPorteur',
       désactiver: 'Utilisateur.Command.DésactiverUtilisateur',
       réactiver: 'Utilisateur.Command.RéactiverUtilisateur',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.UseCase.InviterPorteur',
+      créerPorteur: 'Utilisateur.UseCase.CréerPorteur',
       désactiver: 'Utilisateur.UseCase.DésactiverUtilisateur',
       réactiver: 'Utilisateur.UseCase.RéactiverUtilisateur',
     },
@@ -1163,6 +1165,10 @@ const policies = {
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.utilisateur.usecase.inviterPorteur,
     ],
+    créerPorteur: [
+      référencielPermissions.utilisateur.command.créerPorteur,
+      référencielPermissions.utilisateur.usecase.créerPorteur,
+    ],
     désactiver: [
       référencielPermissions.utilisateur.command.désactiver,
       référencielPermissions.utilisateur.usecase.désactiver,
@@ -1606,6 +1612,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Utilisateur
   'utilisateur.listerPorteurs',
   'utilisateur.inviterPorteur',
+  'utilisateur.créerPorteur',
 
   // Cahier des charges
   'cahierDesCharges.choisir',

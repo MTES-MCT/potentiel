@@ -40,7 +40,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
     région,
     fonction,
     nomComplet,
-    nombreDeProjets,
     invitéLe,
     invitéPar,
     désactivé,
@@ -111,7 +110,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
           <OptionalElement label="Région" value={région} render={renderText} />
           <OptionalElement label="Fonction" value={fonction} render={renderText} />
           <OptionalElement label="Nom Complet" value={nomComplet} render={renderText} />
-          <OptionalElement label="Nombre de projets" value={nombreDeProjets} render={renderText} />
           <OptionalElement
             label="Gestionnaire Réseau"
             value={gestionnaireRéseau}
