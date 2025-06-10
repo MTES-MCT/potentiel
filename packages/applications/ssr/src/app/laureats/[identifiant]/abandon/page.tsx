@@ -95,7 +95,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             statut: abandon.statut,
           })}
           projetsÀSélectionner={projetsÀSélectionner}
-          historique={mapToPlainObject(historique)}
+          historique={mapToPlainObject(historique.items)}
         />
       );
     }),

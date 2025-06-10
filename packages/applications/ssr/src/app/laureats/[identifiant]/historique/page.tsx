@@ -26,6 +26,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       },
     });
 
-    return <HistoriqueLauréatPage identifiantProjet={identifiantProjet} historique={historique} />;
+    return (
+      <HistoriqueLauréatPage
+        identifiantProjet={identifiantProjet}
+        historique={historique.items
+          .filter((historique) => !historique.type.includes('Import'))
+          .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())}
+      />
+    );
   });
 }

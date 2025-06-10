@@ -70,7 +70,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             role: utilisateur.role.nom,
             statut: recours.statut.value,
           })}
-          historique={mapToPlainObject(historique)}
+          historique={mapToPlainObject(historique.items)}
         />
       );
     }),

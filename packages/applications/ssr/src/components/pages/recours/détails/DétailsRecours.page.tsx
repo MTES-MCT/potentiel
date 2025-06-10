@@ -28,7 +28,7 @@ export type AvailableRecoursAction =
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
   recours: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
-  historique: PlainType<Historique.ListerHistoriqueRecoursProjetReadModel>;
+  historique: PlainType<Historique.ListerHistoriqueRecoursProjetReadModel['items']>;
   actions: ReadonlyArray<AvailableRecoursAction>;
 };
 

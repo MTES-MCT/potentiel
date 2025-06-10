@@ -35,7 +35,7 @@ export type DétailsChangementReprésentantLégalPageProps =
     identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
-    historique: PlainType<Historique.ListerHistoriqueReprésentantLégalProjetReadModel>;
+    historique: PlainType<Historique.ListerHistoriqueReprésentantLégalProjetReadModel['items']>;
     dateDemandeEnCoursPourLien?: string;
   };
 

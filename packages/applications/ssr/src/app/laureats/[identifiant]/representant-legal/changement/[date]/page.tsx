@@ -79,7 +79,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
           actions={mapToActions(utilisateur.role, changement.demande.statut)}
-          historique={mapToPlainObject(historique)}
+          historique={mapToPlainObject(historique.items)}
           dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
         />
       );

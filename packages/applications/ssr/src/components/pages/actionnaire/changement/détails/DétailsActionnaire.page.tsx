@@ -25,7 +25,7 @@ export type DétailsActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
-  historique: PlainType<Historique.ListerHistoriqueActionnaireProjetReadModel>;
+  historique: PlainType<Historique.ListerHistoriqueActionnaireProjetReadModel['items']>;
   demandeEnCoursDate?: string;
 };
 

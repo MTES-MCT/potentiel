@@ -14,12 +14,12 @@ import { mapToLauréatTimelineItemProps } from './timeline/lauréat/mapToLauréa
 import { mapToGarantiesFinancièresTimelineItemProps } from './timeline/garanties-financières/mapToGarantiesFinancièresTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel['items']>;
 };
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
   <Timeline
-    items={historique.items
+    items={historique
       .map((item) => mapToTimelineItemProps(item))
       .filter((item) => item !== undefined)}
   />
