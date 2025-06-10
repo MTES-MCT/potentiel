@@ -8,6 +8,7 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
+import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
 
 export type LauréatHistoryRecord = HistoryRecord<
   'lauréat',
@@ -20,14 +21,15 @@ export const mapToLauréatTimelineItemProps = (record: LauréatHistoryRecord) =>
     .returnType<TimelineItemProps>()
     .with(
       {
-        type: P.union(
-          'LauréatNotifié-V1',
-          'LauréatNotifié-V2',
-          'NomEtLocalitéLauréatImportés-V1',
-          'LauréatModifié-V1',
-        ),
+        type: P.union('NomEtLocalitéLauréatImportés-V1', 'LauréatModifié-V1'),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+    )
+    .with(
+      {
+        type: P.union('LauréatNotifié-V1', 'LauréatNotifié-V2'),
+      },
+      mapToLauréatNotifiéTimelineItemProps,
     )
     .with(
       {
