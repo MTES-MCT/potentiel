@@ -17,9 +17,9 @@ import {
 } from './events';
 
 export const mapToReprésentantLégalTimelineItemProps = (
-  record: Historique.ReprésentantLégalHistoryRecord,
+  readmodel: Historique.HistoriqueReprésentantLégalProjetListItemReadModel,
 ) =>
-  match(record)
+  match(readmodel)
     .returnType<TimelineItemProps>()
     .with(
       {

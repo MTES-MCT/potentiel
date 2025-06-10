@@ -58,15 +58,13 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           },
         });
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<Historique.ReprésentantLégalHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          category: 'représentant-légal',
-        },
-      });
+      const historique =
+        await mediator.send<Historique.ListerHistoriqueReprésentantLégalProjetQuery>({
+          type: 'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       const dateDemandeEnCoursPourLien =
         Option.isSome(représentantLégal) &&

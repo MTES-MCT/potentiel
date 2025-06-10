@@ -7,20 +7,15 @@ import {
   RangeOptions,
 } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
-import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { HistoriqueRecoursProjetListItemReadModel } from './listerHistoriqueRecoursProjet.query';
 import { HistoriqueAbandonProjetListItemReadModel } from './listerHistoriqueAbandonProjet.query';
 import { HistoriqueActionnaireProjetListItemReadModel } from './listerHistoriqueActionnaireProjet.query';
+import { HistoriqueReprésentantLégalProjetListItemReadModel } from './listerHistoriqueReprésentantLégalProjet.query';
 
 export type ListerHistoriqueProjetReadModel<TRecord extends HistoryRecord = HistoryRecord> =
   ListHistoryResult<TRecord>;
-
-export type ReprésentantLégalHistoryRecord = HistoryRecord<
-  'représentant-légal',
-  ReprésentantLégal.ReprésentantLégalEvent['type'],
-  ReprésentantLégal.ReprésentantLégalEvent['payload']
->;
 
 export type LauréatHistoryRecord = HistoryRecord<
   'lauréat',
@@ -39,7 +34,7 @@ export type HistoryReadModel =
   | HistoriqueAbandonProjetListItemReadModel
   | HistoriqueActionnaireProjetListItemReadModel
   | HistoriqueRecoursProjetListItemReadModel
-  | ReprésentantLégalHistoryRecord
+  | HistoriqueReprésentantLégalProjetListItemReadModel
   | GarantiesFinancièresHistoryRecord;
 
 export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryRecord> = Message<
