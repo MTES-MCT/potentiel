@@ -16,8 +16,10 @@ import {
 } from './events';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapToAbandonPasséEnInstructionTimelineItemProps';
 
-export const mapToAbandonTimelineItemProps = (record: Historique.AbandonHistoryRecord) =>
-  match(record)
+export const mapToAbandonTimelineItemProps = (
+  readmodel: Historique.HistoriqueAbandonProjetListItemReadModel,
+) =>
+  match(readmodel)
     .returnType<TimelineItemProps>()
     .with(
       {

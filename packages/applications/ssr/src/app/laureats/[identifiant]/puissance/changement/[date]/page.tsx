@@ -64,13 +64,10 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const candidature = await getCandidature(identifiantProjet.formatter());
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<Historique.PuissanceHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Historique.ListerHistoriquePuissanceProjetQuery>({
+        type: 'Historique.Query.ListerHistoriquePuissanceProjet',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
-          category: 'puissance',
         },
       });
 

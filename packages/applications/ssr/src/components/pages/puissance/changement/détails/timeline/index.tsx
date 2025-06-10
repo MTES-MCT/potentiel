@@ -18,9 +18,7 @@ import { mapToChangementPuissanceAccordéTimelineItemProps } from './mapToChange
 import { mapToChangementPuissanceRejetéTimelineItemProps } from './mapToChangementPuissanceRejetéTimelineItemProps';
 
 export type HistoriquePuissanceTimelineProps = {
-  historique: PlainType<
-    Historique.ListerHistoriqueProjetReadModel<Historique.PuissanceHistoryRecord>
-  >;
+  historique: PlainType<Historique.ListerHistoriquePuissanceProjetReadModel>;
   unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
 };
 export const HistoriquePuissanceTimeline: FC<HistoriquePuissanceTimelineProps> = ({

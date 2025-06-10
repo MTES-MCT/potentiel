@@ -2,18 +2,21 @@ import { ListerHistoriqueProjetQuery } from './lister/listerHistoriqueProjet.que
 import { ListerHistoriqueRecoursProjetQuery } from './lister/listerHistoriqueRecoursProjet.query';
 import { ListerHistoriqueAbandonProjetQuery } from './lister/listerHistoriqueAbandonProjet.query';
 import { ListerHistoriqueProducteurProjetQuery } from './lister/listerHistoriqueProducteurProjet.query';
+import { ListerHistoriquePuissanceProjetQuery } from './lister/listerHistoriquePuissanceProjet.query';
 
 // Query
 export type HistoriqueQuery =
   | ListerHistoriqueProjetQuery
   | ListerHistoriqueRecoursProjetQuery
   | ListerHistoriqueAbandonProjetQuery
-  | ListerHistoriqueProducteurProjetQuery;
+  | ListerHistoriqueProducteurProjetQuery
+  | ListerHistoriquePuissanceProjetQuery;
 export type {
   ListerHistoriqueProjetQuery,
   ListerHistoriqueRecoursProjetQuery,
   ListerHistoriqueAbandonProjetQuery,
   ListerHistoriqueProducteurProjetQuery,
+  ListerHistoriquePuissanceProjetQuery,
 };
 
 // Read Models
@@ -38,6 +41,10 @@ export type {
   ListerHistoriqueProducteurProjetReadModel,
   HistoriqueProducteurProjetListItemReadModel,
 } from './lister/listerHistoriqueProducteurProjet.query';
+export type {
+  ListerHistoriquePuissanceProjetReadModel,
+  HistoriquePuissanceProjetListItemReadModel,
+} from './lister/listerHistoriquePuissanceProjet.query';
 
 // register
 export * from './register';
