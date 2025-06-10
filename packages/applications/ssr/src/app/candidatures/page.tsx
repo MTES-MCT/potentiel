@@ -136,8 +136,8 @@ export default async function Page({ searchParams }: PageProps) {
       items.push(
         mapToPlainObject({
           ...candidature,
+          unitéPuissance: candidature.unitéPuissance.formatter(),
           actions,
-          unitePuissance: appelOffresItem?.unitePuissance ?? 'MWc',
         }),
       );
     }

@@ -37,6 +37,7 @@ export const InfoGenerales = ({
     familleId,
     numeroCRE,
     appelOffre,
+    unitePuissance,
     puissance: legacyPuissance,
     isClasse,
     désignationCatégorie,
@@ -129,7 +130,7 @@ export const InfoGenerales = ({
         <InfoPuissance
           puissance={puissance}
           modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
-          unitePuissance={appelOffre.unitePuissance}
+          unitePuissance={unitePuissance}
           désignationCatégorie={désignationCatégorie}
           puissanceInférieurePuissanceMaxVolRéservé={puissanceInférieurePuissanceMaxVolRéservé}
           role={role}

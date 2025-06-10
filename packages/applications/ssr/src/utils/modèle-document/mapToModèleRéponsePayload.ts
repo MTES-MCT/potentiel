@@ -26,6 +26,7 @@ type MapToModèlePayloadProps = CommonProps & {
   puissance: number;
   localité: Candidature.ConsulterCandidatureReadModel['localité'];
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
+  unitéPuissance: Candidature.ConsulterCandidatureReadModel['unitéPuissance'];
   notifiéLe: DateTime.ValueType | undefined;
   emailContact: Email.ValueType;
   nomCandidat: string;
@@ -44,6 +45,7 @@ const mapToModèleRéponsePayload = ({
   période,
   famille,
   utilisateur,
+  unitéPuissance,
 }: MapToModèlePayloadProps): ModèleRéponseSignée.ModèleRéponse & { logo?: string } => {
   const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
 
@@ -74,7 +76,7 @@ const mapToModèleRéponsePayload = ({
       titreAppelOffre: appelOffres.title,
       titreFamille: famille?.id ?? '',
       titrePeriode: période.title || '',
-      unitePuissance: appelOffres.unitePuissance,
+      unitePuissance: unitéPuissance.formatter(),
     },
   };
 };
@@ -96,6 +98,7 @@ export const mapCandidatureToModèleRéponsePayload = ({
     nomReprésentantLégal: candidature.nomReprésentantLégal,
     puissance: candidature.puissanceProductionAnnuelle,
     notifiéLe: candidature.notification?.notifiéeLe,
+    unitéPuissance: candidature.unitéPuissance,
   });
 
 type MapLauréatToModelePayloadProps = MapCandidatureToModèleRéponsePayloadProps & {

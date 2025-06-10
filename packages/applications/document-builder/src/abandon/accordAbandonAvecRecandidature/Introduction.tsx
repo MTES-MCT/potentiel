@@ -9,8 +9,6 @@ type IntroductionProps = {
     codePostal: string;
     dateDésignation: string;
     puissance: number;
-  };
-  appelOffre: {
     unitéPuissance: string;
   };
   demandeAbandon: {
@@ -19,8 +17,7 @@ type IntroductionProps = {
 };
 
 export const Introduction: FC<IntroductionProps> = ({
-  projet: { dateDésignation, nom, commune, codePostal, puissance },
-  appelOffre: { unitéPuissance },
+  projet: { dateDésignation, nom, commune, codePostal, puissance, unitéPuissance },
   demandeAbandon: { date: dateDemandeAbandon },
 }) => {
   return (

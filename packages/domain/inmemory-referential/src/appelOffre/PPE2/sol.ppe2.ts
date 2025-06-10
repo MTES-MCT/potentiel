@@ -40,7 +40,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-a2',
   technologie: 'pv',
-  unitePuissance: 'MW',
+  unitePuissance: 'MWc',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
@@ -102,6 +102,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
+      // les périodes 1 à 7 ont utilisé MW
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2021 S 211-553136',
@@ -150,6 +152,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '2',
       title: 'deuxième',
+      // les périodes 1 à 7 ont utilisé MW
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2022/S 061-160516',
@@ -191,6 +195,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '3',
       title: 'troisième',
+      // les périodes 1 à 7 ont utilisé MW
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -218,6 +224,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '4',
       title: 'quatrième',
+      // les périodes 1 à 7 ont utilisé MW
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -256,6 +264,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     {
       id: '5',
       title: 'cinquième',
+      // les périodes 1 à 7 ont utilisé MW
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -294,6 +304,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     {
       id: '6',
       title: 'sixième',
+      // les périodes 1 à 7 ont utilisé MW
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MCE',
       cahierDesCharges: {
@@ -332,6 +344,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     {
       id: '7',
       title: 'septième',
+      // les périodes 1 à 7 ont utilisé MW
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
@@ -367,6 +381,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
     },
-    // à partir de la P8, penser à activer choixCoefficientKDisponible
+    // ℹ️ à partir de la P8, penser à activer choixCoefficientKDisponible
+    // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
   ],
 };

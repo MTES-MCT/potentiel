@@ -21,6 +21,7 @@ export type ProjectDataForProjectPage = {
   potentielIdentifier: string;
 
   appelOffre: ProjectAppelOffre;
+  unitePuissance: string;
 
   appelOffreId: string;
   periodeId: string;

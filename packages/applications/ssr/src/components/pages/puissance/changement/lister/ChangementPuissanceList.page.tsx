@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
@@ -15,7 +14,7 @@ export type ChangementPuissanceListPageProps = {
     items: Array<
       PlainType<
         Lauréat.Puissance.ListerChangementPuissanceReadModel['items'][number] & {
-          unitéPuissance: AppelOffre.UnitéPuissance | 'N/A';
+          unitéPuissance: string;
         }
       >
     >;

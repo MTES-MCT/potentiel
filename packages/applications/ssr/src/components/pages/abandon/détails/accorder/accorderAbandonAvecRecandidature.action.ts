@@ -83,12 +83,12 @@ const buildReponseSignee = async (
       codePostal: candidature.localité.codePostal,
       dateDésignation: lauréat.notifiéLe.formatter(),
       puissance: puissance.puissance,
+      unitéPuissance: candidature.unitéPuissance.formatter(),
     },
     appelOffre: {
       nom: appelOffres.shortTitle,
       description: appelOffres.title,
       période: période.title,
-      unitéPuissance: appelOffres.unitePuissance,
       texteEngagementRéalisationEtModalitésAbandon: appelOffres.donnéesCourriersRéponse
         .texteEngagementRéalisationEtModalitésAbandon ?? {
         référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',

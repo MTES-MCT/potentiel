@@ -346,6 +346,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
     },
-    // à partir de la P10, penser à activer choixCoefficientKDisponible
+    // ℹ️ à partir de la P10, penser à activer choixCoefficientKDisponible
   ],
 };

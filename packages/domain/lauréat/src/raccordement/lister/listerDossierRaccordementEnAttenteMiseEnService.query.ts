@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -62,19 +62,26 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<Raccordement.DossierRaccordementEntity>('dossier-raccordement', {
-      where: {
-        identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
-        miseEnService: {
-          dateMiseEnService: Where.equalNull(),
+    } = await list<Raccordement.DossierRaccordementEntity, Lauréat.LauréatEntity>(
+      'dossier-raccordement',
+      {
+        where: {
+          identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
+          miseEnService: {
+            dateMiseEnService: Where.equalNull(),
+          },
+          projetNotifiéLe: Where.lessOrEqual(projetNotifiéAvant),
         },
-        projetNotifiéLe: Where.lessOrEqual(projetNotifiéAvant),
+        join: {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+        },
+        range,
+        orderBy: {
+          référence: 'ascending',
+        },
       },
-      range,
-      orderBy: {
-        référence: 'ascending',
-      },
-    });
+    );
 
     const identifiants = items.map(
       (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
@@ -92,13 +99,13 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       },
     });
 
-    const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
+    const appelsOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
 
     return {
       items: items.map((dossier) =>
         mapToReadModel({
           dossier,
-          appelOffres: appelOffres.items,
+          appelsOffres: appelsOffres.items,
           candidatures: candidatures.items,
           puissances: puissances.items,
         }),
@@ -118,17 +125,17 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
 };
 
 type MapToReadModelProps = (args: {
-  dossier: Raccordement.DossierRaccordementEntity;
+  dossier: Raccordement.DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
   puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
-  appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
+  appelsOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
 }) => DossierRaccordementEnAttenteMiseEnService;
 
 export const mapToReadModel: MapToReadModelProps = ({
-  dossier: { identifiantProjet, référence },
+  dossier: { identifiantProjet, référence, lauréat },
   candidatures,
   puissances,
-  appelOffres,
+  appelsOffres,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -136,43 +143,30 @@ export const mapToReadModel: MapToReadModelProps = ({
     (candidature) => candidature.identifiantProjet === identifiantProjet,
   );
 
-  const {
-    nomProjet,
-    codePostal,
-    commune,
-    dateNotification,
-    emailContact,
-    nomCandidat,
-    siteProduction,
-    sociétéMère,
-  } = match(candidature)
+  const appelOffres = appelsOffres.find((ao) => ao.id === appelOffre);
+  const { emailContact, nomCandidat, sociétéMère } = match(candidature)
     .with(P.nullish, () => ({
-      codePostal: 'Code postal inconnu',
-      commune: 'Commune inconnue',
-      nomProjet: 'Nom projet inconnu',
       nomCandidat: 'Nom candidat inconnu',
       sociétéMère: 'Société mère inconnue',
       emailContact: 'Email contact inconnu',
-      siteProduction: 'Site de production inconnu',
-      dateNotification: 'Date de notification inconnue',
     }))
     .otherwise((value) => ({
-      codePostal: value.localité.codePostal,
-      commune: value.localité.commune,
-      nomProjet: value.nomProjet,
-
       nomCandidat: value.nomCandidat,
       sociétéMère: value.sociétéMère,
       emailContact: value.emailContact,
-      siteProduction: `${value.localité.adresse1} ${value.localité.adresse2} ${value.localité.codePostal} ${value.localité.commune} (${value.localité.département}, ${value.localité.région})`,
-      dateNotification: value?.notification?.notifiéeLe || '',
     }));
 
+  const unitéPuissance =
+    appelOffres && candidature
+      ? Candidature.UnitéPuissance.déterminer({
+          appelOffres,
+          période,
+          technologie: candidature?.technologie,
+        }).formatter()
+      : 'N/A';
   const puissanceItem = puissances.find(
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
-
-  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
 
   const puissance = match(puissanceItem)
     .with(P.nullish, () => `0 ${unitéPuissance}`)
@@ -180,20 +174,20 @@ export const mapToReadModel: MapToReadModelProps = ({
 
   return {
     appelOffre,
-    codePostal,
-    commune,
+    codePostal: lauréat.localité.codePostal,
+    commune: lauréat.localité.commune,
     famille,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    nomProjet,
+    nomProjet: lauréat.nomProjet,
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
     puissance,
-    dateNotification,
+    dateNotification: lauréat.notifiéLe,
     emailContact,
     nomCandidat,
-    siteProduction,
+    siteProduction: `${lauréat.localité.adresse1} ${lauréat.localité.adresse2} ${lauréat.localité.codePostal} ${lauréat.localité.commune} (${lauréat.localité.département}, ${lauréat.localité.région})`,
     sociétéMère,
   };
 };

@@ -385,7 +385,7 @@ const Certificate = ({
               : ''}
             le projet « {project.nomProjet} », situé {project.adresseProjet}{' '}
             {project.codePostalProjet} {project.communeProjet} d’une puissance de{' '}
-            {formatNumber(project.puissance, 1e6)} {appelOffre.unitePuissance}.
+            {formatNumber(project.puissance, 1e6)} {project.unitePuissance}.
           </Text>
           {body}
           <View wrap={false}>

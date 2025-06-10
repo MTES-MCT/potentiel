@@ -384,7 +384,7 @@ const Certificate = ({
             En réponse à la {période.title} tranche de cet appel d’offres, vous avez déposé dans la
             famille {project.famille?.id} le projet « {project.nomProjet} », situé{' '}
             {project.adresseProjet} {project.codePostalProjet} {project.communeProjet} d’une
-            puissance de {formatNumber(project.puissance, 1e6)} {appelOffre.unitePuissance}.
+            puissance de {formatNumber(project.puissance, 1e6)} {project.unitePuissance}.
           </Text>
           {body}
           <View wrap={false}>

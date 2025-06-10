@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PuissanceEntity } from '..';
 import { IdentifiantProjet } from '../../..';
@@ -11,7 +10,6 @@ import { IdentifiantProjet } from '../../..';
 export type ConsulterPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   puissance: number;
-  unitéPuissance: AppelOffre.UnitéPuissance;
   dateDemandeEnCours?: DateTime.ValueType;
 };
 
@@ -35,15 +33,10 @@ export const registerConsulterPuissanceQuery = ({ find }: ConsulterPuissanceDepe
       `puissance|${identifiantProjetValueType.formatter()}`,
     );
 
-    const appelOffre = await find<AppelOffre.AppelOffreEntity>(
-      `appel-offre|${identifiantProjetValueType.appelOffre}`,
-    );
-
-    if (Option.isNone(appelOffre) || Option.isNone(puissance)) {
+    if (Option.isNone(puissance)) {
       return Option.none;
     }
-
-    return mapToReadModel({ identifiantProjet: identifiantProjetValueType, puissance, appelOffre });
+    return mapToReadModel({ identifiantProjet: identifiantProjetValueType, puissance });
   };
   mediator.register('Lauréat.Puissance.Query.ConsulterPuissance', handler);
 };
@@ -51,16 +44,13 @@ export const registerConsulterPuissanceQuery = ({ find }: ConsulterPuissanceDepe
 export const mapToReadModel = ({
   identifiantProjet,
   puissance,
-  appelOffre,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
   puissance: PuissanceEntity;
-  appelOffre: AppelOffre.AppelOffreEntity;
 }) => ({
   identifiantProjet,
   puissance: puissance.puissance,
   dateDemandeEnCours: puissance.dateDemandeEnCours
     ? DateTime.convertirEnValueType(puissance.dateDemandeEnCours)
     : undefined,
-  unitéPuissance: appelOffre.unitePuissance,
 });

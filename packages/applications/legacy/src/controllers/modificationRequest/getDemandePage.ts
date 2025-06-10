@@ -6,6 +6,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { Project } from '../../infra/sequelize/projectionsNext';
+import { Candidature } from '@potentiel-domain/projet';
 
 const ACTIONS = ['puissance'];
 
@@ -53,7 +54,11 @@ v1Router.get(
         request,
         project: {
           ...project.get(),
-          unitePuissance: appelOffre.unitePuissance,
+          unitePuissance: Candidature.UnitéPuissance.déterminer({
+            appelOffres: appelOffre,
+            période: periodeId,
+            technologie: project.technologie ?? 'N/A',
+          }).formatter(),
           cahiersDesChargesUrl: appelOffre.cahiersDesChargesUrl,
         },
         appelOffre,

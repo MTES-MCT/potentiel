@@ -18,6 +18,7 @@ import {
   File,
 } from '../../projectionsNext';
 import { PaginatedList } from '../../../../modules/pagination';
+import { Candidature } from '@potentiel-domain/projet';
 
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
@@ -111,9 +112,18 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
               appelOffreId,
               periodeId,
               familleId,
+              technologie,
             },
             attachmentFile,
           }) => {
+            const unitePuissance = Candidature.UnitéPuissance.déterminer({
+              appelOffres: getProjectAppelOffre({
+                appelOffreId,
+                periodeId,
+              })!,
+              période: periodeId,
+              technologie: technologie ?? 'N/A',
+            }).formatter();
             const getDescription = (): string => {
               switch (type) {
                 case 'fournisseur':
@@ -124,12 +134,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                 case 'producteur':
                   return producteur || '';
                 case 'puissance':
-                  return puissance
-                    ? `${puissance} ${_getPuissanceForAppelOffre({
-                        appelOffreId,
-                        periodeId,
-                      })}`
-                    : '';
+                  return puissance ? `${puissance} ${unitePuissance}` : '';
                 case 'autre':
                   return 'autre (legacy)';
               }
@@ -152,7 +157,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                 appelOffreId,
                 periodeId,
                 familleId,
-                unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
+                unitePuissance,
               },
               type,
               description: getDescription(),
@@ -163,10 +168,6 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
         return ok(makePaginatedList(modificationRequests, count, pagination));
       },
     );
-};
-
-const _getPuissanceForAppelOffre = (args: { appelOffreId: string; periodeId: string }): string => {
-  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance';
 };
 
 const _getProjectIdsForUser = (user: User) => {

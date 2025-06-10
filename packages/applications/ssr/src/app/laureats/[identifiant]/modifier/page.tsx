@@ -122,7 +122,7 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
     nomProjet: candidature.nomProjet,
     identifiantProjet: candidature.identifiantProjet.formatter(),
     isPPE2: appelOffres.cycleAppelOffre === 'PPE2',
-    unitéPuissance: appelOffres.unitePuissance,
+    unitéPuissance: candidature.unitéPuissance.formatter(),
   },
   champsSpéciaux: {
     coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
