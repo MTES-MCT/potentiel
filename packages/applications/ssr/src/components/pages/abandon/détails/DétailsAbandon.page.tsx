@@ -46,9 +46,7 @@ export type DétailsAbandonPageProps = {
   abandon: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   informations: Array<AvailableInformation>;
-  historique: PlainType<
-    Historique.ListerHistoriqueProjetReadModel<Historique.AbandonHistoryRecord>
-  >;
+  historique: PlainType<Historique.ListerHistoriqueAbandonProjetReadModel>;
   actions: AvailableActions;
 };
 

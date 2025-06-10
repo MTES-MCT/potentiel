@@ -63,13 +63,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<Historique.AbandonHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Historique.ListerHistoriqueAbandonProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueAbandonProjet',
         data: {
           identifiantProjet,
-          category: 'abandon',
         },
       });
 

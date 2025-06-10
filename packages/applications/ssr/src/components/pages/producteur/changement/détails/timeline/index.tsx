@@ -11,24 +11,24 @@ import { mapToProducteurModifiéTimelineItemsProps } from './mapToProducteurModi
 import { mapToProducteurImportéTimelineItemProps } from './mapToProducteurImportéTimelineItemProps';
 
 export type HistoriqueProducteurTimelineProps = {
-  historique: PlainType<
-    Historique.ListerHistoriqueProjetReadModel<Historique.ProducteurHistoryRecord>
-  >;
+  historique: PlainType<Historique.ListerHistoriqueProducteurProjetReadModel>;
 };
 export const HistoriqueProducteurTimeline: FC<HistoriqueProducteurTimelineProps> = ({
   historique,
 }) => <Timeline items={historique.items.map((item) => mapToProducteurTimelineItemProps(item))} />;
 
-const mapToProducteurTimelineItemProps = (record: Historique.ProducteurHistoryRecord) =>
-  match(record)
+const mapToProducteurTimelineItemProps = (
+  readmodel: Historique.HistoriqueProducteurProjetListItemReadModel,
+) =>
+  match(readmodel)
     .returnType<TimelineItemProps>()
-    .with({ type: 'ProducteurImporté-V1' }, (record) =>
-      mapToProducteurImportéTimelineItemProps(record),
+    .with({ type: 'ProducteurImporté-V1' }, (readmodel) =>
+      mapToProducteurImportéTimelineItemProps(readmodel),
     )
-    .with({ type: 'ProducteurModifié-V1' }, (record) =>
-      mapToProducteurModifiéTimelineItemsProps(record),
+    .with({ type: 'ProducteurModifié-V1' }, (readmodel) =>
+      mapToProducteurModifiéTimelineItemsProps(readmodel),
     )
-    .with({ type: 'ChangementProducteurEnregistré-V1' }, (record) =>
-      mapToChangementProducteurEnregistréTimelineItemProps(record),
+    .with({ type: 'ChangementProducteurEnregistré-V1' }, (readmodel) =>
+      mapToChangementProducteurEnregistréTimelineItemProps(readmodel),
     )
     .exhaustive();

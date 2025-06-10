@@ -10,15 +10,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Actionnaire, GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { HistoriqueRecoursProjetListItemReadModel } from './listerHistoriqueRecoursProjet.query';
+import { HistoriqueAbandonProjetListItemReadModel } from './listerHistoriqueAbandonProjet.query';
 
 export type ListerHistoriqueProjetReadModel<TRecord extends HistoryRecord = HistoryRecord> =
   ListHistoryResult<TRecord>;
-
-export type AbandonHistoryRecord = HistoryRecord<
-  'abandon',
-  Lauréat.Abandon.AbandonEvent['type'],
-  Lauréat.Abandon.AbandonEvent['payload']
->;
 
 export type ActionnaireHistoryRecord = HistoryRecord<
   'actionnaire',
@@ -58,7 +53,7 @@ export type GarantiesFinancièresHistoryRecord = HistoryRecord<
 
 export type HistoryReadModel =
   | LauréatHistoryRecord
-  | AbandonHistoryRecord
+  | HistoriqueAbandonProjetListItemReadModel
   | ActionnaireHistoryRecord
   | HistoriqueRecoursProjetListItemReadModel
   | ReprésentantLégalHistoryRecord
