@@ -2,22 +2,11 @@ import { Fixture } from '../../fixture';
 
 import { Utilisateur, AbstractUtilisateur } from './utilisateur';
 
-interface DREAL extends Utilisateur {
-  readonly role: 'dreal';
+interface DREAL extends Utilisateur<'dreal'> {
   readonly région: string;
 }
 
-export class DREALFixture extends AbstractUtilisateur implements DREAL, Fixture<DREAL> {
-  #aÉtéCréé: boolean = false;
-
-  get aÉtéCréé() {
-    return this.#aÉtéCréé;
-  }
-
-  get role(): 'dreal' {
-    return 'dreal';
-  }
-
+export class DREALFixture extends AbstractUtilisateur<'dreal'> implements DREAL, Fixture<DREAL> {
   #région!: string;
   get région(): string {
     return this.#région;
@@ -29,12 +18,10 @@ export class DREALFixture extends AbstractUtilisateur implements DREAL, Fixture<
     const utilisateur = super.créer(partialFixture);
 
     const dreal: DREAL = {
-      role: 'dreal',
       ...utilisateur,
       région: partialFixture.région,
     };
 
-    this.#aÉtéCréé = true;
     this.#région = partialFixture.région;
     return dreal;
   }
