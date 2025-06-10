@@ -518,6 +518,12 @@ const référencielPermissions = {
   historique: {
     query: {
       lister: 'Historique.Query.ListerHistoriqueProjet',
+      listerHistoriqueAbandon: 'Historique.Query.ListerHistoriqueAbandonProjet',
+      listerHistoriqueActionnaire: 'Historique.Query.ListerHistoriqueActionnaireProjet',
+      listerHistoriqueProducteur: 'Historique.Query.ListerHistoriqueProducteurProjet',
+      listerHistoriquePuissance: 'Historique.Query.ListerHistoriquePuissanceProjet',
+      listerHistoriqueRecours: 'Historique.Query.ListerHistoriqueRecoursProjet',
+      listerHistoriqueReprésentantLégal: 'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
     },
   },
 } as const;
@@ -935,7 +941,15 @@ const policies = {
     ],
   },
   historique: {
-    lister: [référencielPermissions.historique.query.lister],
+    lister: [
+      référencielPermissions.historique.query.lister,
+      référencielPermissions.historique.query.listerHistoriqueAbandon,
+      référencielPermissions.historique.query.listerHistoriqueActionnaire,
+      référencielPermissions.historique.query.listerHistoriqueProducteur,
+      référencielPermissions.historique.query.listerHistoriquePuissance,
+      référencielPermissions.historique.query.listerHistoriqueRecours,
+      référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
+    ],
   },
   raccordement: {
     listerDossierRaccordement: [
