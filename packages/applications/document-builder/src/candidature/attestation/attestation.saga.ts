@@ -1,5 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
@@ -9,9 +10,11 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
-export type SubscriptionEvent =
+export type SubscriptionEvent = (
   | Candidature.CandidatureNotifiéeEvent
-  | Candidature.CandidatureCorrigéeEvent;
+  | Candidature.CandidatureCorrigéeEvent
+) &
+  Event;
 
 export type Execute = Message<'System.Candidature.Attestation.Saga.Execute', SubscriptionEvent>;
 
