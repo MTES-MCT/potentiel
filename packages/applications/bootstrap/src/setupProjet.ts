@@ -17,6 +17,7 @@ import {
 import {
   AccèsNotification,
   CandidatureNotification,
+  FournisseurNotification,
   ProducteurNotification,
   PuissanceNotification,
   RecoursNotification,
@@ -195,8 +196,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     },
   });
 
-  Lauréat.Puissance.PuissanceSaga.register();
-  PuissanceNotification.register({ sendEmail });
   PuissanceProjector.register();
 
   const unsubscribePuissanceProjector = await subscribe<PuissanceProjector.SubscriptionEvent>({
@@ -221,6 +220,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     },
   });
 
+  PuissanceNotification.register({ sendEmail });
   const unsubscribePuissanceNotification = await subscribe<PuissanceNotification.SubscriptionEvent>(
     {
       name: 'notifications',
@@ -243,6 +243,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     },
   );
 
+  Lauréat.Puissance.PuissanceSaga.register();
   const unsubscribePuissanceSagaAbandon = await subscribe<
     Lauréat.Puissance.PuissanceSaga.SubscriptionEvent & Event
   >({
@@ -256,6 +257,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       }),
   });
 
+  ProducteurProjector.register();
   const unsubscribeProducteurProjector = await subscribe<
     ProducteurProjector.SubscriptionEvent & Event
   >({
@@ -275,6 +277,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     },
   });
 
+  ProducteurNotification.register({ sendEmail });
   const unsubscribeProducteurNotification =
     await subscribe<ProducteurNotification.SubscriptionEvent>({
       name: 'notifications',
@@ -288,6 +291,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       },
     });
 
+  FournisseurProjector.register();
   const unsubscribeFournisseurProjector = await subscribe<
     FournisseurProjector.SubscriptionEvent & Event
   >({
@@ -306,6 +310,20 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       });
     },
   });
+
+  FournisseurNotification.register({ sendEmail });
+  const unsubscribeFournisseurNotification =
+    await subscribe<FournisseurNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'fournisseur',
+      eventType: ['ChangementFournisseurEnregistré-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<FournisseurNotification.Execute>({
+          type: 'System.Notification.Lauréat.Fournisseur',
+          data: event,
+        });
+      },
+    });
 
   return async () => {
     await unsubscribeLauréatProjector();
@@ -330,5 +348,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await unsubscribeProducteurNotification();
 
     await unsubscribeFournisseurProjector();
+    await unsubscribeFournisseurNotification();
   };
 };

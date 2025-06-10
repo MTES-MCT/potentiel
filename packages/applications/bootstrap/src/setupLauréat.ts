@@ -20,7 +20,6 @@ import {
   ActionnaireNotification,
   GarantiesFinancièresNotification,
   LauréatNotification,
-  ProducteurNotification,
   ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
 import {
@@ -29,9 +28,7 @@ import {
   GarantiesFinancièreProjector,
   ReprésentantLégalProjector,
   ActionnaireProjector,
-  ProducteurProjector,
   RaccordementProjector,
-  FournisseurProjector,
 } from '@potentiel-applications/projectors';
 import {
   DocumentAdapter,
@@ -69,8 +66,6 @@ export const setupLauréat = async ({
   AchèvementProjector.register();
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
-  ProducteurProjector.register();
-  FournisseurProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -79,7 +74,6 @@ export const setupLauréat = async ({
   ReprésentantLégalNotification.register({ sendEmail });
   ActionnaireNotification.register({ sendEmail });
   LauréatNotification.register({ sendEmail });
-  ProducteurNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
