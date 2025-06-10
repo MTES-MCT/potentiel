@@ -5,7 +5,7 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
 
 import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector';
-import { PorteurInvitéProjector } from './porteurInvité.projector';
+import { porteurInvitéProjector } from './porteurInvité.projector';
 import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
 import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector';
 import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector';
@@ -19,7 +19,7 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, utilisateurRebuildTriggered)
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéProjector)
-      .with({ type: 'PorteurInvité-V1' }, PorteurInvitéProjector)
+      .with({ type: 'PorteurInvité-V1' }, porteurInvitéProjector)
       .with({ type: 'UtilisateurDésactivé-V1' }, utilisateurDésactivéProjector)
       .with({ type: 'UtilisateurRéactivé-V1' }, utilisateurRéactivéProjector)
       // Deprecated events

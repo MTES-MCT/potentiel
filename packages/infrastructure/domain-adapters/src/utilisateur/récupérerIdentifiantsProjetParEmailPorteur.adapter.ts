@@ -1,19 +1,11 @@
 import { Email } from '@potentiel-domain/common';
-import {
-  RécupérerIdentifiantsProjetParEmailPorteurPort,
-  UtilisateurEntity,
-} from '@potentiel-domain/utilisateur';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Option } from '@potentiel-libraries/monads';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
+import { getProjetUtilisateurScopeAdapter } from './getProjetUtilisateurScope.adapter';
+
+/** @deprecated use getProjetUtilisateurScopeAdapter */
 export const récupérerIdentifiantsProjetParEmailPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteurPort =
   async (email: string) => {
-    const identifiantUtilisateur = Email.convertirEnValueType(email);
-    const utilisateur = await findProjection<UtilisateurEntity>(
-      `utilisateur|${identifiantUtilisateur.formatter()}`,
-    );
-    if (Option.isSome(utilisateur) && utilisateur.rôle === 'porteur-projet') {
-      return utilisateur.projets;
-    }
-    return [];
+    const scope = await getProjetUtilisateurScopeAdapter(Email.convertirEnValueType(email));
+    return scope.type === 'projet' ? scope.identifiantProjets : [];
   };

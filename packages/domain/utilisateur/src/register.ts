@@ -24,6 +24,8 @@ import {
   ListerPorteursDependencies,
   registerListerPorteursQuery,
 } from './lister/listerPorteurs.query';
+import { registerCréerPorteurUseCase } from './créer/créerPorteur.usecase';
+import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
@@ -43,12 +45,17 @@ export type UtilisateurCommandDependencies = {
 
 export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
   registerInviterUseCase();
-  registerInviterPorteurUseCase();
-  registerDésactiverUseCase();
-  registerRéactiverUseCase();
-
   registerInviterCommand(loadAggregate);
+
+  registerInviterPorteurUseCase();
   registerInviterPorteurCommand(loadAggregate);
+
+  registerDésactiverUseCase();
   registerDésactiverCommand(loadAggregate);
+
+  registerRéactiverUseCase();
   registerRéactiverCommand(loadAggregate);
+
+  registerCréerPorteurUseCase();
+  registerCréerPorteurCommand(loadAggregate);
 };

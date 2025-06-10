@@ -12,6 +12,7 @@ import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
+import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
@@ -42,13 +43,15 @@ export type UtilisateurUseCase =
   | InviterUtilisateurUseCase
   | InviterPorteurUseCase
   | DésactiverUtilisateurUseCase
-  | RéactiverUtilisateurUseCase;
+  | RéactiverUtilisateurUseCase
+  | CréerPorteurUseCase;
 
 export {
   InviterUtilisateurUseCase,
   InviterPorteurUseCase,
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
+  CréerPorteurUseCase,
 };
 
 // Events

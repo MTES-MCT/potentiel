@@ -5,8 +5,8 @@ import { mediator } from 'mediateur';
 
 import { Accès } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
-import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { CréerPorteurUseCase } from '@potentiel-domain/utilisateur';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -58,13 +58,10 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
       },
     });
 
-    await mediator.send<InviterPorteurUseCase>({
-      type: 'Utilisateur.UseCase.InviterPorteur',
+    await mediator.send<CréerPorteurUseCase>({
+      type: 'Utilisateur.UseCase.CréerPorteur',
       data: {
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        identifiantsProjetValues: [identifiantProjetValue],
-        invitéLeValue: DateTime.now().formatter(),
-        invitéParValue: Email.system().formatter(),
       },
     });
 

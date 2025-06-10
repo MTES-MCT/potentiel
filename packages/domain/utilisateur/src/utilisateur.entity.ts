@@ -1,4 +1,4 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 type Common = {
@@ -30,7 +30,6 @@ type UtilisateurGestionnaireRéseau = {
 
 type UtilisateurPorteur = {
   rôle: 'porteur-projet';
-  projets: IdentifiantProjet.RawType[];
 };
 
 export type UtilisateurEntity = Entity<
