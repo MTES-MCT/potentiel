@@ -1,4 +1,3 @@
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureProjector } from '@potentiel-applications/projectors';
 import { CandidatureNotification } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
@@ -39,10 +38,7 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
   });
 
   AttestationSaga.register();
-  await candidature.setupSubscription<
-    AttestationSaga.SubscriptionEvent & Event,
-    AttestationSaga.Execute
-  >({
+  await candidature.setupSubscription<AttestationSaga.SubscriptionEvent, AttestationSaga.Execute>({
     name: 'attestation-saga',
     eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V2'],
     messageType: 'System.Candidature.Attestation.Saga.Execute',
