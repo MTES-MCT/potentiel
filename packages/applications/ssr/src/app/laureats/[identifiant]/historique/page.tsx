@@ -1,16 +1,13 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 import { Historique } from '@potentiel-domain/historique';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { HistoriqueLauréatPage } from '@/components/pages/lauréat/historique/HistoriqueLauréat.page';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 type PageProps = IdentifiantParameter;
 
@@ -23,16 +20,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: {
-        identifiantAppelOffre: IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre,
-      },
-    });
-
-    if (Option.isNone(appelOffre)) {
-      return notFound();
-    }
+    const candidature = await getCandidature(identifiantProjet);
 
     const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
       type: 'Historique.Query.ListerHistoriqueProjet',
@@ -44,7 +32,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     return (
       <HistoriqueLauréatPage
         identifiantProjet={identifiantProjet}
-        unitéPuissance={appelOffre.unitePuissance}
+        unitéPuissance={candidature.unitéPuissance.formatter()}
         historique={historique.items
           .filter((historique) => !historique.type.includes('Import'))
           .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())}

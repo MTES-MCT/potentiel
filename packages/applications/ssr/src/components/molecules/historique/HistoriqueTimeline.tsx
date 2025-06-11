@@ -3,7 +3,6 @@ import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Historique } from '@potentiel-domain/historique';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToPuissanceTimelineItemProps } from '@/components/pages/puissance/changement/détails/timeline';
@@ -19,7 +18,7 @@ import { mapToAchèvementTimelineItemProps } from './timeline/achèvement/mapToA
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel['items']>;
-  unitéPuissance?: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+  unitéPuissance?: string;
 };
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({
@@ -35,7 +34,7 @@ export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({
 
 const mapToTimelineItemProps = (
   readmodel: Historique.HistoriqueListItemReadModels,
-  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'],
+  unitéPuissance: string,
 ) =>
   match(readmodel)
     .returnType<TimelineItemProps | undefined>()
