@@ -95,7 +95,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
     </DropdownMenu>
 
     <DropdownMenu buttonChildren={'Outils'}>
-      <DropdownMenu.DropdownItem href={'https://potentiel.e2.rie.gouv.fr/'}>
+      <DropdownMenu.DropdownItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
         Tableau de bord
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Gestionnaire.lister}>

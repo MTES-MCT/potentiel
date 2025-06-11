@@ -222,6 +222,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
           href: Routes.Raccordement.lister,
         },
       },
+      {
+        text: 'Tableau de bord',
+        linkProps: {
+          href: 'https://potentiel.e2.rie.gouv.fr/',
+        },
+      },
     ])
     .with('porteur-projet', () => [
       {
@@ -273,7 +279,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       {
         text: 'Tableau de bord',
         linkProps: {
-          href: '/cre/statistiques.html',
+          href: 'https://potentiel.e2.rie.gouv.fr/',
         },
       },
     ])

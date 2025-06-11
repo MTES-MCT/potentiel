@@ -36,10 +36,7 @@ export const CreMenuLegacy = ({ currentPage }: CreMenuLegacyProps) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
-    <Header.MenuItem
-      href={routes.GET_CRE_STATISTIQUES}
-      {...(currentPage === 'cre-statistiques' && { isCurrent: true })}
-    >
+    <Header.MenuItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
       Tableau de bord
     </Header.MenuItem>
   </>
