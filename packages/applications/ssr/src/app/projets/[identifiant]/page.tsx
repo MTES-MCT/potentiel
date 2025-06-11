@@ -126,9 +126,12 @@ const mapToActions: MapToActions = ({
 }) => {
   const actions: Array<DétailsProjetÉliminéActions> = [];
 
-  if (
+  if (Option.isSome(demandeRecoursEnCours)) {
+    if (role.aLaPermission('recours.consulter.détail')) {
+      actions.push('consulter-demande-recours');
+    }
+  } else if (
     role.aLaPermission('recours.demander') &&
-    Option.isNone(demandeRecoursEnCours) &&
     !changementDeCahierDesChargeNécessairePourDemanderUnRecours
   ) {
     actions.push('faire-demande-recours');
