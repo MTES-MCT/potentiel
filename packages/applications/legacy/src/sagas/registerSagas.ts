@@ -10,6 +10,7 @@ import * as PuissanceSaga from './puissance.saga';
 import * as RaccordementSaga from './raccordement.saga';
 import * as UtilisateurSaga from './utilisateur.saga';
 import * as ÉliminéSaga from './éliminé.saga';
+import * as FournisseurSaga from './fournisseur.saga';
 
 /**
  * @deprecated à bouger dans la nouvelle app
@@ -25,6 +26,7 @@ export const registerSagas = async () => {
   PuissanceSaga.register();
   ProducteurSaga.register();
   AccèsSaga.register();
+  FournisseurSaga.register();
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
@@ -158,6 +160,18 @@ export const registerSagas = async () => {
     streamCategory: 'producteur',
   });
 
+  const unsubscribeFournisseur = await subscribe<FournisseurSaga.SubscriptionEvent>({
+    name: 'legacy-saga-fournisseur',
+    eventType: ['ÉvaluationCarboneSimplifiéeModifiée-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<FournisseurSaga.Execute>({
+        type: 'System.Saga.Fournisseur',
+        data: event,
+      });
+    },
+    streamCategory: 'fournisseur',
+  });
+
   return async () => {
     await unsubscribeRaccordement();
     await unsubscribeAbandon();
@@ -169,5 +183,6 @@ export const registerSagas = async () => {
     await unsubscribePuissance();
     await unsubscribeProducteur();
     await unsubscribeAccès();
+    await unsubscribeFournisseur();
   };
 };

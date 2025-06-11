@@ -9,16 +9,27 @@ import { TypeFournisseur } from '.';
 import { FournisseurEvent } from './fournisseur.event';
 import { ImporterOptions } from './importer/importerFournisseur.option';
 import { FournisseurImportéEvent } from './importer/importerFournisseur.event';
+import { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options';
+import { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
+import {
+  ÉvaluationCarboneIdentiqueError,
+  ÉvaluationCarboneNombreError,
+  ÉvaluationCarboneNégativeError,
+} from './fournisseur.error';
 
 export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   #lauréat!: LauréatAggregate;
 
-  fournisseurs!: Array<{
+  #fournisseurs!: Array<{
     typeFournisseur: TypeFournisseur.ValueType;
     nomDuFabricant: string;
   }>;
 
-  évaluationCarboneSimplifiée!: number;
+  #évaluationCarboneSimplifiée!: number;
+
+  get évaluationCarboneSimplifiée() {
+    return this.#évaluationCarboneSimplifiée;
+  }
 
   get lauréat() {
     return this.#lauréat;
@@ -55,13 +66,47 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     await this.publish(event);
   }
 
+  async modifierÉvaluationCarbone({
+    modifiéeLe,
+    modifiéePar,
+    évaluationCarboneSimplifiée,
+  }: ModifierÉvaluationCarboneOptions) {
+    if (Number.isNaN(évaluationCarboneSimplifiée)) {
+      throw new ÉvaluationCarboneNombreError();
+    }
+    if (évaluationCarboneSimplifiée < 0) {
+      throw new ÉvaluationCarboneNégativeError();
+    }
+
+    if (évaluationCarboneSimplifiée === this.évaluationCarboneSimplifiée) {
+      throw new ÉvaluationCarboneIdentiqueError();
+    }
+
+    const event: ÉvaluationCarboneModifiéeEvent = {
+      type: 'ÉvaluationCarboneSimplifiéeModifiée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
+        évaluationCarboneSimplifiée,
+      },
+    };
+    await this.publish(event);
+  }
+
   apply(event: FournisseurEvent): void {
     match(event)
       .with(
         {
           type: 'FournisseurImporté-V1',
         },
-        (event) => this.applyFournisseurImportéV1(event),
+        this.applyFournisseurImportéV1.bind(this),
+      )
+      .with(
+        {
+          type: 'ÉvaluationCarboneSimplifiéeModifiée-V1',
+        },
+        this.applyÉvaluationCarboneModifiéeV1.bind(this),
       )
       .exhaustive();
   }
@@ -69,10 +114,16 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   private applyFournisseurImportéV1({
     payload: { évaluationCarboneSimplifiée, fournisseurs },
   }: FournisseurImportéEvent) {
-    this.évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
-    this.fournisseurs = fournisseurs.map((fournisseur) => ({
+    this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
+    this.#fournisseurs = fournisseurs.map((fournisseur) => ({
       typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
       nomDuFabricant: fournisseur.nomDuFabricant,
     }));
+  }
+
+  private applyÉvaluationCarboneModifiéeV1({
+    payload: { évaluationCarboneSimplifiée },
+  }: ÉvaluationCarboneModifiéeEvent) {
+    this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
   }
 }

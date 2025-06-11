@@ -345,6 +345,17 @@ const référencielPermissions = {
         enregistrerChangement: 'Lauréat.Producteur.Command.EnregistrerChangement',
       },
     },
+    fournisseur: {
+      query: {
+        consulter: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+      },
+      usecase: {
+        modifierÉvaluationCarbone: 'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',
+      },
+      command: {
+        modifierÉvaluationCarbone: 'Lauréat.Fournisseur.Command.ModifierÉvaluationCarbone',
+      },
+    },
     cahierDesCharges: {
       query: {
         consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
@@ -1127,6 +1138,13 @@ const policies = {
       référencielPermissions.lauréat.garantiesFinancières.usecase.renouveler,
     ],
   },
+  fournisseur: {
+    consulter: [référencielPermissions.lauréat.fournisseur.query.consulter],
+    modifierÉvaluationCarbonne: [
+      référencielPermissions.lauréat.fournisseur.command.modifierÉvaluationCarbone,
+      référencielPermissions.lauréat.fournisseur.usecase.modifierÉvaluationCarbone,
+    ],
+  },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
     modifier: [
@@ -1387,6 +1405,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.listerChangement',
   'producteur.consulterChangement',
   'producteur.modifier',
+
+  // Fournisseur
+  'fournisseur.consulter',
+  'fournisseur.modifierÉvaluationCarbonne',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [

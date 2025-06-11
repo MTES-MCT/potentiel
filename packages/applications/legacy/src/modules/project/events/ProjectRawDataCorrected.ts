@@ -13,7 +13,7 @@ export interface ProjectRawDataCorrectedPayload {
     puissance?: number;
     puissanceInitiale: number;
     prixReference: number;
-    evaluationCarbone: number;
+    evaluationCarbone?: number;
     note: number;
     nomCandidat?: string;
     nomRepresentantLegal?: string;

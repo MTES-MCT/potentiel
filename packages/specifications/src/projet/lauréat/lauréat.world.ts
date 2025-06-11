@@ -9,6 +9,7 @@ import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
 import { PuissanceWorld } from './puissance/puissance.world';
 import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture';
 import { ProducteurWorld } from './producteur/producteur.world';
+import { FournisseurWorld } from './fournisseur/fournisseur.world';
 
 type LauréatFixture = {
   nom: string;
@@ -96,6 +97,12 @@ export class LauréatWorld {
     return this.#achèvementWorld;
   }
 
+  #fournisseurWorld!: FournisseurWorld;
+
+  get fournisseurWorld() {
+    return this.#fournisseurWorld;
+  }
+
   #dateDésignation: string;
 
   get dateDésignation() {
@@ -109,6 +116,7 @@ export class LauréatWorld {
     this.#puissanceWorld = new PuissanceWorld();
     this.#producteurWorld = new ProducteurWorld();
     this.#achèvementWorld = new AchèvementWorld();
+    this.#fournisseurWorld = new FournisseurWorld();
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
     this.#modifierLauréatFixture = new ModifierLauréatFixture();
