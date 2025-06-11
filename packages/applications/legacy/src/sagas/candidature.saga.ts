@@ -116,7 +116,7 @@ export const register = () => {
             payload: {
               correctedBy: userId,
               projectId: projet.id,
-              correctedData: mapToNotifiedCorrectedData(event.payload, projet),
+              correctedData: mapToNotifiedCorrectedData(event.payload),
             },
           }),
         );
@@ -187,7 +187,6 @@ const mapToLegacyEventPayload = (
 
 const mapToNotifiedCorrectedData = (
   payload: SubscriptionEvent['payload'],
-  projet: Project,
 ): ProjectRawDataCorrected['payload']['correctedData'] => ({
   email: payload.emailContact,
   motifsElimination: payload.motifÉlimination ?? '',
@@ -195,7 +194,6 @@ const mapToNotifiedCorrectedData = (
   engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
   prixReference: payload.prixReference,
   note: payload.noteTotale,
-  evaluationCarbone: payload.evaluationCarboneSimplifiée,
   actionnariat:
     payload.actionnariat === 'financement-collectif'
       ? 'financement-collectif'
