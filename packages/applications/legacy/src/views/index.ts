@@ -1,6 +1,5 @@
 import { makeHtml } from './index.html';
 import {
-  AdemeStatistiques,
   DemanderDelai,
   Error,
   ModificationRequest,
@@ -12,28 +11,11 @@ import {
   ListeProjets,
   SuccèsOuErreur,
   AccèsNonAutorisé,
-  AcheteurObligeStatistiques,
   DetailsDemandeDelai,
   CorrigerDelaiAccorde,
 } from './pages';
 
 export { App } from './App';
-
-export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques>[0]) =>
-  makeHtml({
-    Component: AdemeStatistiques,
-    props,
-    title: 'Tableau de bord',
-  });
-
-export const AcheteurObligeStatistiquesPage = (
-  props: Parameters<typeof AcheteurObligeStatistiques>[0],
-) =>
-  makeHtml({
-    Component: AcheteurObligeStatistiques,
-    props,
-    title: 'Tableau de bord',
-  });
 
 export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) =>
   makeHtml({
