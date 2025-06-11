@@ -30,7 +30,7 @@ export const HistoriquePuissanceTimeline: FC<HistoriquePuissanceTimelineProps> =
   />
 );
 
-const mapToPuissanceTimelineItemProps = (
+export const mapToPuissanceTimelineItemProps = (
   record: Historique.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) =>

@@ -3,8 +3,10 @@ import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Historique } from '@potentiel-domain/historique';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { mapToPuissanceTimelineItemProps } from '@/components/pages/puissance/changement/détails/timeline';
 
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
@@ -15,17 +17,24 @@ import { mapToGarantiesFinancièresTimelineItemProps } from './timeline/garantie
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel['items']>;
+  unitéPuissance?: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
 };
 
-export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
+export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({
+  historique,
+  unitéPuissance = 'MW',
+}) => (
   <Timeline
     items={historique
-      .map((item) => mapToTimelineItemProps(item))
+      .map((item) => mapToTimelineItemProps(item, unitéPuissance))
       .filter((item) => item !== undefined)}
   />
 );
 
-const mapToTimelineItemProps = (readmodel: Historique.HistoriqueListItemReadModels) =>
+const mapToTimelineItemProps = (
+  readmodel: Historique.HistoriqueListItemReadModels,
+  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'],
+) =>
   match(readmodel)
     .returnType<TimelineItemProps | undefined>()
     .with(
@@ -44,4 +53,7 @@ const mapToTimelineItemProps = (readmodel: Historique.HistoriqueListItemReadMode
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
+    .with({ category: 'puissance' }, (readmodel) =>
+      mapToPuissanceTimelineItemProps(readmodel, unitéPuissance),
+    )
     .exhaustive(() => undefined);
