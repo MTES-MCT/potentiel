@@ -1,6 +1,6 @@
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
@@ -59,7 +59,7 @@ export function applyDateMiseEnServiceSuppriméeEventV1(
   };
 }
 
-class DossierRaccordementPasEnServiceError extends Error {
+class DossierRaccordementPasEnServiceError extends InvalidOperationError {
   constructor() {
     super(`Le dossier de raccordement n'est pas en service`);
   }
