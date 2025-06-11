@@ -6,8 +6,6 @@ export * from './modificationRequestPage';
 export * from './newModificationRequestPage';
 export * from './projectDetailsPage';
 export * from './signalerDemandeDelaiPage';
-export * from './AcheteurObligeStatistiquesPage';
-export * from './AdemeStatistiquesPage';
 export * from './Error';
 export * from './ListeProjetsPage';
 export * from './SuccèsOuErreurPage';

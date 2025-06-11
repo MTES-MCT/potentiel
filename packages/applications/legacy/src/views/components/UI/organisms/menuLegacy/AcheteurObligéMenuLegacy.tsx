@@ -29,11 +29,5 @@ export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLe
         Puissance
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <Header.MenuItem
-      href={routes.ACHETEUR_OBLIGE_STATISTIQUES}
-      {...(currentPage === 'acheteur-oblige-statistiques' && { isCurrent: true })}
-    >
-      Tableau de bord
-    </Header.MenuItem>
   </>
 );
