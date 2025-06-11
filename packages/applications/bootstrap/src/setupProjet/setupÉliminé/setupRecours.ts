@@ -1,19 +1,10 @@
+import { HistoriqueProjector, RecoursProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification } from '@potentiel-applications/notifications';
-import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 
-import { createSubscriptionSetup } from './createSubscriptionSetup';
-import { SetupProjet } from './setup';
+import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { SetupProjet } from '../setup';
 
-export const setupÉliminé: SetupProjet = async ({ sendEmail }) => {
-  const éliminé = createSubscriptionSetup('éliminé');
-
-  ÉliminéProjector.register();
-  await éliminé.setupSubscription<ÉliminéProjector.SubscriptionEvent, ÉliminéProjector.Execute>({
-    name: 'projector',
-    eventType: ['ÉliminéNotifié-V1', 'ÉliminéArchivé-V1', 'RebuildTriggered'],
-    messageType: 'System.Projector.Eliminé',
-  });
-
+export const setupRecours: SetupProjet = async ({ sendEmail }) => {
   const recours = createSubscriptionSetup('recours');
 
   RecoursProjector.register();
@@ -40,8 +31,14 @@ export const setupÉliminé: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Notification.Eliminé.Recours',
   });
 
-  return async () => {
-    await éliminé.clearListeners();
-    await recours.clearListeners();
-  };
+  await recours.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
+  });
+
+  return recours.clearListeners;
 };

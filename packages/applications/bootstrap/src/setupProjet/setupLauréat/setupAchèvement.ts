@@ -1,4 +1,4 @@
-import { AchèvementProjector } from '@potentiel-applications/projectors';
+import { AchèvementProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { AchèvementNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
@@ -29,6 +29,15 @@ export const setupAchèvement: SetupProjet = async ({ sendEmail }) => {
     name: 'notifications',
     eventType: ['AttestationConformitéTransmise-V1'],
     messageType: 'System.Notification.Lauréat.Achèvement.AttestationConformité',
+  });
+
+  await achèvement.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
   });
 
   return achèvement.clearListeners;

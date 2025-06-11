@@ -1,4 +1,4 @@
-import { AbandonProjector } from '@potentiel-applications/projectors';
+import { AbandonProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { AbandonNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
@@ -43,6 +43,15 @@ export const setupAbandon: SetupProjet = async ({ sendEmail }) => {
       'PreuveRecandidatureDemandée-V1',
     ],
     messageType: 'System.Notification.Lauréat.Abandon',
+  });
+
+  await abandon.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
   });
 
   return abandon.clearListeners;

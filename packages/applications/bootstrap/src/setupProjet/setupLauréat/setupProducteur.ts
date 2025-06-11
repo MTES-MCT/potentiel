@@ -1,4 +1,4 @@
-import { ProducteurProjector } from '@potentiel-applications/projectors';
+import { HistoriqueProjector, ProducteurProjector } from '@potentiel-applications/projectors';
 import { ProducteurNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
@@ -30,6 +30,15 @@ export const setupProducteur: SetupProjet = async ({ sendEmail }) => {
     name: 'notifications',
     eventType: ['ProducteurModifié-V1', 'ChangementProducteurEnregistré-V1'],
     messageType: 'System.Notification.Lauréat.Producteur',
+  });
+
+  await producteur.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
   });
 
   return producteur.clearListeners;

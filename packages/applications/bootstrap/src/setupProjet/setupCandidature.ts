@@ -1,4 +1,4 @@
-import { CandidatureProjector } from '@potentiel-applications/projectors';
+import { CandidatureProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { CandidatureNotification } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 
@@ -42,6 +42,15 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
     name: 'attestation-saga',
     eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V2'],
     messageType: 'System.Candidature.Attestation.Saga.Execute',
+  });
+
+  await candidature.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
   });
 
   return candidature.clearListeners;

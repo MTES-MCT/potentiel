@@ -2,7 +2,7 @@ import { Message, mediator } from 'mediateur';
 
 import { Event, Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 
-export const createSubscriptionSetup = (streamCategory: string) => {
+export const createSubscriptionSetup = <TCategory extends string>(streamCategory: TCategory) => {
   const listeners: (() => Promise<void>)[] = [];
   const setupSubscription = async <TEvent extends Event, TMessage extends Message<string, TEvent>>({
     messageType,
@@ -11,7 +11,7 @@ export const createSubscriptionSetup = (streamCategory: string) => {
   }: {
     messageType: TMessage['type'];
     eventType: Subscriber<TEvent>['eventType'];
-    name: 'projector' | 'notifications' | 'saga' | string;
+    name: 'projector' | 'notifications' | 'saga' | 'historique' | string;
   }) => {
     const unsubscribe = await subscribe<TEvent>({
       name,
