@@ -1,0 +1,118 @@
+'use client';
+
+import { FC, useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
+
+import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { ValidationErrors } from '@/utils/formAction';
+
+import {
+  enregistrerChangementFournisseurAction,
+  EnregistrerChangementFournisseurFormKeys,
+} from './enregistrerChangementFournisseur.action';
+import { FournisseursField } from './FournisseursField';
+
+export type EnregistrerChangementFournisseurFormProps = PlainType<
+  Lauréat.Fournisseur.ConsulterFournisseurReadModel & {
+    technologie: AppelOffre.Technologie;
+    typesFournisseur: readonly Lauréat.Fournisseur.TypeFournisseur.RawType[];
+  }
+>;
+
+export const EnregistrerChangementFournisseurForm: FC<
+  EnregistrerChangementFournisseurFormProps
+> = ({
+  identifiantProjet,
+  évaluationCarboneSimplifiée,
+  fournisseurs,
+  technologie,
+  typesFournisseur,
+}) => {
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<EnregistrerChangementFournisseurFormKeys>
+  >({});
+
+  return (
+    <Form
+      action={enregistrerChangementFournisseurAction}
+      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      actions={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{
+              href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+              prefetch: false,
+            }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour à la page projet
+          </Button>
+          <SubmitButton>Confirmer le changement</SubmitButton>
+        </>
+      }
+    >
+      <input
+        name="identifiantProjet"
+        type="hidden"
+        value={IdentifiantProjet.bind(identifiantProjet).formatter()}
+      />
+      <input name="technologie" type="hidden" value={technologie} />
+
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <Input
+            state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}
+            label="Évaluation carbone simplifiée"
+            hintText="kg eq CO2/kWc"
+            className="md:max-w-64"
+            nativeInputProps={{
+              name: 'evaluationCarboneSimplifiee',
+              defaultValue: évaluationCarboneSimplifiée,
+              type: 'number',
+              inputMode: 'decimal',
+              pattern: '[0-9]+([.][0-9]+)?',
+              step: 'any',
+              required: true,
+              'aria-required': true,
+            }}
+          />
+        </div>
+        <FournisseursField fournisseurs={fournisseurs} typesFournisseur={typesFournisseur} />
+        <Input
+          textArea
+          label="Raison"
+          id="raison"
+          className="md:max-w-96"
+          hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
+          nativeTextAreaProps={{
+            name: 'raison',
+            required: false,
+            'aria-required': false,
+          }}
+          state={validationErrors['raison'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['raison']}
+        />
+        <UploadNewOrModifyExistingDocument
+          label={'Pièce justificative'}
+          name="piecesJustificatives"
+          hintText="Joindre les statuts mis à jour"
+          required={true}
+          formats={['pdf']}
+          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['piecesJustificatives']}
+        />
+      </div>
+    </Form>
+  );
+};

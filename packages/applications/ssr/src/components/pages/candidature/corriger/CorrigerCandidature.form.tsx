@@ -317,7 +317,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       <Input
         state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}
-        label="Évaluation Carbone Simplifiée"
+        label="Évaluation carbone simplifiée"
+        hintText="kg eq CO2/kWc"
         nativeInputProps={{
           name: 'evaluationCarboneSimplifiee',
           defaultValue: candidature.evaluationCarboneSimplifiee,

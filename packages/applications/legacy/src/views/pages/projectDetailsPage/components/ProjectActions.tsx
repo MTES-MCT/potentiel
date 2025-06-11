@@ -111,7 +111,7 @@ const PorteurProjetActions = ({
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             <DropdownMenuSecondaryButton.DropdownItem
-              href={routes.CHANGER_FOURNISSEUR(project.id)}
+              href={Routes.Fournisseur.changement.enregistrer(identifiantProjet)}
               disabled={demandesDisabled}
             >
               <span>Changer de fournisseur</span>

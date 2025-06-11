@@ -351,12 +351,16 @@ const référencielPermissions = {
     fournisseur: {
       query: {
         consulter: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+        consulterChangement: 'Lauréat.Fournisseur.Query.ConsulterChangementFournisseur',
+        listerChangement: 'Lauréat.Fournisseur.Query.ListerChangementFournisseur',
       },
       usecase: {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',
+        enregistrerChangement: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
       },
       command: {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.Command.ModifierÉvaluationCarbone',
+        enregistrerChangement: 'Lauréat.Fournisseur.Command.EnregistrerChangement',
       },
     },
     cahierDesCharges: {
@@ -1156,10 +1160,16 @@ const policies = {
     ],
   },
   fournisseur: {
+    listerChangement: [référencielPermissions.lauréat.fournisseur.query.listerChangement],
     consulter: [référencielPermissions.lauréat.fournisseur.query.consulter],
+    consulterChangement: [référencielPermissions.lauréat.fournisseur.query.consulterChangement],
     modifierÉvaluationCarbonne: [
       référencielPermissions.lauréat.fournisseur.command.modifierÉvaluationCarbone,
       référencielPermissions.lauréat.fournisseur.usecase.modifierÉvaluationCarbone,
+    ],
+    enregistrerChangement: [
+      référencielPermissions.lauréat.fournisseur.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.fournisseur.command.enregistrerChangement,
     ],
   },
   lauréat: {
@@ -1429,6 +1439,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Fournisseur
   'fournisseur.consulter',
   'fournisseur.modifierÉvaluationCarbonne',
+  'fournisseur.listerChangement',
+  'fournisseur.consulterChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1476,6 +1488,11 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Puissance
   'puissance.consulterChangement',
   'puissance.listerChangement',
+
+  // Fournisseur
+  'fournisseur.listerChangement',
+  'fournisseur.consulterChangement',
+  'fournisseur.consulter',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1566,6 +1583,11 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Producteur
   'producteur.listerChangement',
   'producteur.consulterChangement',
+
+  // Fournisseur
+  'fournisseur.listerChangement',
+  'fournisseur.consulterChangement',
+  'fournisseur.consulter',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1670,6 +1692,12 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'producteur.enregistrerChangement',
   'producteur.consulterChangement',
   'producteur.consulter',
+
+  // Fournisseur
+  'fournisseur.enregistrerChangement',
+  'fournisseur.listerChangement',
+  'fournisseur.consulterChangement',
+  'fournisseur.consulter',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
@@ -1703,6 +1731,9 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
 
   // Producteur
   'producteur.listerChangement',
+
+  // Fournisseur
+  'fournisseur.listerChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

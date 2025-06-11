@@ -50,6 +50,9 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
       <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
         Producteur
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
+        Fournisseur
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
