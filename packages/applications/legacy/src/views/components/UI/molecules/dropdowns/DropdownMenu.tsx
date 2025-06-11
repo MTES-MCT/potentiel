@@ -1,5 +1,6 @@
 import React, { ComponentProps, ReactElement, useEffect, useRef, useState } from 'react';
-import { ArrowDownIcon } from '../../atoms/icons';
+import { ArrowDownIcon, ExternalLinkIcon } from '../../atoms/icons';
+import { ExternalLink } from '../ExternalLink';
 
 type DropdownMenuProps = ComponentProps<'li'> & {
   buttonChildren: React.ReactNode;
@@ -95,9 +96,17 @@ type DropdownItemProps = {
   children: React.ReactNode;
   download?: true;
   disabled?: true;
+  externe?: true;
 };
 
-const DropdownItem = ({ children, href, isCurrent, download, disabled }: DropdownItemProps) => (
+const DropdownItem = ({
+  children,
+  href,
+  isCurrent,
+  download,
+  disabled,
+  externe,
+}: DropdownItemProps) => (
   <li
     style={{ borderBottomWidth: 1 }}
     className={`flex items-center hover:bg-grey-1000-hover border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid ${
@@ -106,16 +115,22 @@ const DropdownItem = ({ children, href, isCurrent, download, disabled }: Dropdow
   >
     {isCurrent && <div className="h-[24px] w-[2px] bg-blue-france-sun-base" />}
     <a
-      className="flex-1 px-4 py-3 block no-underline whitespace-nowrap"
+      className="flex-1 items-start px-4 py-3 block no-underline whitespace-nowrap"
       href={href}
       target={href.startsWith('http') ? '_blank' : undefined}
       {...(download && { download: true })}
       {...(disabled && { disabled: true })}
+      {...(externe && {
+        target: '_blank',
+      })}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }
         : { style: { color: 'black' } })}
     >
-      {children}
+      <span>{children}</span>
+      {externe && (
+        <ExternalLinkIcon className="text-lg ml-1 -mb-1" title="(ouvrir dans un nouvel onglet)" />
+      )}
     </a>
   </li>
 );

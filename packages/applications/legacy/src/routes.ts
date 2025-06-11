@@ -22,7 +22,6 @@ const withParams =
 class routes {
   static ADEME_STATISTIQUES = '/ademe/statistiques.html';
   static ACHETEUR_OBLIGE_STATISTIQUES = '/acheteur-oblige/statistiques.html';
-  static GET_CRE_STATISTIQUES = '/cre/statistiques.html';
 
   static PROJECT_DETAILS = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/details.html';

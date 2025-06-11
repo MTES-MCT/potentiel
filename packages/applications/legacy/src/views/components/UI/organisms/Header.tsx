@@ -232,24 +232,32 @@ const MainMenu = ({ children }: MainMenuProps) => (
 
 type MenuItemProps = {
   href: string;
+  externe?: true;
   isCurrent?: true;
   children: React.ReactNode;
 };
-const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
+const MenuItem = ({ children, href, isCurrent, externe }: MenuItemProps) => (
   <li
     className={`flex items-center py-2 lg:p-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 hover:bg-grey-1000-hover ${
       isCurrent && 'font-medium lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
     }`}
   >
     {isCurrent && <div className="lg:hidden h-[24px] w-[2px] bg-blue-france-sun-base" />}
+
     <a
-      className={`no-underline pl-4 lg:pl-0`}
+      className={`no-underline pl-4 lg:pl-0 flex items-start`}
       href={href}
+      {...(externe && {
+        target: '_blank',
+      })}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }
         : { style: { color: 'black' } })}
     >
-      {children}
+      <span>{children}</span>
+      {externe && (
+        <ExternalLinkIcon className="text-lg ml-1 -mb-1" title="(ouvrir dans un nouvel onglet)" />
+      )}
     </a>
   </li>
 );

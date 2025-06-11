@@ -13,7 +13,6 @@ import {
   SuccèsOuErreur,
   AccèsNonAutorisé,
   AcheteurObligeStatistiques,
-  CreStatistiques,
   DetailsDemandeDelai,
   CorrigerDelaiAccorde,
 } from './pages';
@@ -32,13 +31,6 @@ export const AcheteurObligeStatistiquesPage = (
 ) =>
   makeHtml({
     Component: AcheteurObligeStatistiques,
-    props,
-    title: 'Tableau de bord',
-  });
-
-export const CreStatistiquesPage = (props: Parameters<typeof CreStatistiques>[0]) =>
-  makeHtml({
-    Component: CreStatistiques,
     props,
     title: 'Tableau de bord',
   });
