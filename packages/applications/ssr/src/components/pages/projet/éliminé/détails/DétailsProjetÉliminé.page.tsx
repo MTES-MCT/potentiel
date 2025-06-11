@@ -28,6 +28,7 @@ export type DétailsProjetÉliminéPageProps = {
 
 export type DétailsProjetÉliminéActions =
   | 'faire-demande-recours'
+  | 'consulter-demande-recours'
   | 'modifier-candidature'
   | 'télécharger-attestation-désignation'
   | 'lister-accès-au-projet'
@@ -156,6 +157,18 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
           }}
         >
           Faire une demande de recours
+        </Button>
+      )}
+
+      {actions.includes('consulter-demande-recours') && (
+        <Button
+          priority="secondary"
+          linkProps={{
+            href: Routes.Recours.détail(identifiantProjet),
+            prefetch: false,
+          }}
+        >
+          Consulter la demande de recours
         </Button>
       )}
 
