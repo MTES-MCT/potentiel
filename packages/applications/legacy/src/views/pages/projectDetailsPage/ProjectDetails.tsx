@@ -27,9 +27,7 @@ import {
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
-// This is a hack to avoid importing the entire Utilisateur package,
-// which in turn imports Candidature and breaks the JS due to the crypto dependency.
-import * as Role from '@potentiel-domain/utilisateur/dist/role.valueType';
+import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import {

@@ -50,6 +50,9 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
       <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
         Producteur
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
+        Fournisseur
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>

@@ -44,6 +44,9 @@ export const PorteurMenuLegacy = ({ currentPage }: PorteurMenuLegacyProps) => (
       <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
         Producteur
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
+        Fournisseur
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <Header.MenuItem
