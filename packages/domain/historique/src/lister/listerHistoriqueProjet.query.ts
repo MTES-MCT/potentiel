@@ -14,6 +14,7 @@ import { HistoriqueAbandonProjetListItemReadModel } from './listerHistoriqueAban
 import { HistoriqueActionnaireProjetListItemReadModel } from './listerHistoriqueActionnaireProjet.query';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from './listerHistoriqueReprésentantLégalProjet.query';
 import { HistoriquePuissanceProjetListItemReadModel } from './listerHistoriquePuissanceProjet.query';
+import { HistoriqueProducteurProjetListItemReadModel } from './listerHistoriqueProducteurProjet.query';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
@@ -34,7 +35,8 @@ export type HistoriqueListItemReadModels =
   | HistoriqueRecoursProjetListItemReadModel
   | HistoriqueReprésentantLégalProjetListItemReadModel
   | HistoriqueGarantiesFinancièresProjetListItemReadModel
-  | HistoriquePuissanceProjetListItemReadModel;
+  | HistoriquePuissanceProjetListItemReadModel
+  | HistoriqueProducteurProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 

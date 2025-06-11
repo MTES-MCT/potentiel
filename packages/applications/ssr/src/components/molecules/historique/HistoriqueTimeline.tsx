@@ -7,6 +7,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToPuissanceTimelineItemProps } from '@/components/pages/puissance/changement/détails/timeline';
+import { mapToProducteurTimelineItemProps } from '@/components/pages/producteur/changement/détails/timeline';
 
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
@@ -53,6 +54,7 @@ const mapToTimelineItemProps = (
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
+    .with({ category: 'producteur' }, mapToProducteurTimelineItemProps)
     .with({ category: 'puissance' }, (readmodel) =>
       mapToPuissanceTimelineItemProps(readmodel, unitéPuissance),
     )

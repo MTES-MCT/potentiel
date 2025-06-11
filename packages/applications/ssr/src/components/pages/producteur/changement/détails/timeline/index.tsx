@@ -17,7 +17,7 @@ export const HistoriqueProducteurTimeline: FC<HistoriqueProducteurTimelineProps>
   historique,
 }) => <Timeline items={historique.items.map((item) => mapToProducteurTimelineItemProps(item))} />;
 
-const mapToProducteurTimelineItemProps = (
+export const mapToProducteurTimelineItemProps = (
   readmodel: Historique.HistoriqueProducteurProjetListItemReadModel,
 ) =>
   match(readmodel)
