@@ -31,6 +31,7 @@ export type {
   HistoriqueListItemReadModels,
   HistoriqueLauréatProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
+  HistoriqueAchèvementProjetListItemReadModel,
 } from './lister/listerHistoriqueProjet.query';
 export type {
   ListerHistoriqueRecoursProjetReadModel,

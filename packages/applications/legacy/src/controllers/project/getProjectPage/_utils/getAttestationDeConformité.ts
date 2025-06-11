@@ -22,7 +22,7 @@ export const getAttestationDeConformité = async (
     return Option.isSome(attestationConformité)
       ? {
           type: 'achevement-reel',
-          date: attestationConformité.dateTransmissionAuCocontractant.date.getTime(),
+          date: new Date(attestationConformité.attestation.dateCréation).getTime(),
           attestation: attestationConformité.attestation.formatter(),
           preuveTransmissionAuCocontractant:
             attestationConformité.preuveTransmissionAuCocontractant.formatter(),

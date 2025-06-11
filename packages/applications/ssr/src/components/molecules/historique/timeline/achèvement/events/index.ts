@@ -1,0 +1,1 @@
+export { mapToAttestationConformitéTransmiseTimelineItemProps } from './mapToAttestationConformitéTransmiseTimelineItemProps';

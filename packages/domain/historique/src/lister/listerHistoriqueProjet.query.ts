@@ -28,6 +28,12 @@ export type HistoriqueGarantiesFinancièresProjetListItemReadModel = HistoryReco
   GarantiesFinancières.GarantiesFinancièresEvent['payload']
 >;
 
+export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
+  'achevement',
+  Lauréat.Achèvement.AchèvementEvent['type'],
+  Lauréat.Achèvement.AchèvementEvent['payload']
+>;
+
 export type HistoriqueListItemReadModels =
   | HistoriqueLauréatProjetListItemReadModel
   | HistoriqueAbandonProjetListItemReadModel
@@ -36,7 +42,8 @@ export type HistoriqueListItemReadModels =
   | HistoriqueReprésentantLégalProjetListItemReadModel
   | HistoriqueGarantiesFinancièresProjetListItemReadModel
   | HistoriquePuissanceProjetListItemReadModel
-  | HistoriqueProducteurProjetListItemReadModel;
+  | HistoriqueProducteurProjetListItemReadModel
+  | HistoriqueAchèvementProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 
