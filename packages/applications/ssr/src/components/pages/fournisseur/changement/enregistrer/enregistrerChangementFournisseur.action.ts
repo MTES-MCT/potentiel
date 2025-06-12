@@ -70,7 +70,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.lister(),
+        url: Routes.Projet.details(identifiantProjet),
         message: 'Votre changement de fournisseur a bien été enregistré.',
       },
     };

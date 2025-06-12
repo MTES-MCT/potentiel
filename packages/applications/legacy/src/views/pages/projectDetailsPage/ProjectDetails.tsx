@@ -23,6 +23,7 @@ import {
   InfoGeneralesProps,
   GarantiesFinancièresProjetProps,
   EtapesProjetProps,
+  MaterielsEtTechnologiesProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
@@ -59,6 +60,7 @@ type ProjectDetailsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   candidature: ContactProps['candidature'];
+  fournisseur: MaterielsEtTechnologiesProps['fournisseur'];
 };
 
 export const ProjectDetails = ({
@@ -78,6 +80,7 @@ export const ProjectDetails = ({
   coefficientKChoisi,
   producteur,
   candidature,
+  fournisseur,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -156,6 +159,7 @@ export const ProjectDetails = ({
         puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
         producteurAffichage={producteur?.affichage}
+        fournisseurAffichage={fournisseur?.affichage}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -224,8 +228,8 @@ export const ProjectDetails = ({
               candidature={candidature}
             />
             <MaterielsEtTechnologies
-              fournisseur={project.fournisseur}
-              evaluationCarbone={project.evaluationCarbone}
+              fournisseur={fournisseur}
+              modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
             />
 
             {project.notesInnovation && (
