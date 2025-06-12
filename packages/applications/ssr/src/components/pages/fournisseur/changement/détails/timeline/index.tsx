@@ -28,13 +28,13 @@ export type FournisseurHistoryRecord = HistoryRecord<
 const mapToFournisseurTimelineItemProps = (record: FournisseurHistoryRecord) =>
   match(record)
     .returnType<TimelineItemProps>()
-    .with({ type: 'FournisseurImporté-V1' }, (record) =>
-      mapToFournisseurImportéTimelineItemProps(record),
+    .with({ type: 'FournisseurImporté-V1' }, mapToFournisseurImportéTimelineItemProps)
+    .with(
+      { type: 'ÉvaluationCarboneSimplifiéeModifiée-V1' },
+      mapToÉvaluationCarboneModifiéeTimelineItemsProps,
     )
-    .with({ type: 'ÉvaluationCarboneSimplifiéeModifiée-V1' }, (record) =>
-      mapToÉvaluationCarboneModifiéeTimelineItemsProps(record),
-    )
-    .with({ type: 'ChangementFournisseurEnregistré-V1' }, (record) =>
-      mapToChangementFournisseurEnregistréTimelineItemProps(record),
+    .with(
+      { type: 'ChangementFournisseurEnregistré-V1' },
+      mapToChangementFournisseurEnregistréTimelineItemProps,
     )
     .exhaustive();
