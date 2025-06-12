@@ -9,6 +9,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
     Scénario: Enregistrer un changement de fournisseur
         Quand le porteur enregistre un changement de fournisseur
         Alors le fournisseur devrait être mis à jour
+        Et le changement enregistré du fournisseur du projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Enregistrement d'un changement de fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
