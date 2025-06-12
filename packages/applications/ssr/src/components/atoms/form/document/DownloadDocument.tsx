@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { Download } from '@codegouvfr/react-dsfr/Download';
 import { extension } from 'mime-types';
+import clsx from 'clsx';
 export type DownloadDocumentProps = {
   className?: string;
   label: string;
@@ -15,7 +16,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
   format,
 }) => (
   <Download
-    className={className}
+    className={clsx('print:hidden', className)}
     label={label}
     details={(extension(format) || format).toUpperCase()}
     linkProps={{

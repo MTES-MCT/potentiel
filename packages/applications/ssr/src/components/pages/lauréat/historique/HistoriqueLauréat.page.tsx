@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -10,6 +9,8 @@ import {
   HistoriqueTimelineProps,
 } from '@/components/molecules/historique/HistoriqueTimeline';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+
+import { ImpressionPageHistoriqueLauréat } from './ImpressionPageHistoriqueLauréat';
 
 export type HistoriqueLauréatAction = 'imprimer';
 
@@ -26,26 +27,15 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   historique,
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
-    <Alert
-      severity="warning"
-      title="Attention"
-      description="Les informations à propos des modifications de fournisseur et des demandes de délai ne sont
+    <div className="flex flex-col gap-4">
+      {actions?.includes('imprimer') && <ImpressionPageHistoriqueLauréat />}
+      <Alert
+        severity="warning"
+        title="Attention"
+        description="Les informations à propos des modifications de fournisseur et des demandes de délai ne sont
       pas encore présentes."
-    />
-    <div className="mt-4">
-      {actions?.includes('imprimer') && (
-        <Button
-          priority="primary"
-          iconId="fr-icon-printer-line"
-          onClick={(event) => {
-            event.preventDefault();
-            window.print();
-          }}
-        >
-          Imprimer la page
-        </Button>
-      )}
-
+        className="print:hidden"
+      />
       <HistoriqueTimeline historique={historique} unitéPuissance={unitéPuissance} />
     </div>
   </PageTemplate>
