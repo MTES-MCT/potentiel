@@ -4,10 +4,19 @@ Fonctionnalité: Modifier l'évaluation carbone du projet
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges modificatif choisi
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Modifier l'évaluation carbone du projet
         Quand un administrateur modifie l'évaluation carbone du projet
         Alors le fournisseur devrait être mis à jour
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Modification de l'évaluation carbone simplifiée pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                         |
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Modification de l'évaluation carbone simplifiée pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                         |
 
     Scénario: Impossible de modifier l'évaluation carbone avec une valeur identique
         Quand un administrateur modifie l'évaluation carbone du projet avec la même valeur
