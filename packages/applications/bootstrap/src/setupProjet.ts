@@ -316,7 +316,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await subscribe<FournisseurNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'fournisseur',
-      eventType: ['ChangementFournisseurEnregistré-V1'],
+      eventType: ['ÉvaluationCarboneSimplifiéeModifiée-V1', 'ChangementFournisseurEnregistré-V1'],
       eventHandler: async (event) => {
         await mediator.publish<FournisseurNotification.Execute>({
           type: 'System.Notification.Lauréat.Fournisseur',

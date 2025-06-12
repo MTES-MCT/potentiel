@@ -8,6 +8,7 @@ import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../helpers';
 
 import { changementFournisseurEnregistréNotifications } from './changementFournisseurEnregistré.notifications';
+import { évaluationCarboneSimplifiéeModifiéeNotifications } from './évaluationCarboneSimplifiéeModifiée.notifications';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent & Event;
 
@@ -25,6 +26,9 @@ export const register = ({ sendEmail }: RegisterFournisseurNotificationDependenc
     const projet = await getLauréat(identifiantProjet.formatter());
 
     return match(event)
+      .with({ type: 'ÉvaluationCarboneSimplifiéeModifiée-V1' }, async (event) =>
+        évaluationCarboneSimplifiéeModifiéeNotifications({ sendEmail, event, projet }),
+      )
       .with({ type: 'ChangementFournisseurEnregistré-V1' }, async (event) =>
         changementFournisseurEnregistréNotifications({ sendEmail, event, projet }),
       )
