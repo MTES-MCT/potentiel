@@ -4,47 +4,39 @@ import { Historique } from '@potentiel-domain/historique';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+
 export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
   modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
-  return match(modification)
-    .with({ type: 'RéférenceDossierRacordementModifiée-V1' }, (event) => {
-      const { référenceDossierRaccordementActuelle, nouvelleRéférenceDossierRaccordement } =
-        event.payload as Raccordement.RéférenceDossierRacordementModifiéeEventV1['payload'];
+  const event = match(modification)
+    .with(
+      { type: 'RéférenceDossierRacordementModifiée-V1' },
+      (event) => event as unknown as Raccordement.RéférenceDossierRacordementModifiéeEventV1,
+    )
+    .with(
+      { type: 'RéférenceDossierRacordementModifiée-V2' },
+      (event) => event as unknown as Raccordement.RéférenceDossierRacordementModifiéeEvent,
+    )
+    .otherwise(() => undefined);
 
-      event.payload.identifiantProjet;
-      return {
-        date: event.createdAt as DateTime.RawType,
-        title: (
-          <div>
-            La référence pour le dossier de raccordement {référenceDossierRaccordementActuelle} a
-            été modifiée. Nouvelle référence :{' '}
-            <span className="font-semibold">{nouvelleRéférenceDossierRaccordement}</span>
-          </div>
-        ),
-      };
-    })
-    .with({ type: 'RéférenceDossierRacordementModifiée-V2' }, (event) => {
-      const {
-        référenceDossierRaccordementActuelle,
-        nouvelleRéférenceDossierRaccordement,
-        modifiéeLe,
-        modifiéePar,
-      } = event.payload as Raccordement.RéférenceDossierRacordementModifiéeEvent['payload'];
+  if (!event) {
+    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(modification);
+  }
 
-      return {
-        date: modifiéeLe,
-        title: (
-          <div>
-            La référence pour le dossier de raccordement {référenceDossierRaccordementActuelle} a
-            été modifiée par {modifiéePar}. Nouvelle référence :{' '}
-            <span className="font-semibold">{nouvelleRéférenceDossierRaccordement}</span>
-          </div>
-        ),
-      };
-    })
-    .otherwise(() => ({
-      date: modification.createdAt as DateTime.RawType,
-      title: 'Étape de raccordement inconnue',
-    }));
+  return {
+    date:
+      event.type === 'RéférenceDossierRacordementModifiée-V2'
+        ? event.payload.modifiéeLe
+        : (modification.createdAt as DateTime.RawType),
+    title: (
+      <div>
+        La référence pour le dossier de raccordement{' '}
+        {event.payload.référenceDossierRaccordementActuelle} a été modifiée par{' '}
+        {event.payload.nouvelleRéférenceDossierRaccordement}.{' '}
+        {event.type === 'RéférenceDossierRacordementModifiée-V2' &&
+          `Cette modification a été réalisé par ${event.payload.modifiéePar}`}
+      </div>
+    ),
+  };
 };
