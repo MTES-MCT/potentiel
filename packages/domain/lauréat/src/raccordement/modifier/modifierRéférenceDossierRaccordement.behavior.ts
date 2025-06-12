@@ -1,7 +1,8 @@
-import { DateTime, Email, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';

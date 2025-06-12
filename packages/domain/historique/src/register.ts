@@ -19,6 +19,10 @@ import {
   registerListerHistoriquePuissanceProjetQuery,
 } from './lister/listerHistoriquePuissanceProjet.query';
 import {
+  ListerHistoriqueRaccordementProjetDependencies,
+  registerListerHistoriqueRaccordementProjetQuery,
+} from './lister/listerHistoriqueRaccordementProjet.query';
+import {
   ListerHistoriqueRecoursProjetDependencies,
   registerListerHistoriqueRecoursProjetQuery,
 } from './lister/listerHistoriqueRecoursProjet.query';
@@ -33,7 +37,8 @@ export type HistoriqueQueryDependencies = ListerHistoriqueProjetDependencies &
   ListerHistoriqueProducteurProjetDependencies &
   ListerHistoriquePuissanceProjetDependencies &
   ListerHistoriqueActionnaireProjetDependencies &
-  ListerHistoriqueReprésentantLégalProjetDependencies;
+  ListerHistoriqueReprésentantLégalProjetDependencies &
+  ListerHistoriqueRaccordementProjetDependencies;
 
 export const registerHistoriqueProjetQuery = (dependencies: HistoriqueQueryDependencies) => {
   registerListerHistoriqueAbandonProjetQuery(dependencies);
@@ -41,6 +46,7 @@ export const registerHistoriqueProjetQuery = (dependencies: HistoriqueQueryDepen
   registerListerHistoriqueProducteurProjetQuery(dependencies);
   registerListerHistoriquePuissanceProjetQuery(dependencies);
   registerListerHistoriqueReprésentantLégalProjetQuery(dependencies);
+  registerListerHistoriqueRaccordementProjetQuery(dependencies);
 
   registerListerHistoriqueRecoursProjetQuery(dependencies);
 

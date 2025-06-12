@@ -5,6 +5,7 @@ import { ListerHistoriqueActionnaireProjetQuery } from './lister/listerHistoriqu
 import { ListerHistoriqueProducteurProjetQuery } from './lister/listerHistoriqueProducteurProjet.query';
 import { ListerHistoriquePuissanceProjetQuery } from './lister/listerHistoriquePuissanceProjet.query';
 import { ListerHistoriqueReprésentantLégalProjetQuery } from './lister/listerHistoriqueReprésentantLégalProjet.query';
+import { ListerHistoriqueRaccordementProjetQuery } from './lister/listerHistoriqueRaccordementProjet.query';
 
 // Query
 export type HistoriqueQuery =
@@ -14,7 +15,9 @@ export type HistoriqueQuery =
   | ListerHistoriqueProducteurProjetQuery
   | ListerHistoriquePuissanceProjetQuery
   | ListerHistoriqueActionnaireProjetQuery
-  | ListerHistoriqueReprésentantLégalProjetQuery;
+  | ListerHistoriqueReprésentantLégalProjetQuery
+  | ListerHistoriqueRaccordementProjetQuery;
+
 export type {
   ListerHistoriqueProjetQuery,
   ListerHistoriqueRecoursProjetQuery,
@@ -23,6 +26,7 @@ export type {
   ListerHistoriqueProducteurProjetQuery,
   ListerHistoriquePuissanceProjetQuery,
   ListerHistoriqueReprésentantLégalProjetQuery,
+  ListerHistoriqueRaccordementProjetQuery,
 };
 
 // Read Models
@@ -57,6 +61,10 @@ export type {
   ListerHistoriqueReprésentantLégalProjetReadModel,
   HistoriqueReprésentantLégalProjetListItemReadModel,
 } from './lister/listerHistoriqueReprésentantLégalProjet.query';
+export type {
+  ListerHistoriqueRaccordementProjetReadModel,
+  HistoriqueRaccordementProjetListItemReadModel,
+} from './lister/listerHistoriqueRaccordementProjet.query';
 
 // register
 export * from './register';

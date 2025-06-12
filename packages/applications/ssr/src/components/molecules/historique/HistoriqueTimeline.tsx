@@ -15,6 +15,7 @@ import { mapToReprésentantLégalTimelineItemProps } from './timeline/représent
 import { mapToLauréatTimelineItemProps } from './timeline/lauréat/mapToLauréatTimelineItemProps';
 import { mapToGarantiesFinancièresTimelineItemProps } from './timeline/garanties-financières/mapToGarantiesFinancièresTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from './timeline/achèvement/mapToAchèvementTimelineItemProps';
+import { mapToRaccordementTimelineItemProps } from './timeline/raccordement/mapToRaccordementTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel['items']>;
@@ -59,4 +60,5 @@ const mapToTimelineItemProps = (
       mapToPuissanceTimelineItemProps(readmodel, unitéPuissance),
     )
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
+    .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
     .exhaustive(() => undefined);

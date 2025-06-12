@@ -25,6 +25,7 @@ export type SubscriptionEvent =
   | (Raccordement.RaccordementEvent & Event)
   | (Lauréat.Achèvement.AchèvementEvent & Event)
   | (Lauréat.LauréatEvent & Event)
+  | (Raccordement.RaccordementEvent & Event)
   | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Historique', SubscriptionEvent>;
