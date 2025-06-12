@@ -524,6 +524,7 @@ const référencielPermissions = {
       listerHistoriquePuissance: 'Historique.Query.ListerHistoriquePuissanceProjet',
       listerHistoriqueRecours: 'Historique.Query.ListerHistoriqueRecoursProjet',
       listerHistoriqueReprésentantLégal: 'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
+      listerHistoriqueRaccordement: 'Historique.Query.ListerHistoriqueRaccordementProjet',
     },
   },
 } as const;
@@ -949,6 +950,7 @@ const policies = {
       référencielPermissions.historique.query.listerHistoriquePuissance,
       référencielPermissions.historique.query.listerHistoriqueRecours,
       référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
+      référencielPermissions.historique.query.listerHistoriqueRaccordement,
     ],
   },
   raccordement: {
