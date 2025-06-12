@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -21,7 +22,15 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
 }) => {
   return (
     <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
-      <HistoriqueTimeline historique={historique} unitéPuissance={unitéPuissance} />
+      <Alert
+        severity="warning"
+        title="Attention"
+        description="Les informations à propos des modifications de fournisseur et des demandes de délai ne sont
+        pas encore présentes."
+      />
+      <div className="mt-4">
+        <HistoriqueTimeline historique={historique} unitéPuissance={unitéPuissance} />
+      </div>
     </PageTemplate>
   );
 };
