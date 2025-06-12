@@ -952,6 +952,7 @@ const policies = {
       référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
       référencielPermissions.historique.query.listerHistoriqueRaccordement,
     ],
+    imprimer: [],
   },
   raccordement: {
     listerDossierRaccordement: [
@@ -1313,6 +1314,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
 
+  // Historique
+  'historique.imprimer',
+
   // Abandon
   'abandon.consulter.liste',
   'abandon.accorder',
@@ -1479,6 +1483,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
 
+  // Historique
+  'historique.imprimer',
+
   // Abandon
   'abandon.consulter.liste',
 
@@ -1565,6 +1572,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
+
+  // Historique
+  'historique.imprimer',
 
   // Abandon
   'abandon.consulter.liste',
