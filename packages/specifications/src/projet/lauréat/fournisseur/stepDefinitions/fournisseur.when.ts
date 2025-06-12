@@ -115,11 +115,17 @@ export async function enregistrerChangementFournisseur(
   } = {},
 ) {
   try {
-    const { évaluationCarbone, fournisseurs, enregistréLe, enregistréPar, pièceJustificative } =
-      this.lauréatWorld.fournisseurWorld.enregistrerChangementFournisseur.créer({
-        enregistréPar: this.utilisateurWorld.adminFixture.email,
-        ...values,
-      });
+    const {
+      évaluationCarbone,
+      fournisseurs,
+      enregistréLe,
+      enregistréPar,
+      pièceJustificative,
+      raison,
+    } = this.lauréatWorld.fournisseurWorld.enregistrerChangementFournisseur.créer({
+      enregistréPar: this.utilisateurWorld.adminFixture.email,
+      ...values,
+    });
 
     await mediator.send<Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase>({
       type: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
@@ -129,7 +135,7 @@ export async function enregistrerChangementFournisseur(
         fournisseursValue: fournisseurs,
         dateChangementValue: enregistréLe,
         identifiantUtilisateurValue: enregistréPar,
-        raisonValue: '',
+        raisonValue: raison,
         pièceJustificativeValue: pièceJustificative,
       },
     });

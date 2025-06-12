@@ -11,6 +11,7 @@ export interface EnregistrerChangementFournisseur {
     typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
     nomDuFabricant: string;
   }>;
+  readonly raison: string;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
 
@@ -46,6 +47,12 @@ export class EnregistrerChangementFournisseurFixture
     return this.#fournisseurs;
   }
 
+  #raison!: string;
+
+  get raison(): string {
+    return this.#raison;
+  }
+
   #enregistréLe!: string;
 
   get enregistréLe(): string {
@@ -71,6 +78,7 @@ export class EnregistrerChangementFournisseurFixture
           typeFournisseur,
           nomDuFabricant: faker.company.name(),
         })),
+      raison: faker.word.words(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
@@ -82,6 +90,7 @@ export class EnregistrerChangementFournisseurFixture
     this.#enregistréLe = fixture.enregistréLe;
     this.#enregistréPar = fixture.enregistréPar;
     this.#fournisseurs = fixture.fournisseurs;
+    this.#raison = fixture.raison;
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
 
