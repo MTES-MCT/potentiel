@@ -49,6 +49,7 @@ export { registerFournisseurQueries } from './fournisseur.register';
 // ValueTypes
 export * as TypeFournisseur from './typeFournisseur.valueType';
 export * as TypeDocumentFournisseur from './typeDocumentFournisseur.valueType';
+export * as NoteÉvaluationCarbone from './noteÉvaluationCarbone.valueType';
 
 // Entities
 export * from './fournisseur.entity';

@@ -13,8 +13,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 
 export const metadata: Metadata = {
-  title: 'Détail du producteur du projet - Potentiel',
-  description: 'Détail du producteur du projet',
+  title: 'Détail du changement de producteur du projet - Potentiel',
+  description: 'Détail du changement de producteur du projet',
 };
 
 type PageProps = {

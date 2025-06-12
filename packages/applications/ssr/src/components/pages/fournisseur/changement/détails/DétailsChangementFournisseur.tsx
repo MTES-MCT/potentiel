@@ -3,22 +3,28 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { AlerteChangementÉvaluationCarbone } from '@/components/molecules/fournisseur/AlerteChangementÉvaluationCarbone';
 
 import { StatutChangementFournisseurBadge } from '../StatutChangementFournisseurBadge';
 import { ListeFournisseurs } from '../ListeFournisseurs';
 
-import { DétailsFournisseurPageProps } from './DétailsFournisseur.page';
-
 export type DétailsChangementFournisseurProps = {
-  changement: DétailsFournisseurPageProps['changement'];
+  changement: PlainType<Lauréat.Fournisseur.ConsulterChangementFournisseurReadModel['changement']>;
+  évaluationCarboneSimplifiéeInitiale: number;
+  technologie: AppelOffre.Technologie;
 };
 
 export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProps> = ({
   changement,
+  évaluationCarboneSimplifiéeInitiale,
+  technologie,
 }) => {
   return (
     <div className="flex flex-col gap-4">
@@ -43,11 +49,21 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
         <>
           <Heading5>Détails du changement</Heading5>
           <div className="flex flex-col gap-2">
-            <div className="flex gap-2">
-              <div className="font-semibold whitespace-nowrap">Évaluation carbone simplifiée :</div>
-              <div>{changement.évaluationCarboneSimplifiée} kg eq CO2/kWc</div>
-            </div>
-
+            {changement.évaluationCarboneSimplifiée && (
+              <>
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">
+                    Évaluation carbone simplifiée :
+                  </div>
+                  <div>{changement.évaluationCarboneSimplifiée} kg eq CO2/kWc</div>
+                </div>
+                <AlerteChangementÉvaluationCarbone
+                  nouvelleÉvaluationCarbone={changement.évaluationCarboneSimplifiée}
+                  évaluationCarboneInitiale={évaluationCarboneSimplifiéeInitiale}
+                  technologie={technologie}
+                />
+              </>
+            )}
             <div className="flex flex-col gap-2">
               <div className="font-semibold whitespace-nowrap">Fournisseurs :</div>
               <div className="flex flex-col gap-2">
