@@ -90,6 +90,19 @@ export const setupHistorique = async () => {
       streamCategory: 'producteur',
     });
 
+  const unsubscribeFournisseurHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'fournisseur',
+    });
+
   return async () => {
     await unsubscribeAbandonHistoriqueProjector();
     await unsubscribeRecoursHistoriqueProjector();
@@ -97,5 +110,6 @@ export const setupHistorique = async () => {
     await unsubscribeReprésentantLégalHistoriqueProjector();
     await unsubscribePuissanceHistoriqueProjector();
     await unsubscribeProducteurHistoriqueProjector();
+    await unsubscribeFournisseurHistoriqueProjector();
   };
 };

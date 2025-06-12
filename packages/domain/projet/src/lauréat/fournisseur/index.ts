@@ -8,13 +8,28 @@ import {
   ConsulterChangementFournisseurReadModel,
 } from './changement/consulter/consulterChangementFournisseur.query';
 import { EnregistrerChangementFournisseurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
+import {
+  ListerChangementFournisseurQuery,
+  ListerChangementFournisseurReadModel,
+} from './lister/listerChangementFournisseur.query';
 
 // Query
-export type FournisseurQuery = ConsulterFournisseurQuery | ConsulterChangementFournisseurQuery;
-export type { ConsulterFournisseurQuery, ConsulterChangementFournisseurQuery };
+export type FournisseurQuery =
+  | ConsulterFournisseurQuery
+  | ConsulterChangementFournisseurQuery
+  | ListerChangementFournisseurQuery;
+export type {
+  ConsulterFournisseurQuery,
+  ConsulterChangementFournisseurQuery,
+  ListerChangementFournisseurQuery,
+};
 
 // ReadModel
-export { ConsulterFournisseurReadModel, ConsulterChangementFournisseurReadModel };
+export {
+  ConsulterFournisseurReadModel,
+  ListerChangementFournisseurReadModel,
+  ConsulterChangementFournisseurReadModel,
+};
 
 // UseCases
 export type FournisseurUseCase =
@@ -34,6 +49,7 @@ export { registerFournisseurQueries } from './fournisseur.register';
 // ValueTypes
 export * as TypeFournisseur from './typeFournisseur.valueType';
 export * as TypeDocumentFournisseur from './typeDocumentFournisseur.valueType';
+export * as NoteÉvaluationCarbone from './noteÉvaluationCarbone.valueType';
 
 // Entities
 export * from './fournisseur.entity';

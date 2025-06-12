@@ -33,6 +33,7 @@ import {
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
+import { getFournisseur } from './_utils/getFournisseur';
 import { getCandidature } from './_utils/getCandidature';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -266,6 +267,10 @@ v1Router.get(
             identifiantProjetValueType,
             project.appelOffre.periode,
           ),
+          fournisseur: await getFournisseur({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: user.role,
+          }),
         }),
       );
     },

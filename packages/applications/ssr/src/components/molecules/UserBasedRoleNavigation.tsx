@@ -72,6 +72,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Producteur.changement.lister,
       },
     },
+    {
+      text: 'Fournisseur',
+      linkProps: {
+        href: Routes.Fournisseur.changement.lister,
+      },
+    },
   ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [

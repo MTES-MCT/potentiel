@@ -10,6 +10,7 @@ import {
 } from '../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
+import { GetFournisseurForProjectPage } from 'src/controllers/project/getProjectPage/_utils/getFournisseur';
 
 export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
@@ -22,6 +23,7 @@ export type ProjectHeaderProps = {
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
+  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
 };
 
 export const ProjectHeader = ({
@@ -35,6 +37,7 @@ export const ProjectHeader = ({
   puissanceAffichage,
   actionnaireAffichage,
   producteurAffichage,
+  fournisseurAffichage,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -70,6 +73,7 @@ export const ProjectHeader = ({
         puissanceAffichage={puissanceAffichage}
         actionnaireAffichage={actionnaireAffichage}
         producteurAffichage={producteurAffichage}
+        fournisseurAffichage={fournisseurAffichage}
       />
     </div>
   </div>
