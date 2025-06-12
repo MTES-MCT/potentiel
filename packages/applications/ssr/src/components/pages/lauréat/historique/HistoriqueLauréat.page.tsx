@@ -9,8 +9,7 @@ import {
   HistoriqueTimelineProps,
 } from '@/components/molecules/historique/HistoriqueTimeline';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
-import { ImpressionPageHistoriqueLauréat } from './ImpressionPageHistoriqueLauréat';
+import { ImprimerPage } from '@/components/atoms/ImprimerPage';
 
 export type HistoriqueLauréatAction = 'imprimer';
 
@@ -28,7 +27,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <div className="flex flex-col gap-4">
-      {actions?.includes('imprimer') && <ImpressionPageHistoriqueLauréat />}
+      {actions?.includes('imprimer') && <ImprimerPage />}
       <Alert
         severity="warning"
         title="Attention"
