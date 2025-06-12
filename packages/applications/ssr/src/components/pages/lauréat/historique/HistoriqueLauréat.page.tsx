@@ -10,27 +10,33 @@ import {
 } from '@/components/molecules/historique/HistoriqueTimeline';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
+import { ImpressionPageHistoriqueLauréat } from './ImpressionPageHistoriqueLauréat';
+
+export type HistoriqueLauréatAction = 'imprimer';
+
 export type HistoriqueLauréatPageProps = {
   identifiantProjet: string;
   unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+  actions?: Array<HistoriqueLauréatAction>;
 } & HistoriqueTimelineProps;
 
 export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   identifiantProjet,
   unitéPuissance,
+  actions,
   historique,
-}) => {
-  return (
-    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+}) => (
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+    <div className="flex flex-col gap-4">
+      {actions?.includes('imprimer') && <ImpressionPageHistoriqueLauréat />}
       <Alert
         severity="warning"
         title="Attention"
         description="Les informations à propos des modifications de fournisseur et des demandes de délai ne sont
-        pas encore présentes."
+      pas encore présentes."
+        className="print:hidden"
       />
-      <div className="mt-4">
-        <HistoriqueTimeline historique={historique} unitéPuissance={unitéPuissance} />
-      </div>
-    </PageTemplate>
-  );
-};
+      <HistoriqueTimeline historique={historique} unitéPuissance={unitéPuissance} />
+    </div>
+  </PageTemplate>
+);
