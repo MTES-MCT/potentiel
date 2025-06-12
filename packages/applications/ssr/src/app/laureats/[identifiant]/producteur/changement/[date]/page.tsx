@@ -14,8 +14,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { ProducteurHistoryRecord } from '@/components/pages/producteur/changement/détails/timeline';
 
 export const metadata: Metadata = {
-  title: 'Détail du producteur du projet - Potentiel',
-  description: 'Détail du producteur du projet',
+  title: 'Détail du changement de producteur du projet - Potentiel',
+  description: 'Détail du changement de producteur du projet',
 };
 
 type PageProps = {

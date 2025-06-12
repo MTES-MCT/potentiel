@@ -14,6 +14,7 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
+import { AlerteChangementÉvaluationCarbone } from '@/components/molecules/fournisseur/AlerteChangementÉvaluationCarbone';
 
 import {
   enregistrerChangementFournisseurAction,
@@ -25,6 +26,7 @@ export type EnregistrerChangementFournisseurFormProps = PlainType<
   Lauréat.Fournisseur.ConsulterFournisseurReadModel & {
     technologie: AppelOffre.Technologie;
     typesFournisseur: readonly Lauréat.Fournisseur.TypeFournisseur.RawType[];
+    évaluationCarboneSimplifiéeInitiale: number;
   }
 >;
 
@@ -32,7 +34,8 @@ export const EnregistrerChangementFournisseurForm: FC<
   EnregistrerChangementFournisseurFormProps
 > = ({
   identifiantProjet,
-  évaluationCarboneSimplifiée,
+  évaluationCarboneSimplifiée: évaluationCarboneSimplifiéeActuelle,
+  évaluationCarboneSimplifiéeInitiale,
   fournisseurs,
   technologie,
   typesFournisseur,
@@ -40,6 +43,9 @@ export const EnregistrerChangementFournisseurForm: FC<
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementFournisseurFormKeys>
   >({});
+  const [évaluationCarboneSimplifiée, setÉvaluationCarboneSimplifiée] = useState(
+    évaluationCarboneSimplifiéeActuelle,
+  );
 
   return (
     <Form
@@ -78,16 +84,24 @@ export const EnregistrerChangementFournisseurForm: FC<
             className="md:max-w-64"
             nativeInputProps={{
               name: 'evaluationCarboneSimplifiee',
-              defaultValue: évaluationCarboneSimplifiée,
+              value: évaluationCarboneSimplifiée,
               type: 'number',
               inputMode: 'decimal',
               pattern: '[0-9]+([.][0-9]+)?',
               step: 'any',
               required: true,
               'aria-required': true,
+              onChange: (e) => setÉvaluationCarboneSimplifiée(Number(e.target.value)),
             }}
           />
         </div>
+
+        <AlerteChangementÉvaluationCarbone
+          nouvelleÉvaluationCarbone={évaluationCarboneSimplifiée}
+          évaluationCarboneInitiale={évaluationCarboneSimplifiéeInitiale}
+          technologie={technologie}
+        />
+
         <FournisseursField fournisseurs={fournisseurs} typesFournisseur={typesFournisseur} />
         <Input
           textArea

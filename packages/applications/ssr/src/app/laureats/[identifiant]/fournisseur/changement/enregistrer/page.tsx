@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { InvalidOperationError, mapToPlainObject } from '@potentiel-domain/core';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -13,6 +13,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { EnregistrerChangementFournisseurPage } from '@/components/pages/fournisseur/changement/enregistrer/EnregistrerChangementFournisseur.page';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+
+import { getTechnologie } from '../../_helpers/getTechnologie';
 
 export const metadata: Metadata = {
   title: 'Changer le fournisseur du projet - Potentiel',
@@ -22,6 +24,9 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+    const candidature = await getCandidature(identifiantProjet.formatter());
+    const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
+    const technologie = getTechnologie({ appelOffres, technologie: candidature.technologie });
 
     const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
       type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
@@ -34,18 +39,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const technologie = await getTechnologie(identifiantProjet);
-
-    if (technologie === 'N/A') {
-      throw new InvalidOperationError(`Le type de technologie de ce projet est inconnu`);
-    }
-
-    if (technologie === 'hydraulique') {
-      throw new InvalidOperationError(
-        `Le type de technologie de ce projet ne permet pas un changement de fournisseur`,
-      );
-    }
-
     return (
       <EnregistrerChangementFournisseurPage
         identifiantProjet={mapToPlainObject(fournisseur.identifiantProjet)}
@@ -56,19 +49,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
             ? Lauréat.Fournisseur.TypeFournisseur.typesFournisseurEolien
             : Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV
         }
+        évaluationCarboneSimplifiéeInitiale={candidature.evaluationCarboneSimplifiée}
         technologie={technologie}
       />
     );
   });
 }
-
-const getTechnologie = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
-
-  if (appelOffres.technologie) {
-    return appelOffres.technologie;
-  }
-  const { technologie } = await getCandidature(identifiantProjet.formatter());
-
-  return technologie.type;
-};
