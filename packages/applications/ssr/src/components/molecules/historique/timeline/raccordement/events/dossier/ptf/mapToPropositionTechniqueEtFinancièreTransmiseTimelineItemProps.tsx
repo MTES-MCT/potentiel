@@ -33,7 +33,7 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
     date: modification.createdAt as DateTime.RawType,
     title: (
       <div>
-        La proposition technique et financière a été transmise pour le dossier de raccordement
+        La proposition technique et financière a été transmise pour le dossier de raccordement{' '}
         <span className="font-semibold">{event.payload.référenceDossierRaccordement}</span>.
       </div>
     ),

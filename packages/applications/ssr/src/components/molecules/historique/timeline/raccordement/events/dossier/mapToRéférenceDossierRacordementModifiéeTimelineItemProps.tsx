@@ -32,10 +32,17 @@ export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
     title: (
       <div>
         La référence pour le dossier de raccordement{' '}
-        {event.payload.référenceDossierRaccordementActuelle} a été modifiée par{' '}
-        {event.payload.nouvelleRéférenceDossierRaccordement}.{' '}
+        <span className="font-semibold">{event.payload.référenceDossierRaccordementActuelle}</span>{' '}
+        a été changée
         {event.type === 'RéférenceDossierRacordementModifiée-V2' &&
-          `Cette modification a été réalisé par ${event.payload.modifiéePar}`}
+          ` par ${event.payload.modifiéePar}`}
+        .
+      </div>
+    ),
+    content: (
+      <div>
+        Nouvelle référence :{' '}
+        <span className="font-semibold">{event.payload.nouvelleRéférenceDossierRaccordement}</span>
       </div>
     ),
   };

@@ -34,7 +34,7 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
     date: dateQualification ?? (modification.createdAt as DateTime.RawType),
     title: (
       <div>
-        Un nouveau dossier de raccordement a été crée avec comme référenc
+        Un nouveau dossier de raccordement a été crée avec comme référence{' '}
         <span className="font-semibold">{référenceDossierRaccordement}</span>
       </div>
     ),

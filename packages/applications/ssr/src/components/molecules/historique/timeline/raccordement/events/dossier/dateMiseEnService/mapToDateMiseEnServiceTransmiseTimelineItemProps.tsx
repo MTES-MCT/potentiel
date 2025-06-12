@@ -30,7 +30,7 @@ export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
     date: modification.createdAt as DateTime.RawType,
     title: (
       <div>
-        La date de mise en service a été tranmise pour le dossier de raccordement
+        La date de mise en service a été tranmise pour le dossier de raccordement{' '}
         <span className="font-semibold">{référenceDossierRaccordement}</span>
       </div>
     ),
