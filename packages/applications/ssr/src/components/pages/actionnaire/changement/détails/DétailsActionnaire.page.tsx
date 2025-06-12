@@ -10,7 +10,6 @@ import { Historique } from '@potentiel-domain/historique';
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ActionnaireHistoryRecord } from '@/components/molecules/historique/timeline/actionnaire';
 
 import { HistoriqueTimeline } from '../../../../molecules/historique/HistoriqueTimeline';
 
@@ -26,7 +25,7 @@ export type DétailsActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<ActionnaireHistoryRecord>>;
+  historique: PlainType<Historique.ListerHistoriqueActionnaireProjetReadModel['items']>;
   demandeEnCoursDate?: string;
 };
 

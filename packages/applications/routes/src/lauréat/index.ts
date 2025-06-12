@@ -7,3 +7,4 @@ export * as Lauréat from './lauréat.routes';
 export * as Puissance from './puissance.routes';
 export * as CahierDesCharges from './cahierDesCharges.routes';
 export * as Producteur from './producteur.routes';
+export * as Historique from './historique.routes';

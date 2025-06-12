@@ -16,7 +16,6 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { PuissanceHistoryRecord } from '@/components/pages/puissance/changement/détails/timeline';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 export const metadata: Metadata = {
@@ -65,13 +64,10 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const candidature = await getCandidature(identifiantProjet.formatter());
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<PuissanceHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Historique.ListerHistoriquePuissanceProjetQuery>({
+        type: 'Historique.Query.ListerHistoriquePuissanceProjet',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
-          category: 'puissance',
         },
       });
 

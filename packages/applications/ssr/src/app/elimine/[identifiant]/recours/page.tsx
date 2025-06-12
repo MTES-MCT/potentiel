@@ -17,7 +17,6 @@ import {
   AvailableRecoursAction,
   DétailsRecoursPage,
 } from '@/components/pages/recours/détails/DétailsRecours.page';
-import { RecoursHistoryRecord } from '@/components/molecules/historique/timeline/recours';
 
 import { getCandidature } from '../../../candidatures/_helpers/getCandidature';
 
@@ -56,13 +55,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<RecoursHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Historique.ListerHistoriqueRecoursProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueRecoursProjet',
         data: {
           identifiantProjet,
-          category: 'recours',
         },
       });
 
@@ -74,7 +70,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             role: utilisateur.role.nom,
             statut: recours.statut.value,
           })}
-          historique={mapToPlainObject(historique)}
+          historique={mapToPlainObject(historique.items)}
         />
       );
     }),

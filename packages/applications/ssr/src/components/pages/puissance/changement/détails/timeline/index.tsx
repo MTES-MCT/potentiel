@@ -1,9 +1,6 @@
 import { match } from 'ts-pattern';
 import { FC } from 'react';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { PlainType } from '@potentiel-domain/core';
 import { Historique } from '@potentiel-domain/historique';
 
@@ -21,7 +18,7 @@ import { mapToChangementPuissanceAccordéTimelineItemProps } from './mapToChange
 import { mapToChangementPuissanceRejetéTimelineItemProps } from './mapToChangementPuissanceRejetéTimelineItemProps';
 
 export type HistoriquePuissanceTimelineProps = {
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<PuissanceHistoryRecord>>;
+  historique: PlainType<Historique.ListerHistoriquePuissanceProjetReadModel>;
   unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
 };
 export const HistoriquePuissanceTimeline: FC<HistoriquePuissanceTimelineProps> = ({
@@ -33,16 +30,8 @@ export const HistoriquePuissanceTimeline: FC<HistoriquePuissanceTimelineProps> =
   />
 );
 
-export type PuissanceHistoryRecord = HistoryRecord<
-  'puissance',
-  Lauréat.Puissance.PuissanceEvent['type'],
-  Lauréat.Puissance.PuissanceEvent['payload']
-> & {
-  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
-};
-
-const mapToPuissanceTimelineItemProps = (
-  record: PuissanceHistoryRecord,
+export const mapToPuissanceTimelineItemProps = (
+  record: Historique.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) =>
   match(record)

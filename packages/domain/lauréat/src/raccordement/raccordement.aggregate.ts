@@ -98,18 +98,18 @@ export type DeprecateEvent =
   | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
   | DemandeComplèteRaccordementModifiéeEventV1
   | DemandeComplèteRaccordementModifiéeEventV2
-  | PropositionTechniqueEtFinancièreModifiéeEventV1;
+  | PropositionTechniqueEtFinancièreModifiéeEventV1
+  | DateMiseEnServiceTransmiseV1Event
+  | RéférenceDossierRacordementModifiéeEventV1;
 
 export type RaccordementEvent =
   | DeprecateEvent
   | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
-  | DateMiseEnServiceTransmiseV1Event
   | DateMiseEnServiceTransmiseEvent
   | DateMiseEnServiceSuppriméeEvent
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
-  | RéférenceDossierRacordementModifiéeEventV1
   | PropositionTechniqueEtFinancièreModifiéeEvent
   | GestionnaireRéseauRaccordementModifiéEvent
   | GestionnaireRéseauInconnuAttribuéEvent

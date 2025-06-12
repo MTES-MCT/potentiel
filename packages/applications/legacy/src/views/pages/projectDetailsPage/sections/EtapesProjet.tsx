@@ -108,6 +108,11 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
         )}
       </ol>
     </aside>
+    <div>
+      <Link href={Routes.Historique.afficher(identifiantProjet)}>
+        Afficher l'historique complet du projet
+      </Link>
+    </div>
   </Section>
 );
 

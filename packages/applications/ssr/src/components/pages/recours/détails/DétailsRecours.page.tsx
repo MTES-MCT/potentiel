@@ -10,7 +10,6 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
-import { RecoursHistoryRecord } from '@/components/molecules/historique/timeline/recours';
 
 import { StatutRecoursBadge } from '../StatutRecoursBadge';
 
@@ -29,7 +28,7 @@ export type AvailableRecoursAction =
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
   recours: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<RecoursHistoryRecord>>;
+  historique: PlainType<Historique.ListerHistoriqueRecoursProjetReadModel['items']>;
   actions: ReadonlyArray<AvailableRecoursAction>;
 };
 

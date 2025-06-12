@@ -9,7 +9,6 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { AbandonHistoryRecord } from '@/components/molecules/historique/timeline/abandon';
 import {
   DétailsAbandonPage,
   DétailsAbandonPageProps,
@@ -64,13 +63,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<AbandonHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Historique.ListerHistoriqueAbandonProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueAbandonProjet',
         data: {
           identifiantProjet,
-          category: 'abandon',
         },
       });
 
@@ -99,7 +95,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             statut: abandon.statut,
           })}
           projetsÀSélectionner={projetsÀSélectionner}
-          historique={mapToPlainObject(historique)}
+          historique={mapToPlainObject(historique.items)}
         />
       );
     }),

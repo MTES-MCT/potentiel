@@ -16,7 +16,6 @@ import {
   ChangementActionnaireActions,
   DétailsActionnairePage,
 } from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
-import { ActionnaireHistoryRecord } from '@/components/molecules/historique/timeline/actionnaire';
 
 export const metadata: Metadata = {
   title: "Détail de l'actionnariat du projet - Potentiel",
@@ -62,13 +61,10 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<ActionnaireHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Historique.ListerHistoriqueActionnaireProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueActionnaireProjet',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
-          category: 'actionnaire',
         },
       });
 
@@ -77,7 +73,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           actions={mapToActions(changement.demande.statut, utilisateur.role)}
-          historique={mapToPlainObject(historique)}
+          historique={mapToPlainObject(historique.items)}
           demandeEnCoursDate={
             actionnaire.dateDemandeEnCours ? actionnaire.dateDemandeEnCours.formatter() : undefined
           }

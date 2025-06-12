@@ -108,7 +108,9 @@ describe('listHistoryProjection', () => {
     await executeQuery('delete from domain_views.history');
   });
 
-  const mapToListResultItems = (expectedData: Array<HistoryRecord>): ListHistoryResult => {
+  const mapToListResultItems = (
+    expectedData: Array<HistoryRecord>,
+  ): ListHistoryResult<HistoryRecord> => {
     const items = expectedData.sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     );

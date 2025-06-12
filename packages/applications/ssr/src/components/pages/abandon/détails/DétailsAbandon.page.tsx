@@ -12,7 +12,6 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
-import { AbandonHistoryRecord } from '@/components/molecules/historique/timeline/abandon';
 
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
@@ -47,7 +46,7 @@ export type DétailsAbandonPageProps = {
   abandon: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   informations: Array<AvailableInformation>;
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<AbandonHistoryRecord>>;
+  historique: PlainType<Historique.ListerHistoriqueAbandonProjetReadModel['items']>;
   actions: AvailableActions;
 };
 
