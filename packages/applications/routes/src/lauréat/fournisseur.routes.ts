@@ -7,5 +7,3 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/fournisseur/changement/${enregistréLe}`,
   lister: `/laureats/changements/fournisseur`,
 };
-export const modifier = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/fournisseur/modifier`;

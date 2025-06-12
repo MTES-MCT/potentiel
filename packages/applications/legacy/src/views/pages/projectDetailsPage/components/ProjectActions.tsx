@@ -22,6 +22,7 @@ import {
   GetActionnaireForProjectPage,
   GetReprésentantLégalForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
+import { GetFournisseurForProjectPage } from 'src/controllers/project/getProjectPage/_utils/getFournisseur';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
@@ -84,6 +85,7 @@ const PorteurProjetActions = ({
   actionnaireAffichage,
   puissanceAffichage,
   producteurAffichage,
+  fournisseurAffichage,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
@@ -110,12 +112,14 @@ const PorteurProjetActions = ({
                 <span>{producteurAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={Routes.Fournisseur.changement.enregistrer(identifiantProjet)}
-              disabled={demandesDisabled}
-            >
-              <span>Changer de fournisseur</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
+            {!!fournisseurAffichage && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={fournisseurAffichage.url}
+                disabled={demandesDisabled}
+              >
+                <span>{fournisseurAffichage.labelActions ?? fournisseurAffichage.label}</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
             {!!actionnaireAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={actionnaireAffichage.url}
@@ -190,6 +194,7 @@ type AdminActionsProps = {
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
   représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
+  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
 };
 
 const AdminActions = ({
@@ -296,6 +301,7 @@ export const ProjectActions = ({
   puissanceAffichage,
   actionnaireAffichage,
   producteurAffichage,
+  fournisseurAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -327,6 +333,7 @@ export const ProjectActions = ({
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           producteurAffichage={producteurAffichage}
+          fournisseurAffichage={fournisseurAffichage}
           identifiantProjet={identifiantProjet}
         />
       )}
