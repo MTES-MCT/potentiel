@@ -15,7 +15,7 @@ import {
 } from '@/components/pages/lauréat/historique/HistoriqueLauréat.page';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToProducteurTimelineItemProps } from '@/components/pages/producteur/changement/détails/timeline';
+import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToAbandonTimelineItemProps } from '@/utils/historique/mapToProps/abandon/mapToAbandonTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '@/utils/historique/mapToProps/achèvement/mapToAchèvementTimelineItemProps';
