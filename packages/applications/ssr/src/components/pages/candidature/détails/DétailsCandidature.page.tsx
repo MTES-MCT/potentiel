@@ -38,7 +38,11 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
       banner={
         <ProjetBannerTemplate
           identifiantProjet={identifiantProjet}
-          href={Routes.Projet.details(identifiantProjet.formatter())}
+          href={
+            candidature.notification
+              ? Routes.Projet.details(identifiantProjet.formatter())
+              : undefined
+          }
           nom={candidature.nomProjet}
           localité={candidature.localité}
           badge={
