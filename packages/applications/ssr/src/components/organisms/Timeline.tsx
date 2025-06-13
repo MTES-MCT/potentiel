@@ -36,6 +36,7 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
         key={`${item.title}-${item.date}`}
         content={item.content}
         date={item.date}
+        type={item.type}
         status={item.status}
         title={item.title}
       />
@@ -46,42 +47,47 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
 export type TimelineItemProps = {
   status?: 'error' | 'success' | 'warning' | 'info';
   title: ReactNode;
+  type?: string;
   content?: ReactNode;
   date: Iso8601DateTime | 'En attente';
 };
+const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, status }) => {
+  const isÉtapeInconnue = title === 'Étape inconnue';
 
-const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) => (
-  <MuiTimelineItem
-    sx={{
-      minHeight: '0',
-    }}
-  >
-    <TimelineOppositeContent className="w-">
-      <span className="font-bold">
-        {date === 'En attente' ? date : <FormattedDate date={date} />}
-      </span>
-    </TimelineOppositeContent>
-    <TimelineSeparator>
-      <TimelineDot
-        color={
-          status === 'error'
-            ? 'error'
-            : status === 'success'
-              ? 'success'
-              : status === 'warning'
-                ? 'warning'
-                : status === 'info'
-                  ? 'info'
-                  : 'grey'
-        }
-      />
-      <TimelineConnector />
-    </TimelineSeparator>
-    <TimelineContent>
-      <>
-        {title}
-        {content ? <div className="mt-2">{content}</div> : null}
-      </>
-    </TimelineContent>
-  </MuiTimelineItem>
-);
+  return (
+    <MuiTimelineItem
+      sx={{
+        minHeight: '0',
+      }}
+    >
+      <TimelineOppositeContent className="w-">
+        <span className="font-bold">
+          {date === 'En attente' ? date : <FormattedDate date={date} />}
+        </span>
+      </TimelineOppositeContent>
+      <TimelineSeparator>
+        <TimelineDot
+          color={
+            status === 'error' || isÉtapeInconnue
+              ? 'error'
+              : status === 'success'
+                ? 'success'
+                : status === 'warning'
+                  ? 'warning'
+                  : status === 'info'
+                    ? 'info'
+                    : 'grey'
+          }
+        />
+        <TimelineConnector />
+      </TimelineSeparator>
+      <TimelineContent color={isÉtapeInconnue ? 'error' : undefined}>
+        <>
+          {title}
+          {isÉtapeInconnue && type && ` (${type})`}
+          {content ? <div className="mt-2">{content}</div> : null}
+        </>
+      </TimelineContent>
+    </MuiTimelineItem>
+  );
+};
