@@ -1,8 +1,9 @@
 import { match } from 'ts-pattern';
 
 import { Historique } from '@potentiel-domain/historique';
-import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
+
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps = (
   dépôtValidé: Historique.ListerHistoriqueProjetReadModel['items'][number],
@@ -21,10 +22,7 @@ export const mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps =
     .otherwise(() => undefined);
 
   if (!event) {
-    return {
-      date: dépôtValidé.createdAt as DateTime.RawType,
-      title: 'Étape de garanties financière inconnue',
-    };
+    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(dépôtValidé);
   }
 
   const { validéLe, validéPar } = event.payload;

@@ -6,6 +6,7 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 export const mapToÉtapeInconnueOuIgnoréeTimelineItemProps = (
   record: HistoryRecord,
 ): TimelineItemProps => ({
-  title: 'Étape inconnue',
+  title: `Étape inconnue`,
+  type: record.type,
   date: record.createdAt as DateTime.RawType,
 });

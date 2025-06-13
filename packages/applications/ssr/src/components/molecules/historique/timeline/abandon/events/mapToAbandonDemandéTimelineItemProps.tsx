@@ -4,9 +4,10 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToAbandonDemandéTimelineItemProps = (
   abandonDemandé: Historique.ListerHistoriqueProjetReadModel['items'][number],
@@ -23,10 +24,7 @@ export const mapToAbandonDemandéTimelineItemProps = (
     .otherwise(() => undefined);
 
   if (!event) {
-    return {
-      date: abandonDemandé.createdAt as DateTime.RawType,
-      title: 'Étape abandon demandé inconnue',
-    };
+    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(abandonDemandé);
   }
 
   const { demandéLe, demandéPar, identifiantProjet, pièceJustificative } = event.payload;

@@ -2,7 +2,8 @@ import { match } from 'ts-pattern';
 
 import { Historique } from '@potentiel-domain/historique';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { DateTime } from '@potentiel-domain/common';
+
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps = (
   dépôtSupprimé: Historique.ListerHistoriqueProjetReadModel['items'][number],
@@ -21,10 +22,7 @@ export const mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps
     .otherwise(() => undefined);
 
   if (!event) {
-    return {
-      date: dépôtSupprimé.createdAt as DateTime.RawType,
-      title: 'Étape de garanties financière inconnue',
-    };
+    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(dépôtSupprimé);
   }
 
   const { suppriméLe, suppriméPar } = event.payload;
