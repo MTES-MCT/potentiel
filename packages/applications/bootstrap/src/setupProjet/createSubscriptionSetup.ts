@@ -27,7 +27,7 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
     listeners.push(unsubscribe);
   };
 
-  const clearListeners = async () => {
+  const clearSubscriptions = async () => {
     for (const unlisten of listeners) {
       await unlisten();
     }
@@ -35,6 +35,6 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
 
   return {
     setupSubscription,
-    clearListeners,
+    clearSubscriptions,
   };
 };

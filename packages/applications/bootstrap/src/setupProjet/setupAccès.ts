@@ -21,5 +21,5 @@ export const setupAccès: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Notification.Accès',
   });
 
-  return accès.clearListeners;
+  return accès.clearSubscriptions;
 };

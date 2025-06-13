@@ -54,5 +54,5 @@ export const setupAbandon: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Historique',
   });
 
-  return abandon.clearListeners;
+  return abandon.clearSubscriptions;
 };

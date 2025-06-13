@@ -54,5 +54,5 @@ export const setupPuissance: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Historique',
   });
 
-  return puissance.clearListeners;
+  return puissance.clearSubscriptions;
 };

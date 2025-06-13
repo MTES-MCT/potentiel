@@ -41,5 +41,5 @@ export const setupProducteur: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Historique',
   });
 
-  return producteur.clearListeners;
+  return producteur.clearSubscriptions;
 };

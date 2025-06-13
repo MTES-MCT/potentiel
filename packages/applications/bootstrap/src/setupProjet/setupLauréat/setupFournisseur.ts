@@ -29,5 +29,5 @@ export const setupFournisseur: SetupProjet = async () => {
     messageType: 'System.Projector.Historique',
   });
 
-  return fournisseur.clearListeners;
+  return fournisseur.clearSubscriptions;
 };

@@ -54,7 +54,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupAbandon = await setupAbandon(dependencies);
 
   return async () => {
-    await lauréat.clearListeners();
+    await lauréat.clearSubscriptions();
 
     await unsetupPuissance();
     await unsetupProducteur();

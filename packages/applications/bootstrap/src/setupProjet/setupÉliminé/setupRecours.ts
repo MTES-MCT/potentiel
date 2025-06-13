@@ -40,5 +40,5 @@ export const setupRecours: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Historique',
   });
 
-  return recours.clearListeners;
+  return recours.clearSubscriptions;
 };

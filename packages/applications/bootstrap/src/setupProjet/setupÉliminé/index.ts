@@ -18,7 +18,7 @@ export const setupÉliminé: SetupProjet = async (dependencies) => {
   const unsubscribeRecours = await setupRecours(dependencies);
 
   return async () => {
-    await éliminé.clearListeners();
+    await éliminé.clearSubscriptions();
     await unsubscribeRecours();
   };
 };

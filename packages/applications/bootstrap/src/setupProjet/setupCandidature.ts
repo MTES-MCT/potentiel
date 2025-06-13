@@ -53,5 +53,5 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
     messageType: 'System.Projector.Historique',
   });
 
-  return candidature.clearListeners;
+  return candidature.clearSubscriptions;
 };
