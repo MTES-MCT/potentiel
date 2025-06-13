@@ -30,8 +30,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   filters,
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
-    <div className="flex flex-col gap-4">
-      {actions?.includes('imprimer') && <ImprimerPage />}
+    <div className="flex flex-col gap-6">
       <Alert
         className="print:hidden"
         severity="warning"
@@ -40,7 +39,10 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
         pas encore présentes."
       />
 
-      <FiltersTagList filters={filters} />
+      <div className="flex print:hidden">
+        <FiltersTagList filters={filters} />
+        {actions?.includes('imprimer') && <ImprimerPage />}
+      </div>
 
       <div className="flex flex-row gap-4">
         {filters.length ? (
