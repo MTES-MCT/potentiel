@@ -17,6 +17,7 @@ import {
   AvailableRecoursAction,
   DétailsRecoursPage,
 } from '@/components/pages/recours/détails/DétailsRecours.page';
+import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
 
 import { getCandidature } from '../../../candidatures/_helpers/getCandidature';
 
@@ -70,7 +71,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             role: utilisateur.role.nom,
             statut: recours.statut.value,
           })}
-          historique={mapToPlainObject(historique.items)}
+          historique={historique.items.map(mapToRecoursTimelineItemProps)}
         />
       );
     }),

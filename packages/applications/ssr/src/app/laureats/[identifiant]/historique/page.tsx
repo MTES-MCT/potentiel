@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { match } from 'ts-pattern';
 
 import { Historique } from '@potentiel-domain/historique';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -14,6 +15,17 @@ import {
 } from '@/components/pages/lauréat/historique/HistoriqueLauréat.page';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur';
+import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { mapToAbandonTimelineItemProps } from '@/utils/historique/mapToProps/abandon/mapToAbandonTimelineItemProps';
+import { mapToAchèvementTimelineItemProps } from '@/utils/historique/mapToProps/achèvement/mapToAchèvementTimelineItemProps';
+import { mapToActionnaireTimelineItemProps } from '@/utils/historique/mapToProps/actionnaire/mapToActionnaireTimelineItemProps';
+import { mapToGarantiesFinancièresTimelineItemProps } from '@/utils/historique/mapToProps/garanties-financières/mapToGarantiesFinancièresTimelineItemProps';
+import { mapToLauréatTimelineItemProps } from '@/utils/historique/mapToProps/lauréat/mapToLauréatTimelineItemProps';
+import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProps/raccordement/mapToRaccordementTimelineItemProps';
+import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
+import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
+import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 
 const categoriesDisponibles = [
   'abandon',
@@ -60,7 +72,6 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       return (
         <HistoriqueLauréatPage
           identifiantProjet={identifiantProjet}
-          unitéPuissance={candidature.unitéPuissance.formatter()}
           actions={mapToActions(utilisateur.role)}
           filters={[
             {
@@ -74,7 +85,9 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           ]}
           historique={historique.items
             .filter((historique) => !historique.type.includes('Import'))
-            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())}
+            .map((item) => mapToTimelineItemProps(item, candidature.unitéPuissance.formatter()))
+            .filter((item) => item !== undefined)
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())}
         />
       );
     }),
@@ -90,3 +103,33 @@ const mapToActions = (rôle: Role.ValueType) => {
 
   return actions;
 };
+
+const mapToTimelineItemProps = (
+  readmodel: Historique.HistoriqueListItemReadModels,
+  unitéPuissance: string,
+) =>
+  match(readmodel)
+    .returnType<TimelineItemProps | undefined>()
+    .with(
+      {
+        category: 'abandon',
+      },
+      mapToAbandonTimelineItemProps,
+    )
+    .with(
+      {
+        category: 'recours',
+      },
+      mapToRecoursTimelineItemProps,
+    )
+    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
+    .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
+    .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
+    .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
+    .with({ category: 'producteur' }, mapToProducteurTimelineItemProps)
+    .with({ category: 'puissance' }, (readmodel) =>
+      mapToPuissanceTimelineItemProps(readmodel, unitéPuissance),
+    )
+    .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
+    .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
+    .exhaustive(() => undefined);

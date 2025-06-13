@@ -3,13 +3,12 @@ import { FC } from 'react';
 import { PlainType } from '@potentiel-domain/core';
 import { Éliminé } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Historique } from '@potentiel-domain/historique';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { StatutRecoursBadge } from '../StatutRecoursBadge';
 
@@ -28,7 +27,7 @@ export type AvailableRecoursAction =
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
   recours: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
-  historique: PlainType<Historique.ListerHistoriqueRecoursProjetReadModel['items']>;
+  historique: Array<TimelineItemProps>;
   actions: ReadonlyArray<AvailableRecoursAction>;
 };
 
@@ -67,7 +66,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
             </div>
             <div className="mb-4">
               <Heading2>Historique</Heading2>
-              <HistoriqueTimeline historique={historique} />
+              <Timeline items={historique} />
             </div>
           </div>
         ),

@@ -6,11 +6,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import {
-  HistoriqueProducteurTimeline,
-  HistoriqueProducteurTimelineProps,
-} from '@/components/pages/producteur/changement/détails/timeline';
 import { PageTemplate } from '@/components/templates/Page.template';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { DétailsChangementProducteur } from './DétailsChangementProducteur';
 
@@ -19,7 +16,7 @@ export type ChangementProducteurActions = 'enregistrer-changement';
 export type DétailsProducteurPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   changement: PlainType<Lauréat.Producteur.ConsulterChangementProducteurReadModel['changement']>;
-  historique: HistoriqueProducteurTimelineProps['historique'];
+  historique: Array<TimelineItemProps>;
 };
 
 export const DétailsProducteurPage: FC<DétailsProducteurPageProps> = ({
@@ -36,7 +33,7 @@ export const DétailsProducteurPage: FC<DétailsProducteurPageProps> = ({
       <DétailsChangementProducteur changement={changement} />
       <div className="mb-4">
         <Heading2>Historique</Heading2>
-        <HistoriqueProducteurTimeline historique={historique} />
+        <Timeline items={historique} />
       </div>
     </div>
   </PageTemplate>

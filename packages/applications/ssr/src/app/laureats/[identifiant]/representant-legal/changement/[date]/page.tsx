@@ -16,6 +16,7 @@ import {
   AvailableChangementReprésentantLégalAction,
   DétailsChangementReprésentantLégalPage,
 } from '@/components/pages/représentant-légal/changement/détails/DétailsChangementReprésentantLégal.page';
+import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
 
 export const metadata: Metadata = {
   title: 'Détail du représentant légal du projet - Potentiel',
@@ -79,7 +80,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
           actions={mapToActions(utilisateur.role, changement.demande.statut)}
-          historique={mapToPlainObject(historique.items)}
+          historique={historique.items.map(mapToReprésentantLégalTimelineItemProps)}
           dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
         />
       );
