@@ -1,5 +1,8 @@
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 
+import { registerConsulterChangementFournisseurQuery } from './changement/consulter/consulterChangementFournisseur.query';
+import { registerEnregistrerChangementFournisseurCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
+import { registerEnregistrerChangementFournisseurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import {
   ConsulterFournisseurDependencies,
   registerConsulterFournisseurQuery,
@@ -15,9 +18,13 @@ export type FournisseurCommandDependencies = {
 
 export const registerFournisseurQueries = (dependencies: FournisseurQueryDependencies) => {
   registerConsulterFournisseurQuery(dependencies);
+  registerConsulterChangementFournisseurQuery(dependencies);
 };
 
 export const registerFournisseurUseCases = (dependencies: FournisseurCommandDependencies) => {
   registerModifierÉvaluationCarboneUseCase();
   registerModifierÉvaluationCarboneCommand(dependencies.getProjetAggregateRoot);
+
+  registerEnregistrerChangementFournisseurCommand(dependencies.getProjetAggregateRoot);
+  registerEnregistrerChangementFournisseurUseCase();
 };

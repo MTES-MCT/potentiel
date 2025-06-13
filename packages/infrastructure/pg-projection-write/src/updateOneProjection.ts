@@ -46,7 +46,11 @@ export const getUpdateClause = <TProjection extends Entity>(
     'value',
   );
   const values = Object.values(flatReadModel).map((value) =>
-    typeof value === 'string' ? toJsonbString(value) : value,
+    typeof value === 'object'
+      ? JSON.stringify(value)
+      : typeof value === 'string'
+        ? toJsonbString(value)
+        : value,
   );
   return [`update domain_views.projection p1 set value=${jsonb_set}`, values];
 };
