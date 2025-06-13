@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
@@ -14,17 +15,37 @@ import {
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-type PageProps = IdentifiantParameter;
+const categoriesDisponibles = [
+  'abandon',
+  'achevement',
+  'actionnaire',
+  'garanties-financieres',
+  'lauréat',
+  'producteur',
+  'puissance',
+  'recours',
+  'représentant-légal',
+  'raccordement',
+] as const;
+
+type PageProps = IdentifiantParameter & {
+  searchParams?: Record<string, string>;
+};
 
 export const metadata: Metadata = {
   title: 'Historique du projet',
   description: 'Historique du projet',
 };
 
-export default async function Page({ params: { identifiant } }: PageProps) {
+const paramsSchema = z.object({
+  categorie: z.enum(categoriesDisponibles).optional(),
+});
+
+export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
+      const { categorie } = paramsSchema.parse(searchParams);
 
       const candidature = await getCandidature(identifiantProjet);
 
@@ -32,6 +53,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         type: 'Historique.Query.ListerHistoriqueProjet',
         data: {
           identifiantProjet,
+          category: categorie,
         },
       });
 
@@ -40,6 +62,16 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           identifiantProjet={identifiantProjet}
           unitéPuissance={candidature.unitéPuissance.formatter()}
           actions={mapToActions(utilisateur.role)}
+          filters={[
+            {
+              label: 'Categorie',
+              searchParamKey: 'categorie',
+              options: categoriesDisponibles.map((categorie) => ({
+                label: categorie.replace('-', ' '),
+                value: categorie,
+              })),
+            },
+          ]}
           historique={historique.items
             .filter((historique) => !historique.type.includes('Import'))
             .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())}
