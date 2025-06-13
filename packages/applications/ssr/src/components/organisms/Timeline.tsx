@@ -31,16 +31,23 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
     }}
     className={className ?? ''}
   >
-    {items.map((item) => (
-      <TimelineItem
-        key={`${item.title}-${item.date}`}
-        content={item.content}
-        date={item.date}
-        type={item.type}
-        status={item.status}
-        title={item.title}
-      />
-    ))}
+    {items
+      .filter((item) => {
+        if (item.title !== 'Étape inconnue') {
+          return true;
+        }
+        return process.env.APPLICATION_STAGE !== 'production';
+      })
+      .map((item) => (
+        <TimelineItem
+          key={`${item.title}-${item.date}`}
+          content={item.content}
+          date={item.date}
+          type={item.type}
+          status={item.status}
+          title={item.title}
+        />
+      ))}
   </MuiTimeline>
 );
 
