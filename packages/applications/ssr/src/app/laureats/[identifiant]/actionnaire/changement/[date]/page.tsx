@@ -16,6 +16,7 @@ import {
   ChangementActionnaireActions,
   DétailsActionnairePage,
 } from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
+import { mapToActionnaireTimelineItemProps } from '@/utils/historique/mapToProps/actionnaire/mapToActionnaireTimelineItemProps';
 
 export const metadata: Metadata = {
   title: "Détail de l'actionnariat du projet - Potentiel",
@@ -73,7 +74,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           actions={mapToActions(changement.demande.statut, utilisateur.role)}
-          historique={mapToPlainObject(historique.items)}
+          historique={historique.items.map(mapToActionnaireTimelineItemProps)}
           demandeEnCoursDate={
             actionnaire.dateDemandeEnCours ? actionnaire.dateDemandeEnCours.formatter() : undefined
           }

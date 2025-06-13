@@ -5,13 +5,11 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
-import { Historique } from '@potentiel-domain/historique';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
-import { HistoriqueTimeline } from '../../../../molecules/historique/HistoriqueTimeline';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { AccorderChangementActionnaire } from './accorder/AccorderChangementActionnaire.form';
 import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
@@ -25,7 +23,7 @@ export type DétailsActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
-  historique: PlainType<Historique.ListerHistoriqueActionnaireProjetReadModel['items']>;
+  historique: Array<TimelineItemProps>;
   demandeEnCoursDate?: string;
 };
 
@@ -52,7 +50,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
           <DétailsChangementActionnaire demande={demande} />
           <div>
             <Heading2>Historique</Heading2>
-            <HistoriqueTimeline historique={historique} />
+            <Timeline items={historique} />
           </div>
         </div>
       ),
