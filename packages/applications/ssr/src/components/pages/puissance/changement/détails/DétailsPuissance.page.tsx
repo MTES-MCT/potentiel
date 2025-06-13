@@ -9,10 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import {
-  HistoriquePuissanceTimeline,
-  HistoriquePuissanceTimelineProps,
-} from '@/components/pages/puissance/changement/détails/timeline';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';
@@ -29,7 +26,7 @@ export type DétailsPuissancePageProps = {
   unitéPuissance: string;
   actions: Array<ChangementPuissanceActions>;
   demandeEnCoursDate?: string;
-  historique: HistoriquePuissanceTimelineProps['historique'];
+  historique: Array<TimelineItemProps>;
 };
 
 export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
@@ -61,7 +58,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
           />
           <div className="mb-4">
             <Heading2>Historique</Heading2>
-            <HistoriquePuissanceTimeline historique={historique} unitéPuissance={unitéPuissance} />
+            <Timeline items={historique} />
           </div>
         </div>
       ),

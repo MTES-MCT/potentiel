@@ -5,11 +5,9 @@ import { Historique } from '@potentiel-domain/historique';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { HistoriquePuissanceTimelineProps } from '.';
-
 export const mapToChangementPuissanceAccordéTimelineItemProps = (
   record: Historique.HistoriquePuissanceProjetListItemReadModel,
-  unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
+  unitéPuissance: string,
 ) => {
   const {
     accordéLe,

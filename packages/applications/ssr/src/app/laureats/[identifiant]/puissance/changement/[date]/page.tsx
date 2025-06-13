@@ -17,6 +17,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
+import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -77,7 +78,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           demande={mapToPlainObject(changement.demande)}
           puissanceInitiale={candidature.puissanceProductionAnnuelle}
           unitéPuissance={candidature.unitéPuissance.formatter()}
-          historique={mapToPlainObject(historique)}
+          historique={historique.items.map((item) =>
+            mapToPuissanceTimelineItemProps(item, candidature.unitéPuissance.formatter()),
+          )}
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,

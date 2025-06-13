@@ -16,7 +16,6 @@ import {
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '@/components/pages/producteur/changement/détails/timeline';
-import { mapToPuissanceTimelineItemProps } from '@/components/pages/puissance/changement/détails/timeline';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToAbandonTimelineItemProps } from '@/utils/historique/mapToProps/abandon/mapToAbandonTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '@/utils/historique/mapToProps/achèvement/mapToAchèvementTimelineItemProps';
@@ -26,6 +25,7 @@ import { mapToLauréatTimelineItemProps } from '@/utils/historique/mapToProps/la
 import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProps/raccordement/mapToRaccordementTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
+import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 
 const categoriesDisponibles = [
   'abandon',
