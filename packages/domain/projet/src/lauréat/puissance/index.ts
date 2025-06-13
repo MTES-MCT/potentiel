@@ -73,6 +73,3 @@ export * as StatutChangementPuissance from './valueType/statutChangementPuissanc
 export * as TypeDocumentPuissance from './valueType/typeDocumentPuissance.valueType';
 export * as RatioChangementPuissance from './valueType/ratioChangementPuissance.valueType';
 export * as AutoritéCompétente from './valueType/autoritéCompétente.valueType';
-
-// Saga
-export * as PuissanceSaga from './saga';

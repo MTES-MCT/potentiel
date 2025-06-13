@@ -12,32 +12,7 @@ export const setupHistorique = async () => {
 
   HistoriqueProjector.register();
 
-  const unsubscribeAbandonHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'abandon',
-    });
-
-  const unsubscribeRecoursHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'recours',
-    });
-
+  // TODO move dans setupProjet/setupLauréat/setupActionnaire une fois le domaine migré
   const unsubscribeActionnaireHistoriqueProjector =
     await subscribe<HistoriqueProjector.SubscriptionEvent>({
       name: 'history',
@@ -51,6 +26,7 @@ export const setupHistorique = async () => {
       streamCategory: 'actionnaire',
     });
 
+  // TODO move dans setupProjet/setupLauréat/setupReprésentantLégal une fois le domaine migré
   const unsubscribeReprésentantLégalHistoriqueProjector =
     await subscribe<HistoriqueProjector.SubscriptionEvent>({
       name: 'history',
@@ -64,32 +40,7 @@ export const setupHistorique = async () => {
       streamCategory: 'représentant-légal',
     });
 
-  const unsubscribePuissanceHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'puissance',
-    });
-
-  const unsubscribeProducteurHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'producteur',
-    });
-
+  // TODO move dans setupProjet/setupLauréat/setupGarantiesFinancières une fois le domaine migré
   const unsubscribeGarantiesFinancièresHistoriqueProjector =
     await subscribe<HistoriqueProjector.SubscriptionEvent>({
       name: 'history',
@@ -103,6 +54,7 @@ export const setupHistorique = async () => {
       streamCategory: 'garanties-financieres',
     });
 
+  // TODO move dans setupProjet/setupLauréat/setupRaccordement une fois le domaine migré
   const unsubscribeRaccordementHistoriqueProjector =
     await subscribe<HistoriqueProjector.SubscriptionEvent>({
       name: 'history',
@@ -116,56 +68,10 @@ export const setupHistorique = async () => {
       streamCategory: 'raccordement',
     });
 
-  const unsubscribeAchèvementHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'achevement',
-    });
-
-  const unsubscribeLauréatHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'lauréat',
-    });
-
-  const unsubscribeCandidatureHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'candidature',
-    });
-
   return async () => {
-    await unsubscribeAbandonHistoriqueProjector();
-    await unsubscribeRecoursHistoriqueProjector();
     await unsubscribeActionnaireHistoriqueProjector();
     await unsubscribeReprésentantLégalHistoriqueProjector();
-    await unsubscribePuissanceHistoriqueProjector();
-    await unsubscribeProducteurHistoriqueProjector();
     await unsubscribeGarantiesFinancièresHistoriqueProjector();
     await unsubscribeRaccordementHistoriqueProjector();
-    await unsubscribeAchèvementHistoriqueProjector();
-    await unsubscribeLauréatHistoriqueProjector();
-    await unsubscribeCandidatureHistoriqueProjector();
   };
 };

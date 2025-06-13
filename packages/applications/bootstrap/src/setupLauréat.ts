@@ -15,23 +15,15 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import {
-  AbandonNotification,
-  AchèvementNotification,
   ActionnaireNotification,
   GarantiesFinancièresNotification,
-  LauréatNotification,
-  ProducteurNotification,
   ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
 import {
-  AbandonProjector,
-  AchèvementProjector,
   GarantiesFinancièreProjector,
   ReprésentantLégalProjector,
   ActionnaireProjector,
-  ProducteurProjector,
   RaccordementProjector,
-  FournisseurProjector,
 } from '@potentiel-applications/projectors';
 import {
   DocumentAdapter,
@@ -64,22 +56,14 @@ export const setupLauréat = async ({
   });
 
   // Projectors
-  AbandonProjector.register();
   GarantiesFinancièreProjector.register();
-  AchèvementProjector.register();
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
-  ProducteurProjector.register();
-  FournisseurProjector.register();
 
   // Notifications
-  AbandonNotification.register({ sendEmail });
   GarantiesFinancièresNotification.register({ sendEmail });
-  AchèvementNotification.register({ sendEmail });
   ReprésentantLégalNotification.register({ sendEmail });
   ActionnaireNotification.register({ sendEmail });
-  LauréatNotification.register({ sendEmail });
-  ProducteurNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
@@ -88,18 +72,6 @@ export const setupLauréat = async ({
   Actionnaire.ActionnaireSaga.register();
   Raccordement.RaccordementSaga.register({
     récupérerGRDParVille,
-  });
-
-  const unsubscribeLauréatNotifications = await subscribe<LauréatNotification.SubscriptionEvent>({
-    name: 'notifications',
-    streamCategory: 'lauréat',
-    eventType: ['CahierDesChargesChoisi-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<LauréatNotification.Execute>({
-        type: 'System.Notification.Lauréat',
-        data: event,
-      });
-    },
   });
 
   const unsubscribeActionnaireProjector = await subscribe<ActionnaireProjector.SubscriptionEvent>({
@@ -122,51 +94,6 @@ export const setupLauréat = async ({
         data: event,
       });
     },
-  });
-
-  const unsubscribeAbandonNotification = await subscribe<AbandonNotification.SubscriptionEvent>({
-    name: 'notifications',
-    streamCategory: 'abandon',
-    eventType: [
-      'AbandonDemandé-V1',
-      'AbandonDemandé-V2',
-      'AbandonAccordé-V1',
-      'AbandonAnnulé-V1',
-      'AbandonConfirmé-V1',
-      'AbandonRejeté-V1',
-      'ConfirmationAbandonDemandée-V1',
-      'PreuveRecandidatureDemandée-V1',
-    ],
-    eventHandler: async (event) => {
-      await mediator.publish<AbandonNotification.Execute>({
-        type: 'System.Notification.Lauréat.Abandon',
-        data: event,
-      });
-    },
-  });
-
-  const unsubscribeAbandonProjector = await subscribe<AbandonProjector.SubscriptionEvent>({
-    name: 'projector',
-    eventType: [
-      'AbandonDemandé-V1',
-      'AbandonDemandé-V2',
-      'AbandonAccordé-V1',
-      'AbandonAnnulé-V1',
-      'AbandonConfirmé-V1',
-      'AbandonPasséEnInstruction-V1',
-      'AbandonRejeté-V1',
-      'PreuveRecandidatureTransmise-V1',
-      'PreuveRecandidatureDemandée-V1',
-      'ConfirmationAbandonDemandée-V1',
-      'RebuildTriggered',
-    ],
-    eventHandler: async (event) => {
-      await mediator.send<AbandonProjector.Execute>({
-        type: 'System.Projector.Lauréat.Abandon',
-        data: event,
-      });
-    },
-    streamCategory: 'abandon',
   });
 
   const unsubscribeGarantiesFinancièresProjector =
@@ -202,22 +129,6 @@ export const setupLauréat = async ({
       streamCategory: 'garanties-financieres',
     });
 
-  const unsubscribeAchèvementProjector = await subscribe<AchèvementProjector.SubscriptionEvent>({
-    name: 'projector',
-    eventType: [
-      'AttestationConformitéTransmise-V1',
-      'AttestationConformitéModifiée-V1',
-      'RebuildTriggered',
-    ],
-    eventHandler: async (event) => {
-      await mediator.send<AchèvementProjector.Execute>({
-        type: 'System.Projector.Lauréat.Achèvement',
-        data: event,
-      });
-    },
-    streamCategory: 'achevement',
-  });
-
   const unsubscribeGarantiesFinancièresNotification =
     await subscribe<GarantiesFinancièresNotification.SubscriptionEvent>({
       name: 'notifications',
@@ -238,19 +149,6 @@ export const setupLauréat = async ({
       eventHandler: async (event) => {
         await mediator.publish<GarantiesFinancièresNotification.Execute>({
           type: 'System.Notification.Lauréat.GarantiesFinancières',
-          data: event,
-        });
-      },
-    });
-
-  const unsubscribeAchèvementNotification =
-    await subscribe<AchèvementNotification.SubscriptionEvent>({
-      name: 'notifications',
-      streamCategory: 'achevement',
-      eventType: ['AttestationConformitéTransmise-V1'],
-      eventHandler: async (event) => {
-        await mediator.publish<AchèvementNotification.Execute>({
-          type: 'System.Notification.Lauréat.Achèvement.AttestationConformité',
           data: event,
         });
       },
@@ -504,17 +402,12 @@ export const setupLauréat = async ({
 
   return async () => {
     // projectors
-    await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
-    await unsubscribeAchèvementProjector();
     await unsubscribeReprésentantLégalProjector();
     await unsubscribeActionnaireProjector();
     await unsubscribeRaccordementProjector();
     // notifications
-    await unsubscribeLauréatNotifications();
-    await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();
-    await unsubscribeAchèvementNotification();
     await unsubscribeReprésentantLégalNotification();
     await unsubscribeActionnaireNotification();
     // sagas
