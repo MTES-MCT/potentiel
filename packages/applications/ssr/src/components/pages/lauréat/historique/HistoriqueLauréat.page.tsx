@@ -1,30 +1,24 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-
 import { PageTemplate } from '@/components/templates/Page.template';
-import {
-  HistoriqueTimeline,
-  HistoriqueTimelineProps,
-} from '@/components/molecules/historique/HistoriqueTimeline';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ImprimerPage } from '@/components/atoms/ImprimerPage';
 import { ListFilters } from '@/components/molecules/ListFilters';
 import { FiltersTagListProps, FiltersTagList } from '@/components/molecules/FiltersTagList';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 export type HistoriqueLauréatAction = 'imprimer';
 
 export type HistoriqueLauréatPageProps = {
   identifiantProjet: string;
-  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
   actions?: Array<HistoriqueLauréatAction>;
   filters: FiltersTagListProps['filters'];
-} & HistoriqueTimelineProps;
+  historique: Array<TimelineItemProps>;
+};
 
 export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   identifiantProjet,
-  unitéPuissance,
   actions,
   historique,
   filters,
@@ -50,11 +44,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
             <ListFilters filters={filters} />
           </div>
         ) : null}
-        {historique.length > 0 ? (
-          <HistoriqueTimeline historique={historique} unitéPuissance={unitéPuissance} />
-        ) : (
-          <>Aucun élément à afficher</>
-        )}
+        {historique.length > 0 ? <Timeline items={historique} /> : <>Aucun élément à afficher</>}
       </div>
     </div>
   </PageTemplate>

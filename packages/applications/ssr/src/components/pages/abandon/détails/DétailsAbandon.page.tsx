@@ -3,7 +3,6 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { PlainType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
@@ -11,7 +10,7 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
@@ -46,7 +45,7 @@ export type DétailsAbandonPageProps = {
   abandon: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   informations: Array<AvailableInformation>;
-  historique: PlainType<Historique.ListerHistoriqueAbandonProjetReadModel['items']>;
+  historique: Array<TimelineItemProps>;
   actions: AvailableActions;
 };
 
@@ -94,7 +93,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             </div>
             <div className="mb-4">
               <Heading2>Historique</Heading2>
-              <HistoriqueTimeline historique={historique} />
+              <Timeline items={historique} />
             </div>
           </div>
         ),
