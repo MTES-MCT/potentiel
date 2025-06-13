@@ -25,6 +25,7 @@ const categoriesDisponibles = [
   'puissance',
   'recours',
   'représentant-légal',
+  'raccordement',
 ] as const;
 
 type PageProps = IdentifiantParameter & {
@@ -66,7 +67,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
               label: 'Categorie',
               searchParamKey: 'categorie',
               options: categoriesDisponibles.map((categorie) => ({
-                label: categorie,
+                label: categorie.replace('-', ' '),
                 value: categorie,
               })),
             },
