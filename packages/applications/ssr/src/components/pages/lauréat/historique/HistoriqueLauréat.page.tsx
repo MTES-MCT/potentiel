@@ -33,6 +33,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
     <div className="flex flex-col gap-4">
       {actions?.includes('imprimer') && <ImprimerPage />}
       <Alert
+        className="print:hidden"
         severity="warning"
         title="Attention"
         description="Les informations à propos des modifications de fournisseur et des demandes de délai ne sont
@@ -42,7 +43,11 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
       <FiltersTagList filters={filters} />
 
       <div className="flex flex-row gap-4">
-        {filters.length ? <ListFilters filters={filters} /> : null}
+        {filters.length ? (
+          <div className="print:hidden">
+            <ListFilters filters={filters} />
+          </div>
+        ) : null}
         {historique.length > 0 ? (
           <HistoriqueTimeline historique={historique} unitéPuissance={unitéPuissance} />
         ) : (
