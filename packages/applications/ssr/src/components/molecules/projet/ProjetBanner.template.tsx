@@ -1,5 +1,3 @@
-'use server';
-
 import React, { FC } from 'react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
