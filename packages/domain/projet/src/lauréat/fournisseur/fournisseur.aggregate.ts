@@ -170,6 +170,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     }
   }
 
+  /** Vérifie que la liste des fournisseurs contient une modification */
   private vérifierFournisseurs(
     fournisseurs: Array<{
       typeFournisseur: TypeFournisseur.ValueType;
@@ -179,14 +180,13 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     if (fournisseurs.length !== this.#fournisseurs.length) {
       return;
     }
-    for (const fournisseur of fournisseurs) {
-      if (
-        !this.#fournisseurs.find(
-          (f) =>
-            f.nomDuFabricant === fournisseur.nomDuFabricant &&
-            f.typeFournisseur.estÉgaleÀ(fournisseur.typeFournisseur),
-        )
-      ) {
+    for (let i = 0; i < fournisseurs.length; i++) {
+      const fournisseurActuel = this.#fournisseurs[i];
+      const fournisseurModifié = fournisseurs[i];
+      if (fournisseurActuel.nomDuFabricant !== fournisseurModifié.nomDuFabricant) {
+        return;
+      }
+      if (!fournisseurActuel.typeFournisseur.estÉgaleÀ(fournisseurModifié.typeFournisseur)) {
         return;
       }
     }
