@@ -1,5 +1,9 @@
 import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import {
+  findProjection,
+  listHistoryProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projection-read';
 import {
   ProjetAdapter,
   DélaiAdapter,
@@ -22,6 +26,7 @@ export const setupProjet: SetupProjet = async (dependencies) => {
   registerProjetQueries({
     find: findProjection,
     list: listProjection,
+    listHistory: listHistoryProjection,
     getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,

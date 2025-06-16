@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+
+import { Producteur } from '../..';
 
 export type HistoriqueProducteurProjetListItemReadModel = HistoryRecord<
   'producteur',
-  Lauréat.Producteur.ProducteurEvent['type'],
-  Lauréat.Producteur.ProducteurEvent['payload']
+  Producteur.ProducteurEvent['type'],
+  Producteur.ProducteurEvent['payload']
 >;
 
 export type ListerHistoriqueProducteurProjetReadModel = {

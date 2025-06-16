@@ -14,12 +14,17 @@ import {
   ConsulterProducteurDependencies,
   registerConsulterProducteurQuery,
 } from './consulter/consulterProducteur.query';
+import {
+  ListerHistoriqueProducteurProjetDependencies,
+  registerListerHistoriqueProducteurProjetQuery,
+} from './listerHistorique/listerHistoriqueProducteurProjet.query';
 import { registerModifierProducteurCommand } from './modifier/modifierProducteur.command';
 import { registerModifierProducteurUseCase } from './modifier/modifierProducteur.usecase';
 
 export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
   ConsulterChangementProducteurDependencies &
-  ListerChangementProducteurDependencies;
+  ListerChangementProducteurDependencies &
+  ListerHistoriqueProducteurProjetDependencies;
 
 export type ProducteurCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -36,4 +41,5 @@ export const registerProducteurQueries = (dependencies: ProducteurQueryDependenc
   registerConsulterProducteurQuery(dependencies);
   registerConsulterChangementProducteurQuery(dependencies);
   registerListerChangementProducteurQuery(dependencies);
+  registerListerHistoriqueProducteurProjetQuery(dependencies);
 };

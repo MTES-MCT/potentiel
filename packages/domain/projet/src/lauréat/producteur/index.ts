@@ -11,18 +11,25 @@ import {
   ConsulterProducteurQuery,
   ConsulterProducteurReadModel,
 } from './consulter/consulterProducteur.query';
+import {
+  HistoriqueProducteurProjetListItemReadModel,
+  ListerHistoriqueProducteurProjetQuery,
+  ListerHistoriqueProducteurProjetReadModel,
+} from './listerHistorique/listerHistoriqueProducteurProjet.query';
 import { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase';
 
 // Query
 export type ProducteurQuery =
   | ConsulterProducteurQuery
   | ConsulterChangementProducteurQuery
-  | ListerChangementProducteurQuery;
+  | ListerChangementProducteurQuery
+  | ListerHistoriqueProducteurProjetQuery;
 
 export {
   ConsulterProducteurQuery,
   ConsulterChangementProducteurQuery,
   ListerChangementProducteurQuery,
+  ListerHistoriqueProducteurProjetQuery,
 };
 
 // ReadModel
@@ -30,6 +37,8 @@ export {
   ConsulterProducteurReadModel,
   ConsulterChangementProducteurReadModel,
   ListerChangementProducteurReadModel,
+  ListerHistoriqueProducteurProjetReadModel,
+  HistoriqueProducteurProjetListItemReadModel,
 };
 
 // UseCases

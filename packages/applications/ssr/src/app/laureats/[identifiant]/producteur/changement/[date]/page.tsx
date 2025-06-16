@@ -6,12 +6,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Historique } from '@potentiel-domain/historique';
 
 import { DétailsProducteurPage } from '@/components/pages/producteur/changement/détails/DétailsProducteur.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur';
+import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 
 export const metadata: Metadata = {
   title: 'Détail du producteur du projet - Potentiel',
@@ -42,12 +41,13 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       return notFound();
     }
 
-    const historique = await mediator.send<Historique.ListerHistoriqueProducteurProjetQuery>({
-      type: 'Historique.Query.ListerHistoriqueProducteurProjet',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+    const historique =
+      await mediator.send<Lauréat.Producteur.ListerHistoriqueProducteurProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueProducteurProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
     return (
       <DétailsProducteurPage

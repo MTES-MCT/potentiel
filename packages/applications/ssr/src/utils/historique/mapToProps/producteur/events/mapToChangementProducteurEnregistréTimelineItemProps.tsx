@@ -1,12 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Historique } from '@potentiel-domain/historique';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
-  record: Historique.HistoriqueProducteurProjetListItemReadModel,
+  record: Lauréat.Producteur.HistoriqueProducteurProjetListItemReadModel,
 ) => {
   const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, producteur, raison } =
     record.payload as Lauréat.Producteur.ChangementProducteurEnregistréEvent['payload'];
