@@ -1,17 +1,20 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Historique } from '@potentiel-domain/historique';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToChangementActionnaireEnregistréTimelineItemProps = (
-  modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
+import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
+
+export const mapToChangementActionnaireEnregistréTimelineItemProps: MapToEventTimelineItemsProps = (
+  modification,
+  icon,
 ) => {
   const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, actionnaire } =
     modification.payload as Actionnaire.ChangementActionnaireEnregistréEvent['payload'];
   return {
     date: enregistréLe,
+    icon,
     title: (
       <div>Actionnaire modifié par {<span className="font-semibold">{enregistréPar}</span>}</div>
     ),

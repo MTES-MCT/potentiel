@@ -5,6 +5,7 @@ import { Historique } from '@potentiel-domain/historique';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { demandeIcon } from '../icons';
 
 import {
   mapToActionnaireImportéTimelineItemProps,
@@ -25,43 +26,43 @@ export const mapToActionnaireTimelineItemProps = (
       {
         type: 'ActionnaireImporté-V1',
       },
-      mapToActionnaireImportéTimelineItemProps,
+      (event) => mapToActionnaireImportéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ActionnaireModifié-V1',
       },
-      mapToActionnaireModifiéTimelineItemProps,
+      (event) => mapToActionnaireModifiéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementActionnaireEnregistré-V1',
       },
-      mapToChangementActionnaireEnregistréTimelineItemProps,
+      (event) => mapToChangementActionnaireEnregistréTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementActionnaireDemandé-V1',
       },
-      mapToChangementActionnaireDemandéTimelineItemProps,
+      (event) => mapToChangementActionnaireDemandéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementActionnaireAccordé-V1',
       },
-      mapToChangementActionnaireAccordéTimelineItemProps,
+      (event) => mapToChangementActionnaireAccordéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementActionnaireRejeté-V1',
       },
-      mapToChangementActionnaireRejetéTimelineItemProps,
+      (event) => mapToChangementActionnaireRejetéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementActionnaireAnnulé-V1',
       },
-      mapToChangementActionnaireAnnuléTimelineItemProps,
+      (event) => mapToChangementActionnaireAnnuléTimelineItemProps(event, demandeIcon),
     )
     .with(
       {

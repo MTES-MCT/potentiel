@@ -1,12 +1,14 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Historique } from '@potentiel-domain/historique';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToChangementActionnaireAccordéTimelineItemProps = (
-  changementAccordé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
+
+export const mapToChangementActionnaireAccordéTimelineItemProps: MapToEventTimelineItemsProps = (
+  changementAccordé,
+  icon,
 ) => {
   const {
     accordéLe,
@@ -25,6 +27,7 @@ export const mapToChangementActionnaireAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
+    icon,
     title: (
       <div>
         Demande de changement d'actionnaire accordée par{' '}

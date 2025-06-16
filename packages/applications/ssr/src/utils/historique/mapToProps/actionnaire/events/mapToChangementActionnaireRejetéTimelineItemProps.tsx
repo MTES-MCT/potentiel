@@ -1,12 +1,14 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Historique } from '@potentiel-domain/historique';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToChangementActionnaireRejetéTimelineItemProps = (
-  changementRejeté: Historique.ListerHistoriqueProjetReadModel['items'][number],
+import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
+
+export const mapToChangementActionnaireRejetéTimelineItemProps: MapToEventTimelineItemsProps = (
+  changementRejeté,
+  icon,
 ) => {
   const {
     rejetéLe,
@@ -24,6 +26,7 @@ export const mapToChangementActionnaireRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
+    icon,
     title: (
       <div>
         Demande de changement d'actionnaire rejetée par{' '}

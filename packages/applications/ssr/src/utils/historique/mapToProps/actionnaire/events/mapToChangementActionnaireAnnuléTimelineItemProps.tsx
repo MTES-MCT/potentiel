@@ -1,14 +1,17 @@
-import { Historique } from '@potentiel-domain/historique';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
-export const mapToChangementActionnaireAnnuléTimelineItemProps = (
-  changementAnnulé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
+
+export const mapToChangementActionnaireAnnuléTimelineItemProps: MapToEventTimelineItemsProps = (
+  changementAnnulé,
+  icon,
 ) => {
   const { annuléLe, annuléPar } =
     changementAnnulé.payload as Actionnaire.ChangementActionnaireAnnuléEvent['payload'];
 
   return {
     date: annuléLe,
+    icon,
     title: (
       <div>
         Demande de changement d'actionnaire annulée par{' '}
