@@ -13,18 +13,32 @@ export type EnregistrerChangementFournisseurUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
-    fournisseursValue?: Array<{
-      typeFournisseur: string;
-      nomDuFabricant: string;
-    }>;
-    évaluationCarboneSimplifiéeValue?: number;
     dateChangementValue: string;
     raisonValue: string;
     pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
     };
-  }
+  } & (
+    | {
+        fournisseursValue: Array<{
+          typeFournisseur: TypeFournisseur.RawType;
+          nomDuFabricant: string;
+        }>;
+        évaluationCarboneSimplifiéeValue: number;
+      }
+    | {
+        fournisseursValue: Array<{
+          typeFournisseur: TypeFournisseur.RawType;
+          nomDuFabricant: string;
+        }>;
+        évaluationCarboneSimplifiéeValue?: undefined;
+      }
+    | {
+        fournisseursValue?: undefined;
+        évaluationCarboneSimplifiéeValue: number;
+      }
+  )
 >;
 
 export const registerEnregistrerChangementFournisseurUseCase = () => {
@@ -48,23 +62,27 @@ export const registerEnregistrerChangementFournisseurUseCase = () => {
       pièceJustificativeValue.format,
     );
 
-    const fournisseurs = fournisseursValue?.map((fournisseur) => ({
-      typeFournisseur: TypeFournisseur.convertirEnValueType(
-        fournisseur.typeFournisseur,
-      ).formatter(),
-      nomDuFabricant: fournisseur.nomDuFabricant,
-    }));
-
     await mediator.send<EnregistrerChangementFournisseurCommand>({
       type: 'Lauréat.Fournisseur.Command.EnregistrerChangement',
       data: {
         identifiantProjet,
         identifiantUtilisateur,
-        fournisseurs,
-        évaluationCarboneSimplifiée: évaluationCarboneSimplifiéeValue,
         dateChangement,
         pièceJustificative,
         raison: raisonValue,
+        ...(fournisseursValue
+          ? {
+              fournisseurs: fournisseursValue?.map((fournisseur) => ({
+                typeFournisseur: TypeFournisseur.convertirEnValueType(
+                  fournisseur.typeFournisseur,
+                ).formatter(),
+                nomDuFabricant: fournisseur.nomDuFabricant,
+              })),
+              évaluationCarboneSimplifiée: évaluationCarboneSimplifiéeValue,
+            }
+          : {
+              évaluationCarboneSimplifiée: évaluationCarboneSimplifiéeValue,
+            }),
       },
     });
 

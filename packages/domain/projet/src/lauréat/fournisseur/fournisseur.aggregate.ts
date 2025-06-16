@@ -106,8 +106,6 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
       this.vérifierÉvaluationCarbone(évaluationCarboneSimplifiée);
     } else if (fournisseurs !== undefined) {
       this.vérifierFournisseurs(fournisseurs);
-    } else {
-      // TODO gérer le cas où les deux sont undefined
     }
 
     const event: ChangementFournisseurEnregistréEvent = {

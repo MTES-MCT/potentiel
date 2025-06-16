@@ -11,15 +11,29 @@ export type EnregistrerChangementFournisseurCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    fournisseurs?: Array<{
-      typeFournisseur: TypeFournisseur.RawType;
-      nomDuFabricant: string;
-    }>;
-    évaluationCarboneSimplifiée?: number;
     dateChangement: DateTime.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
     raison: string;
-  }
+  } & (
+    | {
+        fournisseurs: Array<{
+          typeFournisseur: TypeFournisseur.RawType;
+          nomDuFabricant: string;
+        }>;
+        évaluationCarboneSimplifiée: number;
+      }
+    | {
+        fournisseurs: Array<{
+          typeFournisseur: TypeFournisseur.RawType;
+          nomDuFabricant: string;
+        }>;
+        évaluationCarboneSimplifiée?: undefined;
+      }
+    | {
+        fournisseurs?: undefined;
+        évaluationCarboneSimplifiée: number;
+      }
+  )
 >;
 
 export const registerEnregistrerChangementFournisseurCommand = (
@@ -27,12 +41,21 @@ export const registerEnregistrerChangementFournisseurCommand = (
 ) => {
   const handler: MessageHandler<EnregistrerChangementFournisseurCommand> = async (payload) => {
     const projet = await getProjetAggregateRoot(payload.identifiantProjet);
+
     await projet.lauréat.fournisseur.enregistrerChangement({
       ...payload,
-      fournisseurs: payload.fournisseurs?.map((fournisseur) => ({
-        ...fournisseur,
-        typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
-      })),
+      ...(payload.fournisseurs
+        ? {
+            fournisseurs: payload.fournisseurs.map((fournisseur) => ({
+              ...fournisseur,
+              typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
+            })),
+            évaluationCarboneSimplifiée: payload.évaluationCarboneSimplifiée,
+          }
+        : {
+            évaluationCarboneSimplifiée: payload.évaluationCarboneSimplifiée,
+            fournisseurs: undefined,
+          }),
     });
   };
   mediator.register('Lauréat.Fournisseur.Command.EnregistrerChangement', handler);
