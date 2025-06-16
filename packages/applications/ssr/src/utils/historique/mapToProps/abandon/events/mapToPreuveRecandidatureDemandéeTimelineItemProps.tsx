@@ -1,13 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-export const mapToPreuveRecandidatureDemandéeTimelineItemProps = (
-  preuveRecandidatureDemandée: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
-) => {
-  const { demandéeLe } =
-    preuveRecandidatureDemandée.payload as Lauréat.Abandon.PreuveRecandidatureDemandéeEvent['payload'];
+import { MapToAbandonEventTimelineItemProps } from '../mapToAbandonTimelineItemProps';
 
-  return {
-    date: demandéeLe,
-    title: <div>Preuve de recandidature demandée</div>,
+export const mapToPreuveRecandidatureDemandéeTimelineItemProps: MapToAbandonEventTimelineItemProps =
+  (preuveRecandidatureDemandée, icon) => {
+    const { demandéeLe } =
+      preuveRecandidatureDemandée.payload as Lauréat.Abandon.PreuveRecandidatureDemandéeEvent['payload'];
+
+    return {
+      date: demandéeLe,
+      icon,
+      title: <div>Preuve de recandidature demandée</div>,
+    };
   };
-};

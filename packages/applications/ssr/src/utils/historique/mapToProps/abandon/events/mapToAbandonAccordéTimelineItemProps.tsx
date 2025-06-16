@@ -4,8 +4,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToAbandonAccordéTimelineItemProps = (
-  abandonAccordé: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+import { MapToAbandonEventTimelineItemProps } from '../mapToAbandonTimelineItemProps';
+
+export const mapToAbandonAccordéTimelineItemProps: MapToAbandonEventTimelineItemProps = (
+  abandonAccordé,
+  icon,
 ) => {
   const {
     accordéLe,
@@ -23,6 +26,7 @@ export const mapToAbandonAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
+    icon,
     title: (
       <div>
         Demande d'abandon accordée par {<span className="font-semibold">{accordéPar}</span>}

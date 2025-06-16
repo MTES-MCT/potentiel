@@ -7,9 +7,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { MapToAbandonEventTimelineItemProps } from '../mapToAbandonTimelineItemProps';
 
-export const mapToAbandonDemandéTimelineItemProps = (
-  abandonDemandé: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+export const mapToAbandonDemandéTimelineItemProps: MapToAbandonEventTimelineItemProps = (
+  abandonDemandé,
+  icon,
 ) => {
   const event = match(abandonDemandé)
     .with(
@@ -30,9 +32,7 @@ export const mapToAbandonDemandéTimelineItemProps = (
 
   return {
     date: demandéLe,
-    icon: {
-      id: 'ri-clipboard-line',
-    },
+    icon,
     title: (
       <div>Demande d'abandon déposée par {<span className="font-semibold">{demandéPar}</span>}</div>
     ),
