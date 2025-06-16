@@ -17,7 +17,7 @@ export type ListerHistoriqueProducteurProjetReadModel = {
 };
 
 export type ListerHistoriqueProducteurProjetQuery = Message<
-  'Historique.Query.ListerHistoriqueProducteurProjet',
+  'Lauréat.Producteur.Query.ListerHistoriqueProducteurProjet',
   {
     identifiantProjet: string;
     range?: RangeOptions;
@@ -42,5 +42,5 @@ export const registerListerHistoriqueProducteurProjetQuery = ({
       range,
     });
 
-  mediator.register('Historique.Query.ListerHistoriqueProducteurProjet', handler);
+  mediator.register('Lauréat.Producteur.Query.ListerHistoriqueProducteurProjet', handler);
 };
