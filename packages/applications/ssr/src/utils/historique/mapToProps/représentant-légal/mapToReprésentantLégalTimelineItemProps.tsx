@@ -3,8 +3,10 @@ import { match } from 'ts-pattern';
 import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { IconProps } from '@/components/atoms/Icon';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { demandeIcon } from '../icons';
 
 import {
   mapToReprésentantLégalImportéTimelineItemProps,
@@ -16,6 +18,11 @@ import {
   mapToChangementReprésentantLégalAnnuléTimelineItemProps,
 } from './events';
 
+export type MapToReprésentantLégalTimelineItemProps = (
+  readmodel: Historique.HistoriqueReprésentantLégalProjetListItemReadModel,
+  icon: IconProps,
+) => TimelineItemProps;
+
 export const mapToReprésentantLégalTimelineItemProps = (
   readmodel: Historique.HistoriqueReprésentantLégalProjetListItemReadModel,
 ) =>
@@ -25,43 +32,43 @@ export const mapToReprésentantLégalTimelineItemProps = (
       {
         type: 'ReprésentantLégalImporté-V1',
       },
-      mapToReprésentantLégalImportéTimelineItemProps,
+      (event) => mapToReprésentantLégalImportéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ReprésentantLégalModifié-V1',
       },
-      mapToReprésentantLégalModifiéTimelineItemProps,
+      (event) => mapToReprésentantLégalModifiéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementReprésentantLégalDemandé-V1',
       },
-      mapToChangementReprésentantLégalDemandéTimelineItemProps,
+      (event) => mapToChangementReprésentantLégalDemandéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementReprésentantLégalCorrigé-V1',
       },
-      mapToChangementReprésentantLégalCorrigéTimelineItemProps,
+      (event) => mapToChangementReprésentantLégalCorrigéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementReprésentantLégalAccordé-V1',
       },
-      mapToChangementReprésentantLégalAccordéTimelineItemProps,
+      (event) => mapToChangementReprésentantLégalAccordéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementReprésentantLégalRejeté-V1',
       },
-      mapToChangementReprésentantLégalRejetéTimelineItemProps,
+      (event) => mapToChangementReprésentantLégalRejetéTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
         type: 'ChangementReprésentantLégalAnnulé-V1',
       },
-      mapToChangementReprésentantLégalAnnuléTimelineItemProps,
+      (event) => mapToChangementReprésentantLégalAnnuléTimelineItemProps(event, demandeIcon),
     )
     .with(
       {
