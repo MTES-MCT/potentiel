@@ -12,6 +12,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '../atoms/FormattedDate';
+import { Icon, IconProps } from '../atoms/Icon';
 
 export type TimelineProps = {
   items: Array<TimelineItemProps>;
@@ -46,6 +47,7 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
           type={item.type}
           status={item.status}
           title={item.title}
+          icon={item.icon}
         />
       ))}
   </MuiTimeline>
@@ -57,8 +59,9 @@ export type TimelineItemProps = {
   type?: string;
   content?: ReactNode;
   date: Iso8601DateTime | 'En attente';
+  icon?: IconProps;
 };
-const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, status }) => {
+const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, status, icon }) => {
   const isÉtapeInconnue = title === 'Étape inconnue';
 
   return (
@@ -85,7 +88,9 @@ const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, statu
                     ? 'info'
                     : 'grey'
           }
-        />
+        >
+          {icon && <Icon id={icon.id} size="md" />}
+        </TimelineDot>
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent color={isÉtapeInconnue ? 'error' : undefined}>

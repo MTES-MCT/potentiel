@@ -30,6 +30,9 @@ export const mapToAbandonDemandéTimelineItemProps = (
 
   return {
     date: demandéLe,
+    icon: {
+      id: 'ri-clipboard-line',
+    },
     title: (
       <div>Demande d'abandon déposée par {<span className="font-semibold">{demandéPar}</span>}</div>
     ),
