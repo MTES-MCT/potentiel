@@ -1,3 +1,4 @@
 import { IconProps } from '@/components/atoms/Icon';
 
-export const demandeIcon: IconProps = { id: 'ri-draft-fill' };
+export const demandeIcon: IconProps = { id: 'ri-draft-line' };
+export const recoursIcon: IconProps = { id: 'ri-scales-3-line' };

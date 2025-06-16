@@ -1,12 +1,14 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Historique } from '@potentiel-domain/historique';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToRecoursDemandéTimelineItemProps = (
-  recoursDemandé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+import { MapToRecoursTimelineItemProps } from '../mapToRecoursTimelineItemProps';
+
+export const mapToRecoursDemandéTimelineItemProps: MapToRecoursTimelineItemProps = (
+  recoursDemandé,
+  icon,
 ) => {
   const {
     demandéLe,
@@ -24,6 +26,7 @@ export const mapToRecoursDemandéTimelineItemProps = (
 
   return {
     date: demandéLe,
+    icon,
     title: (
       <div>
         Demande de recours déposée par {<span className="font-semibold">{demandéPar}</span>}
