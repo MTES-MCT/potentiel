@@ -11,7 +11,6 @@ export type ChangementFournisseurEntity = Entity<
     changement: {
       enregistréPar: string;
       enregistréLe: DateTime.RawType;
-      // TODO non nullable
       fournisseurs?: Array<{
         typeFournisseur: TypeFournisseur.RawType;
         nomDuFabricant: string;
