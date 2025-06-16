@@ -104,6 +104,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Abandon.Query.ConsulterAbandon',
         lister: 'Lauréat.Abandon.Query.ListerAbandons',
+        listerHistoriqueAbandon: 'Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet',
       },
       usecase: {
         annuler: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
@@ -519,7 +520,6 @@ const référencielPermissions = {
   historique: {
     query: {
       lister: 'Historique.Query.ListerHistoriqueProjet',
-      listerHistoriqueAbandon: 'Historique.Query.ListerHistoriqueAbandonProjet',
       listerHistoriqueActionnaire: 'Historique.Query.ListerHistoriqueActionnaireProjet',
       listerHistoriquePuissance: 'Historique.Query.ListerHistoriquePuissanceProjet',
       listerHistoriqueRecours: 'Historique.Query.ListerHistoriqueRecoursProjet',
@@ -944,7 +944,7 @@ const policies = {
   historique: {
     lister: [
       référencielPermissions.historique.query.lister,
-      référencielPermissions.historique.query.listerHistoriqueAbandon,
+      référencielPermissions.lauréat.abandon.query.listerHistoriqueAbandon,
       référencielPermissions.historique.query.listerHistoriqueActionnaire,
       référencielPermissions.lauréat.producteur.query.listerHistoriqueProducteur,
       référencielPermissions.historique.query.listerHistoriquePuissance,

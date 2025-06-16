@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+
+import { AbandonEvent } from '../abandon.event';
 
 export type HistoriqueAbandonProjetListItemReadModel = HistoryRecord<
   'abandon',
-  Lauréat.Abandon.AbandonEvent['type'],
-  Lauréat.Abandon.AbandonEvent['payload']
+  AbandonEvent['type'],
+  AbandonEvent['payload']
 >;
 
 export type ListerHistoriqueAbandonProjetReadModel = {
@@ -16,7 +17,7 @@ export type ListerHistoriqueAbandonProjetReadModel = {
 };
 
 export type ListerHistoriqueAbandonProjetQuery = Message<
-  'Historique.Query.ListerHistoriqueAbandonProjet',
+  'Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet',
   {
     identifiantProjet: string;
     range?: RangeOptions;
@@ -41,5 +42,5 @@ export const registerListerHistoriqueAbandonProjetQuery = ({
       range,
     });
 
-  mediator.register('Historique.Query.ListerHistoriqueAbandonProjet', handler);
+  mediator.register('Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet', handler);
 };

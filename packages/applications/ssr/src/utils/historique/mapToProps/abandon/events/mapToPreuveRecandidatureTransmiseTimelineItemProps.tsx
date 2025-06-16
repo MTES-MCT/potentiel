@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
-  preuveRecandidatureTransmise: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  preuveRecandidatureTransmise: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
 ) => {
   const { preuveRecandidature, transmiseLe, transmisePar } =
     preuveRecandidatureTransmise.payload as Lauréat.Abandon.PreuveRecandidatureTransmiseEvent['payload'];
