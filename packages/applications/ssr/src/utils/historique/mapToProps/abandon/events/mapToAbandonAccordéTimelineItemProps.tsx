@@ -4,9 +4,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { MapToAbandonEventTimelineItemProps } from '../mapToAbandonTimelineItemProps';
+import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
 
-export const mapToAbandonAccordéTimelineItemProps: MapToAbandonEventTimelineItemProps = (
+export const mapToAbandonAccordéTimelineItemProps: MapToEventTimelineItemsProps = (
   abandonAccordé,
   icon,
 ) => {

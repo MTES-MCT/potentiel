@@ -1,8 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { MapToAbandonEventTimelineItemProps } from '../mapToAbandonTimelineItemProps';
+import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
 
-export const mapToAbandonAnnuléTimelineItemProps: MapToAbandonEventTimelineItemProps = (
+export const mapToAbandonAnnuléTimelineItemProps: MapToEventTimelineItemsProps = (
   abandonAnnulé,
   icon,
 ) => {

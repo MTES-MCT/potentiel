@@ -3,9 +3,8 @@ import { match, P } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
-import { IconProps } from '@/components/atoms/Icon';
 
-import { demandeIcon } from '../../icons';
+import { demandeIcon } from '../icons';
 
 import {
   mapToAbandonAccordéTimelineItemProps,
@@ -18,11 +17,6 @@ import {
   mapToPreuveRecandidatureTransmiseTimelineItemProps,
 } from './events';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapToAbandonPasséEnInstructionTimelineItemProps';
-
-export type MapToAbandonEventTimelineItemProps = (
-  event: Historique.ListerHistoriqueProjetReadModel['items'][number],
-  icon: IconProps,
-) => TimelineItemProps;
 
 export const mapToAbandonTimelineItemProps = (
   readmodel: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
