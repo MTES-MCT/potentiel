@@ -16,16 +16,23 @@ import {
   ListerChangementPuissanceQuery,
   ListerChangementPuissanceReadModel,
 } from './changement/lister/listerChangementPuissance.query';
+import {
+  ListerHistoriquePuissanceProjetQuery,
+  HistoriquePuissanceProjetListItemReadModel,
+  ListerHistoriquePuissanceProjetReadModel,
+} from './listerHistorique/listerHistoriquePuissanceProjet.query';
 
 // Query
 export type PuissanceQuery =
   | ConsulterPuissanceQuery
   | ConsulterChangementPuissanceQuery
-  | ListerChangementPuissanceQuery;
+  | ListerChangementPuissanceQuery
+  | ListerHistoriquePuissanceProjetQuery;
 export type {
   ConsulterPuissanceQuery,
   ConsulterChangementPuissanceQuery,
   ListerChangementPuissanceQuery,
+  ListerHistoriquePuissanceProjetQuery,
 };
 
 // ReadModel
@@ -33,6 +40,8 @@ export type {
   ConsulterPuissanceReadModel,
   ConsulterChangementPuissanceReadModel,
   ListerChangementPuissanceReadModel,
+  ListerHistoriquePuissanceProjetReadModel,
+  HistoriquePuissanceProjetListItemReadModel,
 };
 
 // UseCase

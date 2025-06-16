@@ -7,7 +7,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Historique } from '@potentiel-domain/historique';
 
 import {
   ChangementPuissanceActions,
@@ -65,12 +64,13 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const candidature = await getCandidature(identifiantProjet.formatter());
 
-      const historique = await mediator.send<Historique.ListerHistoriquePuissanceProjetQuery>({
-        type: 'Historique.Query.ListerHistoriquePuissanceProjet',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const historique =
+        await mediator.send<Lauréat.Puissance.ListerHistoriquePuissanceProjetQuery>({
+          type: 'Lauréat.Puissance.Query.ListerHistoriquePuissanceProjet',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       return (
         <DétailsPuissancePage

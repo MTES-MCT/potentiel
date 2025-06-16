@@ -1,8 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { Historique } from '@potentiel-domain/historique';
 
 export const mapToPuissanceModifiéeTimelineItemsProps = (
-  record: Historique.HistoriquePuissanceProjetListItemReadModel,
+  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: string,
 ) => {
   const { modifiéeLe, modifiéePar, puissance, raison } =
