@@ -25,10 +25,15 @@ import {
   ListerChangementPuissanceDependencies,
   registerListerChangementPuissanceQuery,
 } from './changement/lister/listerChangementPuissance.query';
+import {
+  ListerHistoriquePuissanceProjetDependencies,
+  registerListerHistoriquePuissanceProjetQuery,
+} from './listerHistorique/listerHistoriquePuissanceProjet.query';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies &
   ConsulterChangementPuissanceDependencies &
-  ListerChangementPuissanceDependencies;
+  ListerChangementPuissanceDependencies &
+  ListerHistoriquePuissanceProjetDependencies;
 
 export type PuissanceCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -57,4 +62,5 @@ export const registerPuissanceQueries = (dependencies: PuissanceQueryDependencie
   registerConsulterPuissanceQuery(dependencies);
   registerConsulterChangementPuissanceQuery(dependencies);
   registerListerChangementPuissanceQuery(dependencies);
+  registerListerHistoriquePuissanceProjetQuery(dependencies);
 };

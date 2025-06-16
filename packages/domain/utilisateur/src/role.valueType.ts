@@ -313,6 +313,7 @@ const référencielPermissions = {
         consulter: 'Lauréat.Puissance.Query.ConsulterPuissance',
         consulterChangement: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
         listerChangement: 'Lauréat.Puissance.Query.ListerChangementPuissance',
+        listerHistoriquePuissance: 'Lauréat.Puissance.Query.ListerHistoriquePuissanceProjet',
       },
       usecase: {
         modifier: 'Lauréat.Puissance.UseCase.ModifierPuissance',
@@ -521,7 +522,6 @@ const référencielPermissions = {
     query: {
       lister: 'Historique.Query.ListerHistoriqueProjet',
       listerHistoriqueActionnaire: 'Historique.Query.ListerHistoriqueActionnaireProjet',
-      listerHistoriquePuissance: 'Historique.Query.ListerHistoriquePuissanceProjet',
       listerHistoriqueRecours: 'Historique.Query.ListerHistoriqueRecoursProjet',
       listerHistoriqueReprésentantLégal: 'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
       listerHistoriqueRaccordement: 'Historique.Query.ListerHistoriqueRaccordementProjet',
@@ -947,7 +947,7 @@ const policies = {
       référencielPermissions.lauréat.abandon.query.listerHistoriqueAbandon,
       référencielPermissions.historique.query.listerHistoriqueActionnaire,
       référencielPermissions.lauréat.producteur.query.listerHistoriqueProducteur,
-      référencielPermissions.historique.query.listerHistoriquePuissance,
+      référencielPermissions.lauréat.puissance.query.listerHistoriquePuissance,
       référencielPermissions.historique.query.listerHistoriqueRecours,
       référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
       référencielPermissions.historique.query.listerHistoriqueRaccordement,

@@ -1,12 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Historique } from '@potentiel-domain/historique';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementPuissanceDemandéTimelineItemProps = (
-  record: Historique.HistoriquePuissanceProjetListItemReadModel,
+  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: string,
 ) => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, puissance } =

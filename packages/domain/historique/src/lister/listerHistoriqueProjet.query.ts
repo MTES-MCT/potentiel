@@ -12,7 +12,6 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { HistoriqueRecoursProjetListItemReadModel } from './listerHistoriqueRecoursProjet.query';
 import { HistoriqueActionnaireProjetListItemReadModel } from './listerHistoriqueActionnaireProjet.query';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from './listerHistoriqueReprésentantLégalProjet.query';
-import { HistoriquePuissanceProjetListItemReadModel } from './listerHistoriquePuissanceProjet.query';
 import { HistoriqueRaccordementProjetListItemReadModel } from './listerHistoriqueRaccordementProjet.query';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
@@ -40,7 +39,7 @@ export type HistoriqueListItemReadModels =
   | HistoriqueRecoursProjetListItemReadModel
   | HistoriqueReprésentantLégalProjetListItemReadModel
   | HistoriqueGarantiesFinancièresProjetListItemReadModel
-  | HistoriquePuissanceProjetListItemReadModel
+  | Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel
   | Lauréat.Producteur.HistoriqueProducteurProjetListItemReadModel
   | HistoriqueAchèvementProjetListItemReadModel
   | HistoriqueRaccordementProjetListItemReadModel;
