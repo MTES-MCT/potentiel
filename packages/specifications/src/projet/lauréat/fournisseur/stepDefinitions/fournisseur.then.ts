@@ -36,3 +36,31 @@ Alors('le fournisseur devrait être mis à jour', async function (this: Potentie
     expect(actual).to.deep.eq(expected);
   });
 });
+
+Alors(
+  'le changement enregistré du fournisseur du projet lauréat devrait être consultable',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    await waitForExpect(async () => {
+      const demandeEnCours =
+        await mediator.send<Lauréat.Fournisseur.ConsulterChangementFournisseurQuery>({
+          type: 'Lauréat.Fournisseur.Query.ConsulterChangementFournisseur',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            enregistréLe:
+              this.lauréatWorld.fournisseurWorld.enregistrerChangementFournisseur.enregistréLe,
+          },
+        });
+
+      assert(Option.isSome(demandeEnCours), 'Demande de changement de fournisseur non trouvée !');
+
+      const actual = mapToPlainObject(demandeEnCours);
+
+      const expected = mapToPlainObject(
+        this.lauréatWorld.fournisseurWorld.mapChangementToExpected(identifiantProjet),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);

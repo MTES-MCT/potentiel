@@ -1,9 +1,10 @@
 import { FournisseurProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
+import { FournisseurNotification } from '@potentiel-applications/notifications';
 
 import { SetupProjet } from '../setup';
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 
-export const setupFournisseur: SetupProjet = async () => {
+export const setupFournisseur: SetupProjet = async ({ sendEmail }) => {
   const fournisseur = createSubscriptionSetup('fournisseur');
 
   FournisseurProjector.register();
@@ -16,8 +17,19 @@ export const setupFournisseur: SetupProjet = async () => {
       'RebuildTriggered',
       'FournisseurImporté-V1',
       'ÉvaluationCarboneSimplifiéeModifiée-V1',
+      'ChangementFournisseurEnregistré-V1',
     ],
     messageType: 'System.Projector.Lauréat.Fournisseur',
+  });
+
+  FournisseurNotification.register({ sendEmail });
+  await fournisseur.setupSubscription<
+    FournisseurNotification.SubscriptionEvent,
+    FournisseurNotification.Execute
+  >({
+    name: 'notifications',
+    eventType: ['ÉvaluationCarboneSimplifiéeModifiée-V1', 'ChangementFournisseurEnregistré-V1'],
+    messageType: 'System.Notification.Lauréat.Fournisseur',
   });
 
   await fournisseur.setupSubscription<
