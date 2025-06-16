@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
+import { MapToAbandonTimelineItemProps } from '../mapToAbandonTimelineItemProps';
 
-export const mapToPreuveRecandidatureTransmiseTimelineItemProps: MapToEventTimelineItemsProps = (
+export const mapToPreuveRecandidatureTransmiseTimelineItemProps: MapToAbandonTimelineItemProps = (
   preuveRecandidatureTransmise,
   icon,
 ) => {

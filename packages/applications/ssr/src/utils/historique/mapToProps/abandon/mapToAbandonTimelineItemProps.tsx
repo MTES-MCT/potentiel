@@ -3,6 +3,7 @@ import { match, P } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { IconProps } from '@/components/atoms/Icon';
 
 import { demandeIcon } from '../icons';
 
@@ -17,6 +18,11 @@ import {
   mapToPreuveRecandidatureTransmiseTimelineItemProps,
 } from './events';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapToAbandonPasséEnInstructionTimelineItemProps';
+
+export type MapToAbandonTimelineItemProps = (
+  readmodel: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+  icon: IconProps,
+) => TimelineItemProps;
 
 export const mapToAbandonTimelineItemProps = (
   readmodel: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
