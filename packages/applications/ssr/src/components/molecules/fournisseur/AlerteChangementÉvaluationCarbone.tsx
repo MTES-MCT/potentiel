@@ -20,8 +20,8 @@ export const AlerteChangementÉvaluationCarbone: FC<AlerteChangementÉvaluationC
       description={
         <div>
           Si la modification de la valeur de l'évaluation carbone était susceptible d'entrainer une
-          dégradation de la note à la candidature, la remise de l'attestation de conformité pourrait
-          être compromise.
+          dégradation de la note attribuée à la candidature, la remise de l'attestation de
+          conformité pourrait être compromise.
         </div>
       }
     />

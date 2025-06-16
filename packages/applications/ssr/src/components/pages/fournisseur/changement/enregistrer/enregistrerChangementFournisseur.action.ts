@@ -18,15 +18,17 @@ const commonSchema = {
     acceptedFileTypes: ['application/pdf'],
   }),
 };
-const schema = zod.union([
+const schema = zod.discriminatedUnion('technologie', [
   zod.object({
     ...commonSchema,
     technologie: zod.literal('pv'),
     fournisseurs: zod
       .array(
         zod.object({
-          nomDuFabricant: zod.string(),
-          typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV),
+          nomDuFabricant: zod.string().min(1),
+          typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV, {
+            message: `Ce type de fournisseur n'est pas compatible avec la technologie PV`,
+          }),
         }),
       )
       .optional(),
@@ -37,8 +39,10 @@ const schema = zod.union([
     fournisseurs: zod
       .array(
         zod.object({
-          nomDuFabricant: zod.string(),
-          typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurEolien),
+          nomDuFabricant: zod.string().min(1),
+          typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurEolien, {
+            message: `Ce type de fournisseur n'est pas compatible avec la technologie Eolien`,
+          }),
         }),
       )
       .optional(),

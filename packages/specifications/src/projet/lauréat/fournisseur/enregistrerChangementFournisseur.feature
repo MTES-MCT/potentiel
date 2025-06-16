@@ -21,7 +21,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
 
     Scénario: Impossible d'enregistrer un changement de fournisseur sans modification
         Quand le porteur enregistre un changement de fournisseur sans modification
-        Alors l'utilisateur devrait être informé que "Le changement de fournisseur doit contenir un changement"
+        Alors l'utilisateur devrait être informé que "Le changement de fournisseur doit contenir une modification"
 
     Scénario: Impossible d'enregistrer un changement de fournisseur avec une valeur d'évaluation carbone négative
         Quand le porteur enregistre un changement de fournisseur avec :

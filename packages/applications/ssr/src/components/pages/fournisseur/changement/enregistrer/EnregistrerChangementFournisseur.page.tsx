@@ -19,7 +19,6 @@ export const EnregistrerChangementFournisseurPage: FC<
   fournisseurs,
   évaluationCarboneSimplifiée,
   technologie,
-  typesFournisseur,
   évaluationCarboneSimplifiéeInitiale,
 }) => (
   <ColumnPageTemplate
@@ -35,7 +34,6 @@ export const EnregistrerChangementFournisseurPage: FC<
           évaluationCarboneSimplifiée={évaluationCarboneSimplifiée}
           technologie={technologie}
           évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
-          typesFournisseur={typesFournisseur}
         />
       ),
     }}

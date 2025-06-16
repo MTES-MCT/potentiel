@@ -25,7 +25,6 @@ import { FournisseursField } from './FournisseursField';
 export type EnregistrerChangementFournisseurFormProps = PlainType<
   Lauréat.Fournisseur.ConsulterFournisseurReadModel & {
     technologie: AppelOffre.Technologie;
-    typesFournisseur: readonly Lauréat.Fournisseur.TypeFournisseur.RawType[];
     évaluationCarboneSimplifiéeInitiale: number;
   }
 >;
@@ -38,7 +37,6 @@ export const EnregistrerChangementFournisseurForm: FC<
   évaluationCarboneSimplifiéeInitiale,
   fournisseurs,
   technologie,
-  typesFournisseur,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementFournisseurFormKeys>
@@ -102,7 +100,11 @@ export const EnregistrerChangementFournisseurForm: FC<
           technologie={technologie}
         />
 
-        <FournisseursField fournisseurs={fournisseurs} typesFournisseur={typesFournisseur} />
+        <FournisseursField
+          fournisseurs={fournisseurs}
+          technologie={technologie}
+          validationErrors={validationErrors}
+        />
         <Input
           textArea
           label="Raison"
@@ -120,7 +122,6 @@ export const EnregistrerChangementFournisseurForm: FC<
         <UploadNewOrModifyExistingDocument
           label={'Pièce justificative'}
           name="piecesJustificatives"
-          hintText="Joindre les statuts mis à jour"
           required={true}
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
