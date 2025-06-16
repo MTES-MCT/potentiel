@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { IconProps } from '@/components/atoms/Icon';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 import { demandeIcon } from '../icons';
@@ -16,6 +17,11 @@ import {
   mapToChangementActionnaireRejetéTimelineItemProps,
   mapToChangementActionnaireAnnuléTimelineItemProps,
 } from './events';
+
+export type MapToActionnaireTimelineItemProps = (
+  readmodel: Historique.HistoriqueActionnaireProjetListItemReadModel,
+  icon: IconProps,
+) => TimelineItemProps;
 
 export const mapToActionnaireTimelineItemProps = (
   readmodel: Historique.HistoriqueActionnaireProjetListItemReadModel,

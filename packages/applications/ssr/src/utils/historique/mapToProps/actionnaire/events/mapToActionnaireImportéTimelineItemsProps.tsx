@@ -1,8 +1,8 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
+import { MapToActionnaireTimelineItemProps } from '../mapToActionnaireTimelineItemProps';
 
-export const mapToActionnaireImportéTimelineItemProps: MapToEventTimelineItemsProps = (
+export const mapToActionnaireImportéTimelineItemProps: MapToActionnaireTimelineItemProps = (
   modification,
   icon,
 ) => {

@@ -4,9 +4,9 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { MapToEventTimelineItemsProps } from '../../mapToEventTimelineItemsProps.type';
+import { MapToActionnaireTimelineItemProps } from '../mapToActionnaireTimelineItemProps';
 
-export const mapToActionnaireModifiéTimelineItemProps: MapToEventTimelineItemsProps = (
+export const mapToActionnaireModifiéTimelineItemProps: MapToActionnaireTimelineItemProps = (
   modification,
   icon,
 ) => {
