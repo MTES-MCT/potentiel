@@ -3,6 +3,9 @@ import { match, P } from 'ts-pattern';
 import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { IconProps } from '@/components/atoms/Icon';
+
+import { garantiesFinancièresIcon } from '../icons';
 
 import {
   garantiesFinancièresActuelles,
@@ -10,6 +13,11 @@ import {
   mainlevée,
   mapToHistoriqueGarantiesFinancièresEffacéTimelineItemProps,
 } from './events';
+
+export type MapToGarantiesFinancièresTimelineItemProps = (
+  readmodel: Historique.HistoriqueGarantiesFinancièresProjetListItemReadModel,
+  icon: IconProps,
+) => TimelineItemProps;
 
 export const mapToGarantiesFinancièresTimelineItemProps = (
   record: Historique.HistoriqueGarantiesFinancièresProjetListItemReadModel,
@@ -22,41 +30,64 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
       {
         type: 'TypeGarantiesFinancièresImporté-V1',
       },
-      garantiesFinancièresActuelles.mapToTypeGarantiesFinancièresImportéTimelineItemsProps,
+      (event) =>
+        garantiesFinancièresActuelles.mapToTypeGarantiesFinancièresImportéTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'GarantiesFinancièresDemandées-V1',
       },
-      garantiesFinancièresActuelles.mapToGarantiesFinancièresDemandéesTimelineItemsProps,
+      (event) =>
+        garantiesFinancièresActuelles.mapToGarantiesFinancièresDemandéesTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
-    .with(
-      { type: 'GarantiesFinancièresEnregistrées-V1' },
-      garantiesFinancièresActuelles.mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps,
+    .with({ type: 'GarantiesFinancièresEnregistrées-V1' }, (event) =>
+      garantiesFinancièresActuelles.mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps(
+        event,
+        garantiesFinancièresIcon,
+      ),
     )
     .with(
       {
         type: 'AttestationGarantiesFinancièresEnregistrée-V1',
       },
-      garantiesFinancièresActuelles.mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps,
+      (event) =>
+        garantiesFinancièresActuelles.mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'GarantiesFinancièresModifiées-V1',
       },
-      garantiesFinancièresActuelles.mapToGarantiesFinancièresModifiéesTimelineItemsProps,
+      (event) =>
+        garantiesFinancièresActuelles.mapToGarantiesFinancièresModifiéesTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'GarantiesFinancièresÉchues-V1',
       },
-      garantiesFinancièresActuelles.mapToGarantiesFinancièresÉchuesTimelineItemsProps,
+      (event) =>
+        garantiesFinancièresActuelles.mapToGarantiesFinancièresÉchuesTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'HistoriqueGarantiesFinancièresEffacé-V1',
       },
-      mapToHistoriqueGarantiesFinancièresEffacéTimelineItemProps,
+      (event) =>
+        mapToHistoriqueGarantiesFinancièresEffacéTimelineItemProps(event, garantiesFinancièresIcon),
     )
 
     // Dépôt de garanties financières pour le projet
@@ -64,13 +95,21 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
       {
         type: 'DépôtGarantiesFinancièresSoumis-V1',
       },
-      dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps,
+      (event) =>
+        dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
       },
-      dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps,
+      (event) =>
+        dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
@@ -79,7 +118,11 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
           'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
         ),
       },
-      dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps,
+      (event) =>
+        dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
@@ -88,7 +131,11 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
           'DépôtGarantiesFinancièresEnCoursValidé-V2',
         ),
       },
-      dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps,
+      (event) =>
+        dépôtDeNouvellesGarantiesFinancières.mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
 
     // Mainlevée des garanties financières
@@ -96,30 +143,50 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
       {
         type: 'MainlevéeGarantiesFinancièresDemandée-V1',
       },
-      mainlevée.mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps,
+      (event) =>
+        mainlevée.mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
       },
-      mainlevée.mapToInstructionDemandeMainlevéeGarantiesFinancièresDémarréeTimelineItemsProps,
+      (event) =>
+        mainlevée.mapToInstructionDemandeMainlevéeGarantiesFinancièresDémarréeTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
       },
-      mainlevée.mapToDemandeMainlevéeGarantiesFinancièresAnnuléeTimelineItemsProps,
+      (event) =>
+        mainlevée.mapToDemandeMainlevéeGarantiesFinancièresAnnuléeTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
       },
-      mainlevée.mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps,
+      (event) =>
+        mainlevée.mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .with(
       {
         type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
       },
-      mainlevée.mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps,
+      (event) =>
+        mainlevée.mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps(
+          event,
+          garantiesFinancièresIcon,
+        ),
     )
     .exhaustive();
