@@ -2,7 +2,6 @@ import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
@@ -10,7 +9,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToAbandonDemandéTimelineItemProps = (
-  abandonDemandé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  abandonDemandé: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
 ) => {
   const event = match(abandonDemandé)
     .with(

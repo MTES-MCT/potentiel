@@ -26,7 +26,11 @@ import {
   registerPuissanceQueries,
   registerPuissanceUseCases,
 } from './puissance/puissance.register';
-import { registerAbandonQueries, registerAbandonUseCases } from './abandon/abandon.register';
+import {
+  AbandonQueryDependencies,
+  registerAbandonQueries,
+  registerAbandonUseCases,
+} from './abandon/abandon.register';
 import {
   FournisseurQueryDependencies,
   registerFournisseurQueries,
@@ -38,7 +42,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   DélaiQueryDependencies &
   ProducteurQueryDependencies &
   PuissanceQueryDependencies &
-  FournisseurQueryDependencies;
+  FournisseurQueryDependencies &
+  AbandonQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;

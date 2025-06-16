@@ -1,8 +1,7 @@
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToAbandonPasséEnInstructionTimelineItemProps = (
-  abandonPasséEnInstruction: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  abandonPasséEnInstruction: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
 ) => {
   const { passéEnInstructionLe, passéEnInstructionPar } =
     abandonPasséEnInstruction.payload as Lauréat.Abandon.AbandonPasséEnInstructionEvent['payload'];

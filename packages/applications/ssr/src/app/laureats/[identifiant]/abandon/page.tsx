@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 
 import { Email } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Historique } from '@potentiel-domain/historique';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
@@ -64,8 +63,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const historique = await mediator.send<Historique.ListerHistoriqueAbandonProjetQuery>({
-        type: 'Historique.Query.ListerHistoriqueAbandonProjet',
+      const historique = await mediator.send<Lauréat.Abandon.ListerHistoriqueAbandonProjetQuery>({
+        type: 'Lauréat.Abandon.Query.ListerHistoriqueAbandonProjet',
         data: {
           identifiantProjet,
         },
