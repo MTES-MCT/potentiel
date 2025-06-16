@@ -1,9 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { FournisseurHistoryRecord } from '.';
-
 export const mapToÉvaluationCarboneModifiéeTimelineItemsProps = (
-  record: FournisseurHistoryRecord,
+  record: Lauréat.Fournisseur.HistoriqueFournisseurProjetListItemReadModel,
 ) => {
   const { modifiéeLe, modifiéePar, évaluationCarboneSimplifiée } =
     record.payload as Lauréat.Fournisseur.ÉvaluationCarboneModifiéeEvent['payload'];

@@ -11,17 +11,24 @@ import { EnregistrerChangementFournisseurUseCase } from './changement/enregistre
 import {
   ListerChangementFournisseurQuery,
   ListerChangementFournisseurReadModel,
-} from './lister/listerChangementFournisseur.query';
+} from './changement/lister/listerChangementFournisseur.query';
+import {
+  ListerHistoriqueFournisseurProjetQuery,
+  ListerHistoriqueFournisseurProjetReadModel,
+  HistoriqueFournisseurProjetListItemReadModel,
+} from './listerHistorique/listerHistoriqueFournisseurProjet.query';
 
 // Query
 export type FournisseurQuery =
   | ConsulterFournisseurQuery
   | ConsulterChangementFournisseurQuery
-  | ListerChangementFournisseurQuery;
+  | ListerChangementFournisseurQuery
+  | ListerHistoriqueFournisseurProjetQuery;
 export type {
   ConsulterFournisseurQuery,
   ConsulterChangementFournisseurQuery,
   ListerChangementFournisseurQuery,
+  ListerHistoriqueFournisseurProjetQuery,
 };
 
 // ReadModel
@@ -29,6 +36,8 @@ export {
   ConsulterFournisseurReadModel,
   ListerChangementFournisseurReadModel,
   ConsulterChangementFournisseurReadModel,
+  ListerHistoriqueFournisseurProjetReadModel,
+  HistoriqueFournisseurProjetListItemReadModel,
 };
 
 // UseCases

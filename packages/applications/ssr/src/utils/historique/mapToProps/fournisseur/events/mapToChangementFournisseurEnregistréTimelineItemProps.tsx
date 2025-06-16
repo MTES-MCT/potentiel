@@ -3,13 +3,10 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
-import { ListeFournisseurs } from '../../ListeFournisseurs';
-
-import { FournisseurHistoryRecord } from '.';
+import { ListeFournisseurs } from '@/components/pages/fournisseur/changement/ListeFournisseurs';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
-  record: FournisseurHistoryRecord,
+  record: Lauréat.Fournisseur.HistoriqueFournisseurProjetListItemReadModel,
 ) => {
   const {
     enregistréLe,
@@ -35,8 +32,7 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
         )}
         {fournisseurs && (
           <div>
-            Fournisseurs :
-            <ListeFournisseurs fournisseurs={fournisseurs ?? []} />
+            Nouveaux fournisseurs : <ListeFournisseurs fournisseurs={fournisseurs ?? []} />{' '}
           </div>
         )}
         {raison && (

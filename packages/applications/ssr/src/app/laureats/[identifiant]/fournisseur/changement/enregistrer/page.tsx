@@ -44,11 +44,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         identifiantProjet={mapToPlainObject(fournisseur.identifiantProjet)}
         fournisseurs={mapToPlainObject(fournisseur.fournisseurs)}
         évaluationCarboneSimplifiée={fournisseur.évaluationCarboneSimplifiée}
-        typesFournisseur={
-          technologie === 'eolien'
-            ? Lauréat.Fournisseur.TypeFournisseur.typesFournisseurEolien
-            : Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV
-        }
         évaluationCarboneSimplifiéeInitiale={candidature.evaluationCarboneSimplifiée}
         technologie={technologie}
       />

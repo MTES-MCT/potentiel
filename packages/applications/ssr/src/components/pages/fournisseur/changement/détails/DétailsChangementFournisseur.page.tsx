@@ -6,8 +6,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { HistoriqueFournisseurTimeline, HistoriqueFournisseurTimelineProps } from './timeline';
 import {
   DétailsChangementFournisseur,
   DétailsChangementFournisseurProps,
@@ -17,7 +17,7 @@ export type ChangementFournisseurActions = 'enregistrer-changement';
 
 export type DétailsChangementFournisseurPageProps = DétailsChangementFournisseurProps & {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  historique: HistoriqueFournisseurTimelineProps['historique'];
+  historique: Array<TimelineItemProps>;
 };
 
 export const DétailsChangementFournisseurPage: FC<DétailsChangementFournisseurPageProps> = ({
@@ -40,7 +40,7 @@ export const DétailsChangementFournisseurPage: FC<DétailsChangementFournisseur
       />
       <div className="mb-4">
         <Heading2>Historique</Heading2>
-        <HistoriqueFournisseurTimeline historique={historique} />
+        <Timeline items={historique} />
       </div>
     </div>
   </PageTemplate>

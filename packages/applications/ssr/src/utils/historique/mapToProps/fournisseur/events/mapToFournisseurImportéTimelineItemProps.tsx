@@ -1,10 +1,10 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ListeFournisseurs } from '../../ListeFournisseurs';
+import { ListeFournisseurs } from '@/components/pages/fournisseur/changement/ListeFournisseurs';
 
-import { FournisseurHistoryRecord } from '.';
-
-export const mapToFournisseurImportéTimelineItemProps = (record: FournisseurHistoryRecord) => {
+export const mapToFournisseurImportéTimelineItemProps = (
+  record: Lauréat.Fournisseur.HistoriqueFournisseurProjetListItemReadModel,
+) => {
   const { importéLe, évaluationCarboneSimplifiée, fournisseurs } =
     record.payload as Lauréat.Fournisseur.FournisseurImportéEvent['payload'];
   return {

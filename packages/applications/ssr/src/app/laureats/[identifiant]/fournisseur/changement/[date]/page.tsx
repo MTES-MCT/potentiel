@@ -5,14 +5,13 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Historique } from '@potentiel-domain/historique';
 
 import { DétailsChangementFournisseurPage as DétailsChangementFournisseurPage } from '@/components/pages/fournisseur/changement/détails/DétailsChangementFournisseur.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { FournisseurHistoryRecord } from '@/components/pages/fournisseur/changement/détails/timeline';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { mapToFournisseurTimelineItemProps } from '@/utils/historique/mapToProps/fournisseur';
 
 import { getTechnologie } from '../../_helpers/getTechnologie';
 
@@ -50,21 +49,19 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       return notFound();
     }
 
-    const historique = await mediator.send<
-      Historique.ListerHistoriqueProjetQuery<FournisseurHistoryRecord>
-    >({
-      type: 'Historique.Query.ListerHistoriqueProjet',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-        category: 'fournisseur',
-      },
-    });
+    const historique =
+      await mediator.send<Lauréat.Fournisseur.ListerHistoriqueFournisseurProjetQuery>({
+        type: 'Lauréat.Fournisseur.Query.ListerHistoriqueFournisseurProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
     return (
       <DétailsChangementFournisseurPage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
         changement={mapToPlainObject(changement.changement)}
-        historique={mapToPlainObject(historique)}
+        historique={historique.items.map(mapToFournisseurTimelineItemProps)}
         technologie={technologie}
         évaluationCarboneSimplifiéeInitiale={candidature.evaluationCarboneSimplifiée}
       />

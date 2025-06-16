@@ -353,6 +353,7 @@ const référencielPermissions = {
         consulter: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
         consulterChangement: 'Lauréat.Fournisseur.Query.ConsulterChangementFournisseur',
         listerChangement: 'Lauréat.Fournisseur.Query.ListerChangementFournisseur',
+        listerHistoriqueFournisseur: 'Lauréat.Fournisseur.Query.ListerHistoriqueFournisseurProjet',
       },
       usecase: {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',
@@ -955,6 +956,7 @@ const policies = {
       référencielPermissions.historique.query.listerHistoriqueRecours,
       référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
       référencielPermissions.historique.query.listerHistoriqueRaccordement,
+      référencielPermissions.lauréat.fournisseur.query.listerHistoriqueFournisseur,
     ],
     imprimer: [],
   },
