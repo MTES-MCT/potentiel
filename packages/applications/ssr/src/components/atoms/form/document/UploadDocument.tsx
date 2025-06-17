@@ -43,6 +43,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   const acceptedFormats = formats.map((format) => `.${format}`).join(',');
 
   const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
+  const [invalid, setInvalid] = useState(false);
 
   const browseForFile = () => {
     hiddenFileInput?.current?.click();
@@ -50,6 +51,8 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
+
+    setInvalid(false);
 
     if (!files || Object.keys(files).length === 0) {
       setDocumentFilenames([]);
@@ -125,13 +128,21 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
           accept={acceptedFormats}
           className="w-0 -z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
           onChange={handleFileChange}
+          // NB: le comportement diffère selon les navigateurs.
+          // Dans Chrome, il n'y a aucune feedback si le fichier est manquant
+          // On utilise donc ce callback pour gérer le feedback manuellement
+          onInvalid={() => setInvalid(true)}
         />
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
           <Icon id="fr-icon-folder-2-fill" className="md:mr-1" />
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
 
-        <div className="text-sm truncate m-0 p-0 text-dsfr-text-actionHigh-grey-default">
+        <div
+          className={clsx('text-sm truncate m-0 p-0 text-dsfr-text-actionHigh-grey-default ', {
+            'text-theme-error': invalid,
+          })}
+        >
           {documentFilenames.length === 0 && 'Aucun document sélectionné'}
           {documentFilenames.length === 1 && (
             <div className="flex flex-row items-center gap-2">
