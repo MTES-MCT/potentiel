@@ -2,10 +2,13 @@ import { match, P } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { Raccordement } from '@potentiel-domain/laureat';
+import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { IconProps } from '@/components/atoms/Icon';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { raccordementIcon } from '../icons';
 
 import {
   dossierRaccordement,
@@ -18,6 +21,11 @@ export type RaccordementHistoryRecord = HistoryRecord<
   Raccordement.RaccordementEvent['type'],
   Raccordement.RaccordementEvent['payload']
 >;
+
+export type MapToRaccordementTimelineItemProps = (
+  readmodel: Historique.HistoriqueRaccordementProjetListItemReadModel,
+  icon: IconProps,
+) => TimelineItemProps;
 
 export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRecord) =>
   match(record)
@@ -32,13 +40,21 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
           'RéférenceDossierRacordementModifiée-V2',
         ),
       },
-      dossierRaccordement.mapToRéférenceDossierRacordementModifiéeTimelineItemProps,
+      (event) =>
+        dossierRaccordement.mapToRéférenceDossierRacordementModifiéeTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
     .with(
       {
         type: 'DossierDuRaccordementSupprimé-V1',
       },
-      dossierRaccordement.mapToDossierRacordementSuppriméTimelineItemProps,
+      (event) =>
+        dossierRaccordement.mapToDossierRacordementSuppriméTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
     ///////////// DCR
     .with(
@@ -49,7 +65,11 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
           'DemandeComplèteDeRaccordementTransmise-V3',
         ),
       },
-      dossierRaccordement.DCR.mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps,
+      (event) =>
+        dossierRaccordement.DCR.mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
     .with(
       {
@@ -59,12 +79,17 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
           'DemandeComplèteRaccordementModifiée-V3',
         ),
       },
-      dossierRaccordement.DCR.mapToDemandeComplèteRaccordementModifiéeTimelineItemProps,
+      (event) =>
+        dossierRaccordement.DCR.mapToDemandeComplèteRaccordementModifiéeTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
-    .with(
-      { type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1' },
-      dossierRaccordement.DCR
-        .mapToAccuséRéceptionDemandeComplèteRaccordementTransmisTimelineItemProps,
+    .with({ type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1' }, (event) =>
+      dossierRaccordement.DCR.mapToAccuséRéceptionDemandeComplèteRaccordementTransmisTimelineItemProps(
+        event,
+        raccordementIcon,
+      ),
     )
     ///////////// PTF
     .with(
@@ -75,7 +100,11 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
           'PropositionTechniqueEtFinancièreTransmise-V2',
         ),
       },
-      dossierRaccordement.PTF.mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps,
+      (event) =>
+        dossierRaccordement.PTF.mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
     .with(
       {
@@ -84,18 +113,28 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
           'PropositionTechniqueEtFinancièreModifiée-V2',
         ),
       },
-      dossierRaccordement.PTF.mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps,
+      (event) =>
+        dossierRaccordement.PTF.mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
     ///////////// Date de mise en service
     .with(
       {
         type: P.union('DateMiseEnServiceTransmise-V1', 'DateMiseEnServiceTransmise-V2'),
       },
-      dossierRaccordement.dateMiseEnService.mapToDateMiseEnServiceTransmiseTimelineItemProps,
+      (event) =>
+        dossierRaccordement.dateMiseEnService.mapToDateMiseEnServiceTransmiseTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
-    .with(
-      { type: 'DateMiseEnServiceSupprimée-V1' },
-      dossierRaccordement.dateMiseEnService.mapToDossierRacordementSuppriméTimelineItemProps,
+    .with({ type: 'DateMiseEnServiceSupprimée-V1' }, (event) =>
+      dossierRaccordement.dateMiseEnService.mapToDossierRacordementSuppriméTimelineItemProps(
+        event,
+        raccordementIcon,
+      ),
     )
 
     /***
@@ -105,13 +144,21 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
       {
         type: 'GestionnaireRéseauAttribué-V1',
       },
-      gestionnaireRéseau.mapToGestionnaireRéseauAttribuéTimelineItemProps,
+      (event) =>
+        gestionnaireRéseau.mapToGestionnaireRéseauAttribuéTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
     .with(
       {
         type: 'GestionnaireRéseauRaccordementModifié-V1',
       },
-      gestionnaireRéseau.mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps,
+      (event) =>
+        gestionnaireRéseau.mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps(
+          event,
+          raccordementIcon,
+        ),
     )
     /**
      * Raccordement du projet
@@ -120,7 +167,7 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
       {
         type: 'RaccordementSupprimé-V1',
       },
-      mapToRacordementSuppriméTimelineItemProps,
+      (event) => mapToRacordementSuppriméTimelineItemProps(event, raccordementIcon),
     )
     /**
      * Ignoré

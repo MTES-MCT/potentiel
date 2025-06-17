@@ -19,7 +19,7 @@ import {
 } from './events';
 
 export type MapToPuissanceTimelineItemProps = (
-  readmodel: Historique.HistoriquePuissanceProjetListItemReadModel,
+  readmodel: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: string,
   icon: IconProps,
 ) => TimelineItemProps;
