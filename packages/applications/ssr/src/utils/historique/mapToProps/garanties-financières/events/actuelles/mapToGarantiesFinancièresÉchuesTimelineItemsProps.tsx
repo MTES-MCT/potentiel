@@ -15,10 +15,7 @@ export const mapToGarantiesFinancièresÉchuesTimelineItemsProps = (
     content: (
       <div className="flex flex-col gap-2">
         <div>
-          Date d'échéance dépassée :{' '}
-          <span className="font-semibold">
-            <FormattedDate date={dateÉchéance} />
-          </span>
+          Date d'échéance dépassée : <FormattedDate date={dateÉchéance} className="font-semibold" />
         </div>
       </div>
     ),
