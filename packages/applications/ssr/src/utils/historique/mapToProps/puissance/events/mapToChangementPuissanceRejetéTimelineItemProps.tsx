@@ -4,8 +4,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToChangementPuissanceRejetéTimelineItemProps = (
-  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
+import { MapToPuissanceTimelineItemProps } from '../mapToPuissanceTimelineItemProps';
+
+export const mapToChangementPuissanceRejetéTimelineItemProps: MapToPuissanceTimelineItemProps = (
+  record,
+  _,
+  icon,
 ) => {
   const {
     rejetéLe,
@@ -24,6 +28,7 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
+    icon,
     title: (
       <div>
         Changement de puissance rejeté par {<span className="font-semibold">{rejetéPar}</span>}

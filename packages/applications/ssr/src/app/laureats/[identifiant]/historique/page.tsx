@@ -25,7 +25,7 @@ import { mapToLauréatTimelineItemProps } from '@/utils/historique/mapToProps/la
 import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProps/raccordement/mapToRaccordementTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
-import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
+import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance/mapToPuissanceTimelineItemProps';
 
 const categoriesDisponibles = [
   'abandon',

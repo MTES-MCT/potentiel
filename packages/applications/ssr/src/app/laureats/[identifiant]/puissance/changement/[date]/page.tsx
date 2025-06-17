@@ -16,7 +16,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
-import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
+import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance/mapToPuissanceTimelineItemProps';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
