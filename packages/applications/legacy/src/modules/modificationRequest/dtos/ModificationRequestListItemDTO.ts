@@ -7,8 +7,13 @@ export const MODIFICATION_REQUEST_TYPES = [
   'autre',
 ] as const;
 // Utilisé pour filtrer facilement la liste demande legacy lors de la migration
-export const MODIFICATION_REQUEST_MIGRATED = ['actionnaire', 'producteur', 'puissance'];
-export const MODIFICATION_REQUEST_TYPES_V2 = ['fournisseur', 'delai', 'autre'] as const;
+export const MODIFICATION_REQUEST_MIGRATED = [
+  'actionnaire',
+  'producteur',
+  'puissance',
+  'fournisseur',
+];
+export const MODIFICATION_REQUEST_TYPES_V2 = ['delai', 'autre'] as const;
 export type ModificationRequestTypes = (typeof MODIFICATION_REQUEST_TYPES)[number];
 export type ModificationRequestTypesV2 = (typeof MODIFICATION_REQUEST_TYPES_V2)[number];
 
