@@ -1,4 +1,4 @@
-import { DomainError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Candidature, Lauréat } from '../../..';
@@ -146,7 +146,7 @@ export const bind = ({
   };
 };
 
-class PuissanceDépassePuissanceMaxAO extends DomainError {
+class PuissanceDépassePuissanceMaxAO extends InvalidOperationError {
   constructor() {
     super(
       "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offre",
@@ -154,7 +154,7 @@ class PuissanceDépassePuissanceMaxAO extends DomainError {
   }
 }
 
-class PuissanceEnDeçaPuissanceMinAO extends DomainError {
+class PuissanceEnDeçaPuissanceMinAO extends InvalidOperationError {
   constructor() {
     super(
       "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offre",
@@ -162,7 +162,7 @@ class PuissanceEnDeçaPuissanceMinAO extends DomainError {
   }
 }
 
-class PuissanceDépassePuissanceMaxFamille extends DomainError {
+class PuissanceDépassePuissanceMaxFamille extends InvalidOperationError {
   constructor() {
     super(
       "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offre",
@@ -170,7 +170,7 @@ class PuissanceDépassePuissanceMaxFamille extends DomainError {
   }
 }
 
-class PuissanceDépasseVolumeRéservéAO extends DomainError {
+class PuissanceDépasseVolumeRéservéAO extends InvalidOperationError {
   constructor() {
     super('La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé');
   }

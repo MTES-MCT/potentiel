@@ -61,8 +61,6 @@ export type ProjectDataForProjectPage = {
   nomProjet: string;
   nomRepresentantLegal: string;
   email: string;
-  fournisseur?: string;
-  evaluationCarbone?: number;
   note: number;
   notesInnovation?: NotesInnovation;
   notePrix?: string;

@@ -23,13 +23,12 @@ import {
   InfoGeneralesProps,
   GarantiesFinancièresProjetProps,
   EtapesProjetProps,
+  MaterielsEtTechnologiesProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
-// This is a hack to avoid importing the entire Utilisateur package,
-// which in turn imports Candidature and breaks the JS due to the crypto dependency.
-import * as Role from '@potentiel-domain/utilisateur/dist/role.valueType';
+import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import {
@@ -61,6 +60,7 @@ type ProjectDetailsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   candidature: ContactProps['candidature'];
+  fournisseur: MaterielsEtTechnologiesProps['fournisseur'];
 };
 
 export const ProjectDetails = ({
@@ -80,6 +80,7 @@ export const ProjectDetails = ({
   coefficientKChoisi,
   producteur,
   candidature,
+  fournisseur,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -158,6 +159,7 @@ export const ProjectDetails = ({
         puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
         producteurAffichage={producteur?.affichage}
+        fournisseurAffichage={fournisseur?.affichage}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -226,8 +228,8 @@ export const ProjectDetails = ({
               candidature={candidature}
             />
             <MaterielsEtTechnologies
-              fournisseur={project.fournisseur}
-              evaluationCarbone={project.evaluationCarbone}
+              fournisseur={fournisseur}
+              modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
             />
 
             {project.notesInnovation && (

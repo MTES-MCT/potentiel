@@ -29,7 +29,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
         className="print:hidden"
         severity="warning"
         title="Attention"
-        description="Les informations à propos des modifications de fournisseur et des demandes de délai ne sont
+        description="Les informations à propos des demandes de délai ne sont
         pas encore présentes."
       />
 

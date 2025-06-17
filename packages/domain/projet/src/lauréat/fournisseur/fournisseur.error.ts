@@ -14,7 +14,7 @@ export class FournisseursIdentiqueError extends InvalidOperationError {
 
 export class ChangementFournisseurValeurIdentiqueError extends InvalidOperationError {
   constructor() {
-    super('Le changement de fournisseur doit contenir un changement');
+    super('Le changement de fournisseur doit contenir une modification');
   }
 }
 

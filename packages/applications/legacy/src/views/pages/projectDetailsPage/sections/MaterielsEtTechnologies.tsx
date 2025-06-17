@@ -1,24 +1,46 @@
 import React from 'react';
-import { ProjectDataForProjectPage } from '../../../../modules/project';
-import { CogIcon, Section } from '../../../components';
+import { CogIcon, Heading3, Link, Section } from '../../../components';
+import { ListeFournisseurs } from './ListeFournisseurs';
+import { GetFournisseurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getFournisseur';
 
-type MaterielsEtTechnologiesProps = {
-  fournisseur: ProjectDataForProjectPage['fournisseur'];
-  evaluationCarbone: ProjectDataForProjectPage['evaluationCarbone'];
+export type MaterielsEtTechnologiesProps = {
+  fournisseur?: GetFournisseurForProjectPage;
+  modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
 export const MaterielsEtTechnologies = ({
   fournisseur,
-  evaluationCarbone,
+  modificationsNonPermisesParLeCDCActuel,
 }: MaterielsEtTechnologiesProps) => {
-  if (!fournisseur && !evaluationCarbone) {
+  if (!fournisseur) {
     return null;
   }
+
+  const { fournisseurs, évaluationCarboneSimplifiée, affichage } = fournisseur;
+
   return (
     <Section title="Matériels et technologies" icon={<CogIcon />}>
-      {fournisseur && <div>Fournisseur: {fournisseur}</div>}
-      {evaluationCarbone && (
-        <div>Evaluation carbone simplifiée: {evaluationCarbone} kg eq CO2/kWc</div>
+      <div>
+        <Heading3 className="mb-1">Evaluation carbone simplifiée</Heading3>
+        {évaluationCarboneSimplifiée} kg eq CO2/kWc
+      </div>
+      {fournisseurs.length && (
+        <div className="mt-2">
+          <Heading3 className="mb-1">Fournisseurs</Heading3>
+          <ListeFournisseurs
+            fournisseurs={fournisseurs.map(
+              ({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
+                typeFournisseur,
+                nomDuFabricant,
+              }),
+            )}
+          />
+        </div>
+      )}
+      {affichage && !modificationsNonPermisesParLeCDCActuel && (
+        <Link href={affichage.url} aria-label={affichage.label}>
+          {affichage.label}
+        </Link>
       )}
     </Section>
   );

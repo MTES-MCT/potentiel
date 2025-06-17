@@ -9,6 +9,7 @@ import {
   CahierDesCharges,
   Producteur,
   Historique,
+  Fournisseur,
 } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
@@ -44,4 +45,5 @@ export const Routes = {
   CahierDesCharges,
   Producteur,
   Historique,
+  Fournisseur,
 };
