@@ -41,8 +41,9 @@ export const EnregistrerChangementFournisseurForm: FC<
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerChangementFournisseurFormKeys>
   >({});
+
   const [évaluationCarboneSimplifiée, setÉvaluationCarboneSimplifiée] = useState(
-    évaluationCarboneSimplifiéeActuelle,
+    Math.round(évaluationCarboneSimplifiéeActuelle * 100) / 100,
   );
 
   return (
@@ -85,11 +86,11 @@ export const EnregistrerChangementFournisseurForm: FC<
               value: évaluationCarboneSimplifiée,
               type: 'number',
               inputMode: 'decimal',
-              pattern: '[0-9]+([.][0-9]+)?',
               step: 'any',
               required: true,
               'aria-required': true,
-              onChange: (e) => setÉvaluationCarboneSimplifiée(Number(e.target.value)),
+              onChange: (e) =>
+                setÉvaluationCarboneSimplifiée(Math.round(Number(e.target.value) * 100) / 100),
             }}
           />
         </div>
@@ -113,16 +114,17 @@ export const EnregistrerChangementFournisseurForm: FC<
           hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
           nativeTextAreaProps={{
             name: 'raison',
-            required: false,
-            'aria-required': false,
+            required: true,
+            'aria-required': true,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label={'Pièce justificative'}
+          label={'Pièce(s) justificative(s)'}
           name="piecesJustificatives"
-          required={true}
+          required
+          multiple
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}

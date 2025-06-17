@@ -8,13 +8,13 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   evaluationCarboneSimplifiee: zod.coerce.number().positive(),
   raison: zod.string(),
-  piecesJustificatives: singleDocument({
+  piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
   }),
 };
