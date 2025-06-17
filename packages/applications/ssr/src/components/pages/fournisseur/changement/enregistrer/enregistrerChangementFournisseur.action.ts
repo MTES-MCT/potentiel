@@ -108,11 +108,9 @@ const action: FormAction<FormState, typeof schema> = async (
       return {
         status: 'validation-error',
         errors: {
-          ...(evaluationCarboneSimplifieeModifiée === undefined && {
-            evaluationCarboneSimplifiee:
-              'Le changement de fournisseur doit contenir une modification',
-          }),
-          ...(!fournisseurs.length && {
+          evaluationCarboneSimplifiee:
+            'Le changement de fournisseur doit contenir une modification',
+          ...(fournisseurs.length && {
             [`fournisseurs.${fournisseurs.length - 1}.typeFournisseur`]:
               'Le changement de fournisseur doit contenir une modification',
           }),
