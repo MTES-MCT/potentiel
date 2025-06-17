@@ -26,7 +26,7 @@ const schema = zod.discriminatedUnion('technologie', [
     technologie: zod.literal('pv'),
     fournisseurs: zod.array(
       zod.object({
-        nomDuFabricant: zod.string().min(1),
+        nomDuFabricant: zod.string().min(1, { message: 'Le nom du fabricant est requis' }),
         typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV, {
           message: `Ce type de fournisseur n'est pas compatible avec la technologie PV`,
         }),
@@ -38,7 +38,7 @@ const schema = zod.discriminatedUnion('technologie', [
     technologie: zod.literal('eolien'),
     fournisseurs: zod.array(
       zod.object({
-        nomDuFabricant: zod.string().min(1),
+        nomDuFabricant: zod.string().min(1, { message: 'Le nom du fabricant est requis' }),
         typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurEolien, {
           message: `Ce type de fournisseur n'est pas compatible avec la technologie Eolien`,
         }),
