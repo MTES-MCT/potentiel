@@ -5,7 +5,12 @@ import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/p
 import { logger, ok } from '../core/utils';
 import { Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
-import { ProjectDataCorrected, ProjectProducteurUpdated } from '../modules/project';
+import {
+  FournisseurKind,
+  ProjectDataCorrected,
+  ProjectFournisseursUpdated,
+} from '../modules/project';
+import { Option } from '@potentiel-libraries/monads';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { UniqueEntityID } from '../core/domain';
 import { ModificationReceived } from '../modules/modificationRequest';
@@ -13,6 +18,25 @@ import { ModificationReceived } from '../modules/modificationRequest';
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent & Event;
 
 export type Execute = Message<'System.Saga.Fournisseur', SubscriptionEvent>;
+
+const CORRESPONDANCE_CHAMPS_FOURNISSEURS: Record<
+  Lauréat.Fournisseur.TypeFournisseur.RawType,
+  FournisseurKind
+> = {
+  'module-ou-films': 'Nom du fabricant \n(Modules ou films)',
+  cellules: 'Nom du fabricant (Cellules)',
+  'plaquettes-silicium': 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
+  polysilicium: 'Nom du fabricant \n(Polysilicium)',
+  'postes-conversion': 'Nom du fabricant \n(Postes de conversion)',
+  structure: 'Nom du fabricant \n(Structure)',
+  'dispositifs-stockage-energie': 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
+  'dispositifs-suivi-course-soleil':
+    'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
+  'autres-technologies': 'Nom du fabricant \n(Autres technologies)',
+  'dispositif-de-production': 'Nom du fabricant \n(dispositif de production)',
+  'dispositif-de-stockage': 'Nom du fabricant \n(Dispositif de stockage)',
+  'poste-conversion': 'Nom du fabricant \n(Poste de conversion)',
+};
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -38,7 +62,7 @@ export const register = () => {
             return ok(user);
           }),
         );
-        const { fournisseurs, évaluationCarboneSimplifiée, raison, pièceJustificative } = payload;
+        const { fournisseurs, évaluationCarboneSimplifiée } = payload;
 
         await eventStore.publish(
           new ModificationReceived({
@@ -47,21 +71,44 @@ export const register = () => {
               projectId: projet.id,
               requestedBy: updatedBy,
               type: 'fournisseur',
-              fournisseurs: fournisseurs,
+              fournisseurs: fournisseurs?.map((fournisseur) => ({
+                kind: CORRESPONDANCE_CHAMPS_FOURNISSEURS[fournisseur.typeFournisseur],
+                name: fournisseur.nomDuFabricant,
+              })),
               evaluationCarbone: évaluationCarboneSimplifiée,
               authority: 'dreal',
             },
           }),
-        ),
-          await eventStore.publish(
-            new ProjectProducteurUpdated({
-              payload: {
-                projectId: projet.id,
-                newProducteur: producteur,
-                updatedBy: updatedBy,
-              },
-            }),
-          );
+        );
+
+        const fournisseursActuels =
+          await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
+            type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+            data: { identifiantProjet: identifiantProjet.formatter() },
+          });
+
+        const referenceFournisseursArray = fournisseurs
+          ? fournisseurs
+          : Option.isSome(fournisseursActuels)
+            ? fournisseursActuels.fournisseurs
+            : [];
+
+        await eventStore.publish(
+          new ProjectFournisseursUpdated({
+            payload: {
+              projectId: projet.id,
+              newFournisseurs: referenceFournisseursArray.map((fournisseur) => ({
+                kind: CORRESPONDANCE_CHAMPS_FOURNISSEURS[fournisseur.typeFournisseur],
+                name: fournisseur.nomDuFabricant,
+              })),
+              newEvaluationCarbone: évaluationCarboneSimplifiée
+                ? évaluationCarboneSimplifiée
+                : projet?.evaluationCarbone,
+              updatedBy: updatedBy,
+            },
+          }),
+        );
+
         break;
 
       case 'ÉvaluationCarboneSimplifiéeModifiée-V1':

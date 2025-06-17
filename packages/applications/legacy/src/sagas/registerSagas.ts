@@ -162,7 +162,7 @@ export const registerSagas = async () => {
 
   const unsubscribeFournisseur = await subscribe<FournisseurSaga.SubscriptionEvent>({
     name: 'legacy-saga-fournisseur',
-    eventType: ['ÉvaluationCarboneSimplifiéeModifiée-V1'],
+    eventType: ['ÉvaluationCarboneSimplifiéeModifiée-V1', 'ChangementFournisseurEnregistré-V1'],
     eventHandler: async (event) => {
       await mediator.send<FournisseurSaga.Execute>({
         type: 'System.Saga.Fournisseur',
