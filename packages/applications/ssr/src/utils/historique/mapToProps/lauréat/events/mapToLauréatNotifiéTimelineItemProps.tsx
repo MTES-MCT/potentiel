@@ -1,17 +1,20 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToLauréatNotifiéTimelineItemProps = (
-  modification: Historique.HistoriqueLauréatProjetListItemReadModel,
+import { MapToLauréatTimelineItemProps } from '../mapToLauréatTimelineItemProps';
+
+export const mapToLauréatNotifiéTimelineItemProps: MapToLauréatTimelineItemProps = (
+  modification,
+  icon,
 ) => {
   const { identifiantProjet, notifiéLe } =
     modification.payload as Lauréat.LauréatNotifiéEvent['payload'];
 
   return {
     date: notifiéLe,
+    icon,
     title: <div>Projet notifié</div>,
     content: (
       <DownloadDocument
