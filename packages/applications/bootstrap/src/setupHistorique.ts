@@ -68,24 +68,10 @@ export const setupHistorique = async () => {
       streamCategory: 'raccordement',
     });
 
-  const unsubscribeFournisseurHistoriqueProjector =
-    await subscribe<HistoriqueProjector.SubscriptionEvent>({
-      name: 'history',
-      eventType: 'all',
-      eventHandler: async (event) => {
-        await mediator.send<HistoriqueProjector.Execute>({
-          type: 'System.Projector.Historique',
-          data: event,
-        });
-      },
-      streamCategory: 'fournisseur',
-    });
-
   return async () => {
     await unsubscribeActionnaireHistoriqueProjector();
     await unsubscribeReprésentantLégalHistoriqueProjector();
     await unsubscribeGarantiesFinancièresHistoriqueProjector();
     await unsubscribeRaccordementHistoriqueProjector();
-    await unsubscribeFournisseurHistoriqueProjector();
   };
 };
