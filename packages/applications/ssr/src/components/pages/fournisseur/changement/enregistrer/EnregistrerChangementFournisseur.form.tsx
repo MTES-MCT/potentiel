@@ -43,7 +43,7 @@ export const EnregistrerChangementFournisseurForm: FC<
   >({});
 
   const [évaluationCarboneSimplifiée, setÉvaluationCarboneSimplifiée] = useState(
-    Math.round(évaluationCarboneSimplifiéeActuelle * 100) / 100,
+    évaluationCarboneSimplifiéeActuelle,
   );
 
   return (
@@ -81,16 +81,19 @@ export const EnregistrerChangementFournisseurForm: FC<
             label="Évaluation carbone simplifiée"
             hintText="kg eq CO2/kWc"
             className="md:max-w-64"
+            classes={{
+              nativeInputOrTextArea: 'invalid:text-theme-error',
+            }}
             nativeInputProps={{
               name: 'evaluationCarboneSimplifiee',
               value: évaluationCarboneSimplifiée,
               type: 'number',
               inputMode: 'decimal',
-              step: 'any',
+              step: 0.01,
               required: true,
+              min: 0,
               'aria-required': true,
-              onChange: (e) =>
-                setÉvaluationCarboneSimplifiée(Math.round(Number(e.target.value) * 100) / 100),
+              onChange: (e) => setÉvaluationCarboneSimplifiée(Number(e.target.value)),
             }}
           />
         </div>
