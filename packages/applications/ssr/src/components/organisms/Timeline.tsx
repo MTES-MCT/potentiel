@@ -18,28 +18,29 @@ export type TimelineProps = {
   items: Array<TimelineItemProps>;
   className?: string;
 };
-export const Timeline: FC<TimelineProps> = ({ items, className }) => (
-  <MuiTimeline
-    sx={{
-      [`& .${timelineOppositeContentClasses.root}`]: {
-        flex: 0.2,
+export const Timeline: FC<TimelineProps> = ({ items, className }) => {
+  const filteredItems = items.filter((item) => {
+    if (item.title !== 'Étape inconnue') {
+      return true;
+    }
+    return process.env.APPLICATION_STAGE !== 'production';
+  });
+
+  return (
+    <MuiTimeline
+      sx={{
+        [`& .${timelineOppositeContentClasses.root}`]: {
+          flex: 0.2,
+          paddingLeft: 0,
+        },
+        '& .MuiTimelineItem-root:before': {
+          display: 'none',
+        },
         paddingLeft: 0,
-      },
-      '& .MuiTimelineItem-root:before': {
-        display: 'none',
-      },
-      paddingLeft: 0,
-    }}
-    className={className ?? ''}
-  >
-    {items
-      .filter((item) => {
-        if (item.title !== 'Étape inconnue') {
-          return true;
-        }
-        return process.env.APPLICATION_STAGE !== 'production';
-      })
-      .map((item) => (
+      }}
+      className={className ?? ''}
+    >
+      {filteredItems.map((item, index) => (
         <TimelineItem
           key={`${item.title}-${item.date}`}
           icon={item.icon}
@@ -48,10 +49,12 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
           type={item.type}
           status={item.status}
           title={item.title}
+          isLast={index === filteredItems.length - 1 ? true : undefined}
         />
       ))}
-  </MuiTimeline>
-);
+    </MuiTimeline>
+  );
+};
 
 export type TimelineItemProps = {
   status?: 'error' | 'success' | 'warning' | 'info';
@@ -60,21 +63,28 @@ export type TimelineItemProps = {
   content?: ReactNode;
   date: Iso8601DateTime | 'En attente';
   icon?: IconProps;
+  isLast?: true;
 };
-
-const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, status, icon }) => {
+const TimelineItem: FC<TimelineItemProps> = ({
+  date,
+  title,
+  content,
+  type,
+  status,
+  icon,
+  isLast,
+}) => {
   const isÉtapeInconnue = title === 'Étape inconnue';
-
   return (
     <MuiTimelineItem
       sx={{
-        minHeight: '0',
+        minHeight: '50',
       }}
     >
-      <TimelineOppositeContent className="w-">
-        <span className="font-bold">
+      <TimelineOppositeContent>
+        <div className="font-bold pt-3">
           {date === 'En attente' ? date : <FormattedDate date={date} />}
-        </span>
+        </div>
       </TimelineOppositeContent>
       <TimelineSeparator>
         <TimelineDot
@@ -90,11 +100,11 @@ const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, statu
                     : 'grey'
           }
         >
-          {icon && <Icon id={icon.id} />}
+          {icon && <Icon id={icon.id} size="md" />}
         </TimelineDot>
-        <TimelineConnector />
+        {!isLast && <TimelineConnector />}
       </TimelineSeparator>
-      <TimelineContent color={isÉtapeInconnue ? 'error' : undefined}>
+      <TimelineContent color={isÉtapeInconnue ? 'error' : undefined} alignContent={'center'}>
         <>
           {title}
           {isÉtapeInconnue && type && ` (${type})`}

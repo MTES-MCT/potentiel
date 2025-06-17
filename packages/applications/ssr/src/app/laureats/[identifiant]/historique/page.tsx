@@ -150,7 +150,7 @@ const mapToTimelineItemProps = (
   if (props) {
     return {
       ...props,
-      icon: {
+      icon: props.icon ?? {
         id: categoryToIconProps[readmodel.category],
       },
     };
