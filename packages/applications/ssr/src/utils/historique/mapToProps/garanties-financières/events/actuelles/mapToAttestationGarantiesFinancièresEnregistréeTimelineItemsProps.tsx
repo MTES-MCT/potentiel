@@ -1,26 +1,11 @@
-import { DocumentProjet } from '@potentiel-domain/document';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-applications/routes';
-
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import { MapToGarantiesFinancièresTimelineItemProps } from '../../mapToGarantiesFinancièresTimelineItemProps';
 
 export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps: MapToGarantiesFinancièresTimelineItemProps =
   (modification, icon) => {
-    const {
-      identifiantProjet,
-      enregistréLe,
-      enregistréPar,
-      attestation: { format },
-    } = modification.payload as GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent['payload'];
-
-    const attestation = DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-      enregistréLe,
-      format,
-    ).formatter();
+    const { enregistréLe, enregistréPar } =
+      modification.payload as GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent['payload'];
 
     return {
       date: enregistréLe,
@@ -29,16 +14,6 @@ export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps
         <div>
           Attestion de garanties financières enregistrée par{' '}
           {<span className="font-semibold">{enregistréPar}</span>}
-        </div>
-      ),
-      content: (
-        <div className="flex flex-col gap-2">
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(attestation)}
-          />
         </div>
       ),
     };

@@ -1,30 +1,13 @@
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import { MapToGarantiesFinancièresTimelineItemProps } from '../../mapToGarantiesFinancièresTimelineItemProps';
 
 export const mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps: MapToGarantiesFinancièresTimelineItemProps =
   (modification, icon) => {
-    const {
-      identifiantProjet,
-      type,
-      dateÉchéance,
-      dateConstitution,
-      modifiéLe,
-      modifiéPar,
-      attestation: { format },
-    } = modification.payload as GarantiesFinancières.DépôtGarantiesFinancièresEnCoursModifiéEvent['payload'];
-
-    const attestation = DocumentProjet.convertirEnValueType(
-      identifiantProjet,
-      GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-      modifiéLe,
-      format,
-    ).formatter();
+    const { type, dateÉchéance, dateConstitution, modifiéLe, modifiéPar } =
+      modification.payload as GarantiesFinancières.DépôtGarantiesFinancièresEnCoursModifiéEvent['payload'];
 
     return {
       date: modifiéLe,
@@ -50,12 +33,6 @@ export const mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps:
             Date de constitution :{' '}
             <span className="font-semibold">{<FormattedDate date={dateConstitution} />}</span>
           </div>
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(attestation)}
-          />
         </div>
       ),
     };
