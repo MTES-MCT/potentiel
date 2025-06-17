@@ -18,8 +18,8 @@ export const changementFournisseurEnregistréProjector = async ({
   await updateOneProjection<Lauréat.Fournisseur.FournisseurEntity>(
     `fournisseur|${identifiantProjet}`,
     {
-      évaluationCarboneSimplifiée,
-      fournisseurs,
+      ...(évaluationCarboneSimplifiée !== undefined && { évaluationCarboneSimplifiée }),
+      ...(fournisseurs && { fournisseurs }),
       misÀJourLe: enregistréLe,
     },
   );

@@ -89,6 +89,7 @@ const action: FormAction<FormState, typeof schema> = async (
       pièceJustificativeValue: piecesJustificatives,
       raisonValue: raison,
     };
+
     const payload: Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase['data'] | undefined =
       fournisseursModifiés
         ? {
@@ -107,9 +108,11 @@ const action: FormAction<FormState, typeof schema> = async (
       return {
         status: 'validation-error',
         errors: {
-          evaluationCarboneSimplifiee:
-            'Le changement de fournisseur doit contenir une modification',
-          ...(fournisseurs.length && {
+          ...(evaluationCarboneSimplifieeModifiée === undefined && {
+            evaluationCarboneSimplifiee:
+              'Le changement de fournisseur doit contenir une modification',
+          }),
+          ...(!fournisseurs.length && {
             [`fournisseurs.${fournisseurs.length - 1}.typeFournisseur`]:
               'Le changement de fournisseur doit contenir une modification',
           }),
