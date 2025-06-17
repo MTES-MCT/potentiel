@@ -7,8 +7,8 @@
     "build": "next build",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "predev": "only-include-used-icons --silent",
-    "prebuild": "only-include-used-icons --silent",
+    "predev": "react-dsfr update-icons",
+    "prebuild": "react-dsfr update-icons",
     "test": "find . -name \"*.test.ts\" -exec tsx --test {} ';'"
   },
   "dependencies": {
