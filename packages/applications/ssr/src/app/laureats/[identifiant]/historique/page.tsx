@@ -26,6 +26,7 @@ import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProp
 import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
+import { IconProps } from '@/components/atoms/Icon';
 
 const categoriesDisponibles = [
   'abandon',
@@ -104,11 +105,24 @@ const mapToActions = (rôle: Role.ValueType) => {
   return actions;
 };
 
+const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconProps['id']> = {
+  'garanties-financieres': 'ri-bank-line',
+  'représentant-légal': 'ri-draft-line',
+  abandon: 'ri-draft-line',
+  achevement: 'ri-verified-badge-line',
+  actionnaire: 'ri-draft-line',
+  lauréat: 'ri-notification-3-line',
+  producteur: 'ri-draft-line',
+  puissance: 'ri-draft-line',
+  raccordement: 'ri-plug-line',
+  recours: 'ri-scales-3-line',
+};
+
 const mapToTimelineItemProps = (
   readmodel: Historique.HistoriqueListItemReadModels,
   unitéPuissance: string,
-) =>
-  match(readmodel)
+) => {
+  const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
     .with(
       {
@@ -133,3 +147,12 @@ const mapToTimelineItemProps = (
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
     .exhaustive(() => undefined);
+  if (props) {
+    return {
+      ...props,
+      icon: {
+        id: categoryToIconProps[readmodel.category],
+      },
+    };
+  }
+};

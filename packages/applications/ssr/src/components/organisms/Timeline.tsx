@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 import MuiTimeline from '@mui/lab/Timeline';
 import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineConnector from '@mui/lab/TimelineConnector';
@@ -11,6 +11,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
+import { Icon, IconProps } from '../atoms/Icon';
 import { FormattedDate } from '../atoms/FormattedDate';
 
 export type TimelineProps = {
@@ -41,6 +42,7 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
       .map((item) => (
         <TimelineItem
           key={`${item.title}-${item.date}`}
+          icon={item.icon}
           content={item.content}
           date={item.date}
           type={item.type}
@@ -57,8 +59,10 @@ export type TimelineItemProps = {
   type?: string;
   content?: ReactNode;
   date: Iso8601DateTime | 'En attente';
+  icon?: IconProps;
 };
-const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, status }) => {
+
+const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, status, icon }) => {
   const isÉtapeInconnue = title === 'Étape inconnue';
 
   return (
@@ -85,7 +89,9 @@ const TimelineItem: FC<TimelineItemProps> = ({ date, title, content, type, statu
                     ? 'info'
                     : 'grey'
           }
-        />
+        >
+          {icon && <Icon id={icon.id} />}
+        </TimelineDot>
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent color={isÉtapeInconnue ? 'error' : undefined}>
