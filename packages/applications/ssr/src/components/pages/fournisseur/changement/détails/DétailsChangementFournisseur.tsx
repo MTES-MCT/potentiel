@@ -49,7 +49,7 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
         <>
           <Heading5>Détails du changement</Heading5>
           <div className="flex flex-col gap-2">
-            {changement.évaluationCarboneSimplifiée && (
+            {changement.évaluationCarboneSimplifiée !== undefined && (
               <>
                 <div className="flex gap-2">
                   <div className="font-semibold whitespace-nowrap">
@@ -64,21 +64,23 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
                 />
               </>
             )}
-            <div className="flex flex-col gap-2">
-              <div className="font-semibold whitespace-nowrap">Fournisseurs :</div>
+            {changement.fournisseurs && (
               <div className="flex flex-col gap-2">
-                <ListeFournisseurs
-                  fournisseurs={
-                    changement.fournisseurs?.map(
-                      ({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
-                        typeFournisseur,
-                        nomDuFabricant,
-                      }),
-                    ) ?? []
-                  }
-                />
+                <div className="font-semibold whitespace-nowrap">Fournisseurs :</div>
+                <div className="flex flex-col gap-2">
+                  <ListeFournisseurs
+                    fournisseurs={
+                      changement.fournisseurs.map(
+                        ({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
+                          typeFournisseur,
+                          nomDuFabricant,
+                        }),
+                      ) ?? []
+                    }
+                  />
+                </div>
               </div>
-            </div>
+            )}
             {changement.raison && (
               <div className="flex gap-2">
                 <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
