@@ -38,7 +38,7 @@ export const MaterielsEtTechnologies = ({
         </div>
       )}
       {affichage && !modificationsNonPermisesParLeCDCActuel && (
-        <Link href={affichage.url} aria-label={affichage.label} className="mt-4">
+        <Link href={affichage.url} aria-label={affichage.label}>
           {affichage.label}
         </Link>
       )}

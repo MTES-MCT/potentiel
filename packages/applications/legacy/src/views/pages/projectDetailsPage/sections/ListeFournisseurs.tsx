@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-
 import { Lauréat } from '@potentiel-domain/projet';
 
 export type ListeFournisseursProps = {
@@ -24,8 +23,8 @@ const typeFournisseurLabel: Record<Lauréat.Fournisseur.TypeFournisseur.RawType,
   'poste-conversion': 'Poste de conversion',
 };
 
-export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) =>
-  Object.entries(
+export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) => {
+  const fournisseursGroupedByType = Object.entries(
     fournisseurs.reduce(
       (prev, { nomDuFabricant, typeFournisseur }) => ({
         ...prev,
@@ -33,9 +32,18 @@ export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) 
       }),
       {} as Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string[]>,
     ),
-  ).map(([typeFournisseur, nomsDesFabricants]) => (
-    <div key={typeFournisseur}>
-      {typeFournisseurLabel[typeFournisseur as Lauréat.Fournisseur.TypeFournisseur.RawType]} :{' '}
-      {nomsDesFabricants.join(', ')}
-    </div>
-  ));
+  );
+
+  return (
+    <ul className="my-1">
+      {fournisseursGroupedByType.map(([typeFournisseur, nomsDesFabricants]) => (
+        <li key={typeFournisseur}>
+          <span>
+            {typeFournisseurLabel[typeFournisseur as Lauréat.Fournisseur.TypeFournisseur.RawType]} :{' '}
+            {nomsDesFabricants.join(', ')}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+};
