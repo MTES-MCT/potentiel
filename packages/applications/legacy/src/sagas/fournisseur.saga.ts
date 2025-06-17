@@ -5,8 +5,10 @@ import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/p
 import { logger, ok } from '../core/utils';
 import { Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
-import { ProjectDataCorrected } from '../modules/project';
+import { ProjectDataCorrected, ProjectProducteurUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
+import { UniqueEntityID } from '../core/domain';
+import { ModificationReceived } from '../modules/modificationRequest';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent & Event;
 
@@ -29,6 +31,39 @@ export const register = () => {
     }
 
     switch (type) {
+      case 'ChangementFournisseurEnregistré-V1':
+        const updatedBy = await new Promise<string>((r) =>
+          getUserByEmail(payload.enregistréPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+        const { fournisseurs, évaluationCarboneSimplifiée, raison, pièceJustificative } = payload;
+
+        await eventStore.publish(
+          new ModificationReceived({
+            payload: {
+              modificationRequestId: new UniqueEntityID().toString(),
+              projectId: projet.id,
+              requestedBy: updatedBy,
+              type: 'fournisseur',
+              fournisseurs: fournisseurs,
+              evaluationCarbone: évaluationCarboneSimplifiée,
+              authority: 'dreal',
+            },
+          }),
+        ),
+          await eventStore.publish(
+            new ProjectProducteurUpdated({
+              payload: {
+                projectId: projet.id,
+                newProducteur: producteur,
+                updatedBy: updatedBy,
+              },
+            }),
+          );
+        break;
+
       case 'ÉvaluationCarboneSimplifiéeModifiée-V1':
         const correctedBy = await new Promise<string>((r) =>
           getUserByEmail(payload.modifiéePar).map((user) => {
