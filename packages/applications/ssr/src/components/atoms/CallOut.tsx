@@ -1,5 +1,6 @@
 import { FrIconClassName, RiIconClassName, fr } from '@codegouvfr/react-dsfr';
 import { FC, ReactNode } from 'react';
+import clsx from 'clsx';
 
 import { Heading3 } from './headings';
 
@@ -49,11 +50,10 @@ export const CallOut: FC<CallOutProps> = ({
   colorVariant = 'info',
 }) => (
   <div
-    className={`${fr.cx(
-      'fr-callout',
-      getColorVariant(colorVariant),
-      getIconId(colorVariant, iconId),
-    )} ${className ?? ''}`}
+    className={clsx(
+      fr.cx('fr-callout', getColorVariant(colorVariant), getIconId(colorVariant, iconId)),
+      className,
+    )}
   >
     {title && <Heading3 className={fr.cx('fr-callout__title')}>{title}</Heading3>}
     <div className={fr.cx('fr-callout__text')}>{content}</div>

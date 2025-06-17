@@ -107,7 +107,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   );
 
   return (
-    <div className={clsx('fr-input-group', className && `${className}`)}>
+    <div className={clsx('fr-input-group', className)}>
       {label && (
         <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
       )}
