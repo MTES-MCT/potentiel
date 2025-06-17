@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { FC } from 'react';
 
 export type SpinnerProps = {
@@ -6,21 +7,19 @@ export type SpinnerProps = {
 };
 
 export const Spinner: FC<SpinnerProps> = ({ className, size }) => {
-  const sizeClass = (size: SpinnerProps['size']) => {
-    switch (size) {
-      case 'small':
-        return 'w-6 h-6';
-      case 'medium':
-        return 'w-8 h-8';
-      case 'large':
-        return 'w-12 h-12';
-    }
+  const sizeClasses: Record<SpinnerProps['size'], string> = {
+    small: 'w-6 h-6',
+    medium: 'w-8 h-8',
+    large: 'w-12 h-12',
   };
 
   return (
     <div
-      className={`inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite 
-       text-theme-blueFrance ${sizeClass(size)} ${className || ''}`}
+      className={clsx(
+        `inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite text-theme-blueFrance`,
+        sizeClasses[size],
+        className,
+      )}
       role="status"
     >
       <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">

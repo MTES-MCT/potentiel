@@ -39,9 +39,7 @@ export const CopyButton = ({
   };
 
   return (
-    <div
-      className={clsx(`print:hidden flex flex-row gap-3 items-center`, className && `${className}`)}
-    >
+    <div className={clsx(`print:hidden flex flex-row gap-3 items-center`, className)}>
       {noChildren ? null : (children ?? <span className="italic">{textToCopy}</span>)}
       <Button
         iconId={hasCopied ? 'ri-check-fill' : 'ri-clipboard-line'}
