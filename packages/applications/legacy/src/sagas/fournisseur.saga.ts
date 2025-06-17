@@ -81,7 +81,7 @@ export const register = () => {
           }),
         );
 
-        const fournisseursActuels =
+        const fournisseurActuel =
           await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
             type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
             data: { identifiantProjet: identifiantProjet.formatter() },
@@ -89,8 +89,8 @@ export const register = () => {
 
         const referenceFournisseursArray = fournisseurs
           ? fournisseurs
-          : Option.isSome(fournisseursActuels)
-            ? fournisseursActuels.fournisseurs
+          : Option.isSome(fournisseurActuel)
+            ? fournisseurActuel.fournisseurs
             : [];
 
         await eventStore.publish(
@@ -103,7 +103,9 @@ export const register = () => {
               })),
               newEvaluationCarbone: évaluationCarboneSimplifiée
                 ? évaluationCarboneSimplifiée
-                : projet?.evaluationCarbone,
+                : Option.isSome(fournisseurActuel)
+                  ? fournisseurActuel.évaluationCarboneSimplifiée
+                  : undefined,
               updatedBy: updatedBy,
             },
           }),
