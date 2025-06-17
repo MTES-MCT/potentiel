@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
+import { fr } from '@codegouvfr/react-dsfr';
 
 import { fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
 
@@ -139,9 +140,11 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
         </Button>
 
         <div
-          className={clsx('text-sm truncate m-0 p-0 text-dsfr-text-actionHigh-grey-default ', {
-            'text-theme-error': invalid,
-          })}
+          className={clsx(
+            'text-sm truncate m-0 p-0',
+            fr.colors.decisions.text.actionHigh.grey.default,
+            { [fr.cx('fr-error-text')]: invalid },
+          )}
         >
           {documentFilenames.length === 0 && 'Aucun document sélectionné'}
           {documentFilenames.length === 1 && (
