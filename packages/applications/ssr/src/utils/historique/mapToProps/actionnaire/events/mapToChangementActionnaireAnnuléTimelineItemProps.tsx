@@ -1,11 +1,11 @@
 import { Historique } from '@potentiel-domain/historique';
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToChangementActionnaireAnnuléTimelineItemProps = (
   changementAnnulé: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { annuléLe, annuléPar } =
-    changementAnnulé.payload as Actionnaire.ChangementActionnaireAnnuléEvent['payload'];
+    changementAnnulé.payload as Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent['payload'];
 
   return {
     date: annuléLe,

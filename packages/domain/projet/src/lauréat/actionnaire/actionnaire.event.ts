@@ -40,3 +40,12 @@ export type ChangementActionnaireAccordéEvent = DomainEvent<
     nouvelActionnaire: string;
   }
 >;
+
+export type ChangementActionnaireAnnuléEvent = DomainEvent<
+  'ChangementActionnaireAnnulé-V1',
+  {
+    annuléLe: DateTime.RawType;
+    annuléPar: Email.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+  }
+>;
