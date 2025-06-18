@@ -50,13 +50,23 @@ type LauréatEvents = {
   notifiéPar: Email.RawType;
 };
 const lauréatEventQuery = `
-SELECT
-    payload->>'identifiantProjet' AS "identifiantProjet",
-    payload->>'notifiéPar' AS "notifiéPar",
-    payload->>'notifiéLe' AS "notifiéLe"
-    FROM event_store.event_stream es
-WHERE es.type = 'LauréatNotifié-V2'
-OR es.type = 'LauréatNotifié-V1'
+WITH RankedEvents AS (
+  SELECT payload->>'identifiantProjet' AS "identifiantProjet",
+      payload->>'notifiéPar' AS "notifiéPar",
+      payload->>'notifiéLe' AS "notifiéLe",
+      ROW_NUMBER() OVER (
+          PARTITION BY payload->>'identifiantProjet'
+          ORDER BY payload->>'notifiéLe' DESC
+      ) AS row_num
+  FROM event_store.event_stream es
+  WHERE es.type IN ('LauréatNotifié-V2', 'LauréatNotifié-V1')
+)
+SELECT row_num,
+  "identifiantProjet",
+  "notifiéPar",
+  "notifiéLe"
+FROM RankedEvents
+where row_num=1;
 `;
 
 type ModificationsEvents = {
@@ -214,13 +224,16 @@ export class Migrer extends Command {
 
     console.log('migration des modifications...');
     const modifications = await executeSelect<ModificationsEvents>(modificationsQuery);
+    const fichiersÀCopier: Array<{
+      filePath: string | undefined;
+      target: DocumentProjet.ValueType;
+    }> = [];
 
     for (const modification of modifications) {
       process.stdout.write('.');
       if (
         modification.fournisseurs.length === 0 &&
         (modification.evaluationCarbone === null || modification.evaluationCarbone === undefined) &&
-        (modification.raison === null || modification.raison.trim() === '') &&
         (modification.filePath === null || modification.filePath === undefined)
       ) {
         console.log(`Skipping empty modifification for ${modification.identifiantProjet}`);
@@ -260,18 +273,23 @@ export class Migrer extends Command {
         await publish(`fournisseur|${identifiantProjet}`, event);
         console.log(`Published ${event.type} for ${identifiantProjet}`);
       }
+
+      fichiersÀCopier.push({
+        filePath: modification.filePath ?? undefined,
+        target: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
+          enregistréLe.formatter(),
+          (modification.filePath && contentType(extname(modification.filePath))) ||
+            'application/pdf',
+        ),
+      });
       stats.nbModifications++;
     }
     console.log('');
     console.log('migration des fichiers...');
-    for (const { enregistréLe, filePath, identifiantProjet } of modifications) {
+    for (const { filePath, target } of fichiersÀCopier) {
       process.stdout.write('.');
-      const target = DocumentProjet.convertirEnValueType(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-        Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(enregistréLe).formatter(),
-        (filePath && contentType(extname(filePath))) || 'application/pdf',
-      );
       try {
         if (filePath) {
           if (!flags.dryRun) {
