@@ -270,7 +270,7 @@ export class Migrer extends Command {
       if (flags.dryRun) {
         // console.log(`[DRY-RUN] Publishing ${event.type} for ${identifiantProjet}`);
       } else {
-        await publish(`fournisseur|${identifiantProjet}`, event);
+        await publish(`fournisseur|${identifiantProjet.formatter()}`, event);
         console.log(`Published ${event.type} for ${identifiantProjet}`);
       }
 
