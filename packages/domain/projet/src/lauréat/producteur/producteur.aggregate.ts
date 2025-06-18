@@ -3,10 +3,8 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { CahierDesChargesEmpêcheModificationError } from '../lauréat.error';
 
 import { TypeDocumentProducteur } from '.';
 
@@ -55,13 +53,6 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     raison,
   }: EnregistrerChangementProducteurOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible();
-
-    if (
-      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
-      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
-    ) {
-      throw new CahierDesChargesEmpêcheModificationError();
-    }
 
     if (this.producteur === producteur) {
       throw new ProducteurIdentiqueError();

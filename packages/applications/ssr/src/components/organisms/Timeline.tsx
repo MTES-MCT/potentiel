@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import MuiTimeline from '@mui/lab/Timeline';
 import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineConnector from '@mui/lab/TimelineConnector';
@@ -8,6 +8,7 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import clsx from 'clsx';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
@@ -82,7 +83,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
       }}
     >
       <TimelineOppositeContent>
-        <div className="font-bold pt-3">
+        <div className={clsx('font-bold', icon ? 'pt-3' : '')}>
           {date === 'En attente' ? date : <FormattedDate date={date} />}
         </div>
       </TimelineOppositeContent>
