@@ -13,7 +13,6 @@ import { applyActionnaireImporté, importer } from './importer/importerActionnai
 import { applyActionnaireModifié, modifier } from './modifier/modifierActionnaire.behavior';
 import {
   accorderChangementActionnaire,
-  ChangementActionnaireAccordéEvent,
   applyChangementActionnaireAccordé,
 } from './changement/accorder/accorderChangementActionnaire.behavior';
 import {
@@ -48,7 +47,7 @@ export type ActionnaireEvent =
   | ChangementActionnaireEnregistréEvent
   | ChangementActionnaireDemandéEvent
   | ChangementActionnaireAnnuléEvent
-  | ChangementActionnaireAccordéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireAccordéEvent
   | ChangementActionnaireRejetéEvent
   | ChangementActionnaireSuppriméEvent;
 

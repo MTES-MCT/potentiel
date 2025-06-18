@@ -1,23 +1,10 @@
 import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import { StatutChangementActionnaire } from '../..';
 import { ChangementActionnaireInexistanteErreur } from '../../errors';
-
-export type ChangementActionnaireAccordéEvent = DomainEvent<
-  'ChangementActionnaireAccordé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    accordéLe: DateTime.RawType;
-    accordéPar: Email.RawType;
-    réponseSignée: {
-      format: string;
-    };
-    nouvelActionnaire: string;
-  }
->;
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -38,7 +25,7 @@ export async function accorderChangementActionnaire(
     StatutChangementActionnaire.accordé,
   );
 
-  const event: ChangementActionnaireAccordéEvent = {
+  const event: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent = {
     type: 'ChangementActionnaireAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -56,7 +43,7 @@ export async function accorderChangementActionnaire(
 
 export function applyChangementActionnaireAccordé(
   this: ActionnaireAggregate,
-  { payload: { nouvelActionnaire } }: ChangementActionnaireAccordéEvent,
+  { payload: { nouvelActionnaire } }: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent,
 ) {
   this.actionnaire = nouvelActionnaire;
   this.demande = {
