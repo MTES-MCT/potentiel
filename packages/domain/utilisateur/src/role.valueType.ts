@@ -399,6 +399,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Éliminé.Recours.Query.ConsulterRecours',
         lister: 'Éliminé.Recours.Query.ListerRecours',
+        listerHistoriqueRecours: 'Éliminé.Query.ListerHistoriqueRecoursProjet',
       },
       usecase: {
         annuler: 'Éliminé.Recours.UseCase.AnnulerRecours',
@@ -527,7 +528,6 @@ const référencielPermissions = {
     query: {
       lister: 'Historique.Query.ListerHistoriqueProjet',
       listerHistoriqueActionnaire: 'Historique.Query.ListerHistoriqueActionnaireProjet',
-      listerHistoriqueRecours: 'Historique.Query.ListerHistoriqueRecoursProjet',
       listerHistoriqueReprésentantLégal: 'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
       listerHistoriqueRaccordement: 'Historique.Query.ListerHistoriqueRaccordementProjet',
     },
@@ -953,7 +953,7 @@ const policies = {
       référencielPermissions.historique.query.listerHistoriqueActionnaire,
       référencielPermissions.lauréat.producteur.query.listerHistoriqueProducteur,
       référencielPermissions.lauréat.puissance.query.listerHistoriquePuissance,
-      référencielPermissions.historique.query.listerHistoriqueRecours,
+      référencielPermissions.éliminé.recours.query.listerHistoriqueRecours,
       référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
       référencielPermissions.historique.query.listerHistoriqueRaccordement,
       référencielPermissions.lauréat.fournisseur.query.listerHistoriqueFournisseur,

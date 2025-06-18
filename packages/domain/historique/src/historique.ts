@@ -1,5 +1,4 @@
 import { ListerHistoriqueProjetQuery } from './lister/listerHistoriqueProjet.query';
-import { ListerHistoriqueRecoursProjetQuery } from './lister/listerHistoriqueRecoursProjet.query';
 import { ListerHistoriqueActionnaireProjetQuery } from './lister/listerHistoriqueActionnaireProjet.query';
 import { ListerHistoriqueReprésentantLégalProjetQuery } from './lister/listerHistoriqueReprésentantLégalProjet.query';
 import { ListerHistoriqueRaccordementProjetQuery } from './lister/listerHistoriqueRaccordementProjet.query';
@@ -7,14 +6,12 @@ import { ListerHistoriqueRaccordementProjetQuery } from './lister/listerHistoriq
 // Query
 export type HistoriqueQuery =
   | ListerHistoriqueProjetQuery
-  | ListerHistoriqueRecoursProjetQuery
   | ListerHistoriqueActionnaireProjetQuery
   | ListerHistoriqueReprésentantLégalProjetQuery
   | ListerHistoriqueRaccordementProjetQuery;
 
 export type {
   ListerHistoriqueProjetQuery,
-  ListerHistoriqueRecoursProjetQuery,
   ListerHistoriqueActionnaireProjetQuery,
   ListerHistoriqueReprésentantLégalProjetQuery,
   ListerHistoriqueRaccordementProjetQuery,
@@ -28,10 +25,6 @@ export type {
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
   HistoriqueAchèvementProjetListItemReadModel,
 } from './lister/listerHistoriqueProjet.query';
-export type {
-  ListerHistoriqueRecoursProjetReadModel,
-  HistoriqueRecoursProjetListItemReadModel,
-} from './lister/listerHistoriqueRecoursProjet.query';
 export type {
   ListerHistoriqueActionnaireProjetReadModel,
   HistoriqueActionnaireProjetListItemReadModel,

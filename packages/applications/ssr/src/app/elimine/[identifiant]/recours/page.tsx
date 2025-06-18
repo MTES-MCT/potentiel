@@ -7,7 +7,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Historique } from '@potentiel-domain/historique';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -56,8 +55,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const historique = await mediator.send<Historique.ListerHistoriqueRecoursProjetQuery>({
-        type: 'Historique.Query.ListerHistoriqueRecoursProjet',
+      const historique = await mediator.send<Éliminé.Recours.ListerHistoriqueRecoursProjetQuery>({
+        type: 'Éliminé.Query.ListerHistoriqueRecoursProjet',
         data: {
           identifiantProjet,
         },
