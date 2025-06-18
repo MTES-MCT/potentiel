@@ -143,7 +143,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         <FormRow>
           <ActionnariatField
             candidature={candidature.actionnariat ?? ''}
-            label="Type d'actionnariat (optionnel)"
+            label="Type d'actionnariat"
             name="actionnariat"
             isPPE2={projet.isPPE2}
             validationErrors={validationErrors}
@@ -154,7 +154,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.actionnaire}
             lauréat={lauréat.actionnaire.currentValue}
             estEnCoursDeModification={lauréat.actionnaire.estEnCoursDeModification}
-            label="Actionnaire(s) (optionnel)"
+            label="Actionnaire(s)"
             name="actionnaire"
             validationErrors={validationErrors}
           />
@@ -223,6 +223,12 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             name="evaluationCarboneSimplifiee"
             validationErrors={validationErrors}
             estEnCoursDeModification={lauréat.evaluationCarboneSimplifiee.estEnCoursDeModification}
+            nativeInputProps={{
+              type: 'number',
+              inputMode: 'decimal',
+              step: 0.01,
+              min: 0,
+            }}
           />
         </FormRow>
         <FormRow>

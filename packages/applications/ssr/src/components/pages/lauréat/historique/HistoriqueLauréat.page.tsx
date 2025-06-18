@@ -29,8 +29,8 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
         className="print:hidden"
         severity="warning"
         title="Attention"
-        description="Les informations à propos des demandes de délai ne sont
-        pas encore présentes."
+        description="Les informations relatives aux demandes de délai ne sont
+        pas encore intégrées."
       />
 
       <div className="flex print:hidden">
