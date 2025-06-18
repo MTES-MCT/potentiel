@@ -9,7 +9,7 @@ import { Candidature, Lauréat, IdentifiantProjet } from '@potentiel-domain/proj
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Option } from '@potentiel-libraries/monads';
 import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
-import { copyFile, upload } from '@potentiel-libraries/file-storage';
+import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 type CandidatureEvents = {
@@ -292,7 +292,12 @@ export class Migrer extends Command {
       process.stdout.write('.');
       try {
         if (filePath) {
-          if (!flags.dryRun) {
+          if (flags.dryRun) {
+            const exists = await fileExists(filePath);
+            if (!exists) {
+              throw new Error('File does not exist');
+            }
+          } else {
             await copyFile(filePath, target.formatter());
           }
           stats.nbFichiersCopiés++;
