@@ -1,22 +1,10 @@
 import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutChangementActionnaire } from '../..';
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import { ChangementActionnaireInexistanteErreur } from '../../errors';
-
-export type ChangementActionnaireRejetéEvent = DomainEvent<
-  'ChangementActionnaireRejeté-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    rejetéLe: DateTime.RawType;
-    rejetéPar: Email.RawType;
-    réponseSignée: {
-      format: string;
-    };
-  }
->;
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -37,7 +25,7 @@ export async function rejeterChangementActionnaire(
     StatutChangementActionnaire.rejeté,
   );
 
-  const event: ChangementActionnaireRejetéEvent = {
+  const event: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent = {
     type: 'ChangementActionnaireRejeté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),

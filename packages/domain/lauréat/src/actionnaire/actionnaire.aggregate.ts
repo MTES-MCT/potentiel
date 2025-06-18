@@ -25,7 +25,6 @@ import {
 } from './changement/demander/demanderChangementActionnaire.behavior';
 import {
   applyChangementActionnaireRejeté,
-  ChangementActionnaireRejetéEvent,
   rejeterChangementActionnaire,
 } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 import {
@@ -45,7 +44,7 @@ export type ActionnaireEvent =
   | Lauréat.Actionnaire.ChangementActionnaireDemandéEvent
   | Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent
   | Lauréat.Actionnaire.ChangementActionnaireAccordéEvent
-  | ChangementActionnaireRejetéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireRejetéEvent
   | ChangementActionnaireSuppriméEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {

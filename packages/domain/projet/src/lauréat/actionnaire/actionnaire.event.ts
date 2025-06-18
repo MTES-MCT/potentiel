@@ -77,3 +77,15 @@ export type ChangementActionnaireEnregistréEvent = DomainEvent<
     };
   }
 >;
+
+export type ChangementActionnaireRejetéEvent = DomainEvent<
+  'ChangementActionnaireRejeté-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    rejetéLe: DateTime.RawType;
+    rejetéPar: Email.RawType;
+    réponseSignée: {
+      format: string;
+    };
+  }
+>;
