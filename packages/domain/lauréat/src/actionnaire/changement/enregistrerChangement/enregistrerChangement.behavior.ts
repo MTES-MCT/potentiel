@@ -1,7 +1,6 @@
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import {
@@ -11,20 +10,6 @@ import {
   ProjetAchevéError,
 } from '../../errors';
 import { StatutChangementActionnaire, InstructionChangementActionnaire } from '../..';
-
-export type ChangementActionnaireEnregistréEvent = DomainEvent<
-  'ChangementActionnaireEnregistré-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    actionnaire: string;
-    enregistréLe: DateTime.RawType;
-    enregistréPar: Email.RawType;
-    raison: string;
-    pièceJustificative: {
-      format: string;
-    };
-  }
->;
 
 export type EnregistrerChangementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -87,7 +72,7 @@ export async function enregistrerChangement(
     throw new ProjetAchevéError();
   }
 
-  const event: ChangementActionnaireEnregistréEvent = {
+  const event: Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent = {
     type: 'ChangementActionnaireEnregistré-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -106,7 +91,7 @@ export async function enregistrerChangement(
 
 export function applyChangementActionnaireEnregistré(
   this: ActionnaireAggregate,
-  { payload: { actionnaire } }: ChangementActionnaireEnregistréEvent,
+  { payload: { actionnaire } }: Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent,
 ) {
   this.actionnaire = actionnaire;
 }

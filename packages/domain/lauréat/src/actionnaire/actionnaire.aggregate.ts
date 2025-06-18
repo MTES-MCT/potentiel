@@ -30,7 +30,6 @@ import {
 } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 import {
   applyChangementActionnaireEnregistré,
-  ChangementActionnaireEnregistréEvent,
   enregistrerChangement,
 } from './changement/enregistrerChangement/enregistrerChangement.behavior';
 import {
@@ -42,7 +41,7 @@ import {
 export type ActionnaireEvent =
   | Lauréat.Actionnaire.ActionnaireImportéEvent
   | Lauréat.Actionnaire.ActionnaireModifiéEvent
-  | ChangementActionnaireEnregistréEvent
+  | Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent
   | Lauréat.Actionnaire.ChangementActionnaireDemandéEvent
   | Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent
   | Lauréat.Actionnaire.ChangementActionnaireAccordéEvent

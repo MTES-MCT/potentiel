@@ -82,7 +82,6 @@ export type {
 export type { ActionnaireEvent } from './actionnaire.aggregate';
 export type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 export type { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.behavior';
-export type { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.behavior';
 
 // Saga
 export * as ActionnaireSaga from './saga';
