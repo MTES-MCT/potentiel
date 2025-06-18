@@ -1,28 +1,22 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { ImporterActionnaireFixture } from './fixtures/importerActionnaire.fixture';
-import { ModifierActionnaireFixture } from './fixtures/modifierActionnaire.fixture';
-import { DemanderChangementActionnaireFixture } from './fixtures/demanderChangementActionnaire.fixture';
-import { AnnulerChangementActionnaireFixture } from './fixtures/annulerChangementActionnaire.fixture';
 import { AccorderChangementActionnaireFixture } from './fixtures/accorderChangementActionnaire.fixture';
-import { RejeterChangementActionnaireFixture } from './fixtures/rejeterChangementActionnaire.fixture';
+import { AnnulerChangementActionnaireFixture } from './fixtures/annulerChangementActionnaire.fixture';
+import { DemanderChangementActionnaireFixture } from './fixtures/demanderChangementActionnaire.fixture';
 import { EnregistrerChangementActionnaireFixture } from './fixtures/enregistrerChangementActionnaire.fixture';
+import { ModifierActionnaireFixture } from './fixtures/modifierActionnaire.fixture';
+import { RejeterChangementActionnaireFixture } from './fixtures/rejeterChangementActionnaire.fixture';
 
 export class ActionnaireWorld {
-  #importerActionnaireFixture: ImporterActionnaireFixture;
   #modifierActionnaireFixture: ModifierActionnaireFixture;
   #demanderChangementActionnaireFixture: DemanderChangementActionnaireFixture;
   #annulerChangementActionnaireFixture: AnnulerChangementActionnaireFixture;
   #accorderChangementActionnaireFixture: AccorderChangementActionnaireFixture;
   #rejeterChangementActionnaireFixture: RejeterChangementActionnaireFixture;
   #enregistrerChangementActionnaireFixture: EnregistrerChangementActionnaireFixture;
-
-  get importerActionnaireFixture() {
-    return this.#importerActionnaireFixture;
-  }
 
   get modifierActionnaireFixture() {
     return this.#modifierActionnaireFixture;
@@ -49,7 +43,6 @@ export class ActionnaireWorld {
   }
 
   constructor() {
-    this.#importerActionnaireFixture = new ImporterActionnaireFixture();
     this.#modifierActionnaireFixture = new ModifierActionnaireFixture();
     this.#demanderChangementActionnaireFixture = new DemanderChangementActionnaireFixture();
     this.#enregistrerChangementActionnaireFixture = new EnregistrerChangementActionnaireFixture();
@@ -60,7 +53,8 @@ export class ActionnaireWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Actionnaire.ConsulterActionnaireReadModel {
+    actionnaireInitial: string,
+  ): Lauréat.Actionnaire.ConsulterActionnaireReadModel {
     return {
       identifiantProjet,
       actionnaire: this.accorderChangementActionnaireFixture.aÉtéCréé
@@ -69,14 +63,14 @@ export class ActionnaireWorld {
           ? this.#enregistrerChangementActionnaireFixture.actionnaire
           : this.#modifierActionnaireFixture.aÉtéCréé
             ? this.#modifierActionnaireFixture.actionnaire
-            : this.#importerActionnaireFixture.actionnaire,
+            : actionnaireInitial,
     };
   }
 
   mapDemandeToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-    statut: Actionnaire.StatutChangementActionnaire.ValueType,
-  ): Option.Type<Actionnaire.ConsulterChangementActionnaireReadModel> {
+    statut: Lauréat.Actionnaire.StatutChangementActionnaire.ValueType,
+  ): Option.Type<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel> {
     if (
       !this.enregistrerChangementActionnaireFixture.aÉtéCréé &&
       !this.demanderChangementActionnaireFixture.aÉtéCréé
@@ -101,7 +95,7 @@ export class ActionnaireWorld {
         raison: baseFixture.raison,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
+          Lauréat.Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
           DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
           baseFixture.pièceJustificative.format,
         ),
@@ -117,7 +111,7 @@ export class ActionnaireWorld {
 
               réponseSignée: DocumentProjet.convertirEnValueType(
                 identifiantProjet.formatter(),
-                Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
+                Lauréat.Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
                 DateTime.convertirEnValueType(
                   this.#accorderChangementActionnaireFixture.accordéeLe,
                 ).formatter(),
@@ -137,7 +131,7 @@ export class ActionnaireWorld {
 
               réponseSignée: DocumentProjet.convertirEnValueType(
                 identifiantProjet.formatter(),
-                Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
+                Lauréat.Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
                 DateTime.convertirEnValueType(
                   this.#rejeterChangementActionnaireFixture.rejetéeLe,
                 ).formatter(),

@@ -3,15 +3,15 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger, ok } from '../core/utils';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectActionnaireUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { ModificationReceived } from '../modules/modificationRequest';
 import { UniqueEntityID } from '../core/domain';
 import { match } from 'ts-pattern';
+import { Lauréat } from '@potentiel-domain/projet';
 
-export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
+export type SubscriptionEvent = Lauréat.Actionnaire.ActionnaireEvent & Event;
 
 export type Execute = Message<'System.Saga.Actionnaire', SubscriptionEvent>;
 

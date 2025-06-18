@@ -1,9 +1,9 @@
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Actionnaire.StatutChangementActionnaire.RawType;
+  statut?: Lauréat.Actionnaire.StatutChangementActionnaire.RawType;
 };
 
 export const modifier = (identifiantProjet: string) =>

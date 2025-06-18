@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
@@ -17,7 +16,7 @@ export const mapToChangementActionnaireRejetéTimelineItemProps = (
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
+    Lauréat.Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
     rejetéLe,
     format,
   ).formatter();

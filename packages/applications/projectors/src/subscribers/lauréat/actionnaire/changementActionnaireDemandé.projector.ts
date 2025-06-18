@@ -1,4 +1,3 @@
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
@@ -15,7 +14,7 @@ export const changementActionnaireDemandéProjector = async ({
     pièceJustificative: { format },
   },
 }: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent) => {
-  const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
+  const projectionToUpsert = await findProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
 
@@ -24,17 +23,20 @@ export const changementActionnaireDemandéProjector = async ({
     return;
   }
 
-  await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
-    ...projectionToUpsert,
-    dateDemandeEnCours: demandéLe,
-  });
+  await upsertProjection<Lauréat.Actionnaire.ActionnaireEntity>(
+    `actionnaire|${identifiantProjet}`,
+    {
+      ...projectionToUpsert,
+      dateDemandeEnCours: demandéLe,
+    },
+  );
 
-  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
+  await upsertProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
     `changement-actionnaire|${identifiantProjet}#${demandéLe}`,
     {
       identifiantProjet,
       demande: {
-        statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
+        statut: Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut,
         nouvelActionnaire: actionnaire,
         demandéePar: demandéPar,
         demandéeLe: demandéLe,

@@ -158,6 +158,7 @@ async function vérifierLauréats(
       evaluationCarboneSimplifiée,
       nomCandidat,
       fournisseurs,
+      sociétéMère,
     } of candidats.items) {
       const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
         type: 'Lauréat.Query.ConsulterLauréat',
@@ -197,6 +198,20 @@ async function vérifierLauréats(
         });
         assert(Option.isSome(puissance), `Aucune puissance pour ${identifiantProjet.formatter()}`);
         expect(puissance.puissance).to.equal(puissanceProductionAnnuelle);
+      }
+
+      if (sociétéMère) {
+        const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+        assert(
+          Option.isSome(actionnaire),
+          `Aucun actionnaire pour ${identifiantProjet.formatter()}`,
+        );
+        expect(actionnaire.actionnaire).to.equal(sociétéMère);
       }
 
       if (nomCandidat) {

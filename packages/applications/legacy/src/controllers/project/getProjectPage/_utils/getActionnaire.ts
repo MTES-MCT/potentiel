@@ -1,8 +1,7 @@
 import { mediator } from 'mediateur';
-import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -33,7 +32,7 @@ export const getActionnaire = async ({
   try {
     const role = Role.convertirEnValueType(rôle);
 
-    const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+    const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
       type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });

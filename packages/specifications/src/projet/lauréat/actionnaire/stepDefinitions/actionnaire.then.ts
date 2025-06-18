@@ -4,10 +4,10 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -19,7 +19,7 @@ Alors(
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
-      const actionnaire = await mediator.send<Actionnaire.ActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -28,7 +28,10 @@ Alors(
 
       const actual = mapToPlainObject(actionnaire);
       const expected = mapToPlainObject(
-        this.lauréatWorld.actionnaireWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.actionnaireWorld.mapToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.sociétéMèreValue,
+        ),
       );
 
       actual.should.be.deep.equal(expected);
@@ -42,7 +45,7 @@ Alors(
     await vérifierChangementActionnaire.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Actionnaire.StatutChangementActionnaire.demandé,
+      Lauréat.Actionnaire.StatutChangementActionnaire.demandé,
     );
   },
 );
@@ -53,7 +56,7 @@ Alors(
     await vérifierChangementActionnaire.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Actionnaire.StatutChangementActionnaire.informationEnregistrée,
+      Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée,
     );
   },
 );
@@ -64,7 +67,7 @@ Alors(
     await vérifierChangementActionnaire.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Actionnaire.StatutChangementActionnaire.accordé,
+      Lauréat.Actionnaire.StatutChangementActionnaire.accordé,
     );
   },
 );
@@ -76,7 +79,7 @@ Alors(
       await vérifierChangementActionnaire.call(
         this,
         this.candidatureWorld.importerCandidature.identifiantProjet,
-        Actionnaire.StatutChangementActionnaire.rejeté,
+        Lauréat.Actionnaire.StatutChangementActionnaire.rejeté,
       );
     });
   },
@@ -90,7 +93,7 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const actual = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+      const actual = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -108,7 +111,7 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const actionnaire = await mediator.send<Actionnaire.ActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -117,7 +120,10 @@ Alors(
 
       const actual = mapToPlainObject(actionnaire);
       const expected = mapToPlainObject(
-        this.lauréatWorld.actionnaireWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.actionnaireWorld.mapToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.sociétéMèreValue,
+        ),
       );
 
       actual.should.be.deep.equal(expected);
@@ -131,7 +137,7 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const actionnaire = await mediator.send<Actionnaire.ActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -140,7 +146,10 @@ Alors(
 
       const actual = mapToPlainObject(actionnaire);
       const expected = mapToPlainObject(
-        this.lauréatWorld.actionnaireWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.actionnaireWorld.mapToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.sociétéMèreValue,
+        ),
       );
 
       actual.should.be.deep.equal(expected);
@@ -151,17 +160,19 @@ Alors(
 async function vérifierChangementActionnaire(
   this: PotentielWorld,
   identifiantProjet: string,
-  statut: Actionnaire.StatutChangementActionnaire.ValueType,
+  statut: Lauréat.Actionnaire.StatutChangementActionnaire.ValueType,
 ) {
-  const demandeEnCours = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-    type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-    data: {
-      identifiantProjet,
-      demandéLe: this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.aÉtéCréé
-        ? this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.demandéLe
-        : this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
-    },
-  });
+  const demandeEnCours =
+    await mediator.send<Lauréat.Actionnaire.ConsulterChangementActionnaireQuery>({
+      type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+      data: {
+        identifiantProjet,
+        demandéLe: this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture
+          .aÉtéCréé
+          ? this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.demandéLe
+          : this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
+      },
+    });
 
   const actual = mapToPlainObject(demandeEnCours);
 
@@ -174,7 +185,7 @@ async function vérifierChangementActionnaire(
 
   actual.should.be.deep.equal(expected);
 
-  const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+  const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
     data: {
       identifiantProjet,

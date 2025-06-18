@@ -30,7 +30,7 @@ export const mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps
     date: suppriméLe,
     title: (
       <div>
-        Les nouvelles garanties financières (soumise à instruction) ont été supprimées par{' '}
+        Les nouvelles garanties financières (soumises à instruction) ont été supprimées par{' '}
         <span className="font-semibold">{suppriméPar}</span>
       </div>
     ),

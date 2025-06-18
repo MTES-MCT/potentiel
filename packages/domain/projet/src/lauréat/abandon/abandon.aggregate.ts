@@ -128,7 +128,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
       });
     }
 
-    await this.lauréat.puissance.supprimerDemandeChangement({
+    await this.supprimerDemandeChangement({
       dateSuppression: dateAccord,
       identifiantUtilisateur,
     });
@@ -302,6 +302,24 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
     };
 
     await this.publish(event);
+  }
+
+  async supprimerDemandeChangement({
+    dateSuppression,
+    identifiantUtilisateur,
+  }: {
+    dateSuppression: DateTime.ValueType;
+    identifiantUtilisateur: Email.ValueType;
+  }) {
+    await this.lauréat.puissance.supprimerDemandeChangement({
+      dateSuppression,
+      identifiantUtilisateur,
+    });
+
+    await this.lauréat.actionnaire.supprimerDemandeChangement({
+      dateSuppression,
+      identifiantUtilisateur,
+    });
   }
 
   apply(event: AbandonEvent): void {

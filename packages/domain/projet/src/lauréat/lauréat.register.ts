@@ -39,6 +39,7 @@ import {
 import {
   ActionnaireQueryDependencies,
   registerActionnaireQueries,
+  registerActionnaireUseCases,
 } from './actionnaire/actionnaire.register';
 import {
   registerReprésentantLégalQueries,
@@ -82,6 +83,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerProducteurUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
   registerPuissanceUseCases(dependencies);
+  registerActionnaireUseCases(dependencies);
   registerAbandonUseCases(dependencies);
   registerFournisseurUseCases(dependencies);
 };

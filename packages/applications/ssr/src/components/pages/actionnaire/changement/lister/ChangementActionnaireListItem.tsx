@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -13,7 +13,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { StatutChangementActionnaireBadge } from '../StatutChangementActionnaireBadge';
 
 export type ChangementActionnaireListItemProps = PlainType<
-  Actionnaire.ListerChangementActionnaireReadModel['items'][number]
+  Lauréat.Actionnaire.ListerChangementActionnaireReadModel['items'][number]
 >;
 
 export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProps> = ({
@@ -63,7 +63,7 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
       </li>
     </ul>
     <StatutChangementActionnaireBadge
-      statut={Actionnaire.StatutChangementActionnaire.bind(statut).statut}
+      statut={Lauréat.Actionnaire.StatutChangementActionnaire.bind(statut).statut}
       small
     />
   </ListItem>

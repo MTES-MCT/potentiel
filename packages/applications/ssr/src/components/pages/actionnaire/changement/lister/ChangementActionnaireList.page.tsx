@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
@@ -11,7 +11,7 @@ import { ChangementActionnaireListItem } from './ChangementActionnaireListItem';
 
 export type ChangementActionnaireListPageProps = {
   list: {
-    items: PlainType<Actionnaire.ListerChangementActionnaireReadModel['items']>;
+    items: PlainType<Lauréat.Actionnaire.ListerChangementActionnaireReadModel['items']>;
     pagination: Pagination;
     total: number;
   };

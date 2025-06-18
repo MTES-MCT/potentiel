@@ -6,7 +6,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { apiAction } from '@/utils/apiAction';
@@ -57,7 +56,7 @@ export const GET = async (
       }
 
       const demandeDeChangement =
-        await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
+        await mediator.send<Lauréat.Actionnaire.ConsulterChangementActionnaireQuery>({
           type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
           data: { identifiantProjet, demandéLe: actionnaire.dateDemandeEnCours.formatter() },
         });

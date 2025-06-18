@@ -59,7 +59,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
     Scénario: Impossible de demander le changement de l'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le porteur demande le changement de l'actionnaire pour le projet éliminé
-        Alors l'utilisateur devrait être informé que "L'actionnaire n'existe pas"
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible de demander le changement de l'actionnaire si une demande existe déjà
         Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
@@ -69,14 +69,14 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
     Scénario: Impossible de demander le changement de l'actionnaire d'un projet lauréat abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet abandonné"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
     Scénario: Impossible de demander le changement d'actionnaire si une demande d'abandon est en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire car une demande d'abandon est en cours pour le projet"
+        Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible de demander le changement de l'actionnaire d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet achevé"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
