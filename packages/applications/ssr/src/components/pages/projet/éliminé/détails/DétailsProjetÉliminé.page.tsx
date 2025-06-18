@@ -74,7 +74,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
                 {nomReprésentantLégal}
               </li>
               <li className="flex gap-2 items-center">
-                <span className="font-bold">Addresse email de candidature :</span>
+                <span className="font-bold">Adresse email de candidature :</span>
                 <CopyButton textToCopy={emailContact.formatter()} />
               </li>
               <li>

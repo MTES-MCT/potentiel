@@ -3,12 +3,13 @@
 import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import { ReactNode, useState } from 'react';
 import clsx from 'clsx';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 export type CopyButtonProps = {
   textToCopy: string;
   timeoutInMs?: number;
   className?: string;
-  prority?: ButtonProps['priority'];
+  priority?: ButtonProps['priority'];
 } & (
   | {
       noChildren: true;
@@ -26,7 +27,7 @@ export const CopyButton = ({
   className,
   noChildren,
   children,
-  prority = 'secondary',
+  priority = 'tertiary no outline',
 }: CopyButtonProps) => {
   const [hasCopied, setHasCopied] = useState<boolean>(false);
 
@@ -39,18 +40,22 @@ export const CopyButton = ({
   };
 
   return (
-    <div className={clsx(`print:hidden flex flex-row gap-3 items-center`, className)}>
+    <Tooltip
+      kind="hover"
+      title="Copier"
+      className={clsx(`print:hidden flex flex-row gap-3 items-center`, className)}
+    >
       {noChildren ? null : (children ?? <span className="italic">{textToCopy}</span>)}
       <Button
-        iconId={hasCopied ? 'ri-check-fill' : 'ri-clipboard-line'}
+        iconId={hasCopied ? 'ri-check-fill' : 'ri-file-copy-2-line'}
         aria-label="copier-coller"
-        priority={prority}
+        priority={priority}
         onClick={copyLink}
         style={{ marginTop: 0 }}
         size="small"
       >
-        {hasCopied ? 'Copié !' : 'Copier'}
+        {hasCopied ? 'Copié !' : ''}
       </Button>
-    </div>
+    </Tooltip>
   );
 };

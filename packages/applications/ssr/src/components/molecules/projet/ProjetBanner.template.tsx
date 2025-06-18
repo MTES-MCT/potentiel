@@ -41,7 +41,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
               <CopyButton
                 className="mx-2"
                 textToCopy={identifiantProjet.formatter()}
-                prority="primary"
+                priority="primary"
                 noChildren
               />
             )}

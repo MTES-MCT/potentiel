@@ -1165,7 +1165,7 @@ const policies = {
     listerChangement: [référencielPermissions.lauréat.fournisseur.query.listerChangement],
     consulter: [référencielPermissions.lauréat.fournisseur.query.consulter],
     consulterChangement: [référencielPermissions.lauréat.fournisseur.query.consulterChangement],
-    modifierÉvaluationCarbonne: [
+    modifierÉvaluationCarbone: [
       référencielPermissions.lauréat.fournisseur.command.modifierÉvaluationCarbone,
       référencielPermissions.lauréat.fournisseur.usecase.modifierÉvaluationCarbone,
     ],
@@ -1440,7 +1440,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Fournisseur
   'fournisseur.consulter',
-  'fournisseur.modifierÉvaluationCarbonne',
+  'fournisseur.modifierÉvaluationCarbone',
   'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
 ];
