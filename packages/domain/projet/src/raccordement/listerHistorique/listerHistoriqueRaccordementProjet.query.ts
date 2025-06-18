@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
-import { Raccordement } from '@potentiel-domain/laureat';
+
+import { RaccordementEvent } from '../raccordement.event';
 
 export type HistoriqueRaccordementProjetListItemReadModel = HistoryRecord<
   'raccordement',
-  Raccordement.RaccordementEvent['type'],
-  Raccordement.RaccordementEvent['payload']
+  RaccordementEvent['type'],
+  RaccordementEvent['payload']
 >;
 
 export type ListerHistoriqueRaccordementProjetReadModel = {

@@ -1,34 +1,10 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 import { DossierNonRéférencéPourLeRaccordementDuProjetError } from '../dossierNonRéférencéPourLeRaccordementDuProjet.error';
-
-/**
- * @deprecated Utilisez PropositionTechniqueEtFinancièreModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
- */
-export type PropositionTechniqueEtFinancièreModifiéeEventV1 = DomainEvent<
-  'PropositionTechniqueEtFinancièreModifiée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    dateSignature: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-  }
->;
-
-export type PropositionTechniqueEtFinancièreModifiéeEvent = DomainEvent<
-  'PropositionTechniqueEtFinancièreModifiée-V2',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    dateSignature: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    propositionTechniqueEtFinancièreSignée: {
-      format: string;
-    };
-  }
->;
 
 type ModifierPropositionTechniqueEtFinancièreOptions = {
   dateSignature: DateTime.ValueType;
@@ -54,7 +30,7 @@ export async function modifierPropositionTechniqueEtFinancière(
     throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
   }
 
-  const event: PropositionTechniqueEtFinancièreModifiéeEvent = {
+  const event: Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent = {
     type: 'PropositionTechniqueEtFinancièreModifiée-V2',
     payload: {
       dateSignature: dateSignature.formatter(),
@@ -73,7 +49,7 @@ export function applyPropositionTechniqueEtFinancièreModifiéeEventV1(
   this: RaccordementAggregate,
   {
     payload: { dateSignature, référenceDossierRaccordement },
-  }: PropositionTechniqueEtFinancièreModifiéeEventV1,
+  }: Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV1,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordement);
 
@@ -89,7 +65,7 @@ export function applyPropositionTechniqueEtFinancièreModifiéeEventV2(
       propositionTechniqueEtFinancièreSignée: { format },
       référenceDossierRaccordement,
     },
-  }: PropositionTechniqueEtFinancièreModifiéeEvent,
+  }: Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordement);
 

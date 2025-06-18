@@ -530,7 +530,7 @@ const référencielPermissions = {
       lister: 'Historique.Query.ListerHistoriqueProjet',
       listerHistoriqueReprésentantLégal:
         'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
-      listerHistoriqueRaccordement: 'Historique.Query.ListerHistoriqueRaccordementProjet',
+      listerHistoriqueRaccordement: 'Lauréat.Raccordement.Query.ListerHistoriqueRaccordementProjet',
     },
   },
 } as const;

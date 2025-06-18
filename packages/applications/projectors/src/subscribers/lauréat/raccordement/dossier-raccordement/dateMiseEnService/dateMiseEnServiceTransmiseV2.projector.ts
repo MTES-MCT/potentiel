@@ -1,4 +1,4 @@
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, Email } from '@potentiel-domain/common';
 

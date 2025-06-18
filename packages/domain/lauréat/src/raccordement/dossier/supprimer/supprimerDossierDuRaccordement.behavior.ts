@@ -1,17 +1,10 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../../raccordement.aggregate';
-
-export type DossierDuRaccordementSuppriméEvent = DomainEvent<
-  'DossierDuRaccordementSupprimé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    référenceDossier: RéférenceDossierRaccordement.RawType;
-  }
->;
 
 type SupprimerDossierDuRaccordementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -28,7 +21,7 @@ export async function supprimerDossier(
     throw new DossierAvecDateDeMiseEnServiceNonSupprimableError();
   }
 
-  const dossierDuRaccordementSupprimé: DossierDuRaccordementSuppriméEvent = {
+  const dossierDuRaccordementSupprimé: Raccordement.DossierDuRaccordementSuppriméEvent = {
     type: 'DossierDuRaccordementSupprimé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -41,7 +34,7 @@ export async function supprimerDossier(
 
 export function applyDossierDuRaccordementSuppriméEventV1(
   this: RaccordementAggregate,
-  event: DossierDuRaccordementSuppriméEvent,
+  event: Raccordement.DossierDuRaccordementSuppriméEvent,
 ) {
   this.dossiers.delete(event.payload.référenceDossier);
 }

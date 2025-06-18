@@ -1,35 +1,11 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 import { DossierNonRéférencéPourLeRaccordementDuProjetError } from '../dossierNonRéférencéPourLeRaccordementDuProjet.error';
-
-/**
- * @deprecated Utilisez DateMiseEnServiceTransmiseEvent à la place
- * Ajout de l'information de l'utilisateur ayant fait l'action.
- * Avant V2, seuls les admins pouvaient transmettre la date de MES.
- */
-export type DateMiseEnServiceTransmiseV1Event = DomainEvent<
-  'DateMiseEnServiceTransmise-V1',
-  {
-    dateMiseEnService: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
-
-export type DateMiseEnServiceTransmiseEvent = DomainEvent<
-  'DateMiseEnServiceTransmise-V2',
-  {
-    dateMiseEnService: DateTime.RawType;
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    transmiseLe: DateTime.RawType;
-    transmisePar: Email.RawType;
-  }
->;
 
 type TransmettreDateMiseEnServiceOptions = {
   dateMiseEnService: DateTime.ValueType;
@@ -67,7 +43,7 @@ export async function transmettreDateMiseEnService(
     throw new DateIdentiqueDeMiseEnServiceDéjàTransmiseError();
   }
 
-  const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
+  const dateMiseEnServiceTransmise: Raccordement.DateMiseEnServiceTransmiseEvent = {
     type: 'DateMiseEnServiceTransmise-V2',
     payload: {
       dateMiseEnService: dateMiseEnService.formatter(),
@@ -85,7 +61,7 @@ export function applyDateMiseEnServiceTransmiseEventV1(
   this: RaccordementAggregate,
   {
     payload: { dateMiseEnService, référenceDossierRaccordement },
-  }: DateMiseEnServiceTransmiseV1Event,
+  }: Raccordement.DateMiseEnServiceTransmiseV1Event,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordement);
   dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);
@@ -93,7 +69,9 @@ export function applyDateMiseEnServiceTransmiseEventV1(
 
 export function applyDateMiseEnServiceTransmiseEventV2(
   this: RaccordementAggregate,
-  { payload: { dateMiseEnService, référenceDossierRaccordement } }: DateMiseEnServiceTransmiseEvent,
+  {
+    payload: { dateMiseEnService, référenceDossierRaccordement },
+  }: Raccordement.DateMiseEnServiceTransmiseEvent,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordement);
   dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);

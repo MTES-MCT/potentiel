@@ -1,5 +1,4 @@
 import { Raccordement } from '@potentiel-domain/projet';
-import { Raccordement as RaccordementLauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
@@ -19,7 +18,7 @@ export const demandeComplèteDeRaccordementTransmiseV2Projector = async ({
     accuséRéception,
   },
   created_at,
-}: RaccordementLauréat.DemandeComplèteRaccordementTransmiseEventV2 & Event) => {
+}: Raccordement.DemandeComplèteRaccordementTransmiseEventV2 & Event) => {
   const référence = référenceDossierRaccordement;
 
   const candidature = await findProjection<Candidature.CandidatureEntity>(

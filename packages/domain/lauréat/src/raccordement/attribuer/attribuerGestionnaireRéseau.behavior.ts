@@ -1,24 +1,8 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { DomainEvent } from '@potentiel-domain/core';
+import { IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { RaccordementDéjàExistantError } from '../raccordementDéjàExistantError';
-
-export type GestionnaireRéseauAttribuéEvent = DomainEvent<
-  'GestionnaireRéseauAttribué-V1',
-  {
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
-
-export type GestionnaireRéseauInconnuAttribuéEvent = DomainEvent<
-  'GestionnaireRéseauInconnuAttribué-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
 
 export type AttribuerGestionnaireRéseauOptions = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
@@ -40,7 +24,7 @@ export async function attribuerGestionnaireRéseau(
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
     )
   ) {
-    const event: GestionnaireRéseauInconnuAttribuéEvent = {
+    const event: Raccordement.GestionnaireRéseauInconnuAttribuéEvent = {
       type: 'GestionnaireRéseauInconnuAttribué-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
@@ -49,7 +33,7 @@ export async function attribuerGestionnaireRéseau(
 
     await this.publish(event);
   } else {
-    const event: GestionnaireRéseauAttribuéEvent = {
+    const event: Raccordement.GestionnaireRéseauAttribuéEvent = {
       type: 'GestionnaireRéseauAttribué-V1',
       payload: {
         identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
@@ -65,7 +49,7 @@ export function applyAttribuerGestionnaireRéseauEventV1(
   this: RaccordementAggregate,
   {
     payload: { identifiantGestionnaireRéseau, identifiantProjet },
-  }: GestionnaireRéseauAttribuéEvent,
+  }: Raccordement.GestionnaireRéseauAttribuéEvent,
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.identifiantGestionnaireRéseau =

@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Raccordement } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
 
 import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
