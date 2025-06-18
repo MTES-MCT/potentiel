@@ -9,7 +9,6 @@ import {
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { HistoriqueActionnaireProjetListItemReadModel } from './listerHistoriqueActionnaireProjet.query';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from './listerHistoriqueReprésentantLégalProjet.query';
 import { HistoriqueRaccordementProjetListItemReadModel } from './listerHistoriqueRaccordementProjet.query';
 
@@ -34,7 +33,7 @@ export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
 export type HistoriqueListItemReadModels =
   | Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel
   | HistoriqueLauréatProjetListItemReadModel
-  | HistoriqueActionnaireProjetListItemReadModel
+  | Lauréat.Actionnaire.HistoriqueActionnaireProjetListItemReadModel
   | Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel
   | HistoriqueReprésentantLégalProjetListItemReadModel
   | HistoriqueGarantiesFinancièresProjetListItemReadModel

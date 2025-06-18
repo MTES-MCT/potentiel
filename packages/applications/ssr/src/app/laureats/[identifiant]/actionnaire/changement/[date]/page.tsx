@@ -6,8 +6,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Historique } from '@potentiel-domain/historique';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -62,12 +62,13 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const historique = await mediator.send<Historique.ListerHistoriqueActionnaireProjetQuery>({
-        type: 'Lauréat.Actionnaire.Query.ListerHistoriqueActionnaireProjet',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const historique =
+        await mediator.send<Lauréat.Actionnaire.ListerHistoriqueActionnaireProjetQuery>({
+          type: 'Lauréat.Actionnaire.Query.ListerHistoriqueActionnaireProjet',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       return (
         <DétailsActionnairePage

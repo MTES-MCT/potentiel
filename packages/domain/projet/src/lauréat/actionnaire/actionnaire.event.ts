@@ -3,7 +3,15 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../..';
 
-export type ActionnaireEvent = ActionnaireImportéEvent;
+export type ActionnaireEvent =
+  | ActionnaireImportéEvent
+  | ActionnaireModifiéEvent
+  | ChangementActionnaireAccordéEvent
+  | ChangementActionnaireAnnuléEvent
+  | ChangementActionnaireDemandéEvent
+  | ChangementActionnaireEnregistréEvent
+  | ChangementActionnaireRejetéEvent
+  | ChangementActionnaireSuppriméEvent;
 
 export type ActionnaireImportéEvent = DomainEvent<
   'ActionnaireImporté-V1',
