@@ -7,15 +7,28 @@ import {
 import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
 import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import { ListerRecoursQuery, ListerRecoursReadModel } from './lister/listerRecours.query';
+import {
+  ListerHistoriqueRecoursProjetQuery,
+  HistoriqueRecoursProjetListItemReadModel,
+  ListerHistoriqueRecoursProjetReadModel,
+} from './listerHistorique/listerHistoriqueRecoursProjet.query';
 import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 
 // Query
-export type RecoursQuery = ConsulterRecoursQuery | ListerRecoursQuery;
+export type RecoursQuery =
+  | ConsulterRecoursQuery
+  | ListerRecoursQuery
+  | ListerHistoriqueRecoursProjetQuery;
 
-export { ConsulterRecoursQuery, ListerRecoursQuery };
+export { ConsulterRecoursQuery, ListerRecoursQuery, ListerHistoriqueRecoursProjetQuery };
 
 // ReadModel
-export { ConsulterRecoursReadModel, ListerRecoursReadModel };
+export {
+  ConsulterRecoursReadModel,
+  ListerRecoursReadModel,
+  HistoriqueRecoursProjetListItemReadModel,
+  ListerHistoriqueRecoursProjetReadModel,
+};
 
 // UseCases
 export type RecoursUseCase =

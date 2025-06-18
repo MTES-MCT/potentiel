@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
-import { Éliminé } from '@potentiel-domain/projet';
+
+import { RecoursEvent } from '../recours.event';
 
 export type HistoriqueRecoursProjetListItemReadModel = HistoryRecord<
   'recours',
-  Éliminé.Recours.RecoursEvent['type'],
-  Éliminé.Recours.RecoursEvent['payload']
+  RecoursEvent['type'],
+  RecoursEvent['payload']
 >;
 
 export type ListerHistoriqueRecoursProjetReadModel = {
@@ -16,7 +17,7 @@ export type ListerHistoriqueRecoursProjetReadModel = {
 };
 
 export type ListerHistoriqueRecoursProjetQuery = Message<
-  'Historique.Query.ListerHistoriqueRecoursProjet',
+  'Éliminé.Query.ListerHistoriqueRecoursProjet',
   {
     identifiantProjet: string;
     range?: RangeOptions;
@@ -41,5 +42,5 @@ export const registerListerHistoriqueRecoursProjetQuery = ({
       range,
     });
 
-  mediator.register('Historique.Query.ListerHistoriqueRecoursProjet', handler);
+  mediator.register('Éliminé.Query.ListerHistoriqueRecoursProjet', handler);
 };

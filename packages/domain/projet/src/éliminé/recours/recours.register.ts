@@ -14,12 +14,19 @@ import {
   ListerRecoursDependencies,
   registerListerRecoursQuery,
 } from './lister/listerRecours.query';
+import {
+  ListerHistoriqueRecoursProjetDependencies,
+  registerListerHistoriqueRecoursProjetQuery,
+} from './listerHistorique/listerHistoriqueRecoursProjet.query';
 import { registerRejeterRecoursCommand } from './rejeter/rejeterRecours.command';
 import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command';
 
-export type RecoursQueryDependencies = ConsulterRecoursDependencies & ListerRecoursDependencies;
+export type RecoursQueryDependencies = ConsulterRecoursDependencies &
+  ListerRecoursDependencies &
+  ListerHistoriqueRecoursProjetDependencies;
+
 export type RecoursCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
@@ -41,4 +48,5 @@ export const registerRecoursUseCases = ({ getProjetAggregateRoot }: RecoursComma
 export const registerRecoursQueries = (dependencies: RecoursQueryDependencies) => {
   registerConsulterRecoursQuery(dependencies);
   registerListerRecoursQuery(dependencies);
+  registerListerHistoriqueRecoursProjetQuery(dependencies);
 };

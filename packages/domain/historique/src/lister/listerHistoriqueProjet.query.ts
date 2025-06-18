@@ -6,10 +6,9 @@ import {
   ListHistoryResult,
   RangeOptions,
 } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { HistoriqueRecoursProjetListItemReadModel } from './listerHistoriqueRecoursProjet.query';
 import { HistoriqueActionnaireProjetListItemReadModel } from './listerHistoriqueActionnaireProjet.query';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from './listerHistoriqueReprésentantLégalProjet.query';
 import { HistoriqueRaccordementProjetListItemReadModel } from './listerHistoriqueRaccordementProjet.query';
@@ -36,7 +35,7 @@ export type HistoriqueListItemReadModels =
   | Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel
   | HistoriqueLauréatProjetListItemReadModel
   | HistoriqueActionnaireProjetListItemReadModel
-  | HistoriqueRecoursProjetListItemReadModel
+  | Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel
   | HistoriqueReprésentantLégalProjetListItemReadModel
   | HistoriqueGarantiesFinancièresProjetListItemReadModel
   | Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel
