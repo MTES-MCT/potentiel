@@ -1,16 +1,8 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainError } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
-
-export type ActionnaireImportéEvent = DomainEvent<
-  'ActionnaireImporté-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    actionnaire: string;
-    importéLe: DateTime.RawType;
-  }
->;
 
 export type ImporterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -26,7 +18,7 @@ export async function importer(
     throw new ActionnaireDéjàImportéError();
   }
 
-  const event: ActionnaireImportéEvent = {
+  const event: Lauréat.Actionnaire.ActionnaireImportéEvent = {
     type: 'ActionnaireImporté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -40,7 +32,7 @@ export async function importer(
 
 export function applyActionnaireImporté(
   this: ActionnaireAggregate,
-  { payload: { actionnaire, identifiantProjet } }: ActionnaireImportéEvent,
+  { payload: { actionnaire, identifiantProjet } }: Lauréat.Actionnaire.ActionnaireImportéEvent,
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.actionnaire = actionnaire;

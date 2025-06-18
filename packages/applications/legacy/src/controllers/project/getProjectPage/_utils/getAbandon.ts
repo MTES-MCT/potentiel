@@ -4,11 +4,10 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat } from '@potentiel-domain/projet';
-import { ConsulterAbandonReadModel } from '@potentiel-domain/projet/dist/lauréat/abandon';
 
 export type GetAbandon = (
   identifiantProjet: IdentifiantProjet.ValueType,
-) => Promise<ConsulterAbandonReadModel | undefined>;
+) => Promise<Lauréat.Abandon.ConsulterAbandonReadModel | undefined>;
 
 export const getAbandon: GetAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   try {

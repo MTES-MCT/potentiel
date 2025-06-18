@@ -527,7 +527,8 @@ const référencielPermissions = {
   historique: {
     query: {
       lister: 'Historique.Query.ListerHistoriqueProjet',
-      listerHistoriqueActionnaire: 'Historique.Query.ListerHistoriqueActionnaireProjet',
+      listerHistoriqueActionnaire: 'Lauréat.Actionnaire.Query.ListerHistoriqueActionnaireProjet',
+      listerHistoriqueRecours: 'Historique.Query.ListerHistoriqueRecoursProjet',
       listerHistoriqueReprésentantLégal: 'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
       listerHistoriqueRaccordement: 'Historique.Query.ListerHistoriqueRaccordementProjet',
     },
