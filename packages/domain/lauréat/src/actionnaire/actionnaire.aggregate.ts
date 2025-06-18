@@ -5,14 +5,11 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutChangementActionnaire } from '.';
 
-import {
-  ActionnaireImportéEvent,
-  applyActionnaireImporté,
-  importer,
-} from './importer/importerActionnaire.behavior';
+import { applyActionnaireImporté, importer } from './importer/importerActionnaire.behavior';
 import {
   ActionnaireModifiéEvent,
   applyActionnaireModifié,
@@ -50,7 +47,7 @@ import {
 } from './changement/supprimer/supprimerChangementActionnaire.behavior';
 
 export type ActionnaireEvent =
-  | ActionnaireImportéEvent
+  | Lauréat.Actionnaire.ActionnaireImportéEvent
   | ActionnaireModifiéEvent
   | ChangementActionnaireEnregistréEvent
   | ChangementActionnaireDemandéEvent
