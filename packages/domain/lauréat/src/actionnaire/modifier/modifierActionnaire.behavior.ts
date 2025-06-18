@@ -1,23 +1,9 @@
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
 import { DemandeDeChangementEnCoursError } from '../errors';
-
-export type ActionnaireModifiéEvent = DomainEvent<
-  'ActionnaireModifié-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    actionnaire: string;
-    modifiéLe: DateTime.RawType;
-    modifiéPar: Email.RawType;
-    raison: string;
-    pièceJustificative?: {
-      format: string;
-    };
-  }
->;
 
 export type ModifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -43,7 +29,7 @@ export async function modifier(
     throw new DemandeDeChangementEnCoursError();
   }
 
-  const event: ActionnaireModifiéEvent = {
+  const event: Lauréat.Actionnaire.ActionnaireModifiéEvent = {
     type: 'ActionnaireModifié-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -62,7 +48,7 @@ export async function modifier(
 
 export function applyActionnaireModifié(
   this: ActionnaireAggregate,
-  { payload: { actionnaire } }: ActionnaireModifiéEvent,
+  { payload: { actionnaire } }: Lauréat.Actionnaire.ActionnaireModifiéEvent,
 ) {
   this.actionnaire = actionnaire;
 }

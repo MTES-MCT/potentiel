@@ -2,6 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
 import { Actionnaire } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
@@ -9,7 +10,7 @@ export const mapToActionnaireModifiéTimelineItemProps = (
   modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { modifiéLe, modifiéPar, identifiantProjet, pièceJustificative, actionnaire } =
-    modification.payload as Actionnaire.ActionnaireModifiéEvent['payload'];
+    modification.payload as Lauréat.Actionnaire.ActionnaireModifiéEvent['payload'];
 
   return {
     date: modifiéLe,

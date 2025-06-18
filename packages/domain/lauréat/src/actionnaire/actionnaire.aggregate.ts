@@ -10,11 +10,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { StatutChangementActionnaire } from '.';
 
 import { applyActionnaireImporté, importer } from './importer/importerActionnaire.behavior';
-import {
-  ActionnaireModifiéEvent,
-  applyActionnaireModifié,
-  modifier,
-} from './modifier/modifierActionnaire.behavior';
+import { applyActionnaireModifié, modifier } from './modifier/modifierActionnaire.behavior';
 import {
   accorderChangementActionnaire,
   ChangementActionnaireAccordéEvent,
@@ -48,7 +44,7 @@ import {
 
 export type ActionnaireEvent =
   | Lauréat.Actionnaire.ActionnaireImportéEvent
-  | ActionnaireModifiéEvent
+  | Lauréat.Actionnaire.ActionnaireModifiéEvent
   | ChangementActionnaireEnregistréEvent
   | ChangementActionnaireDemandéEvent
   | ChangementActionnaireAnnuléEvent
