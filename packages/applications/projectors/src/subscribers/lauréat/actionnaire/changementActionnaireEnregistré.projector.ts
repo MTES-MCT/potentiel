@@ -1,4 +1,5 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import {
   updateOneProjection,
   upsertProjection,
@@ -13,7 +14,7 @@ export const changementActionnaireEnregistréProjector = async ({
     raison,
     pièceJustificative,
   },
-}: Actionnaire.ChangementActionnaireEnregistréEvent) => {
+}: Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent) => {
   await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     actionnaire: {
       nom: actionnaire,

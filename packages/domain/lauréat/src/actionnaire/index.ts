@@ -80,14 +80,6 @@ export type {
 
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
-export type { ActionnaireImportéEvent } from './importer/importerActionnaire.behavior';
-export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
-export type { ChangementActionnaireDemandéEvent } from './changement/demander/demanderChangementActionnaire.behavior';
-export type { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.behavior';
-export type { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.behavior';
-export type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.behavior';
-export type { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.behavior';
-export type { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.behavior';
 
 // Saga
 export * as ActionnaireSaga from './saga';

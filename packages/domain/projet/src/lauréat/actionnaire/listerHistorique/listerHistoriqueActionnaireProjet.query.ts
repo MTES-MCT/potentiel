@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
-import { Actionnaire } from '@potentiel-domain/laureat';
+
+import { ActionnaireEvent } from '../actionnaire.event';
 
 export type HistoriqueActionnaireProjetListItemReadModel = HistoryRecord<
   'actionnaire',
-  Actionnaire.ActionnaireEvent['type'],
-  Actionnaire.ActionnaireEvent['payload']
+  ActionnaireEvent['type'],
+  ActionnaireEvent['payload']
 >;
 
 export type ListerHistoriqueActionnaireProjetReadModel = {
@@ -16,7 +17,7 @@ export type ListerHistoriqueActionnaireProjetReadModel = {
 };
 
 export type ListerHistoriqueActionnaireProjetQuery = Message<
-  'Historique.Query.ListerHistoriqueActionnaireProjet',
+  'Lauréat.Actionnaire.Query.ListerHistoriqueActionnaireProjet',
   {
     identifiantProjet: string;
     range?: RangeOptions;
@@ -41,5 +42,5 @@ export const registerListerHistoriqueActionnaireProjetQuery = ({
       range,
     });
 
-  mediator.register('Historique.Query.ListerHistoriqueActionnaireProjet', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ListerHistoriqueActionnaireProjet', handler);
 };

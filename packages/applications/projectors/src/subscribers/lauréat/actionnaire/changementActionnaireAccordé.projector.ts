@@ -1,4 +1,5 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
@@ -12,7 +13,7 @@ export const changementActionnaireAccordéProjector = async ({
     accordéPar,
     réponseSignée: { format },
   },
-}: Actionnaire.ChangementActionnaireAccordéEvent) => {
+}: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent) => {
   const actionnaire = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );

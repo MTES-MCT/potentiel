@@ -1,5 +1,4 @@
-import { Actionnaire } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients } from '../../../helpers';
@@ -10,7 +9,7 @@ import { actionnaireNotificationTemplateId } from './constant';
 
 type ChangementActionnaireAnnuléNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
-  event: Actionnaire.ChangementActionnaireAnnuléEvent;
+  event: Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent;
   projet: {
     nom: string;
     région: string;

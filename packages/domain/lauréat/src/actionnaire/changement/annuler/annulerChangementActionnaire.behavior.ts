@@ -1,18 +1,9 @@
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import { StatutChangementActionnaire } from '../..';
 import { ChangementActionnaireInexistanteErreur } from '../../errors';
-
-export type ChangementActionnaireAnnuléEvent = DomainEvent<
-  'ChangementActionnaireAnnulé-V1',
-  {
-    annuléLe: DateTime.RawType;
-    annuléPar: Email.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
 
 export type AnnulerOptions = {
   dateAnnulation: DateTime.ValueType;
@@ -32,7 +23,7 @@ export async function annulerDemandeChangement(
     StatutChangementActionnaire.annulé,
   );
 
-  const event: ChangementActionnaireAnnuléEvent = {
+  const event: Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent = {
     type: 'ChangementActionnaireAnnulé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),

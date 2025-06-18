@@ -5,59 +5,46 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutChangementActionnaire } from '.';
 
-import {
-  ActionnaireImportéEvent,
-  applyActionnaireImporté,
-  importer,
-} from './importer/importerActionnaire.behavior';
-import {
-  ActionnaireModifiéEvent,
-  applyActionnaireModifié,
-  modifier,
-} from './modifier/modifierActionnaire.behavior';
+import { applyActionnaireImporté, importer } from './importer/importerActionnaire.behavior';
+import { applyActionnaireModifié, modifier } from './modifier/modifierActionnaire.behavior';
 import {
   accorderChangementActionnaire,
-  ChangementActionnaireAccordéEvent,
   applyChangementActionnaireAccordé,
 } from './changement/accorder/accorderChangementActionnaire.behavior';
 import {
   annulerDemandeChangement,
   applyChangementActionnaireAnnulé,
-  ChangementActionnaireAnnuléEvent,
 } from './changement/annuler/annulerChangementActionnaire.behavior';
 import {
   demanderChangement,
   applyChangementActionnaireDemandé,
-  ChangementActionnaireDemandéEvent,
 } from './changement/demander/demanderChangementActionnaire.behavior';
 import {
   applyChangementActionnaireRejeté,
-  ChangementActionnaireRejetéEvent,
   rejeterChangementActionnaire,
 } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 import {
   applyChangementActionnaireEnregistré,
-  ChangementActionnaireEnregistréEvent,
   enregistrerChangement,
 } from './changement/enregistrerChangement/enregistrerChangement.behavior';
 import {
   supprimerDemandeChangement,
-  ChangementActionnaireSuppriméEvent,
   applyChangementActionnaireSupprimé,
 } from './changement/supprimer/supprimerChangementActionnaire.behavior';
 
 export type ActionnaireEvent =
-  | ActionnaireImportéEvent
-  | ActionnaireModifiéEvent
-  | ChangementActionnaireEnregistréEvent
-  | ChangementActionnaireDemandéEvent
-  | ChangementActionnaireAnnuléEvent
-  | ChangementActionnaireAccordéEvent
-  | ChangementActionnaireRejetéEvent
-  | ChangementActionnaireSuppriméEvent;
+  | Lauréat.Actionnaire.ActionnaireImportéEvent
+  | Lauréat.Actionnaire.ActionnaireModifiéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireEnregistréEvent
+  | Lauréat.Actionnaire.ChangementActionnaireDemandéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent
+  | Lauréat.Actionnaire.ChangementActionnaireAccordéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireRejetéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireSuppriméEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;

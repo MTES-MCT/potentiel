@@ -1,6 +1,6 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutChangementActionnaire } from '../..';
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
@@ -9,20 +9,6 @@ import {
   ProjetAvecDemandeAbandonEnCoursError,
   ProjetAchevéError,
 } from '../../errors';
-
-export type ChangementActionnaireDemandéEvent = DomainEvent<
-  'ChangementActionnaireDemandé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    actionnaire: string;
-    raison: string;
-    demandéLe: DateTime.RawType;
-    demandéPar: Email.RawType;
-    pièceJustificative: {
-      format: string;
-    };
-  }
->;
 
 export type DemanderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -70,7 +56,7 @@ export async function demanderChangement(
     throw new ProjetAchevéError();
   }
 
-  const event: ChangementActionnaireDemandéEvent = {
+  const event: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent = {
     type: 'ChangementActionnaireDemandé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -89,7 +75,7 @@ export async function demanderChangement(
 
 export function applyChangementActionnaireDemandé(
   this: ActionnaireAggregate,
-  { payload: { actionnaire } }: ChangementActionnaireDemandéEvent,
+  { payload: { actionnaire } }: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent,
 ) {
   this.demande = {
     statut: StatutChangementActionnaire.demandé,
