@@ -1,16 +1,7 @@
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
-
-export type ChangementActionnaireSuppriméEvent = DomainEvent<
-  'ChangementActionnaireSupprimé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    suppriméLe: DateTime.RawType;
-    suppriméPar: Email.RawType;
-  }
->;
 
 export type SupprimerOptions = {
   dateSuppression: DateTime.ValueType;
@@ -26,7 +17,7 @@ export async function supprimerDemandeChangement(
     return;
   }
 
-  const event: ChangementActionnaireSuppriméEvent = {
+  const event: Lauréat.Actionnaire.ChangementActionnaireSuppriméEvent = {
     type: 'ChangementActionnaireSupprimé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -40,7 +31,7 @@ export async function supprimerDemandeChangement(
 
 export function applyChangementActionnaireSupprimé(
   this: ActionnaireAggregate,
-  _: ChangementActionnaireSuppriméEvent,
+  _: Lauréat.Actionnaire.ChangementActionnaireSuppriméEvent,
 ) {
   this.demande = undefined;
 }

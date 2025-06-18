@@ -1,4 +1,5 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
@@ -6,7 +7,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const changementActionnaireSuppriméProjector = async ({
   payload: { identifiantProjet },
-}: Actionnaire.ChangementActionnaireSuppriméEvent) => {
+}: Lauréat.Actionnaire.ChangementActionnaireSuppriméEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );

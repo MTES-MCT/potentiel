@@ -33,7 +33,6 @@ import {
 } from './changement/enregistrerChangement/enregistrerChangement.behavior';
 import {
   supprimerDemandeChangement,
-  ChangementActionnaireSuppriméEvent,
   applyChangementActionnaireSupprimé,
 } from './changement/supprimer/supprimerChangementActionnaire.behavior';
 
@@ -45,7 +44,7 @@ export type ActionnaireEvent =
   | Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent
   | Lauréat.Actionnaire.ChangementActionnaireAccordéEvent
   | Lauréat.Actionnaire.ChangementActionnaireRejetéEvent
-  | ChangementActionnaireSuppriméEvent;
+  | Lauréat.Actionnaire.ChangementActionnaireSuppriméEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;

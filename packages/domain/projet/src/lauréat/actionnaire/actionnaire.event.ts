@@ -89,3 +89,12 @@ export type ChangementActionnaireRejetéEvent = DomainEvent<
     };
   }
 >;
+
+export type ChangementActionnaireSuppriméEvent = DomainEvent<
+  'ChangementActionnaireSupprimé-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    suppriméLe: DateTime.RawType;
+    suppriméPar: Email.RawType;
+  }
+>;
