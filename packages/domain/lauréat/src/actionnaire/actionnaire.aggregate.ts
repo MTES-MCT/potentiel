@@ -22,7 +22,6 @@ import {
 import {
   demanderChangement,
   applyChangementActionnaireDemandé,
-  ChangementActionnaireDemandéEvent,
 } from './changement/demander/demanderChangementActionnaire.behavior';
 import {
   applyChangementActionnaireRejeté,
@@ -44,7 +43,7 @@ export type ActionnaireEvent =
   | Lauréat.Actionnaire.ActionnaireImportéEvent
   | Lauréat.Actionnaire.ActionnaireModifiéEvent
   | ChangementActionnaireEnregistréEvent
-  | ChangementActionnaireDemandéEvent
+  | Lauréat.Actionnaire.ChangementActionnaireDemandéEvent
   | Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent
   | Lauréat.Actionnaire.ChangementActionnaireAccordéEvent
   | ChangementActionnaireRejetéEvent

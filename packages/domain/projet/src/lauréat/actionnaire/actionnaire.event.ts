@@ -49,3 +49,17 @@ export type ChangementActionnaireAnnuléEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
+
+export type ChangementActionnaireDemandéEvent = DomainEvent<
+  'ChangementActionnaireDemandé-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    actionnaire: string;
+    raison: string;
+    demandéLe: DateTime.RawType;
+    demandéPar: Email.RawType;
+    pièceJustificative: {
+      format: string;
+    };
+  }
+>;

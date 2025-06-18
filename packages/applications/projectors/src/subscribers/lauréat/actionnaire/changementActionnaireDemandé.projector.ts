@@ -3,6 +3,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const changementActionnaireDemandéProjector = async ({
   payload: {
@@ -13,7 +14,7 @@ export const changementActionnaireDemandéProjector = async ({
     raison,
     pièceJustificative: { format },
   },
-}: Actionnaire.ChangementActionnaireDemandéEvent) => {
+}: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );

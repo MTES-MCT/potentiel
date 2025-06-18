@@ -80,7 +80,6 @@ export type {
 
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
-export type { ChangementActionnaireDemandéEvent } from './changement/demander/demanderChangementActionnaire.behavior';
 export type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 export type { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.behavior';
 export type { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.behavior';
