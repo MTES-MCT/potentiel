@@ -38,10 +38,9 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
         if (Option.isNone(candidature)) {
           throw new Error('Candidature non trouvée');
         }
-        const grd = await récupérerGRDParVille({
-          codePostal: candidature.localité.codePostal,
-          commune: candidature.localité.commune,
-        });
+        const commune = candidature.localité.commune.split('/')[0].trim();
+        const codePostal = candidature.localité.codePostal.split('/')[0].trim();
+        const grd = await récupérerGRDParVille({ codePostal, commune });
         const identifiantGestionnaireRéseau = Option.match(grd)
           .some((grd) =>
             GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(grd.codeEIC),

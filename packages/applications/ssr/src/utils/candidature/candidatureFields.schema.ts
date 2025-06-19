@@ -31,16 +31,26 @@ export const nomReprésentantLégalSchema = requiredStringSchema;
 export const emailContactSchema = requiredStringSchema.email();
 export const adresse1Schema = requiredStringSchema;
 export const adresse2Schema = optionalStringSchema;
-export const codePostalSchema = requiredStringSchema.refine(
-  (val) =>
-    val
-      .split('/')
-      .map((str) => str.trim())
-      .every(getRégionAndDépartementFromCodePostal),
-  'Le code postal ne correspond à aucune région / département',
-);
 
-export const communeSchema = requiredStringSchema;
+const normalizeStringArray = (value: string) =>
+  value
+    .split('/')
+    .map((str) => str.trim())
+    .filter((str) => !!str)
+    .join(' / ');
+
+export const codePostalSchema = requiredStringSchema
+  .refine(
+    (val) =>
+      val
+        .split('/')
+        .map((str) => str.trim())
+        .every(getRégionAndDépartementFromCodePostal),
+    'Le code postal ne correspond à aucune région / département',
+  )
+  .transform(normalizeStringArray);
+
+export const communeSchema = requiredStringSchema.transform(normalizeStringArray);
 export const départementSchema = requiredStringSchema;
 export const régionSchema = requiredStringSchema;
 export const doitRegenererAttestationSchema = booleanSchema.optional();
