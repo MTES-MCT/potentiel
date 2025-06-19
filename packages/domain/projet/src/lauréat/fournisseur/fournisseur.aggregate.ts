@@ -107,10 +107,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
       type: 'ChangementFournisseurEnregistré-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        fournisseurs: fournisseurs?.map((fournisseur) => ({
-          typeFournisseur: fournisseur.typeFournisseur.formatter(),
-          nomDuFabricant: fournisseur.nomDuFabricant,
-        })),
+        fournisseurs: fournisseurs?.map((fournisseur) => fournisseur.formatter()),
         évaluationCarboneSimplifiée,
         enregistréLe: dateChangement.formatter(),
         enregistréPar: identifiantUtilisateur.formatter(),
