@@ -7,14 +7,13 @@ import { contentType } from 'mime-types';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Candidature, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Option } from '@potentiel-libraries/monads';
 import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 type CandidatureEvents = {
   stream_id: string;
-  fournisseurs: [{ type: null; nom: null }] | { type: string; nom: string }[];
+  details: [{ kind: null; name: null }] | { kind: string; name: string }[];
   identifiantProjet: IdentifiantProjet.RawType;
   évaluationCarboneSimplifiée: number;
 };
@@ -25,10 +24,10 @@ SELECT es.stream_id,
     payload->>'evaluationCarboneSimplifiée' AS "évaluationCarboneSimplifiée",
     json_agg(
         jsonb_build_object(
-            'type', d.key,
-            'nom', d.value
+            'kind', d.key,
+            'name', d.value
         )
-    ) as fournisseurs
+    ) as details
 FROM event_store.event_stream es
 INNER JOIN projects p ON format(
     '%s#%s#%s#%s',
@@ -37,11 +36,11 @@ INNER JOIN projects p ON format(
     p."familleId",
     p."numeroCRE"
 ) = payload->>'identifiantProjet'
-LEFT JOIN json_each_text(p.details) d ON d.key ILIKE '%nom du fabricant%'
-    AND trim(lower(d.value)) NOT IN ('','0','#n/a','n/a','na','n.a.','nx','nc','ne s''applique pas','non applicable', 'non concerné','-','--','/','sans objet','s/o','so', 'non pertinent', 'non applicable à ce projet','non disponible','aucun','non','non concern?','_','à définir ultérieurement','b','non défini','non renseigné','non précisé', 'non connu à ce jour', 'non connu a ce jour')
+LEFT JOIN json_each_text(p.details) d ON (d.key ILIKE '%nom du fabricant%'
+    AND trim(lower(d.value)) NOT IN ('','0','#n/a','n/a','na','n.a.','nx','nc','ne s''applique pas','non applicable', 'non concerné','-','--','/','sans objet','s/o','so', 'non pertinent', 'non applicable à ce projet','non disponible','aucun','non','non concern?','_','à définir ultérieurement','b','non défini','non renseigné','non précisé', 'non connu à ce jour', 'non connu a ce jour')) OR  d.key ILIKE '%Lieu(x) de fabrication%'
 WHERE es.type = 'CandidatureImportée-V1'
 GROUP BY es.stream_id,
-    payload->>'identifiantProjet', payload->>'evaluationCarboneSimplifiée'
+    payload->>'identifiantProjet', payload->>'evaluationCarboneSimplifiée';
 `;
 
 type LauréatEvents = {
@@ -134,23 +133,18 @@ export class Migrer extends Command {
 
     console.log(`${candidaturesImportéesEvent.length} candidatures importées trouvées`);
 
-    for (const { stream_id, identifiantProjet, fournisseurs } of candidaturesImportéesEvent) {
+    for (const { stream_id, identifiantProjet, details } of candidaturesImportéesEvent) {
       process.stdout.write('.');
+
+      const fournisseurs = mapDetailsToFournisseurs(
+        details.filter((x) => x.name !== null && x.kind !== null),
+      );
 
       const event: Candidature.DétailsFournisseursCandidatureImportésEvent = {
         type: 'DétailsFournisseursCandidatureImportés-V1',
         payload: {
           identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          fournisseurs: fournisseurs
-            .map(({ nom, type }) =>
-              nom === null && type === null
-                ? undefined
-                : {
-                    typeFournisseur: mapCsvLabelToTypeFournisseur(type).formatter(),
-                    nomDuFabricant: nom,
-                  },
-            )
-            .filter((item) => item !== undefined),
+          fournisseurs,
         },
       };
 
@@ -178,11 +172,14 @@ export class Migrer extends Command {
         (candidature) => candidature.identifiantProjet === identifiantProjet,
       );
 
-      // TODO NOK, il faut gérer ceux qui n'ont pas de fournisseur ?
       if (!candidature) {
         console.warn(`Pas de candidature trouvée pour l'identifiant ${identifiantProjet}`);
         continue;
       }
+
+      const fournisseurs = mapDetailsToFournisseurs(
+        candidature.details.filter((x) => x.name !== null && x.kind !== null),
+      );
 
       // Le détail fournisseur n'a jamais été corrigé lors d'une correction de candidature
       // cf : select distinct json_object_keys(payload->'correctedData') from "eventStores" es where es.type='ProjectDataCorrected';
@@ -190,20 +187,7 @@ export class Migrer extends Command {
       const event: Lauréat.Fournisseur.FournisseurImportéEvent = {
         type: 'FournisseurImporté-V1',
         payload: {
-          fournisseurs: candidature.fournisseurs
-            .map(({ nom, type }) =>
-              type === null && nom === null
-                ? undefined
-                : {
-                    typeFournisseur: Option.match(mapCsvLabelToTypeFournisseur(type))
-                      .some((type) => type.formatter())
-                      .none(() => {
-                        throw new Error(`Type inconnu (${type})`);
-                      }),
-                    nomDuFabricant: nom,
-                  },
-            )
-            .filter((item) => item !== undefined),
+          fournisseurs,
           évaluationCarboneSimplifiée: Number(candidature.évaluationCarboneSimplifiée),
           identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
           importéLe: notifiéLe,
@@ -220,6 +204,14 @@ export class Migrer extends Command {
       stats.nbFournisseursImportés++;
     }
 
+    const tousLesFournisseurs = lauréatNotifiéEvents.map(({ identifiantProjet }) =>
+      mapDetailsToFournisseurs(
+        candidaturesImportéesEvent
+          .find((candidature) => candidature.identifiantProjet === identifiantProjet)
+          ?.details.filter((x) => x.name !== null && x.kind !== null) ?? [],
+      ),
+    );
+
     // Step 3 - Modifications
 
     console.log('migration des modifications...');
@@ -229,10 +221,13 @@ export class Migrer extends Command {
       target: DocumentProjet.ValueType;
     }> = [];
 
+    let matchFournisseurNom = 0;
+    let changementFournisseur = 0;
+
     for (const modification of modifications) {
       process.stdout.write('.');
       if (
-        modification.fournisseurs.length === 0 &&
+        !modification.fournisseurs?.length &&
         (modification.evaluationCarbone === null || modification.evaluationCarbone === undefined) &&
         (modification.filePath === null || modification.filePath === undefined)
       ) {
@@ -245,16 +240,45 @@ export class Migrer extends Command {
         modification.identifiantProjet,
       );
       const enregistréLe = DateTime.convertirEnValueType(modification.enregistréLe);
+      const fournisseurs = modification.fournisseurs
+        ? mapDetailsToFournisseurs(modification.fournisseurs)
+        : undefined;
+
+      // since the modification doesn't contain
+      if (fournisseurs && fournisseurs.length > 0) {
+        const candidature = candidaturesImportéesEvent.find(
+          (candidature) => candidature.identifiantProjet === modification.identifiantProjet,
+        )!;
+        const fournisseursCandidature = mapDetailsToFournisseurs(
+          candidature.details.filter((x) => x.name !== null && x.kind !== null),
+        );
+        fournisseurs.forEach((value) => {
+          const fournisseurCandidature = fournisseursCandidature.find(
+            (x) => x.nomDuFabricant === value.nomDuFabricant,
+            // x.typeFournisseur === value.typeFournisseur,
+          );
+          if (fournisseurCandidature) {
+            value.lieu = fournisseurCandidature.lieu;
+            matchFournisseurNom++;
+          } else {
+            const fournisseurCandidature = fournisseursCandidature.find(
+              (x) => x.typeFournisseur === value.typeFournisseur,
+            );
+            if (fournisseurCandidature) {
+              console.log(fournisseurCandidature.nomDuFabricant, '=>', value.nomDuFabricant);
+            } else {
+              console.log(fournisseursCandidature, fournisseurs);
+            }
+          }
+        });
+        changementFournisseur++;
+      }
+
       const event: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent = {
         type: 'ChangementFournisseurEnregistré-V1',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
-          fournisseurs: modification.fournisseurs.length
-            ? modification.fournisseurs.map(({ name, kind }) => ({
-                nomDuFabricant: name,
-                typeFournisseur: mapCsvLabelToTypeFournisseur(kind).formatter(),
-              }))
-            : undefined,
+          fournisseurs,
           évaluationCarboneSimplifiée: modification.evaluationCarbone ?? undefined,
           raison: modification.raison,
           enregistréLe: enregistréLe.formatter(),
@@ -286,6 +310,38 @@ export class Migrer extends Command {
       });
       stats.nbModifications++;
     }
+
+    console.log(
+      'projets avec 0 fournisseur',
+      tousLesFournisseurs.filter((fournisseurs) => fournisseurs.length === 0).length,
+    );
+    console.log(
+      'projets avec 1 fournisseur',
+      tousLesFournisseurs.filter((fournisseurs) => fournisseurs.length === 1).length,
+    );
+    console.log(
+      'projets avec 2 fournisseurs',
+      tousLesFournisseurs.filter((fournisseurs) => fournisseurs.length === 2).length,
+    );
+    console.log(
+      'projets avec 3 fournisseurs',
+      tousLesFournisseurs.filter((fournisseurs) => fournisseurs.length === 3).length,
+    );
+    console.log(
+      'projets avec 4+ fournisseurs',
+      tousLesFournisseurs.filter((fournisseurs) => fournisseurs.length > 3).length,
+    );
+
+    console.log('fournisseurs sans lieu', tousLesFournisseurs.flat().filter((f) => !f.lieu).length);
+    console.log(
+      'fournisseurs complets',
+      tousLesFournisseurs.flat().filter((f) => f.typeFournisseur && f.nomDuFabricant && f.lieu)
+        .length,
+    );
+
+    console.log({ matchFournisseurNom, changementFournisseur });
+
+    return;
     console.log('');
     console.log('migration des fichiers...');
     for (const { filePath, target } of fichiersÀCopier) {
@@ -329,7 +385,7 @@ const champsCsvFournisseur: Record<Lauréat.Fournisseur.TypeFournisseur.RawType,
   polysilicium: 'Polysilicium',
   'postes-conversion': 'Postes de conversion',
   structure: 'Structure',
-  'dispositifs-stockage-energie': 'Dispositifs de stockage de l’énergie *',
+  'dispositifs-stockage-energie': `Dispositifs de stockage de l'énergie *`,
   'dispositifs-suivi-course-soleil': 'Dispositifs de suivi de la course du soleil *',
   'autres-technologies': 'Autres technologies',
   'dispositif-de-production': 'dispositif de production',
@@ -343,15 +399,53 @@ const labelCsvToTypeFournisseur = Object.fromEntries(
   Object.entries(champsCsvFournisseur).map(([key, value]) => [value, key]),
 ) as Record<string, Lauréat.Fournisseur.TypeFournisseur.RawType>;
 
-const regex = /Nom du fabricant\s?\s\((?<type>.*)\)\s?\d?/;
-const mapCsvLabelToTypeFournisseur = (typeValue: string) => {
-  const type = typeValue.match(regex)?.groups?.type;
-  if (type && labelCsvToTypeFournisseur[type]) {
-    return Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
-      labelCsvToTypeFournisseur[type],
-    );
+const regex = /(?<field>.*)\s?\s\((?<type>.*)\)\s?(?<index>\d?)/;
+const mapCsvLabelToFournisseur = (typeValue: string) => {
+  const { type, index, field } = typeValue.match(regex)?.groups ?? {};
+  const typeNormalisé = type.replaceAll('’', "'");
+  if (type && labelCsvToTypeFournisseur[typeNormalisé]) {
+    return {
+      type: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
+        labelCsvToTypeFournisseur[typeNormalisé],
+      ).formatter(),
+      field,
+      index: index ? Number(index) : 0,
+    };
   }
   throw new Error(`Type inconnu (${type})`);
+};
+const mapDetailsToFournisseurs = (details: { name: string; kind: string }[]) => {
+  const detailsFields = details
+    .map(({ name, kind }) => ({
+      ...mapCsvLabelToFournisseur(kind),
+      valeur: name,
+    }))
+    .filter((item) => item !== undefined);
+
+  if (detailsFields.length === 0) return [];
+
+  return detailsFields
+    .reduce(
+      (prev, curr) => {
+        prev[curr.index] ??= {
+          typeFournisseur: curr.type,
+          nomDuFabricant: '',
+        };
+        if (curr.field.trim() === 'Lieu(x) de fabrication') {
+          prev[curr.index].lieu = curr.valeur;
+        }
+        if (curr.field.trim() === 'Nom du fabricant') {
+          prev[curr.index].nomDuFabricant = curr.valeur;
+        }
+        return prev;
+      },
+      new Array<{
+        typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
+        lieu?: string;
+        nomDuFabricant: string;
+      }>(Math.max(...detailsFields.map((x) => x.index)) || 1),
+    )
+    .filter((x) => !!x.typeFournisseur && !!x.nomDuFabricant);
 };
 
 const getReplacementDoc = async (text: string) => {
