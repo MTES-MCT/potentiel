@@ -333,6 +333,18 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
               }),
             },
           },
+          {
+            text: 'Producteur',
+            linkProps: {
+              href: Routes.Producteur.changement.lister,
+            },
+          },
+          {
+            text: 'Fournisseur',
+            linkProps: {
+              href: Routes.Fournisseur.changement.lister,
+            },
+          },
         ],
       },
       {
