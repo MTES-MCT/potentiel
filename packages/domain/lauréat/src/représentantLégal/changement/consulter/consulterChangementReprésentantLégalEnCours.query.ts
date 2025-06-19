@@ -4,18 +4,15 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégal } from '../../..';
-import {
-  StatutChangementReprésentantLégal,
-  TypeDocumentChangementReprésentantLégal,
-  TypeReprésentantLégal,
-} from '../..';
+import { StatutChangementReprésentantLégal, TypeDocumentChangementReprésentantLégal } from '../..';
 
 export type ConsulterChangementReprésentantLégalEnCoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
-  typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   demandéLe: DateTime.ValueType;
   demandéPar: Email.ValueType;
   statut: StatutChangementReprésentantLégal.ValueType;
@@ -82,7 +79,7 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => {
   return {
     identifiantProjet,
     nomReprésentantLégal: demande.nomReprésentantLégal,
-    typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+    typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
       demande.typeReprésentantLégal,
     ),
     demandéLe: DateTime.convertirEnValueType(demande.demandéLe),

@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -42,7 +43,7 @@ Quand(
         : {
             nom: this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
               .nomReprésentantLégal,
-            type: ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
+            type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
           };
 
       await modifierReprésentantLégal.call(this, options);
@@ -54,7 +55,7 @@ Quand(
 
 type ModifierReprésentantLégalOptions = {
   nom?: string;
-  type?: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  type?: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
 };
 async function modifierReprésentantLégal(
   this: PotentielWorld,

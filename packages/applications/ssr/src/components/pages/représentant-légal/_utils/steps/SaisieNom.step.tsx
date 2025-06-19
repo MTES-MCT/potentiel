@@ -3,7 +3,7 @@ import { FC } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { match } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -11,7 +11,7 @@ import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/
 
 export type SaisieNomProps = {
   nomReprésentantLégal: string;
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   onChange?: (nouveauNom: string) => void;
   validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
 };

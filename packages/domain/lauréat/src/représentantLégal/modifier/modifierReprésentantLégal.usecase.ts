@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-
-import { TypeReprésentantLégal } from '..';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ModifierReprésentantLégalCommand } from './modifierReprésentantLégal.command';
 
@@ -31,7 +30,7 @@ export const registerModifierReprésentantLégalUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         nomReprésentantLégal: nomReprésentantLégalValue,
-        typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+        typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
           typeReprésentantLégalValue,
         ),
         dateModification: DateTime.convertirEnValueType(dateModificationValue),

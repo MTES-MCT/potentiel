@@ -1,10 +1,11 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
 
 export const changementReprésentantLégalRejetéProjector = async (
-  event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
+  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
 ) => {
   const {
     payload: { identifiantProjet, motifRejet, rejetéLe, rejetéPar },

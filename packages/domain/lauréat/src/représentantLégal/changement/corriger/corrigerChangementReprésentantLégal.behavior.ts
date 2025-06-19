@@ -1,29 +1,16 @@
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
-import { TypeDocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
+import { TypeDocumentChangementReprésentantLégal } from '../..';
 import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
-
-export type ChangementReprésentantLégalCorrigéEvent = DomainEvent<
-  'ChangementReprésentantLégalCorrigé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.RawType;
-    corrigéLe: DateTime.RawType;
-    corrigéPar: Email.RawType;
-    pièceJustificative: {
-      format: string;
-    };
-  }
->;
 
 export type CorrigerChangementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
-  typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   pièceJustificative: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateCorrection: DateTime.ValueType;
@@ -52,7 +39,7 @@ export async function corriger(
     throw new ChangementDéjàRejetéError();
   }
 
-  const event: ChangementReprésentantLégalCorrigéEvent = {
+  const event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent = {
     type: 'ChangementReprésentantLégalCorrigé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -71,11 +58,12 @@ export function applyChangementReprésentantLégalCorrigé(
   this: ReprésentantLégalAggregate,
   {
     payload: { nomReprésentantLégal, typeReprésentantLégal, identifiantProjet, pièceJustificative },
-  }: ChangementReprésentantLégalCorrigéEvent,
+  }: Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent,
 ) {
   if (this.demande) {
     this.demande.nom = nomReprésentantLégal;
-    this.demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
+    this.demande.type =
+      Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
     this.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjet,
       TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),

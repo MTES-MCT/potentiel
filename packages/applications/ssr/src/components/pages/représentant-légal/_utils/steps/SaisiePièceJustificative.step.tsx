@@ -4,7 +4,7 @@ import { match, P } from 'ts-pattern';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -14,7 +14,7 @@ import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/
 import { TypeSociété } from './SaisieTypeSociété.step';
 
 export type SaisiePièceJustificativeProps = {
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété?: TypeSociété;
   pièceJustificative?: Array<string>;
   onChange?: (piècesJustificative: Array<string>) => void;

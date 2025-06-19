@@ -4,10 +4,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 // Workspaces
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
-// Package
 import { loadReprésentantLégalFactory } from '../../représentantLégal.aggregate';
-import { TypeReprésentantLégal } from '../..';
 
 export type AccorderChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
@@ -18,7 +17,7 @@ export type AccorderChangementReprésentantLégalCommand = Message<
   } & (
     | {
         nomReprésentantLégal: string;
-        typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+        typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
         accordAutomatique: false;
       }
     | {

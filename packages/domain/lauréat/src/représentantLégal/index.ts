@@ -87,14 +87,6 @@ export type {
 
 // Event
 export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';
-export type { ReprésentantLégalImportéEvent } from './importer/importerReprésentantLégal.behavior';
-export type { ReprésentantLégalModifiéEvent } from './modifier/modifierReprésentantLégal.behavior';
-export type { ChangementReprésentantLégalDemandéEvent } from './changement/demander/demanderChangementReprésentantLégal.behavior';
-export type { ChangementReprésentantLégalAnnuléEvent } from './changement/annuler/annulerChangementReprésentantLégal.behavior';
-export type { ChangementReprésentantLégalCorrigéEvent } from './changement/corriger/corrigerChangementReprésentantLégal.behavior';
-export type { ChangementReprésentantLégalAccordéEvent } from './changement/accorder/accorderChangementReprésentantLégal.behavior';
-export type { ChangementReprésentantLégalRejetéEvent } from './changement/rejeter/rejeterChangementReprésentantLégal.behavior';
-export type { ChangementReprésentantLégalSuppriméEvent } from './changement/supprimer/supprimerChangementReprésentantLégal.behavior';
 
 // Register
 export {
@@ -113,7 +105,6 @@ export { loadReprésentantLégalFactory } from './représentantLégal.aggregate'
 export * as ReprésentantLégalSaga from './saga';
 
 // ValueType
-export * as TypeReprésentantLégal from './typeReprésentantLégal.valueType';
 export * as TypeDocumentChangementReprésentantLégal from './changement/typeDocumentChangementReprésentantLégal.valueType';
 export * as TypeTâchePlanifiéeChangementReprésentantLégal from './changement/typeTâchePlanifiéeChangementReprésentantLégal.valueType';
 export * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType';

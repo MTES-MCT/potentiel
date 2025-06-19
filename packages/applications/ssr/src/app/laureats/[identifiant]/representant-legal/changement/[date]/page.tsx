@@ -61,7 +61,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const historique =
         await mediator.send<Historique.ListerHistoriqueReprésentantLégalProjetQuery>({
-          type: 'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
+          type: 'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },

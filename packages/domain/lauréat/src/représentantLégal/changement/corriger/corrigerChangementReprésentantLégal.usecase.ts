@@ -2,8 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { TypeReprésentantLégal } from '../..';
 import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
 
 import { CorrigerChangementReprésentantLégalCommand } from './corrigerChangementReprésentantLégal.command';
@@ -38,9 +38,10 @@ export const registerCorrigerChangementReprésentantLégalUseCase = () => {
 
     const dateCorrection = DateTime.convertirEnValueType(dateCorrectionValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const typeReprésentantLégal = TypeReprésentantLégal.convertirEnValueType(
-      typeReprésentantLégalValue,
-    );
+    const typeReprésentantLégal =
+      Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+        typeReprésentantLégalValue,
+      );
     const pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),

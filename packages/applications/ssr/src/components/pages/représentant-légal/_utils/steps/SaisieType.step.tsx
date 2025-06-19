@@ -3,7 +3,7 @@
 import { FC, ReactNode, useState } from 'react';
 import { match, P } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
 import { Heading3 } from '@/components/atoms/headings';
@@ -16,20 +16,20 @@ import { SaisieTypeSociétéStep, TypeSociété } from './SaisieTypeSociété.st
 type Contexte = 'demander' | 'modifier' | 'corriger';
 
 type OnChangeProps = {
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
 };
 
 export type SaisieTypeStepProps = {
   contexte: Contexte;
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
   onChange?: ({ typeReprésentantLégal, typeSociété }: OnChangeProps) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
 type SaisieTypeState = {
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
 };
 

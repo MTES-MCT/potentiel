@@ -1,5 +1,4 @@
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
@@ -10,7 +9,7 @@ import { représentantLégalNotificationTemplateId } from './constant';
 
 type ChangementReprésentantLégalRejetéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
-  event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent;
+  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent;
   projet: {
     nom: string;
     département: string;

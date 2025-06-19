@@ -1,18 +1,8 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
-import { TypeReprésentantLégal } from '..';
-
-export type ReprésentantLégalImportéEvent = DomainEvent<
-  'ReprésentantLégalImporté-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    nomReprésentantLégal: string;
-    importéLe: DateTime.RawType;
-    importéPar: Email.RawType;
-  }
->;
 
 export type ImporterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -29,7 +19,7 @@ export async function importer(
     throw new ReprésentantLégalDéjàImportéError();
   }
 
-  const event: ReprésentantLégalImportéEvent = {
+  const event: Lauréat.ReprésentantLégal.ReprésentantLégalImportéEvent = {
     type: 'ReprésentantLégalImporté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -44,11 +34,11 @@ export async function importer(
 
 export function applyReprésentantLégalImporté(
   this: ReprésentantLégalAggregate,
-  { payload: { nomReprésentantLégal } }: ReprésentantLégalImportéEvent,
+  { payload: { nomReprésentantLégal } }: Lauréat.ReprésentantLégal.ReprésentantLégalImportéEvent,
 ) {
   this.représentantLégal = {
     nom: nomReprésentantLégal,
-    type: TypeReprésentantLégal.inconnu,
+    type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.inconnu,
   };
 }
 

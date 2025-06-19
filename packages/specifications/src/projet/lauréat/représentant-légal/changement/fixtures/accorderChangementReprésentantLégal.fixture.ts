@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../../fixture';
 
 interface AccorderChangementReprésentantLégal {
   readonly nomReprésentantLégal: string;
-  readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  readonly typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   readonly accordéeLe: string;
   readonly accordéePar: string;
 }
@@ -21,9 +21,9 @@ export class AccorderChangementReprésentantLégalFixture
     return this.#nomReprésentantLégal;
   }
 
-  #typeReprésentantLégal!: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  #typeReprésentantLégal!: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
 
-  get typeReprésentantLégal(): ReprésentantLégal.TypeReprésentantLégal.ValueType {
+  get typeReprésentantLégal(): Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType {
     return this.#typeReprésentantLégal;
   }
 
@@ -44,7 +44,7 @@ export class AccorderChangementReprésentantLégalFixture
   ): AccorderChangementReprésentantLégal {
     const fixture: AccorderChangementReprésentantLégal = {
       nomReprésentantLégal: faker.person.fullName(),
-      typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
+      typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
       accordéeLe: faker.date.soon().toISOString(),
       accordéePar: faker.internet.email(),
       ...partialFixture,

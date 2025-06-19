@@ -1,35 +1,17 @@
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
-import {
-  StatutChangementReprésentantLégal,
-  TypeDocumentChangementReprésentantLégal,
-  TypeReprésentantLégal,
-} from '../..';
+import { StatutChangementReprésentantLégal, TypeDocumentChangementReprésentantLégal } from '../..';
 import { ReprésentantLégalIdentifiqueError } from '../../représentantLégalIdentique.error';
 
 import { ReprésentantLégalTypeInconnuError } from './demanderChangementReprésentantLégal.errors';
 
-export type ChangementReprésentantLégalDemandéEvent = DomainEvent<
-  'ChangementReprésentantLégalDemandé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.RawType;
-    demandéLe: DateTime.RawType;
-    demandéPar: Email.RawType;
-    pièceJustificative: {
-      format: string;
-    };
-  }
->;
-
 export type DemanderChangementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
-  typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   pièceJustificative: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
@@ -63,7 +45,7 @@ export async function demander(
     );
   }
 
-  const event: ChangementReprésentantLégalDemandéEvent = {
+  const event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent = {
     type: 'ChangementReprésentantLégalDemandé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -88,12 +70,14 @@ export function applyChangementReprésentantLégalDemandé(
       demandéLe,
       pièceJustificative: { format },
     },
-  }: ChangementReprésentantLégalDemandéEvent,
+  }: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent,
 ) {
   this.demande = {
     statut: StatutChangementReprésentantLégal.demandé,
     nom: nomReprésentantLégal,
-    type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+    type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+      typeReprésentantLégal,
+    ),
     demandéLe: DateTime.convertirEnValueType(demandéLe),
     pièceJustificative: DocumentProjet.convertirEnValueType(
       identifiantProjet,

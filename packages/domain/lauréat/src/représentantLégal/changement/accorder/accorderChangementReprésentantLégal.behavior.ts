@@ -2,26 +2,12 @@
 import { match } from 'ts-pattern';
 
 // Workspaces
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import * as StatutChangementReprésentantLégal from '../statutChangementReprésentantLégal.valueType';
-import { TypeReprésentantLégal } from '../..';
 import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
-
-export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
-  'ChangementReprésentantLégalAccordé-V1',
-  {
-    accordéLe: DateTime.RawType;
-    accordéPar: Email.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.RawType;
-    accordAutomatique: boolean;
-    avecCorrection?: true;
-  }
->;
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;
@@ -30,7 +16,7 @@ export type AccorderOptions = {
 } & (
   | {
       nomReprésentantLégal: string;
-      typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+      typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
       accordAutomatique: false;
     }
   | {
@@ -61,7 +47,7 @@ export async function accorder(this: ReprésentantLégalAggregate, options: Acco
     .with({ accordAutomatique: false }, ({ typeReprésentantLégal }) => typeReprésentantLégal)
     .exhaustive();
 
-  const event: ChangementReprésentantLégalAccordéEvent = {
+  const event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent = {
     type: 'ChangementReprésentantLégalAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -81,7 +67,7 @@ export function applyChangementReprésentantLégalAccordé(
   this: ReprésentantLégalAggregate,
   {
     payload: { accordéLe, nomReprésentantLégal, typeReprésentantLégal },
-  }: ChangementReprésentantLégalAccordéEvent,
+  }: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent,
 ) {
   if (this.demande) {
     this.demande.statut = StatutChangementReprésentantLégal.accordé;
@@ -89,7 +75,9 @@ export function applyChangementReprésentantLégalAccordé(
     this.demande.accord = {
       accordéLe: DateTime.convertirEnValueType(accordéLe),
       nom: nomReprésentantLégal,
-      type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+      type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+        typeReprésentantLégal,
+      ),
     };
   }
 }

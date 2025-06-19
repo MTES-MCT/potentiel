@@ -52,3 +52,4 @@ export * as GarantiesFinancières from './garanties-financières';
 export * as Producteur from './producteur';
 export * as Puissance from './puissance';
 export * as Fournisseur from './fournisseur';
+export * as ReprésentantLégal from './représentantLégal';

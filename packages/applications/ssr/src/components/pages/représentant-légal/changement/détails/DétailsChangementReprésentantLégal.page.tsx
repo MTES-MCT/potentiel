@@ -8,6 +8,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -113,7 +114,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
             {mapToActionComponents({
               actions,
               identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-              typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.bind({
+              typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind({
                 type: typeReprésentantLégal.type,
               }).formatter(),
               nomReprésentantLégal,
@@ -129,7 +130,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
   identifiantProjet: string;
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
   dateDemande: string;
 };
@@ -173,7 +174,7 @@ const mapToActionComponents = ({
     </div>
   ) : null;
 
-const getTypeLabel = (type: ReprésentantLégal.TypeReprésentantLégal.RawType) =>
+const getTypeLabel = (type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType) =>
   match(type)
     .returnType<string>()
     .with('personne-physique', () => 'Personne physique')
@@ -212,7 +213,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({
         <div className="font-semibold whitespace-nowrap">Type :</div>
         <div>
           {getTypeLabel(
-            ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
+            Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
           )}
         </div>
       </div>
@@ -261,7 +262,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
         <div className="font-semibold whitespace-nowrap">Type :</div>
         <div>
           {getTypeLabel(
-            ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
+            Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
           )}
         </div>
       </div>
@@ -309,7 +310,7 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({
         <div className="font-semibold whitespace-nowrap">Type :</div>
         <div>
           {getTypeLabel(
-            ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
+            Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
           )}
         </div>
       </div>

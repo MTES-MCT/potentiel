@@ -1,17 +1,9 @@
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import { StatutChangementReprésentantLégal } from '../..';
-
-export type ChangementReprésentantLégalAnnuléEvent = DomainEvent<
-  'ChangementReprésentantLégalAnnulé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    annuléLe: DateTime.RawType;
-    annuléPar: Email.RawType;
-  }
->;
 
 export type AnnulerOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -30,7 +22,7 @@ export async function annuler(
     StatutChangementReprésentantLégal.annulé,
   );
 
-  const event: ChangementReprésentantLégalAnnuléEvent = {
+  const event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent = {
     type: 'ChangementReprésentantLégalAnnulé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -44,7 +36,7 @@ export async function annuler(
 
 export function applyChangementReprésentantLégalAnnulé(
   this: ReprésentantLégalAggregate,
-  _: ChangementReprésentantLégalAnnuléEvent,
+  _: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent,
 ) {
   if (this.demande) {
     this.demande = undefined;
