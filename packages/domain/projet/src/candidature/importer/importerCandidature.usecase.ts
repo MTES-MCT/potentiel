@@ -45,6 +45,7 @@ export type ImporterCandidatureUseCase = Message<
     fournisseursValue: Array<{
       typeFournisseur: string;
       nomDuFabricant: string;
+      lieuDeFabrication: string;
     }>;
     détailsValue?: Record<string, string>;
     importéLe: string;

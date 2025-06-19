@@ -27,14 +27,7 @@ export const MaterielsEtTechnologies = ({
       {fournisseurs.length && (
         <div className="mt-2">
           <Heading3 className="mb-1">Fournisseurs</Heading3>
-          <ListeFournisseurs
-            fournisseurs={fournisseurs.map(
-              ({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
-                typeFournisseur,
-                nomDuFabricant,
-              }),
-            )}
-          />
+          <ListeFournisseurs fournisseurs={fournisseurs} />
         </div>
       )}
       {affichage && !modificationsNonPermisesParLeCDCActuel && (

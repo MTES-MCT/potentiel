@@ -38,9 +38,10 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
     <>
       <label className="mb-1 fr-label">Fournisseurs</label>
       <div className="flex flex-col gap-2 ">
-        {fournisseurs.map(({ typeFournisseur, nomDuFabricant }, index) => {
+        {fournisseurs.map(({ typeFournisseur, nomDuFabricant, lieuDeFabrication }, index) => {
           const typeFournisseurFieldKey = `fournisseurs.${index}.typeFournisseur`;
           const nomDuFabricantFieldKey = `fournisseurs.${index}.nomDuFabricant`;
+          const lieuDeFabricationFieldKey = `fournisseurs.${index}.lieuDeFabrication`;
           return (
             <div className="flex flex-row  gap-2" key={`${typeFournisseur}-${nomDuFabricant}`}>
               <Select
@@ -66,6 +67,7 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
                 nativeSelectProps={{
                   name: typeFournisseurFieldKey,
                   defaultValue: typeFournisseur,
+                  required: true,
                 }}
               />
               <Input
@@ -77,6 +79,19 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
                   placeholder: 'Nom du fabricant',
                   defaultValue: nomDuFabricant,
                   name: nomDuFabricantFieldKey,
+                  required: true,
+                }}
+              />
+              <Input
+                label=""
+                state={validationErrors[lieuDeFabricationFieldKey] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors[lieuDeFabricationFieldKey]}
+                className="flex-1"
+                nativeInputProps={{
+                  placeholder: 'Lieu de fabrication',
+                  defaultValue: lieuDeFabrication,
+                  name: lieuDeFabricationFieldKey,
+                  required: true,
                 }}
               />
               <Button
@@ -100,7 +115,11 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
           type="button"
           onClick={() => {
             setFournisseurs((fournisseurs) =>
-              fournisseurs.concat({ nomDuFabricant: '', typeFournisseur: typesFournisseur[0] }),
+              fournisseurs.concat({
+                nomDuFabricant: '',
+                typeFournisseur: typesFournisseur[0],
+                lieuDeFabrication: '',
+              }),
             );
             return false;
           }}

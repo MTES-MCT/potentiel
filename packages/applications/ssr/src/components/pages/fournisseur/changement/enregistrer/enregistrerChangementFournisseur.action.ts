@@ -30,6 +30,7 @@ const schema = zod.discriminatedUnion('technologie', [
         typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV, {
           message: `Ce type de fournisseur n'est pas compatible avec la technologie PV`,
         }),
+        lieuDeFabrication: zod.string().min(1, { message: 'Le lieu de fabrication est requis' }),
       }),
     ),
   }),
@@ -42,6 +43,7 @@ const schema = zod.discriminatedUnion('technologie', [
         typeFournisseur: zod.enum(Lauréat.Fournisseur.TypeFournisseur.typesFournisseurEolien, {
           message: `Ce type de fournisseur n'est pas compatible avec la technologie Eolien`,
         }),
+        lieuDeFabrication: zod.string().min(1, { message: 'Le lieu de fabrication est requis' }),
       }),
     ),
   }),
@@ -71,7 +73,7 @@ const action: FormAction<FormState, typeof schema> = async (
         : undefined;
 
     const fournisseursModifiés = fournisseursContiennentModification({
-      fournisseursActuels: fournisseurActuel.fournisseurs.map(Lauréat.Fournisseur.Fournisseur.bind),
+      fournisseursActuels: fournisseurActuel.fournisseurs,
       nouveauxFournisseurs: fournisseurs.map(Lauréat.Fournisseur.Fournisseur.convertirEnValueType),
     })
       ? fournisseurs

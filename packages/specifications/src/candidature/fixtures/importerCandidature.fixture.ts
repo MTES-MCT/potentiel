@@ -94,7 +94,13 @@ export class ImporterCandidatureFixture
         'Rendement nominal': '1234',
         ...values?.détailsValue,
       },
-      fournisseursValue: [{ typeFournisseur: 'cellules', nomDuFabricant: faker.company.name() }],
+      fournisseursValue: [
+        {
+          typeFournisseur: 'cellules',
+          nomDuFabricant: faker.company.name(),
+          lieuDeFabrication: faker.location.country(),
+        },
+      ],
       localitéValue,
     };
 
