@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../../../..';
-import { TypeDocumentFournisseur, TypeFournisseur } from '../..';
+import { Fournisseur, TypeDocumentFournisseur } from '../..';
 
 import { EnregistrerChangementFournisseurCommand } from './enregistrerChangement.command';
 
@@ -21,17 +21,11 @@ export type EnregistrerChangementFournisseurUseCase = Message<
     };
   } & (
     | {
-        fournisseursValue: Array<{
-          typeFournisseur: TypeFournisseur.RawType;
-          nomDuFabricant: string;
-        }>;
+        fournisseursValue: Array<Fournisseur.RawType>;
         évaluationCarboneSimplifiéeValue: number;
       }
     | {
-        fournisseursValue: Array<{
-          typeFournisseur: TypeFournisseur.RawType;
-          nomDuFabricant: string;
-        }>;
+        fournisseursValue: Array<Fournisseur.RawType>;
         évaluationCarboneSimplifiéeValue?: undefined;
       }
     | {
@@ -72,12 +66,7 @@ export const registerEnregistrerChangementFournisseurUseCase = () => {
         raison: raisonValue,
         ...(fournisseursValue
           ? {
-              fournisseurs: fournisseursValue?.map((fournisseur) => ({
-                typeFournisseur: TypeFournisseur.convertirEnValueType(
-                  fournisseur.typeFournisseur,
-                ).formatter(),
-                nomDuFabricant: fournisseur.nomDuFabricant,
-              })),
+              fournisseurs: fournisseursValue?.map(Fournisseur.convertirEnValueType),
               évaluationCarboneSimplifiée: évaluationCarboneSimplifiéeValue,
             }
           : {

@@ -4,7 +4,7 @@ import { Entity } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { StatutProjet, IdentifiantProjet } from '..';
-import { TypeFournisseur } from '../lauréat/fournisseur';
+import { Fournisseur } from '../lauréat/fournisseur';
 
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import * as TypeTechnologie from './typeTechnologie.valueType';
@@ -58,9 +58,6 @@ export type CandidatureEntity = Entity<
     misÀJourLe: DateTime.RawType;
     coefficientKChoisi?: boolean;
     détailsMisÀJourLe: DateTime.RawType;
-    fournisseurs: Array<{
-      typeFournisseur: TypeFournisseur.RawType;
-      nomDuFabricant: string;
-    }>;
+    fournisseurs: Array<Fournisseur.RawType>;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

@@ -86,10 +86,7 @@ const mapBodyToUseCaseData = (
     // non-editable fields
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
-    fournisseursValue: previous.fournisseurs.map(({ nomDuFabricant, typeFournisseur }) => ({
-      typeFournisseur: typeFournisseur.formatter(),
-      nomDuFabricant,
-    })),
+    fournisseursValue: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
 
     doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
   };

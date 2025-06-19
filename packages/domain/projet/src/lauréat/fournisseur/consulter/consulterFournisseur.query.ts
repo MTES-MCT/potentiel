@@ -4,15 +4,12 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { FournisseurEntity, TypeFournisseur } from '..';
+import { Fournisseur, FournisseurEntity } from '..';
 
 export type ConsulterFournisseurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   évaluationCarboneSimplifiée: number;
-  fournisseurs: Array<{
-    typeFournisseur: TypeFournisseur.ValueType;
-    nomDuFabricant: string;
-  }>;
+  fournisseurs: Array<Fournisseur.ValueType>;
 };
 
 export type ConsulterFournisseurQuery = Message<
@@ -47,8 +44,5 @@ export const mapToReadModel = ({
 }: FournisseurEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   évaluationCarboneSimplifiée,
-  fournisseurs: fournisseurs.map(({ typeFournisseur, nomDuFabricant }) => ({
-    typeFournisseur: TypeFournisseur.convertirEnValueType(typeFournisseur),
-    nomDuFabricant,
-  })),
+  fournisseurs: fournisseurs.map(Fournisseur.convertirEnValueType),
 });

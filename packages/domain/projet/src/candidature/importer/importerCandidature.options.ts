@@ -5,7 +5,7 @@ import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueTy
 import * as TypeTechnologie from '../typeTechnologie.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
-import { TypeFournisseur } from '../../lauréat/fournisseur';
+import { Fournisseur } from '../../lauréat/fournisseur';
 
 export type ImporterCandidatureOptions = {
   statut: StatutCandidature.ValueType;
@@ -37,8 +37,5 @@ export type ImporterCandidatureOptions = {
   coefficientKChoisi?: boolean;
   importéLe: DateTime.ValueType;
   importéPar: Email.ValueType;
-  fournisseurs: Array<{
-    typeFournisseur: TypeFournisseur.ValueType;
-    nomDuFabricant: string;
-  }>;
+  fournisseurs: Array<Fournisseur.ValueType>;
 };

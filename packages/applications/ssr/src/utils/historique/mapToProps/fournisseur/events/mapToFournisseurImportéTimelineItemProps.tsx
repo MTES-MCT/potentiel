@@ -18,7 +18,11 @@ export const mapToFournisseurImportéTimelineItemProps = (
         </div>
         <div>
           Fournisseurs :
-          <ListeFournisseurs fournisseurs={fournisseurs ?? []} />
+          <ListeFournisseurs
+            fournisseurs={
+              fournisseurs.map(Lauréat.Fournisseur.Fournisseur.convertirEnValueType) ?? []
+            }
+          />
         </div>
       </div>
     ),

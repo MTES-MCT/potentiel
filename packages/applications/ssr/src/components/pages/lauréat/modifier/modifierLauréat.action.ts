@@ -193,10 +193,7 @@ const mapBodyToCandidatureUsecaseData = (
     dateÉchéanceGfValue: previous.dateÉchéanceGf?.formatter(),
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
-    fournisseursValue: previous.fournisseurs.map(({ nomDuFabricant, typeFournisseur }) => ({
-      nomDuFabricant,
-      typeFournisseur: typeFournisseur.formatter(),
-    })),
+    fournisseursValue: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
   };
 };
 

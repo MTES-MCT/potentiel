@@ -70,10 +70,9 @@ Quand(
 
     await enregistrerChangementFournisseur.call(this, {
       évaluationCarbone: fournisseur.évaluationCarboneSimplifiée,
-      fournisseurs: fournisseur.fournisseurs.map(({ nomDuFabricant, typeFournisseur }) => ({
-        nomDuFabricant,
-        typeFournisseur: typeFournisseur.formatter(),
-      })),
+      fournisseurs: fournisseur.fournisseurs
+        .map(Lauréat.Fournisseur.Fournisseur.bind)
+        .map((fournisseur) => fournisseur.formatter()),
     });
   },
 );
@@ -108,10 +107,7 @@ export async function enregistrerChangementFournisseur(
   this: PotentielWorld,
   values: {
     évaluationCarbone?: number;
-    fournisseurs?: Array<{
-      typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-      nomDuFabricant: string;
-    }>;
+    fournisseurs?: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
   } = {},
 ) {
   try {

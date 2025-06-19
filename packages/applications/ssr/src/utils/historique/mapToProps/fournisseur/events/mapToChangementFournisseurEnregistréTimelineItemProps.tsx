@@ -32,7 +32,10 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
         )}
         {fournisseurs && (
           <div>
-            Nouveaux fournisseurs : <ListeFournisseurs fournisseurs={fournisseurs ?? []} />{' '}
+            Nouveaux fournisseurs :{' '}
+            <ListeFournisseurs
+              fournisseurs={fournisseurs.map(Lauréat.Fournisseur.Fournisseur.convertirEnValueType)}
+            />{' '}
           </div>
         )}
         {raison && (

@@ -4,8 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
-import { Fournisseur } from '../lauréat';
-import { FournisseurImportéEvent } from '../lauréat/fournisseur';
+import { FournisseurImportéEvent, Fournisseur } from '../lauréat/fournisseur';
 
 import { CandidatureEvent } from './candidature.event';
 import {
@@ -83,10 +82,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   #puissanceProductionAnnuelle: number = 0;
   #territoireProjet: string = '';
   #coefficientKChoisi?: boolean;
-  #fournisseurs: Array<{
-    typeFournisseur: Fournisseur.TypeFournisseur.ValueType;
-    nomDuFabricant: string;
-  }> = [];
+  #fournisseurs: Array<Fournisseur.ValueType> = [];
 
   get estNotifiée() {
     return !!this.notifiéeLe;
@@ -190,10 +186,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       type: 'CandidatureImportée-V2',
       payload: {
         ...this.mapToEventPayload(candidature),
-        fournisseurs: candidature.fournisseurs.map((fournisseur) => ({
-          typeFournisseur: fournisseur.typeFournisseur.formatter(),
-          nomDuFabricant: fournisseur.nomDuFabricant,
-        })),
+        fournisseurs: candidature.fournisseurs.map((fournisseur) => fournisseur.formatter()),
         importéLe: candidature.importéLe.formatter(),
         importéPar: candidature.importéPar.formatter(),
       },
@@ -218,10 +211,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       type: 'CandidatureCorrigée-V2',
       payload: {
         ...this.mapToEventPayload(candidature),
-        fournisseurs: candidature.fournisseurs.map((fournisseur) => ({
-          typeFournisseur: fournisseur.typeFournisseur.formatter(),
-          nomDuFabricant: fournisseur.nomDuFabricant,
-        })),
+        fournisseurs: candidature.fournisseurs.map((fournisseur) => fournisseur.formatter()),
         corrigéLe: candidature.corrigéLe.formatter(),
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
@@ -593,12 +583,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       | FournisseurImportéEvent['payload']['fournisseurs']
       | CandidatureImportéeEvent['payload']['fournisseurs'],
   ) {
-    this.#fournisseurs = fournisseurs.map((fournisseur) => ({
-      typeFournisseur: Fournisseur.TypeFournisseur.convertirEnValueType(
-        fournisseur.typeFournisseur,
-      ),
-      nomDuFabricant: fournisseur.nomDuFabricant,
-    }));
+    this.#fournisseurs = fournisseurs.map(Fournisseur.convertirEnValueType);
   }
 
   private mapToEventPayload = (

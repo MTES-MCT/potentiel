@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../../../..';
 import { ChangementFournisseurEntity } from '../changementFournisseur.entity';
-import { TypeDocumentFournisseur, TypeFournisseur } from '../..';
+import { Fournisseur, TypeDocumentFournisseur } from '../..';
 
 export type ConsulterChangementFournisseurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -16,10 +16,7 @@ export type ConsulterChangementFournisseurReadModel = {
     enregistréPar: Email.ValueType;
     enregistréLe: DateTime.ValueType;
     évaluationCarboneSimplifiée?: number;
-    fournisseurs?: Array<{
-      typeFournisseur: TypeFournisseur.ValueType;
-      nomDuFabricant: string;
-    }>;
+    fournisseurs?: Array<Fournisseur.ValueType>;
     raison: string;
     pièceJustificative: DocumentProjet.ValueType;
   };
@@ -67,10 +64,7 @@ export const mapToReadModel = (result: ChangementFournisseurEntity) => {
     changement: {
       enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
       enregistréPar: Email.convertirEnValueType(result.changement.enregistréPar),
-      fournisseurs: result.changement.fournisseurs?.map((fournisseur) => ({
-        typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
-        nomDuFabricant: fournisseur.nomDuFabricant,
-      })),
+      fournisseurs: result.changement.fournisseurs?.map(Fournisseur.convertirEnValueType),
       évaluationCarboneSimplifiée: result.changement.évaluationCarboneSimplifiée,
       raison: result.changement.raison,
       pièceJustificative: DocumentProjet.convertirEnValueType(

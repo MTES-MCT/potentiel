@@ -90,12 +90,9 @@ export async function importerCandidaturePériodeLegacy(
             values.typeGarantiesFinancièresValue,
           ).type
         : undefined,
-      fournisseurs: values.fournisseursValue.map((fournisseur) => ({
-        typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
-          fournisseur.typeFournisseur,
-        ).formatter(),
-        nomDuFabricant: fournisseur.nomDuFabricant,
-      })),
+      fournisseurs: values.fournisseursValue
+        .map(Lauréat.Fournisseur.Fournisseur.convertirEnValueType)
+        .map((fournisseur) => fournisseur.formatter()),
     },
   };
 
