@@ -143,6 +143,8 @@ const référencielPermissions = {
         listerDossierRaccordement: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         listerDossierRaccordementManquants:
           'Lauréat.Raccordement.Query.ListerDossierRaccordementManquantsQuery',
+        listerHistoriqueRaccordement:
+          'Lauréat.Raccordement.Query.ListerHistoriqueRaccordementProjet',
       },
       usecase: {
         modifierDemandeComplète: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
@@ -530,7 +532,6 @@ const référencielPermissions = {
       lister: 'Historique.Query.ListerHistoriqueProjet',
       listerHistoriqueReprésentantLégal:
         'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
-      listerHistoriqueRaccordement: 'Lauréat.Raccordement.Query.ListerHistoriqueRaccordementProjet',
     },
   },
 } as const;
@@ -956,7 +957,7 @@ const policies = {
       référencielPermissions.lauréat.puissance.query.listerHistoriquePuissance,
       référencielPermissions.éliminé.recours.query.listerHistoriqueRecours,
       référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
-      référencielPermissions.historique.query.listerHistoriqueRaccordement,
+      référencielPermissions.lauréat.raccordement.query.listerHistoriqueRaccordement,
       référencielPermissions.lauréat.fournisseur.query.listerHistoriqueFournisseur,
     ],
     imprimer: [],

@@ -2,16 +2,9 @@ import {
   ListerHistoriqueProjetDependencies,
   registerListerHistoriqueProjetQuery,
 } from './lister/listerHistoriqueProjet.query';
-import {
-  ListerHistoriqueRaccordementProjetDependencies,
-  registerListerHistoriqueRaccordementProjetQuery,
-} from './lister/listerHistoriqueRaccordementProjet.query';
 
-export type HistoriqueQueryDependencies = ListerHistoriqueProjetDependencies &
-  ListerHistoriqueRaccordementProjetDependencies;
+export type HistoriqueQueryDependencies = ListerHistoriqueProjetDependencies;
 
 export const registerHistoriqueProjetQuery = (dependencies: HistoriqueQueryDependencies) => {
-  registerListerHistoriqueRaccordementProjetQuery(dependencies);
-
   registerListerHistoriqueProjetQuery(dependencies);
 };
