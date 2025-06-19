@@ -68,16 +68,7 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
               <div className="flex flex-col gap-2">
                 <div className="font-semibold whitespace-nowrap">Fournisseurs :</div>
                 <div className="flex flex-col gap-2">
-                  <ListeFournisseurs
-                    fournisseurs={
-                      changement.fournisseurs.map(
-                        ({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
-                          typeFournisseur,
-                          nomDuFabricant,
-                        }),
-                      ) ?? []
-                    }
-                  />
+                  <ListeFournisseurs fournisseurs={changement.fournisseurs} />
                 </div>
               </div>
             )}

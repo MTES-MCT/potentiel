@@ -223,10 +223,12 @@ async function vérifierLauréats(
         );
 
         expect(fournisseur.évaluationCarboneSimplifiée).to.equal(evaluationCarboneSimplifiée);
-
+        expect(fournisseur.fournisseurs.length).to.eq(
+          fournisseurs.length,
+          'Le nombre de fournisseurs est différent',
+        );
         for (const [index, value] of fournisseur.fournisseurs.entries()) {
-          expect(value.typeFournisseur.estÉgaleÀ(fournisseurs[index].typeFournisseur)).to.be.true;
-          expect(value.nomDuFabricant).to.equal(fournisseurs[index].nomDuFabricant);
+          expect(value.estÉgaleÀ(fournisseurs[index])).to.be.true;
         }
       }
     }

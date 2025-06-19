@@ -19,7 +19,7 @@ export const bind = ({ typeFournisseur, nomDuFabricant }: PlainType<ValueType>):
     nomDuFabricant,
     estÉgaleÀ(valueType) {
       return (
-        this.typeFournisseur === valueType.typeFournisseur &&
+        this.typeFournisseur.estÉgaleÀ(valueType.typeFournisseur) &&
         this.nomDuFabricant === valueType.nomDuFabricant
       );
     },

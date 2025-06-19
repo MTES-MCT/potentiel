@@ -142,9 +142,6 @@ const fournisseursContiennentModification = ({
 
   return nouveauxFournisseurs.some((fournisseurModifié, i) => {
     const fournisseur = fournisseursActuels[i];
-    return (
-      fournisseur.nomDuFabricant !== fournisseurModifié.nomDuFabricant ||
-      fournisseur.typeFournisseur.estÉgaleÀ(fournisseurModifié.typeFournisseur)
-    );
+    return !fournisseur.estÉgaleÀ(fournisseurModifié);
   });
 };

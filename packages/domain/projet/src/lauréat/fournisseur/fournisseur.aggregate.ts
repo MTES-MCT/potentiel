@@ -167,10 +167,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     for (let i = 0; i < fournisseurs.length; i++) {
       const fournisseurActuel = this.#fournisseurs[i];
       const fournisseurModifié = fournisseurs[i];
-      if (fournisseurActuel.nomDuFabricant !== fournisseurModifié.nomDuFabricant) {
-        return;
-      }
-      if (!fournisseurActuel.typeFournisseur.estÉgaleÀ(fournisseurModifié.typeFournisseur)) {
+      if (!fournisseurActuel.estÉgaleÀ(fournisseurModifié)) {
         return;
       }
     }

@@ -25,10 +25,9 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
 }) => {
   const [fournisseurs, setFournisseurs] = useState<Array<Lauréat.Fournisseur.Fournisseur.RawType>>(
     () =>
-      fournisseursActuels.map(({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
-        nomDuFabricant,
-        typeFournisseur,
-      })),
+      fournisseursActuels.map((fournisseur) =>
+        Lauréat.Fournisseur.Fournisseur.bind(fournisseur).formatter(),
+      ),
   );
   const typesFournisseur: ReadonlyArray<Lauréat.Fournisseur.TypeFournisseur.RawType> =
     technologie === 'eolien'

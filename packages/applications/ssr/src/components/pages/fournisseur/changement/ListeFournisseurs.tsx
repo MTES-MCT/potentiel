@@ -1,11 +1,12 @@
 import { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { typeFournisseurLabel } from './typeFournisseurLabel';
 
 export type ListeFournisseursProps = {
-  fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
+  fournisseurs: PlainType<Array<Lauréat.Fournisseur.Fournisseur.ValueType>>;
 };
 
 export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) => (
@@ -13,7 +14,7 @@ export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) 
     {/* TODO We can use Object.groupBy starting from Node 21+  */}
     {Object.entries(
       fournisseurs.reduce(
-        (prev, { nomDuFabricant, typeFournisseur }) => ({
+        (prev, { nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
           ...prev,
           [typeFournisseur]: [...(prev[typeFournisseur] ?? []), nomDuFabricant],
         }),
