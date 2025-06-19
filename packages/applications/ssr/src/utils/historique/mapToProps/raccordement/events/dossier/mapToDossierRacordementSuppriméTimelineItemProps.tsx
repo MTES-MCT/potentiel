@@ -1,9 +1,9 @@
 import { DateTime } from '@potentiel-domain/common';
-import { Historique } from '@potentiel-domain/historique';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Raccordement } from '@potentiel-domain/projet';
 
 export const mapToDossierRacordementSuppriméTimelineItemProps = (
-  modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { référenceDossier } =
     modification.payload as Raccordement.DossierDuRaccordementSuppriméEvent['payload'];

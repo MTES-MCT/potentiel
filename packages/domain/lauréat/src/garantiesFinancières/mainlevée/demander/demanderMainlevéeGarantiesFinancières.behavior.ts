@@ -1,25 +1,13 @@
 import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  MotifDemandeMainlevéeGarantiesFinancières,
-  StatutMainlevéeGarantiesFinancières,
-} from '../..';
+import { StatutMainlevéeGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-
-export type MainlevéeGarantiesFinancièresDemandéeEvent = DomainEvent<
-  'MainlevéeGarantiesFinancièresDemandée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    motif: MotifDemandeMainlevéeGarantiesFinancières.RawType;
-    demandéLe: DateTime.RawType;
-    demandéPar: Email.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
+  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType;
   demandéLe: DateTime.ValueType;
   demandéPar: Email.ValueType;
   aUnePreuveTransmissionAuCocontractant: boolean;
@@ -65,7 +53,7 @@ export async function demanderMainlevée(
     throw new DépôtDeGarantiesFinancièresÀSupprimerError();
   }
 
-  const event: MainlevéeGarantiesFinancièresDemandéeEvent = {
+  const event: Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent = {
     type: 'MainlevéeGarantiesFinancièresDemandée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -80,7 +68,7 @@ export async function demanderMainlevée(
 
 export function applyMainlevéeGarantiesFinancièresDemandée(
   this: GarantiesFinancièresAggregate,
-  _: MainlevéeGarantiesFinancièresDemandéeEvent,
+  _: Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent,
 ) {
   this.demandeMainlevéeEnCours = {
     statut: StatutMainlevéeGarantiesFinancières.demandé,

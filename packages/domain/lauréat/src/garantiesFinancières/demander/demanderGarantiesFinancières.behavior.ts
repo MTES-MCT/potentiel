@@ -1,18 +1,7 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-
-export type GarantiesFinancièresDemandéesEvent = DomainEvent<
-  'GarantiesFinancièresDemandées-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    dateLimiteSoumission: DateTime.RawType;
-    demandéLe: DateTime.RawType;
-    motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -25,7 +14,7 @@ export async function demanderGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
   { dateLimiteSoumission, identifiantProjet, demandéLe, motif }: Options,
 ) {
-  const event: GarantiesFinancièresDemandéesEvent = {
+  const event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent = {
     type: 'GarantiesFinancièresDemandées-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -40,7 +29,7 @@ export async function demanderGarantiesFinancières(
 
 export function applyDemanderGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  event: GarantiesFinancièresDemandéesEvent,
+  event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent,
 ) {
   this.motifDemandeGarantiesFinancières =
     Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(

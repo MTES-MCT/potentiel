@@ -531,7 +531,7 @@ const référencielPermissions = {
   },
   historique: {
     query: {
-      lister: 'Historique.Query.ListerHistoriqueProjet',
+      lister: 'Lauréat.Query.ListerHistoriqueProjet',
     },
   },
 } as const;

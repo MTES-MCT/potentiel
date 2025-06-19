@@ -1,13 +1,13 @@
 import { match } from 'ts-pattern';
 
-import { Historique } from '@potentiel-domain/historique';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Raccordement } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
-  modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const event = match(modification)
     .with(

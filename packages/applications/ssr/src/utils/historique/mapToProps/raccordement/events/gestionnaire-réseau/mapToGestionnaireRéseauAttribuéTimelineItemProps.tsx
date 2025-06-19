@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { Historique } from '@potentiel-domain/historique';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Raccordement } from '@potentiel-domain/projet';
 
 export const mapToGestionnaireRéseauAttribuéTimelineItemProps = (
-  attribution: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  attribution: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { identifiantGestionnaireRéseau } =
     attribution.payload as Raccordement.GestionnaireRéseauAttribuéEvent['payload'];

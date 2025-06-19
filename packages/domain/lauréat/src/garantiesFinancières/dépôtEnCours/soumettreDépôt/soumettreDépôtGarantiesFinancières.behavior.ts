@@ -1,27 +1,14 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
 import { GarantiesFinancièresDéjàLevéesError } from '../../garantiesFinancièresDéjàLevées.error';
-
-export type DépôtGarantiesFinancièresSoumisEvent = DomainEvent<
-  'DépôtGarantiesFinancièresSoumis-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    type: Candidature.TypeGarantiesFinancières.RawType;
-    dateÉchéance?: DateTime.RawType;
-    attestation: { format: string };
-    dateConstitution: DateTime.RawType;
-    soumisLe: DateTime.RawType;
-    soumisPar: IdentifiantUtilisateur.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -67,7 +54,7 @@ export async function soumettreDépôt(
     throw new GarantiesFinancièresDéjàLevéesError();
   }
 
-  const event: DépôtGarantiesFinancièresSoumisEvent = {
+  const event: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent = {
     type: 'DépôtGarantiesFinancièresSoumis-V1',
     payload: {
       attestation: { format: attestation.format },
@@ -87,7 +74,7 @@ export function applyDépôtGarantiesFinancièresSoumis(
   this: GarantiesFinancièresAggregate,
   {
     payload: { attestation, dateConstitution, soumisLe, type, dateÉchéance },
-  }: DépôtGarantiesFinancièresSoumisEvent,
+  }: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent,
 ) {
   this.dépôtsEnCours = {
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),

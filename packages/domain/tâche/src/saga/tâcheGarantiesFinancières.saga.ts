@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -9,8 +8,8 @@ import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
 import * as Tâche from '../typeTâche.valueType';
 
 export type SubscriptionEvent =
-  | GarantiesFinancières.GarantiesFinancièresDemandéesEvent
-  | GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
   | Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent;
 
 export type Execute = Message<'System.Saga.TâcheGarantiesFinancières', SubscriptionEvent>;

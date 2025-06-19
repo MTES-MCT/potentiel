@@ -1,8 +1,7 @@
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToActionnaireImportéTimelineItemProps = (
-  modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { importéLe, actionnaire } =
     modification.payload as Lauréat.Actionnaire.ActionnaireImportéEvent['payload'];

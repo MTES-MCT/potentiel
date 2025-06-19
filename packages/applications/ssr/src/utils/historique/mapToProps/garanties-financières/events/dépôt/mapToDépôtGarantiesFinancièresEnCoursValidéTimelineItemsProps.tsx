@@ -1,12 +1,11 @@
 import { match } from 'ts-pattern';
 
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps = (
-  dépôtValidé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  dépôtValidé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const event = match(dépôtValidé)
     .with(

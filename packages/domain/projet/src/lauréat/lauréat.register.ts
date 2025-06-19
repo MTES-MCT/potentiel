@@ -48,6 +48,10 @@ import {
   RaccordementQueryDependencies,
   registerRaccordementQueries,
 } from './raccordement/raccordement.register';
+import {
+  ListerHistoriqueProjetDependencies,
+  registerListerHistoriqueProjetQuery,
+} from './historique/lister/listerHistoriqueProjet.query';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
@@ -57,8 +61,9 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   FournisseurQueryDependencies &
   AbandonQueryDependencies &
   ActionnaireQueryDependencies &
+  RaccordementQueryDependencies &
   ReprésentantLégalQueryDependencies &
-  RaccordementQueryDependencies;
+  ListerHistoriqueProjetDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -94,4 +99,6 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerActionnaireQueries(dependencies);
   registerReprésentantLégalQueries(dependencies);
   registerRaccordementQueries(dependencies);
+
+  registerListerHistoriqueProjetQuery(dependencies);
 };

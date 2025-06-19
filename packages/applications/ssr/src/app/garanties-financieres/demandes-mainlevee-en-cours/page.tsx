@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -49,7 +50,7 @@ export default async function Page({ searchParams }: PageProps) {
             ...(appelOffre && { appelOffre }),
             ...(motif && {
               motif:
-                GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+                Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
                   motif,
                 ).motif,
             }),
@@ -71,7 +72,8 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const motifMainlevée = GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
+      const motifMainlevée =
+        Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
 
       const filters = [
         {

@@ -1,21 +1,11 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-
-export type AttestationGarantiesFinancièresEnregistréeEvent = DomainEvent<
-  'AttestationGarantiesFinancièresEnregistrée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    attestation: { format: string };
-    dateConstitution: DateTime.RawType;
-    enregistréLe: DateTime.RawType;
-    enregistréPar: IdentifiantUtilisateur.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -39,7 +29,7 @@ export async function enregistrerAttestation(
     throw new DateConstitutionDansLeFuturError();
   }
 
-  const event: AttestationGarantiesFinancièresEnregistréeEvent = {
+  const event: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent = {
     type: 'AttestationGarantiesFinancièresEnregistrée-V1',
     payload: {
       attestation: { format: attestation.format },
@@ -55,7 +45,9 @@ export async function enregistrerAttestation(
 
 export function applyEnregistrerAttestationGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  { payload: { dateConstitution, attestation } }: AttestationGarantiesFinancièresEnregistréeEvent,
+  {
+    payload: { dateConstitution, attestation },
+  }: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent,
 ) {
   this.actuelles = {
     ...this.actuelles!,

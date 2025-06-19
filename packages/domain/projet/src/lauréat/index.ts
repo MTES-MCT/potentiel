@@ -7,15 +7,34 @@ import {
   ConsulterLauréatQuery,
   ConsulterLauréatReadModel,
 } from './consulter/consulterLauréat.query';
+import {
+  ListerHistoriqueProjetQuery,
+  ListerHistoriqueProjetReadModel,
+  HistoriqueListItemReadModels,
+  HistoriqueLauréatProjetListItemReadModel,
+  HistoriqueAchèvementProjetListItemReadModel,
+  HistoriqueGarantiesFinancièresProjetListItemReadModel,
+} from './historique/lister/listerHistoriqueProjet.query';
 import { ModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
 import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 
 // Query
-export type LauréatQuery = ConsulterLauréatQuery | ConsulterCahierDesChargesChoisiQuery;
-export { ConsulterLauréatQuery, ConsulterCahierDesChargesChoisiQuery };
+export type LauréatQuery =
+  | ConsulterLauréatQuery
+  | ConsulterCahierDesChargesChoisiQuery
+  | ListerHistoriqueProjetQuery;
+export { ConsulterLauréatQuery, ConsulterCahierDesChargesChoisiQuery, ListerHistoriqueProjetQuery };
 
 // ReadModel
-export { ConsulterLauréatReadModel, ConsulterCahierDesChargesChoisiReadModel };
+export {
+  ConsulterLauréatReadModel,
+  ConsulterCahierDesChargesChoisiReadModel,
+  ListerHistoriqueProjetReadModel,
+  HistoriqueListItemReadModels,
+  HistoriqueLauréatProjetListItemReadModel,
+  HistoriqueGarantiesFinancièresProjetListItemReadModel,
+  HistoriqueAchèvementProjetListItemReadModel,
+};
 
 // Port
 export { ConsulterCahierDesChargesChoisiPort } from './cahierDesCharges/consulter/consulterCahierDesChargesChoisi.query';

@@ -1,18 +1,10 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { AucunesGarantiesFinancièresActuellesError } from '../aucunesGarantiesFinancièresActuelles.error';
-
-export type GarantiesFinancièresÉchuesEvent = DomainEvent<
-  'GarantiesFinancièresÉchues-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    dateÉchéance: DateTime.RawType;
-    échuLe: DateTime.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -48,7 +40,7 @@ export async function échoir(
     throw new AttestationDeConformitéError();
   }
 
-  const event: GarantiesFinancièresÉchuesEvent = {
+  const event: Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent = {
     type: 'GarantiesFinancièresÉchues-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -62,7 +54,7 @@ export async function échoir(
 
 export function applyGarantiesFinancièresÉchues(
   this: GarantiesFinancièresAggregate,
-  _: GarantiesFinancièresÉchuesEvent,
+  _: Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent,
 ) {
   if (this.actuelles) {
     this.actuelles.statut = StatutGarantiesFinancières.échu;

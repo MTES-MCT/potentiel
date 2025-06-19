@@ -1,6 +1,6 @@
 import { match, P } from 'ts-pattern';
 
-import { Historique } from '@potentiel-domain/historique';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -12,7 +12,7 @@ import {
 } from './events';
 
 export const mapToGarantiesFinancièresTimelineItemProps = (
-  record: Historique.HistoriqueGarantiesFinancièresProjetListItemReadModel,
+  record: Lauréat.HistoriqueGarantiesFinancièresProjetListItemReadModel,
 ) =>
   match(record)
     .returnType<TimelineItemProps>()

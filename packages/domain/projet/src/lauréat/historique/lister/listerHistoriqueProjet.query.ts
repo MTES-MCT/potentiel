@@ -6,43 +6,52 @@ import {
   ListHistoryResult,
   RangeOptions,
 } from '@potentiel-domain/entity';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
+import { HistoriqueRecoursProjetListItemReadModel } from '../../../éliminé/recours';
+import { HistoriqueAbandonProjetListItemReadModel } from '../../abandon';
+import { AchèvementEvent } from '../../achèvement';
+import { HistoriqueActionnaireProjetListItemReadModel } from '../../actionnaire';
+import { GarantiesFinancièresEvent } from '../../garanties-financières';
+import { LauréatEvent } from '../../lauréat.event';
+import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
+import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
+import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
+import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
-  Lauréat.LauréatEvent['type'],
-  Lauréat.LauréatEvent['payload']
+  LauréatEvent['type'],
+  LauréatEvent['payload']
 >;
 
 export type HistoriqueGarantiesFinancièresProjetListItemReadModel = HistoryRecord<
   'garanties-financieres',
-  GarantiesFinancières.GarantiesFinancièresEvent['type'],
-  GarantiesFinancières.GarantiesFinancièresEvent['payload']
+  GarantiesFinancièresEvent['type'],
+  GarantiesFinancièresEvent['payload']
 >;
 
 export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
   'achevement',
-  Lauréat.Achèvement.AchèvementEvent['type'],
-  Lauréat.Achèvement.AchèvementEvent['payload']
+  AchèvementEvent['type'],
+  AchèvementEvent['payload']
 >;
 
 export type HistoriqueListItemReadModels =
-  | Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel
+  | HistoriqueAbandonProjetListItemReadModel
   | HistoriqueLauréatProjetListItemReadModel
-  | Lauréat.Actionnaire.HistoriqueActionnaireProjetListItemReadModel
-  | Éliminé.Recours.HistoriqueRecoursProjetListItemReadModel
-  | Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel
+  | HistoriqueActionnaireProjetListItemReadModel
+  | HistoriqueRecoursProjetListItemReadModel
+  | HistoriqueReprésentantLégalProjetListItemReadModel
   | HistoriqueGarantiesFinancièresProjetListItemReadModel
-  | Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel
-  | Lauréat.Producteur.HistoriqueProducteurProjetListItemReadModel
+  | HistoriquePuissanceProjetListItemReadModel
+  | HistoriqueProducteurProjetListItemReadModel
   | HistoriqueAchèvementProjetListItemReadModel
-  | Lauréat.Raccordement.HistoriqueRaccordementProjetListItemReadModel;
+  | HistoriqueRaccordementProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 
 export type ListerHistoriqueProjetQuery = Message<
-  'Historique.Query.ListerHistoriqueProjet',
+  'Lauréat.Query.ListerHistoriqueProjet',
   {
     identifiantProjet: string;
     category?: HistoriqueListItemReadModels['category'];
@@ -68,5 +77,5 @@ export const registerListerHistoriqueProjetQuery = ({
       category,
       range,
     });
-  mediator.register('Historique.Query.ListerHistoriqueProjet', handler);
+  mediator.register('Lauréat.Query.ListerHistoriqueProjet', handler);
 };
