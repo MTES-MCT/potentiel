@@ -12,7 +12,8 @@ export type ReprésentantLégalEvent =
   | ChangementReprésentantLégalAnnuléEvent
   | ChangementReprésentantLégalDemandéEvent
   | ChangementReprésentantLégalRejetéEvent
-  | ChangementReprésentantLégalSuppriméEvent;
+  | ChangementReprésentantLégalSuppriméEvent
+  | ChangementReprésentantLégalCorrigéEvent;
 
 export type ReprésentantLégalImportéEvent = DomainEvent<
   'ReprésentantLégalImporté-V1',

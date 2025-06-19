@@ -6,8 +6,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Historique } from '@potentiel-domain/historique';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -60,12 +60,14 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         });
 
       const historique =
-        await mediator.send<Historique.ListerHistoriqueReprésentantLégalProjetQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.ReprésentantLégal.ListerHistoriqueReprésentantLégalProjetQuery>(
+          {
+            type: 'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
+            data: {
+              identifiantProjet: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       const dateDemandeEnCoursPourLien =
         Option.isSome(représentantLégal) &&
