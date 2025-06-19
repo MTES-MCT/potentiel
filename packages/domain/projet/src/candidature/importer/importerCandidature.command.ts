@@ -8,7 +8,7 @@ import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
-import { TypeFournisseur } from '../../lauréat/fournisseur';
+import { Fournisseur } from '../../lauréat/fournisseur';
 
 export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
@@ -40,10 +40,7 @@ export type ImporterCandidatureCommand = Message<
     actionnariat?: TypeActionnariat.ValueType;
     dateÉchéanceGf?: DateTime.ValueType;
     territoireProjet: string;
-    fournisseurs: Array<{
-      typeFournisseur: TypeFournisseur.ValueType;
-      nomDuFabricant: string;
-    }>;
+    fournisseurs: Array<Fournisseur.ValueType>;
     importéLe: DateTime.ValueType;
     importéPar: Email.ValueType;
   }

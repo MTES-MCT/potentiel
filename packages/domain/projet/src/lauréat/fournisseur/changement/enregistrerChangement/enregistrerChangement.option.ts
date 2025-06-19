@@ -2,7 +2,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../../../..';
-import { TypeFournisseur } from '../..';
+import { Fournisseur } from '../..';
 
 export type EnregistrerChangementFournisseurOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -12,10 +12,7 @@ export type EnregistrerChangementFournisseurOptions = {
   raison: string;
 } & (
   | {
-      fournisseurs: Array<{
-        typeFournisseur: TypeFournisseur.ValueType;
-        nomDuFabricant: string;
-      }>;
+      fournisseurs: Array<Fournisseur.ValueType>;
       évaluationCarboneSimplifiée?: undefined;
     }
   | {
@@ -23,10 +20,7 @@ export type EnregistrerChangementFournisseurOptions = {
       évaluationCarboneSimplifiée: number;
     }
   | {
-      fournisseurs: Array<{
-        typeFournisseur: TypeFournisseur.ValueType;
-        nomDuFabricant: string;
-      }>;
+      fournisseurs: Array<Fournisseur.ValueType>;
       évaluationCarboneSimplifiée: number;
     }
 );

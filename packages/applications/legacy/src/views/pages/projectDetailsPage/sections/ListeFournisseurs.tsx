@@ -2,10 +2,7 @@ import React, { FC } from 'react';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export type ListeFournisseursProps = {
-  fournisseurs: Array<{
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-    nomDuFabricant: string;
-  }>;
+  fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
 };
 
 const typeFournisseurLabel: Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string> = {

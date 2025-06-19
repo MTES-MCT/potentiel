@@ -71,13 +71,8 @@ const action: FormAction<FormState, typeof schema> = async (
         : undefined;
 
     const fournisseursModifiés = fournisseursContiennentModification({
-      fournisseursActuels: fournisseurActuel.fournisseurs.map(
-        ({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
-          nomDuFabricant,
-          typeFournisseur,
-        }),
-      ),
-      nouveauxFournisseurs: fournisseurs,
+      fournisseursActuels: fournisseurActuel.fournisseurs.map(Lauréat.Fournisseur.Fournisseur.bind),
+      nouveauxFournisseurs: fournisseurs.map(Lauréat.Fournisseur.Fournisseur.convertirEnValueType),
     })
       ? fournisseurs
       : undefined;
@@ -138,14 +133,8 @@ const fournisseursContiennentModification = ({
   nouveauxFournisseurs,
   fournisseursActuels,
 }: {
-  fournisseursActuels: Array<{
-    nomDuFabricant: string;
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-  }>;
-  nouveauxFournisseurs: Array<{
-    nomDuFabricant: string;
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-  }>;
+  fournisseursActuels: Array<Lauréat.Fournisseur.Fournisseur.ValueType>;
+  nouveauxFournisseurs: Array<Lauréat.Fournisseur.Fournisseur.ValueType>;
 }) => {
   if (nouveauxFournisseurs.length !== fournisseursActuels.length) {
     return true;
@@ -155,7 +144,7 @@ const fournisseursContiennentModification = ({
     const fournisseur = fournisseursActuels[i];
     return (
       fournisseur.nomDuFabricant !== fournisseurModifié.nomDuFabricant ||
-      fournisseur.typeFournisseur !== fournisseurModifié.typeFournisseur
+      fournisseur.typeFournisseur.estÉgaleÀ(fournisseurModifié.typeFournisseur)
     );
   });
 };

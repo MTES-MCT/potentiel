@@ -23,16 +23,12 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
   technologie,
   validationErrors,
 }) => {
-  const [fournisseurs, setFournisseurs] = useState<
-    Array<{
-      typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-      nomDuFabricant: string;
-    }>
-  >(() =>
-    fournisseursActuels.map(({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
-      nomDuFabricant,
-      typeFournisseur,
-    })),
+  const [fournisseurs, setFournisseurs] = useState<Array<Lauréat.Fournisseur.Fournisseur.RawType>>(
+    () =>
+      fournisseursActuels.map(({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
+        nomDuFabricant,
+        typeFournisseur,
+      })),
   );
   const typesFournisseur: ReadonlyArray<Lauréat.Fournisseur.TypeFournisseur.RawType> =
     technologie === 'eolien'

@@ -35,10 +35,7 @@ const mapCsvLabelToTypeFournisseur = (typeValue: string) => {
 };
 
 export const mapCsvRowToFournisseurs = (payload: Record<string, string>) => {
-  const fournisseurs: Array<{
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-    nomDuFabricant: string;
-  }> = [];
+  const fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType> = [];
 
   for (const [key, value] of Object.entries(payload)) {
     const type = mapCsvLabelToTypeFournisseur(key);

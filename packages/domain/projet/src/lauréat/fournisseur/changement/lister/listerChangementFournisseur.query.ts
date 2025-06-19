@@ -6,16 +6,13 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { ChangementFournisseurEntity } from '../changementFournisseur.entity';
 import { IdentifiantProjet, Lauréat } from '../../../..';
 import { GetProjetUtilisateurScope } from '../../../../getScopeProjetUtilisateur.port';
-import { TypeFournisseur } from '../..';
+import { Fournisseur } from '../..';
 
 type ChangementFournisseurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   enregistréLe: DateTime.ValueType;
-  fournisseurs?: Array<{
-    typeFournisseur: TypeFournisseur.ValueType;
-    nomDuFabricant: string;
-  }>;
+  fournisseurs?: Array<Fournisseur.ValueType>;
   évaluationCarboneSimplifiée?: number;
 };
 
@@ -93,9 +90,6 @@ const mapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   nomProjet: entity.lauréat.nomProjet,
   enregistréLe: DateTime.convertirEnValueType(entity.changement.enregistréLe),
-  fournisseurs: entity.changement.fournisseurs?.map(({ nomDuFabricant, typeFournisseur }) => ({
-    nomDuFabricant,
-    typeFournisseur: TypeFournisseur.convertirEnValueType(typeFournisseur),
-  })),
+  fournisseurs: entity.changement.fournisseurs?.map(Fournisseur.convertirEnValueType),
   évaluationCarboneSimplifiée: entity.changement.évaluationCarboneSimplifiée,
 });

@@ -7,10 +7,7 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 
 export interface EnregistrerChangementFournisseur {
   readonly évaluationCarbone: number;
-  readonly fournisseurs: Array<{
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-    nomDuFabricant: string;
-  }>;
+  readonly fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
   readonly raison: string;
   readonly enregistréLe: string;
   readonly enregistréPar: string;
@@ -38,10 +35,7 @@ export class EnregistrerChangementFournisseurFixture
     return this.#évaluationCarbone;
   }
 
-  #fournisseurs!: Array<{
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-    nomDuFabricant: string;
-  }>;
+  #fournisseurs!: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
 
   get fournisseurs() {
     return this.#fournisseurs;

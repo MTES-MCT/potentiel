@@ -7,7 +7,7 @@ import * as TypeTechnologie from '../typeTechnologie.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
-import { TypeFournisseur } from '../../lauréat/fournisseur';
+import { Fournisseur } from '../../lauréat/fournisseur';
 
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -38,10 +38,7 @@ type CandidatureImportéeEventPayload = {
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
   coefficientKChoisi?: boolean;
-  fournisseurs: Array<{
-    typeFournisseur: TypeFournisseur.RawType;
-    nomDuFabricant: string;
-  }>;
+  fournisseurs: Array<Fournisseur.RawType>;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
 };

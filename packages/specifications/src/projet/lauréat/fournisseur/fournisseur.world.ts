@@ -56,11 +56,7 @@ export class FournisseurWorld {
           this.enregistrerChangementFournisseur.enregistréPar,
         ),
         fournisseurs: this.enregistrerChangementFournisseur.fournisseurs?.map(
-          ({ nomDuFabricant, typeFournisseur }) => ({
-            nomDuFabricant,
-            typeFournisseur:
-              Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(typeFournisseur),
-          }),
+          Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
         ),
         évaluationCarboneSimplifiée: this.enregistrerChangementFournisseur.évaluationCarbone,
         pièceJustificative: DocumentProjet.convertirEnValueType(

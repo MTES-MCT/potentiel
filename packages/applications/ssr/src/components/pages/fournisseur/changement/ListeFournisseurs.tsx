@@ -5,10 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { typeFournisseurLabel } from './typeFournisseurLabel';
 
 export type ListeFournisseursProps = {
-  fournisseurs: Array<{
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-    nomDuFabricant: string;
-  }>;
+  fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
 };
 
 export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) => (

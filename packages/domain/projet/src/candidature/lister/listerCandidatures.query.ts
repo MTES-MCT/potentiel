@@ -10,8 +10,9 @@ import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
-import { IdentifiantProjet, Lauréat } from '../..';
+import { IdentifiantProjet } from '../..';
 import { UnitéPuissance } from '..';
+import { Fournisseur } from '../../lauréat/fournisseur';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -166,11 +167,6 @@ export const mapToReadModel = ({
       ),
     }),
   sociétéMère,
-  fournisseurs: fournisseurs.map((fournisseur) => ({
-    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
-      fournisseur.typeFournisseur,
-    ),
-    nomDuFabricant: fournisseur.nomDuFabricant,
-  })),
+  fournisseurs: fournisseurs.map(Fournisseur.convertirEnValueType),
   unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période, technologie }),
 });
