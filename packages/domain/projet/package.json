@@ -10,9 +10,10 @@
   "dependencies": {
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/document": "*",
     "@potentiel-domain/core": "*",
+    "@potentiel-domain/document": "*",
     "@potentiel-domain/entity": "*",
+    "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-libraries/monads": "*"
   },
