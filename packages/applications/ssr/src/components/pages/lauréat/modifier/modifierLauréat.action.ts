@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -49,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
 
     if (laureat) {
       if (laureat.actionnaire) {
-        await mediator.send<Actionnaire.ActionnaireUseCase>({
+        await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
           type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
           data: {
             identifiantProjetValue: identifiantProjet,

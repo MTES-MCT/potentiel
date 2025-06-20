@@ -1,4 +1,3 @@
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
@@ -14,7 +13,7 @@ export const changementActionnaireAccordéProjector = async ({
     réponseSignée: { format },
   },
 }: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent) => {
-  const actionnaire = await findProjection<Actionnaire.ActionnaireEntity>(
+  const actionnaire = await findProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
 
@@ -26,7 +25,7 @@ export const changementActionnaireAccordéProjector = async ({
     return;
   }
 
-  const projectionToUpsert = await findProjection<Actionnaire.ChangementActionnaireEntity>(
+  const projectionToUpsert = await findProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
     `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
   );
 
@@ -38,22 +37,25 @@ export const changementActionnaireAccordéProjector = async ({
     return;
   }
 
-  await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
-    ...actionnaire,
-    actionnaire: {
-      nom: nouvelActionnaire,
-      misÀJourLe: accordéLe,
+  await upsertProjection<Lauréat.Actionnaire.ActionnaireEntity>(
+    `actionnaire|${identifiantProjet}`,
+    {
+      ...actionnaire,
+      actionnaire: {
+        nom: nouvelActionnaire,
+        misÀJourLe: accordéLe,
+      },
+      dateDemandeEnCours: undefined,
     },
-    dateDemandeEnCours: undefined,
-  });
+  );
 
-  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
+  await upsertProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
     `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
     {
       ...projectionToUpsert,
       demande: {
         ...projectionToUpsert.demande,
-        statut: Actionnaire.StatutChangementActionnaire.accordé.statut,
+        statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut,
 
         accord: {
           accordéeLe: accordéLe,

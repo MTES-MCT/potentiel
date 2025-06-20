@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
@@ -12,7 +12,7 @@ import { DemanderChangementActionnaireForm } from './DemanderChangementActionnai
 import { InfoBoxDemandeActionnaire } from './InfoxBoxDemandeActionnaire';
 
 export type DemanderChangementActionnairePageProps =
-  PlainType<Actionnaire.ConsulterActionnaireReadModel>;
+  PlainType<Lauréat.Actionnaire.ConsulterActionnaireReadModel>;
 
 export const DemanderChangementActionnairePage: FC<DemanderChangementActionnairePageProps> = ({
   identifiantProjet,

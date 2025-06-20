@@ -2,18 +2,9 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-
-Quand("l'actionnaire est importé pour le projet", async function (this: PotentielWorld) {
-  try {
-    await importerActionnaire.call(this);
-  } catch (error) {
-    this.error = error as Error;
-  }
-});
 
 Quand(
   /(le DGEC validateur|la DREAL associée au projet) modifie l'actionnaire pour le projet (lauréat|éliminé)/,
@@ -57,7 +48,7 @@ Quand(
         this,
         this.utilisateurWorld.porteurFixture.email,
         'lauréat',
-        this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.actionnaire,
+        this.candidatureWorld.importerCandidature.values.sociétéMèreValue,
       );
     } catch (error) {
       this.error = error as Error;
@@ -99,7 +90,7 @@ Quand(
         this,
         'lauréat',
         this.utilisateurWorld.porteurFixture.email,
-        this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.actionnaire,
+        this.candidatureWorld.importerCandidature.values.sociétéMèreValue,
       );
     } catch (error) {
       this.error = error as Error;
@@ -157,7 +148,7 @@ export async function demanderChangementActionnaire(
       ...(actionnaireValue && { actionnaire: actionnaireValue }),
     });
 
-  await mediator.send<Actionnaire.ActionnaireUseCase>({
+  await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
     data: {
       raisonValue: raison,
@@ -178,7 +169,7 @@ export async function annulerChangementActionnaire(this: PotentielWorld) {
       annuléePar: this.utilisateurWorld.porteurFixture.email,
     });
 
-  await mediator.send<Actionnaire.ActionnaireUseCase>({
+  await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
     data: {
       dateAnnulationValue: annuléeLe,
@@ -195,7 +186,7 @@ export async function accorderChangementActionnaire(this: PotentielWorld, utilis
       accordéePar: utilisateur,
     });
 
-  await mediator.send<Actionnaire.AccorderChangementActionnaireUseCase>({
+  await mediator.send<Lauréat.Actionnaire.AccorderChangementActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
     data: {
       accordéLeValue: accordéeLe,
@@ -214,7 +205,7 @@ export async function rejeterChangementActionnaire(this: PotentielWorld, utilisa
       rejetéePar: utilisateur,
     });
 
-  await mediator.send<Actionnaire.RejeterChangementActionnaireUseCase>({
+  await mediator.send<Lauréat.Actionnaire.RejeterChangementActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
     data: {
       rejetéLeValue: rejetéeLe,
@@ -238,7 +229,7 @@ async function modifierActionnaire(
   const { actionnaire, dateModification, raison } =
     this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
 
-  await mediator.send<Actionnaire.ActionnaireUseCase>({
+  await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -253,14 +244,14 @@ async function modifierActionnaire(
 async function modifierActionnaireSansChangement(this: PotentielWorld, modifiéPar: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const actionnaire = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.actionnaire;
+  const actionnaire = this.candidatureWorld.importerCandidature.values.sociétéMèreValue;
 
   const { dateModification, raison } =
     this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer({
       actionnaire,
     });
 
-  await mediator.send<Actionnaire.ActionnaireUseCase>({
+  await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -289,7 +280,7 @@ async function enregistrerChangementActionnaire(
       ...(nouvelActionnaire && { actionnaire: nouvelActionnaire }),
     });
 
-  await mediator.send<Actionnaire.ActionnaireUseCase>({
+  await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -298,19 +289,6 @@ async function enregistrerChangementActionnaire(
       dateChangementValue: demandéLe,
       pièceJustificativeValue: pièceJustificative,
       raisonValue: raison,
-    },
-  });
-}
-
-async function importerActionnaire(this: PotentielWorld) {
-  const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-  const { importéLe } = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture;
-
-  await mediator.send<Actionnaire.ActionnaireCommand>({
-    type: 'Lauréat.Actionnaire.Command.ImporterActionnaire',
-    data: {
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      importéLe: DateTime.convertirEnValueType(importéLe),
     },
   });
 }

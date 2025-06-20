@@ -1,4 +1,3 @@
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
@@ -13,7 +12,7 @@ export const changementActionnaireRejetéProjector = async ({
     réponseSignée: { format },
   },
 }: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent) => {
-  const actionnaire = await findProjection<Actionnaire.ActionnaireEntity>(
+  const actionnaire = await findProjection<Lauréat.Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
 
@@ -25,7 +24,7 @@ export const changementActionnaireRejetéProjector = async ({
     return;
   }
 
-  const projectionToUpsert = await findProjection<Actionnaire.ChangementActionnaireEntity>(
+  const projectionToUpsert = await findProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
     `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
   );
 
@@ -37,18 +36,21 @@ export const changementActionnaireRejetéProjector = async ({
     return;
   }
 
-  await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
-    ...actionnaire,
-    dateDemandeEnCours: undefined,
-  });
+  await upsertProjection<Lauréat.Actionnaire.ActionnaireEntity>(
+    `actionnaire|${identifiantProjet}`,
+    {
+      ...actionnaire,
+      dateDemandeEnCours: undefined,
+    },
+  );
 
-  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
+  await upsertProjection<Lauréat.Actionnaire.ChangementActionnaireEntity>(
     `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
     {
       identifiantProjet,
       demande: {
         ...projectionToUpsert.demande,
-        statut: Actionnaire.StatutChangementActionnaire.rejeté.statut,
+        statut: Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut,
 
         rejet: {
           rejetéeLe: rejetéLe,

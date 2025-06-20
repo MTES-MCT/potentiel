@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -39,19 +38,20 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const demandéLe = decodeParameter(date);
 
-      const changement = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          demandéLe,
-        },
-      });
+      const changement =
+        await mediator.send<Lauréat.Actionnaire.ConsulterChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            demandéLe,
+          },
+        });
 
       if (Option.isNone(changement)) {
         return notFound();
       }
 
-      const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+      const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -86,7 +86,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 }
 
 const mapToActions = (
-  statut: Actionnaire.StatutChangementActionnaire.ValueType,
+  statut: Lauréat.Actionnaire.StatutChangementActionnaire.ValueType,
   rôle: Role.ValueType,
 ): Array<ChangementActionnaireActions> => {
   const actions: Array<ChangementActionnaireActions> = [];

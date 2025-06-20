@@ -3,8 +3,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -21,7 +21,7 @@ export type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 
 
 export type DétailsActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  demande: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
+  demande: PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
   historique: Array<TimelineItemProps>;
   demandeEnCoursDate?: string;

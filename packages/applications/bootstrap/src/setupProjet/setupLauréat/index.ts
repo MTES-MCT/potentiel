@@ -9,6 +9,7 @@ import { setupProducteur } from './setupProducteur';
 import { setupFournisseur } from './setupFournisseur';
 import { setupAbandon } from './setupAbandon';
 import { setupAchèvement } from './setupAchèvement';
+import { setupActionnaire } from './setupActionnaire';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();
@@ -52,6 +53,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupFournisseur = await setupFournisseur(dependencies);
   const unsetupAchèvement = await setupAchèvement(dependencies);
   const unsetupAbandon = await setupAbandon(dependencies);
+  const unsetupActionnaire = await setupActionnaire(dependencies);
 
   return async () => {
     await lauréat.clearSubscriptions();
@@ -61,5 +63,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupFournisseur();
     await unsetupAchèvement();
     await unsetupAbandon();
+    await unsetupActionnaire();
   };
 };

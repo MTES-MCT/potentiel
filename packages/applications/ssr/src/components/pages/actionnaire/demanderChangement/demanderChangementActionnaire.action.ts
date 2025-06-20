@@ -3,8 +3,8 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
   withUtilisateur(async (utilisateur) => {
     const dateDemandeValue = new Date().toISOString();
 
-    await mediator.send<Actionnaire.ActionnaireUseCase>({
+    await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
       type: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
       data: {
         identifiantProjetValue: identifiantProjet,

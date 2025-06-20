@@ -3,13 +3,12 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   ChangementActionnaireListPage,
   ChangementActionnaireListPageProps,
@@ -28,7 +27,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Actionnaire.StatutChangementActionnaire.statuts).optional(),
+  statut: z.enum(Lauréat.Actionnaire.StatutChangementActionnaire.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -36,25 +35,21 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
-      const changements = await mediator.send<Actionnaire.ListerChangementActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
-        data: {
-          utilisateur: {
-            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            rôle: utilisateur.role.nom,
-            régionDreal,
+      const changements = await mediator.send<Lauréat.Actionnaire.ListerChangementActionnaireQuery>(
+        {
+          type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
+          data: {
+            utilisateur: utilisateur.identifiantUtilisateur.email,
+            range: mapToRangeOptions({
+              currentPage: page,
+              itemsPerPage: 10,
+            }),
+            statut,
+            appelOffre,
+            nomProjet,
           },
-          range: mapToRangeOptions({
-            currentPage: page,
-            itemsPerPage: 10,
-          }),
-          statut,
-          appelOffre,
-          nomProjet,
         },
-      });
+      );
 
       const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
@@ -73,7 +68,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: Actionnaire.StatutChangementActionnaire.statuts
+          options: Lauréat.Actionnaire.StatutChangementActionnaire.statuts
             .filter((s) => s !== 'annulé')
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
@@ -88,7 +83,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  readModel: Actionnaire.ListerChangementActionnaireReadModel,
+  readModel: Lauréat.Actionnaire.ListerChangementActionnaireReadModel,
 ): ChangementActionnaireListPageProps['list'] => {
   const pagination = mapToPagination(readModel.range);
 

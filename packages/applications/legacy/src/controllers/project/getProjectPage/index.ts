@@ -35,8 +35,7 @@ import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
 import { getFournisseur } from './_utils/getFournisseur';
 import { getCandidature } from './_utils/getCandidature';
-import { Actionnaire } from '@potentiel-domain/laureat';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -213,16 +212,17 @@ v1Router.get(
         project.appelOffre.isSoumisAuxGF,
       );
 
-      const instructionChangementActionnaire = Actionnaire.InstructionChangementActionnaire.bind({
-        appelOffre: project.appelOffreId,
-        aDesGarantiesFinancièresConstituées: !!garantiesFinancières?.actuelles,
-        aUnDépotEnCours: !!garantiesFinancières?.dépôtÀTraiter,
-        typeActionnariat: project.isFinancementParticipatif
-          ? Candidature.TypeActionnariat.financementParticipatif
-          : project.isInvestissementParticipatif
-            ? Candidature.TypeActionnariat.investissementParticipatif
-            : undefined,
-      });
+      const instructionChangementActionnaire =
+        Lauréat.Actionnaire.InstructionChangementActionnaire.bind({
+          appelOffre: project.appelOffreId,
+          aDesGarantiesFinancièresConstituées: !!garantiesFinancières?.actuelles,
+          aUnDépotEnCours: !!garantiesFinancières?.dépôtÀTraiter,
+          typeActionnariat: project.isFinancementParticipatif
+            ? Candidature.TypeActionnariat.financementParticipatif
+            : project.isInvestissementParticipatif
+              ? Candidature.TypeActionnariat.investissementParticipatif
+              : undefined,
+        });
 
       const demandeNécessiteInstructionPourActionnaire =
         role.estÉgaleÀ(Role.porteur) && instructionChangementActionnaire.estRequise();

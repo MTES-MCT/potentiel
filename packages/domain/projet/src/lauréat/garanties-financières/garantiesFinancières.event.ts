@@ -69,34 +69,6 @@ export type HistoriqueGarantiesFinancièresEffacéEvent = DomainEvent<
   }
 >;
 
-/**
- * @deprecated Utilisez DépôtGarantiesFinancièresEnCoursSuppriméEvent à la place.
- * Cet event a été conservé pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
- */
-export type DépôtGarantiesFinancièresEnCoursSuppriméEventV1 = DomainEvent<
-  'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    suppriméLe: DateTime.RawType;
-    suppriméPar: Email.RawType;
-  }
->;
-
-export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
-  'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    suppriméLe: DateTime.RawType;
-    suppriméPar: Email.RawType;
-    garantiesFinancièresActuelles?: {
-      type: Candidature.TypeGarantiesFinancières.RawType;
-      dateÉchéance?: DateTime.RawType;
-      dateConstitution?: DateTime.RawType;
-      attestation?: { format: string };
-    };
-  }
->;
-
 export type GarantiesFinancièresDemandéesEvent = DomainEvent<
   'GarantiesFinancièresDemandées-V1',
   {
@@ -215,7 +187,34 @@ export type DemandeMainlevéeGarantiesFinancièresRejetéeEvent = DomainEvent<
   }
 >;
 
+export type DépôtGarantiesFinancièresEnCoursSuppriméEventV1 = DomainEvent<
+  'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    suppriméLe: DateTime.RawType;
+    suppriméPar: Email.RawType;
+  }
+>;
+
+export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
+  'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    suppriméLe: DateTime.RawType;
+    suppriméPar: Email.RawType;
+    garantiesFinancièresActuelles?: {
+      type: Candidature.TypeGarantiesFinancières.RawType;
+      dateÉchéance?: DateTime.RawType;
+      dateConstitution?: DateTime.RawType;
+      attestation?: { format: string };
+    };
+  }
+>;
+
 export type GarantiesFinancièresEvent =
+  | DépôtGarantiesFinancièresEnCoursSuppriméEvent
+  | DépôtGarantiesFinancièresEnCoursSuppriméEventV1
+  | DépôtGarantiesFinancièresSoumisEvent
   | DépôtGarantiesFinancièresEnCoursValidéEventV1
   | DépôtGarantiesFinancièresEnCoursValidéEvent
   | GarantiesFinancièresEnregistréesEvent

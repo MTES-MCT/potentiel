@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { getBaseUrl, getLauréat } from '../../../helpers';
@@ -15,7 +14,7 @@ import { changementActionnaireDemandéNotifications } from './changementActionna
 import { changementActionnaireEnregistréNotifications } from './changementActionnaireEnregistré.notifications';
 import { changementActionnaireRejetéNotifications } from './changementActionnaireRejeté.notifications';
 
-export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
+export type SubscriptionEvent = Lauréat.Actionnaire.ActionnaireEvent & Event;
 
 export type Execute = Message<'System.Notification.Lauréat.Actionnaire', SubscriptionEvent>;
 

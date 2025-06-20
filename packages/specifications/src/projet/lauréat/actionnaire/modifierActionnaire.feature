@@ -66,7 +66,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
     Scénario: Impossible de modifier l'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le DGEC validateur modifie l'actionnaire pour le projet éliminé
-        Alors l'utilisateur devrait être informé que "L'actionnaire n'existe pas"
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible de modifier l'actionnaire d'un projet lauréat alors qu'un changement d'actionnaire est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"

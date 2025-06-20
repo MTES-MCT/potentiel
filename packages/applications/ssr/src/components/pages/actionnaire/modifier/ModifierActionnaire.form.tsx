@@ -6,8 +6,8 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -19,7 +19,8 @@ import {
   ModifierActionnaireFormKeys,
 } from './modifierActionnaire.action';
 
-export type ModifierActionnaireFormProps = PlainType<Actionnaire.ConsulterActionnaireReadModel>;
+export type ModifierActionnaireFormProps =
+  PlainType<Lauréat.Actionnaire.ConsulterActionnaireReadModel>;
 
 export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
   identifiantProjet,

@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -19,7 +19,7 @@ export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePagePro
 export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProps> = ({
   demande,
 }) => {
-  const estUneInformationEnregistrée = Actionnaire.StatutChangementActionnaire.bind(
+  const estUneInformationEnregistrée = Lauréat.Actionnaire.StatutChangementActionnaire.bind(
     demande.statut,
   ).estInformationEnregistrée();
   return (
@@ -46,7 +46,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
                 réponseSignée={demande.rejet.réponseSignée}
               />
             )}
-            {Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
+            {Lauréat.Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
               <ChangementDemandé
                 demandéeLe={demande.demandéeLe}
                 demandéePar={demande.demandéePar}
@@ -71,7 +71,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
 };
 
 type ChangementProps = Pick<
-  PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
+  PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
   'raison' | 'pièceJustificative' | 'nouvelActionnaire'
 >;
 
@@ -109,14 +109,14 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, dem
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementActionnaireBadge
-        statut={Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut}
+        statut={Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut}
       />
     </div>
   </>
 );
 
 type ChangementDemandéProps = Pick<
-  PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
+  PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
   'demandéeLe' | 'demandéePar'
 >;
 
@@ -130,14 +130,14 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementActionnaireBadge
-        statut={Actionnaire.StatutChangementActionnaire.demandé.statut}
+        statut={Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut}
       />
     </div>
   </>
 );
 
 type ChangementAccordéProps = NonNullable<
-  PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>['accord']
+  PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>['accord']
 >;
 
 const ChangementAccordé: FC<ChangementAccordéProps> = ({
@@ -154,7 +154,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementActionnaireBadge
-        statut={Actionnaire.StatutChangementActionnaire.accordé.statut}
+        statut={Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut}
       />
     </div>
     <div className="flex gap-2">
@@ -170,7 +170,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
 );
 
 type ChangementRejetéProps = NonNullable<
-  PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>['rejet']
+  PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>['rejet']
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
@@ -183,7 +183,7 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementActionnaireBadge
-        statut={Actionnaire.StatutChangementActionnaire.rejeté.statut}
+        statut={Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut}
       />
     </div>
     <div className="flex gap-2">

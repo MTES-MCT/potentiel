@@ -17,15 +17,35 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
     return this.#aDesGarantiesFinancières;
   }
 
+  #aUnDépôtEnCours: boolean = false;
+  get aUnDépôtEnCours() {
+    return this.#aUnDépôtEnCours;
+  }
+
   async init(lauréat: LauréatAggregate) {
     this.#lauréat = lauréat;
-
-    this.#aDesGarantiesFinancières =
-      !lauréat.projet.candidature.typeGarantiesFinancières?.estInconnu();
   }
 
   apply(event: GarantiesFinancièresEvent): void {
     match(event)
+      .with(
+        {
+          type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
+        },
+        () => this.applyDépôtGarantiesFinancièresEnCoursSuppriméV1(),
+      )
+      .with(
+        {
+          type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
+        },
+        () => this.applyDépôtGarantiesFinancièresEnCoursSuppriméV2(),
+      )
+      .with(
+        {
+          type: 'DépôtGarantiesFinancièresSoumis-V1',
+        },
+        () => this.applyDépôtGarantiesFinancièresSoumisV1(),
+      )
       .with(
         {
           type: 'HistoriqueGarantiesFinancièresEffacé-V1',
@@ -56,18 +76,37 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
         },
         () => this.applyGarantiesFinancièresModifiéesV1(),
       )
+      .with(
+        {
+          type: 'TypeGarantiesFinancièresImporté-V1',
+        },
+        () => this.applyTypeGarantiesFinancièresImportéV1(),
+      )
       .otherwise(() => {});
     // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
-    // Si l'on reste en `exhaustive` on pourrait avoir des erreurs si des événements non listés ici serait présent dans le stream
     // .exhaustive();
+  }
+
+  private applyDépôtGarantiesFinancièresEnCoursSuppriméV1() {
+    this.#aUnDépôtEnCours = false;
+  }
+
+  private applyDépôtGarantiesFinancièresEnCoursSuppriméV2() {
+    this.#aUnDépôtEnCours = false;
+  }
+
+  private applyDépôtGarantiesFinancièresSoumisV1() {
+    this.#aUnDépôtEnCours = true;
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV1() {
     this.#aDesGarantiesFinancières = true;
+    this.#aUnDépôtEnCours = false;
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV2() {
     this.#aDesGarantiesFinancières = true;
+    this.#aUnDépôtEnCours = false;
   }
 
   private applyGarantiesFinancièresEnregistréesV1() {
@@ -80,5 +119,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
 
   private applyHistoriqueGarantiesFinancièresEffacéV1() {
     this.#aDesGarantiesFinancières = false;
+    this.#aUnDépôtEnCours = false;
+  }
+
+  private applyTypeGarantiesFinancièresImportéV1() {
+    this.#aDesGarantiesFinancières = true;
   }
 }
