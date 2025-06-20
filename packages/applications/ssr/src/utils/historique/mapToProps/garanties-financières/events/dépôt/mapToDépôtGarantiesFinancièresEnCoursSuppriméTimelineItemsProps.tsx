@@ -1,28 +1,27 @@
 import { match } from 'ts-pattern';
 
-import { Historique } from '@potentiel-domain/historique';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps = (
-  dépôtSupprimé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  readmodel: Lauréat.HistoriqueGarantiesFinancièresProjetListItemReadModel,
 ) => {
-  const event = match(dépôtSupprimé)
+  const event = match(readmodel)
     .with(
       { type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V1' },
       (event) =>
-        event as unknown as GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
+        event as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
     )
     .with(
       { type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2' },
       (event) =>
-        event as unknown as GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent,
+        event as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent,
     )
     .otherwise(() => undefined);
 
   if (!event) {
-    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(dépôtSupprimé);
+    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(readmodel);
   }
 
   const { suppriméLe, suppriméPar } = event.payload;

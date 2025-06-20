@@ -2,17 +2,16 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import { GetProjetAggregateRoot, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
-import { MotifDemandeMainlevéeGarantiesFinancières } from '../..';
 
 export type DemanderMainlevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Command.Demander',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
+    motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: Email.ValueType;
   }

@@ -1,16 +1,8 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-
-export type DemandeMainlevéeGarantiesFinancièresAnnuléeEvent = DomainEvent<
-  'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    annuléLe: DateTime.RawType;
-    annuléPar: Email.RawType;
-  }
->;
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -42,7 +34,7 @@ export async function annulerDemandeMainlevée(
   Pour le moment les champs d'annulation ne sont pas utilisés
   Mais l'historique est enregistré au cas où
   */
-  const event: DemandeMainlevéeGarantiesFinancièresAnnuléeEvent = {
+  const event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAnnuléeEvent = {
     type: 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -56,7 +48,7 @@ export async function annulerDemandeMainlevée(
 
 export function applyDemandeMainlevéeGarantiesFinancièresAnnulée(
   this: GarantiesFinancièresAggregate,
-  _: DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
+  _: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
 ) {
   this.demandeMainlevéeEnCours = undefined;
 }

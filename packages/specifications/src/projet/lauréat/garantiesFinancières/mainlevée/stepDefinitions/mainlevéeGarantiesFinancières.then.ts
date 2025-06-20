@@ -7,6 +7,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -40,7 +41,7 @@ Alors(
 
         expect(
           mainlevée.motif.estÉgaleÀ(
-            GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+            Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
               motif,
             ),
           ),

@@ -1,22 +1,10 @@
 import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '../..';
 import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
-
-export type DemandeMainlevéeGarantiesFinancièresAccordéeEvent = DomainEvent<
-  'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    accordéLe: DateTime.RawType;
-    accordéPar: Email.RawType;
-    réponseSignée: {
-      format: string;
-    };
-  }
->;
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -37,7 +25,7 @@ export async function accorderDemandeMainlevéeGarantiesFinancières(
     StatutMainlevéeGarantiesFinancières.accordé,
   );
 
-  const event: DemandeMainlevéeGarantiesFinancièresAccordéeEvent = {
+  const event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent = {
     type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -54,7 +42,7 @@ export async function accorderDemandeMainlevéeGarantiesFinancières(
 
 export function applyDemandeMainlevéeGarantiesFinancièresAccordée(
   this: GarantiesFinancièresAggregate,
-  _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  _: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
 ) {
   if (this.demandeMainlevéeEnCours) {
     this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.accordé;

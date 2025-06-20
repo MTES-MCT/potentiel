@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { match } from 'ts-pattern';
 
-import { Historique } from '@potentiel-domain/historique';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -62,8 +62,8 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
 
       const candidature = await getCandidature(identifiantProjet);
 
-      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Lauréat.ListerHistoriqueProjetQuery>({
+        type: 'Lauréat.Query.ListerHistoriqueProjet',
         data: {
           identifiantProjet,
           category: categorie,
@@ -119,7 +119,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
 };
 
 const mapToTimelineItemProps = (
-  readmodel: Historique.HistoriqueListItemReadModels,
+  readmodel: Lauréat.HistoriqueListItemReadModels,
   unitéPuissance: string,
 ) => {
   const props = match(readmodel)

@@ -4,10 +4,10 @@ import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   MainlevéeGarantiesFinancièresEntity,
-  MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
@@ -20,7 +20,7 @@ import { LauréatEntity } from '../../../lauréat.entity';
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
-  motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
+  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType;
   appelOffre: string;
   nomProjet: string;
   demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
@@ -55,7 +55,7 @@ export type ListerMainlevéesQuery = Message<
   {
     range?: RangeOptions;
     appelOffre?: string;
-    motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
+    motif?: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     statut?: StatutMainlevéeGarantiesFinancières.RawType;
     estEnCours?: boolean;
   } & (
@@ -140,7 +140,10 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
   appelOffre: mainlevée.lauréat.appelOffre,
   nomProjet: mainlevée.lauréat.nomProjet,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
-  motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
+  motif:
+    Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+      mainlevée.motif,
+    ),
   demande: {
     demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
     demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),

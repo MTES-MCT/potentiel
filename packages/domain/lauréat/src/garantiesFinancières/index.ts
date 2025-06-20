@@ -124,27 +124,6 @@ export type { EffacerHistoriqueGarantiesFinancièresCommand, DemanderGarantiesFi
 // type global
 export type { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';
 
-// Dépot
-export type { DépôtGarantiesFinancièresSoumisEvent } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-export type { DépôtGarantiesFinancièresEnCoursModifiéEvent } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
-export type {
-  DépôtGarantiesFinancièresEnCoursSuppriméEvent,
-  DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
-} from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
-
-// Gf actuelles
-export type { TypeGarantiesFinancièresImportéEvent } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
-export type { AttestationGarantiesFinancièresEnregistréeEvent } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
-export type { GarantiesFinancièresDemandéesEvent } from './demander/demanderGarantiesFinancières.behavior';
-export type { GarantiesFinancièresÉchuesEvent } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
-
-// Mainlevée
-export type { MainlevéeGarantiesFinancièresDemandéeEvent } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.behavior';
-export type { DemandeMainlevéeGarantiesFinancièresAnnuléeEvent } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.behavior';
-export type { InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.behavior';
-export type { DemandeMainlevéeGarantiesFinancièresRejetéeEvent } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.behavior';
-export type { DemandeMainlevéeGarantiesFinancièresAccordéeEvent } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
-
 // Register
 export {
   registerGarantiesFinancièresQueries,
@@ -154,7 +133,6 @@ export {
 // ValueTypes
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
-export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
 export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
 export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
 export * as StatutGarantiesFinancières from './garantiesFinancièresActuelles/statutGarantiesFinancières.valueType';

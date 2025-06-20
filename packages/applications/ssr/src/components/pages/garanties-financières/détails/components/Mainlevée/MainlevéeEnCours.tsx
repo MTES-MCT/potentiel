@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Email } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3 } from '@/components/atoms/headings';
@@ -21,7 +22,7 @@ export type MainlevéeEnCoursProps = {
   identifiantProjet: string;
   mainlevéeEnCours: {
     statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
-    motif: GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
+    motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
     dernièreMiseÀJour: {
       date: Iso8601DateTime;
       par: string;

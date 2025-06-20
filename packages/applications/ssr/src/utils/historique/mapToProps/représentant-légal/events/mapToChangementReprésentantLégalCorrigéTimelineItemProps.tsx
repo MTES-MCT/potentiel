@@ -1,8 +1,7 @@
-import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToChangementReprésentantLégalCorrigéTimelineItemProps = (
-  demandeChangement: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  demandeChangement: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { corrigéLe, corrigéPar, typeReprésentantLégal, nomReprésentantLégal } =
     demandeChangement.payload as Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent['payload'];

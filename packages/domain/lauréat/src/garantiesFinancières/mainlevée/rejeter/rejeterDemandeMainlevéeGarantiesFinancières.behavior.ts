@@ -1,22 +1,10 @@
 import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 import { StatutMainlevéeGarantiesFinancières } from '../..';
-
-export type DemandeMainlevéeGarantiesFinancièresRejetéeEvent = DomainEvent<
-  'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    rejetéLe: DateTime.RawType;
-    rejetéPar: Email.RawType;
-    réponseSignée: {
-      format: string;
-    };
-  }
->;
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -37,7 +25,7 @@ export async function rejeterDemandeMainlevéeGarantiesFinancières(
     StatutMainlevéeGarantiesFinancières.rejeté,
   );
 
-  const event: DemandeMainlevéeGarantiesFinancièresRejetéeEvent = {
+  const event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent = {
     type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -54,7 +42,7 @@ export async function rejeterDemandeMainlevéeGarantiesFinancières(
 
 export function applyDemandeMainlevéeGarantiesFinancièresRejetée(
   this: GarantiesFinancièresAggregate,
-  _: DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
+  _: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
 ) {
   if (this.demandeMainlevéeEnCours) {
     this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.rejeté;

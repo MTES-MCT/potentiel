@@ -7,26 +7,17 @@ import {
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import {
-  AttestationGarantiesFinancièresEnregistréeEvent,
-  StatutGarantiesFinancières,
-  StatutMainlevéeGarantiesFinancières,
-  TypeGarantiesFinancièresImportéEvent,
-} from '.';
+import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '.';
 
 import {
-  DépôtGarantiesFinancièresSoumisEvent,
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import {
-  GarantiesFinancièresDemandéesEvent,
   applyDemanderGarantiesFinancières,
   demanderGarantiesFinancières,
 } from './demander/demanderGarantiesFinancières.behavior';
 import {
-  DépôtGarantiesFinancièresEnCoursSuppriméEvent,
-  DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
 } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
@@ -36,7 +27,6 @@ import {
   validerDépôtEnCours,
 } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
 import {
-  DépôtGarantiesFinancièresEnCoursModifiéEvent,
   applyDépôtGarantiesFinancièresEnCoursModifié,
   modifierDépôtGarantiesFinancièresEnCours,
 } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
@@ -61,57 +51,51 @@ import {
   applyEnregistrerAttestationGarantiesFinancières,
 } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 import {
-  MainlevéeGarantiesFinancièresDemandéeEvent,
   applyMainlevéeGarantiesFinancièresDemandée,
   demanderMainlevée,
 } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.behavior';
 import {
   annulerDemandeMainlevée,
   applyDemandeMainlevéeGarantiesFinancièresAnnulée,
-  DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
 } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.behavior';
 import {
-  InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
   applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée,
   démarrerInstructionDemandeMainlevée,
 } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.behavior';
 import {
-  DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
   applyDemandeMainlevéeGarantiesFinancièresRejetée,
   rejeterDemandeMainlevéeGarantiesFinancières,
 } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.behavior';
 import {
-  DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
   accorderDemandeMainlevéeGarantiesFinancières,
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
 import {
   applyGarantiesFinancièresÉchues,
-  GarantiesFinancièresÉchuesEvent,
   échoir,
 } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 import { ajouterTâchesPlanifiées } from './tâches-planifiées/ajouter/ajouter.behavior';
 import { annulerTâchesPlanifiées } from './tâches-planifiées/annuler/annuler.behavior';
 
 export type GarantiesFinancièresEvent =
-  | DépôtGarantiesFinancièresSoumisEvent
-  | GarantiesFinancièresDemandéesEvent
-  | DépôtGarantiesFinancièresEnCoursSuppriméEventV1
-  | DépôtGarantiesFinancièresEnCoursSuppriméEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEventV1
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
-  | DépôtGarantiesFinancièresEnCoursModifiéEvent
-  | TypeGarantiesFinancièresImportéEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursModifiéEvent
+  | Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent
   | Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent
-  | AttestationGarantiesFinancièresEnregistréeEvent
+  | Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent
   | Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
   | Lauréat.GarantiesFinancières.HistoriqueGarantiesFinancièresEffacéEvent
-  | MainlevéeGarantiesFinancièresDemandéeEvent
-  | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
-  | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
-  | DemandeMainlevéeGarantiesFinancièresRejetéeEvent
-  | DemandeMainlevéeGarantiesFinancièresAccordéeEvent
-  | GarantiesFinancièresÉchuesEvent;
+  | Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent
+  | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
+  | Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
+  | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent
+  | Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent;
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {

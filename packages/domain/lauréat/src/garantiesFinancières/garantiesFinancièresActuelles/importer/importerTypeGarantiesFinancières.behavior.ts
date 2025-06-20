@@ -1,20 +1,9 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { TâchePlanifiéeAggregate } from '@potentiel-domain/tache-planifiee';
 
 import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-
-export type TypeGarantiesFinancièresImportéEvent = DomainEvent<
-  'TypeGarantiesFinancièresImporté-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    type: Candidature.TypeGarantiesFinancières.RawType;
-    dateÉchéance?: DateTime.RawType;
-    importéLe: DateTime.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -46,7 +35,7 @@ export async function importerType(
     return;
   }
 
-  const event: TypeGarantiesFinancièresImportéEvent = {
+  const event: Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent = {
     type: 'TypeGarantiesFinancièresImporté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -69,7 +58,9 @@ export async function importerType(
 
 export function applyTypeGarantiesFinancièresImporté(
   this: GarantiesFinancièresAggregate,
-  { payload: { type, dateÉchéance, importéLe } }: TypeGarantiesFinancièresImportéEvent,
+  {
+    payload: { type, dateÉchéance, importéLe },
+  }: Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent,
 ) {
   this.actuelles = {
     ...this.actuelles,
