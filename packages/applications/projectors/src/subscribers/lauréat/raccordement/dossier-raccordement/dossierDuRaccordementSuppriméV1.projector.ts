@@ -1,12 +1,11 @@
 import { Raccordement } from '@potentiel-domain/projet';
-import { Raccordement as RaccordementLauréat } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
 export const dossierDuRaccordementSuppriméV1Projector = async ({
   payload: { identifiantProjet, référenceDossier },
-}: RaccordementLauréat.DossierDuRaccordementSuppriméEvent) => {
+}: Raccordement.DossierDuRaccordementSuppriméEvent) => {
   const raccordement = await findProjection<Raccordement.RaccordementEntity>(
     `raccordement|${identifiantProjet}`,
   );

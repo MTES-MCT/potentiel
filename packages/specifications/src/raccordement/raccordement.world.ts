@@ -1,5 +1,5 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { TransmettreDateMiseEnServiceFixture } from './dateDeMiseEnService/fixtures/transmettreDateDeMiseEnService.fixture';

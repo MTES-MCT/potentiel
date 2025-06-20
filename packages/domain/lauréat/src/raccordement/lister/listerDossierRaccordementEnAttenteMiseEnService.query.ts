@@ -7,7 +7,6 @@ import { Candidature, IdentifiantProjet, Raccordement } from '@potentiel-domain/
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { RéférenceDossierRaccordement } from '..';
 import * as StatutLauréat from '../../statutLauréat.valueType';
 
 type DossierRaccordementEnAttenteMiseEnService = {
@@ -19,7 +18,7 @@ type DossierRaccordementEnAttenteMiseEnService = {
   numéroCRE: string;
   commune: string;
   codePostal: string;
-  référenceDossier: RéférenceDossierRaccordement.ValueType;
+  référenceDossier: Raccordement.RéférenceDossierRaccordement.ValueType;
   statutDGEC: StatutLauréat.RawType;
   puissance: string;
 
@@ -181,7 +180,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     nomProjet: lauréat.nomProjet,
     numéroCRE,
     période,
-    référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
+    référenceDossier: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
     puissance,
     dateNotification: lauréat.notifiéLe,

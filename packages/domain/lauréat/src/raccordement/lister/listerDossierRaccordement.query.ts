@@ -7,7 +7,6 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Candidature, IdentifiantProjet, Lauréat, Raccordement } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { RéférenceDossierRaccordement } from '..';
 import * as StatutLauréat from '../../statutLauréat.valueType';
 
 type DossierRaccordement = {
@@ -21,7 +20,7 @@ type DossierRaccordement = {
   département: string;
   région: string;
   codePostal: string;
-  référenceDossier: RéférenceDossierRaccordement.ValueType;
+  référenceDossier: Raccordement.RéférenceDossierRaccordement.ValueType;
   statutDGEC: StatutLauréat.RawType;
   dateMiseEnService?: DateTime.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
@@ -229,7 +228,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     nomProjet,
     numéroCRE,
     période,
-    référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
+    référenceDossier: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
     dateMiseEnService: miseEnService
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)

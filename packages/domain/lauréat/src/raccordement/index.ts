@@ -107,48 +107,8 @@ export type {
 
 // Event
 export type { RaccordementEvent } from './raccordement.aggregate';
-export type {
-  DemandeComplèteRaccordementModifiéeEvent,
-  DemandeComplèteRaccordementModifiéeEventV1,
-  DemandeComplèteRaccordementModifiéeEventV2,
-} from './modifier/modifierDemandeComplèteRaccordement.behavior';
-export type {
-  RéférenceDossierRacordementModifiéeEvent,
-  RéférenceDossierRacordementModifiéeEventV1,
-} from './modifier/modifierRéférenceDossierRaccordement.behavior';
-export type {
-  GestionnaireRéseauRaccordementModifiéEvent,
-  GestionnaireRéseauProjetModifiéEvent,
-} from './modifier/modifierGestionnaireRéseauRaccordement.behavior';
-export type {
-  PropositionTechniqueEtFinancièreModifiéeEvent,
-  PropositionTechniqueEtFinancièreModifiéeEventV1,
-} from './modifier/modifierPropositiontechniqueEtFinancière.behavior';
-export type {
-  DateMiseEnServiceTransmiseEvent,
-  DateMiseEnServiceTransmiseV1Event,
-} from './transmettre/transmettreDateMiseEnService.behavior';
-export type {
-  AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
-  DemandeComplèteRaccordementTransmiseEventV1,
-  DemandeComplèteRaccordementTransmiseEventV2,
-  DemandeComplèteRaccordementTransmiseEvent,
-} from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
-export type {
-  PropositionTechniqueEtFinancièreTransmiseEvent,
-  PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
-  PropositionTechniqueEtFinancièreTransmiseEventV1,
-} from './transmettre/transmettrePropositionTechniqueEtFinancière.behavior';
-export type {
-  GestionnaireRéseauAttribuéEvent,
-  GestionnaireRéseauInconnuAttribuéEvent,
-} from './attribuer/attribuerGestionnaireRéseau.behavior';
-export type { DateMiseEnServiceSuppriméeEvent } from './supprimer/supprimerDateMiseEnService.behavior';
-export type { DossierDuRaccordementSuppriméEvent } from './dossier/supprimer/supprimerDossierDuRaccordement.behavior';
-export type { RaccordementSuppriméEvent } from './supprimer/supprimerRaccordement.behavior';
 
 // ValueTypes
-export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
 export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType';
 
 // Saga

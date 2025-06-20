@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { Historique } from '@potentiel-domain/historique';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';

@@ -1,5 +1,5 @@
 import { Historique } from '@potentiel-domain/historique';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/projet';
 
 export const mapToDossierRacordementSuppriméTimelineItemProps = (
   modification: Historique.ListerHistoriqueProjetReadModel['items'][number],

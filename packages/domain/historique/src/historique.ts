@@ -1,10 +1,9 @@
 import { ListerHistoriqueProjetQuery } from './lister/listerHistoriqueProjet.query';
-import { ListerHistoriqueRaccordementProjetQuery } from './lister/listerHistoriqueRaccordementProjet.query';
 
 // Query
-export type HistoriqueQuery = ListerHistoriqueProjetQuery | ListerHistoriqueRaccordementProjetQuery;
+export type HistoriqueQuery = ListerHistoriqueProjetQuery;
 
-export type { ListerHistoriqueProjetQuery, ListerHistoriqueRaccordementProjetQuery };
+export type { ListerHistoriqueProjetQuery };
 
 // Read Models
 export type {
@@ -14,10 +13,6 @@ export type {
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
   HistoriqueAchèvementProjetListItemReadModel,
 } from './lister/listerHistoriqueProjet.query';
-export type {
-  ListerHistoriqueRaccordementProjetReadModel,
-  HistoriqueRaccordementProjetListItemReadModel,
-} from './lister/listerHistoriqueRaccordementProjet.query';
 
 // register
 export * from './register';

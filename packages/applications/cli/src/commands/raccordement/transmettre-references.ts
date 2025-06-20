@@ -7,11 +7,11 @@ import {
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
 import {
-  Raccordement,
+  Raccordement as RaccordementLauréat,
   registerLauréatQueries,
   registerLauréatUseCases,
 } from '@potentiel-domain/laureat';
-import { IdentifiantProjet, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { IdentifiantProjet, ProjetAggregateRoot, Raccordement } from '@potentiel-domain/projet';
 import { registerTâcheCommand } from '@potentiel-domain/tache';
 import {
   AppelOffreAdapter,
@@ -168,7 +168,7 @@ const handleLine = async ({
   référenceDossier: Raccordement.RéférenceDossierRaccordement.ValueType;
   dateAccuseRéception: DateTime.ValueType;
 }) => {
-  const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+  const raccordement = await mediator.send<RaccordementLauréat.ConsulterRaccordementQuery>({
     type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
@@ -187,7 +187,7 @@ const handleLine = async ({
     throw new Error('Multiples dossier');
   }
 
-  await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
+  await mediator.send<RaccordementLauréat.TransmettreDemandeComplèteRaccordementUseCase>({
     type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),

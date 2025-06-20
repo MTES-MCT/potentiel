@@ -1,36 +1,13 @@
 import { DateTime, Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../formatRéférenceDossierRaccordementInvalide.error';
 import { RéférenceDossierRaccordementDéjàExistantePourLeProjetError } from '../référenceDossierRaccordementDéjàExistante.error';
-
-/**
- * @deprecated Use RéférenceDossierRacordementModifiéeEvent.
- */
-export type RéférenceDossierRacordementModifiéeEventV1 = DomainEvent<
-  'RéférenceDossierRacordementModifiée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.RawType;
-    nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-  }
->;
-
-export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
-  'RéférenceDossierRacordementModifiée-V2',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.RawType;
-    nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    modifiéeLe: DateTime.RawType;
-    modifiéePar: Email.RawType;
-  }
->;
 
 type ModifierDemandeOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -79,16 +56,17 @@ export async function modifierRéférenceDossierRacordement(
     );
   }
 
-  const référenceDossierRacordementModifiée: RéférenceDossierRacordementModifiéeEvent = {
-    type: 'RéférenceDossierRacordementModifiée-V2',
-    payload: {
-      identifiantProjet: identifiantProjet.formatter(),
-      nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
-      référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
-      modifiéeLe: modifiéeLe.formatter(),
-      modifiéePar: modifiéePar.formatter(),
-    },
-  };
+  const référenceDossierRacordementModifiée: Raccordement.RéférenceDossierRacordementModifiéeEvent =
+    {
+      type: 'RéférenceDossierRacordementModifiée-V2',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        nouvelleRéférenceDossierRaccordement: nouvelleRéférenceDossierRaccordement.formatter(),
+        référenceDossierRaccordementActuelle: référenceDossierRaccordementActuelle.formatter(),
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
+      },
+    };
 
   await this.publish(référenceDossierRacordementModifiée);
 }
@@ -97,7 +75,9 @@ export function applyRéférenceDossierRacordementModifiéeEvent(
   this: RaccordementAggregate,
   {
     payload: { nouvelleRéférenceDossierRaccordement, référenceDossierRaccordementActuelle },
-  }: RéférenceDossierRacordementModifiéeEvent | RéférenceDossierRacordementModifiéeEventV1,
+  }:
+    | Raccordement.RéférenceDossierRacordementModifiéeEvent
+    | Raccordement.RéférenceDossierRacordementModifiéeEventV1,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle);
 

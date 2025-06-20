@@ -1,29 +1,10 @@
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { GestionnaireRéseauInconnuAttribuéEvent } from '../attribuer/attribuerGestionnaireRéseau.behavior';
-
-/**
- * @deprecated Utilisez GestionnaireRéseauRaccordementModifiéEvent et RéférenceDossierRacordementModifiéeEvent à la place. Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
- */
-export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
-  'GestionnaireRéseauProjetModifié-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
-  }
->;
-
-export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
-  'GestionnaireRéseauRaccordementModifié-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
-  }
->;
 
 type ModifierGestionnaireRéseauOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -51,7 +32,7 @@ export async function modifierGestionnaireRéseau(
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
     )
   ) {
-    const event: GestionnaireRéseauInconnuAttribuéEvent = {
+    const event: Raccordement.GestionnaireRéseauInconnuAttribuéEvent = {
       type: 'GestionnaireRéseauInconnuAttribué-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
@@ -60,7 +41,7 @@ export async function modifierGestionnaireRéseau(
 
     await this.publish(event);
   } else {
-    const event: GestionnaireRéseauRaccordementModifiéEvent = {
+    const event: Raccordement.GestionnaireRéseauRaccordementModifiéEvent = {
       type: 'GestionnaireRéseauRaccordementModifié-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
@@ -74,7 +55,9 @@ export async function modifierGestionnaireRéseau(
 
 export function applyGestionnaireRéseauRaccordementModifiéEventV1(
   this: RaccordementAggregate,
-  { payload: { identifiantGestionnaireRéseau } }: GestionnaireRéseauRaccordementModifiéEvent,
+  {
+    payload: { identifiantGestionnaireRéseau },
+  }: Raccordement.GestionnaireRéseauRaccordementModifiéEvent,
 ) {
   this.identifiantGestionnaireRéseau =
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
@@ -84,7 +67,7 @@ export function applyGestionnaireRéseauRaccordementModifiéEventV1(
 
 export function applyGestionnaireRéseauRaccordemenInconnuEventV1(
   this: RaccordementAggregate,
-  _: GestionnaireRéseauInconnuAttribuéEvent,
+  _: Raccordement.GestionnaireRéseauInconnuAttribuéEvent,
 ) {
   this.identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
 }

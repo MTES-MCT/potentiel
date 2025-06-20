@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
-import { Raccordement } from '@potentiel-domain/laureat';
+
+import { RaccordementEvent } from '../raccordement.event';
 
 export type HistoriqueRaccordementProjetListItemReadModel = HistoryRecord<
   'raccordement',
-  Raccordement.RaccordementEvent['type'],
-  Raccordement.RaccordementEvent['payload']
+  RaccordementEvent['type'],
+  RaccordementEvent['payload']
 >;
 
 export type ListerHistoriqueRaccordementProjetReadModel = {
@@ -16,7 +17,7 @@ export type ListerHistoriqueRaccordementProjetReadModel = {
 };
 
 export type ListerHistoriqueRaccordementProjetQuery = Message<
-  'Historique.Query.ListerHistoriqueRaccordementProjet',
+  'Lauréat.Raccordement.Query.ListerHistoriqueRaccordementProjet',
   {
     identifiantProjet: string;
     range?: RangeOptions;
@@ -41,5 +42,5 @@ export const registerListerHistoriqueRaccordementProjetQuery = ({
       range,
     });
 
-  mediator.register('Historique.Query.ListerHistoriqueRaccordementProjet', handler);
+  mediator.register('Lauréat.Raccordement.Query.ListerHistoriqueRaccordementProjet', handler);
 };

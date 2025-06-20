@@ -143,6 +143,8 @@ const référencielPermissions = {
         listerDossierRaccordement: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         listerDossierRaccordementManquants:
           'Lauréat.Raccordement.Query.ListerDossierRaccordementManquantsQuery',
+        listerHistoriqueRaccordement:
+          'Lauréat.Raccordement.Query.ListerHistoriqueRaccordementProjet',
       },
       usecase: {
         modifierDemandeComplète: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
@@ -265,6 +267,8 @@ const référencielPermissions = {
         consulterChangementEnCours:
           'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
         listerChangement: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
+        listerHistoriqueReprésentantLégal:
+          'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
       },
       usecase: {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
@@ -528,9 +532,6 @@ const référencielPermissions = {
   historique: {
     query: {
       lister: 'Historique.Query.ListerHistoriqueProjet',
-      listerHistoriqueReprésentantLégal:
-        'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
-      listerHistoriqueRaccordement: 'Historique.Query.ListerHistoriqueRaccordementProjet',
     },
   },
 } as const;
@@ -955,8 +956,8 @@ const policies = {
       référencielPermissions.lauréat.producteur.query.listerHistoriqueProducteur,
       référencielPermissions.lauréat.puissance.query.listerHistoriquePuissance,
       référencielPermissions.éliminé.recours.query.listerHistoriqueRecours,
-      référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
-      référencielPermissions.historique.query.listerHistoriqueRaccordement,
+      référencielPermissions.lauréat.représentantLégal.query.listerHistoriqueReprésentantLégal,
+      référencielPermissions.lauréat.raccordement.query.listerHistoriqueRaccordement,
       référencielPermissions.lauréat.fournisseur.query.listerHistoriqueFournisseur,
     ],
     imprimer: [],

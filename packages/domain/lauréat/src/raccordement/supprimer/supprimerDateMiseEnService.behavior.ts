@@ -1,19 +1,10 @@
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
-
-export type DateMiseEnServiceSuppriméeEvent = DomainEvent<
-  'DateMiseEnServiceSupprimée-V1',
-  {
-    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    suppriméeLe: DateTime.RawType;
-    suppriméePar: Email.RawType;
-  }
->;
 
 type SupprimerDateMiseEnServiceOptions = {
   référenceDossier: RéférenceDossierRaccordement.ValueType;
@@ -36,7 +27,7 @@ export async function supprimerDateMiseEnService(
     throw new DossierRaccordementPasEnServiceError();
   }
 
-  const dateMiseEnServiceSupprimée: DateMiseEnServiceSuppriméeEvent = {
+  const dateMiseEnServiceSupprimée: Raccordement.DateMiseEnServiceSuppriméeEvent = {
     type: 'DateMiseEnServiceSupprimée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -51,7 +42,7 @@ export async function supprimerDateMiseEnService(
 
 export function applyDateMiseEnServiceSuppriméeEventV1(
   this: RaccordementAggregate,
-  { payload: { référenceDossierRaccordement } }: DateMiseEnServiceSuppriméeEvent,
+  { payload: { référenceDossierRaccordement } }: Raccordement.DateMiseEnServiceSuppriméeEvent,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordement);
   dossier.miseEnService = {

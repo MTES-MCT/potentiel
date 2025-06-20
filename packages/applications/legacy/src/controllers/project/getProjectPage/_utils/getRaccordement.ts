@@ -1,10 +1,11 @@
 import { mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement as RaccordementLauréat } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Role } from '@potentiel-domain/utilisateur';
+import { Raccordement } from '@potentiel-domain/projet';
 
 type GetRaccordementProps = {
   role: Role.ValueType;
@@ -15,7 +16,7 @@ export const getRaccordement = async ({ role, identifiantProjet }: GetRaccordeme
     return Option.none;
   }
 
-  const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+  const raccordement = await mediator.send<RaccordementLauréat.ConsulterRaccordementQuery>({
     type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });

@@ -9,8 +9,6 @@ import {
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { HistoriqueRaccordementProjetListItemReadModel } from './listerHistoriqueRaccordementProjet.query';
-
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
   Lauréat.LauréatEvent['type'],
@@ -39,7 +37,7 @@ export type HistoriqueListItemReadModels =
   | Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel
   | Lauréat.Producteur.HistoriqueProducteurProjetListItemReadModel
   | HistoriqueAchèvementProjetListItemReadModel
-  | HistoriqueRaccordementProjetListItemReadModel;
+  | Lauréat.Raccordement.HistoriqueRaccordementProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 

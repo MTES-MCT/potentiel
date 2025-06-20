@@ -6,7 +6,7 @@ import {
   DateMiseEnServiceTransmise,
   DemandeComplèteRaccordementTransmise,
 } from '../modules/project';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/projet';
 
 /**
  * @deprecated à bouger dans la nouvelle app

@@ -9,7 +9,7 @@ import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { LauréatEntity } from '../../lauréat';
 import { CandidatureEntity } from '../../candidature';
 import { AccèsEntity } from '../accès.entity';
-import { RaccordementEntity } from '../../raccordement';
+import { RaccordementEntity } from '../../lauréat/raccordement';
 
 export type VérifierAccèsProjetQuery = Message<
   'System.Projet.Accès.Query.VérifierAccèsProjet',

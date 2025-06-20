@@ -1,4 +1,4 @@
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector';
 
