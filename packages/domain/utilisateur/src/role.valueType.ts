@@ -267,6 +267,8 @@ const référencielPermissions = {
         consulterChangementEnCours:
           'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
         listerChangement: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
+        listerHistoriqueReprésentantLégal:
+          'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
       },
       usecase: {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
@@ -530,8 +532,6 @@ const référencielPermissions = {
   historique: {
     query: {
       lister: 'Historique.Query.ListerHistoriqueProjet',
-      listerHistoriqueReprésentantLégal:
-        'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
     },
   },
 } as const;
@@ -956,7 +956,7 @@ const policies = {
       référencielPermissions.lauréat.producteur.query.listerHistoriqueProducteur,
       référencielPermissions.lauréat.puissance.query.listerHistoriquePuissance,
       référencielPermissions.éliminé.recours.query.listerHistoriqueRecours,
-      référencielPermissions.historique.query.listerHistoriqueReprésentantLégal,
+      référencielPermissions.lauréat.représentantLégal.query.listerHistoriqueReprésentantLégal,
       référencielPermissions.lauréat.raccordement.query.listerHistoriqueRaccordement,
       référencielPermissions.lauréat.fournisseur.query.listerHistoriqueFournisseur,
     ],
