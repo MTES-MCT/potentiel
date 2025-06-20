@@ -1,12 +1,12 @@
 import { faker } from '@faker-js/faker';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../fixture';
 
 interface ImporterReprésentantLégal {
   readonly nomReprésentantLégal: string;
-  readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  readonly typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   readonly importéLe: string;
 }
 
@@ -20,9 +20,9 @@ export class ImporterReprésentantLégalFixture
     return this.#nomReprésentantLégal;
   }
 
-  #typeReprésentantLégal!: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  #typeReprésentantLégal!: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
 
-  get typeReprésentantLégal(): ReprésentantLégal.TypeReprésentantLégal.ValueType {
+  get typeReprésentantLégal(): Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType {
     return this.#typeReprésentantLégal;
   }
 
@@ -37,7 +37,7 @@ export class ImporterReprésentantLégalFixture
   ): Readonly<ImporterReprésentantLégal> {
     const fixture = {
       nomReprésentantLégal: faker.person.fullName(),
-      typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu,
+      typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.inconnu,
       importéLe: faker.date.recent().toISOString(),
       ...partialFixture,
     };

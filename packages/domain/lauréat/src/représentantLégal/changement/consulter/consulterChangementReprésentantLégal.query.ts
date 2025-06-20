@@ -4,9 +4,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégal } from '../../..';
-import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
+import { StatutChangementReprésentantLégal } from '../..';
 
 export type ConsulterChangementReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -14,14 +15,14 @@ export type ConsulterChangementReprésentantLégalReadModel = {
   demande: {
     statut: StatutChangementReprésentantLégal.ValueType;
     nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+    typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: Email.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
 
     accord?: {
       nomReprésentantLégal: string;
-      typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+      typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
       accordéPar: Email.ValueType;
       accordéLe: DateTime.ValueType;
     };
@@ -93,7 +94,7 @@ const mapToReadModel: MapToReadModel = ({
         demande.statut,
       ),
       nomReprésentantLégal: demande.nomReprésentantLégal,
-      typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+      typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
         demande.typeReprésentantLégal,
       ),
       pièceJustificative: DocumentProjet.convertirEnValueType(
@@ -106,7 +107,7 @@ const mapToReadModel: MapToReadModel = ({
       demandéPar: Email.convertirEnValueType(demande.demandéPar),
       accord: accord && {
         nomReprésentantLégal: accord.nomReprésentantLégal,
-        typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+        typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
           accord.typeReprésentantLégal,
         ),
         accordéPar: Email.convertirEnValueType(accord.accordéPar),

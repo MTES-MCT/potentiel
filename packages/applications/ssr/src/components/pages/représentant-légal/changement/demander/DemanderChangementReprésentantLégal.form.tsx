@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -28,7 +28,7 @@ export type DemanderChangementReprésentantLégalFormProps = {
 
 type DemanderChangementReprésentantLégalState = {
   step: number;
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
   nomReprésentantLégal: string;
   piècesJustificatives: Array<string>;

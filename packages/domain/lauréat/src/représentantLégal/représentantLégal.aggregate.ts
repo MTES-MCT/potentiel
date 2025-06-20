@@ -8,76 +8,69 @@ import {
 } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '.';
+import { StatutChangementReprésentantLégal } from '.';
 
 import {
   applyReprésentantLégalImporté,
   importer,
-  ReprésentantLégalImportéEvent,
 } from './importer/importerReprésentantLégal.behavior';
 import {
   applyReprésentantLégalModifié,
   modifier,
-  ReprésentantLégalModifiéEvent,
 } from './modifier/modifierReprésentantLégal.behavior';
 import {
   applyChangementReprésentantLégalDemandé,
-  ChangementReprésentantLégalDemandéEvent,
   demander,
 } from './changement/demander/demanderChangementReprésentantLégal.behavior';
 import {
   applyChangementReprésentantLégalAccordé,
-  ChangementReprésentantLégalAccordéEvent,
   accorder,
 } from './changement/accorder/accorderChangementReprésentantLégal.behavior';
 import {
   applyChangementReprésentantLégalRejeté,
-  ChangementReprésentantLégalRejetéEvent,
   rejeter,
 } from './changement/rejeter/rejeterChangementReprésentantLégal.behavior';
 import {
   applyChangementReprésentantLégalSupprimé,
-  ChangementReprésentantLégalSuppriméEvent,
   supprimer,
 } from './changement/supprimer/supprimerChangementReprésentantLégal.behavior';
 import {
   annuler,
   applyChangementReprésentantLégalAnnulé,
-  ChangementReprésentantLégalAnnuléEvent,
 } from './changement/annuler/annulerChangementReprésentantLégal.behavior';
 import {
   applyChangementReprésentantLégalCorrigé,
-  ChangementReprésentantLégalCorrigéEvent,
   corriger,
 } from './changement/corriger/corrigerChangementReprésentantLégal.behavior';
 
 export type ReprésentantLégalEvent =
-  | ReprésentantLégalImportéEvent
-  | ReprésentantLégalModifiéEvent
-  | ChangementReprésentantLégalDemandéEvent
-  | ChangementReprésentantLégalCorrigéEvent
-  | ChangementReprésentantLégalAccordéEvent
-  | ChangementReprésentantLégalRejetéEvent
-  | ChangementReprésentantLégalSuppriméEvent
-  | ChangementReprésentantLégalAnnuléEvent;
+  | Lauréat.ReprésentantLégal.ReprésentantLégalImportéEvent
+  | Lauréat.ReprésentantLégal.ReprésentantLégalModifiéEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent
+  | Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
   représentantLégal: {
     nom: string;
-    type: TypeReprésentantLégal.ValueType;
+    type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   };
 
   demande?: {
     statut: StatutChangementReprésentantLégal.ValueType;
     nom: string;
-    type: TypeReprésentantLégal.ValueType;
+    type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
     demandéLe: DateTime.ValueType;
 
     accord?: {
       nom: string;
-      type: TypeReprésentantLégal.ValueType;
+      type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
       accordéLe: DateTime.ValueType;
     };
     rejet?: {
@@ -102,7 +95,7 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   apply,
   représentantLégal: {
     nom: '',
-    type: TypeReprésentantLégal.inconnu,
+    type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.inconnu,
   },
   importer,
   modifier,

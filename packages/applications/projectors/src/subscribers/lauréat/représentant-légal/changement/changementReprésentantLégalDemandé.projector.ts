@@ -1,4 +1,5 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import {
   updateOneProjection,
   upsertProjection,
@@ -13,7 +14,7 @@ export const changementReprésentantLégalDemandéProjector = async ({
     demandéLe,
     demandéPar,
   },
-}: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
+}: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
   const identifiantChangement = `${identifiantProjet}#${demandéLe}`;
 
   await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(

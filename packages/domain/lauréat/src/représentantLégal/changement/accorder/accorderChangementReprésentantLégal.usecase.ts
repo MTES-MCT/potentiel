@@ -6,8 +6,9 @@ import { match } from 'ts-pattern';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { TypeReprésentantLégal, TypeTâchePlanifiéeChangementReprésentantLégal } from '../..';
+import { TypeTâchePlanifiéeChangementReprésentantLégal } from '../..';
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 import { AccorderChangementReprésentantLégalCommand } from './accorderChangementReprésentantLégal.command';
@@ -46,7 +47,7 @@ export const registerAccorderChangementReprésentantLégalUseCase = () => {
         identifiantUtilisateur,
         identifiantProjet,
         nomReprésentantLégal: options.nomReprésentantLégalValue,
-        typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+        typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
           options.typeReprésentantLégalValue,
         ),
         accordAutomatique: false as const,

@@ -40,6 +40,10 @@ import {
   ActionnaireQueryDependencies,
   registerActionnaireQueries,
 } from './actionnaire/actionnaire.register';
+import {
+  registerReprésentantLégalQueries,
+  ReprésentantLégalQueryDependencies,
+} from './représentantLégal/représentantLégal.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
@@ -48,7 +52,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   PuissanceQueryDependencies &
   FournisseurQueryDependencies &
   AbandonQueryDependencies &
-  ActionnaireQueryDependencies;
+  ActionnaireQueryDependencies &
+  ReprésentantLégalQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -82,4 +87,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerAbandonQueries(dependencies);
   registerFournisseurQueries(dependencies);
   registerActionnaireQueries(dependencies);
+  registerReprésentantLégalQueries(dependencies);
 };

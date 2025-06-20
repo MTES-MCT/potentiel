@@ -5,6 +5,7 @@ import { mediator } from 'mediateur';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -13,7 +14,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const commonSchema = zod.object({
   identifiantProjet: zod.string().min(1),
-  typeRepresentantLegal: zod.enum(ReprésentantLégal.TypeReprésentantLégal.types, {
+  typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
     invalid_type_error: 'Le type de réprésentant légal est invalide',
     required_error: 'Champ obligatoire',
   }),

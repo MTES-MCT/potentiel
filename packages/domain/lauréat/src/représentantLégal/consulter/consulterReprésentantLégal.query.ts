@@ -3,14 +3,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégal } from '../..';
-import { ReprésentantLégalEntity, TypeReprésentantLégal } from '..';
+import { ReprésentantLégalEntity } from '..';
 
 export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
-  typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   demandeEnCours?: {
     demandéLe: string;
   };
@@ -60,7 +61,7 @@ type MapToReadModel = (args: {
 const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal }) => ({
   identifiantProjet,
   nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
-  typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
     représentantLégal.typeReprésentantLégal,
   ),
   demandeEnCours: représentantLégal.demandeEnCours,

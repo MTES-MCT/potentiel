@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { loadReprésentantLégalFactory } from '../représentantLégal.aggregate';
-import { TypeReprésentantLégal } from '..';
 
 export type ModifierReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
@@ -12,7 +12,7 @@ export type ModifierReprésentantLégalCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+    typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
     dateModification: DateTime.ValueType;
   }
 >;

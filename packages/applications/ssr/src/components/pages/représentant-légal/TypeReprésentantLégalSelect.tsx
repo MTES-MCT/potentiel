@@ -1,7 +1,7 @@
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 import { match } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export type TypeReprésentantLégalSelectProps = {
   id: string;
@@ -11,9 +11,9 @@ export type TypeReprésentantLégalSelectProps = {
   disabled?: boolean;
   state?: SelectProps.State | 'default';
   stateRelatedMessage?: string;
-  typeReprésentantLégalActuel: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégalActuel: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   onTypeReprésentantLégalSelected?: (
-    typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType,
+    typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType,
   ) => void;
 };
 
@@ -28,13 +28,13 @@ export const TypeReprésentantLégalSelect = ({
   typeReprésentantLégalActuel,
   onTypeReprésentantLégalSelected,
 }: TypeReprésentantLégalSelectProps) => {
-  const defaultValue = ReprésentantLégal.TypeReprésentantLégal.bind({
+  const defaultValue = Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind({
     type: typeReprésentantLégalActuel,
   }).estInconnu()
     ? undefined
     : typeReprésentantLégalActuel;
 
-  const typesReprésentantLégalOptions = ReprésentantLégal.TypeReprésentantLégal.types
+  const typesReprésentantLégalOptions = Lauréat.ReprésentantLégal.TypeReprésentantLégal.types
     .filter((type) => type !== 'inconnu')
     .map((type) => ({
       label: match(type)

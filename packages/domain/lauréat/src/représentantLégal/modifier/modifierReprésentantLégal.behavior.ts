@@ -1,26 +1,15 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
-import { TypeReprésentantLégal } from '..';
 import { ReprésentantLégalIdentifiqueError } from '../représentantLégalIdentique.error';
-
-export type ReprésentantLégalModifiéEvent = DomainEvent<
-  'ReprésentantLégalModifié-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.RawType;
-    modifiéLe: DateTime.RawType;
-    modifiéPar: Email.RawType;
-  }
->;
 
 export type ModifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   nomReprésentantLégal: string;
-  typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   dateModification: DateTime.ValueType;
   demandeDeChangementEnCours: boolean;
 };
@@ -47,7 +36,7 @@ export async function modifier(
     throw new ReprésentantLégalIdentifiqueError();
   }
 
-  const event: ReprésentantLégalModifiéEvent = {
+  const event: Lauréat.ReprésentantLégal.ReprésentantLégalModifiéEvent = {
     type: 'ReprésentantLégalModifié-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -63,11 +52,15 @@ export async function modifier(
 
 export function applyReprésentantLégalModifié(
   this: ReprésentantLégalAggregate,
-  { payload: { nomReprésentantLégal, typeReprésentantLégal } }: ReprésentantLégalModifiéEvent,
+  {
+    payload: { nomReprésentantLégal, typeReprésentantLégal },
+  }: Lauréat.ReprésentantLégal.ReprésentantLégalModifiéEvent,
 ) {
   this.représentantLégal = {
     nom: nomReprésentantLégal,
-    type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+    type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+      typeReprésentantLégal,
+    ),
   };
 }
 

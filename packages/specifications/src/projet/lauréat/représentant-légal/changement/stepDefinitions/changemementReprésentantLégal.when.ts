@@ -5,6 +5,7 @@ import { match } from 'ts-pattern';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { ExécuterTâchePlanifiéeUseCase } from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture';
@@ -41,7 +42,7 @@ Quand(
     await demanderChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
       typeReprésentantLégal:
-        ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
+        Lauréat.ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
     });
   },
 );

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
@@ -16,7 +16,7 @@ import {
 
 type AccorderChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
 };
 

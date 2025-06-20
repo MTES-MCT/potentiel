@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../../fixture';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
@@ -15,7 +16,7 @@ export type CréerCorrectionChangementReprésentantLégalFixture = Partial<
 
 export interface CorrigerChangementReprésentantLégal {
   readonly nomReprésentantLégal: string;
-  readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  readonly typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
   readonly pièceJustificative: PièceJustificative;
   readonly corrigéLe: string;
   readonly corrigéPar: string;
@@ -37,9 +38,9 @@ export class CorrigerChangementReprésentantLégalFixture
     return this.#nomReprésentantLégal;
   }
 
-  #typeReprésentantLégal!: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  #typeReprésentantLégal!: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
 
-  get typeReprésentantLégal(): ReprésentantLégal.TypeReprésentantLégal.ValueType {
+  get typeReprésentantLégal(): Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType {
     return this.#typeReprésentantLégal;
   }
 
@@ -79,7 +80,7 @@ export class CorrigerChangementReprésentantLégalFixture
     const fixture = {
       statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé,
       nomReprésentantLégal: faker.person.fullName(),
-      typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.personneMorale,
+      typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personneMorale,
       corrigéLe: faker.date.recent().toISOString(),
       corrigéPar: faker.internet.email(),
       pièceJustificative: {

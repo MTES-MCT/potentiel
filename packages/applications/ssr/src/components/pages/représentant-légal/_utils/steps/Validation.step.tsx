@@ -3,12 +3,12 @@ import { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 import { match } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TypeSociété } from './SaisieTypeSociété.step';
 
 type ValidationStepProps = {
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété?: TypeSociété;
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;

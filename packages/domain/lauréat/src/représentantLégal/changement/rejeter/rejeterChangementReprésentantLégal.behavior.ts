@@ -1,20 +1,9 @@
-import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import * as StatutChangementReprésentantLégal from '../statutChangementReprésentantLégal.valueType';
 import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
-
-export type ChangementReprésentantLégalRejetéEvent = DomainEvent<
-  'ChangementReprésentantLégalRejeté-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    motifRejet: string;
-    rejetéLe: DateTime.RawType;
-    rejetéPar: Email.RawType;
-    rejetAutomatique: boolean;
-  }
->;
 
 export type RejeterOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -42,7 +31,7 @@ export async function rejeter(
     StatutChangementReprésentantLégal.rejeté,
   );
 
-  const event: ChangementReprésentantLégalRejetéEvent = {
+  const event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent = {
     type: 'ChangementReprésentantLégalRejeté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -58,7 +47,7 @@ export async function rejeter(
 
 export function applyChangementReprésentantLégalRejeté(
   this: ReprésentantLégalAggregate,
-  { payload: { rejetéLe } }: ChangementReprésentantLégalRejetéEvent,
+  { payload: { rejetéLe } }: Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
 ) {
   if (this.demande) {
     this.demande.statut = StatutChangementReprésentantLégal.rejeté;

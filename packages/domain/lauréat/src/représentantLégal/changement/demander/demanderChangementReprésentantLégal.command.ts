@@ -3,10 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import { GetProjetAggregateRoot, Lauréat } from '@potentiel-domain/projet';
 
 import { loadReprésentantLégalFactory } from '../../représentantLégal.aggregate';
-import { TypeReprésentantLégal } from '../..';
 
 import {
   ProjetAbandonnéError,
@@ -19,7 +18,7 @@ export type DemanderChangementReprésentantLégalCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+    typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;

@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
+import { ReprésentantLégalEvent } from '../représentantLégal.event';
 
 export type HistoriqueReprésentantLégalProjetListItemReadModel = HistoryRecord<
   'représentant-légal',
-  ReprésentantLégal.ReprésentantLégalEvent['type'],
-  ReprésentantLégal.ReprésentantLégalEvent['payload']
+  ReprésentantLégalEvent['type'],
+  ReprésentantLégalEvent['payload']
 >;
 
 export type ListerHistoriqueReprésentantLégalProjetReadModel = {
@@ -16,7 +17,7 @@ export type ListerHistoriqueReprésentantLégalProjetReadModel = {
 };
 
 export type ListerHistoriqueReprésentantLégalProjetQuery = Message<
-  'Historique.Query.ListerHistoriqueReprésentantLégalProjet',
+  'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
   {
     identifiantProjet: string;
     range?: RangeOptions;
@@ -41,5 +42,8 @@ export const registerListerHistoriqueReprésentantLégalProjetQuery = ({
       range,
     });
 
-  mediator.register('Historique.Query.ListerHistoriqueReprésentantLégalProjet', handler);
+  mediator.register(
+    'Lauréat.ReprésentantLégal.Query.ListerHistoriqueReprésentantLégalProjet',
+    handler,
+  );
 };

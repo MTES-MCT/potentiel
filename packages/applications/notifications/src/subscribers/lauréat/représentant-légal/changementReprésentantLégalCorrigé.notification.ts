@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -14,7 +14,7 @@ import { représentantLégalNotificationTemplateId } from './constant';
 
 type ChangementReprésentantLégalCorrigéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
-  event: ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent;
+  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent;
   projet: {
     nom: string;
     département: string;

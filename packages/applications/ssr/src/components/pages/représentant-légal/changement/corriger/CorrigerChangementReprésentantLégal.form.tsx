@@ -7,6 +7,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -35,7 +36,7 @@ export type CorrigerChangementReprésentantLégalFormProps = PlainType<{
 
 type CorrigerChangementReprésentantLégalState = {
   step: number;
-  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
   nomReprésentantLégal: string;
   piècesJustificatives: Array<string>;
