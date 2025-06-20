@@ -105,13 +105,14 @@ export class ActionnaireAggregate extends AbstractAggregate<ActionnaireEvent> {
     identifiantUtilisateur,
     pièceJustificative,
     raison,
-    typeActionnariat,
   }: EnregistrerChangementOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible();
 
     const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
       appelOffre: this.identifiantProjet.appelOffre,
-      typeActionnariat,
+      // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
+      // Par ailleurs les données sont les mêmes à date (janv 2025)
+      typeActionnariat: this.#lauréat.projet.candidature.typeActionnariat,
       aUnDépotEnCours: this.#lauréat.garantiesFinancières.aUnDépôtEnCours,
       aDesGarantiesFinancièresConstituées:
         this.#lauréat.garantiesFinancières.aDesGarantiesFinancières,
@@ -144,7 +145,6 @@ export class ActionnaireAggregate extends AbstractAggregate<ActionnaireEvent> {
 
   // l'actionnaire peut être le même
   // car une demande peut être une simple transmission de documents
-  // vérifier la règle sur les GFs
   async demanderChangement({
     identifiantUtilisateur,
     actionnaire,

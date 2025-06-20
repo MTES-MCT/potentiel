@@ -25,7 +25,6 @@ export const registerAnnulerChangementActionnaireCommand = (
 
     await projet.lauréat.actionnaire.annulerDemandeChangement({
       dateAnnulation,
-      identifiantProjet,
       identifiantUtilisateur,
     });
   };

@@ -31,7 +31,6 @@ export const registerDemanderChangementActionnaireCommand = (
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.actionnaire.demanderChangement({
-      identifiantProjet,
       pièceJustificative,
       raison,
       identifiantUtilisateur,

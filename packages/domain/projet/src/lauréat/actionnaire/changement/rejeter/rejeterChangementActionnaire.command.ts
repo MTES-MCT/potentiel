@@ -27,7 +27,6 @@ export const registerRejeterChangementActionnaireCommand = (
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.actionnaire.rejeterDemandeChangement({
-      identifiantProjet,
       rejetéLe,
       rejetéPar,
       réponseSignée,

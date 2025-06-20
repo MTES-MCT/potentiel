@@ -31,7 +31,6 @@ export const registerModifierActionnaireCommand = (
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.actionnaire.modifier({
-      identifiantProjet,
       identifiantUtilisateur,
       actionnaire,
       dateModification,

@@ -28,18 +28,14 @@ export const registerEnregistrerChangementActionnaireCommand = (
     pièceJustificative,
     raison,
   }) => {
-    // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
-    // Par ailleurs les données sont les mêmes à date (janv 2025)
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.actionnaire.enregistrerChangement({
-      identifiantProjet,
       identifiantUtilisateur,
       actionnaire,
       dateChangement,
       pièceJustificative,
       raison,
-      typeActionnariat: projet.candidature.typeActionnariat,
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.EnregistrerChangement', handler);

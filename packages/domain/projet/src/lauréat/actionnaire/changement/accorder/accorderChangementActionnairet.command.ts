@@ -27,7 +27,6 @@ export const registerAccorderChangementActionnaireCommand = (
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.actionnaire.accorderDemandeChangement({
-      identifiantProjet,
       accordéLe,
       accordéPar,
       réponseSignée,

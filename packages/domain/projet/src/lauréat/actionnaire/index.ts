@@ -1,6 +1,4 @@
-import { AccorderChangementActionnaireCommand } from './changement/accorder/accorderChangementActionnairet.command';
 import { AccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase';
-import { AnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command';
 import { AnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase';
 import {
   ConsulterChangementActionnaireQuery,
@@ -11,17 +9,13 @@ import {
   ListerChangementActionnaireQuery,
   ListerChangementActionnaireReadModel,
 } from './changement/lister/listerChangementActionnaire.query';
-import { RejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
 import { RejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
 import {
   ConsulterActionnaireQuery,
   ConsulterActionnaireReadModel,
 } from './consulter/consulterActionnaire.query';
-import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
-import { SupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
 import { EnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
-import { EnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
 import {
   ListerHistoriqueActionnaireProjetReadModel,
   HistoriqueActionnaireProjetListItemReadModel,
@@ -65,23 +59,6 @@ export type {
   AccorderChangementActionnaireUseCase,
   RejeterChangementActionnaireUseCase,
   EnregistrerChangementActionnaireUseCase,
-};
-
-// Command
-export type ActionnaireCommand =
-  | ModifierActionnaireCommand
-  | AnnulerChangementActionnaireCommand
-  | AccorderChangementActionnaireCommand
-  | RejeterChangementActionnaireCommand
-  | SupprimerChangementActionnaireCommand
-  | EnregistrerChangementActionnaireCommand;
-export type {
-  ModifierActionnaireCommand,
-  AnnulerChangementActionnaireCommand,
-  AccorderChangementActionnaireCommand,
-  RejeterChangementActionnaireCommand,
-  SupprimerChangementActionnaireCommand,
-  EnregistrerChangementActionnaireCommand,
 };
 
 // Event
