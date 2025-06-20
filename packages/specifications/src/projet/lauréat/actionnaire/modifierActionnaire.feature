@@ -70,6 +70,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
 
     Scénario: Impossible de modifier l'actionnaire d'un projet lauréat alors qu'un changement d'actionnaire est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges modificatif choisi
         Et la dreal "DREAL" associée à la région du projet
         Et une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
