@@ -30,8 +30,10 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
       <ol className="pl-0 overflow-hidden list-none">
         {étapes
           .sort((a, b) => a.date - b.date)
-          .map((étape) =>
-            match(étape)
+          .map((étape, index) => {
+            const isLastItem = index === étapes.length - 1;
+
+            return match(étape)
               .with({ type: 'designation' }, ({ type, date }) => (
                 <ÉtapeTerminée
                   key={`project-step-${type}`}
@@ -56,7 +58,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
               ))
               .with({ type: 'abandon' }, ({ type, date }) => (
                 <ÉtapeTerminée
-                  isLastItem
+                  isLastItem={isLastItem}
                   key={`project-step-${type}`}
                   titre="Abandon accordé"
                   date={date}
@@ -78,14 +80,14 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
               ))
               .with({ type: 'achèvement-réel' }, ({ type, date }) => (
                 <ÉtapeTerminée
-                  isLastItem={!!étapes.find((étape) => étape.type === 'mise-en-service')}
+                  isLastItem={isLastItem}
                   key={`project-step-${type}`}
                   titre="Date d'achèvement réelle"
                   date={date}
                 />
               ))
-              .exhaustive(),
-          )}
+              .exhaustive();
+          })}
 
         {!étapes.find((étape) => étape.type === 'abandon') && (
           <>
