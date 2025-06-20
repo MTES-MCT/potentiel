@@ -24,12 +24,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
 
   async init(lauréat: LauréatAggregate) {
     this.#lauréat = lauréat;
-
-    // this.#aDesGarantiesFinancières = this.lauréat.projet.candidature.typeGarantiesFinancières
-    //   ? !this.lauréat.projet.candidature.typeGarantiesFinancières.estInconnu()
-    //   : false;
-
-    // this.#aUnDépôtEnCours = false;
   }
 
   apply(event: GarantiesFinancièresEvent): void {
