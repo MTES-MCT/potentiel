@@ -82,7 +82,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"
 
-    Scénario: Impossible d'enregistrer le changement d'actionnaire' d'un projet lauréat dont le cahier des charges ne le permet pas
+    Scénario: Impossible d'enregistrer le changement d'actionnaire d'un projet lauréat ayant un cahier des charges qui ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
