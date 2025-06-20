@@ -185,6 +185,8 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
       importéLe: notifiéeLe,
       identifiantUtilisateur: notifiéePar,
     });
+
+    await this.garantiesFinancières.importer();
   }
 
   async modifier({
