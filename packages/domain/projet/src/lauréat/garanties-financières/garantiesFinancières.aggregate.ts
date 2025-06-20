@@ -24,14 +24,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
 
   async init(lauréat: LauréatAggregate) {
     this.#lauréat = lauréat;
-  }
 
-  async importer() {
-    this.#aDesGarantiesFinancières = this.lauréat.projet.candidature.typeGarantiesFinancières
-      ? !this.lauréat.projet.candidature.typeGarantiesFinancières.estInconnu()
-      : false;
+    // this.#aDesGarantiesFinancières = this.lauréat.projet.candidature.typeGarantiesFinancières
+    //   ? !this.lauréat.projet.candidature.typeGarantiesFinancières.estInconnu()
+    //   : false;
 
-    this.#aUnDépôtEnCours = false;
+    // this.#aUnDépôtEnCours = false;
   }
 
   apply(event: GarantiesFinancièresEvent): void {
@@ -84,6 +82,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
         },
         () => this.applyGarantiesFinancièresModifiéesV1(),
       )
+      .with(
+        {
+          type: 'TypeGarantiesFinancièresImporté-V1',
+        },
+        () => this.applyTypeGarantiesFinancièresImportéV1(),
+      )
       .otherwise(() => {});
     // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
     // .exhaustive();
@@ -122,5 +126,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
   private applyHistoriqueGarantiesFinancièresEffacéV1() {
     this.#aDesGarantiesFinancières = false;
     this.#aUnDépôtEnCours = false;
+  }
+
+  private applyTypeGarantiesFinancièresImportéV1() {
+    this.#aDesGarantiesFinancières = true;
   }
 }
