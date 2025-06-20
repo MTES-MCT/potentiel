@@ -13,6 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { candidatureCsvSchema, CandidatureShape } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
+import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
 import { getLocalité } from '../helpers';
 
@@ -116,9 +117,3 @@ const mapLineToUseCaseData = (
 });
 
 export const corrigerCandidaturesAction = formAction(action, schema);
-
-const removeEmptyValues = (projectRawLine: Record<string, string>) => {
-  return Object.fromEntries(
-    Object.entries(projectRawLine).filter(([, value]) => !['', 'N/A', '#N/A', '0'].includes(value)),
-  );
-};
