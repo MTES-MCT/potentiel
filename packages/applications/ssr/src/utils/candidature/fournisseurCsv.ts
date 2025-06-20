@@ -1,5 +1,4 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 
 // Etat actuel des colonnes du CSV
 const champsCsvFournisseur: Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string> = {
@@ -9,7 +8,7 @@ const champsCsvFournisseur: Record<Lauréat.Fournisseur.TypeFournisseur.RawType,
   polysilicium: 'Polysilicium',
   'postes-conversion': 'Postes de conversion',
   structure: 'Structure',
-  'dispositifs-stockage-energie': 'Dispositifs de stockage de l’énergie *',
+  'dispositifs-stockage-energie': "Dispositifs de stockage de l'énergie *",
   'dispositifs-suivi-course-soleil': 'Dispositifs de suivi de la course du soleil *',
   'autres-technologies': 'Autres technologies',
   'dispositif-de-production': 'dispositif de production',
@@ -23,31 +22,90 @@ const labelCsvToTypeFournisseur = Object.fromEntries(
   Object.entries(champsCsvFournisseur).map(([key, value]) => [value, key]),
 ) as Record<string, Lauréat.Fournisseur.TypeFournisseur.RawType>;
 
-const regex = /Nom du fabricant\s?\s\((?<type>.*)\)\s?\d?/;
-const mapCsvLabelToTypeFournisseur = (typeValue: string) => {
-  const type = typeValue.match(regex)?.groups?.type;
+const regex = /(?<field>.*)\s+?\((?<type>.*)\)\s?(?<index>\d)$/;
+
+const mapDétailsToFournisseur = (key: string) => {
+  const { type, index, field } =
+    key.replaceAll('’', "'").replaceAll('\n', '').match(regex)?.groups ?? {};
   if (type && labelCsvToTypeFournisseur[type]) {
-    return Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
-      labelCsvToTypeFournisseur[type],
-    );
+    return {
+      type: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
+        labelCsvToTypeFournisseur[type],
+      ).formatter(),
+      field,
+      index,
+    };
   }
-  return Option.none;
 };
 
-export const mapCsvRowToFournisseurs = (payload: Record<string, string>) => {
-  const fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType> = [];
+/**
+ * Convertit un objet ayant pour forme :
+ * ```
+ * {
+ *  "Nom du fabricant (Cellules) 1": "AAA",
+ *  "Nom du fabricant (Cellules) 2": "BBB",
+ *  "Lieu(x) de fabrication (Cellules) 1": "Chine",
+ *  "Lieu(x) de fabrication (Cellules) 2": "Italie",
+ *  "Nom du fabricant \n(Polysilicium) 1": "CCC",
+ *  "Lieu(x) de fabrication \n(Polysilicium) 1": "Etats-Unis",
+ * }
+ * ```
+ * en un array ayant pour forme :
+ * ```
+ * [
+ *  { typeFournisseur: 'module-ou-films', nomDuProducteur:"AAA", lieuDeFabrication: 'Chine' },
+ *  { typeFournisseur: 'module-ou-films', nomDuProducteur:"BBB", lieuDeFabrication: 'Italie' },
+ *  { typeFournisseur: 'polysilicium', nomDuProducteur:"CCC", lieuDeFabrication: 'Etats-Unis' },
+ * ]
+ * ```
+ *
+ */
+export const mapCsvRowToFournisseurs = (
+  payload: Record<string, string>,
+): Lauréat.Fournisseur.Fournisseur.RawType[] => {
+  // on récupère le type de fournisseur (cellules), la propriété (Nom du fabricant...), l'index (1,2,3...) et la valeur (AAA)
+  const fieldsArray = Object.entries(payload)
+    .map(([key, value]) => {
+      const fournisseur = mapDétailsToFournisseur(key);
 
-  for (const [key, value] of Object.entries(payload)) {
-    const type = mapCsvLabelToTypeFournisseur(key);
-    if (Option.isNone(type)) {
-      continue;
-    }
+      if (fournisseur) {
+        return { ...fournisseur, valeur: value };
+      }
+    })
+    .filter((item) => item !== undefined);
 
-    fournisseurs.push({
-      typeFournisseur: type.formatter(),
-      nomDuFabricant: value,
-    });
-  }
-
-  return fournisseurs;
+  // on construit l'objet complet en groupant par type et index
+  // l'index n'est pas utilisé en tant que tel car des valeurs pourraient être omises
+  return Object.values(groupBy(fieldsArray, (item) => item.type + '-' + item.index))
+    .filter((champsParTypeEtIndex) => !!champsParTypeEtIndex)
+    .map((champsParTypeEtIndex) =>
+      champsParTypeEtIndex.reduce(
+        (prev, { field, valeur }) => {
+          if (field === 'Nom du fabricant') prev.nomDuFabricant = valeur;
+          if (field === 'Lieu(x) de fabrication') prev.lieuDeFabrication = valeur;
+          return prev;
+        },
+        {
+          typeFournisseur: champsParTypeEtIndex[0].type,
+          lieuDeFabrication: '',
+          nomDuFabricant: '',
+        } as Lauréat.Fournisseur.Fournisseur.RawType,
+      ),
+    )
+    .filter((fournisseur) => fournisseur.typeFournisseur && fournisseur.nomDuFabricant);
 };
+
+/** @deprecated replace with Object.groupBy when available */
+const groupBy = <K extends PropertyKey, T>(
+  items: T[],
+  keySelector: (item: T, index: number) => K,
+): Partial<Record<K, T[]>> =>
+  items.reduce(
+    (result, item, index) => {
+      const key = keySelector(item, index);
+      result[key] ??= [];
+      result[key].push(item);
+      return result;
+    },
+    {} as Record<K, T[]>,
+  );

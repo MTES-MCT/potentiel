@@ -118,5 +118,7 @@ const mapLineToUseCaseData = (
 export const corrigerCandidaturesAction = formAction(action, schema);
 
 const removeEmptyValues = (projectRawLine: Record<string, string>) => {
-  return Object.fromEntries(Object.entries(projectRawLine).filter(([, value]) => value !== ''));
+  return Object.fromEntries(
+    Object.entries(projectRawLine).filter(([, value]) => !['', 'N/A', '#N/A', '0'].includes(value)),
+  );
 };
