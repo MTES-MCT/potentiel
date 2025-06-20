@@ -142,12 +142,9 @@ export class CandidatureWorld {
         'application/json',
       ),
       misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-      fournisseurs: expectedValues.fournisseursValue.map((fournisseur) => ({
-        typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
-          fournisseur.typeFournisseur,
-        ),
-        nomDuFabricant: fournisseur.nomDuFabricant,
-      })),
+      fournisseurs: expectedValues.fournisseursValue.map(
+        Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
+      ),
       unitéPuissance: Candidature.UnitéPuissance.déterminer({
         appelOffres: appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre)!,
         période: identifiantProjet.période,

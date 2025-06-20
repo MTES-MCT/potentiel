@@ -71,6 +71,7 @@ export class EnregistrerChangementFournisseurFixture
         .map((typeFournisseur) => ({
           typeFournisseur,
           nomDuFabricant: faker.company.name(),
+          lieuDeFabrication: faker.location.country(),
         })),
       raison: faker.word.words(),
       pièceJustificative: {

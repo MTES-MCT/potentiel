@@ -8,12 +8,14 @@ import { Candidature } from '@potentiel-domain/projet';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { candidatureCsvSchema, CandidatureShape } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
+import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
 import { getLocalité } from '../helpers';
 
@@ -47,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
         await mediator.send<Candidature.ImporterCandidatureUseCase>({
           type: 'Candidature.UseCase.ImporterCandidature',
           data: {
-            ...mapLineToUseCaseData(line, projectRawLine),
+            ...mapLineToUseCaseData(line, removeEmptyValues(projectRawLine)),
             importéLe: DateTime.now().formatter(),
             importéPar: utilisateur.identifiantUtilisateur.formatter(),
           },
@@ -62,6 +64,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
           });
           continue;
         }
+        getLogger().error(error as Error);
         errors.push({
           key: `${line.numéroCRE} - ${line.nomProjet}`,
           reason: `Une erreur inconnue empêche l'import des candidatures`,
@@ -89,10 +92,6 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
 };
 
 export const importerCandidaturesAction = formAction(action, schema);
-
-const removeEmptyValues = (projectRawLine: Record<string, string>) => {
-  return Object.fromEntries(Object.entries(projectRawLine).filter(([, value]) => value !== ''));
-};
 
 const mapLineToUseCaseData = (
   line: CandidatureShape,
@@ -127,5 +126,5 @@ const mapLineToUseCaseData = (
   territoireProjetValue: line.territoireProjet,
   coefficientKChoisiValue: line.coefficientKChoisi,
   fournisseursValue: mapCsvRowToFournisseurs(rawLine),
-  détailsValue: removeEmptyValues(rawLine),
+  détailsValue: rawLine,
 });

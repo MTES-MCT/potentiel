@@ -14,9 +14,12 @@ export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) 
     {/* TODO We can use Object.groupBy starting from Node 21+  */}
     {Object.entries(
       fournisseurs.reduce(
-        (prev, { nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
+        (prev, { nomDuFabricant, lieuDeFabrication, typeFournisseur: { typeFournisseur } }) => ({
           ...prev,
-          [typeFournisseur]: [...(prev[typeFournisseur] ?? []), nomDuFabricant],
+          [typeFournisseur]: [
+            ...(prev[typeFournisseur] ?? []),
+            lieuDeFabrication ? `${nomDuFabricant} (${lieuDeFabrication})` : nomDuFabricant,
+          ],
         }),
         {} as Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string[]>,
       ),

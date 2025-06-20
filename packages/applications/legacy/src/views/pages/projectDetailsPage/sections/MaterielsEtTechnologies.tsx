@@ -24,17 +24,10 @@ export const MaterielsEtTechnologies = ({
         <Heading3 className="mb-1">Evaluation carbone simplifiée</Heading3>
         {évaluationCarboneSimplifiée} kg eq CO2/kWc
       </div>
-      {fournisseurs.length && (
+      {fournisseurs.length > 0 && (
         <div className="mt-2">
           <Heading3 className="mb-1">Fournisseurs</Heading3>
-          <ListeFournisseurs
-            fournisseurs={fournisseurs.map(
-              ({ nomDuFabricant, typeFournisseur: { typeFournisseur } }) => ({
-                typeFournisseur,
-                nomDuFabricant,
-              }),
-            )}
-          />
+          <ListeFournisseurs fournisseurs={fournisseurs} />
         </div>
       )}
       {affichage && !modificationsNonPermisesParLeCDCActuel && (

@@ -4,7 +4,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 import {
   EnregistrerChangementFournisseurForm,
@@ -21,24 +21,18 @@ export const EnregistrerChangementFournisseurPage: FC<
   technologie,
   évaluationCarboneSimplifiéeInitiale,
 }) => (
-  <ColumnPageTemplate
+  <PageTemplate
     banner={
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
-    heading={<Heading1>Changer de fournisseurs</Heading1>}
-    leftColumn={{
-      children: (
-        <EnregistrerChangementFournisseurForm
-          identifiantProjet={identifiantProjet}
-          fournisseurs={fournisseurs}
-          évaluationCarboneSimplifiée={évaluationCarboneSimplifiée}
-          technologie={technologie}
-          évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
-        />
-      ),
-    }}
-    rightColumn={{
-      children: <></>,
-    }}
-  />
+  >
+    <Heading1>Changer de fournisseurs</Heading1>
+    <EnregistrerChangementFournisseurForm
+      identifiantProjet={identifiantProjet}
+      fournisseurs={fournisseurs}
+      évaluationCarboneSimplifiée={évaluationCarboneSimplifiée}
+      technologie={technologie}
+      évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
+    />
+  </PageTemplate>
 );

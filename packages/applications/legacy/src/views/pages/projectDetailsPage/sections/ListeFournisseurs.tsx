@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
 import { Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 export type ListeFournisseursProps = {
-  fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
+  fournisseurs: PlainType<Array<Lauréat.Fournisseur.Fournisseur.ValueType>>;
 };
 
 const typeFournisseurLabel: Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string> = {
@@ -23,9 +24,12 @@ const typeFournisseurLabel: Record<Lauréat.Fournisseur.TypeFournisseur.RawType,
 export const ListeFournisseurs: FC<ListeFournisseursProps> = ({ fournisseurs }) => {
   const fournisseursGroupedByType = Object.entries(
     fournisseurs.reduce(
-      (prev, { nomDuFabricant, typeFournisseur }) => ({
+      (prev, { nomDuFabricant, lieuDeFabrication, typeFournisseur: { typeFournisseur } }) => ({
         ...prev,
-        [typeFournisseur]: [...(prev[typeFournisseur] ?? []), nomDuFabricant],
+        [typeFournisseur]: [
+          ...(prev[typeFournisseur] ?? []),
+          lieuDeFabrication ? `${nomDuFabricant} (${lieuDeFabrication})` : nomDuFabricant,
+        ],
       }),
       {} as Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string[]>,
     ),
