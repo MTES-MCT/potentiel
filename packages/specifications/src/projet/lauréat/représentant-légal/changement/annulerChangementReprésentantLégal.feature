@@ -4,6 +4,7 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
+        Et un cahier des charges modificatif choisi
 
     Scénario: Un porteur annule la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
@@ -18,7 +19,7 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
 
     Scénario: Impossible d'annuler la demande de changement de représentant légal d'un projet lauréat si aucun changement n'a été demandé
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat
-        Alors le porteur devrait être informé que "Aucune demande de changement de représentant légal n'est en cours"
+        Alors le porteur devrait être informé que "Aucun changement de représentant légal n'est en cours"
 
     Scénario: Impossible d'annuler la demande de changement de représentant légal d'un projet lauréat si il a déjà été accordé
         Etant donné une demande de changement de représentant légal accordée pour le projet lauréat

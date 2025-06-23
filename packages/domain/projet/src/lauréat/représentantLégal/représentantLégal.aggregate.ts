@@ -77,6 +77,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     return this.#demande?.pièceJustificative;
   }
 
+  get lauréat() {
+    return this.#lauréat;
+  }
+
   async init(lauréat: LauréatAggregate) {
     this.#lauréat = lauréat;
   }
@@ -116,6 +120,8 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     typeReprésentantLégal,
     dateModification,
   }: ModifierOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementEnCoursError();
     }
@@ -141,6 +147,8 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     pièceJustificative,
     typeReprésentantLégal,
   }: DemanderChangementOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible();
+
     this.vérifierReprésentantLégalNonIdentique(nomReprésentantLégal, typeReprésentantLégal);
 
     if (typeReprésentantLégal.estInconnu()) {

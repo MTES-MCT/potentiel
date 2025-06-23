@@ -4,6 +4,7 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-est" associée à la région du projet
+        Et un cahier des charges modificatif choisi
 
     Scénario: Un porteur corrige sa demande de changement de représentant légal
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
