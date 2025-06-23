@@ -4,11 +4,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+
 import {
   garantiesFinancièresActuelles,
   dépôtDeNouvellesGarantiesFinancières,
   mainlevée,
-  mapToHistoriqueGarantiesFinancièresEffacéTimelineItemProps,
 } from './events';
 
 export const mapToGarantiesFinancièresTimelineItemProps = (
@@ -56,7 +57,7 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
       {
         type: 'HistoriqueGarantiesFinancièresEffacé-V1',
       },
-      mapToHistoriqueGarantiesFinancièresEffacéTimelineItemProps,
+      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
     )
 
     // Dépôt de garanties financières pour le projet
