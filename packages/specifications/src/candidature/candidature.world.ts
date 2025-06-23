@@ -101,6 +101,13 @@ export class CandidatureWorld {
       this.importerCandidature.identifiantProjet,
     );
 
+    const appelOffres = appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre);
+    const période = appelOffres?.periodes.find((p) => p.id === identifiantProjet.période);
+
+    if (!appelOffres || !période) {
+      throw new Error('AO ou période inconnue');
+    }
+
     return {
       localité: expectedValues.localitéValue,
       dateÉchéanceGf: expectedValues.dateÉchéanceGfValue
@@ -146,11 +153,16 @@ export class CandidatureWorld {
         Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
       ),
       unitéPuissance: Candidature.UnitéPuissance.déterminer({
-        appelOffres: appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre)!,
+        appelOffres,
         période: identifiantProjet.période,
         technologie: Candidature.TypeTechnologie.convertirEnValueType(
           expectedValues.technologieValue,
         ).formatter(),
+      }),
+      volumeRéservé: Candidature.VolumeRéservé.déterminer({
+        note: expectedValues.noteTotaleValue,
+        puissanceInitiale: expectedValues.puissanceProductionAnnuelleValue,
+        période,
       }),
     };
   }
