@@ -61,7 +61,7 @@ export type TimelineItemProps = {
   title: ReactNode;
   type?: string;
   content?: ReactNode;
-  date: Iso8601DateTime | 'En attente';
+  date: Iso8601DateTime;
   icon?: IconProps;
   isLast?: true;
 };
@@ -83,7 +83,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
     >
       <TimelineOppositeContent>
         <div className="font-bold pt-3">
-          {date === 'En attente' ? date : <FormattedDate date={date} />}
+          <FormattedDate date={date} />
         </div>
       </TimelineOppositeContent>
       <TimelineSeparator>
