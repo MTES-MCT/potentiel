@@ -55,7 +55,15 @@ export const registerConsulterÉliminéQuery = ({ find }: ConsulterÉliminéDepe
     if (Option.isNone(appelOffres)) {
       return Option.none;
     }
-    const candidatureReadModel = mapToCandidatureReadModel(éliminé.candidature, appelOffres);
+    const période = appelOffres.periodes.find((p) => p.id === éliminé.candidature.période);
+    if (!période) {
+      return Option.none;
+    }
+    const candidatureReadModel = mapToCandidatureReadModel(
+      éliminé.candidature,
+      appelOffres,
+      période,
+    );
 
     return mapToReadModel(éliminé, candidatureReadModel);
   };

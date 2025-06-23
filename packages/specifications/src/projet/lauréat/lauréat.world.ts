@@ -1,4 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat, StatutProjet } from '@potentiel-domain/projet';
+
+import { CandidatureWorld } from '../../candidature/candidature.world';
 
 import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
@@ -20,6 +23,7 @@ type LauréatFixture = {
 };
 
 export class LauréatWorld {
+  #candidatureWorld: CandidatureWorld;
   #lauréatFixtures: Map<string, LauréatFixture> = new Map();
   get lauréatFixtures() {
     return this.#lauréatFixtures;
@@ -109,7 +113,8 @@ export class LauréatWorld {
     return this.#dateDésignation;
   }
 
-  constructor() {
+  constructor(candidatureWorld: CandidatureWorld) {
+    this.#candidatureWorld = candidatureWorld;
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
     this.#actionnaireWorld = new ActionnaireWorld();
@@ -127,10 +132,30 @@ export class LauréatWorld {
   }
 
   mapToExpected() {
-    return {
+    const {
+      emailContact,
+      nomCandidat,
+      technologie,
+      prixReference,
+      coefficientKChoisi,
+      unitéPuissance,
+      volumeRéservé,
+    } = this.#candidatureWorld.mapToExpected();
+    const expected: Lauréat.ConsulterLauréatReadModel = {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),
       ...this.modifierLauréatFixture.mapToExpected(),
+      emailContact,
+      nomCandidat,
+      technologie,
+      prixReference,
+      coefficientKChoisi,
+      unitéPuissance,
+      statut: this.abandonWorld.accorderAbandonFixture.aÉtéCréé
+        ? StatutProjet.abandonné
+        : StatutProjet.classé,
+      volumeRéservé,
     };
+    return expected;
   }
 }
