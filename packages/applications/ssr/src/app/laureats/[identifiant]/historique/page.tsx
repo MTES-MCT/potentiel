@@ -88,7 +88,8 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
             .filter((historique) => !historique.type.includes('Import'))
             .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
             .map((item) => mapToTimelineItemProps(item, candidature.unitéPuissance.formatter()))
-            .filter((item) => item !== undefined)}
+            .filter((item) => item !== undefined)
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())}
         />
       );
     }),
