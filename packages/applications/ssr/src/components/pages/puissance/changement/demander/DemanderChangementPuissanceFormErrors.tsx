@@ -1,36 +1,23 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
+import { Lauréat } from '@potentiel-domain/projet';
+
 type Props = {
-  dépasseLesRatioDeAppelOffres: boolean;
-  dépassePuissanceMaxDuVolumeRéservé: boolean;
-  dépassePuissanceMaxFamille: boolean;
-  dépasseRatiosChangementPuissanceDuCahierDesChargesInitial: boolean;
   aChoisiCDC2022: boolean;
   fourchetteRatioInitialEtCDC2022AlertMessage?: string;
-  ratioAppelOffre: {
-    min: number;
-    max: number;
-  };
   unitéPuissance: string;
-  puissanceMaxVoluméRéservé?: number;
-  puissanceMaxFamille?: number;
+  ratioChangementPuissance: Lauréat.Puissance.RatioChangementPuissance.ValueType;
 };
 
 export const DemanderChangementPuissanceFormErrors = ({
-  dépasseLesRatioDeAppelOffres,
-  dépassePuissanceMaxDuVolumeRéservé,
-  dépassePuissanceMaxFamille,
   aChoisiCDC2022,
-  dépasseRatiosChangementPuissanceDuCahierDesChargesInitial,
   fourchetteRatioInitialEtCDC2022AlertMessage,
   unitéPuissance,
-  puissanceMaxVoluméRéservé,
-  puissanceMaxFamille,
-  ratioAppelOffre: { min, max },
+  ratioChangementPuissance: ratio,
 }: Props) => {
   return (
     <div>
-      {puissanceMaxFamille && dépassePuissanceMaxFamille && (
+      {ratio.dépassePuissanceMaxFamille() && (
         <Alert
           severity="error"
           small
@@ -39,34 +26,35 @@ export const DemanderChangementPuissanceFormErrors = ({
               Les modifications de la puissance installée doivent être strictement inférieures au
               plafond de puissance de la famille du projet, soit{' '}
               <strong>
-                {puissanceMaxFamille} {unitéPuissance}
+                {ratio.famille!.puissanceMax} {unitéPuissance}
               </strong>
             </span>
           }
         />
       )}
-      {!dépassePuissanceMaxDuVolumeRéservé &&
-        !dépassePuissanceMaxFamille &&
-        dépasseLesRatioDeAppelOffres && (
+      {!ratio.dépassePuissanceMaxDuVolumeRéservé() &&
+        !ratio.dépassePuissanceMaxFamille() &&
+        ratio.dépasseRatiosChangementPuissance() && (
           <Alert
             severity="warning"
             small
             description={
               <span>
                 Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
-                <strong>{Math.round(min * 100)}%</strong> de la puissance initiale ou supérieure à{' '}
-                <strong>{Math.round(max * 100)}%</strong>. Dans ces cas, il est nécessaire de{' '}
-                <strong>joindre une justification, assortie d'un justificatif</strong> à votre
-                demande .
+                <strong>{Math.round(ratio.cdcActuel.ratioMin * 100)}%</strong> de la puissance
+                initiale ou supérieure à{' '}
+                <strong>{Math.round(ratio.cdcActuel.ratioMax * 100)}%</strong>. Dans ces cas, il est
+                nécessaire de <strong>joindre une justification, assortie d'un justificatif</strong>{' '}
+                à votre demande .
               </span>
             }
           />
         )}
 
-      {!dépassePuissanceMaxDuVolumeRéservé &&
+      {!ratio.dépassePuissanceMaxDuVolumeRéservé() &&
         aChoisiCDC2022 &&
-        !dépasseLesRatioDeAppelOffres &&
-        dépasseRatiosChangementPuissanceDuCahierDesChargesInitial &&
+        !ratio.dépasseRatiosChangementPuissance() &&
+        ratio.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial() &&
         fourchetteRatioInitialEtCDC2022AlertMessage && (
           <Alert
             severity="warning"
@@ -85,7 +73,7 @@ export const DemanderChangementPuissanceFormErrors = ({
             }
           />
         )}
-      {dépassePuissanceMaxDuVolumeRéservé && puissanceMaxVoluméRéservé !== undefined && (
+      {ratio.dépassePuissanceMaxDuVolumeRéservé() && (
         <Alert
           severity="error"
           small
@@ -94,7 +82,7 @@ export const DemanderChangementPuissanceFormErrors = ({
               Votre projet étant dans le volume réservé, les modifications de la puissance installée
               ne peuvent pas dépasser le plafond de puissance de{' '}
               <strong>
-                {puissanceMaxVoluméRéservé} {unitéPuissance}
+                {ratio.volumeRéservé!.puissanceMax} {unitéPuissance}
               </strong>{' '}
               spécifié au paragraphe 1.2.2 du cahier des charges.
             </span>

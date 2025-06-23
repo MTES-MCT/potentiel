@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { VolumeRéservé } from '../../candidature';
 
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
 
@@ -310,15 +311,18 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
       technologie,
     } = this.lauréat.projet.candidature;
 
-    RatioChangementPuissance.bind({
+    RatioChangementPuissance.déterminer({
       appelOffre: this.lauréat.projet.appelOffre,
-      période: this.lauréat.projet.période,
       famille: this.lauréat.projet.famille,
       cahierDesCharges: this.lauréat.cahierDesCharges,
-      technologie: technologie.type,
-      ratio: nouvellePuissance / puissanceInitiale,
+      technologie,
+      puissanceInitiale,
       nouvellePuissance,
-      note,
+      volumeRéservé: VolumeRéservé.déterminer({
+        note,
+        période: this.lauréat.projet.période,
+        puissanceInitiale,
+      }),
     }).vérifierQueLaDemandeEstPossible(type);
   }
 

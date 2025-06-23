@@ -26,11 +26,10 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   identifiantProjet,
   puissance,
   appelOffre,
-  période,
   technologie,
   famille,
   cahierDesCharges,
-  note,
+  volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
 }) => {
@@ -41,20 +40,17 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const ratio = nouvellePuissance / puissanceInitiale;
   const ratioActuelleNouvelle = nouvellePuissance / puissance;
 
-  const ratioValueType = Lauréat.Puissance.RatioChangementPuissance.bind({
+  const ratioValueType = Lauréat.Puissance.RatioChangementPuissance.déterminer({
     appelOffre,
-    période,
     famille,
     cahierDesCharges,
     technologie,
-    ratio,
+    puissanceInitiale,
     nouvellePuissance,
-    note,
+    volumeRéservé,
   });
 
-  const dépasseLesRatioDeAppelOffres =
-    ratioValueType.dépasseRatiosChangementPuissance().dépasseMax ||
-    ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
+  const dépasseLesRatioDeAppelOffres = ratioValueType.dépasseRatiosChangementPuissance();
 
   const ratioHintText = isNaN(nouvellePuissance) ? (
     "Aucune valeur n'est encore renseignée"
@@ -133,10 +129,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             }}
           />
           <DemanderChangementPuissanceFormErrors
-            dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
-            dépassePuissanceMaxDuVolumeRéservé={ratioValueType.dépassePuissanceMaxDuVolumeRéservé()}
-            dépassePuissanceMaxFamille={ratioValueType.dépassePuissanceMaxFamille()}
-            dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial()}
+            ratioChangementPuissance={ratioValueType}
             aChoisiCDC2022={
               cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022'
             }
@@ -146,12 +139,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
                 : undefined
             }
             unitéPuissance={unitéPuissance}
-            puissanceMaxVoluméRéservé={ratioValueType.récupérerPuissanceMaxVolumeRéservé()}
-            puissanceMaxFamille={ratioValueType.récupérerPuissanceMaxFamille()}
-            ratioAppelOffre={{
-              min: ratioValueType.récupérerRatiosChangementPuissance().minRatio,
-              max: ratioValueType.récupérerRatiosChangementPuissance().maxRatio,
-            }}
           />
         </div>
         <Input

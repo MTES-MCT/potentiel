@@ -69,7 +69,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | nouvelle puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offre"
 
-    Scénario: Scénario: Impossible pour le porteur de demander un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
+    Scénario: Impossible pour le porteur de demander un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | PPE2 - Sol |
             | période       | 3          |

@@ -7,7 +7,7 @@ const PUISSANCE_DEFAULT_RATIOS = { min: 0.9, max: 1.1 };
 
 type GetRatiosChangementPuissanceProps = {
   appelOffre: Pick<AppelOffre.ConsulterAppelOffreReadModel, 'changementPuissance'>;
-  technologie: Candidature.TypeTechnologie.RawType;
+  technologie: PlainType<Candidature.TypeTechnologie.ValueType>;
   cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
 };
 
@@ -25,10 +25,10 @@ export const getRatiosChangementPuissance = ({
     const seuilsCDC = cahierDesCharges?.seuilSupplémentaireChangementPuissance;
 
     if (seuilsCDC?.changementByTechnologie) {
-      if (technologie === 'N/A') {
+      if (technologie.type === 'N/A') {
         return PUISSANCE_DEFAULT_RATIOS;
       }
-      return seuilsCDC.ratios[technologie];
+      return seuilsCDC.ratios[technologie.type];
     } else if (seuilsCDC) {
       return seuilsCDC.ratios;
     }
@@ -38,11 +38,11 @@ export const getRatiosChangementPuissance = ({
   const { changementPuissance } = appelOffre;
 
   if (changementPuissance.changementByTechnologie) {
-    if (technologie === 'N/A') {
+    if (technologie.type === 'N/A') {
       return PUISSANCE_DEFAULT_RATIOS;
     }
 
-    return changementPuissance.ratios[technologie];
+    return changementPuissance.ratios[technologie.type];
   }
 
   // sinon prendre les ratios du CDC initial

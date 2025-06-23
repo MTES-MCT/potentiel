@@ -14,7 +14,7 @@ import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
-import { UnitéPuissance } from '..';
+import { UnitéPuissance, VolumeRéservé } from '..';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -38,6 +38,7 @@ export type ConsulterCandidatureReadModel = {
   technologie: TypeTechnologie.ValueType;
   sociétéMère: string;
   noteTotale: number;
+  volumeRéservé?: VolumeRéservé.ValueType;
   motifÉlimination?: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
@@ -85,8 +86,12 @@ export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidature
     if (Option.isNone(appelOffres)) {
       return Option.none;
     }
+    const période = appelOffres.periodes.find((p) => p.id === candidature.période);
+    if (!période) {
+      return Option.none;
+    }
 
-    return mapToReadModel(candidature, appelOffres);
+    return mapToReadModel(candidature, appelOffres, période);
   };
 
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
@@ -118,10 +123,10 @@ export const mapToReadModel = (
     misÀJourLe,
     détailsMisÀJourLe,
     notification,
-    période,
     fournisseurs,
   }: CandidatureEntity,
   appelOffres: AppelOffre.AppelOffreEntity,
+  période: AppelOffre.Periode,
 ): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -167,5 +172,10 @@ export const mapToReadModel = (
         notification.attestation.format,
       ),
   },
-  unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période, technologie }),
+  unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période: période.id, technologie }),
+  volumeRéservé: VolumeRéservé.déterminer({
+    période,
+    note: noteTotale,
+    puissanceInitiale: puissanceProductionAnnuelle,
+  }),
 });

@@ -15,10 +15,10 @@ export type DemanderChangementPuissancePageProps = PlainType<
   Lauréat.Puissance.ConsulterPuissanceReadModel & {
     appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
     période: AppelOffre.Periode;
-    technologie: Candidature.TypeTechnologie.RawType;
+    technologie: Candidature.TypeTechnologie.ValueType;
     famille?: AppelOffre.Famille;
     cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
-    note: number;
+    volumeRéservé?: PlainType<Candidature.VolumeRéservé.ValueType>;
     unitéPuissance: string;
     puissanceInitiale: number;
   }
@@ -32,7 +32,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
   technologie,
   famille,
   cahierDesCharges,
-  note,
+  volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
 }) => (
@@ -50,7 +50,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
       technologie={technologie}
       famille={famille}
       cahierDesCharges={cahierDesCharges}
-      note={note}
+      volumeRéservé={volumeRéservé}
       unitéPuissance={unitéPuissance}
       puissanceInitiale={puissanceInitiale}
     />
