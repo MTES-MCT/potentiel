@@ -14,7 +14,7 @@ type MapToPuissanceModèleRéponseProps = {
   appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
   candidature: Candidature.ConsulterCandidatureReadModel;
   cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
-  représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
+  représentantLégal: Option.Type<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
   nouvellePuissance: number;
   puissanceActuelle: number;
   justification: string;

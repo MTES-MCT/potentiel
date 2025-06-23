@@ -50,7 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (
   withUtilisateur(async (utilisateur) => {
     const dateDemandeValue = new Date().toISOString();
 
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

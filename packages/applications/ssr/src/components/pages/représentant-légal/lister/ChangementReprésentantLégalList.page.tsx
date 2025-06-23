@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
@@ -10,7 +11,7 @@ import { ChangementReprésentantLégalListItem } from './ChangementReprésentant
 
 export type ChangementReprésentantLégalListPageProps = {
   list: {
-    items: PlainType<ReprésentantLégal.ListerChangementReprésentantLégalReadModel['items']>;
+    items: PlainType<Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalReadModel['items']>;
     pagination: Pagination;
     total: number;
   };

@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

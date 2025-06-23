@@ -1,5 +1,6 @@
 import { AbandonProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { AbandonNotification } from '@potentiel-applications/notifications';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
@@ -52,6 +53,15 @@ export const setupAbandon: SetupProjet = async ({ sendEmail }) => {
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
+  });
+
+  await abandon.setupSubscription<
+    Lauréat.ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent,
+    Lauréat.ReprésentantLégal.ReprésentantLégalSaga.Execute
+  >({
+    name: 'representant-legal-abandon-saga',
+    eventType: ['AbandonAccordé-V1'],
+    messageType: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
   });
 
   return abandon.clearSubscriptions;

@@ -11,8 +11,8 @@ select
   es.version,
   es.type,
   es.payload
-from event_store.event_stream es 
-inner join event_store.pending_acknowledgement pa on 
+from event_store.pending_acknowledgement pa 
+inner join event_store.event_stream es on 
   pa.stream_id = es.stream_id and 
   pa.created_at = es.created_at and 
   pa.version = es.version`;

@@ -57,7 +57,7 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<ReprésentantLégal.CorrigerChangementReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.CorrigerChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

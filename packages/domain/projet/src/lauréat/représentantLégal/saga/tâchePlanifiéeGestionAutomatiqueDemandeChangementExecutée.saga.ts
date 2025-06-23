@@ -6,8 +6,11 @@ import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifie
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ReprésentantLégal } from '../..';
-import { TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
+import {
+  AccorderChangementReprésentantLégalUseCase,
+  RejeterChangementReprésentantLégalUseCase,
+  TypeTâchePlanifiéeChangementReprésentantLégal,
+} from '..';
 
 export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = async (
   event: TâchePlanifiéeExecutéeEvent,
@@ -52,7 +55,7 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
 
   await match(typeTâchePlanifiée)
     .with('accord-automatique', async () => {
-      await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
+      await mediator.send<AccorderChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -63,7 +66,7 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
       });
     })
     .with('rejet-automatique', async () => {
-      await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
+      await mediator.send<RejeterChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

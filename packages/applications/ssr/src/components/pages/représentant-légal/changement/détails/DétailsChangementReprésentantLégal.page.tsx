@@ -7,7 +7,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
-
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -31,7 +30,7 @@ export type AvailableChangementReprésentantLégalAction =
   | 'corriger';
 
 export type DétailsChangementReprésentantLégalPageProps =
-  PlainType<ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
+  PlainType<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
     identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
@@ -90,7 +89,9 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 typeReprésentantLégal={typeReprésentantLégal}
               />
             ) : (
-              ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).estDemandé() && (
+              Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(
+                statut,
+              ).estDemandé() && (
                 <ChangementDemandé
                   demandéLe={demandéLe}
                   demandéPar={demandéPar}
@@ -206,7 +207,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({
       <div className="flex gap-2">
         <div className="font-semibold">Statut :</div>{' '}
         <StatutChangementReprésentantLégalBadge
-          statut={ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter()}
+          statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter()}
         />
       </div>
       <div className="flex gap-2">
@@ -255,7 +256,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
       <div className="flex gap-2">
         <div className="font-semibold">Statut :</div>{' '}
         <StatutChangementReprésentantLégalBadge
-          statut={ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter()}
+          statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter()}
         />
       </div>
       <div className="flex gap-2">
@@ -299,7 +300,7 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({
       <div className="flex gap-2">
         <div className="font-semibold">Statut :</div>{' '}
         <StatutChangementReprésentantLégalBadge
-          statut={ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter()}
+          statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter()}
         />
       </div>
       <div className="flex gap-2">

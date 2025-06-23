@@ -8,7 +8,7 @@ import {
   Raccordement as RaccordementLauréat,
 } from '@potentiel-domain/laureat';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { ProjetAggregateRoot, Raccordement } from '@potentiel-domain/projet';
 
 const configSchema = z.object({
@@ -45,7 +45,6 @@ export class SupprimerDossierAvecReferenceNonTransmiseVide extends Command {
           loadAggregate: loadAggregateV2,
           loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
         }),
-      supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }
 

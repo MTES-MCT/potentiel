@@ -1,6 +1,4 @@
-import { mediator } from 'mediateur';
-
-import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
@@ -8,6 +6,9 @@ import {
   registerTâchePlanifiéeQuery,
 } from '@potentiel-domain/tache-planifiee';
 import { SendEmail, TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
+import { Lauréat } from '@potentiel-domain/projet';
+
+import { createSubscriptionSetup } from './setupProjet/createSubscriptionSetup';
 
 export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmail }) => {
   registerTâchePlanifiéeUseCases({
@@ -17,10 +18,13 @@ export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmai
   registerTâchePlanifiéeQuery({
     list: listProjection,
   });
-  TâchePlanifiéeProjector.register();
-  TâchePlanifiéeNotification.register({ sendEmail });
+  const tâchePlanifiée = createSubscriptionSetup('tâche-planifiée');
 
-  const unsubscribeTâcheProjector = await subscribe<TâchePlanifiéeProjector.SubscriptionEvent>({
+  TâchePlanifiéeProjector.register();
+  await tâchePlanifiée.setupSubscription<
+    TâchePlanifiéeProjector.SubscriptionEvent,
+    TâchePlanifiéeProjector.Execute
+  >({
     name: 'projector',
     eventType: [
       'RebuildTriggered',
@@ -28,30 +32,27 @@ export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmai
       'TâchePlanifiéeAnnulée-V1',
       'TâchePlanifiéeExecutée-V1',
     ],
-    eventHandler: async (event) => {
-      await mediator.send<TâchePlanifiéeProjector.Execute>({
-        type: 'System.Projector.TâchePlanifiée',
-        data: event,
-      });
-    },
-    streamCategory: 'tâche-planifiée',
+    messageType: 'System.Projector.TâchePlanifiée',
   });
 
-  const unsubscribeTâcheNotification =
-    await subscribe<TâchePlanifiéeNotification.SubscriptionEvent>({
-      name: 'notifications',
-      eventType: ['TâchePlanifiéeExecutée-V1'],
-      eventHandler: async (event) => {
-        await mediator.publish<TâchePlanifiéeNotification.Execute>({
-          type: 'System.Notification.TâchePlanifiée',
-          data: event,
-        });
-      },
-      streamCategory: 'tâche-planifiée',
-    });
+  TâchePlanifiéeNotification.register({ sendEmail });
+  await tâchePlanifiée.setupSubscription<
+    TâchePlanifiéeNotification.SubscriptionEvent,
+    TâchePlanifiéeNotification.Execute
+  >({
+    name: 'notifications',
+    eventType: ['TâchePlanifiéeExecutée-V1'],
+    messageType: 'System.Notification.TâchePlanifiée',
+  });
 
-  return async () => {
-    await unsubscribeTâcheProjector();
-    await unsubscribeTâcheNotification();
-  };
+  await tâchePlanifiée.setupSubscription<
+    Lauréat.ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent,
+    Lauréat.ReprésentantLégal.ReprésentantLégalSaga.Execute
+  >({
+    name: 'representant-legal-tache-planifiee-saga',
+    eventType: ['TâchePlanifiéeExecutée-V1'],
+    messageType: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
+  });
+
+  return tâchePlanifiée.clearSubscriptions;
 };

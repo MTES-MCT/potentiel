@@ -63,7 +63,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       if (laureat.nomRepresentantLegal) {
         const représentantLégal = await getReprésentantLégalInfos({ identifiantProjet });
 
-        await mediator.send<ReprésentantLégal.ModifierReprésentantLégalUseCase>({
+        await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
           type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
           data: {
             identifiantProjetValue: identifiantProjet,

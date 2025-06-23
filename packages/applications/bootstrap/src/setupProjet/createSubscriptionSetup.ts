@@ -12,7 +12,7 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
     messageType: TMessage['type'];
     eventType: Subscriber<TEvent>['eventType'];
     name: 'projector' | 'notifications' | 'saga' | 'historique' | string;
-  }) => {
+  }): Promise<void> => {
     const unsubscribe = await subscribe<TEvent>({
       name,
       eventType,

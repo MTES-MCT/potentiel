@@ -26,9 +26,14 @@ import {
 import { registerCorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
 import { registerCorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
 import { registerConsulterChangementReprésentantLegalEnCoursQuery } from './changement/consulter/consulterChangementReprésentantLégalEnCours.query';
+import {
+  ListerHistoriqueReprésentantLégalProjetDependencies,
+  registerListerHistoriqueReprésentantLégalProjetQuery,
+} from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
-  ListerChangementReprésentantLégalDependencies;
+  ListerChangementReprésentantLégalDependencies &
+  ListerHistoriqueReprésentantLégalProjetDependencies;
 
 export type ReprésentantLégalCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -69,4 +74,5 @@ export const registerReprésentantLégalQueries = (
   registerConsulterChangementReprésentantLegalQuery(dependencies);
   registerConsulterChangementReprésentantLegalEnCoursQuery(dependencies);
   registerListerChangementReprésentantLégalQuery(dependencies);
+  registerListerHistoriqueReprésentantLégalProjetQuery(dependencies);
 };

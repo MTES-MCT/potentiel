@@ -1,18 +1,18 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import { FC } from 'react';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 import { StatutChangementReprésentantLégalBadge } from '../StatutChangementReprésentantLégalBadge';
 
 export type ChangementReprésentantLégalListItemProps = PlainType<
-  ReprésentantLégal.ListerChangementReprésentantLégalReadModel['items'][number]
+  Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalReadModel['items'][number]
 >;
 
 export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantLégalListItemProps> = ({
@@ -44,7 +44,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
     }
   >
     <StatutChangementReprésentantLégalBadge
-      statut={ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).formatter()}
+      statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).formatter()}
       small
     />
   </ListItem>
