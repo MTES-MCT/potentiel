@@ -79,7 +79,6 @@ export default class TransmettreRéférences extends Command {
           loadAggregate: loadAggregateV2,
           loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
         }),
-      supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
     registerTâcheCommand({
       loadAggregate,

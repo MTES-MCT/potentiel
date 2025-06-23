@@ -295,6 +295,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
 
   private applyChangementReprésentantLégalCorrigé({
     payload: {
+      identifiantProjet,
       nomReprésentantLégal,
       typeReprésentantLégal,
       pièceJustificative: { format },
@@ -304,7 +305,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
       this.#demande.nom = nomReprésentantLégal;
       this.#demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
       this.#demande.pièceJustificative = DocumentProjet.convertirEnValueType(
-        this.identifiantProjet.formatter(),
+        identifiantProjet,
         TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
         this.#demande.demandéLe.formatter(),
         format,

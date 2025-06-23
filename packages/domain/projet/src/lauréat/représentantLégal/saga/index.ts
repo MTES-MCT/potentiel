@@ -8,9 +8,10 @@ import { Abandon } from '../..';
 import { abandonAccordéSaga } from './abandonAccordé.saga';
 import { tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga } from './tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée.saga';
 
-export type SubscriptionEvent = TâchePlanifiéeExecutéeEvent | Abandon.AbandonAccordéEvent;
+type Event = { version: number; created_at: string; stream_id: string };
+export type SubscriptionEvent = (TâchePlanifiéeExecutéeEvent | Abandon.AbandonAccordéEvent) & Event;
 
-export type Execute = Message<'System.Saga.Execute', SubscriptionEvent>;
+export type Execute = Message<'System.Lauréat.ReprésentantLégal.Saga.Execute', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
@@ -24,5 +25,5 @@ export const register = () => {
       .with({ type: 'AbandonAccordé-V1' }, abandonAccordéSaga)
       .exhaustive();
 
-  mediator.register('System.Saga.Execute', handler);
+  mediator.register('System.Lauréat.ReprésentantLégal.Saga.Execute', handler);
 };

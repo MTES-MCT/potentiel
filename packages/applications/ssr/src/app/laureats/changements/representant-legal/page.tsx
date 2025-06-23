@@ -3,13 +3,12 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   ChangementReprésentantLégalListPage,
   ChangementReprésentantLégalListPageProps,
@@ -28,7 +27,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(ReprésentantLégal.StatutChangementReprésentantLégal.statuts).optional(),
+  statut: z.enum(Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -36,17 +35,11 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
       const changements =
-        await mediator.send<ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
+        await mediator.send<Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
           data: {
-            utilisateur: {
-              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-              rôle: utilisateur.role.nom,
-              régionDreal,
-            },
+            utilisateur: utilisateur.identifiantUtilisateur.email,
             range: mapToRangeOptions({
               currentPage: page,
               itemsPerPage: 10,
@@ -74,7 +67,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: ReprésentantLégal.StatutChangementReprésentantLégal.statuts
+          options: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.statuts
             .filter((statut) => statut !== 'annulé')
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
@@ -91,7 +84,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  readModel: ReprésentantLégal.ListerChangementReprésentantLégalReadModel,
+  readModel: Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalReadModel,
 ): ChangementReprésentantLégalListPageProps['list'] => {
   const pagination = mapToPagination(readModel.range);
 

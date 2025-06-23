@@ -43,7 +43,7 @@ type MapToDélaiModèleRéponseProps = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
   cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
-  représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
+  représentantLégal: Option.Type<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
   puissanceActuelle: number;
   dateAchèvementDemandée: Date;
   dateLimiteAchevementActuelle: Date;

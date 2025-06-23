@@ -4,6 +4,7 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -20,7 +21,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, motifRejet },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

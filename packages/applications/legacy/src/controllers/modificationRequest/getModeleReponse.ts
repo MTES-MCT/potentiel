@@ -67,7 +67,7 @@ v1Router.get(
       });
 
     const représentantLégal =
-      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         data: {
           identifiantProjet: identifiantProjet.formatter(),

@@ -3,9 +3,9 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -22,7 +22,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
     const représentantLégalActuel =
-      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         data: {
           identifiantProjet: identifiantProjet.formatter(),

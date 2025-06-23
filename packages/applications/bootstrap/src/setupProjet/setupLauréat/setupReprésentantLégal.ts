@@ -3,12 +3,15 @@ import {
   ReprésentantLégalProjector,
 } from '@potentiel-applications/projectors';
 import { ReprésentantLégalNotification } from '@potentiel-applications/notifications';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
-export const setupReprésenantLégal: SetupProjet = async ({ sendEmail }) => {
+export const setupReprésentantLégal: SetupProjet = async ({ sendEmail }) => {
   const représentantLégal = createSubscriptionSetup('représentant-légal');
+
+  Lauréat.ReprésentantLégal.ReprésentantLégalSaga.register();
 
   ReprésentantLégalProjector.register();
   await représentantLégal.setupSubscription<

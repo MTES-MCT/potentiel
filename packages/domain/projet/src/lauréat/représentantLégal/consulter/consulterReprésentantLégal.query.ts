@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 
-import { ReprésentantLégal } from '../..';
 import { ReprésentantLégalEntity, TypeReprésentantLégal } from '..';
 import { IdentifiantProjet } from '../../..';
 
@@ -36,7 +35,7 @@ export const registerConsulterRepresentantLegalQuery = ({
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const représentantLégal = await find<ReprésentantLégal.ReprésentantLégalEntity>(
+    const représentantLégal = await find<ReprésentantLégalEntity>(
       `représentant-légal|${identifiantProjetValueType.formatter()}`,
     );
 

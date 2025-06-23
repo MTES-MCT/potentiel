@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -29,7 +30,7 @@ export const getReprésentantLégal = async ({
     const utilisateur = Role.convertirEnValueType(rôle);
 
     const représentantLégal =
-      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
@@ -39,12 +40,14 @@ export const getReprésentantLégal = async ({
     }
 
     const demandeEnCours = utilisateur.aLaPermission('représentantLégal.consulterChangement')
-      ? await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
+      ? await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
+          {
+            type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
+            data: {
+              identifiantProjet: identifiantProjet.formatter(),
+            },
           },
-        })
+        )
       : Option.none;
 
     const demandeChangementExistante = Option.isSome(demandeEnCours);
