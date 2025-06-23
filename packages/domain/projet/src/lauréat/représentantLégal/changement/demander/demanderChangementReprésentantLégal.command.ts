@@ -31,7 +31,7 @@ export const registerDemanderChangementReprésentantLégalCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await projet.lauréat.représentantLégal.demander({
+    await projet.lauréat.représentantLégal.demanderChangement({
       nomReprésentantLégal,
       typeReprésentantLégal,
       pièceJustificative,

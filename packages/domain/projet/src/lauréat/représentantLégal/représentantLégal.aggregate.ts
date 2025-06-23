@@ -33,6 +33,7 @@ import {
   ReprésentantLégalDéjàImportéError,
   ReprésentantLégalIdentiqueError,
 } from './représentantLégal.errors';
+import { DemandeChangementInexistanteError } from './changement/changementReprésentantLégal.error';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
@@ -125,7 +126,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     await this.publish(event);
   }
 
-  async demander(options: DemanderChangementOptions) {
+  async demanderChangement(options: DemanderChangementOptions) {
     // Préconditions métier à adapter selon besoin
     const event: ChangementReprésentantLégalDemandéEvent = {
       type: 'ChangementReprésentantLégalDemandé-V1',
@@ -141,7 +142,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     await this.publish(event);
   }
 
-  async corrigerChangement(options: CorrigerChangementOptions) {
+  async corrigerDemandeChangement(options: CorrigerChangementOptions) {
     const event: ChangementReprésentantLégalCorrigéEvent = {
       type: 'ChangementReprésentantLégalCorrigé-V1',
       payload: {
@@ -156,18 +157,28 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     await this.publish(event);
   }
 
-  async accorderChangementReprésentantLégal(options: AccorderOptions) {
-    // destructure selon le type d'options (accordAutomatique)
-    const { dateAccord, identifiantUtilisateur } = options;
-    let nomReprésentantLégal = '';
-    let typeReprésentantLégal: TypeReprésentantLégal.ValueType = TypeReprésentantLégal.inconnu;
-    if ('accordAutomatique' in options && options.accordAutomatique && this.#demande) {
-      nomReprésentantLégal = this.#demande.nom;
-      typeReprésentantLégal = this.#demande.type;
-    } else if ('nomReprésentantLégal' in options && 'typeReprésentantLégal' in options) {
-      nomReprésentantLégal = options.nomReprésentantLégal;
-      typeReprésentantLégal = options.typeReprésentantLégal;
+  async accorderDemandeChangement(options: AccorderOptions) {
+    const demande = this.#demande;
+
+    if (!demande) {
+      throw new DemandeChangementInexistanteError();
     }
+
+    const { dateAccord, identifiantUtilisateur, accordAutomatique } = options;
+
+    demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutChangementReprésentantLégal.accordé,
+    );
+    const nomReprésentantLégal = match(options)
+      .with({ accordAutomatique: true }, () => demande.nom)
+      .with({ accordAutomatique: false }, ({ nomReprésentantLégal }) => nomReprésentantLégal)
+      .exhaustive();
+
+    const typeReprésentantLégal = match(options)
+      .with({ accordAutomatique: true }, () => demande.type)
+      .with({ accordAutomatique: false }, ({ typeReprésentantLégal }) => typeReprésentantLégal)
+      .exhaustive();
+
     const event: ChangementReprésentantLégalAccordéEvent = {
       type: 'ChangementReprésentantLégalAccordé-V1',
       payload: {
@@ -176,14 +187,14 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
         accordéPar: identifiantUtilisateur.formatter(),
         nomReprésentantLégal,
         typeReprésentantLégal: typeReprésentantLégal.formatter(),
-        accordAutomatique: 'accordAutomatique' in options ? options.accordAutomatique : false,
-        avecCorrection: undefined, // à adapter si besoin
+        accordAutomatique,
+        avecCorrection: demande.nom !== nomReprésentantLégal ? true : undefined,
       },
     };
     await this.publish(event);
   }
 
-  async rejeter(options: RejeterOptions) {
+  async rejeterDemandeChangement(options: RejeterOptions) {
     const event: ChangementReprésentantLégalRejetéEvent = {
       type: 'ChangementReprésentantLégalRejeté-V1',
       payload: {
@@ -197,7 +208,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     await this.publish(event);
   }
 
-  async annuler(options: AnnulerOptions) {
+  async annulerDemandeChangement(options: AnnulerOptions) {
     const event: ChangementReprésentantLégalAnnuléEvent = {
       type: 'ChangementReprésentantLégalAnnulé-V1',
       payload: {

@@ -23,7 +23,7 @@ export const registerAnnulerChangementReprésentantLégalCommand = (
     dateAnnulation,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
-    await projet.lauréat.représentantLégal.annuler({
+    await projet.lauréat.représentantLégal.annulerDemandeChangement({
       identifiantUtilisateur,
       dateAnnulation,
     });
