@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../../fixture';
@@ -66,9 +65,9 @@ export class CorrigerChangementReprésentantLégalFixture
     return this.#corrigéPar;
   }
 
-  #statut!: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType;
+  #statut!: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType;
 
-  get statut(): ReprésentantLégal.StatutChangementReprésentantLégal.ValueType {
+  get statut(): Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType {
     return this.#statut;
   }
 
@@ -78,7 +77,7 @@ export class CorrigerChangementReprésentantLégalFixture
     const content = faker.word.words();
 
     const fixture = {
-      statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé,
+      statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé,
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personneMorale,
       corrigéLe: faker.date.recent().toISOString(),

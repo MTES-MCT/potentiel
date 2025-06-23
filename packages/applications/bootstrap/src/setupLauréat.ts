@@ -4,7 +4,6 @@ import {
   registerLauréatQueries,
   registerLauréatUseCases,
   GarantiesFinancières,
-  ReprésentantLégal,
   Raccordement,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -13,19 +12,12 @@ import {
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import {
-  GarantiesFinancièresNotification,
-  ReprésentantLégalNotification,
-} from '@potentiel-applications/notifications';
+import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
 import {
   GarantiesFinancièreProjector,
-  ReprésentantLégalProjector,
   RaccordementProjector,
 } from '@potentiel-applications/projectors';
-import {
-  DocumentAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
@@ -42,7 +34,6 @@ export const setupLauréat = async ({
   registerLauréatUseCases({
     loadAggregate,
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
-    supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
   });
 
   registerLauréatQueries({
@@ -54,16 +45,13 @@ export const setupLauréat = async ({
 
   // Projectors
   GarantiesFinancièreProjector.register();
-  ReprésentantLégalProjector.register();
 
   // Notifications
   GarantiesFinancièresNotification.register({ sendEmail });
-  ReprésentantLégalNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
-  ReprésentantLégal.ReprésentantLégalSaga.register();
   Raccordement.RaccordementSaga.register({
     récupérerGRDParVille,
   });
@@ -168,68 +156,6 @@ export const setupLauréat = async ({
     },
   });
 
-  const unsubscribeReprésentantLégalProjector =
-    await subscribe<ReprésentantLégalProjector.SubscriptionEvent>({
-      name: 'projector',
-      streamCategory: 'représentant-légal',
-      eventType: [
-        'ReprésentantLégalImporté-V1',
-        'ReprésentantLégalModifié-V1',
-        'ChangementReprésentantLégalDemandé-V1',
-        'ChangementReprésentantLégalAnnulé-V1',
-        'ChangementReprésentantLégalCorrigé-V1',
-        'ChangementReprésentantLégalAccordé-V1',
-        'ChangementReprésentantLégalRejeté-V1',
-        'ChangementReprésentantLégalSupprimé-V1',
-        'RebuildTriggered',
-      ],
-      eventHandler: async (event) => {
-        await mediator.send<ReprésentantLégalProjector.Execute>({
-          type: 'System.Projector.Lauréat.ReprésentantLégal',
-          data: event,
-        });
-      },
-    });
-
-  const unsubscribeReprésentantLégalSagaLauréat = await subscribe<
-    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
-  >({
-    name: 'representant-legal-laureat-saga',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V2'],
-    eventHandler: async (event) =>
-      mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
-        type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
-        data: event,
-      }),
-  });
-
-  const unsubscribeReprésentantLégalSagaTâchePlanifiée = await subscribe<
-    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
-  >({
-    name: 'representant-legal-tache-planifiee-saga',
-    streamCategory: 'tâche-planifiée',
-    eventType: ['TâchePlanifiéeExecutée-V1'],
-    eventHandler: async (event) =>
-      mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
-        type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
-        data: event,
-      }),
-  });
-
-  const unsubscribeReprésentantLégalSagaAbandon = await subscribe<
-    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
-  >({
-    name: 'representant-legal-abandon-saga',
-    streamCategory: 'abandon',
-    eventType: ['AbandonAccordé-V1'],
-    eventHandler: async (event) =>
-      mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
-        type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
-        data: event,
-      }),
-  });
-
   const unsubscribeTypeGarantiesFinancièresSaga = await subscribe<
     GarantiesFinancières.TypeGarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
@@ -243,25 +169,6 @@ export const setupLauréat = async ({
       });
     },
   });
-
-  const unsubscribeReprésentantLégalNotification =
-    await subscribe<ReprésentantLégalNotification.SubscriptionEvent>({
-      name: 'notifications',
-      streamCategory: 'représentant-légal',
-      eventType: [
-        'ReprésentantLégalModifié-V1',
-        'ChangementReprésentantLégalDemandé-V1',
-        'ChangementReprésentantLégalAnnulé-V1',
-        'ChangementReprésentantLégalCorrigé-V1',
-        'ChangementReprésentantLégalAccordé-V1',
-        'ChangementReprésentantLégalRejeté-V1',
-      ],
-      eventHandler: async (event) =>
-        mediator.publish<ReprésentantLégalNotification.Execute>({
-          type: 'System.Notification.Lauréat.ReprésentantLégal',
-          data: event,
-        }),
-    });
 
   const unsubscribeRaccordementAbandonSaga = await subscribe<
     Raccordement.RaccordementSaga.SubscriptionEvent & Event
@@ -330,19 +237,14 @@ export const setupLauréat = async ({
   return async () => {
     // projectors
     await unsubscribeGarantiesFinancièresProjector();
-    await unsubscribeReprésentantLégalProjector();
     await unsubscribeRaccordementProjector();
     // notifications
     await unsubscribeGarantiesFinancièresNotification();
-    await unsubscribeReprésentantLégalNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeGarantiesFinancièresRecoursSaga();
     await unsubscribeGarantiesFinancièresProducteurSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();
-    await unsubscribeReprésentantLégalSagaLauréat();
-    await unsubscribeReprésentantLégalSagaTâchePlanifiée();
-    await unsubscribeReprésentantLégalSagaAbandon();
     await unsubscribeRaccordementAbandonSaga();
     await unsubscribeRaccordementLauréatSaga();
   };

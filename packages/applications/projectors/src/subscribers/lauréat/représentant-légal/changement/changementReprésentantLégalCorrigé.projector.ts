@@ -1,6 +1,5 @@
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
 
@@ -10,7 +9,7 @@ export const changementReprésentantLégalCorrigéProjector = async ({
   const représentantLégal = await getInfosReprésentantLégal(identifiantProjet);
 
   if (représentantLégal) {
-    await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+    await upsertProjection<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
       `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
       {
         ...représentantLégal.changementEnCours,

@@ -8,6 +8,7 @@ import {
   ProjetAdapter,
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
+  DocumentAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
 import { getProjetAggregateRootAdapter } from '../adapters/getProjetAggregateRoot.adapter';
@@ -21,6 +22,7 @@ import { setupAccès } from './setupAccès';
 export const setupProjet: SetupProjet = async (dependencies) => {
   registerProjetUseCases({
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
+    supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
   });
 
   registerProjetQueries({

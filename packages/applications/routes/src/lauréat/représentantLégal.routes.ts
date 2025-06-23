@@ -1,9 +1,9 @@
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
+  statut?: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
 };
 
 export const modifier = (identifiantProjet: string) =>

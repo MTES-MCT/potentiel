@@ -320,6 +320,11 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
       dateSuppression,
       identifiantUtilisateur,
     });
+
+    await this.lauréat.représentantLégal.supprimerDemandeChangement({
+      dateSuppression,
+      identifiantUtilisateur,
+    });
   }
 
   apply(event: AbandonEvent): void {

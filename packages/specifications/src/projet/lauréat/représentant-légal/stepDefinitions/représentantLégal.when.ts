@@ -1,48 +1,27 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
-  /le représentant légal est importé pour le projet lauréat/,
-  async function (this: PotentielWorld) {
-    try {
-      const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-      const { importéLe } =
-        this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer();
-
-      await mediator.send<ReprésentantLégal.ReprésentantLégalCommand>({
-        type: 'Lauréat.ReprésentantLégal.Command.ImporterReprésentantLégal',
-        data: {
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-          importéLe: DateTime.convertirEnValueType(importéLe),
-          importéPar: Email.system(),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   /le DGEC validateur modifie le nom et le type du représentant légal(.*) pour le projet lauréat/,
   async function (this: PotentielWorld, avecLesMêmesValeurs?: string) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
+    const { nomReprésentantLégal, typeReprésentantLégal } =
+      this.lauréatWorld.représentantLégalWorld.mapToExpected(
+        identifiantProjet,
+        this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+      );
     try {
       const options = avecLesMêmesValeurs?.includes('avec les mêmes valeurs')
         ? {
-            nom: this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-              .nomReprésentantLégal,
-            type: this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-              .typeReprésentantLégal,
+            nom: nomReprésentantLégal,
+            type: typeReprésentantLégal,
           }
         : {
-            nom: this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-              .nomReprésentantLégal,
+            nom: nomReprésentantLégal,
             type: Lauréat.ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
           };
 
@@ -73,7 +52,7 @@ async function modifierReprésentantLégal(
         : {},
     );
 
-  await mediator.send<ReprésentantLégal.ModifierReprésentantLégalUseCase>({
+  await mediator.send<Lauréat.ReprésentantLégal.ModifierReprésentantLégalUseCase>({
     type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
     data: {
       identifiantProjetValue: identifiantProjet,

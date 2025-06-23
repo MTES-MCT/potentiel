@@ -2,7 +2,7 @@ import { formatDateForDocument } from '@potentiel-applications/document-builder'
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';
 import { getEnCopies } from '../getEnCopies';
 import { Option } from '@potentiel-libraries/monads';

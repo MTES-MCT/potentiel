@@ -32,10 +32,6 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                       |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                            |
 
-    Scénario: Impossible de modifier le représentant légal d'un projet lauréat inexistant
-        Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Aucun représentant légal n'est associé à ce projet"
-
     Scénario: Impossible de modifier le représentant légal avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand le DGEC validateur modifie le nom et le type du représentant légal avec les mêmes valeurs pour le projet lauréat

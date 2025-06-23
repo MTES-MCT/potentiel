@@ -1,12 +1,11 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
 import { ChangementReprésentantLégalWorld } from './changement/changementReprésentantLégal.world';
 
-type Expected = ReprésentantLégal.ConsulterReprésentantLégalReadModel & {
-  demande?: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande'];
+type Expected = Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel & {
+  demande?: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande'];
 };
 
 export class ReprésentantLégalWorld {
@@ -14,12 +13,6 @@ export class ReprésentantLégalWorld {
 
   get changementReprésentantLégalWorld() {
     return this.#changementReprésentantLégalWorld;
-  }
-
-  #importerReprésentantLégalFixture: ImporterReprésentantLégalFixture;
-
-  get importerReprésentantLégalFixture() {
-    return this.#importerReprésentantLégalFixture;
   }
 
   #modifierReprésentantLégalFixture: ModifierReprésentantLégalFixture;
@@ -32,17 +25,17 @@ export class ReprésentantLégalWorld {
     // Subworld
     this.#changementReprésentantLégalWorld = new ChangementReprésentantLégalWorld();
 
-    this.#importerReprésentantLégalFixture = new ImporterReprésentantLégalFixture();
     this.#modifierReprésentantLégalFixture = new ModifierReprésentantLégalFixture();
   }
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): ReprésentantLégal.ConsulterReprésentantLégalReadModel {
+    nomReprésentantLégal: string,
+  ): Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel {
     const expected: Expected = {
       identifiantProjet,
-      nomReprésentantLégal: this.#importerReprésentantLégalFixture.nomReprésentantLégal,
-      typeReprésentantLégal: this.#importerReprésentantLégalFixture.typeReprésentantLégal,
+      nomReprésentantLégal,
+      typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.inconnu,
     };
 
     if (this.#modifierReprésentantLégalFixture.aÉtéCréé) {

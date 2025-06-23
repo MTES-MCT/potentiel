@@ -7,7 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';

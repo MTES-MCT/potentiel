@@ -3,7 +3,6 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';

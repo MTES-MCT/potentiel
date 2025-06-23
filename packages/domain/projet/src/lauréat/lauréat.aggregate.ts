@@ -40,6 +40,7 @@ import { GarantiesFinancièresAggregate } from './garanties-financières/garanti
 import { PuissanceAggregate } from './puissance/puissance.aggregate';
 import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
+import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   #projet!: ProjetAggregateRoot;
@@ -87,6 +88,11 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     return this.#actionnaire;
   }
 
+  #représentantLégal!: AggregateType<ReprésentantLégalAggregate>;
+  get représentantLégal() {
+    return this.#représentantLégal;
+  }
+
   #fournisseur!: AggregateType<FournisseurAggregate>;
   get fournisseur() {
     return this.#fournisseur;
@@ -129,6 +135,12 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
       ActionnaireAggregate,
     );
     await this.#actionnaire.init(this);
+
+    this.#représentantLégal = await loadAggregate(
+      `représentant-légal|${this.projet.identifiantProjet.formatter()}`,
+      ReprésentantLégalAggregate,
+    );
+    await this.#représentantLégal.init(this);
 
     this.#fournisseur = await loadAggregate(
       `fournisseur|${this.projet.identifiantProjet.formatter()}`,
@@ -177,6 +189,12 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     await this.actionnaire.importer({
       importéLe: notifiéeLe,
       actionnaire: this.projet.candidature.sociétéMère,
+    });
+
+    await this.représentantLégal.importer({
+      importéLe: notifiéeLe,
+      nomReprésentantLégal: this.projet.candidature.nomReprésentantLégal,
+      importéPar: notifiéePar,
     });
 
     await this.fournisseur.importer({

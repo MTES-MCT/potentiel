@@ -1,4 +1,3 @@
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import {
   updateOneProjection,
@@ -17,12 +16,12 @@ export const changementReprésentantLégalDemandéProjector = async ({
 }: Lauréat.ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
   const identifiantChangement = `${identifiantProjet}#${demandéLe}`;
 
-  await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+  await upsertProjection<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
     `changement-représentant-légal|${identifiantChangement}`,
     {
       identifiantProjet,
       demande: {
-        statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+        statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
         nomReprésentantLégal,
         typeReprésentantLégal,
         pièceJustificative,
@@ -32,7 +31,7 @@ export const changementReprésentantLégalDemandéProjector = async ({
     },
   );
 
-  await updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+  await updateOneProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
     `représentant-légal|${identifiantProjet}`,
     {
       demandeEnCours: { demandéLe },

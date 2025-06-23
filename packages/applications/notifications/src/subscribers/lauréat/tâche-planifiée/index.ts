@@ -2,9 +2,10 @@ import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
@@ -22,7 +23,7 @@ export type RegisterTâchePlanifiéeNotificationDependencies = {
 
 type TâchePlanifiée =
   | GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
-  | ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
+  | Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
 
 export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
