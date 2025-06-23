@@ -6,6 +6,6 @@ export const mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps = (
 ) => {
   return {
     date: modification.createdAt as DateTime.RawType,
-    title: <div>Le gestionnaire de réseau de raccordement du projet a été modifié</div>,
+    title: <div>Nouveau gestionnaire de réseau de raccordement enregistré</div>,
   };
 };
