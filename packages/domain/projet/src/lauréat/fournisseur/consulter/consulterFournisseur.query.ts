@@ -2,9 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find, Joined } from '@potentiel-domain/entity';
+import { InvalidOperationError } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Fournisseur, FournisseurEntity } from '..';
-import { IdentifiantProjet } from '../../..';
+import { Candidature, IdentifiantProjet } from '../../..';
 import { CandidatureEntity } from '../../../candidature';
 
 export type ConsulterFournisseurReadModel = {
@@ -12,6 +14,7 @@ export type ConsulterFournisseurReadModel = {
   évaluationCarboneSimplifiée: number;
   évaluationCarboneSimplifiéeInitiale: number;
   fournisseurs: Array<Fournisseur.ValueType>;
+  technologie: 'pv' | 'eolien';
 };
 
 export type ConsulterFournisseurQuery = Message<
@@ -35,19 +38,57 @@ export const registerConsulterFournisseurQuery = ({ find }: ConsulterFournisseur
       { join: { entity: 'candidature', on: 'identifiantProjet' } },
     );
 
-    return Option.match(fournisseur).some(mapToReadModel).none();
+    if (Option.isNone(fournisseur)) {
+      return Option.none;
+    }
+
+    const appelOffres = await find<AppelOffre.AppelOffreEntity>(
+      `appel-offre|${fournisseur.candidature.appelOffre}`,
+    );
+    if (Option.isNone(appelOffres)) {
+      return Option.none;
+    }
+
+    return mapToReadModel(fournisseur, appelOffres);
   };
   mediator.register('Lauréat.Fournisseur.Query.ConsulterFournisseur', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  évaluationCarboneSimplifiée,
-  fournisseurs,
-  candidature: { evaluationCarboneSimplifiée: évaluationCarboneSimplifiéeInitiale },
-}: FournisseurEntity & Joined<CandidatureEntity>) => ({
+export const mapToReadModel = (
+  {
+    identifiantProjet,
+    évaluationCarboneSimplifiée,
+    fournisseurs,
+    candidature: { evaluationCarboneSimplifiée: évaluationCarboneSimplifiéeInitiale, technologie },
+  }: FournisseurEntity & Joined<CandidatureEntity>,
+  appelOffres: AppelOffre.AppelOffreReadModel,
+) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   évaluationCarboneSimplifiée,
   fournisseurs: fournisseurs.map(Fournisseur.convertirEnValueType),
+  technologie: getTechnologie({ appelOffres, technologie }),
   évaluationCarboneSimplifiéeInitiale,
 });
+
+type GetTechnologieProps = {
+  appelOffres: AppelOffre.AppelOffreReadModel;
+  technologie: Candidature.TypeTechnologie.RawType;
+};
+
+const getTechnologie = ({
+  appelOffres,
+  technologie: technologieCandidature,
+}: GetTechnologieProps) => {
+  const technologie = appelOffres.technologie ?? technologieCandidature;
+
+  if (technologie === 'N/A') {
+    throw new InvalidOperationError(`Le type de technologie de ce projet est inconnu`);
+  }
+
+  if (technologie === 'hydraulique') {
+    throw new InvalidOperationError(
+      `Le type de technologie de ce projet ne permet pas un changement de fournisseur`,
+    );
+  }
+  return technologie;
+};

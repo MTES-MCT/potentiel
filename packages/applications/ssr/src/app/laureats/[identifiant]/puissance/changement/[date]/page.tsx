@@ -3,9 +3,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import {
@@ -17,7 +16,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 
-import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
+import { getPuissanceInfos } from '../../../_helpers/getLauréat';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -52,7 +51,6 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
       const puissance = await getPuissanceInfos({
         identifiantProjet: identifiantProjet.formatter(),
       });
@@ -70,7 +68,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           puissanceInitiale={puissance.puissanceInitiale}
-          unitéPuissance={lauréat.unitéPuissance.formatter()}
+          unitéPuissance={puissance.unitéPuissance.formatter()}
           historique={historique.items.map((item) =>
             mapToPuissanceTimelineItemProps(item, puissance.unitéPuissance.formatter()),
           )}
