@@ -10,6 +10,8 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
   const {
     identifiantProjet,
     attestation: { format },
+    preuveTransmissionAuCocontractant,
+    dateTransmissionAuCocontractant,
     date,
   } = abandonAccordé.payload as Lauréat.Achèvement.AttestationConformitéTransmiseEvent['payload'];
 
@@ -20,16 +22,31 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     format,
   ).formatter();
 
+  const preuveTransmission = DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+    dateTransmissionAuCocontractant,
+    preuveTransmissionAuCocontractant.format,
+  ).formatter();
+
   return {
     date,
     title: <div>Projet achevé</div>,
     content: (
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger l'attestation de conformité'"
-        format="pdf"
-        url={Routes.Document.télécharger(attestation)}
-      />
+      <>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger l'attestation de conformité"
+          format="pdf"
+          url={Routes.Document.télécharger(attestation)}
+        />
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la preuve de transmission au cocontractant"
+          format="pdf"
+          url={Routes.Document.télécharger(preuveTransmission)}
+        />
+      </>
     ),
   };
 };
