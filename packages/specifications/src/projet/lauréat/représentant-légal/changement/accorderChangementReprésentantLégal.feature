@@ -4,6 +4,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
+        Et un cahier des charges modificatif choisi
 
     Plan du scénario: Accorder la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
