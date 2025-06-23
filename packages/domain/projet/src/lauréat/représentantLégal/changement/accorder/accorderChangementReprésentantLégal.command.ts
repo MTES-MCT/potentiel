@@ -28,7 +28,7 @@ export const registerAccorderChangementReprésentantLégalCommand = (
 ) => {
   const handler: MessageHandler<AccorderChangementReprésentantLégalCommand> = async (options) => {
     const projet = await getProjetAggregateRoot(options.identifiantProjet);
-    await projet.lauréat.représentantLégal.accorderChangementReprésentantLégal(options);
+    await projet.lauréat.représentantLégal.accorderDemandeChangement(options);
   };
   mediator.register(
     'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',

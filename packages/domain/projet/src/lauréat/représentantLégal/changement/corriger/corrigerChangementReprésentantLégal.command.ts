@@ -30,7 +30,7 @@ export const registerCorrigerChangementReprésentantLégalCommand = (
     dateCorrection,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
-    await projet.lauréat.représentantLégal.corrigerChangement({
+    await projet.lauréat.représentantLégal.corrigerDemandeChangement({
       nomReprésentantLégal,
       typeReprésentantLégal,
       pièceJustificative,

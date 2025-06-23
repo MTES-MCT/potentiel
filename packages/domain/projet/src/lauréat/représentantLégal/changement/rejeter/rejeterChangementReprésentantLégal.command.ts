@@ -27,7 +27,7 @@ export const registerRejeterChangementReprésentantLégalCommand = (
     rejetAutomatique,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
-    await projet.lauréat.représentantLégal.rejeter({
+    await projet.lauréat.représentantLégal.rejeterDemandeChangement({
       identifiantUtilisateur,
       dateRejet,
       motifRejet,
