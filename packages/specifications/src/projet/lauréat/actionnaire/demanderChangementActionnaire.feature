@@ -80,3 +80,11 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
+
+    Scénario: Impossible de demander le changement d'actionnaire d'un projet lauréat ayant un cahier des charges qui ne le permet pas
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+            | type GF       |            |
+        Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
