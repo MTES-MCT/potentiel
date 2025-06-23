@@ -14,7 +14,7 @@ export type ConsulterFournisseurReadModel = {
   évaluationCarboneSimplifiée: number;
   évaluationCarboneSimplifiéeInitiale: number;
   fournisseurs: Array<Fournisseur.ValueType>;
-  technologie: 'pv' | 'eolien';
+  technologie: AppelOffre.Technologie;
 };
 
 export type ConsulterFournisseurQuery = Message<
@@ -85,10 +85,5 @@ const getTechnologie = ({
     throw new InvalidOperationError(`Le type de technologie de ce projet est inconnu`);
   }
 
-  if (technologie === 'hydraulique') {
-    throw new InvalidOperationError(
-      `Le type de technologie de ce projet ne permet pas un changement de fournisseur`,
-    );
-  }
   return technologie;
 };
