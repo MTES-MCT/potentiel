@@ -1,17 +1,16 @@
 'use server';
 
 import { FC } from 'react';
-import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getProjet } from '@/app/_helpers/getProjet';
 
 import { ProjetBannerTemplate } from './ProjetBanner.template';
 
@@ -32,9 +31,11 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, n
 
     return (
       <ProjetBannerTemplate
-        badge={<StatutProjetBadge statut={statut} />}
+        badge={<StatutProjetBadge statut={statut.statut} />}
         localité={localité}
-        dateDésignation={notifiéLe}
+        dateDésignation={Option.match(notifiéLe)
+          .some((date) => date.formatter())
+          .none()}
         /***
          * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser role.aLaPermissionDe)
          */
@@ -46,57 +47,3 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, n
       />
     );
   });
-
-type GetProjet = (identifiantProjet: string) => Promise<
-  | {
-      nomProjet: string;
-      localité: Candidature.ConsulterCandidatureReadModel['localité'];
-      notifiéLe: Option.Type<DateTime.RawType>;
-      statut: StatutProjet.RawType;
-    }
-  | undefined
->;
-
-const getProjet: GetProjet = async (identifiantProjet) => {
-  const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-    type: 'Lauréat.Query.ConsulterLauréat',
-    data: {
-      identifiantProjet,
-    },
-  });
-
-  if (Option.isSome(lauréat)) {
-    const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
-      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-      },
-    });
-
-    const statut = Option.isSome(abandon) && abandon.statut.estAccordé() ? 'abandonné' : 'classé';
-
-    return {
-      nomProjet: lauréat.nomProjet,
-      localité: lauréat.localité,
-      notifiéLe: lauréat.notifiéLe.formatter(),
-      statut,
-    };
-  }
-
-  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-    type: 'Candidature.Query.ConsulterCandidature',
-    data: {
-      identifiantProjet,
-    },
-  });
-
-  if (Option.isSome(candidature)) {
-    return {
-      nomProjet: candidature.nomProjet,
-      localité: candidature.localité,
-      notifiéLe: candidature.notification?.notifiéeLe.formatter() ?? Option.none,
-      statut: candidature.statut.formatter(),
-    };
-  }
-  return;
-};

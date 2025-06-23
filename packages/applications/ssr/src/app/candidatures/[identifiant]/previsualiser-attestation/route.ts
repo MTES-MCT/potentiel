@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation';
 import { mediator } from 'mediateur';
 
-import {
-  AccèsFonctionnalitéRefuséError,
-  ConsulterUtilisateurQuery,
-} from '@potentiel-domain/utilisateur';
+import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { buildCertificate } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -24,19 +21,6 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       const logger = getLogger();
 
       const identifiantProjet = decodeParameter(identifiant);
-
-      const rôleUtilisateur = utilisateur.role;
-
-      const canPreviewAttestation = rôleUtilisateur.aLaPermission(
-        'candidature.attestation.prévisualiser',
-      );
-
-      if (!canPreviewAttestation) {
-        throw new AccèsFonctionnalitéRefuséError(
-          'candidature.attestation.prévisualiser',
-          rôleUtilisateur.nom,
-        );
-      }
 
       const candidature = await getCandidature(identifiantProjet);
 

@@ -20,7 +20,7 @@ import { logger } from '../../../core/utils';
 import { DomainError } from '../../../core/domain';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
 import { ModificationRequest } from '../../../infra/sequelize/projectionsNext';
@@ -101,15 +101,14 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
+      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+        type: 'Lauréat.Query.ConsulterLauréat',
         data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
       });
 
-      if (Option.isNone(candidature)) {
+      if (Option.isNone(lauréat)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
-
       const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: { identifiantAppelOffre: identifiantProjet.appelOffre },
@@ -119,16 +118,13 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const delaiRealisationEnMois = getDelaiDeRealisation(
-        appelOffre,
-        candidature.technologie.type,
-      );
+      const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, lauréat.technologie.type);
       if (!delaiRealisationEnMois) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
       const dateAchèvementProjetInitiale = sub(
-        add(candidature.notification!.notifiéeLe.date, {
+        add(lauréat.notifiéLe.date, {
           months: delaiRealisationEnMois,
         }),
         {

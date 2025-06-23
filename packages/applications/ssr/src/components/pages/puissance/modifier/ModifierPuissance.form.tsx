@@ -5,8 +5,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -15,15 +14,17 @@ import { ValidationErrors } from '@/utils/formAction';
 
 import { modifierPuissanceAction, ModifierPuissanceFormKeys } from './modifierPuissance.action';
 
-export type ModifierPuissanceFormProps =
-  PlainType<Lauréat.Puissance.ConsulterPuissanceReadModel> & {
-    unitéPuissance: string;
-  };
+export type ModifierPuissanceFormProps = PlainType<
+  Pick<
+    Lauréat.Puissance.ConsulterPuissanceReadModel,
+    'identifiantProjet' | 'puissance' | 'unitéPuissance'
+  >
+>;
 
 export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
   identifiantProjet,
   puissance,
-  unitéPuissance,
+  unitéPuissance: { unité: unitéPuissance },
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierPuissanceFormKeys>

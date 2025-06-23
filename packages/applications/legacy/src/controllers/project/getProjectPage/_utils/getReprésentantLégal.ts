@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -36,26 +35,7 @@ export const getReprésentantLégal = async ({
       });
 
     if (Option.isNone(représentantLégal)) {
-      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-        type: 'Candidature.Query.ConsulterCandidature',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
-      if (Option.isNone(candidature)) {
-        return undefined;
-      }
-
-      return {
-        nom: candidature.nomReprésentantLégal,
-        affichage: utilisateur.aLaPermission('candidature.corriger')
-          ? {
-              label: 'Modifier la candidature',
-              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-            }
-          : undefined,
-      };
+      return undefined;
     }
 
     const demandeEnCours = utilisateur.aLaPermission('représentantLégal.consulterChangement')

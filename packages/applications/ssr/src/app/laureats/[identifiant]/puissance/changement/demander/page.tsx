@@ -12,7 +12,8 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DemanderChangementPuissancePage } from '@/components/pages/puissance/changement/demander/DemanderChangementPuissance.page';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
+
+import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
 
 export const metadata: Metadata = {
   title: 'Demander le changement de puissance du projet - Potentiel',
@@ -34,9 +35,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const candidature = await getCandidature(identifiantProjet.formatter());
-
-    const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
+    const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
+    const puissance = await getPuissanceInfos({
+      identifiantProjet: identifiantProjet.formatter(),
+    });
+    const { appelOffres, période } = await getPériodeAppelOffres(lauréat.identifiantProjet);
 
     const cahierDesChargesChoisi =
       await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
@@ -54,14 +57,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       <DemanderChangementPuissancePage
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
         puissance={puissanceActuelle.puissance}
-        unitéPuissance={candidature.unitéPuissance.formatter()}
+        unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
         appelOffre={mapToPlainObject(appelOffres)}
         période={mapToPlainObject(période)}
-        technologie={candidature.technologie}
+        technologie={lauréat.technologie}
         famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
         cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
-        volumeRéservé={mapToPlainObject(candidature.volumeRéservé)}
-        puissanceInitiale={candidature.puissanceProductionAnnuelle}
+        volumeRéservé={mapToPlainObject(lauréat.volumeRéservé)}
+        puissanceInitiale={puissance.puissanceInitiale}
       />
     );
   });

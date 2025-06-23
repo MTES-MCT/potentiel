@@ -2,8 +2,9 @@ import { mediator } from 'mediateur';
 import { Metadata, ResolvingMetadata } from 'next';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Accès, Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Accès, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -14,8 +15,8 @@ import {
   DétailsProjetÉliminéPage,
   DétailsProjetÉliminéPageProps,
 } from '@/components/pages/projet/éliminé/détails/DétailsProjetÉliminé.page';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getProjet } from '@/app/_helpers/getProjet';
 
 import { getProjetÉliminé } from './_helpers/getÉliminé';
 
@@ -26,7 +27,7 @@ export async function generateMetadata(
   _: ResolvingMetadata,
 ): Promise<Metadata> {
   try {
-    const candidature = await getCandidature(decodeParameter(params.identifiant));
+    const candidature = await getProjet(decodeParameter(params.identifiant));
 
     return {
       title: `${candidature.nomProjet} - Potentiel`,
@@ -44,9 +45,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      await getProjetÉliminé(identifiantProjet.formatter());
-
-      const candidature = await getCandidature(identifiantProjet.formatter());
+      const éliminé = await getProjetÉliminé(identifiantProjet.formatter());
 
       const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',
@@ -67,7 +66,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       return (
         <DétailsProjetÉliminéPage
           identifiantProjet={identifiantProjet.formatter()}
-          candidature={mapToCandidatureProps({ candidature, role: utilisateur.role })}
+          éliminé={mapToProps({ éliminé, role: utilisateur.role })}
           utilisateursAyantAccèsAuProjet={Option.match(accèsProjet)
             .some((accèsProjet) =>
               accèsProjet.utilisateursAyantAccès.map((utilisateur) => utilisateur.formatter()),
@@ -85,32 +84,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   );
 }
 
-type MapToCandidatureProps = (args: {
-  candidature: Candidature.ConsulterCandidatureReadModel;
+type MapToProps = (args: {
+  éliminé: Éliminé.ConsulterÉliminéReadModel;
   role: Role.ValueType;
-}) => DétailsProjetÉliminéPageProps['candidature'];
+}) => DétailsProjetÉliminéPageProps['éliminé'];
 
-const mapToCandidatureProps: MapToCandidatureProps = ({
-  candidature: {
-    nomCandidat,
-    emailContact,
-    localité,
-    nomReprésentantLégal,
-    sociétéMère,
-    prixReference,
-    puissanceProductionAnnuelle,
-    unitéPuissance,
-  },
-  role,
-}) => ({
-  localité,
-  nomCandidat,
-  emailContact,
-  nomReprésentantLégal,
-  sociétéMère,
-  prixReference: role.aLaPermission('projet.accèsDonnées.prix') ? prixReference : undefined,
-  puissanceProductionAnnuelle,
-  unitéPuissance: unitéPuissance.formatter(),
+const mapToProps: MapToProps = ({ éliminé, role }) => ({
+  ...mapToPlainObject(éliminé),
+  prixReference: role.aLaPermission('projet.accèsDonnées.prix') ? éliminé.prixReference : undefined,
 });
 
 type MapToActions = (args: {

@@ -5,7 +5,7 @@ import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } f
 import routes from '../../../../routes';
 import type { Candidature } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
-import { StatutProjet } from '@potentiel-domain/common';
+import { StatutProjet } from '@potentiel-domain/projet';
 
 export type RésuméProjet = {
   appelOffre: string;
@@ -70,11 +70,13 @@ const EntêteProjet: FC<RésuméProjet> = ({
   </div>
 );
 
-const getBadgeType = (statut: StatutProjet.RawType): BadgeType => {
+const getBadgeType = (statut: StatutProjet.RawType | 'non-notifié'): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
     case 'classé':
+      return 'success';
+    case 'achevé':
       return 'success';
     case 'éliminé':
       return 'error';
@@ -83,7 +85,7 @@ const getBadgeType = (statut: StatutProjet.RawType): BadgeType => {
   }
 };
 
-const getBadgeLabel = (statut: StatutProjet.RawType): string => {
+const getBadgeLabel = (statut: StatutProjet.RawType | 'non-notifié'): string => {
   if (statut === 'non-notifié') return 'à notifier';
   return statut;
 };

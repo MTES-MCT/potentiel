@@ -1,4 +1,8 @@
 import {
+  ConsulterAttestationQuery,
+  ConsulterAttestationReadModel,
+} from './consulter/consulterAttestation.query';
+import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
@@ -32,12 +36,14 @@ import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.useca
 export type CandidatureQuery =
   | ListerCandidaturesQuery
   | ListerProjetsEligiblesPreuveRecanditureQuery
-  | ConsulterCandidatureQuery;
+  | ConsulterCandidatureQuery
+  | ConsulterAttestationQuery;
 
 export {
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerCandidaturesQuery,
   ConsulterCandidatureQuery,
+  ConsulterAttestationQuery,
 };
 
 // ReadModel
@@ -45,6 +51,7 @@ export {
   ListerProjetsEligiblesPreuveRecanditureReadModel,
   ListerCandidaturesReadModel,
   ConsulterCandidatureReadModel,
+  ConsulterAttestationReadModel,
 };
 
 // Port
