@@ -1,6 +1,7 @@
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture';
 import { EnregistrerChangementFournisseurFixture } from './fixtures/enregistrerChangementFournisseur.fixture';
@@ -22,7 +23,10 @@ export class FournisseurWorld {
     identifiantProjet: IdentifiantProjet.ValueType,
     candidature: Candidature.ConsulterCandidatureReadModel,
   ) {
-    return {
+    const appelOffres = appelsOffreData.find(
+      (ao) => ao.id === candidature.identifiantProjet.appelOffre,
+    )!;
+    const expected: Lauréat.Fournisseur.ConsulterFournisseurReadModel = {
       identifiantProjet,
       fournisseurs: this.enregistrerChangementFournisseur.aÉtéCréé
         ? this.enregistrerChangementFournisseur.fournisseurs.map(
@@ -34,7 +38,11 @@ export class FournisseurWorld {
         : this.enregistrerChangementFournisseur.aÉtéCréé
           ? this.enregistrerChangementFournisseur.évaluationCarbone
           : candidature.evaluationCarboneSimplifiée,
+      technologie: (appelOffres.technologie ?? candidature.technologie) as 'pv' | 'eolien',
+      évaluationCarboneSimplifiéeInitiale: candidature.evaluationCarboneSimplifiée,
     };
+
+    return expected;
   }
 
   mapChangementToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
