@@ -11,8 +11,8 @@ export type RawType = number;
 export type ValueType = {
   puissanceInitiale: number;
   nouvellePuissance: number;
-  cdcActuel: { ratioMin: number; ratioMax: number };
-  cdcInitial: { ratioMin: number; ratioMax: number };
+  ratiosCdcActuel: { min: number; max: number };
+  ratiosCdcInitial: { min: number; max: number };
   famille?: { puissanceMax: number };
   volumeRéservé?: VolumeRéservé.ValueType;
   ratio: number;
@@ -27,13 +27,13 @@ export const bind = ({
   nouvellePuissance,
   puissanceInitiale,
   volumeRéservé,
-  cdcActuel,
-  cdcInitial,
+  ratiosCdcActuel,
+  ratiosCdcInitial,
   famille,
 }: PlainType<Omit<ValueType, 'ratio'>>): ValueType => {
   return {
-    cdcActuel,
-    cdcInitial,
+    ratiosCdcActuel,
+    ratiosCdcInitial,
     famille,
     nouvellePuissance,
     puissanceInitiale,
@@ -44,10 +44,10 @@ export const bind = ({
       return this.nouvellePuissance / puissanceInitiale;
     },
     dépasseRatiosChangementPuissance() {
-      return this.ratio < this.cdcActuel.ratioMin || this.ratio > this.cdcActuel.ratioMax;
+      return this.ratio < this.ratiosCdcActuel.min || this.ratio > this.ratiosCdcActuel.max;
     },
     dépasseRatiosChangementPuissanceDuCahierDesChargesInitial() {
-      return this.ratio < this.cdcInitial.ratioMin || this.ratio > this.cdcInitial.ratioMax;
+      return this.ratio < this.ratiosCdcInitial.min || this.ratio > this.ratiosCdcInitial.max;
     },
     dépassePuissanceMaxFamille() {
       return this.famille ? this.nouvellePuissance > this.famille.puissanceMax : false;
@@ -66,11 +66,11 @@ export const bind = ({
       }
 
       if (typeDemande === 'information-enregistrée') {
-        if (this.ratio > this.cdcActuel.ratioMax) {
+        if (this.ratio > this.ratiosCdcActuel.max) {
           throw new PuissanceDépassePuissanceMaxAO();
         }
 
-        if (this.ratio < this.cdcActuel.ratioMin) {
+        if (this.ratio < this.ratiosCdcActuel.min) {
           throw new PuissanceEnDeçaPuissanceMinAO();
         }
       }
@@ -112,11 +112,8 @@ export const déterminer = ({
   return bind({
     nouvellePuissance,
     puissanceInitiale,
-    cdcActuel: { ratioMin: cdcActuel.min, ratioMax: cdcActuel.max },
-    cdcInitial: {
-      ratioMin: cdcInitial.min,
-      ratioMax: cdcInitial.max,
-    },
+    ratiosCdcActuel: cdcActuel,
+    ratiosCdcInitial: cdcInitial,
     famille: famille?.puissanceMax ? { puissanceMax: famille.puissanceMax } : undefined,
     volumeRéservé: volumeRéservé && VolumeRéservé.bind(volumeRéservé),
   });
