@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, StatutProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '../../atoms/FormattedDate';
 import { NotificationBadge } from '../candidature/NotificationBadge';
