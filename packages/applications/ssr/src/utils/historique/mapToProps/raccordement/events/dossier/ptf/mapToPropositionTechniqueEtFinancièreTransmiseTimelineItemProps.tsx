@@ -7,34 +7,55 @@ import { Raccordement } from '@potentiel-domain/laureat';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = (
-  modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  readmodel: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
-  const event = match(modification)
-    .with(
-      { type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' },
-      (event) =>
-        event as unknown as Raccordement.PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
-    )
-    .with(
-      { type: 'PropositionTechniqueEtFinancièreTransmise-V1' },
-      (event) => event as unknown as Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1,
-    )
-    .with(
-      { type: 'PropositionTechniqueEtFinancièreTransmise-V2' },
-      (event) => event as unknown as Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent,
-    )
+  const event:
+    | {
+        date: DateTime.RawType;
+        référenceDossierRaccordement: string;
+      }
+    | undefined = match(readmodel)
+    .with({ type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' }, (event) => {
+      const { référenceDossierRaccordement } =
+        event.payload as Raccordement.PropositionTechniqueEtFinancièreSignéeTransmiseEventV1['payload'];
+
+      return {
+        date: DateTime.convertirEnValueType(event.createdAt).formatter(),
+        référenceDossierRaccordement,
+      };
+    })
+    .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V1' }, (event) => {
+      const { référenceDossierRaccordement, dateSignature } =
+        event.payload as Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1['payload'];
+
+      return {
+        date: dateSignature,
+        référenceDossierRaccordement,
+      };
+    })
+    .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V2' }, (event) => {
+      const { référenceDossierRaccordement, dateSignature } =
+        event.payload as Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent['payload'];
+
+      return {
+        date: dateSignature,
+        référenceDossierRaccordement,
+      };
+    })
     .otherwise(() => undefined);
 
   if (!event) {
-    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(modification);
+    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(readmodel);
   }
 
+  const { date, référenceDossierRaccordement } = event;
+
   return {
-    date: modification.createdAt as DateTime.RawType,
+    date,
     title: (
       <div>
         La proposition technique et financière a été transmise pour le dossier de raccordement{' '}
-        <span className="font-semibold">{event.payload.référenceDossierRaccordement}</span>.
+        <span className="font-semibold">{référenceDossierRaccordement}</span>.
       </div>
     ),
   };
