@@ -32,8 +32,13 @@ import {
   DemandeDeChangementEnCoursError,
   ReprésentantLégalDéjàImportéError,
   ReprésentantLégalIdentiqueError,
+  ReprésentantLégalTypeInconnuError,
 } from './représentantLégal.errors';
-import { DemandeChangementInexistanteError } from './changement/changementReprésentantLégal.error';
+import {
+  ChangementDéjàAccordéError,
+  ChangementDéjàRejetéError,
+  DemandeChangementInexistanteError,
+} from './changement/changementReprésentantLégal.error';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
@@ -76,6 +81,13 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     this.#lauréat = lauréat;
   }
 
+  private get demande() {
+    if (!this.#demande) {
+      throw new DemandeChangementInexistanteError();
+    }
+    return this.#demande;
+  }
+
   private get identifiantProjet(): IdentifiantProjet.ValueType {
     return this.#lauréat.projet.identifiantProjet;
   }
@@ -107,12 +119,8 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementEnCoursError();
     }
-    if (
-      this.#représentantLégal?.nom === nomReprésentantLégal &&
-      this.#représentantLégal?.type?.estÉgaleÀ?.(typeReprésentantLégal)
-    ) {
-      throw new ReprésentantLégalIdentiqueError();
-    }
+    this.vérifierReprésentantLégalNonIdentique(nomReprésentantLégal, typeReprésentantLégal);
+
     const event: ReprésentantLégalModifiéEvent = {
       type: 'ReprésentantLégalModifié-V1',
       payload: {
@@ -126,43 +134,70 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     await this.publish(event);
   }
 
-  async demanderChangement(options: DemanderChangementOptions) {
-    // Préconditions métier à adapter selon besoin
+  async demanderChangement({
+    dateDemande,
+    identifiantUtilisateur,
+    nomReprésentantLégal,
+    pièceJustificative,
+    typeReprésentantLégal,
+  }: DemanderChangementOptions) {
+    this.vérifierReprésentantLégalNonIdentique(nomReprésentantLégal, typeReprésentantLégal);
+
+    if (typeReprésentantLégal.estInconnu()) {
+      throw new ReprésentantLégalTypeInconnuError();
+    }
+
+    if (this.#demande) {
+      this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+        StatutChangementReprésentantLégal.demandé,
+      );
+    }
+
     const event: ChangementReprésentantLégalDemandéEvent = {
       type: 'ChangementReprésentantLégalDemandé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        nomReprésentantLégal: options.nomReprésentantLégal,
-        typeReprésentantLégal: options.typeReprésentantLégal.formatter(),
-        demandéLe: options.dateDemande.formatter(),
-        demandéPar: options.identifiantUtilisateur.formatter(),
-        pièceJustificative: { format: options.pièceJustificative.format },
+        nomReprésentantLégal,
+        typeReprésentantLégal: typeReprésentantLégal.formatter(),
+        demandéLe: dateDemande.formatter(),
+        demandéPar: identifiantUtilisateur.formatter(),
+        pièceJustificative: { format: pièceJustificative.format },
       },
     };
+
     await this.publish(event);
   }
 
-  async corrigerDemandeChangement(options: CorrigerChangementOptions) {
+  async corrigerDemandeChangement({
+    nomReprésentantLégal,
+    typeReprésentantLégal,
+    dateCorrection,
+    identifiantUtilisateur,
+    pièceJustificative,
+  }: CorrigerChangementOptions) {
+    if (this.demande.statut.estAccordé()) {
+      throw new ChangementDéjàAccordéError();
+    }
+
+    if (this.demande.statut.estRejeté()) {
+      throw new ChangementDéjàRejetéError();
+    }
     const event: ChangementReprésentantLégalCorrigéEvent = {
       type: 'ChangementReprésentantLégalCorrigé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        nomReprésentantLégal: options.nomReprésentantLégal,
-        typeReprésentantLégal: options.typeReprésentantLégal.formatter(),
-        corrigéLe: options.dateCorrection.formatter(),
-        corrigéPar: options.identifiantUtilisateur.formatter(),
-        pièceJustificative: { format: options.pièceJustificative.format },
+        nomReprésentantLégal,
+        typeReprésentantLégal: typeReprésentantLégal.formatter(),
+        corrigéLe: dateCorrection.formatter(),
+        corrigéPar: identifiantUtilisateur.formatter(),
+        pièceJustificative: { format: pièceJustificative.format },
       },
     };
     await this.publish(event);
   }
 
   async accorderDemandeChangement(options: AccorderOptions) {
-    const demande = this.#demande;
-
-    if (!demande) {
-      throw new DemandeChangementInexistanteError();
-    }
+    const demande = this.demande;
 
     const { dateAccord, identifiantUtilisateur, accordAutomatique } = options;
 
@@ -194,33 +229,50 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     await this.publish(event);
   }
 
-  async rejeterDemandeChangement(options: RejeterOptions) {
+  async rejeterDemandeChangement({
+    dateRejet,
+    identifiantUtilisateur,
+    motifRejet,
+    rejetAutomatique,
+  }: RejeterOptions) {
+    this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutChangementReprésentantLégal.rejeté,
+    );
+
     const event: ChangementReprésentantLégalRejetéEvent = {
       type: 'ChangementReprésentantLégalRejeté-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        motifRejet: options.motifRejet,
-        rejetéLe: options.dateRejet.formatter(),
-        rejetéPar: options.identifiantUtilisateur.formatter(),
-        rejetAutomatique: options.rejetAutomatique,
+        motifRejet,
+        rejetéLe: dateRejet.formatter(),
+        rejetéPar: identifiantUtilisateur.formatter(),
+        rejetAutomatique,
       },
     };
+
     await this.publish(event);
   }
 
-  async annulerDemandeChangement(options: AnnulerOptions) {
+  async annulerDemandeChangement({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
+    this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutChangementReprésentantLégal.annulé,
+    );
+
     const event: ChangementReprésentantLégalAnnuléEvent = {
       type: 'ChangementReprésentantLégalAnnulé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        annuléLe: options.dateAnnulation.formatter(),
-        annuléPar: options.identifiantUtilisateur.formatter(),
+        annuléLe: dateAnnulation.formatter(),
+        annuléPar: identifiantUtilisateur.formatter(),
       },
     };
     await this.publish(event);
   }
 
   async supprimerDemandeChangement(options: SupprimerOptions) {
+    if (!this.#demande) {
+      return;
+    }
     const event: ChangementReprésentantLégalSuppriméEvent = {
       type: 'ChangementReprésentantLégalSupprimé-V1',
       payload: {
@@ -230,6 +282,18 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
       },
     };
     await this.publish(event);
+  }
+
+  private vérifierReprésentantLégalNonIdentique(
+    nomReprésentantLégal: string,
+    typeReprésentantLégal: TypeReprésentantLégal.ValueType,
+  ) {
+    if (
+      this.#représentantLégal?.nom === nomReprésentantLégal &&
+      this.#représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
+    ) {
+      throw new ReprésentantLégalIdentiqueError();
+    }
   }
 
   apply(event: ReprésentantLégalEvent) {
