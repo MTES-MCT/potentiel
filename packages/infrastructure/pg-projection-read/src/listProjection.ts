@@ -1,7 +1,6 @@
 import format from 'pg-format';
 
 import { Entity, Joined, ListOptions, ListResult, WhereCondition } from '@potentiel-domain/entity';
-import { unflatten } from '@potentiel-libraries/flat';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { KeyValuePair } from './keyValuePair';
@@ -11,11 +10,12 @@ import { getRangeClause } from './getRangeClause';
 import { countProjection } from './countProjection';
 import { getSelectClause } from './getSelectClause';
 import { getFromClause } from './getFromClause';
+import { mapResult } from './mapResult';
 
 export const listProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
-): Promise<ListResult<TEntity & Joined<TJoin>>> => {
+): Promise<ListResult<TEntity, TJoin>> => {
   const { orderBy, range, where, join } = options ?? {};
   const selectClause = getSelectClause({ join: !!join });
   const fromClause = join ? getFromClause({ join }) : getFromClause({});
@@ -39,18 +39,13 @@ export const listProjection = async <TEntity extends Entity, TJoin extends Entit
     ? await countProjection<TEntity, Entity>(category, { where, join })
     : await countProjection<TEntity>(category, { where });
 
+  const items = result.map((item) =>
+    join ? mapResult(item, { join }) : mapResult(item, {}),
+  ) as (TEntity & Joined<TJoin>)[];
+
   return {
     total,
-    items: result.map(
-      ({ key, value, join_value }) =>
-        ({
-          ...unflatten<unknown, Omit<TEntity, 'type'>>(value),
-          type: key.split('|')[0],
-          ...(join && join_value
-            ? { [join.entity]: unflatten<unknown, Omit<TJoin, 'type'>>(join_value) }
-            : {}),
-        }) as TEntity & Joined<TJoin>,
-    ),
+    items,
     range: range ?? {
       endPosition: total,
       startPosition: 0,
