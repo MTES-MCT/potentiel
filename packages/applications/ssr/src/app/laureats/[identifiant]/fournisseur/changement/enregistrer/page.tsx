@@ -7,10 +7,8 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { EnregistrerChangementFournisseurPage } from '@/components/pages/fournisseur/changement/enregistrer/EnregistrerChangementFournisseur.page';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
-import { getTechnologie } from '../../_helpers/getTechnologie';
-import { getFournisseurInfos, getLauréatInfos } from '../../../_helpers/getLauréat';
+import { getFournisseurInfos } from '../../../_helpers/getLauréat';
 
 export const metadata: Metadata = {
   title: 'Changer le fournisseur du projet - Potentiel',
@@ -20,14 +18,9 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const lauréat = await getLauréatInfos({
-      identifiantProjet: identifiantProjet.formatter(),
-    });
     const fournisseur = await getFournisseurInfos({
       identifiantProjet: identifiantProjet.formatter(),
     });
-    const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
-    const technologie = getTechnologie({ appelOffres, technologie: lauréat.technologie });
 
     return (
       <EnregistrerChangementFournisseurPage
@@ -35,7 +28,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         fournisseurs={mapToPlainObject(fournisseur.fournisseurs)}
         évaluationCarboneSimplifiée={fournisseur.évaluationCarboneSimplifiée}
         évaluationCarboneSimplifiéeInitiale={fournisseur.évaluationCarboneSimplifiéeInitiale}
-        technologie={technologie}
+        technologie={fournisseur.technologie}
       />
     );
   });
