@@ -5,7 +5,7 @@ import {
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';

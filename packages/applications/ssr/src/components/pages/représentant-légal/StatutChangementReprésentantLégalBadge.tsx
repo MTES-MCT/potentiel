@@ -2,8 +2,6 @@ import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 import { match, P } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
-
 export type StatutChangementReprésentantLégalBadgeProps = {
   statut: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
   small?: true;

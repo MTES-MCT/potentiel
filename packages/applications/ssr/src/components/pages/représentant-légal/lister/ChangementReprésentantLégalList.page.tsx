@@ -2,7 +2,6 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';

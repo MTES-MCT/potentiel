@@ -1,13 +1,72 @@
-import {
-  ListerHistoriqueReprésentantLégalProjetDependencies,
-  registerListerHistoriqueReprésentantLégalProjetQuery,
-} from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query';
+import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 
-export type ReprésentantLégalQueryDependencies =
-  ListerHistoriqueReprésentantLégalProjetDependencies;
+import {
+  ConsulterReprésentantLégalDependencies,
+  registerConsulterRepresentantLegalQuery,
+} from './consulter/consulterReprésentantLégal.query';
+import { registerModifierReprésentantLégalCommand } from './modifier/modifierReprésentantLégal.command';
+import { registerModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase';
+import { registerDemanderChangementReprésentantLégalUseCase } from './changement/demander/demanderChangementReprésentantLégal.usecase';
+import { registerDemanderChangementReprésentantLégalCommand } from './changement/demander/demanderChangementReprésentantLégal.command';
+import { registerConsulterChangementReprésentantLegalQuery } from './changement/consulter/consulterChangementReprésentantLégal.query';
+import {
+  ListerChangementReprésentantLégalDependencies,
+  registerListerChangementReprésentantLégalQuery,
+} from './changement/lister/listerChangementReprésentantLégal.query';
+import { registerAccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase';
+import { registerAccorderChangementReprésentantLégalCommand } from './changement/accorder/accorderChangementReprésentantLégal.command';
+import { registerRejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase';
+import { registerRejeterChangementReprésentantLégalCommand } from './changement/rejeter/rejeterChangementReprésentantLégal.command';
+import { registerAnnulerChangementReprésentantLégalCommand } from './changement/annuler/annulerChangementReprésentantLégal.command';
+import { registerAnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase';
+import {
+  SupprimerDocumentProjetSensibleCommandDependencies,
+  registerSupprimerDocumentProjetSensibleCommand,
+} from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import { registerCorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
+import { registerCorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
+import { registerConsulterChangementReprésentantLegalEnCoursQuery } from './changement/consulter/consulterChangementReprésentantLégalEnCours.query';
+
+export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
+  ListerChangementReprésentantLégalDependencies;
+
+export type ReprésentantLégalCommandDependencies = {
+  getProjetAggregateRoot: GetProjetAggregateRoot;
+} & SupprimerDocumentProjetSensibleCommandDependencies;
+
+export const registerReprésentantLégalUseCases = ({
+  supprimerDocumentProjetSensible,
+  getProjetAggregateRoot,
+}: ReprésentantLégalCommandDependencies) => {
+  registerModifierReprésentantLégalCommand(getProjetAggregateRoot);
+  registerModifierReprésentantLégalUseCase();
+
+  registerDemanderChangementReprésentantLégalCommand(getProjetAggregateRoot);
+  registerDemanderChangementReprésentantLégalUseCase();
+
+  registerAnnulerChangementReprésentantLégalCommand(getProjetAggregateRoot);
+  registerAnnulerChangementReprésentantLégalUseCase();
+
+  registerCorrigerChangementReprésentantLégalCommand(getProjetAggregateRoot);
+  registerCorrigerChangementReprésentantLégalUseCase();
+
+  registerAccorderChangementReprésentantLégalUseCase();
+  registerAccorderChangementReprésentantLégalCommand(getProjetAggregateRoot);
+
+  registerRejeterChangementReprésentantLégalCommand(getProjetAggregateRoot);
+  registerRejeterChangementReprésentantLégalUseCase();
+
+  registerSupprimerDocumentProjetSensibleCommand({
+    getProjetAggregateRoot,
+    supprimerDocumentProjetSensible,
+  });
+};
 
 export const registerReprésentantLégalQueries = (
   dependencies: ReprésentantLégalQueryDependencies,
 ) => {
-  registerListerHistoriqueReprésentantLégalProjetQuery(dependencies);
+  registerConsulterRepresentantLegalQuery(dependencies);
+  registerConsulterChangementReprésentantLegalQuery(dependencies);
+  registerConsulterChangementReprésentantLegalEnCoursQuery(dependencies);
+  registerListerChangementReprésentantLégalQuery(dependencies);
 };

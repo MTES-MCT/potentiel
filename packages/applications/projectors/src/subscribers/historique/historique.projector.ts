@@ -5,14 +5,14 @@ import {
   createHistoryProjection,
   removeHistoryProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { GarantiesFinancières, Raccordement, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { GarantiesFinancières, Raccordement } from '@potentiel-domain/laureat';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 export type SubscriptionEvent =
   | (Lauréat.Abandon.AbandonEvent & Event)
   | (Éliminé.Recours.RecoursEvent & Event)
   | (Lauréat.Actionnaire.ActionnaireEvent & Event)
-  | (ReprésentantLégal.ReprésentantLégalEvent & Event)
+  | (Lauréat.ReprésentantLégal.ReprésentantLégalEvent & Event)
   | (Lauréat.Puissance.PuissanceEvent & Event)
   | (Lauréat.Producteur.ProducteurEvent & Event)
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)

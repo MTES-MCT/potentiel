@@ -3,7 +3,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';

@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';

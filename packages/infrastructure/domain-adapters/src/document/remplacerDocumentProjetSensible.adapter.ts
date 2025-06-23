@@ -1,9 +1,9 @@
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { upload } from '@potentiel-libraries/file-storage';
 
-export const remplacerDocumentProjetSensible: ReprésentantLégal.SupprimerDocumentProjetSensiblePort =
+export const remplacerDocumentProjetSensible: Lauréat.ReprésentantLégal.SupprimerDocumentProjetSensiblePort =
   async (documentProjet, raison) => {
     await upload(documentProjet.formatter(), await buildCenteredTextPdfFile(raison));
   };

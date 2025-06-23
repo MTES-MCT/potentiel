@@ -9,7 +9,7 @@ import { notFoundResponse, unauthorizedResponse } from '../helpers';
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { ModificationRequest, Project } from '../../infra/sequelize';
 import { mediator } from 'mediateur';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';

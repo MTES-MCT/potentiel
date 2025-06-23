@@ -2,7 +2,7 @@ import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';

@@ -2,8 +2,8 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given';
@@ -45,7 +45,7 @@ EtantDonné(
       ],
     });
 
-    await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -71,7 +71,7 @@ EtantDonné(
         },
       );
 
-    await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -86,7 +86,7 @@ EtantDonné(
     const fixtureAccorder =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
 
-    await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -112,7 +112,7 @@ EtantDonné(
         },
       );
 
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -127,7 +127,7 @@ EtantDonné(
     const fixtureRejeter =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
 
-    await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
+    await mediator.send<Lauréat.ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

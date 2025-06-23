@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -16,7 +16,7 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
       const représentantLégal =
-        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
@@ -25,7 +25,10 @@ Alors(
 
       const actual = mapToPlainObject(représentantLégal);
       const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.représentantLégalWorld.mapToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+        ),
       );
 
       actual.should.be.deep.equal(expected);
@@ -40,7 +43,7 @@ Alors(
       const { identifiantProjet } = this.lauréatWorld;
 
       const représentantLégal =
-        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
@@ -49,7 +52,10 @@ Alors(
 
       const actual = mapToPlainObject(représentantLégal);
       const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.représentantLégalWorld.mapToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+        ),
       );
 
       actual.should.be.deep.equal(expected);

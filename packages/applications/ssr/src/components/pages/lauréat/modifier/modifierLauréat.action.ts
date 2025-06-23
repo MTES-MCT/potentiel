@@ -5,7 +5,6 @@ import { mediator } from 'mediateur';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';

@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';

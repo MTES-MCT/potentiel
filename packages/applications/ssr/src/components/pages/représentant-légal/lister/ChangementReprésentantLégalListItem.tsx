@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';

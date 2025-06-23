@@ -4,9 +4,9 @@ import { mediator } from 'mediateur';
 import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
@@ -32,7 +32,7 @@ Alors(
       const { identifiantProjet } = this.lauréatWorld;
 
       const changement =
-        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+        await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
@@ -52,7 +52,7 @@ Alors(
   async function (this: PotentielWorld) {
     await vérifierInstructionDemande.call(
       this,
-      ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
+      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
     );
   },
 );
@@ -62,7 +62,7 @@ Alors(
   async function (this: PotentielWorld) {
     await vérifierInstructionDemande.call(
       this,
-      ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
+      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
     );
   },
 );
@@ -86,7 +86,7 @@ async function vérifierDemande(this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
     const demande =
-      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -135,13 +135,13 @@ async function vérifierDemande(this: PotentielWorld) {
 
 async function vérifierInstructionDemande(
   this: PotentielWorld,
-  statut: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
+  statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
 ) {
   await waitForExpect(async () => {
     const { identifiantProjet } = this.lauréatWorld;
 
     const changement =
-      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -171,7 +171,7 @@ async function vérifierInstructionAutomatiqueDemande(
     const { identifiantProjet } = this.lauréatWorld;
 
     const changement =
-      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+      await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -185,8 +185,8 @@ async function vérifierInstructionAutomatiqueDemande(
 
     const statut =
       action === 'accord'
-        ? ReprésentantLégal.StatutChangementReprésentantLégal.accordé
-        : ReprésentantLégal.StatutChangementReprésentantLégal.rejeté;
+        ? Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé
+        : Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté;
 
     const actual = mapToPlainObject(changement);
     const expected = mapToPlainObject(

@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -42,12 +41,14 @@ export const changementReprésentantLégalCorrigéNotification = async ({
   }
 
   const changementEnCours =
-    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
+    await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
+      {
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
       },
-    });
+    );
 
   if (Option.isNone(changementEnCours)) {
     getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
