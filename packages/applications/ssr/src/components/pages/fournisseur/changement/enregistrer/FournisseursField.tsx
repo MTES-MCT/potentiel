@@ -8,6 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { typeFournisseurLabel } from '../typeFournisseurLabel';
+import { PaysPicker } from '../../../../molecules/CountryPicker';
 
 import { EnregistrerChangementFournisseurFormProps } from './EnregistrerChangementFournisseur.form';
 
@@ -82,18 +83,17 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
                   required: true,
                 }}
               />
-              <Input
+              <PaysPicker
                 label=""
-                state={validationErrors[lieuDeFabricationFieldKey] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors[lieuDeFabricationFieldKey]}
-                className="flex-1"
                 nativeInputProps={{
-                  placeholder: 'Lieu de fabrication',
                   defaultValue: lieuDeFabrication,
                   name: lieuDeFabricationFieldKey,
                   required: true,
                 }}
+                className="flex-1"
               />
+              {/* <input type="hidden" value={commune.commune} name="commune" /> */}
+              {/* {validationErrors['commune']} */}
               <Button
                 className="mt-1"
                 type="button"
