@@ -29,8 +29,19 @@ export const StatutProjetBadge: FC<{
   statut: StatutProjet.RawType;
   actionnariat?: Candidature.TypeActionnariat.RawType;
 }> = ({ statut, actionnariat }) => (
-  <Badge small noIcon severity={convertStatutProjetToBadgeSeverity[statut]}>
-    {getStatutProjetBadgeLabel(statut)}
-    {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
-  </Badge>
+  <>
+    <Badge
+      small
+      noIcon
+      severity={convertStatutProjetToBadgeSeverity[statut]}
+      className="print:hidden"
+    >
+      {getStatutProjetBadgeLabel(statut)}
+      {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
+    </Badge>
+    <div className="hidden print:block text-theme-black ">
+      {getStatutProjetBadgeLabel(statut)}
+      {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
+    </div>
+  </>
 );
