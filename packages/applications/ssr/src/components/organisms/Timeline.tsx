@@ -86,7 +86,13 @@ const TimelineItem: FC<TimelineItemProps> = ({
           <FormattedDate date={date} />
         </div>
       </TimelineOppositeContent>
-      <TimelineSeparator>
+      <TimelineSeparator
+        sx={{
+          '@media print': {
+            display: 'none',
+          },
+        }}
+      >
         <TimelineDot
           color={
             status === 'error' || isÉtapeInconnue

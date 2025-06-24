@@ -11,7 +11,7 @@ export type IconProps = {
 
 export const Icon: FC<IconProps> = ({ id, size = 'md', className, title }) => (
   <i
-    className={clsx(`${fr.cx(id, `fr-icon--${size}`)}`, className)}
+    className={clsx(`${fr.cx(id, `fr-icon--${size}`)}`, 'print:hidden', className)}
     title={title ?? undefined}
     aria-hidden={title ? undefined : true}
   />
