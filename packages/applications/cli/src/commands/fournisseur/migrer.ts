@@ -140,6 +140,10 @@ export class Migrer extends Command {
         details.filter((x) => x.name !== null && x.kind !== null),
       );
 
+      if (fournisseurs.length === 0) {
+        continue;
+      }
+
       const event: Candidature.DétailsFournisseursCandidatureImportésEvent = {
         type: 'DétailsFournisseursCandidatureImportés-V1',
         payload: {
@@ -258,7 +262,7 @@ export class Migrer extends Command {
             // x.typeFournisseur === value.typeFournisseur,
           );
           if (fournisseurCandidature) {
-            value.lieu = fournisseurCandidature.lieu;
+            value.lieuDeFabrication = fournisseurCandidature.lieuDeFabrication;
             matchFournisseurNom++;
           } else {
             const fournisseurCandidature = fournisseursCandidature.find(
@@ -332,16 +336,19 @@ export class Migrer extends Command {
       tousLesFournisseurs.filter((fournisseurs) => fournisseurs.length > 3).length,
     );
 
-    console.log('fournisseurs sans lieu', tousLesFournisseurs.flat().filter((f) => !f.lieu).length);
+    console.log(
+      'fournisseurs sans lieu',
+      tousLesFournisseurs.flat().filter((f) => !f.lieuDeFabrication).length,
+    );
     console.log(
       'fournisseurs complets',
-      tousLesFournisseurs.flat().filter((f) => f.typeFournisseur && f.nomDuFabricant && f.lieu)
-        .length,
+      tousLesFournisseurs
+        .flat()
+        .filter((f) => f.typeFournisseur && f.nomDuFabricant && f.lieuDeFabrication).length,
     );
 
     console.log({ matchFournisseurNom, changementFournisseur });
 
-    return;
     console.log('');
     console.log('migration des fichiers...');
     for (const { filePath, target } of fichiersÀCopier) {
@@ -430,9 +437,10 @@ const mapDetailsToFournisseurs = (details: { name: string; kind: string }[]) => 
         prev[curr.index] ??= {
           typeFournisseur: curr.type,
           nomDuFabricant: '',
+          lieuDeFabrication: '',
         };
         if (curr.field.trim() === 'Lieu(x) de fabrication') {
-          prev[curr.index].lieu = curr.valeur;
+          prev[curr.index].lieuDeFabrication = curr.valeur;
         }
         if (curr.field.trim() === 'Nom du fabricant') {
           prev[curr.index].nomDuFabricant = curr.valeur;
@@ -441,7 +449,7 @@ const mapDetailsToFournisseurs = (details: { name: string; kind: string }[]) => 
       },
       new Array<{
         typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-        lieu?: string;
+        lieuDeFabrication: string;
         nomDuFabricant: string;
       }>(Math.max(...detailsFields.map((x) => x.index)) || 1),
     )
