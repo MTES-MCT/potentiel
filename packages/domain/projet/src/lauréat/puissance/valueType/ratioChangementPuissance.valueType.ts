@@ -13,7 +13,7 @@ export type ValueType = {
   nouvellePuissance: number;
   ratiosCdcActuel: { min: number; max: number };
   ratiosCdcInitial: { min: number; max: number };
-  famille?: { puissanceMax: number };
+  puissanceMaxFamille?: number;
   volumeRéservé?: VolumeRéservé.ValueType;
   ratio: number;
   vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
@@ -29,12 +29,12 @@ export const bind = ({
   volumeRéservé,
   ratiosCdcActuel,
   ratiosCdcInitial,
-  famille,
+  puissanceMaxFamille,
 }: PlainType<Omit<ValueType, 'ratio'>>): ValueType => {
   return {
     ratiosCdcActuel,
     ratiosCdcInitial,
-    famille,
+    puissanceMaxFamille,
     nouvellePuissance,
     puissanceInitiale,
     get volumeRéservé() {
@@ -50,7 +50,9 @@ export const bind = ({
       return this.ratio < this.ratiosCdcInitial.min || this.ratio > this.ratiosCdcInitial.max;
     },
     dépassePuissanceMaxFamille() {
-      return this.famille ? this.nouvellePuissance > this.famille.puissanceMax : false;
+      return this.puissanceMaxFamille !== undefined
+        ? this.nouvellePuissance > this.puissanceMaxFamille
+        : false;
     },
     dépassePuissanceMaxDuVolumeRéservé() {
       return this.volumeRéservé?.dépassePuissanceMax(this.nouvellePuissance) ?? false;
@@ -97,13 +99,13 @@ export const déterminer = ({
   puissanceInitiale,
   volumeRéservé,
 }: DéterminerProps): ValueType => {
-  const cdcActuel = getRatiosChangementPuissance({
+  const ratiosCdcActuel = getRatiosChangementPuissance({
     appelOffre,
     technologie,
     cahierDesCharges,
   });
 
-  const cdcInitial = getRatiosChangementPuissance({
+  const ratiosCdcInitial = getRatiosChangementPuissance({
     appelOffre,
     technologie,
     cahierDesCharges: { type: 'initial' },
@@ -112,9 +114,9 @@ export const déterminer = ({
   return bind({
     nouvellePuissance,
     puissanceInitiale,
-    ratiosCdcActuel: cdcActuel,
-    ratiosCdcInitial: cdcInitial,
-    famille: famille?.puissanceMax ? { puissanceMax: famille.puissanceMax } : undefined,
+    ratiosCdcActuel,
+    ratiosCdcInitial,
+    puissanceMaxFamille: famille?.puissanceMax,
     volumeRéservé: volumeRéservé && VolumeRéservé.bind(volumeRéservé),
   });
 };

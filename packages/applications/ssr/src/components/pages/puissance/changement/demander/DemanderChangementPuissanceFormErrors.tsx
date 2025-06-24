@@ -26,7 +26,7 @@ export const DemanderChangementPuissanceFormErrors = ({
               Les modifications de la puissance installée doivent être strictement inférieures au
               plafond de puissance de la famille du projet, soit{' '}
               <strong>
-                {ratio.famille!.puissanceMax} {unitéPuissance}
+                {ratio.puissanceMaxFamille} {unitéPuissance}
               </strong>
             </span>
           }
@@ -83,7 +83,7 @@ export const DemanderChangementPuissanceFormErrors = ({
               Votre projet étant dans le volume réservé, les modifications de la puissance installée
               ne peuvent pas dépasser le plafond de puissance de{' '}
               <strong>
-                {ratio.volumeRéservé!.puissanceMax} {unitéPuissance}
+                {ratio.volumeRéservé?.puissanceMax} {unitéPuissance}
               </strong>{' '}
               spécifié au paragraphe 1.2.2 du cahier des charges.
             </span>
