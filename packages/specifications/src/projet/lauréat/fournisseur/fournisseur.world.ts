@@ -2,6 +2,7 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture';
 import { EnregistrerChangementFournisseurFixture } from './fixtures/enregistrerChangementFournisseur.fixture';
@@ -38,7 +39,8 @@ export class FournisseurWorld {
         : this.enregistrerChangementFournisseur.aÉtéCréé
           ? this.enregistrerChangementFournisseur.évaluationCarbone
           : candidature.evaluationCarboneSimplifiée,
-      technologie: (appelOffres.technologie ?? candidature.technologie) as 'pv' | 'eolien',
+      technologie:
+        appelOffres.technologie ?? (candidature.technologie.formatter() as AppelOffre.Technologie),
       évaluationCarboneSimplifiéeInitiale: candidature.evaluationCarboneSimplifiée,
     };
 
