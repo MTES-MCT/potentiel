@@ -77,7 +77,6 @@
     "@types/react-dom": "^18.3.6",
     "@types/uuid": "^9.0.8",
     "concurrently": "^7.6.0",
-    "crypto-browserify": "^3.12.1",
     "dotenv-webpack": "^8.1.0",
     "esbuild-loader": "^4.3.0",
     "glob": "^11.0.0",
