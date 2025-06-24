@@ -85,3 +85,4 @@ export * as StatutCandidature from './statutCandidature.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 export * as Localité from './localité.valueType';
 export * as UnitéPuissance from './unitéPuissance.valueType';
+export * as VolumeRéservé from './volumeRéservé.valueType';

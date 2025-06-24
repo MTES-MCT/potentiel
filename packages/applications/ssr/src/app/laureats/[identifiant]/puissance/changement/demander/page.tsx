@@ -57,10 +57,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         unitéPuissance={candidature.unitéPuissance.formatter()}
         appelOffre={mapToPlainObject(appelOffres)}
         période={mapToPlainObject(période)}
-        technologie={candidature.technologie.type}
+        technologie={candidature.technologie}
         famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
         cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
-        note={candidature.noteTotale}
+        volumeRéservé={mapToPlainObject(candidature.volumeRéservé)}
         puissanceInitiale={candidature.puissanceProductionAnnuelle}
       />
     );
