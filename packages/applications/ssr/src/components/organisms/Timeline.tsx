@@ -82,7 +82,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
       }}
     >
       <TimelineOppositeContent>
-        <div className="font-bold pt-3">
+        <div className="font-bold pt-3 print:pt-0">
           <FormattedDate date={date} />
         </div>
       </TimelineOppositeContent>
@@ -110,7 +110,17 @@ const TimelineItem: FC<TimelineItemProps> = ({
         </TimelineDot>
         {!isLast && <TimelineConnector />}
       </TimelineSeparator>
-      <TimelineContent color={isÉtapeInconnue ? 'error' : undefined} alignContent={'center'}>
+      <TimelineContent
+        color={isÉtapeInconnue ? 'error' : undefined}
+        sx={{
+          '@media print': {
+            alignContent: 'flex-start',
+          },
+          '@media screen': {
+            alignContent: 'center',
+          },
+        }}
+      >
         <>
           {title}
           {isÉtapeInconnue && type && ` (${type})`}
