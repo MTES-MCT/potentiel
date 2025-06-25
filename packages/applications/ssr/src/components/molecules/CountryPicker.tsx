@@ -31,7 +31,6 @@ export const PaysPicker: React.FC<PaysPickerProps> = ({
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async (search: string) => {
-    console.log('search', search);
     if (!search) {
       setPays([]);
       setLoading(false);
@@ -40,9 +39,12 @@ export const PaysPicker: React.FC<PaysPickerProps> = ({
     setLoading(true);
     try {
       const url = new URL(`/api/countries`, window.location.origin);
+      url.searchParams.append('search', search);
+
       const response = await get({
         url,
       });
+
       const data = schema.parse(response);
       setPays(data.map((pays) => ({ nom: pays })));
     } catch (error) {
@@ -54,8 +56,6 @@ export const PaysPicker: React.FC<PaysPickerProps> = ({
 
   const searchDelayed = debounce(handleSearch, 400);
 
-  // option key ajuster
-  // le search ne marche pas
   return (
     <Autocomplete
       options={pays}
