@@ -8,9 +8,7 @@ import { debounce } from '@mui/material/utils';
 import { get } from '@potentiel-libraries/http-client';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-type Pays = {
-  nom: string;
-};
+type Pays = string;
 
 export type PaysPickerProps = {
   onSelected?: (pays: Pays | null) => void;
@@ -46,7 +44,7 @@ export const PaysPicker: React.FC<PaysPickerProps> = ({
       });
 
       const data = schema.parse(response);
-      setPays(data.map((pays) => ({ nom: pays })));
+      setPays(data);
     } catch (error) {
       getLogger('PaysPicker').error(new Error('Error fetching pays', { cause: error }));
     } finally {
@@ -54,7 +52,7 @@ export const PaysPicker: React.FC<PaysPickerProps> = ({
     }
   };
 
-  const searchDelayed = debounce(handleSearch, 400);
+  const searchDelayed = debounce(handleSearch, 300);
 
   return (
     <Autocomplete
@@ -63,9 +61,9 @@ export const PaysPicker: React.FC<PaysPickerProps> = ({
       loadingText="Chargement..."
       noOptionsText="Aucun résultat"
       className={className}
-      getOptionLabel={({ nom }) => `${nom}`}
-      getOptionKey={({ nom }) => nom}
-      isOptionEqualToValue={(pays, value) => pays.nom === value.nom}
+      getOptionLabel={(pays) => pays}
+      getOptionKey={(pays) => pays}
+      isOptionEqualToValue={(pays, value) => pays === value}
       filterOptions={(x) => x}
       autoHighlight
       autoComplete

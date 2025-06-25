@@ -85,15 +85,13 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
               />
               <PaysPicker
                 label=""
+                defaultValue={lieuDeFabrication}
                 nativeInputProps={{
-                  defaultValue: lieuDeFabrication,
                   name: lieuDeFabricationFieldKey,
                   required: true,
                 }}
                 className="flex-1"
               />
-              {/* <input type="hidden" value={commune.commune} name="commune" /> */}
-              {/* {validationErrors['commune']} */}
               <Button
                 className="mt-1"
                 type="button"
