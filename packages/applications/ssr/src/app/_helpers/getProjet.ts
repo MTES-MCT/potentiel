@@ -5,12 +5,14 @@ import { cache } from 'react';
 import { Candidature, Lauréat, StatutProjet, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 export type GetProjetReadModel = {
   nomProjet: string;
   localité: Candidature.ConsulterCandidatureReadModel['localité'];
   notifiéLe: Option.Type<DateTime.ValueType>;
   statut: StatutProjet.ValueType;
+  attestationDésignation?: DocumentProjet.ValueType;
 };
 
 export type GetProjet = (identifiantProjet: string) => Promise<GetProjetReadModel>;

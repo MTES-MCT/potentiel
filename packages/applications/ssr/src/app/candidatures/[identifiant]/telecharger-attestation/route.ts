@@ -4,9 +4,8 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Éliminé } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -18,10 +17,9 @@ import { getProjet } from '@/app/_helpers/getProjet';
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(async () => {
     const identifiantProjet = decodeParameter(identifiant);
+    const { attestationDésignation, nomProjet } = await getAttestation(identifiantProjet);
 
-    const documentProjet = await getDocumentKey(identifiantProjet);
-
-    if (!documentProjet) {
+    if (!attestationDésignation) {
       // TODO : C'est une erreur, pas un warning sinon on ne peut pas récupérer l'info dans Sentry.
       // Dans ce cas de figure, il manque un helper similaire PageWithErrorHandling pour les routes type API ou Document.
       // Si à l'avenir on ajoute ce type d'helper il faudrait throw un erreur directement dans getDocumentKey.
@@ -32,14 +30,12 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: documentProjet.formatter(),
+        documentKey: attestationDésignation.formatter(),
       },
     });
     if (Option.isNone(result)) {
       return notFound();
     }
-
-    const { nomProjet } = await getProjet(identifiantProjet);
 
     return new Response(result.content, {
       headers: {
@@ -49,21 +45,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     });
   });
 
-const getDocumentKey = async (
-  identifiantProjet: string,
-): Promise<DocumentProjet.ValueType | undefined> => {
-  const attestation = await mediator.send<Candidature.ConsulterAttestationQuery>({
-    type: 'Candidature.Query.ConsulterAttestation',
-    data: {
-      identifiantProjet,
-    },
-  });
+const getAttestation = async (identifiantProjet: string) => {
+  const { nomProjet, attestationDésignation, statut } = await getProjet(identifiantProjet);
 
-  if (Option.isNone(attestation)) {
-    return undefined;
-  }
-
-  if (attestation.statut.estÉliminé()) {
+  if (statut.estÉliminé()) {
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
@@ -72,9 +57,9 @@ const getDocumentKey = async (
     });
 
     if (Option.isSome(recours) && recours.demande.accord) {
-      return recours.demande.accord.réponseSignée;
+      return { attestationDésignation: recours.demande.accord.réponseSignée, nomProjet };
     }
   }
 
-  return attestation.attestation;
+  return { nomProjet, attestationDésignation };
 };
