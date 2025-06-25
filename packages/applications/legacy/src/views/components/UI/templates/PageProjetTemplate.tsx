@@ -70,7 +70,7 @@ const EntêteProjet: FC<RésuméProjet> = ({
   </div>
 );
 
-const getBadgeType = (statut: StatutProjet.RawType | 'non-notifié'): BadgeType => {
+const getBadgeType = (statut: StatutProjet.RawType): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
@@ -80,20 +80,13 @@ const getBadgeType = (statut: StatutProjet.RawType | 'non-notifié'): BadgeType 
       return 'success';
     case 'éliminé':
       return 'error';
-    case 'non-notifié':
-      return 'new';
   }
-};
-
-const getBadgeLabel = (statut: StatutProjet.RawType | 'non-notifié'): string => {
-  if (statut === 'non-notifié') return 'à notifier';
-  return statut;
 };
 
 const StatutProjetBadge: FC<{
   statut: StatutProjet.RawType;
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
-    {getBadgeLabel(statut)}
+    {statut}
   </Badge>
 );
