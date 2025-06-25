@@ -1319,6 +1319,9 @@ const pageProjetPolicies: Policy[] = [
   // Producteur
   'producteur.consulter',
 
+  // Fournisseur
+  'fournisseur.consulter',
+
   // Accès
   'accès.consulter',
 ];
@@ -1494,9 +1497,8 @@ const crePolicies: ReadonlyArray<Policy> = [
   'puissance.listerChangement',
 
   // Fournisseur
-  'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
-  'fournisseur.consulter',
+  'fournisseur.listerChangement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1712,12 +1714,6 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   // Raccordement
   'raccordement.consulter',
 
-  // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.mainlevée.lister',
-  'garantiesFinancières.enAttente.consulter',
-
   // Achèvement
   // 'achèvement.transmettre',
 
@@ -1730,13 +1726,14 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.listerChangement',
 
   // Puissance
-  'puissance.consulterChangement',
   'puissance.listerChangement',
 
   // Producteur
+  'producteur.consulterChangement',
   'producteur.listerChangement',
 
   // Fournisseur
+  'fournisseur.consulterChangement',
   'fournisseur.listerChangement',
 ];
 
