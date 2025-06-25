@@ -12,7 +12,9 @@ Quand(
     const { nomReprésentantLégal, typeReprésentantLégal } =
       this.lauréatWorld.représentantLégalWorld.mapToExpected(
         identifiantProjet,
-        this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+        this.candidatureWorld.importerCandidature.aÉtéCréé
+          ? this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue
+          : '',
       );
     try {
       const options = avecLesMêmesValeurs?.includes('avec les mêmes valeurs')

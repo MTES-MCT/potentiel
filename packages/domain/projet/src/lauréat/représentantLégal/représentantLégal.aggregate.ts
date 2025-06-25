@@ -125,7 +125,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementEnCoursError();
     }
-    this.vérifierReprésentantLégalNonIdentique(nomReprésentantLégal, typeReprésentantLégal);
+    this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
 
     const event: ReprésentantLégalModifiéEvent = {
       type: 'ReprésentantLégalModifié-V1',
@@ -149,7 +149,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
   }: DemanderChangementOptions) {
     this.lauréat.vérifierQueLeChangementEstPossible();
 
-    this.vérifierReprésentantLégalNonIdentique(nomReprésentantLégal, typeReprésentantLégal);
+    this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
 
     if (typeReprésentantLégal.estInconnu()) {
       throw new ReprésentantLégalTypeInconnuError();
@@ -292,7 +292,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
     await this.publish(event);
   }
 
-  private vérifierReprésentantLégalNonIdentique(
+  private vérifierQueReprésentantLégalNEstPasIdentique(
     nomReprésentantLégal: string,
     typeReprésentantLégal: TypeReprésentantLégal.ValueType,
   ) {
