@@ -10,6 +10,7 @@
     "test:watch": "node --watch --import tsx --test **/*.test.ts"
   },
   "dependencies": {
+    "@potentiel-applications/notifications": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/utilisateur": "*",
