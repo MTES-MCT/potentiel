@@ -6,6 +6,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
+import { PaysPicker } from '@/components/molecules/CountryPicker';
 
 import { typeFournisseurLabel } from '../typeFournisseurLabel';
 
@@ -82,17 +83,15 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
                   required: true,
                 }}
               />
-              <Input
+              <PaysPicker
                 label=""
-                state={validationErrors[lieuDeFabricationFieldKey] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors[lieuDeFabricationFieldKey]}
-                className="flex-1"
+                defaultValue={lieuDeFabrication}
                 nativeInputProps={{
-                  placeholder: 'Lieu de fabrication',
-                  defaultValue: lieuDeFabrication,
                   name: lieuDeFabricationFieldKey,
+                  placeholder: 'Pays de fabrication',
                   required: true,
                 }}
+                className="flex-1"
               />
               <Button
                 className="mt-1"
