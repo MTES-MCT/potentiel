@@ -1554,7 +1554,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'achèvement.modifier',
 
   // Candidature
-  'candidature.consulter', // ???
   'candidature.attestation.télécharger',
 
   // Représentant légal
