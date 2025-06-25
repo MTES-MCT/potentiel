@@ -18,7 +18,6 @@ import { registerCorrigerCandidatureUseCase } from './corriger/corrigerCandidatu
 import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command';
 import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
-import { registerConsulterAttestationQuery } from './consulter/consulterAttestation.query';
 
 export type CandiatureCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -31,7 +30,6 @@ export type CandidatureQueryDependencies = ListerProjetsEligiblesPreuveRecanditu
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
   registerConsulterCandidatureQuery(dependencies);
-  registerConsulterAttestationQuery(dependencies);
   registerListerCandidaturesQuery(dependencies);
 };
 

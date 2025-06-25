@@ -4,6 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ÉliminéEntity } from '../éliminé.entity';
 import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
@@ -15,6 +16,7 @@ export type ConsulterÉliminéReadModel = {
   notifiéLe: DateTime.ValueType;
   notifiéPar: Email.ValueType;
   statut: StatutProjet.ValueType;
+  attestationDésignation?: DocumentProjet.ValueType;
 } & Pick<
   Candidature.ConsulterCandidatureReadModel,
   | 'emailContact'
@@ -93,4 +95,5 @@ const mapToReadModel: MapToReadModel = (
   prixReference: candidature.prixReference,
   puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
   unitéPuissance: candidature.unitéPuissance,
+  attestationDésignation: candidature.notification?.attestation,
 });
