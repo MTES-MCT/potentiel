@@ -100,7 +100,13 @@ export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidature
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
-export const mapToReadModel = (
+type MapToReadModel = (
+  candidature: Omit<CandidatureEntity, 'type'>,
+  appelOffres: AppelOffre.AppelOffreReadModel,
+  période: AppelOffre.Periode,
+) => ConsulterCandidatureReadModel;
+
+export const mapToReadModel: MapToReadModel = (
   {
     identifiantProjet,
     statut,
@@ -127,9 +133,9 @@ export const mapToReadModel = (
     détailsMisÀJourLe,
     notification,
     fournisseurs,
-  }: Omit<CandidatureEntity, 'type'>,
-  appelOffres: AppelOffre.AppelOffreReadModel,
-  période: AppelOffre.Periode,
+  },
+  appelOffres,
+  période,
 ): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),

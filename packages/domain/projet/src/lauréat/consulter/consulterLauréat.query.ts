@@ -98,17 +98,23 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
   mediator.register('Lauréat.Query.ConsulterLauréat', handler);
 };
 
-const mapToReadModel = (
+type MapToReadModel = (
+  lauréat: LauréatEntity,
+  candidature: Candidature.ConsulterCandidatureReadModel,
+  statut: StatutProjet.ValueType,
+) => ConsulterLauréatReadModel;
+
+const mapToReadModel: MapToReadModel = (
   {
     identifiantProjet,
     notifiéLe,
     notifiéPar,
     nomProjet,
     localité: { adresse1, adresse2, codePostal, commune, département, région },
-  }: LauréatEntity,
-  candidature: Candidature.ConsulterCandidatureReadModel,
-  statut: StatutProjet.ValueType,
-): ConsulterLauréatReadModel => ({
+  },
+  candidature,
+  statut,
+) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
