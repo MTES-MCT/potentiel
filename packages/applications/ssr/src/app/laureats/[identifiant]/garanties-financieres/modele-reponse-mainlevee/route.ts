@@ -16,7 +16,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 
 import { getLauréat } from '../../_helpers/getLauréat';
@@ -34,7 +33,6 @@ export const GET = async (
       const { lauréat, puissance, représentantLégal } = await getLauréat({
         identifiantProjet: identifiantProjetValue,
       });
-      const candidature = await getCandidature(identifiantProjetValue);
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
 
@@ -79,7 +77,6 @@ export const GET = async (
         lauréat,
         puissance,
         représentantLégal,
-        candidature,
         appelOffres,
         période,
         famille,

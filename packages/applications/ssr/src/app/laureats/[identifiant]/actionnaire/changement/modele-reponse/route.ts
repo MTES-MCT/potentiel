@@ -13,7 +13,6 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
@@ -32,7 +31,6 @@ export const GET = async (
       const { actionnaire, lauréat, puissance, représentantLégal } = await getLauréat({
         identifiantProjet,
       });
-      const candidature = await getCandidature(identifiantProjet);
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -76,7 +74,6 @@ export const GET = async (
         lauréat,
         puissance,
         représentantLégal,
-        candidature,
         appelOffres,
         période,
         famille,
@@ -91,7 +88,7 @@ export const GET = async (
           ...data,
           dateDemande: demandeDeChangement.demande.demandéeLe.formatter(),
           justificationDemande: demandeDeChangement.demande.raison,
-          enCopies: getEnCopies(candidature.localité.région),
+          enCopies: getEnCopies(lauréat.localité.région),
           nouvelActionnaire: demandeDeChangement.demande.nouvelActionnaire,
           referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
           contenuParagrapheActionnaire: texteChangementDActionnariat?.dispositions,
