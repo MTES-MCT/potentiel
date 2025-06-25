@@ -27,6 +27,15 @@ const porteurDeProjet: Utilisateur = {
   région: Option.none,
 };
 
+const porteurDeProjetDésactivé: Utilisateur = {
+  role: { nom: 'porteur-projet' },
+  nom: '',
+  identifiantUtilisateur: Email.convertirEnValueType('porteur.desactive@test.test'),
+  identifiantGestionnaireRéseau: Option.none,
+  région: Option.none,
+  désactivé: true,
+};
+
 const dgecValidateur: Utilisateur = {
   role: { nom: 'dgec-validateur' },
   nom: '',
@@ -53,6 +62,7 @@ const dreal: Utilisateur = {
 
 const utilisateursExistants: ReadonlyArray<Utilisateur> = [
   porteurDeProjet,
+  porteurDeProjetDésactivé,
   adminDGEC,
   dgecValidateur,
   dreal,
@@ -197,5 +207,32 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
       // Then
       assert.strictEqual(emailWasSent, true);
     });
+  });
+});
+
+describe(`N'envoyer aucun email pour les utilisateurs désactivé`, () => {
+  test(`
+            Étant donné un utilisateur désactivé
+            Lorsque le système envoie un email de vérification
+            Alors aucun email ne devrait être envoyé
+        `, async () => {
+    // Given
+    let emailWasSent = false;
+    const identifier = porteurDeProjetDésactivé.identifiantUtilisateur.email;
+    const url = 'verification-request-url';
+
+    const fakeSendEmail: SendEmail = async () => {
+      emailWasSent = true;
+    };
+
+    // When
+    const sendVerificationRequest = buildSendVerificationRequest(
+      fakeSendEmail,
+      fakeGetUtilisateurFromEmail,
+    );
+    await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
+
+    // Then
+    assert.strictEqual(emailWasSent, false, 'Aucun email ne devrait être envoyé');
   });
 });
