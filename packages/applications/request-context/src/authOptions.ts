@@ -17,6 +17,7 @@ import ProConnectProvider from './ProConnectProvider';
 import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 import { canConnectWithProvider } from './canConnectWithProvider';
+import { buildSendVerificationRequest } from './sendVerificationRequest';
 
 const OneHourInSeconds = 60 * 60;
 const fifteenMinutesInSeconds = 15 * 60;
@@ -57,15 +58,7 @@ const getAuthProviders = () => {
       EmailProvider({
         from: process.env.SEND_EMAILS_FROM,
         maxAge: fifteenMinutesInSeconds,
-        sendVerificationRequest: ({ identifier, url }) =>
-          sendEmail({
-            templateId: 6785365,
-            messageSubject: 'Connexion à Potentiel',
-            recipients: [{ email: identifier, fullName: '' }],
-            variables: {
-              url,
-            },
-          }),
+        sendVerificationRequest: buildSendVerificationRequest(sendEmail),
       }),
     );
   }
@@ -118,7 +111,6 @@ export const authOptions: AuthOptions = {
           `User tries to connect with '${account?.provider}' but is disabled`,
           { utilisateur },
         );
-        return Routes.Auth.signIn({ error: 'Unauthorized' });
       }
 
       if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.role.nom)) {
@@ -126,7 +118,6 @@ export const authOptions: AuthOptions = {
           `User tries to connect with '${account.provider}' but is not authorized`,
           { utilisateur },
         );
-        return Routes.Auth.signIn({ error: 'Unauthorized' });
       }
 
       return true;
