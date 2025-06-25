@@ -1,6 +1,8 @@
 import { describe, test } from 'node:test';
 import assert from 'node:assert';
 
+import { SendVerificationRequestParams } from 'next-auth/providers';
+
 import { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
@@ -11,38 +13,63 @@ import { Option } from '@potentiel-libraries/monads';
 import { buildSendVerificationRequest } from './sendVerificationRequest';
 import { GetUtilisateurFromEmail } from './getUtilisateur';
 
+const porteurDeProjet: PlainType<
+  Utilisateur.ValueType & {
+    désactivé?: true;
+  }
+> = {
+  role: { nom: 'porteur-projet' },
+  nom: '',
+  identifiantUtilisateur: Email.convertirEnValueType('porteur@test.test'),
+  identifiantGestionnaireRéseau: Option.none,
+  région: Option.none,
+};
+
+const adminDGEC: PlainType<
+  Utilisateur.ValueType & {
+    désactivé?: true;
+  }
+> = {
+  role: { nom: 'admin' },
+  nom: '',
+  identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
+  identifiantGestionnaireRéseau: Option.none,
+  région: Option.none,
+};
+
 const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
   if (email === 'porteur@test.test') {
-    const utilisateur: PlainType<
-      Utilisateur.ValueType & {
-        désactivé?: true;
-      }
-    > = {
-      role: { nom: 'porteur-projet' },
-      nom: '',
-      identifiantUtilisateur: Email.convertirEnValueType(email),
-      identifiantGestionnaireRéseau: Option.none,
-      région: Option.none,
-    };
-    return mapToPlainObject(utilisateur);
+    return mapToPlainObject(porteurDeProjet);
   }
 
   if (email === 'dgec@test.test') {
-    const utilisateur: PlainType<
-      Utilisateur.ValueType & {
-        désactivé?: true;
-      }
-    > = {
-      role: { nom: 'admin' },
-      nom: '',
-      identifiantUtilisateur: Email.convertirEnValueType(email),
-      identifiantGestionnaireRéseau: Option.none,
-      région: Option.none,
-    };
-    return mapToPlainObject(utilisateur);
+    return mapToPlainObject(adminDGEC);
   }
 
   return Option.none;
+};
+
+const buildSendVerificationRequestParams = (
+  identifier: string,
+  url: string,
+): SendVerificationRequestParams => {
+  return {
+    identifier,
+    url,
+    expires: new Date(),
+    provider: {
+      id: 'email',
+      name: 'Email',
+      type: 'email',
+      server: '',
+      from: '',
+      maxAge: 1,
+      sendVerificationRequest: () => Promise.resolve(),
+      options: {},
+    },
+    token: '',
+    theme: {},
+  };
 };
 
 describe(`Envoyer un email lors de la connexion par email`, () => {
@@ -53,7 +80,7 @@ describe(`Envoyer un email lors de la connexion par email`, () => {
     `, async () => {
     // Given
     let emailWasSent = false;
-    const identifier = 'porteur@test.test';
+    const identifier = porteurDeProjet.identifiantUtilisateur.email;
     const url = 'verification-request-url';
 
     const fakeSendEmail: SendEmail = async (actual) => {
@@ -75,23 +102,7 @@ describe(`Envoyer un email lors de la connexion par email`, () => {
       fakeSendEmail,
       fakeGetUtilisateurFromEmail,
     );
-    await sendVerificationRequest({
-      identifier,
-      url,
-      expires: new Date(),
-      provider: {
-        id: 'email',
-        name: 'Email',
-        type: 'email',
-        server: '',
-        from: '',
-        maxAge: 1,
-        sendVerificationRequest,
-        options: {},
-      },
-      token: '',
-      theme: {},
-    });
+    await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
 
     // Then
     assert.strictEqual(emailWasSent, true);
@@ -104,7 +115,7 @@ describe(`Envoyer un email lors de la connexion par email`, () => {
     `, async () => {
     // Given
     let emailWasSent = false;
-    const identifier = 'dgec@test.test';
+    const identifier = adminDGEC.identifiantUtilisateur.email;
     const url = Routes.Auth.signIn();
 
     const fakeSendEmail: SendEmail = async (actual) => {
@@ -126,23 +137,7 @@ describe(`Envoyer un email lors de la connexion par email`, () => {
       fakeSendEmail,
       fakeGetUtilisateurFromEmail,
     );
-    await sendVerificationRequest({
-      identifier,
-      url,
-      expires: new Date(),
-      provider: {
-        id: 'email',
-        name: 'Email',
-        type: 'email',
-        server: '',
-        from: '',
-        maxAge: 1,
-        sendVerificationRequest,
-        options: {},
-      },
-      token: '',
-      theme: {},
-    });
+    await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
 
     // Then
     assert.strictEqual(emailWasSent, true);
