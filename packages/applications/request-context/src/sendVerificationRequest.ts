@@ -3,6 +3,7 @@ import { EmailUserConfig } from 'next-auth/providers/email';
 import { SendEmail } from '@potentiel-applications/notifications';
 import { Option } from '@potentiel-libraries/monads';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-applications/routes';
 
 import { GetUtilisateurFromEmail } from './getUtilisateur';
 
@@ -26,7 +27,7 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest =
             messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
             recipients: [{ email: identifier, fullName: '' }],
             variables: {
-              url,
+              url: Routes.Auth.signIn({ proConnect: true }),
             },
           });
         }

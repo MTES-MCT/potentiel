@@ -156,7 +156,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
         `, async () => {
       // Given
       let emailWasSent = false;
-      const url = Routes.Auth.signIn();
+      const url = 'verification-request-url';
 
       const fakeSendEmail: SendEmail = async (actual) => {
         const envoiEmailAvecLienDeConnexion = {
@@ -179,7 +179,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
           messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
           recipients: [{ email: identifier, fullName: '' }],
           variables: {
-            url,
+            url: Routes.Auth.signIn({ proConnect: true }),
           },
         };
 
