@@ -5,7 +5,7 @@ import { SendVerificationRequestParams } from 'next-auth/providers';
 
 import { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
-import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
+import { PlainType } from '@potentiel-domain/core';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
@@ -13,11 +13,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { buildSendVerificationRequest } from './sendVerificationRequest';
 import { GetUtilisateurFromEmail } from './getUtilisateur';
 
-const porteurDeProjet: PlainType<
+type Utilisateur = PlainType<
   Utilisateur.ValueType & {
     désactivé?: true;
   }
-> = {
+>;
+
+const porteurDeProjet: Utilisateur = {
   role: { nom: 'porteur-projet' },
   nom: '',
   identifiantUtilisateur: Email.convertirEnValueType('porteur@test.test'),
@@ -25,11 +27,7 @@ const porteurDeProjet: PlainType<
   région: Option.none,
 };
 
-const adminDGEC: PlainType<
-  Utilisateur.ValueType & {
-    désactivé?: true;
-  }
-> = {
+const adminDGEC: Utilisateur = {
   role: { nom: 'admin' },
   nom: '',
   identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
@@ -37,16 +35,26 @@ const adminDGEC: PlainType<
   région: Option.none,
 };
 
+const dreal: Utilisateur = {
+  role: { nom: 'dreal' },
+  nom: '',
+  identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
+  identifiantGestionnaireRéseau: Option.none,
+  région: Option.none,
+};
+
+const utilisateursExistants: ReadonlyArray<Utilisateur> = [porteurDeProjet, adminDGEC, dreal];
+
 const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
-  if (email === 'porteur@test.test') {
-    return mapToPlainObject(porteurDeProjet);
+  const utilisateur = utilisateursExistants.find(
+    (utilisateur) => utilisateur.identifiantUtilisateur.email === email,
+  );
+
+  if (!utilisateur) {
+    return Option.none;
   }
 
-  if (email === 'dgec@test.test') {
-    return mapToPlainObject(adminDGEC);
-  }
-
-  return Option.none;
+  return utilisateur;
 };
 
 const buildSendVerificationRequestParams = (
@@ -93,7 +101,11 @@ describe(`Envoyer un email lors de la connexion par email`, () => {
         },
       };
 
-      assert.deepStrictEqual(actual, expected);
+      assert.deepStrictEqual(
+        actual,
+        expected,
+        `L'email avec le lien de connexion n'a pas été envoyé`,
+      );
       emailWasSent = true;
     };
 
@@ -112,6 +124,7 @@ describe(`Envoyer un email lors de la connexion par email`, () => {
         Étant donné un administrateur DGEC
         Lorsque le système envoie un email de vérification
         Alors un email expliquant qu'il faut se connecter avec ProConnect devrait être envoyé
+        Mais aucun email avec un lien de connexion ne devrait être envoyé
     `, async () => {
     // Given
     let emailWasSent = false;
@@ -119,6 +132,72 @@ describe(`Envoyer un email lors de la connexion par email`, () => {
     const url = Routes.Auth.signIn();
 
     const fakeSendEmail: SendEmail = async (actual) => {
+      const envoiEmailAvecLienDeConnexion = {
+        templateId: 6785365,
+        messageSubject: 'Connexion à Potentiel',
+        recipients: [{ email: identifier, fullName: '' }],
+        variables: {
+          url,
+        },
+      };
+
+      assert.notDeepStrictEqual(
+        actual,
+        envoiEmailAvecLienDeConnexion,
+        `L'email avec le lien de connexion n'aurait pas dû être envoyé`,
+      );
+
+      const expected = {
+        templateId: 999999,
+        messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
+        recipients: [{ email: identifier, fullName: '' }],
+        variables: {
+          url,
+        },
+      };
+
+      assert.deepStrictEqual(actual, expected);
+      emailWasSent = true;
+    };
+
+    // When
+    const sendVerificationRequest = buildSendVerificationRequest(
+      fakeSendEmail,
+      fakeGetUtilisateurFromEmail,
+    );
+    await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
+
+    // Then
+    assert.strictEqual(emailWasSent, true);
+  });
+
+  test(`
+          Étant donné une DREAL
+          Lorsque le système envoie un email de vérification
+          Alors un email expliquant qu'il faut se connecter avec ProConnect devrait être envoyé
+          Mais aucun email avec un lien de connexion ne devrait être envoyé
+      `, async () => {
+    // Given
+    let emailWasSent = false;
+    const identifier = dreal.identifiantUtilisateur.email;
+    const url = Routes.Auth.signIn();
+
+    const fakeSendEmail: SendEmail = async (actual) => {
+      const envoiEmailAvecLienDeConnexion = {
+        templateId: 6785365,
+        messageSubject: 'Connexion à Potentiel',
+        recipients: [{ email: identifier, fullName: '' }],
+        variables: {
+          url,
+        },
+      };
+
+      assert.notDeepStrictEqual(
+        actual,
+        envoiEmailAvecLienDeConnexion,
+        `L'email avec le lien de connexion n'aurait pas dû être envoyé`,
+      );
+
       const expected = {
         templateId: 999999,
         messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
