@@ -6,7 +6,7 @@ class RéférentielPaysClientConfigurationError extends Error {
   }
 }
 
-const getApiUrl = () => process.env.REFERENCIEL_PAYS_ENDPOINT;
+const getApiUrl = () => process.env.REFERENTIEL_PAYS_ENDPOINT;
 
 const fetchCountries = async (url: URL, countries: string[] = []): Promise<string[]> => {
   console.log('Fetching countries...');
