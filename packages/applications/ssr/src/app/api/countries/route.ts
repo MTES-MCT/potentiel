@@ -41,6 +41,5 @@ export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
   const search = searchParams.get('search') || '';
   const countries = await getAllCountries(search);
-
   return NextResponse.json(countries);
 };
