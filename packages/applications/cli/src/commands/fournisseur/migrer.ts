@@ -439,7 +439,10 @@ const mapDetailsToFournisseurs = (details: { name: string; kind: string }[]) => 
           nomDuFabricant: '',
           lieuDeFabrication: '',
         };
-        if (curr.field.trim() === 'Lieu(x) de fabrication') {
+        if (
+          curr.field.trim() === 'Lieu(x) de fabrication' &&
+          !['non concerné', 'Sans objet', 'N/A', 'NC', 'Non applicable', 'nc'].includes(curr.valeur)
+        ) {
           prev[curr.index].lieuDeFabrication = curr.valeur;
         }
         if (curr.field.trim() === 'Nom du fabricant') {
