@@ -70,35 +70,27 @@ export const registerConsulterÉliminéQuery = ({ find }: ConsulterÉliminéDepe
   mediator.register('Éliminé.Query.ConsulterÉliminé', handler);
 };
 
-const mapToReadModel = (
-  { identifiantProjet, notifiéLe, notifiéPar }: ÉliminéEntity,
+type MapToReadModel = (
+  éliminé: ÉliminéEntity,
   candidature: Candidature.ConsulterCandidatureReadModel,
-): ConsulterÉliminéReadModel => {
-  const {
-    nomProjet,
-    nomCandidat,
-    emailContact,
-    nomReprésentantLégal,
-    sociétéMère,
-    prixReference,
-    puissanceProductionAnnuelle,
-    unitéPuissance,
-    localité,
-  } = candidature;
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    notifiéLe: DateTime.convertirEnValueType(notifiéLe),
-    notifiéPar: Email.convertirEnValueType(notifiéPar),
-    statut: StatutProjet.éliminé,
+) => ConsulterÉliminéReadModel;
 
-    localité,
-    nomProjet,
-    nomCandidat,
-    emailContact,
-    nomReprésentantLégal,
-    sociétéMère,
-    prixReference,
-    puissanceProductionAnnuelle,
-    unitéPuissance,
-  };
-};
+const mapToReadModel: MapToReadModel = (
+  { identifiantProjet, notifiéLe, notifiéPar },
+  candidature,
+) => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  notifiéLe: DateTime.convertirEnValueType(notifiéLe),
+  notifiéPar: Email.convertirEnValueType(notifiéPar),
+  statut: StatutProjet.éliminé,
+
+  localité: candidature.localité,
+  nomProjet: candidature.nomProjet,
+  nomCandidat: candidature.nomCandidat,
+  emailContact: candidature.emailContact,
+  nomReprésentantLégal: candidature.nomReprésentantLégal,
+  sociétéMère: candidature.sociétéMère,
+  prixReference: candidature.prixReference,
+  puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
+  unitéPuissance: candidature.unitéPuissance,
+});

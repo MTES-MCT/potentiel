@@ -45,18 +45,25 @@ export const registerConsulterPuissanceQuery = ({ find }: ConsulterPuissanceDepe
     if (Option.isNone(appelOffres)) {
       return Option.none;
     }
-    return mapToReadModel({ ...puissance, appelOffres });
+    return mapToReadModel(puissance, appelOffres);
   };
   mediator.register('Lauréat.Puissance.Query.ConsulterPuissance', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  puissance,
-  dateDemandeEnCours,
+type MapToReadModel = (
+  puissance: PuissanceEntity & Joined<CandidatureEntity>,
+  appelOffres: AppelOffre.AppelOffreEntity,
+) => ConsulterPuissanceReadModel;
+
+export const mapToReadModel: MapToReadModel = (
+  {
+    identifiantProjet,
+    puissance,
+    dateDemandeEnCours,
+    candidature: { puissanceProductionAnnuelle: puissanceInitiale, période, technologie },
+  },
   appelOffres,
-  candidature: { puissanceProductionAnnuelle: puissanceInitiale, période, technologie },
-}: PuissanceEntity & Joined<CandidatureEntity> & { appelOffres: AppelOffre.AppelOffreEntity }) => ({
+) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   puissance,
   puissanceInitiale,

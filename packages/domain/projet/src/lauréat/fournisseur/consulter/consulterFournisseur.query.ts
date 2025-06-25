@@ -54,14 +54,19 @@ export const registerConsulterFournisseurQuery = ({ find }: ConsulterFournisseur
   mediator.register('Lauréat.Fournisseur.Query.ConsulterFournisseur', handler);
 };
 
-export const mapToReadModel = (
+type MapToReadModel = (
+  founisseur: FournisseurEntity & Joined<CandidatureEntity>,
+  appelOffres: AppelOffre.AppelOffreReadModel,
+) => ConsulterFournisseurReadModel;
+
+export const mapToReadModel: MapToReadModel = (
   {
     identifiantProjet,
     évaluationCarboneSimplifiée,
     fournisseurs,
     candidature: { evaluationCarboneSimplifiée: évaluationCarboneSimplifiéeInitiale, technologie },
-  }: FournisseurEntity & Joined<CandidatureEntity>,
-  appelOffres: AppelOffre.AppelOffreReadModel,
+  },
+  appelOffres,
 ) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   évaluationCarboneSimplifiée,
