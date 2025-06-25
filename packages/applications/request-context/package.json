@@ -5,7 +5,9 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "node --import tsx --test **/*.test.ts",
+    "test:watch": "node --watch --import tsx --test **/*.test.ts"
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@types/pg": "^8.11.11"
+    "@types/pg": "^8.11.11",
+    "tsx": "^4.19.3"
   }
 }
