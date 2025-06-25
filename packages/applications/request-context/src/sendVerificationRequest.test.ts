@@ -175,7 +175,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
         );
 
         const expected = {
-          templateId: 999999,
+          templateId: 7103248,
           messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
           recipients: [{ email: identifier, fullName: '' }],
           variables: {

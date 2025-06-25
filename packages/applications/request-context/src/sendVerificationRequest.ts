@@ -22,7 +22,7 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest =
 
         if (nePeutPasSeConnecterAvecUnEmail(role)) {
           return sendEmail({
-            templateId: 999999,
+            templateId: 7103248,
             messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
             recipients: [{ email: identifier, fullName: '' }],
             variables: {
