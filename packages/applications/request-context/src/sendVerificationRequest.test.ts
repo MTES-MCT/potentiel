@@ -27,6 +27,14 @@ const porteurDeProjet: Utilisateur = {
   région: Option.none,
 };
 
+const dgecValidateur: Utilisateur = {
+  role: { nom: 'dgec-validateur' },
+  nom: '',
+  identifiantUtilisateur: Email.convertirEnValueType('dgec-validateur@test.test'),
+  identifiantGestionnaireRéseau: Option.none,
+  région: Option.none,
+};
+
 const adminDGEC: Utilisateur = {
   role: { nom: 'admin' },
   nom: '',
@@ -43,7 +51,12 @@ const dreal: Utilisateur = {
   région: Option.none,
 };
 
-const utilisateursExistants: ReadonlyArray<Utilisateur> = [porteurDeProjet, adminDGEC, dreal];
+const utilisateursExistants: ReadonlyArray<Utilisateur> = [
+  porteurDeProjet,
+  adminDGEC,
+  dgecValidateur,
+  dreal,
+];
 
 const fakeGetUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
   const utilisateur = utilisateursExistants.find(
@@ -126,6 +139,10 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
     {
       identifier: adminDGEC.identifiantUtilisateur.email,
       typeUtilisateur: 'un administrateur DGEC',
+    },
+    {
+      identifier: dgecValidateur.identifiantUtilisateur.email,
+      typeUtilisateur: 'un validateur DGEC',
     },
     { identifier: dreal.identifiantUtilisateur.email, typeUtilisateur: 'une DREAL' },
   ];
