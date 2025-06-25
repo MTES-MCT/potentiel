@@ -58,7 +58,7 @@ const getAuthProviders = () => {
       EmailProvider({
         from: process.env.SEND_EMAILS_FROM,
         maxAge: fifteenMinutesInSeconds,
-        sendVerificationRequest: buildSendVerificationRequest(sendEmail),
+        sendVerificationRequest: buildSendVerificationRequest(sendEmail, getUtilisateurFromEmail),
       }),
     );
   }

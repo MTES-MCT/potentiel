@@ -106,9 +106,7 @@ export const getUtilisateurFromAccessToken = async (
   };
 };
 
-export const getUtilisateurFromEmail = async (
-  email: string,
-): Promise<
+export type GetUtilisateurFromEmail = (email: string) => Promise<
   Option.Type<
     PlainType<
       Utilisateur.ValueType & {
@@ -116,7 +114,9 @@ export const getUtilisateurFromEmail = async (
       }
     >
   >
-> => {
+>;
+
+export const getUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) => {
   const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
     type: 'System.Utilisateur.Query.TrouverUtilisateur',
     data: {
