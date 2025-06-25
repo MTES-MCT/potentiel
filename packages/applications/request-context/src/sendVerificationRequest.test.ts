@@ -104,43 +104,55 @@ const buildSendVerificationRequestParams = (
 };
 
 describe(`Envoyer un email avec un lien de connexion`, () => {
-  test(`
-        Étant donné un porteur de projet
-        Lorsque le système envoie un email de vérification
-        Alors un email avec un lien de connexion vers l'application devrait luiêtre envoyé
-    `, async () => {
-    // Given
-    let emailWasSent = false;
-    const identifier = porteurDeProjet.identifiantUtilisateur.email;
-    const url = 'verification-request-url';
+  const utilisateursPouvantSeConnecterParEmail = [
+    {
+      identifier: porteurDeProjet.identifiantUtilisateur.email,
+      typeUtilisateur: 'un porteur de projet',
+    },
+    {
+      identifier: 'porteur-de-projet-indexistant@test.test',
+      typeUtilisateur: 'un porteur sans compte',
+    },
+  ];
 
-    const fakeSendEmail: SendEmail = async (actual) => {
-      const expected = {
-        templateId: 6785365,
-        messageSubject: 'Connexion à Potentiel',
-        recipients: [{ email: identifier, fullName: '' }],
-        variables: {
-          url,
-        },
+  utilisateursPouvantSeConnecterParEmail.map(({ identifier, typeUtilisateur }) => {
+    test(`
+        Étant donné ${typeUtilisateur}
+        Lorsque le système envoie un email de vérification
+        Alors un email avec un lien de connexion vers l'application devrait lui être envoyé
+    `, async () => {
+      // Given
+      let emailWasSent = false;
+      const url = 'verification-request-url';
+
+      const fakeSendEmail: SendEmail = async (actual) => {
+        const expected = {
+          templateId: 6785365,
+          messageSubject: 'Connexion à Potentiel',
+          recipients: [{ email: identifier, fullName: '' }],
+          variables: {
+            url,
+          },
+        };
+
+        assert.deepStrictEqual(
+          actual,
+          expected,
+          `L'email avec le lien de connexion n'a pas été envoyé`,
+        );
+        emailWasSent = true;
       };
 
-      assert.deepStrictEqual(
-        actual,
-        expected,
-        `L'email avec le lien de connexion n'a pas été envoyé`,
+      // When
+      const sendVerificationRequest = buildSendVerificationRequest(
+        fakeSendEmail,
+        fakeGetUtilisateurFromEmail,
       );
-      emailWasSent = true;
-    };
+      await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
 
-    // When
-    const sendVerificationRequest = buildSendVerificationRequest(
-      fakeSendEmail,
-      fakeGetUtilisateurFromEmail,
-    );
-    await sendVerificationRequest(buildSendVerificationRequestParams(identifier, url));
-
-    // Then
-    assert.strictEqual(emailWasSent, true);
+      // Then
+      assert.strictEqual(emailWasSent, true);
+    });
   });
 });
 

@@ -17,31 +17,27 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest =
   async ({ identifier, url }) => {
     const utilisateur = await getUtilisateurFromEmail(identifier);
 
-    await Option.match(utilisateur)
-      .some((utilisateur) => {
-        if (utilisateur.désactivé) {
-          return;
-        }
+    if (Option.isSome(utilisateur) && utilisateur.désactivé) {
+      return;
+    }
 
-        if (canConnectWithProvider('email', utilisateur.role.nom)) {
-          return sendEmail({
-            templateId: 6785365,
-            messageSubject: 'Connexion à Potentiel',
-            recipients: [{ email: identifier, fullName: '' }],
-            variables: {
-              url,
-            },
-          });
-        }
+    if (Option.isNone(utilisateur) || canConnectWithProvider('email', utilisateur.role.nom)) {
+      return sendEmail({
+        templateId: 6785365,
+        messageSubject: 'Connexion à Potentiel',
+        recipients: [{ email: identifier, fullName: '' }],
+        variables: {
+          url,
+        },
+      });
+    }
 
-        return sendEmail({
-          templateId: 7103248,
-          messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
-          recipients: [{ email: identifier, fullName: '' }],
-          variables: {
-            url: Routes.Auth.signIn({ proConnect: true }),
-          },
-        });
-      })
-      .none();
+    return sendEmail({
+      templateId: 7103248,
+      messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
+      recipients: [{ email: identifier, fullName: '' }],
+      variables: {
+        url: Routes.Auth.signIn({ proConnect: true }),
+      },
+    });
   };
