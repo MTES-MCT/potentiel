@@ -60,10 +60,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
         appelOffre={mapToPlainObject(appelOffres)}
         période={mapToPlainObject(période)}
-        technologie={lauréat.technologie}
+        technologie={mapToPlainObject(lauréat.technologie)}
         famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
         cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
-        volumeRéservé={mapToPlainObject(lauréat.volumeRéservé)}
+        volumeRéservé={lauréat.volumeRéservé ? mapToPlainObject(lauréat.volumeRéservé) : undefined}
         puissanceInitiale={puissance.puissanceInitiale}
       />
     );
