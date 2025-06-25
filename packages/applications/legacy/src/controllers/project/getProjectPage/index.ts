@@ -138,7 +138,7 @@ v1Router.get(
        * et si l'utilisateur a la droit de consulter la candidature
        */
       if (!project.notifiedOn) {
-        if (Option.isSome(role.aLaPermission('candidature.consulter'))) {
+        if (role.aLaPermission('candidature.consulter')) {
           return response.redirect(
             Routes.Candidature.détails(identifiantProjetValueType.formatter()),
           );
