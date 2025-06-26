@@ -19,14 +19,13 @@ export const InfoActionnaire = ({
     (role.estPorteur() && modificationsPermisesParLeCDCActuel) || !role.estPorteur();
 
   return (
-    <div>
+    <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Actionnaire</Heading3>
-      <p className="m-0">{actionnaire.nom || 'Non renseigné'}</p>
+      <span>{actionnaire.nom || 'Non renseigné'}</span>
       {afficherSelonRole && actionnaire.affichage && (
         <Link
           href={actionnaire.affichage.url}
           aria-label={actionnaire.affichage.label}
-          className="mt-1"
         >
           {actionnaire.affichage.label}
         </Link>

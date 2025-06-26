@@ -1,15 +1,15 @@
 import React from 'react';
 import { Request } from 'express';
 
-import { Heading3, Link, UserIcon, Section } from '../../../components';
+import { Heading3, Link, UserIcon, Section } from '../../../../components';
 
-import { ProjectDataForProjectPage } from '../../../../modules/project';
-import { userIs } from '../../../../modules/users';
-import { GetReprésentantLégalForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
+import { ProjectDataForProjectPage } from '../../../../../modules/project';
+import { userIs } from '../../../../../modules/users';
+import { GetReprésentantLégalForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { Routes } from '@potentiel-applications/routes';
-import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
+import { GetProducteurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getProducteur';
 import { InfoProducteur } from './InfoProducteur';
-import { GetCandidatureForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getCandidature';
+import { GetCandidatureForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getCandidature';
 import { InfoReprésentantLégal } from './InfoReprésentantLégal';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -32,7 +32,7 @@ export const Contact = ({
   candidature,
   modificationsNonPermisesParLeCDCActuel,
 }: ContactProps) => (
-  <Section title="Contact" icon={<UserIcon />}>
+  <Section title="Contact" icon={<UserIcon />} className="flex gap-4 flex-col">
     {producteur && (
       <InfoProducteur
         producteur={producteur}
@@ -47,28 +47,26 @@ export const Contact = ({
         role={Role.convertirEnValueType(user.role)}
       />
     )}
-    <Heading3 className="mb-1">Adresse email de candidature</Heading3>
-    <div>{candidature.emailContact}</div>
+    <div>
+      <Heading3 className="m-0">Adresse email de candidature</Heading3>
+      <div>{candidature.emailContact}</div>
+    </div>
 
     {project.notifiedOn &&
       userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
-        <ListComptesAvecAcces user={user} project={project} />
-      )}
-
-    {project.notifiedOn &&
-      userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
-        <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
+        <ListeComptesAyantAccès project={project} identifiantProjet={identifiantProjet} />
       )}
   </Section>
 );
 
-type ListComptesAvecAccesProps = {
-  user: Request['user'];
+type ListeComptesAyantAccèsProps = {
+  identifiantProjet: string;
   project: ProjectDataForProjectPage & { notifiedOn: number };
 };
-const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
+
+const ListeComptesAyantAccès = ({ project, identifiantProjet }: ListeComptesAyantAccèsProps) => (
   <div>
-    <Heading3 className="mt-4 mb-1">Comptes ayant accès à ce projet</Heading3>
+    <Heading3 className="mt-0 mb-1">Comptes ayant accès à ce projet</Heading3>
     <ul className="my-1">
       {project.users.map(({ id, fullName, email }) => (
         <div key={'project_user_' + id}>
@@ -80,5 +78,6 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
       ))}
       {!project.users.length && <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>}
     </ul>
+    <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
   </div>
 );

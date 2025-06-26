@@ -205,7 +205,7 @@ export const ProjectDetails = ({
             isLegacy={project.isLegacy}
             étapes={étapes}
           />
-          <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
+          <div className="flex flex-col flex-grow gap-3 break-before-page">
             <InfoGenerales
               project={project}
               role={Role.convertirEnValueType(user.role)}

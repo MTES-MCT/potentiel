@@ -73,7 +73,7 @@ export const InfoGenerales = ({
   const formattedIdentifiantProjet = identifiantProjet.formatter();
 
   return (
-    <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-5 flex-col">
+    <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-4 flex-col">
       {garantiesFinancières && isClasse && (
         <GarantiesFinancièresProjet
           garantiesFinancières={garantiesFinancières}
@@ -138,13 +138,13 @@ export const InfoGenerales = ({
       )}
       <div>
         <Heading3 className="m-0">Site de production</Heading3>
-        <p className="m-0">{adresseProjet}</p>
-        <p className="m-0">
+        <div>{adresseProjet}</div>
+        <div>
           {codePostalProjet} {communeProjet}
-        </p>
-        <p className="m-0">
+        </div>
+        <div>
           {departementProjet}, {regionProjet}
-        </p>
+        </div>
       </div>
       {actionnaire && (
         <InfoActionnaire
@@ -156,15 +156,15 @@ export const InfoGenerales = ({
       {coefficientKChoisi !== undefined ? (
         <div>
           <Heading3 className="m-0">Coefficient K choisi</Heading3>
-          <p className="m-0">{coefficientKChoisi ? 'Oui' : 'Non'}</p>
+          <span>{coefficientKChoisi ? 'Oui' : 'Non'}</span>
         </div>
       ) : null}
-      {prixReference && (
+      {prixReference ? (
         <div>
           <Heading3 className="m-0">Prix</Heading3>
-          <p className="m-0">{prixReference} €/MWh</p>
+          <span>{prixReference} €/MWh</span>
         </div>
-      )}
+      ) : null}
     </Section>
   );
 };
@@ -201,7 +201,7 @@ const GarantiesFinancièresProjet = ({
     getMotifGFEnAttente(garantiesFinancières.motifGfEnAttente);
 
   return (
-    <div>
+    <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Garanties financières</Heading3>
       {!estAchevé && motifDemandeGarantiesFinancières && (
         <AlertMessage>
@@ -211,14 +211,14 @@ const GarantiesFinancièresProjet = ({
       )}
 
       {garantiesFinancières.actuelles && (
-        <>
-          <p className="mt-0 mb-3">
+        <div>
+          <span>
             Le projet dispose actuellement de garanties financières validées
             {garantiesFinancières.actuelles.dateConstitution && (
-              <>
+              <span>
                 , constituées le{' '}
                 {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
-              </>
+              </span>
             )}
             {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
               <span className="font-semibold">
@@ -233,7 +233,7 @@ const GarantiesFinancièresProjet = ({
                 </span>
               )}
             .
-          </p>
+          </span>
           {!garantiesFinancières.actuelles?.dateConstitution && (
             <AlertMessage>
               L'attestation de constitution des garanties financières reste à transmettre.
@@ -242,7 +242,7 @@ const GarantiesFinancièresProjet = ({
           {garantiesFinancières.actuelles.type === 'type-inconnu' && (
             <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
           )}
-        </>
+        </div>
       )}
 
       {garantiesFinancières.dépôtÀTraiter && (

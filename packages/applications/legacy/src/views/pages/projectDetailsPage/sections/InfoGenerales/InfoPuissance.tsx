@@ -24,26 +24,22 @@ export const InfoPuissance = ({
 }: InfoPuissanceProps) => {
   const afficherSelonRole =
     (role.estPorteur() && modificationsPermisesParLeCDCActuel) || !role.estPorteur();
+  const volumeRéservéLabel =
+    désignationCatégorie === 'volume-réservé'
+      ? 'Ce projet fait partie du volume réservé de la période.'
+      : désignationCatégorie === 'hors-volume-réservé' && puissanceInférieurePuissanceMaxVolRéservé
+        ? 'Ce projet ne fait pas partie du volume réservé de la période'
+        : undefined;
 
   return (
-    <div>
+    <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Performances</Heading3>
-      <p className="m-0">
+      <span>
         Puissance installée : {puissance.puissance} {unitePuissance}
-      </p>
-      {désignationCatégorie === 'volume-réservé' && (
-        <p className="mb-0 mt-1">Ce projet fait partie du volume réservé de la période.</p>
-      )}
-      {désignationCatégorie === 'hors-volume-réservé' &&
-        puissanceInférieurePuissanceMaxVolRéservé && (
-          <p className="mb-0 mt-1">Ce projet ne fait pas partie du volume réservé de la période.</p>
-        )}
+      </span>
+      {volumeRéservéLabel && <span>{volumeRéservéLabel}</span>}
       {afficherSelonRole && puissance.affichage && (
-        <Link
-          href={puissance.affichage.url}
-          aria-label={puissance.affichage.label}
-          className="mt-1"
-        >
+        <Link href={puissance.affichage.url} aria-label={puissance.affichage.label}>
           {puissance.affichage.label}
         </Link>
       )}
