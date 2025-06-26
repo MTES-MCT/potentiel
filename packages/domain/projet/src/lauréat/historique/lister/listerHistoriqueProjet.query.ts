@@ -36,6 +36,16 @@ export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
   AchèvementEvent['payload']
 >;
 
+export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<
+  'délai',
+  'DélaiAccordé-V1',
+  {
+    identifiantProjet: string;
+    raison: 'covid' | 'demande' | 'cdc-18-mois';
+    durée: number;
+  }
+>;
+
 export type HistoriqueListItemReadModels =
   | HistoriqueAbandonProjetListItemReadModel
   | HistoriqueLauréatProjetListItemReadModel
@@ -46,7 +56,8 @@ export type HistoriqueListItemReadModels =
   | HistoriquePuissanceProjetListItemReadModel
   | HistoriqueProducteurProjetListItemReadModel
   | HistoriqueAchèvementProjetListItemReadModel
-  | HistoriqueRaccordementProjetListItemReadModel;
+  | HistoriqueRaccordementProjetListItemReadModel
+  | HistoriqueDélaiProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 
