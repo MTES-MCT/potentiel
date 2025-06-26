@@ -56,7 +56,7 @@ const lauréatSchema = z
     nomProjet: nomProjetSchema,
     puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
     nomCandidat: nomCandidatSchema,
-    evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
+    // evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
   })
   .merge(localitéSchema);
 const partialLauréatSchema = lauréatSchema.partial();
