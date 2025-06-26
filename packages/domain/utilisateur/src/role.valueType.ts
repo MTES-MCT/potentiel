@@ -1157,7 +1157,7 @@ const policies = {
   },
   fournisseur: {
     consulter: [référencielPermissions.lauréat.fournisseur.query.consulter],
-    modifierÉvaluationCarbonne: [
+    modifierÉvaluationCarbone: [
       référencielPermissions.lauréat.fournisseur.command.modifierÉvaluationCarbone,
       référencielPermissions.lauréat.fournisseur.usecase.modifierÉvaluationCarbone,
     ],
@@ -1305,6 +1305,9 @@ const pageProjetPolicies: Policy[] = [
   // Producteur
   'producteur.consulter',
 
+  // Fournisseur
+  'fournisseur.consulter',
+
   // Accès
   'accès.consulter',
 ];
@@ -1427,8 +1430,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'producteur.modifier',
 
   // Fournisseur
-  'fournisseur.consulter',
-  'fournisseur.modifierÉvaluationCarbonne',
+  'fournisseur.modifierÉvaluationCarbone',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1537,7 +1539,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.rejeterChangement',
 
   // Actionnaire
-  'actionnaire.consulter',
   'actionnaire.modifier',
   'actionnaire.consulterChangement',
   'actionnaire.listerChangement',
@@ -1545,7 +1546,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'actionnaire.rejeterChangement',
 
   // Puissance
-  'puissance.consulter',
   'puissance.modifier',
   'puissance.consulterChangement',
   'puissance.accorderChangement',

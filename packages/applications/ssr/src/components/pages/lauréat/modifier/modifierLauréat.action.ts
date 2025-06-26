@@ -100,18 +100,6 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      if (laureat.evaluationCarboneSimplifiee) {
-        await mediator.send<Lauréat.Fournisseur.ModifierÉvaluationCarboneUseCase>({
-          type: 'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            évaluationCarboneSimplifiéeValue: laureat.evaluationCarboneSimplifiee,
-            modifiéeLeValue: new Date().toISOString(),
-            modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
-          },
-        });
-      }
-
       const lauréatAEtéModifié =
         laureat.adresse1 != undefined ||
         laureat.adresse2 != undefined ||

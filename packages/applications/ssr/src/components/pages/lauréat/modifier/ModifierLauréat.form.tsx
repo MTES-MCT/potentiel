@@ -216,13 +216,11 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         )}
 
         <FormRow>
-          <ProjectField
+          <CandidatureField
             candidature={candidature.evaluationCarboneSimplifiee}
-            lauréat={lauréat.evaluationCarboneSimplifiee.currentValue}
             label="Evaluation carbone"
             name="evaluationCarboneSimplifiee"
             validationErrors={validationErrors}
-            estEnCoursDeModification={lauréat.evaluationCarboneSimplifiee.estEnCoursDeModification}
           />
         </FormRow>
         <FormRow>
