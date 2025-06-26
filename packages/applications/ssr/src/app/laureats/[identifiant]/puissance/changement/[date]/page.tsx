@@ -3,9 +3,8 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import {
@@ -15,8 +14,9 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
+
+import { getPuissanceInfos } from '../../../_helpers/getLauréat';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -51,18 +51,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
-        type: 'Lauréat.Puissance.Query.ConsulterPuissance',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
+      const puissance = await getPuissanceInfos({
+        identifiantProjet: identifiantProjet.formatter(),
       });
-
-      if (Option.isNone(puissance)) {
-        return notFound();
-      }
-
-      const candidature = await getCandidature(identifiantProjet.formatter());
 
       const historique =
         await mediator.send<Lauréat.Puissance.ListerHistoriquePuissanceProjetQuery>({
@@ -76,10 +67,10 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
-          puissanceInitiale={candidature.puissanceProductionAnnuelle}
-          unitéPuissance={candidature.unitéPuissance.formatter()}
+          puissanceInitiale={puissance.puissanceInitiale}
+          unitéPuissance={puissance.unitéPuissance.formatter()}
           historique={historique.items.map((item) =>
-            mapToPuissanceTimelineItemProps(item, candidature.unitéPuissance.formatter()),
+            mapToPuissanceTimelineItemProps(item, puissance.unitéPuissance.formatter()),
           )}
           actions={mapToActions(
             changement.demande.statut,

@@ -9,11 +9,9 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { DétailsChangementFournisseurPage as DétailsChangementFournisseurPage } from '@/components/pages/fournisseur/changement/détails/DétailsChangementFournisseur.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { mapToFournisseurTimelineItemProps } from '@/utils/historique/mapToProps/fournisseur';
 
-import { getTechnologie } from '../../_helpers/getTechnologie';
+import { getFournisseurInfos } from '../../../_helpers/getLauréat';
 
 export const metadata: Metadata = {
   title: 'Détail du changement de fournisseur du projet - Potentiel',
@@ -31,9 +29,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
     const enregistréLe = decodeParameter(date);
-    const candidature = await getCandidature(identifiantProjet.formatter());
-    const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
-    const technologie = getTechnologie({ appelOffres, technologie: candidature.technologie });
+    const fournisseur = await getFournisseurInfos({
+      identifiantProjet: identifiantProjet.formatter(),
+    });
 
     const changement = await mediator.send<Lauréat.Fournisseur.ConsulterChangementFournisseurQuery>(
       {
@@ -62,8 +60,8 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         identifiantProjet={mapToPlainObject(identifiantProjet)}
         changement={mapToPlainObject(changement.changement)}
         historique={historique.items.map(mapToFournisseurTimelineItemProps)}
-        technologie={technologie}
-        évaluationCarboneSimplifiéeInitiale={candidature.evaluationCarboneSimplifiée}
+        technologie={fournisseur.technologie}
+        évaluationCarboneSimplifiéeInitiale={fournisseur.évaluationCarboneSimplifiéeInitiale}
       />
     );
   });

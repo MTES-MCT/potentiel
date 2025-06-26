@@ -23,11 +23,13 @@ Alors(
         },
       });
 
+      const { unitéPuissance, puissanceProductionAnnuelle } = this.candidatureWorld.mapToExpected();
       const actual = mapToPlainObject(puissance);
       const expected = mapToPlainObject(
         this.lauréatWorld.puissanceWorld.mapToExpected(
           identifiantProjet,
-          this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
+          puissanceProductionAnnuelle,
+          unitéPuissance,
         ),
       );
 

@@ -13,7 +13,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { logger } from '../../core/utils';
 import { docxContentType, downloadFile } from './_utils/downloadFile';
 import { ReadableStream } from 'stream/web';
@@ -60,10 +60,6 @@ v1Router.get(
       data: { identifiantAppelOffre: identifiantProjet.appelOffre },
     });
 
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: { identifiantProjet: identifiantProjet.formatter() },
-    });
     const cahierDesChargesChoisi =
       await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
@@ -81,13 +77,11 @@ v1Router.get(
     if (
       Option.isNone(lauréat) ||
       Option.isNone(appelOffres) ||
-      Option.isNone(candidature) ||
       Option.isNone(cahierDesChargesChoisi)
     ) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const régionDreal = Option.isSome(request.user.région) ? request.user.région : undefined;
     if (modificationRequest.type === 'delai') {
       const previousRequest = await ModificationRequest.findOne({
         where: {
@@ -123,7 +117,6 @@ v1Router.get(
           identifiantProjet,
           lauréat,
           appelOffres,
-          candidature,
           cahierDesChargesChoisi,
           représentantLégal,
           dateDemande: new Date(modificationRequest.requestedOn),

@@ -15,7 +15,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 
@@ -29,7 +28,6 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       const { lauréat, puissance, représentantLégal } = await getLauréat({
         identifiantProjet,
       });
-      const candidature = await getCandidature(identifiantProjet);
 
       const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
@@ -61,7 +59,6 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         lauréat,
         puissance,
         représentantLégal,
-        candidature,
         appelOffres,
         période,
         famille,
@@ -91,7 +88,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
           referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
           status: abandon.statut.statut,
-          enCopies: getEnCopies(candidature.localité.région),
+          enCopies: getEnCopies(lauréat.localité.région),
         },
       });
 

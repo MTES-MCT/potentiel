@@ -114,7 +114,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           <Input
             state={validationErrors['puissance'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['puissance']}
-            label={`Puissance (en ${unitéPuissance})`}
+            label={`Puissance (en ${unitéPuissance.unité})`}
             hintText={ratioHintText}
             nativeInputProps={{
               name: 'puissance',
@@ -138,7 +138,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
                 ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
                 : undefined
             }
-            unitéPuissance={unitéPuissance}
+            unitéPuissance={unitéPuissance.unité}
           />
         </div>
         <Input

@@ -101,7 +101,7 @@ export const mapCandidatureToModèleRéponsePayload = ({
     unitéPuissance: candidature.unitéPuissance,
   });
 
-type MapLauréatToModelePayloadProps = MapCandidatureToModèleRéponsePayloadProps & {
+type MapLauréatToModelePayloadProps = CommonProps & {
   puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
   représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
@@ -112,10 +112,15 @@ export const mapLauréatToModèleRéponsePayload = ({
   représentantLégal,
   lauréat,
   ...props
-}: MapLauréatToModelePayloadProps) => ({
-  ...mapCandidatureToModèleRéponsePayload(props),
-  localité: lauréat.localité,
-  nomProjet: lauréat.nomProjet,
-  nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
-  puissance: puissance.puissance,
-});
+}: MapLauréatToModelePayloadProps) =>
+  mapToModèleRéponsePayload({
+    ...props,
+    emailContact: lauréat.emailContact,
+    localité: lauréat.localité,
+    nomCandidat: lauréat.nomCandidat,
+    nomProjet: lauréat.nomProjet,
+    notifiéLe: lauréat.notifiéLe,
+    unitéPuissance: lauréat.unitéPuissance,
+    nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
+    puissance: puissance.puissance,
+  });

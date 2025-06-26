@@ -59,7 +59,7 @@ type ProjectDetailsProps = {
   dateAchèvementRéelle?: number;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
-  candidature: ContactProps['candidature'];
+  emailContact: string;
   fournisseur: MaterielsEtTechnologiesProps['fournisseur'];
 };
 
@@ -79,7 +79,7 @@ export const ProjectDetails = ({
   modificationsNonPermisesParLeCDCActuel,
   coefficientKChoisi,
   producteur,
-  candidature,
+  emailContact,
   fournisseur,
 }: ProjectDetailsProps) => {
   const { user } = request;
@@ -225,7 +225,7 @@ export const ProjectDetails = ({
               représentantLégal={représentantLégal}
               producteur={producteur}
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-              candidature={candidature}
+              emailContact={emailContact}
             />
             <MaterielsEtTechnologies
               fournisseur={fournisseur}

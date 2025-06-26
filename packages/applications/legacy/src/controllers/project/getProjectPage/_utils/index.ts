@@ -6,4 +6,3 @@ export * from './getReprésentantLégal';
 export * from './getActionnaire';
 export * from './getRecours';
 export * from './getRaccordement';
-export * from './getCoefficientKChoisi';

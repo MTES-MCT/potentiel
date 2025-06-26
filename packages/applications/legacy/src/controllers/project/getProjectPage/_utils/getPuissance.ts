@@ -1,7 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -88,25 +87,6 @@ export const getPuissance = async ({
 
       return {
         puissance,
-      };
-    }
-
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
-
-    if (Option.isSome(candidature)) {
-      return {
-        puissance: candidature.puissanceProductionAnnuelle,
-        affichage: role.aLaPermission('candidature.corriger')
-          ? {
-              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              label: 'Modifier la candidature',
-            }
-          : undefined,
       };
     }
 
