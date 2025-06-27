@@ -1560,7 +1560,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.rejeterChangement',
 
   // Actionnaire
-  'actionnaire.consulter',
   'actionnaire.modifier',
   'actionnaire.consulterChangement',
   'actionnaire.listerChangement',
@@ -1568,7 +1567,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'actionnaire.rejeterChangement',
 
   // Puissance
-  'puissance.consulter',
   'puissance.modifier',
   'puissance.consulterChangement',
   'puissance.accorderChangement',
