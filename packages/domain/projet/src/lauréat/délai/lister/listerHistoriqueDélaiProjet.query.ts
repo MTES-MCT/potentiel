@@ -6,15 +6,7 @@ export type ConsulterDélaiAccordéProjetPort = (
   identifiantProjet: string,
 ) => Promise<Array<HistoriqueDélaiProjetListItemReadModel>>;
 
-export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<
-  'délai',
-  'DélaiAccordé-V1',
-  {
-    identifiantProjet: string;
-    raison: 'covid' | 'demande' | 'cdc-18-mois';
-    durée: number;
-  }
->;
+export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<'délai', 'DélaiAccordé-V1'>;
 
 export type ListerHistoriqueDélaiProjetReadModel = Array<HistoriqueDélaiProjetListItemReadModel>;
 

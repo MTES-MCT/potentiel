@@ -20,6 +20,7 @@ export type { ListerHistoriqueDélaiProjetReadModel, HistoriqueDélaiProjetListI
 // UseCases
 
 // Event
+export * from './délai.events';
 
 // Register
 export * from './délai.register';
