@@ -17,6 +17,7 @@ import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
 import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
 import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
+import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
@@ -34,16 +35,6 @@ export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
   'achevement',
   AchèvementEvent['type'],
   AchèvementEvent['payload']
->;
-
-export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<
-  'délai',
-  'DélaiAccordé-V1',
-  {
-    identifiantProjet: string;
-    raison: 'covid' | 'demande' | 'cdc-18-mois';
-    durée: number;
-  }
 >;
 
 export type HistoriqueListItemReadModels =
