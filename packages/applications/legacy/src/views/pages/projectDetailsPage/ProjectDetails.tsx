@@ -23,6 +23,7 @@ import {
   InfoGeneralesProps,
   GarantiesFinancièresProjetProps,
   EtapesProjetProps,
+  AchevementProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
@@ -56,8 +57,8 @@ type ProjectDetailsProps = {
   actionnaire?: InfoGeneralesProps['actionnaire'];
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
+  achèvement?: AchevementProps;
   estAchevé: boolean;
-  dateAchèvementRéelle?: number;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   candidature: ContactProps['candidature'];
@@ -71,7 +72,7 @@ export const ProjectDetails = ({
   abandon,
   demandeRecours,
   estAchevé,
-  dateAchèvementRéelle,
+  achèvement,
   représentantLégal,
   actionnaire,
   garantiesFinancières,
@@ -132,10 +133,10 @@ export const ProjectDetails = ({
       });
     }
 
-    if (dateAchèvementRéelle) {
+    if (achèvement?.date) {
       étapes.push({
         type: 'achèvement-réel',
-        date: dateAchèvementRéelle,
+        date: achèvement.date,
       });
     }
   }
@@ -215,6 +216,7 @@ export const ProjectDetails = ({
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
               coefficientKChoisi={coefficientKChoisi}
               estAchevé={estAchevé}
+              achèvement={achèvement}
             />
             <Contact
               identifiantProjet={identifiantProjet}
