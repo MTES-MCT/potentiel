@@ -17,7 +17,7 @@ export type GetLauréat = {
   puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
-  fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
+  fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel | undefined;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
@@ -140,7 +140,7 @@ const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
 
   if (Option.isNone(fournisseur)) {
     logger.warn(`Fournisseur non trouvé pour le projet lauréat`, { identifiantProjet });
-    return notFound();
+    return undefined;
   }
 
   return fournisseur;

@@ -117,10 +117,6 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
       currentValue: lauréat.producteur.producteur,
       estEnCoursDeModification: false,
     },
-    evaluationCarboneSimplifiee: {
-      currentValue: lauréat.fournisseur.évaluationCarboneSimplifiée,
-      estEnCoursDeModification: false,
-    },
   },
   projet: {
     nomProjet: candidature.nomProjet,
