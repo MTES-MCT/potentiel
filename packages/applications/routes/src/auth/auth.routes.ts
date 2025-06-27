@@ -1,7 +1,7 @@
 export const signIn = (options?: {
   callbackUrl?: string;
   showProConnect?: boolean;
-  error?: string;
+  proConnect?: true;
 }) => {
   const route = `/auth/signIn`;
 
@@ -10,14 +10,14 @@ export const signIn = (options?: {
   }
 
   const params = new URLSearchParams();
-  const { callbackUrl, showProConnect, error } = options;
+  const { callbackUrl, showProConnect, proConnect } = options;
 
   if (callbackUrl) {
     params.set('callbackUrl', callbackUrl);
   }
 
-  if (error) {
-    params.set('error', error);
+  if (proConnect) {
+    params.set('proConnect', 'true');
   }
 
   if (showProConnect) {
