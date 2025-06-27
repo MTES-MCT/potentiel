@@ -27,6 +27,7 @@ import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/rec
 import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
+import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 
 const categoriesDisponibles = [
   'abandon',
@@ -39,6 +40,7 @@ const categoriesDisponibles = [
   'recours',
   'représentant-légal',
   'raccordement',
+  'délai',
 ] as const;
 
 type PageProps = IdentifiantParameter & {
@@ -117,6 +119,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   puissance: 'ri-draft-line',
   raccordement: 'ri-plug-line',
   recours: 'ri-scales-3-line',
+  délai: 'ri-clockwise-line',
 };
 
 const mapToTimelineItemProps = (
@@ -147,6 +150,7 @@ const mapToTimelineItemProps = (
     )
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
+    .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
     .exhaustive(() => undefined);
   if (props) {
     return {

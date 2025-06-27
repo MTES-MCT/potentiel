@@ -48,9 +48,24 @@ export const setupHistorique = async () => {
       streamCategory: 'raccordement',
     });
 
+  // TODO move dans setupProjet/setupLauréat/setupDélai une fois le domaine migré
+  const unsubscribeDélaiHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'délai',
+    });
+
   return async () => {
     await unsubscribeReprésentantLégalHistoriqueProjector();
     await unsubscribeGarantiesFinancièresHistoriqueProjector();
     await unsubscribeRaccordementHistoriqueProjector();
+    await unsubscribeDélaiHistoriqueProjector();
   };
 };
