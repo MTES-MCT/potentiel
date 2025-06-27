@@ -21,7 +21,7 @@ export const MaterielsEtTechnologies = ({
   return (
     <Section title="Matériels et technologies" icon={<CogIcon />} className="flex gap-4 flex-col">
       <div className="flex flex-col gap-0">
-        <Heading3 className="m-0">Evaluation carbone simplifiée</Heading3>
+        <Heading3 className="m-0">Évaluation carbone simplifiée</Heading3>
         <span>{évaluationCarboneSimplifiée} kg eq CO2/kWc</span>
       </div>
       {fournisseurs.length > 0 && (
