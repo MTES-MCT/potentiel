@@ -2,11 +2,17 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
 
+import { DélaiEvent } from '../délai.events';
+
 export type ConsulterDélaiAccordéProjetPort = (
   identifiantProjet: string,
 ) => Promise<Array<HistoriqueDélaiProjetListItemReadModel>>;
 
-export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<'délai', 'DélaiAccordé-V1'>;
+export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<
+  'délai',
+  DélaiEvent['type'],
+  DélaiEvent['payload']
+>;
 
 export type ListerHistoriqueDélaiProjetReadModel = Array<HistoriqueDélaiProjetListItemReadModel>;
 
