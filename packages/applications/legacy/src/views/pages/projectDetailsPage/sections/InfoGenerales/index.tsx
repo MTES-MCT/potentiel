@@ -190,13 +190,13 @@ export const InfoGenerales = ({
             fileUrl={Routes.Document.télécharger(achèvement.attestation)}
             className="m-0"
           >
-            Attestion de conformité
+            Télécharger l'attestation de conformité
           </DownloadLink>
           <DownloadLink
             fileUrl={Routes.Document.télécharger(achèvement.preuveTransmissionAuCocontractant)}
             className="m-0"
           >
-            Preuve de transmission au cocontractant
+            Télécharger la preuve de transmission au cocontractant
           </DownloadLink>
           {role.aLaPermission('achèvement.modifier') && (
             <Link
