@@ -1,8 +1,9 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 const selectDélaiAccordéSuiteÀUneDemandeQuery = `
-  select es."createdAt" as "dateCréation", 
+  select (SELECT to_char (es."createdAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "dateCréation", 
 	   case 
 	   	when es.payload->'params'->>'delayInMonths' is not null 
 	   	then es.payload->'params'->>'delayInMonths' 
@@ -35,8 +36,6 @@ export const consulterDélaiAccordéProjetAdapter: Lauréat.Délai.ConsulterDél
     const { appelOffre, période, famille, numéroCRE } =
       IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const délais: Array<Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel> = [];
-
     const délaisAccordésParDemande = await executeSelect<{ dateCréation: string; durée: number }>(
       selectDélaiAccordéSuiteÀUneDemandeQuery,
       appelOffre,
@@ -45,21 +44,20 @@ export const consulterDélaiAccordéProjetAdapter: Lauréat.Délai.ConsulterDél
       numéroCRE,
     );
 
-    if (délaisAccordésParDemande.length > 0) {
-      délaisAccordésParDemande.map(({ dateCréation, durée }) =>
-        délais.push({
-          id: `${identifiantProjet}#${dateCréation}`,
-          category: 'délai',
-          createdAt: dateCréation,
-          type: 'DélaiAccordé-V1',
-          payload: {
-            identifiantProjet,
-            durée,
-            raison: 'demande',
-          },
-        }),
-      );
+    if (délaisAccordésParDemande.length === 0) {
+      return [];
     }
 
-    return délais;
+    return délaisAccordésParDemande.map(({ dateCréation, durée }) => ({
+      id: `${identifiantProjet}#${dateCréation}`,
+      category: 'délai',
+      createdAt: dateCréation,
+      type: 'DélaiAccordé-V1',
+      payload: {
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+        durée,
+        raison: 'demande',
+        accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
+      },
+    }));
   };
