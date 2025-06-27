@@ -1,6 +1,13 @@
 import React, { ComponentProps } from 'react';
 import { ProjectDataForProjectPage } from '../../../../../modules/project';
-import { BuildingIcon, Heading3, Link, Section, WarningIcon } from '../../../../components';
+import {
+  BuildingIcon,
+  DownloadLink,
+  Heading3,
+  Link,
+  Section,
+  WarningIcon,
+} from '../../../../components';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../../helpers/dataToValueTypes';
 import { afficherDate } from '../../../../helpers';
 import { Routes } from '@potentiel-applications/routes';
@@ -16,6 +23,15 @@ import { InfoPuissance } from './InfoPuissance';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
+
+export type AchevementProps = {
+  date: number;
+  attestation: DocumentProjet.RawType;
+  preuveTransmissionAuCocontractant: DocumentProjet.RawType;
+  identifiantProjet: IdentifiantProjet.RawType;
+  permissionModifier: boolean;
+};
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -28,6 +44,7 @@ export type InfoGeneralesProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
+  achèvement?: AchevementProps;
 };
 
 export const InfoGenerales = ({
@@ -58,6 +75,7 @@ export const InfoGenerales = ({
   puissance,
   coefficientKChoisi,
   estAchevé,
+  achèvement,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
@@ -163,6 +181,32 @@ export const InfoGenerales = ({
         <div>
           <Heading3 className="m-0">Prix</Heading3>
           <p className="m-0">{prixReference} €/MWh</p>
+        </div>
+      )}
+      {achèvement && (
+        <div className="flex flex-col">
+          <Heading3 className="m-0">Achèvement</Heading3>
+          <DownloadLink
+            fileUrl={Routes.Document.télécharger(achèvement.attestation)}
+            className="m-0"
+          >
+            Attestion de conformité
+          </DownloadLink>
+          <DownloadLink
+            fileUrl={Routes.Document.télécharger(achèvement.preuveTransmissionAuCocontractant)}
+            className="m-0"
+          >
+            Preuve de transmission au cocontractant
+          </DownloadLink>
+          {role.aLaPermission('achèvement.modifier') && (
+            <Link
+              href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet.formatter())}
+              aria-label="Modifier les informations d'achèvement du projet"
+              className="mt-1"
+            >
+              Modifier
+            </Link>
+          )}
         </div>
       )}
     </Section>
