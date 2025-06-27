@@ -8,19 +8,18 @@ import { match } from 'ts-pattern';
 
 import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { InfoActionnaire } from './InfoActionnaire';
 import { InfoPuissance } from './InfoPuissance';
+import { InfoRaccordement } from './InfoRaccordement';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
-import { PlainType } from '@potentiel-domain/core';
+import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
   role: Role.ValueType;
-  raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
+  raccordement: GetRaccordementForProjectPage;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   actionnaire?: GetActionnaireForProjectPage;
@@ -38,7 +37,6 @@ export const InfoGenerales = ({
     numeroCRE,
     appelOffre,
     unitePuissance,
-    puissance: legacyPuissance,
     isClasse,
     désignationCatégorie,
     codePostalProjet,
@@ -46,7 +44,6 @@ export const InfoGenerales = ({
     regionProjet,
     departementProjet,
     adresseProjet,
-    isAbandoned,
     prixReference,
   },
   raccordement,
@@ -59,10 +56,6 @@ export const InfoGenerales = ({
   coefficientKChoisi,
   estAchevé,
 }: InfoGeneralesProps) => {
-  const puissanceInférieurePuissanceMaxVolRéservé =
-    appelOffre.periode.noteThresholdBy === 'category' &&
-    legacyPuissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax;
-
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
     periodeId,
@@ -94,48 +87,21 @@ export const InfoGenerales = ({
           </Link>
         </div>
       )}
-      <div className="print:hidden">
-        <Heading3 className="m-0">Raccordement au réseau</Heading3>
-        {match({
-          raccordement: Option.isSome(raccordement),
-          isClasse,
-          isAbandoned,
-          modifierPermission: role.aLaPermission('raccordement.gestionnaire.modifier'),
-        })
-          .with({ raccordement: true }, ({ modifierPermission }) => (
-            <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
-              {modifierPermission
-                ? 'Consulter ou modifier les documents'
-                : 'Consulter les documents'}
-            </Link>
-          ))
-          .with(
-            {
-              raccordement: false,
-              isClasse: true,
-              isAbandoned: false,
-              modifierPermission: true,
-            },
-            () => (
-              <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
-                Renseigner les données de raccordement
-              </Link>
-            ),
-          )
-          .otherwise(() => (
-            <div>Aucun raccordement pour ce projet</div>
-          ))}
-      </div>
-      {puissance !== undefined && (
+
+      <InfoRaccordement raccordement={raccordement} />
+      {puissance !== undefined ? (
         <InfoPuissance
           puissance={puissance}
           modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
           unitePuissance={unitePuissance}
           désignationCatégorie={désignationCatégorie}
-          puissanceInférieurePuissanceMaxVolRéservé={puissanceInférieurePuissanceMaxVolRéservé}
+          puissanceInférieurePuissanceMaxVolRéservé={
+            appelOffre.periode.noteThresholdBy === 'category' &&
+            puissance.puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax
+          }
           role={role}
         />
-      )}
+      ) : null}
       <div>
         <Heading3 className="m-0">Site de production</Heading3>
         <div>{adresseProjet}</div>
@@ -146,13 +112,13 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </div>
       </div>
-      {actionnaire && (
+      {actionnaire ? (
         <InfoActionnaire
           actionnaire={actionnaire}
           modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
           role={role}
         />
-      )}
+      ) : null}
       {coefficientKChoisi !== undefined ? (
         <div>
           <Heading3 className="m-0">Coefficient K choisi</Heading3>

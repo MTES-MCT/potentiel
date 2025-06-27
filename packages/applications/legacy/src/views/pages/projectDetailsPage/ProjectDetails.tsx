@@ -29,7 +29,6 @@ import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import {
   DemandeImpossibleSiAbandonEnCoursInfoBox,
@@ -38,6 +37,7 @@ import {
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -46,7 +46,7 @@ export type AlerteRaccordement =
 type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
-  raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
+  raccordement: GetRaccordementForProjectPage;
   alertesRaccordement: AlerteRaccordement[];
   abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
   demandeRecours?: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
@@ -120,16 +120,14 @@ export const ProjectDetails = ({
       date: project.completionDueOn,
     });
 
-    const dernierDossierRaccordement = Option.match(raccordement)
+    const dernierDossierRaccordement = Option.match(raccordement.raccordement)
       .some(({ dossiers }) => (dossiers.length > 0 ? dossiers[dossiers.length - 1] : undefined))
       .none(() => undefined);
 
     if (dernierDossierRaccordement?.miseEnService?.dateMiseEnService) {
       étapes.push({
         type: 'mise-en-service',
-        date: DateTime.bind(
-          dernierDossierRaccordement.miseEnService.dateMiseEnService,
-        ).date.getTime(),
+        date: dernierDossierRaccordement.miseEnService.dateMiseEnService.date.getTime(),
       });
     }
 
