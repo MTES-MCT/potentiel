@@ -5,7 +5,6 @@ import { Project } from '../../../infra/sequelize';
 import { PermissionConsulterProjet } from '../../../modules/project';
 import routes from '../../../routes';
 import { ProjectDetailsPage } from '../../../views';
-import { AlerteRaccordement } from '../../../views/pages/projectDetailsPage';
 import {
   miseAJourStatistiquesUtilisation,
   notFoundResponse,
@@ -179,8 +178,9 @@ v1Router.get(
           : project.isClasse
             ? StatutProjet.classé
             : StatutProjet.éliminé;
-      const alertesRaccordement: AlerteRaccordement[] | undefined = await getAlertesRaccordement({
-        raccordement,
+
+      const alertesRaccordement = await getAlertesRaccordement({
+        raccordement: raccordement.raccordement,
         role,
         identifiantProjet: identifiantProjetValueType,
         statutProjet,
@@ -188,6 +188,7 @@ v1Router.get(
           project.cahierDesChargesActuel.type === 'modifié' &&
           project.cahierDesChargesActuel.paruLe === '30/08/2022',
       });
+
       const attestationConformité = await getAttestationDeConformité(
         identifiantProjetValueType,
         user.role,
@@ -233,7 +234,7 @@ v1Router.get(
         ProjectDetailsPage({
           request,
           project,
-          raccordement: mapToPlainObject(raccordement),
+          raccordement,
           alertesRaccordement,
           abandon: abandon && mapToPlainObject(abandon),
           garantiesFinancières,
