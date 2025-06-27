@@ -7,19 +7,37 @@ import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/projet';
 
+import { checkLauréatNonAbandonné } from './checkLauréatNonAbandonné';
+import { Routes } from '@potentiel-applications/routes';
+
 type GetRaccordementProps = {
   role: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 };
-export const getRaccordement = async ({ role, identifiantProjet }: GetRaccordementProps) => {
+
+export type GetRaccordementForProjectPage = {
+  raccordement: Option.Type<RaccordementLauréat.ConsulterRaccordementReadModel>;
+  affichage?: {
+    label: string;
+    url?: string;
+  };
+};
+
+export const getRaccordement = async ({
+  role,
+  identifiantProjet,
+}: GetRaccordementProps): Promise<GetRaccordementForProjectPage> => {
   if (!role.aLaPermission('raccordement.consulter')) {
-    return Option.none;
+    return {
+      raccordement: Option.none,
+    };
   }
 
   const raccordement = await mediator.send<RaccordementLauréat.ConsulterRaccordementQuery>({
     type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
+
   if (
     Option.isNone(raccordement) ||
     raccordement.dossiers.length === 0 ||
@@ -27,7 +45,26 @@ export const getRaccordement = async ({ role, identifiantProjet }: GetRaccordeme
       Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
     )
   ) {
-    return Option.none;
+    const estClasséNonAbandonné = await checkLauréatNonAbandonné(identifiantProjet.formatter());
+
+    return {
+      raccordement: Option.none,
+      affichage: estClasséNonAbandonné
+        ? {
+            label: 'Renseigner les données de raccordement',
+            url: Routes.Raccordement.détail(identifiantProjet.formatter()),
+          }
+        : { label: 'Aucun raccordement pour ce projet' },
+    };
   }
-  return raccordement;
+
+  return {
+    raccordement,
+    affichage: {
+      label: role.aLaPermission('raccordement.gestionnaire.modifier')
+        ? 'Consulter ou modifier les documents'
+        : 'Consulter les documents',
+      url: Routes.Raccordement.détail(identifiantProjet.formatter()),
+    },
+  };
 };
