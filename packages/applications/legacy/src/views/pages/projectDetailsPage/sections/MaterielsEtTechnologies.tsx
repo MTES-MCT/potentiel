@@ -19,21 +19,21 @@ export const MaterielsEtTechnologies = ({
   const { fournisseurs, évaluationCarboneSimplifiée, affichage } = fournisseur;
 
   return (
-    <Section title="Matériels et technologies" icon={<CogIcon />}>
-      <div>
-        <Heading3 className="mb-1">Evaluation carbone simplifiée</Heading3>
-        {évaluationCarboneSimplifiée} kg eq CO2/kWc
+    <Section title="Matériels et technologies" icon={<CogIcon />} className="flex gap-4 flex-col">
+      <div className="flex flex-col gap-0">
+        <Heading3 className="m-0">Evaluation carbone simplifiée</Heading3>
+        <span>{évaluationCarboneSimplifiée} kg eq CO2/kWc</span>
       </div>
       {fournisseurs.length > 0 && (
-        <div className="mt-2">
-          <Heading3 className="mb-1">Fournisseurs</Heading3>
+        <div className="flex flex-col gap-0">
+          <Heading3 className="m-0">Fournisseurs</Heading3>
           <ListeFournisseurs fournisseurs={fournisseurs} />
+          {affichage && !modificationsNonPermisesParLeCDCActuel && (
+            <Link href={affichage.url} aria-label={affichage.label}>
+              {affichage.label}
+            </Link>
+          )}
         </div>
-      )}
-      {affichage && !modificationsNonPermisesParLeCDCActuel && (
-        <Link href={affichage.url} aria-label={affichage.label}>
-          {affichage.label}
-        </Link>
       )}
     </Section>
   );

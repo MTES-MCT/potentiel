@@ -1,7 +1,7 @@
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps, ETAPE_INCONNUE_TITLE } from '@/components/organisms/Timeline';
 import { IconProps } from '@/components/atoms/Icon';
 
 export const mapToÉtapeInconnueOuIgnoréeTimelineItemProps = (
@@ -12,7 +12,7 @@ export const mapToÉtapeInconnueOuIgnoréeTimelineItemProps = (
   };
 
   return {
-    title: `Étape inconnue`,
+    title: ETAPE_INCONNUE_TITLE,
     type: record.type,
     icon,
     date: record.createdAt as DateTime.RawType,

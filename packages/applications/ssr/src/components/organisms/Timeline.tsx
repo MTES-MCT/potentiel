@@ -18,13 +18,11 @@ export type TimelineProps = {
   items: Array<TimelineItemProps>;
   className?: string;
 };
+
+export const ETAPE_INCONNUE_TITLE = 'Étape inconnue';
+
 export const Timeline: FC<TimelineProps> = ({ items, className }) => {
-  const filteredItems = items.filter((item) => {
-    if (item.title !== 'Étape inconnue') {
-      return true;
-    }
-    return process.env.APPLICATION_STAGE !== 'production';
-  });
+  const filteredItems = items.filter((item) => item.title !== ETAPE_INCONNUE_TITLE);
 
   return (
     <MuiTimeline
@@ -74,7 +72,8 @@ const TimelineItem: FC<TimelineItemProps> = ({
   icon,
   isLast,
 }) => {
-  const isÉtapeInconnue = title === 'Étape inconnue';
+  const isÉtapeInconnue = title === ETAPE_INCONNUE_TITLE;
+
   return (
     <MuiTimelineItem
       sx={{
