@@ -140,7 +140,7 @@ export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
 
   if (Option.isNone(fournisseur)) {
     logger.warn(`Fournisseur non trouvé pour le projet lauréat`, { identifiantProjet });
-    return undefined;
+    return notFound();
   }
 
   return fournisseur;
