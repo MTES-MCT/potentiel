@@ -17,12 +17,4 @@ export const CORRESPONDANCE_CHAMPS_FOURNISSEURS = {
   'Nom du fabricant \n(Poste de conversion)': 'Poste de conversion',
 };
 
-export const CHAMPS_FOURNISSEURS: ReadonlyArray<string> = Object.keys(
-  CORRESPONDANCE_CHAMPS_FOURNISSEURS,
-);
-
 export type FournisseurKind = keyof typeof CORRESPONDANCE_CHAMPS_FOURNISSEURS;
-
-export const isFournisseurKind = (value: string): value is FournisseurKind => {
-  return CHAMPS_FOURNISSEURS.includes(value);
-};

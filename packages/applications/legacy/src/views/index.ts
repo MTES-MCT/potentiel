@@ -7,7 +7,6 @@ import {
   NewModificationRequest,
   ProjectDetails,
   SignalerDemandeDelai,
-  ChangerFournisseur,
   ListeProjets,
   SuccèsOuErreur,
   AccèsNonAutorisé,
@@ -57,13 +56,6 @@ export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
     Component: DemanderDelai,
     props,
     title: 'Demander délai',
-  });
-
-export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisseur>[0]) =>
-  makeHtml({
-    Component: ChangerFournisseur,
-    props,
-    title: 'Changer fournisseur',
   });
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>

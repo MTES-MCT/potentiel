@@ -39,8 +39,6 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
         </>
       )}
 
-      <DetailsByType modificationRequest={modificationRequest} />
-
       {attachmentFile && (
         <div className="mt-4">
           <DownloadLink
@@ -49,50 +47,6 @@ export const DemandeDetails = ({ modificationRequest, className = '' }: DemandeD
             Télécharger la pièce-jointe
           </DownloadLink>
         </div>
-      )}
-    </div>
-  );
-};
-
-interface DetailsByTypeProps {
-  modificationRequest: ModificationRequestPageDTO;
-}
-
-const DetailsByType = ({ modificationRequest }: DetailsByTypeProps) => {
-  switch (modificationRequest.type) {
-    case 'fournisseur':
-      return <FournisseurDetails modificationRequest={modificationRequest} />;
-    default:
-      return null;
-  }
-};
-
-interface FournisseurDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'fournisseur' };
-}
-const FournisseurDetails = ({ modificationRequest }: FournisseurDetailsProps) => {
-  return (
-    <div>
-      {modificationRequest.fournisseurs?.length > 0 && (
-        <>
-          <Heading3 className="mb-2">Nouveau(x) fournisseur(s)</Heading3>
-          <ul>
-            {modificationRequest.fournisseurs?.map((fournisseur, index) => (
-              <li key={index}>
-                {fournisseur.kind} : {fournisseur.name}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-      {modificationRequest.evaluationCarbone && (
-        <>
-          <Heading3 className="mb-2">Nouvelle évaluation carbone</Heading3>
-          <div>
-            Nouvelle évaluation carbone :{' '}
-            <span className="font-bold">{modificationRequest.evaluationCarbone} kg eq CO2/kWc</span>
-          </div>
-        </>
       )}
     </div>
   );

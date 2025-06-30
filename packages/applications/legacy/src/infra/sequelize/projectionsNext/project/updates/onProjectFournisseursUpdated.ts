@@ -4,7 +4,6 @@ import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
 import { EntityNotFoundError, ProjectionEnEchec } from '../../../../../modules/shared';
 
-// TODO: Projection migrée en l'état, doit être revu (en supprimant l'utilisation de la colonne JSON)
 export const onProjectFournisseursUpdated = ProjectProjector.on(
   ProjectFournisseursUpdated,
   async (évènement, transaction) => {
