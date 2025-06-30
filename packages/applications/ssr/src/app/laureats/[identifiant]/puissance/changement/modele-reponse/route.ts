@@ -16,7 +16,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 
 import { getLauréat } from '../../../_helpers/getLauréat';
@@ -29,7 +28,6 @@ export const GET = async (
     const identifiantProjet = decodeParameter(identifiant);
     const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
-    const candidature = await getCandidature(identifiantProjet);
     const { lauréat, représentantLégal } = await getLauréat({ identifiantProjet });
     const { appelOffres, période, famille } = await getPériodeAppelOffres(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -75,7 +73,6 @@ export const GET = async (
       lauréat,
       puissance,
       représentantLégal,
-      candidature,
       appelOffres,
       période,
       famille,
@@ -90,7 +87,7 @@ export const GET = async (
         ...data,
         dateDemande: formatDateForDocument(demandeDeChangement.demande.demandéeLe.date),
         justificationDemande: demandeDeChangement.demande.raison ?? '',
-        enCopies: getEnCopies(candidature.localité.région),
+        enCopies: getEnCopies(lauréat.localité.région),
         nouvellePuissance: demandeDeChangement.demande.nouvellePuissance.toString(),
         referenceParagraphePuissance: texteChangementDePuissance.référenceParagraphe,
         contenuParagraphePuissance: texteChangementDePuissance?.dispositions,

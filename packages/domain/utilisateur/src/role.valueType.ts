@@ -876,7 +876,6 @@ const policies = {
     attestation: {
       prévisualiser: [
         référencielPermissions.utilisateur.query.consulter,
-        référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.appelOffre.query.consulter,
       ],
       télécharger: [
@@ -884,7 +883,6 @@ const policies = {
         référencielPermissions.éliminé.query.consulter,
         référencielPermissions.document.query.consulter,
         référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.éliminé.recours.query.consulter,
       ],
     },
@@ -1184,6 +1182,9 @@ const policies = {
       référencielPermissions.lauréat.command.modifier,
     ],
   },
+  éliminé: {
+    consulter: [référencielPermissions.éliminé.query.consulter],
+  },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
     lister: [référencielPermissions.accès.query.lister],
@@ -1285,7 +1286,7 @@ const commonPolicies: ReadonlyArray<Policy> = [
 
   // Header projet
   'lauréat.consulter',
-  'candidature.consulter',
+  'éliminé.consulter',
   'abandon.consulter.détail',
 ];
 
@@ -1303,7 +1304,6 @@ const pageProjetPolicies: Policy[] = [
 
   // Candidature
   'candidature.attestation.télécharger',
-  'candidature.consulter',
 
   // Représentant légal
   'représentantLégal.consulter',
@@ -1389,6 +1389,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'achèvement.modifier',
 
   // Candidature
+  'candidature.consulter',
   'candidature.importer',
   'candidature.corriger',
   'candidature.lister',

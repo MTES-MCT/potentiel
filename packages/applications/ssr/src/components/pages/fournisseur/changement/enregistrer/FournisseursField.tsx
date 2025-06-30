@@ -33,7 +33,9 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
   const typesFournisseur: ReadonlyArray<Lauréat.Fournisseur.TypeFournisseur.RawType> =
     technologie === 'eolien'
       ? Lauréat.Fournisseur.TypeFournisseur.typesFournisseurEolien
-      : Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV;
+      : technologie === 'pv'
+        ? Lauréat.Fournisseur.TypeFournisseur.typesFournisseurPV
+        : [];
 
   return (
     <>

@@ -13,7 +13,6 @@ import {
   HistoriqueLauréatAction,
   HistoriqueLauréatPage,
 } from '@/components/pages/lauréat/historique/HistoriqueLauréat.page';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
@@ -27,6 +26,8 @@ import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/rec
 import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
+
+import { getLauréatInfos } from '../_helpers/getLauréat';
 
 const categoriesDisponibles = [
   'abandon',
@@ -60,7 +61,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const identifiantProjet = decodeParameter(identifiant);
       const { categorie } = paramsSchema.parse(searchParams);
 
-      const candidature = await getCandidature(identifiantProjet);
+      const lauréat = await getLauréatInfos({ identifiantProjet });
 
       const historique = await mediator.send<Lauréat.ListerHistoriqueProjetQuery>({
         type: 'Lauréat.Query.ListerHistoriqueProjet',
@@ -87,7 +88,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           historique={historique.items
             .filter((historique) => !historique.type.includes('Import'))
             .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-            .map((item) => mapToTimelineItemProps(item, candidature.unitéPuissance.formatter()))
+            .map((item) => mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter()))
             .filter((item) => item !== undefined)
             .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())}
         />

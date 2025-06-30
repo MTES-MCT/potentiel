@@ -92,7 +92,7 @@ export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) 
   return représentantLégal;
 };
 
-const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
+export const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
   const logger = getLogger('getPuissanceInfos');
 
   const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
@@ -110,7 +110,7 @@ const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
   return puissance;
 };
 
-const getProducteurInfos = async ({ identifiantProjet }: Props) => {
+export const getProducteurInfos = async ({ identifiantProjet }: Props) => {
   const logger = getLogger('getProducteurInfos');
 
   const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
@@ -128,7 +128,7 @@ const getProducteurInfos = async ({ identifiantProjet }: Props) => {
   return producteur;
 };
 
-const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
+export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
   const logger = getLogger('getFournisseurInfos');
 
   const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
@@ -140,7 +140,7 @@ const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
 
   if (Option.isNone(fournisseur)) {
     logger.warn(`Fournisseur non trouvé pour le projet lauréat`, { identifiantProjet });
-    return undefined;
+    return notFound();
   }
 
   return fournisseur;

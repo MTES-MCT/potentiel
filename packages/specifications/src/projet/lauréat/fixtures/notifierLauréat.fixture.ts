@@ -14,6 +14,8 @@ export interface NotifierLauréat {
     adresse2: string;
     codePostal: string;
     commune: string;
+    région: string;
+    département: string;
   };
 }
 
@@ -70,7 +72,7 @@ export class NotifierLauréatFixture
 
   mapToExpected() {
     if (!this.aÉtéCréé) {
-      return {};
+      throw new Error("La fixture lauréat n'a pas été créee");
     }
     return {
       nomProjet: this.nomProjet,

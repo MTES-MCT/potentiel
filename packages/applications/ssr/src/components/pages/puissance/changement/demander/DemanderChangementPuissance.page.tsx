@@ -19,8 +19,6 @@ export type DemanderChangementPuissancePageProps = PlainType<
     famille?: AppelOffre.Famille;
     cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
     volumeRéservé?: PlainType<Candidature.VolumeRéservé.ValueType>;
-    unitéPuissance: string;
-    puissanceInitiale: number;
   }
 >;
 

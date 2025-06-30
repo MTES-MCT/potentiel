@@ -9,7 +9,6 @@ import { GetReprésentantLégalForProjectPage } from '../../../../../controllers
 import { Routes } from '@potentiel-applications/routes';
 import { GetProducteurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getProducteur';
 import { InfoProducteur } from './InfoProducteur';
-import { GetCandidatureForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getCandidature';
 import { InfoReprésentantLégal } from './InfoReprésentantLégal';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -20,7 +19,7 @@ export type ContactProps = {
   représentantLégal?: GetReprésentantLégalForProjectPage;
   producteur?: GetProducteurForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
-  candidature: GetCandidatureForProjectPage;
+  emailContact: string;
 };
 
 export const Contact = ({
@@ -29,7 +28,7 @@ export const Contact = ({
   user,
   représentantLégal,
   producteur,
-  candidature,
+  emailContact,
   modificationsNonPermisesParLeCDCActuel,
 }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />} className="flex gap-4 flex-col">
@@ -49,7 +48,7 @@ export const Contact = ({
     )}
     <div>
       <Heading3 className="m-0">Adresse email de candidature</Heading3>
-      <div>{candidature.emailContact}</div>
+      <div>{emailContact}</div>
     </div>
 
     {project.notifiedOn &&

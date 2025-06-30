@@ -75,17 +75,20 @@ export type ConsulterCandidatureDependencies = {
 
 export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidatureDependencies) => {
   const handler: MessageHandler<ConsulterCandidatureQuery> = async ({ identifiantProjet }) => {
-    const candidature = await find<CandidatureEntity>(`candidature|${identifiantProjet}`);
+    const candidature = await find<CandidatureEntity, AppelOffre.AppelOffreEntity>(
+      `candidature|${identifiantProjet}`,
+      {
+        join: {
+          entity: 'appel-offre',
+          on: 'appelOffre',
+        },
+      },
+    );
 
     if (Option.isNone(candidature)) {
       return Option.none;
     }
-    const appelOffres = await find<AppelOffre.AppelOffreEntity>(
-      `appel-offre|${candidature.appelOffre}`,
-    );
-    if (Option.isNone(appelOffres)) {
-      return Option.none;
-    }
+    const appelOffres = candidature['appel-offre'];
     const période = appelOffres.periodes.find((p) => p.id === candidature.période);
     if (!période) {
       return Option.none;
@@ -97,7 +100,13 @@ export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidature
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
-export const mapToReadModel = (
+type MapToReadModel = (
+  candidature: Omit<CandidatureEntity, 'type'>,
+  appelOffres: AppelOffre.AppelOffreReadModel,
+  période: AppelOffre.Periode,
+) => ConsulterCandidatureReadModel;
+
+export const mapToReadModel: MapToReadModel = (
   {
     identifiantProjet,
     statut,
@@ -124,9 +133,9 @@ export const mapToReadModel = (
     détailsMisÀJourLe,
     notification,
     fournisseurs,
-  }: CandidatureEntity,
-  appelOffres: AppelOffre.AppelOffreEntity,
-  période: AppelOffre.Periode,
+  },
+  appelOffres,
+  période,
 ): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),

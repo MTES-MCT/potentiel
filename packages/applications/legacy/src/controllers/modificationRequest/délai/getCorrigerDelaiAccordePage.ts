@@ -14,7 +14,7 @@ import { v1Router } from '../../v1Router';
 import { validateUniqueId } from '../../../helpers/validateUniqueId';
 import { ModificationRequest, Project } from '../../../infra/sequelize/projectionsNext';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
@@ -63,24 +63,13 @@ v1Router.get(
     if (!identifiantProjet) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
+    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+      type: 'Lauréat.Query.ConsulterLauréat',
       data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
     });
 
-    if (Option.isNone(candidature)) {
+    if (Option.isNone(lauréat)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
-    }
-
-    const { notification, statut, technologie } = candidature;
-
-    if (!statut.estClassé() || !notification) {
-      return response.redirect(
-        addQueryParams(routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.demandeDelaiId), {
-          error:
-            'Vous ne pouvez pas corriger ce délai accordé car le projet doit être lauréat et actif.',
-        }),
-      );
     }
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -92,14 +81,14 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, technologie.type);
+    const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, lauréat.technologie.type);
 
     if (!delaiRealisationEnMois) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
     const dateAchèvementInitiale = sub(
-      add(notification.notifiéeLe.date, { months: delaiRealisationEnMois }),
+      add(lauréat.notifiéLe.date, { months: delaiRealisationEnMois }),
       { days: 1 },
     ).getTime();
 
@@ -124,9 +113,9 @@ v1Router.get(
             demandeDélai: modificationRequest,
             résuméProjet: {
               ...identifiantProjet,
-              nom: candidature.nomProjet,
-              localité: candidature.localité,
-              statut: candidature.statut.statut,
+              nom: lauréat.nomProjet,
+              localité: lauréat.localité,
+              statut: lauréat.statut.statut,
             },
             utilisateur: user,
             dateAchèvementInitiale: new Date(dateAchèvementInitiale).toISOString(),

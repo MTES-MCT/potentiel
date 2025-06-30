@@ -17,8 +17,7 @@ import {
   DétailsRecoursPage,
 } from '@/components/pages/recours/détails/DétailsRecours.page';
 import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
-
-import { getCandidature } from '../../../candidatures/_helpers/getCandidature';
+import { getProjetÉliminé } from '@/app/projets/[identifiant]/_helpers/getÉliminé';
 
 type PageProps = IdentifiantParameter;
 
@@ -28,10 +27,10 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   try {
     const identifiantProjet = decodeParameter(params.identifiant);
-    const candidature = await getCandidature(identifiantProjet);
+    const éliminé = await getProjetÉliminé(identifiantProjet);
 
     return {
-      title: `Détails du recours du projet ${candidature.nomProjet} - Potentiel`,
+      title: `Détails du recours du projet ${éliminé.nomProjet} - Potentiel`,
       description: "Détail du recours d'un projet",
     };
   } catch {

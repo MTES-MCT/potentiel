@@ -15,7 +15,6 @@ import {
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { v1Router } from '../../v1Router';
 
-import { StatutProjet } from '@potentiel-domain/common';
 import { logger } from '../../../core/utils';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
@@ -28,13 +27,11 @@ import {
   getRecours,
   getRaccordement,
   getActionnaire,
-  getCoefficientKChoisi,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
 import { getFournisseur } from './_utils/getFournisseur';
-import { getCandidature } from './_utils/getCandidature';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
@@ -137,17 +134,10 @@ v1Router.get(
       );
 
       /**
-       * Redirection vers la page de candidature si le projet non désigné et si l'utilisateur a la droit de consulter la candidature, page unauthorized sinon
+       * Redirection vers la page de candidature si le projet n'est pas désigné
        */
       if (!project.notifiedOn) {
-        const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-          type: 'Candidature.Query.ConsulterCandidature',
-          data: {
-            identifiantProjet: identifiantProjetValueType.formatter(),
-          },
-        });
-
-        if (Option.isSome(candidature)) {
+        if (role.aLaPermission('candidature.consulter')) {
           return response.redirect(
             Routes.Candidature.détails(identifiantProjetValueType.formatter()),
           );
@@ -165,6 +155,15 @@ v1Router.get(
         );
       }
 
+      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+        type: 'Lauréat.Query.ConsulterLauréat',
+        data: { identifiantProjet: identifiantProjetValueType.formatter() },
+      });
+
+      if (Option.isNone(lauréat)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
       const abandon = await getAbandon(identifiantProjetValueType);
 
       const raccordement = await getRaccordement({
@@ -172,22 +171,17 @@ v1Router.get(
         identifiantProjet: identifiantProjetValueType,
       });
 
-      const statutProjet = !project.notifiedOn
-        ? StatutProjet.nonNotifié
-        : project.isAbandoned
-          ? StatutProjet.abandonné
-          : project.isClasse
-            ? StatutProjet.classé
-            : StatutProjet.éliminé;
-      const alertesRaccordement: AlerteRaccordement[] | undefined = await getAlertesRaccordement({
-        raccordement,
-        role,
-        identifiantProjet: identifiantProjetValueType,
-        statutProjet,
-        CDC2022Choisi:
-          project.cahierDesChargesActuel.type === 'modifié' &&
-          project.cahierDesChargesActuel.paruLe === '30/08/2022',
-      });
+      const alertesRaccordement =
+        project.notifiedOn && project.isClasse && role.estPorteur()
+          ? await getAlertesRaccordement({
+              raccordement,
+              identifiantProjet: identifiantProjetValueType,
+              CDC2022Choisi:
+                project.cahierDesChargesActuel.type === 'modifié' &&
+                project.cahierDesChargesActuel.paruLe === '30/08/2022',
+            })
+          : [];
+
       const achèvement = await getAttestationDeConformité(identifiantProjetValueType, user.role);
 
       miseAJourStatistiquesUtilisation({
@@ -254,16 +248,13 @@ v1Router.get(
             changementProducteurPossibleAvantAchèvement:
               project.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
-          candidature: await getCandidature({ identifiantProjet: identifiantProjetValueType }),
+          emailContact: lauréat.emailContact.formatter(),
           estAchevé: !!achèvement,
           achèvement,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,
-          coefficientKChoisi: await getCoefficientKChoisi(
-            identifiantProjetValueType,
-            project.appelOffre.periode,
-          ),
+          coefficientKChoisi: lauréat.coefficientKChoisi,
           fournisseur: await getFournisseur({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,

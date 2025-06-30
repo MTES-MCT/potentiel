@@ -8,7 +8,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
@@ -22,12 +21,8 @@ import {
 } from './enregistrerChangementFournisseur.action';
 import { FournisseursField } from './FournisseursField';
 
-export type EnregistrerChangementFournisseurFormProps = PlainType<
-  Lauréat.Fournisseur.ConsulterFournisseurReadModel & {
-    technologie: AppelOffre.Technologie;
-    évaluationCarboneSimplifiéeInitiale: number;
-  }
->;
+export type EnregistrerChangementFournisseurFormProps =
+  PlainType<Lauréat.Fournisseur.ConsulterFournisseurReadModel>;
 
 export const EnregistrerChangementFournisseurForm: FC<
   EnregistrerChangementFournisseurFormProps

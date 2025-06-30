@@ -42,7 +42,6 @@ type MapToDélaiModèleRéponseProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   lauréat: Lauréat.ConsulterLauréatReadModel;
   appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
-  candidature: Candidature.ConsulterCandidatureReadModel;
   cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
   représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
   puissanceActuelle: number;
@@ -59,7 +58,6 @@ export const mapToDélaiModèleRéponseProps = ({
   identifiantProjet,
   lauréat,
   appelOffres,
-  candidature,
   cahierDesChargesChoisi,
   justification,
   représentantLégal,
@@ -94,23 +92,19 @@ export const mapToDélaiModèleRéponseProps = ({
     dateNotification: formatDateForDocument(lauréat.notifiéLe.date),
     familles: identifiantProjet.famille ? ('yes' as const) : ('' as const),
     dreal: régionDreal,
-    email: candidature.emailContact.formatter(),
-    nomCandidat: candidature.nomCandidat,
+    email: lauréat.emailContact.formatter(),
+    nomCandidat: lauréat.nomCandidat,
     nomProjet: lauréat.nomProjet,
     nomRepresentantLegal: Option.match(représentantLégal)
       .some((rl) => rl.nomReprésentantLégal)
-      .none(() => candidature.nomReprésentantLégal),
+      .none(() => ''),
     refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
     titreAppelOffre: appelOffres.title,
     titreFamille:
       période?.familles.find((famille) => famille.id === identifiantProjet.famille)?.id || '',
     titrePeriode: période?.title || '',
     puissance: puissanceActuelle.toString(),
-    unitePuissance: Candidature.UnitéPuissance.déterminer({
-      appelOffres,
-      période: identifiantProjet.période,
-      technologie: candidature.technologie.formatter(),
-    }).formatter(),
+    unitePuissance: lauréat.unitéPuissance.formatter(),
 
     // Demande
     dateDemande: formatDateForDocument(dateDemande),

@@ -16,7 +16,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 
 import { getLauréat } from '../../_helpers/getLauréat';
@@ -29,7 +28,6 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
       const { lauréat, puissance, représentantLégal } = await getLauréat({
         identifiantProjet: identifiantProjetValue,
       });
-      const candidature = await getCandidature(identifiantProjetValue);
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
         IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
@@ -55,7 +53,6 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
         lauréat,
         puissance,
         représentantLégal,
-        candidature,
         appelOffres,
         période,
         famille,
