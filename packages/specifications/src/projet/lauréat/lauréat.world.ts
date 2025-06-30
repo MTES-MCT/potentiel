@@ -1,5 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat, StatutProjet } from '@potentiel-domain/projet';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { CandidatureWorld } from '../../candidature/candidature.world';
 
@@ -155,6 +156,12 @@ export class LauréatWorld {
         ? StatutProjet.abandonné
         : StatutProjet.classé,
       volumeRéservé,
+      attestationDésignation: DocumentProjet.convertirEnValueType(
+        this.identifiantProjet.formatter(),
+        'attestation',
+        this.notifierLauréatFixture.notifiéLe,
+        'application/pdf',
+      ),
     };
     return expected;
   }
