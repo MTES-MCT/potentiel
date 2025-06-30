@@ -1,4 +1,4 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
@@ -57,26 +57,6 @@ export const getFournisseur = async ({
                 labelActions: 'Changer de fournisseur',
               }
             : undefined,
-      };
-    }
-
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
-
-    if (Option.isSome(candidature)) {
-      return {
-        fournisseurs: candidature.fournisseurs,
-        évaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
-        affichage: role.aLaPermission('candidature.corriger')
-          ? {
-              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              label: 'Modifier la candidature',
-            }
-          : undefined,
       };
     }
 
