@@ -41,26 +41,26 @@ export const getFournisseur = async ({
       rôle,
     );
 
-    if (Option.isNone(fournisseur)) {
-      return undefined;
+    if (Option.isSome(fournisseur)) {
+      const { fournisseurs, évaluationCarboneSimplifiée } = fournisseur;
+      return {
+        fournisseurs,
+        évaluationCarboneSimplifiée,
+        affichage:
+          role.aLaPermission('fournisseur.enregistrerChangement') &&
+          !aUnAbandonEnCours &&
+          !estAbandonné &&
+          !estAchevé
+            ? {
+                url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
+                label: 'Changer de fournisseur',
+                labelActions: 'Changer de fournisseur',
+              }
+            : undefined,
+      };
     }
 
-    const { fournisseurs, évaluationCarboneSimplifiée } = fournisseur;
-    return {
-      fournisseurs,
-      évaluationCarboneSimplifiée,
-      affichage:
-        role.aLaPermission('fournisseur.enregistrerChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé
-          ? {
-              url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
-              label: 'Changer de fournisseur',
-              labelActions: 'Changer de fournisseur',
-            }
-          : undefined,
-    };
+    return undefined;
   } catch (error) {
     getLogger().error(error);
     return undefined;
