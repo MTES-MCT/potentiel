@@ -15,12 +15,12 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
 
-    Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
-        Etant donné une demande d'abandon en cours avec recandidature pour le projet lauréat
-        Quand le DGEC validateur accorde l'abandon pour le projet lauréat
-        Alors la preuve de recandidature a été demandée au porteur du projet lauréat
-        Et une tâche indiquant de "transmettre la preuve de recandidature" est consultable dans la liste des tâches du porteur pour le projet
-
+    # TODO : Vérifier avec le métier pour supprimer carrément la partie recandidature
+    # Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
+    #     Etant donné une demande d'abandon en cours avec recandidature pour le projet lauréat
+    #     Quand le DGEC validateur accorde l'abandon pour le projet lauréat
+    #     Alors la preuve de recandidature a été demandée au porteur du projet lauréat
+    #     Et une tâche indiquant de "transmettre la preuve de recandidature" est consultable dans la liste des tâches du porteur pour le projet
     Scénario: Impossible d'accorder l'abandon d'un projet lauréat si l'abandon a déjà été accordé
         Etant donné un abandon accordé pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
