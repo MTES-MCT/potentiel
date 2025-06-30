@@ -1,4 +1,3 @@
-import { BaseShouldUserAccessProject } from '../modules/authZ';
 import {
   makeAccorderDemandeDélai,
   makeAnnulerDemandeDélai,
@@ -16,7 +15,6 @@ import {
   makeConfirmRequest,
   makeRejectModificationRequest,
   makeRequestConfirmation,
-  makeRequestFournisseursModification,
 } from '../modules/modificationRequest';
 import { makeImportProjects, makeSignalerDemandeDelai } from '../modules/project';
 import { makeCreateUser } from '../modules/users';
@@ -61,13 +59,6 @@ export const requestConfirmation = makeRequestConfirmation({
 export const confirmRequest = makeConfirmRequest({
   modificationRequestRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const requestFournisseurModification = makeRequestFournisseursModification({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  fileRepo,
 });
 
 export const createUser = makeCreateUser({
