@@ -134,8 +134,7 @@ v1Router.get(
       );
 
       /**
-       * Redirection vers la page de candidature si le projet non désigné
-       * et si l'utilisateur a la droit de consulter la candidature
+       * Redirection vers la page de candidature si le projet n'est pas désigné
        */
       if (!project.notifiedOn) {
         if (role.aLaPermission('candidature.consulter')) {
@@ -172,7 +171,7 @@ v1Router.get(
         identifiantProjet: identifiantProjetValueType,
       });
 
-      const alertesRaccordement: AlerteRaccordement[] =
+      const alertesRaccordement =
         project.notifiedOn && project.isClasse && role.estPorteur()
           ? await getAlertesRaccordement({
               raccordement,
