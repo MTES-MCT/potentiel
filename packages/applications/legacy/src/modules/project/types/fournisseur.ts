@@ -17,4 +17,4 @@ export const CORRESPONDANCE_CHAMPS_FOURNISSEURS = {
   'Nom du fabricant \n(Poste de conversion)': 'Poste de conversion',
 };
 
-type FournisseurKind = keyof typeof CORRESPONDANCE_CHAMPS_FOURNISSEURS;
+export type FournisseurKind = keyof typeof CORRESPONDANCE_CHAMPS_FOURNISSEURS;
