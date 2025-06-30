@@ -188,10 +188,7 @@ v1Router.get(
           project.cahierDesChargesActuel.type === 'modifié' &&
           project.cahierDesChargesActuel.paruLe === '30/08/2022',
       });
-      const attestationConformité = await getAttestationDeConformité(
-        identifiantProjetValueType,
-        user.role,
-      );
+      const achèvement = await getAttestationDeConformité(identifiantProjetValueType, user.role);
 
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
@@ -258,8 +255,8 @@ v1Router.get(
               project.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
           candidature: await getCandidature({ identifiantProjet: identifiantProjetValueType }),
-          estAchevé: !!attestationConformité,
-          dateAchèvementRéelle: attestationConformité?.date,
+          estAchevé: !!achèvement,
+          achèvement,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,
