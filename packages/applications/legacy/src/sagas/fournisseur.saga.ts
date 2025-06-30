@@ -5,11 +5,7 @@ import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/p
 import { logger, ok } from '../core/utils';
 import { Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
-import {
-  FournisseurKind,
-  ProjectDataCorrected,
-  ProjectFournisseursUpdated,
-} from '../modules/project';
+import { ProjectDataCorrected, ProjectFournisseursUpdated } from '../modules/project';
 import { Option } from '@potentiel-libraries/monads';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { UniqueEntityID } from '../core/domain';
@@ -21,7 +17,7 @@ export type Execute = Message<'System.Saga.Fournisseur', SubscriptionEvent>;
 
 const CORRESPONDANCE_CHAMPS_FOURNISSEURS: Record<
   Lauréat.Fournisseur.TypeFournisseur.RawType,
-  FournisseurKind
+  string
 > = {
   'module-ou-films': 'Nom du fabricant \n(Modules ou films)',
   cellules: 'Nom du fabricant (Cellules)',

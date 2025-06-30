@@ -19,13 +19,7 @@ export const handleModificationReceived =
   async (event: ModificationReceived) => {
     const { modificationRequestId, projectId, type } = event.payload;
     await deps.getProjectInfoForModificationReceivedNotification(projectId).match(
-      async ({
-        departementProjet,
-        regionProjet,
-        nomProjet,
-        porteursProjet,
-        evaluationCarboneDeRéférence,
-      }) => {
+      async ({ departementProjet, regionProjet, nomProjet, porteursProjet }) => {
         // la saga legacy continue d'émettre des modificationsreceived
         // pour maintenir la frise
         if (MODIFICATION_REQUEST_MIGRATED.includes(type)) {
@@ -56,19 +50,6 @@ export const handleModificationReceived =
               },
             };
 
-            if (type === 'fournisseur' && event.payload.evaluationCarbone) {
-              const newEvaluationCarbone = Number(event.payload.evaluationCarbone);
-              const switchBracket =
-                Math.round(newEvaluationCarbone / 50) !==
-                Math.round(evaluationCarboneDeRéférence / 50);
-
-              const evaluationCarboneIsOutOfBounds =
-                newEvaluationCarbone > evaluationCarboneDeRéférence && switchBracket;
-
-              if (evaluationCarboneIsOutOfBounds) {
-                notificationPayload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`;
-              }
-            }
             deps.sendNotification(notificationPayload);
           }),
         );

@@ -75,21 +75,12 @@ class routes {
     } else return route;
   };
 
-  static CHANGER_FOURNISSEUR = (projectId?: Project['id']) => {
-    const route = '/projet/:projectId/changer-fournisseur.html';
-    if (projectId) {
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
   static DEMANDE_ACTION = '/soumettre-demande';
 
   static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai';
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
-
-  static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur';
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename';
