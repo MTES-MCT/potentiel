@@ -14,7 +14,7 @@ export const computeNombreDeDemandeParCategorie = async () => {
       count(*) as "value"
     from
       "modificationRequests"
-    where "type" in ('delai', 'fournisseur')
+    where "type" = 'delai'
     group by "type"
     `,
     statisticType,
@@ -72,6 +72,14 @@ export const computeNombreDeDemandeParCategorie = async () => {
         (
           select count(*) from "event_store"."event_stream" 
           where type like 'ChangementProducteurEnregistré-V%'
+        )
+      ),
+      (
+        $1,
+        'fournisseur',
+        (
+          select count(*) from "event_store"."event_stream" 
+          where type like 'ChangementFournisseurEnregistré-V%'
         )
       )
     `,
