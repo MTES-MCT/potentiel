@@ -12,12 +12,6 @@ export class ReprésentantLégalTypeInconnuError extends InvalidOperationError {
   }
 }
 
-export class ProjetAchevéError extends InvalidOperationError {
-  constructor() {
-    super('Impossible de demander le changement de représentant légal pour un projet achevé');
-  }
-}
-
 export class DemandeDeChangementEnCoursError extends InvalidOperationError {
   constructor() {
     super(
