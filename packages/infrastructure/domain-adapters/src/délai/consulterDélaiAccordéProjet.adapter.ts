@@ -1,10 +1,12 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { récupérerÉvénementDélaiAccordé } from './utils/récupérerÉvénementDélaiAccordé';
-import { récupérerÉvénementDemandeDelaiSignaled } from './utils/récupérerÉvénementDemandeDelaiSignaled';
-import { récupérerÉvénementCovidDelayGranted } from './utils/récupérerÉvénementCovidDelayGranted';
-import { récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022 } from './utils/récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022';
-import { récupérerÉvénementLegacyModificationRawDataImported } from './utils/récupérerÉvénementLegacyModificationRawDataImported';
+import {
+  récupérerÉvénementDélaiAccordé,
+  récupérerÉvénementDemandeDelaiSignaled,
+  récupérerÉvénementCovidDelayGranted,
+  récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022,
+  récupérerÉvénementLegacyModificationRawDataImported,
+} from './utils';
 
 export type RécupérerDélaiÉvénement = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
