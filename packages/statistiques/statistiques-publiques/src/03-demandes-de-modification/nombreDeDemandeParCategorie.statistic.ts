@@ -14,7 +14,7 @@ export const computeNombreDeDemandeParCategorie = async () => {
       count(*) as "value"
     from
       "modificationRequests"
-    where "type" in ('delai', 'fournisseur')
+    where "type" = 'delai'
     group by "type"
     `,
     statisticType,
