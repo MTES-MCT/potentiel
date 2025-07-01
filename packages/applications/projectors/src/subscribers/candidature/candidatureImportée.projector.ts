@@ -47,6 +47,10 @@ export const mapToCandidatureToUpsert = (
       ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
       : undefined,
     coefficientKChoisi: payload.coefficientKChoisi,
+    installationsAgrivoltaiques: payload.installationsAgrivoltaiques,
+    élémentsSousOmbrière: payload.élémentsSousOmbrière,
+    typologieDeBâtiment: payload.typologieDeBâtiment,
+    obligationDeSolarisation: payload.obligationDeSolarisation,
     technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
     estNotifiée: false,
     notification: undefined,

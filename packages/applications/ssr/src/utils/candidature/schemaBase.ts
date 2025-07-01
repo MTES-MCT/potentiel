@@ -74,9 +74,15 @@ export const optionalEnum = <TEnumSchema extends [string, ...string[]]>(
   enumSchema: z.ZodEnum<TEnumSchema>,
 ) =>
   z
-    .union([enumSchema, z.literal(''), z.literal('N/A')])
-    .transform((v) => (v === '' || v === 'N/A' ? undefined : v))
-    .optional();
+    .string()
+    .toLowerCase()
+    .optional()
+    .pipe(
+      z
+        .union([enumSchema, z.literal(''), z.literal('n/a')])
+        .transform((v) => (v === '' || v === 'n/a' ? undefined : v))
+        .optional(),
+    );
 
 /**
  * @param field Le champ validé

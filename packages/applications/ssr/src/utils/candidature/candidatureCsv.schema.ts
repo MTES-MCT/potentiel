@@ -33,6 +33,10 @@ import {
   notifiedOnCsvSchema,
   codePostalSchema,
   choixCoefficientKCsvSchema,
+  installationsAgrivoltaiquesCsvSchema,
+  élémentsSousOmbrièreCsvSchema,
+  typologieDeBâtimentCsvSchema,
+  obligationDeSolarisationCsvSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -96,6 +100,10 @@ const colonnes = {
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   territoireProjet: 'Territoire\n(AO ZNI)',
   coefficientKChoisi: 'indexation_k',
+  installationsAgrivoltaiques: 'Installations agrivoltaïques',
+  élémentsSousOmbrière: 'Eléments sous l’ombrière',
+  typologieDeBâtiment: 'Typologie de bâtiment',
+  obligationDeSolarisation: 'Obligation de solarisation',
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -125,13 +133,17 @@ const candidatureCsvRowSchema = z
     [colonnes.financementCollectif]: financementCollectifCsvSchema,
     [colonnes.gouvernancePartagée]: gouvernancePartagéeCsvSchema,
     [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
+    [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
+    notifiedOn: notifiedOnCsvSchema,
+    [colonnes.installationsAgrivoltaiques]: installationsAgrivoltaiquesCsvSchema,
+    [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
+    [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
+    [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGf]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
-    [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
-    notifiedOn: notifiedOnCsvSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {

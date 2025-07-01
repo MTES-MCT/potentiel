@@ -85,6 +85,7 @@ export const statutCsvSchema = z
   .string()
   .toLowerCase()
   .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']));
+
 export const adresse1CsvSchema = optionalStringSchema;
 export const dateEchéanceGfCsvSchema = dateSchema.optional();
 export const financementCollectifCsvSchema = ouiNonSchema;
@@ -95,3 +96,18 @@ export const notifiedOnCsvSchema = z.undefined({
   invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
 });
 export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
+
+export const installationsAgrivoltaiquesCsvSchema = optionalEnum(
+  z.enum(['culture', 'jachère de plus de 5 ans', 'élevage', 'serre']),
+);
+
+export const élémentsSousOmbrièreCsvSchema = z.string().optional();
+export const typologieDeBâtimentCsvSchema = optionalEnum(
+  z.enum([
+    'bâtiment neuf',
+    'bâtiment existant avec rénovation de toiture',
+    'bâtiment existant sans rénovation de toiture',
+    'mixte',
+  ]),
+);
+export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;

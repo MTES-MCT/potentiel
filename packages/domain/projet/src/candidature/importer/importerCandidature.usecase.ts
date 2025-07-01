@@ -42,6 +42,10 @@ export type ImporterCandidatureUseCase = Message<
     dateÉchéanceGfValue?: string;
     territoireProjetValue: string;
     coefficientKChoisiValue?: boolean;
+    installationsAgrivoltaiquesValue?: string;
+    élémentsSousOmbrièreValue?: string;
+    typologieDeBâtimentValue?: string;
+    obligationDeSolarisationValue?: boolean;
     fournisseursValue: Array<{
       typeFournisseur: string;
       nomDuFabricant: string;

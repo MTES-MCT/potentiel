@@ -57,6 +57,10 @@ export type CandidatureEntity = Entity<
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
     coefficientKChoisi?: boolean;
+    installationsAgrivoltaiques?: string;
+    élémentsSousOmbrière?: string;
+    typologieDeBâtiment?: string;
+    obligationDeSolarisation?: boolean;
     détailsMisÀJourLe: DateTime.RawType;
     fournisseurs: Array<Fournisseur.RawType>;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)

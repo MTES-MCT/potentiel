@@ -85,14 +85,61 @@ describe('Schema candidature', () => {
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
+      installationsAgrivoltaiques: undefined,
+      élémentsSousOmbrière: undefined,
+      typologieDeBâtiment: undefined,
+      obligationDeSolarisation: undefined,
     });
   });
 
   test('Cas nominal, classé', () => {
+    const result = candidatureCsvSchema.safeParse(minimumValuesClassé);
+    assertNoError(result);
+    expect(result.data).to.deep.equal({
+      appelOffre: "appel d'offre",
+      période: 'période',
+      famille: '',
+      numéroCRE: 'numéro cre',
+      nomProjet: 'nom projet',
+      sociétéMère: '',
+      nomCandidat: 'candidat',
+      puissanceProductionAnnuelle: 1,
+      prixRéférence: 1,
+      noteTotale: 1,
+      nomReprésentantLégal: 'valentin cognito',
+      emailContact: 'porteur@test.com',
+      adresse1: 'adresse',
+      adresse2: '',
+      codePostaux: ['12345'],
+      commune: 'MARSEILLE',
+      statut: 'classé',
+      motifÉlimination: undefined,
+      puissanceÀLaPointe: false,
+      evaluationCarboneSimplifiée: 0,
+      technologie: 'N/A',
+      typeGf: 'avec-date-échéance',
+      financementCollectif: false,
+      gouvernancePartagée: true,
+      dateÉchéanceGf: new Date('2024-12-01T00:00:00.000Z'),
+      historiqueAbandon: 'première-candidature',
+      territoireProjet: '',
+      coefficientKChoisi: undefined,
+      installationsAgrivoltaiques: undefined,
+      élémentsSousOmbrière: undefined,
+      typologieDeBâtiment: undefined,
+      obligationDeSolarisation: undefined,
+    });
+  });
+
+  test('Champs optionnels, spécifiques à certains AOs', () => {
     const result = candidatureCsvSchema.safeParse({
       ...minimumValuesClassé,
       'Technologie\n(dispositif de production)': 'Eolien',
       'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
+      'Installations agrivoltaïques': 'élevage',
+      'Eléments sous l’ombrière': '...',
+      'Typologie de bâtiment': 'Bâtiment existant avec rénovation de toiture',
+      'Obligation de solarisation': 'Oui',
     });
     assertNoError(result);
     expect(result.data).to.deep.equal({
@@ -124,6 +171,10 @@ describe('Schema candidature', () => {
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
+      installationsAgrivoltaiques: 'élevage',
+      élémentsSousOmbrière: '...',
+      typologieDeBâtiment: 'bâtiment existant avec rénovation de toiture',
+      obligationDeSolarisation: true,
     });
   });
 
