@@ -1,7 +1,7 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { DateTime } from '@potentiel-domain/common';
 
-import { RécupérerDélaiÉvénement } from '../consulterDélaiAccordéProjet.adapter';
+import { RécupérerDélaiÉvénement } from '../listerDélaiAccordéProjet.adapter';
 
 export const récupérerÉvénementDemandeDelaiSignaled: RécupérerDélaiÉvénement = async ({
   identifiantProjet,

@@ -4,7 +4,7 @@ import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { DélaiEvent } from '../délai.events';
 
-export type ConsulterDélaiAccordéProjetPort = (
+export type ListerDélaiAccordéProjetPort = (
   identifiantProjet: string,
 ) => Promise<Array<HistoriqueDélaiProjetListItemReadModel>>;
 
@@ -25,16 +25,16 @@ export type ListerHistoriqueDélaiProjetQuery = Message<
 >;
 
 export type ListerHistoriqueDélaiProjetDependencies = {
-  consulterDélaiAccordé: ConsulterDélaiAccordéProjetPort;
+  listerDélaiAccordé: ListerDélaiAccordéProjetPort;
 };
 
 export const registerListerHistoriqueDélaiProjetQuery = ({
-  consulterDélaiAccordé,
+  listerDélaiAccordé,
 }: ListerHistoriqueDélaiProjetDependencies) => {
   const handler: MessageHandler<ListerHistoriqueDélaiProjetQuery> = async ({
     identifiantProjet,
   }) => {
-    const items = await consulterDélaiAccordé(identifiantProjet);
+    const items = await listerDélaiAccordé(identifiantProjet);
     return items;
   };
 

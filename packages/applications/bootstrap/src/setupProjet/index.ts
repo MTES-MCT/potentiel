@@ -31,7 +31,7 @@ export const setupProjet: SetupProjet = async (dependencies) => {
     récupérerProjetsEligiblesPreuveRecanditure:
       ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     consulterABénéficiéDuDélaiCDC2022: DélaiAdapter.consulterABénéficiéDuDélaiCDC2022Adapter,
-    consulterDélaiAccordéProjet: DélaiAdapter.consulterDélaiAccordéProjetAdapter,
+    listerDélaiAccordéProjet: DélaiAdapter.listerDélaiAccordéProjetAdapter,
   });
 
   const unsetupÉliminé = await setupÉliminé(dependencies);

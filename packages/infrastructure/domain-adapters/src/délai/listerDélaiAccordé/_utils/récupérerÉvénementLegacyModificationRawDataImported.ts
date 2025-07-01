@@ -2,7 +2,7 @@ import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { RécupérerDélaiÉvénement } from '../consulterDélaiAccordéProjet.adapter';
+import { RécupérerDélaiÉvénement } from '../listerDélaiAccordéProjet.adapter';
 
 export const récupérerÉvénementLegacyModificationRawDataImported: RécupérerDélaiÉvénement = async ({
   identifiantProjet,

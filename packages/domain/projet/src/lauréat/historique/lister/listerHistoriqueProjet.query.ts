@@ -17,10 +17,8 @@ import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
 import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
 import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
-import {
-  ConsulterDélaiAccordéProjetPort,
-  HistoriqueDélaiProjetListItemReadModel,
-} from '../../délai';
+import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
+import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistoriqueDélaiProjet.query';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
@@ -67,12 +65,12 @@ export type ListerHistoriqueProjetQuery = Message<
 
 export type ListerHistoriqueProjetDependencies = {
   listHistory: ListHistory<HistoriqueListItemReadModels>;
-  consulterDélaiAccordéProjet: ConsulterDélaiAccordéProjetPort;
+  listerDélaiAccordéProjet: ListerDélaiAccordéProjetPort;
 };
 
 export const registerListerHistoriqueProjetQuery = ({
   listHistory,
-  consulterDélaiAccordéProjet,
+  listerDélaiAccordéProjet,
 }: ListerHistoriqueProjetDependencies) => {
   const handler: MessageHandler<ListerHistoriqueProjetQuery> = async ({
     identifiantProjet,
@@ -85,7 +83,7 @@ export const registerListerHistoriqueProjetQuery = ({
       range,
     });
 
-    const délais = await consulterDélaiAccordéProjet(identifiantProjet);
+    const délais = await listerDélaiAccordéProjet(identifiantProjet);
 
     const items = [...history.items, ...délais].sort(
       (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),

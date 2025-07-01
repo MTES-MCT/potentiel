@@ -6,7 +6,7 @@ import {
   HistoriqueDélaiProjetListItemReadModel,
   ListerHistoriqueDélaiProjetQuery,
   ListerHistoriqueDélaiProjetReadModel,
-  ConsulterDélaiAccordéProjetPort,
+  ListerDélaiAccordéProjetPort,
 } from './lister/listerHistoriqueDélaiProjet.query';
 
 // Query
@@ -26,7 +26,7 @@ export * from './délai.events';
 export * from './délai.register';
 
 // Port
-export { ConsulterABénéficiéDuDélaiCDC2022Port, ConsulterDélaiAccordéProjetPort };
+export { ConsulterABénéficiéDuDélaiCDC2022Port, ListerDélaiAccordéProjetPort };
 
 // ValueTypes
 
