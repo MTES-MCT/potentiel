@@ -36,7 +36,7 @@ export const récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022: Ré
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         durée,
-        raison: 'demande',
+        raison: 'cdc-18-mois',
         accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
       },
     }));

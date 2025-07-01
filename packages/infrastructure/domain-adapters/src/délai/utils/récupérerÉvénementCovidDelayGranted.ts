@@ -37,7 +37,7 @@ export const récupérerÉvénementCovidDelayGranted: RécupérerDélaiÉvéneme
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       durée,
-      raison: 'demande',
+      raison: 'covid',
       accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
     },
   }));
