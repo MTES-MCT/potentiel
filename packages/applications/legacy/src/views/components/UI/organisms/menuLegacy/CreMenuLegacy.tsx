@@ -1,4 +1,3 @@
-import React from 'react';
 import routes from '../../../../../routes';
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
@@ -33,6 +32,12 @@ export const CreMenuLegacy = ({ currentPage }: CreMenuLegacyProps) => (
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
         Puissance
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
+        Producteur
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
+        Fournisseur
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
