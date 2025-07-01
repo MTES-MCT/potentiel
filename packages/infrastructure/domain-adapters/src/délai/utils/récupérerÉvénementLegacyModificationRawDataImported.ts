@@ -1,5 +1,6 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { RécupérerDélaiÉvénement } from '../consulterDélaiAccordéProjet.adapter';
 
@@ -7,25 +8,26 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
   identifiantProjet,
 }) => {
   const query = `
-      select (SELECT to_char (es."createdAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "dateCréation", 
-      es.payload,
+      select
+        json_array_elements(payload->'modifications') as "modifications"
       from "eventStores" es
-      where es.type = 'LegacyModificationRawDataImported'
-      and es.payload->>'modifications'::text like '%délai%'
-      and es.payload->>'appelOffreId' = $1 
-      and es.payload->>'periodeId' = $2 
-      and es.payload->>'familleId' = $3 
-      and es.payload->>'numeroCRE' = $4;
+      where 
+        es.type = 'LegacyModificationRawDataImported'
+        and es.payload->>'modifications'::text like '%délai%'
+        and es.payload->>'appelOffreId' = $1 
+        and es.payload->>'periodeId' = $2 
+        and es.payload->>'familleId' = $3 
+        and es.payload->>'numeroCRE' = $4;
       `;
 
   const items = await executeSelect<{
-    modifications: ReadonlyArray<{
+    modifications: {
       type: string;
       modifiedOn: number;
       nouvelleDateLimiteAchevement: number;
       ancienneDateLimiteAchevement: number;
       status: string;
-    }>;
+    };
   }>(
     query,
     identifiantProjet.appelOffre,
@@ -34,30 +36,34 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
     identifiantProjet.numéroCRE,
   );
 
-  const result = items.map(({ modifications }) =>
-    modifications
-      .filter(({ type, status }) => type === 'delai' && status === 'acceptée')
+  return items
+    .map((item) => item.modifications)
+    .filter((item) => item.type === 'delai' && item.status === 'acceptée')
+    .map(({ modifiedOn, ancienneDateLimiteAchevement, nouvelleDateLimiteAchevement }) => {
+      const dateCréation = DateTime.convertirEnValueType(new Date(modifiedOn)).formatter();
+      const ancienneDate = new Date(ancienneDateLimiteAchevement);
+      const nouvelleDate = new Date(nouvelleDateLimiteAchevement);
 
-      .map(({ modifiedOn, ancienneDateLimiteAchevement, nouvelleDateLimiteAchevement }) => {
-        const dateCréation = DateTime.convertirEnValueType(new Date(modifiedOn)).formatter();
-        const durée = 
+      const durée =
+        (nouvelleDate.getFullYear() - ancienneDate.getFullYear()) * 12 +
+        (nouvelleDate.getMonth() - ancienneDate.getMonth());
 
-        return {
-          id: `${identifiantProjet}#${dateCréation}`,
-          category: 'délai',
-          createdAt: dateCréation,
-          type: 'DélaiAccordé-V1',
-          payload: {
-            identifiantProjet: identifiantProjet.formatter(),
-            durée,
-            raison: 'demande',
-            accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
-          },
-        };
-      }),
-  );
+      console.log('ANCIENNE', ancienneDate);
+      console.log('NOUVELLE', nouvelleDate);
+
+      const result: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel = {
+        id: `${identifiantProjet}#${dateCréation}`,
+        category: 'délai',
+        createdAt: dateCréation,
+        type: 'DélaiAccordé-V1',
+        payload: {
+          identifiantProjet: identifiantProjet.formatter(),
+          durée,
+          raison: 'demande',
+          accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
+        },
+      };
+
+      return result;
+    });
 };
-
-/*
-
-*/
