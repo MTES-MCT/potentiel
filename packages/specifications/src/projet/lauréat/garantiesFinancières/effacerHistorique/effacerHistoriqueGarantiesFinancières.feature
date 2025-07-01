@@ -18,6 +18,8 @@ Fonctionnalité: Effacer tout l'historique de garanties financières d'un projet
             | date d'échéance | 2024-08-01               |
             | raison          | changement de producteur |
 
-    Scénario: Impossible d'effacer l'historique des garanties financières s'il n'y a aucun historique de garanties financières sur le projet
+    Scénario: Un admin supprime l'historique de garanties financières d'un projet sans garanties financières
         Quand un admin efface l'historique des garanties financières pour le projet "Du boulodrome de Marseille"
-        Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières sur ce projet"
+        Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Et il ne devrait pas y avoir de garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et un historique des garanties financières ne devrait pas être consultable pour le projet lauréat

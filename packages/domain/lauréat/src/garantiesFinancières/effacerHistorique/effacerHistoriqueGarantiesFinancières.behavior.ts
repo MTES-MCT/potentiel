@@ -1,7 +1,7 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { InvalidOperationError } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 
@@ -16,7 +16,11 @@ export async function effacerHistorique(
   { identifiantProjet, effacéLe, effacéPar }: Options,
 ) {
   if (!this.actuelles && !this.dépôtsEnCours) {
-    throw new AucunHistoriqueÀEffacerError();
+    getLogger().warn(
+      "Il n'y a pas de garanties financières ou de dépôt en cours à effacer pour ce projet",
+      { identifiantProjet },
+    );
+    return;
   }
 
   const event: Lauréat.GarantiesFinancières.HistoriqueGarantiesFinancièresEffacéEvent = {
@@ -37,10 +41,4 @@ export function applyEffacerHistoriqueGarantiesFinancières(
 ) {
   this.actuelles = undefined;
   this.dépôtsEnCours = undefined;
-}
-
-class AucunHistoriqueÀEffacerError extends InvalidOperationError {
-  constructor() {
-    super(`Il n'y a aucunes garanties financières sur ce projet`);
-  }
 }

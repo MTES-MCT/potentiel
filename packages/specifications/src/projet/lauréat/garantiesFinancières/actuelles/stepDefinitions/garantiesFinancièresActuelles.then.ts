@@ -223,6 +223,25 @@ Alors(
 );
 
 Alors(
+  `un historique des garanties financières ne devrait pas être consultable pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+    await waitForExpect(async () => {
+      const actualArchivesGarantiesFinancièresReadModel =
+        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      expect(Option.isNone(actualArchivesGarantiesFinancièresReadModel)).to.be.true;
+    });
+  },
+);
+
+Alors(
   `les garanties financières actuelles du projet {string} sont échues`,
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
