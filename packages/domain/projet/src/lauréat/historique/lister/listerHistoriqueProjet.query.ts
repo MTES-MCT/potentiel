@@ -87,9 +87,13 @@ export const registerListerHistoriqueProjetQuery = ({
 
     const délais = await consulterDélaiAccordéProjet(identifiantProjet);
 
+    const items = [...history.items, ...délais].sort(
+      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    );
+
     return {
       ...history,
-      items: [...history.items, ...délais],
+      items,
       total: history.total + délais.length,
     };
   };
