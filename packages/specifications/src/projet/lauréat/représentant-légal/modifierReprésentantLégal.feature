@@ -34,7 +34,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Impossible de modifier le représentant légal d'un projet lauréat inexistant
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Aucun représentant légal n'est associé à ce projet"
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible de modifier le représentant légal avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille"
@@ -44,6 +44,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
     Scénario: Impossible de modifier le représentant légal d'un projet lauréat si une demande de changement de représentant légal est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
+        Et un cahier des charges modificatif choisi
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Impossible de modifier le représentant légal car une demande de changement est déjà en cours"

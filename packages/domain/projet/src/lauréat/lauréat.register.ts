@@ -43,6 +43,7 @@ import {
 } from './actionnaire/actionnaire.register';
 import {
   registerReprésentantLégalQueries,
+  registerReprésentantLégalUseCases,
   ReprésentantLégalQueryDependencies,
 } from './représentantLégal/représentantLégal.register';
 import {
@@ -53,6 +54,7 @@ import {
   ListerHistoriqueProjetDependencies,
   registerListerHistoriqueProjetQuery,
 } from './historique/lister/listerHistoriqueProjet.query';
+import { SupprimerDocumentProjetSensibleCommandDependencies } from './représentantLégal/changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
@@ -62,13 +64,14 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   FournisseurQueryDependencies &
   AbandonQueryDependencies &
   ActionnaireQueryDependencies &
+  ReprésentantLégalQueryDependencies &
   RaccordementQueryDependencies &
   ReprésentantLégalQueryDependencies &
   ListerHistoriqueProjetDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-};
+} & SupprimerDocumentProjetSensibleCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
@@ -84,6 +87,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerAchèvementUseCases(dependencies);
   registerPuissanceUseCases(dependencies);
   registerActionnaireUseCases(dependencies);
+  registerReprésentantLégalUseCases(dependencies);
   registerAbandonUseCases(dependencies);
   registerFournisseurUseCases(dependencies);
 };

@@ -1,6 +1,6 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AnnulerChangementReprésentantLégalFixture } from './fixtures/annulerChangementReprésentantLégal.fixture';
 import { AccorderChangementReprésentantLégalFixture } from './fixtures/accorderChangementReprésentantLégal.fixture';
@@ -49,9 +49,9 @@ export class ChangementReprésentantLégalWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-    statut?: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
-  ): ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
-    const expected: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
+    statut?: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
+  ): Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
+    const expected: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
       identifiantProjet,
       demande: {
         statut: statut ?? this.#demanderChangementReprésentantLégalFixture.statut,
@@ -66,7 +66,7 @@ export class ChangementReprésentantLégalWorld {
         ),
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+          Lauréat.ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
           this.#demanderChangementReprésentantLégalFixture.demandéLe,
           this.#demanderChangementReprésentantLégalFixture.pièceJustificative!.format,
         ),
@@ -80,7 +80,7 @@ export class ChangementReprésentantLégalWorld {
         this.corrigerChangementReprésentantLégalFixture.typeReprésentantLégal;
       expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+        Lauréat.ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
         this.#demanderChangementReprésentantLégalFixture.demandéLe,
         this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
       );

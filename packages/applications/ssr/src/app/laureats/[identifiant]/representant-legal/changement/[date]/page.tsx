@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -39,7 +38,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       const demandéLe = decodeParameter(date);
 
       const changement =
-        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+        await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
@@ -52,7 +51,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       }
 
       const représentantLégal =
-        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
@@ -92,7 +91,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
 const mapToActions = (
   role: Role.ValueType,
-  statut: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['statut'],
+  statut: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['statut'],
 ) => {
   const actions: Array<AvailableChangementReprésentantLégalAction> = [];
 

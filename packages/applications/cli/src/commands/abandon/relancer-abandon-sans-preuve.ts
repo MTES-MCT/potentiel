@@ -6,7 +6,6 @@ import { DateTime } from '@potentiel-domain/common';
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import {
   AppelOffreAdapter,
-  DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -45,7 +44,6 @@ export class Relancer extends Command {
           loadAggregate: loadAggregateV2,
           loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
         }),
-      supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }
 

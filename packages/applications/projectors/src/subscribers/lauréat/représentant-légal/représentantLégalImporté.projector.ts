@@ -1,11 +1,10 @@
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { createProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const représentantLégalImportéProjector = async ({
   payload: { identifiantProjet, nomReprésentantLégal },
 }: Lauréat.ReprésentantLégal.ReprésentantLégalImportéEvent) =>
-  createProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+  createProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
     `représentant-légal|${identifiantProjet}`,
     {
       identifiantProjet,

@@ -2,10 +2,10 @@ import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 import { match, P } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export type StatutChangementReprésentantLégalBadgeProps = {
-  statut: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
+  statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
   small?: true;
 };
 export const StatutChangementReprésentantLégalBadge: FC<

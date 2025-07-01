@@ -15,6 +15,7 @@
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
+    "@potentiel-domain/tache-planifiee": "*",
     "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {

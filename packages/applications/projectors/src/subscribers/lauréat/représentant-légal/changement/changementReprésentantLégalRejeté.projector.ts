@@ -1,6 +1,5 @@
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
 
@@ -14,13 +13,13 @@ export const changementReprésentantLégalRejetéProjector = async (
   const représentantLégal = await getInfosReprésentantLégal(identifiantProjet);
 
   if (représentantLégal) {
-    await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+    await upsertProjection<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
       `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
       {
         ...représentantLégal.changementEnCours,
         demande: {
           ...représentantLégal.changementEnCours.demande,
-          statut: ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
+          statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
           rejet: {
             motif: motifRejet,
             rejetéLe,
@@ -29,7 +28,7 @@ export const changementReprésentantLégalRejetéProjector = async (
         },
       },
     );
-    await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    await upsertProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
       `représentant-légal|${identifiantProjet}`,
       {
         identifiantProjet,

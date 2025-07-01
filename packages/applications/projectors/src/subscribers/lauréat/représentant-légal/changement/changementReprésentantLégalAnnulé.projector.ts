@@ -1,6 +1,5 @@
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
+import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
 
@@ -14,11 +13,11 @@ export const changementReprésentantLégalAnnuléProjector = async (
   const représentantLégal = await getInfosReprésentantLégal(identifiantProjet);
 
   if (représentantLégal) {
-    await removeProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+    await removeProjection<Lauréat.ReprésentantLégal.ChangementReprésentantLégalEntity>(
       `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
     );
 
-    await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    await upsertProjection<Lauréat.ReprésentantLégal.ReprésentantLégalEntity>(
       `représentant-légal|${identifiantProjet}`,
       {
         identifiantProjet,

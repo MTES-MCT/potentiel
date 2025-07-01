@@ -1,7 +1,8 @@
 import { match } from 'ts-pattern';
 
-import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { StatutTâchePlanifiée } from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AjouterTâchesPlanifiéesFixture } from './fixtures/ajouterTâchesPlanifiées.fixture';
 
@@ -54,13 +55,13 @@ export class TâchePlanifiéeWorld {
       .with(
         'gestion automatique de la demande de changement de représentant légal',
         () =>
-          ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
+          Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
             .gestionAutomatiqueDemandeChangement,
       )
       .with(
         "rappel d'instruction de la demande de changement de représentant légal à deux mois",
         () =>
-          ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
+          Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
             .rappelInstructionÀDeuxMois,
       )
       .exhaustive();

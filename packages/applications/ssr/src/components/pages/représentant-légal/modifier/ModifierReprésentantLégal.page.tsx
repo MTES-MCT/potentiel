@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
@@ -11,7 +11,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { ModifierReprésentantLégalForm } from './ModifierReprésentantLégal.form';
 
 export type ModifierReprésentantLégalPageProps =
-  PlainType<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
+  PlainType<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
 export const ModifierReprésentantLégalPage: FC<ModifierReprésentantLégalPageProps> = ({
   identifiantProjet,
   nomReprésentantLégal,

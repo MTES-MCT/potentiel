@@ -3,7 +3,6 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -13,7 +12,7 @@ type Props = {
 
 export type GetLauréat = {
   actionnaire: Lauréat.Actionnaire.ConsulterActionnaireReadModel;
-  représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
+  représentantLégal: Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel;
   puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
@@ -77,12 +76,13 @@ const getActionnaireInfos = async ({ identifiantProjet }: Props) => {
 export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) => {
   const logger = getLogger('getReprésentantLégalInfos');
 
-  const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-    type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-    data: {
-      identifiantProjet,
-    },
-  });
+  const représentantLégal =
+    await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+      data: {
+        identifiantProjet,
+      },
+    });
 
   if (Option.isNone(représentantLégal)) {
     logger.warn(`Représentant légal non trouvé pour le projet lauréat`, { identifiantProjet });
