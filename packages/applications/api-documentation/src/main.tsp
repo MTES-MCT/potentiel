@@ -7,7 +7,7 @@ using TypeSpec.Http;
 })
 namespace PotentielApi;
 
-@error()
+@error
 model Error {
   message: string;
 }
@@ -55,15 +55,23 @@ interface Raccordement {
   @route("api/v1/reseaux/raccordements")
   @get
   list(
-    @query() page?:integer, 
-    @query avecDateMiseEnService?:boolean
+    @query page?: integer,
+    @query avecDateMiseEnService?: boolean,
   ): DossierRaccordementListResult | Error;
 
-  @route("api/v1/laureat/{identifiantProjet}/raccordements/{reference}/date-mise-en-service:transmettre")
+  @route("api/v1/laureats/{identifiantProjet}/raccordements/{reference}/date-mise-en-service:transmettre")
   @post
-  transmettreDateMiseEnService(@path identifiantProjet: string, @path reference: string, @body body: TransmettreDateMiseEnServiceBody): void | Error;
+  transmettreDateMiseEnService(
+    @path identifiantProjet: string,
+    @path reference: string,
+    @body body: TransmettreDateMiseEnServiceBody,
+  ): void | Error;
 
-  @route("api/v1/laureat/{identifiantProjet}/raccordements/{reference}/reference:modifier")
+  @route("api/v1/laureats/{identifiantProjet}/raccordements/{reference}/reference:modifier")
   @post
-  modifierReference(@path identifiantProjet: string, @path reference: string, @body body: TransmettreDateMiseEnServiceBody): void | Error;
+  modifierReference(
+    @path identifiantProjet: string,
+    @path reference: string,
+    @body body: TransmettreDateMiseEnServiceBody,
+  ): void | Error;
 }
