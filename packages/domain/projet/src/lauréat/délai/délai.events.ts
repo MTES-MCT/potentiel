@@ -6,7 +6,7 @@ import { IdentifiantProjet } from '../..';
 export type DélaiAccordéEvent = DomainEvent<
   'DélaiAccordé-V1',
   {
-    raison: 'covid' | 'demande' | 'cdc-18-mois' | 'signalement';
+    raison: 'covid' | 'demande' | 'cdc-18-mois';
     durée: number;
     accordéLe: DateTime.RawType;
     identifiantProjet: IdentifiantProjet.RawType;

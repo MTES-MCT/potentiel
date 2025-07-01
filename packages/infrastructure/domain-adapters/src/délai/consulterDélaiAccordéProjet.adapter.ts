@@ -6,7 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 type RécupérerDélaiAccordéParRaison = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  raison: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel['payload']['raison'];
+  raison: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel['payload']['raison'] | 'signalement';
 }) => Promise<Lauréat.Délai.ListerHistoriqueDélaiProjetReadModel>;
 
 const récupérerDélaiAccordéParRaison: RécupérerDélaiAccordéParRaison = async ({
@@ -16,29 +16,22 @@ const récupérerDélaiAccordéParRaison: RécupérerDélaiAccordéParRaison = a
   const query = match(raison)
     .with(
       'demande',
-      () => `
-        select (SELECT to_char (es."createdAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "dateCréation", 
-        case 
-          when es.payload->'params'->>'delayInMonths' is not null 
-            then es.payload->'params'->>'delayInMonths' 
-          else (
-            select es2.payload->>'delayInMonths'
-            from "eventStores" es2
-            where es2.type = 'ModificationRequested' 
-            and es2.payload->>'type' = 'delai'
-            and es2."aggregateId" && es."aggregateId"
-          )
-        end as "durée"
-        from "eventStores" es 
-        join "modificationRequests" m on es.payload->>'modificationRequestId' = m."id"::text 
-        join "projects" p on p."id" = m."projectId"
-        where 
-          es.type = 'ModificationRequestAccepted' 
-          and es.payload->'params'->>'type' = 'delai'
-          and p."appelOffreId" = $1 
-          and p."periodeId" = $2 
-          and p."familleId" = $3 
-          and p."numeroCRE" = $4;
+      () =>
+        // Ici on se base sur ModificationRequestAccepted (257) mais en fait il y a aussi DélaiAccordé (289)
+        // Entre les deux y en a 99 qui parlent du même projet
+        `
+
+          select  
+            (to_char (es."createdAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "dateCréation",
+            round(((payload->>'dateAchèvementAccordée')::date - (payload->>'ancienneDateThéoriqueAchèvement')::date)::float / 30) as "durée"
+          from "eventStores" es
+          join "projects" p on p."id"::text = es.payload->>'projetId'
+          where 
+            es.type = 'DélaiAccordé'
+            and p."appelOffreId" = $1 
+            and p."periodeId" = $2 
+            and p."familleId" = $3 
+            and p."numeroCRE" = $4;
       `,
     )
     .with(
@@ -49,22 +42,22 @@ const récupérerDélaiAccordéParRaison: RécupérerDélaiAccordéParRaison = a
             to_timestamp((es.payload->>'decidedOn')::bigint / 1000) AT TIME ZONE 'UTC',
             'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'
           ) AS "dateCréation",
-          extract(
-            MONTH FROM AGE(
-              to_timestamp((payload->>'newCompletionDueOn')::bigint / 1000),
-              to_timestamp((payload->>'oldCompletionDueOn')::bigint / 1000)
-            )
-          ) AS "durée"
+          round(
+            (
+              to_timestamp((payload->>'newCompletionDueOn')::bigint / 1000)::date - 
+              to_timestamp((payload->>'oldCompletionDueOn')::bigint / 1000)::date
+            )::float / 30) as "durée"
         from "eventStores" es
         join "projects" p on p."id"::text = es.payload->>'projectId'
-        where es.type = 'DemandeDelaiSignaled'
-        and es.payload->>'status' = 'acceptée'
-        and es.payload->>'oldCompletionDueOn' is not null
-        and es.payload->>'newCompletionDueOn' is not null
-        and p."appelOffreId" = $1 
-        and p."periodeId" = $2 
-        and p."familleId" = $3 
-        and p."numeroCRE" = $4;
+        where 
+          es.type = 'DemandeDelaiSignaled'
+          and es.payload->>'status' = 'acceptée'
+		      and es.payload->>'newCompletionDueOn' is not null
+		      and es.payload->>'oldCompletionDueOn' is not null
+          and p."appelOffreId" = $1 
+          and p."periodeId" = $2 
+          and p."familleId" = $3 
+          and p."numeroCRE" = $4;
       `,
     )
     //TODO : vérifier nombre de mois pour le covid
@@ -73,8 +66,8 @@ const récupérerDélaiAccordéParRaison: RécupérerDélaiAccordéParRaison = a
       () => `
       select 
         (SELECT to_char (es."createdAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "dateCréation", 
-        // 
-        ?????? as "durée"
+        
+        7 as "durée"
       from "eventStores" es 
       join projects p on p.id::text = es.payload->>'projectId' 
       where 
@@ -119,14 +112,14 @@ const récupérerDélaiAccordéParRaison: RécupérerDélaiAccordéParRaison = a
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       durée,
-      raison,
+      raison: raison === 'signalement' ? 'demande' : raison,
       accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
     },
   }));
 };
 
 /***
- * TODO : DélaiAccordé / CovidDelayGranted / LegacyModificationRawDataImported???
+ * TODO :  LegacyModificationRawDataImported???
  */
 export const consulterDélaiAccordéProjetAdapter: Lauréat.Délai.ConsulterDélaiAccordéProjetPort =
   async (identifiantProjet: string) => {
