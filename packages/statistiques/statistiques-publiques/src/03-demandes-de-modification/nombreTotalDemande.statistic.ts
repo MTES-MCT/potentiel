@@ -12,10 +12,10 @@ export const computeNombreTotalDemande = async () => {
       $1, 
       (
         select 
-          (select count(*) from "modificationRequests" where "type" in ('delai', 'fournisseur'))
+          (select count(*) from "modificationRequests" where "type"= 'delai')
           + 
             (select count(*) from "event_store"."event_stream" 
-            where type like any (array['AbandonDemandé-V%', 'ChangementActionnaireDemandé-V%', 'ChangementReprésentantLégalDemandé-V%', 'RecoursDemandé-V%', 'ChangementPuissanceDemandé-V%', 'ChangementActionnaireEnregistré-V%', 'ChangementPuissanceEnregistré-V%', 'ChangementProducteurEnregistré-V%']))
+            where type like any (array['AbandonDemandé-V%', 'ChangementActionnaireDemandé-V%', 'ChangementReprésentantLégalDemandé-V%', 'RecoursDemandé-V%', 'ChangementPuissanceDemandé-V%', 'ChangementActionnaireEnregistré-V%', 'ChangementPuissanceEnregistré-V%', 'ChangementProducteurEnregistré-V%','ChangementFournisseurEnregistré-V%']))
       )
     )
     `,
