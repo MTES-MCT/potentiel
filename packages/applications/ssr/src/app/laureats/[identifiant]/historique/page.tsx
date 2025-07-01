@@ -120,7 +120,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   puissance: 'ri-draft-line',
   raccordement: 'ri-plug-line',
   recours: 'ri-scales-3-line',
-  délai: 'ri-clockwise-line',
+  délai: 'ri-time-line',
 };
 
 const mapToTimelineItemProps = (

@@ -8,11 +8,15 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
   identifiantProjet,
 }) => {
   const query = `
-      select
-        json_array_elements(payload->'modifications') as "modifications"
-      from "eventStores" es
-      where 
-        es.type = 'LegacyModificationRawDataImported'
+        select 
+            distinct 
+            (json_array_elements(payload->'modifications'))->>'type' as "type",
+            (json_array_elements(payload->'modifications'))->>'status' as "status",
+            (json_array_elements(payload->'modifications'))->>'modifiedOn' as "modifiedOn",
+            (json_array_elements(payload->'modifications'))->>'ancienneDateLimiteAchevement' as "ancienneDateLimiteAchevement",
+            (json_array_elements(payload->'modifications'))->>'nouvelleDateLimiteAchevement' as "nouvelleDateLimiteAchevement"
+        from "eventStores" es
+        where es.type = 'LegacyModificationRawDataImported'
         and es.payload->>'modifications'::text like '%délai%'
         and es.payload->>'appelOffreId' = $1 
         and es.payload->>'periodeId' = $2 
@@ -21,13 +25,11 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
       `;
 
   const items = await executeSelect<{
-    modifications: {
-      type: string;
-      modifiedOn: number;
-      nouvelleDateLimiteAchevement: number;
-      ancienneDateLimiteAchevement: number;
-      status: string;
-    };
+    type: string;
+    status: string;
+    modifiedOn: string;
+    ancienneDateLimiteAchevement: string;
+    nouvelleDateLimiteAchevement: string;
   }>(
     query,
     identifiantProjet.appelOffre,
@@ -36,13 +38,17 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
     identifiantProjet.numéroCRE,
   );
 
+  console.log(`ITEMS = `, items);
+
   return items
-    .map((item) => item.modifications)
     .filter((item) => item.type === 'delai' && item.status === 'acceptée')
     .map(({ modifiedOn, ancienneDateLimiteAchevement, nouvelleDateLimiteAchevement }) => {
-      const dateCréation = DateTime.convertirEnValueType(new Date(modifiedOn)).formatter();
-      const ancienneDate = new Date(ancienneDateLimiteAchevement);
-      const nouvelleDate = new Date(nouvelleDateLimiteAchevement);
+      const dateCréation = DateTime.convertirEnValueType(
+        new Date(Number.parseInt(modifiedOn)),
+      ).formatter();
+
+      const ancienneDate = new Date(Number.parseInt(ancienneDateLimiteAchevement));
+      const nouvelleDate = new Date(Number.parseInt(nouvelleDateLimiteAchevement));
 
       const durée =
         (nouvelleDate.getFullYear() - ancienneDate.getFullYear()) * 12 +
@@ -60,7 +66,7 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
           identifiantProjet: identifiantProjet.formatter(),
           durée,
           raison: 'demande',
-          accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
+          accordéLe: dateCréation,
         },
       };
 
