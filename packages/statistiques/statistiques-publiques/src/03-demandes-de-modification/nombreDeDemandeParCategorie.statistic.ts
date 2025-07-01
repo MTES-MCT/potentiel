@@ -73,6 +73,14 @@ export const computeNombreDeDemandeParCategorie = async () => {
           select count(*) from "event_store"."event_stream" 
           where type like 'ChangementProducteurEnregistré-V%'
         )
+      ),
+      (
+        $1,
+        'fournisseur',
+        (
+          select count(*) from "event_store"."event_stream" 
+          where type like 'ChangementFournisseurEnregistré-V%'
+        )
       )
     `,
     statisticType,
