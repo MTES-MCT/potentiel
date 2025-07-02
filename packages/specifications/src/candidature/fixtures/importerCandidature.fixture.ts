@@ -83,7 +83,7 @@ export class ImporterCandidatureFixture
         values?.actionnariatValue ??
         faker.helpers.maybe(() => faker.helpers.arrayElement(Candidature.TypeActionnariat.types)),
       coefficientKChoisiValue: undefined,
-      installationsAgrivoltaiquesValue: undefined,
+      typeInstallationsAgrivoltaiquesValue: undefined,
       obligationDeSolarisationValue: undefined,
       typologieDeBâtimentValue: undefined,
       élémentsSousOmbrièreValue: undefined,

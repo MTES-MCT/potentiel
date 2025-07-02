@@ -8,7 +8,7 @@ import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
-import { TypeInstallationAgrivoltaique, TypologieBâtiment } from '..';
+import { TypeInstallationsAgrivoltaiques, TypologieBâtiment } from '..';
 
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -39,7 +39,7 @@ type CandidatureImportéeEventPayload = {
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
   coefficientKChoisi?: boolean;
-  installationsAgrivoltaiques?: TypeInstallationAgrivoltaique.RawType;
+  typeInstallationsAgrivoltaiques?: TypeInstallationsAgrivoltaiques.RawType;
   élémentsSousOmbrière?: string;
   typologieDeBâtiment?: TypologieBâtiment.RawType;
   obligationDeSolarisation?: boolean;

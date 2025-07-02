@@ -9,7 +9,7 @@ import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
-import { TypeInstallationAgrivoltaique, TypologieBâtiment } from '..';
+import { TypeInstallationsAgrivoltaiques, TypologieBâtiment } from '..';
 
 export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
@@ -41,7 +41,7 @@ export type ImporterCandidatureCommand = Message<
     actionnariat: TypeActionnariat.ValueType | undefined;
     dateÉchéanceGf: DateTime.ValueType | undefined;
     coefficientKChoisi: boolean | undefined;
-    installationsAgrivoltaiques: TypeInstallationAgrivoltaique.ValueType | undefined;
+    typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
     élémentsSousOmbrière: string | undefined;
     typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
     obligationDeSolarisation: boolean | undefined;

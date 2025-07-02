@@ -6,7 +6,7 @@ import {
   StatutCandidature,
   TypeActionnariat,
   TypeGarantiesFinancières,
-  TypeInstallationAgrivoltaique,
+  TypeInstallationsAgrivoltaiques,
   TypeTechnologie,
   TypologieBâtiment,
 } from '..';
@@ -39,7 +39,7 @@ export type ImporterCandidatureOptions = {
   dateÉchéanceGf: DateTime.ValueType | undefined;
   territoireProjet: string;
   coefficientKChoisi: boolean | undefined;
-  installationsAgrivoltaiques: TypeInstallationAgrivoltaique.ValueType | undefined;
+  typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
   élémentsSousOmbrière: string | undefined;
   typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
   obligationDeSolarisation: boolean | undefined;

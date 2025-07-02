@@ -67,12 +67,12 @@ const technologie = {
   'N/A': 'N/A',
 } satisfies Record<string, Candidature.TypeTechnologie.RawType>;
 
-const typeInstallationAgrivoltaique = {
+const typeInstallationsAgrivoltaiques = {
   culture: 'culture',
   'jachère de plus de 5 ans': 'jachère-plus-de-5-ans',
   élevage: 'élevage',
   serre: 'serre',
-} satisfies Record<string, Candidature.TypeInstallationAgrivoltaique.RawType>;
+} satisfies Record<string, Candidature.TypeInstallationsAgrivoltaiques.RawType>;
 
 const typologieDeBâtiment = {
   'bâtiment neuf': 'neuf',
@@ -232,7 +232,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
         ? typologieDeBâtiment[val.typologieDeBâtiment]
         : undefined,
       installationsAgrivoltaiques: val.installationsAgrivoltaiques
-        ? typeInstallationAgrivoltaique[val.installationsAgrivoltaiques]
+        ? typeInstallationsAgrivoltaiques[val.installationsAgrivoltaiques]
         : undefined,
     };
   });

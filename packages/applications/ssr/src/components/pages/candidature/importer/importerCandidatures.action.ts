@@ -125,7 +125,7 @@ const mapLineToUseCaseData = (
   dateÉchéanceGfValue: line.dateÉchéanceGf?.toISOString(),
   territoireProjetValue: line.territoireProjet,
   coefficientKChoisiValue: line.coefficientKChoisi,
-  installationsAgrivoltaiquesValue: line.installationsAgrivoltaiques,
+  typeInstallationsAgrivoltaiquesValue: line.installationsAgrivoltaiques,
   élémentsSousOmbrièreValue: line.élémentsSousOmbrière,
   typologieDeBâtimentValue: line.typologieDeBâtiment,
   obligationDeSolarisationValue: line.obligationDeSolarisation,

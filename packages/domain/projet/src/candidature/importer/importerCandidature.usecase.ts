@@ -42,7 +42,7 @@ export type ImporterCandidatureUseCase = Message<
     dateÉchéanceGfValue: string | undefined;
     territoireProjetValue: string;
     coefficientKChoisiValue: boolean | undefined;
-    installationsAgrivoltaiquesValue: string | undefined;
+    typeInstallationsAgrivoltaiquesValue: string | undefined;
     élémentsSousOmbrièreValue: string | undefined;
     typologieDeBâtimentValue: string | undefined;
     obligationDeSolarisationValue: boolean | undefined;

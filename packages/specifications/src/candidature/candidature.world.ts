@@ -74,7 +74,7 @@ export class CandidatureWorld {
       actionnariatValue: exemple['actionnariat'],
       doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
       statutValue: exemple['statut'],
-      installationsAgrivoltaiquesValue: exemple['installations agrivoltaïques'],
+      typeInstallationsAgrivoltaiquesValue: exemple['installations agrivoltaïques'],
       élémentsSousOmbrièreValue: exemple['éléments sous ombrière'],
       typologieDeBâtimentValue: exemple['typologie de bâtiment'],
       obligationDeSolarisationValue: mapBoolean(exemple['obligation de solarisation']),
@@ -168,9 +168,9 @@ export class CandidatureWorld {
         puissanceInitiale: expectedValues.puissanceProductionAnnuelleValue,
         période,
       }),
-      installationsAgrivoltaiques: expectedValues.installationsAgrivoltaiquesValue
-        ? Candidature.TypeInstallationAgrivoltaique.convertirEnValueType(
-            expectedValues.installationsAgrivoltaiquesValue,
+      typeInstallationsAgrivoltaiques: expectedValues.typeInstallationsAgrivoltaiquesValue
+        ? Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType(
+            expectedValues.typeInstallationsAgrivoltaiquesValue,
           )
         : undefined,
       élémentsSousOmbrière: expectedValues.élémentsSousOmbrièreValue,

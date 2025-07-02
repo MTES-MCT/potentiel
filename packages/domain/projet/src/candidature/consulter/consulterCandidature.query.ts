@@ -15,7 +15,7 @@ import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
 import {
-  TypeInstallationAgrivoltaique,
+  TypeInstallationsAgrivoltaiques,
   TypologieBâtiment,
   UnitéPuissance,
   VolumeRéservé,
@@ -51,7 +51,7 @@ export type ConsulterCandidatureReadModel = {
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
   coefficientKChoisi: boolean | undefined;
-  installationsAgrivoltaiques: TypeInstallationAgrivoltaique.ValueType | undefined;
+  typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
   élémentsSousOmbrière: string | undefined;
   typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
   obligationDeSolarisation: boolean | undefined;
@@ -138,7 +138,7 @@ export const mapToReadModel: MapToReadModel = (
     actionnariat,
     territoireProjet,
     coefficientKChoisi,
-    installationsAgrivoltaiques,
+    typeInstallationsAgrivoltaiques,
     élémentsSousOmbrière,
     typologieDeBâtiment,
     obligationDeSolarisation,
@@ -174,8 +174,8 @@ export const mapToReadModel: MapToReadModel = (
   actionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
   territoireProjet,
   coefficientKChoisi,
-  installationsAgrivoltaiques: installationsAgrivoltaiques
-    ? TypeInstallationAgrivoltaique.convertirEnValueType(installationsAgrivoltaiques)
+  typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiques
+    ? TypeInstallationsAgrivoltaiques.convertirEnValueType(typeInstallationsAgrivoltaiques)
     : undefined,
   élémentsSousOmbrière,
   typologieDeBâtiment: typologieDeBâtiment
