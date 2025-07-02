@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToAttestationConformitéTransmiseTimelineItemProps = (
-  abandonAccordé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  attestationConformitéTransmise: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const {
     identifiantProjet,
@@ -13,7 +13,7 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     preuveTransmissionAuCocontractant,
     dateTransmissionAuCocontractant,
     date,
-  } = abandonAccordé.payload as Lauréat.Achèvement.AttestationConformitéTransmiseEvent['payload'];
+  } = attestationConformitéTransmise.payload as Lauréat.Achèvement.AttestationConformitéTransmiseEvent['payload'];
 
   const attestation = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -30,7 +30,7 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
   ).formatter();
 
   return {
-    date,
+    date: dateTransmissionAuCocontractant,
     title: <div>Projet achevé</div>,
     content: (
       <>
