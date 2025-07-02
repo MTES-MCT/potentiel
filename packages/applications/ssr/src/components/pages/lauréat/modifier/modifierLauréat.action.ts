@@ -182,6 +182,11 @@ const mapBodyToCandidatureUsecaseData = (
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
     fournisseursValue: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+    obligationDeSolarisationValue: previous.obligationDeSolarisation,
+    typeInstallationsAgrivoltaiquesValue: previous.typeInstallationsAgrivoltaiques?.formatter(),
+    typologieDeBâtimentValue: previous.typologieDeBâtiment?.formatter(),
+    élémentsSousOmbrièreValue: previous.élémentsSousOmbrière,
+    détailsValue: undefined,
   };
 };
 

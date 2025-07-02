@@ -87,6 +87,12 @@ const mapBodyToUseCaseData = (
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
     fournisseursValue: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+    typeInstallationsAgrivoltaiquesValue: previous.typeInstallationsAgrivoltaiques?.formatter(),
+    élémentsSousOmbrièreValue: previous.élémentsSousOmbrière,
+    typologieDeBâtimentValue: previous.typologieDeBâtiment?.formatter(),
+    obligationDeSolarisationValue: previous.obligationDeSolarisation,
+
+    détailsValue: undefined,
 
     doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
   };
