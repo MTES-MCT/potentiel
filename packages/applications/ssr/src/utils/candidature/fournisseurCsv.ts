@@ -22,7 +22,7 @@ const labelCsvToTypeFournisseur = Object.fromEntries(
   Object.entries(champsCsvFournisseur).map(([key, value]) => [value, key]),
 ) as Record<string, Lauréat.Fournisseur.TypeFournisseur.RawType>;
 
-const regex = /(?<field>.*)\s+?\((?<type>.*)\)\s?(?<index>\d)$/;
+const regex = /^(?<field>[\w\s()]*)\s?\s\((?<type>.*)\)\s(?<index>\d)$/;
 
 const mapDétailsToFournisseur = (key: string) => {
   const { type, index, field } =
