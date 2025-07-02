@@ -1497,6 +1497,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   'puissance.consulterChangement',
   'puissance.listerChangement',
 
+  // Producteur
+  'producteur.consulterChangement',
+  'producteur.listerChangement',
+
   // Fournisseur
   'fournisseur.consulterChangement',
   'fournisseur.listerChangement',

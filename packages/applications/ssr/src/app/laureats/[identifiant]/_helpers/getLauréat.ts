@@ -16,7 +16,7 @@ export type GetLauréat = {
   puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
-  fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel | undefined;
+  fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
