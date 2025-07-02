@@ -17,14 +17,14 @@ type FournisseursFieldProps = Pick<
   'fournisseurs' | 'technologie'
 > & {
   validationErrors: ValidationErrors;
-  setValidationErrors: (validationErrors: ValidationErrors) => void;
+  resetValidationErrors: () => void;
 };
 
 export const FournisseursField: FC<FournisseursFieldProps> = ({
   fournisseurs: fournisseursActuels,
   technologie,
   validationErrors,
-  setValidationErrors,
+  resetValidationErrors,
 }) => {
   const [fournisseurs, setFournisseurs] = useState<Array<Lauréat.Fournisseur.Fournisseur.RawType>>(
     () =>
@@ -106,7 +106,7 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
                 title="Supprimer le fournisseur"
                 onClick={() => {
                   setFournisseurs((fournisseurs) => fournisseurs.filter((_, i) => index !== i));
-                  setValidationErrors({});
+                  resetValidationErrors();
                 }}
               />
             </div>

@@ -103,7 +103,7 @@ export const EnregistrerChangementFournisseurForm: FC<
           fournisseurs={fournisseurs}
           technologie={technologie}
           validationErrors={validationErrors}
-          setValidationErrors={setValidationErrors}
+          resetValidationErrors={() => setValidationErrors({})}
         />
 
         <Input
