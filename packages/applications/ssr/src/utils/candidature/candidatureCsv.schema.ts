@@ -44,28 +44,42 @@ const typeGf = [
   Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type,
   Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
   Candidature.TypeGarantiesFinancières.consignation.type,
-] as const;
+] satisfies Array<Candidature.TypeGarantiesFinancières.RawType>;
 
 const historiqueAbandon = [
   'première-candidature',
   'abandon-classique',
   'abandon-avec-recandidature',
   'lauréat-autre-période',
-] as const;
+] satisfies Array<Candidature.HistoriqueAbandon.RawType>;
 
 const statut = {
   éliminé: 'éliminé',
   eliminé: 'éliminé',
   classé: 'classé',
   retenu: 'classé',
-} as const;
+} satisfies Record<string, Candidature.StatutCandidature.RawType>;
 
 const technologie = {
   Eolien: 'eolien',
   Hydraulique: 'hydraulique',
   PV: 'pv',
   'N/A': 'N/A',
-} as const;
+} satisfies Record<string, Candidature.TypeTechnologie.RawType>;
+
+const typeInstallationAgrivoltaique = {
+  culture: 'culture',
+  'jachère de plus de 5 ans': 'jachère-plus-de-5-ans',
+  élevage: 'élevage',
+  serre: 'serre',
+} satisfies Record<string, Candidature.TypeInstallationAgrivoltaique.RawType>;
+
+const typologieDeBâtiment = {
+  'bâtiment neuf': 'neuf',
+  'bâtiment existant avec rénovation de toiture': 'existant-avec-rénovation-de-toiture',
+  'bâtiment existant sans rénovation de toiture': 'existant-sans-rénovation-de-toiture',
+  mixte: 'mixte',
+} satisfies Record<string, Candidature.TypologieBâtiment.RawType>;
 
 // Les colonnes du fichier Csv
 const colonnes = {
@@ -214,6 +228,12 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
       statut: statut[val.statut],
       technologie: technologie[val.technologie],
+      typologieDeBâtiment: val.typologieDeBâtiment
+        ? typologieDeBâtiment[val.typologieDeBâtiment]
+        : undefined,
+      installationsAgrivoltaiques: val.installationsAgrivoltaiques
+        ? typeInstallationAgrivoltaique[val.installationsAgrivoltaiques]
+        : undefined,
     };
   });
 

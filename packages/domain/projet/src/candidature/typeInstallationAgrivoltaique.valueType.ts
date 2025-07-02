@@ -31,7 +31,7 @@ function estValide(value: string): asserts value is RawType {
 
 class TypeInstallationAgrivoltaiqueInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le type d'installation agrivoltaïques ne correspond à aucune valeur connue`, {
+    super(`Le type d'installation agrivoltaïque ne correspond à aucune valeur connue`, {
       value,
     });
   }

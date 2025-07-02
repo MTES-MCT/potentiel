@@ -136,7 +136,7 @@ describe('Schema candidature', () => {
       ...minimumValuesClassé,
       'Technologie\n(dispositif de production)': 'Eolien',
       'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
-      'Installations agrivoltaïques': 'élevage',
+      'Installations agrivoltaïques': 'Jachère de plus de 5 ans',
       'Eléments sous l’ombrière': '...',
       'Typologie de bâtiment': 'Bâtiment existant avec rénovation de toiture',
       'Obligation de solarisation': 'Oui',
@@ -171,9 +171,9 @@ describe('Schema candidature', () => {
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
-      installationsAgrivoltaiques: 'élevage',
+      installationsAgrivoltaiques: 'jachère-plus-de-5-ans',
       élémentsSousOmbrière: '...',
-      typologieDeBâtiment: 'bâtiment existant avec rénovation de toiture',
+      typologieDeBâtiment: 'existant-avec-rénovation-de-toiture',
       obligationDeSolarisation: true,
     });
   });

@@ -54,7 +54,7 @@ export class ImporterCandidatureFixture
       ...values.localitéValue,
     };
 
-    const fixture = {
+    const fixture: Candidature.ImporterCandidatureUseCase['data'] = {
       appelOffreValue: appelOffre,
       périodeValue: période,
       familleValue: famille,
@@ -79,15 +79,14 @@ export class ImporterCandidatureFixture
       noteTotaleValue: faker.number.int({ min: 0, max: 5 }),
       nomReprésentantLégalValue: faker.person.fullName(),
       evaluationCarboneSimplifiéeValue: faker.number.float({ min: 0.1, max: 3 }),
-      actionnariat:
+      actionnariatValue:
         values?.actionnariatValue ??
         faker.helpers.maybe(() => faker.helpers.arrayElement(Candidature.TypeActionnariat.types)),
-      financementCollectifValue:
-        values?.actionnariatValue === Candidature.TypeActionnariat.financementCollectif.type,
-      gouvernancePartagéeValue:
-        values?.actionnariatValue === Candidature.TypeActionnariat.gouvernancePartagée.type,
-      financementParticipatifValue:
-        values?.actionnariatValue === Candidature.TypeActionnariat.financementParticipatif.type,
+      coefficientKChoisiValue: undefined,
+      installationsAgrivoltaiquesValue: undefined,
+      obligationDeSolarisationValue: undefined,
+      typologieDeBâtimentValue: undefined,
+      élémentsSousOmbrièreValue: undefined,
       importéLe: new Date().toISOString(),
       ...values,
       détailsValue: {
