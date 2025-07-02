@@ -17,6 +17,8 @@ import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
 import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
 import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
+import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
+import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistoriqueDélaiProjet.query';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
@@ -46,7 +48,8 @@ export type HistoriqueListItemReadModels =
   | HistoriquePuissanceProjetListItemReadModel
   | HistoriqueProducteurProjetListItemReadModel
   | HistoriqueAchèvementProjetListItemReadModel
-  | HistoriqueRaccordementProjetListItemReadModel;
+  | HistoriqueRaccordementProjetListItemReadModel
+  | HistoriqueDélaiProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 
@@ -62,20 +65,35 @@ export type ListerHistoriqueProjetQuery = Message<
 
 export type ListerHistoriqueProjetDependencies = {
   listHistory: ListHistory<HistoriqueListItemReadModels>;
+  listerDélaiAccordéProjet: ListerDélaiAccordéProjetPort;
 };
 
 export const registerListerHistoriqueProjetQuery = ({
   listHistory,
+  listerDélaiAccordéProjet,
 }: ListerHistoriqueProjetDependencies) => {
-  const handler: MessageHandler<ListerHistoriqueProjetQuery> = ({
+  const handler: MessageHandler<ListerHistoriqueProjetQuery> = async ({
     identifiantProjet,
     category,
     range,
-  }) =>
-    listHistory({
+  }) => {
+    const history = await listHistory({
       id: identifiantProjet,
       category,
       range,
     });
+
+    const délais = await listerDélaiAccordéProjet(identifiantProjet);
+
+    const items = [...history.items, ...délais].sort(
+      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
+    );
+
+    return {
+      ...history,
+      items,
+      total: history.total + délais.length,
+    };
+  };
   mediator.register('Lauréat.Query.ListerHistoriqueProjet', handler);
 };
