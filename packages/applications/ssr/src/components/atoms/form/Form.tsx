@@ -40,6 +40,10 @@ export const Form: FC<FormProps> = ({
   onInvalid,
 }) => {
   const [csrfToken, setCsrfToken] = useState('');
+  const [state, formAction] = useFormState(action, {
+    status: undefined,
+  });
+
   const router = useRouter();
 
   useEffect(() => {
@@ -55,10 +59,6 @@ export const Form: FC<FormProps> = ({
     fetchCSRFToken();
   }, []);
 
-  const [state, formAction] = useFormState(action, {
-    status: undefined,
-  });
-
   if (!state) {
     router.push('/error');
   }
@@ -69,9 +69,17 @@ export const Form: FC<FormProps> = ({
     }
   }, [state.status]);
 
+  const handleOnChange = () => onValidationError && onValidationError({});
+
   return (
-    // eslint-disable-next-line react/no-unknown-property
-    <form id={id} action={formAction} onInvalid={onInvalid} onError={onError}>
+    <form
+      id={id}
+      action={formAction}
+      onInvalid={onInvalid}
+      // eslint-disable-next-line react/no-unknown-property
+      onError={onError}
+      onChange={handleOnChange}
+    >
       <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
       <FormFeedback formState={state} successMessage={successMessage} />
