@@ -18,7 +18,7 @@ export const InfoProducteur = ({
     (role.estPorteur() && modificationsPermisesParLeCDCActuel) || !role.estPorteur();
 
   return (
-    <div>
+    <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Producteur</Heading3>
       <span>{producteur.producteur || 'Non renseigné'}</span>
       {afficherSelonRole && producteur.affichage && (
