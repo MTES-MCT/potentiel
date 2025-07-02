@@ -171,7 +171,7 @@ v1Router.get(
       });
 
       const alertesRaccordement =
-        project.notifiedOn && project.isClasse && role.estPorteur()
+        project.notifiedOn && project.isClasse && !project.isAbandoned && role.estPorteur()
           ? await getAlertesRaccordement({
               raccordement: raccordement.raccordement,
               identifiantProjet: identifiantProjetValueType,

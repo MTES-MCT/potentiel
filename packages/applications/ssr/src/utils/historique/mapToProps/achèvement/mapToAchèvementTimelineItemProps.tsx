@@ -4,7 +4,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToAttestationConformitéTransmiseTimelineItemProps } from './events/mapToAttestationConformitéTransmiseTimelineItemProps';
+import {
+  mapToAttestationConformitéModifiéeTimelineItemProps,
+  mapToAttestationConformitéTransmiseTimelineItemProps,
+} from './events';
 
 export const mapToAchèvementTimelineItemProps = (
   readmodel: Lauréat.HistoriqueAchèvementProjetListItemReadModel,
@@ -15,7 +18,7 @@ export const mapToAchèvementTimelineItemProps = (
       {
         type: 'AttestationConformitéModifiée-V1',
       },
-      () => undefined,
+      mapToAttestationConformitéModifiéeTimelineItemProps,
     )
     .with(
       {

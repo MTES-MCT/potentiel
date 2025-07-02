@@ -103,7 +103,9 @@ export const EnregistrerChangementFournisseurForm: FC<
           fournisseurs={fournisseurs}
           technologie={technologie}
           validationErrors={validationErrors}
+          resetValidationErrors={() => setValidationErrors({})}
         />
+
         <Input
           textArea
           label="Raison"

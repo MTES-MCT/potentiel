@@ -48,7 +48,10 @@ export const CorrigerCandidaturesPage: FC = () => (
                     <li>Localité (adresse, commune, code postal, département, région)</li>
                     <li>Actionnaire (société mère)</li>
                     <li>Nom du représentant légal</li>
-                    <li>Puissance</li>
+                    <li>Puissance (la puissance initiale sera par contre modifiée)</li>
+                    <li>Producteur</li>
+                    <li>Fournisseurs</li>
+                    <li>Évaluation carbone simplifiée</li>
                   </ul>
                   Pour les modifier, utilisez le formulaire disponible sur chaque page Projet.
                 </span>

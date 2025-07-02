@@ -29,6 +29,7 @@ import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
+import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
 
 const categoriesDisponibles = [
   'abandon',
@@ -42,6 +43,7 @@ const categoriesDisponibles = [
   'représentant-légal',
   'raccordement',
   'délai',
+  'fournisseur',
 ] as const;
 
 type PageProps = IdentifiantParameter & {
@@ -121,6 +123,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   raccordement: 'ri-plug-line',
   recours: 'ri-scales-3-line',
   délai: 'ri-time-line',
+  fournisseur: 'ri-draft-line',
 };
 
 const mapToTimelineItemProps = (
@@ -152,6 +155,7 @@ const mapToTimelineItemProps = (
     .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
     .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
+    .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
     .exhaustive(() => undefined);
   if (props) {
     return {
