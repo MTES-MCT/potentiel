@@ -1,8 +1,4 @@
-export const signIn = (options?: {
-  callbackUrl?: string;
-  showProConnect?: boolean;
-  proConnect?: true;
-}) => {
+export const signIn = (options?: { callbackUrl?: string; forceProConnect?: true }) => {
   const route = `/auth/signIn`;
 
   if (!options) {
@@ -10,18 +6,14 @@ export const signIn = (options?: {
   }
 
   const params = new URLSearchParams();
-  const { callbackUrl, showProConnect, proConnect } = options;
+  const { callbackUrl, forceProConnect } = options;
 
   if (callbackUrl) {
     params.set('callbackUrl', callbackUrl);
   }
 
-  if (proConnect) {
-    params.set('proConnect', 'true');
-  }
-
-  if (showProConnect) {
-    params.set('showProConnect', 'true');
+  if (forceProConnect) {
+    params.set('forceProConnect', 'true');
   }
 
   return `${route}?${params}`;

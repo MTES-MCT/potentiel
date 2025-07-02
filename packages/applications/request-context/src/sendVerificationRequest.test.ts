@@ -201,7 +201,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
           messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
           recipients: [{ email: identifier, fullName: '' }],
           variables: {
-            url: Routes.Auth.signIn({ proConnect: true }),
+            url: Routes.Auth.signIn({ forceProConnect: true }),
           },
         };
 

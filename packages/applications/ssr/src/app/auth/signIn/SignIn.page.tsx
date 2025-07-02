@@ -23,7 +23,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
 
   const params = useSearchParams();
   const callbackUrl = params.get('callbackUrl') ?? Routes.Auth.redirectToDashboard();
-  const proConnect = params.get('proConnect');
+  const forceProConnect = params.get('forceProConnect');
 
   const onlyKeycloak = providers.length === 1 && providers.includes('keycloak');
 
@@ -43,7 +43,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
         if (onlyKeycloak) {
           setTimeout(() => signIn('keycloak', { callbackUrl }), 2000);
         }
-        if (proConnect) {
+        if (forceProConnect) {
           signIn('proconnect', { callbackUrl });
         }
 
