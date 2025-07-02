@@ -7,6 +7,7 @@ import {
 } from '@potentiel-infrastructure/pg-projection-write';
 import { GarantiesFinancières, Raccordement, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 export type SubscriptionEvent =
   | (Lauréat.Abandon.AbandonEvent & Event)
@@ -32,6 +33,14 @@ export const register = () => {
       await removeHistoryProjection(category, id);
     } else {
       const [category, id] = stream_id.split('|');
+
+      if (type === 'AttestationConformitéModifiée-V1') {
+        await updateAttestationConformitéTransmise({
+          id,
+          payload: payload as Lauréat.Achèvement.AttestationConformitéModifiéeEvent['payload'],
+        });
+      }
+
       await createHistoryProjection({
         category,
         id,
@@ -43,4 +52,17 @@ export const register = () => {
   };
 
   mediator.register('System.Projector.Historique', handler);
+};
+
+const updateAttestationConformitéTransmiseQuery = `update domain_views.history
+                     set payload = $2
+                     where category = 'achevement'
+                     and   type = 'AttestationConformitéTransmise-V1'
+                     and   id = $1`;
+
+const updateAttestationConformitéTransmise: (update: {
+  id: string;
+  payload: Lauréat.Achèvement.AttestationConformitéTransmiseEvent['payload'];
+}) => Promise<void> = async ({ id, payload }) => {
+  await executeQuery(updateAttestationConformitéTransmiseQuery, id, payload);
 };
