@@ -199,12 +199,14 @@ export const ProjectDetails = ({
         </div>
 
         <div className="flex flex-col lg:flex-row gap-3">
-          <EtapesProjet
-            identifiantProjet={identifiantProjet}
-            isLegacy={project.isLegacy}
-            étapes={étapes}
-          />
-          <div className="flex flex-col flex-grow gap-3 break-before-page">
+          <div className="flex-1">
+            <EtapesProjet
+              identifiantProjet={identifiantProjet}
+              isLegacy={project.isLegacy}
+              étapes={étapes}
+            />
+          </div>
+          <div className="flex flex-col flex-1 gap-3 break-before-page">
             <InfoGenerales
               project={project}
               role={Role.convertirEnValueType(user.role)}

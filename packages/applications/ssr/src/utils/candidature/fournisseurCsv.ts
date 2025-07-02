@@ -22,7 +22,8 @@ const labelCsvToTypeFournisseur = Object.fromEntries(
   Object.entries(champsCsvFournisseur).map(([key, value]) => [value, key]),
 ) as Record<string, Lauréat.Fournisseur.TypeFournisseur.RawType>;
 
-const regex = /(?<field>.*)\s+?\((?<type>.*)\)\s?(?<index>\d)$/;
+// both field and type can contain parenthesis, for instance: "Lieu(x) de fabrication (Plaquettes de silicium (wafers)) 1"
+const regex = /^(?<field>[\w\s()]*)\s+\((?<type>(?:[^()]|\([^()]*\))*)\)\s(?<index>\d)$/;
 
 const mapDétailsToFournisseur = (key: string) => {
   const { type, index, field } =
@@ -53,9 +54,9 @@ const mapDétailsToFournisseur = (key: string) => {
  * en un array ayant pour forme :
  * ```
  * [
- *  { typeFournisseur: 'module-ou-films', nomDuProducteur:"AAA", lieuDeFabrication: 'Chine' },
- *  { typeFournisseur: 'module-ou-films', nomDuProducteur:"BBB", lieuDeFabrication: 'Italie' },
- *  { typeFournisseur: 'polysilicium', nomDuProducteur:"CCC", lieuDeFabrication: 'Etats-Unis' },
+ *  { typeFournisseur: 'cellules', nomDuFabricant:"AAA", lieuDeFabrication: 'Chine' },
+ *  { typeFournisseur: 'cellules', nomDuFabricant:"BBB", lieuDeFabrication: 'Italie' },
+ *  { typeFournisseur: 'polysilicium', nomDuFabricant:"CCC", lieuDeFabrication: 'Etats-Unis' },
  * ]
  * ```
  *

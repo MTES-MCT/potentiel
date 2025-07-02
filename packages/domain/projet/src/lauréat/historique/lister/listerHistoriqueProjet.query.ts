@@ -19,6 +19,7 @@ import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordemen
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
 import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
 import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistoriqueDélaiProjet.query';
+import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
@@ -49,7 +50,8 @@ export type HistoriqueListItemReadModels =
   | HistoriqueProducteurProjetListItemReadModel
   | HistoriqueAchèvementProjetListItemReadModel
   | HistoriqueRaccordementProjetListItemReadModel
-  | HistoriqueDélaiProjetListItemReadModel;
+  | HistoriqueDélaiProjetListItemReadModel
+  | HistoriqueFournisseurProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 

@@ -22,7 +22,6 @@ import {
   GetActionnaireForProjectPage,
   GetReprésentantLégalForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
-import { GetFournisseurForProjectPage } from 'src/controllers/project/getProjectPage/_utils/getFournisseur';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
@@ -194,7 +193,6 @@ type AdminActionsProps = {
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
   représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
-  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
 };
 
 const AdminActions = ({
