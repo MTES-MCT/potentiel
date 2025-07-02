@@ -38,8 +38,6 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
     identifiantProjet.numéroCRE,
   );
 
-  console.log(`ITEMS = `, items);
-
   return items
     .filter((item) => item.type === 'delai' && item.status === 'acceptée')
     .map(({ modifiedOn, ancienneDateLimiteAchevement, nouvelleDateLimiteAchevement }) => {
@@ -53,9 +51,6 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
       const durée =
         (nouvelleDate.getFullYear() - ancienneDate.getFullYear()) * 12 +
         (nouvelleDate.getMonth() - ancienneDate.getMonth());
-
-      console.log('ANCIENNE', ancienneDate);
-      console.log('NOUVELLE', nouvelleDate);
 
       const result: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel = {
         id: `${identifiantProjet}#${dateCréation}`,
