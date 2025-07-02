@@ -3,10 +3,10 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToDélaiAccordéTimelineItemProps = (
-  abandonAccordé: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
+  délaiAccordé: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
 ) => {
   const { accordéLe, durée, raison } =
-    abandonAccordé.payload as Lauréat.Délai.DélaiAccordéEvent['payload'];
+    délaiAccordé.payload as Lauréat.Délai.DélaiAccordéEvent['payload'];
 
   return {
     date: accordéLe,
@@ -21,7 +21,7 @@ export const mapToDélaiAccordéTimelineItemProps = (
 
 const getTitleFromRaison = (raison: Lauréat.Délai.DélaiAccordéEvent['payload']['raison']) =>
   match(raison)
-    .with('demande', () => `Demande de délai exceptionnel accordé par l'administration`)
+    .with('demande', () => `Demande de délai exceptionnel accordée par l'administration`)
     .with('cdc-18-mois', () => (
       <>
         Attribution d'un délai supplémentaire prévu dans le{' '}
