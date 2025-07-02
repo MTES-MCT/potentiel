@@ -9,13 +9,14 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
 }) => {
   const query = `
         select 
-            distinct 
-            (json_array_elements(payload->'modifications'))->>'type' as "type",
-            (json_array_elements(payload->'modifications'))->>'status' as "status",
-            (json_array_elements(payload->'modifications'))->>'modifiedOn' as "modifiedOn",
-            (json_array_elements(payload->'modifications'))->>'ancienneDateLimiteAchevement' as "ancienneDateLimiteAchevement",
-            (json_array_elements(payload->'modifications'))->>'nouvelleDateLimiteAchevement' as "nouvelleDateLimiteAchevement"
+            distinct
+            modifications->>'type' as "type",
+            modifications->>'status' as "status",
+            modifications->>'modifiedOn' as "modifiedOn",
+            modifications->>'ancienneDateLimiteAchevement' as "ancienneDateLimiteAchevement",
+            modifications->>'nouvelleDateLimiteAchevement' as "nouvelleDateLimiteAchevement"
         from "eventStores" es
+        cross join lateral json_array_elements(es.payload->'modifications') modifications
         where es.type = 'LegacyModificationRawDataImported'
         and es.payload->>'modifications'::text like '%délai%'
         and es.payload->>'appelOffreId' = $1 
