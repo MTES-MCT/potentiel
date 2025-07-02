@@ -5,8 +5,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-export const mapToAttestationConformitéTransmiseTimelineItemProps = (
-  attestationConformitéTransmise: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+export const mapToAttestationConformitéModifiéeTimelineItemProps = (
+  attestationConformitéModifiée: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const {
     identifiantProjet,
@@ -14,7 +14,8 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
     preuveTransmissionAuCocontractant,
     dateTransmissionAuCocontractant,
     date,
-  } = attestationConformitéTransmise.payload as Lauréat.Achèvement.AttestationConformitéTransmiseEvent['payload'];
+    utilisateur,
+  } = attestationConformitéModifiée.payload as Lauréat.Achèvement.AttestationConformitéModifiéeEvent['payload'];
 
   const attestation = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -32,7 +33,7 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
 
   return {
     date,
-    title: <div>Transmission de l'attestation de conformité</div>,
+    title: <div>Modification de l'attestation de conformité</div>,
     content: (
       <div className="flex flex-col gap-2">
         <DownloadDocument
@@ -52,6 +53,9 @@ export const mapToAttestationConformitéTransmiseTimelineItemProps = (
           <span className="font-semibold">
             {<FormattedDate date={dateTransmissionAuCocontractant} />}
           </span>
+        </div>
+        <div>
+          Modification faite par : <span className="font-semibold">{utilisateur}</span>
         </div>
       </div>
     ),
