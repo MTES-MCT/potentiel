@@ -181,7 +181,7 @@ export const ProjectDetails = ({
               .
             </AlertBox>
           )}
-          {alertesRaccordement.length > 0 && (
+          {!project.isAbandoned && alertesRaccordement.length > 0 && (
             <AlerteBoxRaccordement
               dcrDueOn={project.dcrDueOn}
               alertes={alertesRaccordement}
