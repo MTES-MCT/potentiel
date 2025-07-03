@@ -128,7 +128,7 @@ export const ProjectDetails = ({
     if (dernierDossierRaccordement?.miseEnService?.dateMiseEnService) {
       étapes.push({
         type: 'mise-en-service',
-        date: dernierDossierRaccordement.miseEnService.dateMiseEnService.date.getTime(),
+        date: new Date(dernierDossierRaccordement.miseEnService.dateMiseEnService.date).getTime(),
       });
     }
 
