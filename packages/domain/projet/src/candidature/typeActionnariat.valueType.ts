@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const ppe2Types = ['financement-collectif', 'gouvernance-partagée'] as const;
 export const cre4Types = ['financement-participatif', 'investissement-participatif'] as const;
@@ -14,7 +14,7 @@ export type ValueType = ReadonlyValueType<{
   estInvestissementParticipatif(): boolean;
 }>;
 
-export const convertirEnValueType = (type: string): ValueType => {
+export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   estValide(type);
   return {
     type,
@@ -37,6 +37,11 @@ export const convertirEnValueType = (type: string): ValueType => {
       return this.estÉgaleÀ(investissementParticipatif);
     },
   };
+};
+
+export const convertirEnValueType = (type: string) => {
+  estValide(type);
+  return bind({ type });
 };
 
 function estValide(value: string): asserts value is RawType {

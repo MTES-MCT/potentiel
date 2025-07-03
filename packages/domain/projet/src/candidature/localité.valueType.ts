@@ -1,13 +1,19 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export type ValueType = ReadonlyValueType<{
+export type RawType = {
   adresse1: string;
   adresse2: string;
   codePostal: string;
   commune: string;
   département: string;
   région: string;
-}>;
+};
+
+export type ValueType = ReadonlyValueType<
+  RawType & {
+    formatter(): RawType;
+  }
+>;
 
 export const bind = ({
   adresse1,
@@ -33,6 +39,16 @@ export const bind = ({
         this.département === département &&
         this.région === région
       );
+    },
+    formatter() {
+      return {
+        adresse1,
+        adresse2,
+        codePostal,
+        commune,
+        département,
+        région,
+      };
     },
   };
 };
