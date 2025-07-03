@@ -5,7 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
@@ -17,6 +17,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
 import { getTechnologieTypeLabel } from '../helpers';
 import { getActionnariatTypeLabel } from '../helpers/getActionnariatTypeLabel';
+import { ListeFournisseurs } from '../../fournisseur/changement/ListeFournisseurs';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',
@@ -74,10 +75,6 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               </Field>
               <Field name="Performances">
                 <span>Puissance installée: {candidature.puissanceProductionAnnuelle} MW</span>
-                <span>
-                  Evaluation carbone simplifiée: {candidature.evaluationCarboneSimplifiée} kg eq
-                  CO2/kWc
-                </span>
                 <span>Prix de référence: {candidature.prixReference} €/MWh</span>
               </Field>
               {candidature.typeGarantiesFinancières && (
@@ -155,6 +152,24 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                     {candidature.emailContact.email}
                   </a>
                 </span>
+              </Field>
+            </FieldGroup>
+            <FieldGroup name="Matériel et Technologie">
+              <Field name="Evaluation carbone simplifiée">
+                {candidature.evaluationCarboneSimplifiée} kg eq CO2/kWc
+              </Field>
+              <Field name="Fournisseurs">
+                <ListeFournisseurs
+                  fournisseurs={
+                    candidature.fournisseurs.map((fournisseur) =>
+                      Lauréat.Fournisseur.Fournisseur.convertirEnValueType({
+                        typeFournisseur: fournisseur.typeFournisseur.typeFournisseur,
+                        nomDuFabricant: fournisseur.nomDuFabricant,
+                        lieuDeFabrication: fournisseur.lieuDeFabrication,
+                      }),
+                    ) ?? []
+                  }
+                />
               </Field>
             </FieldGroup>
           </div>
