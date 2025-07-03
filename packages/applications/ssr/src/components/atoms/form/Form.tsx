@@ -63,9 +63,11 @@ export const Form: FC<FormProps> = ({
     router.push('/error');
   }
 
-  if (state.status === 'validation-error' && onValidationError) {
-    onValidationError(state.errors);
-  }
+  useEffect(() => {
+    if (onValidationError && state.status === 'validation-error') {
+      onValidationError(state.errors);
+    }
+  }, [state.status]);
 
   return (
     // eslint-disable-next-line react/no-unknown-property
