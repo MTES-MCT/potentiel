@@ -9,6 +9,7 @@ import { Raccordement } from '@potentiel-domain/projet';
 
 import { checkLauréatNonAbandonné } from './checkLauréatNonAbandonné';
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 
 type GetRaccordementProps = {
   role: Role.ValueType;
@@ -16,7 +17,7 @@ type GetRaccordementProps = {
 };
 
 export type GetRaccordementForProjectPage = {
-  raccordement: Option.Type<RaccordementLauréat.ConsulterRaccordementReadModel>;
+  raccordement: Option.Type<PlainType<RaccordementLauréat.ConsulterRaccordementReadModel>>;
   affichage?: {
     label: string;
     url?: string;
@@ -59,7 +60,7 @@ export const getRaccordement = async ({
   }
 
   return {
-    raccordement,
+    raccordement: mapToPlainObject(raccordement),
     affichage: {
       label: role.aLaPermission('raccordement.gestionnaire.modifier')
         ? 'Consulter ou modifier les documents'
