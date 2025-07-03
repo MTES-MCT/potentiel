@@ -36,7 +36,7 @@ function estValide(value: string): asserts value is RawType {
 
 class TypologieBâtimentInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`La typologie de Bâtiment ne correspond à aucune valeur connue`, {
+    super(`La typologie de bâtiment ne correspond à aucune valeur connue`, {
       value,
     });
   }

@@ -30,7 +30,7 @@ import {
 
 /**
  * Schema simplifié par rapport au CSV, pour utilisation dans des formulaires
- * Ne contient que les champs modifiable
+ * Ne contient que les champs modifiables
  **/
 export const candidatureSchema = z
   .object({
