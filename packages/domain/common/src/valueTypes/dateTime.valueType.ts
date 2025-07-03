@@ -1,4 +1,5 @@
-import { differenceInDays } from 'date-fns';
+import { differenceInDays, addMonths, isLastDayOfMonth, lastDayOfMonth } from 'date-fns';
+import { UTCDate } from '@date-fns/utc';
 
 import { ReadonlyValueType, InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { Iso8601DateTime, regexDateISO8601 } from '@potentiel-libraries/iso8601-datetime';
@@ -67,9 +68,14 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       return this.ajouterNombreDeJours(-nombreDeJours);
     },
     ajouterNombreDeMois(nombreDeMois) {
-      const nouvelleDate = new Date(this.date);
-      nouvelleDate.setMonth(nouvelleDate.getMonth() + nombreDeMois);
-      return convertirEnValueType(nouvelleDate);
+      const utcDate = new UTCDate(this.date);
+      const estLeDernierJourDuMois = isLastDayOfMonth(utcDate);
+
+      const avecNombreDeMoisAjouté = addMonths(utcDate, nombreDeMois);
+
+      return convertirEnValueType(
+        estLeDernierJourDuMois ? lastDayOfMonth(avecNombreDeMoisAjouté) : avecNombreDeMoisAjouté,
+      );
     },
     retirerNombreDeMois(nombreDeMois) {
       return this.ajouterNombreDeMois(-nombreDeMois);
