@@ -3,8 +3,18 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
+import { DeepPartial } from '../fixture';
+
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
-import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
+import {
+  ImporterCandidatureFixture,
+  ImporterCandidatureFixtureCréerProps,
+} from './fixtures/importerCandidature.fixture';
+
+type MapExempleToFixtureValuesProps = {
+  dépôt: DeepPartial<Candidature.Dépôt.RawType>;
+  instruction: DeepPartial<Candidature.Instruction.RawType>;
+};
 
 export class CandidatureWorld {
   #importerCandidature: ImporterCandidatureFixture;
@@ -23,7 +33,7 @@ export class CandidatureWorld {
     this.#corrigerCandidature = new CorrigerCandidatureFixture();
   }
 
-  mapExempleToFixtureValues(exemple: Record<string, string>) {
+  mapExempleToFixtureValues(exemple: Record<string, string>): MapExempleToFixtureValuesProps {
     const removeEmptyValues = <T extends object>(obj: T) =>
       Object.fromEntries(
         Object.entries(obj).filter(([, val]) => typeof val !== 'undefined'),
@@ -42,43 +52,47 @@ export class CandidatureWorld {
       région: exemple['région'],
       département: exemple['département'],
     });
-    const clearedValues = removeEmptyValues({
-      appelOffreValue: exemple["appel d'offre"],
-      périodeValue: exemple['période'],
-      familleValue: exemple['famille'],
-      numéroCREValue: exemple['numéro CRE'],
-      typeGarantiesFinancièresValue: exemple['type GF'],
-      nomCandidatValue: exemple['nom candidat'],
-      technologieValue: exemple['technologie'],
-      emailContactValue: exemple['email contact'],
-      localitéValue: Object.keys(localitéValue).length > 0 ? localitéValue : undefined,
-      puissanceALaPointeValue: mapBoolean(exemple['puissance à la pointe']),
-      sociétéMèreValue: exemple['société mère'],
-      territoireProjetValue: exemple['territoire projet'],
-      dateÉchéanceGfValue: mapDate(exemple["date d'échéance"]),
-      historiqueAbandonValue: exemple['historique abandon'],
-      puissanceProductionAnnuelleValue: mapNumber(exemple['puissance production annuelle']),
-      prixReferenceValue: mapNumber(exemple['prix reference']),
-      noteTotaleValue: mapNumber(exemple['note totale']),
-      nomReprésentantLégalValue: exemple['nomReprésentant légal'],
-      evaluationCarboneSimplifiéeValue: mapNumber(exemple['evaluation carbone simplifiée']),
-      valeurÉvaluationCarboneValue: mapNumber(exemple['valeur évalutation carbone']),
-      actionnariatValue: exemple['actionnariat'],
+    const clearedDépôt: MapExempleToFixtureValuesProps['dépôt'] = removeEmptyValues({
+      appelOffre: exemple["appel d'offre"],
+      période: exemple['période'],
+      famille: exemple['famille'],
+      numéroCRE: exemple['numéro CRE'],
+      typeGarantiesFinancières: exemple['type GF'],
+      nomCandidat: exemple['nom candidat'],
+      technologie: exemple['technologie'],
+      emailContact: exemple['email contact'],
+      localité: Object.keys(localitéValue).length > 0 ? localitéValue : undefined,
+      puissanceALaPointe: mapBoolean(exemple['puissance à la pointe']),
+      sociétéMère: exemple['société mère'],
+      territoireProjet: exemple['territoire projet'],
+      dateÉchéanceGf: mapDate(exemple["date d'échéance"]),
+      historiqueAbandon: exemple['historique abandon'],
+      puissanceProductionAnnuelle: mapNumber(exemple['puissance production annuelle']),
+      prixReference: mapNumber(exemple['prix reference']),
+      noteTotale: mapNumber(exemple['note totale']),
+      nomReprésentantLégal: exemple['nomReprésentant légal'],
+      evaluationCarboneSimplifiée: mapNumber(exemple['evaluation carbone simplifiée']),
+      valeurÉvaluationCarbone: mapNumber(exemple['valeur évalutation carbone']),
+      actionnariat: exemple['actionnariat'],
       doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
       statutValue: exemple['statut'],
       typeInstallationsAgrivoltaiquesValue: exemple['installations agrivoltaïques'],
       élémentsSousOmbrièreValue: exemple['éléments sous ombrière'],
       typologieDeBâtimentValue: exemple['typologie de bâtiment'],
       obligationDeSolarisationValue: mapBoolean(exemple['obligation de solarisation']),
+      statut: exemple['statut'],
+      fournisseurs: [],
     });
     // gérer coefficient K choisi qui, s'il est renseigné, peut être oui, non ou vide
     if (exemple['coefficient K choisi'] != undefined) {
       return {
         ...clearedValues,
-        coefficientKChoisiValue: mapOptionalBoolean(exemple['coefficient K choisi']),
+        coefficientKChoisi: mapOptionalBoolean(exemple['coefficient K choisi']),
       };
     }
-    return clearedValues;
+    return {
+      dépôt: clearedDépôt,
+    };
   }
 
   mapToExpected() {

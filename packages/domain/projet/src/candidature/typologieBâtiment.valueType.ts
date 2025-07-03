@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
   'neuf',
@@ -13,7 +13,7 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (type: string): ValueType => {
+export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   estValide(type);
   return {
     type,
@@ -24,6 +24,11 @@ export const convertirEnValueType = (type: string): ValueType => {
       return this.type === type.type;
     },
   };
+};
+
+export const convertirEnValueType = (type: string) => {
+  estValide(type);
+  return bind({ type });
 };
 
 function estValide(value: string): asserts value is RawType {

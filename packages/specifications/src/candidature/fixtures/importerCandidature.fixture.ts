@@ -9,126 +9,116 @@ import { AbstractFixture, DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';
 
 interface ImporterCandidature {
-  identifiantProjet: string;
-  values: Candidature.ImporterCandidatureUseCase['data'];
+  identifiantProjet: IdentifiantProjet.RawType;
+
+  dépôtValue: Candidature.Dépôt.RawType;
+  instructionValue: Candidature.Instruction.RawType;
+
+  détailsValue: Record<string, string>;
+  importéPar: string;
+  importéLe: string;
 }
+
+export type ImporterCandidatureFixtureCréerProps = {
+  importéPar: string;
+  importéLe?: string;
+  dépôt?: Omit<DeepPartial<ImporterCandidature['dépôtValue']>, 'fournisseurs'>;
+  instruction: DeepPartial<ImporterCandidature['instructionValue']> &
+    Pick<ImporterCandidature['instructionValue'], 'statut'>;
+  identifiantProjet?: Partial<PlainType<IdentifiantProjet.ValueType>>;
+  détails?: ImporterCandidature['détailsValue'];
+};
 
 export class ImporterCandidatureFixture
   extends AbstractFixture<ImporterCandidature>
   implements ImporterCandidature
 {
-  #identifiantProjet!: string;
-  get identifiantProjet() {
+  #identifiantProjet!: IdentifiantProjet.RawType;
+  get identifiantProjet(): IdentifiantProjet.RawType {
     return this.#identifiantProjet;
   }
 
-  #values!: Candidature.ImporterCandidatureUseCase['data'];
+  #dépôtValue!: ImporterCandidature['dépôtValue'];
+  get dépôtValue() {
+    return this.#dépôtValue;
+  }
+
+  #instructionValue!: ImporterCandidature['instructionValue'];
+  get instructionValue() {
+    return this.#instructionValue;
+  }
+
+  #importéPar: string = '';
+  get importéPar() {
+    return this.#importéPar;
+  }
+  #importéLe: string = '';
+  get importéLe() {
+    return this.#importéLe;
+  }
+
+  #détailsValue: Record<string, string> = {};
+  get détailsValue() {
+    return this.#détailsValue;
+  }
+
+  /**
+   * @derecated kept for retro-compat, prefer dépôtValue & instructionValue
+   */
   get values() {
-    return this.#values;
+    return {
+      ...mapToDeprecatedValues(this.dépôtValue, this.instructionValue),
+      importéLe: this.importéLe,
+      importéPar: this.importéPar,
+    };
   }
 
   créer({
-    values,
-  }: {
-    values: DeepPartial<ImporterCandidature['values']> & {
-      statutValue: string;
-      importéPar: string;
-    };
-  }): Readonly<ImporterCandidature> {
-    this.#identifiantProjet = getValidFakeIdentifiantProjet({
-      appelOffre: values.appelOffreValue,
-      période: values.périodeValue,
-      famille: values.familleValue,
-      numéroCRE: values.numéroCREValue,
+    identifiantProjet: { appelOffre, famille, numéroCRE, période } = {},
+    instruction,
+    dépôt,
+    importéPar,
+    importéLe,
+    détails,
+  }: ImporterCandidatureFixtureCréerProps): Readonly<ImporterCandidature> {
+    const identifiantProjet = getValidFakeIdentifiantProjet({
+      appelOffre,
+      famille,
+      numéroCRE,
+      période,
     });
-    const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
-      this.#identifiantProjet,
-    );
 
-    const aoData = appelsOffreData.find((x) => x.id === appelOffre);
+    const dépôtValue = créerDépôt(identifiantProjet, dépôt);
 
-    const localitéValue = {
-      adresse1: faker.location.streetAddress(),
-      adresse2: faker.location.secondaryAddress(),
-      ...getFakeLocation(),
-      ...values.localitéValue,
+    const instructionValue: ImporterCandidature['instructionValue'] = {
+      motifÉlimination:
+        instruction.motifÉlimination ??
+        (instruction.statut === 'éliminé' ? faker.word.words() : undefined),
+      noteTotale: instruction.noteTotale ?? faker.number.int({ min: 0, max: 5 }),
+      statut: instruction.statut,
     };
 
-    const fixture: Candidature.ImporterCandidatureUseCase['data'] = {
-      appelOffreValue: appelOffre,
-      périodeValue: période,
-      familleValue: famille,
-      numéroCREValue: numéroCRE,
-      motifÉliminationValue: values.statutValue === 'éliminé' ? faker.word.words() : '',
-      typeGarantiesFinancièresValue: values?.typeGarantiesFinancièresValue ?? 'consignation',
-      nomProjetValue: faker.company.name(),
-      nomCandidatValue: faker.person.fullName(),
-      technologieValue: aoData?.multiplesTechnologies
-        ? faker.helpers.arrayElement(AppelOffre.technologies)
-        : 'N/A',
-      emailContactValue: faker.internet.email(),
-      puissanceALaPointeValue: true,
-      sociétéMèreValue: faker.company.name(),
-      territoireProjetValue: '',
-      dateÉchéanceGfValue: values?.dateÉchéanceGfValue
-        ? new Date(values.dateÉchéanceGfValue).toISOString()
-        : '',
-      historiqueAbandonValue: faker.helpers.arrayElement(Candidature.HistoriqueAbandon.types),
-      puissanceProductionAnnuelleValue: faker.number.float({ min: 0.1, max: 3 }),
-      prixRéférenceValue: faker.number.float({ min: 0.1, max: 3 }),
-      noteTotaleValue: faker.number.int({ min: 0, max: 5 }),
-      nomReprésentantLégalValue: faker.person.fullName(),
-      evaluationCarboneSimplifiéeValue: faker.number.float({ min: 0.1, max: 3 }),
-      actionnariatValue:
-        values?.actionnariatValue ??
-        faker.helpers.maybe(() => faker.helpers.arrayElement(Candidature.TypeActionnariat.types)),
-      coefficientKChoisiValue: undefined,
-      typeInstallationsAgrivoltaiquesValue: undefined,
-      obligationDeSolarisationValue: undefined,
-      typologieDeBâtimentValue: undefined,
-      élémentsSousOmbrièreValue: undefined,
-      importéLe: new Date().toISOString(),
-      ...values,
-      détailsValue: {
-        'Rendement nominal': '1234',
-        ...values?.détailsValue,
-      },
-      fournisseursValue: [
-        {
-          typeFournisseur: 'cellules',
-          nomDuFabricant: faker.company.name(),
-          lieuDeFabrication: faker.location.country(),
-        },
-      ],
-      localitéValue,
+    const détailsValue: ImporterCandidature['détailsValue'] = {
+      'Rendement nominal': '1234',
+      ...détails,
     };
 
-    const référentielPériode = appelsOffreData
-      .find((ao) => ao.id === appelOffre)
-      ?.periodes.find((p) => p.id === période);
-
-    if (
-      référentielPériode?.champsSupplémentaires?.coefficientKChoisi &&
-      !('coefficientKChoisiValue' in values)
-    ) {
-      fixture.coefficientKChoisiValue = faker.datatype.boolean();
-    }
-
-    this.#values = fixture;
-
+    this.#identifiantProjet = identifiantProjet.formatter();
+    this.#dépôtValue = dépôtValue;
+    this.#instructionValue = instructionValue;
     this.aÉtéCréé = true;
+    this.#importéPar = importéPar;
+    this.#importéLe = importéLe ?? new Date().toISOString();
+    this.#détailsValue = détailsValue;
 
-    return {
-      identifiantProjet: this.identifiantProjet,
-      values: this.values,
-    };
+    return this;
   }
 }
 
 // Pour l'import, il est impératif que le projet soit sur une période non legacy
 function getValidFakeIdentifiantProjet(
   props: Partial<PlainType<IdentifiantProjet.ValueType>>,
-): string {
+): IdentifiantProjet.ValueType {
   const identifiantProjet = faker.potentiel.identifiantProjet(props);
   const { appelOffre, période } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -143,5 +133,97 @@ function getValidFakeIdentifiantProjet(
   if (périodeData?.type === 'legacy' && !props.appelOffre && !props.période) {
     return getValidFakeIdentifiantProjet(props);
   }
-  return identifiantProjet;
+  return IdentifiantProjet.convertirEnValueType(identifiantProjet);
 }
+
+const créerDépôt = (
+  identifiantProjet: IdentifiantProjet.ValueType,
+  dépôt: Omit<DeepPartial<ImporterCandidature['dépôtValue']>, 'fournisseurs'> = {},
+) => {
+  const { appelOffre, période } = identifiantProjet;
+
+  const aoData = appelsOffreData.find((x) => x.id === appelOffre);
+
+  const localité: Candidature.Localité.RawType = {
+    adresse1: faker.location.streetAddress(),
+    adresse2: faker.location.secondaryAddress(),
+    ...getFakeLocation(),
+    ...dépôt.localité,
+  };
+
+  const dépôtValue: ImporterCandidature['dépôtValue'] = {
+    typeGarantiesFinancières: dépôt?.typeGarantiesFinancières ?? 'consignation',
+    nomProjet: faker.company.name(),
+    nomCandidat: faker.person.fullName(),
+    technologie: aoData?.multiplesTechnologies
+      ? faker.helpers.arrayElement(AppelOffre.technologies)
+      : 'N/A',
+    emailContact: faker.internet.email(),
+    puissanceÀLaPointe: true,
+    sociétéMère: faker.company.name(),
+    territoireProjet: '',
+    historiqueAbandon: faker.helpers.arrayElement(Candidature.HistoriqueAbandon.types),
+    puissanceProductionAnnuelle: faker.number.float({ min: 0.1, max: 3 }),
+    prixRéférence: faker.number.float({ min: 0.1, max: 3 }),
+    nomReprésentantLégal: faker.person.fullName(),
+    évaluationCarboneSimplifiée: faker.number.float({ min: 0.1, max: 3 }),
+    typeActionnariat: faker.helpers.maybe(() =>
+      faker.helpers.arrayElement(Candidature.TypeActionnariat.types),
+    ),
+    dateÉchéanceGf: undefined,
+    coefficientKChoisi: undefined,
+
+    ...dépôt,
+
+    fournisseurs: [
+      {
+        typeFournisseur: 'cellules' as const,
+        nomDuFabricant: faker.company.name(),
+        lieuDeFabrication: faker.location.country(),
+      },
+    ],
+    localité,
+  };
+
+  const référentielPériode = appelsOffreData
+    .find((ao) => ao.id === appelOffre)
+    ?.periodes.find((p) => p.id === période);
+
+  if (
+    référentielPériode?.choixCoefficientKDisponible === true &&
+    !('coefficientKChoisi' in dépôt)
+  ) {
+    dépôtValue.coefficientKChoisi = faker.datatype.boolean();
+  }
+
+  return dépôtValue;
+};
+
+/** @deprecated use only for retro compat with "values" */
+export const mapToDeprecatedValues = (
+  dépôt: Candidature.Dépôt.RawType,
+  instruction: Candidature.Instruction.RawType,
+) => ({
+  nomProjetValue: dépôt.nomProjet,
+  nomCandidatValue: dépôt.nomCandidat,
+  emailContactValue: dépôt.emailContact,
+  sociétéMèreValue: dépôt.sociétéMère,
+  puissanceProductionAnnuelleValue: dépôt.puissanceProductionAnnuelle,
+  nomReprésentantLégalValue: dépôt.nomReprésentantLégal,
+  prixRéférenceValue: dépôt.prixRéférence,
+  localitéValue: dépôt.localité,
+  historiqueAbandonValue: dépôt.historiqueAbandon,
+  puissanceÀLaPointeValue: dépôt.puissanceÀLaPointe,
+  coefficientKChoisiValue: dépôt.coefficientKChoisi,
+  évaluationCarboneSimplifiéeValue: dépôt.évaluationCarboneSimplifiée,
+  technologieValue: dépôt.technologie,
+  typeActionnariatValue: dépôt.typeActionnariat,
+  typeGarantiesFinancièresValue: dépôt.typeGarantiesFinancières,
+  dateÉchéanceGfValue: dépôt.dateÉchéanceGf,
+  territoireProjetValue: dépôt.territoireProjet,
+  fournisseursValue: dépôt.fournisseurs,
+
+  statut: instruction.statut,
+  noteTotale: instruction.noteTotale,
+  motifÉlimination: instruction.motifÉlimination,
+});
