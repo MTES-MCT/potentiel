@@ -69,7 +69,7 @@ export const Form: FC<FormProps> = ({
     }
   }, [state.status]);
 
-  const handleOnChange = () => onValidationError && onValidationError({});
+  const handleOnChange = onValidationError ? () => onValidationError({}) : undefined;
 
   return (
     <form
