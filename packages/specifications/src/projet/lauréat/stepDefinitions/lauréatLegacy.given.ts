@@ -3,7 +3,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
 
-import { insérerProjetAvecDonnéesCandidature, notifierLauréat } from './lauréat.given';
+import { notifierLauréat } from './lauréat.given';
 
 EtantDonné(
   'le projet lauréat legacy {string} avec :',
@@ -20,7 +20,5 @@ EtantDonné(
     const dateDésignation = this.lauréatWorld.dateDésignation;
 
     await notifierLauréat.call(this, dateDésignation);
-
-    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
