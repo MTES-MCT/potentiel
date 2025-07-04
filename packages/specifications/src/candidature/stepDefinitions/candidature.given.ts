@@ -1,7 +1,7 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
@@ -73,13 +73,16 @@ export async function importerCandidature(
       importéPar: this.utilisateurWorld.validateurFixture.email,
     });
 
+  const { appelOffre, période, famille, numéroCRE } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
   await mediator.send<Candidature.ImporterCandidatureUseCase>({
     type: 'Candidature.UseCase.ImporterCandidature',
     data: {
-      appelOffreValue: identifiantProjet.appelOffre,
-      périodeValue: identifiantProjet.période,
-      familleValue: identifiantProjet.famille,
-      numéroCREValue: identifiantProjet.numéroCRE,
+      appelOffreValue: appelOffre,
+      périodeValue: période,
+      familleValue: famille,
+      numéroCREValue: numéroCRE,
       dépôtValue,
       détailsValue,
       importéLe,

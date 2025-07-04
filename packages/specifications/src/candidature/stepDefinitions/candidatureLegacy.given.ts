@@ -46,7 +46,7 @@ export async function importerCandidaturePériodeLegacy(
   const event: Candidature.CandidatureImportéeEvent = {
     type: 'CandidatureImportée-V2',
     payload: {
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantProjet,
       importéLe: DateTime.convertirEnValueType(importéLe).formatter(),
       importéPar,
       nomProjet: dépôtValue.nomProjet,

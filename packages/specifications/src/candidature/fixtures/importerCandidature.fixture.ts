@@ -66,8 +66,15 @@ export class ImporterCandidatureFixture
    * @derecated kept for retro-compat, prefer dépôtValue & instructionValue
    */
   get values() {
+    const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
+      this.identifiantProjet,
+    );
     return {
       ...mapToDeprecatedValues(this.dépôtValue, this.instructionValue),
+      appelOffreValue: appelOffre,
+      périodeValue: période,
+      familleValue: famille,
+      numéroCREValue: numéroCRE,
       importéLe: this.importéLe,
       importéPar: this.importéPar,
     };
@@ -172,6 +179,10 @@ const créerDépôt = (
     ),
     dateÉchéanceGf: undefined,
     coefficientKChoisi: undefined,
+    typeInstallationsAgrivoltaiques: undefined,
+    élémentsSousOmbrière: undefined,
+    typologieDeBâtiment: undefined,
+    obligationDeSolarisation: undefined,
 
     ...dépôt,
 
@@ -213,17 +224,21 @@ export const mapToDeprecatedValues = (
   prixRéférenceValue: dépôt.prixRéférence,
   localitéValue: dépôt.localité,
   historiqueAbandonValue: dépôt.historiqueAbandon,
-  puissanceÀLaPointeValue: dépôt.puissanceÀLaPointe,
+  puissanceALaPointeValue: dépôt.puissanceÀLaPointe,
   coefficientKChoisiValue: dépôt.coefficientKChoisi,
-  évaluationCarboneSimplifiéeValue: dépôt.évaluationCarboneSimplifiée,
+  evaluationCarboneSimplifiéeValue: dépôt.évaluationCarboneSimplifiée,
   technologieValue: dépôt.technologie,
-  typeActionnariatValue: dépôt.typeActionnariat,
+  actionnariatValue: dépôt.typeActionnariat,
   typeGarantiesFinancièresValue: dépôt.typeGarantiesFinancières,
   dateÉchéanceGfValue: dépôt.dateÉchéanceGf,
   territoireProjetValue: dépôt.territoireProjet,
   fournisseursValue: dépôt.fournisseurs,
+  typeInstallationsAgrivoltaiquesValue: dépôt.typeInstallationsAgrivoltaiques,
+  élémentsSousOmbrièreValue: dépôt.élémentsSousOmbrière,
+  typologieDeBâtimentValue: dépôt.typologieDeBâtiment,
+  obligationDeSolarisationValue: dépôt.obligationDeSolarisation,
 
-  statut: instruction.statut,
-  noteTotale: instruction.noteTotale,
-  motifÉlimination: instruction.motifÉlimination,
+  statutValue: instruction.statut,
+  noteTotaleValue: instruction.noteTotale,
+  motifÉliminationValue: instruction.motifÉlimination,
 });
