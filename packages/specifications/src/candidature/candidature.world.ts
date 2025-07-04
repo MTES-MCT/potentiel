@@ -6,10 +6,7 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { DeepPartial } from '../fixture';
 
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
-import {
-  ImporterCandidatureFixture,
-  ImporterCandidatureFixtureCréerProps,
-} from './fixtures/importerCandidature.fixture';
+import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
 
 type MapExempleToFixtureValuesProps = {
   dépôt: DeepPartial<Candidature.Dépôt.RawType>;
@@ -52,6 +49,12 @@ export class CandidatureWorld {
       région: exemple['région'],
       département: exemple['département'],
     });
+
+    const clearedInstruction: MapExempleToFixtureValuesProps['instruction'] = removeEmptyValues({
+      statutValue: exemple['statut'],
+      motifÉlimination: exemple["motif d'élimination"],
+      noteTotaleValue: mapNumber(exemple['note totale']),
+    });
     const clearedDépôt: MapExempleToFixtureValuesProps['dépôt'] = removeEmptyValues({
       appelOffre: exemple["appel d'offre"],
       période: exemple['période'],
@@ -80,18 +83,16 @@ export class CandidatureWorld {
       élémentsSousOmbrièreValue: exemple['éléments sous ombrière'],
       typologieDeBâtimentValue: exemple['typologie de bâtiment'],
       obligationDeSolarisationValue: mapBoolean(exemple['obligation de solarisation']),
-      statut: exemple['statut'],
-      fournisseurs: [],
+      fournisseursValue: [],
     });
+
     // gérer coefficient K choisi qui, s'il est renseigné, peut être oui, non ou vide
     if (exemple['coefficient K choisi'] != undefined) {
-      return {
-        ...clearedValues,
-        coefficientKChoisi: mapOptionalBoolean(exemple['coefficient K choisi']),
-      };
+      clearedDépôt.coefficientKChoisi = mapOptionalBoolean(exemple['coefficient K choisi']);
     }
     return {
       dépôt: clearedDépôt,
+      instruction: clearedInstruction,
     };
   }
 
@@ -100,12 +101,12 @@ export class CandidatureWorld {
       ? this.corrigerCandidature
       : this.importerCandidature;
     const misÀJourLe = this.#corrigerCandidature.aÉtéCréé
-      ? this.corrigerCandidature.values.corrigéLe
-      : this.importerCandidature.values.importéLe;
+      ? this.corrigerCandidature.corrigéLe
+      : this.importerCandidature.importéLe;
     const détailsMisÀJourLe =
-      this.#corrigerCandidature.aÉtéCréé && this.#corrigerCandidature.values.détailsValue
-        ? this.corrigerCandidature.values.corrigéLe
-        : this.importerCandidature.values.importéLe;
+      this.#corrigerCandidature.aÉtéCréé && this.#corrigerCandidature.détailsValue
+        ? this.corrigerCandidature.corrigéLe
+        : this.importerCandidature.importéLe;
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       this.importerCandidature.identifiantProjet,
