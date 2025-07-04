@@ -19,6 +19,11 @@ export type OreGestionnaireByCity = Pick<
   'raisonSociale' | 'codeEIC'
 >;
 
+export type RécupererGRDParVillePort = (props: {
+  codePostal: string;
+  commune: string;
+}) => Promise<Option.Type<OreGestionnaireByCity>>;
+
 const schema = zod.object({
   total_count: zod.number(),
   results: zod.array(

@@ -1,11 +1,11 @@
-import { Raccordement } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector';
 
 export const gestionnaireRéseauInconnuAttribuéV1Projector = async ({
   payload: { identifiantProjet },
-}: Raccordement.GestionnaireRéseauInconnuAttribuéEvent) => {
+}: Lauréat.Raccordement.GestionnaireRéseauInconnuAttribuéEvent) => {
   await gestionnaireRéseauAttribuéV1Projector({
     type: 'GestionnaireRéseauAttribué-V1',
     payload: {

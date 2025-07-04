@@ -2,13 +2,12 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -42,7 +41,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       const referenceDossierRaccordement = decodeParameter(reference);
 
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet,
@@ -81,7 +80,7 @@ type MapToProps = (params: {
   referenceDossierRaccordement: string;
   lauréat: Lauréat.ConsulterLauréatReadModel;
   période: AppelOffre.Periode;
-  dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
+  dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
 }) => TransmettreDateMiseEnServicePageProps;
 
 const mapToProps: MapToProps = ({

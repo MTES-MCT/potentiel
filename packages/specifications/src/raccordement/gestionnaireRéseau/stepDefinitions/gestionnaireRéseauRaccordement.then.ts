@@ -4,9 +4,9 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -62,7 +62,7 @@ async function vérifierGestionnaireAttribué(
 ) {
   await waitForExpect(async () => {
     // Assert on read model
-    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+    const résultat = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
       type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
@@ -77,7 +77,7 @@ async function vérifierGestionnaireAttribué(
     );
 
     for (const { référence } of résultat.dossiers) {
-      const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+      const dossier = await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

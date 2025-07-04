@@ -6,17 +6,18 @@ import {
   DateMiseEnServiceTransmise,
   DemandeComplèteRaccordementTransmise,
 } from '../modules/project';
-import { Raccordement } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
+// viovio - a quoi servent ces saga
 /**
  * @deprecated à bouger dans la nouvelle app
  */
 export type SubscriptionEvent = (
-  | Raccordement.DateMiseEnServiceTransmiseEvent
-  | Raccordement.DateMiseEnServiceTransmiseV1Event
-  | Raccordement.DemandeComplèteRaccordementTransmiseEventV1
-  | Raccordement.DemandeComplèteRaccordementTransmiseEventV2
-  | Raccordement.DemandeComplèteRaccordementTransmiseEvent
+  | Lauréat.Raccordement.DateMiseEnServiceTransmiseEvent
+  | Lauréat.Raccordement.DateMiseEnServiceTransmiseV1Event
+  | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV1
+  | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV2
+  | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEvent
 ) &
   Event;
 

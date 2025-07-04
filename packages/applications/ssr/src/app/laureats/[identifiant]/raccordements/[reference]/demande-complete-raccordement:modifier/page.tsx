@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -45,7 +45,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       const { période } = await getPériodeAppelOffres(identifiantProjet);
 
       const gestionnaireRéseau =
-        await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
@@ -55,7 +55,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       }
 
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,
@@ -90,8 +90,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 type MapToProps = (args: {
   période: AppelOffre.Periode;
   role: Role.ValueType;
-  gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
-  dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
+  gestionnaireRéseau: Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
+  dossierRaccordement: Lauréat.Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: IdentifiantProjet.ValueType;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 

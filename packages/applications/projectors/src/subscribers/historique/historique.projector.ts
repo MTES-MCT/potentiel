@@ -5,7 +5,7 @@ import {
   createHistoryProjection,
   removeHistoryProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { GarantiesFinancières, Raccordement } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 export type SubscriptionEvent =
@@ -17,10 +17,9 @@ export type SubscriptionEvent =
   | (Lauréat.Producteur.ProducteurEvent & Event)
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
   | (Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event)
-  | (Raccordement.RaccordementEvent & Event)
+  | (Lauréat.Raccordement.RaccordementEvent & Event)
   | (Lauréat.Achèvement.AchèvementEvent & Event)
   | (Lauréat.LauréatEvent & Event)
-  | (Raccordement.RaccordementEvent & Event)
   | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Historique', SubscriptionEvent>;

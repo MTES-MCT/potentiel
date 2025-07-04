@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -18,7 +18,7 @@ export type ÉtapeDemandeComplèteRaccordementProps = {
   identifiantProjet: string;
   référence: string;
   demandeComplèteRaccordement: PlainType<
-    Raccordement.ConsulterDossierRaccordementReadModel['demandeComplèteRaccordement']
+    Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['demandeComplèteRaccordement']
   >;
   actions: { modifierRéférence: boolean; modifier: boolean; transmettre: boolean };
 };

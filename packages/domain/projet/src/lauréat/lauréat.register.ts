@@ -1,3 +1,5 @@
+import { LoadAggregate } from '@potentiel-domain/core';
+
 import { GetProjetAggregateRoot } from '..';
 
 import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
@@ -49,6 +51,7 @@ import {
 import {
   RaccordementQueryDependencies,
   registerRaccordementQueries,
+  registerRaccordementUseCases,
 } from './raccordement/raccordement.register';
 import {
   ListerHistoriqueProjetDependencies,
@@ -71,6 +74,7 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
+  loadAggregate: LoadAggregate;
 } & SupprimerDocumentProjetSensibleCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
@@ -90,6 +94,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerReprésentantLégalUseCases(dependencies);
   registerAbandonUseCases(dependencies);
   registerFournisseurUseCases(dependencies);
+  registerRaccordementUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {

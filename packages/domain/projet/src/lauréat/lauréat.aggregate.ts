@@ -41,6 +41,7 @@ import { PuissanceAggregate } from './puissance/puissance.aggregate';
 import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
+import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -101,6 +102,11 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#fournisseur;
   }
 
+  #raccordement!: AggregateType<RaccordementAggregate>;
+  get raccordement() {
+    return this.#raccordement;
+  }
+
   #garantiesFinancières!: AggregateType<GarantiesFinancièresAggregate>;
   get garantiesFinancières() {
     return this.#garantiesFinancières;
@@ -148,6 +154,12 @@ export class LauréatAggregate extends AbstractAggregate<
       `fournisseur|${this.projet.identifiantProjet.formatter()}`,
       this,
     );
+
+    this.#raccordement = await loadAggregate(
+      `raccordement|${this.projet.identifiantProjet.formatter()}`,
+      RaccordementAggregate,
+    );
+    await this.#raccordement.init(this);
 
     this.#garantiesFinancières = await loadAggregate(
       GarantiesFinancièresAggregate,
@@ -289,14 +301,21 @@ export class LauréatAggregate extends AbstractAggregate<
     }
   }
 
-  vérifierNiAbandonnéNiEnCoursAbandon() {
+  vérifierNonAbandonné() {
     if (this.projet.statut.estAbandonné()) {
       throw new ProjetAbandonnéError();
     }
+  }
 
+  vérifierPasEnCoursAbandon() {
     if (this.abandon.statut.estEnCours()) {
       throw new ProjetAvecDemandeAbandonEnCoursError();
     }
+  }
+
+  vérifierNiAbandonnéNiEnCoursAbandon() {
+    this.vérifierNonAbandonné();
+    this.vérifierPasEnCoursAbandon();
   }
 
   vérifierNonAchevé() {

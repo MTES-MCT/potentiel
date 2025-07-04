@@ -1,9 +1,6 @@
 import { mediator } from 'mediateur';
 
-import {
-  GestionnaireRéseauProjector,
-  RaccordementProjector,
-} from '@potentiel-applications/projectors';
+import { GestionnaireRéseauProjector } from '@potentiel-applications/projectors';
 import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -20,7 +17,6 @@ export const setupRéseau = async () => {
 
   // Projectors
   GestionnaireRéseauProjector.register();
-  RaccordementProjector.register();
 
   const unsubscribeGestionnaireRéseauProjector =
     await subscribe<GestionnaireRéseauProjector.SubscriptionEvent>({

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture';
 import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
@@ -87,7 +87,7 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
       dateSignature: DateTime.convertirEnValueType(this.dateSignature),
       propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
         this.identifiantProjet,
-        Raccordement.TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
+        Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
           référenceDossier ?? this.référenceDossier,
         ).formatter(),
         this.#dateSignature,

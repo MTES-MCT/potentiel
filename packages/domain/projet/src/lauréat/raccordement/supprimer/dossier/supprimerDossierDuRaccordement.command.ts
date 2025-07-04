@@ -1,0 +1,29 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+
+import { IdentifiantProjet } from '@potentiel-domain/common';
+
+import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
+import { GetProjetAggregateRoot } from '../../../..';
+
+export type SupprimerDossierDuRaccordementCommand = Message<
+  'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
+  {
+    identifiantProjet: IdentifiantProjet.ValueType;
+    référenceDossier: RéférenceDossierRaccordement.ValueType;
+  }
+>;
+
+export const registerSupprimerDossierDuRaccordementCommand = (
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
+  const handler: MessageHandler<SupprimerDossierDuRaccordementCommand> = async ({
+    référenceDossier,
+    identifiantProjet,
+  }) => {
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+
+    await projet.lauréat.raccordement.supprimerDossier({ référenceDossier });
+  };
+
+  mediator.register('Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement', handler);
+};

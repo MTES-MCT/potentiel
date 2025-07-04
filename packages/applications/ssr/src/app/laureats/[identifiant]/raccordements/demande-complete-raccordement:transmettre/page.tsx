@@ -5,7 +5,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TransmettreDemandeComplèteRaccordementPage } from '@/components/pages/réseau/raccordement/transmettre/transmettreDemandeComplèteRaccordement/TransmettreDemandeComplèteRaccordement.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -36,12 +36,12 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       });
 
     const gestionnaireRéseauActuel =
-      await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
+      await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    const raccordements = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+    const raccordements = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
       type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });

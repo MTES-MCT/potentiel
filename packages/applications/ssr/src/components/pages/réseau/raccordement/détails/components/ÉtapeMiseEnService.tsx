@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
@@ -14,7 +14,9 @@ import { Etape } from './Étape';
 export type ÉtapeMiseEnServiceProps = {
   identifiantProjet: string;
   référence: string;
-  miseEnService: PlainType<Raccordement.ConsulterDossierRaccordementReadModel['miseEnService']>;
+  miseEnService: PlainType<
+    Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['miseEnService']
+  >;
   actions: { modifier: boolean; transmettre: boolean };
 };
 

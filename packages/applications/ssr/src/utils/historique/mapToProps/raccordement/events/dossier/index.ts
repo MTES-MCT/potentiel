@@ -1,5 +1,5 @@
 export { mapToRéférenceDossierRacordementModifiéeTimelineItemProps } from './mapToRéférenceDossierRacordementModifiéeTimelineItemProps';
-export { mapToDossierRacordementSuppriméTimelineItemProps } from './mapToDossierRacordementSuppriméTimelineItemProps';
+export { mapToDossierRaccordementSuppriméTimelineItemProps } from './mapToDossierRaccordementSuppriméTimelineItemProps';
 
 export * as DCR from './dcr';
 export * as PTF from './ptf';

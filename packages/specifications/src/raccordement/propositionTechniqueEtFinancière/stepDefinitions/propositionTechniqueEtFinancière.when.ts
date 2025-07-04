@@ -1,8 +1,8 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -90,7 +90,7 @@ async function transmettrePropositionTechniqueEtFinancière(
     });
 
   try {
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       data: {
         dateSignatureValue: dateSignature,
@@ -120,7 +120,7 @@ async function modifierPropositionTechniqueEtFinancière(
     });
 
   try {
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
       data: {
         dateSignatureValue: dateSignature,

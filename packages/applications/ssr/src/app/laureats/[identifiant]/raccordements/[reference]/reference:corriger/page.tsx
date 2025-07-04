@@ -2,11 +2,11 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { CorrigerRéférenceDossierPage } from '@/components/pages/réseau/raccordement/corriger/CorrigerRéférenceDossier.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -37,7 +37,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       const referenceDossierRaccordement = decodeParameter(reference);
 
       const gestionnaireRéseau =
-        await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
@@ -47,7 +47,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       }
 
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,

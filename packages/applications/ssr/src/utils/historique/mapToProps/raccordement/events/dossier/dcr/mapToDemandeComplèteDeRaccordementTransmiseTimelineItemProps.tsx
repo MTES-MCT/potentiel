@@ -1,7 +1,6 @@
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { Raccordement } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
@@ -12,15 +11,17 @@ export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
   const event = match(modification)
     .with(
       { type: 'DemandeComplèteDeRaccordementTransmise-V1' },
-      (event) => event as unknown as Raccordement.DemandeComplèteRaccordementTransmiseEventV1,
+      (event) =>
+        event as unknown as Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV1,
     )
     .with(
       { type: 'DemandeComplèteDeRaccordementTransmise-V2' },
-      (event) => event as unknown as Raccordement.DemandeComplèteRaccordementTransmiseEventV2,
+      (event) =>
+        event as unknown as Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV2,
     )
     .with(
       { type: 'DemandeComplèteDeRaccordementTransmise-V3' },
-      (event) => event as unknown as Raccordement.DemandeComplèteRaccordementTransmiseEvent,
+      (event) => event as unknown as Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEvent,
     )
     .otherwise(() => undefined);
 

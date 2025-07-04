@@ -1,7 +1,6 @@
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { Raccordement } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
@@ -12,11 +11,11 @@ export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
   const event = match(modification)
     .with(
       { type: 'DateMiseEnServiceTransmise-V1' },
-      (event) => event as unknown as Raccordement.DateMiseEnServiceTransmiseV1Event,
+      (event) => event as unknown as Lauréat.Raccordement.DateMiseEnServiceTransmiseV1Event,
     )
     .with(
       { type: 'DateMiseEnServiceTransmise-V2' },
-      (event) => event as unknown as Raccordement.DateMiseEnServiceTransmiseEvent,
+      (event) => event as unknown as Lauréat.Raccordement.DateMiseEnServiceTransmiseEvent,
     )
     .otherwise(() => undefined);
 

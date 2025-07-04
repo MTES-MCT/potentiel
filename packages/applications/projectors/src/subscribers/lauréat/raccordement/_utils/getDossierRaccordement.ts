@@ -1,11 +1,10 @@
-import { Raccordement } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { getRaccordement } from './getRaccordement';
 
 export const getDossierRaccordement = async (
   identifiantProjet: IdentifiantProjet.RawType,
-  référenceDossierRaccordement: Raccordement.RéférenceDossierRaccordement.RawType,
+  référenceDossierRaccordement: Lauréat.Raccordement.RéférenceDossierRaccordement.RawType,
 ) => {
   const raccordement = await getRaccordement(identifiantProjet);
   const dossier = raccordement.dossiers.find((d) => d.référence === référenceDossierRaccordement);

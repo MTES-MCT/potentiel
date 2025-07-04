@@ -5,7 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -24,12 +24,14 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
       vérifierAccèsAuGestionnaireRéseau(utilisateur, identifiantGestionnaireRéseau);
 
       const dossiers =
-        await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
-          type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
-          data: {
-            identifiantGestionnaireRéseau,
+        await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>(
+          {
+            type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+            data: {
+              identifiantGestionnaireRéseau,
+            },
           },
-        });
+        );
 
       const fields = [
         'nomProjet',

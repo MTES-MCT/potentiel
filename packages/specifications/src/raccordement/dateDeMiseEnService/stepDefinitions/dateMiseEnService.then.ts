@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then';
@@ -16,7 +16,7 @@ Alors(
     const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: référenceDossier,
@@ -36,7 +36,7 @@ Alors(
     const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: référenceDossier,

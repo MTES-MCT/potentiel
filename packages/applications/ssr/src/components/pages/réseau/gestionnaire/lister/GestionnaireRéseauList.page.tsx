@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gestionnaireRéseau/GestionnaireRéseauListItem';
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
@@ -11,7 +11,7 @@ import { mapToPagination } from '@/utils/pagination';
 
 export type GestionnaireAvecNombreDeRaccordement =
   GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel &
-    Raccordement.ConsulterNombreDeRaccordementReadModel;
+    Lauréat.Raccordement.ConsulterNombreDeRaccordementReadModel;
 
 export type GestionnaireRéseauListPageProps = PlainType<
   Omit<GestionnaireRéseau.ListerGestionnaireRéseauReadModel, 'items'> & {

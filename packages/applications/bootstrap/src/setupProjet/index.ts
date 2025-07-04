@@ -1,5 +1,6 @@
 import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
 import {
+  countProjection,
   findProjection,
   listHistoryProjection,
   listProjection,
@@ -10,6 +11,7 @@ import {
   getProjetUtilisateurScopeAdapter,
   DocumentAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { getProjetAggregateRootAdapter } from '../adapters/getProjetAggregateRoot.adapter';
 
@@ -22,12 +24,14 @@ import { setupAccès } from './setupAccès';
 export const setupProjet: SetupProjet = async (dependencies) => {
   registerProjetUseCases({
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
+    loadAggregate,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
   });
 
   registerProjetQueries({
     find: findProjection,
     list: listProjection,
+    count: countProjection,
     listHistory: listHistoryProjection,
     getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:

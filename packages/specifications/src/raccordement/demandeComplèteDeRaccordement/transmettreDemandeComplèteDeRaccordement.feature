@@ -51,7 +51,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
     Scénario: Impossible de transmettre une demande complète de raccordement  si le projet est abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
-        Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
     Scénario: Impossible de transmettre une demande complète de raccordement si le projet est éliminé
         Etant donné le projet éliminé "MIOS"
