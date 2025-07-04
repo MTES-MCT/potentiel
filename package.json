@@ -29,7 +29,7 @@
     "up:test": "./.docker-scripts/up-test.sh",
     "down:test": "./.docker-scripts/down-test.sh",
     "pretest": "npm run down:test && npm run up:test",
-    "pretest:libraries": "npm run pretest && turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* --filter=@potentiel-applications/projectors",
+    "pretest:libraries": "npm run pretest && turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* --filter=@potentiel-applications/projectors --filter=@potentiel-applications/request-context",
     "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
     "pretest:ssr": "turbo run build --filter=@potentiel-domain/projet",
     "test:ssr": "turbo run test --filter=@potentiel-applications/ssr",
