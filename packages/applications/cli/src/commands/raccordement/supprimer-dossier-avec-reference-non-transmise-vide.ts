@@ -2,7 +2,7 @@ import { Command } from '@oclif/core';
 import { z } from 'zod';
 import { mediator } from 'mediateur';
 
-import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
@@ -43,10 +43,6 @@ export class SupprimerDossierAvecReferenceNonTransmiseVide extends Command {
           loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
         }),
     });
-  }
-
-  async finally() {
-    await killPool();
   }
 
   async run() {

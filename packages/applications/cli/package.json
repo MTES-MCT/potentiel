@@ -13,7 +13,8 @@
     "dirname": "cli",
     "topicSeparator": " ",
     "hooks": {
-      "init": "./dist/hooks/init/config"
+      "init": "./dist/hooks/init",
+      "finally": "./dist/hooks/finally"
     }
   },
   "dependencies": {

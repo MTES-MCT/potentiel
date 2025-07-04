@@ -11,20 +11,25 @@ import { récupérerTousLesGRD } from '@potentiel-infrastructure/ore-client';
 import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 
 import { addGRDs } from '../../helpers/réseau/addGRDs';
 import { updateGRDs } from '../../helpers/réseau/updateGRDs';
 import { mapToRéférencielGRD } from '../../helpers/réseau/référencielGRD';
+import { getHealthcheckClient, HealthcheckClient } from '../../helpers/healthcheck';
 
 const envSchema = z.object({
   ORE_ENDPOINT: z.string().url(),
   DATABASE_CONNECTION_STRING: z.string().url(),
+  SENTRY_CRONS: z.string().optional(),
+  APPLICATION_STAGE: z.string(),
 });
 
 export class UpdateGestionnaires extends Command {
+  private healthcheckClient?: HealthcheckClient;
+  static monitoringSlug = 'mise-a-jour-grd';
+
   async init() {
-    envSchema.parse(process.env);
+    const config = envSchema.parse(process.env);
     registerRéseauUseCases({
       loadAggregate: loadAggregateV2,
     });
@@ -33,13 +38,22 @@ export class UpdateGestionnaires extends Command {
       list: listProjection,
       find: findProjection,
     });
+
+    this.healthcheckClient = getHealthcheckClient({
+      healthcheckUrl: config.SENTRY_CRONS,
+      slug: UpdateGestionnaires.monitoringSlug,
+      environment: config.APPLICATION_STAGE,
+    });
+
+    await this.healthcheckClient.start();
   }
 
-  protected async finally(error: Error | undefined) {
+  async finally(error: Error | undefined) {
     if (error) {
-      getLogger().error(error as Error);
+      await this.healthcheckClient?.error();
+    } else {
+      await this?.healthcheckClient?.success();
     }
-    await killPool();
   }
 
   async run() {

@@ -5,7 +5,6 @@ import {
   cleanStatistiquesPubliques,
   computeStatistiquesPubliques,
 } from '@potentiel-statistiques/statistiques-publiques';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 
 import { getHealthcheckClient, HealthcheckClient } from '../../helpers/healthcheck';
 
@@ -17,6 +16,7 @@ const configSchema = z.object({
 
 export default class ExtraireStats extends Command {
   private healthcheckClient!: HealthcheckClient;
+  static monitoringSlug = 'extraire-donnees-statistiques-publiques';
 
   static override description =
     'Extrait les données des statistiques publiques (permet de tester la tâche planifiée dédiée)';
@@ -29,7 +29,7 @@ export default class ExtraireStats extends Command {
     const config = configSchema.parse(process.env);
     this.healthcheckClient = getHealthcheckClient({
       healthcheckUrl: config.SENTRY_CRONS,
-      slug: 'extraire-donnees-statistiques-publiques',
+      slug: ExtraireStats.monitoringSlug,
       environment: config.APPLICATION_STAGE,
     });
 
@@ -37,7 +37,6 @@ export default class ExtraireStats extends Command {
   }
 
   async finally(error: Error | undefined) {
-    await killPool();
     if (error) {
       await this.healthcheckClient?.error();
     } else {

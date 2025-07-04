@@ -12,15 +12,20 @@ import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-eve
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
-import { killPool } from '@potentiel-libraries/pg-helpers';
+
+import { getHealthcheckClient, HealthcheckClient } from '../../helpers/healthcheck';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
   DATABASE_CONNECTION_STRING: z.string().url(),
+  SENTRY_CRONS: z.string().optional(),
 });
 export class Relancer extends Command {
+  private healthcheckClient?: HealthcheckClient;
+  static monitoringSlug = 'relance-abandon-sans-preuve';
+
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+    const { APPLICATION_STAGE, SENTRY_CRONS } = envSchema.parse(process.env);
     if (!['production', 'development'].includes(APPLICATION_STAGE)) {
       console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
       process.exit(0);
@@ -40,10 +45,22 @@ export class Relancer extends Command {
           loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
         }),
     });
+
+    this.healthcheckClient = getHealthcheckClient({
+      healthcheckUrl: SENTRY_CRONS,
+      slug: Relancer.monitoringSlug,
+      environment: APPLICATION_STAGE,
+    });
+
+    await this.healthcheckClient.start();
   }
 
-  protected async finally(_: Error | undefined) {
-    await killPool();
+  async finally(error: Error | undefined) {
+    if (error) {
+      await this.healthcheckClient?.error();
+    } else {
+      await this?.healthcheckClient?.success();
+    }
   }
 
   async run() {
