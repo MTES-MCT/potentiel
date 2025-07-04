@@ -1,6 +1,7 @@
 import { Command } from '@oclif/core';
 import { CommandError } from '@oclif/core/interfaces';
 import { mediator } from 'mediateur';
+import z from 'zod';
 
 import {
   countProjection,
@@ -9,7 +10,6 @@ import {
 } from '@potentiel-infrastructure/pg-projection-read';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { sendEmail } from '@potentiel-infrastructure/email';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { registerRéseauQueries } from '@potentiel-domain/reseau';
 import { registerLauréatQueries } from '@potentiel-domain/laureat';
@@ -20,7 +20,18 @@ import { Raccordement } from '@potentiel-domain/laureat';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
+import { getHealthcheckClient, HealthcheckClient } from '../../helpers/healthcheck';
+
+const envSchema = z.object({
+  DATABASE_CONNECTION_STRING: z.string().url(),
+  SENTRY_CRONS: z.string().optional(),
+  APPLICATION_STAGE: z.string(),
+});
+
 export class NotifierGestionnaireRéseau extends Command {
+  private healthcheckClient?: HealthcheckClient;
+  static monitoringSlug = 'notification-grd';
+
   static description =
     'Envoyer un email de notification aux GRDs (sauf Enedis) ayant des dossiers de raccordement en attente de MES, pour les projets notifiés depuis 12 mois';
 
@@ -41,14 +52,27 @@ export class NotifierGestionnaireRéseau extends Command {
       find: findProjection,
       list: listProjection,
     });
+
+    const config = envSchema.parse(process.env);
+    this.healthcheckClient = getHealthcheckClient({
+      healthcheckUrl: config.SENTRY_CRONS,
+      slug: NotifierGestionnaireRéseau.monitoringSlug,
+      environment: config.APPLICATION_STAGE,
+    });
+
+    await this.healthcheckClient.start();
   }
 
   protected async catch(err: CommandError) {
     getLogger(NotifierGestionnaireRéseau.name).error(err);
   }
 
-  async finally() {
-    await killPool();
+  async finally(error: Error | undefined) {
+    if (error) {
+      await this.healthcheckClient?.error();
+    } else {
+      await this?.healthcheckClient?.success();
+    }
   }
 
   async run() {

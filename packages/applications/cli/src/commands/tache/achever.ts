@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { registerTâcheCommand, Tâche } from '@potentiel-domain/tache';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 
 export class AcheverTâche extends Command {
   static flags = {
@@ -13,9 +12,6 @@ export class AcheverTâche extends Command {
   };
   async init() {
     registerTâcheCommand({ loadAggregate });
-  }
-  async finally() {
-    await killPool();
   }
 
   async run() {
