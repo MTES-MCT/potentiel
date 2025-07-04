@@ -5,14 +5,18 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsx --test src/**/*.spec.ts"
   },
   "dependencies": {
+    "@date-fns/utc": "^2.1.0",
     "@potentiel-domain/core": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
-    "@potentiel-libraries/monads": "*"
+    "@potentiel-libraries/monads": "*",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "tsx": "^4.19.3"
   }
 }
