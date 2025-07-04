@@ -5,12 +5,14 @@ export type Logger = {
   error(error: Error | string, meta?: Record<string, unknown>): void;
 };
 
-let logger: (Logger & { child?: (props: Object) => Logger }) | undefined;
+let logger:
+  | (Logger & { child?: (props: Object) => Logger; defaultMeta?: Record<string, unknown> })
+  | undefined;
 
 export const forkLogger = (service?: string): Logger => {
   if (!logger) return console;
   if (!logger.child) return logger;
-  return logger.child({ service });
+  return logger.child({ service, defaultMeta: logger.defaultMeta });
 };
 
 export const initLogger = (newLogger: Logger) => {
