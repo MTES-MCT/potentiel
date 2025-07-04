@@ -5,10 +5,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
-import {
-  insérerProjetAvecDonnéesCandidature,
-  notifierLauréat,
-} from '../../projet/lauréat/stepDefinitions/lauréat.given';
+import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given';
 
 Quand(
   `le DGEC validateur importe la candidature {string} avec :`,
@@ -55,7 +52,6 @@ Quand(
 Quand('le DGEC validateur notifie la candidature lauréate', async function (this: PotentielWorld) {
   const dateDésignation = DateTime.now().formatter();
   await notifierLauréat.call(this, dateDésignation);
-  await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
 });
 
 export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {

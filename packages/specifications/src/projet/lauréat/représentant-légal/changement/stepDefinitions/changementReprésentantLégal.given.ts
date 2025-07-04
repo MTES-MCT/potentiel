@@ -7,10 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given';
-import {
-  insérerProjetAvecDonnéesCandidature,
-  notifierLauréat,
-} from '../../../stepDefinitions/lauréat.given';
+import { notifierLauréat } from '../../../stepDefinitions/lauréat.given';
 
 EtantDonné(
   /une demande de changement de représentant légal en cours pour le projet lauréat/,
@@ -161,6 +158,5 @@ EtantDonné(
 
     const dateDésignation = this.lauréatWorld.dateDésignation;
     await notifierLauréat.call(this, dateDésignation);
-    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );

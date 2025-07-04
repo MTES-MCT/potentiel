@@ -1,9 +1,6 @@
-import { randomUUID } from 'crypto';
-
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Accès, Lauréat } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
@@ -21,8 +18,6 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
   const dateDésignation = this.lauréatWorld.dateDésignation;
 
   await notifierLauréat.call(this, dateDésignation);
-
-  await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
 });
 
 EtantDonné(
@@ -40,8 +35,6 @@ EtantDonné(
     const dateDésignation = this.lauréatWorld.dateDésignation;
 
     await notifierLauréat.call(this, dateDésignation);
-
-    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 
@@ -62,8 +55,6 @@ EtantDonné(
       });
 
       await notifierLauréat.call(this, dateDésignation);
-
-      await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
     } catch (error) {
       this.error = error as Error;
     }
@@ -78,8 +69,6 @@ EtantDonné(
     await importerCandidature.call(this, nomProjet, 'classé');
 
     await notifierLauréat.call(this, dateDésignation);
-
-    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 
@@ -174,90 +163,4 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
       raison: 'notification',
     },
   });
-}
-
-// cette fonction serait supprimée après la migration de projet
-export async function insérerProjetAvecDonnéesCandidature(
-  this: PotentielWorld,
-  dateDésignation: string,
-  statutProjet: 'lauréat' | 'éliminé',
-) {
-  const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
-
-  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-  await executeQuery(
-    `
-      insert into "projects" (
-        "id",
-        "appelOffreId",
-        "periodeId",
-        "numeroCRE",
-        "familleId",
-        "notifiedOn",
-        "nomCandidat",
-        "nomProjet",
-        "puissance",
-        "prixReference",
-        "evaluationCarbone",
-        "note",
-        "nomRepresentantLegal",
-        "email",
-        "codePostalProjet",
-        "communeProjet",
-        "departementProjet",
-        "regionProjet",
-        "classe",
-        "isFinancementParticipatif",
-        "isInvestissementParticipatif",
-        "engagementFournitureDePuissanceAlaPointe"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11,
-        $12,
-        $13,
-        $14,
-        $15,
-        $16,
-        $17,
-        $18,
-        $19,
-        $20,
-        $21,
-        $22
-      )
-    `,
-    randomUUID(),
-    identifiantProjetValue.appelOffre,
-    identifiantProjetValue.période,
-    identifiantProjetValue.numéroCRE,
-    identifiantProjetValue.famille,
-    new Date(dateDésignation).getTime(),
-    candidature.nomCandidatValue,
-    candidature.nomProjetValue,
-    candidature.puissanceProductionAnnuelleValue,
-    candidature.prixRéférenceValue,
-    candidature.evaluationCarboneSimplifiéeValue,
-    candidature.noteTotaleValue,
-    candidature.nomReprésentantLégalValue,
-    candidature.emailContactValue,
-    candidature.localitéValue.codePostal,
-    candidature.localitéValue.commune,
-    candidature.localitéValue.département,
-    candidature.localitéValue.région,
-    statutProjet === 'lauréat' ? 'Classé' : 'Eliminé',
-    candidature.actionnariatValue === 'financement-participatif',
-    candidature.actionnariatValue === 'investissement-participatif',
-    candidature.puissanceALaPointeValue,
-  );
 }
