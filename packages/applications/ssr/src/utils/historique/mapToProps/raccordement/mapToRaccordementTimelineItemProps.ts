@@ -1,7 +1,6 @@
 import { match, P } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { Raccordement } from '@potentiel-domain/laureat';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 

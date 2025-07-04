@@ -4,7 +4,6 @@ import { Metadata } from 'next';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -30,7 +29,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
     const gestionnaireRéseau =
-      await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
+      await mediator.send<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });

@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector';

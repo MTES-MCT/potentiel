@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { mapToPagination } from '@/utils/pagination';
@@ -13,7 +12,7 @@ import {
 } from './DossierRaccordementListItem';
 
 export type DossierRaccordementListPageProps = PlainType<{
-  list: Omit<Raccordement.ListerDossierRaccordementReadModel, 'items'> & {
+  list: Omit<Lauréat.Raccordement.ListerDossierRaccordementReadModel, 'items'> & {
     items: DossierRaccordementListItemProps[];
   };
   filters: ListPageTemplateProps<typeof DossierRaccordementListItem>['filters'];

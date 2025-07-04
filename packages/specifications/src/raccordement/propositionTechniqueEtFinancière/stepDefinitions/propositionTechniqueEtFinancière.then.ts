@@ -3,7 +3,6 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { assert } from 'chai';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
@@ -18,7 +17,7 @@ Alors(
     const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),

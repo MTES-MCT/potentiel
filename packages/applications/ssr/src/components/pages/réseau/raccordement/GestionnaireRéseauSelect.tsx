@@ -3,7 +3,6 @@ import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Raccordement } from '@potentiel-domain/laureat';
 
 export type GestionnaireRéseauSelectProps = {
   id: string;
@@ -13,10 +12,10 @@ export type GestionnaireRéseauSelectProps = {
   state?: SelectProps.State | 'default';
   stateRelatedMessage?: string;
   listeGestionnairesRéseau: PlainType<
-    ReadonlyArray<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>
+    ReadonlyArray<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>
   >;
   gestionnaireRéseauActuel: PlainType<
-    Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>
+    Option.Type<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>
   >;
   onGestionnaireRéseauSelected?: (
     identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType,

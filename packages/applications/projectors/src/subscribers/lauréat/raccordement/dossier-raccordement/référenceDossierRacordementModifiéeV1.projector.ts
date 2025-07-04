@@ -19,7 +19,7 @@ export const référenceDossierRacordementModifiéeV1Projector = async ({
     référenceDossierRaccordementActuelle,
   );
 
-  await removeProjection<Raccordement.DossierRaccordementEntity>(
+  await removeProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordementActuelle}`,
   );
 

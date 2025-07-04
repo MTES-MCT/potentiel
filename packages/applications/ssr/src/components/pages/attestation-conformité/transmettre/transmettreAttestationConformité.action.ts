@@ -7,7 +7,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
@@ -62,7 +61,7 @@ const action: FormAction<FormState, typeof schema> = async (
       });
     }
 
-    const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+    const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
       type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,

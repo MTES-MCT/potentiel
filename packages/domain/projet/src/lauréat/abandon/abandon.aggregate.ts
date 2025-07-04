@@ -132,6 +132,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
       dateSuppression: dateAccord,
       identifiantUtilisateur,
     });
+
+    await this.lauréat.raccordement.supprimerRaccordement();
   }
 
   async demanderPreuveRecandidature({ dateDemande }: DemanderPreuveRecandidatureOptions) {

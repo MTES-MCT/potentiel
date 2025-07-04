@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
@@ -23,7 +22,7 @@ import {
 
 export type DossierRaccordementProps = {
   identifiantProjet: string;
-  dossier: PlainType<Raccordement.ConsulterRaccordementReadModel['dossiers'][number]>;
+  dossier: PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers'][number]>;
   actions: {
     miseEnService: ÉtapeMiseEnServiceProps['actions'];
     propositionTechniqueEtFinancière: ÉtapePropositionTechniqueEtFinancièreProps['actions'];

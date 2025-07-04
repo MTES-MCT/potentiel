@@ -8,7 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   DétailsRaccordementPage,
@@ -36,7 +36,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
-      const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

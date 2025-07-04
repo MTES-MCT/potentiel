@@ -3,7 +3,6 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { type Raccordement } from '@potentiel-domain/laureat';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Routes } from '@potentiel-applications/routes';
@@ -58,7 +57,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
         continue;
       }
       try {
-        await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
+        await mediator.send<Lauréat.Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
           type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
           data: {
             identifiantProjetValue: parseIdentifiantProjet(identifiantProjet),

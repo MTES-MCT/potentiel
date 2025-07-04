@@ -7,7 +7,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -53,7 +53,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       const identifiantGestionnaireRéseauUtilisateur =
         récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
-      const dossiers = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
+      const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           identifiantGestionnaireRéseau:

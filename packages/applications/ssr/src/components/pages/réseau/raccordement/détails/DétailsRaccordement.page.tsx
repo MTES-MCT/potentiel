@@ -9,7 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -24,7 +24,7 @@ export type DétailsRaccordementPageProps = {
   gestionnaireRéseau: PlainType<
     Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>
   >;
-  raccordement: PlainType<Raccordement.ConsulterRaccordementReadModel>;
+  raccordement: PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>;
   actions: DossierRaccordementProps['actions'] & { gestionnaireRéseau: { modifier: boolean } };
   lienRetour: {
     label: string;

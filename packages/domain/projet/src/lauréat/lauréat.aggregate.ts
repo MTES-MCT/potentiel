@@ -41,6 +41,7 @@ import { PuissanceAggregate } from './puissance/puissance.aggregate';
 import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
+import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   #projet!: ProjetAggregateRoot;
@@ -98,6 +99,11 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     return this.#fournisseur;
   }
 
+  #raccordement!: AggregateType<RaccordementAggregate>;
+  get raccordement() {
+    return this.#raccordement;
+  }
+
   #garantiesFinancières!: AggregateType<GarantiesFinancièresAggregate>;
   get garantiesFinancières() {
     return this.#garantiesFinancières;
@@ -147,6 +153,12 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
       FournisseurAggregate,
     );
     await this.#fournisseur.init(this);
+
+    this.#raccordement = await loadAggregate(
+      `raccordement|${this.projet.identifiantProjet.formatter()}`,
+      RaccordementAggregate,
+    );
+    await this.#raccordement.init(this);
 
     this.#garantiesFinancières = await loadAggregate(
       `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,

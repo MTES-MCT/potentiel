@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { assert } from 'chai';
 
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -19,7 +19,7 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
-      const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -27,7 +27,7 @@ Alors(
       });
 
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
@@ -74,7 +74,7 @@ Alors(
 function vérifierRaccordement(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
-  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>,
+  raccordement: Option.Type<Lauréat.Raccordement.ConsulterRaccordementReadModel>,
 ) {
   const { raccordement: expectedRaccordement } = mapToPlainObject(
     this.raccordementWorld.mapToExpected(identifiantProjet),

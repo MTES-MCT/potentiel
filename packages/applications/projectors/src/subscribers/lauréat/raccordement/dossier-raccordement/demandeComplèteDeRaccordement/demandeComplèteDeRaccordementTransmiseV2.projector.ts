@@ -51,7 +51,7 @@ export const demandeComplèteDeRaccordementTransmiseV2Projector = async ({
   });
 
   if (raccordement.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau) {
-    await updateOneProjection<Raccordement.RaccordementEntity>(
+    await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet}`,
       { identifiantGestionnaireRéseau },
     );

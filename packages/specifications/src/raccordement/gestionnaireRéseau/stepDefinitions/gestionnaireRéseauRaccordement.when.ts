@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 Quand(
@@ -57,7 +57,7 @@ async function modifierGestionnaireRéseauRaccordement(
 ) {
   const { identifiantProjet } = this.lauréatWorld;
   try {
-    await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),

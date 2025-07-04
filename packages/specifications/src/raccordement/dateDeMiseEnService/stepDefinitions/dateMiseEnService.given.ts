@@ -2,7 +2,6 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -17,7 +16,7 @@ EtantDonné(
     });
 
     try {
-      await mediator.send<Raccordement.RaccordementUseCase>({
+      await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
         type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

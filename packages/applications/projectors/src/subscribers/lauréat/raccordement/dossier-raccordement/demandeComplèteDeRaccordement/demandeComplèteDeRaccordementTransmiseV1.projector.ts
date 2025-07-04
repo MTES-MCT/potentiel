@@ -41,13 +41,16 @@ export const demandeComplèteDeRaccordementTransmiseV1Projector = async ({
     misÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
   };
 
-  await upsertProjection<Raccordement.RaccordementEntity>(`raccordement|${identifiantProjet}`, {
-    ...raccordement,
-    identifiantGestionnaireRéseau,
-    dossiers: [dossier, ...raccordement.dossiers],
-  });
+  await upsertProjection<Lauréat.Raccordement.RaccordementEntity>(
+    `raccordement|${identifiantProjet}`,
+    {
+      ...raccordement,
+      identifiantGestionnaireRéseau,
+      dossiers: [dossier, ...raccordement.dossiers],
+    },
+  );
 
-  await upsertProjection<Raccordement.DossierRaccordementEntity>(
+  await upsertProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${référenceDossierRaccordement}`,
     dossier,
   );
