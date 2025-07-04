@@ -1,0 +1,868 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="775px" height="2731px" viewBox="-0.5 -0.5 775 2731" content="&lt;mxfile&gt;&lt;diagram id=&quot;JwzQ32rKCumTlopEHqr3&quot; name=&quot;Page-1&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <g>
+            <rect x="25" y="340" width="220" height="60" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 218px; height: 1px; padding-top: 370px; margin-left: 27px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <font style="font-size: 18px;">
+                                        <b>
+                                            Calcul de l'achèvement prévisionnel à la notification
+                                        </b>
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="27" y="374" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Calcul de l'achèvement prévisionnel...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 125 480 L 125 503.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 125 508.88 L 121.5 501.88 L 125 503.63 L 128.5 501.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="65" y="420" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 450px; margin-left: 66px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Projet notifié
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="125" y="454" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Projet notifié
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="65" y="510" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 540px; margin-left: 66px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Date d'achèvement prévisionnelle
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="125" y="544" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Date d'achèvement pr...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="35" y="650" width="220" height="60" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 218px; height: 1px; padding-top: 680px; margin-left: 37px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <span style="font-size: 18px;">
+                                        <b>
+                                            Accord d'un délai exceptionnel demandé par le porteur
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="37" y="684" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Accord d'un délai exceptionnel deman...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 125 790 L 125 813.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 125 818.88 L 121.5 811.88 L 125 813.63 L 128.5 811.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="65" y="730" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 760px; margin-left: 66px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Projet notifié
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="125" y="764" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Projet notifié
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 125 880 L 125 903.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 125 908.88 L 121.5 901.88 L 125 903.63 L 128.5 901.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="65" y="820" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 850px; margin-left: 66px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Date d'achèvement prévisionnelle
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="125" y="854" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Date d'achèvement pr...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="15" y="0" width="220" height="60" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 218px; height: 1px; padding-top: 30px; margin-left: 17px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <font style="font-size: 18px;">
+                                        <b>
+                                            <i>
+                                                Légende
+                                            </i>
+                                        </b>
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="17" y="34" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Légende
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 135 110 L 188.63 110" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 193.88 110 L 186.88 113.5 L 188.63 110 L 186.88 106.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="15" y="80" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 110px; margin-left: 16px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Date d'achèvement prévisionnelle
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="75" y="114" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Date d'achèvement pr...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="205" y="70" width="350" height="110" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 125px; margin-left: 207px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                                    La date est calculée suivant ces règles :
+                                    <br/>
+                                    <br/>
+                                    - Récupération du délai de réalisation du projet en fonction de
+                                    <div>
+                                        <div style="">
+                                            <span style="background-color: transparent;">
+                                                l'appel d'offre et de la technologie associée au projet
+                                            </span>
+                                        </div>
+                                        <div style="">
+                                            <span style="background-color: transparent;">
+                                                - On ajoute ce délai à la date de notification du projet
+                                            </span>
+                                        </div>
+                                        <div style="">
+                                            <span style="background-color: transparent;">
+                                                - On enlève un jour
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="207" y="129" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        La date est calculée suivant ces règles :...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 125 970 L 125 993.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 125 998.88 L 121.5 991.88 L 125 993.63 L 128.5 991.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="65" y="910" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 940px; margin-left: 66px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Le porteur demande un délai exceptionnel
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="125" y="944" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Le porteur demande u...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="65" y="1000" width="120" height="90" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1045px; margin-left: 66px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    À l'accord par l'administration, la date d'achèvement prévisionnelle est mise à jour
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="125" y="1049" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        À l'accord par l'adm...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="215" y="910" width="370" height="140" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 980px; margin-left: 217px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                                    En prérequis, la date d'achèvement prévisionnelle doit être à jour
+                                    <div>
+                                        si il y a d'autres évènements qui sont intervenus entre temps.
+                                        <br/>
+                                        <br/>
+                                        La demande de délai exceptionnelle doit être réalisée en
+                                        <b>
+                                            jours
+                                        </b>
+                                        .
+                                    </div>
+                                    <div>
+                                        <br/>
+                                    </div>
+                                    <div>
+                                        Pas de demande si :
+                                        <br/>
+                                        - projet abandonnée
+                                        <br/>
+                                        - projet en service
+                                        <br/>
+                                        - demande en cours
+                                        <br/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="217" y="984" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        En prérequis, la date d'achèvement prévisionnelle doit être à...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="35" y="1150" width="220" height="60" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 218px; height: 1px; padding-top: 1180px; margin-left: 37px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <span style="font-size: 18px;">
+                                        <b>
+                                            Délai exceptionnel automatique dû au COVID
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="37" y="1184" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Délai exceptionnel automatique dû au...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 135 1290 L 135 1313.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 135 1318.88 L 131.5 1311.88 L 135 1313.63 L 138.5 1311.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="75" y="1230" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1260px; margin-left: 76px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Projet notifié
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="135" y="1264" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Projet notifié
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 135 1380 L 135 1403.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 135 1408.88 L 131.5 1401.88 L 135 1403.63 L 138.5 1401.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="75" y="1320" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1350px; margin-left: 76px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Date d'achèvement prévisionnelle
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="135" y="1354" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Date d'achèvement pr...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="75" y="1410" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1440px; margin-left: 76px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Délai exceptionnel COVID de 7 mois ajouté automatiquement
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="135" y="1444" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Délai exceptionnel C...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="225" y="1420" width="510" height="40" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 1440px; margin-left: 227px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                                    Concerne les projets qui ont une puissance inférieure à 200 MW
+                                    <div>
+                                        Notification de lauréat avant ou pendant la période entre le 12 mars 2020 et le 23 juin 2020
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="227" y="1444" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Concerne les projets qui ont une puissance inférieure à 200 MW...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="0" y="220" width="180" height="60" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 250px; margin-left: 90px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                                    <font style="font-size: 36px;">
+                                        <b>
+                                            Parcours
+                                        </b>
+                                    </font>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="90" y="254" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Parcours
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="35" y="1550" width="220" height="60" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 218px; height: 1px; padding-top: 1580px; margin-left: 37px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <span style="font-size: 18px;">
+                                        <b>
+                                            Délai exceptionnel automatique dû au choix du CDC 30/08/2022
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="37" y="1584" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Délai exceptionnel automatique dû au...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 1690 L 145 1713.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 1718.88 L 141.5 1711.88 L 145 1713.63 L 148.5 1711.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="1630" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1660px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Projet notifié
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="1664" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Projet notifié
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 1780 L 145 1803.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 1808.88 L 141.5 1801.88 L 145 1803.63 L 148.5 1801.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="1720" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1750px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Date d'achèvement prévisionnelle
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="1754" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Date d'achèvement pr...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 1870 L 145 1893.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 1898.88 L 141.5 1891.88 L 145 1893.63 L 148.5 1891.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="1810" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1840px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Le porteur change le CDC de son projet pour le CDC 30/08/2022
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="1844" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Le porteur change le...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="85" y="1900" width="120" height="90" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 1945px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Un délai exceptionnel de 18 mois est accordé si le projet respecte les règles
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="1949" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Un délai exceptionne...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="225" y="1885" width="550" height="120" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 1945px; margin-left: 227px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                                    <p class="text-node" data-pm-slice="1 1 [&quot;collapsible_section&quot;,{&quot;id&quot;:&quot;ce261bc6-fb05-47b2-81a5-6e6b221a5ef4&quot;,&quot;wasCopiedWhileOpen&quot;:true},&quot;bullet_list&quot;,null,&quot;list_item&quot;,null,&quot;bullet_list&quot;,null,&quot;list_item&quot;,null]">
+                                        Règles :
+                                        <br/>
+                                        <br/>
+                                        <span style="background-color: transparent;">
+                                            - Il faut que
+                                        </span>
+                                        <span style="background-color: transparent;">
+                                            la date de mise en service du projet communiquée par le gestionnaire de réseau
+                                            <br/>
+                                            soit comprise entre le 1er septembre 2022 et le 31 décembre 2024
+                                            <br/>
+                                        </span>
+                                        <span style="background-color: transparent;">
+                                            - Le préfet peut accorder des délais supplémentaires en ce qui concerne l'échéance du 31/12/2024
+                                            <br/>
+                                        </span>
+                                        <span style="background-color: transparent;">
+                                            - Ne concerne pas les projets ZNI
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="227" y="1949" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Règles :...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="35" y="2054" width="350" height="60" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 348px; height: 1px; padding-top: 2084px; margin-left: 37px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <span style="font-size: 18px;">
+                                        <b>
+                                            Délai exceptionnel automatique accordé par le choix du CDC 30/08/2022 puis retiré suite à un retour à un CDC initial
+                                        </b>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="37" y="2088" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Délai exceptionnel automatique accordé par le choix du CDC...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 2194 L 145 2217.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 2222.88 L 141.5 2215.88 L 145 2217.63 L 148.5 2215.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="2134" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 2164px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Projet notifié
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="2168" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Projet notifié
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 2284 L 145 2303.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 2308.88 L 141.5 2301.88 L 145 2303.63 L 148.5 2301.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="2224" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 2254px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Date d'achèvement prévisionnelle
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="2258" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Date d'achèvement pr...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 2370 L 145 2397.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 2402.88 L 141.5 2395.88 L 145 2397.63 L 148.5 2395.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="2310" width="120" height="60" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 2340px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Le porteur change le CDC de son projet pour le CDC 30/08/2022
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="2344" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Le porteur change le...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 2494 L 145 2513.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 2518.88 L 141.5 2511.88 L 145 2513.63 L 148.5 2511.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="2404" width="120" height="90" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 2449px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    Un délai exceptionnel de 18 mois est accordé si le projet respecte les règles
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="2453" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Un délai exceptionne...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="225" y="2389" width="550" height="120" fill="none" stroke="none" pointer-events="all"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 2449px; margin-left: 227px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: left; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: nowrap; ">
+                                    <p class="text-node" data-pm-slice="1 1 [&quot;collapsible_section&quot;,{&quot;id&quot;:&quot;ce261bc6-fb05-47b2-81a5-6e6b221a5ef4&quot;,&quot;wasCopiedWhileOpen&quot;:true},&quot;bullet_list&quot;,null,&quot;list_item&quot;,null,&quot;bullet_list&quot;,null,&quot;list_item&quot;,null]">
+                                        Règles :
+                                        <br/>
+                                        <br/>
+                                        <span style="background-color: transparent;">
+                                            - Il faut que
+                                        </span>
+                                        <span style="background-color: transparent;">
+                                            la date de mise en service du projet communiquée par le gestionnaire de réseau
+                                            <br/>
+                                            soit comprise entre le 1er septembre 2022 et le 31 décembre 2024
+                                            <br/>
+                                        </span>
+                                        <span style="background-color: transparent;">
+                                            - Le préfet peut accorder des délais supplémentaires en ce qui concerne l'échéance du 31/12/2024
+                                            <br/>
+                                        </span>
+                                        <span style="background-color: transparent;">
+                                            - Ne concerne pas les projets ZNI
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="227" y="2453" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px">
+                        Règles :...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <path d="M 145 2610 L 145 2633.63" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+            <path d="M 145 2638.88 L 141.5 2631.88 L 145 2633.63 L 148.5 2631.88 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <rect x="85" y="2520" width="120" height="90" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 2565px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <span style="color: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));">
+                                        Le porteur change le CDC de son projet pour le CDC initial
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="2569" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Le porteur change le...
+                    </text>
+                </switch>
+            </g>
+        </g>
+        <g>
+            <rect x="85" y="2640" width="120" height="90" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: light-dark(#ffffff, var(--ge-dark-color, #121212)); stroke: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));"/>
+        </g>
+        <g>
+            <g transform="translate(-0.5 -0.5)">
+                <switch>
+                    <foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                        <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 2685px; margin-left: 86px;">
+                            <div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; ">
+                                <div style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: light-dark(#000000, #ffffff); line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+                                    <span style="color: light-dark(rgb(0, 0, 0), rgb(237, 237, 237));">
+                                        Le délai exceptionnel de 18 mois du CDC 30/08/2022 est retiré
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </foreignObject>
+                    <text x="145" y="2689" fill="light-dark(#000000, #ffffff)" font-family="&quot;Helvetica&quot;" font-size="12px" text-anchor="middle">
+                        Le délai exceptionne...
+                    </text>
+                </switch>
+            </g>
+        </g>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.drawio.com/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Text is not SVG - cannot display
+            </text>
+        </a>
+    </switch>
+</svg>
