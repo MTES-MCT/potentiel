@@ -28,7 +28,10 @@ import {
   choixCoefficientKSchema,
 } from './candidatureFields.schema';
 
-/** Schema simplifié pour utilisation sans données Csv */
+/**
+ * Schema simplifié par rapport au CSV, pour utilisation dans des formulaires
+ * Ne contient que les champs modifiables
+ **/
 export const candidatureSchema = z
   .object({
     identifiantProjet: z.string(),

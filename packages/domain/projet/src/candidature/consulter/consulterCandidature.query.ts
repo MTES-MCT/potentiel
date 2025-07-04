@@ -14,7 +14,12 @@ import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
-import { UnitéPuissance, VolumeRéservé } from '..';
+import {
+  TypeInstallationsAgrivoltaiques,
+  TypologieBâtiment,
+  UnitéPuissance,
+  VolumeRéservé,
+} from '..';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -38,14 +43,18 @@ export type ConsulterCandidatureReadModel = {
   technologie: TypeTechnologie.ValueType;
   sociétéMère: string;
   noteTotale: number;
-  volumeRéservé?: VolumeRéservé.ValueType;
+  volumeRéservé: VolumeRéservé.ValueType | undefined;
   motifÉlimination?: string;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
   actionnariat?: TypeActionnariat.ValueType;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
-  coefficientKChoisi?: boolean;
+  coefficientKChoisi: boolean | undefined;
+  typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
+  élémentsSousOmbrière: string | undefined;
+  typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
+  obligationDeSolarisation: boolean | undefined;
   misÀJourLe: DateTime.ValueType;
 
   détailsImport: DocumentProjet.ValueType;
@@ -129,6 +138,10 @@ export const mapToReadModel: MapToReadModel = (
     actionnariat,
     territoireProjet,
     coefficientKChoisi,
+    typeInstallationsAgrivoltaiques,
+    élémentsSousOmbrière,
+    typologieDeBâtiment,
+    obligationDeSolarisation,
     misÀJourLe,
     détailsMisÀJourLe,
     notification,
@@ -161,6 +174,14 @@ export const mapToReadModel: MapToReadModel = (
   actionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
   territoireProjet,
   coefficientKChoisi,
+  typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiques
+    ? TypeInstallationsAgrivoltaiques.convertirEnValueType(typeInstallationsAgrivoltaiques)
+    : undefined,
+  élémentsSousOmbrière,
+  typologieDeBâtiment: typologieDeBâtiment
+    ? TypologieBâtiment.convertirEnValueType(typologieDeBâtiment)
+    : undefined,
+  obligationDeSolarisation,
   détailsImport: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'candidature/import',

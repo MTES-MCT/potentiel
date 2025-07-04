@@ -86,3 +86,5 @@ export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueTyp
 export * as Localité from './localité.valueType';
 export * as UnitéPuissance from './unitéPuissance.valueType';
 export * as VolumeRéservé from './volumeRéservé.valueType';
+export * as TypeInstallationsAgrivoltaiques from './typeInstallationsAgrivoltaiques.valueType';
+export * as TypologieBâtiment from './typologieBâtiment.valueType';

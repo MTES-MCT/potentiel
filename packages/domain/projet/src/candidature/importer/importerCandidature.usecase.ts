@@ -34,20 +34,24 @@ export type ImporterCandidatureUseCase = Message<
       département: string;
     };
     statutValue: string;
-    motifÉliminationValue?: string;
+    motifÉliminationValue: string | undefined;
     puissanceALaPointeValue: boolean;
     evaluationCarboneSimplifiéeValue: number;
     technologieValue: string;
-    actionnariatValue?: string;
-    dateÉchéanceGfValue?: string;
+    actionnariatValue: string | undefined;
+    dateÉchéanceGfValue: string | undefined;
     territoireProjetValue: string;
-    coefficientKChoisiValue?: boolean;
+    coefficientKChoisiValue: boolean | undefined;
+    typeInstallationsAgrivoltaiquesValue: string | undefined;
+    élémentsSousOmbrièreValue: string | undefined;
+    typologieDeBâtimentValue: string | undefined;
+    obligationDeSolarisationValue: boolean | undefined;
     fournisseursValue: Array<{
       typeFournisseur: string;
       nomDuFabricant: string;
       lieuDeFabrication: string;
     }>;
-    détailsValue?: Record<string, string>;
+    détailsValue: Record<string, string> | undefined;
     importéLe: string;
     importéPar: string;
   }

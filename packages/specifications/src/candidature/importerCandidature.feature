@@ -11,6 +11,15 @@ Fonctionnalité: Importer une candidature
             | classé  |
             | éliminé |
 
+    Scénario: Importer une candidature avec des champs optionnels
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut                       | classé  |
+            | installations agrivoltaïques | culture |
+            | éléments sous ombrière       | ...     |
+            | typologie de bâtiment        | neuf    |
+            | obligation de solarisation   | oui     |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible d'importer 2 fois la même candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :

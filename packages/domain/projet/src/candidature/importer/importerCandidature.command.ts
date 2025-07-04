@@ -9,6 +9,7 @@ import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
+import { TypeInstallationsAgrivoltaiques, TypologieBâtiment } from '..';
 
 export type ImporterCandidatureCommand = Message<
   'Candidature.Command.ImporterCandidature',
@@ -33,12 +34,17 @@ export type ImporterCandidatureCommand = Message<
       région: string;
     };
     statut: StatutCandidature.ValueType;
-    motifÉlimination?: string;
+    motifÉlimination: string | undefined;
     puissanceALaPointe: boolean;
     evaluationCarboneSimplifiée: number;
     technologie: TypeTechnologie.ValueType;
-    actionnariat?: TypeActionnariat.ValueType;
-    dateÉchéanceGf?: DateTime.ValueType;
+    actionnariat: TypeActionnariat.ValueType | undefined;
+    dateÉchéanceGf: DateTime.ValueType | undefined;
+    coefficientKChoisi: boolean | undefined;
+    typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
+    élémentsSousOmbrière: string | undefined;
+    typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
+    obligationDeSolarisation: boolean | undefined;
     territoireProjet: string;
     fournisseurs: Array<Fournisseur.ValueType>;
     importéLe: DateTime.ValueType;

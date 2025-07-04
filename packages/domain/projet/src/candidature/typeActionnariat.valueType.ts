@@ -14,7 +14,7 @@ export type ValueType = ReadonlyValueType<{
   estInvestissementParticipatif(): boolean;
 }>;
 
-export const convertirEnValueType = (type: string) => {
+export const convertirEnValueType = (type: string): ValueType => {
   estValide(type);
   return {
     type,

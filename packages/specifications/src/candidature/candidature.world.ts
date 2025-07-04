@@ -74,6 +74,10 @@ export class CandidatureWorld {
       actionnariatValue: exemple['actionnariat'],
       doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
       statutValue: exemple['statut'],
+      typeInstallationsAgrivoltaiquesValue: exemple['installations agrivoltaïques'],
+      élémentsSousOmbrièreValue: exemple['éléments sous ombrière'],
+      typologieDeBâtimentValue: exemple['typologie de bâtiment'],
+      obligationDeSolarisationValue: mapBoolean(exemple['obligation de solarisation']),
     });
     // gérer coefficient K choisi qui, s'il est renseigné, peut être oui, non ou vide
     if (exemple['coefficient K choisi'] != undefined) {
@@ -108,7 +112,7 @@ export class CandidatureWorld {
       throw new Error('AO ou période inconnue');
     }
 
-    return {
+    const expected: Candidature.ConsulterCandidatureReadModel = {
       localité: expectedValues.localitéValue,
       dateÉchéanceGf: expectedValues.dateÉchéanceGfValue
         ? DateTime.convertirEnValueType(expectedValues.dateÉchéanceGfValue)
@@ -164,6 +168,20 @@ export class CandidatureWorld {
         puissanceInitiale: expectedValues.puissanceProductionAnnuelleValue,
         période,
       }),
+      typeInstallationsAgrivoltaiques: expectedValues.typeInstallationsAgrivoltaiquesValue
+        ? Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType(
+            expectedValues.typeInstallationsAgrivoltaiquesValue,
+          )
+        : undefined,
+      élémentsSousOmbrière: expectedValues.élémentsSousOmbrièreValue,
+      typologieDeBâtiment: expectedValues.typologieDeBâtimentValue
+        ? Candidature.TypologieBâtiment.convertirEnValueType(
+            expectedValues.typologieDeBâtimentValue,
+          )
+        : undefined,
+      obligationDeSolarisation: expectedValues.obligationDeSolarisationValue,
     };
+
+    return expected;
   }
 }

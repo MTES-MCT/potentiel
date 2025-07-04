@@ -33,6 +33,10 @@ import {
   notifiedOnCsvSchema,
   codePostalSchema,
   choixCoefficientKCsvSchema,
+  installationsAgrivoltaiquesCsvSchema,
+  élémentsSousOmbrièreCsvSchema,
+  typologieDeBâtimentCsvSchema,
+  obligationDeSolarisationCsvSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -40,28 +44,42 @@ const typeGf = [
   Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type,
   Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
   Candidature.TypeGarantiesFinancières.consignation.type,
-] as const;
+] satisfies Array<Candidature.TypeGarantiesFinancières.RawType>;
 
 const historiqueAbandon = [
   'première-candidature',
   'abandon-classique',
   'abandon-avec-recandidature',
   'lauréat-autre-période',
-] as const;
+] satisfies Array<Candidature.HistoriqueAbandon.RawType>;
 
 const statut = {
   éliminé: 'éliminé',
   eliminé: 'éliminé',
   classé: 'classé',
   retenu: 'classé',
-} as const;
+} satisfies Record<string, Candidature.StatutCandidature.RawType>;
 
 const technologie = {
   Eolien: 'eolien',
   Hydraulique: 'hydraulique',
   PV: 'pv',
   'N/A': 'N/A',
-} as const;
+} satisfies Record<string, Candidature.TypeTechnologie.RawType>;
+
+const typeInstallationsAgrivoltaiques = {
+  culture: 'culture',
+  'jachère de plus de 5 ans': 'jachère-plus-de-5-ans',
+  élevage: 'élevage',
+  serre: 'serre',
+} satisfies Record<string, Candidature.TypeInstallationsAgrivoltaiques.RawType>;
+
+const typologieDeBâtiment = {
+  'bâtiment neuf': 'neuf',
+  'bâtiment existant avec rénovation de toiture': 'existant-avec-rénovation-de-toiture',
+  'bâtiment existant sans rénovation de toiture': 'existant-sans-rénovation-de-toiture',
+  mixte: 'mixte',
+} satisfies Record<string, Candidature.TypologieBâtiment.RawType>;
 
 // Les colonnes du fichier Csv
 const colonnes = {
@@ -96,6 +114,10 @@ const colonnes = {
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   territoireProjet: 'Territoire\n(AO ZNI)',
   coefficientKChoisi: 'indexation_k',
+  installationsAgrivoltaiques: 'Installations agrivoltaïques',
+  élémentsSousOmbrière: 'Eléments sous l’ombrière',
+  typologieDeBâtiment: 'Typologie de bâtiment',
+  obligationDeSolarisation: 'Obligation de solarisation',
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -125,13 +147,17 @@ const candidatureCsvRowSchema = z
     [colonnes.financementCollectif]: financementCollectifCsvSchema,
     [colonnes.gouvernancePartagée]: gouvernancePartagéeCsvSchema,
     [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
+    [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
+    notifiedOn: notifiedOnCsvSchema,
+    [colonnes.installationsAgrivoltaiques]: installationsAgrivoltaiquesCsvSchema,
+    [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
+    [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
+    [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGf]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
-    [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
-    notifiedOn: notifiedOnCsvSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
@@ -202,6 +228,12 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
       statut: statut[val.statut],
       technologie: technologie[val.technologie],
+      typologieDeBâtiment: val.typologieDeBâtiment
+        ? typologieDeBâtiment[val.typologieDeBâtiment]
+        : undefined,
+      installationsAgrivoltaiques: val.installationsAgrivoltaiques
+        ? typeInstallationsAgrivoltaiques[val.installationsAgrivoltaiques]
+        : undefined,
     };
   });
 

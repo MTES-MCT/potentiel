@@ -610,5 +610,9 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     actionnariat: candidature.actionnariat?.formatter(),
     territoireProjet: candidature.territoireProjet,
     coefficientKChoisi: candidature.coefficientKChoisi,
+    typeInstallationsAgrivoltaiques: candidature.typeInstallationsAgrivoltaiques?.formatter(),
+    élémentsSousOmbrière: candidature.élémentsSousOmbrière,
+    typologieDeBâtiment: candidature.typologieDeBâtiment?.formatter(),
+    obligationDeSolarisation: candidature.obligationDeSolarisation,
   });
 }

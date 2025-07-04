@@ -2,6 +2,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Fournisseur } from '../lauréat/fournisseur';
 
+import { TypeInstallationsAgrivoltaiques, TypologieBâtiment } from '.';
+
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
@@ -39,5 +41,15 @@ export const mapToCommonCandidatureUseCaseData = (
   sociétéMère: payload.sociétéMèreValue,
   territoireProjet: payload.territoireProjetValue,
   coefficientKChoisi: payload.coefficientKChoisiValue,
+  typeInstallationsAgrivoltaiques: payload.typeInstallationsAgrivoltaiquesValue
+    ? TypeInstallationsAgrivoltaiques.convertirEnValueType(
+        payload.typeInstallationsAgrivoltaiquesValue,
+      )
+    : undefined,
+  élémentsSousOmbrière: payload.élémentsSousOmbrièreValue,
+  typologieDeBâtiment: payload.typologieDeBâtimentValue
+    ? TypologieBâtiment.convertirEnValueType(payload.typologieDeBâtimentValue)
+    : undefined,
+  obligationDeSolarisation: payload.obligationDeSolarisationValue,
   fournisseurs: payload.fournisseursValue.map(Fournisseur.convertirEnValueType),
 });

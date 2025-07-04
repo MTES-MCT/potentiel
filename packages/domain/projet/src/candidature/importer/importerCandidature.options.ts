@@ -1,11 +1,15 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import * as StatutCandidature from '../statutCandidature.valueType';
-import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import * as TypeTechnologie from '../typeTechnologie.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
-import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { Fournisseur } from '../../lauréat/fournisseur';
+import {
+  HistoriqueAbandon,
+  StatutCandidature,
+  TypeActionnariat,
+  TypeGarantiesFinancières,
+  TypeInstallationsAgrivoltaiques,
+  TypeTechnologie,
+  TypologieBâtiment,
+} from '..';
 
 export type ImporterCandidatureOptions = {
   statut: StatutCandidature.ValueType;
@@ -27,14 +31,18 @@ export type ImporterCandidatureOptions = {
     département: string;
     région: string;
   };
-  motifÉlimination?: string;
+  motifÉlimination: string | undefined;
   puissanceALaPointe: boolean;
   evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.ValueType;
-  actionnariat?: TypeActionnariat.ValueType;
-  dateÉchéanceGf?: DateTime.ValueType;
+  actionnariat: TypeActionnariat.ValueType | undefined;
+  dateÉchéanceGf: DateTime.ValueType | undefined;
   territoireProjet: string;
-  coefficientKChoisi?: boolean;
+  coefficientKChoisi: boolean | undefined;
+  typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
+  élémentsSousOmbrière: string | undefined;
+  typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
+  obligationDeSolarisation: boolean | undefined;
   importéLe: DateTime.ValueType;
   importéPar: Email.ValueType;
   fournisseurs: Array<Fournisseur.ValueType>;
