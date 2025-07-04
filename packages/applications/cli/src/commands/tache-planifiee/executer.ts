@@ -12,13 +12,19 @@ import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { killPool } from '@potentiel-libraries/pg-helpers';
+
+import { getHealthcheckClient, HealthcheckClient } from '../../helpers/healthcheck';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
   DATABASE_CONNECTION_STRING: z.string().url(),
+  SENTRY_CRONS: z.string().optional(),
 });
+
 export class Executer extends Command {
+  private healthcheckClient?: HealthcheckClient;
+  static monitoringSlug = 'potentiel-scheduler';
+
   static flags = {
     date: Flags.string({
       default: DateTime.now().formatter(),
@@ -27,7 +33,7 @@ export class Executer extends Command {
   };
 
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+    const { APPLICATION_STAGE, SENTRY_CRONS } = envSchema.parse(process.env);
     if (!['production'].includes(APPLICATION_STAGE)) {
       console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
       process.exit(0);
@@ -40,10 +46,22 @@ export class Executer extends Command {
     registerTâchePlanifiéeUseCases({
       loadAggregate,
     });
+
+    this.healthcheckClient = getHealthcheckClient({
+      healthcheckUrl: SENTRY_CRONS,
+      slug: Executer.monitoringSlug,
+      environment: APPLICATION_STAGE,
+    });
+
+    await this.healthcheckClient.start();
   }
 
-  protected async finally(_: Error | undefined) {
-    await killPool();
+  async finally(error: Error | undefined) {
+    if (error) {
+      await this.healthcheckClient?.error();
+    } else {
+      await this?.healthcheckClient?.success();
+    }
   }
 
   async run() {
