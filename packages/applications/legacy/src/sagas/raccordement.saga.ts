@@ -8,7 +8,6 @@ import {
 } from '../modules/project';
 import { Lauréat } from '@potentiel-domain/projet';
 
-// viovio - a quoi servent ces saga
 /**
  * @deprecated à bouger dans la nouvelle app
  */
