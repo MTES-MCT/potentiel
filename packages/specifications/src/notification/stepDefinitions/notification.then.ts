@@ -5,8 +5,10 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Email } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { sleep } from '../../helpers/sleep';
 
 export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   await waitForExpect(async () => {
@@ -25,10 +27,39 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
   });
 }
 
+export async function vérifierEmailNonEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
+  await sleep(500);
+  const exemple = data.rowsHash();
+  const destinataires = this.notificationWorld
+    .récupérerDestinataires(exemple.sujet)
+    .map(({ recipients }) => recipients.map((r) => r.email))
+    .flat();
+
+  expect(destinataires).not.to.contain(
+    Email.convertirEnValueType(email).email,
+    'Un email non désiré à été envoyé',
+  );
+}
+
 Alors(
   'un email a été envoyé au porteur avec :',
   async function (this: PotentielWorld, data: DataTable) {
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
+  },
+);
+
+Alors(
+  `un email n'a pas été envoyé au porteur avec :`,
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailNonEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
+  },
+);
+
+Alors(
+  `un email n'a pas été envoyé à l'utilisateur avec :`,
+  async function (this: PotentielWorld, data: DataTable) {
+    const email = this.utilisateurWorld.inviterUtilisateur.email;
+    await vérifierEmailNonEnvoyé.call(this, email, data);
   },
 );
 

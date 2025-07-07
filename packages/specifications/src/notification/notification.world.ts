@@ -26,4 +26,8 @@ export class NotificationWorld {
     assert(notif, 'Pas de notification');
     return notif;
   }
+
+  récupérerDestinataires(sujet: string) {
+    return this.#notifications.filter((notif) => notif.messageSubject.match(new RegExp(sujet)));
+  }
 }

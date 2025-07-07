@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Accès } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
+import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
 import { Recipient } from '../sendEmail';
 
@@ -14,15 +15,31 @@ export const listerPorteursRecipients = async (
     data: { identifiantProjet: identifiantProjet.formatter() },
   });
 
-  return Option.match(accèsProjet)
-    .some(async (accèsProjet) => {
-      const identifiantsUtilisateur = accèsProjet.utilisateursAyantAccès.map((utilisateur) =>
-        utilisateur.formatter(),
-      );
+  if (Option.isNone(accèsProjet)) {
+    return [];
+  }
 
-      return identifiantsUtilisateur.map((email) => ({
-        email,
-      }));
-    })
-    .none(async () => []);
+  const identifiantsUtilisateur = accèsProjet.utilisateursAyantAccès.map((utilisateur) =>
+    utilisateur.formatter(),
+  );
+
+  const listeUtilisateursDésactivés = await mediator.send<ListerUtilisateursQuery>({
+    type: 'Utilisateur.Query.ListerUtilisateurs',
+    data: {
+      actif: false,
+      identifiantsUtilisateur,
+    },
+  });
+
+  const identifiantsUtilisateurDésactivés = new Set(
+    listeUtilisateursDésactivés.items.map(({ identifiantUtilisateur }) =>
+      identifiantUtilisateur.formatter(),
+    ),
+  );
+
+  return identifiantsUtilisateur
+    .filter((id) => !identifiantsUtilisateurDésactivés.has(id))
+    .map((email) => ({
+      email,
+    }));
 };
