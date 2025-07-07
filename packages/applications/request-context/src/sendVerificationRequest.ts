@@ -16,7 +16,7 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest = (
   sendEmail,
   getUtilisateurFromEmail,
 ) => {
-  const envoyerEmailDeConnexionParEmail = (email: string, url: string) =>
+  const envoyerMagicLink = (email: string, url: string) =>
     sendEmail({
       templateId: 6785365,
       messageSubject: 'Connexion à Potentiel',
@@ -45,11 +45,11 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest = (
     }
 
     if (Option.isNone(utilisateur)) {
-      return envoyerEmailDeConnexionParEmail(identifier, url);
+      return envoyerMagicLink(identifier, url);
     }
 
     if (canConnectWithProvider('email', utilisateur.role.nom)) {
-      return envoyerEmailDeConnexionParEmail(identifier, url);
+      return envoyerMagicLink(identifier, url);
     }
 
     if (canConnectWithProvider('proconnect', utilisateur.role.nom)) {
