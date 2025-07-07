@@ -174,6 +174,7 @@ async function créerAccordAbandon(this: PotentielWorld) {
       réponseSignéeValue: réponseSignée,
       dateAccordValue: accordéeLe,
       identifiantUtilisateurValue: accordéePar,
+      rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
     },
   });
 }
@@ -192,6 +193,7 @@ async function créerRejetAbandon(this: PotentielWorld) {
       réponseSignéeValue: réponseSignée,
       dateRejetValue: rejetéeLe,
       identifiantUtilisateurValue: rejetéePar,
+      rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
     },
   });
 }
@@ -210,6 +212,7 @@ async function créerDemandeConfirmationAbandon(this: PotentielWorld) {
       réponseSignéeValue: réponseSignée,
       dateDemandeValue: confirmationDemandéeLe,
       identifiantUtilisateurValue: confirmationDemandéePar,
+      rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
     },
   });
 }
@@ -242,6 +245,7 @@ async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
       identifiantProjetValue: identifiantProjet,
       dateInstructionValue: passéEnInstructionLe,
       identifiantUtilisateurValue: passéEnInstructionPar,
+      rôleUtilisateurValue: this.utilisateurWorld.validateurFixture.role,
     },
   });
 }

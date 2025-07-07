@@ -6,7 +6,12 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
 import { AbandonEntity } from '../abandon.entity';
-import { StatutAbandon, StatutPreuveRecandidature, TypeDocumentAbandon } from '..';
+import {
+  AutoritéCompétente,
+  StatutAbandon,
+  StatutPreuveRecandidature,
+  TypeDocumentAbandon,
+} from '..';
 import { IdentifiantProjet } from '../../..';
 
 export type ConsulterAbandonReadModel = {
@@ -56,6 +61,8 @@ export type ConsulterAbandonReadModel = {
       rejetéPar: Email.ValueType;
       rejetéLe: DateTime.ValueType;
     };
+
+    autoritéCompétente: AutoritéCompétente.ValueType;
   };
 };
 
@@ -63,6 +70,7 @@ export type ConsulterAbandonQuery = Message<
   'Lauréat.Abandon.Query.ConsulterAbandon',
   {
     identifiantProjetValue: string;
+    autoritéCompétente?: string;
   },
   Option.Type<ConsulterAbandonReadModel>
 >;
@@ -173,6 +181,9 @@ const mapToReadModel = (result: AbandonEntity) => {
             ),
           }
         : undefined,
+      autoritéCompétente: AutoritéCompétente.convertirEnValueType(
+        result.demande.autoritéCompétente,
+      ),
     },
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     statut: StatutAbandon.convertirEnValueType(result.statut),

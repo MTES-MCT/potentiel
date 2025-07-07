@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Email } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
@@ -72,9 +71,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const actions = mapToActions({
         utilisateur,
-        statutRecandidature: abandon.demande.recandidature?.statut,
-        statut: abandon.statut,
-        passéEnInstructionPar: abandon.demande.instruction?.passéEnInstructionPar,
+        abandon,
       });
 
       const projetsÀSélectionner = actions.includes('transmettre-preuve-recandidature')
@@ -107,22 +104,24 @@ type AvailableActions = DétailsAbandonPageProps['actions'];
 
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
-  statutRecandidature: Lauréat.Abandon.StatutPreuveRecandidature.ValueType | undefined;
-  statut: Lauréat.Abandon.StatutAbandon.ValueType;
-  passéEnInstructionPar?: Email.ValueType;
+  abandon: Lauréat.Abandon.ConsulterAbandonReadModel;
 };
 
 const mapToActions = ({
   utilisateur,
-  statutRecandidature,
-  statut,
-  passéEnInstructionPar,
+  abandon: { statut, demande },
 }: MapToActionsProps): AvailableActions => {
   const actions: AvailableActions = [];
+  const statutRecandidature = demande.recandidature?.statut;
+  const passéEnInstructionPar = demande.instruction?.passéEnInstructionPar;
 
   switch (utilisateur.role.nom) {
     case 'admin':
-      if (statutRecandidature) {
+    case 'dreal':
+      if (demande.recandidature) {
+        break;
+      }
+      if (!demande.autoritéCompétente.estCompétent(utilisateur.role)) {
         break;
       }
       if (changementPossible(statut, 'confirmation-demandée')) {

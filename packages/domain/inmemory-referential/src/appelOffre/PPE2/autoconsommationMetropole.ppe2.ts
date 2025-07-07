@@ -74,7 +74,8 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   // dans les faits, seulement PV pour le moment (P1 à 4), mais théoriquement possible
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
-  autoritéCompétenteDemandesDélai: 'dreal',
+  délai: { autoritéCompétente: 'dreal' },
+  abandon: { autoritéCompétente: 'dgec' },
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 0 },
   decoupageParTechnologie: true,
   delaiRealisationTexte:

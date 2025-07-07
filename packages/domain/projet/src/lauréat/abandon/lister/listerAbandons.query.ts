@@ -6,7 +6,7 @@ import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domai
 import { AbandonEntity } from '../abandon.entity';
 import { LauréatEntity } from '../../lauréat.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
-import { StatutAbandon, StatutPreuveRecandidature } from '..';
+import { AutoritéCompétente, StatutAbandon, StatutPreuveRecandidature } from '..';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -32,6 +32,7 @@ export type ListerAbandonsQuery = Message<
     appelOffre?: string;
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     nomProjet?: string;
+    autoritéCompétente?: AutoritéCompétente.RawType;
     range: RangeOptions;
   },
   ListerAbandonReadModel
@@ -52,6 +53,7 @@ export const registerListerAbandonQuery = ({
     appelOffre,
     preuveRecandidatureStatut,
     nomProjet,
+    autoritéCompétente,
     utilisateur,
     range,
   }) => {
@@ -71,6 +73,7 @@ export const registerListerAbandonQuery = ({
           recandidature: {
             statut: Where.equal(preuveRecandidatureStatut),
           },
+          autoritéCompétente: Where.equal(autoritéCompétente),
         },
       },
       join: {

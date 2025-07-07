@@ -91,6 +91,8 @@ export const technologies = ['pv', 'eolien', 'hydraulique'] as const;
 export type Technologie = (typeof technologies)[number];
 export type UnitéPuissance = 'MW' | 'MWc';
 
+type AutoritéCompétente = 'dreal' | 'dgec';
+
 type TechnologieAppelOffre =
   | {
       technologie: Technologie;
@@ -259,9 +261,14 @@ export type AppelOffreReadModel = {
   changementProducteurPossibleAvantAchèvement: boolean;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;
-  autoritéCompétenteDemandesDélai: 'dgec' | 'dreal';
   /** Indique que le champs booléen "puissanceALaPointe" est disponible pour cet AO */
   puissanceALaPointeDisponible?: true;
+  délai: {
+    autoritéCompétente: AutoritéCompétente;
+  };
+  abandon: {
+    autoritéCompétente: AutoritéCompétente;
+  };
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre &
   TechnologieAppelOffre;

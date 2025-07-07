@@ -1525,6 +1525,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Abandon
   'abandon.consulter.liste',
+  'abandon.accorder',
+  'abandon.rejeter',
+  'abandon.demander-confirmation',
+  'abandon.passer-en-instruction',
 
   // Recours
   'recours.consulter.liste',

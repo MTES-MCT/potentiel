@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
@@ -10,6 +11,7 @@ export type PasserAbandonEnInstructionCommand = Message<
     dateInstruction: DateTime.ValueType;
     identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    rôleUtilisateur: Role.ValueType;
   }
 >;
 
@@ -20,12 +22,14 @@ export const registerPasserAbandonEnInstructionCommand = (
     identifiantProjet,
     dateInstruction,
     identifiantUtilisateur,
+    rôleUtilisateur,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.abandon.passerEnInstruction({
       dateInstruction,
       identifiantUtilisateur,
+      rôleUtilisateur,
     });
   };
   mediator.register('Lauréat.Abandon.Command.PasserAbandonEnInstruction', handler);
