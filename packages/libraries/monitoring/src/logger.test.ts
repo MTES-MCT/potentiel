@@ -16,7 +16,22 @@ describe('winston-logger', () => {
     resetLogger();
   });
 
-  it('logs the correct format', () => {
+  it('logs the correct format without meta', () => {
+    const calls: string[] = [];
+    initLogger(
+      createLogger({
+        level: 'debug',
+        transports: [consoleTransport({ log: logMock(calls) })],
+      }),
+    );
+    const logger = getLogger('serviceName');
+
+    logger.info('hello');
+
+    expect(calls[0].trim()).to.eq('hello | Service(serviceName) | Metadata({})');
+  });
+
+  it('logs the correct format with meta', () => {
     const calls: string[] = [];
     initLogger(
       createLogger({
@@ -28,10 +43,30 @@ describe('winston-logger', () => {
 
     logger.info('hello', { foo: 'bar', baz: 1 });
 
-    expect(calls[0].trim()).to.eq('hello | Service(serviceName) | Metadata({foo="bar"} {baz=1})');
+    expect(calls[0].trim()).to.eq('hello | Service(serviceName) | Metadata({"foo":"bar","baz":1})');
   });
 
-  it('logs the correct level', async () => {
+  it('logs the correct format with default meta', () => {
+    const calls: string[] = [];
+    initLogger(
+      createLogger({
+        level: 'debug',
+        transports: [consoleTransport({ log: logMock(calls) })],
+        defaultMeta: {
+          appName: 'test',
+        },
+      }),
+    );
+    const logger = getLogger('serviceName');
+
+    logger.info('hello', { foo: 'bar', baz: 1 });
+
+    expect(calls[0].trim()).to.eq(
+      `hello | Service(serviceName) | Metadata({"appName":"test","foo":"bar","baz":1})`,
+    );
+  });
+
+  it('logs the correct level', () => {
     const calls: string[] = [];
     initLogger(
       createLogger({
