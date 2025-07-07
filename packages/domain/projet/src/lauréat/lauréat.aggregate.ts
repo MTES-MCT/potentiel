@@ -42,8 +42,7 @@ import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 
-export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
-  #projet!: ProjetAggregateRoot;
+export class LauréatAggregate extends AbstractAggregate<LauréatEvent, ProjetAggregateRoot> {
   #nomProjet?: string;
   #localité?: Candidature.Localité.ValueType;
   #notifiéLe?: DateTime.ValueType;
@@ -51,7 +50,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     AppelOffre.RéférenceCahierDesCharges.initial;
 
   get projet() {
-    return this.#projet;
+    return this.parent;
   }
 
   #estNotifié: boolean = false;
@@ -103,65 +102,63 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     return this.#garantiesFinancières;
   }
 
-  async init(projet: ProjetAggregateRoot, loadAggregate: LoadAggregateV2) {
-    this.#projet = projet;
-
+  async init(loadAggregate: LoadAggregateV2) {
     this.#abandon = await loadAggregate(
-      `abandon|${this.projet.identifiantProjet.formatter()}`,
       AbandonAggregate,
+      `abandon|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#abandon.init(this);
 
     this.#achèvement = await loadAggregate(
-      `achevement|${this.projet.identifiantProjet.formatter()}`,
       AchèvementAggregate,
+      `achevement|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#achèvement.init(this);
 
     this.#producteur = await loadAggregate(
-      `producteur|${this.projet.identifiantProjet.formatter()}`,
       ProducteurAggregate,
+      `producteur|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#producteur.init(this);
 
     this.#puissance = await loadAggregate(
-      `puissance|${this.projet.identifiantProjet.formatter()}`,
       PuissanceAggregate,
+      `puissance|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#puissance.init(this);
 
     this.#actionnaire = await loadAggregate(
-      `actionnaire|${this.projet.identifiantProjet.formatter()}`,
       ActionnaireAggregate,
+      `actionnaire|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#actionnaire.init(this);
 
     this.#représentantLégal = await loadAggregate(
-      `représentant-légal|${this.projet.identifiantProjet.formatter()}`,
       ReprésentantLégalAggregate,
+      `représentant-légal|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#représentantLégal.init(this);
 
     this.#fournisseur = await loadAggregate(
-      `fournisseur|${this.projet.identifiantProjet.formatter()}`,
       FournisseurAggregate,
+      `fournisseur|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#fournisseur.init(this);
 
     this.#garantiesFinancières = await loadAggregate(
-      `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
       GarantiesFinancièresAggregate,
+      `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#garantiesFinancières.init(this);
   }
 
   async notifier({ attestation: { format } }: { attestation: { format: string } }) {
     this.vérifierQueLeLauréatPeutÊtreNotifié();
-    const { notifiéeLe, notifiéePar, nomProjet, localité } = this.#projet.candidature;
+    const { notifiéeLe, notifiéePar, nomProjet, localité } = this.projet.candidature;
     const event: LauréatNotifiéEvent = {
       type: 'LauréatNotifié-V2',
       payload: {
-        identifiantProjet: this.#projet.identifiantProjet.formatter(),
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
         notifiéLe: notifiéeLe.formatter(),
         notifiéPar: notifiéePar.formatter(),
         attestation: {
@@ -175,7 +172,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     await this.publish(event);
 
     await this.producteur.importer({
-      identifiantProjet: this.#projet.identifiantProjet,
+      identifiantProjet: this.projet.identifiantProjet,
       dateImport: notifiéeLe,
       identifiantUtilisateur: notifiéePar,
       producteur: this.projet.candidature.nomCandidat,

@@ -21,17 +21,12 @@ import {
 import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
 import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
 
-export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
-  #projet!: ProjetAggregateRoot;
+export class AccèsAggregate extends AbstractAggregate<AccèsEvent, ProjetAggregateRoot> {
   get projet() {
-    return this.#projet;
+    return this.parent;
   }
 
   identifiantsUtilisateurAyantAccès: Set<Email.RawType> = new Set();
-
-  async init(projet: ProjetAggregateRoot) {
-    this.#projet = projet;
-  }
 
   async réclamer(options: RéclamerAccèsProjetOptions) {
     const { identifiantUtilisateur, dateRéclamation, type } = options;
@@ -48,8 +43,8 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
       const { numéroCRE, prix } = options;
 
       const connaîtLePrixEtNuméroCRE =
-        this.#projet.identifiantProjet.numéroCRE === numéroCRE &&
-        this.#projet.candidature.prixRéférence === prix;
+        this.projet.identifiantProjet.numéroCRE === numéroCRE &&
+        this.projet.candidature.prixRéférence === prix;
 
       if (!connaîtLePrixEtNuméroCRE) {
         throw new PrixEtNuméroCRENonCorrespondantError();
@@ -58,7 +53,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
 
     if (type === 'même-email-candidature') {
       const aLeMêmeEmailQueLaCandidature =
-        this.#projet.candidature.emailContact.estÉgaleÀ(identifiantUtilisateur);
+        this.projet.candidature.emailContact.estÉgaleÀ(identifiantUtilisateur);
 
       if (!aLeMêmeEmailQueLaCandidature) {
         throw new EmailNonCorrespondantError();

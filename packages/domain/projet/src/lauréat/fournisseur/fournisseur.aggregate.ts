@@ -22,9 +22,7 @@ import {
 import { EnregistrerChangementFournisseurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
 import { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
 
-export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
-  #lauréat!: LauréatAggregate;
-
+export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent, LauréatAggregate> {
   #fournisseurs!: Array<Fournisseur.ValueType>;
 
   #évaluationCarboneSimplifiée!: number;
@@ -34,15 +32,11 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   }
 
   get lauréat() {
-    return this.#lauréat;
+    return this.parent;
   }
 
   private get identifiantProjet() {
     return this.lauréat.projet.identifiantProjet;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
   }
 
   async importer({

@@ -26,9 +26,7 @@ import {
   RecoursImpossiblePourPériodeError,
 } from './recours.error';
 
-export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
-  #éliminé!: ÉliminéAggregate;
-
+export class RecoursAggregate extends AbstractAggregate<RecoursEvent, ÉliminéAggregate> {
   statut = StatutRecours.inconnu;
 
   demande: {
@@ -63,11 +61,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   annuléLe?: DateTime.ValueType;
 
   get éliminé() {
-    return this.#éliminé;
-  }
-
-  async init(éliminé: ÉliminéAggregate) {
-    this.#éliminé = éliminé;
+    return this.parent;
   }
 
   async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
@@ -89,7 +83,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
 
     await this.publish(event);
 
-    await this.#éliminé.projet.lauréat.notifier({ attestation: { format: réponseSignée.format } });
+    await this.éliminé.projet.lauréat.notifier({ attestation: { format: réponseSignée.format } });
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {

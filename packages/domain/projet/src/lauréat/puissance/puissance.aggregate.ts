@@ -36,9 +36,7 @@ import {
   RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError,
 } from './changement/errors';
 
-export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
-  #lauréat!: LauréatAggregate;
-
+export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent, LauréatAggregate> {
   #puissance!: number;
 
   #demande?: {
@@ -48,15 +46,11 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
   };
 
   get lauréat() {
-    return this.#lauréat;
+    return this.parent;
   }
 
   private get identifiantProjet() {
     return this.lauréat.projet.identifiantProjet;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
   }
 
   async importer({ puissance, importéeLe }: ImporterOptions) {

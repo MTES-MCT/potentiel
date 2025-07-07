@@ -11,10 +11,9 @@ import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options';
 import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
 import { RecoursAggregate } from './recours/recours.aggregate';
 
-export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
-  #projet!: ProjetAggregateRoot;
+export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent, ProjetAggregateRoot> {
   get projet() {
-    return this.#projet;
+    return this.parent;
   }
 
   #recours!: AggregateType<RecoursAggregate>;
@@ -32,13 +31,12 @@ export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
     return this.#estArchivé;
   }
 
-  async init(projet: ProjetAggregateRoot, loadAggregate: LoadAggregateV2) {
-    this.#projet = projet;
+  async init(loadAggregate: LoadAggregateV2) {
     this.#recours = await loadAggregate(
-      `recours|${this.projet.identifiantProjet.formatter()}`,
       RecoursAggregate,
+      `recours|${this.projet.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#recours.init(this);
   }
 
   async archiver({ dateArchive, identifiantUtilisateur }: ArchiverÉliminéOptions) {

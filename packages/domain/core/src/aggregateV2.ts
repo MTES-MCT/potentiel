@@ -6,7 +6,13 @@ export type Publish = <TDomainEvent extends DomainEvent>(
   event: TDomainEvent,
 ) => Promise<void>;
 
-export abstract class AbstractAggregate<TDomainEvent extends DomainEvent> {
+export abstract class AbstractAggregate<TDomainEvent extends DomainEvent, TParent = unknown> {
+  readonly #parent: TParent;
+
+  get parent(): TParent {
+    return this.#parent;
+  }
+
   readonly #aggregateId: string;
 
   get aggregateId() {
@@ -31,7 +37,8 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent> {
     return this.version > 0;
   }
 
-  constructor(aggregateId: AggregateId, version: number, publish: Publish) {
+  constructor(parent: TParent, aggregateId: AggregateId, version: number, publish: Publish) {
+    this.#parent = parent;
     this.#aggregateId = aggregateId;
     this.#version = version;
     this.#publish = publish;
@@ -51,11 +58,16 @@ export type AggregateType<
   TAggregate extends AbstractAggregate<TDomainEvent>,
   TDomainEvent extends DomainEvent = DomainEvent,
 > = Omit<TAggregate, 'aggregateId' | 'version' | 'apply'>;
-
 export type LoadAggregateV2 = <
   TDomainEvent extends DomainEvent,
   TAggregate extends AbstractAggregate<TDomainEvent>,
 >(
+  ctor: new (
+    parent: TAggregate['parent'],
+    aggregateId: AggregateId,
+    version: number,
+    publish: Publish,
+  ) => TAggregate,
   aggregateId: AggregateId,
-  ctor: new (aggregateId: AggregateId, version: number, publish: Publish) => TAggregate,
+  parent: TAggregate['parent'],
 ) => Promise<AggregateType<TAggregate>>;

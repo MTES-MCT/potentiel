@@ -139,28 +139,30 @@ export class ProjetAggregateRoot {
     }
 
     this.#accès = await this.#loadAggregate(
-      `accès|${this.identifiantProjet.formatter()}`,
       AccèsAggregate,
+      `accès|${this.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#accès.init(this);
 
     this.#candidature = await this.#loadAggregate(
-      `candidature|${this.identifiantProjet.formatter()}`,
       CandidatureAggregate,
+      `candidature|${this.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#candidature.init(this);
 
     this.#lauréat = await this.#loadAggregate(
-      `lauréat|${this.identifiantProjet.formatter()}`,
       LauréatAggregate,
+      `lauréat|${this.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#lauréat.init(this, this.#loadAggregate);
+    await this.#lauréat.init(this.#loadAggregate);
 
     this.#éliminé = await this.#loadAggregate(
-      `éliminé|${this.identifiantProjet.formatter()}`,
       ÉliminéAggregate,
+      `éliminé|${this.identifiantProjet.formatter()}`,
+      this,
     );
-    await this.#éliminé.init(this, this.#loadAggregate);
+    await this.#éliminé.init(this.#loadAggregate);
 
     const appelOffre = await this.#loadAppelOffreAggregate(this.#identifiantProjet.appelOffre);
 
