@@ -4,7 +4,6 @@ import { redirect, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
-import Alert from '@codegouvfr/react-dsfr/Alert';
 import Tile from '@codegouvfr/react-dsfr/Tile';
 import Button from '@codegouvfr/react-dsfr/Button';
 
@@ -24,7 +23,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
 
   const params = useSearchParams();
   const callbackUrl = params.get('callbackUrl') ?? Routes.Auth.redirectToDashboard();
-  const error = params.get('error');
+  const forceProConnect = params.get('forceProConnect');
 
   const onlyKeycloak = providers.length === 1 && providers.includes('keycloak');
 
@@ -44,6 +43,9 @@ export default function SignInPage({ providers }: SignInPageProps) {
         if (onlyKeycloak) {
           setTimeout(() => signIn('keycloak', { callbackUrl }), 2000);
         }
+        if (forceProConnect) {
+          signIn('proconnect', { callbackUrl });
+        }
 
         break;
     }
@@ -57,15 +59,6 @@ export default function SignInPage({ providers }: SignInPageProps) {
         <>
           <Heading1>Identifiez-vous</Heading1>
           <div className="flex flex-col mt-12 gap-6 items-center">
-            {error && (
-              <Alert
-                className="md:w-2/3"
-                severity="error"
-                small
-                description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
-                closable
-              />
-            )}
             <div className="flex flex-wrap gap-5 justify-center">
               {providers.includes('proconnect') && (
                 <Tile
