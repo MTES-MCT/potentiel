@@ -10,6 +10,7 @@ import { registerSubscriber } from './subscriber/registerSubscriber';
 import { EventStreamEmitter } from './eventStreamEmitter';
 import { Subscriber, Unsubscribe } from './subscriber/subscriber';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
+import { listSubscribers } from './subscriber/listSubscribers';
 
 let isReconnecting = false;
 let client: Client | undefined;
@@ -55,6 +56,29 @@ export const executeSubscribersRetry = async () => {
   for (const eventStreamEmitter of eventStreamEmitters.values()) {
     await retryPendingAcknowledgement(eventStreamEmitter.subscriber);
   }
+};
+
+/**
+ * Returns the list of subscribers that are still registered, but unknown by the application
+ */
+export const listDanglingSubscribers = async () => {
+  const expectedSubscribers = [...eventStreamEmitters.values()].map(({ subscriber }) => ({
+    stream_category: subscriber.streamCategory,
+    subscriber_name: subscriber.name,
+  }));
+
+  const actualSubscribers = await listSubscribers();
+
+  const diff = actualSubscribers.filter(
+    (actual) =>
+      !expectedSubscribers.find(
+        (expected) =>
+          expected.stream_category === actual.stream_category &&
+          expected.subscriber_name === actual.subscriber_name,
+      ),
+  );
+
+  return diff;
 };
 
 const connect = async () => {

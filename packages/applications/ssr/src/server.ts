@@ -6,7 +6,11 @@ import * as Sentry from '@sentry/nextjs';
 
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import { getContext, runWithContext } from '@potentiel-applications/request-context';
-import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  executeSubscribersRetry,
+  listDanglingSubscribers,
+} from '@potentiel-infrastructure/pg-event-sourcing';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { setupLogger } from './setupLogger';
 
@@ -25,6 +29,13 @@ async function main() {
 
   await bootstrap({ middlewares: [permissionMiddleware] });
   await executeSubscribersRetry();
+
+  const danglingSubscribers = await listDanglingSubscribers();
+  if (danglingSubscribers.length > 0) {
+    getLogger('server').warn('Some subscribers are no longer listed in the application', {
+      subscribers: danglingSubscribers,
+    });
+  }
 
   // remove bootstrap messages from sentry's breadcrumbs
   Sentry.getCurrentScope().clearBreadcrumbs();
