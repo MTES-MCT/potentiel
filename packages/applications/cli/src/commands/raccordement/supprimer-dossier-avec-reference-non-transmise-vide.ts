@@ -1,5 +1,4 @@
 import { Command } from '@oclif/core';
-import { z } from 'zod';
 import { mediator } from 'mediateur';
 
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
@@ -7,10 +6,6 @@ import { registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
-
-const configSchema = z.object({
-  DATABASE_CONNECTION_STRING: z.string(),
-});
 
 type Dossier = {
   key: string;
@@ -33,8 +28,6 @@ export class SupprimerDossierAvecReferenceNonTransmiseVide extends Command {
     "Supprimer les dossiers de raccordement qui ont comme référence 'Référence non transmise' et qui sont vide";
 
   async init() {
-    const { success } = configSchema.safeParse(process.env);
-    console.info(`Env variables defined : ${success}`);
     registerLauréatUseCases({
       loadAggregate,
       getProjetAggregateRoot: (identifiantProjet) =>

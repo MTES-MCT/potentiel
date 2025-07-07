@@ -3,14 +3,14 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 type GetHealthcheckClientProps = {
   healthcheckUrl: string | undefined;
   environment: string;
-  slug: string;
+  slug: string | undefined;
 };
 export function getHealthcheckClient({
   environment,
   healthcheckUrl,
   slug,
 }: GetHealthcheckClientProps) {
-  if (!healthcheckUrl) {
+  if (!healthcheckUrl || !slug) {
     return {
       async start() {},
       async success() {},

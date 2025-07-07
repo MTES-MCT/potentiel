@@ -14,11 +14,15 @@
     "topicSeparator": " ",
     "hooks": {
       "init": "./dist/hooks/init",
-      "finally": "./dist/hooks/finally"
+      "prerun": "./dist/hooks/healthcheck/prerun",
+      "finally": [
+        "./dist/hooks/finally",
+        "./dist/hooks/healthcheck/finally"
+      ]
     }
   },
   "dependencies": {
-    "@oclif/core": "^4.2.10",
+    "@oclif/core": "^4.5.0",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",
@@ -34,7 +38,7 @@
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
     "@types/node": "^18.19.37",
-    "oclif": "^4.17.43",
+    "oclif": "^4.20.4",
     "ts-node": "^10.9.2"
   }
 }
