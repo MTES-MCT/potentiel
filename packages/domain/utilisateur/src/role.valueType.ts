@@ -382,8 +382,6 @@ const référencielPermissions = {
     },
     délai: {
       query: { consulter: 'Lauréat.Délai.Query.ConsulterDélai' },
-      usecase: {},
-      command: {},
     },
     usecase: {
       notifier: 'Lauréat.UseCase.NotifierLauréat',
@@ -1263,9 +1261,6 @@ const policies = {
   },
   appelOffre: {
     consulter: [référencielPermissions.appelOffre.query.consulter],
-  },
-  délai: {
-    demander: [],
   },
 } as const;
 
