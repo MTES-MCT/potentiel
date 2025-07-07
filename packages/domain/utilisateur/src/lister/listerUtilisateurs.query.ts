@@ -28,14 +28,13 @@ export type ListerUtilisateursQuery = Message<
     actif?: boolean;
   } & (
     | {
-        identifiantUtilisateur: string;
+        identifiantUtilisateur?: string;
         identifiantsUtilisateur?: undefined;
       }
     | {
         identifiantUtilisateur?: undefined;
         identifiantsUtilisateur: string[];
       }
-    | { identifiantUtilisateur?: undefined; identifiantsUtilisateur?: undefined }
   ),
   ListerUtilisateursReadModel
 >;
