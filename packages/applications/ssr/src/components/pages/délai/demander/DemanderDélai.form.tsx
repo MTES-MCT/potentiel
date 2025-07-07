@@ -27,6 +27,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
   const dateActuelle = DateTime.convertirEnValueType(dateAchèvementPrévisionnelleActuelle);
 
   const [nouvelleDate, setNouvelleDate] = useState<DateTime.ValueType>(dateActuelle);
+
   const [validationErrors, setValidationErrors] = useState<ValidationErrors<DemanderDélaiFormKeys>>(
     {},
   );
@@ -57,9 +58,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
           >
             Retour à la page projet
           </Button>
-          <SubmitButton disabledCondition={() => !peutDemanderUnDélai()}>
-            Demander un délai
-          </SubmitButton>
+          <SubmitButton>Demander un délai</SubmitButton>
         </>
       }
     >
@@ -74,7 +73,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
         <Input
           label="Durée du délai"
           hintText="Veuillez saisir une durée de délai en mois, avec au minimum 1 mois"
-          className="mb-0"
+          className="w-full md:w-1/2"
           nativeInputProps={{
             min: '1',
             name: 'nombreDeMois',
@@ -82,8 +81,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
             'aria-required': true,
             type: 'number',
             inputMode: 'numeric',
-            pattern: '[1-9]+',
-            step: '1',
+            pattern: '[1-9]*',
             onChange: (e) => ajouterDélaiÀLaDateActuelle(Number(e.target.value)),
           }}
           state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
@@ -102,9 +100,14 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
         textArea
         label="Raison"
         id="raison"
+        className="w-full md:w-1/2"
         hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
                 conduit à cette demande de délai."
-        nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
+        nativeTextAreaProps={{
+          name: 'raison',
+          required: true,
+          'aria-required': true,
+        }}
         state={validationErrors['raison'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['raison']}
       />
