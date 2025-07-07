@@ -60,6 +60,7 @@ async function getEmailPayloads(
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
           roles: ['acheteur-obligé', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+          actif: true,
         },
       });
 
