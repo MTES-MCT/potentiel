@@ -25,10 +25,14 @@ export const roles: Array<RawType> = [
   'grd',
 ];
 
+type Message = { type: string };
+
 export type ValueType = ReadonlyValueType<{
   nom: RawType;
   libellé(): string;
-  peutExécuterMessage(typeMessage: string): void;
+  peutExécuterMessage<TMessageType extends Message = Message>(
+    typeMessage: TMessageType['type'],
+  ): void;
   aLaPermission(value: Policy): boolean;
   estDGEC(): boolean;
   estDreal(): boolean;
