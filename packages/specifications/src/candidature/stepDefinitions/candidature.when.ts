@@ -54,6 +54,18 @@ Quand('le DGEC validateur notifie la candidature lauréate', async function (thi
   await notifierLauréat.call(this, dateDésignation);
 });
 
+Quand(
+  'le DGEC validateur notifie la candidature lauréate le {string}',
+  async function (this: PotentielWorld, dateNotification: string) {
+    const dateDésignation = DateTime.convertirEnValueType(
+      new Date(dateNotification).toISOString(),
+    ).formatter();
+
+    await notifierLauréat.call(this, dateDésignation);
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
+  },
+);
+
 export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
   const unchangedValues = this.candidatureWorld.importerCandidature.values;
   const changedValues = {

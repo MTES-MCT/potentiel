@@ -7,6 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -71,6 +72,30 @@ Alors(
       );
 
       expect(actualPreuveContent).to.be.equal(expectedPreuveContent);
+    });
+  },
+);
+
+Alors(
+  `la date prévisionnelle d'achèvement du projet devrait être {string}`,
+  async function (this: PotentielWorld, datePrévisionnelleAttendue: string) {
+    return waitForExpect(async () => {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvement>({
+        type: 'Lauréat.Achèvement.ConsulterDatePrévisionnelle',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+      assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
+
+      const actual = DateTime.convertirEnValueType(achèvement.datePrévisionnelle);
+      const expected = DateTime.convertirEnValueType(datePrévisionnelleAttendue);
+
+      expect(actual.estÉgaleÀ(expected), 'La date prévisionnelle attendue est incorrecte').to.be
+        .true;
     });
   },
 );
