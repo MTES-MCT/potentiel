@@ -17,7 +17,7 @@ type CustomEvent2 = DomainEvent<'event-2', { secondePropriété: string }>;
 
 type CustomEvent = CustomEvent1 | CustomEvent2;
 
-class CustomAggregate extends AbstractAggregate<CustomEvent> {
+class CustomAggregate extends AbstractAggregate<CustomEvent, 'aggregateCategory'> {
   propriété: string = 'unknownPropriété';
   secondePropriété: string = 'unknownSecondePropriété';
 
@@ -53,7 +53,7 @@ describe(`loadAggregate`, () => {
   it(`Lorsqu'on charge un agrégat sans évènement
       Alors l'agrégat par défaut devrais être chargé`, async () => {
     // Act
-    const result = await loadAggregateV2(aggregateId, CustomAggregate);
+    const result = await loadAggregateV2(CustomAggregate, aggregateId, undefined);
 
     // Assert
     result.propriété.should.be.equal('unknownPropriété');
@@ -82,7 +82,7 @@ describe(`loadAggregate`, () => {
     await publish(aggregateId, event1, event2);
 
     // Act
-    const actual = await loadAggregateV2(aggregateId, CustomAggregate);
+    const actual = await loadAggregateV2(CustomAggregate, aggregateId, undefined);
 
     // Assert
     const expected = {

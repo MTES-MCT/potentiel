@@ -30,9 +30,11 @@ import { AnnulerChangementOptions } from './changement/annuler/annulerChangement
 import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementActionnaire.options';
 import { SupprimerChangementActionnaireOptions } from './changement/supprimer/supprimerChangementActionnaire.options';
 
-export class ActionnaireAggregate extends AbstractAggregate<ActionnaireEvent> {
-  #lauréat!: LauréatAggregate;
-
+export class ActionnaireAggregate extends AbstractAggregate<
+  ActionnaireEvent,
+  'actionnaire',
+  LauréatAggregate
+> {
   #actionnaire!: string;
 
   #demande?: {
@@ -41,15 +43,11 @@ export class ActionnaireAggregate extends AbstractAggregate<ActionnaireEvent> {
   };
 
   get lauréat() {
-    return this.#lauréat;
+    return this.parent;
   }
 
   private get identifiantProjet() {
     return this.lauréat.projet.identifiantProjet;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
   }
 
   async importer({ actionnaire, importéLe }: ImporterOptions) {
@@ -112,10 +110,10 @@ export class ActionnaireAggregate extends AbstractAggregate<ActionnaireEvent> {
       appelOffre: this.identifiantProjet.appelOffre,
       // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
       // Par ailleurs les données sont les mêmes à date (janv 2025)
-      typeActionnariat: this.#lauréat.projet.candidature.typeActionnariat,
-      aUnDépotEnCours: this.#lauréat.garantiesFinancières.aUnDépôtEnCours,
+      typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
+      aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
       aDesGarantiesFinancièresConstituées:
-        this.#lauréat.garantiesFinancières.aDesGarantiesFinancières,
+        this.lauréat.garantiesFinancières.aDesGarantiesFinancières,
     });
 
     if (instructionChangementActionnaire.estRequise()) {

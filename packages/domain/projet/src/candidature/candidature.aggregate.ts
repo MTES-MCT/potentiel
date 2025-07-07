@@ -52,11 +52,13 @@ import {
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
-export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
-  #projet!: ProjetAggregateRoot;
-
+export class CandidatureAggregate extends AbstractAggregate<
+  CandidatureEvent,
+  'candidature',
+  ProjetAggregateRoot
+> {
   get projet() {
-    return this.#projet;
+    return this.parent;
   }
 
   #statut?: StatutCandidature.ValueType;
@@ -167,10 +169,6 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   get fournisseurs() {
     return this.#fournisseurs;
-  }
-
-  async init(projet: ProjetAggregateRoot) {
-    this.#projet = projet;
   }
 
   async importer(candidature: ImporterCandidatureOptions) {

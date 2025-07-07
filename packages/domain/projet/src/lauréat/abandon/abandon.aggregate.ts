@@ -44,8 +44,7 @@ import { InstruireOptions } from './instruire/instruireAbandon.option';
 import { AnnulerOptions } from './annuler/annulerAbandon.option';
 import { RejeterOptions } from './rejeter/rejeterAbandon.option';
 
-export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
-  #lauréat!: LauréatAggregate;
+export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon', LauréatAggregate> {
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;
   #demande?: {
     recandidature: boolean;
@@ -61,11 +60,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   }
 
   get lauréat() {
-    return this.#lauréat;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
+    return this.parent;
   }
 
   async demander({

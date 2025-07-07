@@ -6,10 +6,13 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 
 import { GarantiesFinancièresEvent } from './garantiesFinancières.event';
 
-export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesFinancièresEvent> {
-  #lauréat!: LauréatAggregate;
+export class GarantiesFinancièresAggregate extends AbstractAggregate<
+  GarantiesFinancièresEvent,
+  'garanties-financieres',
+  LauréatAggregate
+> {
   get lauréat() {
-    return this.#lauréat;
+    return this.parent;
   }
 
   #aDesGarantiesFinancières: boolean = false;
@@ -20,10 +23,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
   #aUnDépôtEnCours: boolean = false;
   get aUnDépôtEnCours() {
     return this.#aUnDépôtEnCours;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
   }
 
   apply(event: GarantiesFinancièresEvent): void {

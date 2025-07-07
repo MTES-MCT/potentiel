@@ -19,10 +19,13 @@ import {
 import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option';
 import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
 
-export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
-  #lauréat!: LauréatAggregate;
+export class AchèvementAggregate extends AbstractAggregate<
+  AchèvementEvent,
+  'achevement',
+  LauréatAggregate
+> {
   get lauréat() {
-    return this.#lauréat;
+    return this.parent;
   }
 
   #estAchevé: boolean = false;
@@ -38,10 +41,6 @@ export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
   #preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType> = Option.none;
   get preuveTransmissionAuCocontractant() {
     return this.#preuveTransmissionAuCocontractant;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
   }
 
   async transmettreAttestationConformité({

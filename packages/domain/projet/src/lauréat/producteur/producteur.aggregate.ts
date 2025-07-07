@@ -17,9 +17,11 @@ import { ImporterOptions } from './importer/importerProducteur.option';
 import { ProducteurImportéEvent } from './importer/importerProducteur.event';
 import { ProducteurIdentiqueError, AOEmpêcheChangementProducteurError } from './producteur.error';
 
-export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
-  #lauréat!: LauréatAggregate;
-
+export class ProducteurAggregate extends AbstractAggregate<
+  ProducteurEvent,
+  'producteur',
+  LauréatAggregate
+> {
   producteur!: string;
 
   changements: Map<
@@ -37,11 +39,7 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
   > = new Map();
 
   get lauréat() {
-    return this.#lauréat;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
+    return this.parent;
   }
 
   async enregistrerChangement({

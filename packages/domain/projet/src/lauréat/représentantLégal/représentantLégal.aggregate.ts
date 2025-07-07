@@ -50,8 +50,11 @@ export type ReprésentantLégalEvent =
   | ChangementReprésentantLégalAnnuléEvent
   | ChangementReprésentantLégalSuppriméEvent;
 
-export class ReprésentantLégalAggregate extends AbstractAggregate<ReprésentantLégalEvent> {
-  #lauréat!: LauréatAggregate;
+export class ReprésentantLégalAggregate extends AbstractAggregate<
+  ReprésentantLégalEvent,
+  'représentant-légal',
+  LauréatAggregate
+> {
   #représentantLégal?: {
     nom: string;
     type: TypeReprésentantLégal.ValueType;
@@ -78,11 +81,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
   }
 
   get lauréat() {
-    return this.#lauréat;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
+    return this.parent;
   }
 
   private get demande() {
@@ -93,7 +92,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<Représentan
   }
 
   private get identifiantProjet(): IdentifiantProjet.ValueType {
-    return this.#lauréat.projet.identifiantProjet;
+    return this.lauréat.projet.identifiantProjet;
   }
 
   async importer({ nomReprésentantLégal, importéLe, importéPar }: ImporterOptions) {
