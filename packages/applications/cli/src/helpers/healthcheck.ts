@@ -5,6 +5,7 @@ type GetHealthcheckClientProps = {
   environment: string;
   slug: string | undefined;
 };
+
 export function getHealthcheckClient({
   environment,
   healthcheckUrl,

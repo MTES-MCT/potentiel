@@ -1,16 +1,21 @@
 import { Hook } from '@oclif/core';
 
-import { getHealthcheckClientForCommand } from '../../helpers/getHealthcheckClientForCommand';
+import { HealthcheckClient } from '../../helpers/healthcheck';
 
-const healthcheckPostrunHook: Hook.Finally = async function ({ Command, error }) {
-  if (Command) {
-    const client = getHealthcheckClientForCommand(Command);
+export type CommandWithHealthcheckClient = { _healthcheckClient?: HealthcheckClient };
+
+/**
+ * After running the command, signal success or error to the healthcheck service
+ */
+const healthcheckFinallyHook: Hook.Finally = async function ({ Command, error }) {
+  const command = (await Command?.load()) as CommandWithHealthcheckClient | undefined;
+  if (command?._healthcheckClient) {
     if (error) {
-      await client.error();
+      await command?._healthcheckClient.error();
     } else {
-      await client.success();
+      await command?._healthcheckClient.success();
     }
   }
 };
 
-export default healthcheckPostrunHook;
+export default healthcheckFinallyHook;
