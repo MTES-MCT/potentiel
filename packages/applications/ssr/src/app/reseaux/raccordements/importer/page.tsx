@@ -1,5 +1,5 @@
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ImporterDatesMiseEnServicePage } from '@/components/pages/réseau/raccordement/importerDatesMiseEnService/ImporterDatesMiseEnService.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -10,7 +10,7 @@ import { récupérerLesGestionnairesParUtilisateur } from '../_helpers/récupér
 export default async function Page() {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      utilisateur.role.peutExécuterMessage<Raccordement.TransmettreDateMiseEnServiceUseCase>(
+      utilisateur.role.peutExécuterMessage<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>(
         'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
       );
       const listeGestionnaireRéseau = await récupérerLesGestionnairesParUtilisateur(utilisateur);
