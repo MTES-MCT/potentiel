@@ -12,32 +12,50 @@ type BuildSendVerificationRequest = (
   getUtilisateurFromEmail: GetUtilisateurFromEmail,
 ) => NonNullable<EmailUserConfig['sendVerificationRequest']>;
 
-export const buildSendVerificationRequest: BuildSendVerificationRequest =
-  (sendEmail, getUtilisateurFromEmail) =>
-  async ({ identifier, url }) => {
-    const utilisateur = await getUtilisateurFromEmail(identifier);
+export const buildSendVerificationRequest: BuildSendVerificationRequest = (
+  sendEmail,
+  getUtilisateurFromEmail,
+) => {
+  const envoyerEmailDeConnexionParEmail = (email: string, url: string) =>
+    sendEmail({
+      templateId: 6785365,
+      messageSubject: 'Connexion à Potentiel',
+      recipients: [{ email, fullName: '' }],
+      variables: {
+        url,
+      },
+    });
 
-    if (Option.isSome(utilisateur) && utilisateur.désactivé) {
-      return;
-    }
-
-    if (Option.isNone(utilisateur) || canConnectWithProvider('email', utilisateur.role.nom)) {
-      return sendEmail({
-        templateId: 6785365,
-        messageSubject: 'Connexion à Potentiel',
-        recipients: [{ email: identifier, fullName: '' }],
-        variables: {
-          url,
-        },
-      });
-    }
-
-    return sendEmail({
+  const envoyerEmailConnexionProConnectObligatoire = (email: string) =>
+    sendEmail({
       templateId: 7103248,
       messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
-      recipients: [{ email: identifier, fullName: '' }],
+      recipients: [{ email, fullName: '' }],
       variables: {
         url: Routes.Auth.signIn({ forceProConnect: true }),
       },
     });
+
+  return async ({ identifier, url }) => {
+    const utilisateur = await getUtilisateurFromEmail(identifier);
+
+    const estDésactivé = Option.isSome(utilisateur) && utilisateur.désactivé;
+    if (estDésactivé) {
+      return;
+    }
+
+    if (Option.isNone(utilisateur)) {
+      return envoyerEmailDeConnexionParEmail(identifier, url);
+    }
+
+    if (canConnectWithProvider('email', utilisateur.role.nom)) {
+      return envoyerEmailDeConnexionParEmail(identifier, url);
+    }
+
+    if (canConnectWithProvider('proconnect', utilisateur.role.nom)) {
+      return envoyerEmailConnexionProConnectObligatoire(identifier);
+    }
+
+    return;
   };
+};
