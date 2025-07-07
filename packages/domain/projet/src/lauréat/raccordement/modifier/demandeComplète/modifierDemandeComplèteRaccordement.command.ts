@@ -2,8 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { LoadAggregate } from '@potentiel-domain/core';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
@@ -21,10 +19,7 @@ export type ModifierDemandeComplèteRaccordementCommand = Message<
 
 export const registerModifierDemandeComplèteRaccordementCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
-  loadAggregate: LoadAggregate,
 ) => {
-  const loadGestionnaireRéseau = GestionnaireRéseau.loadGestionnaireRéseauFactory(loadAggregate);
-
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     dateQualification,
     référenceDossierRaccordement,
@@ -34,16 +29,10 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    const gestionnaireRéseau = await loadGestionnaireRéseau(
-      projet.lauréat.raccordement.identifiantGestionnaireRéseau,
-    );
-
     await projet.lauréat.raccordement.modifierDemandeComplèteRaccordement({
       dateQualification,
       référenceDossierRaccordement,
       formatAccuséRéception,
-      référenceDossierExpressionRegulière:
-        gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       rôle,
     });
   };

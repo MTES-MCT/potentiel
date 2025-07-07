@@ -1,70 +1,114 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import { match, Pattern } from 'ts-pattern';
+
+import { AbstractAggregate } from '@potentiel-domain/core';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
-import {
-  GestionnaireRéseauAjoutéEvent,
-  GestionnaireRéseauAjoutéEventV1,
-  ajouter,
-  applyGestionnaireRéseauAjouté,
-} from './ajouter/ajouterGestionnaireRéseau.behavior';
+import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouter.event';
 import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
+import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event';
+import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
+import { AjouterOptions } from './ajouter/ajouter.options';
+import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
+import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
-import {
-  GestionnaireRéseauModifiéEvent,
-  GestionnaireRéseauModifiéEventV1,
-  applyGestionnaireRéseauModifié,
-  modifier,
-} from './modifier/modifierGestionnaireRéseau.behavior';
 
-export type GestionnaireRéseauEvent =
-  | GestionnaireRéseauAjoutéEventV1
-  | GestionnaireRéseauAjoutéEvent
-  | GestionnaireRéseauModifiéEventV1
-  | GestionnaireRéseauModifiéEvent;
+export class GestionnaireRéseauAggregate extends AbstractAggregate<
+  GestionnaireRéseauEvent,
+  'gestionnaire-réseau'
+> {
+  #identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.inconnu;
+  #référenceDossierRaccordementExpressionRegulière = ExpressionRegulière.accepteTout;
 
-export type GestionnaireRéseauAggregate = Aggregate<GestionnaireRéseauEvent> & {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
-  référenceDossierRaccordementExpressionRegulière: ExpressionRegulière.ValueType;
-  readonly ajouter: typeof ajouter;
-  readonly modifier: typeof modifier;
-};
+  get identifiantGestionnaireRéseau() {
+    return this.#identifiantGestionnaireRéseau;
+  }
 
-export const getDefaultGestionnaireRéseauAggregate: GetDefaultAggregateState<
-  GestionnaireRéseauAggregate,
-  GestionnaireRéseauEvent
-> = () => ({
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
-  référenceDossierRaccordementExpressionRegulière: ExpressionRegulière.accepteTout,
-  apply,
-  ajouter,
-  modifier,
-});
+  get référenceDossierRaccordementExpressionRegulière() {
+    return this.#référenceDossierRaccordementExpressionRegulière;
+  }
 
-function apply(this: GestionnaireRéseauAggregate, event: GestionnaireRéseauEvent) {
-  switch (event.type) {
-    case 'GestionnaireRéseauAjouté-V1':
-    case 'GestionnaireRéseauAjouté-V2':
-      applyGestionnaireRéseauAjouté.bind(this)(event);
-      break;
-    case 'GestionnaireRéseauModifié-V1':
-    case 'GestionnaireRéseauModifié-V2':
-      applyGestionnaireRéseauModifié.bind(this)(event);
-      break;
+  async ajouter({
+    aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
+    identifiantGestionnaireRéseau,
+    raisonSociale,
+    contactEmail,
+  }: AjouterOptions) {
+    if (this.exists) {
+      throw new GestionnaireRéseauDéjàExistantError();
+    }
+
+    const event: GestionnaireRéseauAjoutéEvent = {
+      type: 'GestionnaireRéseauAjouté-V2',
+      payload: {
+        codeEIC: identifiantGestionnaireRéseau.formatter(),
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: Option.match(format)
+            .some((value) => value)
+            .none(() => ''),
+          légende: Option.match(légende)
+            .some((value) => value)
+            .none(() => ''),
+          expressionReguliere: Option.match(expressionReguliere)
+            .some((value) => value.formatter())
+            .none(() => ExpressionRegulière.accepteTout.formatter()),
+        },
+        contactEmail: Option.match(contactEmail)
+          .some((value) => value.formatter())
+          .none(() => ''),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async modifier({
+    aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
+    identifiantGestionnaireRéseau,
+    raisonSociale,
+    contactEmail,
+  }: ModifierOptions) {
+    if (!this.exists) {
+      throw new GestionnaireRéseauInconnuError();
+    }
+    // TODO : publish l'event uniquement si pas deep equal avec l'état de l'aggregate.
+    const event: GestionnaireRéseauModifiéEvent = {
+      type: 'GestionnaireRéseauModifié-V2',
+      payload: {
+        codeEIC: identifiantGestionnaireRéseau.formatter(),
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: Option.match(format)
+            .some((value) => value)
+            .none(() => ''),
+          légende: Option.match(légende)
+            .some((value) => value)
+            .none(() => ''),
+          expressionReguliere: Option.match(expressionReguliere)
+            .some((value) => value.formatter())
+            .none(() => ExpressionRegulière.accepteTout.formatter()),
+        },
+        contactEmail: Option.match(contactEmail)
+          .some((value) => value.formatter())
+          .none(() => ''),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  apply({
+    payload: {
+      codeEIC,
+      aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
+    },
+  }: GestionnaireRéseauEvent): void {
+    this.#identifiantGestionnaireRéseau =
+      IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
+    this.#référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
+      .with('', () => ExpressionRegulière.accepteTout)
+      .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
+      .otherwise((value) => ExpressionRegulière.convertirEnValueType(value));
   }
 }
-
-export const loadGestionnaireRéseauFactory =
-  (loadAggregate: LoadAggregate) =>
-  (identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType, throwOnNone = true) => {
-    return loadAggregate({
-      aggregateId: `gestionnaire-réseau|${identifiantGestionnaireRéseau.formatter()}`,
-      getDefaultAggregate: getDefaultGestionnaireRéseauAggregate,
-      onNone: throwOnNone
-        ? () => {
-            if (!identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
-              throw new GestionnaireRéseauInconnuError();
-            }
-          }
-        : undefined,
-    });
-  };

@@ -9,9 +9,10 @@ import type {
   GestionnaireRéseauListItemReadModel,
 } from './lister/listerGestionnaireRéseau.query';
 import type { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
-import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.behavior';
-import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.aggregate';
-import type { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.behavior';
+import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouter.event';
+import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
+import type { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event';
+import { GestionnaireRéseauAggregate } from './gestionnaireRéseau.aggregate';
 
 // Query
 export type GestionnaireRéseauQuery =
@@ -44,4 +45,4 @@ export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRésea
 export * from './gestionnaireRéseau.entity';
 
 // Aggregate
-export { loadGestionnaireRéseauFactory } from './gestionnaireRéseau.aggregate';
+export { GestionnaireRéseauAggregate };

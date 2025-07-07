@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
+import { LoadAggregateV2 } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { loadGestionnaireRéseauFactory } from '../gestionnaireRéseau.aggregate';
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
+import { GestionnaireRéseauAggregate } from '../gestionnaireRéseau.aggregate';
 
 export type ModifierGestionnaireRéseauCommand = Message<
   'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
@@ -21,17 +21,18 @@ export type ModifierGestionnaireRéseauCommand = Message<
   }
 >;
 
-export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAggregate) => {
-  const load = loadGestionnaireRéseauFactory(loadAggregate);
-
+export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAggregateV2) => {
   const handler: MessageHandler<ModifierGestionnaireRéseauCommand> = async ({
     identifiantGestionnaireRéseau,
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement,
     contactEmail,
   }) => {
-    const gestionnaireRéseau = await load(identifiantGestionnaireRéseau);
-
+    const gestionnaireRéseau = await loadAggregate(
+      GestionnaireRéseauAggregate,
+      `gestionnaire-réseau|${identifiantGestionnaireRéseau.formatter()}`,
+      undefined,
+    );
     await gestionnaireRéseau.modifier({
       identifiantGestionnaireRéseau,
       raisonSociale,

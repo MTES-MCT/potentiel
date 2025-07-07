@@ -1,5 +1,3 @@
-import { LoadAggregate } from '@potentiel-domain/core';
-
 import { GetProjetAggregateRoot } from '../..';
 
 import {
@@ -68,7 +66,6 @@ export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependen
 
 export type RaccordementCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-  loadAggregate: LoadAggregate;
 };
 
 export const registerRaccordementQueries = (dependencies: RaccordementQueryDependencies) => {
@@ -85,18 +82,17 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
 };
 
 export const registerRaccordementUseCases = ({
-  loadAggregate,
   getProjetAggregateRoot,
 }: RaccordementCommandDependencies) => {
-  registerModifierDemandeComplèteRaccordementCommand(getProjetAggregateRoot, loadAggregate);
-  registerModifierGestionnaireRéseauProjetCommand(getProjetAggregateRoot, loadAggregate);
+  registerModifierDemandeComplèteRaccordementCommand(getProjetAggregateRoot);
+  registerModifierGestionnaireRéseauProjetCommand(getProjetAggregateRoot);
   registerModifierPropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
-  registerModifierRéférenceDossierRaccordementCommand(getProjetAggregateRoot, loadAggregate);
+  registerModifierRéférenceDossierRaccordementCommand(getProjetAggregateRoot);
   registerTransmettreDateMiseEnServiceCommand(getProjetAggregateRoot);
-  registerTransmettreDemandeComplèteRaccordementCommand(getProjetAggregateRoot, loadAggregate);
+  registerTransmettreDemandeComplèteRaccordementCommand(getProjetAggregateRoot);
   registerSupprimerDateMiseEnServiceCommand(getProjetAggregateRoot);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(getProjetAggregateRoot);
-  registerAttribuerGestionnaireCommand(getProjetAggregateRoot, loadAggregate);
+  registerAttribuerGestionnaireCommand(getProjetAggregateRoot);
   registerSupprimerDossierDuRaccordementCommand(getProjetAggregateRoot);
   registerSupprimerRaccordementCommand(getProjetAggregateRoot);
 

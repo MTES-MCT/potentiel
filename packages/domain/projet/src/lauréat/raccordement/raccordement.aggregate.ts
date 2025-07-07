@@ -1,10 +1,11 @@
 import { match, P } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
+import { GestionnaireRéseauAggregate } from '@potentiel-domain/reseau/dist/gestionnaire/gestionnaireRéseau.aggregate';
 
 import { IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
@@ -109,6 +110,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   'raccordement',
   LauréatAggregate
 > {
+  #gestionnaireRéseau!: AggregateType<GestionnaireRéseauAggregate>;
   dossiers: Map<string, DossierRaccordement> = new Map();
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType =
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
@@ -119,6 +121,10 @@ export class RaccordementAggregate extends AbstractAggregate<
 
   private get identifiantProjet(): IdentifiantProjet.ValueType {
     return this.lauréat.projet.identifiantProjet;
+  }
+
+  private get référenceDossierExpressionRegulière() {
+    return this.#gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière;
   }
 
   private contientLeDossier({ référence }: RéférenceDossierRaccordement.ValueType) {
@@ -156,6 +162,14 @@ export class RaccordementAggregate extends AbstractAggregate<
       return true;
     }
     return !date.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
+  }
+
+  async init(loadAggregate: LoadAggregateV2) {
+    this.#gestionnaireRéseau = await loadAggregate(
+      GestionnaireRéseauAggregate,
+      `gestionnaire-réseau|${this.identifiantGestionnaireRéseau.codeEIC}`,
+      undefined,
+    );
   }
 
   async attribuerGestionnaireRéseau({
@@ -245,14 +259,13 @@ export class RaccordementAggregate extends AbstractAggregate<
     dateQualification,
     formatAccuséRéception,
     référenceDossierRaccordement,
-    référenceDossierExpressionRegulière,
     rôle,
   }: ModifierDemandeComplèteOptions) {
     if (dateQualification.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
 
-    if (!référenceDossierExpressionRegulière.valider(référenceDossierRaccordement.référence)) {
+    if (!this.référenceDossierExpressionRegulière.valider(référenceDossierRaccordement.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
@@ -313,7 +326,6 @@ export class RaccordementAggregate extends AbstractAggregate<
   async transmettreDemandeComplèteDeRaccordement({
     dateQualification,
     référenceDossier,
-    référenceDossierExpressionRegulière,
     formatAccuséRéception,
     transmisePar,
     transmiseLe,
@@ -321,7 +333,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAbandonné();
 
-    if (!référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
+    if (!this.référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
@@ -429,7 +441,6 @@ export class RaccordementAggregate extends AbstractAggregate<
   async modifierRéférenceDossierRacordement({
     nouvelleRéférenceDossierRaccordement,
     référenceDossierRaccordementActuelle,
-    référenceDossierExpressionRegulière,
     modifiéeLe,
     modifiéePar,
     rôle,
@@ -439,7 +450,9 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (
-      !référenceDossierExpressionRegulière.valider(nouvelleRéférenceDossierRaccordement.référence)
+      !this.référenceDossierExpressionRegulière.valider(
+        nouvelleRéférenceDossierRaccordement.référence,
+      )
     ) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }

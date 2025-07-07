@@ -2,8 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import { GetProjetAggregateRoot } from '../../../..';
@@ -22,10 +20,7 @@ export type ModifierRéférenceDossierRaccordementCommand = Message<
 
 export const registerModifierRéférenceDossierRaccordementCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
-  loadAggregate: LoadAggregate,
 ) => {
-  const loadGestionnaireRéseau = GestionnaireRéseau.loadGestionnaireRéseauFactory(loadAggregate);
-
   const handler: MessageHandler<ModifierRéférenceDossierRaccordementCommand> = async ({
     nouvelleRéférenceDossierRaccordement,
     référenceDossierRaccordementActuelle,
@@ -36,14 +31,8 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    const gestionnaireRéseau = await loadGestionnaireRéseau(
-      projet.lauréat.raccordement.identifiantGestionnaireRéseau,
-    );
-
     await projet.lauréat.raccordement.modifierRéférenceDossierRacordement({
       nouvelleRéférenceDossierRaccordement,
-      référenceDossierExpressionRegulière:
-        gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       référenceDossierRaccordementActuelle,
       modifiéeLe,
       modifiéePar,

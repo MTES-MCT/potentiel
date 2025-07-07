@@ -160,6 +160,7 @@ export class LauréatAggregate extends AbstractAggregate<
       `raccordement|${this.projet.identifiantProjet.formatter()}`,
       this,
     );
+    await this.#raccordement.init(loadAggregate);
 
     this.#garantiesFinancières = await loadAggregate(
       GarantiesFinancièresAggregate,
