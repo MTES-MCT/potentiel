@@ -104,22 +104,21 @@ type DossierRaccordement = {
   };
 };
 
-export class RaccordementAggregate extends AbstractAggregate<RaccordementEvent> {
-  #lauréat!: LauréatAggregate;
+export class RaccordementAggregate extends AbstractAggregate<
+  RaccordementEvent,
+  'raccordement',
+  LauréatAggregate
+> {
   dossiers: Map<string, DossierRaccordement> = new Map();
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType =
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
 
   get lauréat() {
-    return this.#lauréat;
-  }
-
-  async init(lauréat: LauréatAggregate) {
-    this.#lauréat = lauréat;
+    return this.parent;
   }
 
   private get identifiantProjet(): IdentifiantProjet.ValueType {
-    return this.#lauréat.projet.identifiantProjet;
+    return this.lauréat.projet.identifiantProjet;
   }
 
   private contientLeDossier({ référence }: RéférenceDossierRaccordement.ValueType) {
