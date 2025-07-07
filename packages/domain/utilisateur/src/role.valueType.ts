@@ -250,18 +250,23 @@ const référencielPermissions = {
       },
     },
     achèvement: {
-      query: {
-        consulter: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-      },
-      command: {
-        transmettre:
-          'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
-        modifier: 'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
-      },
-      useCase: {
-        transmettre:
-          'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
-        modifier: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
+      attestationConformité: {
+        query: {
+          consulter:
+            'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+        },
+        command: {
+          transmettre:
+            'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
+          modifier:
+            'Lauréat.Achèvement.AttestationConformité.Command.ModifierAttestationConformité',
+        },
+        useCase: {
+          transmettre:
+            'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
+          modifier:
+            'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
+        },
       },
     },
     représentantLégal: {
@@ -844,20 +849,20 @@ const policies = {
   achèvement: {
     consulter: [
       référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.achèvement.query.consulter,
+      référencielPermissions.lauréat.achèvement.attestationConformité.query.consulter,
       référencielPermissions.document.query.consulter,
     ],
     transmettre: [
-      référencielPermissions.lauréat.achèvement.useCase.transmettre,
-      référencielPermissions.lauréat.achèvement.command.transmettre,
+      référencielPermissions.lauréat.achèvement.attestationConformité.useCase.transmettre,
+      référencielPermissions.lauréat.achèvement.attestationConformité.command.transmettre,
       référencielPermissions.lauréat.garantiesFinancières.command.annulerTâchesPlanifiées,
       référencielPermissions.document.command.enregister,
     ],
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.achèvement.query.consulter,
-      référencielPermissions.lauréat.achèvement.useCase.modifier,
-      référencielPermissions.lauréat.achèvement.command.modifier,
+      référencielPermissions.lauréat.achèvement.attestationConformité.query.consulter,
+      référencielPermissions.lauréat.achèvement.attestationConformité.useCase.modifier,
+      référencielPermissions.lauréat.achèvement.attestationConformité.command.modifier,
       référencielPermissions.document.command.enregister,
     ],
   },

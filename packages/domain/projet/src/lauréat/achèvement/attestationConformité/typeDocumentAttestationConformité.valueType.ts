@@ -34,11 +34,11 @@ function estValide(value: string): asserts value is TypeDocument {
   const isValid = (typeDocument as Array<string>).includes(value);
 
   if (!isValid) {
-    throw new TypeDocumentAchèvementInvalideError(value);
+    throw new TypeDocumentAttestationConformitéInvalideError(value);
   }
 }
 
-class TypeDocumentAchèvementInvalideError extends InvalidOperationError {
+class TypeDocumentAttestationConformitéInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type du document ne correspond à aucune valeur connue`, {
       value,

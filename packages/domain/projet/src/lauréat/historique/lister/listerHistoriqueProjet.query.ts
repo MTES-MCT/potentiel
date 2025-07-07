@@ -9,7 +9,6 @@ import {
 
 import { HistoriqueRecoursProjetListItemReadModel } from '../../../éliminé/recours';
 import { HistoriqueAbandonProjetListItemReadModel } from '../../abandon';
-import { AchèvementEvent } from '../../achèvement';
 import { HistoriqueActionnaireProjetListItemReadModel } from '../../actionnaire';
 import { GarantiesFinancièresEvent } from '../../garanties-financières';
 import { LauréatEvent } from '../../lauréat.event';
@@ -20,6 +19,7 @@ import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../repr
 import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
 import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistoriqueDélaiProjet.query';
 import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
+import { AttestationConformitéEvent } from '../../achèvement/attestationConformité';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
@@ -35,8 +35,8 @@ export type HistoriqueGarantiesFinancièresProjetListItemReadModel = HistoryReco
 
 export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
   'achevement',
-  AchèvementEvent['type'],
-  AchèvementEvent['payload']
+  AttestationConformitéEvent['type'],
+  AttestationConformitéEvent['payload']
 >;
 
 export type HistoriqueListItemReadModels =

@@ -15,18 +15,18 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
     dateTransmissionAuCocontractant,
     date,
     utilisateur,
-  } = attestationConformitéModifiée.payload as Lauréat.Achèvement.AttestationConformitéModifiéeEvent['payload'];
+  } = attestationConformitéModifiée.payload as Lauréat.Achèvement.AttestationConformité.AttestationConformitéModifiéeEvent['payload'];
 
   const attestation = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+    Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
     date,
     format,
   ).formatter();
 
   const preuveTransmission = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+    Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant.format,
   ).formatter();

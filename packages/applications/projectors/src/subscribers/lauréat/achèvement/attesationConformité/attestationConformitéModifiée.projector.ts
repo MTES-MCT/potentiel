@@ -3,9 +3,9 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 
 export const attestationConformitéModifiéeProjector = async ({
   payload,
-}: Lauréat.Achèvement.AttestationConformitéModifiéeEvent) => {
-  await updateOneProjection<Lauréat.Achèvement.AchèvementEntity>(
-    `achevement|${payload.identifiantProjet}`,
+}: Lauréat.Achèvement.AttestationConformité.AttestationConformitéModifiéeEvent) => {
+  await updateOneProjection<Lauréat.Achèvement.AttestationConformité.AttestationConformitéEntity>(
+    `attestation-conformité|${payload.identifiantProjet}`,
     {
       identifiantProjet: payload.identifiantProjet,
       attestationConformité: { format: payload.attestation.format, date: payload.date },

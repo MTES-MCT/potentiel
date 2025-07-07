@@ -54,12 +54,14 @@ export const GET = async (
       ).items[0];
 
       const achèvement =
-        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
-          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-          data: {
-            identifiantProjetValue,
+        await mediator.send<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>(
+          {
+            type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+            data: {
+              identifiantProjetValue,
+            },
           },
-        });
+        );
 
       let abandon: Option.Type<Lauréat.Abandon.ConsulterAbandonReadModel> = Option.none;
 

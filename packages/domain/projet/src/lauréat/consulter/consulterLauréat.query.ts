@@ -9,7 +9,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { LauréatEntity } from '../lauréat.entity';
 import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
 import { AbandonEntity } from '../abandon';
-import { AchèvementEntity } from '../achèvement';
 import { Abandon } from '..';
 import {
   CandidatureEntity,
@@ -18,6 +17,7 @@ import {
   VolumeRéservé,
 } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
+import { AttestationConformitéEntity } from '../achèvement/attestationConformité';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -83,7 +83,9 @@ export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDepend
       appelOffres,
       période,
     );
-    const achèvement = await find<AchèvementEntity>(`achevement|${identifiantProjet}`);
+    const achèvement = await find<AttestationConformitéEntity>(
+      `attestation-conformité|${identifiantProjet}`,
+    );
     if (Option.isSome(achèvement)) {
       return mapToReadModel(lauréat, candidatureReadModel, StatutProjet.achevé);
     }

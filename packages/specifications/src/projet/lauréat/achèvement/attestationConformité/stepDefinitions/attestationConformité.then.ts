@@ -18,12 +18,14 @@ Alors(
       const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
       const achèvement =
-        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
-          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>(
+          {
+            type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       const actual = mapToPlainObject(achèvement);
       const expected = mapToPlainObject(
