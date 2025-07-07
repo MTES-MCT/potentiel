@@ -9,3 +9,4 @@ export * as CahierDesCharges from './cahierDesCharges.routes';
 export * as Producteur from './producteur.routes';
 export * as Historique from './historique.routes';
 export * as Fournisseur from './fournisseur.routes';
+export * as Délai from './délai.routes';

@@ -10,6 +10,7 @@ import {
   Producteur,
   Historique,
   Fournisseur,
+  Délai,
 } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
@@ -46,4 +47,5 @@ export const Routes = {
   Producteur,
   Historique,
   Fournisseur,
+  Délai,
 };
