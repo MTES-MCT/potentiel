@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
+import { PotentielWorld } from '../../../../potentiel.world';
 
 EtantDonné(
   'une attestation de conformité transmise pour le projet lauréat',

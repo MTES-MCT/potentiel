@@ -8,8 +8,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
+import { PotentielWorld } from '../../../../potentiel.world';
+import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
 
 Alors(
   'une attestation de conformité devrait être consultable pour le projet lauréat',
