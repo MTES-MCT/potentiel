@@ -26,7 +26,7 @@ import {
   RecoursImpossiblePourPériodeError,
 } from './recours.error';
 
-export class RecoursAggregate extends AbstractAggregate<RecoursEvent, ÉliminéAggregate> {
+export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
   statut = StatutRecours.inconnu;
 
   demande: {

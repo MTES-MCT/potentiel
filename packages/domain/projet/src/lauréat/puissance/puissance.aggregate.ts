@@ -36,7 +36,11 @@ import {
   RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError,
 } from './changement/errors';
 
-export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent, LauréatAggregate> {
+export class PuissanceAggregate extends AbstractAggregate<
+  PuissanceEvent,
+  'puissance',
+  LauréatAggregate
+> {
   #puissance!: number;
 
   #demande?: {

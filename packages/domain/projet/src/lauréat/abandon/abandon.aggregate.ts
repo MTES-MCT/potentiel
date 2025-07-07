@@ -44,7 +44,7 @@ import { InstruireOptions } from './instruire/instruireAbandon.option';
 import { AnnulerOptions } from './annuler/annulerAbandon.option';
 import { RejeterOptions } from './rejeter/rejeterAbandon.option';
 
-export class AbandonAggregate extends AbstractAggregate<AbandonEvent, LauréatAggregate> {
+export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon', LauréatAggregate> {
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;
   #demande?: {
     recandidature: boolean;

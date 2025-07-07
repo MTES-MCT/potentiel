@@ -30,7 +30,11 @@ import { AnnulerChangementOptions } from './changement/annuler/annulerChangement
 import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementActionnaire.options';
 import { SupprimerChangementActionnaireOptions } from './changement/supprimer/supprimerChangementActionnaire.options';
 
-export class ActionnaireAggregate extends AbstractAggregate<ActionnaireEvent, LauréatAggregate> {
+export class ActionnaireAggregate extends AbstractAggregate<
+  ActionnaireEvent,
+  'actionnaire',
+  LauréatAggregate
+> {
   #actionnaire!: string;
 
   #demande?: {

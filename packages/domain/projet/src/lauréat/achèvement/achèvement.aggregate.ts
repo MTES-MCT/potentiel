@@ -19,7 +19,11 @@ import {
 import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option';
 import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
 
-export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent, LauréatAggregate> {
+export class AchèvementAggregate extends AbstractAggregate<
+  AchèvementEvent,
+  'achevement',
+  LauréatAggregate
+> {
   get lauréat() {
     return this.parent;
   }

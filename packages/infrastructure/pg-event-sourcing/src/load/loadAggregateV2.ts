@@ -12,7 +12,7 @@ import { loadFromStream } from './loadFromStream';
 
 export const loadAggregateV2: LoadAggregateV2 = async <
   TDomainEvent extends DomainEvent,
-  TAggregate extends AbstractAggregate<TDomainEvent>,
+  TAggregate extends AbstractAggregate<TDomainEvent, string>,
 >(
   ctor: new (
     parent: TAggregate['parent'],

@@ -11,7 +11,11 @@ import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options';
 import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
 import { RecoursAggregate } from './recours/recours.aggregate';
 
-export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent, ProjetAggregateRoot> {
+export class ÉliminéAggregate extends AbstractAggregate<
+  ÉliminéEvent,
+  'éliminé',
+  ProjetAggregateRoot
+> {
   get projet() {
     return this.parent;
   }

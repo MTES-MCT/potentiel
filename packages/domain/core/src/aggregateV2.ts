@@ -6,7 +6,11 @@ export type Publish = <TDomainEvent extends DomainEvent>(
   event: TDomainEvent,
 ) => Promise<void>;
 
-export abstract class AbstractAggregate<TDomainEvent extends DomainEvent, TParent = unknown> {
+export abstract class AbstractAggregate<
+  TDomainEvent extends DomainEvent,
+  TCategory extends string,
+  TParent = unknown,
+> {
   readonly #parent: TParent;
 
   get parent(): TParent {
@@ -19,7 +23,7 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent, TParen
     return this.#aggregateId;
   }
 
-  readonly #category: string;
+  readonly #category: TCategory;
 
   get category() {
     return this.#category;
@@ -37,12 +41,17 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent, TParen
     return this.version > 0;
   }
 
-  constructor(parent: TParent, aggregateId: AggregateId, version: number, publish: Publish) {
+  constructor(
+    parent: TParent,
+    aggregateId: AggregateId<TCategory>,
+    version: number,
+    publish: Publish,
+  ) {
     this.#parent = parent;
     this.#aggregateId = aggregateId;
     this.#version = version;
     this.#publish = publish;
-    this.#category = aggregateId.split('|')[0];
+    this.#category = aggregateId.split('|')[0] as TCategory;
   }
 
   abstract apply(event: TDomainEvent): void;
@@ -55,19 +64,19 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent, TParen
 }
 
 export type AggregateType<
-  TAggregate extends AbstractAggregate<TDomainEvent>,
+  TAggregate extends AbstractAggregate<TDomainEvent, string>,
   TDomainEvent extends DomainEvent = DomainEvent,
 > = Omit<TAggregate, 'aggregateId' | 'version' | 'apply'>;
 export type LoadAggregateV2 = <
   TDomainEvent extends DomainEvent,
-  TAggregate extends AbstractAggregate<TDomainEvent>,
+  TAggregate extends AbstractAggregate<TDomainEvent, string>,
 >(
   ctor: new (
     parent: TAggregate['parent'],
-    aggregateId: AggregateId,
+    aggregateId: AggregateId<TAggregate['category']>,
     version: number,
     publish: Publish,
   ) => TAggregate,
-  aggregateId: AggregateId,
+  aggregateId: AggregateId<TAggregate['category']>,
   parent: TAggregate['parent'],
 ) => Promise<AggregateType<TAggregate>>;

@@ -21,7 +21,7 @@ import {
 import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
 import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
 
-export class AccèsAggregate extends AbstractAggregate<AccèsEvent, ProjetAggregateRoot> {
+export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', ProjetAggregateRoot> {
   get projet() {
     return this.parent;
   }

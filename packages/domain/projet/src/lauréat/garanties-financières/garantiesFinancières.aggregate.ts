@@ -8,6 +8,7 @@ import { GarantiesFinancièresEvent } from './garantiesFinancières.event';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
+  'garanties-financieres',
   LauréatAggregate
 > {
   get lauréat() {

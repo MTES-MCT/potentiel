@@ -17,7 +17,11 @@ import { ImporterOptions } from './importer/importerProducteur.option';
 import { ProducteurImportéEvent } from './importer/importerProducteur.event';
 import { ProducteurIdentiqueError, AOEmpêcheChangementProducteurError } from './producteur.error';
 
-export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent, LauréatAggregate> {
+export class ProducteurAggregate extends AbstractAggregate<
+  ProducteurEvent,
+  'producteur',
+  LauréatAggregate
+> {
   producteur!: string;
 
   changements: Map<

@@ -52,7 +52,11 @@ import {
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
-export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent, ProjetAggregateRoot> {
+export class CandidatureAggregate extends AbstractAggregate<
+  CandidatureEvent,
+  'candidature',
+  ProjetAggregateRoot
+> {
   get projet() {
     return this.parent;
   }

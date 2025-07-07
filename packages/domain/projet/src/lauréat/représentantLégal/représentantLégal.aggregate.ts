@@ -52,6 +52,7 @@ export type ReprésentantLégalEvent =
 
 export class ReprésentantLégalAggregate extends AbstractAggregate<
   ReprésentantLégalEvent,
+  'représentant-légal',
   LauréatAggregate
 > {
   #représentantLégal?: {

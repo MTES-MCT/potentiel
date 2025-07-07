@@ -1,1 +1,1 @@
-export type AggregateId = `${string}|${string}`;
+export type AggregateId<TCategory extends string = string> = `${TCategory}|${string}`;

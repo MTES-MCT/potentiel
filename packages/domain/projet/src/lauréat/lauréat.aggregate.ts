@@ -42,7 +42,11 @@ import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 
-export class LauréatAggregate extends AbstractAggregate<LauréatEvent, ProjetAggregateRoot> {
+export class LauréatAggregate extends AbstractAggregate<
+  LauréatEvent,
+  'lauréat',
+  ProjetAggregateRoot
+> {
   #nomProjet?: string;
   #localité?: Candidature.Localité.ValueType;
   #notifiéLe?: DateTime.ValueType;

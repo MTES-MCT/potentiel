@@ -17,7 +17,7 @@ type CustomEvent2 = DomainEvent<'event-2', { secondePropriété: string }>;
 
 type CustomEvent = CustomEvent1 | CustomEvent2;
 
-class CustomAggregate extends AbstractAggregate<CustomEvent> {
+class CustomAggregate extends AbstractAggregate<CustomEvent, 'aggregateCategory'> {
   propriété: string = 'unknownPropriété';
   secondePropriété: string = 'unknownSecondePropriété';
 

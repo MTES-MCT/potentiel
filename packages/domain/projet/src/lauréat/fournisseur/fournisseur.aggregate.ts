@@ -22,7 +22,11 @@ import {
 import { EnregistrerChangementFournisseurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
 import { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
 
-export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent, LauréatAggregate> {
+export class FournisseurAggregate extends AbstractAggregate<
+  FournisseurEvent,
+  'fournisseur',
+  LauréatAggregate
+> {
   #fournisseurs!: Array<Fournisseur.ValueType>;
 
   #évaluationCarboneSimplifiée!: number;
