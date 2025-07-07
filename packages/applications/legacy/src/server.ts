@@ -17,7 +17,10 @@ import crypto from 'node:crypto';
 import { MulterError } from 'multer';
 import { runWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
-import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  executeSubscribersRetry,
+  listDanglingSubscribers,
+} from '@potentiel-infrastructure/pg-event-sourcing';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -150,6 +153,13 @@ export async function makeServer(port: number) {
     await bootstrap({ middlewares: [permissionMiddleware] });
     await registerSagas();
     await executeSubscribersRetry();
+
+    const danglingSubscribers = await listDanglingSubscribers();
+    if (danglingSubscribers.length > 0) {
+      logger.warning('Some subscribers are no longer listed in the application', {
+        subscribers: danglingSubscribers,
+      });
+    }
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {
