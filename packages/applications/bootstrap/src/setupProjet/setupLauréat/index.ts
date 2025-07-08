@@ -51,6 +51,8 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Historique',
   });
 
+  Lauréat.Raccordement.RaccordementSaga.register(dependencies);
+
   await lauréat.setupSubscription<
     Lauréat.Raccordement.RaccordementSaga.SubscriptionEvent,
     Lauréat.Raccordement.RaccordementSaga.Execute

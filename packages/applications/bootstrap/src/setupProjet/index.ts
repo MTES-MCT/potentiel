@@ -11,7 +11,6 @@ import {
   getProjetUtilisateurScopeAdapter,
   DocumentAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { getProjetAggregateRootAdapter } from '../adapters/getProjetAggregateRoot.adapter';
 
@@ -24,7 +23,6 @@ import { setupAccès } from './setupAccès';
 export const setupProjet: SetupProjet = async (dependencies) => {
   registerProjetUseCases({
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
-    loadAggregate,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
   });
 

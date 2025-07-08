@@ -1,14 +1,11 @@
 import { RaccordementProjector } from '@potentiel-applications/projectors';
 import { HistoriqueProjector } from '@potentiel-applications/projectors';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
-export const setupRaccordement: SetupProjet = async ({ récupérerGRDParVille }) => {
+export const setupRaccordement: SetupProjet = async () => {
   const raccordement = createSubscriptionSetup('raccordement');
-
-  Lauréat.Raccordement.RaccordementSaga.register({ récupérerGRDParVille });
 
   RaccordementProjector.register();
 

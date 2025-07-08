@@ -1,5 +1,3 @@
-import { LoadAggregate } from '@potentiel-domain/core';
-
 import { GetProjetAggregateRoot } from '..';
 
 import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
@@ -72,13 +70,9 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ReprésentantLégalQueryDependencies &
   ListerHistoriqueProjetDependencies;
 
-// à supprimer une fois gestionnaire de réseau migré dans l'AR
-type GestionnaireRéseauCommandDependencies = { loadAggregate: LoadAggregate };
-
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-} & GestionnaireRéseauCommandDependencies &
-  SupprimerDocumentProjetSensibleCommandDependencies;
+} & SupprimerDocumentProjetSensibleCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
