@@ -14,5 +14,8 @@ export type { ConsulterAchèvementReadModel };
 // Entity
 export { AchèvementEntity } from './achèvement.entity';
 
+// Event
+export * from './achèvement.event';
+
 // Attestation de conformité
 export * as AttestationConformité from './attestationConformité';

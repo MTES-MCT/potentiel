@@ -34,7 +34,7 @@
     "pretest:ssr": "turbo run build --filter=@potentiel-domain/projet",
     "test:ssr": "turbo run test --filter=@potentiel-applications/ssr",
     "prespecs": "npm run pretest && turbo run build --filter=@potentiel/specifications",
-    "specs": "npm run test -w @potentiel/specifications",
+    "specs": "npm run test -w @potentiel/specifications -- ",
     "prespecs:select": "npm run prespecs",
     "specs:select": "npm run test:select -w @potentiel/specifications",
     "version": "npx tsx .github/getPatchVersion.ts",

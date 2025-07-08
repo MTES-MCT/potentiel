@@ -45,12 +45,16 @@ export class LauréatAggregate extends AbstractAggregate<
 > {
   #nomProjet?: string;
   #localité?: Candidature.Localité.ValueType;
-  #notifiéLe?: DateTime.ValueType;
   #cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
     AppelOffre.RéférenceCahierDesCharges.initial;
 
   get projet() {
     return this.parent;
+  }
+
+  #notifiéLe?: DateTime.ValueType;
+  get notifiéLe() {
+    return this.#notifiéLe;
   }
 
   #estNotifié: boolean = false;
@@ -203,6 +207,8 @@ export class LauréatAggregate extends AbstractAggregate<
       importéLe: notifiéeLe,
       identifiantUtilisateur: notifiéePar,
     });
+
+    await this.achèvement.calculerDatePrévisionnelle();
   }
 
   async modifier({

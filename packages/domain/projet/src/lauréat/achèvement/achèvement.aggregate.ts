@@ -3,10 +3,10 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
-import { AttestationConformitéEvent } from './attestationConformité/attestationConformité.event';
 import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
@@ -17,9 +17,10 @@ import { AttestationConformitéModifiéeEvent } from './attestationConformité/m
 import { ModifierAttestationConformitéOptions } from './attestationConformité/modifier/modifierAttestationConformité.option';
 import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
 import { TypeDocumentAttestationConformité } from './attestationConformité';
+import { AchèvementEvent, DatePrévisionnelleCalculéeEvent } from './achèvement.event';
 
 export class AchèvementAggregate extends AbstractAggregate<
-  AttestationConformitéEvent,
+  AchèvementEvent,
   'achevement',
   LauréatAggregate
 > {
@@ -40,6 +41,31 @@ export class AchèvementAggregate extends AbstractAggregate<
   #preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType> = Option.none;
   get preuveTransmissionAuCocontractant() {
     return this.#preuveTransmissionAuCocontractant;
+  }
+
+  async calculerDatePrévisionnelle() {
+    if (this.lauréat.notifiéLe) {
+      // const getDelaiRealisationEnMois = () => {
+      //   if (this.lauréat.projet.appelOffre.decoupageParTechnologie) {
+      //     return 0;
+      //   } else {
+      //     return this.lauréat.projet.appelOffre.delaiRealisationEnMois;
+      //   }
+      // };
+
+      // const delaiRealisationEnMois = getDelaiRealisationEnMois();
+
+      const event: DatePrévisionnelleCalculéeEvent = {
+        type: 'DatePrévisionnelleCalculée-V1',
+        payload: {
+          identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+          // date: this.lauréat.notifiéLe.ajouterNombreDeMois(delaiRealisationEnMois).formatter(),
+          date: DateTime.convertirEnValueType(new Date('2027-04-30').toISOString()).formatter(),
+        },
+      };
+
+      await this.publish(event);
+    }
   }
 
   async transmettreAttestationConformité({
@@ -111,7 +137,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  apply(event: AttestationConformitéEvent): void {
+  apply(event: AchèvementEvent): void {
     match(event)
       .with(
         {
@@ -124,6 +150,12 @@ export class AchèvementAggregate extends AbstractAggregate<
           type: 'AttestationConformitéModifiée-V1',
         },
         (event) => this.applyAttestationConformitéModifiéeV1(event),
+      )
+      .with(
+        {
+          type: 'DatePrévisionnelleCalculée-V1',
+        },
+        (event) => this.applyDatePrévisionnelleCalculéeV1(event),
       )
       .exhaustive();
   }
@@ -177,4 +209,6 @@ export class AchèvementAggregate extends AbstractAggregate<
       preuveTransmissionAuCocontractant.format,
     );
   }
+
+  private applyDatePrévisionnelleCalculéeV1(_: DatePrévisionnelleCalculéeEvent) {}
 }

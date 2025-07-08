@@ -92,7 +92,9 @@ Alors(
       assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
 
       const actual = achèvement.datePrévisionnelle;
-      const expected = DateTime.convertirEnValueType(datePrévisionnelleAttendue);
+      const expected = DateTime.convertirEnValueType(
+        new Date(datePrévisionnelleAttendue).toISOString(),
+      );
 
       expect(actual.estÉgaleÀ(expected), 'La date prévisionnelle attendue est incorrecte').to.be
         .true;
