@@ -5,9 +5,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
-import { TypeDocumentAchèvement } from '..';
-import { AchèvementEntity } from '../achèvement.entity';
-import { IdentifiantProjet } from '../../..';
+import { AttestationConformitéEntity } from '../attestationConformité.entity';
+import { IdentifiantProjet } from '../../../..';
+import { TypeDocumentAttestationConformité } from '..';
 
 export type ConsulterAttestationConformitéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -38,7 +38,9 @@ export const registerConsulterAttestationConformitéQuery = ({
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<AchèvementEntity>(`achevement|${identifiantProjet.formatter()}`);
+    const result = await find<AttestationConformitéEntity>(
+      `attestation-conformité|${identifiantProjet.formatter()}`,
+    );
 
     if (Option.isNone(result)) {
       return Option.none;
@@ -58,14 +60,14 @@ const mapToReadModel = ({
   preuveTransmissionAuCocontractant,
   dernièreMiseÀJour,
   identifiantProjetValueType,
-}: AchèvementEntity & {
+}: AttestationConformitéEntity & {
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 }): ConsulterAttestationConformitéReadModel => {
   return {
     identifiantProjet: identifiantProjetValueType,
     attestation: DocumentProjet.convertirEnValueType(
       identifiantProjetValueType.formatter(),
-      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
       DateTime.convertirEnValueType(attestationConformité.date).formatter(),
       attestationConformité.format,
     ),
@@ -74,7 +76,7 @@ const mapToReadModel = ({
     ),
     preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
       identifiantProjetValueType.formatter(),
-      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
       DateTime.convertirEnValueType(preuveTransmissionAuCocontractant.date).formatter(),
       preuveTransmissionAuCocontractant.format,
     ),

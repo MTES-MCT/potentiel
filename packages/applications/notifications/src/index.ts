@@ -7,7 +7,7 @@ export * as CandidatureNotification from './subscribers/candidature/candidature.
 // Lauréat
 export * as AbandonNotification from './subscribers/lauréat/abandon.notification';
 export * as GarantiesFinancièresNotification from './subscribers/lauréat/garantiesFinancières.notification';
-export * as AchèvementNotification from './subscribers/lauréat/achèvement.notification';
+export * as AttestationConformitéNotification from './subscribers/lauréat/achèvement';
 export * as TâchePlanifiéeNotification from './subscribers/lauréat/tâche-planifiée';
 export * as ReprésentantLégalNotification from './subscribers/lauréat/représentant-légal';
 export * as ActionnaireNotification from './subscribers/lauréat/actionnaire';

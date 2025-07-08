@@ -10,7 +10,7 @@ type GetGarantiesFinancièresActuellesActions = {
   garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
   dépôt: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
-  achèvement: Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel>;
+  achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
   estAbandonné: boolean;
 };
 export const getGarantiesFinancièresActuellesActions = ({

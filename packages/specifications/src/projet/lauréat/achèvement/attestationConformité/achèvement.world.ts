@@ -19,7 +19,7 @@ export class AchèvementWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel> {
+  ): Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel> {
     if (!this.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé) {
       throw new Error(
         `Aucune transmission d'attestation de conformité n'a été crée dans AchèvementWorld`,
@@ -33,7 +33,7 @@ export class AchèvementWorld {
       identifiantProjet,
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+        Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
         DateTime.convertirEnValueType(date).formatter(),
         attestation.format,
       ),
@@ -42,7 +42,7 @@ export class AchèvementWorld {
       ),
       preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+        Lauréat.Achèvement.AttestationConformité.TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
         DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
         preuve.format,
       ),

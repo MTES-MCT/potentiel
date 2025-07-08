@@ -1,7 +1,7 @@
 import { Entity } from '@potentiel-domain/entity';
 
-export type AchèvementEntity = Entity<
-  'achevement',
+export type AttestationConformitéEntity = Entity<
+  'attestation-conformité',
   {
     identifiantProjet: string;
 

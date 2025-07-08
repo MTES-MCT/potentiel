@@ -6,21 +6,20 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
-import { TypeDocumentAchèvement } from '.';
-
-import { AchèvementEvent } from './achèvement.event';
-import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
-import { TransmettreAttestationConformitéOptions } from './transmettre/transmettreAttestationConformité.option';
+import { AttestationConformitéEvent } from './attestationConformité/attestationConformité.event';
 import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
   DateDeTransmissionAuCoContractantFuturError,
-} from './achèvement.error';
-import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option';
-import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
+} from './attestationConformité/attestationConformité.error';
+import { TransmettreAttestationConformitéOptions } from './attestationConformité/transmettre/transmettreAttestationConformité.option';
+import { AttestationConformitéModifiéeEvent } from './attestationConformité/modifier/modifierAttestationConformité.event';
+import { ModifierAttestationConformitéOptions } from './attestationConformité/modifier/modifierAttestationConformité.option';
+import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
+import { TypeDocumentAttestationConformité } from './attestationConformité';
 
 export class AchèvementAggregate extends AbstractAggregate<
-  AchèvementEvent,
+  AttestationConformitéEvent,
   'achevement',
   LauréatAggregate
 > {
@@ -112,7 +111,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  apply(event: AchèvementEvent): void {
+  apply(event: AttestationConformitéEvent): void {
     match(event)
       .with(
         {
@@ -142,14 +141,14 @@ export class AchèvementAggregate extends AbstractAggregate<
 
     this.#attestationConformité = DocumentProjet.convertirEnValueType(
       identifiantProjet,
-      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
       date,
       attestation.format,
     );
 
     this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
       identifiantProjet,
-      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
       dateTransmissionAuCocontractant,
       preuveTransmissionAuCocontractant.format,
     );
@@ -166,14 +165,14 @@ export class AchèvementAggregate extends AbstractAggregate<
   }: AttestationConformitéModifiéeEvent) {
     this.#attestationConformité = DocumentProjet.convertirEnValueType(
       identifiantProjet,
-      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+      TypeDocumentAttestationConformité.attestationConformitéValueType.formatter(),
       date,
       attestation.format,
     );
 
     this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
       identifiantProjet,
-      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+      TypeDocumentAttestationConformité.attestationConformitéPreuveTransmissionValueType.formatter(),
       dateTransmissionAuCocontractant,
       preuveTransmissionAuCocontractant.format,
     );
