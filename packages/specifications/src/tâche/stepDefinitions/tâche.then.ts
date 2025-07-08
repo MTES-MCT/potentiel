@@ -50,7 +50,7 @@ Alors(
   `aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet {lauréat-éliminé}`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const { identifiantProjet } =
-      statutProjet === 'éliminé' ? this.eliminéWorld : this.lauréatWorld;
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     await waitForExpect(async () => {
       const tâches = await mediator.send<Tâche.ListerTâchesQuery>({

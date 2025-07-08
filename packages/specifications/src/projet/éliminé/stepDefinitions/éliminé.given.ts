@@ -16,7 +16,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
     dateÉchéanceGfValue: undefined,
   });
 
-  const dateDésignation = this.eliminéWorld.dateDésignation;
+  const dateDésignation = this.éliminéWorld.dateDésignation;
 
   await notifierÉliminé.call(this, dateDésignation);
 });
@@ -32,7 +32,7 @@ EtantDonné(
       dateÉchéanceGfValue: undefined,
     });
 
-    const dateDésignation = this.eliminéWorld.dateDésignation;
+    const dateDésignation = this.éliminéWorld.dateDésignation;
 
     await notifierÉliminé.call(this, dateDésignation);
   },
@@ -50,7 +50,7 @@ EtantDonné(
       this.candidatureWorld.mapExempleToFixtureValues(exemple),
     );
 
-    const dateDésignation = this.eliminéWorld.dateDésignation;
+    const dateDésignation = this.éliminéWorld.dateDésignation;
 
     await notifierÉliminé.call(this, dateDésignation);
   },
@@ -77,9 +77,9 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
 
-  this.eliminéWorld.identifiantProjet = identifiantProjetValue;
+  this.éliminéWorld.identifiantProjet = identifiantProjetValue;
 
-  this.eliminéWorld.éliminéFixtures.set(candidature.values.nomProjetValue, {
+  this.éliminéWorld.éliminéFixtures.set(candidature.values.nomProjetValue, {
     nom: candidature.values.nomProjetValue,
     identifiantProjet: identifiantProjetValue,
     dateDésignation,

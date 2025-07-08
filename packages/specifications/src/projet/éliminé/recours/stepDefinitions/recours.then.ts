@@ -15,13 +15,13 @@ Alors(
   /le recours du projet éliminé devrait être(.*)demandé/,
   async function (this: PotentielWorld, etat: string) {
     if (etat.includes('de nouveau')) {
-      this.eliminéWorld.recoursWorld.reinitialiserEnDemande();
+      this.éliminéWorld.recoursWorld.reinitialiserEnDemande();
     }
 
     await waitForExpect(async () =>
       vérifierRecours.call(
         this,
-        this.eliminéWorld.identifiantProjet,
+        this.éliminéWorld.identifiantProjet,
         Éliminé.Recours.StatutRecours.demandé,
       ),
     );
@@ -31,7 +31,7 @@ Alors(
 Alors(
   `le recours du projet éliminé ne devrait plus exister`,
   async function (this: PotentielWorld) {
-    const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+    const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
 
     await waitForExpect(async () => {
       const result = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
@@ -50,7 +50,7 @@ Alors(`le recours du projet éliminé devrait être rejeté`, async function (th
   await waitForExpect(async () =>
     vérifierRecours.call(
       this,
-      this.eliminéWorld.identifiantProjet,
+      this.éliminéWorld.identifiantProjet,
       Éliminé.Recours.StatutRecours.rejeté,
     ),
   );
@@ -60,7 +60,7 @@ Alors(`le recours du projet éliminé devrait être accordé`, async function (t
   await waitForExpect(async () =>
     vérifierRecours.call(
       this,
-      this.eliminéWorld.identifiantProjet,
+      this.éliminéWorld.identifiantProjet,
       Éliminé.Recours.StatutRecours.accordé,
     ),
   );
@@ -72,7 +72,7 @@ Alors(
     await waitForExpect(async () =>
       vérifierRecours.call(
         this,
-        this.eliminéWorld.identifiantProjet,
+        this.éliminéWorld.identifiantProjet,
         Éliminé.Recours.StatutRecours.enInstruction,
       ),
     );
@@ -93,7 +93,7 @@ async function vérifierRecours(
 
   const actual = mapToPlainObject(recours);
   const expected = mapToPlainObject(
-    this.eliminéWorld.recoursWorld.mapToExpected(identifiantProjet, statut),
+    this.éliminéWorld.recoursWorld.mapToExpected(identifiantProjet, statut),
   );
 
   actual.should.be.deep.equal(expected);
@@ -115,12 +115,12 @@ async function vérifierRecours(
     pièceJustificative.content,
   );
   const expectedPièceJustificativeContent = await convertReadableStreamToString(
-    this.eliminéWorld.recoursWorld.demanderRecoursFixture.pièceJustificative.content,
+    this.éliminéWorld.recoursWorld.demanderRecoursFixture.pièceJustificative.content,
   );
 
   expect(actualPièceJustificativeContent).to.be.equal(expectedPièceJustificativeContent);
 
-  if (this.eliminéWorld.recoursWorld.accorderRecoursFixture.aÉtéCréé) {
+  if (this.éliminéWorld.recoursWorld.accorderRecoursFixture.aÉtéCréé) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
@@ -134,13 +134,13 @@ async function vérifierRecours(
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
-      this.eliminéWorld.recoursWorld.accorderRecoursFixture.réponseSignée?.content ??
+      this.éliminéWorld.recoursWorld.accorderRecoursFixture.réponseSignée?.content ??
         new ReadableStream(),
     );
     expect(actualContent).to.be.equal(expectedContent);
   }
 
-  if (this.eliminéWorld.recoursWorld.rejeterRecoursFixture.aÉtéCréé) {
+  if (this.éliminéWorld.recoursWorld.rejeterRecoursFixture.aÉtéCréé) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
@@ -154,7 +154,7 @@ async function vérifierRecours(
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
-      this.eliminéWorld.recoursWorld.rejeterRecoursFixture.réponseSignée?.content ??
+      this.éliminéWorld.recoursWorld.rejeterRecoursFixture.réponseSignée?.content ??
         new ReadableStream(),
     );
     expect(actualContent).to.be.equal(expectedContent);

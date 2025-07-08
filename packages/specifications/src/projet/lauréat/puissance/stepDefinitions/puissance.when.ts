@@ -55,10 +55,7 @@ async function modifierPuissance(
   statutProjet?: 'lauréat' | 'éliminé',
   ratio?: number,
 ) {
-  const identifiantProjet =
-    statutProjet === 'éliminé'
-      ? this.eliminéWorld.identifiantProjet.formatter()
-      : this.lauréatWorld.identifiantProjet.formatter();
+  const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
   const { puissance, dateModification, raison } =
     this.lauréatWorld.puissanceWorld.modifierPuissanceFixture.créer(
@@ -74,7 +71,7 @@ async function modifierPuissance(
   await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
     data: {
-      identifiantProjetValue: identifiantProjet,
+      identifiantProjetValue: identifiantProjet.formatter(),
       identifiantUtilisateurValue: modifiéPar,
       puissanceValue: puissance,
       dateModificationValue: dateModification,

@@ -36,10 +36,10 @@ export class PotentielWorld extends World {
     return this.#lauréatWorld;
   }
 
-  #eliminéWorld!: ÉliminéWorld;
+  #éliminéWorld!: ÉliminéWorld;
 
-  get eliminéWorld() {
-    return this.#eliminéWorld;
+  get éliminéWorld() {
+    return this.#éliminéWorld;
   }
 
   #raccordementWorld!: RaccordementWorld;
@@ -96,7 +96,7 @@ export class PotentielWorld extends World {
     this.#candidatureWorld = new CandidatureWorld();
     this.#gestionnaireRéseauWorld = new GestionnaireRéseauWorld();
     this.#lauréatWorld = new LauréatWorld(this.#candidatureWorld);
-    this.#eliminéWorld = new ÉliminéWorld();
+    this.#éliminéWorld = new ÉliminéWorld();
     this.#raccordementWorld = new RaccordementWorld();
     this.#tâcheWorld = new TâcheWorld();
     this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();

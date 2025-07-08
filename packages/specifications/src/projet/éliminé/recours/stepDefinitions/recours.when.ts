@@ -9,20 +9,18 @@ Quand(
   `le porteur demande le recours pour le projet {lauréat-éliminé}`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      const identifiantProjet =
-        statutProjet === 'éliminé'
-          ? this.eliminéWorld.identifiantProjet.formatter()
-          : this.lauréatWorld.identifiantProjet.formatter();
+      const { identifiantProjet } =
+        statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
       const { demandéLe, demandéPar, pièceJustificative, raison } =
-        this.eliminéWorld.recoursWorld.demanderRecoursFixture.créer({
+        this.éliminéWorld.recoursWorld.demanderRecoursFixture.créer({
           demandéPar: this.utilisateurWorld.porteurFixture.email,
         });
 
       await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.DemanderRecours',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           raisonValue: raison,
           pièceJustificativeValue: pièceJustificative,
           dateDemandeValue: demandéLe,
@@ -37,17 +35,15 @@ Quand(
 
 Quand(`le porteur annule le recours pour le projet éliminé`, async function (this: PotentielWorld) {
   try {
-    const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
-
     const { annuléLe: annuléeLe, annuléPar: annuléePar } =
-      this.eliminéWorld.recoursWorld.annulerRecoursFixture.créer({
+      this.éliminéWorld.recoursWorld.annulerRecoursFixture.créer({
         annuléPar: this.utilisateurWorld.porteurFixture.email,
       });
 
     await mediator.send<Éliminé.Recours.RecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.AnnulerRecours',
       data: {
-        identifiantProjetValue: identifiantProjet,
+        identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
         dateAnnulationValue: annuléeLe,
         identifiantUtilisateurValue: annuléePar,
       },
@@ -61,20 +57,18 @@ Quand(
   `le DGEC validateur rejette le recours pour le projet éliminé`,
   async function (this: PotentielWorld) {
     try {
-      const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
-
       const {
         rejetéLe: rejetéeLe,
         rejetéPar: rejetéePar,
         réponseSignée,
-      } = this.eliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
+      } = this.éliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
         rejetéPar: this.utilisateurWorld.validateurFixture.email,
       });
 
       await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.RejeterRecours',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           dateRejetValue: rejetéeLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: rejetéePar,
@@ -90,20 +84,20 @@ Quand(
   `le DGEC validateur accorde le recours pour le projet éliminé`,
   async function (this: PotentielWorld) {
     try {
-      const identifiantProjet = this.eliminéWorld.identifiantProjet;
-      const nomProjet = this.eliminéWorld.nomProjet;
+      const { identifiantProjet } = this.éliminéWorld;
+      const nomProjet = this.éliminéWorld.nomProjet;
 
       const {
         accordéLe: accordéeLe,
         accordéPar: accordéePar,
         réponseSignée,
-      } = this.eliminéWorld.recoursWorld.accorderRecoursFixture.créer({
+      } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
         accordéPar: this.utilisateurWorld.validateurFixture.email,
       });
 
       this.lauréatWorld.lauréatFixtures.set(nomProjet, {
         nom: nomProjet,
-        identifiantProjet,
+        identifiantProjet: this.éliminéWorld.identifiantProjet,
         dateDésignation: accordéeLe,
         appelOffre: identifiantProjet.appelOffre,
         période: identifiantProjet.période,
@@ -130,22 +124,20 @@ Quand(
   /(.*)administrateur passe en instruction le recours pour le projet éliminé/,
   async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
-      const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
-
       const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
       if (estUnNouvelAdmin) {
         this.utilisateurWorld.adminFixture.créer();
       }
 
       const { passéEnInstructionLe, passéEnInstructionPar } =
-        this.eliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
+        this.éliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
           passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
         });
 
       await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           dateInstructionValue: passéEnInstructionLe,
           identifiantUtilisateurValue: passéEnInstructionPar,
         },

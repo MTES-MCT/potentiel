@@ -35,7 +35,7 @@ Quand(
   async function (this: PotentielWorld) {
     await transmettreDemandeComplèteRaccordement.call(
       this,
-      this.eliminéWorld.identifiantProjet,
+      this.éliminéWorld.identifiantProjet,
       Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
     );
   },

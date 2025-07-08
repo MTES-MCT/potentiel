@@ -140,7 +140,7 @@ export async function demanderChangementActionnaire(
   const identifiantProjet =
     statutProjet === 'lauréat'
       ? this.lauréatWorld.identifiantProjet.formatter()
-      : this.eliminéWorld.identifiantProjet.formatter();
+      : this.éliminéWorld.identifiantProjet.formatter();
 
   const { pièceJustificative, demandéLe, demandéPar, raison, actionnaire } =
     this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.créer({
@@ -221,10 +221,7 @@ async function modifierActionnaire(
   modifiéPar: string,
   statutProjet?: 'lauréat' | 'éliminé',
 ) {
-  const identifiantProjet =
-    statutProjet === 'éliminé'
-      ? this.eliminéWorld.identifiantProjet.formatter()
-      : this.lauréatWorld.identifiantProjet.formatter();
+  const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
   const { actionnaire, dateModification, raison } =
     this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
@@ -232,7 +229,7 @@ async function modifierActionnaire(
   await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
     data: {
-      identifiantProjetValue: identifiantProjet,
+      identifiantProjetValue: identifiantProjet.formatter(),
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: actionnaire,
       dateModificationValue: dateModification,
@@ -242,8 +239,6 @@ async function modifierActionnaire(
 }
 
 async function modifierActionnaireSansChangement(this: PotentielWorld, modifiéPar: string) {
-  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
   const actionnaire = this.candidatureWorld.importerCandidature.values.sociétéMèreValue;
 
   const { dateModification, raison } =
@@ -254,7 +249,7 @@ async function modifierActionnaireSansChangement(this: PotentielWorld, modifiéP
   await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
     data: {
-      identifiantProjetValue: identifiantProjet,
+      identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: actionnaire,
       dateModificationValue: dateModification,
@@ -269,10 +264,7 @@ async function enregistrerChangementActionnaire(
   statutProjet?: 'lauréat' | 'éliminé',
   nouvelActionnaire?: string,
 ) {
-  const identifiantProjet =
-    statutProjet === 'éliminé'
-      ? this.eliminéWorld.identifiantProjet.formatter()
-      : this.lauréatWorld.identifiantProjet.formatter();
+  const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
   const { pièceJustificative, demandéLe, raison, actionnaire } =
     this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.créer({
@@ -283,7 +275,7 @@ async function enregistrerChangementActionnaire(
   await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
     data: {
-      identifiantProjetValue: identifiantProjet,
+      identifiantProjetValue: identifiantProjet.formatter(),
       identifiantUtilisateurValue: demandéPar,
       actionnaireValue: actionnaire,
       dateChangementValue: demandéLe,

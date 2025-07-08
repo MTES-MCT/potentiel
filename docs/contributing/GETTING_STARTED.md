@@ -14,8 +14,8 @@
   - [Lancer les tests](#lancer-les-tests)
     - [Specifications](#specifications)
   - [Metabase local](#metabase-local)
-      - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
-      - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
+    - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
+    - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
   - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
   - [Lancer des commandes CLI](#lancer-des-commandes-cli)
 

@@ -33,12 +33,10 @@ Quand(
           : this.utilisateurWorld.inviterUtilisateur.créer({
               rôle: Role.porteur.nom,
             });
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
     await inviterPorteur.call(this, {
-      identifiantsProjet: [identifiantProjet],
+      identifiantsProjet: [identifiantProjet.formatter()],
       identifiantUtilisateur: porteurInvité,
     });
   },
@@ -118,10 +116,8 @@ Quand(
 Quand(
   `un porteur réclame le projet {lauréat-éliminé} avec le même email que celui de la candidature`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const { emailContactValue: emailCandidature } =
       this.candidatureWorld.importerCandidature.values;
@@ -130,7 +126,7 @@ Quand(
     });
 
     await réclamerProjet.call(this, {
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       email: porteur.email,
     });
   },
@@ -139,10 +135,8 @@ Quand(
 Quand(
   `un porteur réclame le projet {lauréat-éliminé} en connaissant le prix et le numéro CRE`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const { prixRéférenceValue: prixReferenceValue, numéroCREValue } =
       this.candidatureWorld.importerCandidature.values;
@@ -150,7 +144,7 @@ Quand(
     const porteur = this.utilisateurWorld.porteurFixture.créer();
 
     await réclamerProjet.call(this, {
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       email: porteur.email,
       prixRéférence: prixReferenceValue,
       numéroCRE: numéroCREValue,
@@ -161,14 +155,12 @@ Quand(
 Quand(
   `un porteur réclame le projet {lauréat-éliminé} sans connaître le prix et le numéro CRE`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
     await réclamerProjet.call(this, {
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       email: porteur.email,
       prixRéférence: faker.number.float(),
       numéroCRE: faker.string.alphanumeric(),
@@ -179,15 +171,13 @@ Quand(
 Quand(
   `un porteur réclame le projet {lauréat-éliminé} avec un email différent de celui de la candidature`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
 
     await réclamerProjet.call(this, {
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       email: porteur.email,
     });
   },
@@ -210,12 +200,11 @@ Quand(`un porteur réclame la candidature lauréate`, async function (this: Pote
 Quand(
   "un administrateur retire l'accès de l'utilisateur au projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
     await retirerAccèsProjet.call(this, {
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
     });
   },

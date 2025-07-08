@@ -51,7 +51,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, nomProjet, 'éliminé');
 
-    const dateDésignation = this.eliminéWorld.dateDésignation;
+    const dateDésignation = this.éliminéWorld.dateDésignation;
 
     await notifierÉliminé.call(this, dateDésignation);
   },

@@ -203,7 +203,7 @@ Quand(
       const { identifiantProjet: identifiantProjetPreuveRecandidature } =
         statutProjet === 'lauréat'
           ? this.lauréatWorld.rechercherLauréatFixture(nomPreuveRecandidature)
-          : this.eliminéWorld.rechercherÉliminéFixture(nomPreuveRecandidature);
+          : this.éliminéWorld.rechercherÉliminéFixture(nomPreuveRecandidature);
 
       const { transmiseLe, transmisePar, preuveRecandidature } =
         this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer({

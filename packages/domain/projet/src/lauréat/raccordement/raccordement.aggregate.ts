@@ -287,6 +287,9 @@ export class RaccordementAggregate extends AbstractAggregate<
     référenceDossierRaccordement,
     formatPropositionTechniqueEtFinancièreSignée,
   }: TransmettrePropositionTechniqueEtFinancièreOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierNonAbandonné();
+
     if (dateSignature.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
@@ -361,6 +364,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmisePar,
   }: TransmettreDateMiseEnServiceOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierNonAbandonné();
 
     if (dateMiseEnService.estDansLeFutur()) {
       throw new DateDansLeFuturError();

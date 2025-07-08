@@ -34,10 +34,8 @@ Quand(
   'le DGEC validateur modifie le producteur du projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      const identifiantProjet =
-        statutProjet === 'éliminé'
-          ? this.eliminéWorld.identifiantProjet
-          : this.lauréatWorld.identifiantProjet;
+      const { identifiantProjet } =
+        statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
       await modifierProducteur.call(this, identifiantProjet);
     } catch (error) {
