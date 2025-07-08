@@ -5,7 +5,6 @@ import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
-import { GestionnaireRéseauAggregate } from '@potentiel-domain/reseau/dist/gestionnaire/gestionnaireRéseau.aggregate';
 
 import { IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
@@ -110,7 +109,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   'raccordement',
   LauréatAggregate
 > {
-  #gestionnaireRéseau!: AggregateType<GestionnaireRéseauAggregate>;
+  #gestionnaireRéseau!: AggregateType<GestionnaireRéseau.GestionnaireRéseauAggregate>;
   #dossiers: Map<string, DossierRaccordement> = new Map();
   #identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType =
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
@@ -171,7 +170,10 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   async loadGestionnaireRéseau(codeEIC: string) {
-    return await this.loadAggregate(GestionnaireRéseauAggregate, `gestionnaire-réseau|${codeEIC}`);
+    return await this.loadAggregate(
+      GestionnaireRéseau.GestionnaireRéseauAggregate,
+      `gestionnaire-réseau|${codeEIC}`,
+    );
   }
 
   async attribuerGestionnaireRéseau({
