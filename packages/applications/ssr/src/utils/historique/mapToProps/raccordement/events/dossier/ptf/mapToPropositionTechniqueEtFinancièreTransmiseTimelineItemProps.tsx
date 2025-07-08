@@ -10,12 +10,7 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent
   ) & { createdAt: string },
 ) => {
-  const event:
-    | {
-        date: DateTime.RawType;
-        référenceDossierRaccordement: string;
-      }
-    | undefined = match(readmodel)
+  const { date, référenceDossierRaccordement } = match(readmodel)
     .with({ type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' }, (event) => {
       const { référenceDossierRaccordement } = event.payload;
 
@@ -24,25 +19,14 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
         référenceDossierRaccordement,
       };
     })
-    .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V1' }, (event) => {
+    .otherwise((event) => {
       const { référenceDossierRaccordement, dateSignature } = event.payload;
 
       return {
         date: dateSignature,
         référenceDossierRaccordement,
       };
-    })
-    .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V2' }, (event) => {
-      const { référenceDossierRaccordement, dateSignature } = event.payload;
-
-      return {
-        date: dateSignature,
-        référenceDossierRaccordement,
-      };
-    })
-    .exhaustive();
-
-  const { date, référenceDossierRaccordement } = event;
+    });
 
   return {
     date,
