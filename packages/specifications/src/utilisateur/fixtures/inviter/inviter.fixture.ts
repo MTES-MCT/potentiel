@@ -56,7 +56,7 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
     partialFixture: Partial<Readonly<InviterPorteur>> & Pick<InviterPorteur, 'rôle'>,
   ): Readonly<InviterPorteur> {
     const fixture: InviterPorteur = {
-      email: faker.internet.email(),
+      email: faker.internet.email({ firstName: partialFixture.rôle }),
       ...partialFixture,
     };
     this.#email = fixture.email;

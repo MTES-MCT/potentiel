@@ -87,6 +87,7 @@ export class NotifierGestionnaireRéseau extends Command {
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
           identifiantGestionnaireRéseau: codeEIC,
+          actif: true,
         },
       });
 

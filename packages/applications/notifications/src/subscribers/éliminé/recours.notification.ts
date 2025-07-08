@@ -74,6 +74,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
           roles: [Role.cre.nom],
+          actif: true,
         },
       });
       const recipients = utilisateursCre.items.map(({ email }) => ({
