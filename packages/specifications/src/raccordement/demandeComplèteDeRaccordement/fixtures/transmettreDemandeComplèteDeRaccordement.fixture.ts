@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture';
 import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
@@ -91,7 +91,7 @@ export class TransmettreDemandeComplèteRaccordementFixture
       accuséRéception: this.accuséRéception.format
         ? DocumentProjet.convertirEnValueType(
             this.identifiantProjet,
-            Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+            Lauréat.Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
               référenceDossier ?? this.référenceDossier,
             ).formatter(),
             this.#dateQualification,

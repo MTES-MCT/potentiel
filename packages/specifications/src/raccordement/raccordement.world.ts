@@ -1,6 +1,5 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Raccordement } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TransmettreDateMiseEnServiceFixture } from './dateDeMiseEnService/fixtures/transmettreDateDeMiseEnService.fixture';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture';
@@ -37,7 +36,7 @@ export class RaccordementWorld {
     const dossier = {
       demandeComplèteRaccordement:
         this.demandeComplèteDeRaccordement.mapToExpected(nouvelleRéférenceDossier),
-      référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+      référence: Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
         this.référenceDossier,
       ),
       miseEnService: this.transmettreDateMiseEnServiceFixture.mapToExpected(),

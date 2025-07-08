@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Tâche } from '@potentiel-domain/tache';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { RechercherTypeTâche } from '../../../tâche/tâche.world';
@@ -16,8 +16,10 @@ EtantDonné(
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
     );
+
     this.raccordementWorld.identifiantGestionnaireRéseau = codeEIC;
-    await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+
+    await mediator.send<Lauréat.Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,
@@ -33,7 +35,8 @@ EtantDonné(
   async function (this: PotentielWorld) {
     this.raccordementWorld.identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter();
-    await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
+
+    await mediator.send<Lauréat.Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantGestionnaireRéseauValue:
@@ -51,7 +54,7 @@ EtantDonné(
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(tâche);
     const { identifiantProjet } = this.lauréatWorld;
 
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantGestionnaireRéseauValue: 'inconnu',

@@ -4,19 +4,11 @@ import {
   registerLauréatQueries,
   registerLauréatUseCases,
   GarantiesFinancières,
-  Raccordement,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  countProjection,
-  findProjection,
-  listProjection,
-} from '@potentiel-infrastructure/pg-projection-read';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
-import {
-  GarantiesFinancièreProjector,
-  RaccordementProjector,
-} from '@potentiel-applications/projectors';
+import { GarantiesFinancièreProjector } from '@potentiel-applications/projectors';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
 
@@ -24,13 +16,9 @@ import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot
 
 type SetupLauréatDependencies = {
   sendEmail: SendEmail;
-  récupérerGRDParVille: Raccordement.RécupererGRDParVillePort;
 };
 
-export const setupLauréat = async ({
-  sendEmail,
-  récupérerGRDParVille,
-}: SetupLauréatDependencies) => {
+export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
   registerLauréatUseCases({
     loadAggregate,
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
@@ -39,7 +27,6 @@ export const setupLauréat = async ({
   registerLauréatQueries({
     find: findProjection,
     list: listProjection,
-    count: countProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   });
 
@@ -52,9 +39,6 @@ export const setupLauréat = async ({
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
-  Raccordement.RaccordementSaga.register({
-    récupérerGRDParVille,
-  });
 
   const unsubscribeGarantiesFinancièresProjector =
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
@@ -170,74 +154,9 @@ export const setupLauréat = async ({
     },
   });
 
-  const unsubscribeRaccordementAbandonSaga = await subscribe<
-    Raccordement.RaccordementSaga.SubscriptionEvent & Event
-  >({
-    name: 'raccordement-abandon-saga',
-    streamCategory: 'abandon',
-    eventType: ['AbandonAccordé-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<Raccordement.RaccordementSaga.Execute>({
-        type: 'System.Lauréat.Raccordement.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-  const unsubscribeRaccordementLauréatSaga = await subscribe<
-    Raccordement.RaccordementSaga.SubscriptionEvent & Event
-  >({
-    name: 'raccordement-laureat-saga',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V2'],
-    eventHandler: async (event) => {
-      await mediator.publish<Raccordement.RaccordementSaga.Execute>({
-        type: 'System.Lauréat.Raccordement.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-  const unsubscribeRaccordementProjector = await subscribe<RaccordementProjector.SubscriptionEvent>(
-    {
-      name: 'projector',
-      eventType: [
-        'RebuildTriggered',
-        'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
-        'DateMiseEnServiceTransmise-V1',
-        'DateMiseEnServiceTransmise-V2',
-        'DemandeComplèteDeRaccordementTransmise-V1',
-        'DemandeComplèteDeRaccordementTransmise-V2',
-        'DemandeComplèteDeRaccordementTransmise-V3',
-        'DemandeComplèteRaccordementModifiée-V1',
-        'DemandeComplèteRaccordementModifiée-V2',
-        'DemandeComplèteRaccordementModifiée-V3',
-        'GestionnaireRéseauRaccordementModifié-V1',
-        'GestionnaireRéseauInconnuAttribué-V1',
-        'PropositionTechniqueEtFinancièreModifiée-V1',
-        'PropositionTechniqueEtFinancièreModifiée-V2',
-        'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
-        'PropositionTechniqueEtFinancièreTransmise-V1',
-        'PropositionTechniqueEtFinancièreTransmise-V2',
-        'RéférenceDossierRacordementModifiée-V1',
-        'RéférenceDossierRacordementModifiée-V2',
-        'GestionnaireRéseauAttribué-V1',
-        'DossierDuRaccordementSupprimé-V1',
-        'DateMiseEnServiceSupprimée-V1',
-        'RaccordementSupprimé-V1',
-      ],
-      eventHandler: async (event) => {
-        await mediator.send<RaccordementProjector.Execute>({
-          type: 'System.Projector.Lauréat.Raccordement',
-          data: event,
-        });
-      },
-      streamCategory: 'raccordement',
-    },
-  );
-
   return async () => {
     // projectors
     await unsubscribeGarantiesFinancièresProjector();
-    await unsubscribeRaccordementProjector();
     // notifications
     await unsubscribeGarantiesFinancièresNotification();
     // sagas
@@ -245,7 +164,5 @@ export const setupLauréat = async ({
     await unsubscribeGarantiesFinancièresRecoursSaga();
     await unsubscribeGarantiesFinancièresProducteurSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();
-    await unsubscribeRaccordementAbandonSaga();
-    await unsubscribeRaccordementLauréatSaga();
   };
 };

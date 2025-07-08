@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
@@ -9,15 +9,15 @@ import * as Tâche from '../typeTâche.valueType';
 import { TypeTâche } from '../tâche';
 
 export type SubscriptionEvent =
-  | Raccordement.RéférenceDossierRacordementModifiéeEvent
-  | Raccordement.RéférenceDossierRacordementModifiéeEventV1
-  | Raccordement.GestionnaireRéseauRaccordementModifiéEvent
-  | Raccordement.GestionnaireRéseauInconnuAttribuéEvent
-  | Raccordement.RaccordementSuppriméEvent
-  | Raccordement.DemandeComplèteRaccordementModifiéeEvent
-  | Raccordement.DemandeComplèteRaccordementTransmiseEvent
-  | Raccordement.DossierDuRaccordementSuppriméEvent
-  | Raccordement.GestionnaireRéseauAttribuéEvent;
+  | Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEvent
+  | Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEventV1
+  | Lauréat.Raccordement.GestionnaireRéseauRaccordementModifiéEvent
+  | Lauréat.Raccordement.GestionnaireRéseauInconnuAttribuéEvent
+  | Lauréat.Raccordement.RaccordementSuppriméEvent
+  | Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEvent
+  | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEvent
+  | Lauréat.Raccordement.DossierDuRaccordementSuppriméEvent
+  | Lauréat.Raccordement.GestionnaireRéseauAttribuéEvent;
 
 export type Execute = Message<'System.Saga.TâcheRaccordement', SubscriptionEvent>;
 

@@ -9,11 +9,7 @@ import {
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  countProjection,
-  findProjection,
-  listProjection,
-} from '@potentiel-infrastructure/pg-projection-read';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { killPool } from '@potentiel-libraries/pg-helpers';
@@ -34,7 +30,6 @@ export class Relancer extends Command {
       find: findProjection,
       list: listProjection,
       récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-      count: countProjection,
     });
 
     registerLauréatUseCases({

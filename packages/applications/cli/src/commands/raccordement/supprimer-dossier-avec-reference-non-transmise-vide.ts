@@ -3,13 +3,10 @@ import { z } from 'zod';
 import { mediator } from 'mediateur';
 
 import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
-import {
-  registerLauréatUseCases,
-  Raccordement as RaccordementLauréat,
-} from '@potentiel-domain/laureat';
+import { registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { ProjetAggregateRoot, Raccordement } from '@potentiel-domain/projet';
+import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 
 const configSchema = z.object({
   DATABASE_CONNECTION_STRING: z.string(),
@@ -17,7 +14,7 @@ const configSchema = z.object({
 
 type Dossier = {
   key: string;
-  value: Raccordement.DossierRaccordementEntity;
+  value: Lauréat.Raccordement.DossierRaccordementEntity;
 };
 
 const query = `
@@ -59,7 +56,7 @@ export class SupprimerDossierAvecReferenceNonTransmiseVide extends Command {
     for (const dossier of dossiers) {
       console.log(`${index} / ${dossiers.length} : ${dossier.value.identifiantProjet}`);
       try {
-        await mediator.send<RaccordementLauréat.SupprimerDossierDuRaccordementUseCase>({
+        await mediator.send<Lauréat.Raccordement.SupprimerDossierDuRaccordementUseCase>({
           type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
           data: {
             identifiantProjetValue: dossier.value.identifiantProjet,

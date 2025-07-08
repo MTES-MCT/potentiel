@@ -1,15 +1,13 @@
 import { mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement as RaccordementLauréat } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/projet';
-
 import { checkLauréatNonAbandonné } from './checkLauréatNonAbandonné';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 type GetRaccordementProps = {
   role: Role.ValueType;
@@ -17,7 +15,7 @@ type GetRaccordementProps = {
 };
 
 export type GetRaccordementForProjectPage = {
-  raccordement: Option.Type<PlainType<RaccordementLauréat.ConsulterRaccordementReadModel>>;
+  raccordement: Option.Type<PlainType<Lauréat.Raccordement.ConsulterRaccordementReadModel>>;
   affichage?: {
     label: string;
     url?: string;
@@ -34,7 +32,7 @@ export const getRaccordement = async ({
     };
   }
 
-  const raccordement = await mediator.send<RaccordementLauréat.ConsulterRaccordementQuery>({
+  const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
     type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
@@ -43,7 +41,7 @@ export const getRaccordement = async ({
     Option.isNone(raccordement) ||
     raccordement.dossiers.length === 0 ||
     raccordement.dossiers[0].référence.estÉgaleÀ(
-      Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
+      Lauréat.Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
     )
   ) {
     const estClasséNonAbandonné = await checkLauréatNonAbandonné(identifiantProjet.formatter());

@@ -1,6 +1,6 @@
-import { Raccordement } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { getDossierRaccordement } from '../../_utils/getDossierRaccordement';
 import { upsertDossierRaccordement } from '../../_utils/upsertDossierRaccordement';
@@ -8,7 +8,7 @@ import { upsertDossierRaccordement } from '../../_utils/upsertDossierRaccordemen
 export const demandeComplèteRaccordementModifiéeV2Projector = async ({
   payload: { identifiantProjet, référenceDossierRaccordement, dateQualification },
   created_at,
-}: Raccordement.DemandeComplèteRaccordementModifiéeEventV2 & Event) => {
+}: Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV2 & Event) => {
   const { dossier, raccordement } = await getDossierRaccordement(
     identifiantProjet,
     référenceDossierRaccordement,

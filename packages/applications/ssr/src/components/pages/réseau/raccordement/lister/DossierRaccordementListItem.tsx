@@ -2,10 +2,10 @@ import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -13,7 +13,7 @@ import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type DossierRaccordementListItemProps = PlainType<
-  Raccordement.ListerDossierRaccordementReadModel['items'][number]
+  Lauréat.Raccordement.ListerDossierRaccordementReadModel['items'][number]
 >;
 
 export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> = ({

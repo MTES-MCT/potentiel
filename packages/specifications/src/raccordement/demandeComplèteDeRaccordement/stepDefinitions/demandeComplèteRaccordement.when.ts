@@ -3,9 +3,8 @@ import { match } from 'ts-pattern';
 import { mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -128,7 +127,7 @@ export async function transmettreDemandeComplèteRaccordement(
     });
 
   try {
-    await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
         accuséRéceptionValue: accuséRéception,
@@ -154,7 +153,7 @@ export async function transmettreDemandeComplèteRaccordementSansAccuséRécepti
       accuséRéception: undefined,
     });
 
-  await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
+  await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
     type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
     data: {
       dateQualificationValue: dateQualification,
@@ -183,7 +182,7 @@ async function modifierDemandeComplèteRaccordement(
     });
 
   try {
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -215,7 +214,7 @@ async function modifierRéférenceDossierRaccordement(
     });
 
   try {
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,

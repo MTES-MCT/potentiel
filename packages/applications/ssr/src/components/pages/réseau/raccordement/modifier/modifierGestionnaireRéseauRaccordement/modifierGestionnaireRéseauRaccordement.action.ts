@@ -3,8 +3,8 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -21,7 +21,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, identifiantGestionnaireReseau },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,

@@ -7,13 +7,12 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { DossierRaccordementListPage } from '@/components/pages/réseau/raccordement/lister/DossierRaccordementList.page';
 import { mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -49,13 +48,12 @@ export default async function Page({ searchParams }: PageProps) {
         referenceDossier,
       } = paramsSchema.parse(searchParams);
 
-      const région = await getRégionUtilisateur(utilisateur);
-
       const identifiantGestionnaireRéseauUtilisateur =
         récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
-      const dossiers = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
+      const dossiers = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
+          utilisateur: utilisateur.identifiantUtilisateur.email,
           identifiantGestionnaireRéseau:
             identifiantGestionnaireRéseauUtilisateur ?? identifiantGestionnaireReseau,
           appelOffre,
@@ -64,7 +62,6 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
           }),
           référenceDossier: referenceDossier,
-          région,
         },
       });
 
@@ -137,7 +134,7 @@ function récupérerIdentifiantGestionnaireUtilisateur(utilisateur: Utilisateur.
   return utilisateur.identifiantGestionnaireRéseau;
 }
 
-const mapToProps = (dossiers: Raccordement.ListerDossierRaccordementReadModel) => {
+const mapToProps = (dossiers: Lauréat.Raccordement.ListerDossierRaccordementReadModel) => {
   return {
     ...dossiers,
     items: dossiers.items.map((dossier) => ({

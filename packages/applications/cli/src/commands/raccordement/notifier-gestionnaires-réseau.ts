@@ -2,11 +2,7 @@ import { Command } from '@oclif/core';
 import { CommandError } from '@oclif/core/interfaces';
 import { mediator } from 'mediateur';
 
-import {
-  countProjection,
-  findProjection,
-  listProjection,
-} from '@potentiel-infrastructure/pg-projection-read';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { killPool } from '@potentiel-libraries/pg-helpers';
@@ -16,9 +12,9 @@ import { registerLauréatQueries } from '@potentiel-domain/laureat';
 import { registerUtilisateurQueries } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DateTime } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export class NotifierGestionnaireRéseau extends Command {
   static description =
@@ -31,7 +27,6 @@ export class NotifierGestionnaireRéseau extends Command {
     });
 
     registerLauréatQueries({
-      count: countProjection,
       find: findProjection,
       list: listProjection,
       récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
@@ -69,15 +64,17 @@ export class NotifierGestionnaireRéseau extends Command {
       const codeEIC = gestionnaire.identifiantGestionnaireRéseau.codeEIC;
 
       const dossiersRaccordement =
-        await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
-          type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
-          data: {
-            identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.codeEIC,
-            projetNotifiéAvant: DateTime.now().ajouterNombreDeMois(12).formatter(),
-            // we don't use the result, no need to fetch all
-            range: { startPosition: 0, endPosition: 1 },
+        await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>(
+          {
+            type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+            data: {
+              identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.codeEIC,
+              projetNotifiéAvant: DateTime.now().ajouterNombreDeMois(12).formatter(),
+              // we don't use the result, no need to fetch all
+              range: { startPosition: 0, endPosition: 1 },
+            },
           },
-        });
+        );
 
       if (dossiersRaccordement.total === 0) {
         continue;

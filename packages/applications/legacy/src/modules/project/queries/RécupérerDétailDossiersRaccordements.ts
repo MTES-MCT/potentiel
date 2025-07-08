@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export type RécupérerDétailDossiersRaccordements = (
   identifiantProjet: IdentifiantProjet.ValueType,
-) => Promise<Raccordement.ConsulterRaccordementReadModel['dossiers']>;
+) => Promise<Lauréat.Raccordement.ConsulterRaccordementReadModel['dossiers']>;

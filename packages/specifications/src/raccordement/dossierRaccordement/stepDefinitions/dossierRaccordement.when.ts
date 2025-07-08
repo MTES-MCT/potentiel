@@ -1,7 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -12,7 +12,7 @@ Quand(
     const { référenceDossier } = this.raccordementWorld;
 
     try {
-      await mediator.send<Raccordement.SupprimerDossierDuRaccordementUseCase>({
+      await mediator.send<Lauréat.Raccordement.SupprimerDossierDuRaccordementUseCase>({
         type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -31,7 +31,7 @@ Quand(
     const { identifiantProjet } = this.lauréatWorld;
 
     try {
-      await mediator.send<Raccordement.SupprimerDossierDuRaccordementUseCase>({
+      await mediator.send<Lauréat.Raccordement.SupprimerDossierDuRaccordementUseCase>({
         type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

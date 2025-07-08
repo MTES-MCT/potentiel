@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   GestionnaireRéseauListPage,
@@ -39,7 +39,7 @@ export default async function Page({ searchParams }: PageProps) {
     await Promise.all(
       gestionnairesRéseau.items.map(async (gestionnaire) => {
         const nombreDeRaccordements =
-          await mediator.send<Raccordement.ConsulterNombreDeRaccordementQuery>({
+          await mediator.send<Lauréat.Raccordement.ConsulterNombreDeRaccordementQuery>({
             type: 'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
             data: {
               identifiantGestionnaireRéseauValue:

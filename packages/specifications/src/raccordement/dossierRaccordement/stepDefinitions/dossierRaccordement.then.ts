@@ -3,10 +3,9 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
-import { Raccordement } from '@potentiel-domain/laureat';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -15,7 +14,7 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
-      const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      const actual = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -39,7 +38,7 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
-      const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      const actual = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -61,12 +60,13 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
-      const raccordementDuProjet = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+      const raccordementDuProjet =
+        await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+          type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
       if (Option.isNone(raccordementDuProjet)) {
         throw new Error('Raccordement inconnu');
@@ -79,7 +79,7 @@ Alors(
       expect(dossierCible).to.be.undefined;
 
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
@@ -99,7 +99,7 @@ Alors(
     const { référenceDossier } =
       this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
     await waitForExpect(async () => {
-      const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -109,7 +109,7 @@ Alors(
       expect(Option.isNone(raccordement)).to.be.true;
 
       const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
@@ -125,8 +125,8 @@ Alors(
 export function vérifierDossierRaccordement(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
-  dossierRaccordement: Option.Type<Raccordement.ConsulterDossierRaccordementReadModel>,
-): asserts dossierRaccordement is Raccordement.ConsulterDossierRaccordementReadModel {
+  dossierRaccordement: Option.Type<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel>,
+): asserts dossierRaccordement is Lauréat.Raccordement.ConsulterDossierRaccordementReadModel {
   const { dossier: expectedDossier } = mapToPlainObject(
     this.raccordementWorld.mapToExpected(identifiantProjet),
   );

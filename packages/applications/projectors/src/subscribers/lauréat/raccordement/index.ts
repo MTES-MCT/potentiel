@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { raccordementRebuildTriggeredProjector } from './raccordementRebuildTriggered.projector';
 import { gestionnaireRéseauRaccordementModifiéV1Projector } from './gestionnaireRéseauRaccordementModifiéV1.projector';
@@ -34,7 +34,7 @@ import {
   dateMiseEnServiceTransmiseV2Projector,
 } from './dossier-raccordement/dateMiseEnService';
 
-export type SubscriptionEvent = (Raccordement.RaccordementEvent | RebuildTriggered) & Event;
+export type SubscriptionEvent = (Lauréat.Raccordement.RaccordementEvent | RebuildTriggered) & Event;
 
 export type Execute = Message<'System.Projector.Lauréat.Raccordement', SubscriptionEvent>;
 

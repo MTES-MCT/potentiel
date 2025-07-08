@@ -1,4 +1,4 @@
-import { Candidature, Raccordement } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
@@ -19,7 +19,7 @@ export const demandeComplèteDeRaccordementTransmiseV3Projector = async ({
     transmisePar,
   },
   created_at,
-}: Raccordement.DemandeComplèteRaccordementTransmiseEvent & Event) => {
+}: Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEvent & Event) => {
   const référence = référenceDossierRaccordement;
 
   const candidature = await findProjection<Candidature.CandidatureEntity>(
@@ -56,7 +56,7 @@ export const demandeComplèteDeRaccordementTransmiseV3Projector = async ({
   });
 
   if (raccordement.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau) {
-    await updateOneProjection<Raccordement.RaccordementEntity>(
+    await updateOneProjection<Lauréat.Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet}`,
       { identifiantGestionnaireRéseau },
     );

@@ -4,9 +4,9 @@ import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -19,8 +19,8 @@ import {
 
 export type CorrigerRéférenceDossierFormProps = {
   identifiantProjet: string;
-  dossierRaccordement: PlainType<Raccordement.ConsulterDossierRaccordementReadModel>;
-  gestionnaireRéseau: PlainType<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
+  dossierRaccordement: PlainType<Lauréat.Raccordement.ConsulterDossierRaccordementReadModel>;
+  gestionnaireRéseau: PlainType<Lauréat.Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   lienRetour: string;
 };
 export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormProps> = ({

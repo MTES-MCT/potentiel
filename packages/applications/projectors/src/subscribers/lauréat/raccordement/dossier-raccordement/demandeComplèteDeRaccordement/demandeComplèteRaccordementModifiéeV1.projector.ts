@@ -1,4 +1,4 @@
-import { Raccordement } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
@@ -9,13 +9,13 @@ import { upsertDossierRaccordement } from '../../_utils/upsertDossierRaccordemen
 export const demandeComplèteRaccordementModifiéeV1Projector = async ({
   payload: { identifiantProjet, referenceActuelle, nouvelleReference, dateQualification },
   created_at,
-}: Raccordement.DemandeComplèteRaccordementModifiéeEventV1 & Event) => {
+}: Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV1 & Event) => {
   const { dossier, raccordement } = await getDossierRaccordement(
     identifiantProjet,
     referenceActuelle,
   );
 
-  await removeProjection<Raccordement.DossierRaccordementEntity>(
+  await removeProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
     `dossier-raccordement|${identifiantProjet}#${referenceActuelle}`,
   );
 

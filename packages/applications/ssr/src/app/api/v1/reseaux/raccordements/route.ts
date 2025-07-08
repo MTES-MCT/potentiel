@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { RangeOptions } from '@potentiel-domain/entity';
 
@@ -56,10 +56,11 @@ export const GET = (request: NextRequest) =>
       const { avecDateMiseEnService, page } = routeParamsSchema.parse(
         Object.fromEntries(searchParams.entries()),
       );
-      const result = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
+      const result = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           identifiantGestionnaireRéseau: récupérerIdentifiantGestionnaireUtilisateur(utilisateur),
+          utilisateur: utilisateur.identifiantUtilisateur.email,
           avecDateMiseEnService,
           range: page
             ? mapToRangeOptions({
@@ -84,7 +85,9 @@ const récupérerIdentifiantGestionnaireUtilisateur = (utilisateur: Utilisateur.
   return utilisateur.identifiantGestionnaireRéseau;
 };
 
-type MapToApiResponse = (dossiers: Raccordement.ListerDossierRaccordementReadModel) => ApiResponse;
+type MapToApiResponse = (
+  dossiers: Lauréat.Raccordement.ListerDossierRaccordementReadModel,
+) => ApiResponse;
 
 const mapToApiResponse: MapToApiResponse = ({ items, range, total }) => ({
   total,

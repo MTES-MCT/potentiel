@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
@@ -18,7 +18,7 @@ export type ÉtapePropositionTechniqueEtFinancièreProps = {
   identifiantProjet: string;
   référence: string;
   propositionTechniqueEtFinancière?: PlainType<
-    Raccordement.ConsulterDossierRaccordementReadModel['propositionTechniqueEtFinancière']
+    Lauréat.Raccordement.ConsulterDossierRaccordementReadModel['propositionTechniqueEtFinancière']
   >;
   actions: { transmettre: boolean; modifier: boolean };
 };

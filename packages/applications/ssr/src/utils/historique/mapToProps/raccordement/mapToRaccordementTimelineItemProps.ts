@@ -1,7 +1,7 @@
 import { match, P } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -15,8 +15,8 @@ import {
 
 export type RaccordementHistoryRecord = HistoryRecord<
   'raccordement',
-  Raccordement.RaccordementEvent['type'],
-  Raccordement.RaccordementEvent['payload']
+  Lauréat.Raccordement.RaccordementEvent['type'],
+  Lauréat.Raccordement.RaccordementEvent['payload']
 >;
 
 export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRecord) =>
@@ -38,7 +38,7 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
       {
         type: 'DossierDuRaccordementSupprimé-V1',
       },
-      dossierRaccordement.mapToDossierRacordementSuppriméTimelineItemProps,
+      dossierRaccordement.mapToDossierRaccordementSuppriméTimelineItemProps,
     )
     ///////////// DCR
     .with(

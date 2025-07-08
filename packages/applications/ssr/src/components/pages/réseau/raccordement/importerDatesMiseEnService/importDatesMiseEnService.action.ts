@@ -4,11 +4,11 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Raccordement } from '@potentiel-domain/laureat';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
@@ -66,7 +66,7 @@ const action: FormAction<FormState, typeof schema> = async (
     }
 
     if (identifiantProjet) {
-      const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+      const dossier = await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -99,12 +99,14 @@ const action: FormAction<FormState, typeof schema> = async (
         errors.push(errorAttribution);
       }
     } else {
-      const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.RechercherDossierRaccordement',
-        data: {
-          référenceDossierRaccordement: referenceDossier,
+      const dossiers = await mediator.send<Lauréat.Raccordement.RechercherDossierRaccordementQuery>(
+        {
+          type: 'Lauréat.Raccordement.Query.RechercherDossierRaccordement',
+          data: {
+            référenceDossierRaccordement: referenceDossier,
+          },
         },
-      });
+      );
 
       if (dossiers.length === 0) {
         errors.push({
@@ -153,7 +155,7 @@ const transmettreDateDeMiseEnService = async (
 ): Promise<ActionResult['errors'][number] | undefined> =>
   withUtilisateur(async (utilisateur) => {
     try {
-      await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
+      await mediator.send<Lauréat.Raccordement.TransmettreDateMiseEnServiceUseCase>({
         type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
           identifiantProjetValue: identifiantProjet,

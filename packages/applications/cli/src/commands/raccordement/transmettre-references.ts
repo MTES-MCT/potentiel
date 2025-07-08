@@ -6,12 +6,8 @@ import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import {
-  Raccordement as RaccordementLauréat,
-  registerLauréatQueries,
-  registerLauréatUseCases,
-} from '@potentiel-domain/laureat';
-import { IdentifiantProjet, ProjetAggregateRoot, Raccordement } from '@potentiel-domain/projet';
+import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
+import { IdentifiantProjet, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { registerTâcheCommand } from '@potentiel-domain/tache';
 import {
   AppelOffreAdapter,
@@ -19,11 +15,7 @@ import {
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  countProjection,
-  findProjection,
-  listProjection,
-} from '@potentiel-infrastructure/pg-projection-read';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { killPool } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -67,7 +59,6 @@ export default class TransmettreRéférences extends Command {
       récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
     });
     registerLauréatQueries({
-      count: countProjection,
       find: findProjection,
       list: listProjection,
       récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
@@ -130,7 +121,9 @@ export default class TransmettreRéférences extends Command {
         await handleLine({
           identifiantProjet,
           référenceDossier:
-            Raccordement.RéférenceDossierRaccordement.convertirEnValueType(referenceDossier),
+            Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+              referenceDossier,
+            ),
           dateAccuseRéception: convertDateToDateTime(dateAccuseReception),
         });
         success++;
@@ -164,10 +157,10 @@ const handleLine = async ({
   dateAccuseRéception,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  référenceDossier: Raccordement.RéférenceDossierRaccordement.ValueType;
+  référenceDossier: Lauréat.Raccordement.RéférenceDossierRaccordement.ValueType;
   dateAccuseRéception: DateTime.ValueType;
 }) => {
-  const raccordement = await mediator.send<RaccordementLauréat.ConsulterRaccordementQuery>({
+  const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
     type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
@@ -186,7 +179,7 @@ const handleLine = async ({
     throw new Error('Multiples dossier');
   }
 
-  await mediator.send<RaccordementLauréat.TransmettreDemandeComplèteRaccordementUseCase>({
+  await mediator.send<Lauréat.Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
     type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),

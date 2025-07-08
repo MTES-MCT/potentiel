@@ -1,5 +1,6 @@
 import { HistoriqueProjector, LauréatProjector } from '@potentiel-applications/projectors';
 import { LauréatNotification } from '@potentiel-applications/notifications';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
@@ -11,6 +12,7 @@ import { setupAbandon } from './setupAbandon';
 import { setupAchèvement } from './setupAchèvement';
 import { setupActionnaire } from './setupActionnaire';
 import { setupReprésentantLégal } from './setupReprésentantLégal';
+import { setupRaccordement } from './setupRaccordement';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();
@@ -49,6 +51,15 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Historique',
   });
 
+  await lauréat.setupSubscription<
+    Lauréat.Raccordement.RaccordementSaga.SubscriptionEvent,
+    Lauréat.Raccordement.RaccordementSaga.Execute
+  >({
+    name: 'raccordement-laureat-saga',
+    eventType: ['LauréatNotifié-V2'],
+    messageType: 'System.Lauréat.Raccordement.Saga.Execute',
+  });
+
   const unsetupPuissance = await setupPuissance(dependencies);
   const unsetupProducteur = await setupProducteur(dependencies);
   const unsetupFournisseur = await setupFournisseur(dependencies);
@@ -56,6 +67,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupAbandon = await setupAbandon(dependencies);
   const unsetupActionnaire = await setupActionnaire(dependencies);
   const unsetupReprésentantLégal = await setupReprésentantLégal(dependencies);
+  const unsetupRaccordement = await setupRaccordement(dependencies);
 
   return async () => {
     await lauréat.clearSubscriptions();
@@ -67,5 +79,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupAbandon();
     await unsetupActionnaire();
     await unsetupReprésentantLégal();
+    await unsetupRaccordement();
   };
 };

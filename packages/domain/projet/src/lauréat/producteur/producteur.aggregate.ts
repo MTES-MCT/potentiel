@@ -15,7 +15,11 @@ import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
 import { ModifierOptions } from './modifier/modifierProducteur.option';
 import { ImporterOptions } from './importer/importerProducteur.option';
 import { ProducteurImportéEvent } from './importer/importerProducteur.event';
-import { ProducteurIdentiqueError, AOEmpêcheChangementProducteurError } from './producteur.error';
+import {
+  ProducteurIdentiqueError,
+  AOEmpêcheChangementProducteurError,
+  ProducteurDéjàTransmisError,
+} from './producteur.error';
 
 export class ProducteurAggregate extends AbstractAggregate<
   ProducteurEvent,
@@ -110,6 +114,10 @@ export class ProducteurAggregate extends AbstractAggregate<
     dateImport,
     identifiantUtilisateur,
   }: ImporterOptions) {
+    if (this.producteur) {
+      throw new ProducteurDéjàTransmisError();
+    }
+
     const event: ProducteurImportéEvent = {
       type: 'ProducteurImporté-V1',
       payload: {

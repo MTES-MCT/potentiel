@@ -1,12 +1,12 @@
-import { Raccordement } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
 export const dossierDuRaccordementSuppriméV1Projector = async ({
   payload: { identifiantProjet, référenceDossier },
-}: Raccordement.DossierDuRaccordementSuppriméEvent) => {
-  const raccordement = await findProjection<Raccordement.RaccordementEntity>(
+}: Lauréat.Raccordement.DossierDuRaccordementSuppriméEvent) => {
+  const raccordement = await findProjection<Lauréat.Raccordement.RaccordementEntity>(
     `raccordement|${identifiantProjet}`,
   );
 
@@ -15,11 +15,14 @@ export const dossierDuRaccordementSuppriméV1Projector = async ({
       (dossier) => dossier.référence !== référenceDossier,
     );
 
-    await upsertProjection<Raccordement.RaccordementEntity>(`raccordement|${identifiantProjet}`, {
-      ...raccordement,
-      dossiers: dossiersMisÀJour,
-    });
-    await removeProjection<Raccordement.DossierRaccordementEntity>(
+    await upsertProjection<Lauréat.Raccordement.RaccordementEntity>(
+      `raccordement|${identifiantProjet}`,
+      {
+        ...raccordement,
+        dossiers: dossiersMisÀJour,
+      },
+    );
+    await removeProjection<Lauréat.Raccordement.DossierRaccordementEntity>(
       `dossier-raccordement|${identifiantProjet}#${référenceDossier}`,
     );
   }

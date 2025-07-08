@@ -2,9 +2,9 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -34,15 +34,14 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
     const referenceDossierRaccordement = decodeParameter(reference);
 
-    const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(
-      {
+    const dossierRaccordement =
+      await mediator.send<Lauréat.Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementValue: referenceDossierRaccordement,
         },
-      },
-    );
+      });
 
     if (Option.isNone(dossierRaccordement)) {
       return notFound();
