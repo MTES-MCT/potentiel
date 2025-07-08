@@ -1,4 +1,6 @@
 # language: fr
+@achèvement
+@attestation-conformité
 Fonctionnalité: Transmettre une attestation de conformité
 
     Contexte:

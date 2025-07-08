@@ -1,5 +1,6 @@
 # language: fr
-@select
+@achèvement
+@date-prévisionnelle-achèvement
 Fonctionnalité: Calculer la date prévisionnelle d'achèvement
 
     Scénario: Calculer la date prévisionnelle d'achèvement lorsqu'un projet lauréat est notifié

@@ -62,7 +62,6 @@ Quand(
     ).formatter();
 
     await notifierLauréat.call(this, dateDésignation);
-    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 

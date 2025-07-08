@@ -82,16 +82,16 @@ Alors(
     return waitForExpect(async () => {
       const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvement>({
-        type: 'Lauréat.Achèvement.ConsulterDatePrévisionnelle',
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
         data: {
-          identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
       assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
 
-      const actual = DateTime.convertirEnValueType(achèvement.datePrévisionnelle);
+      const actual = achèvement.datePrévisionnelle;
       const expected = DateTime.convertirEnValueType(datePrévisionnelleAttendue);
 
       expect(actual.estÉgaleÀ(expected), 'La date prévisionnelle attendue est incorrecte').to.be
