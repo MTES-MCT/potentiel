@@ -1,6 +1,6 @@
 import { Command, Flags } from '@oclif/core';
 
-import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -50,10 +50,6 @@ export class Migrer extends Command {
     dataOnly: Flags.boolean(),
     filesOnly: Flags.boolean(),
   };
-
-  async finally() {
-    await killPool();
-  }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);

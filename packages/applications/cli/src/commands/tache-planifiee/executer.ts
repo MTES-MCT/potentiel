@@ -12,13 +12,15 @@ import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
   DATABASE_CONNECTION_STRING: z.string().url(),
 });
+
 export class Executer extends Command {
+  static monitoringSlug = 'potentiel-scheduler';
+
   static flags = {
     date: Flags.string({
       default: DateTime.now().formatter(),
@@ -40,10 +42,6 @@ export class Executer extends Command {
     registerTâchePlanifiéeUseCases({
       loadAggregate,
     });
-  }
-
-  protected async finally(_: Error | undefined) {
-    await killPool();
   }
 
   async run() {

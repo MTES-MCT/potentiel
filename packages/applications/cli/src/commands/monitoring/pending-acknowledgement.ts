@@ -2,7 +2,7 @@ import { Command } from '@oclif/core';
 
 import { createLogger, getLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
-import { killPool, executeSelect } from '@potentiel-libraries/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { MattermostTransport } from '../../helpers/monitoring/mattermost';
 import { reportCronStatus } from '../../helpers/monitoring/sentry';
@@ -21,10 +21,6 @@ export class PendingAcknowlegement extends Command {
       ],
     });
     initLogger(logger);
-  }
-
-  protected async finally() {
-    await killPool();
   }
 
   async run() {

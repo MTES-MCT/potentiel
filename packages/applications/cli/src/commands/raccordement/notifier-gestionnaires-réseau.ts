@@ -5,7 +5,6 @@ import { mediator } from 'mediateur';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { sendEmail } from '@potentiel-infrastructure/email';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { registerRéseauQueries } from '@potentiel-domain/reseau';
 import { registerLauréatQueries } from '@potentiel-domain/laureat';
@@ -17,6 +16,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export class NotifierGestionnaireRéseau extends Command {
+  static monitoringSlug = 'notification-grd';
+
   static description =
     'Envoyer un email de notification aux GRDs (sauf Enedis) ayant des dossiers de raccordement en attente de MES, pour les projets notifiés depuis 12 mois';
 
@@ -40,10 +41,6 @@ export class NotifierGestionnaireRéseau extends Command {
 
   protected async catch(err: CommandError) {
     getLogger(NotifierGestionnaireRéseau.name).error(err);
-  }
-
-  async finally() {
-    await killPool();
   }
 
   async run() {

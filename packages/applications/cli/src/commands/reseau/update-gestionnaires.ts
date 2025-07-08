@@ -11,7 +11,6 @@ import { récupérerTousLesGRD } from '@potentiel-infrastructure/ore-client';
 import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 
 import { addGRDs } from '../../helpers/réseau/addGRDs';
 import { updateGRDs } from '../../helpers/réseau/updateGRDs';
@@ -23,6 +22,8 @@ const envSchema = z.object({
 });
 
 export class UpdateGestionnaires extends Command {
+  static monitoringSlug = 'mise-a-jour-grd';
+
   async init() {
     envSchema.parse(process.env);
     registerRéseauUseCases({
@@ -33,13 +34,6 @@ export class UpdateGestionnaires extends Command {
       list: listProjection,
       find: findProjection,
     });
-  }
-
-  protected async finally(error: Error | undefined) {
-    if (error) {
-      getLogger().error(error as Error);
-    }
-    await killPool();
   }
 
   async run() {

@@ -257,3 +257,21 @@ L'utilisation de cette CLI peut se faire en executant `potentiel-cli` dans le re
 Le code correspondant à cette CLI se trouve dans [./packages/applications/cli](./packages/applications/cli), et peut également être exécuté via `./packages/applications/cli/bin/run.js` ou `./packages/applications/cli/bin/dev.js` si besoin.
 
 La CLI utilise le framework [oclif](https://oclif.io/); la structure des dossiers determine la structure des commandes (eg. `./src/commands/files/copy` correspond à la commande `potentiel-cli files copy` ).
+
+Le comportement des commandes est guidé grâce aux [hooks](https://oclif.io/docs/hooks/), défini dans le [package.json](/packages/applications/cli/package.json) :
+
+- à l'initialisation, les variables d'environnement sont parsées et le logger est configuré
+- avant l'éxecution de la commande, et en présence d'une variable statique `monitoringSlug`, le démarrage de la commande est notifié à Sentry.
+- après l'éxecution, et en présence d'une variable statique `monitoringSlug`, la connection à la DB est coupée et Sentry est notifié du succès ou de l'échec de la commande.
+
+## Tâches récurrentes / CRON
+
+Les tâches récurrentes sont définies dans le fichier [cron.json](/cron.json).
+
+La CLI mentionnée ci dessus est utilisée pour la majorité des tâches récurrentes, à l'exception des backups.
+
+### Monitoring des tâches récurrentes
+
+Le succès de ces tâches récurrentes est monitorée via Sentry et sa fonctionalité "Cron Monitors".
+
+Pour activer cette option dans une tâche récurrente executée avec la CLI, il suffit de spécifier un champ statique `monitoringSlug` avec le slug du monitor dans la commande.

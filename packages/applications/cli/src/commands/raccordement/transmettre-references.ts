@@ -16,7 +16,6 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
@@ -79,10 +78,6 @@ export default class TransmettreRéférences extends Command {
   static args = {
     csvPath: Args.file({ required: true, description: 'Chemin du fichier CSV à importer' }),
   };
-
-  async finally() {
-    await killPool();
-  }
 
   async run() {
     const { args } = await this.parse(TransmettreRéférences);

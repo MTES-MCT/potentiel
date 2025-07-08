@@ -7,7 +7,7 @@ import { contentType } from 'mime-types';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Candidature, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -100,10 +100,6 @@ export class Migrer extends Command {
   static flags = {
     dryRun: Flags.boolean(),
   };
-
-  async finally() {
-    await killPool();
-  }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);

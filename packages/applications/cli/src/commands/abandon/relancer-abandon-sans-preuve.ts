@@ -12,13 +12,14 @@ import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-eve
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
-import { killPool } from '@potentiel-libraries/pg-helpers';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
   DATABASE_CONNECTION_STRING: z.string().url(),
 });
 export class Relancer extends Command {
+  static monitoringSlug = 'relance-abandon-sans-preuve';
+
   async init() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);
     if (!['production', 'development'].includes(APPLICATION_STAGE)) {
@@ -40,10 +41,6 @@ export class Relancer extends Command {
           loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
         }),
     });
-  }
-
-  protected async finally(_: Error | undefined) {
-    await killPool();
   }
 
   async run() {
