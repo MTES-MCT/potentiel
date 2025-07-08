@@ -54,7 +54,7 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
     title: (
       <div>
         La proposition technique et financière a été transmise pour le dossier de raccordement{' '}
-        <span className="font-semibold">{référenceDossierRaccordement}</span>.
+        <span className="font-semibold">{référenceDossierRaccordement}</span>
       </div>
     ),
   };
