@@ -1,11 +1,6 @@
 import { match } from 'ts-pattern';
 
-import {
-  AbstractAggregate,
-  AggregateType,
-  LoadAggregateV2,
-  mapToPlainObject,
-} from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType, mapToPlainObject } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -112,60 +107,51 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#garantiesFinancières;
   }
 
-  async init(loadAggregate: LoadAggregateV2) {
-    this.#abandon = await loadAggregate(
+  async init() {
+    this.#abandon = await this.loadAggregate(
       AbandonAggregate,
       `abandon|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
 
-    this.#achèvement = await loadAggregate(
+    this.#achèvement = await this.loadAggregate(
       AchèvementAggregate,
       `achevement|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
 
-    this.#producteur = await loadAggregate(
+    this.#producteur = await this.loadAggregate(
       ProducteurAggregate,
       `producteur|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
 
-    this.#puissance = await loadAggregate(
+    this.#puissance = await this.loadAggregate(
       PuissanceAggregate,
       `puissance|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
 
-    this.#actionnaire = await loadAggregate(
+    this.#actionnaire = await this.loadAggregate(
       ActionnaireAggregate,
       `actionnaire|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
 
-    this.#représentantLégal = await loadAggregate(
+    this.#représentantLégal = await this.loadAggregate(
       ReprésentantLégalAggregate,
       `représentant-légal|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
 
-    this.#fournisseur = await loadAggregate(
+    this.#fournisseur = await this.loadAggregate(
       FournisseurAggregate,
       `fournisseur|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
 
-    this.#raccordement = await loadAggregate(
+    this.#raccordement = await this.loadAggregate(
       RaccordementAggregate,
       `raccordement|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
-    await this.#raccordement.init(loadAggregate);
+    await this.#raccordement.init();
 
-    this.#garantiesFinancières = await loadAggregate(
+    this.#garantiesFinancières = await this.loadAggregate(
       GarantiesFinancièresAggregate,
       `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
   }
 

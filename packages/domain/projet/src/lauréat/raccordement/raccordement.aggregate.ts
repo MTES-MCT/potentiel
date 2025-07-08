@@ -1,6 +1,6 @@
 import { match, P } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -164,12 +164,14 @@ export class RaccordementAggregate extends AbstractAggregate<
     return !date.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
   }
 
-  async init(loadAggregate: LoadAggregateV2) {
-    this.#gestionnaireRéseau = await loadAggregate(
-      GestionnaireRéseauAggregate,
-      `gestionnaire-réseau|${this.#identifiantGestionnaireRéseau.codeEIC}`,
-      undefined,
+  async init() {
+    this.#gestionnaireRéseau = await this.loadGestionnaireRéseau(
+      this.#identifiantGestionnaireRéseau.codeEIC,
     );
+  }
+
+  async loadGestionnaireRéseau(codeEIC: string) {
+    return await this.loadAggregate(GestionnaireRéseauAggregate, `gestionnaire-réseau|${codeEIC}`);
   }
 
   async attribuerGestionnaireRéseau({

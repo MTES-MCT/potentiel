@@ -36,6 +36,7 @@ export abstract class AbstractAggregate<
   }
 
   #publish: Publish;
+  #loadAggregate: LoadAggregateV2;
 
   get exists() {
     return this.version > 0;
@@ -46,20 +47,32 @@ export abstract class AbstractAggregate<
     aggregateId: AggregateId<TCategory>,
     version: number,
     publish: Publish,
+    loadAggregate: LoadAggregateV2,
   ) {
     this.#parent = parent;
     this.#aggregateId = aggregateId;
     this.#version = version;
     this.#publish = publish;
     this.#category = aggregateId.split('|')[0] as TCategory;
+    this.#loadAggregate = loadAggregate;
   }
 
   abstract apply(event: TDomainEvent): void;
 
-  async publish(event: TDomainEvent) {
+  protected async publish(event: TDomainEvent) {
     await this.#publish<TDomainEvent>(this.aggregateId, event);
     this.apply(event);
     this.#version++;
+  }
+
+  protected async loadAggregate<
+    TDomainEvent extends DomainEvent,
+    TAggregate extends AbstractAggregate<TDomainEvent, string>,
+  >(
+    ctor: AggregateConstructor<TAggregate, TDomainEvent>,
+    aggregateId: AggregateId<TAggregate['category']>,
+  ) {
+    return this.#loadAggregate(ctor, aggregateId, this);
   }
 }
 
@@ -67,16 +80,23 @@ export type AggregateType<
   TAggregate extends AbstractAggregate<TDomainEvent, string>,
   TDomainEvent extends DomainEvent = DomainEvent,
 > = Omit<TAggregate, 'aggregateId' | 'version' | 'apply'>;
+
+type AggregateConstructor<
+  TAggregate extends AbstractAggregate<TDomainEvent, string>,
+  TDomainEvent extends DomainEvent = DomainEvent,
+> = new (
+  parent: TAggregate['parent'],
+  aggregateId: AggregateId<TAggregate['category']>,
+  version: number,
+  publish: Publish,
+  loadAggregate: LoadAggregateV2,
+) => TAggregate;
+
 export type LoadAggregateV2 = <
   TDomainEvent extends DomainEvent,
   TAggregate extends AbstractAggregate<TDomainEvent, string>,
 >(
-  ctor: new (
-    parent: TAggregate['parent'],
-    aggregateId: AggregateId<TAggregate['category']>,
-    version: number,
-    publish: Publish,
-  ) => TAggregate,
+  ctor: AggregateConstructor<TAggregate, TDomainEvent>,
   aggregateId: AggregateId<TAggregate['category']>,
   parent: TAggregate['parent'],
 ) => Promise<AggregateType<TAggregate>>;

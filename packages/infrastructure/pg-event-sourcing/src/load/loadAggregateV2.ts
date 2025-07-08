@@ -19,6 +19,7 @@ export const loadAggregateV2: LoadAggregateV2 = async <
     aggregateId: AggregateId,
     version: number,
     publish: Publish,
+    loadAggregate: LoadAggregateV2,
   ) => TAggregate,
   aggregateId: AggregateId,
   parent: TAggregate['parent'],
@@ -28,7 +29,7 @@ export const loadAggregateV2: LoadAggregateV2 = async <
   });
   const version = events.length === 0 ? 0 : events[events.length - 1].version;
 
-  const aggregate = new ctor(parent, aggregateId, version, publish);
+  const aggregate = new ctor(parent, aggregateId, version, publish, loadAggregateV2);
 
   const domainEvents = events.map<TDomainEvent>(
     ({ type, payload }) => ({ type, payload }) as TDomainEvent,
