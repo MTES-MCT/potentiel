@@ -10,6 +10,7 @@ import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -31,10 +32,7 @@ export type CorrigerCandidatureFormProps = {
   estNotifiée: boolean;
   aUneAttestation: boolean;
   unitéPuissance: string;
-  champsSpéciaux: {
-    puissanceALaPointe: boolean;
-    coefficientKChoisi: boolean;
-  };
+  champsSupplémentaires: AppelOffre.ChampsSupplémentairesCandidature;
 };
 
 export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = ({
@@ -42,7 +40,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   estNotifiée,
   aUneAttestation,
   unitéPuissance,
-  champsSpéciaux,
+  champsSupplémentaires,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
@@ -297,7 +295,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           step: 0.1,
         }}
       />
-      {champsSpéciaux.puissanceALaPointe && (
+      {champsSupplémentaires.puissanceALaPointe && (
         <Checkbox
           state={validationErrors['puissanceALaPointe'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['puissanceALaPointe']}
@@ -398,7 +396,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           />
         </>
       )}
-      {champsSpéciaux.coefficientKChoisi && (
+      {champsSupplémentaires.coefficientKChoisi && (
         <Select
           state={validationErrors['coefficientKChoisi'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['coefficientKChoisi']}

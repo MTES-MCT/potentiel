@@ -56,7 +56,7 @@ export default async function Page({ params }: PageProps) {
         aUneAttestation={props.aUneAttestation}
         estNotifiée={props.estNotifiée}
         estLauréat={props.estLauréat}
-        champsSpéciaux={props.champsSpéciaux}
+        champsSupplémentaires={props.champsSupplémentaires}
         unitéPuissance={props.unitéPuissance}
       />
     );
@@ -100,8 +100,8 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
   aUneAttestation: !!candidature.notification?.attestation,
   estLauréat: Option.isSome(lauréat),
   unitéPuissance: candidature.unitéPuissance.formatter(),
-  champsSpéciaux: {
-    coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
-    puissanceALaPointe: appelOffres.puissanceALaPointeDisponible ?? false,
+  champsSupplémentaires: {
+    ...appelOffres.champsSupplémentaires,
+    ...période.champsSupplémentaires,
   },
 });

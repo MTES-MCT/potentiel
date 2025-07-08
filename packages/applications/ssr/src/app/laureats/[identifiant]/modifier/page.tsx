@@ -36,7 +36,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           candidature={props.candidature}
           lauréat={props.lauréat}
           projet={props.projet}
-          champsSpéciaux={props.champsSpéciaux}
+          champsSupplémentaires={props.champsSupplémentaires}
         />
       );
     }),
@@ -128,8 +128,8 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
     isPPE2: appelOffres.cycleAppelOffre === 'PPE2',
     unitéPuissance: candidature.unitéPuissance.formatter(),
   },
-  champsSpéciaux: {
-    coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
-    puissanceALaPointe: appelOffres.puissanceALaPointeDisponible ?? false,
+  champsSupplémentaires: {
+    ...appelOffres.champsSupplémentaires,
+    ...période.champsSupplémentaires,
   },
 });

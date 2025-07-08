@@ -418,13 +418,13 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   private vérifierCoefficientKChoisi(candidature: CandidatureBehaviorOptions) {
     if (
-      this.projet.période.choixCoefficientKDisponible &&
+      this.projet.champsSupplémentaires.coefficientKChoisi === 'requis' &&
       candidature.coefficientKChoisi === undefined
     ) {
       throw new ChoixCoefficientKRequisError();
     }
     if (
-      !this.projet.période.choixCoefficientKDisponible &&
+      !this.projet.champsSupplémentaires.coefficientKChoisi &&
       candidature.coefficientKChoisi !== undefined
     ) {
       throw new ChoixCoefficientKNonAttenduError();

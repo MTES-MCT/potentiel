@@ -513,7 +513,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       addendums: addendumPériode8EtSuivantes,
-      choixCoefficientKDisponible: true,
+      champsSupplémentaires: {
+        coefficientKChoisi: 'requis',
+      },
     },
     // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
   ],
