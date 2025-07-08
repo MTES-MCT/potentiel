@@ -9,7 +9,7 @@
     "lint": "eslint ./src --ext .ts",
     "format": "prettier './src/**/*.{ts,feature}' --write",
     "test": "cucumber-js --tags \"not @NotImplemented\"",
-    "test:select": "cucumber-js --tags   --tags \"not @NotImplemented\""
+    "test:select": "cucumber-js --tags @select --tags \"not @NotImplemented\""
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.804.0",

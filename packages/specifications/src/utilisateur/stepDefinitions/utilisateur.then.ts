@@ -15,10 +15,8 @@ import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notifi
 Alors(
   "l'utilisateur invité a accès au projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.éliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
 
@@ -26,7 +24,7 @@ Alors(
       mediator.send<Accès.VérifierAccèsProjetQuery>({
         type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           identifiantUtilisateurValue: identifiantUtilisateur.formatter(),
         },
       }),
@@ -65,10 +63,8 @@ Alors(
 Alors(
   'la liste des porteurs du projet {lauréat-éliminé} est mise à jour',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.éliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const expectedPorteurs = [this.utilisateurWorld.porteurFixture.email];
     if (this.utilisateurWorld.inviterUtilisateur.aÉtéCréé) {
@@ -79,7 +75,7 @@ Alors(
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
         data: {
-          identifiantProjet,
+          identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
@@ -100,10 +96,8 @@ Alors(
 Alors(
   `le porteur ne doit plus avoir accès au projet {lauréat-éliminé}`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.éliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const porteur = this.utilisateurWorld.porteurFixture;
 
@@ -112,7 +106,7 @@ Alors(
         await mediator.send<Accès.VérifierAccèsProjetQuery>({
           type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
           data: {
-            identifiantProjetValue: identifiantProjet,
+            identifiantProjetValue: identifiantProjet.formatter(),
             identifiantUtilisateurValue: porteur.email,
           },
         });
@@ -158,10 +152,8 @@ Alors(`le porteur devrait être actif`, async function (this: PotentielWorld) {
 Alors(
   'le projet {lauréat-éliminé} est consultable dans la liste des projets à réclamer',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.éliminéWorld.identifiantProjet
-        : this.lauréatWorld.identifiantProjet;
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     await waitForExpect(async () => {
       const projets = await mediator.send<Accès.ListerProjetsÀRéclamerQuery>({
@@ -177,10 +169,8 @@ Alors(
 Alors(
   `le projet {lauréat-éliminé} n'est plus consultable dans la liste des projets à réclamer`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet =
-      statutProjet === 'éliminé'
-        ? this.éliminéWorld.identifiantProjet
-        : this.lauréatWorld.identifiantProjet;
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     await waitForExpect(async () => {
       const projets = await mediator.send<Accès.ListerProjetsÀRéclamerQuery>({
@@ -197,10 +187,8 @@ Alors(
 Alors(
   'le porteur devrait avoir accès au projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjetValue =
-      statutProjet === 'éliminé'
-        ? this.éliminéWorld.identifiantProjet.formatter()
-        : this.lauréatWorld.identifiantProjet.formatter();
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     const identifiantUtilisateurValue = this.utilisateurWorld.réclamerProjet.email;
 
@@ -208,7 +196,7 @@ Alors(
       mediator.send<Accès.VérifierAccèsProjetQuery>({
         type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
         data: {
-          identifiantProjetValue,
+          identifiantProjetValue: identifiantProjet.formatter(),
           identifiantUtilisateurValue,
         },
       }),

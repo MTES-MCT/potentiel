@@ -186,10 +186,10 @@ npm run test:legacy -- --watch src/modules/AppelOffre.spec.ts
    ```shell
    npm run specs
    ```
-5. Il est possible de lancer les tests de **`specifications`** uniquement sur certains scénarios. Pour ce faire, ajoutez un tag **` `** sur les scénarios que vous voulez lancer. Exemple :
+5. Il est possible de lancer les tests de **`specifications`** uniquement sur certains scénarios. Pour ce faire, ajoutez un tag **`@select`** sur les scénarios que vous voulez lancer. Exemple :
 
 ```gherkin
-
+@select
 Scénario: Ajouter un gestionnaire de réseau
    Quand un administrateur ajoute un gestionnaire de réseau
       | Code EIC             | 17X0000009352859       |

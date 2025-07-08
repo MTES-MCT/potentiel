@@ -9,10 +9,8 @@ Quand(
   `le porteur demande le recours pour le projet {lauréat-éliminé}`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      const identifiantProjet =
-        statutProjet === 'éliminé'
-          ? this.éliminéWorld.identifiantProjet.formatter()
-          : this.lauréatWorld.identifiantProjet.formatter();
+      const { identifiantProjet } =
+        statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
       const { demandéLe, demandéPar, pièceJustificative, raison } =
         this.éliminéWorld.recoursWorld.demanderRecoursFixture.créer({
@@ -22,7 +20,7 @@ Quand(
       await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.DemanderRecours',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           raisonValue: raison,
           pièceJustificativeValue: pièceJustificative,
           dateDemandeValue: demandéLe,
@@ -37,8 +35,6 @@ Quand(
 
 Quand(`le porteur annule le recours pour le projet éliminé`, async function (this: PotentielWorld) {
   try {
-    const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
-
     const { annuléLe: annuléeLe, annuléPar: annuléePar } =
       this.éliminéWorld.recoursWorld.annulerRecoursFixture.créer({
         annuléPar: this.utilisateurWorld.porteurFixture.email,
@@ -47,7 +43,7 @@ Quand(`le porteur annule le recours pour le projet éliminé`, async function (t
     await mediator.send<Éliminé.Recours.RecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.AnnulerRecours',
       data: {
-        identifiantProjetValue: identifiantProjet,
+        identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
         dateAnnulationValue: annuléeLe,
         identifiantUtilisateurValue: annuléePar,
       },
@@ -61,8 +57,6 @@ Quand(
   `le DGEC validateur rejette le recours pour le projet éliminé`,
   async function (this: PotentielWorld) {
     try {
-      const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
-
       const {
         rejetéLe: rejetéeLe,
         rejetéPar: rejetéePar,
@@ -74,7 +68,7 @@ Quand(
       await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.RejeterRecours',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           dateRejetValue: rejetéeLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: rejetéePar,
@@ -90,7 +84,7 @@ Quand(
   `le DGEC validateur accorde le recours pour le projet éliminé`,
   async function (this: PotentielWorld) {
     try {
-      const identifiantProjet = this.éliminéWorld.identifiantProjet;
+      const { identifiantProjet } = this.éliminéWorld;
       const nomProjet = this.éliminéWorld.nomProjet;
 
       const {
@@ -103,7 +97,7 @@ Quand(
 
       this.lauréatWorld.lauréatFixtures.set(nomProjet, {
         nom: nomProjet,
-        identifiantProjet,
+        identifiantProjet: this.éliminéWorld.identifiantProjet,
         dateDésignation: accordéeLe,
         appelOffre: identifiantProjet.appelOffre,
         période: identifiantProjet.période,
@@ -130,8 +124,6 @@ Quand(
   /(.*)administrateur passe en instruction le recours pour le projet éliminé/,
   async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
-      const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
-
       const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
       if (estUnNouvelAdmin) {
         this.utilisateurWorld.adminFixture.créer();
@@ -145,7 +137,7 @@ Quand(
       await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: this.éliminéWorld.identifiantProjet.formatter(),
           dateInstructionValue: passéEnInstructionLe,
           identifiantUtilisateurValue: passéEnInstructionPar,
         },
