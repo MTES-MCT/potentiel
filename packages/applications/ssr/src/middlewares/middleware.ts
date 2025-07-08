@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import { NextMiddlewareResult } from 'next/dist/server/web/types';
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 

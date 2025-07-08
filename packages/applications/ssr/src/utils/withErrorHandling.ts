@@ -1,4 +1,6 @@
+// eslint-disable-next-line no-restricted-imports
 import { isNotFoundError } from 'next/dist/client/components/not-found';
+// eslint-disable-next-line no-restricted-imports
 import { isRedirectError } from 'next/dist/client/components/redirect';
 
 import { getLogger } from '@potentiel-libraries/monitoring';

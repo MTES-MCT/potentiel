@@ -4,7 +4,9 @@ import { zodI18nMap } from 'zod-i18n-map';
 import translation from 'zod-i18n-map/locales/fr/zod.json';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+// eslint-disable-next-line no-restricted-imports
 import { isRedirectError } from 'next/dist/client/components/redirect';
+// eslint-disable-next-line no-restricted-imports
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 
 import { DomainError } from '@potentiel-domain/core';

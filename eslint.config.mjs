@@ -64,7 +64,13 @@ export default eslintTs.config(
       'no-restricted-imports': [
         'error',
         {
-          patterns: [{ group: ['@potentiel*/**/src/*'], message: 'Use exposed properties' }],
+          patterns: [
+            { group: ['@potentiel*/**/src/*'], message: 'Use exposed properties' },
+            {
+              group: ['*dist*'],
+              message: 'Do not import from dist; import from source files',
+            },
+          ],
         },
       ],
       'import/order': [
