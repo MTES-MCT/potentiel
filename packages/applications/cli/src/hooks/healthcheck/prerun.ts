@@ -6,7 +6,7 @@ import { getHealthcheckClient } from '../../helpers/healthcheck';
 import { CommandWithHealthcheckClient } from './finally';
 
 const configSchema = z.object({
-  SENTRY_CRONS: z.string().optional(),
+  SENTRY_CRONS: z.string(),
   APPLICATION_STAGE: z.string(),
 });
 
@@ -19,10 +19,15 @@ type CommandWithHealthCheckConfiguration = {
  * if `monitoringSlug` was specified.
  */
 const healthcheckPrerunHook: Hook.Prerun = async function ({ Command }) {
-  const { SENTRY_CRONS, APPLICATION_STAGE } = configSchema.parse(process.env);
+  const { success, data } = configSchema.safeParse(process.env);
 
   const command = Command as CommandWithHealthCheckConfiguration & CommandWithHealthcheckClient;
 
+  if (!success || !command.monitoringSlug) {
+    return;
+  }
+
+  const { SENTRY_CRONS, APPLICATION_STAGE } = data;
   // The healtcheck client generates a uuid that's required to notify the service, so it should be instanciated twice
   command._healthcheckClient = getHealthcheckClient({
     healthcheckUrl: SENTRY_CRONS,

@@ -1,9 +1,9 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 type GetHealthcheckClientProps = {
-  healthcheckUrl: string | undefined;
+  healthcheckUrl: string;
   environment: string;
-  slug: string | undefined;
+  slug: string;
 };
 
 export function getHealthcheckClient({
@@ -11,14 +11,6 @@ export function getHealthcheckClient({
   healthcheckUrl,
   slug,
 }: GetHealthcheckClientProps) {
-  if (!healthcheckUrl || !slug) {
-    return {
-      async start() {},
-      async success() {},
-      async error() {},
-    };
-  }
-
   const uuid = crypto.randomUUID();
   const notify = async (status: string) => {
     const url = new URL(healthcheckUrl.replace('<monitor_slug>', slug));
