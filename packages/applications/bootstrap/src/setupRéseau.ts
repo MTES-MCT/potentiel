@@ -2,12 +2,12 @@ import { mediator } from 'mediateur';
 
 import { GestionnaireRéseauProjector } from '@potentiel-applications/projectors';
 import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
-import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregateV2, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const setupRéseau = async () => {
   registerRéseauUseCases({
-    loadAggregate,
+    loadAggregate: loadAggregateV2,
   });
 
   registerRéseauQueries({

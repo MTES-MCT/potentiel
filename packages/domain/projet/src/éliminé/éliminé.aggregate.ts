@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 
@@ -35,11 +35,10 @@ export class ÉliminéAggregate extends AbstractAggregate<
     return this.#estArchivé;
   }
 
-  async init(loadAggregate: LoadAggregateV2) {
-    this.#recours = await loadAggregate(
+  async init() {
+    this.#recours = await this.loadAggregate(
       RecoursAggregate,
       `recours|${this.projet.identifiantProjet.formatter()}`,
-      this,
     );
   }
 

@@ -87,9 +87,7 @@ const mapToActions = (
 ): DétailsRaccordementPageProps['actions'] => {
   const isGestionnaireInconnu =
     raccordement.identifiantGestionnaireRéseau &&
-    raccordement.identifiantGestionnaireRéseau.estÉgaleÀ(
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-    );
+    raccordement.identifiantGestionnaireRéseau.estInconnu();
   if (isGestionnaireInconnu) {
     return {
       supprimer: true,

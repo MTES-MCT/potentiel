@@ -155,14 +155,14 @@ export class ProjetAggregateRoot {
       `lauréat|${this.identifiantProjet.formatter()}`,
       this,
     );
-    await this.#lauréat.init(this.#loadAggregate);
+    await this.#lauréat.init();
 
     this.#éliminé = await this.#loadAggregate(
       ÉliminéAggregate,
       `éliminé|${this.identifiantProjet.formatter()}`,
       this,
     );
-    await this.#éliminé.init(this.#loadAggregate);
+    await this.#éliminé.init();
 
     const appelOffre = await this.#loadAppelOffreAggregate(this.#identifiantProjet.appelOffre);
 

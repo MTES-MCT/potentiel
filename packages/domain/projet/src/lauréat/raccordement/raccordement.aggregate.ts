@@ -1,10 +1,11 @@
 import { match, P } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
+import { GestionnaireRéseauAggregate } from '@potentiel-domain/reseau/dist/gestionnaire/gestionnaireRéseau.aggregate';
 
 import { IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
@@ -109,8 +110,9 @@ export class RaccordementAggregate extends AbstractAggregate<
   'raccordement',
   LauréatAggregate
 > {
-  dossiers: Map<string, DossierRaccordement> = new Map();
-  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType =
+  #gestionnaireRéseau!: AggregateType<GestionnaireRéseauAggregate>;
+  #dossiers: Map<string, DossierRaccordement> = new Map();
+  #identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType =
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
 
   get lauréat() {
@@ -121,12 +123,16 @@ export class RaccordementAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
+  private get référenceDossierExpressionRegulière() {
+    return this.#gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière;
+  }
+
   private contientLeDossier({ référence }: RéférenceDossierRaccordement.ValueType) {
-    return this.dossiers.has(référence);
+    return this.#dossiers.has(référence);
   }
 
   private récupérerDossier(référence: RéférenceDossierRaccordement.RawType) {
-    const dossier = this.dossiers.get(référence);
+    const dossier = this.#dossiers.get(référence);
 
     if (!dossier) {
       throw new DossierNonRéférencéPourLeRaccordementDuProjetError();
@@ -136,7 +142,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   private aUneDateDeMiseEnService(): boolean {
-    for (const [, dossier] of this.dossiers.entries()) {
+    for (const [, dossier] of this.#dossiers.entries()) {
       if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
         return true;
       }
@@ -158,22 +164,26 @@ export class RaccordementAggregate extends AbstractAggregate<
     return !date.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
   }
 
+  async init() {
+    this.#gestionnaireRéseau = await this.loadGestionnaireRéseau(
+      this.#identifiantGestionnaireRéseau.codeEIC,
+    );
+  }
+
+  async loadGestionnaireRéseau(codeEIC: string) {
+    return await this.loadAggregate(GestionnaireRéseauAggregate, `gestionnaire-réseau|${codeEIC}`);
+  }
+
   async attribuerGestionnaireRéseau({
     identifiantGestionnaireRéseau,
   }: AttribuerGestionnaireRéseauOptions) {
-    const gestionnaireRéseauDéjàAttribué = !this.identifiantGestionnaireRéseau.estÉgaleÀ(
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-    );
+    const gestionnaireRéseauDéjàAttribué = !this.#identifiantGestionnaireRéseau.estInconnu();
 
     if (gestionnaireRéseauDéjàAttribué) {
       throw new GestionnaireRéseauDéjàExistantError(this.identifiantProjet.formatter());
     }
 
-    if (
-      identifiantGestionnaireRéseau.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      )
-    ) {
+    if (identifiantGestionnaireRéseau.estInconnu()) {
       const event: GestionnaireRéseauInconnuAttribuéEvent = {
         type: 'GestionnaireRéseauInconnuAttribué-V1',
         payload: {
@@ -183,6 +193,11 @@ export class RaccordementAggregate extends AbstractAggregate<
 
       await this.publish(event);
     } else {
+      const gestionnaireRéseau = await this.loadGestionnaireRéseau(
+        identifiantGestionnaireRéseau.codeEIC,
+      );
+      gestionnaireRéseau.vérifierQueLeGestionnaireExiste();
+
       const event: GestionnaireRéseauAttribuéEvent = {
         type: 'GestionnaireRéseauAttribué-V1',
         payload: {
@@ -245,14 +260,13 @@ export class RaccordementAggregate extends AbstractAggregate<
     dateQualification,
     formatAccuséRéception,
     référenceDossierRaccordement,
-    référenceDossierExpressionRegulière,
     rôle,
   }: ModifierDemandeComplèteOptions) {
     if (dateQualification.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
 
-    if (!référenceDossierExpressionRegulière.valider(référenceDossierRaccordement.référence)) {
+    if (!this.référenceDossierExpressionRegulière.valider(référenceDossierRaccordement.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
@@ -316,7 +330,6 @@ export class RaccordementAggregate extends AbstractAggregate<
   async transmettreDemandeComplèteDeRaccordement({
     dateQualification,
     référenceDossier,
-    référenceDossierExpressionRegulière,
     formatAccuséRéception,
     transmisePar,
     transmiseLe,
@@ -324,7 +337,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAbandonné();
 
-    if (!référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
+    if (!this.référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
 
@@ -341,7 +354,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         dateQualification: dateQualification?.formatter(),
-        identifiantGestionnaireRéseau: this.identifiantGestionnaireRéseau.formatter(),
+        identifiantGestionnaireRéseau: this.#identifiantGestionnaireRéseau.formatter(),
         référenceDossierRaccordement: référenceDossier.formatter(),
         accuséRéception: formatAccuséRéception
           ? {
@@ -433,7 +446,6 @@ export class RaccordementAggregate extends AbstractAggregate<
   async modifierRéférenceDossierRacordement({
     nouvelleRéférenceDossierRaccordement,
     référenceDossierRaccordementActuelle,
-    référenceDossierExpressionRegulière,
     modifiéeLe,
     modifiéePar,
     rôle,
@@ -443,7 +455,9 @@ export class RaccordementAggregate extends AbstractAggregate<
     }
 
     if (
-      !référenceDossierExpressionRegulière.valider(nouvelleRéférenceDossierRaccordement.référence)
+      !this.référenceDossierExpressionRegulière.valider(
+        nouvelleRéférenceDossierRaccordement.référence,
+      )
     ) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
     }
@@ -481,7 +495,14 @@ export class RaccordementAggregate extends AbstractAggregate<
     identifiantGestionnaireRéseau,
     rôle,
   }: ModifierGestionnaireRéseauOptions) {
-    if (this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
+    if (!identifiantGestionnaireRéseau.estInconnu()) {
+      const gestionnaireRéseau = await this.loadGestionnaireRéseau(
+        identifiantGestionnaireRéseau.codeEIC,
+      );
+      gestionnaireRéseau.vérifierQueLeGestionnaireExiste();
+    }
+
+    if (this.#identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)) {
       throw new GestionnaireRéseauIdentiqueError(
         this.identifiantProjet,
         identifiantGestionnaireRéseau,
@@ -495,11 +516,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
     }
 
-    if (
-      identifiantGestionnaireRéseau.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      )
-    ) {
+    if (identifiantGestionnaireRéseau.estInconnu()) {
       const event: GestionnaireRéseauInconnuAttribuéEvent = {
         type: 'GestionnaireRéseauInconnuAttribué-V1',
         payload: {
@@ -615,7 +632,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   private applyAttribuerGestionnaireRéseauEventV1({
     payload: { identifiantGestionnaireRéseau },
   }: GestionnaireRéseauAttribuéEvent) {
-    this.identifiantGestionnaireRéseau =
+    this.#identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       );
@@ -624,7 +641,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   private applyDossierDuRaccordementSuppriméEventV1({
     payload,
   }: DossierDuRaccordementSuppriméEvent) {
-    this.dossiers.delete(payload.référenceDossier);
+    this.#dossiers.delete(payload.référenceDossier);
   }
 
   private applyPropositionTechniqueEtFinancièreModifiéeEventV1({
@@ -659,8 +676,8 @@ export class RaccordementAggregate extends AbstractAggregate<
       DateTime.convertirEnValueType(dateQualification);
     dossier.référence = RéférenceDossierRaccordement.convertirEnValueType(nouvelleReference);
 
-    this.dossiers.delete(referenceActuelle);
-    this.dossiers.set(nouvelleReference, dossier);
+    this.#dossiers.delete(referenceActuelle);
+    this.#dossiers.set(nouvelleReference, dossier);
   }
 
   private applyDemandeComplèteRaccordementModifiéeEventV2({
@@ -738,18 +755,14 @@ export class RaccordementAggregate extends AbstractAggregate<
   private applyDemandeComplèteDeRaccordementTransmiseEventV1({
     payload: { identifiantGestionnaireRéseau, référenceDossierRaccordement, dateQualification },
   }: DemandeComplèteRaccordementTransmiseEventV1) {
-    if (
-      this.identifiantGestionnaireRéseau.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      )
-    ) {
-      this.identifiantGestionnaireRéseau =
+    if (this.#identifiantGestionnaireRéseau.estInconnu()) {
+      this.#identifiantGestionnaireRéseau =
         GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
           identifiantGestionnaireRéseau,
         );
     }
 
-    this.dossiers.set(référenceDossierRaccordement, {
+    this.#dossiers.set(référenceDossierRaccordement, {
       demandeComplèteRaccordement: {
         dateQualification: dateQualification
           ? DateTime.convertirEnValueType(dateQualification)
@@ -843,8 +856,8 @@ export class RaccordementAggregate extends AbstractAggregate<
   }
 
   private applyRaccordementSuppriméEventV1() {
-    this.identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
-    this.dossiers = new Map();
+    this.#identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
+    this.#dossiers = new Map();
   }
 
   private applyDateMiseEnServiceSuppriméeEventV1({
@@ -865,14 +878,14 @@ export class RaccordementAggregate extends AbstractAggregate<
       nouvelleRéférenceDossierRaccordement,
     );
 
-    this.dossiers.delete(référenceDossierRaccordementActuelle);
-    this.dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
+    this.#dossiers.delete(référenceDossierRaccordementActuelle);
+    this.#dossiers.set(nouvelleRéférenceDossierRaccordement, dossier);
   }
 
   private applyGestionnaireRéseauRaccordementModifiéEventV1({
     payload: { identifiantGestionnaireRéseau },
   }: GestionnaireRéseauRaccordementModifiéEvent) {
-    this.identifiantGestionnaireRéseau =
+    this.#identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       );
@@ -881,6 +894,6 @@ export class RaccordementAggregate extends AbstractAggregate<
   private applyGestionnaireRéseauRaccordemenInconnuEventV1(
     _: GestionnaireRéseauInconnuAttribuéEvent,
   ) {
-    this.identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
+    this.#identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
   }
 }

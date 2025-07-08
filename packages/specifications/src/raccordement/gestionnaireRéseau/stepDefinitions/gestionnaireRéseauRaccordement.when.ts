@@ -1,9 +1,9 @@
 import { When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
+import { mediator, Message } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 Quand(
@@ -14,6 +14,35 @@ Quand(
       'GESTIONNAIRE NON RÉFÉRENCÉ',
       Role.porteur,
     );
+  },
+);
+
+/** @deprecated AttribuerGestionnaireRéseauCommand n'est pas exporté par Raccordement  */
+type AttribuerGestionnaireRéseauCommand = Message<
+  'Lauréat.Raccordement.Command.AttribuerGestionnaireRéseau',
+  {
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
+    identifiantProjet: IdentifiantProjet.ValueType;
+  }
+>;
+
+Quand(
+  `le système attribue un gestionnaire de réseau non référencé au projet`,
+  async function (this: PotentielWorld) {
+    try {
+      await mediator.send<AttribuerGestionnaireRéseauCommand>({
+        type: 'Lauréat.Raccordement.Command.AttribuerGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseau:
+            GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+              'GESTIONNAIRE NON RÉFÉRENCÉ',
+            ),
+          identifiantProjet: this.lauréatWorld.identifiantProjet,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );
 

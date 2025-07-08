@@ -5,6 +5,7 @@ export type RawType = string;
 export type ValueType = ReadonlyValueType<{
   codeEIC: string;
   formatter(): RawType;
+  estInconnu(): boolean;
 }>;
 
 export const bind = ({ codeEIC }: PlainType<ValueType>): ValueType => {
@@ -17,6 +18,9 @@ export const bind = ({ codeEIC }: PlainType<ValueType>): ValueType => {
     },
     estÉgaleÀ(valueType) {
       return valueType.formatter() === this.formatter();
+    },
+    estInconnu() {
+      return this.estÉgaleÀ(inconnu);
     },
   };
 };
