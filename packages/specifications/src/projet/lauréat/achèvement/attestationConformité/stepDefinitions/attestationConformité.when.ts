@@ -10,7 +10,7 @@ Quand(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
       const { identifiantProjet } =
-        statutProjet === 'lauréat' ? this.lauréatWorld : this.eliminéWorld;
+        statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
       const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({

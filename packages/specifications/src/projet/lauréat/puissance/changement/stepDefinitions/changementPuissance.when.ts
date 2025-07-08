@@ -99,7 +99,7 @@ export async function demanderChangementPuissance(
   const identifiantProjet =
     statutProjet === 'lauréat'
       ? this.lauréatWorld.identifiantProjet
-      : this.eliminéWorld.identifiantProjet;
+      : this.éliminéWorld.identifiantProjet;
 
   const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture.créer(
@@ -133,7 +133,7 @@ export async function enregistrerChangementPuissance(
   const identifiantProjet =
     statutProjet === 'lauréat'
       ? this.lauréatWorld.identifiantProjet
-      : this.eliminéWorld.identifiantProjet;
+      : this.éliminéWorld.identifiantProjet;
 
   const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.enregistrerChangementPuissanceFixture.créer(

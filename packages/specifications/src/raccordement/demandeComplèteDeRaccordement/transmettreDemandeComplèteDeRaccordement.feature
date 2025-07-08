@@ -48,7 +48,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | La date de qualification | 2999-12-31 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
 
-    Scénario: Impossible de transmettre une demande complète de raccordement  si le projet est abandonné
+    Scénario: Impossible de transmettre une demande complète de raccordement si le projet est abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"

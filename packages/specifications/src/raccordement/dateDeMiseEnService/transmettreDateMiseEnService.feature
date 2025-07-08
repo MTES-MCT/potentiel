@@ -44,3 +44,8 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Et le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
         Alors le gestionnaire de réseau devrait être informé que "La date de mise en service est déjà transmise pour ce dossier de raccordement"
+
+
+# Cas impossibles à tester car il n'y a pas de DCR pour un projet éliminé ou abandonné
+# Scénario: Impossible de transmettre une date de mise en service d'un projet lauréat abandonné
+# Scénario: Impossible de transmettre une date de mise en service d'un projet éliminé

@@ -21,20 +21,6 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet éliminé`,
-  async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.eliminéWorld;
-    const { référenceDossier } = this.raccordementWorld;
-
-    await transmettrePropositionTechniqueEtFinancière.call(
-      this,
-      identifiantProjet.formatter(),
-      référenceDossier,
-    );
-  },
-);
-
-Quand(
   `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat avec :`,
   async function (this: PotentielWorld, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;

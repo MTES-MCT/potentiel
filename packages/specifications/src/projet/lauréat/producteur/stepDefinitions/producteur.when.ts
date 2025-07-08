@@ -36,7 +36,7 @@ Quand(
     try {
       const identifiantProjet =
         statutProjet === 'éliminé'
-          ? this.eliminéWorld.identifiantProjet
+          ? this.éliminéWorld.identifiantProjet
           : this.lauréatWorld.identifiantProjet;
 
       await modifierProducteur.call(this, identifiantProjet);

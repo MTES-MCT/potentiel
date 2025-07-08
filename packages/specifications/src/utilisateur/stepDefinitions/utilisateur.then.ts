@@ -17,7 +17,7 @@ Alors(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
@@ -67,7 +67,7 @@ Alors(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const expectedPorteurs = [this.utilisateurWorld.porteurFixture.email];
@@ -102,7 +102,7 @@ Alors(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const porteur = this.utilisateurWorld.porteurFixture;
@@ -160,7 +160,7 @@ Alors(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet
+        ? this.éliminéWorld.identifiantProjet
         : this.lauréatWorld.identifiantProjet;
 
     await waitForExpect(async () => {
@@ -179,7 +179,7 @@ Alors(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet
+        ? this.éliminéWorld.identifiantProjet
         : this.lauréatWorld.identifiantProjet;
 
     await waitForExpect(async () => {
@@ -199,7 +199,7 @@ Alors(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjetValue =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const identifiantUtilisateurValue = this.utilisateurWorld.réclamerProjet.email;

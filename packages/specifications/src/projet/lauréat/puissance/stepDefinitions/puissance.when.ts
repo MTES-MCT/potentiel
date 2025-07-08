@@ -57,7 +57,7 @@ async function modifierPuissance(
 ) {
   const identifiantProjet =
     statutProjet === 'éliminé'
-      ? this.eliminéWorld.identifiantProjet.formatter()
+      ? this.éliminéWorld.identifiantProjet.formatter()
       : this.lauréatWorld.identifiantProjet.formatter();
 
   const { puissance, dateModification, raison } =

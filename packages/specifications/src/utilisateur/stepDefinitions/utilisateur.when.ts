@@ -35,7 +35,7 @@ Quand(
             });
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
     await inviterPorteur.call(this, {
       identifiantsProjet: [identifiantProjet],
@@ -120,7 +120,7 @@ Quand(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const { emailContactValue: emailCandidature } =
@@ -141,7 +141,7 @@ Quand(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const { prixRéférenceValue: prixReferenceValue, numéroCREValue } =
@@ -163,7 +163,7 @@ Quand(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
@@ -181,7 +181,7 @@ Quand(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
@@ -212,7 +212,7 @@ Quand(
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
-        ? this.eliminéWorld.identifiantProjet.formatter()
+        ? this.éliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
     await retirerAccèsProjet.call(this, {
       identifiantProjet,

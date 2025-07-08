@@ -140,7 +140,7 @@ export async function demanderChangementActionnaire(
   const identifiantProjet =
     statutProjet === 'lauréat'
       ? this.lauréatWorld.identifiantProjet.formatter()
-      : this.eliminéWorld.identifiantProjet.formatter();
+      : this.éliminéWorld.identifiantProjet.formatter();
 
   const { pièceJustificative, demandéLe, demandéPar, raison, actionnaire } =
     this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.créer({
@@ -223,7 +223,7 @@ async function modifierActionnaire(
 ) {
   const identifiantProjet =
     statutProjet === 'éliminé'
-      ? this.eliminéWorld.identifiantProjet.formatter()
+      ? this.éliminéWorld.identifiantProjet.formatter()
       : this.lauréatWorld.identifiantProjet.formatter();
 
   const { actionnaire, dateModification, raison } =
@@ -271,7 +271,7 @@ async function enregistrerChangementActionnaire(
 ) {
   const identifiantProjet =
     statutProjet === 'éliminé'
-      ? this.eliminéWorld.identifiantProjet.formatter()
+      ? this.éliminéWorld.identifiantProjet.formatter()
       : this.lauréatWorld.identifiantProjet.formatter();
 
   const { pièceJustificative, demandéLe, raison, actionnaire } =

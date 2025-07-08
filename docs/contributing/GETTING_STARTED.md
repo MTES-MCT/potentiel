@@ -14,8 +14,8 @@
   - [Lancer les tests](#lancer-les-tests)
     - [Specifications](#specifications)
   - [Metabase local](#metabase-local)
-      - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
-      - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
+    - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
+    - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
   - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
   - [Lancer des commandes CLI](#lancer-des-commandes-cli)
 
@@ -186,10 +186,10 @@ npm run test:legacy -- --watch src/modules/AppelOffre.spec.ts
    ```shell
    npm run specs
    ```
-5. Il est possible de lancer les tests de **`specifications`** uniquement sur certains scénarios. Pour ce faire, ajoutez un tag **`@select`** sur les scénarios que vous voulez lancer. Exemple :
+5. Il est possible de lancer les tests de **`specifications`** uniquement sur certains scénarios. Pour ce faire, ajoutez un tag **` `** sur les scénarios que vous voulez lancer. Exemple :
 
 ```gherkin
-@select
+
 Scénario: Ajouter un gestionnaire de réseau
    Quand un administrateur ajoute un gestionnaire de réseau
       | Code EIC             | 17X0000009352859       |

@@ -31,10 +31,10 @@ EtantDonné(
 );
 
 async function créerDemandeRecours(this: PotentielWorld) {
-  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+  const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
 
   const { raison, demandéLe, demandéPar, pièceJustificative } =
-    this.eliminéWorld.recoursWorld.demanderRecoursFixture.créer({
+    this.éliminéWorld.recoursWorld.demanderRecoursFixture.créer({
       demandéPar: this.utilisateurWorld.porteurFixture.email,
     });
 
@@ -51,13 +51,13 @@ async function créerDemandeRecours(this: PotentielWorld) {
 }
 
 async function créerAccordRecours(this: PotentielWorld) {
-  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+  const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
 
   const {
     accordéLe: accordéeLe,
     accordéPar: accordéePar,
     réponseSignée,
-  } = this.eliminéWorld.recoursWorld.accorderRecoursFixture.créer({
+  } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
     accordéPar: this.utilisateurWorld.validateurFixture.email,
   });
 
@@ -73,12 +73,12 @@ async function créerAccordRecours(this: PotentielWorld) {
 }
 
 async function créerRejetRecours(this: PotentielWorld) {
-  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+  const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
   const {
     rejetéLe: rejetéeLe,
     rejetéPar: rejetéePar,
     réponseSignée,
-  } = this.eliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
+  } = this.éliminéWorld.recoursWorld.rejeterRecoursFixture.créer({
     rejetéPar: this.utilisateurWorld.validateurFixture.email,
   });
 
@@ -94,10 +94,10 @@ async function créerRejetRecours(this: PotentielWorld) {
 }
 
 async function passerDemandeRecoursEnInstruction(this: PotentielWorld) {
-  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+  const identifiantProjet = this.éliminéWorld.identifiantProjet.formatter();
 
   const { passéEnInstructionLe, passéEnInstructionPar } =
-    this.eliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
+    this.éliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
       passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
     });
 
