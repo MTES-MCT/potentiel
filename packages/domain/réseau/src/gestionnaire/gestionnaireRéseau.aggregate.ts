@@ -67,9 +67,7 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     raisonSociale,
     contactEmail,
   }: ModifierOptions) {
-    if (!this.exists) {
-      throw new GestionnaireRéseauInconnuError();
-    }
+    this.vérifierQueLeGestionnaireExiste();
     // TODO : publish l'event uniquement si pas deep equal avec l'état de l'aggregate.
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié-V2',
@@ -94,6 +92,12 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+  }
+
+  vérifierQueLeGestionnaireExiste() {
+    if (!this.exists) {
+      throw new GestionnaireRéseauInconnuError();
+    }
   }
 
   apply({

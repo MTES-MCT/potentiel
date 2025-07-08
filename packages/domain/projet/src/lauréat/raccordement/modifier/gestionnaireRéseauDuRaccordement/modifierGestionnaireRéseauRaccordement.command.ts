@@ -15,8 +15,6 @@ export type ModifierGestionnaireRéseauRaccordementCommand = Message<
   }
 >;
 
-/** TODO est-ce que ca throw si le gestionnaire n'existe pas? */
-
 export const registerModifierGestionnaireRéseauProjetCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
