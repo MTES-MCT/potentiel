@@ -1,7 +1,7 @@
 import {
   GestionnaireRéseauAjoutéEvent,
   GestionnaireRéseauAjoutéEventV1,
-} from './ajouter/ajouter.event';
+} from './ajouter/ajouterGestionnaireRéseau.event';
 import {
   GestionnaireRéseauModifiéEvent,
   GestionnaireRéseauModifiéEventV1,

@@ -9,7 +9,7 @@ import type {
   GestionnaireRéseauListItemReadModel,
 } from './lister/listerGestionnaireRéseau.query';
 import type { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
-import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouter.event';
+import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event';
 import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 import type { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event';
 import { GestionnaireRéseauAggregate } from './gestionnaireRéseau.aggregate';

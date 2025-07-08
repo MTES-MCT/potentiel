@@ -36,7 +36,6 @@ export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAgg
 
     await gestionnaireRéseau.ajouter({
       aideSaisieRéférenceDossierRaccordement,
-      identifiantGestionnaireRéseau,
       raisonSociale,
       contactEmail,
     });

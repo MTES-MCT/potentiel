@@ -4,11 +4,11 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { ExpressionRegulière } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouter.event';
+import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event';
 import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
 import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event';
 import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
-import { AjouterOptions } from './ajouter/ajouter.options';
+import { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options';
 import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
@@ -17,11 +17,10 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
   GestionnaireRéseauEvent,
   'gestionnaire-réseau'
 > {
-  #identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.inconnu;
   #référenceDossierRaccordementExpressionRegulière = ExpressionRegulière.accepteTout;
 
   get identifiantGestionnaireRéseau() {
-    return this.#identifiantGestionnaireRéseau;
+    return IdentifiantGestionnaireRéseau.convertirEnValueType(this.aggregateId.split('|')[1]);
   }
 
   get référenceDossierRaccordementExpressionRegulière() {
@@ -30,7 +29,6 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
 
   async ajouter({
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
-    identifiantGestionnaireRéseau,
     raisonSociale,
     contactEmail,
   }: AjouterOptions) {
@@ -41,7 +39,7 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     const event: GestionnaireRéseauAjoutéEvent = {
       type: 'GestionnaireRéseauAjouté-V2',
       payload: {
-        codeEIC: identifiantGestionnaireRéseau.formatter(),
+        codeEIC: this.identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: {
           format: Option.match(format)
@@ -100,12 +98,9 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
 
   apply({
     payload: {
-      codeEIC,
       aideSaisieRéférenceDossierRaccordement: { expressionReguliere },
     },
   }: GestionnaireRéseauEvent): void {
-    this.#identifiantGestionnaireRéseau =
-      IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC);
     this.#référenceDossierRaccordementExpressionRegulière = match(expressionReguliere)
       .with('', () => ExpressionRegulière.accepteTout)
       .with(Pattern.nullish, () => ExpressionRegulière.accepteTout)
