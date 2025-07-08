@@ -1,9 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
 export const mapToDossierRacordementSuppriméTimelineItemProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.Raccordement.DateMiseEnServiceSuppriméeEvent,
 ) => {
-  const { suppriméeLe, suppriméePar, référenceDossierRaccordement } =
-    modification.payload as Lauréat.Raccordement.DateMiseEnServiceSuppriméeEvent['payload'];
+  const { suppriméeLe, suppriméePar, référenceDossierRaccordement } = modification.payload;
 
   return {
     date: suppriméeLe,

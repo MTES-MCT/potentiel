@@ -1,27 +1,19 @@
-import { match } from 'ts-pattern';
-
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  event: (
+    | Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEventV1
+    | Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEvent
+  ) & {
+    createdAt: string;
+  },
 ) => {
-  const event = match(modification)
-    .with({ type: 'RéférenceDossierRacordementModifiée-V1' }, (event) => event)
-    .with({ type: 'RéférenceDossierRacordementModifiée-V2' }, (event) => event)
-    .otherwise(() => undefined);
-
-  if (!event) {
-    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(modification);
-  }
-
   return {
     date:
       event.type === 'RéférenceDossierRacordementModifiée-V2'
         ? event.payload.modifiéeLe
-        : (modification.createdAt as DateTime.RawType),
+        : (event.createdAt as DateTime.RawType),
     title: (
       <div>
         La référence pour le dossier de raccordement{' '}

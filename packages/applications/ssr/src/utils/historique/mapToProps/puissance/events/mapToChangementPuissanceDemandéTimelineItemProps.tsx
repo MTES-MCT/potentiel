@@ -5,11 +5,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementPuissanceDemandéTimelineItemProps = (
-  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
+  record: Lauréat.Puissance.ChangementPuissanceDemandéEvent,
   unitéPuissance: string,
 ) => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, puissance } =
-    record.payload as Lauréat.Puissance.ChangementPuissanceDemandéEvent['payload'];
+    record.payload;
 
   return {
     date: demandéLe,

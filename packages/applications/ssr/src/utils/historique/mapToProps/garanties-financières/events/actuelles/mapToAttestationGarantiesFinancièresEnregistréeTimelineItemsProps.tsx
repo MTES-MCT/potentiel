@@ -1,10 +1,11 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification:
+    | Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
+    | Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent,
 ) => {
-  const { enregistréLe, enregistréPar } =
-    modification.payload as Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent['payload'];
+  const { enregistréLe, enregistréPar } = modification.payload;
 
   return {
     date: enregistréLe,

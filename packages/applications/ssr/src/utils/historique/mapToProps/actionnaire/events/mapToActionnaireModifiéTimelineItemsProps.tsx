@@ -5,10 +5,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToActionnaireModifiéTimelineItemProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.Actionnaire.ActionnaireModifiéEvent,
 ) => {
   const { modifiéLe, modifiéPar, identifiantProjet, pièceJustificative, actionnaire } =
-    modification.payload as Lauréat.Actionnaire.ActionnaireModifiéEvent['payload'];
+    modification.payload;
 
   return {
     date: modifiéLe,

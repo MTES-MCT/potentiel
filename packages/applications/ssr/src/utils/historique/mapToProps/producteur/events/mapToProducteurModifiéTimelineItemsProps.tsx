@@ -1,10 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToProducteurModifiéTimelineItemsProps = (
-  record: Lauréat.Producteur.HistoriqueProducteurProjetListItemReadModel,
+  record: Lauréat.Producteur.ProducteurModifiéEvent,
 ) => {
-  const { modifiéLe, modifiéPar, producteur } =
-    record.payload as Lauréat.Producteur.ProducteurModifiéEvent['payload'];
+  const { modifiéLe, modifiéPar, producteur } = record.payload;
 
   return {
     date: modifiéLe,

@@ -10,11 +10,7 @@ import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeIn
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
 import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
 
-export type LauréatHistoryRecord = HistoryRecord<
-  'lauréat',
-  Lauréat.LauréatEvent['type'],
-  Lauréat.LauréatEvent['payload']
->;
+export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 
 export const mapToLauréatTimelineItemProps = (record: LauréatHistoryRecord) =>
   match(record)

@@ -1,27 +1,19 @@
-import { match } from 'ts-pattern';
-
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 export const mapToDemandeComplèteDeRaccordementTransmiseTimelineItemProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  event: (
+    | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV1
+    | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEventV2
+    | Lauréat.Raccordement.DemandeComplèteRaccordementTransmiseEvent
+  ) & {
+    createdAt: string;
+  },
 ) => {
-  const event = match(modification)
-    .with({ type: 'DemandeComplèteDeRaccordementTransmise-V1' }, (event) => event)
-    .with({ type: 'DemandeComplèteDeRaccordementTransmise-V2' }, (event) => event)
-    .with({ type: 'DemandeComplèteDeRaccordementTransmise-V3' }, (event) => event)
-    .otherwise(() => undefined);
-
-  if (!event) {
-    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(modification);
-  }
-
   const { référenceDossierRaccordement, dateQualification } = event.payload;
 
   return {
-    date: dateQualification ?? (modification.createdAt as DateTime.RawType),
+    date: dateQualification ?? (event.createdAt as DateTime.RawType),
     title: (
       <div>
         Un nouveau dossier de raccordement a été créé avec comme référence{' '}

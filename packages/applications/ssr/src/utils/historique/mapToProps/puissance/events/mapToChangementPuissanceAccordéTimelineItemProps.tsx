@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementPuissanceAccordéTimelineItemProps = (
-  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
+  record: Lauréat.Puissance.ChangementPuissanceAccordéEvent,
   unitéPuissance: string,
 ) => {
   const {
@@ -15,7 +15,7 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
     réponseSignée,
     nouvellePuissance,
     estUneDécisionDEtat,
-  } = record.payload as Lauréat.Puissance.ChangementPuissanceAccordéEvent['payload'];
+  } = record.payload;
 
   const réponseSignéeDocument = réponseSignée
     ? DocumentProjet.convertirEnValueType(

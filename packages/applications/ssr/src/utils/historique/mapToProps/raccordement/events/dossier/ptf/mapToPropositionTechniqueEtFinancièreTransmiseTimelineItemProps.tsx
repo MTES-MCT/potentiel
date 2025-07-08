@@ -3,10 +3,12 @@ import { match } from 'ts-pattern';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = (
-  readmodel: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  readmodel: (
+    | Lauréat.Raccordement.PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
+    | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1
+    | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent
+  ) & { createdAt: string },
 ) => {
   const event:
     | {
@@ -15,8 +17,7 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
       }
     | undefined = match(readmodel)
     .with({ type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' }, (event) => {
-      const { référenceDossierRaccordement } =
-        event.payload as Lauréat.Raccordement.PropositionTechniqueEtFinancièreSignéeTransmiseEventV1['payload'];
+      const { référenceDossierRaccordement } = event.payload;
 
       return {
         date: DateTime.convertirEnValueType(event.createdAt).formatter(),
@@ -24,8 +25,7 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
       };
     })
     .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V1' }, (event) => {
-      const { référenceDossierRaccordement, dateSignature } =
-        event.payload as Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1['payload'];
+      const { référenceDossierRaccordement, dateSignature } = event.payload;
 
       return {
         date: dateSignature,
@@ -33,19 +33,14 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
       };
     })
     .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V2' }, (event) => {
-      const { référenceDossierRaccordement, dateSignature } =
-        event.payload as Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent['payload'];
+      const { référenceDossierRaccordement, dateSignature } = event.payload;
 
       return {
         date: dateSignature,
         référenceDossierRaccordement,
       };
     })
-    .otherwise(() => undefined);
-
-  if (!event) {
-    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(readmodel);
-  }
+    .exhaustive();
 
   const { date, référenceDossierRaccordement } = event;
 
