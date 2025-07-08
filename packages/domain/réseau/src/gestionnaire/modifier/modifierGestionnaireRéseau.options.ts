@@ -1,10 +1,7 @@
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
-
 export type ModifierOptions = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
     format: Option.Type<string>;

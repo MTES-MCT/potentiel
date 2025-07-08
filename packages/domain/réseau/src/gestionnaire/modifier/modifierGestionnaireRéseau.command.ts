@@ -34,7 +34,6 @@ export const registerModifierGestionnaireRéseauCommand = (loadAggregate: LoadAg
       undefined,
     );
     await gestionnaireRéseau.modifier({
-      identifiantGestionnaireRéseau,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement,
       contactEmail,

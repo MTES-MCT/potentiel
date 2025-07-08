@@ -63,7 +63,6 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
 
   async modifier({
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
-    identifiantGestionnaireRéseau,
     raisonSociale,
     contactEmail,
   }: ModifierOptions) {
@@ -72,7 +71,7 @@ export class GestionnaireRéseauAggregate extends AbstractAggregate<
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié-V2',
       payload: {
-        codeEIC: identifiantGestionnaireRéseau.formatter(),
+        codeEIC: this.identifiantGestionnaireRéseau.formatter(),
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: {
           format: Option.match(format)
