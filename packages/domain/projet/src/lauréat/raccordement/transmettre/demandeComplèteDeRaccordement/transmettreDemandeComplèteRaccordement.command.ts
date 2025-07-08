@@ -33,8 +33,6 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    projet.lauréat.vérifierQueLeLauréatExiste();
-
     const gestionnaireRéseau = await loadGestionnaireRéseau(
       projet.lauréat.raccordement.identifiantGestionnaireRéseau,
     );

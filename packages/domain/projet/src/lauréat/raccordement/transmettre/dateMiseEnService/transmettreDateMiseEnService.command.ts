@@ -28,8 +28,6 @@ export const registerTransmettreDateMiseEnServiceCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    projet.lauréat.vérifierQueLeLauréatExiste();
-
     await projet.lauréat.raccordement.transmettreDateMiseEnService({
       dateDésignation: projet.candidature.notifiéeLe,
       dateMiseEnService,

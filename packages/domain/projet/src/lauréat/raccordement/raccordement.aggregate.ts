@@ -318,6 +318,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmisePar,
     transmiseLe,
   }: TransmettreDemandeOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAbandonné();
 
     if (!référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
@@ -359,6 +360,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmiseLe,
     transmisePar,
   }: TransmettreDateMiseEnServiceOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
     if (dateMiseEnService.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
