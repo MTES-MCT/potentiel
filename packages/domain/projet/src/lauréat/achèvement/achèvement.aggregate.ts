@@ -3,9 +3,10 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { DateTime } from '@potentiel-domain/common';
+// import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+// import { AppelOffreProjetSansTechnologieError } from '../lauréat.error';
 
 import {
   AttestationDeConformitéDéjàTransmiseError,
@@ -47,7 +48,13 @@ export class AchèvementAggregate extends AbstractAggregate<
     if (this.lauréat.notifiéLe) {
       // const getDelaiRealisationEnMois = () => {
       //   if (this.lauréat.projet.appelOffre.decoupageParTechnologie) {
-      //     return 0;
+      //     if (!this.lauréat.projet.appelOffre.technologie) {
+      //       throw new AppelOffreProjetSansTechnologieError();
+      //     }
+
+      //     return this.lauréat.projet.appelOffre.delaiRealisationEnMoisParTechnologie[
+      //       this.lauréat.projet.appelOffre.technologie
+      //     ];
       //   } else {
       //     return this.lauréat.projet.appelOffre.delaiRealisationEnMois;
       //   }
@@ -59,8 +66,9 @@ export class AchèvementAggregate extends AbstractAggregate<
         type: 'DatePrévisionnelleCalculée-V1',
         payload: {
           identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
-          // date: this.lauréat.notifiéLe.ajouterNombreDeMois(delaiRealisationEnMois).formatter(),
-          date: DateTime.convertirEnValueType(new Date('2027-04-30').toISOString()).formatter(),
+          // date: DateTime.convertirEnValueType(this.lau)
+          date: this.lauréat.notifiéLe.ajouterNombreDeMois(30).formatter(),
+          // date: DateTime.convertirEnValueType(new Date('2027-04-30').toISOString()).formatter(),
         },
       };
 

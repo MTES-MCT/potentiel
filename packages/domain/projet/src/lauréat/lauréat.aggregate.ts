@@ -161,6 +161,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   async notifier({ attestation: { format } }: { attestation: { format: string } }) {
     this.vérifierQueLeLauréatPeutÊtreNotifié();
+
     const { notifiéeLe, notifiéePar, nomProjet, localité } = this.projet.candidature;
     const event: LauréatNotifiéEvent = {
       type: 'LauréatNotifié-V2',
