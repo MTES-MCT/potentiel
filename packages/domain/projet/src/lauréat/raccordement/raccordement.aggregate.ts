@@ -175,19 +175,13 @@ export class RaccordementAggregate extends AbstractAggregate<
   async attribuerGestionnaireRéseau({
     identifiantGestionnaireRéseau,
   }: AttribuerGestionnaireRéseauOptions) {
-    const gestionnaireRéseauDéjàAttribué = !this.#identifiantGestionnaireRéseau.estÉgaleÀ(
-      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-    );
+    const gestionnaireRéseauDéjàAttribué = !this.#identifiantGestionnaireRéseau.estInconnu();
 
     if (gestionnaireRéseauDéjàAttribué) {
       throw new GestionnaireRéseauDéjàExistantError(this.identifiantProjet.formatter());
     }
 
-    if (
-      identifiantGestionnaireRéseau.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      )
-    ) {
+    if (identifiantGestionnaireRéseau.estInconnu()) {
       const event: GestionnaireRéseauInconnuAttribuéEvent = {
         type: 'GestionnaireRéseauInconnuAttribué-V1',
         payload: {
@@ -504,11 +498,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
     }
 
-    if (
-      identifiantGestionnaireRéseau.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      )
-    ) {
+    if (identifiantGestionnaireRéseau.estInconnu()) {
       const event: GestionnaireRéseauInconnuAttribuéEvent = {
         type: 'GestionnaireRéseauInconnuAttribué-V1',
         payload: {
@@ -747,11 +737,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   private applyDemandeComplèteDeRaccordementTransmiseEventV1({
     payload: { identifiantGestionnaireRéseau, référenceDossierRaccordement, dateQualification },
   }: DemandeComplèteRaccordementTransmiseEventV1) {
-    if (
-      this.#identifiantGestionnaireRéseau.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      )
-    ) {
+    if (this.#identifiantGestionnaireRéseau.estInconnu()) {
       this.#identifiantGestionnaireRéseau =
         GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
           identifiantGestionnaireRéseau,

@@ -28,7 +28,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
   const isGestionnaireInconnu = gestionnaireRéseau
     ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
         gestionnaireRéseau.identifiantGestionnaireRéseau,
-      ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
+      ).estInconnu()
     : false;
 
   if (isGestionnaireInconnu) {

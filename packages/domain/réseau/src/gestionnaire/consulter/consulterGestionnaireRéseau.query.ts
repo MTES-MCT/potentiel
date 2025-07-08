@@ -39,9 +39,7 @@ export const registerConsulterGestionnaireRéseauQuery = ({
   }) => {
     if (
       identifiantGestionnaireRéseau &&
-      IdentifiantGestionnaireRéseau.convertirEnValueType(identifiantGestionnaireRéseau).estÉgaleÀ(
-        IdentifiantGestionnaireRéseau.inconnu,
-      )
+      IdentifiantGestionnaireRéseau.convertirEnValueType(identifiantGestionnaireRéseau).estInconnu()
     ) {
       return {
         identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
