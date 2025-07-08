@@ -193,6 +193,11 @@ export class RaccordementAggregate extends AbstractAggregate<
 
       await this.publish(event);
     } else {
+      const gestionnaireRéseau = await this.loadGestionnaireRéseau(
+        identifiantGestionnaireRéseau.codeEIC,
+      );
+      gestionnaireRéseau.vérifierQueLeGestionnaireExiste();
+
       const event: GestionnaireRéseauAttribuéEvent = {
         type: 'GestionnaireRéseauAttribué-V1',
         payload: {
