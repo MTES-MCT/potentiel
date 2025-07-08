@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, InvalidOperationError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 // import { DateTime } from '@potentiel-domain/common';
@@ -19,6 +19,14 @@ import { ModifierAttestationConformitéOptions } from './attestationConformité/
 import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
 import { TypeDocumentAttestationConformité } from './attestationConformité';
 import { AchèvementEvent, DatePrévisionnelleCalculéeEvent } from './achèvement.event';
+
+class ProjetSansTechnologieAvecAppelOffreDecoupageParTechnologieError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Le projet ne dispose d'aucune technologie alors que son appel d'offre en a besoin pour calculer la date prévisionnelle d'achèvement`,
+    );
+  }
+}
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,
@@ -49,7 +57,13 @@ export class AchèvementAggregate extends AbstractAggregate<
       // TODO: Cette fonction devrait être une propriété de l'agrégat appel d'offre
       const getDelaiRealisationEnMois = () => {
         if (this.lauréat.projet.appelOffre.decoupageParTechnologie) {
-          return 0;
+          const technologie = this.lauréat.projet.candidature.technologie.formatter();
+
+          if (technologie === 'N/A') {
+            throw new ProjetSansTechnologieAvecAppelOffreDecoupageParTechnologieError();
+          }
+
+          return this.lauréat.projet.appelOffre.delaiRealisationEnMoisParTechnologie[technologie];
         } else {
           return this.lauréat.projet.appelOffre.delaiRealisationEnMois;
         }
