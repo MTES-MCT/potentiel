@@ -72,10 +72,13 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ReprésentantLégalQueryDependencies &
   ListerHistoriqueProjetDependencies;
 
+// à supprimer une fois gestionnaire de réseau migré dans l'AR
+type GestionnaireRéseauCommandDependencies = { loadAggregate: LoadAggregate };
+
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-  loadAggregate: LoadAggregate;
-} & SupprimerDocumentProjetSensibleCommandDependencies;
+} & GestionnaireRéseauCommandDependencies &
+  SupprimerDocumentProjetSensibleCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
