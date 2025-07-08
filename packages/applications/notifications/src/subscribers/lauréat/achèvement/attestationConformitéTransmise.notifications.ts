@@ -33,8 +33,8 @@ export const attestationConformitéTransmiseNotifications = async ({
     return;
   }
   await sendEmail({
-    templateId: 5945568,
-    messageSubject: `Potentiel - Une attestation de conformité a été transmise pour le projet ${projet.nom} dans le département ${projet.département}`,
+    templateId: 6409011,
+    messageSubject: `Potentiel - Mise à jour de la date d'achèvement du projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       type: 'accord',
