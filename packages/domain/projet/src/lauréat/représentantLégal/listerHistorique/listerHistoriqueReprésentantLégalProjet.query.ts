@@ -6,8 +6,7 @@ import { ReprésentantLégalEvent } from '../représentantLégal.event';
 
 export type HistoriqueReprésentantLégalProjetListItemReadModel = HistoryRecord<
   'représentant-légal',
-  ReprésentantLégalEvent['type'],
-  ReprésentantLégalEvent['payload']
+  ReprésentantLégalEvent
 >;
 
 export type ListerHistoriqueReprésentantLégalProjetReadModel = {

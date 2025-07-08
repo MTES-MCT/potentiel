@@ -6,8 +6,7 @@ import { ActionnaireEvent } from '../actionnaire.event';
 
 export type HistoriqueActionnaireProjetListItemReadModel = HistoryRecord<
   'actionnaire',
-  ActionnaireEvent['type'],
-  ActionnaireEvent['payload']
+  ActionnaireEvent
 >;
 
 export type ListerHistoriqueActionnaireProjetReadModel = {

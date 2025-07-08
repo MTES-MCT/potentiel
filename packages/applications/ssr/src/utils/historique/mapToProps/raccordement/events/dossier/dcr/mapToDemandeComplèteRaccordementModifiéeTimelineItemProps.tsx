@@ -9,20 +9,9 @@ export const mapToDemandeComplèteRaccordementModifiéeTimelineItemProps = (
   modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const event = match(modification)
-    .with(
-      { type: 'DemandeComplèteRaccordementModifiée-V1' },
-      (event) =>
-        event as unknown as Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV1,
-    )
-    .with(
-      { type: 'DemandeComplèteRaccordementModifiée-V2' },
-      (event) =>
-        event as unknown as Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEventV2,
-    )
-    .with(
-      { type: 'DemandeComplèteRaccordementModifiée-V3' },
-      (event) => event as unknown as Lauréat.Raccordement.DemandeComplèteRaccordementModifiéeEvent,
-    )
+    .with({ type: 'DemandeComplèteRaccordementModifiée-V1' }, (event) => event)
+    .with({ type: 'DemandeComplèteRaccordementModifiée-V2' }, (event) => event)
+    .with({ type: 'DemandeComplèteRaccordementModifiée-V3' }, (event) => event)
     .otherwise(() => undefined);
 
   if (!event) {

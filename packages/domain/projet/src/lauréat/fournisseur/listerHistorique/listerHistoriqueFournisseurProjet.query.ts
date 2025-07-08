@@ -6,8 +6,7 @@ import { FournisseurEvent } from '../fournisseur.event';
 
 export type HistoriqueFournisseurProjetListItemReadModel = HistoryRecord<
   'fournisseur',
-  FournisseurEvent['type'],
-  FournisseurEvent['payload']
+  FournisseurEvent
 >;
 
 export type ListerHistoriqueFournisseurProjetReadModel = {

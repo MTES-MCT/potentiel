@@ -6,26 +6,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 export const mapToAbandonDemandéTimelineItemProps = (
-  abandonDemandé: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+  event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
 ) => {
-  const event = match(abandonDemandé)
-    .with(
-      { type: 'AbandonDemandé-V1' },
-      (event) => event as unknown as Lauréat.Abandon.AbandonDemandéEventV1,
-    )
-    .with(
-      { type: 'AbandonDemandé-V2' },
-      (event) => event as unknown as Lauréat.Abandon.AbandonDemandéEvent,
-    )
-    .otherwise(() => undefined);
-
-  if (!event) {
-    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(abandonDemandé);
-  }
-
   const { demandéLe, demandéPar, identifiantProjet, pièceJustificative } = event.payload;
 
   return {

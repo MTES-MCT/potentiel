@@ -9,15 +9,8 @@ export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
   modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const event = match(modification)
-    .with(
-      { type: 'RéférenceDossierRacordementModifiée-V1' },
-      (event) =>
-        event as unknown as Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEventV1,
-    )
-    .with(
-      { type: 'RéférenceDossierRacordementModifiée-V2' },
-      (event) => event as unknown as Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEvent,
-    )
+    .with({ type: 'RéférenceDossierRacordementModifiée-V1' }, (event) => event)
+    .with({ type: 'RéférenceDossierRacordementModifiée-V2' }, (event) => event)
     .otherwise(() => undefined);
 
   if (!event) {

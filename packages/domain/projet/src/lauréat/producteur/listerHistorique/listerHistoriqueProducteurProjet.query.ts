@@ -6,8 +6,7 @@ import { ProducteurEvent } from '../producteur.event';
 
 export type HistoriqueProducteurProjetListItemReadModel = HistoryRecord<
   'producteur',
-  ProducteurEvent['type'],
-  ProducteurEvent['payload']
+  ProducteurEvent
 >;
 
 export type ListerHistoriqueProducteurProjetReadModel = {

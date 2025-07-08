@@ -6,17 +6,11 @@ import { DateTime } from '@potentiel-domain/common';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.Raccordement.HistoriqueRaccordementProjetListItemReadModel,
 ) => {
   const event = match(modification)
-    .with(
-      { type: 'DateMiseEnServiceTransmise-V1' },
-      (event) => event as unknown as Lauréat.Raccordement.DateMiseEnServiceTransmiseV1Event,
-    )
-    .with(
-      { type: 'DateMiseEnServiceTransmise-V2' },
-      (event) => event as unknown as Lauréat.Raccordement.DateMiseEnServiceTransmiseEvent,
-    )
+    .with({ type: 'DateMiseEnServiceTransmise-V1' }, (event) => event)
+    .with({ type: 'DateMiseEnServiceTransmise-V2' }, (event) => event)
     .otherwise(() => undefined);
 
   if (!event) {

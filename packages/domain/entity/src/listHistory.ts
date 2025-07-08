@@ -1,15 +1,17 @@
 import { RangeOptions } from './rangeOptions';
 
+type DomainEvent<TType extends string = string, TPayload extends Record<string, unknown> = {}> = {
+  type: TType;
+  payload: TPayload;
+};
+
 export type HistoryRecord<
   TCategory extends string = string,
-  TType extends string = string,
-  TPayload = Record<string, unknown>,
-> = {
+  TEvent extends DomainEvent = DomainEvent,
+> = TEvent & {
   category: TCategory;
   id: string;
   createdAt: string;
-  type: TType;
-  payload: TPayload;
 };
 
 export type ListHistoryOptions<TCategory> = {

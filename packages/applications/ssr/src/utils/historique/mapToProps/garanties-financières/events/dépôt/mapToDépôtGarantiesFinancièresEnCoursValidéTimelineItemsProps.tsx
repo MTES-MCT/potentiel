@@ -8,16 +8,8 @@ export const mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps =
   dépôtValidé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const event = match(dépôtValidé)
-    .with(
-      { type: 'DépôtGarantiesFinancièresEnCoursValidé-V1' },
-      (event) =>
-        event as unknown as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1,
-    )
-    .with(
-      { type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' },
-      (event) =>
-        event as unknown as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
-    )
+    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V1' }, (event) => event)
+    .with({ type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' }, (event) => event)
     .otherwise(() => undefined);
 
   if (!event) {

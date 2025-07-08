@@ -9,16 +9,8 @@ export const mapToPropositionTechniqueEtFinancièreModifiéeTimelineItemProps = 
   modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const event = match(modification)
-    .with(
-      { type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' },
-      (event) =>
-        event as unknown as Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEventV1,
-    )
-    .with(
-      { type: 'PropositionTechniqueEtFinancièreTransmise-V2' },
-      (event) =>
-        event as unknown as Lauréat.Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent,
-    )
+    .with({ type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' }, (event) => event)
+    .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V2' }, (event) => event)
     .otherwise(() => undefined);
 
   if (!event) {

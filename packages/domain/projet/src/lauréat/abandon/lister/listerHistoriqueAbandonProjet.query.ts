@@ -4,11 +4,7 @@ import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/enti
 
 import { AbandonEvent } from '../abandon.event';
 
-export type HistoriqueAbandonProjetListItemReadModel = HistoryRecord<
-  'abandon',
-  AbandonEvent['type'],
-  AbandonEvent['payload']
->;
+export type HistoriqueAbandonProjetListItemReadModel = HistoryRecord<'abandon', AbandonEvent>;
 
 export type ListerHistoriqueAbandonProjetReadModel = {
   items: ReadonlyArray<HistoriqueAbandonProjetListItemReadModel>;

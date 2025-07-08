@@ -4,11 +4,7 @@ import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/enti
 
 import { RecoursEvent } from '../recours.event';
 
-export type HistoriqueRecoursProjetListItemReadModel = HistoryRecord<
-  'recours',
-  RecoursEvent['type'],
-  RecoursEvent['payload']
->;
+export type HistoriqueRecoursProjetListItemReadModel = HistoryRecord<'recours', RecoursEvent>;
 
 export type ListerHistoriqueRecoursProjetReadModel = {
   items: ReadonlyArray<HistoriqueRecoursProjetListItemReadModel>;
