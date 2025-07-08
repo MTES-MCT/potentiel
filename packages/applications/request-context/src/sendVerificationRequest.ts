@@ -6,6 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { GetUtilisateurFromEmail } from './getUtilisateur';
 import { canConnectWithProvider } from './canConnectWithProvider';
+import { getBaseUrl } from './helper/getBaseUrl';
 
 type BuildSendVerificationRequest = (
   sendEmail: SendEmail,
@@ -26,13 +27,15 @@ export const buildSendVerificationRequest: BuildSendVerificationRequest = (
       },
     });
 
+  const baseUrl = getBaseUrl();
+
   const envoyerEmailConnexionProConnectObligatoire = (email: string) =>
     sendEmail({
       templateId: 7103248,
       messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
       recipients: [{ email, fullName: '' }],
       variables: {
-        url: Routes.Auth.signIn({ forceProConnect: true }),
+        url: `${baseUrl}${Routes.Auth.signIn({ forceProConnect: true })}`,
       },
     });
 
