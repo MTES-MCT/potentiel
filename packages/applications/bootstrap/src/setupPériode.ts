@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { PériodeProjector } from '@potentiel-applications/projectors';
 import { Période } from '@potentiel-domain/periode';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregateV2, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
@@ -18,7 +18,7 @@ export const setupPériode = async ({ sendEmail }: SetupPériodeDependencies) =>
     list: listProjection,
   });
   Période.registerPériodeUseCases({
-    loadAggregate,
+    loadAggregate: loadAggregateV2,
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
   });
 

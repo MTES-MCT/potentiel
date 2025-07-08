@@ -2,13 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
+import { LoadAggregateV2 } from '@potentiel-domain/core';
 import { Accès, GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
-import { loadPériodeFactory } from '../période.aggregate';
+import { PériodeAggregate } from '../période.aggregate';
 
 export type NotifierPériodeCommand = Message<
   'Période.Command.NotifierPériode',
@@ -22,11 +22,9 @@ export type NotifierPériodeCommand = Message<
 >;
 
 export const registerNotifierPériodeCommand = (
-  loadAggregate: LoadAggregate,
+  loadAggregate: LoadAggregateV2,
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const loadPériode = loadPériodeFactory(loadAggregate);
-
   const handler: MessageHandler<NotifierPériodeCommand> = async ({
     identifiantPériode,
     notifiéeLe,
@@ -118,9 +116,12 @@ export const registerNotifierPériodeCommand = (
       }
     }
 
-    const période = await loadPériode(identifiantPériode, false);
+    const période = await loadAggregate(
+      PériodeAggregate,
+      `période|${identifiantPériode.formatter()}`,
+      undefined,
+    );
     await période.notifier({
-      identifiantPériode,
       notifiéeLe,
       notifiéePar,
       identifiantLauréats,

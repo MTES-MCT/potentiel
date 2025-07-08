@@ -7,7 +7,7 @@ import type {
   ListerPériodesQuery,
   ListerPériodesReadModel,
 } from './lister/listerPériode.query';
-import { PériodeNotifiéeEvent } from './notifier/notifierPériode.behavior';
+import { PériodeNotifiéeEvent } from './notifier/notifierPériode.event';
 import type { NotifierPériodeUseCase } from './notifier/notifierPériode.usecase';
 
 // Query
