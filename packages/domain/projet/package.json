@@ -16,8 +16,7 @@
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/tache-planifiee": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-infrastructure/ore-client": "*"
+    "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

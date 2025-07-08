@@ -22,7 +22,10 @@ import {
   ConsulterRaccordementDependencies,
   registerConsulterRaccordementQuery,
 } from './consulter/consulterRaccordement.query';
-import { registerListerDossierRaccordementQuery } from './lister/listerDossierRaccordement.query';
+import {
+  ListerDossierRaccordementQueryDependencies,
+  registerListerDossierRaccordementQuery,
+} from './lister/listerDossierRaccordement.query';
 import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query';
 import { registerListerDossierRaccordementManquantsQuery } from './lister/listerDossierRaccordementManquants.query';
 import {
@@ -59,6 +62,7 @@ export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependen
   ConsulterRaccordementDependencies &
   ConsulterNombreDeRaccordementDependencies &
   RechercherDossierRaccordementDependencies &
+  ListerDossierRaccordementQueryDependencies &
   ListerRaccordementQueryDependencies &
   ListerHistoriqueRaccordementProjetDependencies;
 

@@ -2,10 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { RécupererGRDParVillePort } from '@potentiel-infrastructure/ore-client';
 
 import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event';
-import { Candidature, IdentifiantProjet } from '../../..';
+import { Candidature, IdentifiantProjet, RécupererGRDParVillePort } from '../../..';
 import { AttribuerGestionnaireRéseauCommand } from '../attribuer/attribuerGestionnaireRéseau.command';
 
 type Event = { version: number; created_at: string; stream_id: string };

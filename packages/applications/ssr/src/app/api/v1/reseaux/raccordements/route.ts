@@ -60,6 +60,7 @@ export const GET = (request: NextRequest) =>
         type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           identifiantGestionnaireRéseau: récupérerIdentifiantGestionnaireUtilisateur(utilisateur),
+          utilisateur: utilisateur.identifiantUtilisateur.email,
           avecDateMiseEnService,
           range: page
             ? mapToRangeOptions({

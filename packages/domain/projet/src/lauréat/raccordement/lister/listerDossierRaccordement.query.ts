@@ -2,13 +2,19 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 import { LauréatEntity } from '../../lauréat.entity';
-import { Candidature, IdentifiantProjet, Lauréat, StatutProjet } from '../../..';
+import {
+  Candidature,
+  GetProjetUtilisateurScope,
+  IdentifiantProjet,
+  Lauréat,
+  StatutProjet,
+} from '../../..';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -44,6 +50,7 @@ export type ListerDossierRaccordementReadModel = {
 export type ListerDossierRaccordementQuery = Message<
   'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
   {
+    utilisateur: Email.RawType;
     identifiantGestionnaireRéseau?: string;
     appelOffre?: string;
     avecDateMiseEnService?: boolean;
@@ -56,10 +63,12 @@ export type ListerDossierRaccordementQuery = Message<
 
 export type ListerDossierRaccordementQueryDependencies = {
   list: List;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerDossierRaccordementQuery = ({
   list,
+  getScopeProjetUtilisateur,
 }: ListerDossierRaccordementQueryDependencies) => {
   const handler: MessageHandler<ListerDossierRaccordementQuery> = async ({
     identifiantGestionnaireRéseau,
@@ -67,14 +76,17 @@ export const registerListerDossierRaccordementQuery = ({
     avecDateMiseEnService,
     référenceDossier,
     range,
-    région,
+    utilisateur,
   }) => {
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
     const {
       items,
       range: { endPosition, startPosition },
       total,
     } = await list<DossierRaccordementEntity, LauréatEntity>('dossier-raccordement', {
       where: {
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         référence: Where.contain(référenceDossier),
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
         miseEnService: {
@@ -91,7 +103,9 @@ export const registerListerDossierRaccordementQuery = ({
         on: 'identifiantProjet',
         where: {
           appelOffre: Where.equal(appelOffre),
-          localité: { région: Where.equal(région) },
+          localité: {
+            région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+          },
         },
       },
       orderBy: {
