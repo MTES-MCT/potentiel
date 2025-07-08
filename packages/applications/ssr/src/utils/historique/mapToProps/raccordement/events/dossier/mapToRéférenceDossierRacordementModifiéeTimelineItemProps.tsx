@@ -36,7 +36,6 @@ export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
         a été changée
         {event.type === 'RéférenceDossierRacordementModifiée-V2' &&
           ` par ${event.payload.modifiéePar}`}
-        .
       </div>
     ),
     content: (
