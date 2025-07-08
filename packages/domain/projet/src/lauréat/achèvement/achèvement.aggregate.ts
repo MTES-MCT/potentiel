@@ -46,29 +46,22 @@ export class AchèvementAggregate extends AbstractAggregate<
 
   async calculerDatePrévisionnelle() {
     if (this.lauréat.notifiéLe) {
-      // const getDelaiRealisationEnMois = () => {
-      //   if (this.lauréat.projet.appelOffre.decoupageParTechnologie) {
-      //     if (!this.lauréat.projet.appelOffre.technologie) {
-      //       throw new AppelOffreProjetSansTechnologieError();
-      //     }
+      // TODO: Cette fonction devrait être une propriété de l'agrégat appel d'offre
+      const getDelaiRealisationEnMois = () => {
+        if (this.lauréat.projet.appelOffre.decoupageParTechnologie) {
+          return 0;
+        } else {
+          return this.lauréat.projet.appelOffre.delaiRealisationEnMois;
+        }
+      };
 
-      //     return this.lauréat.projet.appelOffre.delaiRealisationEnMoisParTechnologie[
-      //       this.lauréat.projet.appelOffre.technologie
-      //     ];
-      //   } else {
-      //     return this.lauréat.projet.appelOffre.delaiRealisationEnMois;
-      //   }
-      // };
-
-      // const delaiRealisationEnMois = getDelaiRealisationEnMois();
+      const delaiRealisationEnMois = getDelaiRealisationEnMois();
 
       const event: DatePrévisionnelleCalculéeEvent = {
         type: 'DatePrévisionnelleCalculée-V1',
         payload: {
           identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
-          // date: DateTime.convertirEnValueType(this.lau)
-          date: this.lauréat.notifiéLe.ajouterNombreDeMois(30).formatter(),
-          // date: DateTime.convertirEnValueType(new Date('2027-04-30').toISOString()).formatter(),
+          date: this.lauréat.notifiéLe.ajouterNombreDeMois(delaiRealisationEnMois).formatter(),
         },
       };
 

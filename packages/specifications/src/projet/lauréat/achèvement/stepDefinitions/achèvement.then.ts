@@ -96,8 +96,10 @@ Alors(
         new Date(datePrévisionnelleAttendue).toISOString(),
       );
 
-      expect(actual.estÉgaleÀ(expected), 'La date prévisionnelle attendue est incorrecte').to.be
-        .true;
+      expect(
+        actual.estÉgaleÀ(expected),
+        `La date prévisionnelle (${actual.formatterDate()}) n'est pas celle attendue (${datePrévisionnelleAttendue})`,
+      ).to.be.true;
     });
   },
 );
