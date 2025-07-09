@@ -16,7 +16,7 @@ import {
   makeRejectModificationRequest,
   makeRequestConfirmation,
 } from '../modules/modificationRequest';
-import { makeImportProjects, makeSignalerDemandeDelai } from '../modules/project';
+import { makeSignalerDemandeDelai } from '../modules/project';
 import { makeCreateUser } from '../modules/users';
 import { eventStore } from './eventStore.config';
 import { getFileProject, getProjectAppelOffreId } from './queries.config';
@@ -68,11 +68,6 @@ export const createUser = makeCreateUser({
 export const cancelModificationRequest = makeCancelModificationRequest({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   modificationRequestRepo,
-});
-
-export const importProjects = makeImportProjects({
-  eventBus: eventStore,
-  appelOffreRepo: oldAppelOffreRepo,
 });
 
 export const signalerDemandeDelai = makeSignalerDemandeDelai({
