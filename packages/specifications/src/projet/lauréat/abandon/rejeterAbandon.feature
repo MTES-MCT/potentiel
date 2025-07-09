@@ -7,12 +7,12 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 
     Scénario: La DGEC rejette l'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Quand l'aministrateur rejette l'abandon pour le projet lauréat
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
 
     Scénario: La DGEC rejette l'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
-        Quand l'aministrateur rejette l'abandon pour le projet lauréat
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
 
     # à activer lorsqu'un AO avec cette option (ie AO simplifié) existera
@@ -39,12 +39,12 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat si l'abandon a déjà été accordé
         Etant donné un abandon accordé pour le projet lauréat
-        Quand l'aministrateur rejette l'abandon pour le projet lauréat
-        Alors l'aministrateur devrait être informé que "L'abandon a déjà été accordé"
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
+        Alors l'administrateur devrait être informé que "L'abandon a déjà été accordé"
 
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat si aucun abandon n'a été demandé
-        Quand l'aministrateur rejette l'abandon pour le projet lauréat
-        Alors l'aministrateur devrait être informé que "Aucun abandon n'est en cours"
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
+        Alors l'administrateur devrait être informé que "Aucun abandon n'est en cours"
 
     Scénario: Impossible pour une dreal de rejeter l'abandon si l'autorité compétente est la DGEC
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

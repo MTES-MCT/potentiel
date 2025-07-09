@@ -66,7 +66,7 @@ Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
         Quand le même administrateur passe en instruction l'abandon pour le projet lauréat
         Alors l'utilisateur devrait être informé que "L'abandon est déjà en instruction avec le même administrateur"
 
-    Scénario: Impossible pour une dreal de passer un abandon si l'autorité compétente est la DGEC
+    Scénario: Impossible pour une dreal de passer un abandon en instruction si l'autorité compétente est la DGEC
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 8             |
