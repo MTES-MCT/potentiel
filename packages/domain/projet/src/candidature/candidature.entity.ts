@@ -3,8 +3,10 @@ import { PlainType } from '@potentiel-domain/core';
 import { Entity } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { StatutProjet, IdentifiantProjet } from '..';
+import { IdentifiantProjet } from '..';
 import { Fournisseur } from '../lauréat/fournisseur';
+
+import { StatutCandidature, TypeInstallationsAgrivoltaiques, TypologieBâtiment } from '.';
 
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import * as TypeTechnologie from './typeTechnologie.valueType';
@@ -36,7 +38,7 @@ export type CandidatureEntity = Entity<
     identifiantProjet: IdentifiantProjet.RawType;
     appelOffre: string;
     période: string;
-    statut: StatutProjet.RawType;
+    statut: StatutCandidature.RawType;
     nomProjet: string;
     typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
     historiqueAbandon: HistoriqueAbandon.RawType;
@@ -57,9 +59,9 @@ export type CandidatureEntity = Entity<
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
     coefficientKChoisi?: boolean;
-    typeInstallationsAgrivoltaiques?: string;
+    typeInstallationsAgrivoltaiques?: TypeInstallationsAgrivoltaiques.RawType;
     élémentsSousOmbrière?: string;
-    typologieDeBâtiment?: string;
+    typologieDeBâtiment?: TypologieBâtiment.RawType;
     obligationDeSolarisation?: boolean;
     détailsMisÀJourLe: DateTime.RawType;
     fournisseurs: Array<Fournisseur.RawType>;

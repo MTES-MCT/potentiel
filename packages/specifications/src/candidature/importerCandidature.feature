@@ -83,6 +83,7 @@ Fonctionnalité: Importer une candidature
             | famille       |                             |
         Alors l'administrateur devrait être informé que "Cette période est obsolète et ne peut être importée"
 
+    @select
     Scénario: Impossible d'importer une candidature avec choix du coefficient K si la période ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut               | classé          |

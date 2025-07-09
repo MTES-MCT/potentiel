@@ -7,58 +7,18 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureEntity } from '../candidature.entity';
-import * as StatutCandidature from '../statutCandidature.valueType';
-import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import * as TypeTechnologie from '../typeTechnologie.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
-import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
-import { Fournisseur } from '../../lauréat/fournisseur';
-import {
-  TypeInstallationsAgrivoltaiques,
-  TypologieBâtiment,
-  UnitéPuissance,
-  VolumeRéservé,
-} from '..';
+import { Dépôt, Instruction, TypeTechnologie, UnitéPuissance, VolumeRéservé } from '..';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutCandidature.ValueType;
-  nomProjet: string;
-  typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
-  historiqueAbandon: HistoriqueAbandon.ValueType;
-  localité: {
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    région: string;
-    département: string;
-  };
-  nomCandidat: string;
-  nomReprésentantLégal: string;
-  emailContact: Email.ValueType;
-  puissanceProductionAnnuelle: number;
-  prixReference: number;
-  technologie: TypeTechnologie.ValueType;
-  sociétéMère: string;
-  noteTotale: number;
+  dépôt: Dépôt.ValueType;
+  instruction: Instruction.ValueType;
   volumeRéservé: VolumeRéservé.ValueType | undefined;
-  motifÉlimination?: string;
-  puissanceALaPointe: boolean;
-  evaluationCarboneSimplifiée: number;
-  actionnariat?: TypeActionnariat.ValueType;
-  dateÉchéanceGf?: DateTime.ValueType;
-  territoireProjet: string;
-  coefficientKChoisi: boolean | undefined;
-  typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
-  élémentsSousOmbrière: string | undefined;
-  typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
-  obligationDeSolarisation: boolean | undefined;
+
   misÀJourLe: DateTime.ValueType;
 
   détailsImport: DocumentProjet.ValueType;
-  fournisseurs: Array<Fournisseur.ValueType>;
 
   notification?: {
     notifiéeLe: DateTime.ValueType;
@@ -67,6 +27,7 @@ export type ConsulterCandidatureReadModel = {
     attestation?: DocumentProjet.ValueType;
   };
 
+  technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
 };
 
@@ -116,99 +77,57 @@ type MapToReadModel = (
 ) => ConsulterCandidatureReadModel;
 
 export const mapToReadModel: MapToReadModel = (
-  {
+  candidature,
+  appelOffres,
+  période,
+): ConsulterCandidatureReadModel => {
+  const {
     identifiantProjet,
-    statut,
-    typeGarantiesFinancières,
-    historiqueAbandon,
+
     technologie,
-    dateÉchéanceGf,
-    nomProjet,
-    localité,
-    nomCandidat,
-    nomReprésentantLégal,
-    emailContact,
+
     puissanceProductionAnnuelle,
-    prixReference,
-    sociétéMère,
     noteTotale,
-    motifÉlimination,
-    puissanceALaPointe,
-    evaluationCarboneSimplifiée,
-    actionnariat,
-    territoireProjet,
-    coefficientKChoisi,
-    typeInstallationsAgrivoltaiques,
-    élémentsSousOmbrière,
-    typologieDeBâtiment,
-    obligationDeSolarisation,
+
     misÀJourLe,
     détailsMisÀJourLe,
     notification,
-    fournisseurs,
-  },
-  appelOffres,
-  période,
-): ConsulterCandidatureReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  statut: StatutCandidature.convertirEnValueType(statut),
-  historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
-  technologie: TypeTechnologie.déterminer({
-    appelOffre: appelOffres,
-    projet: { technologie },
-  }),
-  dateÉchéanceGf: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
-  typeGarantiesFinancières: typeGarantiesFinancières
-    ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
-    : undefined,
-  misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-  nomProjet,
-  localité,
-  nomCandidat,
-  nomReprésentantLégal,
-  emailContact: Email.convertirEnValueType(emailContact),
-  puissanceProductionAnnuelle,
-  prixReference,
-  sociétéMère,
-  noteTotale,
-  motifÉlimination,
-  puissanceALaPointe,
-  evaluationCarboneSimplifiée,
-  actionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
-  territoireProjet,
-  coefficientKChoisi,
-  typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiques
-    ? TypeInstallationsAgrivoltaiques.convertirEnValueType(typeInstallationsAgrivoltaiques)
-    : undefined,
-  élémentsSousOmbrière,
-  typologieDeBâtiment: typologieDeBâtiment
-    ? TypologieBâtiment.convertirEnValueType(typologieDeBâtiment)
-    : undefined,
-  obligationDeSolarisation,
-  détailsImport: DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    'candidature/import',
-    détailsMisÀJourLe,
-    'application/json',
-  ),
-  fournisseurs: fournisseurs.map(Fournisseur.convertirEnValueType),
-  notification: notification && {
-    notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
-    notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
-    validateur: notification.validateur,
-    attestation:
-      notification.attestation &&
-      DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        'attestation',
-        notification.attestation.généréeLe,
-        notification.attestation.format,
-      ),
-  },
-  unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période: période.id, technologie }),
-  volumeRéservé: VolumeRéservé.déterminer({
-    période,
-    note: noteTotale,
-    puissanceInitiale: puissanceProductionAnnuelle,
-  }),
-});
+  } = candidature;
+  return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    dépôt: Dépôt.convertirEnValueType(candidature),
+    instruction: Instruction.convertirEnValueType(candidature),
+
+    misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+
+    détailsImport: DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      'candidature/import',
+      détailsMisÀJourLe,
+      'application/json',
+    ),
+    notification: notification && {
+      notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
+      notifiéePar: Email.convertirEnValueType(notification.notifiéePar),
+      validateur: notification.validateur,
+      attestation:
+        notification.attestation &&
+        DocumentProjet.convertirEnValueType(
+          identifiantProjet,
+          'attestation',
+          notification.attestation.généréeLe,
+          notification.attestation.format,
+        ),
+    },
+    technologie: TypeTechnologie.déterminer({
+      appelOffre: appelOffres,
+      projet: candidature,
+    }),
+    unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période: période.id, technologie }),
+    volumeRéservé: VolumeRéservé.déterminer({
+      période,
+      note: noteTotale,
+      puissanceInitiale: puissanceProductionAnnuelle,
+    }),
+  };
+};

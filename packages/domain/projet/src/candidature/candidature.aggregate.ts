@@ -121,7 +121,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   get prixRéférence() {
-    return this.dépôt.prixRéférence;
+    return this.dépôt.prixReference;
   }
 
   get typeGarantiesFinancières() {
@@ -133,7 +133,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   get typeActionnariat() {
-    return this.dépôt.typeActionnariat;
+    return this.dépôt.actionnariat;
   }
 
   get technologie(): TypeTechnologie.ValueType<AppelOffre.Technologie> {
@@ -158,7 +158,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   get evaluationCarboneSimplifiée() {
-    return this.dépôt.évaluationCarboneSimplifiée;
+    return this.dépôt.evaluationCarboneSimplifiée;
   }
 
   get fournisseurs() {
@@ -181,8 +181,9 @@ export class CandidatureAggregate extends AbstractAggregate<
     const event: CandidatureImportéeEvent = {
       type: 'CandidatureImportée-V2',
       payload: {
-        ...this.mapToEventPayload(candidature),
-        fournisseurs: candidature.dépôt.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        ...candidature.instruction.formatter(),
+        ...candidature.dépôt.formatter(),
         importéLe: candidature.importéLe.formatter(),
         importéPar: candidature.importéPar.formatter(),
       },
@@ -210,8 +211,9 @@ export class CandidatureAggregate extends AbstractAggregate<
     const event: CandidatureCorrigéeEvent = {
       type: 'CandidatureCorrigée-V2',
       payload: {
-        ...this.mapToEventPayload(candidature),
-        fournisseurs: candidature.dépôt.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        ...candidature.instruction.formatter(),
+        ...candidature.dépôt.formatter(),
         corrigéLe: candidature.corrigéLe.formatter(),
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
@@ -439,65 +441,15 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.#notifiéePar = Email.convertirEnValueType(event.payload.notifiéePar);
   }
 
-  private applyCommonEventPayload({
-    emailContact,
-    evaluationCarboneSimplifiée: évaluationCarboneSimplifiée,
-    historiqueAbandon,
-    localité,
-    nomCandidat,
-    nomProjet,
-    nomReprésentantLégal,
-    prixReference: prixRéférence,
-    puissanceALaPointe: puissanceÀLaPointe,
-    puissanceProductionAnnuelle,
-    technologie,
-    territoireProjet,
-    coefficientKChoisi,
-    actionnariat: typeActionnariat,
-    dateÉchéanceGf,
-    typeGarantiesFinancières,
-    sociétéMère,
-    statut,
-    motifÉlimination,
-    noteTotale,
-    typeInstallationsAgrivoltaiques,
-    élémentsSousOmbrière,
-    typologieDeBâtiment,
-    obligationDeSolarisation,
-  }:
-    | CandidatureImportéeEvent['payload']
-    | CandidatureCorrigéeEventV1['payload']
-    | CandidatureImportéeEventV1['payload']
-    | CandidatureCorrigéeEvent['payload']) {
-    this.#dépôt = Dépôt.convertirEnValueType({
-      emailContact,
-      évaluationCarboneSimplifiée,
-      historiqueAbandon,
-      localité,
-      nomCandidat,
-      nomProjet,
-      nomReprésentantLégal,
-      prixRéférence,
-      puissanceÀLaPointe,
-      puissanceProductionAnnuelle,
-      technologie,
-      territoireProjet,
-      coefficientKChoisi,
-      typeActionnariat,
-      dateÉchéanceGf,
-      typeGarantiesFinancières,
-      sociétéMère,
-      fournisseurs: [],
-      typeInstallationsAgrivoltaiques,
-      élémentsSousOmbrière,
-      typologieDeBâtiment,
-      obligationDeSolarisation,
-    });
-    this.#instruction = Instruction.convertirEnValueType({
-      statut,
-      motifÉlimination,
-      noteTotale,
-    });
+  private applyCommonEventPayload(
+    payload:
+      | CandidatureImportéeEvent['payload']
+      | CandidatureCorrigéeEventV1['payload']
+      | CandidatureImportéeEventV1['payload']
+      | CandidatureCorrigéeEvent['payload'],
+  ) {
+    this.#dépôt = Dépôt.convertirEnValueType({ ...payload, fournisseurs: [] });
+    this.#instruction = Instruction.convertirEnValueType(payload);
   }
 
   private applyFournisseurEventPayload(
@@ -510,35 +462,4 @@ export class CandidatureAggregate extends AbstractAggregate<
       fournisseurs,
     });
   }
-
-  private mapToEventPayload = ({
-    dépôt,
-    instruction,
-  }: Omit<ImporterCandidatureOptions, 'fournisseurs'> | CorrigerCandidatureOptions) => ({
-    identifiantProjet: this.projet.identifiantProjet.formatter(),
-    statut: instruction.statut.statut,
-    technologie: dépôt.technologie.type,
-    dateÉchéanceGf: dépôt.dateÉchéanceGf?.formatter(),
-    historiqueAbandon: dépôt.historiqueAbandon.formatter(),
-    typeGarantiesFinancières: dépôt.typeGarantiesFinancières?.type,
-    nomProjet: dépôt.nomProjet,
-    sociétéMère: dépôt.sociétéMère,
-    nomCandidat: dépôt.nomCandidat,
-    puissanceProductionAnnuelle: dépôt.puissanceProductionAnnuelle,
-    prixReference: dépôt.prixRéférence,
-    noteTotale: instruction.noteTotale,
-    nomReprésentantLégal: dépôt.nomReprésentantLégal,
-    emailContact: dépôt.emailContact.formatter(),
-    localité: dépôt.localité,
-    motifÉlimination: instruction.motifÉlimination,
-    puissanceALaPointe: dépôt.puissanceÀLaPointe,
-    evaluationCarboneSimplifiée: dépôt.évaluationCarboneSimplifiée,
-    actionnariat: dépôt.typeActionnariat?.formatter(),
-    territoireProjet: dépôt.territoireProjet,
-    coefficientKChoisi: dépôt.coefficientKChoisi,
-    typeInstallationsAgrivoltaiques: dépôt.typeInstallationsAgrivoltaiques?.formatter(),
-    élémentsSousOmbrière: dépôt.élémentsSousOmbrière,
-    typologieDeBâtiment: dépôt.typologieDeBâtiment?.formatter(),
-    obligationDeSolarisation: dépôt.obligationDeSolarisation,
-  });
 }

@@ -3,14 +3,21 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { ImporterCandidatureUseCase } from '../importer/importerCandidature.usecase';
 import { Dépôt, Instruction } from '..';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',
-  Omit<ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> & {
+  {
+    appelOffreValue: string;
+    périodeValue: string;
+    familleValue: string;
+    numéroCREValue: string;
+
+    dépôtValue: Dépôt.RawType;
+    instructionValue: Instruction.RawType;
+
     corrigéLe: string;
     corrigéPar: string;
     doitRégénérerAttestation?: true;

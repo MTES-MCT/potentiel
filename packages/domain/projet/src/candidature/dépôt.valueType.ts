@@ -20,14 +20,14 @@ export type RawType = {
   sociétéMère: string;
   puissanceProductionAnnuelle: number;
   nomReprésentantLégal: string;
-  prixRéférence: number;
+  prixReference: number;
   localité: Localité.RawType;
   historiqueAbandon: HistoriqueAbandon.RawType;
-  puissanceÀLaPointe: boolean;
+  puissanceALaPointe: boolean;
   coefficientKChoisi: boolean | undefined;
-  évaluationCarboneSimplifiée: number;
+  evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.RawType;
-  typeActionnariat: TypeActionnariat.RawType | undefined;
+  actionnariat: TypeActionnariat.RawType | undefined;
   typeGarantiesFinancières: TypeGarantiesFinancières.RawType | undefined;
   dateÉchéanceGf: DateTime.RawType | undefined;
   territoireProjet: string;
@@ -45,14 +45,14 @@ export type ValueType = ReadonlyValueType<{
   sociétéMère: string;
   puissanceProductionAnnuelle: number;
   nomReprésentantLégal: string;
-  prixRéférence: number;
+  prixReference: number;
   localité: Localité.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
-  puissanceÀLaPointe: boolean;
+  puissanceALaPointe: boolean;
   coefficientKChoisi: boolean | undefined;
-  évaluationCarboneSimplifiée: number;
+  evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.ValueType;
-  typeActionnariat: TypeActionnariat.ValueType | undefined;
+  actionnariat: TypeActionnariat.ValueType | undefined;
   typeGarantiesFinancières: TypeGarantiesFinancières.ValueType | undefined;
   dateÉchéanceGf: DateTime.ValueType | undefined;
   territoireProjet: string;
@@ -71,14 +71,14 @@ export const bind = ({
   sociétéMère,
   puissanceProductionAnnuelle,
   nomReprésentantLégal,
-  prixRéférence,
+  prixReference,
   localité,
   historiqueAbandon,
-  puissanceÀLaPointe,
+  puissanceALaPointe,
   coefficientKChoisi,
-  évaluationCarboneSimplifiée,
+  evaluationCarboneSimplifiée,
   technologie,
-  typeActionnariat,
+  actionnariat,
   typeGarantiesFinancières,
   dateÉchéanceGf,
   territoireProjet,
@@ -91,9 +91,9 @@ export const bind = ({
   nomProjet,
   nomCandidat,
   nomReprésentantLégal,
-  prixRéférence,
-  évaluationCarboneSimplifiée,
-  puissanceÀLaPointe,
+  prixReference,
+  evaluationCarboneSimplifiée,
+  puissanceALaPointe,
   puissanceProductionAnnuelle,
   sociétéMère,
   territoireProjet,
@@ -106,7 +106,7 @@ export const bind = ({
   historiqueAbandon: HistoriqueAbandon.bind(historiqueAbandon),
   technologie: TypeTechnologie.bind(technologie),
 
-  typeActionnariat: bindOptional(TypeActionnariat.bind, typeActionnariat),
+  actionnariat: bindOptional(TypeActionnariat.bind, actionnariat),
   dateÉchéanceGf: bindOptional(DateTime.bind, dateÉchéanceGf),
   typeGarantiesFinancières: bindOptional(TypeGarantiesFinancières.bind, typeGarantiesFinancières),
   typeInstallationsAgrivoltaiques: bindOptional(
@@ -122,9 +122,9 @@ export const bind = ({
       valueType.nomProjet === this.nomProjet &&
       valueType.nomCandidat === this.nomCandidat &&
       valueType.nomReprésentantLégal === this.nomReprésentantLégal &&
-      valueType.prixRéférence === this.prixRéférence &&
-      valueType.évaluationCarboneSimplifiée === this.évaluationCarboneSimplifiée &&
-      valueType.puissanceÀLaPointe === this.puissanceÀLaPointe &&
+      valueType.prixReference === this.prixReference &&
+      valueType.evaluationCarboneSimplifiée === this.evaluationCarboneSimplifiée &&
+      valueType.puissanceALaPointe === this.puissanceALaPointe &&
       valueType.coefficientKChoisi === this.coefficientKChoisi &&
       valueType.puissanceProductionAnnuelle === this.puissanceProductionAnnuelle &&
       valueType.sociétéMère === this.sociétéMère &&
@@ -135,7 +135,7 @@ export const bind = ({
       sontÉgaux(valueType.localité, this.localité) &&
       sontÉgaux(valueType.historiqueAbandon, this.historiqueAbandon) &&
       sontÉgaux(valueType.technologie, this.technologie) &&
-      sontÉgaux(valueType.typeActionnariat, this.typeActionnariat) &&
+      sontÉgaux(valueType.actionnariat, this.actionnariat) &&
       sontÉgaux(valueType.dateÉchéanceGf, this.dateÉchéanceGf) &&
       sontÉgaux(valueType.typeGarantiesFinancières, this.typeGarantiesFinancières) &&
       sontÉgaux(valueType.typologieDeBâtiment, this.typologieDeBâtiment) &&
@@ -148,9 +148,9 @@ export const bind = ({
       nomCandidat: this.nomCandidat,
       nomProjet: this.nomProjet,
       nomReprésentantLégal: this.nomReprésentantLégal,
-      prixRéférence: this.prixRéférence,
-      évaluationCarboneSimplifiée: this.évaluationCarboneSimplifiée,
-      puissanceÀLaPointe: this.puissanceÀLaPointe,
+      prixReference: this.prixReference,
+      evaluationCarboneSimplifiée: this.evaluationCarboneSimplifiée,
+      puissanceALaPointe: this.puissanceALaPointe,
       puissanceProductionAnnuelle: this.puissanceProductionAnnuelle,
       sociétéMère: this.sociétéMère,
       territoireProjet: this.territoireProjet,
@@ -161,7 +161,7 @@ export const bind = ({
       localité: this.localité.formatter(),
       historiqueAbandon: this.historiqueAbandon.formatter(),
       technologie: this.technologie.formatter(),
-      typeActionnariat: this.typeActionnariat?.formatter(),
+      actionnariat: this.actionnariat?.formatter(),
       dateÉchéanceGf: this.dateÉchéanceGf?.formatter(),
       typeGarantiesFinancières: this.typeGarantiesFinancières?.formatter(),
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
@@ -171,13 +171,19 @@ export const bind = ({
   },
 });
 
+export type WithOptionalUndefined<T> = {
+  [K in keyof T as undefined extends T[K] ? K : never]?: T[K];
+} & {
+  [K in keyof T as undefined extends T[K] ? never : K]: T[K];
+};
+
 export const convertirEnValueType = ({
   nomCandidat,
   nomProjet,
   nomReprésentantLégal,
-  prixRéférence,
-  évaluationCarboneSimplifiée,
-  puissanceÀLaPointe,
+  prixReference,
+  evaluationCarboneSimplifiée,
+  puissanceALaPointe,
   puissanceProductionAnnuelle,
   sociétéMère,
   territoireProjet,
@@ -186,7 +192,7 @@ export const convertirEnValueType = ({
   localité,
   historiqueAbandon,
   technologie,
-  typeActionnariat,
+  actionnariat,
   dateÉchéanceGf,
   typeGarantiesFinancières,
   typeInstallationsAgrivoltaiques,
@@ -194,14 +200,14 @@ export const convertirEnValueType = ({
   typologieDeBâtiment,
   obligationDeSolarisation,
   fournisseurs,
-}: RawType) =>
+}: WithOptionalUndefined<RawType>) =>
   bind({
     nomCandidat,
     nomProjet,
     nomReprésentantLégal,
-    prixRéférence,
-    évaluationCarboneSimplifiée,
-    puissanceÀLaPointe,
+    prixReference,
+    evaluationCarboneSimplifiée,
+    puissanceALaPointe,
     puissanceProductionAnnuelle,
     sociétéMère,
     territoireProjet,
@@ -212,7 +218,7 @@ export const convertirEnValueType = ({
     localité: Localité.bind(localité),
     historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
     technologie: TypeTechnologie.convertirEnValueType(technologie),
-    typeActionnariat: bindOptional(TypeActionnariat.convertirEnValueType, typeActionnariat),
+    actionnariat: bindOptional(TypeActionnariat.convertirEnValueType, actionnariat),
     dateÉchéanceGf: dateÉchéanceGf ? { date: dateÉchéanceGf } : undefined,
     typeGarantiesFinancières: bindOptional(
       TypeGarantiesFinancières.convertirEnValueType,

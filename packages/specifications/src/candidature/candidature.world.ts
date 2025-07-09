@@ -1,5 +1,5 @@
-import { Candidature, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
-import { DateTime, Email } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
@@ -39,7 +39,12 @@ export class CandidatureWorld {
     const mapOptionalBoolean = (val: string) =>
       val === 'oui' ? true : val === 'non' ? false : undefined;
     const mapNumber = (val: string) => (val ? Number(val) : undefined);
-    const mapDate = (val: string) => (val ? new Date(val).toISOString() : undefined);
+    const mapDate = (val: string) =>
+      val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined;
+    const mapValueType = <TValueType extends { formatter(): TRaw }, TRaw extends string>(
+      val: string | undefined,
+      convertirEnValueType: (val: string) => TValueType,
+    ): TRaw | undefined => (val ? convertirEnValueType(val).formatter() : undefined);
 
     const localitéValue = removeEmptyValues({
       adresse1: exemple['adresse 1'],
@@ -56,34 +61,44 @@ export class CandidatureWorld {
       noteTotaleValue: mapNumber(exemple['note totale']),
     });
     const clearedDépôt: MapExempleToFixtureValuesProps['dépôt'] = removeEmptyValues({
-      appelOffre: exemple["appel d'offre"],
-      période: exemple['période'],
-      famille: exemple['famille'],
-      numéroCRE: exemple['numéro CRE'],
-      typeGarantiesFinancières: exemple['type GF'],
+      typeGarantiesFinancières: mapValueType(
+        exemple['type GF'],
+        Candidature.TypeGarantiesFinancières.convertirEnValueType,
+      ),
       nomCandidat: exemple['nom candidat'],
-      technologie: exemple['technologie'],
+      technologie: mapValueType(
+        exemple['technologie'],
+        Candidature.TypeTechnologie.convertirEnValueType,
+      ),
       emailContact: exemple['email contact'],
       localité: Object.keys(localitéValue).length > 0 ? localitéValue : undefined,
-      puissanceALaPointe: mapBoolean(exemple['puissance à la pointe']),
+      puissanceÀLaPointe: mapBoolean(exemple['puissance à la pointe']),
       sociétéMère: exemple['société mère'],
       territoireProjet: exemple['territoire projet'],
       dateÉchéanceGf: mapDate(exemple["date d'échéance"]),
-      historiqueAbandon: exemple['historique abandon'],
+      historiqueAbandon: mapValueType(
+        exemple['historique abandon'],
+        Candidature.HistoriqueAbandon.convertirEnValueType,
+      ),
       puissanceProductionAnnuelle: mapNumber(exemple['puissance production annuelle']),
-      prixReference: mapNumber(exemple['prix reference']),
-      noteTotale: mapNumber(exemple['note totale']),
+      prixRéférence: mapNumber(exemple['prix reference']),
       nomReprésentantLégal: exemple['nomReprésentant légal'],
-      evaluationCarboneSimplifiée: mapNumber(exemple['evaluation carbone simplifiée']),
-      valeurÉvaluationCarbone: mapNumber(exemple['valeur évalutation carbone']),
-      actionnariat: exemple['actionnariat'],
-      doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
-      statutValue: exemple['statut'],
-      typeInstallationsAgrivoltaiquesValue: exemple['installations agrivoltaïques'],
-      élémentsSousOmbrièreValue: exemple['éléments sous ombrière'],
-      typologieDeBâtimentValue: exemple['typologie de bâtiment'],
-      obligationDeSolarisationValue: mapBoolean(exemple['obligation de solarisation']),
-      fournisseursValue: [],
+      évaluationCarboneSimplifiée: mapNumber(exemple['evaluation carbone simplifiée']),
+      typeActionnariat: mapValueType(
+        exemple['actionnariat'],
+        Candidature.TypeActionnariat.convertirEnValueType,
+      ),
+      typeInstallationsAgrivoltaiques: mapValueType(
+        exemple['installations agrivoltaïques'],
+        Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType,
+      ),
+      élémentsSousOmbrière: exemple['éléments sous ombrière'],
+      typologieDeBâtiment: mapValueType(
+        exemple['typologie de bâtiment'],
+        Candidature.TypologieBâtiment.convertirEnValueType,
+      ),
+      obligationDeSolarisation: mapBoolean(exemple['obligation de solarisation']),
+      fournisseurs: [],
     });
 
     // gérer coefficient K choisi qui, s'il est renseigné, peut être oui, non ou vide
@@ -97,7 +112,7 @@ export class CandidatureWorld {
   }
 
   mapToExpected() {
-    const { values: expectedValues } = this.corrigerCandidature.aÉtéCréé
+    const { dépôtValue, instructionValue } = this.corrigerCandidature.aÉtéCréé
       ? this.corrigerCandidature
       : this.importerCandidature;
     const misÀJourLe = this.#corrigerCandidature.aÉtéCréé
@@ -120,76 +135,33 @@ export class CandidatureWorld {
     }
 
     const expected: Candidature.ConsulterCandidatureReadModel = {
-      localité: expectedValues.localitéValue,
-      dateÉchéanceGf: expectedValues.dateÉchéanceGfValue
-        ? DateTime.convertirEnValueType(expectedValues.dateÉchéanceGfValue)
-        : undefined,
-      emailContact: Email.convertirEnValueType(expectedValues.emailContactValue),
-      evaluationCarboneSimplifiée: expectedValues.evaluationCarboneSimplifiéeValue,
-      historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
-        expectedValues.historiqueAbandonValue,
-      ),
-      identifiantProjet,
-      motifÉlimination: expectedValues.motifÉliminationValue,
-      nomCandidat: expectedValues.nomCandidatValue,
-      nomProjet: expectedValues.nomProjetValue,
-      nomReprésentantLégal: expectedValues.nomReprésentantLégalValue,
-      noteTotale: expectedValues.noteTotaleValue,
-      prixReference: expectedValues.prixRéférenceValue,
-      puissanceALaPointe: expectedValues.puissanceALaPointeValue,
-      puissanceProductionAnnuelle: expectedValues.puissanceProductionAnnuelleValue,
-      sociétéMère: expectedValues.sociétéMèreValue,
-      statut: Candidature.StatutCandidature.convertirEnValueType(expectedValues.statutValue),
-      technologie: Candidature.TypeTechnologie.déterminer({
-        appelOffre: appelOffres,
-        projet: {
-          technologie: expectedValues.technologieValue as Candidature.TypeTechnologie.RawType,
-        },
-      }),
-      territoireProjet: expectedValues.territoireProjetValue,
-      typeGarantiesFinancières: expectedValues.typeGarantiesFinancièresValue
-        ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
-            expectedValues.typeGarantiesFinancièresValue,
-          )
-        : undefined,
-      actionnariat: expectedValues.actionnariatValue
-        ? Candidature.TypeActionnariat.convertirEnValueType(expectedValues.actionnariatValue)
-        : undefined,
-      coefficientKChoisi: expectedValues.coefficientKChoisiValue,
+      dépôt: Candidature.Dépôt.convertirEnValueType(dépôtValue),
+      instruction: Candidature.Instruction.convertirEnValueType(instructionValue),
       détailsImport: DocumentProjet.convertirEnValueType(
         this.importerCandidature.identifiantProjet,
         'candidature/import',
         détailsMisÀJourLe,
         'application/json',
       ),
+      identifiantProjet,
       misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-      fournisseurs: expectedValues.fournisseursValue.map(
-        Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
-      ),
+
       unitéPuissance: Candidature.UnitéPuissance.déterminer({
         appelOffres,
         période: identifiantProjet.période,
         technologie: Candidature.TypeTechnologie.convertirEnValueType(
-          expectedValues.technologieValue,
+          dépôtValue.technologie,
         ).formatter(),
       }),
       volumeRéservé: Candidature.VolumeRéservé.déterminer({
-        note: expectedValues.noteTotaleValue,
-        puissanceInitiale: expectedValues.puissanceProductionAnnuelleValue,
+        note: instructionValue.noteTotale,
+        puissanceInitiale: dépôtValue.puissanceProductionAnnuelle,
         période,
       }),
-      typeInstallationsAgrivoltaiques: expectedValues.typeInstallationsAgrivoltaiquesValue
-        ? Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType(
-            expectedValues.typeInstallationsAgrivoltaiquesValue,
-          )
-        : undefined,
-      élémentsSousOmbrière: expectedValues.élémentsSousOmbrièreValue,
-      typologieDeBâtiment: expectedValues.typologieDeBâtimentValue
-        ? Candidature.TypologieBâtiment.convertirEnValueType(
-            expectedValues.typologieDeBâtimentValue,
-          )
-        : undefined,
-      obligationDeSolarisation: expectedValues.obligationDeSolarisationValue,
+      technologie: Candidature.TypeTechnologie.déterminer({
+        appelOffre: appelOffres,
+        projet: dépôtValue,
+      }),
     };
 
     return expected;
