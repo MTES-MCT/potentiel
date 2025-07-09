@@ -32,26 +32,27 @@ export type DétailsCandidaturePageProps = {
 };
 
 export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
-  candidature,
+  candidature: {
+    identifiantProjet: { appelOffre, famille, numéroCRE, période },
+    dépôt,
+    instruction,
+    notification,
+  },
   actions,
 }) => {
-  const identifiantProjet = IdentifiantProjet.bind(candidature.identifiantProjet);
+  const identifiantProjet = IdentifiantProjet.bind({ appelOffre, famille, numéroCRE, période });
   return (
     <ColumnPageTemplate
       banner={
         <ProjetBannerTemplate
           identifiantProjet={identifiantProjet}
-          href={
-            candidature.notification
-              ? Routes.Projet.details(identifiantProjet.formatter())
-              : undefined
-          }
-          nom={candidature.nomProjet}
-          localité={candidature.localité}
+          href={notification ? Routes.Projet.details(identifiantProjet.formatter()) : undefined}
+          nom={dépôt.nomProjet}
+          localité={dépôt.localité}
           badge={
             <div className="flex gap-2">
-              <StatutProjetBadge statut={candidature.statut.statut} />
-              <NotificationBadge estNotifié={!!candidature.notification} />
+              <StatutProjetBadge statut={instruction.statut.statut} />
+              <NotificationBadge estNotifié={!!notification} />
             </div>
           }
           dateDésignation={Option.none}
@@ -63,75 +64,70 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
           <div className="flex flex-col gap-8">
             <FieldGroup name="Informations générales">
               <Field name="Site de production">
-                <span>{candidature.localité.adresse1}</span>
-                {candidature.localité.adresse2 && <span>{candidature.localité.adresse2}</span>}
+                <span>{dépôt.localité.adresse1}</span>
+                {dépôt.localité.adresse2 && <span>{dépôt.localité.adresse2}</span>}
                 <span>
-                  {candidature.localité.codePostal} {candidature.localité.commune}
+                  {dépôt.localité.codePostal} {dépôt.localité.commune}
                 </span>
                 <span>
-                  {candidature.localité.département}, {candidature.localité.région}
+                  {dépôt.localité.département}, {dépôt.localité.région}
                 </span>
               </Field>
               <Field name="Société mère">
-                <span>{candidature.sociétéMère}</span>
+                <span>{dépôt.sociétéMère}</span>
               </Field>
               <Field name="Performances">
-                <span>Puissance installée: {candidature.puissanceProductionAnnuelle} MW</span>
-                <span>Prix de référence: {candidature.prixReference} €/MWh</span>
+                <span>Puissance installée: {dépôt.puissanceProductionAnnuelle} MW</span>
+                <span>Prix de référence: {dépôt.prixReference} €/MWh</span>
               </Field>
-              {candidature.typeGarantiesFinancières && (
+              {dépôt.typeGarantiesFinancières && (
                 <Field name="Garanties Financières">
                   <span>
-                    Type:{' '}
-                    {getGarantiesFinancièresTypeLabel(candidature.typeGarantiesFinancières.type)}
+                    Type: {getGarantiesFinancièresTypeLabel(dépôt.typeGarantiesFinancières.type)}
                   </span>
-                  {candidature.dateÉchéanceGf && (
+                  {dépôt.dateÉchéanceGf && (
                     <span>
                       Date d'échéance:{' '}
-                      <FormattedDate date={DateTime.bind(candidature.dateÉchéanceGf).formatter()} />
+                      <FormattedDate date={DateTime.bind(dépôt.dateÉchéanceGf).formatter()} />
                     </span>
                   )}
                 </Field>
               )}
-              {candidature.technologie && (
+              {dépôt.technologie && (
                 <Field name="Technologie">
-                  <span>{getTechnologieTypeLabel(candidature.technologie.type)}</span>
+                  <span>{getTechnologieTypeLabel(dépôt.technologie.type)}</span>
                 </Field>
               )}
-              {candidature.coefficientKChoisi !== undefined && (
+              {dépôt.coefficientKChoisi !== undefined && (
                 <Field name="Coefficient K choisi">
-                  <span>{candidature.coefficientKChoisi ? 'Oui' : 'Non'}</span>
+                  <span>{dépôt.coefficientKChoisi ? 'Oui' : 'Non'}</span>
                 </Field>
               )}
-              {candidature.actionnariat && (
+              {dépôt.actionnariat && (
                 <Field name="Actionnariat">
-                  <span>{getActionnariatTypeLabel(candidature.actionnariat.type)}</span>
+                  <span>{getActionnariatTypeLabel(dépôt.actionnariat.type)}</span>
                 </Field>
               )}
               {/* Cette partie sera sûrement supprimée après la migration de projet */}
               <Field name="Désignation">
-                {candidature.notification ? (
+                {notification ? (
                   <>
                     <span>
-                      Candidature notifiée le:{' '}
-                      <FormattedDate
-                        date={DateTime.bind(candidature.notification.notifiéeLe).formatter()}
-                      />
+                      dépôt notifiée le:{' '}
+                      <FormattedDate date={DateTime.bind(notification.notifiéeLe).formatter()} />
                     </span>
-                    {candidature.notification.attestation && (
+                    {notification.attestation && (
                       <span>
                         Attestation{' '}
-                        {DateTime.bind(candidature.notification.notifiéeLe).estAntérieurÀ(
-                          DateTime.convertirEnValueType(
-                            candidature.notification.attestation.dateCréation,
-                          ),
+                        {DateTime.bind(notification.notifiéeLe).estAntérieurÀ(
+                          DateTime.convertirEnValueType(notification.attestation.dateCréation),
                         )
                           ? 'régénérée'
                           : 'générée'}{' '}
                         le:{' '}
                         <FormattedDate
                           date={DateTime.convertirEnValueType(
-                            candidature.notification.attestation.dateCréation,
+                            notification.attestation.dateCréation,
                           ).formatter()}
                         />
                       </span>
@@ -141,29 +137,27 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>La candidature n'a pas encore été notifiée</span>
                 )}
               </Field>
-              {candidature.motifÉlimination && (
-                <Field name="Motif d'élimination">{candidature.motifÉlimination}</Field>
+              {instruction.motifÉlimination && (
+                <Field name="Motif d'élimination">{instruction.motifÉlimination}</Field>
               )}
             </FieldGroup>
             <FieldGroup name="Contact">
-              <Field name="Nom du producteur">{candidature.nomCandidat}</Field>
-              <Field name="Nom du représentant légal">{candidature.nomReprésentantLégal}</Field>
+              <Field name="Nom du producteur">{dépôt.nomCandidat}</Field>
+              <Field name="Nom du représentant légal">{dépôt.nomReprésentantLégal}</Field>
               <Field name="Adresse email à la candidature">
                 <span>
-                  <a href={`mailto:${candidature.emailContact.email}`}>
-                    {candidature.emailContact.email}
-                  </a>
+                  <a href={`mailto:${dépôt.emailContact.email}`}>{dépôt.emailContact.email}</a>
                 </span>
               </Field>
             </FieldGroup>
             <FieldGroup name="Matériel et Technologie">
               <Field name="Evaluation carbone simplifiée">
-                {candidature.evaluationCarboneSimplifiée} kg eq CO2/kWc
+                {dépôt.evaluationCarboneSimplifiée} kg eq CO2/kWc
               </Field>
               <Field name="Fournisseurs">
                 <ListeFournisseurs
                   fournisseurs={
-                    candidature.fournisseurs.map((fournisseur) =>
+                    dépôt.fournisseurs.map((fournisseur) =>
                       Lauréat.Fournisseur.Fournisseur.convertirEnValueType({
                         typeFournisseur: fournisseur.typeFournisseur.typeFournisseur,
                         nomDuFabricant: fournisseur.nomDuFabricant,

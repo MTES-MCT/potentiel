@@ -9,7 +9,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 export type GetProjetReadModel = {
   nomProjet: string;
-  localité: Candidature.ConsulterCandidatureReadModel['localité'];
+  localité: Candidature.Localité.ValueType;
   notifiéLe: Option.Type<DateTime.ValueType>;
   statut: StatutProjet.ValueType;
   attestationDésignation?: DocumentProjet.ValueType;

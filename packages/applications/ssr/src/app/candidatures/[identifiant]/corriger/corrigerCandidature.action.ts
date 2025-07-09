@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -46,18 +46,12 @@ const mapBodyToUseCaseData = (
   data: zod.infer<typeof schema>,
   previous: Candidature.ConsulterCandidatureReadModel,
 ): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
-  const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
-    data.identifiantProjet,
-  );
   return {
-    appelOffreValue: appelOffre,
-    périodeValue: période,
-    familleValue: famille,
-    numéroCREValue: numéroCRE,
+    identifiantProjetValue: previous.identifiantProjet.formatter(),
     instructionValue: {
       motifÉlimination: data.motifElimination,
       noteTotale: data.noteTotale,
-      statut: data.statut ?? previous.statut.formatter(),
+      statut: data.statut ?? previous.instruction.statut.formatter(),
     },
     dépôtValue: {
       nomProjet: data.nomProjet,
@@ -87,13 +81,13 @@ const mapBodyToUseCaseData = (
       coefficientKChoisi: data.coefficientKChoisi,
 
       // non-editable fields
-      territoireProjet: previous.territoireProjet,
-      historiqueAbandon: previous.historiqueAbandon.formatter(),
-      fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
-      typeInstallationsAgrivoltaiques: previous.typeInstallationsAgrivoltaiques?.formatter(),
-      élémentsSousOmbrière: previous.élémentsSousOmbrière,
-      typologieDeBâtiment: previous.typologieDeBâtiment?.formatter(),
-      obligationDeSolarisation: previous.obligationDeSolarisation,
+      territoireProjet: previous.dépôt.territoireProjet,
+      historiqueAbandon: previous.dépôt.historiqueAbandon.formatter(),
+      fournisseurs: previous.dépôt.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+      typeInstallationsAgrivoltaiques: previous.dépôt.typeInstallationsAgrivoltaiques?.formatter(),
+      élémentsSousOmbrière: previous.dépôt.élémentsSousOmbrière,
+      typologieDeBâtiment: previous.dépôt.typologieDeBâtiment?.formatter(),
+      obligationDeSolarisation: previous.dépôt.obligationDeSolarisation,
     },
 
     détailsValue: undefined,

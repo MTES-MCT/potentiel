@@ -4,16 +4,18 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
-import { candidatureCsvSchema, CandidatureShape } from '@/utils/candidature';
+import { candidatureCsvSchema } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
+import { mapCsvRowToDépôt } from '@/utils/candidature/mapCsvRowToDépôt';
+import { mapCsvRowToInstruction } from '@/utils/candidature/mapCsvRowToInstruction';
 
 import { getLocalité } from '../_helpers';
 
@@ -43,12 +45,20 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
 
     for (const line of parsedData) {
       try {
-        const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {};
-
+        const rawLine = removeEmptyValues(
+          rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {},
+        );
         await mediator.send<Candidature.CorrigerCandidatureUseCase>({
           type: 'Candidature.UseCase.CorrigerCandidature',
           data: {
-            ...mapLineToUseCaseData(line, removeEmptyValues(projectRawLine)),
+            identifiantProjetValue: IdentifiantProjet.bind(line).formatter(),
+            dépôtValue: {
+              ...mapCsvRowToDépôt(line),
+              fournisseurs: mapCsvRowToFournisseurs(rawLine),
+              localité: getLocalité(line),
+            },
+            instructionValue: mapCsvRowToInstruction(line),
+            détailsValue: rawLine,
             corrigéLe: DateTime.now().formatter(),
             corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
           },
@@ -79,45 +89,5 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
     };
   });
 
-const mapLineToUseCaseData = (
-  line: CandidatureShape,
-  rawLine: Record<string, string>,
-): Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> => ({
-  typeGarantiesFinancièresValue: line.typeGf,
-  historiqueAbandonValue: line.historiqueAbandon,
-  appelOffreValue: line.appelOffre,
-  périodeValue: line.période,
-  familleValue: line.famille,
-  numéroCREValue: line.numéroCRE,
-  nomProjetValue: line.nomProjet,
-  sociétéMèreValue: line.sociétéMère,
-  nomCandidatValue: line.nomCandidat,
-  puissanceProductionAnnuelleValue: line.puissanceProductionAnnuelle,
-  prixRéférenceValue: line.prixRéférence,
-  noteTotaleValue: line.noteTotale,
-  nomReprésentantLégalValue: line.nomReprésentantLégal,
-  emailContactValue: line.emailContact,
-  localitéValue: getLocalité(line),
-  statutValue: line.statut,
-  motifÉliminationValue: line.motifÉlimination,
-  puissanceALaPointeValue: line.puissanceÀLaPointe,
-  evaluationCarboneSimplifiéeValue: line.evaluationCarboneSimplifiée,
-  technologieValue: line.technologie,
-  actionnariatValue: line.financementCollectif
-    ? Candidature.TypeActionnariat.financementCollectif.formatter()
-    : line.gouvernancePartagée
-      ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
-      : undefined,
-  dateÉchéanceGfValue: line.dateÉchéanceGf?.toISOString(),
-  territoireProjetValue: line.territoireProjet,
-  coefficientKChoisiValue: line.coefficientKChoisi,
-  typeInstallationsAgrivoltaiquesValue: line.installationsAgrivoltaiques,
-  élémentsSousOmbrièreValue: line.élémentsSousOmbrière,
-  typologieDeBâtimentValue: line.typologieDeBâtiment,
-  obligationDeSolarisationValue: line.obligationDeSolarisation,
-  fournisseursValue: mapCsvRowToFournisseurs(rawLine),
-
-  détailsValue: rawLine,
-});
-
 export const CorrigerCandidaturesParLotAction = formAction(action, schema);
+export const corrigerCandidaturesAction = formAction(action, schema);

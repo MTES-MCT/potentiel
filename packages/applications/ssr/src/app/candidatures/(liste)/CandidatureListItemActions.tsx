@@ -7,7 +7,7 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 export type CandidatureListItemActionsProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
+  nomProjet: Candidature.Dépôt.RawType['nomProjet'];
   actions:
     | { télécharger: true; prévisualiser: false }
     | { télécharger: false; prévisualiser: false }
