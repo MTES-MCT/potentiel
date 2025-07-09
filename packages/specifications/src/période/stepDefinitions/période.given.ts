@@ -8,6 +8,16 @@ import { importerCandidature } from '../../candidature/stepDefinitions/candidatu
 
 import { notifierPériode } from './période.when';
 
+type Candidat = {
+  nomProjetValue: string;
+  appelOffreValue: string;
+  périodeValue: string;
+  familleValue: string;
+  numéroCREValue: string;
+  statutValue: string;
+  sociétéMèreValue?: string;
+};
+
 const candidats = [
   {
     nomProjetValue: 'lauréat-1',
@@ -79,7 +89,7 @@ const candidats = [
     numéroCREValue: 'éliminé-3',
     statutValue: 'éliminé',
   },
-] satisfies Partial<Candidature.ImporterCandidatureUseCase['data']>[];
+] as Candidat[];
 
 EtantDonné(`une période avec des candidats importés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);
@@ -123,7 +133,7 @@ EtantDonné(
         numéroCREValue: 'éliminé-oublié-3',
         statutValue: 'éliminé',
       },
-    ] satisfies Partial<Candidature.ImporterCandidatureUseCase['data']>[];
+    ] satisfies Candidat[];
 
     await importerCandidatsPériode.call(this, candidats);
   },

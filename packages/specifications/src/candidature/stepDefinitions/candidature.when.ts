@@ -1,36 +1,20 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given';
 
+import { importerCandidature } from './candidature.given';
+
 Quand(
   `le DGEC validateur importe la candidature {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
-    if (!this.candidatureWorld.importerCandidature.aÉtéCréé) {
-      this.candidatureWorld.importerCandidature.créer({
-        values: {
-          ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
-          statutValue: exemple['statut'] === 'classé' ? 'classé' : 'éliminé',
-          nomProjetValue: nomProjet,
-          importéPar: this.utilisateurWorld.validateurFixture.email,
-        },
-      });
-    }
-    const { values } = this.candidatureWorld.importerCandidature;
-
-    try {
-      await mediator.send<Candidature.ImporterCandidatureUseCase>({
-        type: 'Candidature.UseCase.ImporterCandidature',
-        data: values,
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+    const { dépôt, instruction } = this.candidatureWorld.mapExempleToFixtureValues(exemple);
+    await importerCandidature.call(this, nomProjet, 'classé', dépôt, instruction);
   },
 );
 
@@ -66,35 +50,49 @@ Quand(
 );
 
 export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
-  const unchangedValues = this.candidatureWorld.importerCandidature.values;
-  const changedValues = {
-    ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),
-    détailsValue: exemple?.détails ? JSON.parse(exemple.détails) : undefined,
-  };
-  const newValues = {
-    ...unchangedValues,
-    ...changedValues,
-  };
+  const changedValues = this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {});
 
-  const { values } = this.candidatureWorld.corrigerCandidature.créer({
-    identifiantProjet: this.candidatureWorld.importerCandidature.identifiantProjet,
-    values: {
-      ...newValues,
-      localitéValue: {
-        ...unchangedValues.localitéValue,
-        ...changedValues.localitéValue,
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+    this.candidatureWorld.importerCandidature.identifiantProjet,
+  );
+  const { dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
+    this.candidatureWorld.corrigerCandidature.créer({
+      identifiantProjet: identifiantProjet.formatter(),
+      dépôtValue: {
+        ...this.candidatureWorld.importerCandidature.dépôtValue,
+        ...changedValues.dépôt,
+        localité: {
+          ...this.candidatureWorld.importerCandidature.dépôtValue.localité,
+          ...changedValues.dépôt.localité,
+        },
+        fournisseurs: this.candidatureWorld.importerCandidature.dépôtValue.fournisseurs,
+      },
+      instructionValue: {
+        ...this.candidatureWorld.importerCandidature.instructionValue,
+        ...changedValues.instruction,
       },
 
-      doitRégénérerAttestation: newValues.doitRégénérerAttestation || undefined,
+      détailsValue: exemple?.détails ? JSON.parse(exemple.détails) : undefined,
       corrigéLe: DateTime.now().formatter(),
       corrigéPar: this.utilisateurWorld.validateurFixture.email,
-    },
-  });
+    });
 
   try {
     await mediator.send<Candidature.CorrigerCandidatureUseCase>({
       type: 'Candidature.UseCase.CorrigerCandidature',
-      data: values,
+      data: {
+        appelOffreValue: identifiantProjet.appelOffre,
+        périodeValue: identifiantProjet.période,
+        familleValue: identifiantProjet.famille,
+        numéroCREValue: identifiantProjet.numéroCRE,
+        dépôtValue,
+        instructionValue,
+        corrigéLe,
+        corrigéPar,
+        détailsValue,
+        doitRégénérerAttestation:
+          exemple?.['doit régénérer attestation'] === 'oui' ? true : undefined,
+      },
     });
   } catch (error) {
     this.error = error as Error;
