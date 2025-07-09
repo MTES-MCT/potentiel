@@ -33,7 +33,7 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
     )
     .with(
       { type: 'GarantiesFinancièresEnregistrées-V1' },
-      garantiesFinancièresActuelles.mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps,
+      garantiesFinancièresActuelles.mapToGarantiesFinancièresEnregistréesTimelineItemsProps,
     )
     .with(
       {

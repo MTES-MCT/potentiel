@@ -1,9 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps = (
-  modification:
-    | Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
-    | Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent,
+  modification: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent,
 ) => {
   const { enregistréLe, enregistréPar } = modification.payload;
 
