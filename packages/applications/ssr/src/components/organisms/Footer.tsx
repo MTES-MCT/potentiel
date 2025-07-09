@@ -6,7 +6,7 @@ export const Footer = () => (
   <DsfrFooter
     id="footer"
     brandTop={<>Gouvernement</>}
-    accessibility="partially compliant"
+    accessibility="non compliant"
     accessibilityLinkProps={{
       href: `https://docs.potentiel.beta.gouv.fr/declaration-daccessibilite`,
       target: '_blank',
