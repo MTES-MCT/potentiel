@@ -87,7 +87,11 @@ export const makeOnCahierDesChargesChoisi =
                 }),
             )
               ? okAsync(null)
-              : publishToEventStore(
+              : /**
+                 * @achevement
+                 * Supprimer l'envoi de l'event ci-dessous et utiliser DatePrévisionnelleCalculée à la place !
+                 */
+                publishToEventStore(
                   new ProjectCompletionDueDateSet({
                     payload: {
                       projectId: projetId,
@@ -113,6 +117,10 @@ export const makeOnCahierDesChargesChoisi =
             return okAsync(null);
           }
 
+          /**
+           * @achevement
+           * Supprimer l'envoi de l'event ci-dessous et utiliser DatePrévisionnelleCalculée à la place !
+           */
           // délai déjà appliqué et le porteur choisit un CDC autre que 2022
           return publishToEventStore(
             new ProjectCompletionDueDateSet({

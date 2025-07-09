@@ -11,6 +11,7 @@ import * as RaccordementSaga from './raccordement.saga';
 import * as UtilisateurSaga from './utilisateur.saga';
 import * as ÉliminéSaga from './éliminé.saga';
 import * as FournisseurSaga from './fournisseur.saga';
+import * as AchèvementSaga from './achèvement.saga';
 
 /**
  * @deprecated à bouger dans la nouvelle app
@@ -27,6 +28,7 @@ export const registerSagas = async () => {
   ProducteurSaga.register();
   AccèsSaga.register();
   FournisseurSaga.register();
+  AchèvementSaga.register();
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
@@ -172,6 +174,18 @@ export const registerSagas = async () => {
     streamCategory: 'fournisseur',
   });
 
+  const unsubscribeAchèvement = await subscribe<AchèvementSaga.SubscriptionEvent>({
+    name: 'legacy-saga-achevement',
+    eventType: ['DatePrévisionnelleCalculée-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<AchèvementSaga.Execute>({
+        type: 'System.Saga.Achèvement',
+        data: event,
+      });
+    },
+    streamCategory: 'achevement',
+  });
+
   return async () => {
     await unsubscribeRaccordement();
     await unsubscribeAbandon();
@@ -184,5 +198,6 @@ export const registerSagas = async () => {
     await unsubscribeProducteur();
     await unsubscribeAccès();
     await unsubscribeFournisseur();
+    await unsubscribeAchèvement();
   };
 };
