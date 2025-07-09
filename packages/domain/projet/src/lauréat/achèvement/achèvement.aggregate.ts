@@ -3,10 +3,8 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
-// import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-// import { AppelOffreProjetSansTechnologieError } from '../lauréat.error';
 
 import {
   AttestationDeConformitéDéjàTransmiseError,

@@ -1339,6 +1339,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Accès
   'accès.consulter',
+
+  // Achèvement
+  'achèvement.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1402,9 +1405,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Attestation conformité
   'achèvement.attestationConformité.transmettre',
   'achèvement.attestationConformité.modifier',
-
-  // Achèvement
-  'achèvement.consulter',
 
   // Candidature
   'candidature.consulter',
@@ -1522,9 +1522,6 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Fournisseur
   'fournisseur.consulterChangement',
   'fournisseur.listerChangement',
-
-  // Achèvement
-  'achèvement.consulter',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1578,9 +1575,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'achèvement.attestationConformité.consulter',
   'achèvement.attestationConformité.transmettre',
   'achèvement.attestationConformité.modifier',
-
-  // Achèvement
-  'achèvement.consulter',
 
   // Candidature
   'candidature.attestation.télécharger',
@@ -1681,9 +1675,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'achèvement.attestationConformité.consulter',
   'achèvement.attestationConformité.transmettre',
 
-  // Achèvement
-  'achèvement.consulter',
-
   // Candidature
   'candidature.attestation.télécharger',
 
@@ -1749,7 +1740,6 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   'raccordement.consulter',
 
   // Achèvement
-  'achèvement.consulter',
 
   // Actionnaire
   'actionnaire.consulterChangement',
@@ -1775,9 +1765,6 @@ const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
 
-  // Achèvement
-  'achèvement.consulter',
-
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
@@ -1791,9 +1778,6 @@ const grdPolicies: ReadonlyArray<Policy> = [
 
   // Gestionnaire réseau
   'réseau.gestionnaire.consulter',
-
-  // Achèvement
-  'achèvement.consulter',
 
   // Raccordement
   'raccordement.consulter',
@@ -1810,9 +1794,6 @@ const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
-
-  // Achèvement
-  'achèvement.consulter',
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {

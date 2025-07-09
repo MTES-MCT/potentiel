@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-export type ChangementReprésentantLégalEntity = Entity<
+export type ChangementDélaiEntity = Entity<
   'changement-délai',
   {
     identifiantProjet: string;
@@ -17,14 +17,18 @@ export type ChangementReprésentantLégalEntity = Entity<
     };
 
     accord?: {
-      nomReprésentantLégal: string;
-      typeReprésentantLégal: string;
+      nombreDeMois: number;
+      pièceJustificative: {
+        format: string;
+      };
       accordéLe: string;
       accordéPar: string;
     };
 
     rejet?: {
-      motif: string;
+      pièceJustificative: {
+        format: string;
+      };
       rejetéLe: string;
       rejetéPar: string;
     };
