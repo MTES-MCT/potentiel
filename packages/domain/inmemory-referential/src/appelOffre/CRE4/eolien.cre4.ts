@@ -21,7 +21,6 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
 };
 
 export const eolien: AppelOffre.AppelOffreReadModel = {
-  autoritéCompétenteDemandesDélai: 'dgec',
   id: 'Eolien',
   typeAppelOffre: 'eolien',
   cycleAppelOffre: 'CRE4',
@@ -30,6 +29,8 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   shortTitle: 'Eolien',
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
+  délai: { autoritéCompétente: 'dgec' },
+  abandon: { autoritéCompétente: 'dgec' },
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',
   technologie: 'eolien',

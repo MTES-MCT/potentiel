@@ -1,7 +1,10 @@
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Option } from '@potentiel-libraries/monads';
 
 export const abandonDemandéProjector = async (
   event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
@@ -14,6 +17,13 @@ export const abandonDemandéProjector = async (
     .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
     .otherwise(() => false);
 
+  const appelOffre = await findProjection<AppelOffre.AppelOffreEntity>(
+    `appel-offre|${IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre}`,
+  );
+  if (Option.isNone(appelOffre)) {
+    throw new Error("Appel d'offre non trouvé");
+  }
+
   await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     identifiantProjet,
     demande: {
@@ -22,6 +32,7 @@ export const abandonDemandéProjector = async (
       demandéPar: event.payload.demandéPar,
       raison: event.payload.raison,
       estUneRecandidature,
+      autoritéCompétente: appelOffre.abandon.autoritéCompétente,
       recandidature: estUneRecandidature
         ? {
             statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,

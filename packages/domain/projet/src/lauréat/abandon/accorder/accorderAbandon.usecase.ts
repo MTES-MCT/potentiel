@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet, Lauréat } from '../../..';
 import { TypeDocumentAbandon } from '..';
@@ -18,6 +19,7 @@ export type AccorderAbandonUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    rôleUtilisateurValue: string;
   }
 >;
 
@@ -27,6 +29,7 @@ export const registerAccorderAbandonUseCase = () => {
     dateAccordValue,
     réponseSignéeValue: { content, format },
     identifiantProjetValue,
+    rôleUtilisateurValue,
   }) => {
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
@@ -38,6 +41,7 @@ export const registerAccorderAbandonUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -54,6 +58,7 @@ export const registerAccorderAbandonUseCase = () => {
         identifiantUtilisateur,
         identifiantProjet,
         réponseSignée,
+        rôleUtilisateur,
       },
     });
 

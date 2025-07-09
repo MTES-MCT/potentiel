@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
+import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -33,6 +34,7 @@ const paramsSchema = z.object({
   appelOffre: z.string().optional(),
   statut: z.enum(Lauréat.Abandon.StatutAbandon.statuts).optional(),
   preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
+  autorite: z.enum(Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -40,8 +42,15 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, recandidature, nomProjet, appelOffre, statut, preuveRecandidatureStatut } =
-        paramsSchema.parse(searchParams);
+      const {
+        page,
+        recandidature,
+        nomProjet,
+        appelOffre,
+        statut,
+        preuveRecandidatureStatut,
+        autorite,
+      } = paramsSchema.parse(searchParams);
 
       const abandons = await mediator.send<Lauréat.Abandon.ListerAbandonsQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandons',
@@ -56,6 +65,7 @@ export default async function Page({ searchParams }: PageProps) {
           appelOffre,
           preuveRecandidatureStatut,
           nomProjet,
+          autoritéCompétente: autorite,
         },
       });
 
@@ -109,6 +119,20 @@ export default async function Page({ searchParams }: PageProps) {
             })),
         },
       ];
+
+      if (utilisateur.role.estDGEC() || utilisateur.role.estDreal()) {
+        filters.push({
+          label: 'Autorité instructrice',
+          searchParamKey: 'autorite',
+          options: Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
+            label: match(autorité)
+              .with('dreal', () => 'DREAL')
+              .with('dgec', () => 'DGEC')
+              .exhaustive(),
+            value: autorité,
+          })),
+        });
+      }
 
       return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
     }),

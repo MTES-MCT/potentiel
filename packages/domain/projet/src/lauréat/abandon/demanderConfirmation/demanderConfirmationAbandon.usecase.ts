@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../..';
 import { TypeDocumentAbandon } from '..';
@@ -14,6 +15,7 @@ export type DemanderConfirmationAbandonUseCase = Message<
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
+    rôleUtilisateurValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -27,6 +29,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
     identifiantProjetValue,
     réponseSignéeValue: { content, format },
     identifiantUtilisateurValue,
+    rôleUtilisateurValue,
   }) => {
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -37,6 +40,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
       format,
     );
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -53,6 +57,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
         identifiantProjet,
         réponseSignée,
         identifiantUtilisateur,
+        rôleUtilisateur,
       },
     });
   };

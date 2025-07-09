@@ -5,21 +5,52 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges modificatif choisi
 
-    Scénario: Un DGEC validateur rejette l'abandon d'un projet lauréat
+    Scénario: La DGEC rejette l'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Quand le DGEC validateur rejette l'abandon pour le projet lauréat
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
 
-    Scénario: Un DGEC validateur rejette l'abandon en instruction d'un projet lauréat
+    Scénario: La DGEC rejette l'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
-        Quand le DGEC validateur rejette l'abandon pour le projet lauréat
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être rejeté
+
+    # à activer lorsqu'un AO avec cette option (ie AO simplifié) existera
+    @NotImplemented
+    Scénario: Une dreal peut rejeter l'abandon si elle en a l'autorité
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | AOS |
+            | période       | 1   |
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la DREAL rejette l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être rejeté
+
+    # à activer lorsqu'un AO avec cette option (ie AO simplifié) existera
+    @NotImplemented
+    Scénario: La DGEC peut rejeter l'abandon si l'autorité compétente est la DREAL
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | AOS |
+            | période       | 1   |
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
 
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat si l'abandon a déjà été accordé
         Etant donné un abandon accordé pour le projet lauréat
-        Quand le DGEC validateur rejette l'abandon pour le projet lauréat
-        Alors le DGEC validateur devrait être informé que "L'abandon a déjà été accordé"
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
+        Alors l'administrateur devrait être informé que "L'abandon a déjà été accordé"
 
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat si aucun abandon n'a été demandé
-        Quand le DGEC validateur rejette l'abandon pour le projet lauréat
-        Alors le DGEC validateur devrait être informé que "Aucun abandon n'est en cours"
+        Quand l'administrateur rejette l'abandon pour le projet lauréat
+        Alors l'administrateur devrait être informé que "Aucun abandon n'est en cours"
+
+    Scénario: Impossible pour une dreal de rejeter l'abandon si l'autorité compétente est la DGEC
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Eolien |
+            | période       | 8             |
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand la DREAL rejette l'abandon pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"

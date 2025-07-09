@@ -1,5 +1,7 @@
 import { Entity } from '@potentiel-domain/entity';
 
+import { AutoritéCompétente } from '.';
+
 export type AbandonEntity = Entity<
   'abandon',
   {
@@ -57,6 +59,8 @@ export type AbandonEntity = Entity<
         rejetéPar: string;
         rejetéLe: string;
       };
+
+      autoritéCompétente: AutoritéCompétente.RawType;
     };
 
     statut: string;

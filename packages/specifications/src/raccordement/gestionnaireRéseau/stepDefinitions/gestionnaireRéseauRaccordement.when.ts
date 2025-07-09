@@ -82,7 +82,7 @@ Quand(
 async function modifierGestionnaireRéseauRaccordement(
   this: PotentielWorld,
   codeEIC: string,
-  role: Role.ValueType,
+  rôle: Role.ValueType,
 ) {
   const { identifiantProjet } = this.lauréatWorld;
   try {
@@ -91,7 +91,7 @@ async function modifierGestionnaireRéseauRaccordement(
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         identifiantGestionnaireRéseauValue: codeEIC,
-        rôleValue: role.nom,
+        rôleValue: rôle.nom,
       },
     });
   } catch (e) {

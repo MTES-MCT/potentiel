@@ -1,6 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { AccorderAbandonFixture } from './fixtures/accorderAbandon.fixture';
 import { AnnulerAbandonFixture } from './fixtures/annulerAbandon.fixture';
@@ -113,6 +114,10 @@ export class AbandonWord {
               statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente,
             }
           : undefined,
+        autoritéCompétente: Lauréat.Abandon.AutoritéCompétente.convertirEnValueType(
+          appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre)!.abandon
+            .autoritéCompétente,
+        ),
       },
     };
 

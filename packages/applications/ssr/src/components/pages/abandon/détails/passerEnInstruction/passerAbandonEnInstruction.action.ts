@@ -20,6 +20,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        rôleUtilisateurValue: utilisateur.role.nom,
         dateInstructionValue: new Date().toISOString(),
       },
     });

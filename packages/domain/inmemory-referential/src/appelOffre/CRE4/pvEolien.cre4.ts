@@ -58,7 +58,8 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   // mais les projets existants ont "N/A" comme technologie, ce qui créerait une inconsistance.
   // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
   technologie: 'eolien',
-  autoritéCompétenteDemandesDélai: 'dreal',
+  délai: { autoritéCompétente: 'dreal' },
+  abandon: { autoritéCompétente: 'dgec' },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   delaiRealisationEnMois: 24,
   decoupageParTechnologie: false,

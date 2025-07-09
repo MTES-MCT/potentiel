@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../..';
 
@@ -12,6 +13,7 @@ export type PasserEnInstructionAbandonUseCase = Message<
     dateInstructionValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
+    rôleUtilisateurValue: string;
   }
 >;
 
@@ -20,10 +22,12 @@ export const registerPasserEnInstructionAbandonUseCase = () => {
     dateInstructionValue,
     identifiantProjetValue,
     identifiantUtilisateurValue,
+    rôleUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateInstruction = DateTime.convertirEnValueType(dateInstructionValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<PasserAbandonEnInstructionCommand>({
       type: 'Lauréat.Abandon.Command.PasserAbandonEnInstruction',
@@ -31,6 +35,7 @@ export const registerPasserEnInstructionAbandonUseCase = () => {
         dateInstruction,
         identifiantProjet,
         identifiantUtilisateur,
+        rôleUtilisateur,
       },
     });
   };

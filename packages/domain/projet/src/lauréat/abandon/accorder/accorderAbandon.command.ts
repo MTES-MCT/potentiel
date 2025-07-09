@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
@@ -12,6 +13,7 @@ export type AccorderAbandonCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
+    rôleUtilisateur: Role.ValueType;
   }
 >;
 
@@ -21,6 +23,7 @@ export const registerAccorderAbandonCommand = (getProjetAggregateRoot: GetProjet
     identifiantUtilisateur,
     identifiantProjet,
     réponseSignée,
+    rôleUtilisateur,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -28,6 +31,7 @@ export const registerAccorderAbandonCommand = (getProjetAggregateRoot: GetProjet
       dateAccord,
       identifiantUtilisateur,
       réponseSignée,
+      rôleUtilisateur,
     });
   };
   mediator.register('Lauréat.Abandon.Command.AccorderAbandon', handler);

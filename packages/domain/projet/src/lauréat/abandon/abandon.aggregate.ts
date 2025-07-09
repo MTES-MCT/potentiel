@@ -8,6 +8,7 @@ import { IdentifiantProjet, Lauréat } from '../..';
 
 import {
   AbandonConfirméEvent,
+  AutoritéCompétente,
   ConfirmationAbandonDemandéeEvent,
   PreuveRecandidatureDemandéeEvent,
   PreuveRecandidatureTransmiseEvent,
@@ -55,6 +56,12 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
   };
 
+  get autoritéCompétente(): AutoritéCompétente.ValueType {
+    return AutoritéCompétente.convertirEnValueType(
+      this.lauréat.projet.appelOffre.abandon.autoritéCompétente,
+    );
+  }
+
   get statut() {
     return this.#statut;
   }
@@ -95,8 +102,14 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.publish(event);
   }
 
-  async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
+  async accorder({
+    dateAccord,
+    identifiantUtilisateur,
+    réponseSignée,
+    rôleUtilisateur,
+  }: AccorderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     const event: AbandonAccordéEvent = {
       type: 'AbandonAccordé-V1',
@@ -210,10 +223,12 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     dateDemande,
     identifiantUtilisateur,
     réponseSignée,
+    rôleUtilisateur,
   }: DemanderConfirmationOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       Lauréat.Abandon.StatutAbandon.confirmationDemandée,
     );
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     const event: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent = {
       type: 'ConfirmationAbandonDemandée-V1',
@@ -247,10 +262,15 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.publish(event);
   }
 
-  async passerEnInstruction({ dateInstruction, identifiantUtilisateur }: InstruireOptions) {
+  async passerEnInstruction({
+    dateInstruction,
+    identifiantUtilisateur,
+    rôleUtilisateur,
+  }: InstruireOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       Lauréat.Abandon.StatutAbandon.enInstruction,
     );
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     if (this.#demande?.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
       throw new AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError();
@@ -283,8 +303,14 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.publish(event);
   }
 
-  async rejeter({ identifiantUtilisateur, dateRejet, réponseSignée }: RejeterOptions) {
+  async rejeter({
+    identifiantUtilisateur,
+    dateRejet,
+    réponseSignée,
+    rôleUtilisateur,
+  }: RejeterOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.rejeté);
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     const event: Lauréat.Abandon.AbandonRejetéEvent = {
       type: 'AbandonRejeté-V1',

@@ -2,6 +2,7 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -56,20 +57,23 @@ Quand(`le porteur annule l'abandon pour le projet lauréat`, async function (thi
 });
 
 Quand(
-  `le DGEC validateur rejette l'abandon pour le projet lauréat`,
-  async function (this: PotentielWorld) {
+  /(.*) rejette l'abandon pour le projet lauréat/,
+  async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+
       const { rejetéeLe, rejetéePar, réponseSignée } =
         this.lauréatWorld.abandonWorld.rejeterAbandonFixture.créer({
-          rejetéePar: this.utilisateurWorld.validateurFixture.email,
+          rejetéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
         });
 
       await mediator.send<Lauréat.Abandon.RejeterAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
+          rôleUtilisateurValue: rôle,
           dateRejetValue: rejetéeLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: rejetéePar,
@@ -82,13 +86,17 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur accorde l'abandon pour le projet lauréat`,
-  async function (this: PotentielWorld) {
+  /(.*) accorde l'abandon pour le projet lauréat/,
+  async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+
       const { accordéeLe, accordéePar, réponseSignée } =
-        this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer();
+        this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
+          accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+        });
 
       if (this.lauréatWorld.abandonWorld.demanderAbandonFixture.recandidature) {
         this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
@@ -103,6 +111,7 @@ Quand(
           dateAccordValue: accordéeLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: accordéePar,
+          rôleUtilisateurValue: rôle,
         },
       });
     } catch (error) {
@@ -112,13 +121,17 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur demande une confirmation d'abandon pour le projet lauréat`,
-  async function (this: PotentielWorld) {
+  /(.*) demande une confirmation d'abandon pour le projet lauréat/,
+  async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+
       const { confirmationDemandéeLe, confirmationDemandéePar, réponseSignée } =
-        this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.créer();
+        this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.créer({
+          confirmationDemandéePar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
+        });
 
       await mediator.send<Lauréat.Abandon.DemanderConfirmationAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
@@ -127,6 +140,7 @@ Quand(
           dateDemandeValue: confirmationDemandéeLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: confirmationDemandéePar,
+          rôleUtilisateurValue: rôle,
         },
       });
     } catch (error) {
@@ -161,19 +175,20 @@ Quand(
 );
 
 Quand(
-  /(.*)administrateur passe en instruction l'abandon pour le projet lauréat/,
-  async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
+  /(.*) passe en instruction l'abandon pour le projet lauréat/,
+  async function (this: PotentielWorld, rôleUtilisateur: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
-      if (estUnNouvelAdmin) {
+      const rôle = rôleUtilisateur.toLowerCase() === 'la dreal' ? Role.dreal.nom : Role.admin.nom;
+
+      if (rôleUtilisateur === 'un nouvel administrateur') {
         this.utilisateurWorld.adminFixture.créer();
       }
 
       const { passéEnInstructionLe, passéEnInstructionPar } =
         this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer({
-          passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+          passéEnInstructionPar: this.utilisateurWorld.récupérerEmailSelonRôle(rôle),
         });
 
       await mediator.send<Lauréat.Abandon.PasserEnInstructionAbandonUseCase>({
@@ -182,6 +197,7 @@ Quand(
           identifiantProjetValue: identifiantProjet,
           dateInstructionValue: passéEnInstructionLe,
           identifiantUtilisateurValue: passéEnInstructionPar,
+          rôleUtilisateurValue: rôle,
         },
       });
     } catch (error) {
