@@ -6,6 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { Candidature } from '..';
+import { isFonctionnalitéDélaiActivée } from '../isFonctionnalitéDélaiActivée';
 
 import { LauréatEvent } from './lauréat.event';
 import {
@@ -209,7 +210,9 @@ export class LauréatAggregate extends AbstractAggregate<
       identifiantUtilisateur: notifiéePar,
     });
 
-    await this.achèvement.calculerDatePrévisionnelle();
+    if (isFonctionnalitéDélaiActivée()) {
+      await this.achèvement.calculerDatePrévisionnelle();
+    }
   }
 
   async modifier({
