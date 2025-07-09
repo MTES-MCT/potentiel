@@ -38,10 +38,10 @@ export type ConsulterLauréatReadModel = {
   volumeRéservé?: VolumeRéservé.ValueType;
   attestationDésignation?: DocumentProjet.ValueType;
 } & Pick<
-  Candidature.ConsulterCandidatureReadModel,
+  Candidature.Dépôt.ValueType,
   // on ne sélectionne que des propriétés non modifiables de Candidature
   // Pour des propriétés modifiables comme la puissance, on utilisera ConsulterPuissance
-  'emailContact' | 'nomCandidat' | 'unitéPuissance' | 'prixReference' | 'coefficientKChoisi'
+  'emailContact' | 'nomCandidat' | 'prixReference' | 'coefficientKChoisi'
 >;
 
 export type ConsulterLauréatQuery = Message<
@@ -134,11 +134,11 @@ const mapToReadModel: MapToReadModel = (
   statut,
 
   volumeRéservé: candidature.volumeRéservé,
-  technologie: candidature.technologie,
+  technologie: candidature.dépôt.technologie,
   unitéPuissance: candidature.unitéPuissance,
-  emailContact: candidature.emailContact,
-  nomCandidat: candidature.nomCandidat,
-  prixReference: candidature.prixReference,
-  coefficientKChoisi: candidature.coefficientKChoisi,
+  emailContact: candidature.dépôt.emailContact,
+  nomCandidat: candidature.dépôt.nomCandidat,
+  prixReference: candidature.dépôt.prixReference,
+  coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
   attestationDésignation: candidature.notification?.attestation,
 });

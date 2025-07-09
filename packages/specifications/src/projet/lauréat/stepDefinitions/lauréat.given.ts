@@ -13,7 +13,7 @@ import { importerCandidature } from '../../../candidature/stepDefinitions/candid
 import { choisirCahierDesCharges } from './lauréat.when';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
-  await importerCandidature.call(this, nomProjet, 'classé');
+  await importerCandidature.call(this, { nomProjet, statut: 'classé' });
 
   const dateDésignation = this.lauréatWorld.dateDésignation;
 
@@ -25,12 +25,11 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
 
-    await importerCandidature.call(
-      this,
+    await importerCandidature.call(this, {
       nomProjet,
-      'classé',
-      this.candidatureWorld.mapExempleToFixtureValues(exemple),
-    );
+      statut: 'classé',
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    });
 
     const dateDésignation = this.lauréatWorld.dateDésignation;
 
@@ -44,13 +43,16 @@ EtantDonné(
     try {
       const dateDésignation = this.lauréatWorld.dateDésignation;
 
-      await importerCandidature.call(this, nomProjet, 'classé', {
-        // PPE2 Innvation n'est pas soumis aux GF,
+      await importerCandidature.call(this, {
+        nomProjet,
+        statut: 'classé',
+        dépôt: { typeGarantiesFinancières: undefined, dateÉchéanceGf: undefined },
+        // PPE2 Innovation n'est pas soumis aux GF,
         // donc permet l'import d'une candidature sans type de GF
-        appelOffreValue: 'PPE2 - Innovation',
-        périodeValue: '1',
-        typeGarantiesFinancièresValue: undefined,
-        dateÉchéanceGfValue: undefined,
+        identifiantProjet: {
+          appelOffre: 'PPE2 - Innovation',
+          période: '1',
+        },
       });
 
       await notifierLauréat.call(this, dateDésignation);
@@ -65,7 +67,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
     const dateDésignation = new Date(dateNotification).toISOString();
 
-    await importerCandidature.call(this, nomProjet, 'classé');
+    await importerCandidature.call(this, { nomProjet, statut: 'classé' });
 
     await notifierLauréat.call(this, dateDésignation);
   },

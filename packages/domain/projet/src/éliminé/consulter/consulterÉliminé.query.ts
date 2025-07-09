@@ -8,7 +8,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ÉliminéEntity } from '../éliminé.entity';
 import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
-import { CandidatureEntity } from '../../candidature';
+import { CandidatureEntity, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
 
 export type ConsulterÉliminéReadModel = {
@@ -17,13 +17,13 @@ export type ConsulterÉliminéReadModel = {
   notifiéPar: Email.ValueType;
   statut: StatutProjet.ValueType;
   attestationDésignation?: DocumentProjet.ValueType;
+  unitéPuissance: UnitéPuissance.ValueType;
 } & Pick<
-  Candidature.ConsulterCandidatureReadModel,
+  Candidature.Dépôt.ValueType,
   | 'emailContact'
   | 'localité'
   | 'nomProjet'
   | 'nomCandidat'
-  | 'unitéPuissance'
   | 'puissanceProductionAnnuelle'
   | 'prixReference'
   | 'nomReprésentantLégal'
@@ -86,14 +86,14 @@ const mapToReadModel: MapToReadModel = (
   notifiéPar: Email.convertirEnValueType(notifiéPar),
   statut: StatutProjet.éliminé,
 
-  localité: candidature.localité,
-  nomProjet: candidature.nomProjet,
-  nomCandidat: candidature.nomCandidat,
-  emailContact: candidature.emailContact,
-  nomReprésentantLégal: candidature.nomReprésentantLégal,
-  sociétéMère: candidature.sociétéMère,
-  prixReference: candidature.prixReference,
-  puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
+  localité: candidature.dépôt.localité,
+  nomProjet: candidature.dépôt.nomProjet,
+  nomCandidat: candidature.dépôt.nomCandidat,
+  emailContact: candidature.dépôt.emailContact,
+  nomReprésentantLégal: candidature.dépôt.nomReprésentantLégal,
+  sociétéMère: candidature.dépôt.sociétéMère,
+  prixReference: candidature.dépôt.prixReference,
+  puissanceProductionAnnuelle: candidature.dépôt.puissanceProductionAnnuelle,
   unitéPuissance: candidature.unitéPuissance,
   attestationDésignation: candidature.notification?.attestation,
 });

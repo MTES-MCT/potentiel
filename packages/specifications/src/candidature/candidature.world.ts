@@ -2,6 +2,7 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { PlainType } from '@potentiel-domain/core';
 
 import { DeepPartial } from '../fixture';
 
@@ -11,6 +12,7 @@ import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixtu
 type MapExempleToFixtureValuesProps = {
   dépôt: DeepPartial<Candidature.Dépôt.RawType>;
   instruction: DeepPartial<Candidature.Instruction.RawType>;
+  identifiantProjet: Partial<PlainType<IdentifiantProjet.ValueType>>;
 };
 
 export class CandidatureWorld {
@@ -105,7 +107,16 @@ export class CandidatureWorld {
     if (exemple['coefficient K choisi'] != undefined) {
       clearedDépôt.coefficientKChoisi = mapOptionalBoolean(exemple['coefficient K choisi']);
     }
+
+    const identifiantProjet: MapExempleToFixtureValuesProps['identifiantProjet'] = {
+      appelOffre: exemple["appel d'offre"],
+      période: exemple['période'],
+      famille: exemple['famille'],
+      numéroCRE: exemple['numéro CRE'],
+    };
+
     return {
+      identifiantProjet,
       dépôt: clearedDépôt,
       instruction: clearedInstruction,
     };
