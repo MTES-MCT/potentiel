@@ -13,8 +13,12 @@ Quand(
   `le DGEC validateur importe la candidature {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
-    const { dépôt, instruction } = this.candidatureWorld.mapExempleToFixtureValues(exemple);
-    await importerCandidature.call(this, nomProjet, 'classé', dépôt, instruction);
+
+    await importerCandidature.call(this, {
+      nomProjet,
+      statut: 'classé',
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    });
   },
 );
 

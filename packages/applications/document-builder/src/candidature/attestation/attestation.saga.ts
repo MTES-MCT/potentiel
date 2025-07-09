@@ -5,7 +5,6 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Email } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
@@ -174,24 +173,9 @@ const mapCorrectionToCandidature = (
   payload: Candidature.CandidatureCorrigéeEvent['payload'],
   appelOffres: AppelOffre.AppelOffreReadModel,
 ): BuildCertificateProps['candidature'] => ({
-  emailContact: Email.convertirEnValueType(payload.emailContact),
-  evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
-  localité: payload.localité,
-  nomCandidat: payload.nomCandidat,
-  nomProjet: payload.nomProjet,
-  nomReprésentantLégal: payload.nomReprésentantLégal,
-  noteTotale: payload.noteTotale,
-  prixReference: payload.prixReference,
-  puissanceALaPointe: payload.puissanceALaPointe,
-  puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
-  motifÉlimination: payload.motifÉlimination,
   identifiantProjet: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
-  statut: Candidature.StatutCandidature.convertirEnValueType(payload.statut),
-  technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie),
-  actionnariat: payload.actionnariat
-    ? Candidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
-    : undefined,
-  coefficientKChoisi: payload.coefficientKChoisi,
+  dépôt: Candidature.Dépôt.convertirEnValueType(payload),
+  instruction: Candidature.Instruction.convertirEnValueType(payload),
   unitéPuissance: Candidature.UnitéPuissance.déterminer({
     appelOffres,
     période: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet).période,

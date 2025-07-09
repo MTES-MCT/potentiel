@@ -11,31 +11,31 @@ import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import { IdentifiantProjet } from '../..';
-import { UnitéPuissance } from '..';
+import { Dépôt, UnitéPuissance } from '..';
 import { Fournisseur } from '../../lauréat/fournisseur';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
-  nomProjet: ConsulterCandidatureReadModel['nomProjet'];
-  nomCandidat: ConsulterCandidatureReadModel['nomCandidat'];
-  nomReprésentantLégal: ConsulterCandidatureReadModel['nomReprésentantLégal'];
-  emailContact: ConsulterCandidatureReadModel['emailContact'];
+  nomProjet: Dépôt.ValueType['nomProjet'];
+  nomCandidat: Dépôt.ValueType['nomCandidat'];
+  nomReprésentantLégal: Dépôt.ValueType['nomReprésentantLégal'];
+  emailContact: Dépôt.ValueType['emailContact'];
   puissanceProductionAnnuelle: number;
-  prixReference: ConsulterCandidatureReadModel['prixReference'];
-  evaluationCarboneSimplifiée: ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
-  actionnariat: ConsulterCandidatureReadModel['actionnariat'];
+  prixReference: Dépôt.ValueType['prixReference'];
+  evaluationCarboneSimplifiée: Dépôt.ValueType['evaluationCarboneSimplifiée'];
+  actionnariat: Dépôt.ValueType['actionnariat'];
   typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   localité: {
-    commune: ConsulterCandidatureReadModel['localité']['commune'];
-    département: ConsulterCandidatureReadModel['localité']['département'];
-    région: ConsulterCandidatureReadModel['localité']['région'];
+    commune: Dépôt.ValueType['localité']['commune'];
+    département: Dépôt.ValueType['localité']['département'];
+    région: Dépôt.ValueType['localité']['région'];
   };
   détailsImport: ConsulterCandidatureReadModel['détailsImport'];
   estNotifiée: boolean;
   attestation?: DocumentProjet.ValueType;
   sociétéMère: String;
-  fournisseurs: ConsulterCandidatureReadModel['fournisseurs'];
+  fournisseurs: Dépôt.ValueType['fournisseurs'];
   unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];
 };
 

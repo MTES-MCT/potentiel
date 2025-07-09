@@ -1,7 +1,6 @@
 # language: fr
 Fonctionnalité: Importer une candidature
 
-    @select
     Plan du scénario: Importer une candidature
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut | <Statut> |
@@ -21,6 +20,7 @@ Fonctionnalité: Importer une candidature
             | obligation de solarisation   | oui     |
         Alors la candidature devrait être consultable
 
+    # @select
     Scénario: Impossible d'importer 2 fois la même candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -47,6 +47,7 @@ Fonctionnalité: Importer une candidature
             | famille | 812    |
         Alors l'administrateur devrait être informé que "La famille de période d'appel d'offre spécifiée n'existe pas"
 
+    @select
     Scénario: Impossible d'importer une candidature sans GF, pour un AO soumis aux GF
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut        | classé          |
@@ -83,7 +84,7 @@ Fonctionnalité: Importer une candidature
             | famille       |                             |
         Alors l'administrateur devrait être informé que "Cette période est obsolète et ne peut être importée"
 
-    @select
+    # @select
     Scénario: Impossible d'importer une candidature avec choix du coefficient K si la période ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut               | classé          |

@@ -2,6 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
@@ -12,29 +13,32 @@ EtantDonné(
   `la candidature lauréate {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    const { dépôt, instruction } = this.candidatureWorld.mapExempleToFixtureValues(exemple);
-    await importerCandidature.call(this, nomProjet, 'classé', dépôt, instruction);
+    await importerCandidature.call(this, {
+      nomProjet,
+      statut: 'classé',
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    });
   },
 );
 
 EtantDonné(
   `la candidature éliminée {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'éliminé');
+    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
   },
 );
 
 EtantDonné(
   `la candidature lauréate {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'classé');
+    await importerCandidature.call(this, { nomProjet, statut: 'classé' });
   },
 );
 
 EtantDonné(
   'la candidature lauréate notifiée {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'classé');
+    await importerCandidature.call(this, { nomProjet, statut: 'classé' });
 
     const dateDésignation = this.lauréatWorld.dateDésignation;
 
@@ -45,7 +49,7 @@ EtantDonné(
 EtantDonné(
   'la candidature éliminée notifiée {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'éliminé');
+    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
 
     const dateDésignation = this.éliminéWorld.dateDésignation;
 
@@ -53,15 +57,26 @@ EtantDonné(
   },
 );
 
+type ImporterCandidatureProps = {
+  nomProjet: string;
+  statut: Candidature.StatutCandidature.RawType;
+  dépôt?: Omit<DeepPartial<Candidature.Dépôt.RawType>, 'fournisseurs'>;
+  instruction?: DeepPartial<Candidature.Instruction.RawType>;
+  identifiantProjet?: Partial<PlainType<IdentifiantProjet.ValueType>>;
+};
 export async function importerCandidature(
   this: PotentielWorld,
-  nomProjet: string,
-  statut: Candidature.StatutCandidature.RawType,
-  dépôt?: Omit<DeepPartial<Candidature.Dépôt.RawType>, 'fournisseurs'>,
-  instruction?: DeepPartial<Candidature.Instruction.RawType>,
+  {
+    nomProjet,
+    statut,
+    dépôt,
+    identifiantProjet: identifiantProjetValue,
+    instruction,
+  }: ImporterCandidatureProps,
 ) {
   const { dépôtValue, détailsValue, identifiantProjet, importéLe, importéPar, instructionValue } =
     this.candidatureWorld.importerCandidature.créer({
+      identifiantProjet: identifiantProjetValue,
       dépôt: {
         ...dépôt,
         nomProjet,
@@ -76,18 +91,22 @@ export async function importerCandidature(
   const { appelOffre, période, famille, numéroCRE } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-  await mediator.send<Candidature.ImporterCandidatureUseCase>({
-    type: 'Candidature.UseCase.ImporterCandidature',
-    data: {
-      appelOffreValue: appelOffre,
-      périodeValue: période,
-      familleValue: famille,
-      numéroCREValue: numéroCRE,
-      dépôtValue,
-      détailsValue,
-      importéLe,
-      importéPar,
-      instructionValue,
-    },
-  });
+  try {
+    await mediator.send<Candidature.ImporterCandidatureUseCase>({
+      type: 'Candidature.UseCase.ImporterCandidature',
+      data: {
+        appelOffreValue: appelOffre,
+        périodeValue: période,
+        familleValue: famille,
+        numéroCREValue: numéroCRE,
+        dépôtValue,
+        détailsValue,
+        importéLe,
+        importéPar,
+        instructionValue,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
 }

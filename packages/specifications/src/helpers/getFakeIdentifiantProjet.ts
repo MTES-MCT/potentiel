@@ -40,7 +40,7 @@ export const getFakeIdentifiantProjet = (props: GetFakeIdentifiantProjetProps = 
   }
 
   const famille = props.famille
-    ? période.familles.find((f) => f.id === props.famille)?.id
+    ? props.famille
     : période.familles.length > 0
       ? faker.helpers.maybe(() => faker.helpers.arrayElement(période.familles))?.id
       : undefined;

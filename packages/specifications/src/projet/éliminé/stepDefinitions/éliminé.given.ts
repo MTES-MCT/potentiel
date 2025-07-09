@@ -10,11 +10,7 @@ import { importerCandidature } from '../../../candidature/stepDefinitions/candid
 import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
-  // un projet éliminé a rarement ces informations lors d'un import de candidature
-  await importerCandidature.call(this, nomProjet, 'éliminé', {
-    typeGarantiesFinancières: undefined,
-    dateÉchéanceGf: undefined,
-  });
+  await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
 
   const dateDésignation = this.éliminéWorld.dateDésignation;
 
@@ -25,19 +21,11 @@ EtantDonné(
   'le projet éliminé {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    const { dépôt, instruction } = this.candidatureWorld.mapExempleToFixtureValues(exemple);
-    // un projet éliminé a rarement ces informations lors d'un import de candidature
-    await importerCandidature.call(
-      this,
+    await importerCandidature.call(this, {
       nomProjet,
-      'éliminé',
-      {
-        ...dépôt,
-        typeGarantiesFinancières: undefined,
-        dateÉchéanceGf: undefined,
-      },
-      instruction,
-    );
+      statut: 'éliminé',
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    });
 
     const dateDésignation = this.éliminéWorld.dateDésignation;
 
@@ -63,7 +51,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
     const dateDésignation = new Date(dateNotification).toISOString();
 
-    await importerCandidature.call(this, nomProjet, 'éliminé');
+    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
 
     await notifierÉliminé.call(this, dateDésignation);
   },
