@@ -15,9 +15,9 @@ import { sleep } from '../../helpers/sleep';
 Alors(`la candidature devrait être consultable`, async function (this: PotentielWorld) {
   const { identifiantProjet } = this.candidatureWorld.importerCandidature;
 
-  const expectedDétails = this.candidatureWorld.corrigerCandidature.aÉtéCréé
-    ? this.candidatureWorld.corrigerCandidature.détailsValue
-    : this.candidatureWorld.importerCandidature.détailsValue;
+  const expectedDétails =
+    this.candidatureWorld.corrigerCandidature.détailsValue ??
+    this.candidatureWorld.importerCandidature.détailsValue;
 
   await waitForExpect(async () => {
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({

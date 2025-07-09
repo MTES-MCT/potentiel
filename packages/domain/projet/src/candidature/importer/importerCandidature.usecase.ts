@@ -11,10 +11,7 @@ import { ImporterCandidatureCommand } from './importerCandidature.command';
 export type ImporterCandidatureUseCase = Message<
   'Candidature.UseCase.ImporterCandidature',
   {
-    appelOffreValue: string;
-    périodeValue: string;
-    familleValue: string;
-    numéroCREValue: string;
+    identifiantProjetValue: string;
 
     dépôtValue: Dépôt.RawType;
     instructionValue: Instruction.RawType;
@@ -28,7 +25,7 @@ export type ImporterCandidatureUseCase = Message<
 export const registerImporterCandidatureUseCase = () => {
   const handler: MessageHandler<ImporterCandidatureUseCase> = async (message) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      `${message.appelOffreValue}#${message.périodeValue}#${message.familleValue}#${message.numéroCREValue}`,
+      message.identifiantProjetValue,
     );
     const importéLe = DateTime.convertirEnValueType(message.importéLe);
 

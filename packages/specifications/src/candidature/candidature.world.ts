@@ -4,16 +4,18 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { PlainType } from '@potentiel-domain/core';
 
-import { DeepPartial } from '../fixture';
+import {
+  FieldToExempleMapper,
+  mapBoolean,
+  mapDateTime,
+  mapNumber,
+  mapOptionalBoolean,
+  mapToExemple,
+  mapValueType,
+} from '../helpers/exempleMapper';
 
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
 import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
-
-type MapExempleToFixtureValuesProps = {
-  dépôt: DeepPartial<Candidature.Dépôt.RawType>;
-  instruction: DeepPartial<Candidature.Instruction.RawType>;
-  identifiantProjet: Partial<PlainType<IdentifiantProjet.ValueType>>;
-};
 
 export class CandidatureWorld {
   #importerCandidature: ImporterCandidatureFixture;
@@ -32,93 +34,19 @@ export class CandidatureWorld {
     this.#corrigerCandidature = new CorrigerCandidatureFixture();
   }
 
-  mapExempleToFixtureValues(exemple: Record<string, string>): MapExempleToFixtureValuesProps {
-    const removeEmptyValues = <T extends object>(obj: T) =>
-      Object.fromEntries(
-        Object.entries(obj).filter(([, val]) => typeof val !== 'undefined'),
-      ) as Partial<T>;
-    const mapBoolean = (val: string) => (val ? val === 'oui' : undefined);
-    const mapOptionalBoolean = (val: string) =>
-      val === 'oui' ? true : val === 'non' ? false : undefined;
-    const mapNumber = (val: string) => (val ? Number(val) : undefined);
-    const mapDate = (val: string) =>
-      val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined;
-    const mapValueType = <TValueType extends { formatter(): TRaw }, TRaw extends string>(
-      val: string | undefined,
-      convertirEnValueType: (val: string) => TValueType,
-    ): TRaw | undefined => (val ? convertirEnValueType(val).formatter() : undefined);
-
-    const localitéValue = removeEmptyValues({
-      adresse1: exemple['adresse 1'],
-      adresse2: exemple['adresse 2'],
-      codePostal: exemple['code postal'],
-      commune: exemple['commune'],
-      région: exemple['région'],
-      département: exemple['département'],
-    });
-
-    const clearedInstruction: MapExempleToFixtureValuesProps['instruction'] = removeEmptyValues({
-      statutValue: exemple['statut'],
-      motifÉlimination: exemple["motif d'élimination"],
-      noteTotaleValue: mapNumber(exemple['note totale']),
-    });
-    const clearedDépôt: MapExempleToFixtureValuesProps['dépôt'] = removeEmptyValues({
-      typeGarantiesFinancières: mapValueType(
-        exemple['type GF'],
-        Candidature.TypeGarantiesFinancières.convertirEnValueType,
-      ),
-      nomCandidat: exemple['nom candidat'],
-      technologie: mapValueType(
-        exemple['technologie'],
-        Candidature.TypeTechnologie.convertirEnValueType,
-      ),
-      emailContact: exemple['email contact'],
-      localité: Object.keys(localitéValue).length > 0 ? localitéValue : undefined,
-      puissanceÀLaPointe: mapBoolean(exemple['puissance à la pointe']),
-      sociétéMère: exemple['société mère'],
-      territoireProjet: exemple['territoire projet'],
-      dateÉchéanceGf: mapDate(exemple["date d'échéance"]),
-      historiqueAbandon: mapValueType(
-        exemple['historique abandon'],
-        Candidature.HistoriqueAbandon.convertirEnValueType,
-      ),
-      puissanceProductionAnnuelle: mapNumber(exemple['puissance production annuelle']),
-      prixRéférence: mapNumber(exemple['prix reference']),
-      nomReprésentantLégal: exemple['nomReprésentant légal'],
-      évaluationCarboneSimplifiée: mapNumber(exemple['evaluation carbone simplifiée']),
-      typeActionnariat: mapValueType(
-        exemple['actionnariat'],
-        Candidature.TypeActionnariat.convertirEnValueType,
-      ),
-      typeInstallationsAgrivoltaiques: mapValueType(
-        exemple['installations agrivoltaïques'],
-        Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType,
-      ),
-      élémentsSousOmbrière: exemple['éléments sous ombrière'],
-      typologieDeBâtiment: mapValueType(
-        exemple['typologie de bâtiment'],
-        Candidature.TypologieBâtiment.convertirEnValueType,
-      ),
-      obligationDeSolarisation: mapBoolean(exemple['obligation de solarisation']),
-      fournisseurs: [],
-    });
-
-    // gérer coefficient K choisi qui, s'il est renseigné, peut être oui, non ou vide
-    if (exemple['coefficient K choisi'] != undefined) {
-      clearedDépôt.coefficientKChoisi = mapOptionalBoolean(exemple['coefficient K choisi']);
-    }
-
-    const identifiantProjet: MapExempleToFixtureValuesProps['identifiantProjet'] = {
-      appelOffre: exemple["appel d'offre"],
-      période: exemple['période'],
-      famille: exemple['famille'],
-      numéroCRE: exemple['numéro CRE'],
-    };
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    const dépôt = mapToExemple(exemple, dépôtExempleMap);
+    const instruction = mapToExemple(exemple, instructionExempleMap);
+    const identifiantProjet = mapToExemple(exemple, identifiantProjetExempleMap);
+    const localité = mapToExemple(exemple, localitéExempleMap);
 
     return {
       identifiantProjet,
-      dépôt: clearedDépôt,
-      instruction: clearedInstruction,
+      dépôt: {
+        ...dépôt,
+        localité,
+      },
+      instruction,
     };
   }
 
@@ -178,3 +106,62 @@ export class CandidatureWorld {
     return expected;
   }
 }
+
+const dépôtExempleMap: FieldToExempleMapper<
+  Omit<Candidature.Dépôt.RawType, 'localité' | 'fournisseurs'>
+> = {
+  typeGarantiesFinancières: [
+    'type GF',
+    mapValueType(Candidature.TypeGarantiesFinancières.convertirEnValueType),
+  ],
+  technologie: ['technologie', mapValueType(Candidature.TypeTechnologie.convertirEnValueType)],
+  historiqueAbandon: [
+    'historique abandon',
+    mapValueType(Candidature.HistoriqueAbandon.convertirEnValueType),
+  ],
+  actionnariat: ['actionnariat', mapValueType(Candidature.TypeActionnariat.convertirEnValueType)],
+  typeInstallationsAgrivoltaiques: [
+    'installations agrivoltaïques',
+    mapValueType(Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType),
+  ],
+  typologieDeBâtiment: [
+    'typologie de bâtiment',
+    mapValueType(Candidature.TypologieBâtiment.convertirEnValueType),
+  ],
+  nomProjet: ['nom projet'],
+  nomCandidat: ['nom candidat'],
+  emailContact: ['email contact'],
+  sociétéMère: ['société mère'],
+  territoireProjet: ['territoire projet'],
+  nomReprésentantLégal: ['nomReprésentant légal'],
+  élémentsSousOmbrière: ['éléments sous ombrière'],
+  dateÉchéanceGf: ["date d'échéance", mapDateTime],
+  puissanceProductionAnnuelle: ['puissance production annuelle', mapNumber],
+  prixReference: ['prix reference', mapNumber],
+  evaluationCarboneSimplifiée: ['evaluation carbone simplifiée', mapNumber],
+  puissanceALaPointe: ['puissance à la pointe', mapBoolean],
+  obligationDeSolarisation: ['obligation de solarisation', mapOptionalBoolean],
+  coefficientKChoisi: ['coefficient K choisi', mapOptionalBoolean],
+};
+
+const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction.RawType> = {
+  statut: ['statut', mapValueType(Candidature.StatutCandidature.convertirEnValueType)],
+  motifÉlimination: ["motif d'élimination", (val) => val],
+  noteTotale: ['note totale', mapNumber],
+};
+
+const identifiantProjetExempleMap: FieldToExempleMapper<PlainType<IdentifiantProjet.ValueType>> = {
+  appelOffre: ["appel d'offre"],
+  période: ['période'],
+  famille: ['famille'],
+  numéroCRE: ['numéro CRE'],
+};
+
+const localitéExempleMap: FieldToExempleMapper<Candidature.Localité.RawType> = {
+  adresse1: ['adresse 1'],
+  adresse2: ['adresse 2'],
+  codePostal: ['code postal'],
+  commune: ['commune'],
+  région: ['région'],
+  département: ['département'],
+};

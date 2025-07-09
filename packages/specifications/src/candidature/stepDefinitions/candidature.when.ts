@@ -56,12 +56,14 @@ Quand(
 export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
   const changedValues = this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {});
 
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-    this.candidatureWorld.importerCandidature.identifiantProjet,
-  );
-  const { dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
+  const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
     this.candidatureWorld.corrigerCandidature.créer({
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantProjet: {
+        ...IdentifiantProjet.convertirEnValueType(
+          this.candidatureWorld.importerCandidature.identifiantProjet,
+        ),
+        ...changedValues.identifiantProjet,
+      },
       dépôtValue: {
         ...this.candidatureWorld.importerCandidature.dépôtValue,
         ...changedValues.dépôt,
@@ -85,10 +87,7 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     await mediator.send<Candidature.CorrigerCandidatureUseCase>({
       type: 'Candidature.UseCase.CorrigerCandidature',
       data: {
-        appelOffreValue: identifiantProjet.appelOffre,
-        périodeValue: identifiantProjet.période,
-        familleValue: identifiantProjet.famille,
-        numéroCREValue: identifiantProjet.numéroCRE,
+        identifiantProjetValue: identifiantProjet,
         dépôtValue,
         instructionValue,
         corrigéLe,
