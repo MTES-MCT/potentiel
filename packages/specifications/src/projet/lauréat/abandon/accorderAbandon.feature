@@ -12,7 +12,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
 
     # à activer lorsqu'un AO avec cette option (ie AO simplifié) existera
     @NotImplemented
-    Scénario: Une dreal peut rejeter l'abandon si elle en a l'autorité
+    Scénario: Une dreal peut accorder l'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | AOS |
             | période       | 1   |
@@ -23,7 +23,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
 
     # à activer lorsqu'un AO avec cette option (ie AO simplifié) existera
     @NotImplemented
-    Scénario: La DGEC peut rejeter l'abandon si l'autorité compétente est la DREAL
+    Scénario: La DGEC peut accorder l'abandon si l'autorité compétente est la DREAL
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | AOS |
             | période       | 1   |
@@ -52,7 +52,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Quand l'administrateur accorde l'abandon pour le projet lauréat
         Alors l'administrateur devrait être informé que "Aucun abandon n'est en cours"
 
-    Scénario: Impossible pour une DREAL de rejeter l'abandon si l'autorité compétente est la DGEC
+    Scénario: Impossible pour une DREAL d'accorder l'abandon si l'autorité compétente est la DGEC
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 8             |
