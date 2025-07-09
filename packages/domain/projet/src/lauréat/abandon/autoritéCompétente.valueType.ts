@@ -13,8 +13,8 @@ export type RawType = (typeof autoritésCompétentes)[number];
 export type ValueType = ReadonlyValueType<{
   autoritéCompétente: RawType;
   formatter(): RawType;
-  estCompétent(role: Role.ValueType): boolean;
-  peutInstruire(role: Role.ValueType): void;
+  estCompétent(rôle: Role.ValueType): boolean;
+  peutInstruire(rôle: Role.ValueType): void;
 }>;
 
 export const bind = ({ autoritéCompétente }: PlainType<ValueType>): ValueType => {
