@@ -86,32 +86,6 @@ Alors(`l'abandon du projet lauréat devrait être confirmé`, async function (th
 });
 
 Alors(
-  `la preuve de recandidature devrait être transmise pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    await waitForExpect(async () =>
-      vérifierAbandon.call(
-        this,
-        this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-        Lauréat.Abandon.StatutAbandon.accordé,
-      ),
-    );
-  },
-);
-
-Alors(
-  `la preuve de recandidature a été demandée au porteur du projet lauréat`,
-  async function (this: PotentielWorld) {
-    await waitForExpect(async () =>
-      vérifierAbandon.call(
-        this,
-        this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-        Lauréat.Abandon.StatutAbandon.accordé,
-      ),
-    );
-  },
-);
-
-Alors(
   `la demande d'abandon du projet lauréat devrait être en instruction`,
   async function (this: PotentielWorld) {
     await waitForExpect(async () =>

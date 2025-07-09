@@ -9,7 +9,6 @@ interface DemanderAbandon {
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
-  readonly recandidature: boolean;
   readonly pièceJustificative?: PièceJustificative;
 }
 
@@ -47,12 +46,6 @@ export class DemanderAbandonFixture
     return this.#raison;
   }
 
-  #recandidature!: boolean;
-
-  get recandidature(): boolean {
-    return this.#recandidature;
-  }
-
   #identifiantProjet!: string;
 
   get identifiantProjet(): string {
@@ -66,25 +59,22 @@ export class DemanderAbandonFixture
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
-      recandidature: false,
       ...partialFixture,
     };
 
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
-    this.#recandidature = fixture.recandidature;
     this.#identifiantProjet = fixture.identifiantProjet;
 
-    if (!fixture.recandidature) {
-      const content = faker.word.words();
-      fixture.pièceJustificative = {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      };
-      this.#format = fixture.pièceJustificative.format;
-      this.#content = content;
-    }
+    const content = faker.word.words();
+    fixture.pièceJustificative = {
+      format: faker.potentiel.fileFormat(),
+      content: convertStringToReadableStream(content),
+    };
+
+    this.#format = fixture.pièceJustificative.format;
+    this.#content = content;
 
     this.aÉtéCréé = true;
     return fixture;

@@ -1,14 +1,9 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { faker } from '@faker-js/faker';
 
-import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-import { importerCandidature } from '../../../../candidature/stepDefinitions/candidature.given';
-import { notifierLauréat } from '../../stepDefinitions/lauréat.given';
 
 EtantDonné(
   /une demande d'abandon en cours pour le projet lauréat/,
@@ -17,117 +12,37 @@ EtantDonné(
   },
 );
 
+EtantDonné(/un abandon accordé pour le projet lauréat/, async function (this: PotentielWorld) {
+  await créerDemandeAbandon.call(this);
+  await créerAccordAbandon.call(this);
+});
+
+EtantDonné(/un abandon rejeté pour le projet lauréat/, async function (this: PotentielWorld) {
+  await créerDemandeAbandon.call(this);
+  await créerRejetAbandon.call(this);
+});
+
 EtantDonné(
-  /une demande d'abandon en cours avec recandidature pour le projet lauréat/,
+  /une confirmation d'abandon demandée pour le projet lauréat/,
   async function (this: PotentielWorld) {
-    await créerDemandeAbandonAvecRecandidature.call(this);
-  },
-);
-
-EtantDonné(
-  /un abandon accordé(.*)pour le projet lauréat/,
-  async function (this: PotentielWorld, etat: string) {
-    const recandidature = etat.includes('avec recandidature');
-
-    if (recandidature) {
-      await créerDemandeAbandonAvecRecandidature.call(this);
-    } else {
-      await créerDemandeAbandon.call(this);
-    }
-    await créerAccordAbandon.call(this);
-
-    if (recandidature) {
-      await créerDemandePreuveRecandidature.call(this);
-    }
-
-    const preuve = etat.includes('avec preuve transmise');
-
-    if (preuve) {
-      await créerPreuveRecandidatureTransmise.call(this);
-    }
-  },
-);
-
-EtantDonné(
-  /un abandon rejeté(.*)pour le projet lauréat/,
-  async function (this: PotentielWorld, etat: string) {
-    if (etat.includes('avec recandidature')) {
-      await créerDemandeAbandonAvecRecandidature.call(this);
-    } else {
-      await créerDemandeAbandon.call(this);
-    }
-    await créerRejetAbandon.call(this);
-  },
-);
-
-EtantDonné(
-  /une confirmation d'abandon demandée(.*)pour le projet lauréat/,
-  async function (this: PotentielWorld, etat: string) {
-    if (etat.includes('avec recandidature')) {
-      await créerDemandeAbandonAvecRecandidature.call(this);
-    } else {
-      await créerDemandeAbandon.call(this);
-    }
+    await créerDemandeAbandon.call(this);
     await créerDemandeConfirmationAbandon.call(this);
   },
 );
 
-EtantDonné(
-  /un abandon confirmé(.*)pour le projet lauréat/,
-  async function (this: PotentielWorld, etat: string) {
-    if (etat.includes('avec recandidature')) {
-      await créerDemandeAbandonAvecRecandidature.call(this);
-    } else {
-      await créerDemandeAbandon.call(this);
-    }
-    await créerDemandeConfirmationAbandon.call(this);
-    await créerConfirmationAbandon.call(this);
-  },
-);
+EtantDonné(/un abandon confirmé pour le projet lauréat/, async function (this: PotentielWorld) {
+  await créerDemandeAbandon.call(this);
+  await créerDemandeConfirmationAbandon.call(this);
+  await créerConfirmationAbandon.call(this);
+});
 
 EtantDonné(
-  /une demande d'abandon en instruction(.*)pour le projet lauréat/,
-  async function (this: PotentielWorld, etat: string) {
-    if (etat.includes('avec recandidature')) {
-      await créerDemandeAbandonAvecRecandidature.call(this);
-    } else {
-      await créerDemandeAbandon.call(this);
-    }
+  /une demande d'abandon en instruction pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    await créerDemandeAbandon.call(this);
     await passerDemandeAbandonEnInstruction.call(this);
   },
 );
-
-async function créerDemandeAbandonAvecRecandidature(this: PotentielWorld) {
-  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-  const { raison, demandéLe, demandéPar, recandidature } =
-    this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
-      identifiantProjet,
-      recandidature: true,
-      // La date de demande d'abandon avec recandidature est forcément antérieure au 31/03/2025
-      demandéLe: faker.date
-        .between({
-          from: '2025-01-01',
-          to: '2025-03-31',
-        })
-        .toISOString(),
-      demandéPar: this.utilisateurWorld.porteurFixture.email,
-    });
-
-  // Comme il est désormais impossible de demander un abandon avec recandidature,
-  // il faut publier manuellement l'event V1 afin de recréer le cas pour les use case accorder, rejeter et preuve de recandidature
-  const event: Lauréat.Abandon.AbandonDemandéEventV1 = {
-    type: 'AbandonDemandé-V1',
-    payload: {
-      identifiantProjet,
-      demandéLe: DateTime.convertirEnValueType(demandéLe).formatter(),
-      demandéPar,
-      raison,
-      recandidature,
-    },
-  };
-  await publish(`abandon|${identifiantProjet}`, event);
-}
 
 async function créerDemandeAbandon(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
@@ -156,15 +71,10 @@ async function créerDemandeAbandon(this: PotentielWorld) {
 
 async function créerAccordAbandon(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-  const { demandéLe, recandidature } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
 
   const { accordéeLe, accordéePar, réponseSignée } =
     this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer({
       accordéePar: this.utilisateurWorld.validateurFixture.email,
-      // dans le contexte d'une recandidature, l'accord a forcément été fait avant le 31/03/2025
-      ...(recandidature
-        ? { accordéeLe: faker.date.between({ from: demandéLe, to: '2025-03-31' }).toISOString() }
-        : {}),
     });
 
   await mediator.send<Lauréat.Abandon.AbandonUseCase>({
@@ -242,53 +152,6 @@ async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
       identifiantProjetValue: identifiantProjet,
       dateInstructionValue: passéEnInstructionLe,
       identifiantUtilisateurValue: passéEnInstructionPar,
-    },
-  });
-}
-
-async function créerDemandePreuveRecandidature(this: PotentielWorld) {
-  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-  const { accordéeLe } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
-
-  const { demandéeLe } =
-    this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
-      demandéeLe: accordéeLe,
-    });
-
-  await mediator.send<Lauréat.Abandon.DemanderPreuveRecandidatureAbandonUseCase>({
-    type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      dateDemandeValue: demandéeLe,
-    },
-  });
-}
-
-async function créerPreuveRecandidatureTransmise(this: PotentielWorld) {
-  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-  const dateDésignation = new Date('2024-01-01').toISOString();
-
-  await importerCandidature.call(this, faker.company.name(), 'classé', {
-    importéLe: dateDésignation,
-  });
-  await notifierLauréat.call(this, dateDésignation);
-
-  const { transmiseLe: dateTransmissionPreuveRecandidature, preuveRecandidature } =
-    this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer({
-      preuveRecandidature: this.candidatureWorld.importerCandidature.identifiantProjet,
-    });
-
-  const { accordéePar } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
-
-  await mediator.send<Lauréat.Abandon.TransmettrePreuveRecandidatureAbandonUseCase>({
-    type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      dateTransmissionPreuveRecandidatureValue: dateTransmissionPreuveRecandidature,
-      preuveRecandidatureValue: preuveRecandidature,
-      identifiantUtilisateurValue: accordéePar,
     },
   });
 }

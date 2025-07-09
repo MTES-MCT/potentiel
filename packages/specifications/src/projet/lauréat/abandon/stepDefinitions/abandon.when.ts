@@ -90,12 +90,6 @@ Quand(
       const { accordéeLe, accordéePar, réponseSignée } =
         this.lauréatWorld.abandonWorld.accorderAbandonFixture.créer();
 
-      if (this.lauréatWorld.abandonWorld.demanderAbandonFixture.recandidature) {
-        this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
-          demandéeLe: accordéeLe,
-        });
-      }
-
       await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
         data: {
@@ -182,68 +176,6 @@ Quand(
           identifiantProjetValue: identifiantProjet,
           dateInstructionValue: passéEnInstructionLe,
           identifiantUtilisateurValue: passéEnInstructionPar,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `le porteur transmet le projet {lauréat-éliminé} {string} comme preuve de recandidature suite à l'abandon du projet`,
-  async function (
-    this: PotentielWorld,
-    statutProjet: 'lauréat' | 'éliminé',
-    nomPreuveRecandidature: string,
-  ) {
-    try {
-      const { identifiantProjet } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
-
-      const { identifiantProjet: identifiantProjetPreuveRecandidature } =
-        statutProjet === 'lauréat'
-          ? this.lauréatWorld.rechercherLauréatFixture(nomPreuveRecandidature)
-          : this.éliminéWorld.rechercherÉliminéFixture(nomPreuveRecandidature);
-
-      const { transmiseLe, transmisePar, preuveRecandidature } =
-        this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer({
-          transmisePar: this.utilisateurWorld.porteurFixture.email,
-          preuveRecandidature: identifiantProjetPreuveRecandidature.formatter(),
-        });
-
-      await mediator.send<Lauréat.Abandon.TransmettrePreuveRecandidatureAbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          preuveRecandidatureValue: preuveRecandidature,
-          identifiantUtilisateurValue: transmisePar,
-          dateTransmissionPreuveRecandidatureValue: transmiseLe,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  /le DGEC validateur demande au porteur du projet de transmettre une preuve de recandidature(.*)/,
-  async function (this: PotentielWorld, dateLimite: string) {
-    try {
-      const { identifiantProjet } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
-
-      const { demandéeLe } =
-        this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
-          demandéeLe: dateLimite.includes('01/07/2025')
-            ? new Date('2025-07-01').toISOString()
-            : new Date().toISOString(),
-        });
-
-      await mediator.send<Lauréat.Abandon.DemanderPreuveRecandidatureAbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          dateDemandeValue: demandéeLe,
         },
       });
     } catch (error) {

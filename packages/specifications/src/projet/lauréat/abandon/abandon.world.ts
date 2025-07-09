@@ -7,9 +7,7 @@ import { AnnulerAbandonFixture } from './fixtures/annulerAbandon.fixture';
 import { ConfirmerAbandonFixture } from './fixtures/confirmerAbandon.fixture';
 import { DemanderAbandonFixture } from './fixtures/demanderAbandon.fixture';
 import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmationAbandon.fixture';
-import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
 import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
-import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture';
 import { PasserAbandonEnInstructionFixture } from './fixtures/passerAbandonEnInstruction.fixture';
 
 export class AbandonWord {
@@ -43,12 +41,6 @@ export class AbandonWord {
     return this.#demanderConfirmationAbandonFixture;
   }
 
-  #demanderPreuveCandidatureAbandonFixture: DemanderPreuveRecandidatureAbandonFixture;
-
-  get demanderPreuveCandidatureAbandonFixture() {
-    return this.#demanderPreuveCandidatureAbandonFixture;
-  }
-
   #rejeterAbandonFixture: RejetAbandonFixture;
 
   get rejeterAbandonFixture() {
@@ -61,23 +53,14 @@ export class AbandonWord {
     return this.#passerEnInstructionAbandonFixture;
   }
 
-  #transmettrePreuveRecandidatureAbandonFixture: TransmettrePreuveRecandidatureAbandonFixture;
-
-  get transmettrePreuveRecandidatureAbandonFixture() {
-    return this.#transmettrePreuveRecandidatureAbandonFixture;
-  }
-
   constructor() {
     this.#accorderAbandonFixture = new AccorderAbandonFixture();
     this.#annulerAbandonFixture = new AnnulerAbandonFixture();
     this.#confirmerAbandonFixture = new ConfirmerAbandonFixture();
     this.#demanderAbandonFixture = new DemanderAbandonFixture();
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
-    this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
     this.#passerEnInstructionAbandonFixture = new PasserAbandonEnInstructionFixture();
-    this.#transmettrePreuveRecandidatureAbandonFixture =
-      new TransmettrePreuveRecandidatureAbandonFixture();
   }
 
   reinitialiserEnDemande() {
@@ -85,11 +68,8 @@ export class AbandonWord {
     this.#annulerAbandonFixture = new AnnulerAbandonFixture();
     this.#confirmerAbandonFixture = new ConfirmerAbandonFixture();
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
-    this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
     this.#passerEnInstructionAbandonFixture = new PasserAbandonEnInstructionFixture();
-    this.#transmettrePreuveRecandidatureAbandonFixture =
-      new TransmettrePreuveRecandidatureAbandonFixture();
   }
 
   mapToExpected(
@@ -106,23 +86,10 @@ export class AbandonWord {
       demande: {
         demandéLe: DateTime.convertirEnValueType(this.#demanderAbandonFixture.demandéLe),
         demandéPar: Email.convertirEnValueType(this.#demanderAbandonFixture.demandéPar),
-        estUneRecandidature: this.#demanderAbandonFixture.recandidature,
+        estUneRecandidature: false,
         raison: this.#demanderAbandonFixture.raison,
-        recandidature: this.#demanderAbandonFixture.recandidature
-          ? {
-              statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente,
-            }
-          : undefined,
       },
     };
-
-    if (expected.demande.recandidature && this.#demanderPreuveCandidatureAbandonFixture.aÉtéCréé) {
-      expected.demande.recandidature.preuve = {
-        demandéeLe: DateTime.convertirEnValueType(
-          this.#demanderPreuveCandidatureAbandonFixture.demandéeLe,
-        ),
-      };
-    }
 
     if (this.#demanderAbandonFixture.pièceJustificative) {
       expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
@@ -133,6 +100,7 @@ export class AbandonWord {
       );
     }
 
+    // Demande de confirmation
     if (this.#demanderConfirmationAbandonFixture.aÉtéCréé) {
       expected.demande.confirmation = {
         demandéeLe: DateTime.convertirEnValueType(
@@ -159,7 +127,7 @@ export class AbandonWord {
       );
     }
 
-    // instruction
+    // Instruction
     if (this.#passerEnInstructionAbandonFixture.aÉtéCréé) {
       expected.demande.instruction = {
         passéEnInstructionLe: DateTime.convertirEnValueType(
@@ -185,24 +153,7 @@ export class AbandonWord {
       };
     }
 
-    if (
-      expected.demande.recandidature?.preuve &&
-      this.#transmettrePreuveRecandidatureAbandonFixture.aÉtéCréé
-    ) {
-      expected.demande.recandidature.statut = Lauréat.Abandon.StatutPreuveRecandidature.transmis;
-      expected.demande.recandidature.preuve.transmiseLe = DateTime.convertirEnValueType(
-        this.#transmettrePreuveRecandidatureAbandonFixture.transmiseLe,
-      );
-      expected.demande.recandidature.preuve.transmisePar = Email.convertirEnValueType(
-        this.#transmettrePreuveRecandidatureAbandonFixture.transmisePar,
-      );
-      expected.demande.recandidature.preuve.identifiantProjet =
-        IdentifiantProjet.convertirEnValueType(
-          this.#transmettrePreuveRecandidatureAbandonFixture.preuveRecandidature,
-        );
-    }
-
-    // Rejet ->
+    // Rejet
     if (this.#rejeterAbandonFixture.aÉtéCréé) {
       expected.demande.rejet = {
         rejetéLe: DateTime.convertirEnValueType(this.#rejeterAbandonFixture.rejetéeLe),
