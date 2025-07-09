@@ -114,8 +114,6 @@ const référencielPermissions = {
         annuler: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
         confirmer: 'Lauréat.Abandon.UseCase.ConfirmerAbandon',
         demander: 'Lauréat.Abandon.UseCase.DemanderAbandon',
-        transmettrePreuveRecandidature:
-          'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
         accorder: 'Lauréat.Abandon.UseCase.AccorderAbandon',
         demanderConfirmation: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
         rejeter: 'Lauréat.Abandon.UseCase.RejeterAbandon',
@@ -125,8 +123,6 @@ const référencielPermissions = {
         annuler: 'Lauréat.Abandon.Command.AnnulerAbandon',
         confirmer: 'Lauréat.Abandon.Command.ConfirmerAbandon',
         demander: 'Lauréat.Abandon.Command.DemanderAbandon',
-        transmettrePreuveRecandidature:
-          'Lauréat.Abandon.Command.TransmettrePreuveRecandidatureAbandon',
         accorder: 'Lauréat.Abandon.Command.AccorderAbandon',
         demanderConfirmation: 'Lauréat.Abandon.Command.DemanderConfirmationAbandon',
         rejeter: 'Lauréat.Abandon.Command.RejeterAbandon',
@@ -441,8 +437,6 @@ const référencielPermissions = {
     query: {
       consulterCandidature: 'Candidature.Query.ConsulterCandidature',
       consulterProjet: 'Candidature.Query.ConsulterProjet',
-      listerProjetsPreuveRecandidature:
-        'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
       listerCandidatures: 'Candidature.Query.ListerCandidatures',
     },
     usecase: {
@@ -572,7 +566,6 @@ const policies = {
       ],
       détail: [
         référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.document.query.consulter,
       ],
@@ -629,13 +622,6 @@ const policies = {
       référencielPermissions.lauréat.abandon.command.demanderConfirmation,
     ],
     'preuve-recandidature': {
-      transmettre: [
-        référencielPermissions.lauréat.abandon.query.consulter,
-        référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
-        référencielPermissions.lauréat.abandon.usecase.transmettrePreuveRecandidature,
-        référencielPermissions.lauréat.abandon.command.transmettrePreuveRecandidature,
-      ],
       accorder: [
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.appelOffre.query.consulter,
@@ -661,7 +647,6 @@ const policies = {
       ],
       détail: [
         référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.candidature.query.listerProjetsPreuveRecandidature,
         référencielPermissions.éliminé.recours.query.consulter,
         référencielPermissions.document.query.consulter,
       ],
@@ -1621,7 +1606,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'abandon.demander',
   'abandon.annuler',
   'abandon.confirmer',
-  'abandon.preuve-recandidature.transmettre',
 
   // Recours
   'recours.consulter.liste',

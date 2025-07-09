@@ -25,7 +25,6 @@ import {
   AbandonPasDansUnContexteDeRecandidatureError,
   AucunAbandonEnCours,
   DateLégaleTransmissionPreuveRecandidatureDépasséeError,
-  DemandePreuveRecandidautreDéjàTransmise,
   PièceJustificativeObligatoireError,
   PreuveRecandidautreDéjàTransmise,
   ProjetNonNotifiéError,
@@ -135,12 +134,13 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     if (!this.#demande) {
       throw new AucunAbandonEnCours();
     }
+
     if (dateDemande.estUltérieureÀ(dateLégaleMaxTransimissionPreuveRecandidature)) {
       throw new DateLégaleTransmissionPreuveRecandidatureDépasséeError();
     }
 
     if (this.#demande?.preuveRecandidature) {
-      throw new DemandePreuveRecandidautreDéjàTransmise();
+      throw new PreuveRecandidautreDéjàTransmise();
     }
 
     const event: PreuveRecandidatureDemandéeEvent = {
@@ -191,6 +191,14 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       )
     ) {
       throw new ProjetNotifiéAprèsLaDateMaximumError();
+    }
+
+    if (
+      dateTransmissionPreuveRecandidature.estUltérieureÀ(
+        dateLégaleMaxTransimissionPreuveRecandidature,
+      )
+    ) {
+      throw new DateLégaleTransmissionPreuveRecandidatureDépasséeError();
     }
 
     const event: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent = {

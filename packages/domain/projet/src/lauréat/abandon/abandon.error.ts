@@ -14,13 +14,9 @@ export class PièceJustificativeObligatoireError extends InvalidOperationError {
 
 export class DateLégaleTransmissionPreuveRecandidatureDépasséeError extends InvalidOperationError {
   constructor() {
-    super('Impossible de demander la preuve de recandidature au porteur après le 30/06/2025');
-  }
-}
-
-export class DemandePreuveRecandidautreDéjàTransmise extends InvalidOperationError {
-  constructor() {
-    super('La preuve de recandidature a déjà été transmise');
+    super(
+      'Impossible de demander ou de transmettre la preuve de recandidature après le 30/06/2025',
+    );
   }
 }
 

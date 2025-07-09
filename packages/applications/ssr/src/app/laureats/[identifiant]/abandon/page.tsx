@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Email } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -77,13 +77,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         passéEnInstructionPar: abandon.demande.instruction?.passéEnInstructionPar,
       });
 
-      const projetsÀSélectionner = actions.includes('transmettre-preuve-recandidature')
-        ? await getProjetsÀSélectionner({
-            identifiantProjet: abandon.identifiantProjet,
-            utilisateur,
-          })
-        : [];
-
       return (
         <DétailsAbandonPage
           abandon={mapToPlainObject(abandon)}
@@ -94,7 +87,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             recandidature: abandon.demande.estUneRecandidature,
             statut: abandon.statut,
           })}
-          projetsÀSélectionner={projetsÀSélectionner}
           historique={historique.items.map(mapToAbandonTimelineItemProps)}
         />
       );
@@ -203,32 +195,6 @@ const changementPossible = (
   } catch {
     return false;
   }
-};
-
-type GetProjetsÀSelectionnerProps = {
-  utilisateur: Utilisateur.ValueType;
-  identifiantProjet: IdentifiantProjet.ValueType;
-};
-
-const getProjetsÀSélectionner = async ({
-  identifiantProjet,
-  utilisateur,
-}: GetProjetsÀSelectionnerProps): Promise<DétailsAbandonPageProps['projetsÀSélectionner']> => {
-  const projetsEligiblesPreuveRecandidature =
-    await mediator.send<Candidature.ListerProjetsEligiblesPreuveRecanditureQuery>({
-      type: 'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
-      data: {
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-      },
-    });
-
-  return projetsEligiblesPreuveRecandidature
-    .filter((p) => !p.identifiantProjet.estÉgaleÀ(identifiantProjet))
-    .map((projet) => ({
-      ...projet,
-      statut: projet.statut.statut,
-      identifiantProjet: projet.identifiantProjet.formatter(),
-    }));
 };
 
 type AvailableInformations = DétailsAbandonPageProps['informations'];

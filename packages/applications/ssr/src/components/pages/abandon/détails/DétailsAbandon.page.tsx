@@ -20,11 +20,8 @@ import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
 import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
-import {
-  TransmettrePreuveRecandidature,
-  TransmettrePreuveRecandidatureFormProps,
-} from './transmettrePreuveRecandidature/TransmettrePreuveRecandidature';
 import { PasserAbandonEnInstruction } from './passerEnInstruction/PasserAbandonEnInstruction.form';
+import { InfoBoxPreuveRecandidature } from './InfoBoxPreuveRecandidature';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -33,9 +30,9 @@ type AvailableActions = Array<
   | 'accorder-avec-recandidature'
   | 'accorder-sans-recandidature'
   | 'rejeter'
-  | 'transmettre-preuve-recandidature'
   | 'passer-en-instruction'
   | 'reprendre-instruction'
+  | 'transmettre-preuve-recandidature'
 >;
 
 type AvailableInformation = 'demande-de-mainlevée' | 'demande-abandon-pour-recandidature';
@@ -43,7 +40,6 @@ type AvailableInformation = 'demande-de-mainlevée' | 'demande-abandon-pour-reca
 export type DétailsAbandonPageProps = {
   identifiantProjet: string;
   abandon: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
-  projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   informations: Array<AvailableInformation>;
   historique: Array<TimelineItemProps>;
   actions: AvailableActions;
@@ -54,7 +50,6 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   abandon,
   actions,
   informations,
-  projetsÀSélectionner,
   historique,
 }) => {
   const demandéLe = DateTime.bind(abandon.demande.demandéLe).formatter();
@@ -105,7 +100,6 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             {mapToActionComponents({
               actions,
               identifiantProjet,
-              projetsÀSélectionner,
             })}
             {mapToInformationsComponents({
               informations,
@@ -121,18 +115,13 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
 type MapToActionsComponentsProps = {
   actions: AvailableActions;
   identifiantProjet: string;
-  projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'];
 };
 
-const mapToActionComponents = ({
-  actions,
-  identifiantProjet,
-  projetsÀSélectionner,
-}: MapToActionsComponentsProps) =>
+const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
   actions.length ? (
     <div className="flex flex-col gap-4">
       <Heading2>Actions</Heading2>
-
+      {actions.includes('transmettre-preuve-recandidature') && <InfoBoxPreuveRecandidature />}
       {actions.includes('demander-confirmation') && (
         <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
       )}
@@ -151,14 +140,10 @@ const mapToActionComponents = ({
           estUneReprise={actions.includes('reprendre-instruction')}
         />
       )}
-      {actions.includes('transmettre-preuve-recandidature') && (
-        <TransmettrePreuveRecandidature
-          identifiantProjet={identifiantProjet}
-          projetsÀSélectionner={projetsÀSélectionner}
-        />
-      )}
     </div>
   ) : null;
+
+// viovio : ajouter une information avec la date limité pour la transmission de preuve de recandidature
 
 type MapToInformationsComponentsProps = {
   informations: Array<AvailableInformation>;
