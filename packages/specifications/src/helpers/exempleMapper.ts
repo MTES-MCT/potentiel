@@ -1,11 +1,23 @@
 import { DateTime } from '@potentiel-domain/common';
 
+/** map qui décrit comment sont représentés les champs dans les exemples des spécifications */
 export type FieldToExempleMapper<TMap extends Record<string, unknown>> = {
   [FieldName in keyof TMap]: TMap[FieldName] extends string | undefined
     ? [exempleName: string, transformer?: (value: string) => TMap[FieldName] | undefined]
     : [exempleName: string, transformer: (value: string) => TMap[FieldName] | undefined];
 };
 
+/**
+ * Convertit les valeurs de l'exemple dans les specs, en un objet utilisable dans le code, selon le mapping décrit par `map`
+ *
+ * @example
+ * ```ts
+ * const { foo, bar } = mapToExemple(dataTable.rowsHash(), {
+ *   foo: ["nom du champs utilisé dans les specs"], // pas besoin de transformation pour un string
+ *   bar: ["nom du champs 2", mapNumber], // transformation du champ en nombre
+ * });
+ * ```
+ **/
 export const mapToExemple = <TMap extends Record<string, unknown>>(
   exemple: Record<string, string>,
   map: FieldToExempleMapper<TMap>,
