@@ -4,7 +4,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { AbstractFixture } from '../../fixture';
 
 interface CorrigerCandidature {
-  identifiantProjet: IdentifiantProjet.RawType;
   dépôtValue: Candidature.Dépôt.RawType;
   instructionValue: Candidature.Instruction.RawType;
   détailsValue: Record<string, string> | undefined;
@@ -50,7 +49,7 @@ export class CorrigerCandidatureFixture
     return this.#détailsValue;
   }
 
-  créer(data: CréerCorrigerCandidatureFixtureProps): Readonly<CorrigerCandidature> {
+  créer(data: CréerCorrigerCandidatureFixtureProps): Readonly<CorrigerCandidatureFixture> {
     this.#identifiantProjet = IdentifiantProjet.bind(data.identifiantProjet).formatter();
     this.#dépôtValue = data.dépôtValue;
     this.#instructionValue = data.instructionValue;
