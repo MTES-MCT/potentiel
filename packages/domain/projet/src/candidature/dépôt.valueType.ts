@@ -131,16 +131,16 @@ export const bind = ({
       valueType.territoireProjet === this.territoireProjet &&
       valueType.élémentsSousOmbrière === this.élémentsSousOmbrière &&
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
-      sontÉgaux(valueType.emailContact, this.emailContact) &&
-      sontÉgaux(valueType.localité, this.localité) &&
-      sontÉgaux(valueType.historiqueAbandon, this.historiqueAbandon) &&
-      sontÉgaux(valueType.technologie, this.technologie) &&
-      sontÉgaux(valueType.actionnariat, this.actionnariat) &&
-      sontÉgaux(valueType.dateÉchéanceGf, this.dateÉchéanceGf) &&
-      sontÉgaux(valueType.typeGarantiesFinancières, this.typeGarantiesFinancières) &&
-      sontÉgaux(valueType.typologieDeBâtiment, this.typologieDeBâtiment) &&
-      sontÉgaux(valueType.typeInstallationsAgrivoltaiques, this.typeInstallationsAgrivoltaiques) &&
-      arraySontÉgaux(valueType.fournisseurs, this.fournisseurs)
+      areEqual(valueType.emailContact, this.emailContact) &&
+      areEqual(valueType.localité, this.localité) &&
+      areEqual(valueType.historiqueAbandon, this.historiqueAbandon) &&
+      areEqual(valueType.technologie, this.technologie) &&
+      areEqual(valueType.actionnariat, this.actionnariat) &&
+      areEqual(valueType.dateÉchéanceGf, this.dateÉchéanceGf) &&
+      areEqual(valueType.typeGarantiesFinancières, this.typeGarantiesFinancières) &&
+      areEqual(valueType.typologieDeBâtiment, this.typologieDeBâtiment) &&
+      areEqual(valueType.typeInstallationsAgrivoltaiques, this.typeInstallationsAgrivoltaiques) &&
+      areEqualArrays(valueType.fournisseurs, this.fournisseurs)
     );
   },
   formatter() {
@@ -237,12 +237,12 @@ const bindOptional = <TValue, TValueType>(
   plain: TValue | undefined,
 ): TValueType | undefined => (plain ? bind(plain) : undefined);
 
-const sontÉgaux = <TValueType extends ReadonlyValueType<unknown>>(
+const areEqual = <TValueType extends ReadonlyValueType<unknown>>(
   v1: TValueType | undefined,
   v2: TValueType | undefined,
 ) => (v1 === undefined ? v2 === undefined : v2 !== undefined && v1.estÉgaleÀ(v2));
 
-const arraySontÉgaux = <TValueType extends ReadonlyValueType<unknown>>(
+const areEqualArrays = <TValueType extends ReadonlyValueType<unknown>>(
   v1: TValueType[],
   v2: TValueType[],
 ) => v1.length === v2.length && !v1.find((v, i) => !v2[i].estÉgaleÀ(v));
