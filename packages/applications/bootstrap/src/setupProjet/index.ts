@@ -6,7 +6,6 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import {
-  ProjetAdapter,
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
   DocumentAdapter,
@@ -32,8 +31,6 @@ export const setupProjet: SetupProjet = async (dependencies) => {
     count: countProjection,
     listHistory: listHistoryProjection,
     getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
-    récupérerProjetsEligiblesPreuveRecanditure:
-      ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     consulterABénéficiéDuDélaiCDC2022: DélaiAdapter.consulterABénéficiéDuDélaiCDC2022Adapter,
     listerDélaiAccordéProjet: DélaiAdapter.listerDélaiAccordéProjetAdapter,
   });

@@ -45,7 +45,7 @@ export const registerListerAbandonsAvecRecandidatureÀRelancerQuery = ({
           identifiantProjet: IdentifiantProjet.convertirEnValueType(item.identifiantProjet),
           demandéeLe: item.demande.recandidature?.preuve?.demandéeLe
             ? DateTime.convertirEnValueType(item.demande.recandidature?.preuve?.demandéeLe)
-            : DateTime.now(), // TODO : devrait être undefined et filter aprés, mais l'inférence n'est pas bonne. A faire quand on switch sur TS 5.5
+            : DateTime.now(),
         }))
         .filter(({ demandéeLe }) => demandéeLe.nombreJoursÉcartAvec(DateTime.now()) >= 90),
     };

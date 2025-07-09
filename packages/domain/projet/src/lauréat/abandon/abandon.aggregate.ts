@@ -130,11 +130,13 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     await this.lauréat.raccordement.supprimerRaccordement();
   }
 
+  // Garder ce code même si cette action n'est plus possible depuis le 30/06/2025
   async demanderPreuveRecandidature({ dateDemande }: DemanderPreuveRecandidatureOptions) {
     if (!this.#demande) {
       throw new AucunAbandonEnCours();
     }
 
+    // TODO: confirmer avec le métier, doit être appliquer à la transmission ou juste supprimé ?
     if (dateDemande.estUltérieureÀ(dateLégaleMaxTransimissionPreuveRecandidature)) {
       throw new DateLégaleTransmissionPreuveRecandidatureDépasséeError();
     }
@@ -154,6 +156,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     return this.publish(event);
   }
 
+  // Garder ce code même si cette action n'est plus possible depuis le 30/06/2025
   async transmettrePreuveRecandidature({
     preuveRecandidature,
     identifiantUtilisateur,
@@ -191,14 +194,6 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       )
     ) {
       throw new ProjetNotifiéAprèsLaDateMaximumError();
-    }
-
-    if (
-      dateTransmissionPreuveRecandidature.estUltérieureÀ(
-        dateLégaleMaxTransimissionPreuveRecandidature,
-      )
-    ) {
-      throw new DateLégaleTransmissionPreuveRecandidatureDépasséeError();
     }
 
     const event: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent = {

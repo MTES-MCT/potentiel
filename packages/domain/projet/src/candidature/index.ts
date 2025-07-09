@@ -18,37 +18,18 @@ import {
   ListerCandidaturesReadModel,
 } from './lister/listerCandidatures.query';
 import {
-  ListerProjetsEligiblesPreuveRecanditureQuery,
-  ListerProjetsEligiblesPreuveRecanditureReadModel,
-  RécupérerProjetsEligiblesPreuveRecanditurePort,
-} from './lister/listerProjetsEligiblesPreuveRecanditure.query';
-import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
 } from './notifier/candidatureNotifiée.event';
 import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 
 // Query
-export type CandidatureQuery =
-  | ListerCandidaturesQuery
-  | ListerProjetsEligiblesPreuveRecanditureQuery
-  | ConsulterCandidatureQuery;
+export type CandidatureQuery = ListerCandidaturesQuery | ConsulterCandidatureQuery;
 
-export {
-  ListerProjetsEligiblesPreuveRecanditureQuery,
-  ListerCandidaturesQuery,
-  ConsulterCandidatureQuery,
-};
+export { ListerCandidaturesQuery, ConsulterCandidatureQuery };
 
 // ReadModel
-export {
-  ListerProjetsEligiblesPreuveRecanditureReadModel,
-  ListerCandidaturesReadModel,
-  ConsulterCandidatureReadModel,
-};
-
-// Port
-export { RécupérerProjetsEligiblesPreuveRecanditurePort };
+export { ListerCandidaturesReadModel, ConsulterCandidatureReadModel };
 
 // UseCases
 export type CandidatureUseCase =

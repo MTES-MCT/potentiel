@@ -114,9 +114,6 @@ const mapToActions = ({
 
   switch (utilisateur.role.nom) {
     case 'admin':
-      if (statutRecandidature) {
-        break;
-      }
       if (changementPossible(statut, 'confirmation-demandée')) {
         actions.push('demander-confirmation');
       }
@@ -145,9 +142,7 @@ const mapToActions = ({
         actions.push('demander-confirmation');
       }
       if (changementPossible(statut, 'accordé')) {
-        actions.push(
-          statutRecandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature',
-        );
+        actions.push('accorder-sans-recandidature');
       }
       if (changementPossible(statut, 'rejeté')) {
         actions.push('rejeter');

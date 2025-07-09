@@ -14,7 +14,6 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
-import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
@@ -27,7 +26,6 @@ type AvailableActions = Array<
   | 'demander-confirmation'
   | 'confirmer'
   | 'annuler'
-  | 'accorder-avec-recandidature'
   | 'accorder-sans-recandidature'
   | 'rejeter'
   | 'passer-en-instruction'
@@ -124,9 +122,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       {actions.includes('transmettre-preuve-recandidature') && <InfoBoxPreuveRecandidature />}
       {actions.includes('demander-confirmation') && (
         <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('accorder-avec-recandidature') && (
-        <AccorderAbandonAvecRecandidature identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('accorder-sans-recandidature') && (
         <AccorderAbandonSansRecandidature identifiantProjet={identifiantProjet} />
