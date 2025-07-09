@@ -17,7 +17,7 @@ import { ModifierAttestationConformitéOptions } from './attestationConformité/
 import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
 import { TypeDocumentAttestationConformité } from './attestationConformité';
 import { AchèvementEvent, DatePrévisionnelleCalculéeEvent } from './achèvement.event';
-import { ImpossibleDeCalculerLaDatePrévisionnelleAchèvement } from './achèvement.error';
+import { ImpossibleDeCalculerLaDateAchèvementPrévisionnelle } from './achèvement.error';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,
@@ -51,7 +51,7 @@ export class AchèvementAggregate extends AbstractAggregate<
           const technologie = this.lauréat.projet.candidature.technologie.formatter();
 
           if (technologie === 'N/A') {
-            throw new ImpossibleDeCalculerLaDatePrévisionnelleAchèvement();
+            throw new ImpossibleDeCalculerLaDateAchèvementPrévisionnelle();
           }
 
           return this.lauréat.projet.appelOffre.delaiRealisationEnMoisParTechnologie[technologie];

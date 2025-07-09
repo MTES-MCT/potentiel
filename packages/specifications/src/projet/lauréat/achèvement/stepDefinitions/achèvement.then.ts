@@ -77,7 +77,7 @@ Alors(
 );
 
 Alors(
-  `la date prévisionnelle d'achèvement du projet devrait être {string}`,
+  `la date d'achèvement prévisionnelle du projet devrait être {string}`,
   async function (this: PotentielWorld, datePrévisionnelleAttendue: string) {
     return waitForExpect(async () => {
       const identifiantProjet = this.lauréatWorld.identifiantProjet;

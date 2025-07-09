@@ -1,7 +1,7 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-export class ImpossibleDeCalculerLaDatePrévisionnelleAchèvement extends InvalidOperationError {
+export class ImpossibleDeCalculerLaDateAchèvementPrévisionnelle extends InvalidOperationError {
   constructor() {
-    super(`Impossible de calculer la date prévisionnelle d'achèvement`);
+    super(`Impossible de calculer la date d'achèvement prévisionnelle`);
   }
 }
