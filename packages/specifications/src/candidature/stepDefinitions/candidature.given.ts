@@ -88,17 +88,11 @@ export async function importerCandidature(
       importéPar: this.utilisateurWorld.validateurFixture.email,
     });
 
-  const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   try {
     await mediator.send<Candidature.ImporterCandidatureUseCase>({
       type: 'Candidature.UseCase.ImporterCandidature',
       data: {
-        appelOffreValue: appelOffre,
-        périodeValue: période,
-        familleValue: famille,
-        numéroCREValue: numéroCRE,
+        identifiantProjetValue: identifiantProjet,
         dépôtValue,
         détailsValue,
         importéLe,

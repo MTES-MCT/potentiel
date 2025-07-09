@@ -1,18 +1,22 @@
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { AbstractFixture } from '../../fixture';
-
-import { mapToDeprecatedValues } from './importerCandidature.fixture';
 
 interface CorrigerCandidature {
   identifiantProjet: IdentifiantProjet.RawType;
   dépôtValue: Candidature.Dépôt.RawType;
   instructionValue: Candidature.Instruction.RawType;
-  détailsValue: Record<string, string>;
+  détailsValue: Record<string, string> | undefined;
 
   corrigéPar: string;
   corrigéLe: string;
 }
+
+type CréerCorrigerCandidatureFixtureProps = Omit<CorrigerCandidature, 'identifiantProjet'> & {
+  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
+};
+
 export class CorrigerCandidatureFixture
   extends AbstractFixture<CorrigerCandidature>
   implements CorrigerCandidature
@@ -41,24 +45,18 @@ export class CorrigerCandidatureFixture
     return this.#corrigéLe;
   }
 
-  #détailsValue: Record<string, string> = {};
+  #détailsValue: Record<string, string> | undefined = undefined;
   get détailsValue() {
     return this.#détailsValue;
   }
 
-  /**
-   * @derecated kept for retro-compat, prefer dépôtValue & instructionValue
-   */
-  get values() {
-    return mapToDeprecatedValues(this.dépôtValue, this.instructionValue);
-  }
-
-  créer(data: CorrigerCandidature): Readonly<CorrigerCandidature> {
-    this.#identifiantProjet = data.identifiantProjet;
+  créer(data: CréerCorrigerCandidatureFixtureProps): Readonly<CorrigerCandidature> {
+    this.#identifiantProjet = IdentifiantProjet.bind(data.identifiantProjet).formatter();
     this.#dépôtValue = data.dépôtValue;
     this.#instructionValue = data.instructionValue;
     this.#corrigéLe = data.corrigéLe;
     this.#corrigéPar = data.corrigéPar;
+    this.#détailsValue = data.détailsValue;
 
     this.aÉtéCréé = true;
     return this;

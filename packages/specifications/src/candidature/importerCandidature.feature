@@ -20,11 +20,17 @@ Fonctionnalité: Importer une candidature
             | obligation de solarisation   | oui     |
         Alors la candidature devrait être consultable
 
-    # @select
     Scénario: Impossible d'importer 2 fois la même candidature
-        Etant donné la candidature lauréate "Du boulodrome de Marseille"
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Bâtiment |
+            | période       | 1               |
+            | famille       |                 |
+            | numéro CRE    |                 |
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut | classé |
+            | appel d'offre | PPE2 - Bâtiment |
+            | période       | 1               |
+            | famille       |                 |
+            | numéro CRE    |                 |
         Alors l'administrateur devrait être informé que "Il est impossible d'importer 2 fois la même candidature"
 
     Scénario: Impossible d'importer une candidature avec un AO inexistant
@@ -47,7 +53,6 @@ Fonctionnalité: Importer une candidature
             | famille | 812    |
         Alors l'administrateur devrait être informé que "La famille de période d'appel d'offre spécifiée n'existe pas"
 
-    @select
     Scénario: Impossible d'importer une candidature sans GF, pour un AO soumis aux GF
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut        | classé          |

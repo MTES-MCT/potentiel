@@ -1,19 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { Dépôt, Instruction } from '..';
+import { IdentifiantProjet } from '../..';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',
   {
-    appelOffreValue: string;
-    périodeValue: string;
-    familleValue: string;
-    numéroCREValue: string;
+    identifiantProjetValue: string;
 
     dépôtValue: Dépôt.RawType;
     instructionValue: Instruction.RawType;
@@ -28,7 +26,7 @@ export type CorrigerCandidatureUseCase = Message<
 export const registerCorrigerCandidatureUseCase = () => {
   const handler: MessageHandler<CorrigerCandidatureUseCase> = async (payload) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
+      payload.identifiantProjetValue,
     );
     const corrigéLe = DateTime.convertirEnValueType(payload.corrigéLe);
 
