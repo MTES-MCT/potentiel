@@ -181,7 +181,10 @@ v1Router.get(
             })
           : [];
 
-      const achèvement = await getAttestationDeConformité(identifiantProjetValueType, user.role);
+      const attestationConformité = await getAttestationDeConformité(
+        identifiantProjetValueType,
+        user.role,
+      );
 
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
@@ -248,8 +251,8 @@ v1Router.get(
               project.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
           emailContact: lauréat.emailContact.formatter(),
-          estAchevé: !!achèvement,
-          achèvement,
+          estAchevé: !!attestationConformité,
+          attestationConformité,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,
