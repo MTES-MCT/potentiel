@@ -26,4 +26,10 @@ export const mapToAchèvementTimelineItemProps = (
       },
       mapToAttestationConformitéTransmiseTimelineItemProps,
     )
+    .with(
+      {
+        type: 'DatePrévisionnelleCalculée-V1',
+      },
+      () => undefined,
+    )
     .exhaustive();
