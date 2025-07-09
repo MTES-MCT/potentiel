@@ -6,7 +6,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export const mapToAttestationConformitéModifiéeTimelineItemProps = (
-  attestationConformitéModifiée: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  attestationConformitéModifiée: Lauréat.Achèvement.AttestationConformité.AttestationConformitéModifiéeEvent,
 ) => {
   const {
     identifiantProjet,
@@ -15,7 +15,7 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
     dateTransmissionAuCocontractant,
     date,
     utilisateur,
-  } = attestationConformitéModifiée.payload as Lauréat.Achèvement.AttestationConformité.AttestationConformitéModifiéeEvent['payload'];
+  } = attestationConformitéModifiée.payload;
 
   const attestation = DocumentProjet.convertirEnValueType(
     identifiantProjet,

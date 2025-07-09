@@ -1,10 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
 ) => {
-  const { rejetéLe, rejetéPar } =
-    modification.payload as Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent['payload'];
+  const { rejetéLe, rejetéPar } = modification.payload;
 
   return {
     date: rejetéLe,

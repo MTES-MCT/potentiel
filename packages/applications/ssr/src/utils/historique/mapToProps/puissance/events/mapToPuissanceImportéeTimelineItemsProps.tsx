@@ -1,11 +1,10 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToPuissanceImportéeTimelineItemsProps = (
-  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
+  record: Lauréat.Puissance.PuissanceImportéeEvent,
   unitéPuissance: string,
 ) => {
-  const { importéeLe, puissance } =
-    record.payload as Lauréat.Puissance.PuissanceImportéeEvent['payload'];
+  const { importéeLe, puissance } = record.payload;
 
   return {
     date: importéeLe,

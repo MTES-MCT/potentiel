@@ -132,18 +132,8 @@ const mapToTimelineItemProps = (
 ) => {
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
-    .with(
-      {
-        category: 'abandon',
-      },
-      mapToAbandonTimelineItemProps,
-    )
-    .with(
-      {
-        category: 'recours',
-      },
-      mapToRecoursTimelineItemProps,
-    )
+    .with({ category: 'abandon' }, mapToAbandonTimelineItemProps)
+    .with({ category: 'recours' }, mapToRecoursTimelineItemProps)
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)

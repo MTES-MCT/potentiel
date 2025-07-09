@@ -4,10 +4,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
-  preuveRecandidatureTransmise: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+  preuveRecandidatureTransmise: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent,
 ) => {
-  const { preuveRecandidature, transmiseLe, transmisePar } =
-    preuveRecandidatureTransmise.payload as Lauréat.Abandon.PreuveRecandidatureTransmiseEvent['payload'];
+  const { preuveRecandidature, transmiseLe, transmisePar } = preuveRecandidatureTransmise.payload;
 
   return {
     date: transmiseLe,

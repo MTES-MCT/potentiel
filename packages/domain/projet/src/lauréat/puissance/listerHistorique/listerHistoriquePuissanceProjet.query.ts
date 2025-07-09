@@ -4,11 +4,7 @@ import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/enti
 
 import { PuissanceEvent } from '../puissance.event';
 
-export type HistoriquePuissanceProjetListItemReadModel = HistoryRecord<
-  'puissance',
-  PuissanceEvent['type'],
-  PuissanceEvent['payload']
->;
+export type HistoriquePuissanceProjetListItemReadModel = HistoryRecord<'puissance', PuissanceEvent>;
 
 export type ListerHistoriquePuissanceProjetReadModel = {
   items: ReadonlyArray<HistoriquePuissanceProjetListItemReadModel>;

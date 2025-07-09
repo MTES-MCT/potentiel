@@ -6,14 +6,14 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
 ) => {
   const {
     accordéLe,
     accordéPar,
     identifiantProjet,
     réponseSignée: { format },
-  } = modification.payload as Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent['payload'];
+  } = modification.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,

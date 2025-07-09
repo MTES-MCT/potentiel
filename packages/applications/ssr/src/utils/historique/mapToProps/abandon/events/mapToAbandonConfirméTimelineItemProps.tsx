@@ -1,10 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToAbandonConfirméTimelineItemProps = (
-  abandonConfirmé: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+  abandonConfirmé: Lauréat.Abandon.AbandonConfirméEvent,
 ) => {
-  const { confirméLe, confirméPar } =
-    abandonConfirmé.payload as Lauréat.Abandon.AbandonConfirméEvent['payload'];
+  const { confirméLe, confirméPar } = abandonConfirmé.payload;
 
   return {
     date: confirméLe,

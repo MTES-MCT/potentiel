@@ -6,9 +6,7 @@ const countQuery =
 const selectQuery =
   'SELECT category, id, created_at, type, payload FROM domain_views.history WHERE (category = $1 or $1 is null) and (id = $2 or $2 is null) order by created_at desc';
 
-type History = HistoryRecord<string, string, Record<string, unknown>>;
-
-export const listHistoryProjection = async <THistory extends History>(
+export const listHistoryProjection = async <THistory extends HistoryRecord>(
   options?: ListHistoryOptions<string>,
 ): Promise<ListHistoryResult<THistory>> => {
   const [{ total }] = await executeSelect<{ total: number }>(

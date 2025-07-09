@@ -21,22 +21,16 @@ import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistor
 import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
 import { AttestationConformitéEvent } from '../../achèvement/attestationConformité';
 
-export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
-  'lauréat',
-  LauréatEvent['type'],
-  LauréatEvent['payload']
->;
+export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<'lauréat', LauréatEvent>;
 
 export type HistoriqueGarantiesFinancièresProjetListItemReadModel = HistoryRecord<
   'garanties-financieres',
-  GarantiesFinancièresEvent['type'],
-  GarantiesFinancièresEvent['payload']
+  GarantiesFinancièresEvent
 >;
 
 export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
   'achevement',
-  AttestationConformitéEvent['type'],
-  AttestationConformitéEvent['payload']
+  AttestationConformitéEvent
 >;
 
 export type HistoriqueListItemReadModels =

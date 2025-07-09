@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementActionnaireDemandéTimelineItemProps = (
-  demandeChangement: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  demandeChangement: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent,
 ) => {
   const {
     demandéLe,
@@ -13,7 +13,7 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
     identifiantProjet,
     pièceJustificative: { format },
     actionnaire,
-  } = demandeChangement.payload as Lauréat.Actionnaire.ChangementActionnaireDemandéEvent['payload'];
+  } = demandeChangement.payload;
 
   const pièceJustificative = DocumentProjet.convertirEnValueType(
     identifiantProjet,

@@ -2,7 +2,9 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.Raccordement.GestionnaireRéseauRaccordementModifiéEvent & {
+    createdAt: string;
+  },
 ) => {
   return {
     date: modification.createdAt as DateTime.RawType,

@@ -5,14 +5,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
-  confirmationAbandonDemandée: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
+  confirmationAbandonDemandée: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent,
 ) => {
   const {
     confirmationDemandéeLe,
     confirmationDemandéePar,
     identifiantProjet,
     réponseSignée: { format },
-  } = confirmationAbandonDemandée.payload as Lauréat.Abandon.ConfirmationAbandonDemandéeEvent['payload'];
+  } = confirmationAbandonDemandée.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,

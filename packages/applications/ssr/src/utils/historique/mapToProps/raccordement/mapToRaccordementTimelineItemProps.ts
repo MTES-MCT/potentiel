@@ -15,8 +15,7 @@ import {
 
 export type RaccordementHistoryRecord = HistoryRecord<
   'raccordement',
-  Lauréat.Raccordement.RaccordementEvent['type'],
-  Lauréat.Raccordement.RaccordementEvent['payload']
+  Lauréat.Raccordement.RaccordementEvent
 >;
 
 export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRecord) =>

@@ -6,8 +6,7 @@ import { RaccordementEvent } from '../raccordement.event';
 
 export type HistoriqueRaccordementProjetListItemReadModel = HistoryRecord<
   'raccordement',
-  RaccordementEvent['type'],
-  RaccordementEvent['payload']
+  RaccordementEvent
 >;
 
 export type ListerHistoriqueRaccordementProjetReadModel = {

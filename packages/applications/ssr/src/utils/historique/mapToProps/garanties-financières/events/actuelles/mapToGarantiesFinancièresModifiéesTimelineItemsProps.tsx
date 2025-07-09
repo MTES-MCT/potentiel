@@ -3,10 +3,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export const mapToGarantiesFinancièresModifiéesTimelineItemsProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent,
 ) => {
-  const { dateConstitution, type, dateÉchéance, modifiéLe, modifiéPar } =
-    modification.payload as Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent['payload'];
+  const { dateConstitution, type, dateÉchéance, modifiéLe, modifiéPar } = modification.payload;
 
   return {
     date: modifiéLe,

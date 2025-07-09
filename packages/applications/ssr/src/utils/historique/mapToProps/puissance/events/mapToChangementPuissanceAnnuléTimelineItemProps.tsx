@@ -1,10 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToChangementPuissanceAnnuléTimelineItemProps = (
-  record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
+  record: Lauréat.Puissance.ChangementPuissanceAnnuléEvent,
 ) => {
-  const { annuléLe, annuléPar } =
-    record.payload as Lauréat.Puissance.ChangementPuissanceAnnuléEvent['payload'];
+  const { annuléLe, annuléPar } = record.payload;
 
   return {
     date: annuléLe,

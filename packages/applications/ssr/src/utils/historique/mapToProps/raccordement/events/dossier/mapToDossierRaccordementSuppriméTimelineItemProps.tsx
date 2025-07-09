@@ -2,10 +2,9 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToDossierRaccordementSuppriméTimelineItemProps = (
-  modification: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  modification: Lauréat.Raccordement.DossierDuRaccordementSuppriméEvent & { createdAt: string },
 ) => {
-  const { référenceDossier } =
-    modification.payload as Lauréat.Raccordement.DossierDuRaccordementSuppriméEvent['payload'];
+  const { référenceDossier } = modification.payload;
 
   return {
     date: modification.createdAt as DateTime.RawType,

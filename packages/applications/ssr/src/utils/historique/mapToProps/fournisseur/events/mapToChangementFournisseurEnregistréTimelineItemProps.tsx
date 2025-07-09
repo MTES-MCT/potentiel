@@ -6,7 +6,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { ListeFournisseurs } from '@/components/pages/fournisseur/changement/ListeFournisseurs';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
-  record: Lauréat.Fournisseur.HistoriqueFournisseurProjetListItemReadModel,
+  record: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent,
 ) => {
   const {
     enregistréLe,
@@ -16,7 +16,7 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
     évaluationCarboneSimplifiée,
     fournisseurs,
     raison,
-  } = record.payload as Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent['payload'];
+  } = record.payload;
   return {
     date: enregistréLe,
     title: (

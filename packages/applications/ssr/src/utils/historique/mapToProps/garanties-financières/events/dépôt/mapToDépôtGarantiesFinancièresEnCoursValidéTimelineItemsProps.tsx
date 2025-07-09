@@ -1,29 +1,10 @@
-import { match } from 'ts-pattern';
-
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 export const mapToDépôtGarantiesFinancièresEnCoursValidéTimelineItemsProps = (
-  dépôtValidé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  event:
+    | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
+    | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) => {
-  const event = match(dépôtValidé)
-    .with(
-      { type: 'DépôtGarantiesFinancièresEnCoursValidé-V1' },
-      (event) =>
-        event as unknown as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1,
-    )
-    .with(
-      { type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' },
-      (event) =>
-        event as unknown as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
-    )
-    .otherwise(() => undefined);
-
-  if (!event) {
-    return mapToÉtapeInconnueOuIgnoréeTimelineItemProps(dépôtValidé);
-  }
-
   const { validéLe, validéPar } = event.payload;
 
   return {

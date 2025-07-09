@@ -8,11 +8,7 @@ export type ListerDélaiAccordéProjetPort = (
   identifiantProjet: string,
 ) => Promise<Array<HistoriqueDélaiProjetListItemReadModel>>;
 
-export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<
-  'délai',
-  DélaiEvent['type'],
-  DélaiEvent['payload']
->;
+export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<'délai', DélaiEvent>;
 
 export type ListerHistoriqueDélaiProjetReadModel = Array<HistoriqueDélaiProjetListItemReadModel>;
 

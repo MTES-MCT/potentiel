@@ -5,14 +5,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementActionnaireRejetéTimelineItemProps = (
-  changementRejeté: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
+  changementRejeté: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent,
 ) => {
   const {
     rejetéLe,
     rejetéPar,
     identifiantProjet,
     réponseSignée: { format },
-  } = changementRejeté.payload as Lauréat.Actionnaire.ChangementActionnaireRejetéEvent['payload'];
+  } = changementRejeté.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,

@@ -3,10 +3,9 @@ import { match } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToDélaiAccordéTimelineItemProps = (
-  délaiAccordé: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
+  délaiAccordé: Lauréat.Délai.DélaiAccordéEvent,
 ) => {
-  const { accordéLe, durée, raison } =
-    délaiAccordé.payload as Lauréat.Délai.DélaiAccordéEvent['payload'];
+  const { accordéLe, durée, raison } = délaiAccordé.payload;
 
   return {
     date: accordéLe,
