@@ -12,6 +12,7 @@ import { AbandonEntity } from '../abandon';
 import { Abandon } from '..';
 import {
   CandidatureEntity,
+  Localité,
   TypeTechnologie,
   UnitéPuissance,
   VolumeRéservé,
@@ -24,14 +25,7 @@ export type ConsulterLauréatReadModel = {
   notifiéLe: DateTime.ValueType;
   notifiéPar: Email.ValueType;
   nomProjet: string;
-  localité: {
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    région: string;
-    département: string;
-  };
+  localité: Localité.ValueType;
   technologie: TypeTechnologie.ValueType;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutProjet.ValueType;
@@ -123,14 +117,14 @@ const mapToReadModel: MapToReadModel = (
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
   nomProjet,
-  localité: {
+  localité: Localité.bind({
     adresse1,
     adresse2,
     codePostal,
     commune,
     département,
     région,
-  },
+  }),
   statut,
 
   volumeRéservé: candidature.volumeRéservé,

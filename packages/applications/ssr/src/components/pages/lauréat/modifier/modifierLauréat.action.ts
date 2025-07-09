@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -147,12 +147,9 @@ export const modifierLauréatAction = formAction(action, modifierLauréatEtCandi
 const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
   data: PartialModifierCandidatureNotifiéeFormEntries,
-  previous: Candidature.ConsulterCandidatureReadModel,
+  { dépôt: previous, instruction }: Candidature.ConsulterCandidatureReadModel,
   doitRegenererAttestation?: boolean,
 ): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
-  const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   const localitéValue = {
     adresse1: data.adresse1 ?? previous.localité.adresse1,
     adresse2: data.adresse2 ?? previous.localité.adresse2,
@@ -163,14 +160,11 @@ const mapBodyToCandidatureUsecaseData = (
   };
 
   return {
-    appelOffreValue: appelOffre,
-    périodeValue: période,
-    familleValue: famille,
-    numéroCREValue: numéroCRE,
+    identifiantProjetValue: identifiantProjet,
     instructionValue: {
-      motifÉlimination: previous.motifÉlimination,
-      statut: previous.statut.formatter(),
-      noteTotale: data.noteTotale ?? previous.noteTotale,
+      motifÉlimination: instruction.motifÉlimination,
+      statut: instruction.statut.formatter(),
+      noteTotale: data.noteTotale ?? instruction.noteTotale,
     },
     dépôtValue: {
       nomProjet: data.nomProjet ?? previous.nomProjet,
