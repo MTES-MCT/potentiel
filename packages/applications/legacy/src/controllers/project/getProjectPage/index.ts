@@ -26,6 +26,7 @@ import {
   getRecours,
   getRaccordement,
   getActionnaire,
+  getDateAchèvementPrévisionnelle,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -186,6 +187,11 @@ v1Router.get(
         user.role,
       );
 
+      const dateAchèvementPrévisionnelle = await getDateAchèvementPrévisionnelle(
+        identifiantProjetValueType,
+        project.completionDueOn,
+      );
+
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
         données: {
@@ -253,6 +259,7 @@ v1Router.get(
           emailContact: lauréat.emailContact.formatter(),
           estAchevé: !!attestationConformité,
           attestationConformité,
+          dateAchèvementPrévisionnelle,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,

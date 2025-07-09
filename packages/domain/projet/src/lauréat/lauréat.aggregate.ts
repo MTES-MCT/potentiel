@@ -6,8 +6,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { Candidature } from '..';
-import { isFonctionnalitéDélaiActivée } from '../isFonctionnalitéDélaiActivée';
 
+import { isFonctionnalitéDélaiActivée } from './délai/isFonctionnalitéDélaiActivée';
 import { LauréatEvent } from './lauréat.event';
 import {
   LauréatNotifiéEvent,

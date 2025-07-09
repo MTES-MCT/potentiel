@@ -31,3 +31,6 @@ export { ConsulterABénéficiéDuDélaiCDC2022Port, ListerDélaiAccordéProjetPo
 // ValueTypes
 
 // Entities
+
+// Feature flag
+export * from './isFonctionnalitéDélaiActivée';

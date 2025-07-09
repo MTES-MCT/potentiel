@@ -1,6 +1,7 @@
 export * from './getAbandon';
 export * from './getAlertesRaccordement';
 export * from './getAttestationDeConformité';
+export * from './getDateAchèvementPrévisionnelle';
 export * from './getGarantiesFinancières';
 export * from './getReprésentantLégal';
 export * from './getActionnaire';
