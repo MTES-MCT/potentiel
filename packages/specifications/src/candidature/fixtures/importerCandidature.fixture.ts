@@ -9,8 +9,6 @@ import { AbstractFixture, DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';
 
 interface ImporterCandidature {
-  identifiantProjet: IdentifiantProjet.RawType;
-
   dépôtValue: Candidature.Dépôt.RawType;
   instructionValue: Candidature.Instruction.RawType;
 
@@ -87,7 +85,7 @@ export class ImporterCandidatureFixture
     importéPar,
     importéLe,
     détails,
-  }: ImporterCandidatureFixtureCréerProps): Readonly<ImporterCandidature> {
+  }: ImporterCandidatureFixtureCréerProps): Readonly<ImporterCandidatureFixture> {
     const identifiantProjet = getValidFakeIdentifiantProjet({
       appelOffre,
       famille,
