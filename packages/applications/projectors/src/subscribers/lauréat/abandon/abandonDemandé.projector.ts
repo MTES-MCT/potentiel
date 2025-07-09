@@ -20,6 +20,9 @@ export const abandonDemandéProjector = async (
   const appelOffre = await findProjection<AppelOffre.AppelOffreEntity>(
     `appel-offre|${IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre}`,
   );
+  if (Option.isNone(appelOffre)) {
+    throw new Error("Appel d'offre non trouvé");
+  }
 
   await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     identifiantProjet,
@@ -29,14 +32,7 @@ export const abandonDemandéProjector = async (
       demandéPar: event.payload.demandéPar,
       raison: event.payload.raison,
       estUneRecandidature,
-      autoritéCompétente: Option.match(appelOffre)
-        .some((appelOffre) =>
-          Lauréat.Abandon.AutoritéCompétente.convertirEnValueType(
-            appelOffre.abandon.autoritéCompétente,
-          ),
-        )
-        .none(() => Lauréat.Abandon.AutoritéCompétente.dgec)
-        .formatter(),
+      autoritéCompétente: appelOffre.abandon.autoritéCompétente,
       recandidature: estUneRecandidature
         ? {
             statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,
