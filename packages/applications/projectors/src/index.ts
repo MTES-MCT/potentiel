@@ -19,3 +19,4 @@ export * as PuissanceProjector from './subscribers/lauréat/puissance';
 export * as ProducteurProjector from './subscribers/lauréat/producteur';
 export * as FournisseurProjector from './subscribers/lauréat/fournisseur';
 export * as AccèsProjector from './subscribers/accès';
+export * as DélaiProjector from './subscribers/lauréat/délai/registerDélaiProjectors';

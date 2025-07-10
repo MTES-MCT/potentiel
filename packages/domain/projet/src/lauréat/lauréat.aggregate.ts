@@ -168,6 +168,11 @@ export class LauréatAggregate extends AbstractAggregate<
       GarantiesFinancièresAggregate,
       `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
     );
+
+    this.#délai = await this.loadAggregate(
+      DélaiAggregate,
+      `délai|${this.projet.identifiantProjet.formatter()}`,
+    );
   }
 
   async notifier({ attestation: { format } }: { attestation: { format: string } }) {

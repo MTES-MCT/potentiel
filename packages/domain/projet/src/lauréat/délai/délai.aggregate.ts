@@ -10,7 +10,7 @@ import { DélaiAccordéEvent, DélaiEvent } from './délai.event';
 import { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
 import { DemanderDélaiOptions } from './demande/demander/demanderDélai.options';
 
-export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'actionnaire', LauréatAggregate> {
+export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {
     statut: StatutDemandeDélai.ValueType;
     nombreDeMois: number;

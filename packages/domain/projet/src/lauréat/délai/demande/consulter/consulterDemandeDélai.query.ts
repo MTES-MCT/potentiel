@@ -48,9 +48,7 @@ export type ConsulterDemandeDélaiDependencies = {
   find: Find;
 };
 
-export const registerConsulterDemandeReprésentantLegalQuery = ({
-  find,
-}: ConsulterDemandeDélaiDependencies) => {
+export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeDélaiDependencies) => {
   const handler: MessageHandler<ConsulterDemandeDélaiQuery> = async ({
     identifiantProjet,
     demandéLe,
