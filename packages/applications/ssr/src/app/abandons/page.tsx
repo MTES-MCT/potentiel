@@ -6,14 +6,12 @@ import { match } from 'ts-pattern';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  AbandonListPage,
-  AbandonListPageProps,
-} from '@/components/pages/abandon/lister/AbandonList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+
+import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;
