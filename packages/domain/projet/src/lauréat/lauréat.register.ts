@@ -14,7 +14,7 @@ import { registerModifierLauréatCommand } from './modifier/modifierLauréat.com
 import { registerModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
-import { DélaiQueryDependencies, registerDélaiQueries } from './délai';
+import { DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
 import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
 import { ProducteurQueryDependencies } from './producteur/producteur.register';
 import {
@@ -94,6 +94,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerAbandonUseCases(dependencies);
   registerFournisseurUseCases(dependencies);
   registerRaccordementUseCases(dependencies);
+  registerDélaiUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {

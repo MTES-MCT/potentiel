@@ -38,6 +38,7 @@ import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
+import { DélaiAggregate } from './délai/délai.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -104,6 +105,11 @@ export class LauréatAggregate extends AbstractAggregate<
   #fournisseur!: AggregateType<FournisseurAggregate>;
   get fournisseur() {
     return this.#fournisseur;
+  }
+
+  #délai!: AggregateType<DélaiAggregate>;
+  get délai() {
+    return this.#délai;
   }
 
   #raccordement!: AggregateType<RaccordementAggregate>;
