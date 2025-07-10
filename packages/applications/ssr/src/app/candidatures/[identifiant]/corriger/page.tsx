@@ -9,12 +9,10 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import {
-  CorrigerCandidaturePage,
-  CorrigerCandidaturePageProps,
-} from '@/components/pages/candidature/corriger/CorrigerCandidature.page';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getCandidature } from '@/app/_helpers/getCandidature';
+
+import { CorrigerCandidaturePage, CorrigerCandidaturePageProps } from './CorrigerCandidature.page';
 
 type PageProps = IdentifiantParameter;
 
