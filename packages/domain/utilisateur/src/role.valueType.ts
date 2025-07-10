@@ -393,7 +393,16 @@ const référencielPermissions = {
       },
     },
     délai: {
-      query: { consulter: 'Lauréat.Délai.Query.ConsulterDélai' },
+      query: {
+        consulter: 'Lauréat.Délai.Query.ConsulterDélai',
+        consulterDemande: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+      },
+      usecase: {
+        demander: 'Lauréat.Délai.UseCase.DemanderDélai',
+      },
+      command: {
+        demander: 'Lauréat.Délai.Command.DemanderDélai',
+      },
     },
     usecase: {
       notifier: 'Lauréat.UseCase.NotifierLauréat',
@@ -1251,6 +1260,14 @@ const policies = {
       référencielPermissions.lauréat.cahierDesCharges.usecase.choisir,
     ],
   },
+  délai: {
+    consulterDemande: [référencielPermissions.lauréat.délai.query.consulterDemande],
+    demander: [
+      référencielPermissions.lauréat.délai.command.demander,
+      référencielPermissions.lauréat.délai.usecase.demander,
+      référencielPermissions.lauréat.délai.query.consulterDemande,
+    ],
+  },
   api: {
     raccordement: {
       lister: [
@@ -1467,6 +1484,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'fournisseur.modifierÉvaluationCarbone',
   'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
+
+  // Délai
+  'délai.consulterDemande',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1522,6 +1542,9 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Fournisseur
   'fournisseur.consulterChangement',
   'fournisseur.listerChangement',
+
+  // Délai
+  'délai.consulterDemande',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1619,6 +1642,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
   'fournisseur.consulter',
+
+  // Délai
+  'délai.consulterDemande',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1729,6 +1755,10 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
   'fournisseur.consulter',
+
+  // Délai
+  'délai.consulterDemande',
+  'délai.demander',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
@@ -1759,6 +1789,9 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   // Fournisseur
   'fournisseur.consulterChangement',
   'fournisseur.listerChangement',
+
+  // Délai
+  'délai.consulterDemande',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
