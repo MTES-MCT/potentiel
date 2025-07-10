@@ -7,15 +7,11 @@ import {
   getRégionAndDépartementFromCodePostal,
 } from './getRégionAndDépartementFromCodePostal';
 
-export const getLocalité = ({
-  codePostaux,
-  adresse1,
-  adresse2,
-  commune,
-}: Pick<
-  CandidatureShape,
-  'codePostaux' | 'adresse1' | 'adresse2' | 'commune'
->): Candidature.ImporterCandidatureUseCase['data']['localitéValue'] => {
+type GetLocalité = (
+  args: Pick<CandidatureShape, 'codePostaux' | 'adresse1' | 'adresse2' | 'commune'>,
+) => Candidature.ImporterCandidatureUseCase['data']['localitéValue'];
+
+export const getLocalité: GetLocalité = ({ codePostaux, adresse1, adresse2, commune }) => {
   const départementsRégions = codePostaux
     .map(getRégionAndDépartementFromCodePostal)
     .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
