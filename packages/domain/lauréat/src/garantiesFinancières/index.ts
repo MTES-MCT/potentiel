@@ -1,5 +1,4 @@
 import { SoumettreDépôtGarantiesFinancièresUseCase } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
-import { DemanderGarantiesFinancièresUseCase } from './demander/demanderGarantiesFinancières.usecase';
 import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
 import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
 import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
@@ -11,7 +10,6 @@ import {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
 } from './dépôtEnCours/lister/listerDépôtsEnCoursGarantiesFinancières.query';
-import { EffacerHistoriqueGarantiesFinancièresUseCase } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
 import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
@@ -43,8 +41,6 @@ import {
   ConsulterArchivesGarantiesFinancièresQuery,
   ConsulterArchivesGarantiesFinancièresReadModel,
 } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
-import { EffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
-import { DemanderGarantiesFinancièresCommand } from './demander/demanderGarantiesFinancières.command';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -83,7 +79,6 @@ export type {
 // UseCases
 export type GarantiesFinancièresUseCase =
   | SoumettreDépôtGarantiesFinancièresUseCase
-  | DemanderGarantiesFinancièresUseCase
   | SupprimerGarantiesFinancièresÀTraiterUseCase
   | ValiderDépôtGarantiesFinancièresEnCoursUseCase
   | ModifierDépôtGarantiesFinancièresEnCoursUseCase
@@ -91,7 +86,6 @@ export type GarantiesFinancièresUseCase =
   | ModifierGarantiesFinancièresUseCase
   | EnregistrerAttestationGarantiesFinancièresUseCase
   | EnregistrerGarantiesFinancièresUseCase
-  | EffacerHistoriqueGarantiesFinancièresUseCase
   | DemanderMainlevéeGarantiesFinancièresUseCase
   | AnnulerMainlevéeGarantiesFinancièresUseCase
   | DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase
@@ -100,7 +94,6 @@ export type GarantiesFinancièresUseCase =
 
 export type {
   SoumettreDépôtGarantiesFinancièresUseCase,
-  DemanderGarantiesFinancièresUseCase,
   SupprimerGarantiesFinancièresÀTraiterUseCase,
   ValiderDépôtGarantiesFinancièresEnCoursUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
@@ -108,16 +101,12 @@ export type {
   ModifierGarantiesFinancièresUseCase,
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
-  EffacerHistoriqueGarantiesFinancièresUseCase,
   DemanderMainlevéeGarantiesFinancièresUseCase,
   AnnulerMainlevéeGarantiesFinancièresUseCase,
   DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
   RejeterDemandeMainlevéeGarantiesFinancièresUseCase,
   AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
 };
-
-// Command
-export type { EffacerHistoriqueGarantiesFinancièresCommand, DemanderGarantiesFinancièresCommand };
 
 // Event
 

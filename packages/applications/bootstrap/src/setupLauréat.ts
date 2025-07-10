@@ -112,34 +112,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     },
   });
 
-  const unsubscribeGarantiesFinancièresRecoursSaga = await subscribe<
-    GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent & Event
-  >({
-    name: 'garanties-financieres-recours-saga',
-    streamCategory: 'recours',
-    eventType: ['RecoursAccordé-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<GarantiesFinancières.GarantiesFinancièresSaga.Execute>({
-        type: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-
-  const unsubscribeGarantiesFinancièresProducteurSaga = await subscribe<
-    GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent & Event
-  >({
-    name: 'garanties-financieres-producteur-saga',
-    streamCategory: 'producteur',
-    eventType: ['ChangementProducteurEnregistré-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<GarantiesFinancières.GarantiesFinancièresSaga.Execute>({
-        type: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-
   const unsubscribeTypeGarantiesFinancièresSaga = await subscribe<
     GarantiesFinancières.TypeGarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
@@ -161,8 +133,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeGarantiesFinancièresNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
-    await unsubscribeGarantiesFinancièresRecoursSaga();
-    await unsubscribeGarantiesFinancièresProducteurSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();
   };
 };

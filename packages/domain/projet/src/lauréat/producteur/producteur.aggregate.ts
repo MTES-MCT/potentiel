@@ -5,6 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { GarantiesFinancières } from '..';
 
 import { TypeDocumentProducteur } from '.';
 
@@ -80,6 +81,14 @@ export class ProducteurAggregate extends AbstractAggregate<
       retiréLe: dateChangement,
       retiréPar: identifiantUtilisateur,
       cause: 'changement-producteur',
+    });
+    await this.lauréat.projet.lauréat.garantiesFinancières.effacerHistorique({
+      effacéLe: dateChangement,
+      effacéPar: identifiantUtilisateur,
+    });
+    await this.lauréat.projet.lauréat.garantiesFinancières.demander({
+      demandéLe: dateChangement,
+      motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
     });
   }
 

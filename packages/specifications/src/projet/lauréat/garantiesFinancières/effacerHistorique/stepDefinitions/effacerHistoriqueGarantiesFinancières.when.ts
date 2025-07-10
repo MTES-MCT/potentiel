@@ -1,7 +1,8 @@
 import { When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -11,14 +12,15 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          effacéLeValue: new Date().toISOString(),
-          effacéParValue: 'admin@test.test',
+      const event: Lauréat.GarantiesFinancières.HistoriqueGarantiesFinancièresEffacéEvent = {
+        type: 'HistoriqueGarantiesFinancièresEffacé-V1',
+        payload: {
+          identifiantProjet: identifiantProjet.formatter(),
+          effacéLe: DateTime.now().formatter(),
+          effacéPar: Email.system().formatter(),
         },
-      });
+      };
+      await publish(`garanties-financieres|${identifiantProjet.formatter()}`, event);
     } catch (error) {
       this.error = error as Error;
     }

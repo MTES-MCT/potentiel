@@ -1,7 +1,8 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -15,14 +16,19 @@ EtantDonné(
     const motif = exemple['motif'];
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        demandéLeValue: new Date(notifiéLe).toISOString(),
-        dateLimiteSoumissionValue: new Date(dateLimiteSoumission).toISOString(),
-        motifValue: motif,
+    const event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent = {
+      type: 'GarantiesFinancièresDemandées-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        motif:
+          Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif)
+            .motif,
+        dateLimiteSoumission: DateTime.convertirEnValueType(
+          new Date(dateLimiteSoumission),
+        ).formatter(),
+        demandéLe: DateTime.convertirEnValueType(new Date(notifiéLe)).formatter(),
       },
-    });
+    };
+    await publish(`garanties-financieres|${identifiantProjet.formatter()}`, event);
   },
 );

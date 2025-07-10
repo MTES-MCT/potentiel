@@ -1,22 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ÉchoirGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.command';
 import * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
-import { DemanderGarantiesFinancièresCommand } from './demander/demanderGarantiesFinancières.command';
-import { appelOffreSoumisAuxGarantiesFinancières } from './_utils/appelOffreSoumisAuxGarantiesFinancières';
-import { EffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
 
-export type SubscriptionEvent =
-  | TâchePlanifiéeExecutéeEvent
-  | Éliminé.Recours.RecoursAccordéEvent
-  | Lauréat.Producteur.ChangementProducteurEnregistréEvent;
+export type SubscriptionEvent = TâchePlanifiéeExecutéeEvent;
 
 export type Execute = Message<
   'System.Lauréat.GarantiesFinancières.Saga.Execute',
@@ -39,73 +30,6 @@ export const register = () => {
           }
         },
       )
-      .with({ type: 'RecoursAccordé-V1' }, async (event) => {
-        const {
-          payload: { identifiantProjet, accordéLe },
-        } = event;
-        const identifiantProjetValueType =
-          IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-        await demanderGarantiesFinancières({
-          identifiantProjet: identifiantProjetValueType,
-          demandéLe: DateTime.convertirEnValueType(accordéLe),
-          motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
-        });
-      })
-      .with({ type: 'ChangementProducteurEnregistré-V1' }, async (event) => {
-        const {
-          payload: { identifiantProjet, enregistréLe, enregistréPar },
-        } = event;
-        const identifiantProjetValueType =
-          IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-        await mediator.send<EffacerHistoriqueGarantiesFinancièresCommand>({
-          type: 'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
-          data: {
-            identifiantProjet: identifiantProjetValueType,
-            effacéLe: DateTime.convertirEnValueType(enregistréLe),
-            effacéPar: Email.convertirEnValueType(enregistréPar),
-          },
-        });
-
-        await demanderGarantiesFinancières({
-          identifiantProjet: identifiantProjetValueType,
-          demandéLe: DateTime.convertirEnValueType(enregistréLe),
-          motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
-        });
-      })
       .exhaustive();
   mediator.register('System.Lauréat.GarantiesFinancières.Saga.Execute', handler);
-};
-
-const demanderGarantiesFinancières = async ({
-  identifiantProjet,
-  demandéLe,
-  motif,
-}: Omit<DemanderGarantiesFinancièresCommand['data'], 'dateLimiteSoumission'>) => {
-  const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    type: 'AppelOffre.Query.ConsulterAppelOffre',
-    data: {
-      identifiantAppelOffre: identifiantProjet.appelOffre,
-    },
-  });
-
-  if (
-    Option.isSome(appelOffre) &&
-    appelOffreSoumisAuxGarantiesFinancières({
-      appelOffre,
-      période: identifiantProjet.période,
-      famille: identifiantProjet.famille,
-    })
-  ) {
-    await mediator.send<DemanderGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
-      data: {
-        demandéLe,
-        identifiantProjet,
-        dateLimiteSoumission: demandéLe.ajouterNombreDeMois(2),
-        motif,
-      },
-    });
-  }
 };

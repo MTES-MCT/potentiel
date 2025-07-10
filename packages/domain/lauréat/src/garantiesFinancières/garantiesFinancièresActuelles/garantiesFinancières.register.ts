@@ -1,11 +1,7 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
-import { registerDemanderGarantiesFinancièresCommand } from '../demander/demanderGarantiesFinancières.command';
-import { registerDemanderGarantiesFinancièresUseCase } from '../demander/demanderGarantiesFinancières.usecase';
 import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from '../dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
-import { registerEffacerHistoriqueGarantiesFinancièresCommand } from '../effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
-import { registerEffacerHistoriqueGarantiesFinancièresUseCase } from '../effacerHistorique/effacerHistoriqueGarantiesFinancières.usecase';
 
 import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command';
 import { registerEnregistrerGarantiesFinancièresUseCase } from './enregistrer/enregistrerGarantiesFinancières.usecase';
@@ -22,20 +18,16 @@ export const registerGarantiesFinancières = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   // commands
-  registerDemanderGarantiesFinancièresCommand(loadAggregate);
   registerImporterTypeGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerGarantiesFinancièresCommand(loadAggregate);
-  registerEffacerHistoriqueGarantiesFinancièresCommand(loadAggregate);
   registerÉchoirGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
 
   // usecases
-  registerDemanderGarantiesFinancièresUseCase();
   registerSupprimerGarantiesFinancièresÀTraiterUseCase();
   registerImporterTypeGarantiesFinancièresUseCase();
   registerModifierGarantiesFinancièresUseCase();
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
   registerEnregistrerGarantiesFinancièresUseCase();
-  registerEffacerHistoriqueGarantiesFinancièresUseCase();
 };
