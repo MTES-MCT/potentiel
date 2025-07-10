@@ -5,8 +5,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { isFonctionnalitéDélaiActivée } from '../délai';
 
-import { AttestationConformitéEvent } from './attestationConformité/attestationConformité.event';
 import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
@@ -17,9 +17,11 @@ import { AttestationConformitéModifiéeEvent } from './attestationConformité/m
 import { ModifierAttestationConformitéOptions } from './attestationConformité/modifier/modifierAttestationConformité.option';
 import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
 import { TypeDocumentAttestationConformité } from './attestationConformité';
+import { AchèvementEvent } from './achèvement.event';
+import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
 
 export class AchèvementAggregate extends AbstractAggregate<
-  AttestationConformitéEvent,
+  AchèvementEvent,
   'achevement',
   LauréatAggregate
 > {
@@ -40,6 +42,32 @@ export class AchèvementAggregate extends AbstractAggregate<
   #preuveTransmissionAuCocontractant: Option.Type<DocumentProjet.ValueType> = Option.none;
   get preuveTransmissionAuCocontractant() {
     return this.#preuveTransmissionAuCocontractant;
+  }
+
+  get délaiRéalisationEnMois() {
+    if (this.lauréat.projet.appelOffre.multiplesTechnologies) {
+      return this.lauréat.projet.appelOffre.délaiRéalisationEnMois[
+        this.lauréat.projet.candidature.technologie.formatter()
+      ];
+    }
+
+    return this.lauréat.projet.appelOffre.délaiRéalisationEnMois;
+  }
+
+  async calculerDateAchèvementPrévisionnel() {
+    if (isFonctionnalitéDélaiActivée()) {
+      const delaiRealisationEnMois = this.délaiRéalisationEnMois;
+
+      const event: DateAchèvementPrévisionnelCalculéeEvent = {
+        type: 'DateAchèvementPrévisionnelCalculée-V1',
+        payload: {
+          identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+          date: this.lauréat.notifiéLe.ajouterNombreDeMois(delaiRealisationEnMois).formatter(),
+        },
+      };
+
+      await this.publish(event);
+    }
   }
 
   async transmettreAttestationConformité({
@@ -111,7 +139,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  apply(event: AttestationConformitéEvent): void {
+  apply(event: AchèvementEvent): void {
     match(event)
       .with(
         {
@@ -124,6 +152,12 @@ export class AchèvementAggregate extends AbstractAggregate<
           type: 'AttestationConformitéModifiée-V1',
         },
         (event) => this.applyAttestationConformitéModifiéeV1(event),
+      )
+      .with(
+        {
+          type: 'DateAchèvementPrévisionnelCalculée-V1',
+        },
+        (event) => this.applyDatePrévisionnelleCalculéeV1(event),
       )
       .exhaustive();
   }
@@ -177,4 +211,6 @@ export class AchèvementAggregate extends AbstractAggregate<
       preuveTransmissionAuCocontractant.format,
     );
   }
+
+  private applyDatePrévisionnelleCalculéeV1(_: DateAchèvementPrévisionnelCalculéeEvent) {}
 }

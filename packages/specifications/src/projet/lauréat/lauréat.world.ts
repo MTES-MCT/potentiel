@@ -7,7 +7,7 @@ import { CandidatureWorld } from '../../candidature/candidature.world';
 import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 import { ActionnaireWorld } from './actionnaire/actionnaire.world';
-import { AchèvementWorld } from './achèvement/attestationConformité/achèvement.world';
+import { AchèvementWorld } from './achèvement/achèvement.world';
 import { ModifierLauréatFixture } from './fixtures/modifierLauréat.fixture';
 import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
 import { PuissanceWorld } from './puissance/puissance.world';

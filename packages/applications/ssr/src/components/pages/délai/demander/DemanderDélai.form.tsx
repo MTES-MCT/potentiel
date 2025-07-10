@@ -90,7 +90,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
 
         {peutDemanderUnDélai() && (
           <div>
-            Après accord de votre demande de délai, la date d'achèvement prévisionnelle serait le{' '}
+            Après accord de votre demande de délai, la date d'achèvement prévisionnel serait le{' '}
             <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />
           </div>
         )}

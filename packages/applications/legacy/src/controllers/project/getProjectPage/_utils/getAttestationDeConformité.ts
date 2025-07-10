@@ -31,7 +31,9 @@ export const getAttestationDeConformité = async (
           preuveTransmissionAuCocontractant:
             attestationConformité.preuveTransmissionAuCocontractant.formatter(),
           identifiantProjet: identifiantProjet.formatter(),
-          permissionModifier: utilisateur.aLaPermission('achèvement.modifier'),
+          permissionModifier: utilisateur.aLaPermission(
+            'achèvement.attestationConformité.modifier',
+          ),
         }
       : undefined;
   } catch (error) {

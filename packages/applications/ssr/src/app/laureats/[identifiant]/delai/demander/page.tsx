@@ -43,7 +43,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     /**
-     * TODO : Aller chercher la date d'achèvement prévisionnelle actuelle
+     * TODO : Aller chercher la date d'achèvement prévisionnel actuelle
      */
 
     return (

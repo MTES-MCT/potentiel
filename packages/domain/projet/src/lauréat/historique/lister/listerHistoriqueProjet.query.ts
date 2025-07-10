@@ -19,7 +19,7 @@ import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../repr
 import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
 import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistoriqueDélaiProjet.query';
 import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
-import { AttestationConformitéEvent } from '../../achèvement/attestationConformité';
+import { AchèvementEvent } from '../../achèvement';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<'lauréat', LauréatEvent>;
 
@@ -30,7 +30,7 @@ export type HistoriqueGarantiesFinancièresProjetListItemReadModel = HistoryReco
 
 export type HistoriqueAchèvementProjetListItemReadModel = HistoryRecord<
   'achevement',
-  AttestationConformitéEvent
+  AchèvementEvent
 >;
 
 export type HistoriqueListItemReadModels =

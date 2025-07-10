@@ -24,7 +24,7 @@ import { GetPuissanceForProjectPage } from '../../../../../controllers/project/g
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
 
-export type AchevementProps = {
+export type AttestationConformitéProps = {
   date: number;
   attestation: DocumentProjet.RawType;
   preuveTransmissionAuCocontractant: DocumentProjet.RawType;
@@ -43,7 +43,7 @@ export type InfoGeneralesProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
-  achèvement?: AchevementProps;
+  attestationConformité?: AttestationConformitéProps;
 };
 
 export const InfoGenerales = ({
@@ -72,7 +72,7 @@ export const InfoGenerales = ({
   puissance,
   coefficientKChoisi,
   estAchevé,
-  achèvement,
+  attestationConformité,
 }: InfoGeneralesProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -149,22 +149,24 @@ export const InfoGenerales = ({
           <span>{prixReference} €/MWh</span>
         </div>
       )}
-      {achèvement && (
+      {attestationConformité && (
         <div className="flex flex-col">
           <Heading3 className="m-0">Achèvement</Heading3>
           <DownloadLink
-            fileUrl={Routes.Document.télécharger(achèvement.attestation)}
+            fileUrl={Routes.Document.télécharger(attestationConformité.attestation)}
             className="m-0"
           >
             Télécharger l'attestation de conformité
           </DownloadLink>
           <DownloadLink
-            fileUrl={Routes.Document.télécharger(achèvement.preuveTransmissionAuCocontractant)}
+            fileUrl={Routes.Document.télécharger(
+              attestationConformité.preuveTransmissionAuCocontractant,
+            )}
             className="m-0"
           >
             Télécharger la preuve de transmission au cocontractant
           </DownloadLink>
-          {role.aLaPermission('achèvement.modifier') && (
+          {role.aLaPermission('achèvement.attestationConformité.modifier') && (
             <Link
               href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet.formatter())}
               aria-label="Modifier les informations d'achèvement du projet"

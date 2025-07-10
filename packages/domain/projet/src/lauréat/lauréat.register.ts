@@ -18,6 +18,7 @@ import { DélaiQueryDependencies, registerDélaiQueries } from './délai';
 import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
 import { ProducteurQueryDependencies } from './producteur/producteur.register';
 import {
+  AchèvementQueryDependencies,
   registerAchèvementQueries,
   registerAchèvementUseCases,
 } from './achèvement/achèvement.register';
@@ -68,7 +69,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ReprésentantLégalQueryDependencies &
   RaccordementQueryDependencies &
   ReprésentantLégalQueryDependencies &
-  ListerHistoriqueProjetDependencies;
+  ListerHistoriqueProjetDependencies &
+  AchèvementQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;

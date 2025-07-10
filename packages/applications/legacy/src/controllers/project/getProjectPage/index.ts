@@ -26,6 +26,7 @@ import {
   getRecours,
   getRaccordement,
   getActionnaire,
+  getDateAchèvementPrévisionnel,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -181,7 +182,15 @@ v1Router.get(
             })
           : [];
 
-      const achèvement = await getAttestationDeConformité(identifiantProjetValueType, user.role);
+      const attestationConformité = await getAttestationDeConformité(
+        identifiantProjetValueType,
+        user.role,
+      );
+
+      const dateAchèvementPrévisionnel = await getDateAchèvementPrévisionnel(
+        identifiantProjetValueType,
+        project.completionDueOn,
+      );
 
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
@@ -248,8 +257,9 @@ v1Router.get(
               project.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
           emailContact: lauréat.emailContact.formatter(),
-          estAchevé: !!achèvement,
-          achèvement,
+          estAchevé: !!attestationConformité,
+          attestationConformité,
+          dateAchèvementPrévisionnel,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,

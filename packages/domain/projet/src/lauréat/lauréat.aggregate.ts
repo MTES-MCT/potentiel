@@ -20,6 +20,7 @@ import {
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
   LauréatDéjàNotifiéError,
+  LauréatNonNotifiéError,
   LauréatNonTrouvéError,
   ProjetAbandonnéError,
   ProjetAchevéError,
@@ -45,12 +46,20 @@ export class LauréatAggregate extends AbstractAggregate<
 > {
   #nomProjet?: string;
   #localité?: Candidature.Localité.ValueType;
-  #notifiéLe?: DateTime.ValueType;
   #cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
     AppelOffre.RéférenceCahierDesCharges.initial;
 
   get projet() {
     return this.parent;
+  }
+
+  #notifiéLe?: DateTime.ValueType;
+  get notifiéLe() {
+    if (!this.#notifiéLe) {
+      throw new LauréatNonNotifiéError();
+    }
+
+    return this.#notifiéLe;
   }
 
   #estNotifié: boolean = false;
@@ -157,6 +166,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   async notifier({ attestation: { format } }: { attestation: { format: string } }) {
     this.vérifierQueLeLauréatPeutÊtreNotifié();
+
     const { notifiéeLe, notifiéePar, nomProjet, localité } = this.projet.candidature;
     const event: LauréatNotifiéEvent = {
       type: 'LauréatNotifié-V2',
@@ -203,6 +213,8 @@ export class LauréatAggregate extends AbstractAggregate<
       importéLe: notifiéeLe,
       identifiantUtilisateur: notifiéePar,
     });
+
+    await this.achèvement.calculerDateAchèvementPrévisionnel();
   }
 
   async modifier({
