@@ -21,7 +21,7 @@ const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 });
 
-export type CorrigerPlusieursCandidaturesFormKeys = keyof zod.infer<typeof schema>;
+export type CorrigerCandidaturesParLotFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
@@ -120,4 +120,4 @@ const mapLineToUseCaseData = (
   détailsValue: rawLine,
 });
 
-export const CorrigerPlusieursCandidaturesAction = formAction(action, schema);
+export const CorrigerCandidaturesParLotAction = formAction(action, schema);
