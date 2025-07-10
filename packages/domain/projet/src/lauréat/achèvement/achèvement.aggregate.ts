@@ -18,7 +18,6 @@ import { ModifierAttestationConformitéOptions } from './attestationConformité/
 import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
 import { TypeDocumentAttestationConformité } from './attestationConformité';
 import { AchèvementEvent } from './achèvement.event';
-import { ImpossibleDeCalculerLaDateAchèvementPrévisionnelle } from './achèvement.error';
 import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
 
 export class AchèvementAggregate extends AbstractAggregate<
@@ -45,24 +44,19 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.#preuveTransmissionAuCocontractant;
   }
 
+  get délaiRéalisationEnMois() {
+    if (this.lauréat.projet.appelOffre.multiplesTechnologies) {
+      return this.lauréat.projet.appelOffre.délaiRéalisationEnMois[
+        this.lauréat.projet.candidature.technologie.formatter()
+      ];
+    }
+
+    return this.lauréat.projet.appelOffre.délaiRéalisationEnMois;
+  }
+
   async calculerDateAchèvementPrévisionnel() {
     if (isFonctionnalitéDélaiActivée()) {
-      // TODO: Cette fonction devrait être une propriété de l'agrégat appel d'offre
-      const getDelaiRealisationEnMois = () => {
-        if (this.lauréat.projet.appelOffre.decoupageParTechnologie) {
-          const technologie = this.lauréat.projet.candidature.technologie.formatter();
-
-          if (technologie === 'N/A') {
-            throw new ImpossibleDeCalculerLaDateAchèvementPrévisionnelle();
-          }
-
-          return this.lauréat.projet.appelOffre.delaiRealisationEnMoisParTechnologie[technologie];
-        } else {
-          return this.lauréat.projet.appelOffre.delaiRealisationEnMois;
-        }
-      };
-
-      const delaiRealisationEnMois = getDelaiRealisationEnMois();
+      const delaiRealisationEnMois = this.délaiRéalisationEnMois;
 
       const event: DateAchèvementPrévisionnelCalculéeEvent = {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
