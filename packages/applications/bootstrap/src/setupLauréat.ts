@@ -38,7 +38,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
-  GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
 
   const unsubscribeGarantiesFinancièresProjector =
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
@@ -112,20 +111,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     },
   });
 
-  const unsubscribeTypeGarantiesFinancièresSaga = await subscribe<
-    GarantiesFinancières.TypeGarantiesFinancièresSaga.SubscriptionEvent & Event
-  >({
-    name: 'type-garanties-financieres-saga',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V2'],
-    eventHandler: async (event) => {
-      await mediator.publish<GarantiesFinancières.TypeGarantiesFinancièresSaga.Execute>({
-        type: 'System.Lauréat.TypeGarantiesFinancières.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-
   return async () => {
     // projectors
     await unsubscribeGarantiesFinancièresProjector();
@@ -133,6 +118,5 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeGarantiesFinancièresNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
-    await unsubscribeTypeGarantiesFinancièresSaga();
   };
 };

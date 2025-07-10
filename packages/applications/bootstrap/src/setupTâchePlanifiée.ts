@@ -1,23 +1,10 @@
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
-import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import {
-  registerTâchePlanifiéeUseCases,
-  registerTâchePlanifiéeQuery,
-} from '@potentiel-domain/tache-planifiee';
 import { SendEmail, TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from './setupProjet/createSubscriptionSetup';
 
 export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmail }) => {
-  registerTâchePlanifiéeUseCases({
-    loadAggregate,
-  });
-
-  registerTâchePlanifiéeQuery({
-    list: listProjection,
-  });
   const tâchePlanifiée = createSubscriptionSetup('tâche-planifiée');
 
   TâchePlanifiéeProjector.register();

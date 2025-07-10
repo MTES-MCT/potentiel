@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Modifier des garanties financières actuelles
 
     Contexte:

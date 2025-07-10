@@ -3,8 +3,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
-import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache-planifiee';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
@@ -14,7 +14,7 @@ async function recupérerTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
   dateTâche?: DateTime.RawType,
 ) {
-  const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
+  const tâches = await mediator.send<Lauréat.TâchePlanifiée.ListerTâchesPlanifiéesQuery>({
     type: 'Tâche.Query.ListerTâchesPlanifiées',
     data: {
       àExécuterLe: dateTâche,

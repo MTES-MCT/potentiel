@@ -2,14 +2,11 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import {
-  AjouterTâchePlanifiéeCommand,
-  ExécuterTâchePlanifiéeUseCase,
-} from '@potentiel-domain/tache-planifiee';
-import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { setDépôtData } from '../../dépôt/stepDefinitions/helper';
+import { ajouterTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.given';
 
 import { setGarantiesFinancièresData } from './helper';
 
@@ -87,26 +84,18 @@ EtantDonné(
     const echuLeDate = new Date(dateÉchéance.getTime());
     const echuLeValue = new Date(echuLeDate.setDate(echuLeDate.getDate() + 1));
 
-    await mediator.send<AjouterTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        tâches: [
-          {
-            typeTâchePlanifiée:
-              GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-            àExécuterLe: DateTime.convertirEnValueType(echuLeValue),
-          },
-        ],
-      },
-    });
+    await ajouterTâchePlanifiée(
+      identifiantProjet,
+      Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+      new Date(echuLeValue),
+    );
 
-    await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+    await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         typeTâchePlanifiéeValue:
-          GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+          Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
       },
     });
   },

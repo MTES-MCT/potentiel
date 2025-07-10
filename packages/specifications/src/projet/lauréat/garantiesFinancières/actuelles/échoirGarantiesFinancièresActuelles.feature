@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     Contexte:

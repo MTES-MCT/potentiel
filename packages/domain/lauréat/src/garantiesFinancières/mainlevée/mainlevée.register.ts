@@ -21,7 +21,7 @@ export const registerMainlevée = (
   registerAnnulerMainlevéeGarantiesFinancièresCommand(loadAggregate);
   registerDémarrerInstructionDemandeMainlevéeGarantiesFinancières(loadAggregate);
   registeRejeterDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate);
-  registeAccorderDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate);
+  registeAccorderDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
 
   // usecases
   registerDemanderMainlevéeGarantiesFinancièresUseCase();

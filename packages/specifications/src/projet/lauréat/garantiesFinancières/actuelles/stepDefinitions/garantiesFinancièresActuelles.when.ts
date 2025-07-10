@@ -2,7 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { ExécuterTâchePlanifiéeUseCase } from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { corrigerCandidature } from '../../../../../candidature/stepDefinitions/candidature.when';
@@ -99,12 +99,12 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+      await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           typeTâchePlanifiéeValue:
-            GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+            Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
         },
       });
     } catch (error) {

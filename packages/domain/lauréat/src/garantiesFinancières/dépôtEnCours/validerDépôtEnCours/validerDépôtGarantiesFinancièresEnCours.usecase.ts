@@ -5,7 +5,6 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document';
 
 import { TypeDocumentGarantiesFinancières } from '../..';
-import { AjouterTâchesPlanifiéesGarantiesFinancièresCommand } from '../../tâches-planifiées/ajouter/ajouter.command';
 
 import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancièresEnCours.command';
 
@@ -15,7 +14,6 @@ export type ValiderDépôtGarantiesFinancièresEnCoursUseCase = Message<
     identifiantProjetValue: string;
     validéLeValue: string;
     validéParValue: string;
-    dateÉchéanceValue?: string;
   }
 >;
 
@@ -24,7 +22,6 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
     identifiantProjetValue,
     validéLeValue,
     validéParValue,
-    dateÉchéanceValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const validéLe = DateTime.convertirEnValueType(validéLeValue);
@@ -50,16 +47,6 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
         identifiantProjet,
         validéLe,
         validéPar,
-      },
-    });
-
-    await mediator.send<AjouterTâchesPlanifiéesGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.AjouterTâchesPlanifiées',
-      data: {
-        identifiantProjet,
-        dateÉchéance: dateÉchéanceValue
-          ? DateTime.convertirEnValueType(dateÉchéanceValue)
-          : undefined,
       },
     });
   };

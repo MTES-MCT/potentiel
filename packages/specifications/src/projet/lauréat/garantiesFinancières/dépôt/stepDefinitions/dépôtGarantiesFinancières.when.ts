@@ -122,7 +122,6 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const dateValidation = exemple['date de validation'];
-    const dateÉchéance = exemple[`date d'échéance`] || undefined;
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -132,7 +131,6 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           validéLeValue: new Date(dateValidation).toISOString(),
           validéParValue: 'dreal@test.test',
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
         },
       });
     } catch (error) {

@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet lors de la notification
 
     Contexte:
@@ -24,6 +25,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | date d'échéance | 2024-12-02         |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
 
+    @select
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de type de garanties financières importé
         Quand un admin importe le type des garanties financières actuelles pour le projet avec :
             | type GF         | avec-date-échéance |

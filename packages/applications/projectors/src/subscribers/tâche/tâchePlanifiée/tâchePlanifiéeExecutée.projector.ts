@@ -1,13 +1,10 @@
-import {
-  TâchePlanifiéeExecutéeEvent,
-  TâchePlanifiéeEntity,
-} from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const tâchePlanifiéeExecutéeProjector = async ({
   payload: { identifiantProjet, typeTâchePlanifiée },
-}: TâchePlanifiéeExecutéeEvent) => {
-  await removeProjection<TâchePlanifiéeEntity>(
+}: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent) => {
+  await removeProjection<Lauréat.TâchePlanifiée.TâchePlanifiéeEntity>(
     `tâche-planifiée|${typeTâchePlanifiée}#${identifiantProjet}`,
   );
 };

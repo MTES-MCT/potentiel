@@ -15,7 +15,6 @@
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/tache-planifiee": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-libraries/monads": "*"
   },

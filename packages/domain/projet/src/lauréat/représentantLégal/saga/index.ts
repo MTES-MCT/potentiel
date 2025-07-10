@@ -1,15 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
-
 import { Abandon } from '../..';
+import { Lauréat } from '../../..';
 
 import { abandonAccordéSaga } from './abandonAccordé.saga';
 import { tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga } from './tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée.saga';
 
 type Event = { version: number; created_at: string; stream_id: string };
-export type SubscriptionEvent = (TâchePlanifiéeExecutéeEvent | Abandon.AbandonAccordéEvent) & Event;
+export type SubscriptionEvent = (
+  | Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent
+  | Abandon.AbandonAccordéEvent
+) &
+  Event;
 
 export type Execute = Message<'System.Lauréat.ReprésentantLégal.Saga.Execute', SubscriptionEvent>;
 

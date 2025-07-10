@@ -2,16 +2,22 @@ import { mediator } from 'mediateur';
 import { Command, Flags } from '@oclif/core';
 import z from 'zod';
 
-import {
-  ExécuterTâchePlanifiéeUseCase,
-  ListerTâchesPlanifiéesQuery,
-  registerTâchePlanifiéeQuery,
-  registerTâchePlanifiéeUseCases,
-} from '@potentiel-domain/tache-planifiee';
 import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  countProjection,
+  findProjection,
+  listHistoryProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projection-read';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  Lauréat,
+  ProjetAggregateRoot,
+  registerProjetQueries,
+  registerProjetUseCases,
+} from '@potentiel-domain/projet';
+import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
@@ -35,12 +41,31 @@ export class Executer extends Command {
       process.exit(0);
     }
 
-    registerTâchePlanifiéeQuery({
+    registerProjetQueries({
       list: listProjection,
+      find: findProjection,
+      count: countProjection,
+      listHistory: listHistoryProjection,
+      consulterABénéficiéDuDélaiCDC2022: () => {
+        throw new Error('notImplemented');
+      },
+      getScopeProjetUtilisateur: () => {
+        throw new Error('notImplemented');
+      },
+      listerDélaiAccordéProjet: () => {
+        throw new Error('notImplemented');
+      },
+      récupérerProjetsEligiblesPreuveRecanditure: () => {
+        throw new Error('notImplemented');
+      },
     });
-
-    registerTâchePlanifiéeUseCases({
-      loadAggregate,
+    registerProjetUseCases({
+      getProjetAggregateRoot: (identifiantProjet) =>
+        ProjetAggregateRoot.get(identifiantProjet, {
+          loadAggregate: loadAggregateV2,
+          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
+        }),
+      supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }
 
@@ -50,7 +75,7 @@ export class Executer extends Command {
     const logger = getLogger('Scheduler');
     logger.info('Lancement du script...');
 
-    const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
+    const tâches = await mediator.send<Lauréat.TâchePlanifiée.ListerTâchesPlanifiéesQuery>({
       type: 'Tâche.Query.ListerTâchesPlanifiées',
       data: {
         àExécuterLe: àExécuterLe.formatter(),
@@ -65,7 +90,7 @@ export class Executer extends Command {
       tâches.items.map(async ({ identifiantProjet, typeTâchePlanifiée }) => {
         try {
           logger.info(`Exécution de ${typeTâchePlanifiée} pour ${identifiantProjet.formatter()}`);
-          await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+          await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
             type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
             data: {
               identifiantProjetValue: identifiantProjet.formatter(),

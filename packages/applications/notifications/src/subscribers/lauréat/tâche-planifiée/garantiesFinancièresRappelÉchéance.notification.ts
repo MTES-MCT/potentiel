@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
@@ -10,7 +9,7 @@ import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 type GarantiesFinancièresRappelÉchéanceNotificationProps = {
   sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];
   identifiantProjet: IdentifiantProjet.ValueType;
-  event: TâchePlanifiéeExecutéeEvent;
+  event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent;
   projet: {
     nom: string;
     département: string;

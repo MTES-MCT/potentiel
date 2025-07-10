@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Valider un dépôt de garanties financières
 
     Contexte:
@@ -21,7 +22,6 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | date de validation | <date de validation> |
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type GF              | <type GF>              |
-            | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
@@ -29,10 +29,10 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
 
         Exemples:
-            | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de validation |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | type GF                   | format du fichier | contenu du fichier    | date de constitution | date de validation |
+            | avec-date-échéance        | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | consignation              | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | six-mois-après-achèvement | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
 
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut validé
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
@@ -62,7 +62,6 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | date d'échéance | 2024-12-01         |
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | 2024-11-02 |
-            | date d'échéance    | 2024-12-01 |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-02" pour le projet "Du boulodrome de Marseille"
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de dépôt validé
@@ -71,7 +70,6 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | date d'échéance | 2024-10-01         |
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | 2023-10-10 |
-            | date d'échéance    | 2024-10-01 |
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 

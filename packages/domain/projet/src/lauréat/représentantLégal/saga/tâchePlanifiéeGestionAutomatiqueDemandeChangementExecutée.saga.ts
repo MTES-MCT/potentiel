@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -11,9 +10,10 @@ import {
   RejeterChangementReprésentantLégalUseCase,
   TypeTâchePlanifiéeChangementReprésentantLégal,
 } from '..';
+import { Lauréat } from '../../..';
 
 export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = async (
-  event: TâchePlanifiéeExecutéeEvent,
+  event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent,
 ) => {
   if (
     event.payload.typeTâchePlanifiée !==

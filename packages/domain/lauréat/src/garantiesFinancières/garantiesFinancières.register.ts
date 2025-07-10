@@ -20,7 +20,6 @@ import { registerMainlevée } from './mainlevée/mainlevée.register';
 import { registerDépôt } from './dépôtEnCours/dépôt.register';
 import { registerGarantiesFinancières } from './garantiesFinancièresActuelles/garantiesFinancières.register';
 import { registerConsulterArchivesGarantiesFinancièresQuery } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
-import { registerTâchesPlanifiées } from './tâches-planifiées/tâches-planifiées.register';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
@@ -35,10 +34,9 @@ export const registerGarantiesFinancièresUseCases = ({
   loadAggregate,
   getProjetAggregateRoot,
 }: GarantiesFinancièresCommandDependencies) => {
-  registerDépôt(loadAggregate);
+  registerDépôt(loadAggregate, getProjetAggregateRoot);
   registerGarantiesFinancières(loadAggregate, getProjetAggregateRoot);
   registerMainlevée(loadAggregate, getProjetAggregateRoot);
-  registerTâchesPlanifiées(loadAggregate, getProjetAggregateRoot);
 };
 
 export const registerGarantiesFinancièresQueries = (

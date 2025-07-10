@@ -4,7 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 
@@ -21,7 +21,10 @@ export type EnregistrerGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerEnregistrerGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerEnregistrerGarantiesFinancièresCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const handler: MessageHandler<EnregistrerGarantiesFinancièresCommand> = async ({
     identifiantProjet,
@@ -33,6 +36,8 @@ export const registerEnregistrerGarantiesFinancièresCommand = (loadAggregate: L
     enregistréPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+
     await garantiesFinancières.enregistrer({
       identifiantProjet,
       attestation,
@@ -42,6 +47,8 @@ export const registerEnregistrerGarantiesFinancièresCommand = (loadAggregate: L
       enregistréLe,
       enregistréPar,
     });
+    // TODO move to Garanties Financière Aggregate
+    await projet.lauréat.garantiesFinancières.ajouterTâchesPlanifiées();
   };
   mediator.register(
     'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',

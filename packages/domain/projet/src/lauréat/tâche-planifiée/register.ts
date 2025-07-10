@@ -1,18 +1,16 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '../..';
 
-import { registerAjouterTâchePlanifiéeCommand } from './ajouter/ajouterTâchePlanifiée.command';
 import {
   registerListerTâchesPlanifiéesQuery,
   ListerTâchesPlanifiéesQueryDependencies,
 } from './lister/listerTâchesPlanifiées.query';
-import { registerAnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
 import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuterTâchePlanifiée.command';
 import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
 
 export type TâchePlanifiéeQueryDependencies = ListerTâchesPlanifiéesQueryDependencies;
 
 export type TâchePlanifiéeCommandDependencies = {
-  loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
 export const registerTâchePlanifiéeQuery = (dependencies: TâchePlanifiéeQueryDependencies) => {
@@ -20,11 +18,8 @@ export const registerTâchePlanifiéeQuery = (dependencies: TâchePlanifiéeQuer
 };
 
 export const registerTâchePlanifiéeUseCases = ({
-  loadAggregate,
+  getProjetAggregateRoot,
 }: TâchePlanifiéeCommandDependencies) => {
-  registerAjouterTâchePlanifiéeCommand(loadAggregate);
-  registerAnnulerTâchePlanifiéeCommand(loadAggregate);
-  registerExécuterTâchePlanifiéeCommand(loadAggregate);
-
+  registerExécuterTâchePlanifiéeCommand(getProjetAggregateRoot);
   registerExécuterTâchePlanifiéeUseCase();
 };

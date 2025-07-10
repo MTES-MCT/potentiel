@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
 
     Contexte:

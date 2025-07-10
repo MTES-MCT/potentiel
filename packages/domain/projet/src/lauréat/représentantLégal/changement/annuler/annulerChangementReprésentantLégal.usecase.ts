@@ -1,9 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
-import { TypeTâchePlanifiéeChangementReprésentantLégal } from '../..';
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 import { AnnulerChangementReprésentantLégalCommand } from './annulerChangementReprésentantLégal.command';
@@ -41,24 +39,6 @@ export const registerAnnulerChangementReprésentantLégalUseCase = () => {
         identifiantProjet,
         identifiantUtilisateur,
         dateAnnulation,
-      },
-    });
-
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        typeTâchePlanifiée:
-          TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
-      },
-    });
-
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        typeTâchePlanifiée:
-          TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
       },
     });
   };

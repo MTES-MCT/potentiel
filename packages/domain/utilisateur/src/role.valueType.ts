@@ -206,7 +206,6 @@ const référencielPermissions = {
         valider: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
-        importerType: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
         modifier: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
@@ -227,7 +226,6 @@ const référencielPermissions = {
         valider: 'Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',
-        importerType: 'Lauréat.GarantiesFinancières.Command.ImporterTypeGarantiesFinancières',
         modifier: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
@@ -239,8 +237,6 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
         rejeterDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.Command.RejeterDemandeMainlevée',
-        ajouterTâchesPlanifiées: 'Lauréat.GarantiesFinancières.Command.AjouterTâchesPlanifiées',
-        annulerTâchesPlanifiées: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
       },
     },
     achèvement: {
@@ -612,7 +608,6 @@ const policies = {
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.lauréat.abandon.usecase.accorder,
       référencielPermissions.lauréat.abandon.command.accorder,
-      référencielPermissions.lauréat.garantiesFinancières.command.annulerTâchesPlanifiées,
     ],
     rejeter: [
       référencielPermissions.candidature.query.consulterProjet,
@@ -731,20 +726,17 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.usecase.soumettre,
         référencielPermissions.lauréat.garantiesFinancières.command.soumettre,
         référencielPermissions.document.command.enregister,
-        référencielPermissions.lauréat.garantiesFinancières.command.annulerTâchesPlanifiées,
       ],
       valider: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.valider,
         référencielPermissions.lauréat.garantiesFinancières.command.valider,
         référencielPermissions.document.command.déplacer,
-        référencielPermissions.lauréat.garantiesFinancières.command.ajouterTâchesPlanifiées,
       ],
       supprimer: [
         référencielPermissions.lauréat.garantiesFinancières.usecase
           .supprimerGarantiesFinancièresÀTraiter,
         référencielPermissions.lauréat.garantiesFinancières.command
           .supprimerGarantiesFinancièresÀTraiter,
-        référencielPermissions.lauréat.garantiesFinancières.command.ajouterTâchesPlanifiées,
       ],
       modifier: [
         référencielPermissions.appelOffre.query.consulter,
@@ -771,16 +763,11 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.query
           .consulterGarantiesFinancièresActuelles,
       ],
-      importer: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.importerType,
-        référencielPermissions.lauréat.garantiesFinancières.command.importerType,
-      ],
       modifier: [
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.document.command.enregister,
         référencielPermissions.lauréat.garantiesFinancières.usecase.modifier,
         référencielPermissions.lauréat.garantiesFinancières.command.modifier,
-        référencielPermissions.lauréat.garantiesFinancières.command.ajouterTâchesPlanifiées,
       ],
       enregistrerAttestation: [
         référencielPermissions.appelOffre.query.consulter,
@@ -792,7 +779,6 @@ const policies = {
         référencielPermissions.document.command.enregister,
         référencielPermissions.lauréat.garantiesFinancières.usecase.enregistrer,
         référencielPermissions.lauréat.garantiesFinancières.command.enregistrer,
-        référencielPermissions.lauréat.garantiesFinancières.command.ajouterTâchesPlanifiées,
       ],
     },
     mainlevée: {
@@ -850,7 +836,6 @@ const policies = {
       transmettre: [
         référencielPermissions.lauréat.achèvement.attestationConformité.useCase.transmettre,
         référencielPermissions.lauréat.achèvement.attestationConformité.command.transmettre,
-        référencielPermissions.lauréat.garantiesFinancières.command.annulerTâchesPlanifiées,
         référencielPermissions.document.command.enregister,
       ],
       modifier: [
@@ -1390,7 +1375,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.actuelles.importer',
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',

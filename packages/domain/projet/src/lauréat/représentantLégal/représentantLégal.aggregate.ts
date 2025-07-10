@@ -1,13 +1,18 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 
-import { TypeDocumentChangementReprésentantLégal, TypeReprésentantLégal } from '.';
+import {
+  TypeDocumentChangementReprésentantLégal,
+  TypeReprésentantLégal,
+  TypeTâchePlanifiéeChangementReprésentantLégal,
+} from '.';
 
 import * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType';
 import type {
@@ -55,6 +60,18 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
   'représentant-légal',
   LauréatAggregate
 > {
+  #tâchePlanifiéeGestionAutomatiqueDemandeChangement!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeRappelInstructionÀDeuxMois!: AggregateType<TâchePlanifiéeAggregate>;
+
+  async init() {
+    this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
+    );
+    this.#tâchePlanifiéeRappelInstructionÀDeuxMois = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
+    );
+  }
+
   #représentantLégal?: {
     nom: string;
     type: TypeReprésentantLégal.ValueType;
@@ -173,6 +190,13 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement.ajouter({
+      àExécuterLe: dateDemande.ajouterNombreDeMois(3),
+    });
+    await this.#tâchePlanifiéeRappelInstructionÀDeuxMois.ajouter({
+      àExécuterLe: dateDemande.ajouterNombreDeMois(2),
+    });
   }
 
   async corrigerDemandeChangement({
@@ -234,6 +258,9 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       },
     };
     await this.publish(event);
+
+    await this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement.annuler();
+    await this.#tâchePlanifiéeRappelInstructionÀDeuxMois.annuler();
   }
 
   async rejeterDemandeChangement({
@@ -258,6 +285,9 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement.annuler();
+    await this.#tâchePlanifiéeRappelInstructionÀDeuxMois.annuler();
   }
 
   async annulerDemandeChangement({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
@@ -274,21 +304,25 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       },
     };
     await this.publish(event);
+
+    await this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement.annuler();
+    await this.#tâchePlanifiéeRappelInstructionÀDeuxMois.annuler();
   }
 
   async supprimerDemandeChangement(options: SupprimerOptions) {
-    if (!this.#demande) {
-      return;
+    if (this.#demande) {
+      const event: ChangementReprésentantLégalSuppriméEvent = {
+        type: 'ChangementReprésentantLégalSupprimé-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          suppriméLe: options.dateSuppression.formatter(),
+          suppriméPar: options.identifiantUtilisateur.formatter(),
+        },
+      };
+      await this.publish(event);
     }
-    const event: ChangementReprésentantLégalSuppriméEvent = {
-      type: 'ChangementReprésentantLégalSupprimé-V1',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        suppriméLe: options.dateSuppression.formatter(),
-        suppriméPar: options.identifiantUtilisateur.formatter(),
-      },
-    };
-    await this.publish(event);
+    await this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement.annuler();
+    await this.#tâchePlanifiéeRappelInstructionÀDeuxMois.annuler();
   }
 
   private vérifierQueReprésentantLégalNEstPasIdentique(

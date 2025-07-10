@@ -18,7 +18,6 @@
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/tache": "*",
-    "@potentiel-domain/tache-planifiee": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
