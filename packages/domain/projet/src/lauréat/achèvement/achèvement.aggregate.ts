@@ -17,8 +17,9 @@ import { AttestationConformitéModifiéeEvent } from './attestationConformité/m
 import { ModifierAttestationConformitéOptions } from './attestationConformité/modifier/modifierAttestationConformité.option';
 import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
 import { TypeDocumentAttestationConformité } from './attestationConformité';
-import { AchèvementEvent, DatePrévisionnelleCalculéeEvent } from './achèvement.event';
+import { AchèvementEvent } from './achèvement.event';
 import { ImpossibleDeCalculerLaDateAchèvementPrévisionnelle } from './achèvement.error';
+import { DatePrévisionnelleCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,

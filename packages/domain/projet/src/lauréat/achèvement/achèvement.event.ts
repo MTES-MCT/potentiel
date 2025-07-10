@@ -1,16 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
-
-import { IdentifiantProjet } from '../..';
-
 import { AttestationConformitéEvent } from './attestationConformité';
-
-export type DatePrévisionnelleCalculéeEvent = DomainEvent<
-  'DatePrévisionnelleCalculée-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    date: DateTime.RawType;
-  }
->;
+import { DatePrévisionnelleCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
 
 export type AchèvementEvent = AttestationConformitéEvent | DatePrévisionnelleCalculéeEvent;
