@@ -5,26 +5,27 @@ import { PlainType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
+import { StatutAbandonBadge } from '@/app/laureats/[identifiant]/abandon/(détails)/StatutAbandonBadge';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
+import {
+  TransmettrePreuveRecandidature,
+  TransmettrePreuveRecandidatureFormProps,
+} from '../transmettre-preuve-recandidature/TransmettrePreuveRecandidature';
+import { StatutPreuveRecandidatureBadge } from '../transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
+
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
 import { AccorderAbandonSansRecandidature } from './accorder/AccorderAbandonSansRecandidature';
 import { AnnulerAbandon } from './annuler/AnnulerAbandon';
 import { ConfirmerAbandon } from './confirmer/ConfirmerAbandon';
 import { RejeterAbandon } from './rejeter/RejeterAbandon';
-import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
-import {
-  TransmettrePreuveRecandidature,
-  TransmettrePreuveRecandidatureFormProps,
-} from './transmettrePreuveRecandidature/TransmettrePreuveRecandidature';
 import { PasserAbandonEnInstruction } from './passerEnInstruction/PasserAbandonEnInstruction.form';
+import { InfoBoxMainlevéeSiAbandonAccordé } from './InfoBoxMainlevéeSiAbandonAccordé';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
