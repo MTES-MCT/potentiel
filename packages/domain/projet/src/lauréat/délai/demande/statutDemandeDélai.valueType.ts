@@ -125,6 +125,6 @@ class DélaiDéjàRejetéError extends InvalidOperationError {
 
 class DélaiEnCoursErreur extends InvalidOperationError {
   constructor() {
-    super(`Une demande d'délai est déjà en cours`);
+    super(`Une demande de délai est déjà en cours`);
   }
 }

@@ -12,7 +12,10 @@ Quand('le porteur demande un délai pour le projet lauréat', async function (th
   });
 });
 
-async function demanderDélai(this: PotentielWorld, partialFixture: CréerDemandeDélaiFixture) {
+export async function demanderDélai(
+  this: PotentielWorld,
+  partialFixture: CréerDemandeDélaiFixture,
+) {
   const { nombreDeMois, raison, pièceJustificative, demandéLe, demandéPar } =
     this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer({ ...partialFixture });
 
