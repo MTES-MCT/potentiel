@@ -1,4 +1,4 @@
-import { AggregateNotFoundError, InvalidOperationError, DomainError } from '@potentiel-domain/core';
+import { AggregateNotFoundError, InvalidOperationError } from '@potentiel-domain/core';
 
 export class LauréatNonTrouvéError extends AggregateNotFoundError {
   constructor() {
@@ -59,11 +59,5 @@ export class ProjetAvecDemandeAbandonEnCoursError extends InvalidOperationError 
 export class ProjetAchevéError extends InvalidOperationError {
   constructor() {
     super('Impossible de faire un changement pour un projet achevé');
-  }
-}
-
-export class AppelOffreProjetSansTechnologieError extends DomainError {
-  constructor() {
-    super(`La technologie est manquante dans l'appel d'offre du projet`);
   }
 }
