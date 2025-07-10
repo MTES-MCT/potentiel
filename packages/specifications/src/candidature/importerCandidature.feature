@@ -25,12 +25,12 @@ Fonctionnalité: Importer une candidature
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
             | famille       |                 |
-            | numéro CRE    |                 |
+            | numéro CRE    | abc             |
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
             | famille       |                 |
-            | numéro CRE    |                 |
+            | numéro CRE    | abc             |
         Alors l'administrateur devrait être informé que "Il est impossible d'importer 2 fois la même candidature"
 
     Scénario: Impossible d'importer une candidature avec un AO inexistant
