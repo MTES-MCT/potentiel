@@ -1,3 +1,6 @@
+import { match } from 'ts-pattern';
+
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
@@ -38,6 +41,26 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
+type DéterminerProps = {
+  appelOffre: Pick<AppelOffre.AppelOffreReadModel, 'technologie'>;
+  projet: { technologie: RawType };
+};
+
+export const déterminer = ({
+  appelOffre,
+  projet,
+}: DéterminerProps): ValueType<AppelOffre.Technologie> => {
+  const technologie = appelOffre.technologie ?? projet.technologie;
+  if (!technologie || technologie === 'N/A') {
+    throw new TypeTechnologieNonDéterminéError();
+  }
+  return match(technologie)
+    .with('eolien', () => éolien)
+    .with('pv', () => photovoltaïque)
+    .with('hydraulique', () => hydraulique)
+    .exhaustive();
+};
+
 export const photovoltaïque = convertirEnValueType<'pv'>('pv');
 export const éolien = convertirEnValueType<'eolien'>('eolien');
 export const hydraulique = convertirEnValueType<'hydraulique'>('hydraulique');
@@ -48,5 +71,11 @@ class TypeTechnologieInvalideError extends InvalidOperationError {
     super(`Le type de la technologie ne correspond à aucune valeur connue`, {
       value,
     });
+  }
+}
+
+class TypeTechnologieNonDéterminéError extends InvalidOperationError {
+  constructor() {
+    super(`Le type de la technologie ne peut être déterminé pour cet appel d'offre`);
   }
 }

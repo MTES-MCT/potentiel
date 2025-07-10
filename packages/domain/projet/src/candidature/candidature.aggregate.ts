@@ -2,6 +2,7 @@ import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { FournisseurImportéEvent, Fournisseur } from '../lauréat/fournisseur';
@@ -147,8 +148,13 @@ export class CandidatureAggregate extends AbstractAggregate<
     return this.#actionnariat;
   }
 
-  get technologie() {
-    return this.#technologie!;
+  get technologie(): TypeTechnologie.ValueType<AppelOffre.Technologie> {
+    return TypeTechnologie.déterminer({
+      appelOffre: this.projet.appelOffre,
+      projet: {
+        technologie: this.#technologie?.type ?? 'N/A',
+      },
+    });
   }
 
   get noteTotale() {
