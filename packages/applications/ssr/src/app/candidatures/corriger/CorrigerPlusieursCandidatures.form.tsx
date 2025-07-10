@@ -8,18 +8,18 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  corrigerCandidaturesAction,
-  CorrigerCandidaturesFormKeys,
-} from './corrigerCandidatures.action';
+  CorrigerPlusieursCandidaturesAction,
+  CorrigerPlusieursCandidaturesFormKeys,
+} from './CorrigerPlusieursCandidatures.action';
 
-export const CorrigerCandidaturesForm: FC = () => {
+export const CorrigerPlusieursCandidaturesForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<CorrigerCandidaturesFormKeys>
+    ValidationErrors<CorrigerPlusieursCandidaturesFormKeys>
   >({});
 
   return (
     <Form
-      action={corrigerCandidaturesAction}
+      action={CorrigerPlusieursCandidaturesAction}
       heading="Corriger un import de candidatures"
       pendingModal={{
         id: 'form-corriger-candidatures',

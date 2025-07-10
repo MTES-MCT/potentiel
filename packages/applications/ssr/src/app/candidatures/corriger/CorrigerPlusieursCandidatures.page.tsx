@@ -7,13 +7,13 @@ import { Routes } from '@potentiel-applications/routes';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { CorrigerCandidaturesForm } from './CorrigerCandidatures.form';
+import { CorrigerPlusieursCandidaturesForm } from './CorrigerPlusieursCandidatures.form';
 
-export const CorrigerCandidaturesPage: FC = () => (
+export const CorrigerPlusieursCandidaturesPage: FC = () => (
   <ColumnPageTemplate
     banner={<Heading1 className="text-theme-white">Corriger des candidats par lot</Heading1>}
     leftColumn={{
-      children: <CorrigerCandidaturesForm />,
+      children: <CorrigerPlusieursCandidaturesForm />,
     }}
     rightColumn={{
       children: (
