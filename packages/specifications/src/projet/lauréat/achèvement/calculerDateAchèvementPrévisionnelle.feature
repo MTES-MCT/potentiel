@@ -28,3 +28,6 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnelle
             | PPE2 - Neutre | pv                    | 2024-10-05        | 2027-04-05                   |
             | PPE2 - Neutre | eolien                | 2024-10-05        | 2027-10-05                   |
             | PPE2 - Neutre | hydraulique           | 2024-10-05        | 2027-10-05                   |
+
+    Scénario:
+

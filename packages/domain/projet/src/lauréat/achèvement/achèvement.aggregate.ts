@@ -5,6 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { isFonctionnalitéDélaiActivée } from '../délai';
 
 import {
   AttestationDeConformitéDéjàTransmiseError,
@@ -44,7 +45,7 @@ export class AchèvementAggregate extends AbstractAggregate<
   }
 
   async calculerDatePrévisionnelle() {
-    if (this.lauréat.notifiéLe) {
+    if (isFonctionnalitéDélaiActivée()) {
       // TODO: Cette fonction devrait être une propriété de l'agrégat appel d'offre
       const getDelaiRealisationEnMois = () => {
         if (this.lauréat.projet.appelOffre.decoupageParTechnologie) {

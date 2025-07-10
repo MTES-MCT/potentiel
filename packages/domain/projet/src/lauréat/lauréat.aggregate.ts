@@ -7,7 +7,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { Candidature } from '..';
 
-import { isFonctionnalitéDélaiActivée } from './délai/isFonctionnalitéDélaiActivée';
 import { LauréatEvent } from './lauréat.event';
 import {
   LauréatNotifiéEvent,
@@ -21,6 +20,7 @@ import {
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
   LauréatDéjàNotifiéError,
+  LauréatNonNotifiéError,
   LauréatNonTrouvéError,
   ProjetAbandonnéError,
   ProjetAchevéError,
@@ -55,6 +55,10 @@ export class LauréatAggregate extends AbstractAggregate<
 
   #notifiéLe?: DateTime.ValueType;
   get notifiéLe() {
+    if (!this.#notifiéLe) {
+      throw new LauréatNonNotifiéError();
+    }
+
     return this.#notifiéLe;
   }
 
@@ -210,9 +214,7 @@ export class LauréatAggregate extends AbstractAggregate<
       identifiantUtilisateur: notifiéePar,
     });
 
-    if (isFonctionnalitéDélaiActivée()) {
-      await this.achèvement.calculerDatePrévisionnelle();
-    }
+    await this.achèvement.calculerDatePrévisionnelle();
   }
 
   async modifier({
