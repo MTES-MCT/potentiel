@@ -48,7 +48,7 @@ export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType';
 export * as TypeDocumentDemandeDélai from './demande/typeDocumentDemandeDélai.valueType';
 
 // Entities
-export * from './délai.entity';
+export * from './demandeDélai.entity';
 
 // Feature flag
 export * from './isFonctionnalitéDélaiActivée';

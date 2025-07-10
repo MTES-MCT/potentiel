@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutDemandeDélai } from '../..';
 import { Délai } from '../../..';
-import { DemandeDélaiEntity } from '../../délai.entity';
+import { DemandeDélaiEntity } from '../../demandeDélai.entity';
 
 export type ConsulterDemandeDélaiReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -18,6 +18,7 @@ export type ConsulterDemandeDélaiReadModel = {
   demandéPar: Email.ValueType;
 
   nombreDeMois: number;
+  raison: string;
 
   pièceJustificative: DocumentProjet.ValueType;
 
@@ -78,7 +79,16 @@ type MapToReadModel = (args: {
 
 const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
-  demande: { statut, demandéLe, demandéPar, nombreDeMois, pièceJustificative, accord, rejet },
+  demande: {
+    statut,
+    demandéLe,
+    demandéPar,
+    nombreDeMois,
+    raison,
+    pièceJustificative,
+    accord,
+    rejet,
+  },
 }) => {
   return {
     identifiantProjet,
@@ -93,6 +103,7 @@ const mapToReadModel: MapToReadModel = ({
     demandéPar: Email.convertirEnValueType(demandéPar),
 
     nombreDeMois,
+    raison,
 
     accord: accord && {
       accordéPar: Email.convertirEnValueType(accord.accordéPar),

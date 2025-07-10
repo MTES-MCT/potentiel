@@ -26,12 +26,14 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, pieceJustificative, nombreDeMois, raison },
 ) => {
   return withUtilisateur(async (utilisateur) => {
+    const dateDemandeValue = DateTime.now().formatter();
+
     await mediator.send<Lauréat.Délai.DemanderDélaiUseCase>({
       type: 'Lauréat.Délai.UseCase.DemanderDélai',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateDemandeValue: DateTime.now().formatter(),
+        dateDemandeValue,
         pièceJustificativeValue: pieceJustificative,
         raisonValue: raison,
         nombreDeMoisValue: nombreDeMois,
@@ -40,7 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: Routes.Délai.demander(identifiantProjet) },
+      redirection: { url: Routes.Délai.détail(identifiantProjet, dateDemandeValue) },
     };
   });
 };

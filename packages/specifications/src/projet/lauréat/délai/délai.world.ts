@@ -25,6 +25,7 @@ export class DélaiWorld {
       demandéLe: DateTime.convertirEnValueType(this.#demanderDélaiFixture.demandéLe),
       demandéPar: Email.convertirEnValueType(this.#demanderDélaiFixture.demandéPar),
       nombreDeMois: this.#demanderDélaiFixture.nombreDeMois,
+      raison: this.#demanderDélaiFixture.raison,
       pièceJustificative: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
