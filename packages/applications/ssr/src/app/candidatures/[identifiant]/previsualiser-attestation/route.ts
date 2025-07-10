@@ -15,8 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-
-import { getCandidature } from '../../_helpers/getCandidature';
+import { getCandidature } from '@/app/_helpers/getCandidature';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(() =>

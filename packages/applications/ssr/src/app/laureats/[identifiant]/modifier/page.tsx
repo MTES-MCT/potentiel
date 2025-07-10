@@ -12,8 +12,8 @@ import {
   ModifierLauréatPageProps,
 } from '@/components/pages/lauréat/modifier/ModifierLauréat.page';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getCandidature } from '@/app/_helpers/getCandidature';
 
-import { getCandidature } from '../../../candidatures/_helpers/getCandidature';
 import { GetLauréat, getLauréat } from '../_helpers/getLauréat';
 
 export const metadata: Metadata = {

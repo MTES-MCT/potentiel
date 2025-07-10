@@ -8,7 +8,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
+import { getCandidature } from '@/app/_helpers/getCandidature';
 import {
   modifierLauréatEtCandidatureSchéma,
   PartialModifierCandidatureNotifiéeFormEntries,

@@ -8,11 +8,11 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
-import { CandidatureListPage } from '@/components/pages/candidature/lister/CandidatureList.page';
-import { CandidatureListItemProps } from '@/components/pages/candidature/lister/CandidatureListItem';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
-import { getCandidatureListActions } from './_helpers/getCandidatureListActions';
+import { CandidatureListItemProps } from './(liste)/CandidatureListItem';
+import { CandidatureListPage } from './(liste)/CandidatureList.page';
+import { getCandidatureListActions } from './(liste)/_helpers/getCandidatureListActions';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
 

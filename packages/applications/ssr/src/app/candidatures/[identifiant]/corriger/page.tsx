@@ -14,8 +14,7 @@ import {
   CorrigerCandidaturePageProps,
 } from '@/components/pages/candidature/corriger/CorrigerCandidature.page';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-
-import { getCandidature } from '../../_helpers/getCandidature';
+import { getCandidature } from '@/app/_helpers/getCandidature';
 
 type PageProps = IdentifiantParameter;
 
