@@ -10,7 +10,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getProjet } from '@/app/_helpers/getProjet';
+import { getProjet } from '@/app/_helpers';
 
 import { ProjetBannerTemplate } from './ProjetBanner.template';
 

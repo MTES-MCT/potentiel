@@ -9,8 +9,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { getCandidature } from '@/app/_helpers/getCandidature';
+import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 
 import { CorrigerCandidaturePage, CorrigerCandidaturePageProps } from './CorrigerCandidature.page';
 

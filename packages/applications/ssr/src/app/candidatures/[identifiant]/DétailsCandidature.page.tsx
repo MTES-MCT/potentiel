@@ -13,9 +13,12 @@ import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
+import {
+  getActionnariatTypeLabel,
+  getGarantiesFinancièresTypeLabel,
+  getTechnologieTypeLabel,
+} from '@/app/_helpers';
 
-import { getGarantiesFinancièresTypeLabel } from '../../_helpers/getGarantiesFinancièresTypeLabel';
 import { ListeFournisseurs } from '../../../components/pages/fournisseur/changement/ListeFournisseurs';
 
 type AvailableActions = Record<

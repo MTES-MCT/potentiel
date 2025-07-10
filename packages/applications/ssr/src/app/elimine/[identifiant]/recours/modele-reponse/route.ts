@@ -13,11 +13,10 @@ import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 import { formatBoolean } from '@/utils/modèle-document/formatBoolean';
 import { mapCandidatureToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
-import { getCandidature } from '@/app/_helpers/getCandidature';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(() =>

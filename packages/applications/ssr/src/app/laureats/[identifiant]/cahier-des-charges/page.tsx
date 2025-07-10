@@ -9,8 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { ChoisirCahierDesChargesPage } from '@/components/pages/lauréat/choisirCahierDesCharges/ChoisirCahierDesCharges.page';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { getCahierDesCharges } from '@/app/_helpers/getCahierDesCharges';
+import { getPériodeAppelOffres, getCahierDesCharges } from '@/app/_helpers';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export const metadata: Metadata = {

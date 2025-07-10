@@ -10,7 +10,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { DétailsCandidaturePage } from '@/app/candidatures/[identifiant]/DétailsCandidature.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCandidature } from '@/app/_helpers/getCandidature';
+import { getCandidature } from '@/app/_helpers';
 
 import { getCandidatureActions } from '../_helpers/getCandidatureActions';
 

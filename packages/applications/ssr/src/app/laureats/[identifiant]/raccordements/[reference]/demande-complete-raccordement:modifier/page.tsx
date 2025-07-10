@@ -16,8 +16,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getPériodeAppelOffres, récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Modifier un dossier de raccordement - Potentiel',

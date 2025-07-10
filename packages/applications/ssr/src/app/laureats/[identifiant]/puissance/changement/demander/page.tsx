@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DemanderChangementPuissancePage } from '@/components/pages/puissance/changement/demander/DemanderChangementPuissance.page';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
 

@@ -14,8 +14,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréat } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { getCandidature } from '@/app/_helpers/getCandidature';
+import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),

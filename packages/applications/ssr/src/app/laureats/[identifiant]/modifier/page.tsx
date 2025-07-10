@@ -11,8 +11,7 @@ import {
   ModifierLauréatPage,
   ModifierLauréatPageProps,
 } from '@/components/pages/lauréat/modifier/ModifierLauréat.page';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { getCandidature } from '@/app/_helpers/getCandidature';
+import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 
 import { GetLauréat, getLauréat } from '../_helpers/getLauréat';
 
