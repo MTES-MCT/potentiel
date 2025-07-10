@@ -1,5 +1,5 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
@@ -133,9 +133,12 @@ export class CandidatureWorld {
       puissanceProductionAnnuelle: expectedValues.puissanceProductionAnnuelleValue,
       sociétéMère: expectedValues.sociétéMèreValue,
       statut: Candidature.StatutCandidature.convertirEnValueType(expectedValues.statutValue),
-      technologie: Candidature.TypeTechnologie.convertirEnValueType(
-        expectedValues.technologieValue,
-      ),
+      technologie: Candidature.TypeTechnologie.déterminer({
+        appelOffre: appelOffres,
+        projet: {
+          technologie: expectedValues.technologieValue as Candidature.TypeTechnologie.RawType,
+        },
+      }),
       territoireProjet: expectedValues.territoireProjetValue,
       typeGarantiesFinancières: expectedValues.typeGarantiesFinancièresValue
         ? Candidature.TypeGarantiesFinancières.convertirEnValueType(
