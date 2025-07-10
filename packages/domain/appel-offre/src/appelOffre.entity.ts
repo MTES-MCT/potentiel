@@ -34,16 +34,6 @@ type ChangementPuissance = { paragrapheAlerte?: string } & (
     }
 );
 
-type DelaiRealisation =
-  | {
-      delaiRealisationEnMois: number;
-      decoupageParTechnologie: false;
-    }
-  | {
-      delaiRealisationEnMoisParTechnologie: Record<Technologie, number>;
-      decoupageParTechnologie: true;
-    };
-
 // GF AO
 type GarantiesFinancièresAppelOffre =
   | GarantiesFinancièresFamille
@@ -102,6 +92,7 @@ type TechnologieAppelOffre =
        * Cette valeur peut-être surchargée dans la période car dans certains cas, l'unité MW a été utilisée au lieu de MWc
        **/
       unitePuissance: UnitéPuissance;
+      délaiRéalisationEnMois: number;
     }
   | {
       technologie?: undefined;
@@ -111,6 +102,7 @@ type TechnologieAppelOffre =
        * Cette valeur peut-être surchargée dans la période car dans certains cas, l'unité MW a été utilisée au lieu de MWc
        **/
       unitePuissance: Record<Technologie, UnitéPuissance>;
+      délaiRéalisationEnMois: Record<Technologie, number>;
     };
 
 // Famille
@@ -269,8 +261,7 @@ export type AppelOffreReadModel = {
   abandon: {
     autoritéCompétente: AutoritéCompétente;
   };
-} & DelaiRealisation &
-  GarantiesFinancièresAppelOffre &
+} & GarantiesFinancièresAppelOffre &
   TechnologieAppelOffre;
 
 export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

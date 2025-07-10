@@ -76,8 +76,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
-  delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 0 },
-  decoupageParTechnologie: true,
+  délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes',
   paragraphePrixReference: '7.2',

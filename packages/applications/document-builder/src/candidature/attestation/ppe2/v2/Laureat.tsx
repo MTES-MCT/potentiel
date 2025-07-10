@@ -3,7 +3,7 @@ import React from 'react';
 
 import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { formatNumber } from '../../helpers';
-import { getDelaiDeRealisation } from '../../helpers/getDélaiDeRéalisation';
+import { getDélaiDeRéalisation } from '../../helpers/getDélaiDeRéalisation';
 
 type LaureatProps = { project: AttestationPPE2Options };
 
@@ -148,7 +148,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
           >
             - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier
             des charges, achever l’installation dans un délai de{' '}
-            {getDelaiDeRealisation(appelOffre, technologie)} mois à compter de la présente
+            {getDélaiDeRéalisation(appelOffre, technologie)} mois à compter de la présente
             notification;
           </Text>
 

@@ -24,8 +24,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
   paragrapheDelaiDerogatoire: '6.3',
-  delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 36 },
-  decoupageParTechnologie: true,
+  délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 36 },
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes ou hydroélectriques',
   paragrapheAttestationConformite: '6.6',
