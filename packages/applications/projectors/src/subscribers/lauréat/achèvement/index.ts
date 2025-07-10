@@ -7,7 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { attestationConformitéTransmiseProjector } from './attesationConformité/attestationConformitéTransmise.projector';
 import { attestationConformitéModifiéeProjector } from './attesationConformité/attestationConformitéModifiée.projector';
 import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector';
-import { datePrévisionnelleCalculéeProjector } from './datePrévisionnelleCalculéeProjector';
+import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector';
 
 export type SubscriptionEvent = (Lauréat.Achèvement.AchèvementEvent & Event) | RebuildTriggered;
 
@@ -19,7 +19,10 @@ export const register = () => {
       .with({ type: 'RebuildTriggered' }, achèvementRebuildTriggered)
       .with({ type: 'AttestationConformitéTransmise-V1' }, attestationConformitéTransmiseProjector)
       .with({ type: 'AttestationConformitéModifiée-V1' }, attestationConformitéModifiéeProjector)
-      .with({ type: 'DatePrévisionnelleCalculée-V1' }, datePrévisionnelleCalculéeProjector)
+      .with(
+        { type: 'DateAchèvementPrévisionnelCalculée-V1' },
+        dateAchèvementPrévisionnelCalculéeProjector,
+      )
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Achèvement', handler);

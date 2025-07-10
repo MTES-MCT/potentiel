@@ -17,5 +17,7 @@ export { AchèvementEntity } from './achèvement.entity';
 // Event
 export * from './achèvement.event';
 
+export { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
+
 // Attestation de conformité
 export * as AttestationConformité from './attestationConformité';

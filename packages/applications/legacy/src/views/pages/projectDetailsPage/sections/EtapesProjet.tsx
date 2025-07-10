@@ -67,7 +67,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
               .with({ type: 'achèvement-prévisionel' }, ({ type, date }) => (
                 <ÉtapeTerminée
                   key={`project-step-${type}`}
-                  titre="Date d'achèvement prévisionnelle"
+                  titre="date d'achèvement prévisionnel"
                   date={date}
                 />
               ))

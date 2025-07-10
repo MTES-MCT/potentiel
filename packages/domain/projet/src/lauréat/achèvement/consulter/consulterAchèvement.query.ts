@@ -9,7 +9,7 @@ import { IdentifiantProjet } from '../../..';
 
 export type ConsulterAchèvementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  datePrévisionnelle: DateTime.ValueType;
+  dateAchèvementPrévisionnel: DateTime.ValueType;
 };
 
 export type ConsulterAchèvementQuery = Message<
@@ -44,10 +44,10 @@ export const registerConsulterAchèvementQuery = ({ find }: ConsulterAchèvement
 
 const mapToReadModel = ({
   identifiantProjet,
-  datePrévisionnelle,
+  dateAchèvementPrévisionnel,
 }: AchèvementEntity): ConsulterAchèvementReadModel => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    datePrévisionnelle: DateTime.convertirEnValueType(datePrévisionnelle),
+    dateAchèvementPrévisionnel: DateTime.convertirEnValueType(dateAchèvementPrévisionnel),
   };
 };

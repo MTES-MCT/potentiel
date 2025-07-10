@@ -28,7 +28,7 @@ export const mapToAchèvementTimelineItemProps = (
     )
     .with(
       {
-        type: 'DatePrévisionnelleCalculée-V1',
+        type: 'DateAchèvementPrévisionnelCalculée-V1',
       },
       () => undefined,
     )

@@ -19,7 +19,7 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
     <Alert
       description={
         <div>
-          La date d'achèvement prévisionnelle actuelle est{' '}
+          La date d'achèvement prévisionnel actuelle est{' '}
           <FormattedDate date={dateAchèvementPrévisionnelleActuelle} className="font-semibold" />
         </div>
       }

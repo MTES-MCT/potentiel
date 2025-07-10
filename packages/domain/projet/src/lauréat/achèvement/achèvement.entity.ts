@@ -4,6 +4,6 @@ export type AchèvementEntity = Entity<
   'achèvement',
   {
     identifiantProjet: string;
-    datePrévisionnelle: string;
+    dateAchèvementPrévisionnel: string;
   }
 >;

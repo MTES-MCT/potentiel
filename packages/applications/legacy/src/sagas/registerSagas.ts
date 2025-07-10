@@ -176,7 +176,7 @@ export const registerSagas = async () => {
 
   const unsubscribeAchèvement = await subscribe<AchèvementSaga.SubscriptionEvent>({
     name: 'legacy-saga-achevement',
-    eventType: ['DatePrévisionnelleCalculée-V1'],
+    eventType: ['DateAchèvementPrévisionnelCalculée-V1'],
     eventHandler: async (event) => {
       await mediator.send<AchèvementSaga.Execute>({
         type: 'System.Saga.Achèvement',

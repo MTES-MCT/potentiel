@@ -3,7 +3,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 
-export const getDateAchèvementPrévisionnelle = async (
+export const getDateAchèvementPrévisionnel = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   dateAchèvementLegacy: number,
 ) => {
@@ -17,6 +17,6 @@ export const getDateAchèvementPrévisionnelle = async (
   });
 
   return Option.match(achèvement)
-    .some((achèvement) => achèvement.datePrévisionnelle.date.getTime())
+    .some((achèvement) => achèvement.dateAchèvementPrévisionnel.date.getTime())
     .none(() => dateAchèvementLegacy);
 };

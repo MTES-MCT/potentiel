@@ -19,7 +19,7 @@ import { AttestationConformitéTransmiseEvent } from './attestationConformité/t
 import { TypeDocumentAttestationConformité } from './attestationConformité';
 import { AchèvementEvent } from './achèvement.event';
 import { ImpossibleDeCalculerLaDateAchèvementPrévisionnelle } from './achèvement.error';
-import { DatePrévisionnelleCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
+import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,
@@ -45,7 +45,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.#preuveTransmissionAuCocontractant;
   }
 
-  async calculerDatePrévisionnelle() {
+  async calculerDateAchèvementPrévisionnel() {
     if (isFonctionnalitéDélaiActivée()) {
       // TODO: Cette fonction devrait être une propriété de l'agrégat appel d'offre
       const getDelaiRealisationEnMois = () => {
@@ -64,8 +64,8 @@ export class AchèvementAggregate extends AbstractAggregate<
 
       const delaiRealisationEnMois = getDelaiRealisationEnMois();
 
-      const event: DatePrévisionnelleCalculéeEvent = {
-        type: 'DatePrévisionnelleCalculée-V1',
+      const event: DateAchèvementPrévisionnelCalculéeEvent = {
+        type: 'DateAchèvementPrévisionnelCalculée-V1',
         payload: {
           identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
           date: this.lauréat.notifiéLe.ajouterNombreDeMois(delaiRealisationEnMois).formatter(),
@@ -161,7 +161,7 @@ export class AchèvementAggregate extends AbstractAggregate<
       )
       .with(
         {
-          type: 'DatePrévisionnelleCalculée-V1',
+          type: 'DateAchèvementPrévisionnelCalculée-V1',
         },
         (event) => this.applyDatePrévisionnelleCalculéeV1(event),
       )
@@ -218,5 +218,5 @@ export class AchèvementAggregate extends AbstractAggregate<
     );
   }
 
-  private applyDatePrévisionnelleCalculéeV1(_: DatePrévisionnelleCalculéeEvent) {}
+  private applyDatePrévisionnelleCalculéeV1(_: DateAchèvementPrévisionnelCalculéeEvent) {}
 }

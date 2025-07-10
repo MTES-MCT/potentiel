@@ -57,7 +57,7 @@ type ProjectDetailsProps = {
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
   attestationConformité?: AttestationConformitéProps;
-  dateAchèvementPrévisionnelle: number;
+  dateAchèvementPrévisionnel: number;
   estAchevé: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
@@ -74,7 +74,7 @@ export const ProjectDetails = ({
   demandeRecours,
   estAchevé,
   attestationConformité,
-  dateAchèvementPrévisionnelle,
+  dateAchèvementPrévisionnel,
   représentantLégal,
   actionnaire,
   garantiesFinancières,
@@ -120,7 +120,7 @@ export const ProjectDetails = ({
 
     étapes.push({
       type: 'achèvement-prévisionel',
-      date: dateAchèvementPrévisionnelle,
+      date: dateAchèvementPrévisionnel,
     });
 
     const dernierDossierRaccordement = Option.match(raccordement.raccordement)

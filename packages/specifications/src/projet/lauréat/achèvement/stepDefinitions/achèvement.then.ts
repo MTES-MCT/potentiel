@@ -77,7 +77,7 @@ Alors(
 );
 
 Alors(
-  `la date d'achèvement prévisionnelle du projet devrait être {string}`,
+  `la date d'achèvement prévisionnel du projet devrait être {string}`,
   async function (this: PotentielWorld, datePrévisionnelleAttendue: string) {
     return waitForExpect(async () => {
       const identifiantProjet = this.lauréatWorld.identifiantProjet;
@@ -91,7 +91,7 @@ Alors(
 
       assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
 
-      const actual = achèvement.datePrévisionnelle;
+      const actual = achèvement.dateAchèvementPrévisionnel;
       const expected = DateTime.convertirEnValueType(
         new Date(datePrévisionnelleAttendue).toISOString(),
       );

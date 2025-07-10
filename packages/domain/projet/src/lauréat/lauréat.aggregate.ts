@@ -214,7 +214,7 @@ export class LauréatAggregate extends AbstractAggregate<
       identifiantUtilisateur: notifiéePar,
     });
 
-    await this.achèvement.calculerDatePrévisionnelle();
+    await this.achèvement.calculerDateAchèvementPrévisionnel();
   }
 
   async modifier({
