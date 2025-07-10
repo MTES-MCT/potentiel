@@ -153,7 +153,10 @@ export const mapToReadModel: MapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
   historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
-  technologie: TypeTechnologie.convertirEnValueType(technologie),
+  technologie: TypeTechnologie.déterminer({
+    appelOffre: appelOffres,
+    projet: { technologie },
+  }),
   dateÉchéanceGf: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
   typeGarantiesFinancières: typeGarantiesFinancières
     ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)

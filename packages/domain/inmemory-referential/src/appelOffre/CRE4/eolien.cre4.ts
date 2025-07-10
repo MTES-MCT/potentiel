@@ -49,8 +49,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   // Renvoi 3 sur l'innovation ?
   // Renvoi 4 sur l'innovation ?
   paragrapheDelaiDerogatoire: '6.4',
-  delaiRealisationEnMois: 36,
-  decoupageParTechnologie: false,
+  délaiRéalisationEnMois: 36,
   delaiRealisationTexte: 'trente-six (36) mois',
   paragrapheAttestationConformite: '6.5',
   afficherParagrapheInstallationMiseEnServiceModification: true,
