@@ -12,7 +12,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers/getGarantiesFinancièresTypeLabel';
 import {
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,

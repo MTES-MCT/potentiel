@@ -13,7 +13,7 @@ import {
   ListDépôtsEnCoursGarantiesFinancièresPage,
   ListDépôtsEnCoursGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/dépôt/lister/ListerDépôtsEnCoursGarantiesFinancières.page';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers/getGarantiesFinancièresTypeLabel';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';

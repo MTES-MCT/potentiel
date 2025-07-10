@@ -17,10 +17,9 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 
-import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
-import { getTechnologieTypeLabel } from '../helpers';
-import { getActionnariatTypeLabel } from '../helpers/getActionnariatTypeLabel';
+import { getGarantiesFinancièresTypeLabel } from '../../../../app/_helpers/getGarantiesFinancièresTypeLabel';
 
 import {
   corrigerCandidatureAction,

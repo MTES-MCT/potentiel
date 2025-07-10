@@ -4,7 +4,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { getActionnariatTypeLabel } from '../../../../candidature/helpers/getActionnariatTypeLabel';
+import { getActionnariatTypeLabel } from '../../../../../../app/_helpers/getActionnariatTypeLabel';
 import { LinkedValuesButton } from '../LinkedValuesButton';
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 

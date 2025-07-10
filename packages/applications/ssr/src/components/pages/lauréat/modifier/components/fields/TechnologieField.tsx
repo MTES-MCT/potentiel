@@ -4,7 +4,8 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { getTechnologieTypeLabel } from '../../../../candidature/helpers';
+import { getTechnologieTypeLabel } from '@/app/_helpers';
+
 import { LinkedValuesButton } from '../LinkedValuesButton';
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 

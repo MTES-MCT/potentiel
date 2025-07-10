@@ -1,6 +1,6 @@
 import { Candidature } from '@potentiel-domain/projet';
 
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers/getGarantiesFinancièresTypeLabel';
 
 export const typesGarantiesFinancièresSansInconnuPourFormulaire =
   Candidature.TypeGarantiesFinancières.types

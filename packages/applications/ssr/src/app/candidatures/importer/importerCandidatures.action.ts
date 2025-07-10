@@ -17,7 +17,7 @@ import { candidatureCsvSchema, CandidatureShape } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
-import { getLocalité } from '../../../components/pages/candidature/helpers';
+import { getLocalité } from '../_helpers';
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
