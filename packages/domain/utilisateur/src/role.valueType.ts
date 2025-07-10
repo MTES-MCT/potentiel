@@ -200,7 +200,6 @@ const référencielPermissions = {
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
       },
       usecase: {
-        demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
         soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
@@ -211,8 +210,6 @@ const référencielPermissions = {
         modifier: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
-        effacerHistorique:
-          'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
         demanderMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
         annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Annuler',
         démarrerInstructionMainlevée:
@@ -224,7 +221,6 @@ const référencielPermissions = {
         renouveler: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
       },
       command: {
-        demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
         soumettre: 'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
@@ -235,8 +231,6 @@ const référencielPermissions = {
         modifier: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
-        effacerHistorique:
-          'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
         demanderMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Command.Demander',
         annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Command.Annuler',
         démarrerInstructionMainlevée:
@@ -716,23 +710,11 @@ const policies = {
     ],
   },
   garantiesFinancières: {
-    renouveler: [
-      référencielPermissions.lauréat.garantiesFinancières.usecase.effacerHistorique,
-      référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
-    ],
-    effacerHistorique: [
-      référencielPermissions.lauréat.garantiesFinancières.usecase.effacerHistorique,
-      référencielPermissions.lauréat.garantiesFinancières.command.effacerHistorique,
-    ],
     dépôt: {
       consulter: [
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.lauréat.garantiesFinancières.query
           .consulterDépôtEnCoursGarantiesFinancières,
-      ],
-      demander: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
-        référencielPermissions.lauréat.garantiesFinancières.command.demander,
       ],
       soumettre: [
         référencielPermissions.candidature.query.consulterProjet,
@@ -1388,7 +1370,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.archives.consulter',
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
-  'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.actuelles.consulter',
@@ -1396,7 +1377,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
-  'garantiesFinancières.effacerHistorique',
   'garantiesFinancières.enAttente.consulter',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
@@ -1554,7 +1534,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Garanties financières
   'garantiesFinancières.archives.consulter',
   'garantiesFinancières.dépôt.lister',
-  'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.consulter',
@@ -1562,7 +1541,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
-  'garantiesFinancières.effacerHistorique',
   'garantiesFinancières.enAttente.consulter',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
@@ -1656,7 +1634,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Garanties financières
   'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.soumettre',
   'garantiesFinancières.dépôt.supprimer',
@@ -1664,7 +1641,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.enregistrerAttestation',
-  'garantiesFinancières.effacerHistorique',
   'garantiesFinancières.mainlevée.demander',
   'garantiesFinancières.mainlevée.annuler',
   'garantiesFinancières.mainlevée.lister',
