@@ -157,7 +157,6 @@ Alors(
         });
 
       assert(Option.isSome(actualArchivesGarantiesFinancièresReadModel));
-      console.log(actualArchivesGarantiesFinancièresReadModel.archives);
 
       actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
 
