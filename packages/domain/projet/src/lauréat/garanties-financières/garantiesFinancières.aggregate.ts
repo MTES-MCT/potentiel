@@ -4,7 +4,13 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
-import { GarantiesFinancièresEvent } from './garantiesFinancières.event';
+import {
+  GarantiesFinancièresDemandéesEvent,
+  GarantiesFinancièresEvent,
+  HistoriqueGarantiesFinancièresEffacéEvent,
+} from './garantiesFinancières.event';
+import { DemanderOptions } from './demander/demanderGarantiesFinancières.options';
+import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -15,6 +21,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.parent;
   }
 
+  get identifiantProjet() {
+    return this.lauréat.projet.identifiantProjet;
+  }
+
   #aDesGarantiesFinancières: boolean = false;
   get aDesGarantiesFinancières() {
     return this.#aDesGarantiesFinancières;
@@ -23,6 +33,44 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   #aUnDépôtEnCours: boolean = false;
   get aUnDépôtEnCours() {
     return this.#aUnDépôtEnCours;
+  }
+
+  async demander({ demandéLe, motif }: DemanderOptions) {
+    if (this.estSoumisAuxGarantiesFinancières()) {
+      const event: GarantiesFinancièresDemandéesEvent = {
+        type: 'GarantiesFinancièresDemandées-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          dateLimiteSoumission: demandéLe.ajouterNombreDeMois(2).formatter(),
+          demandéLe: demandéLe.formatter(),
+          motif: motif.motif,
+        },
+      };
+      await this.publish(event);
+    }
+  }
+
+  async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
+    if (this.aDesGarantiesFinancières || this.aUnDépôtEnCours) {
+      const event: HistoriqueGarantiesFinancièresEffacéEvent = {
+        type: 'HistoriqueGarantiesFinancièresEffacé-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          effacéLe: effacéLe.formatter(),
+          effacéPar: effacéPar.formatter(),
+        },
+      };
+
+      await this.publish(event);
+    }
+  }
+
+  estSoumisAuxGarantiesFinancières() {
+    const { appelOffre, famille } = this.lauréat.projet;
+    return (
+      famille?.soumisAuxGarantiesFinancieres !== 'non soumis' ||
+      appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis'
+    );
   }
 
   apply(event: GarantiesFinancièresEvent): void {

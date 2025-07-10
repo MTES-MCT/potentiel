@@ -5,6 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ÉliminéAggregate } from '../éliminé.aggregate';
+import { GarantiesFinancières } from '../../lauréat';
 
 import { TypeDocumentRecours } from '.';
 
@@ -84,6 +85,11 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     await this.publish(event);
 
     await this.éliminé.projet.lauréat.notifier({ attestation: { format: réponseSignée.format } });
+
+    await this.éliminé.projet.lauréat.garantiesFinancières.demander({
+      demandéLe: dateAccord,
+      motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
+    });
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {

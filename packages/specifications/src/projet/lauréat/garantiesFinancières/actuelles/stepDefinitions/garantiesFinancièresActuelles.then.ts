@@ -156,87 +156,64 @@ Alors(
           },
         });
 
-      expect(Option.isSome(actualArchivesGarantiesFinancièresReadModel)).to.be.true;
+      assert(Option.isSome(actualArchivesGarantiesFinancièresReadModel));
 
-      if (Option.isSome(actualArchivesGarantiesFinancièresReadModel)) {
-        actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
+      actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
 
-        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].type.type).to.deep.equal(
-          typeValue,
-        );
+      expect(actualArchivesGarantiesFinancièresReadModel.archives[0].type.type).to.deep.equal(
+        typeValue,
+      );
 
-        if (dateÉchéanceValue) {
-          expect(
-            actualArchivesGarantiesFinancièresReadModel.archives[0].dateÉchéance?.date,
-          ).to.deep.equal(new Date(dateÉchéanceValue));
-        }
-
-        if (dateConstitutionValue) {
-          expect(
-            actualArchivesGarantiesFinancièresReadModel.archives[0].dateConstitution?.date,
-          ).to.deep.equal(new Date(dateConstitutionValue));
-        }
-
-        if (validéLeValue) {
-          expect(
-            actualArchivesGarantiesFinancièresReadModel.archives[0].validéLe?.date,
-          ).to.deep.equal(new Date(validéLeValue));
-        }
-
-        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].statut.statut).to.be.equal(
-          statutValue,
-        );
-
+      if (dateÉchéanceValue) {
         expect(
-          actualArchivesGarantiesFinancièresReadModel.archives[0].motif.estÉgaleÀ(
-            GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(
-              raisonValue,
-            ),
-          ),
-        ).to.be.true;
-
-        if (format && content) {
-          expect(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation).not.to.be
-            .undefined;
-          assert(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation);
-
-          const file = await mediator.send<ConsulterDocumentProjetQuery>({
-            type: 'Document.Query.ConsulterDocumentProjet',
-            data: {
-              documentKey:
-                actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.formatter(),
-            },
-          });
-
-          assert(Option.isSome(file), `Attestation non trouvée !`);
-
-          expect(
-            actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.format,
-          ).to.be.equal(format);
-          const actualContent = await convertReadableStreamToString(file.content);
-          const expectedContent = await convertReadableStreamToString(content);
-          actualContent.should.be.equal(expectedContent);
-        }
+          actualArchivesGarantiesFinancièresReadModel.archives[0].dateÉchéance?.date,
+        ).to.deep.equal(new Date(dateÉchéanceValue));
       }
-    });
-  },
-);
 
-Alors(
-  `un historique des garanties financières ne devrait pas être consultable pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet;
+      if (dateConstitutionValue) {
+        expect(
+          actualArchivesGarantiesFinancièresReadModel.archives[0].dateConstitution?.date,
+        ).to.deep.equal(new Date(dateConstitutionValue));
+      }
 
-    await waitForExpect(async () => {
-      const actualArchivesGarantiesFinancièresReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+      if (validéLeValue) {
+        expect(
+          actualArchivesGarantiesFinancièresReadModel.archives[0].validéLe?.date,
+        ).to.deep.equal(new Date(validéLeValue));
+      }
+
+      expect(actualArchivesGarantiesFinancièresReadModel.archives[0].statut.statut).to.be.equal(
+        statutValue,
+      );
+
+      expect(
+        actualArchivesGarantiesFinancièresReadModel.archives[0].motif.estÉgaleÀ(
+          GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(raisonValue),
+        ),
+      ).to.be.true;
+
+      if (format && content) {
+        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation).not.to.be
+          .undefined;
+        assert(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation);
+
+        const file = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+            documentKey:
+              actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.formatter(),
           },
         });
 
-      expect(Option.isNone(actualArchivesGarantiesFinancièresReadModel)).to.be.true;
+        assert(Option.isSome(file), `Attestation non trouvée !`);
+
+        expect(
+          actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.format,
+        ).to.be.equal(format);
+        const actualContent = await convertReadableStreamToString(file.content);
+        const expectedContent = await convertReadableStreamToString(content);
+        actualContent.should.be.equal(expectedContent);
+      }
     });
   },
 );

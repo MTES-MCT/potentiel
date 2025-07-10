@@ -13,10 +13,7 @@ import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import {
-  applyDemanderGarantiesFinancières,
-  demanderGarantiesFinancières,
-} from './demander/demanderGarantiesFinancières.behavior';
+import { applyDemanderGarantiesFinancières } from './demander/demanderGarantiesFinancières.behavior';
 import {
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
@@ -30,10 +27,7 @@ import {
   applyDépôtGarantiesFinancièresEnCoursModifié,
   modifierDépôtGarantiesFinancièresEnCours,
 } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
-import {
-  applyEffacerHistoriqueGarantiesFinancières,
-  effacerHistorique,
-} from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
+import { applyEffacerHistoriqueGarantiesFinancières } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 import {
   applyTypeGarantiesFinancièresImporté,
   importerType,
@@ -120,7 +114,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
   readonly soumettreDépôt: typeof soumettreDépôt;
-  readonly demanderGarantiesFinancières: typeof demanderGarantiesFinancières;
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
   readonly validerDépôtEnCours: typeof validerDépôtEnCours;
   readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
@@ -129,7 +122,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly enregistrerAttestation: typeof enregistrerAttestation;
   readonly enregistrer: typeof enregistrer;
   readonly échoir: typeof échoir;
-  readonly effacerHistorique: typeof effacerHistorique;
   readonly demanderMainlevée: typeof demanderMainlevée;
   readonly annulerDemandeMainlevée: typeof annulerDemandeMainlevée;
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
@@ -145,7 +137,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
 > = () => ({
   apply,
   soumettreDépôt,
-  demanderGarantiesFinancières,
   supprimerDépôtGarantiesFinancièresEnCours,
   validerDépôtEnCours,
   modifierDépôtGarantiesFinancièresEnCours,
@@ -153,7 +144,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   modifier,
   enregistrerAttestation,
   enregistrer,
-  effacerHistorique,
   motifDemandeGarantiesFinancières:
     Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifInconnu,
   demanderMainlevée,
