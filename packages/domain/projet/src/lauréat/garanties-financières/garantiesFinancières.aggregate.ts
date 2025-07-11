@@ -112,11 +112,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async importer({ type, importéLe, dateÉchéance }: ImporterOptions) {
-    this.vérifierSiLesGarantiesFinancièresSontValides(type, dateÉchéance);
-
     if (!type) {
       return;
     }
+    this.vérifierSiLesGarantiesFinancièresSontValides(type, dateÉchéance);
 
     const event: TypeGarantiesFinancièresImportéEvent = {
       type: 'TypeGarantiesFinancièresImporté-V1',
@@ -197,10 +196,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   estSoumisAuxGarantiesFinancières() {
     const { appelOffre, famille } = this.lauréat.projet;
-    return (
-      famille?.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis' ||
-      appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis'
-    );
+    const { soumisAuxGarantiesFinancieres } =
+      famille?.garantiesFinancières ?? appelOffre.garantiesFinancières;
+    return soumisAuxGarantiesFinancieres && soumisAuxGarantiesFinancieres !== 'non soumis';
   }
 
   apply(event: GarantiesFinancièresEvent): void {
