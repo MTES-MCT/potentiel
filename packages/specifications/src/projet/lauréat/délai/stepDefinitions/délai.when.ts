@@ -12,6 +12,32 @@ Quand('le porteur demande un délai pour le projet lauréat', async function (th
   });
 });
 
+Quand(
+  'le porteur annule la demande de délai pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+      const { annuléeLe, annuléePar } = this.lauréatWorld.délaiWorld.annulerDélaiFixture.créer({
+        annuléePar: this.utilisateurWorld.porteurFixture.email,
+      });
+
+      console.log(identifiantProjet, annuléeLe, annuléePar);
+
+      // await mediator.send<Lauréat.Délai.>({
+      //   type: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
+      //   data: {
+      //     dateAnnulationValue: annuléeLe,
+      //     identifiantUtilisateurValue: annuléePar,
+      //     identifiantProjetValue: identifiantProjet,
+      //   },
+      // });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 export async function demanderDélai(
   this: PotentielWorld,
   partialFixture: CréerDemandeDélaiFixture,
