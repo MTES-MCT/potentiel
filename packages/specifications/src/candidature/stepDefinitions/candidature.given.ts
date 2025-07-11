@@ -58,7 +58,7 @@ EtantDonné(
 );
 
 type ImporterCandidatureProps = {
-  nomProjet: string;
+  nomProjet?: string;
   statut: Candidature.StatutCandidature.RawType;
   dépôt?: Omit<DeepPartial<Candidature.Dépôt.RawType>, 'fournisseurs'>;
   instruction?: DeepPartial<Candidature.Instruction.RawType>;
@@ -78,8 +78,8 @@ export async function importerCandidature(
     this.candidatureWorld.importerCandidature.créer({
       identifiantProjet: identifiantProjetValue,
       dépôt: {
+        ...(nomProjet ? { nomProjet } : {}),
         ...dépôt,
-        nomProjet,
       },
       instruction: {
         ...instruction,
