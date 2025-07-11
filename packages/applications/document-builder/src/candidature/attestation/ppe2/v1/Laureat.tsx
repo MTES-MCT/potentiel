@@ -12,7 +12,7 @@ type MakeLaureatProps = {
 
 export const buildLauréat = ({ project }: MakeLaureatProps) => {
   const { appelOffre, technologie, période } = project;
-  const { soumisAuxGarantiesFinancieres } = appelOffre || {};
+  const { soumisAuxGarantiesFinancieres } = appelOffre.garantiesFinancières || {};
   const { delaiDcrEnMois } = période;
   const footnotes: Array<Footnote> = [];
   const addFootNote = makeAddFootnote(footnotes);
@@ -94,7 +94,7 @@ export const buildLauréat = ({ project }: MakeLaureatProps) => {
           </Text>
 
           {soumisAuxGarantiesFinancieres &&
-            appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
+            appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres && (
               <Text
                 style={{
                   marginTop: 10,
@@ -105,7 +105,10 @@ export const buildLauréat = ({ project }: MakeLaureatProps) => {
                 l’attestation de conformité selon les dispositions du chapitre{' '}
                 {appelOffre.paragrapheAttestationConformite}) ou un renouvellement régulier afin
                 d’assurer une telle couverture temporelle
-                {addFootNote(appelOffre.renvoiRetraitDesignationGarantieFinancieres)};
+                {addFootNote(
+                  appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres,
+                )}
+                ;
               </Text>
             )}
 

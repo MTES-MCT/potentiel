@@ -60,8 +60,6 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   paragrapheEngagementIPFPGPFC: '3.3.7, 4.3 et 6.5.2',
   renvoiEngagementIPFPGPFC: '3.3.7',
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.1',
-  soumisAuxGarantiesFinancieres: 'à la candidature',
   paragrapheDelaiDerogatoire: '6.3',
   délaiRéalisationEnMois: 36,
   delaiRealisationTexte: 'trente-six (36) mois',
@@ -72,6 +70,16 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
   doitPouvoirChoisirCDCInitial: true,
+  garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
+    soumisAuxGarantiesFinancieres: 'à la candidature',
+    renvoiRetraitDesignationGarantieFinancieres: '5.1',
+  },
   changementPuissance: {
     ratios: {
       min: 0.8,

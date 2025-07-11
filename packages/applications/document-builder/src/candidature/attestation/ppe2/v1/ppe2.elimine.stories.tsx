@@ -124,7 +124,11 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF: Story = {
       motifsElimination: 'Autre motif',
       appelOffre: {
         ...fakeProject.appelOffre,
-        soumisAuxGarantiesFinancieres: 'non soumis',
+        garantiesFinancières: {
+          typeGarantiesFinancièresDisponibles: [],
+          soumisAuxGarantiesFinancieres: 'non soumis',
+          renvoiRetraitDesignationGarantieFinancieres: '',
+        },
       },
     },
   },

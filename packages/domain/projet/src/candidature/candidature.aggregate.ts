@@ -28,10 +28,7 @@ import {
   CandidatureNonTrouvéeError,
   ChoixCoefficientKNonAttenduError,
   ChoixCoefficientKRequisError,
-  DateÉchéanceGarantiesFinancièresRequiseError,
-  DateÉchéanceNonAttendueError,
   FonctionManquanteError,
-  GarantiesFinancièresRequisesPourAppelOffreError,
   NomManquantError,
   PériodeAppelOffreLegacyError,
   StatutNonModifiableAprèsNotificationError,
@@ -179,12 +176,16 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
-    this.vérifierQueLaPériodeEstValide();
-    this.vérifierSiLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
-    this.vérifierSiLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
-    this.vérifierQueLaDateÉchéanceNEstPasAttendue(candidature);
+    this.vérifierQueLaPériodeEtLaFamilleSontValides();
     this.vérifierCoefficientKChoisi(candidature);
     this.vérifierTechnologie(candidature);
+
+    if (candidature.statut.estClassé()) {
+      this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
+        candidature.typeGarantiesFinancières,
+        candidature.dateÉchéanceGf,
+      );
+    }
 
     const event: CandidatureImportéeEvent = {
       type: 'CandidatureImportée-V2',
@@ -201,15 +202,19 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   async corriger(candidature: CorrigerCandidatureOptions) {
     this.vérifierQueLaCandidatureExiste();
-    this.vérifierSiLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
-    this.vérifierSiLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
-    this.vérifierQueLaDateÉchéanceNEstPasAttendue(candidature);
     this.vérifierQueLeStatutEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
     this.vérifierCoefficientKChoisi(candidature);
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
+
+    if (candidature.statut.estClassé()) {
+      this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
+        candidature.typeGarantiesFinancières,
+        candidature.dateÉchéanceGf,
+      );
+    }
 
     const event: CandidatureCorrigéeEvent = {
       type: 'CandidatureCorrigée-V2',
@@ -362,57 +367,20 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierSiLesGarantiesFinancièresSontRequisesPourAppelOffre(
-    candidature: CandidatureBehaviorOptions,
-  ) {
-    const soumisAuxGF =
-      this.projet.famille?.soumisAuxGarantiesFinancieres ??
-      this.projet.appelOffre.soumisAuxGarantiesFinancieres;
-    if (
-      soumisAuxGF === 'à la candidature' &&
-      candidature.statut.estClassé() &&
-      !candidature.typeGarantiesFinancières
-    ) {
-      throw new GarantiesFinancièresRequisesPourAppelOffreError();
-    }
-  }
-
-  private vérifierQueLaPériodeEstValide() {
+  private vérifierQueLaPériodeEtLaFamilleSontValides() {
     if (this.projet.période.type === 'legacy') {
       throw new PériodeAppelOffreLegacyError(
         this.projet.identifiantProjet.appelOffre,
         this.projet.identifiantProjet.période,
       );
     }
+    // le getter vérifie que la famille est valide.
+    this.projet.famille;
   }
 
   private vérifierSiLaCandidatureADéjàÉtéImportée() {
     if (this.#statut) {
       throw new CandidatureDéjàImportéeError();
-    }
-  }
-
-  private vérifierSiLaDateÉchéanceGarantiesFinancièresEstRequise(
-    candidature: CandidatureBehaviorOptions,
-  ) {
-    if (
-      candidature.statut.estClassé() &&
-      candidature.typeGarantiesFinancières &&
-      candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
-      !candidature.dateÉchéanceGf
-    ) {
-      throw new DateÉchéanceGarantiesFinancièresRequiseError();
-    }
-  }
-
-  private vérifierQueLaDateÉchéanceNEstPasAttendue(candidature: CandidatureBehaviorOptions) {
-    if (
-      candidature.statut.estClassé() &&
-      candidature.typeGarantiesFinancières &&
-      !candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
-      candidature.dateÉchéanceGf
-    ) {
-      throw new DateÉchéanceNonAttendueError();
     }
   }
 
