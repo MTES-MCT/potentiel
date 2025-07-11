@@ -16,7 +16,6 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { candidatureCsvSchema } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
-import { mapCsvRowToInstruction } from '@/utils/candidature/mapCsvRowToInstruction';
 
 import { getLocalité } from '../_helpers';
 
@@ -58,7 +57,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
               localité: getLocalité(line),
             },
-            instructionValue: mapCsvRowToInstruction(line),
+            instructionValue: line,
             détailsValue: rawLine,
             importéLe: DateTime.now().formatter(),
             importéPar: utilisateur.identifiantUtilisateur.formatter(),
