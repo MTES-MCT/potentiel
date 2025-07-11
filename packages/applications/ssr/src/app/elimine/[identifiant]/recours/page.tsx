@@ -15,7 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   AvailableRecoursAction,
   DétailsRecoursPage,
-} from '@/components/pages/recours/détails/DétailsRecours.page';
+} from '@/app/elimine/[identifiant]/recours/(détails)/DétailsRecours.page';
 import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
 import { getProjetÉliminé } from '@/app/projets/[identifiant]/_helpers/getÉliminé';
 

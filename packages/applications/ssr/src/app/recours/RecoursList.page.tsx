@@ -4,7 +4,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Éliminé } from '@potentiel-domain/projet';
 
-import { RecoursListItem } from '@/components/pages/recours/lister/RecoursListItem';
+import { RecoursListItem } from '@/app/recours/RecoursListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
 
