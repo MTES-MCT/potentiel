@@ -12,15 +12,17 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import {
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
-import { récupérerLauréat } from '@/app/_helpers';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import {
+  getGarantiesFinancièresTypeLabel,
+  récupérerLauréat,
+  getPériodeAppelOffres,
+} from '@/app/_helpers';
 
 import { getHistoriqueMainlevéeRejetéesActions } from './helpers/getHistoriqueMainlevéeRejetéesActions';
 import { getMainlevéeActions } from './helpers/getMainlevéeActions';

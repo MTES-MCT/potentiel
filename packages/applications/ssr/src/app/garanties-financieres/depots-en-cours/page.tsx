@@ -13,11 +13,11 @@ import {
   ListDépôtsEnCoursGarantiesFinancièresPage,
   ListDépôtsEnCoursGarantiesFinancièresProps,
 } from '@/components/pages/garanties-financières/dépôt/lister/ListerDépôtsEnCoursGarantiesFinancières.page';
-import { getGarantiesFinancièresTypeLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresTypeLabel';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),

@@ -15,8 +15,7 @@ import {
   DétailsProjetÉliminéPage,
   DétailsProjetÉliminéPageProps,
 } from '@/components/pages/projet/éliminé/détails/DétailsProjetÉliminé.page';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { getProjet } from '@/app/_helpers/getProjet';
+import { getPériodeAppelOffres, getProjet } from '@/app/_helpers';
 
 import { getProjetÉliminé } from './_helpers/getÉliminé';
 

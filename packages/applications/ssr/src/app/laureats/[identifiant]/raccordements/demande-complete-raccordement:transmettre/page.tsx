@@ -11,8 +11,7 @@ import { TransmettreDemandeComplèteRaccordementPage } from '@/components/pages/
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { récupérerLauréatNonAbandonné, getPériodeAppelOffres } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',

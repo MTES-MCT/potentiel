@@ -15,13 +15,13 @@ import { candidatureCsvSchema, CandidatureShape } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
-import { getLocalité } from '../helpers';
+import { getLocalité } from '../_helpers';
 
 const schema = zod.object({
   fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 });
 
-export type CorrigerCandidaturesFormKeys = keyof zod.infer<typeof schema>;
+export type CorrigerCandidaturesParLotFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
@@ -120,4 +120,4 @@ const mapLineToUseCaseData = (
   détailsValue: rawLine,
 });
 
-export const corrigerCandidaturesAction = formAction(action, schema);
+export const CorrigerCandidaturesParLotAction = formAction(action, schema);

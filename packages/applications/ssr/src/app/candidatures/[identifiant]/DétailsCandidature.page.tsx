@@ -13,11 +13,13 @@ import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import {
+  getActionnariatTypeLabel,
+  getGarantiesFinancièresTypeLabel,
+  getTechnologieTypeLabel,
+} from '@/app/_helpers';
 
-import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
-import { getTechnologieTypeLabel } from '../helpers';
-import { getActionnariatTypeLabel } from '../helpers/getActionnariatTypeLabel';
-import { ListeFournisseurs } from '../../fournisseur/changement/ListeFournisseurs';
+import { ListeFournisseurs } from '../../../components/pages/fournisseur/changement/ListeFournisseurs';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',

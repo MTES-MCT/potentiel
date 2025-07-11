@@ -8,10 +8,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { DétailsCandidaturePage } from '@/components/pages/candidature/détails/DétailsCandidature.page';
+import { DétailsCandidaturePage } from '@/app/candidatures/[identifiant]/DétailsCandidature.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getCandidature } from '@/app/_helpers';
 
-import { getCandidature } from '../_helpers/getCandidature';
 import { getCandidatureActions } from '../_helpers/getCandidatureActions';
 
 type PageProps = IdentifiantParameter;
