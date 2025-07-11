@@ -125,3 +125,10 @@ Fonctionnalité: Importer une candidature
             | famille              |                 |
             | coefficient K choisi |                 |
         Alors l'administrateur devrait être informé que "Le choix du coefficient K est requis pour cette période"
+
+    Scénario: Impossible d'importer une candidature avec un type de garanties financières non disponible dans l'appel d'offre
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut        | classé            |
+            | appel d'offre | PPE2 - Bâtiment   |
+            | type GF       | garantie-bancaire |
+        Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"

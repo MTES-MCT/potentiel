@@ -2,7 +2,6 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
@@ -22,7 +21,12 @@ import {
 import { DemanderOptions } from './demander/demanderGarantiesFinancières.options';
 import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 import { ImporterOptions } from './importer/importerGarantiesFinancières.option';
-import { TypeGarantiesFinancièresNonDisponiblePourAppelOffreError } from './garantiesFinancières.error';
+import {
+  DateÉchéanceGarantiesFinancièresRequiseError,
+  DateÉchéanceNonAttendueError,
+  GarantiesFinancièresRequisesPourAppelOffreError,
+  TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
+} from './garantiesFinancières.error';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -67,17 +71,49 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.#aUnDépôtEnCours;
   }
 
-  estUnTypeDisponiblePourCetAppelOffre = ({
-    typesDeAppelOffre,
-  }: {
-    typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancières>;
-  }) => {
-    if (!typesDeAppelOffre.includes(this.#type.type)) {
-      throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(this.#type.type);
+  vérifierSiLesGarantiesFinancièresSontValides(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+    dateÉchéance: DateTime.ValueType | undefined,
+  ) {
+    this.vérifierSiLesGarantiesFinancièresSontRequises(type);
+    this.vérifierSiLaDateÉchéanceEstValide(type, dateÉchéance);
+    this.vérifierSiLeTypeEstDisponiblePourAppelOffre(type);
+  }
+
+  private vérifierSiLeTypeEstDisponiblePourAppelOffre(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+  ) {
+    const typesDisponibles =
+      this.lauréat.projet.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles;
+    if (type && !typesDisponibles.includes(type.type)) {
+      throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError();
     }
-  };
+  }
+
+  private vérifierSiLaDateÉchéanceEstValide(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+    dateÉchéance: DateTime.ValueType | undefined,
+  ) {
+    if (!type) return;
+    if (type.estAvecDateÉchéance() && !dateÉchéance) {
+      throw new DateÉchéanceGarantiesFinancièresRequiseError();
+    }
+    if (!type.estAvecDateÉchéance() && dateÉchéance) {
+      throw new DateÉchéanceNonAttendueError();
+    }
+  }
+
+  private vérifierSiLesGarantiesFinancièresSontRequises(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+  ) {
+    if (!type && this.estSoumisAuxGarantiesFinancières()) {
+      throw new GarantiesFinancièresRequisesPourAppelOffreError();
+    }
+  }
 
   async importer({ type, importéLe, dateÉchéance }: ImporterOptions) {
+    this.vérifierSiLesGarantiesFinancièresSontValides(type, dateÉchéance);
+
     if (!type) {
       return;
     }
