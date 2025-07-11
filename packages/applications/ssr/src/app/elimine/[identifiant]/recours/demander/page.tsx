@@ -5,7 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Éliminé } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-import { DemanderRecoursPage } from '@/components/pages/recours/demander/DemanderRecours.page';
+import { DemanderRecoursPage } from '@/app/elimine/[identifiant]/recours/demander/DemanderRecours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
