@@ -6,12 +6,12 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
+        Et un cahier des charges modificatif choisi
 
     Scénario: Annuler la demande de délai d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur annule la demande de délai pour le projet lauréat
         Alors la demande de délai ne devrait plus être consultable
-
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                      |

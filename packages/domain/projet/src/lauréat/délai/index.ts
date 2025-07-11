@@ -2,6 +2,7 @@ import {
   ConsulterDélaiQuery,
   ConsulterABénéficiéDuDélaiCDC2022Port,
 } from './consulter/consulterABénéficiéDuDélaiCDC2022.query';
+import { AnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase';
 import {
   ConsulterDemandeDélaiQuery,
   ConsulterDemandeDélaiReadModel,
@@ -41,12 +42,13 @@ export type {
 };
 
 // UseCases
-export type DélaiUseCase = DemanderDélaiUseCase;
-export type { DemanderDélaiUseCase };
+export type DélaiUseCase = DemanderDélaiUseCase | AnnulerDemandeDélaiUseCase;
+export type { DemanderDélaiUseCase, AnnulerDemandeDélaiUseCase };
 
 // Event
 export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
 export type { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
+export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 export * from './délai.event';
 
 // Register

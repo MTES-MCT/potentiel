@@ -10,7 +10,7 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
   DélaiProjector.registerDélaiProjectors();
   await délai.setupSubscription<DélaiProjector.SubscriptionEvent, DélaiProjector.Execute>({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'DélaiDemandé-V1', 'DélaiAccordé-V1'],
+    eventType: ['RebuildTriggered', 'DélaiDemandé-V1', 'DélaiAccordé-V1', 'DemandeDélaiAnnulée-V1'],
     messageType: 'System.Projector.Lauréat.Délai',
   });
 
