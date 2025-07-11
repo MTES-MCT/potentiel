@@ -15,6 +15,7 @@ export * as PuissanceNotification from './subscribers/lauréat/puissance';
 export * as LauréatNotification from './subscribers/lauréat/lauréat';
 export * as ProducteurNotification from './subscribers/lauréat/producteur';
 export * as FournisseurNotification from './subscribers/lauréat/fournisseur';
+export * as DélaiNotification from './subscribers/lauréat/délai';
 
 // Éliminé
 export * as RecoursNotification from './subscribers/éliminé/recours.notification';

@@ -15,7 +15,7 @@ export const mapToDélaiTimelineItemProps = (
       {
         type: 'DélaiDemandé-V1',
       },
-      () => undefined,
+      mapToDélaiTimelineItemProps,
     )
     .with(
       {

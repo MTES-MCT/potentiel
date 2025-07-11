@@ -25,7 +25,7 @@ export type DélaiQuery =
   | ConsulterDemandeDélaiQuery
   | ListerDemandeDélaiQuery;
 
-export {
+export type {
   ConsulterDélaiQuery,
   ListerHistoriqueDélaiProjetQuery,
   ConsulterDemandeDélaiQuery,
@@ -45,15 +45,15 @@ export type DélaiUseCase = DemanderDélaiUseCase;
 export type { DemanderDélaiUseCase };
 
 // Event
-export { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
-export { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
+export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
+export type { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
 export * from './délai.event';
 
 // Register
 export * from './délai.register';
 
 // Port
-export { ConsulterABénéficiéDuDélaiCDC2022Port, ListerDélaiAccordéProjetPort };
+export type { ConsulterABénéficiéDuDélaiCDC2022Port, ListerDélaiAccordéProjetPort };
 
 // ValueTypes
 export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType';

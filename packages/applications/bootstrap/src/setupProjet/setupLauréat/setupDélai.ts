@@ -1,9 +1,10 @@
 import { HistoriqueProjector, DélaiProjector } from '@potentiel-applications/projectors';
+import { DélaiNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
-export const setupDélai: SetupProjet = async () => {
+export const setupDélai: SetupProjet = async ({ sendEmail }) => {
   const délai = createSubscriptionSetup('délai');
 
   DélaiProjector.registerDélaiProjectors();
@@ -11,6 +12,13 @@ export const setupDélai: SetupProjet = async () => {
     name: 'projector',
     eventType: ['RebuildTriggered', 'DélaiDemandé-V1', 'DélaiAccordé-V1'],
     messageType: 'System.Projector.Lauréat.Délai',
+  });
+
+  DélaiNotification.registerDélaiNotifications({ sendEmail });
+  await délai.setupSubscription<DélaiNotification.SubscriptionEvent, DélaiNotification.Execute>({
+    name: 'notifications',
+    eventType: ['DélaiDemandé-V1', 'DélaiAccordé-V1'],
+    messageType: 'System.Notification.Lauréat.Délai',
   });
 
   await délai.setupSubscription<HistoriqueProjector.SubscriptionEvent, HistoriqueProjector.Execute>(
