@@ -390,7 +390,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Délai.Query.ConsulterDélai',
         consulterDemande: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-        listerDemande: 'Lauréat.Délai.Query.ListerDemandeDélai',
+        listerDemandes: 'Lauréat.Délai.Query.ListerDemandeDélai',
       },
       usecase: {
         demander: 'Lauréat.Délai.UseCase.DemanderDélai',
@@ -1245,7 +1245,7 @@ const policies = {
   },
   délai: {
     consulterDemande: [référencielPermissions.lauréat.délai.query.consulterDemande],
-    listerDemande: [référencielPermissions.lauréat.délai.query.listerDemande],
+    listerDemande: [référencielPermissions.lauréat.délai.query.listerDemandes],
     demander: [
       référencielPermissions.lauréat.délai.command.demander,
       référencielPermissions.lauréat.délai.usecase.demander,
