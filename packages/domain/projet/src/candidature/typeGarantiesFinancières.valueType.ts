@@ -1,4 +1,3 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
@@ -55,18 +54,6 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const estDisponiblePourCetAppelOffre = ({
-  value,
-  typesDeAppelOffre,
-}: {
-  value: RawType;
-  typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancières>;
-}) => {
-  if (!typesDeAppelOffre.includes(value)) {
-    throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(value);
-  }
-};
-
 export const consignation = convertirEnValueType('consignation');
 export const avecDateÉchéance = convertirEnValueType('avec-date-échéance');
 export const sixMoisAprèsAchèvement = convertirEnValueType('six-mois-après-achèvement');
@@ -76,14 +63,6 @@ export const typeInconnu = convertirEnValueType('type-inconnu');
 class TypeGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type ne correspond à aucune valeur connue`, {
-      value,
-    });
-  }
-}
-
-class TypeGarantiesFinancièresNonDisponiblePourAppelOffreError extends InvalidOperationError {
-  constructor(value: string) {
-    super(`Ce type de garanties financières n'est pas disponible pour cet appel d'offre`, {
       value,
     });
   }

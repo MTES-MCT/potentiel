@@ -2,6 +2,7 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
@@ -21,6 +22,7 @@ import {
 import { DemanderOptions } from './demander/demanderGarantiesFinancières.options';
 import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 import { ImporterOptions } from './importer/importerGarantiesFinancières.option';
+import { TypeGarantiesFinancièresNonDisponiblePourAppelOffreError } from './garantiesFinancières.error';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -64,6 +66,18 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   get aUnDépôtEnCours() {
     return this.#aUnDépôtEnCours;
   }
+
+  estUnTypeDisponiblePourCetAppelOffre = ({
+    value,
+    typesDeAppelOffre,
+  }: {
+    value: TypeGarantiesFinancières.RawType;
+    typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancières>;
+  }) => {
+    if (!typesDeAppelOffre.includes(value)) {
+      throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(value);
+    }
+  };
 
   async importer({ type, importéLe, dateÉchéance }: ImporterOptions) {
     if (!type) {
