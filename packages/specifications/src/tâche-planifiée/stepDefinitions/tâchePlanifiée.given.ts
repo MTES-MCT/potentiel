@@ -7,7 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherStatutTâchePlanifiée, TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
-export async function ajouterTâchePlanifiée(
+async function ajouterTâchePlanifiée(
   identifiantProjet: IdentifiantProjet.ValueType,
   typeTâchePlanifiée: string,
   àExécuterLe: Date,
