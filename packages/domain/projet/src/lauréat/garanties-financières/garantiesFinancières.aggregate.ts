@@ -68,14 +68,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   estUnTypeDisponiblePourCetAppelOffre = ({
-    value,
     typesDeAppelOffre,
   }: {
-    value: TypeGarantiesFinancières.RawType;
     typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancières>;
   }) => {
-    if (!typesDeAppelOffre.includes(value)) {
-      throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(value);
+    if (!typesDeAppelOffre.includes(this.#type.type)) {
+      throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(this.#type.type);
     }
   };
 
