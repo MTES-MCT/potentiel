@@ -9,5 +9,5 @@ export const projetSoumisAuxGarantiesFinancières = async (
 
   return famille
     ? famille.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis'
-    : appelOffres.soumisAuxGarantiesFinancieres !== 'non soumis';
+    : appelOffres.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis';
 };

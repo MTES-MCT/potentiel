@@ -9,7 +9,8 @@ type ElimineProps = {
 
 export const buildElimine = ({ project }: ElimineProps) => {
   const { appelOffre, période } = project;
-  const { renvoiRetraitDesignationGarantieFinancieres, soumisAuxGarantiesFinancieres } = appelOffre;
+  const { renvoiRetraitDesignationGarantieFinancieres, soumisAuxGarantiesFinancieres } =
+    appelOffre.garantiesFinancières;
 
   return {
     objet: `Avis de rejet à l’issue de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`,

@@ -12,7 +12,7 @@ type MakeLaureatProps = {
 
 export const buildLauréat = ({ project }: MakeLaureatProps) => {
   const { appelOffre, technologie, période } = project;
-  const { soumisAuxGarantiesFinancieres } = appelOffre || {};
+  const { soumisAuxGarantiesFinancieres } = appelOffre.garantiesFinancières || {};
   const { delaiDcrEnMois } = période;
   const footnotes: Array<Footnote> = [];
   const addFootNote = makeAddFootnote(footnotes);

@@ -150,8 +150,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   estSoumisAuxGarantiesFinancières() {
     const { appelOffre, famille } = this.lauréat.projet;
     return (
-      famille?.soumisAuxGarantiesFinancieres !== 'non soumis' ||
-      appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis'
+      famille?.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis' ||
+      appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis'
     );
   }
 

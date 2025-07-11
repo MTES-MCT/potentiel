@@ -9,5 +9,6 @@ export const getGarantiesFinancièresTypeLabel = (
     .with('consignation', () => `Consignation`)
     .with('avec-date-échéance', () => `Avec date d'échéance`)
     .with('six-mois-après-achèvement', () => `Six mois après achèvement`)
+    .with('garantie-bancaire', () => `Garantie bancaire`)
     .with('type-inconnu', () => ``)
     .exhaustive();
