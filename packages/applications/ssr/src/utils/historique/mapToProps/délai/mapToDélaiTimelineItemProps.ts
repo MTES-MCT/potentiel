@@ -13,6 +13,12 @@ export const mapToDélaiTimelineItemProps = (
     .returnType<TimelineItemProps | undefined>()
     .with(
       {
+        type: 'DélaiDemandé-V1',
+      },
+      () => undefined,
+    )
+    .with(
+      {
         type: 'DélaiAccordé-V1',
       },
       mapToDélaiAccordéTimelineItemProps,

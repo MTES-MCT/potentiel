@@ -1,7 +1,7 @@
 import { DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../../../..';
 
 export type DélaiAccordéEvent = DomainEvent<
   'DélaiAccordé-V1',
@@ -12,5 +12,3 @@ export type DélaiAccordéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
-
-export type DélaiEvent = DélaiAccordéEvent;

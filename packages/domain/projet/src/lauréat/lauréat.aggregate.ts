@@ -38,6 +38,7 @@ import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
 import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
+import { DélaiAggregate } from './délai/délai.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -106,6 +107,11 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#fournisseur;
   }
 
+  #délai!: AggregateType<DélaiAggregate>;
+  get délai() {
+    return this.#délai;
+  }
+
   #raccordement!: AggregateType<RaccordementAggregate>;
   get raccordement() {
     return this.#raccordement;
@@ -161,6 +167,11 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#garantiesFinancières = await this.loadAggregate(
       GarantiesFinancièresAggregate,
       `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
+    );
+
+    this.#délai = await this.loadAggregate(
+      DélaiAggregate,
+      `délai|${this.projet.identifiantProjet.formatter()}`,
     );
   }
 

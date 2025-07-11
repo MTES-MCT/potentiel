@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
 
-import { DélaiEvent } from '../délai.events';
+import { DélaiEvent } from '../délai.event';
 
 export type ListerDélaiAccordéProjetPort = (
   identifiantProjet: string,
@@ -27,12 +27,8 @@ export type ListerHistoriqueDélaiProjetDependencies = {
 export const registerListerHistoriqueDélaiProjetQuery = ({
   listerDélaiAccordé,
 }: ListerHistoriqueDélaiProjetDependencies) => {
-  const handler: MessageHandler<ListerHistoriqueDélaiProjetQuery> = async ({
-    identifiantProjet,
-  }) => {
-    const items = await listerDélaiAccordé(identifiantProjet);
-    return items;
-  };
+  const handler: MessageHandler<ListerHistoriqueDélaiProjetQuery> = async ({ identifiantProjet }) =>
+    listerDélaiAccordé(identifiantProjet);
 
   mediator.register('Lauréat.Délai.Query.ListerHistoriqueDélaiProjet', handler);
 };
