@@ -199,7 +199,7 @@ const créerDépôt = (
     ?.periodes.find((p) => p.id === période);
 
   if (
-    référentielPériode?.choixCoefficientKDisponible === true &&
+    référentielPériode?.champsSupplémentaires?.coefficientKChoisi &&
     !('coefficientKChoisi' in dépôt)
   ) {
     dépôtValue.coefficientKChoisi = faker.datatype.boolean();
