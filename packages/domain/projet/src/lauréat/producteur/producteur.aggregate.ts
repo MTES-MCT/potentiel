@@ -89,6 +89,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     await this.lauréat.projet.lauréat.garantiesFinancières.demander({
       demandéLe: dateChangement,
       motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
+      dateLimiteSoumission: dateChangement.ajouterNombreDeMois(2),
     });
   }
 

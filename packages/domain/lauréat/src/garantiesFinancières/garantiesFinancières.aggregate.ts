@@ -13,7 +13,6 @@ import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import { applyDemanderGarantiesFinancières } from './demander/demanderGarantiesFinancières.behavior';
 import {
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
@@ -103,8 +102,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   };
-  motifDemandeGarantiesFinancières: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
-  dateLimiteSoumission?: DateTime.ValueType;
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
@@ -135,8 +132,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   modifier,
   enregistrerAttestation,
   enregistrer,
-  motifDemandeGarantiesFinancières:
-    Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifInconnu,
   demanderMainlevée,
   annulerDemandeMainlevée,
   démarrerInstructionDemandeMainlevée,
@@ -147,9 +142,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
   switch (event.type) {
-    case 'GarantiesFinancièresDemandées-V1':
-      applyDemanderGarantiesFinancières.bind(this)(event);
-      break;
     case 'DépôtGarantiesFinancièresSoumis-V1':
       applyDépôtGarantiesFinancièresSoumis.bind(this)(event);
       break;

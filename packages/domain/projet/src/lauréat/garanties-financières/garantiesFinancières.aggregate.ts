@@ -7,9 +7,10 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import { TypeGarantiesFinancières } from '../../candidature';
 
-import { TypeTâchePlanifiéeGarantiesFinancières } from '.';
+import { MotifDemandeGarantiesFinancières, TypeTâchePlanifiéeGarantiesFinancières } from '.';
 
 import {
+  DépôtGarantiesFinancièresEnCoursValidéEvent,
   GarantiesFinancièresDemandéesEvent,
   GarantiesFinancièresEnregistréesEvent,
   GarantiesFinancièresEvent,
@@ -31,6 +32,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   #tâchePlanifiéeRappel2mois!: AggregateType<TâchePlanifiéeAggregate>;
   #type!: TypeGarantiesFinancières.ValueType;
   #dateÉchéance: DateTime.ValueType | undefined;
+  #motifDemande: MotifDemandeGarantiesFinancières.ValueType | undefined;
+  #dateLimiteSoumission: DateTime.ValueType | undefined;
 
   async init() {
     this.#tâchePlanifiéeEchoir = await this.lauréat.loadTâchePlanifiée(
@@ -80,19 +83,29 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.ajouterTâchesPlanifiées();
   }
 
-  async demander({ demandéLe, motif }: DemanderOptions) {
-    if (this.estSoumisAuxGarantiesFinancières()) {
+  async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
+    if (this.estSoumisAuxGarantiesFinancières() && dateLimiteSoumission && motif) {
       const event: GarantiesFinancièresDemandéesEvent = {
         type: 'GarantiesFinancièresDemandées-V1',
         payload: {
           identifiantProjet: this.identifiantProjet.formatter(),
-          dateLimiteSoumission: demandéLe.ajouterNombreDeMois(2).formatter(),
+          dateLimiteSoumission: dateLimiteSoumission.formatter(),
           demandéLe: demandéLe.formatter(),
           motif: motif.motif,
         },
       };
       await this.publish(event);
     }
+  }
+  async redemander(demandéLe: DateTime.ValueType) {
+    if (this.#dateLimiteSoumission && this.#motifDemande) {
+      await this.demander({
+        demandéLe,
+        dateLimiteSoumission: this.#dateLimiteSoumission,
+        motif: this.#motifDemande,
+      });
+    }
+    await this.ajouterTâchesPlanifiées();
   }
 
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
@@ -111,7 +124,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async ajouterTâchesPlanifiées() {
-    console.log(this.#dateÉchéance);
     if (this.#dateÉchéance && !this.lauréat.projet.statut.estAchevé()) {
       await this.#tâchePlanifiéeEchoir.ajouter({
         àExécuterLe: this.#dateÉchéance.ajouterNombreDeJours(1),
@@ -195,6 +207,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
           type: 'TypeGarantiesFinancièresImporté-V1',
         },
         this.applyTypeGarantiesFinancièresImportéV1.bind(this),
+      )
+      .with(
+        {
+          type: 'GarantiesFinancièresDemandées-V1',
+        },
+        this.applyGarantiesFinancièresDemandées.bind(this),
       );
     // .otherwise(() => {});
     // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
@@ -218,9 +236,13 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#aUnDépôtEnCours = false;
   }
 
-  private applyDépôtGarantiesFinancièresEnCoursValidéV2() {
+  private applyDépôtGarantiesFinancièresEnCoursValidéV2({
+    payload: { dateÉchéance, type },
+  }: DépôtGarantiesFinancièresEnCoursValidéEvent) {
     this.#aDesGarantiesFinancières = true;
     this.#aUnDépôtEnCours = false;
+    this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
+    this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }
 
   private applyGarantiesFinancièresEnregistréesV1({
@@ -250,5 +272,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#aDesGarantiesFinancières = true;
     this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
     this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
+  }
+
+  private applyGarantiesFinancièresDemandées({
+    payload: { motif, dateLimiteSoumission },
+  }: GarantiesFinancièresDemandéesEvent) {
+    this.#motifDemande = MotifDemandeGarantiesFinancières.convertirEnValueType(motif);
+    this.#dateLimiteSoumission = DateTime.convertirEnValueType(dateLimiteSoumission);
   }
 }

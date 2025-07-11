@@ -15,7 +15,7 @@ export const registerDépôt = (
 ) => {
   // commands
   registerDépôtSoumettreGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
-  registerValiderDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
+  registerValiderDépôtGarantiesFinancièresEnCoursCommand(loadAggregate, getProjetAggregateRoot);
   registerSupprimerDépôtGarantiesFinancièresEnCoursCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
 

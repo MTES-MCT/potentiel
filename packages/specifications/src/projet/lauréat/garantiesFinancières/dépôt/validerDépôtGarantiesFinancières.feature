@@ -29,10 +29,10 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
 
         Exemples:
-            | type GF                   | format du fichier | contenu du fichier    | date de constitution | date de validation |
-            | avec-date-échéance        | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
-            | consignation              | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
-            | six-mois-après-achèvement | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de validation |
+            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
+            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-10         |
 
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut validé
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
@@ -43,6 +43,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et un historique des garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
             | raison | modification des garanties financières |
 
+    @select
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut échu
         Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |

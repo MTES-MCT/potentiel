@@ -6,7 +6,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { setDépôtData } from '../../dépôt/stepDefinitions/helper';
-import { ajouterTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.given';
 
 import { setGarantiesFinancièresData } from './helper';
 
@@ -61,8 +60,6 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const dateÉchéance = new Date(exemple[`date d'échéance`]);
-
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
@@ -80,15 +77,6 @@ EtantDonné(
         exemple,
       }),
     });
-
-    const echuLeDate = new Date(dateÉchéance.getTime());
-    const echuLeValue = new Date(echuLeDate.setDate(echuLeDate.getDate() + 1));
-
-    await ajouterTâchePlanifiée(
-      identifiantProjet,
-      Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-      new Date(echuLeValue),
-    );
 
     await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',

@@ -95,29 +95,6 @@ Quand(
 );
 
 Quand(
-  'le porteur supprime un dépôt de garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-    try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-      const dateÉchéance = exemple[`date d'échéance`] || undefined;
-
-      await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          suppriméLeValue: new Date().toISOString(),
-          suppriméParValue: 'porteur@test.test',
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   `l'utilisateur dreal valide un dépôt de garanties financières pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();

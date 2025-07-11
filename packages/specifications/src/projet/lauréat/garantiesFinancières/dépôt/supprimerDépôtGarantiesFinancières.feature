@@ -55,8 +55,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | date d'échéance | 2024-12-01 |
+        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-02" pour le projet "Du boulodrome de Marseille"
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
@@ -65,8 +64,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date d'échéance    | 2024-10-01         |
             | date de validation | 2024-11-24         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | date d'échéance | 2024-10-01 |
+        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 

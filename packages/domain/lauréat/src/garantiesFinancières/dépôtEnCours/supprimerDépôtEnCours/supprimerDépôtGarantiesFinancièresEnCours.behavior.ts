@@ -36,19 +36,6 @@ export async function supprimerDépôtGarantiesFinancièresEnCours(
     },
   };
   await this.publish(event);
-
-  if (this.dateLimiteSoumission) {
-    const event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent = {
-      type: 'GarantiesFinancièresDemandées-V1',
-      payload: {
-        identifiantProjet: identifiantProjet.formatter(),
-        demandéLe: suppriméLe.formatter(),
-        dateLimiteSoumission: this.dateLimiteSoumission.formatter(),
-        motif: this.motifDemandeGarantiesFinancières.motif,
-      },
-    };
-    await this.publish(event);
-  }
 }
 
 export function applyDépôtGarantiesFinancièresEnCoursSupprimé(

@@ -36,7 +36,7 @@ export const registerSupprimerDépôtGarantiesFinancièresEnCoursCommand = (
     // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
     const projet = await getProjetAggregateRoot(identifiantProjet);
     // TODO move to Garanties Financière Aggregate
-    await projet.lauréat.garantiesFinancières.ajouterTâchesPlanifiées();
+    await projet.lauréat.garantiesFinancières.redemander(suppriméLe);
   };
   mediator.register(
     'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
