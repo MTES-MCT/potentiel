@@ -60,7 +60,7 @@ export const estDisponiblePourCetAppelOffre = ({
   typesDeAppelOffre,
 }: {
   value: RawType;
-  typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancièresAppelOffre>;
+  typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancières>;
 }) => {
   if (!typesDeAppelOffre.includes(value)) {
     throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(value);

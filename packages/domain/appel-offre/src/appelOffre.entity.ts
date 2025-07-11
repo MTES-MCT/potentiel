@@ -34,8 +34,8 @@ type ChangementPuissance = { paragrapheAlerte?: string } & (
     }
 );
 
-// Type des Garanties Financières (duplicate, preneuse d'une meilleure option)
-export type TypeGarantiesFinancièresAppelOffre =
+// Type des Garanties Financières
+export type TypeGarantiesFinancières =
   | 'consignation'
   | 'avec-date-échéance'
   | 'six-mois-après-achèvement'
@@ -44,7 +44,7 @@ export type TypeGarantiesFinancièresAppelOffre =
 
 // GF AO
 type GarantiesFinancièresAppelOffre = {
-  typeGarantiesFinancièresDisponibles: Array<TypeGarantiesFinancièresAppelOffre>;
+  typeGarantiesFinancièresDisponibles: Array<TypeGarantiesFinancières>;
   renvoiRetraitDesignationGarantieFinancieres: string;
   renvoiSoumisAuxGarantiesFinancieres?: string;
 } & (

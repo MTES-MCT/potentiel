@@ -44,9 +44,9 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
       const garantieFinanciereEnMoisNumber =
         famille &&
         famille?.garantiesFinancières.soumisAuxGarantiesFinancieres === 'après candidature'
-          ? famille.garantieFinanciereEnMois
-          : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? appelOffres.garantieFinanciereEnMois
+          ? famille.garantiesFinancières.garantieFinanciereEnMois
+          : appelOffres.garantiesFinancières.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? appelOffres.garantiesFinancières.garantieFinanciereEnMois
             : undefined;
 
       const { logo, data } = mapLauréatToModèleRéponsePayload({
@@ -73,7 +73,8 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
 
           adresseCompleteProjet: data.adresseCandidat,
           puissanceProjet: data.puissance,
-          paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
+          paragrapheGF:
+            appelOffres.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres,
           garantieFinanciereEnMois: garantieFinanciereEnMoisNumber
             ? garantieFinanciereEnMoisNumber.toString()
             : '!!! garantieFinanciereEnMois non disponible !!!',
