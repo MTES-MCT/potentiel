@@ -6,12 +6,13 @@ import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DemanderAbandonPage } from '@/components/pages/abandon/demander/DemanderAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+
+import { DemanderAbandonPage } from './DemanderAbandon.page';
 
 export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",

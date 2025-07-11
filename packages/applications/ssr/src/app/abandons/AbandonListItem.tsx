@@ -10,8 +10,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { StatutAbandonBadge } from '../StatutAbandonBadge';
-import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureStatutBadge';
+import { StatutAbandonBadge } from '../laureats/[identifiant]/abandon/(détails)/StatutAbandonBadge';
+import { StatutPreuveRecandidatureBadge } from '../laureats/[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
 
 export type AbandonListItemProps = {
   identifiantProjet: string;

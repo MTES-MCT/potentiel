@@ -10,7 +10,7 @@ import { Option } from '@potentiel-libraries/monads';
 import {
   DétailsAbandonPage,
   DétailsAbandonPageProps,
-} from '@/components/pages/abandon/détails/DétailsAbandon.page';
+} from '@/app/laureats/[identifiant]/abandon/(détails)/DétailsAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
