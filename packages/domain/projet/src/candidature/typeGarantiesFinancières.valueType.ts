@@ -13,10 +13,6 @@ export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
-  estDisponiblePourCetAppelOffre: (args: {
-    value: RawType;
-    typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancièresAppelOffre>;
-  }) => void;
   estGarantieBancaire: () => boolean;
   estConsignation: () => boolean;
   estAvecDateÉchéance: () => boolean;
@@ -59,17 +55,17 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-function estDisponiblePourCetAppelOffre({
+export const estDisponiblePourCetAppelOffre = ({
   value,
   typesDeAppelOffre,
 }: {
   value: RawType;
   typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancièresAppelOffre>;
-}) {
+}) => {
   if (!typesDeAppelOffre.includes(value)) {
     throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(value);
   }
-}
+};
 
 export const consignation = convertirEnValueType('consignation');
 export const avecDateÉchéance = convertirEnValueType('avec-date-échéance');
