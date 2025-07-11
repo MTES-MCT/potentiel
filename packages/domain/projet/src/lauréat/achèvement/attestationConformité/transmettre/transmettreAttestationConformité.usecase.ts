@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../..';
 import { TypeDocumentAttestationConformité } from '..';
-import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../../garanties-financières';
 
 import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
 
@@ -81,13 +80,6 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
         preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractant,
         identifiantUtilisateur,
-      },
-    });
-
-    await mediator.send<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
-      data: {
-        identifiantProjet,
       },
     });
   };

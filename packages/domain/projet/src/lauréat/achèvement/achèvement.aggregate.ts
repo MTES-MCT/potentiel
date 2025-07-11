@@ -106,6 +106,8 @@ export class AchèvementAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
   }
 
   async modifierAttestationConformité({

@@ -13,7 +13,6 @@ import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
 } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import { applyDemanderGarantiesFinancières } from './demander/demanderGarantiesFinancières.behavior';
 import {
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
@@ -28,10 +27,7 @@ import {
   modifierDépôtGarantiesFinancièresEnCours,
 } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import { applyEffacerHistoriqueGarantiesFinancières } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
-import {
-  applyTypeGarantiesFinancièresImporté,
-  importerType,
-} from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
+import { applyTypeGarantiesFinancièresImporté } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
 import {
   enregistrer,
   applyEnregistrerGarantiesFinancières,
@@ -68,8 +64,6 @@ import {
   applyGarantiesFinancièresÉchues,
   échoir,
 } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
-import { ajouterTâchesPlanifiées } from './tâches-planifiées/ajouter/ajouter.behavior';
-import { annulerTâchesPlanifiées } from './tâches-planifiées/annuler/annuler.behavior';
 
 export type GarantiesFinancièresEvent =
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
@@ -108,8 +102,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   };
-  motifDemandeGarantiesFinancières: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
-  dateLimiteSoumission?: DateTime.ValueType;
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
@@ -117,7 +109,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
   readonly validerDépôtEnCours: typeof validerDépôtEnCours;
   readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
-  readonly importerType: typeof importerType;
   readonly modifier: typeof modifier;
   readonly enregistrerAttestation: typeof enregistrerAttestation;
   readonly enregistrer: typeof enregistrer;
@@ -127,8 +118,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
   readonly rejeterDemandeMainlevéeGarantiesFinancières: typeof rejeterDemandeMainlevéeGarantiesFinancières;
   readonly accorderDemandeMainlevéeGarantiesFinancières: typeof accorderDemandeMainlevéeGarantiesFinancières;
-  readonly ajouterTâchesPlanifiées: typeof ajouterTâchesPlanifiées;
-  readonly annulerTâchesPlanifiées: typeof annulerTâchesPlanifiées;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -140,27 +129,19 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   supprimerDépôtGarantiesFinancièresEnCours,
   validerDépôtEnCours,
   modifierDépôtGarantiesFinancièresEnCours,
-  importerType,
   modifier,
   enregistrerAttestation,
   enregistrer,
-  motifDemandeGarantiesFinancières:
-    Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifInconnu,
   demanderMainlevée,
   annulerDemandeMainlevée,
   démarrerInstructionDemandeMainlevée,
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
   échoir,
-  ajouterTâchesPlanifiées,
-  annulerTâchesPlanifiées,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
   switch (event.type) {
-    case 'GarantiesFinancièresDemandées-V1':
-      applyDemanderGarantiesFinancières.bind(this)(event);
-      break;
     case 'DépôtGarantiesFinancièresSoumis-V1':
       applyDépôtGarantiesFinancièresSoumis.bind(this)(event);
       break;

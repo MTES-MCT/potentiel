@@ -4,7 +4,6 @@ import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCo
 import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
 import { EnregistrerGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
-import { ImporterTypeGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.usecase';
 import {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
@@ -82,7 +81,6 @@ export type GarantiesFinancièresUseCase =
   | SupprimerGarantiesFinancièresÀTraiterUseCase
   | ValiderDépôtGarantiesFinancièresEnCoursUseCase
   | ModifierDépôtGarantiesFinancièresEnCoursUseCase
-  | ImporterTypeGarantiesFinancièresUseCase
   | ModifierGarantiesFinancièresUseCase
   | EnregistrerAttestationGarantiesFinancièresUseCase
   | EnregistrerGarantiesFinancièresUseCase
@@ -97,7 +95,6 @@ export type {
   SupprimerGarantiesFinancièresÀTraiterUseCase,
   ValiderDépôtGarantiesFinancièresEnCoursUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
-  ImporterTypeGarantiesFinancièresUseCase,
   ModifierGarantiesFinancièresUseCase,
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
@@ -123,7 +120,6 @@ export {
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
 export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
-export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
 export * as StatutGarantiesFinancières from './garantiesFinancièresActuelles/statutGarantiesFinancières.valueType';
 export * as MotifArchivageGarantiesFinancières from './garantiesFinancièresActuelles/motifArchivageGarantiesFinancières.valueType';
 
@@ -136,7 +132,6 @@ export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
-export * as TypeGarantiesFinancièresSaga from './typeGarantiesFinancières.saga';
 
 // utils
 export * from './_utils/appelOffreSoumisAuxGarantiesFinancières';

@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { IdentifiantProjet, Lauréat } from '../../..';
+import { IdentifiantProjet } from '../../..';
 import { TypeDocumentAbandon } from '..';
 
 import { AccorderAbandonCommand } from './accorderAbandon.command';
@@ -61,15 +61,6 @@ export const registerAccorderAbandonUseCase = () => {
         rôleUtilisateur,
       },
     });
-
-    await mediator.send<Lauréat.GarantiesFinancières.AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>(
-      {
-        type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
-        data: {
-          identifiantProjet,
-        },
-      },
-    );
   };
   mediator.register('Lauréat.Abandon.UseCase.AccorderAbandon', runner);
 };

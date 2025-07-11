@@ -89,6 +89,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     await this.éliminé.projet.lauréat.garantiesFinancières.demander({
       demandéLe: dateAccord,
       motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
+      dateLimiteSoumission: dateAccord.ajouterNombreDeMois(2),
     });
   }
 

@@ -1,7 +1,5 @@
 import { match } from 'ts-pattern';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { StatutTâchePlanifiée } from '@potentiel-domain/tache-planifiee';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AjouterTâchesPlanifiéesFixture } from './fixtures/ajouterTâchesPlanifiées.fixture';
@@ -42,15 +40,18 @@ export class TâchePlanifiéeWorld {
     return match(value)
       .with(
         'échoir les garanties financières',
-        () => GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir,
+        () => Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir,
       )
       .with(
         'rappel échéance garanties financières à un mois',
-        () => GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois,
+        () =>
+          Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois,
       )
       .with(
         'rappel échéance garanties financières à deux mois',
-        () => GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois,
+        () =>
+          Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières
+            .rappelÉchéanceDeuxMois,
       )
       .with(
         'gestion automatique de la demande de changement de représentant légal',
@@ -69,9 +70,9 @@ export class TâchePlanifiéeWorld {
 
   rechercherStatutTâchePlanifiée(value: RechercherStatutTâchePlanifiée) {
     return match(value)
-      .with('planifiée', () => StatutTâchePlanifiée.enAttenteExécution)
-      .with('annulée', () => StatutTâchePlanifiée.annulée)
-      .with('exécutée', () => StatutTâchePlanifiée.exécutée)
+      .with('planifiée', () => Lauréat.TâchePlanifiée.StatutTâchePlanifiée.enAttenteExécution)
+      .with('annulée', () => Lauréat.TâchePlanifiée.StatutTâchePlanifiée.annulée)
+      .with('exécutée', () => Lauréat.TâchePlanifiée.StatutTâchePlanifiée.exécutée)
       .exhaustive();
   }
 }

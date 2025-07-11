@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Modifier un dépôt de garanties financières
 
     Contexte:

@@ -39,6 +39,7 @@ import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
 import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
 import { DélaiAggregate } from './délai/délai.aggregate';
+import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -152,6 +153,7 @@ export class LauréatAggregate extends AbstractAggregate<
       ReprésentantLégalAggregate,
       `représentant-légal|${this.projet.identifiantProjet.formatter()}`,
     );
+    await this.représentantLégal.init();
 
     this.#fournisseur = await this.loadAggregate(
       FournisseurAggregate,
@@ -168,10 +170,18 @@ export class LauréatAggregate extends AbstractAggregate<
       GarantiesFinancièresAggregate,
       `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
     );
+    await this.#garantiesFinancières.init();
 
     this.#délai = await this.loadAggregate(
       DélaiAggregate,
       `délai|${this.projet.identifiantProjet.formatter()}`,
+    );
+  }
+
+  async loadTâchePlanifiée(typeTâchePlanifiée: string) {
+    return this.loadAggregate(
+      TâchePlanifiéeAggregate,
+      `tâche-planifiée|${typeTâchePlanifiée}#${this.projet.identifiantProjet.formatter()}`,
     );
   }
 
@@ -194,6 +204,12 @@ export class LauréatAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.garantiesFinancières.importer({
+      type: this.projet.candidature.typeGarantiesFinancières,
+      dateÉchéance: this.projet.candidature.dateÉchéanceGf,
+      importéLe: notifiéeLe,
+    });
 
     await this.producteur.importer({
       identifiantProjet: this.projet.identifiantProjet,

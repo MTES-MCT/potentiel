@@ -3,12 +3,10 @@ import {
   ListerTâchesPlanifiéesReadModel,
 } from './lister/listerTâchesPlanifiées.query';
 import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.behavior';
-import { TâchePlanifiéeEvent } from './tâchePlanifiée.aggregate';
-import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.behavior';
-import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.behavior';
-import { AjouterTâchePlanifiéeCommand } from './ajouter/ajouterTâchePlanifiée.command';
-import { AnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
+import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
+import { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
+import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
+import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;
@@ -26,9 +24,6 @@ export {
   TâchePlanifiéeExecutéeEvent,
 };
 
-// Command
-export { AjouterTâchePlanifiéeCommand, AnnulerTâchePlanifiéeCommand };
-
 // Register
 export * from './register';
 
@@ -37,8 +32,3 @@ export * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
 
 // Entities
 export * from './tâchePlanifiée.entity';
-
-export {
-  loadTâchePlanifiéeAggregateFactory,
-  TâchePlanifiéeAggregate,
-} from './tâchePlanifiée.aggregate';

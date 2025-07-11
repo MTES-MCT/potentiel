@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
 
     Contexte:

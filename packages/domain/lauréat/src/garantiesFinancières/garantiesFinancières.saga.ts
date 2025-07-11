@@ -1,13 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { ÉchoirGarantiesFinancièresCommand } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.command';
-import * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
 
-export type SubscriptionEvent = TâchePlanifiéeExecutéeEvent;
+export type SubscriptionEvent = Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent;
 
 export type Execute = Message<
   'System.Lauréat.GarantiesFinancières.Saga.Execute',
@@ -20,7 +18,10 @@ export const register = () => {
       .with(
         { type: 'TâchePlanifiéeExecutée-V1' },
         async ({ payload: { identifiantProjet, typeTâchePlanifiée } }) => {
-          if (typeTâchePlanifiée === TypeTâchePlanifiéeGarantiesFinancières.échoir.type) {
+          if (
+            typeTâchePlanifiée ===
+            Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type
+          ) {
             await mediator.send<ÉchoirGarantiesFinancièresCommand>({
               type: 'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
               data: {

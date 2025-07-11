@@ -1,10 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import {
-  ExécuterTâchePlanifiéeUseCase,
-  ListerTâchesPlanifiéesQuery,
-} from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
@@ -12,7 +9,7 @@ import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 Quand(
   'on exécute les tâches planifiées à la date du {string}',
   async function (this: PotentielWorld, àExécuterLe: string) {
-    const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
+    const tâches = await mediator.send<Lauréat.TâchePlanifiée.ListerTâchesPlanifiéesQuery>({
       type: 'Tâche.Query.ListerTâchesPlanifiées',
       data: {
         àExécuterLe: new Date(àExécuterLe).toISOString(),
@@ -20,7 +17,7 @@ Quand(
     });
     try {
       for (const tâche of tâches.items) {
-        await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+        await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
           type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
           data: {
             identifiantProjetValue: tâche.identifiantProjet.formatter(),
@@ -41,7 +38,7 @@ Quand(
       const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
       const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);
 
-      await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+      await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
         data: {
           identifiantProjetValue: projet.identifiantProjet.formatter(),

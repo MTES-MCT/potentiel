@@ -1,4 +1,5 @@
 # language: fr
+@garanties-financières
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet lors de la notification
 
     Contexte:

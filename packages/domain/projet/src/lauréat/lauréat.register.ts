@@ -57,6 +57,7 @@ import {
   registerListerHistoriqueProjetQuery,
 } from './historique/lister/listerHistoriqueProjet.query';
 import { SupprimerDocumentProjetSensibleCommandDependencies } from './représentantLégal/changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import { registerTâchePlanifiéeQuery, registerTâchePlanifiéeUseCases } from './tâche-planifiée';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
@@ -95,6 +96,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerFournisseurUseCases(dependencies);
   registerRaccordementUseCases(dependencies);
   registerDélaiUseCases(dependencies);
+  registerTâchePlanifiéeUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -110,6 +112,7 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerActionnaireQueries(dependencies);
   registerReprésentantLégalQueries(dependencies);
   registerRaccordementQueries(dependencies);
+  registerTâchePlanifiéeQuery(dependencies);
 
   registerListerHistoriqueProjetQuery(dependencies);
 };

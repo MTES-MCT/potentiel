@@ -2,8 +2,6 @@ import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -13,7 +11,7 @@ import { SendEmail } from '../../../sendEmail';
 import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
 import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
 
-export type SubscriptionEvent = TâchePlanifiéeExecutéeEvent & Event;
+export type SubscriptionEvent = Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent & Event;
 
 export type Execute = Message<'System.Notification.TâchePlanifiée', SubscriptionEvent>;
 
@@ -22,7 +20,7 @@ export type RegisterTâchePlanifiéeNotificationDependencies = {
 };
 
 type TâchePlanifiée =
-  | GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
+  | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
   | Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
 
 export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDependencies) => {

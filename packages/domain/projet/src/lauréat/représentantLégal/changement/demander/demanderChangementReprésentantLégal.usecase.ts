@@ -2,9 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
-import { TypeReprésentantLégal, TypeTâchePlanifiéeChangementReprésentantLégal } from '../..';
+import { TypeReprésentantLégal } from '../..';
 import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
 import { IdentifiantProjet } from '../../../..';
 
@@ -65,35 +64,6 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         identifiantUtilisateur,
         dateDemande,
         pièceJustificative,
-      },
-    });
-
-    await mediator.send<AjouterTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        tâches: [
-          {
-            typeTâchePlanifiée:
-              TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement
-                .type,
-            àExécuterLe: dateDemande.ajouterNombreDeMois(3),
-          },
-        ],
-      },
-    });
-
-    await mediator.send<AjouterTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        tâches: [
-          {
-            typeTâchePlanifiée:
-              TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
-            àExécuterLe: dateDemande.ajouterNombreDeMois(2),
-          },
-        ],
       },
     });
   };

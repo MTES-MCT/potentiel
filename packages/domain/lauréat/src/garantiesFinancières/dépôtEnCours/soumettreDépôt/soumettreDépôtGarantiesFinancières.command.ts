@@ -4,7 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 
@@ -21,7 +21,10 @@ export type SoumettreDépôtGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerDépôtSoumettreGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerDépôtSoumettreGarantiesFinancièresCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const handler: MessageHandler<SoumettreDépôtGarantiesFinancièresCommand> = async ({
     identifiantProjet,
@@ -43,6 +46,10 @@ export const registerDépôtSoumettreGarantiesFinancièresCommand = (loadAggrega
       dateÉchéance,
       soumisPar,
     });
+    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    // TODO move to Garanties Financière Aggregate
+    await projet.lauréat.garantiesFinancières.annulerTâchesPlanififées();
   };
   mediator.register(
     'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',

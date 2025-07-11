@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.command';
 import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
@@ -8,11 +9,14 @@ import { registerSupprimerDépôtGarantiesFinancièresEnCoursCommand } from './s
 import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.command';
 import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
 
-export const registerDépôt = (loadAggregate: LoadAggregate) => {
+export const registerDépôt = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   // commands
-  registerDépôtSoumettreGarantiesFinancièresCommand(loadAggregate);
-  registerValiderDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
-  registerSupprimerDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
+  registerDépôtSoumettreGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
+  registerValiderDépôtGarantiesFinancièresEnCoursCommand(loadAggregate, getProjetAggregateRoot);
+  registerSupprimerDépôtGarantiesFinancièresEnCoursCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
 
   // usecases

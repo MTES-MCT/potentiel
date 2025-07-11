@@ -1,22 +1,18 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  TâchePlanifiéeAjoutéeEvent,
-  TâchePlanifiéeExecutéeEvent,
-} from '@potentiel-domain/tache-planifiee';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { TâchePlanifiéeAnnuléeEvent } from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherStatutTâchePlanifiée, TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
-async function ajouterTâche(
+async function ajouterTâchePlanifiée(
   identifiantProjet: IdentifiantProjet.ValueType,
   typeTâchePlanifiée: string,
   àExécuterLe: Date,
 ) {
-  const event: TâchePlanifiéeAjoutéeEvent = {
+  const event: Lauréat.TâchePlanifiée.TâchePlanifiéeAjoutéeEvent = {
     type: 'TâchePlanifiéeAjoutée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -32,7 +28,7 @@ async function exécuterTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
   typeTâchePlanifiée: string,
 ) {
-  const event: TâchePlanifiéeExecutéeEvent = {
+  const event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent = {
     type: 'TâchePlanifiéeExecutée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -47,7 +43,7 @@ async function annulerTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
   typeTâchePlanifiée: string,
 ) {
-  const event: TâchePlanifiéeAnnuléeEvent = {
+  const event: Lauréat.TâchePlanifiée.TâchePlanifiéeAnnuléeEvent = {
     type: 'TâchePlanifiéeAnnulée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -72,7 +68,11 @@ EtantDonné(
       exemple['type'] as TypeTâchePlanifiée,
     ).type;
     const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
-    await ajouterTâche(projet.identifiantProjet, typeTâche, new Date(exemple["date d'exécution"]));
+    await ajouterTâchePlanifiée(
+      projet.identifiantProjet,
+      typeTâche,
+      new Date(exemple["date d'exécution"]),
+    );
 
     if (actualStatutTâche.estAnnulé()) {
       await annulerTâche(projet.identifiantProjet, typeTâche);

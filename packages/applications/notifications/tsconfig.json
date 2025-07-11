@@ -15,9 +15,6 @@
       "path": "../../domain/projet"
     },
     {
-      "path": "../../domain/tâche-planifiée"
-    },
-    {
       "path": "../../infrastructure/domain-adapters"
     },
     {

@@ -18,9 +18,6 @@
       "path": "../domain/utilisateur"
     },
     {
-      "path": "../domain/tâche-planifiée"
-    },
-    {
       "path": "../domain/période"
     },
     {

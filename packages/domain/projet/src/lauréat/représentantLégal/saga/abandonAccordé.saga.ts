@@ -1,8 +1,5 @@
 import { mediator } from 'mediateur';
 
-import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
-
-import { TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
 import { SupprimerDocumentProjetSensibleCommand } from '../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 import { Abandon } from '../..';
 import { IdentifiantProjet } from '../../..';
@@ -15,24 +12,6 @@ export const abandonAccordéSaga = async ({ payload }: Abandon.AbandonAccordéEv
     data: {
       identifiantProjet,
       raison: 'Pièce justificative supprimée automatiquement après annulation',
-    },
-  });
-
-  await mediator.send<AnnulerTâchePlanifiéeCommand>({
-    type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-    data: {
-      identifiantProjet,
-      typeTâchePlanifiée:
-        TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
-    },
-  });
-
-  await mediator.send<AnnulerTâchePlanifiéeCommand>({
-    type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-    data: {
-      identifiantProjet,
-      typeTâchePlanifiée:
-        TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
     },
   });
 };

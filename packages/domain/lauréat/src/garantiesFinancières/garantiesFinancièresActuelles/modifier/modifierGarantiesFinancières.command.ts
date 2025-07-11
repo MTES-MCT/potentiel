@@ -4,7 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 
@@ -21,7 +21,10 @@ export type ModifierGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerModifierGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerModifierGarantiesFinancièresCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const handler: MessageHandler<ModifierGarantiesFinancièresCommand> = async ({
     identifiantProjet,
@@ -33,6 +36,7 @@ export const registerModifierGarantiesFinancièresCommand = (loadAggregate: Load
     modifiéPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
+
     await garantiesFinancières.modifier({
       identifiantProjet,
       attestation,
@@ -42,6 +46,10 @@ export const registerModifierGarantiesFinancièresCommand = (loadAggregate: Load
       modifiéLe,
       modifiéPar,
     });
+    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    // TODO move to Garanties Financière Aggregate
+    await projet.lauréat.garantiesFinancières.ajouterTâchesPlanifiées();
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières', handler);
 };

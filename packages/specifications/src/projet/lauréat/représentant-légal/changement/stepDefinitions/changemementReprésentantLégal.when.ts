@@ -3,7 +3,6 @@ import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { ExécuterTâchePlanifiéeUseCase } from '@potentiel-domain/tache-planifiee';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -305,7 +304,7 @@ async function instruireAutomatiquementChangement(
       tâchePlanifiée.typeTâchePlanifiée,
     ).type;
 
-    await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+    await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -329,7 +328,7 @@ async function relancerAutomatiquementDreal(this: PotentielWorld) {
       tâchePlanifiée.typeTâchePlanifiée,
     ).type;
 
-    await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+    await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
       data: {
         identifiantProjetValue: identifiantProjet,

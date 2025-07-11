@@ -2,10 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
-import { TypeTâchePlanifiéeChangementReprésentantLégal } from '../..';
 
 import { RejeterChangementReprésentantLégalCommand } from './rejeterChangementReprésentantLégal.command';
 
@@ -50,24 +48,6 @@ export const registerRejeterChangementReprésentantLégalUseCase = () => {
       data: {
         identifiantProjet,
         raison: 'Pièce justificative supprimée automatiquement après annulation',
-      },
-    });
-
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        typeTâchePlanifiée:
-          TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
-      },
-    });
-
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        typeTâchePlanifiée:
-          TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
       },
     });
   };
