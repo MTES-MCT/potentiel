@@ -14,7 +14,6 @@ import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { DemanderDélaiPage } from './DemanderDélai.page';
 
-
 export const metadata: Metadata = {
   title: 'Demander un délai exceptionnel - Potentiel',
   description: 'Formulaire de demande de délai',
