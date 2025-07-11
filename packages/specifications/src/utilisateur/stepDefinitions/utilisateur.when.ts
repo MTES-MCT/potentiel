@@ -138,16 +138,15 @@ Quand(
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
-    const { prixRéférenceValue: prixReferenceValue, numéroCREValue } =
-      this.candidatureWorld.importerCandidature.values;
+    const { dépôtValue } = this.candidatureWorld.importerCandidature;
 
     const porteur = this.utilisateurWorld.porteurFixture.créer();
 
     await réclamerProjet.call(this, {
       identifiantProjet: identifiantProjet.formatter(),
       email: porteur.email,
-      prixRéférence: prixReferenceValue,
-      numéroCRE: numéroCREValue,
+      prixRéférence: dépôtValue.prixReference,
+      numéroCRE: identifiantProjet.numéroCRE,
     });
   },
 );
