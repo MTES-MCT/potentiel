@@ -32,7 +32,9 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursCommand = (
       validéLe,
       validéPar,
     });
+    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
     const projet = await getProjetAggregateRoot(identifiantProjet);
+    // TODO move to Garanties Financière Aggregate
     await projet.lauréat.garantiesFinancières.ajouterTâchesPlanifiées();
   };
   mediator.register(
