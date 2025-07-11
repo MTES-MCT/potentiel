@@ -22,16 +22,14 @@ Quand(
         annuléePar: this.utilisateurWorld.porteurFixture.email,
       });
 
-      console.log(identifiantProjet, annuléeLe, annuléePar);
-
-      // await mediator.send<Lauréat.Délai.>({
-      //   type: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
-      //   data: {
-      //     dateAnnulationValue: annuléeLe,
-      //     identifiantUtilisateurValue: annuléePar,
-      //     identifiantProjetValue: identifiantProjet,
-      //   },
-      // });
+      await mediator.send<Lauréat.Délai.AnnulerDemandeDélaiUseCase>({
+        type: 'Lauréat.Délai.UseCase.AnnulerDemande',
+        data: {
+          dateAnnulationValue: annuléeLe,
+          identifiantUtilisateurValue: annuléePar,
+          identifiantProjetValue: identifiantProjet,
+        },
+      });
     } catch (error) {
       this.error = error as Error;
     }
