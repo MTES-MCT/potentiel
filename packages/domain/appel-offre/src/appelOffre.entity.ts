@@ -213,7 +213,6 @@ export type Periode = {
     valeur: number;
     texte: string;
   };
-  garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */

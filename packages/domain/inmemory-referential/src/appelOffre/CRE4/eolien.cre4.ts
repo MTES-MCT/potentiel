@@ -115,7 +115,6 @@ Les changements de Producteur postérieurement à l’Achèvement sont réputés
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
-      garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
@@ -229,7 +228,6 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       familles: [],
-      garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
       donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
