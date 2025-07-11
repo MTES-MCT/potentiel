@@ -43,7 +43,6 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et un historique des garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
             | raison | modification des garanties financières |
 
-    @select
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut échu
         Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
