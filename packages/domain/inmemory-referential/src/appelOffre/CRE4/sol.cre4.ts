@@ -70,6 +70,12 @@ export const sol: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   },

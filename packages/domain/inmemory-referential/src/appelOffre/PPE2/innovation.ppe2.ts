@@ -78,6 +78,12 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
   doitPouvoirChoisirCDCInitial: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     renvoiRetraitDesignationGarantieFinancieres: '',
   },
   changementPuissance: {

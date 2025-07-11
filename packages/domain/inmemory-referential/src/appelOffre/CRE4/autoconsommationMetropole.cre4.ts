@@ -47,6 +47,12 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   garantiesFinancières: {
     soumisAuxGarantiesFinancieres: 'non soumis',
     renvoiRetraitDesignationGarantieFinancieres: '',
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
   },
   changementPuissance: {
     ratios: {

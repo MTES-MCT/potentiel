@@ -73,6 +73,12 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
     },
   },
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois.toString()} mois`,
     renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   },

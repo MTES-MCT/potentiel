@@ -71,6 +71,12 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: true,
   doitPouvoirChoisirCDCInitial: true,
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     soumisAuxGarantiesFinancieres: 'à la candidature',
     renvoiRetraitDesignationGarantieFinancieres: '5.1',
   },

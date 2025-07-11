@@ -33,6 +33,12 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     soumisAuxGarantiesFinancieres: 'à la candidature',
     renvoiRetraitDesignationGarantieFinancieres: '5.1',
   },

@@ -34,9 +34,17 @@ type ChangementPuissance = { paragrapheAlerte?: string } & (
     }
 );
 
+// Type des Garanties Financières (duplicate, preneuse d'une meilleure option)
+type TypeGarantiesFinancières =
+  | 'consignation'
+  | 'avec-date-échéance'
+  | 'six-mois-après-achèvement'
+  | 'type-inconnu'
+  | 'garantie-bancaire';
+
 // GF AO
-// viovio
 type GarantiesFinancièresAppelOffre = {
+  typeGarantiesFinancièresDisponibles: Array<TypeGarantiesFinancières>;
   renvoiRetraitDesignationGarantieFinancieres: string;
   renvoiSoumisAuxGarantiesFinancieres?: string;
 } & (
@@ -124,7 +132,8 @@ export type Famille = {
   id: string;
   title: string;
   puissanceMax?: number;
-} & { garantiesFinancières: GarantiesFinancièresFamille };
+  garantiesFinancières: GarantiesFinancièresFamille;
+};
 
 type NoteThresholdByCategory = {
   volumeReserve: {

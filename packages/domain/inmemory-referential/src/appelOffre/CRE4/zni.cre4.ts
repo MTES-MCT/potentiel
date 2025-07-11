@@ -104,6 +104,12 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     renvoiRetraitDesignationGarantieFinancieres: '5.2 et 6.2',
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   },

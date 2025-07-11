@@ -91,6 +91,12 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   garantiesFinancières: {
     renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
   },
   changementPuissance: {
     ratios: {

@@ -88,6 +88,12 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     soumisAuxGarantiesFinancieres: 'à la candidature',
     renvoiRetraitDesignationGarantieFinancieres: '5.1',
   },

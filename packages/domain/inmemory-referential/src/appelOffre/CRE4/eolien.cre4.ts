@@ -57,6 +57,12 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: false,
   garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
     renvoiSoumisAuxGarantiesFinancieres: 'est précisée au 6.2 du cahier des charges',
     renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
     soumisAuxGarantiesFinancieres: 'après candidature',
