@@ -89,5 +89,4 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
     };
   });
 
-export const CorrigerCandidaturesParLotAction = formAction(action, schema);
-export const corrigerCandidaturesAction = formAction(action, schema);
+export const corrigerCandidaturesParLotAction = formAction(action, schema);
