@@ -10,10 +10,12 @@ export type ValueType = Readonly<{
   formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
+export const convertirEnValueType = <T extends TypeDocument = TypeDocument>(
+  value: string,
+): ValueType => {
   estValide(value);
   return {
-    type: value,
+    type: value as T,
     formatter() {
       return `délai/${this.type}`;
     },
@@ -28,9 +30,10 @@ function estValide(value: string): asserts value is TypeDocument {
   }
 }
 
-export const pièceJustificative = convertirEnValueType('pièce-justificative');
-export const demandeAccordée = convertirEnValueType('demande-accordée');
-export const demandeRejetée = convertirEnValueType('demande-rejetée');
+export const pièceJustificative =
+  convertirEnValueType<'pièce-justificative'>('pièce-justificative');
+export const demandeAccordée = convertirEnValueType<'demande-accordée'>('demande-accordée');
+export const demandeRejetée = convertirEnValueType<'demande-rejetée'>('demande-rejetée');
 
 class TypeDocumentDélaiInvalideError extends InvalidOperationError {
   constructor(value: string) {

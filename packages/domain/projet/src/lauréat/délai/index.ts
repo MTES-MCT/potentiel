@@ -35,6 +35,7 @@ export type { DemanderDélaiUseCase };
 
 // Event
 export { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
+export { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
 export * from './délai.event';
 
 // Register

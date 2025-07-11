@@ -6,8 +6,8 @@ export type RawType = (typeof statuts)[number];
 
 const statutsEnCours: Array<RawType> = ['demandé', 'en-instruction'];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+export type ValueType<T extends RawType = RawType> = ReadonlyValueType<{
+  statut: T;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
   estEnCours: () => boolean;
@@ -17,11 +17,11 @@ export type ValueType = ReadonlyValueType<{
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
+export const convertirEnValueType = <T extends RawType = RawType>(value: string): ValueType<T> => {
   estValide(value);
   return {
     get statut() {
-      return value;
+      return value as T;
     },
     estAccordé() {
       return this.statut === 'accordé';
@@ -97,11 +97,11 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const accordé = convertirEnValueType('accordé');
-export const annulé = convertirEnValueType('annulé');
-export const demandé = convertirEnValueType('demandé');
-export const rejeté = convertirEnValueType('rejeté');
-export const enInstruction = convertirEnValueType('en-instruction');
+export const accordé = convertirEnValueType<'accordé'>('accordé');
+export const annulé = convertirEnValueType<'annulé'>('annulé');
+export const demandé = convertirEnValueType<'demandé'>('demandé');
+export const rejeté = convertirEnValueType<'rejeté'>('rejeté');
+export const enInstruction = convertirEnValueType<'en-instruction'>('en-instruction');
 
 class StatutDélaiInvalideError extends InvalidOperationError {
   constructor(value: string) {

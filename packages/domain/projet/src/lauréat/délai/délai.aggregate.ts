@@ -6,9 +6,10 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 
 import { StatutDemandeDélai } from '.';
 
-import { DélaiAccordéEvent, DélaiEvent } from './délai.event';
+import { DélaiEvent } from './délai.event';
 import { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
 import { DemanderDélaiOptions } from './demande/demander/demanderDélai.options';
+import { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
 
 export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {
