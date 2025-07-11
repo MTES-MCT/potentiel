@@ -12,7 +12,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 
-import { StatutDemandeDélaiBadge } from '../StatutDemandeDélaiBadge';
+import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 
 export type DétailsDemandeDélaiPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
