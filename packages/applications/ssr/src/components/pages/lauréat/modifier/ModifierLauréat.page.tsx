@@ -16,7 +16,7 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
   candidature,
   lauréat,
   projet,
-  champsSpéciaux,
+  champsSupplémentaires,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(projet.identifiantProjet);
 
@@ -41,7 +41,7 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
         candidature={candidature}
         lauréat={lauréat}
         projet={projet}
-        champsSpéciaux={champsSpéciaux}
+        champsSupplémentaires={champsSupplémentaires}
       />
     </PageTemplate>
   );

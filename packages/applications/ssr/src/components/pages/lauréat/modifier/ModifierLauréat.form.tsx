@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -45,10 +46,7 @@ export type ModifierLauréatFormProps = {
     isPPE2: boolean;
     unitéPuissance: string;
   };
-  champsSpéciaux: {
-    puissanceALaPointe: boolean;
-    coefficientKChoisi: boolean;
-  };
+  champsSupplémentaires: AppelOffre.ChampsSupplémentairesCandidature;
 };
 export type FieldValidationErrors =
   ValidationErrors<ModifierLauréatEtCandidatureNotifiéeFormEntries>;
@@ -57,7 +55,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   candidature,
   lauréat,
   projet,
-  champsSpéciaux,
+  champsSupplémentaires,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
 
@@ -193,7 +191,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             }}
           />
         </FormRow>
-        {champsSpéciaux.puissanceALaPointe && (
+        {champsSupplémentaires.puissanceALaPointe && (
           <FormRow>
             <PuissanceALaPointeField
               candidature={candidature.puissanceALaPointe}
@@ -204,7 +202,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           </FormRow>
         )}
 
-        {champsSpéciaux.coefficientKChoisi && (
+        {champsSupplémentaires.coefficientKChoisi && (
           <FormRow>
             <CoefficientKField
               candidature={candidature.coefficientKChoisi ?? false}

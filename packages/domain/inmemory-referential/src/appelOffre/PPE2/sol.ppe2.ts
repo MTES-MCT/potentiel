@@ -381,7 +381,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
     },
-    // ℹ️ à partir de la P8, penser à activer choixCoefficientKDisponible
+    // ℹ️ à partir de la P8, penser à activer champsSupplémentaires: {coefficientKChoisi: "requis"}
     // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
   ],
 };

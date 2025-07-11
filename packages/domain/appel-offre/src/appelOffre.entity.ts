@@ -164,6 +164,24 @@ type CertificateTemplateProps =
 
 export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'];
 
+/**
+ * Ces champs ne sont pas actifs pour tous les AOs/Périodes.
+ * Pour les AOs qui les activent, ils peuvent être requis ou optionnels
+ **/
+const champsCandidature = [
+  'puissanceALaPointe',
+  /**
+   * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
+   * Cette information est utilisée par le co-contractant.
+   */
+  'coefficientKChoisi',
+] as const;
+export type ChampCandidature = (typeof champsCandidature)[number];
+
+export type ChampsSupplémentairesCandidature = Partial<
+  Record<ChampCandidature, 'requis' | 'optionnel'>
+>;
+
 export type Periode = {
   id: string;
   type?: 'legacy';
@@ -203,11 +221,7 @@ export type Periode = {
      */
     paragrapheECS?: string;
   };
-  /**
-   * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
-   * Cette information est utilisée par le co-contractant.
-   */
-  choixCoefficientKDisponible?: true;
+  champsSupplémentaires?: ChampsSupplémentairesCandidature;
 } & (NotifiedPeriode | LegacyPeriode);
 
 // Territoire
@@ -253,7 +267,6 @@ export type AppelOffreReadModel = {
   changementProducteurPossibleAvantAchèvement: boolean;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;
-  /** Indique que le champs booléen "puissanceALaPointe" est disponible pour cet AO */
   puissanceALaPointeDisponible?: true;
   délai: {
     autoritéCompétente: AutoritéCompétente;
@@ -261,6 +274,7 @@ export type AppelOffreReadModel = {
   abandon: {
     autoritéCompétente: AutoritéCompétente;
   };
+  champsSupplémentaires?: ChampsSupplémentairesCandidature;
 } & GarantiesFinancièresAppelOffre &
   TechnologieAppelOffre;
 

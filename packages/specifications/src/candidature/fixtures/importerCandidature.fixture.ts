@@ -108,7 +108,7 @@ export class ImporterCandidatureFixture
       ?.periodes.find((p) => p.id === période);
 
     if (
-      référentielPériode?.choixCoefficientKDisponible === true &&
+      référentielPériode?.champsSupplémentaires?.coefficientKChoisi &&
       !('coefficientKChoisiValue' in values)
     ) {
       fixture.coefficientKChoisiValue = faker.datatype.boolean();
