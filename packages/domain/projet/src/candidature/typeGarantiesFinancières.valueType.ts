@@ -1,3 +1,4 @@
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
@@ -12,8 +13,11 @@ export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
-  estDisponiblePourCetAppelOffre({ value, typesDeAppelOffre });
-  estGarantiesBancaire: () => boolean;
+  estDisponiblePourCetAppelOffre: (args: {
+    value: RawType;
+    typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancièresAppelOffre>;
+  }) => void;
+  estGarantieBancaire: () => boolean;
   estConsignation: () => boolean;
   estAvecDateÉchéance: () => boolean;
   estSixMoisAprèsAchèvement: () => boolean;
@@ -22,7 +26,6 @@ export type ValueType = ReadonlyValueType<{
 
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);
-  estDisponiblePourCetAppelOffre()
   return {
     get type() {
       return value;
@@ -56,15 +59,13 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const estDisponiblePourCetAppelOffre({
+function estDisponiblePourCetAppelOffre({
   value,
   typesDeAppelOffre,
 }: {
   value: RawType;
-  typesDeAppelOffre: Array<RawType>;
+  typesDeAppelOffre: Array<AppelOffre.TypeGarantiesFinancièresAppelOffre>;
 }) {
-  // on teste les types ou on donne un rawtype ?
-
   if (!typesDeAppelOffre.includes(value)) {
     throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError(value);
   }
