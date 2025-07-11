@@ -3,12 +3,20 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
+import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();
 
   get demanderDélaiFixture() {
     return this.#demanderDélaiFixture;
+  }
+
+  readonly #annulerDemandeDélaiFixture: AnnulerDemandeDélaiFixture =
+    new AnnulerDemandeDélaiFixture();
+
+  get annulerDélaiFixture() {
+    return this.#annulerDemandeDélaiFixture;
   }
 
   mapToExpected(
