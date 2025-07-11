@@ -7,3 +7,5 @@ export const demander = (identifiantProjet: string) =>
 
 export const détail = (identifiantProjet: string, date: DateTime.RawType) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}`;
+
+export const lister = `/laureats/changements/delai`;

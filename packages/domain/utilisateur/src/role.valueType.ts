@@ -386,6 +386,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Délai.Query.ConsulterDélai',
         consulterDemande: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+        listerDemandes: 'Lauréat.Délai.Query.ListerDemandeDélai',
       },
       usecase: {
         demander: 'Lauréat.Délai.UseCase.DemanderDélai',
@@ -1229,6 +1230,7 @@ const policies = {
   },
   délai: {
     consulterDemande: [référencielPermissions.lauréat.délai.query.consulterDemande],
+    listerDemande: [référencielPermissions.lauréat.délai.query.listerDemandes],
     demander: [
       référencielPermissions.lauréat.délai.command.demander,
       référencielPermissions.lauréat.délai.usecase.demander,
@@ -1451,6 +1453,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Délai
   'délai.consulterDemande',
+  'délai.listerDemande',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1509,6 +1512,7 @@ const crePolicies: ReadonlyArray<Policy> = [
 
   // Délai
   'délai.consulterDemande',
+  'délai.listerDemande',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1607,6 +1611,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Délai
   'délai.consulterDemande',
+  'délai.listerDemande',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1718,6 +1723,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Délai
   'délai.consulterDemande',
+  'délai.listerDemande',
   'délai.demander',
 ];
 
@@ -1752,6 +1758,7 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
 
   // Délai
   'délai.consulterDemande',
+  'délai.listerDemande',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

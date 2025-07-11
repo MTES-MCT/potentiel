@@ -19,7 +19,7 @@ export const UserNavigation = ({ user: { role, features }, currentPage }: UserNa
     case 'porteur-projet':
       return PorteurMenuLegacy({ currentPage, features });
     case 'acheteur-obligé':
-      return AcheteurObligéMenuLegacy({ currentPage });
+      return AcheteurObligéMenuLegacy({ currentPage, features });
     case 'ademe':
       return AdemeMenuLegacy(currentPage);
     case 'dreal':
@@ -28,7 +28,7 @@ export const UserNavigation = ({ user: { role, features }, currentPage }: UserNa
     case 'dgec-validateur':
       return AdminMenuLegacy({ currentPage, features });
     case 'cre':
-      return CreMenuLegacy({ currentPage });
+      return CreMenuLegacy({ currentPage, features });
     case 'caisse-des-dépôts':
       return CaisseDesDépôtsMenuLegacy(currentPage);
     case 'grd':

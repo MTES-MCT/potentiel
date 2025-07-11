@@ -8,6 +8,10 @@ import {
 } from './demande/consulter/consulterDemandeDélai.query';
 import { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase';
 import {
+  ListerDemandeDélaiQuery,
+  ListerDemandeDélaiReadModel,
+} from './lister/listerDemandeDélai.query';
+import {
   HistoriqueDélaiProjetListItemReadModel,
   ListerHistoriqueDélaiProjetQuery,
   ListerHistoriqueDélaiProjetReadModel,
@@ -18,15 +22,22 @@ import {
 export type DélaiQuery =
   | ConsulterDélaiQuery
   | ListerHistoriqueDélaiProjetQuery
-  | ConsulterDemandeDélaiQuery;
+  | ConsulterDemandeDélaiQuery
+  | ListerDemandeDélaiQuery;
 
-export { ConsulterDélaiQuery, ListerHistoriqueDélaiProjetQuery, ConsulterDemandeDélaiQuery };
+export {
+  ConsulterDélaiQuery,
+  ListerHistoriqueDélaiProjetQuery,
+  ConsulterDemandeDélaiQuery,
+  ListerDemandeDélaiQuery,
+};
 
 // ReadModel
 export type {
   ListerHistoriqueDélaiProjetReadModel,
   HistoriqueDélaiProjetListItemReadModel,
   ConsulterDemandeDélaiReadModel,
+  ListerDemandeDélaiReadModel,
 };
 
 // UseCases
