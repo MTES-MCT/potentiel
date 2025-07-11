@@ -10,9 +10,10 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
-import { CandidatureListItemProps } from './(liste)/CandidatureListItem';
-import { CandidatureListPage } from './(liste)/CandidatureList.page';
-import { getCandidatureListActions } from './_helpers/getCandidatureListActions';
+import { getCandidatureListActions } from '../_helpers/getCandidatureListActions';
+
+import { CandidatureListItemProps } from './CandidatureListItem';
+import { CandidatureListPage } from './CandidatureList.page';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
 

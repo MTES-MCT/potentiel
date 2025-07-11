@@ -14,11 +14,10 @@ import {
   PartialModifierCandidatureNotifiéeFormEntries,
   PartialModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
-
 import {
   getLauréatInfos,
   getReprésentantLégalInfos,
-} from '../../../../app/laureats/[identifiant]/_helpers/getLauréat';
+} from '@/app/laureats/[identifiant]/_helpers/getLauréat';
 
 export type CorrigerCandidaturesState = FormState;
 
