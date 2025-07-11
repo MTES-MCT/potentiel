@@ -9,7 +9,8 @@ import { PlainType } from '@potentiel-domain/core';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutDemandeDélaiBadge } from '@/components/pages/délai/StatutDemandeDélaiBadge';
+
+import { StatutDemandeDélaiBadge } from '../../[identifiant]/delai/[date]/StatutDemandeDélaiBadge';
 
 export type DemandeDélaiListItemProps = PlainType<
   Lauréat.Délai.ListerDemandeDélaiReadModel['items'][number]

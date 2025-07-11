@@ -8,7 +8,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { DétailsDemandeDélaiPage } from '@/components/pages/délai/détails/DétailsDemandeDélai.page';
+
+import { DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
 
 export const metadata: Metadata = {
   title: 'Détail de la demande de délai - Potentiel',
