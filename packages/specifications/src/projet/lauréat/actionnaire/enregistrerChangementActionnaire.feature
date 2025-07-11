@@ -29,7 +29,9 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible d'enregistrer un changement d'actionnaire alors qu'un changement d'actionnaire est en cours
-        Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
+        Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
+            | appel d'offre | Eolien |
+        Et une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
