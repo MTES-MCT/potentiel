@@ -5,14 +5,14 @@ import { notFound, redirect } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { DemanderDélaiPage } from '@/components/pages/délai/demander/DemanderDélai.page';
+
+import { DemanderDélaiPage } from './DemanderDélai.page';
 
 export const metadata: Metadata = {
   title: 'Demander un délai exceptionnel - Potentiel',
@@ -39,17 +39,29 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     if (période?.choisirNouveauCahierDesCharges && cahierDesChargesChoisi.type === 'initial') {
-      redirect(Routes.Projet.details(identifiantProjet));
+      redirect(
+        Routes.Projet.details(identifiantProjet, {
+          type: 'error',
+          message: 'Votre cahier des charges actuel empêche la demande de délai',
+        }),
+      );
     }
 
-    /**
-     * TODO : Aller chercher la date d'achèvement prévisionnel actuelle
-     */
+    const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+      type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+      },
+    });
+
+    if (Option.isNone(achèvement)) {
+      return notFound();
+    }
 
     return (
       <DemanderDélaiPage
         identifiantProjet={identifiantProjet}
-        dateAchèvementPrévisionnelleActuelle={DateTime.now().formatter()}
+        dateAchèvementPrévisionnelActuelle={achèvement.dateAchèvementPrévisionnel.formatter()}
       />
     );
   });
