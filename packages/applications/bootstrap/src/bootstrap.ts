@@ -12,7 +12,6 @@ import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
 import { setupProjet } from './setupProjet';
-import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 import { setupPériode } from './setupPériode';
 import { setupHistorique } from './setupHistorique';
 import { setupStatistiques } from './setupStatistiques';
@@ -58,7 +57,6 @@ export const bootstrap = async ({
     const unsetupPériode = await setupPériode(allDependencies);
 
     const unsetupTâche = await setupTâche();
-    const unsetupTâchePlanifiée = await setupTâchePlanifiée(allDependencies);
 
     const unsetupProjet = await setupProjet(allDependencies);
     const unsetupLauréat = await setupLauréat(allDependencies);
@@ -72,7 +70,6 @@ export const bootstrap = async ({
       await unsetupLauréat();
       await unsetupGestionnaireRéseau();
       await unsetupTâche();
-      await unsetupTâchePlanifiée();
       await unsetupPériode();
       await unsetupUtilisateur();
       unsubscribe = undefined;

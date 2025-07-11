@@ -97,6 +97,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       await this.publish(event);
     }
   }
+
+  // TODO cette fonction sera à déplacer dans supprimerDépôt
   async redemander(demandéLe: DateTime.ValueType) {
     if (this.#dateLimiteSoumission && this.#motifDemande) {
       await this.demander({
@@ -105,6 +107,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         motif: this.#motifDemande,
       });
     }
+    // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
     await this.ajouterTâchesPlanifiées();
   }
 
