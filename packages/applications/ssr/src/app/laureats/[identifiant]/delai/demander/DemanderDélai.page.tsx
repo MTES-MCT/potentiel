@@ -12,7 +12,7 @@ export type DemanderDélaiPageProps = DemanderDélaiFormProps;
 
 export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
   identifiantProjet,
-  dateAchèvementPrévisionnelleActuelle,
+  dateAchèvementPrévisionnelActuelle,
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />} feature="délai">
     <Heading1>Demander un délai</Heading1>
@@ -20,7 +20,7 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
       description={
         <div>
           La date d'achèvement prévisionnel actuelle est{' '}
-          <FormattedDate date={dateAchèvementPrévisionnelleActuelle} className="font-semibold" />
+          <FormattedDate date={dateAchèvementPrévisionnelActuelle} className="font-semibold" />
         </div>
       }
       severity="info"
@@ -28,7 +28,7 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
     />
     <DemanderDélaiForm
       identifiantProjet={identifiantProjet}
-      dateAchèvementPrévisionnelleActuelle={dateAchèvementPrévisionnelleActuelle}
+      dateAchèvementPrévisionnelActuelle={dateAchèvementPrévisionnelActuelle}
     />
   </PageTemplate>
 );

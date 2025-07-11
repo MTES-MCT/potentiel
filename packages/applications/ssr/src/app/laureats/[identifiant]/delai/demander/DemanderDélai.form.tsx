@@ -17,14 +17,14 @@ import { demanderDélaiAction, DemanderDélaiFormKeys } from './DemanderDélai.a
 
 export type DemanderDélaiFormProps = {
   identifiantProjet: string;
-  dateAchèvementPrévisionnelleActuelle: DateTime.RawType;
+  dateAchèvementPrévisionnelActuelle: DateTime.RawType;
 };
 
 export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
   identifiantProjet,
-  dateAchèvementPrévisionnelleActuelle,
+  dateAchèvementPrévisionnelActuelle,
 }) => {
-  const dateActuelle = DateTime.convertirEnValueType(dateAchèvementPrévisionnelleActuelle);
+  const dateActuelle = DateTime.convertirEnValueType(dateAchèvementPrévisionnelActuelle);
 
   const [nouvelleDate, setNouvelleDate] = useState<DateTime.ValueType>(dateActuelle);
 
@@ -35,9 +35,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
   const peutDemanderUnDélai = () => nouvelleDate.estUltérieureÀ(dateActuelle);
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
-    const nouvelleDate = DateTime.convertirEnValueType(
-      dateAchèvementPrévisionnelleActuelle,
-    ).ajouterNombreDeMois(nombreDeMois);
+    const nouvelleDate = dateActuelle.ajouterNombreDeMois(nombreDeMois);
 
     setNouvelleDate(nouvelleDate);
   };
@@ -65,7 +63,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input
         type={'hidden'}
-        value={dateAchèvementPrévisionnelleActuelle}
+        value={dateAchèvementPrévisionnelActuelle}
         name="dateAchevementPrevisionnelleActuelle"
       />
 
