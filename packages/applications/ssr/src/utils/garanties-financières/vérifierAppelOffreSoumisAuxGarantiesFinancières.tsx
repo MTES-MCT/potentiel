@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 
 export const projetSoumisAuxGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,

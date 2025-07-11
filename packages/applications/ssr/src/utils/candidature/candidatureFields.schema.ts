@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { getRégionAndDépartementFromCodePostal } from '@/components/pages/candidature/helpers';
+import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
 
 import {
   booleanSchema,

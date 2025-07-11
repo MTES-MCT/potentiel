@@ -14,7 +14,7 @@ import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { unflatten } from '@potentiel-libraries/flat';
 
-import { applySearchParams } from '../app/_helpers';
+import { applySearchParams } from '@/app/_helpers';
 
 import { TooManyRequestsError } from './withRateLimit';
 

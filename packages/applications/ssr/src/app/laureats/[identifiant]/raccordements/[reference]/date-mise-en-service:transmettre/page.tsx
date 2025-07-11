@@ -18,7 +18,7 @@ import {
   TransmettreDateMiseEnServicePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 
 type PageProps = {
   params: {

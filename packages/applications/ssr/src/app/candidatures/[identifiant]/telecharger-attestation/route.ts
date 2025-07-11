@@ -10,7 +10,7 @@ import { Éliminé } from '@potentiel-domain/projet';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { apiAction } from '@/utils/apiAction';
-import { getProjet } from '@/app/_helpers/getProjet';
+import { getProjet } from '@/app/_helpers';
 
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet

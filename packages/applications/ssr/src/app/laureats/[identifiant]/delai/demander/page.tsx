@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 import { DemanderDélaiPage } from '@/components/pages/délai/demander/DemanderDélai.page';
 
 export const metadata: Metadata = {

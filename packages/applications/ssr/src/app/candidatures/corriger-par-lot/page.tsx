@@ -1,8 +1,9 @@
 import { Candidature } from '@potentiel-domain/projet';
 
-import { CorrigerCandidaturesPage } from '@/components/pages/candidature/corriger-par-lot/CorrigerCandidatures.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { CorrigerCandidaturesParLotPage } from './CorrigerCandidaturesParLot.page';
 
 export default async function Page() {
   return PageWithErrorHandling(async () =>
@@ -10,7 +11,7 @@ export default async function Page() {
       utilisateur.role.peutExécuterMessage<Candidature.CorrigerCandidatureUseCase>(
         'Candidature.UseCase.CorrigerCandidature',
       );
-      return <CorrigerCandidaturesPage />;
+      return <CorrigerCandidaturesParLotPage />;
     }),
   );
 }
