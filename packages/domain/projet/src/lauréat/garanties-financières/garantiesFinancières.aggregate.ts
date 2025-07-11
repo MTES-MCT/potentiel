@@ -213,8 +213,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
           type: 'GarantiesFinancièresDemandées-V1',
         },
         this.applyGarantiesFinancièresDemandées.bind(this),
-      );
-    // .otherwise(() => {});
+      )
+      .otherwise(() => {});
     // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
     // .exhaustive();
   }
