@@ -16,8 +16,8 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
   const { identifiantProjet } = this.candidatureWorld.importerCandidature;
 
   const expectedDétails =
-    this.candidatureWorld.corrigerCandidature.values?.détailsValue ??
-    this.candidatureWorld.importerCandidature.values.détailsValue;
+    this.candidatureWorld.corrigerCandidature.détailsValue ??
+    this.candidatureWorld.importerCandidature.détailsValue;
 
   await waitForExpect(async () => {
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({

@@ -8,78 +8,88 @@ import { importerCandidature } from '../../candidature/stepDefinitions/candidatu
 
 import { notifierPériode } from './période.when';
 
+type Candidat = {
+  nomProjet: string;
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  statut: Candidature.StatutCandidature.RawType;
+  sociétéMère?: string;
+};
+
 const candidats = [
   {
-    nomProjetValue: 'lauréat-1',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'lauréat-1',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-1',
+    nomProjet: 'lauréat-1',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'lauréat-1',
+    statut: 'classé',
+    sociétéMère: 'BonneMère-1',
   },
   {
-    nomProjetValue: 'lauréat-2',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'lauréat-2',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-2',
+    nomProjet: 'lauréat-2',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'lauréat-2',
+    statut: 'classé',
+    sociétéMère: 'BonneMère-2',
   },
   {
-    nomProjetValue: 'lauréat-3',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'lauréat-3',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-3',
+    nomProjet: 'lauréat-3',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'lauréat-3',
+    statut: 'classé',
+    sociétéMère: 'BonneMère-3',
   },
   {
-    nomProjetValue: 'lauréat-4',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'lauréat-4',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-4',
+    nomProjet: 'lauréat-4',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'lauréat-4',
+    statut: 'classé',
+    sociétéMère: 'BonneMère-4',
   },
   {
-    nomProjetValue: 'lauréat-5',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'lauréat-5',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-5',
+    nomProjet: 'lauréat-5',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'lauréat-5',
+    statut: 'classé',
+    sociétéMère: 'BonneMère-5',
   },
   {
-    nomProjetValue: 'éliminé-1',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'éliminé-1',
-    statutValue: 'éliminé',
-    sociétéMèreValue: 'BonneMère-eliminé',
+    nomProjet: 'éliminé-1',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'éliminé-1',
+    statut: 'éliminé',
+    sociétéMère: 'BonneMère-eliminé',
   },
   {
-    nomProjetValue: 'éliminé-2',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'éliminé-2',
-    statutValue: 'éliminé',
+    nomProjet: 'éliminé-2',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'éliminé-2',
+    statut: 'éliminé',
   },
   {
-    nomProjetValue: 'éliminé-3',
-    appelOffreValue: 'PPE2 - Eolien',
-    périodeValue: '1',
-    familleValue: '',
-    numéroCREValue: 'éliminé-3',
-    statutValue: 'éliminé',
+    nomProjet: 'éliminé-3',
+    appelOffre: 'PPE2 - Eolien',
+    période: '1',
+    famille: '',
+    numéroCRE: 'éliminé-3',
+    statut: 'éliminé',
   },
-] satisfies Partial<Candidature.ImporterCandidatureUseCase['data']>[];
+] as Candidat[];
 
 EtantDonné(`une période avec des candidats importés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);
@@ -99,66 +109,57 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const candidats = [
       {
-        nomProjetValue: 'lauréat-oublié-1',
-        appelOffreValue: 'PPE2 - Eolien',
-        périodeValue: '1',
-        familleValue: '',
-        numéroCREValue: 'lauréat-oublié-1',
-        statutValue: 'classé',
-        sociétéMèreValue: 'BonneMère',
+        nomProjet: 'lauréat-oublié-1',
+        appelOffre: 'PPE2 - Eolien',
+        période: '1',
+        famille: '',
+        numéroCRE: 'lauréat-oublié-1',
+        statut: 'classé',
+        sociétéMère: 'BonneMère',
       },
       {
-        nomProjetValue: 'lauréat-oublié-2',
-        appelOffreValue: 'PPE2 - Eolien',
-        périodeValue: '1',
-        familleValue: '',
-        numéroCREValue: 'lauréat-oublié-2',
-        statutValue: 'classé',
+        nomProjet: 'lauréat-oublié-2',
+        appelOffre: 'PPE2 - Eolien',
+        période: '1',
+        famille: '',
+        numéroCRE: 'lauréat-oublié-2',
+        statut: 'classé',
       },
       {
-        nomProjetValue: 'éliminé-oublié-3',
-        appelOffreValue: 'PPE2 - Eolien',
-        périodeValue: '1',
-        familleValue: '',
-        numéroCREValue: 'éliminé-oublié-3',
-        statutValue: 'éliminé',
+        nomProjet: 'éliminé-oublié-3',
+        appelOffre: 'PPE2 - Eolien',
+        période: '1',
+        famille: '',
+        numéroCRE: 'éliminé-oublié-3',
+        statut: 'éliminé',
       },
-    ] satisfies Partial<Candidature.ImporterCandidatureUseCase['data']>[];
+    ] satisfies Candidat[];
 
     await importerCandidatsPériode.call(this, candidats);
   },
 );
 
-async function importerCandidatsPériode(
-  this: PotentielWorld,
-  candidats: (Partial<Candidature.ImporterCandidatureUseCase['data']> & {
-    nomProjetValue: string;
-  })[],
-) {
-  for (const { nomProjetValue, statutValue, ...data } of candidats) {
-    await importerCandidature.call(
-      this,
-      nomProjetValue,
-      statutValue as Candidature.StatutCandidature.RawType,
-      data,
-    );
+async function importerCandidatsPériode(this: PotentielWorld, candidats: Candidat[]) {
+  for (const { nomProjet, statut: statut, sociétéMère, ...identifiantProjet } of candidats) {
+    await importerCandidature.call(this, {
+      nomProjet,
+      statut,
+      dépôt: { sociétéMère },
+      identifiantProjet,
+    });
   }
   this.périodeWorld.notifierPériodeFixture.ajouterCandidatsÀNotifier(
     candidats
-      .filter((c) => c.statutValue === 'classé')
+      .filter((c) => c.statut === 'classé')
       .map(
         (c) =>
-          [c.appelOffreValue, c.périodeValue, c.familleValue, c.numéroCREValue].join(
-            '#',
-          ) as IdentifiantProjet.RawType,
+          [c.appelOffre, c.période, c.famille, c.numéroCRE].join('#') as IdentifiantProjet.RawType,
       ),
     candidats
-      .filter((c) => c.statutValue === 'éliminé')
+      .filter((c) => c.statut === 'éliminé')
       .map(
         (c) =>
-          [c.appelOffreValue, c.périodeValue, c.familleValue, c.numéroCREValue].join(
-            '#',
-          ) as IdentifiantProjet.RawType,
+          [c.appelOffre, c.période, c.famille, c.numéroCRE].join('#') as IdentifiantProjet.RawType,
       ),
   );
 }

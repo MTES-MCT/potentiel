@@ -1,16 +1,21 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { ImporterCandidatureUseCase } from '../importer/importerCandidature.usecase';
-import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
+import { Dépôt, Instruction } from '..';
+import { IdentifiantProjet } from '../..';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',
-  Omit<ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> & {
+  {
+    identifiantProjetValue: string;
+
+    dépôtValue: Dépôt.RawType;
+    instructionValue: Instruction.RawType;
+
     corrigéLe: string;
     corrigéPar: string;
     doitRégénérerAttestation?: true;
@@ -21,7 +26,7 @@ export type CorrigerCandidatureUseCase = Message<
 export const registerCorrigerCandidatureUseCase = () => {
   const handler: MessageHandler<CorrigerCandidatureUseCase> = async (payload) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
+      payload.identifiantProjetValue,
     );
     const corrigéLe = DateTime.convertirEnValueType(payload.corrigéLe);
 
@@ -48,7 +53,8 @@ export const registerCorrigerCandidatureUseCase = () => {
       type: 'Candidature.Command.CorrigerCandidature',
       data: {
         identifiantProjet,
-        ...mapToCommonCandidatureUseCaseData(payload),
+        dépôt: Dépôt.convertirEnValueType(payload.dépôtValue),
+        instruction: Instruction.convertirEnValueType(payload.instructionValue),
         corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
         corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
         doitRégénérerAttestation: payload.doitRégénérerAttestation,

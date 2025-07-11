@@ -14,7 +14,7 @@ export type RésuméProjet = {
   numéroCRE: string;
   statut: StatutProjet.RawType;
   nom: string;
-  localité: Candidature.ConsulterCandidatureReadModel['localité'];
+  localité: Candidature.Localité.ValueType;
 };
 
 export const PageProjetTemplate: FC<{

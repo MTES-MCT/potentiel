@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { conditionalRequiredError } from './schemaBase';
 import {
@@ -91,7 +92,7 @@ const colonnes = {
   sociétéMère: 'Société mère',
   nomCandidat: 'Candidat',
   puissanceProductionAnnuelle: 'puissance_production_annuelle',
-  prixRéférence: 'prix_reference',
+  prixReference: 'prix_reference',
   noteTotale: 'Note totale',
   nomReprésentantLégal: 'Nom et prénom du représentant légal',
   emailContact: 'Adresse électronique du contact',
@@ -101,11 +102,11 @@ const colonnes = {
   commune: 'Commune',
   statut: 'Classé ?',
   motifÉlimination: "Motif d'élimination",
-  puissanceÀLaPointe: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
+  puissanceALaPointe: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
   evaluationCarboneSimplifiée:
     'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
   technologie: 'Technologie\n(dispositif de production)',
-  typeGf:
+  typeGarantiesFinancières:
     "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
   financementCollectif: 'Financement collectif (Oui/Non)',
   gouvernancePartagée: 'Gouvernance partagée (Oui/Non)',
@@ -114,7 +115,7 @@ const colonnes = {
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   territoireProjet: 'Territoire\n(AO ZNI)',
   coefficientKChoisi: 'indexation_k',
-  installationsAgrivoltaiques: 'Installations agrivoltaïques',
+  typeInstallationsAgrivoltaiques: 'Installations agrivoltaïques',
   élémentsSousOmbrière: 'Eléments sous l’ombrière',
   typologieDeBâtiment: 'Typologie de bâtiment',
   obligationDeSolarisation: 'Obligation de solarisation',
@@ -130,7 +131,7 @@ const candidatureCsvRowSchema = z
     [colonnes.sociétéMère]: sociétéMèreSchema,
     [colonnes.nomCandidat]: nomCandidatSchema,
     [colonnes.puissanceProductionAnnuelle]: puissanceProductionAnnuelleSchema,
-    [colonnes.prixRéférence]: prixRéférenceSchema,
+    [colonnes.prixReference]: prixRéférenceSchema,
     [colonnes.noteTotale]: noteTotaleSchema,
     [colonnes.nomReprésentantLégal]: nomReprésentantLégalSchema,
     [colonnes.emailContact]: emailContactSchema,
@@ -141,7 +142,7 @@ const candidatureCsvRowSchema = z
     ),
     [colonnes.commune]: communeSchema,
     [colonnes.statut]: statutCsvSchema,
-    [colonnes.puissanceÀLaPointe]: puissanceALaPointeCsvSchema,
+    [colonnes.puissanceALaPointe]: puissanceALaPointeCsvSchema,
     [colonnes.evaluationCarboneSimplifiée]: évaluationCarboneSimplifiéeCsvSchema,
     [colonnes.technologie]: technologieCsvSchema,
     [colonnes.financementCollectif]: financementCollectifCsvSchema,
@@ -149,13 +150,13 @@ const candidatureCsvRowSchema = z
     [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
     [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
     notifiedOn: notifiedOnCsvSchema,
-    [colonnes.installationsAgrivoltaiques]: installationsAgrivoltaiquesCsvSchema,
+    [colonnes.typeInstallationsAgrivoltaiques]: installationsAgrivoltaiquesCsvSchema,
     [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
-    [colonnes.typeGf]: typeGarantiesFinancieresCsvSchema, // see refine below
+    [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
   })
@@ -173,19 +174,23 @@ const candidatureCsvRowSchema = z
     const actualStatut = statut[obj[colonnes.statut]];
     const ao = obj[colonnes.appelOffre];
     const isPPE2 = ao.startsWith('PPE2');
-    if (isPPE2 && actualStatut === 'classé' && !obj[colonnes.typeGf]) {
-      ctx.addIssue(conditionalRequiredError(colonnes.typeGf, colonnes.statut, actualStatut));
+    if (isPPE2 && actualStatut === 'classé' && !obj[colonnes.typeGarantiesFinancières]) {
+      ctx.addIssue(
+        conditionalRequiredError(colonnes.typeGarantiesFinancières, colonnes.statut, actualStatut),
+      );
     }
   })
   // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
   .superRefine((obj, ctx) => {
     const actualStatut = statut[obj[colonnes.statut]];
     if (actualStatut === 'éliminé') return;
-    const actualTypeGf = obj[colonnes.typeGf]
-      ? typeGf[Number(obj[colonnes.typeGf]) - 1]
+    const actualTypeGf = obj[colonnes.typeGarantiesFinancières]
+      ? typeGf[Number(obj[colonnes.typeGarantiesFinancières]) - 1]
       : undefined;
     if (actualTypeGf === 'avec-date-échéance' && !obj[colonnes.dateÉchéanceGf]) {
-      ctx.addIssue(conditionalRequiredError(colonnes.dateÉchéanceGf, colonnes.typeGf, '2'));
+      ctx.addIssue(
+        conditionalRequiredError(colonnes.dateÉchéanceGf, colonnes.typeGarantiesFinancières, '2'),
+      );
     }
   })
   // les CRE4 - ZNI nécessitent un territoire projet
@@ -224,16 +229,24 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
   .transform((val) => {
     return {
       ...val,
-      typeGf: val.typeGf ? typeGf[Number(val.typeGf) - 1] : undefined,
+      typeGarantiesFinancières: val.typeGarantiesFinancières
+        ? typeGf[Number(val.typeGarantiesFinancières) - 1]
+        : undefined,
       historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
       statut: statut[val.statut],
       technologie: technologie[val.technologie],
       typologieDeBâtiment: val.typologieDeBâtiment
         ? typologieDeBâtiment[val.typologieDeBâtiment]
         : undefined,
-      installationsAgrivoltaiques: val.installationsAgrivoltaiques
-        ? typeInstallationsAgrivoltaiques[val.installationsAgrivoltaiques]
+      typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
+        ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
         : undefined,
+      dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime,
+      actionnariat: val.financementCollectif
+        ? Candidature.TypeActionnariat.financementCollectif.formatter()
+        : val.gouvernancePartagée
+          ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+          : undefined,
     };
   });
 

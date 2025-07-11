@@ -1,7 +1,8 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
@@ -12,33 +13,32 @@ EtantDonné(
   `la candidature lauréate {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await importerCandidature.call(
-      this,
+    await importerCandidature.call(this, {
       nomProjet,
-      'classé',
-      this.candidatureWorld.mapExempleToFixtureValues(exemple),
-    );
+      statut: 'classé',
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    });
   },
 );
 
 EtantDonné(
   `la candidature éliminée {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'éliminé');
+    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
   },
 );
 
 EtantDonné(
   `la candidature lauréate {string}`,
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'classé');
+    await importerCandidature.call(this, { nomProjet, statut: 'classé' });
   },
 );
 
 EtantDonné(
   'la candidature lauréate notifiée {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'classé');
+    await importerCandidature.call(this, { nomProjet, statut: 'classé' });
 
     const dateDésignation = this.lauréatWorld.dateDésignation;
 
@@ -49,7 +49,7 @@ EtantDonné(
 EtantDonné(
   'la candidature éliminée notifiée {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'éliminé');
+    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
 
     const dateDésignation = this.éliminéWorld.dateDésignation;
 
@@ -57,23 +57,50 @@ EtantDonné(
   },
 );
 
+type ImporterCandidatureProps = {
+  nomProjet?: string;
+  statut: Candidature.StatutCandidature.RawType;
+  dépôt?: Omit<DeepPartial<Candidature.Dépôt.RawType>, 'fournisseurs'>;
+  instruction?: DeepPartial<Candidature.Instruction.RawType>;
+  identifiantProjet?: Partial<PlainType<IdentifiantProjet.ValueType>>;
+};
 export async function importerCandidature(
   this: PotentielWorld,
-  nomProjet: string,
-  statut: Candidature.StatutCandidature.RawType,
-  partialValues?: DeepPartial<Candidature.ImporterCandidatureUseCase['data']>,
+  {
+    nomProjet,
+    statut,
+    dépôt,
+    identifiantProjet: identifiantProjetValue,
+    instruction,
+  }: ImporterCandidatureProps,
 ) {
-  const { values } = this.candidatureWorld.importerCandidature.créer({
-    values: {
-      ...partialValues,
-      statutValue: statut,
-      nomProjetValue: nomProjet,
+  const { dépôtValue, détailsValue, identifiantProjet, importéLe, importéPar, instructionValue } =
+    this.candidatureWorld.importerCandidature.créer({
+      identifiantProjet: identifiantProjetValue,
+      dépôt: {
+        ...(nomProjet ? { nomProjet } : {}),
+        ...dépôt,
+      },
+      instruction: {
+        ...instruction,
+        statut,
+      },
       importéPar: this.utilisateurWorld.validateurFixture.email,
-    },
-  });
+    });
 
-  await mediator.send<Candidature.ImporterCandidatureUseCase>({
-    type: 'Candidature.UseCase.ImporterCandidature',
-    data: values,
-  });
+  try {
+    await mediator.send<Candidature.ImporterCandidatureUseCase>({
+      type: 'Candidature.UseCase.ImporterCandidature',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        dépôtValue,
+        détailsValue,
+        importéLe,
+        importéPar,
+        instructionValue,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
 }

@@ -1,32 +1,63 @@
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { AbstractFixture } from '../../fixture';
 
 interface CorrigerCandidature {
-  identifiantProjet: string;
-  values: Candidature.CorrigerCandidatureUseCase['data'];
+  dépôtValue: Candidature.Dépôt.RawType;
+  instructionValue: Candidature.Instruction.RawType;
+  détailsValue: Record<string, string> | undefined;
+
+  corrigéPar: string;
+  corrigéLe: string;
 }
+
+type CréerCorrigerCandidatureFixtureProps = Omit<CorrigerCandidature, 'identifiantProjet'> & {
+  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
+};
+
 export class CorrigerCandidatureFixture
   extends AbstractFixture<CorrigerCandidature>
   implements CorrigerCandidature
 {
-  #identifiantProjet!: string;
-  get identifiantProjet() {
+  #identifiantProjet!: IdentifiantProjet.RawType;
+  get identifiantProjet(): IdentifiantProjet.RawType {
     return this.#identifiantProjet;
   }
 
-  #values!: Candidature.CorrigerCandidatureUseCase['data'];
-  get values() {
-    return this.#values;
+  #dépôtValue!: CorrigerCandidature['dépôtValue'];
+  get dépôtValue() {
+    return this.#dépôtValue;
   }
 
-  créer(data: CorrigerCandidature): Readonly<CorrigerCandidature> {
-    this.#identifiantProjet = data.identifiantProjet;
-    this.#values = data.values;
+  #instructionValue!: CorrigerCandidature['instructionValue'];
+  get instructionValue() {
+    return this.#instructionValue;
+  }
+
+  #corrigéPar: string = '';
+  get corrigéPar() {
+    return this.#corrigéPar;
+  }
+  #corrigéLe: string = '';
+  get corrigéLe() {
+    return this.#corrigéLe;
+  }
+
+  #détailsValue: Record<string, string> | undefined = undefined;
+  get détailsValue() {
+    return this.#détailsValue;
+  }
+
+  créer(data: CréerCorrigerCandidatureFixtureProps): Readonly<CorrigerCandidatureFixture> {
+    this.#identifiantProjet = IdentifiantProjet.bind(data.identifiantProjet).formatter();
+    this.#dépôtValue = data.dépôtValue;
+    this.#instructionValue = data.instructionValue;
+    this.#corrigéLe = data.corrigéLe;
+    this.#corrigéPar = data.corrigéPar;
+    this.#détailsValue = data.détailsValue;
+
     this.aÉtéCréé = true;
-    return {
-      identifiantProjet: this.identifiantProjet,
-      values: this.values,
-    };
+    return this;
   }
 }

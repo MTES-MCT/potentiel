@@ -3,7 +3,7 @@ import path from 'node:path';
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
@@ -38,26 +38,8 @@ export type BuildCertificateProps = {
   validateur: AppelOffre.Validateur;
   candidature: {
     identifiantProjet: IdentifiantProjet.ValueType;
-    statut: Candidature.StatutCandidature.ValueType;
-    nomProjet: string;
-    localité: {
-      adresse1: string;
-      adresse2: string;
-      codePostal: string;
-      commune: string;
-    };
-    nomCandidat: string;
-    nomReprésentantLégal: string;
-    emailContact: Email.ValueType;
-    puissanceProductionAnnuelle: number;
-    prixReference: number;
-    technologie: Candidature.TypeTechnologie.ValueType;
-    noteTotale: number;
-    motifÉlimination?: string;
-    puissanceALaPointe: boolean;
-    evaluationCarboneSimplifiée: number;
-    actionnariat?: Candidature.TypeActionnariat.ValueType;
-    coefficientKChoisi?: boolean;
+    dépôt: Candidature.Dépôt.ValueType;
+    instruction: Candidature.Instruction.ValueType;
     unitéPuissance: Candidature.UnitéPuissance.ValueType;
   };
   notifiéLe: DateTime.RawType;
@@ -104,7 +86,7 @@ const mapToCertificateData = ({
 
   const financementEtTemplate = getFinancementEtTemplate({
     période,
-    actionnariat: candidature.actionnariat,
+    actionnariat: candidature.dépôt.actionnariat,
   });
 
   if (!financementEtTemplate) {
@@ -121,36 +103,36 @@ const mapToCertificateData = ({
 
       unitePuissance: candidature.unitéPuissance.formatter(),
       notifiedOn: new Date(notifiéLe).getTime(),
-      isClasse: candidature.statut.estClassé(),
+      isClasse: candidature.instruction.statut.estClassé(),
       potentielId,
 
-      nomProjet: candidature.nomProjet,
+      nomProjet: candidature.dépôt.nomProjet,
       adresseProjet: [
-        ...candidature.localité.adresse1.split('\n'),
-        ...(candidature.localité.adresse2?.split('\n') ?? []),
+        ...candidature.dépôt.localité.adresse1.split('\n'),
+        ...(candidature.dépôt.localité.adresse2?.split('\n') ?? []),
       ]
         .filter(Boolean)
         .join(', '),
-      codePostalProjet: candidature.localité.codePostal,
-      communeProjet: candidature.localité.commune,
+      codePostalProjet: candidature.dépôt.localité.codePostal,
+      communeProjet: candidature.dépôt.localité.commune,
 
-      nomCandidat: candidature.nomCandidat,
-      nomRepresentantLegal: candidature.nomReprésentantLégal,
-      email: candidature.emailContact.formatter(),
+      nomCandidat: candidature.dépôt.nomCandidat,
+      nomRepresentantLegal: candidature.dépôt.nomReprésentantLégal,
+      email: candidature.dépôt.emailContact.formatter(),
 
-      evaluationCarbone: candidature.evaluationCarboneSimplifiée,
-      prixReference: candidature.prixReference,
-      puissance: candidature.puissanceProductionAnnuelle,
-      technologie: candidature.technologie.type,
-      engagementFournitureDePuissanceAlaPointe: candidature.puissanceALaPointe,
-      motifsElimination: candidature.motifÉlimination ?? '',
+      evaluationCarbone: candidature.dépôt.evaluationCarboneSimplifiée,
+      prixReference: candidature.dépôt.prixReference,
+      puissance: candidature.dépôt.puissanceProductionAnnuelle,
+      technologie: candidature.dépôt.technologie.type,
+      engagementFournitureDePuissanceAlaPointe: candidature.dépôt.puissanceALaPointe,
+      motifsElimination: candidature.instruction.motifÉlimination ?? '',
 
       désignationCatégorie: getDésignationCatégorie({
-        puissance: candidature.puissanceProductionAnnuelle,
-        note: candidature.noteTotale,
+        puissance: candidature.dépôt.puissanceProductionAnnuelle,
+        note: candidature.instruction.noteTotale,
         periodeDetails: période,
       }),
-      coefficientKChoisi: candidature.coefficientKChoisi,
+      coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
 
       ...financementEtTemplate,
     },

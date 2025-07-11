@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { Candidature } from '@potentiel-domain/projet';
+
 import { AbstractFixture } from '../../../fixture';
 import { getFakeLocation } from '../../../helpers/getFakeLocation';
 
@@ -74,7 +76,7 @@ export class ModifierLauréatFixture
     }
     return {
       nomProjet: this.nomProjet,
-      localité: this.localité,
+      localité: Candidature.Localité.bind(this.localité),
     };
   }
 }

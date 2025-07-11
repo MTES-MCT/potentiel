@@ -10,12 +10,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
 
-    await importerCandidaturePériodeLegacy.call(
-      this,
-      nomProjet,
-      'classé',
-      this.candidatureWorld.mapExempleToFixtureValues(exemple),
-    );
+    await importerCandidaturePériodeLegacy.call(this, nomProjet, 'classé', exemple);
 
     const dateDésignation = this.lauréatWorld.dateDésignation;
 

@@ -15,8 +15,8 @@ export const getCandidature = async (identifiantProjet: IdentifiantProjet.RawTyp
     throw new Error("La candidature n'existe pas");
   }
   return {
-    nom: candidature.nomProjet,
-    département: candidature.localité.département,
-    région: candidature.localité.région,
+    nom: candidature.dépôt.nomProjet,
+    département: candidature.dépôt.localité.département,
+    région: candidature.dépôt.localité.région,
   };
 };

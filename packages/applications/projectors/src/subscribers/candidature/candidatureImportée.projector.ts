@@ -1,5 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Candidature } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const candidatureImportéeProjector = async ({
@@ -22,40 +21,11 @@ export const mapToCandidatureToUpsert = (
     identifiantProjet: payload.identifiantProjet,
     appelOffre: identifiantProjet.appelOffre,
     période: identifiantProjet.période,
-    nomProjet: payload.nomProjet,
-    sociétéMère: payload.sociétéMère,
-    nomCandidat: payload.nomCandidat,
-    puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
-    prixReference: payload.prixReference,
-    noteTotale: payload.noteTotale,
-    nomReprésentantLégal: payload.nomReprésentantLégal,
-    emailContact: payload.emailContact,
-    localité: payload.localité,
-    motifÉlimination: payload.motifÉlimination,
-    puissanceALaPointe: payload.puissanceALaPointe,
-    evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
-    actionnariat: payload.actionnariat,
-    territoireProjet: payload.territoireProjet,
-    statut: Candidature.StatutCandidature.convertirEnValueType(payload.statut).statut,
-    typeGarantiesFinancières: payload.typeGarantiesFinancières
-      ? Candidature.TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières)
-          .type
-      : undefined,
-    historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(payload.historiqueAbandon)
-      .type,
-    dateÉchéanceGf: payload.dateÉchéanceGf
-      ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
-      : undefined,
-    coefficientKChoisi: payload.coefficientKChoisi,
-    typeInstallationsAgrivoltaiques: payload.typeInstallationsAgrivoltaiques,
-    élémentsSousOmbrière: payload.élémentsSousOmbrière,
-    typologieDeBâtiment: payload.typologieDeBâtiment,
-    obligationDeSolarisation: payload.obligationDeSolarisation,
-    technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
+    ...Candidature.Dépôt.convertirEnValueType(payload).formatter(),
+    ...Candidature.Instruction.convertirEnValueType(payload).formatter(),
     estNotifiée: false,
     notification: undefined,
     misÀJourLe: payload.importéLe,
     détailsMisÀJourLe: payload.importéLe,
-    fournisseurs: payload.fournisseurs,
   };
 };

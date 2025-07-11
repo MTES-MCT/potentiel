@@ -23,9 +23,9 @@ type CommonProps = {
 type MapToModèlePayloadProps = CommonProps & {
   nomReprésentantLégal: string;
   puissance: number;
-  localité: Candidature.ConsulterCandidatureReadModel['localité'];
-  nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
-  unitéPuissance: Candidature.ConsulterCandidatureReadModel['unitéPuissance'];
+  localité: Candidature.Localité.ValueType;
+  nomProjet: string;
+  unitéPuissance: Candidature.UnitéPuissance.ValueType;
   notifiéLe: DateTime.ValueType | undefined;
   emailContact: Email.ValueType;
   nomCandidat: string;
@@ -90,12 +90,12 @@ export const mapCandidatureToModèleRéponsePayload = ({
 }: MapCandidatureToModèleRéponsePayloadProps) =>
   mapToModèleRéponsePayload({
     ...props,
-    emailContact: candidature.emailContact,
-    localité: candidature.localité,
-    nomCandidat: candidature.nomCandidat,
-    nomProjet: candidature.nomProjet,
-    nomReprésentantLégal: candidature.nomReprésentantLégal,
-    puissance: candidature.puissanceProductionAnnuelle,
+    emailContact: candidature.dépôt.emailContact,
+    localité: candidature.dépôt.localité,
+    nomCandidat: candidature.dépôt.nomCandidat,
+    nomProjet: candidature.dépôt.nomProjet,
+    nomReprésentantLégal: candidature.dépôt.nomReprésentantLégal,
+    puissance: candidature.dépôt.puissanceProductionAnnuelle,
     notifiéLe: candidature.notification?.notifiéeLe,
     unitéPuissance: candidature.unitéPuissance,
   });
