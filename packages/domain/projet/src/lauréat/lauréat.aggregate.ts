@@ -204,6 +204,12 @@ export class LauréatAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
+    await this.garantiesFinancières.importer({
+      type: this.projet.candidature.typeGarantiesFinancières,
+      dateÉchéance: this.projet.candidature.dateÉchéanceGf,
+      importéLe: notifiéeLe,
+    });
+
     await this.producteur.importer({
       identifiantProjet: this.projet.identifiantProjet,
       dateImport: notifiéeLe,

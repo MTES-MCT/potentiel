@@ -21,10 +21,12 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
   #àExécuterLe?: DateTime.ValueType;
 
   get typeTâchePlanifiée() {
-    return this.aggregateId.split('|')[1].split('#')[0];
+    return this.aggregateId.slice(this.aggregateId.indexOf('|') + 1, this.aggregateId.indexOf('#'));
   }
   get identifiantProjet() {
-    return IdentifiantProjet.convertirEnValueType(this.aggregateId.split('|')[1].split('#')[1]);
+    return IdentifiantProjet.convertirEnValueType(
+      this.aggregateId.slice(this.aggregateId.indexOf('#') + 1),
+    );
   }
 
   async ajouter({ àExécuterLe }: AjouterOptions) {

@@ -11,6 +11,7 @@ import { TypeTâchePlanifiéeGarantiesFinancières } from '.';
 
 import {
   GarantiesFinancièresDemandéesEvent,
+  GarantiesFinancièresEnregistréesEvent,
   GarantiesFinancièresEvent,
   GarantiesFinancièresModifiéesEvent,
   HistoriqueGarantiesFinancièresEffacéEvent,
@@ -110,6 +111,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async ajouterTâchesPlanifiées() {
+    console.log(this.#dateÉchéance);
     if (this.#dateÉchéance && !this.lauréat.projet.statut.estAchevé()) {
       await this.#tâchePlanifiéeEchoir.ajouter({
         àExécuterLe: this.#dateÉchéance.ajouterNombreDeJours(1),
@@ -221,8 +223,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#aUnDépôtEnCours = false;
   }
 
-  private applyGarantiesFinancièresEnregistréesV1() {
+  private applyGarantiesFinancièresEnregistréesV1({
+    payload: { dateÉchéance, type },
+  }: GarantiesFinancièresEnregistréesEvent) {
     this.#aDesGarantiesFinancières = true;
+    this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
+    this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }
 
   private applyGarantiesFinancièresModifiéesV1({

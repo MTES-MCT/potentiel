@@ -30,7 +30,6 @@ export const registeAccorderDemandeMainlevéeGarantiesFinancièresCommand = (
     réponseSignée,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await garantiesFinancières.accorderDemandeMainlevéeGarantiesFinancières({
       identifiantProjet,
@@ -38,6 +37,8 @@ export const registeAccorderDemandeMainlevéeGarantiesFinancièresCommand = (
       accordéPar,
       réponseSignée,
     });
+    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
+    const projet = await getProjetAggregateRoot(identifiantProjet);
     // TODO move to Garanties Financière Aggregate
     await projet.lauréat.garantiesFinancières.annulerTâchesPlanififées();
   };

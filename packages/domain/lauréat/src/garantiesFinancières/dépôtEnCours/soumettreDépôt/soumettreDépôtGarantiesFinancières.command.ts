@@ -36,7 +36,6 @@ export const registerDépôtSoumettreGarantiesFinancièresCommand = (
     soumisPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await garantiesFinancières.soumettreDépôt({
       identifiantProjet,
@@ -47,6 +46,8 @@ export const registerDépôtSoumettreGarantiesFinancièresCommand = (
       dateÉchéance,
       soumisPar,
     });
+    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
+    const projet = await getProjetAggregateRoot(identifiantProjet);
     // TODO move to Garanties Financière Aggregate
     await projet.lauréat.garantiesFinancières.annulerTâchesPlanififées();
   };

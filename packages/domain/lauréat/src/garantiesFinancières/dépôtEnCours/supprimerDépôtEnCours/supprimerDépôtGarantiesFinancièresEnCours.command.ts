@@ -27,13 +27,14 @@ export const registerSupprimerDépôtGarantiesFinancièresEnCoursCommand = (
     suppriméPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await garantiesFinancières.supprimerDépôtGarantiesFinancièresEnCours({
       identifiantProjet,
       suppriméLe,
       suppriméPar,
     });
+    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
+    const projet = await getProjetAggregateRoot(identifiantProjet);
     // TODO move to Garanties Financière Aggregate
     await projet.lauréat.garantiesFinancières.ajouterTâchesPlanifiées();
   };

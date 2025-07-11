@@ -36,7 +36,6 @@ export const registerEnregistrerGarantiesFinancièresCommand = (
     enregistréPar,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await garantiesFinancières.enregistrer({
       identifiantProjet,
@@ -47,6 +46,8 @@ export const registerEnregistrerGarantiesFinancièresCommand = (
       enregistréLe,
       enregistréPar,
     });
+    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
+    const projet = await getProjetAggregateRoot(identifiantProjet);
     // TODO move to Garanties Financière Aggregate
     await projet.lauréat.garantiesFinancières.ajouterTâchesPlanifiées();
   };
