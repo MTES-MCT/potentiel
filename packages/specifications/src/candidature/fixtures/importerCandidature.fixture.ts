@@ -61,20 +61,20 @@ export class ImporterCandidatureFixture
   }
 
   /**
-   * @derecated kept for retro-compat, prefer dépôtValue & instructionValue
+   * @deprecated kept for retro-compat, prefer dépôtValue & instructionValue
    */
   get values() {
-    const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
-      this.identifiantProjet,
-    );
+    const dépôt = this.dépôtValue;
     return {
-      ...mapToDeprecatedValues(this.dépôtValue, this.instructionValue),
-      appelOffreValue: appelOffre,
-      périodeValue: période,
-      familleValue: famille,
-      numéroCREValue: numéroCRE,
-      importéLe: this.importéLe,
-      importéPar: this.importéPar,
+      nomProjetValue: dépôt.nomProjet,
+      nomCandidatValue: dépôt.nomCandidat,
+      emailContactValue: dépôt.emailContact,
+      sociétéMèreValue: dépôt.sociétéMère,
+      puissanceProductionAnnuelleValue: dépôt.puissanceProductionAnnuelle,
+      nomReprésentantLégalValue: dépôt.nomReprésentantLégal,
+      localitéValue: dépôt.localité,
+      typeGarantiesFinancièresValue: dépôt.typeGarantiesFinancières,
+      dateÉchéanceGfValue: dépôt.dateÉchéanceGf,
     };
   }
 
@@ -207,36 +207,3 @@ const créerDépôt = (
 
   return dépôtValue;
 };
-
-/** @deprecated use only for retro compat with "values" */
-export const mapToDeprecatedValues = (
-  dépôt: Candidature.Dépôt.RawType,
-  instruction: Candidature.Instruction.RawType,
-) => ({
-  nomProjetValue: dépôt.nomProjet,
-  nomCandidatValue: dépôt.nomCandidat,
-  emailContactValue: dépôt.emailContact,
-  sociétéMèreValue: dépôt.sociétéMère,
-  puissanceProductionAnnuelleValue: dépôt.puissanceProductionAnnuelle,
-  nomReprésentantLégalValue: dépôt.nomReprésentantLégal,
-  prixRéférenceValue: dépôt.prixReference,
-  localitéValue: dépôt.localité,
-  historiqueAbandonValue: dépôt.historiqueAbandon,
-  puissanceALaPointeValue: dépôt.puissanceALaPointe,
-  coefficientKChoisiValue: dépôt.coefficientKChoisi,
-  evaluationCarboneSimplifiéeValue: dépôt.evaluationCarboneSimplifiée,
-  technologieValue: dépôt.technologie,
-  actionnariatValue: dépôt.actionnariat,
-  typeGarantiesFinancièresValue: dépôt.typeGarantiesFinancières,
-  dateÉchéanceGfValue: dépôt.dateÉchéanceGf,
-  territoireProjetValue: dépôt.territoireProjet,
-  fournisseursValue: dépôt.fournisseurs,
-  typeInstallationsAgrivoltaiquesValue: dépôt.typeInstallationsAgrivoltaiques,
-  élémentsSousOmbrièreValue: dépôt.élémentsSousOmbrière,
-  typologieDeBâtimentValue: dépôt.typologieDeBâtiment,
-  obligationDeSolarisationValue: dépôt.obligationDeSolarisation,
-
-  statutValue: instruction.statut,
-  noteTotaleValue: instruction.noteTotale,
-  motifÉliminationValue: instruction.motifÉlimination,
-});
