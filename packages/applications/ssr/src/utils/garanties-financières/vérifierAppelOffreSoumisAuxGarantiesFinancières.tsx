@@ -8,6 +8,6 @@ export const projetSoumisAuxGarantiesFinancières = async (
   const { appelOffres, famille } = await getPériodeAppelOffres(identifiantProjet);
 
   return famille
-    ? famille.soumisAuxGarantiesFinancieres !== 'non soumis'
+    ? famille.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis'
     : appelOffres.soumisAuxGarantiesFinancieres !== 'non soumis';
 };

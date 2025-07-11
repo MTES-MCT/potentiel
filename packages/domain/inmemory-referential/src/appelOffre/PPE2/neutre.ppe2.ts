@@ -22,7 +22,6 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   paragrapheEngagementIPFPGPFC: '3.3.8, 4.6 et 6.6.2',
   renvoiEngagementIPFPGPFC: '3.3.8',
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.1',
   paragrapheDelaiDerogatoire: '6.3',
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 36 },
   delaiRealisationTexte:
@@ -33,7 +32,10 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   paragrapheClauseCompetitivite: '2.14',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
-  soumisAuxGarantiesFinancieres: 'à la candidature',
+  garantiesFinancières: {
+    soumisAuxGarantiesFinancieres: 'à la candidature',
+    renvoiRetraitDesignationGarantieFinancieres: '5.1',
+  },
   changementPuissance: {
     ratios: {
       min: 0.8,

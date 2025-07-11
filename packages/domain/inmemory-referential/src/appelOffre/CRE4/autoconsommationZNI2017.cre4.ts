@@ -59,7 +59,6 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.2',
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '',
   renvoiEngagementIPFPGPFC: '3.2.6 et 7.2.2',
   paragrapheClauseCompetitivite: '',
   tarifOuPrimeRetenue: 'la prime retenue',
@@ -67,7 +66,10 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  soumisAuxGarantiesFinancieres: 'non soumis',
+  garantiesFinancières: {
+    soumisAuxGarantiesFinancieres: 'non soumis',
+    renvoiRetraitDesignationGarantieFinancieres: '',
+  },
   changementPuissance: {
     ratios: {
       min: 0.8,

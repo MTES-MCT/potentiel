@@ -115,7 +115,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
           </Text>
 
           {soumisAuxGarantiesFinancieres &&
-            appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
+            appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres && (
               <Text
                 style={{
                   marginTop: 10,

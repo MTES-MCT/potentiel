@@ -35,11 +35,16 @@ type ChangementPuissance = { paragrapheAlerte?: string } & (
 );
 
 // GF AO
-type GarantiesFinancièresAppelOffre =
+// viovio
+type GarantiesFinancièresAppelOffre = {
+  renvoiRetraitDesignationGarantieFinancieres: string;
+  renvoiSoumisAuxGarantiesFinancieres?: string;
+} & (
   | GarantiesFinancièresFamille
   | {
       soumisAuxGarantiesFinancieres?: undefined;
-    };
+    }
+);
 
 // Courriers
 export type DonnéesCourriersRéponse = Record<
@@ -119,7 +124,7 @@ export type Famille = {
   id: string;
   title: string;
   puissanceMax?: number;
-} & GarantiesFinancièresFamille;
+} & { garantiesFinancières: GarantiesFinancièresFamille };
 
 type NoteThresholdByCategory = {
   volumeReserve: {
@@ -253,7 +258,6 @@ export type AppelOffreReadModel = {
   renvoiModification: string;
   affichageParagrapheECS: boolean;
   renvoiDemandeCompleteRaccordement: string;
-  renvoiRetraitDesignationGarantieFinancieres: string;
   renvoiEngagementIPFPGPFC: string;
   paragrapheClauseCompetitivite: string;
   tarifOuPrimeRetenue: string;
@@ -262,7 +266,6 @@ export type AppelOffreReadModel = {
   afficherPhraseRegionImplantation: boolean;
   dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
-  renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
@@ -275,7 +278,7 @@ export type AppelOffreReadModel = {
     autoritéCompétente: AutoritéCompétente;
   };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
-} & GarantiesFinancièresAppelOffre &
-  TechnologieAppelOffre;
+  garantiesFinancières: GarantiesFinancièresAppelOffre;
+} & TechnologieAppelOffre;
 
 export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

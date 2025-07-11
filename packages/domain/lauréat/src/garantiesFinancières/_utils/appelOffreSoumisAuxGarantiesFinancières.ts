@@ -15,5 +15,5 @@ export const appelOffreSoumisAuxGarantiesFinancières = ({
 
   return familleDétails
     ? familleDétails.soumisAuxGarantiesFinancieres !== 'non soumis'
-    : appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis';
+    : appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis';
 };

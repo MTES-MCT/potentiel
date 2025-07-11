@@ -42,7 +42,8 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
         );
 
       const garantieFinanciereEnMoisNumber =
-        famille && famille?.soumisAuxGarantiesFinancieres === 'après candidature'
+        famille &&
+        famille?.garantiesFinancières.soumisAuxGarantiesFinancieres === 'après candidature'
           ? famille.garantieFinanciereEnMois
           : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
             ? appelOffres.garantieFinanciereEnMois

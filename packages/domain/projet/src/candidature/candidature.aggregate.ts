@@ -366,8 +366,8 @@ export class CandidatureAggregate extends AbstractAggregate<
     candidature: CandidatureBehaviorOptions,
   ) {
     const soumisAuxGF =
-      this.projet.famille?.soumisAuxGarantiesFinancieres ??
-      this.projet.appelOffre.soumisAuxGarantiesFinancieres;
+      this.projet.famille?.garantiesFinancières.soumisAuxGarantiesFinancieres ??
+      this.projet.appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres;
     if (
       soumisAuxGF === 'à la candidature' &&
       candidature.statut.estClassé() &&

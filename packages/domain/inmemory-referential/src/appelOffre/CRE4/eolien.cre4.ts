@@ -43,8 +43,6 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   renvoiEngagementIPFPGPFC: '3.3.6 et 7.2.2',
   // Fourniture puissance à la pointe ?
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiSoumisAuxGarantiesFinancieres: 'est précisée au 6.2 du cahier des charges',
-  renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   // Paragraphes sur l'innovation ?
   // Renvoi 3 sur l'innovation ?
   // Renvoi 4 sur l'innovation ?
@@ -58,9 +56,14 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   paragrapheClauseCompetitivite: '2.7',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: false,
-  soumisAuxGarantiesFinancieres: 'après candidature',
-  garantieFinanciereEnMois: 51,
+  garantiesFinancières: {
+    renvoiSoumisAuxGarantiesFinancieres: 'est précisée au 6.2 du cahier des charges',
+    renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
+    soumisAuxGarantiesFinancieres: 'après candidature',
+    garantieFinanciereEnMois: 51,
+  },
   doitPouvoirChoisirCDCInitial: true,
+
   changementPuissance: {
     ratios: {
       min: 0.9,

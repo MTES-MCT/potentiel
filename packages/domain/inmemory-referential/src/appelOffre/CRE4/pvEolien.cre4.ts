@@ -70,7 +70,6 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.3',
   renvoiEngagementIPFPGPFC: '3.3.7',
   paragrapheClauseCompetitivite: '',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
@@ -78,9 +77,12 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  soumisAuxGarantiesFinancieres: 'après candidature',
-  garantieFinanciereEnMois,
-  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+  garantiesFinancières: {
+    renvoiRetraitDesignationGarantieFinancieres: '5.3',
+    soumisAuxGarantiesFinancieres: 'après candidature',
+    renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+    garantieFinanciereEnMois,
+  },
   changementPuissance: { ratios: { min: 0.8, max: 1 } },
   changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {

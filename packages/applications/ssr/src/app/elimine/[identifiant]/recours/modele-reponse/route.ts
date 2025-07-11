@@ -94,7 +94,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           renvoiRetraitDesignationGarantieFinancieres:
             appelOffres.renvoiRetraitDesignationGarantieFinancieres,
           renvoiSoumisAuxGarantiesFinancieres:
-            appelOffres.renvoiSoumisAuxGarantiesFinancieres ?? '',
+            appelOffres.garenvoiSoumisAuxGarantiesFinancieres ?? '',
           soumisGF: formatBoolean(
             GarantiesFinancières.appelOffreSoumisAuxGarantiesFinancières({
               appelOffre: appelOffres,

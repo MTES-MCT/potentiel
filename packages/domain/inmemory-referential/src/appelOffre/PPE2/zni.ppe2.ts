@@ -22,8 +22,10 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.2',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.1',
-  soumisAuxGarantiesFinancieres: 'à la candidature',
+  garantiesFinancières: {
+    soumisAuxGarantiesFinancieres: 'à la candidature',
+    renvoiRetraitDesignationGarantieFinancieres: '5.1',
+  },
   renvoiEngagementIPFPGPFC: '3.2.7',
   paragrapheClauseCompetitivite: '2.9',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
@@ -84,7 +86,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
         {
           id: '1',
           title: `Installations sur bâtiments, hangars, ombrières, ombrières agrivoltaïques et serres agrivoltaïques, de puissance strictement supérieure à 500 kWc`,
-          soumisAuxGarantiesFinancieres: 'à la candidature',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
         },
         {
           id: '2',
@@ -92,7 +94,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
 ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 du paragraphe
 2.6 et strictement supérieure à 500 kWc pour les projets sur terrains correspondant au cas 3
 du paragraphe 2.6.`,
-          soumisAuxGarantiesFinancieres: 'à la candidature',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
         },
       ],
       cahiersDesChargesModifiésDisponibles: [],
@@ -115,7 +117,7 @@ du paragraphe 2.6.`,
         {
           id: '1',
           title: `Installations sur bâtiments, ombrières, ombrières agrivoltaïques et serres agrivoltaïques au sens du paragraphe 1.4, de puissance strictement supérieure à 500 kWc.`,
-          soumisAuxGarantiesFinancieres: 'à la candidature',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
         },
         {
           id: '2',
@@ -123,7 +125,7 @@ du paragraphe 2.6.`,
 ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 du paragraphe
 2.6 et strictement supérieure à 500 kWc pour les projets sur terrains correspondant en totalité au cas 3
 du paragraphe 2.6.`,
-          soumisAuxGarantiesFinancieres: 'à la candidature',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
         },
       ],
       cahiersDesChargesModifiésDisponibles: [],
@@ -146,7 +148,7 @@ du paragraphe 2.6.`,
         {
           id: '1',
           title: `Installations sur bâtiments, ombrières, ombrières agrivoltaïques et serres agrivoltaïques au sens du paragraphe 1.4, de puissance strictement supérieure à 500 kWc.`,
-          soumisAuxGarantiesFinancieres: 'à la candidature',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
         },
         {
           id: '2',
@@ -154,7 +156,7 @@ du paragraphe 2.6.`,
 ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 du paragraphe
 2.6 et strictement supérieure à 500 kWc pour les projets sur terrains correspondant en totalité au cas 3
 du paragraphe 2.6.`,
-          soumisAuxGarantiesFinancieres: 'à la candidature',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'à la candidature' },
         },
       ],
       cahiersDesChargesModifiésDisponibles: [],

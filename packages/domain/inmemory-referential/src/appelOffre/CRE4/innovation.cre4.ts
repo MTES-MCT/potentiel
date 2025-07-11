@@ -83,7 +83,6 @@ export const innovation: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.4',
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.3',
   renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
@@ -91,6 +90,9 @@ export const innovation: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  garantiesFinancières: {
+    renvoiRetraitDesignationGarantieFinancieres: '5.3',
+  },
   changementPuissance: {
     ratios: {
       min: 0.7,
@@ -149,32 +151,32 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1a',
           title: "1a. Nouvelles conceptions d'intégration",
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '1b',
           title: '1b. Autres innovations de composants',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 3,
         },
         {
           id: '2',
           title: '2. 100 kWc - 3MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 3,
         },
         {
           id: '3',
           title:
             "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 3,
         },
         {
           id: '4',
           title: '4. Agrivoltaïsme',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 3,
         },
       ],
@@ -205,13 +207,13 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 500 kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 5,
         },
         {
           id: '2',
           title: '2. 100 kWc - 3MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 3,
         },
       ],
@@ -242,13 +244,13 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 500 kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 5,
         },
         {
           id: '2',
           title: '2. 100 kWc - 3MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 3,
         },
       ],

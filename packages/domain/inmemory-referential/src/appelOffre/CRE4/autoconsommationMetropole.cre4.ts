@@ -37,7 +37,6 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.3',
   affichageParagrapheECS: false,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '',
   renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '2.10',
   tarifOuPrimeRetenue: 'la prime retenue',
@@ -45,7 +44,10 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  soumisAuxGarantiesFinancieres: 'non soumis',
+  garantiesFinancières: {
+    soumisAuxGarantiesFinancieres: 'non soumis',
+    renvoiRetraitDesignationGarantieFinancieres: '',
+  },
   changementPuissance: {
     ratios: {
       min: 0.8,
