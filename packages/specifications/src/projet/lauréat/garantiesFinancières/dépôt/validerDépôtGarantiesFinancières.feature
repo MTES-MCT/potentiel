@@ -22,6 +22,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | date de validation | <date de validation> |
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
             | type GF              | <type GF>              |
+            | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
             | date de constitution | <date de constitution> |
