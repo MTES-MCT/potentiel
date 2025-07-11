@@ -175,6 +175,7 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#délai = await this.loadAggregate(
       DélaiAggregate,
       `délai|${this.projet.identifiantProjet.formatter()}`,
+    );
   }
 
   async loadTâchePlanifiée(typeTâchePlanifiée: string) {
