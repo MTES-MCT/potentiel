@@ -37,6 +37,17 @@ Alors(
   },
 );
 
+Alors(
+  `la demande de délai du projet lauréat devrait être en passée en instruction`,
+  async function (this: PotentielWorld) {
+    await vérifierDemandeDélai.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Lauréat.Délai.StatutDemandeDélai.enInstruction,
+    );
+  },
+);
+
 Alors('la demande de délai devrait être rejetée', async function (this: PotentielWorld) {
   return waitForExpect(async () => {
     await vérifierDemandeDélai.call(

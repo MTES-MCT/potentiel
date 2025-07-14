@@ -23,6 +23,11 @@ export type ConsulterDemandeDélaiReadModel = {
 
   pièceJustificative: DocumentProjet.ValueType;
 
+  instruction?: {
+    passéEnInstructionLe: DateTime.ValueType;
+    passéEnInstructionPar: Email.ValueType;
+  };
+
   accord?: {
     accordéPar: Email.ValueType;
     accordéLe: DateTime.ValueType;
@@ -77,6 +82,7 @@ const mapToReadModel: MapToReadModel = ({
     nombreDeMois,
     raison,
     pièceJustificative,
+    instruction,
     accord,
     rejet,
   },
@@ -95,6 +101,11 @@ const mapToReadModel: MapToReadModel = ({
 
     nombreDeMois,
     raison,
+
+    instruction: instruction && {
+      passéEnInstructionLe: DateTime.convertirEnValueType(instruction.passéEnInstructionLe),
+      passéEnInstructionPar: Email.convertirEnValueType(instruction.passéEnInstructionPar),
+    },
 
     accord: accord && {
       accordéPar: Email.convertirEnValueType(accord.accordéPar),

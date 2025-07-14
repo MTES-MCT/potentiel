@@ -14,6 +14,8 @@ import { registerDemanderDélaiDélaiCommand } from './demande/demander/demander
 import { registerDemanderDélaiDélaiUseCase } from './demande/demander/demanderDélai.usecase';
 import { registerRejeterDemandeDélaiCommand } from './demande/rejeter/rejeterDemandeDélai.command';
 import { registerRejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
+import { registerPasserEnInstructionDemandeDélaiCommand } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.command';
+import { registerPasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase';
 import {
   ListerDemandeDélaiDependencies,
   registerListerDemandeDélaiQuery,
@@ -28,10 +30,12 @@ export type DélaiCommandDependencies = { getProjetAggregateRoot: GetProjetAggre
 export const registerDélaiUseCases = ({ getProjetAggregateRoot }: DélaiCommandDependencies) => {
   registerDemanderDélaiDélaiUseCase();
   registerAnnulerDemandeDélaiUseCase();
+  registerPasserEnInstructionDemandeDélaiUseCase();
   registerRejeterDemandeDélaiUseCase();
 
   registerDemanderDélaiDélaiCommand(getProjetAggregateRoot);
   registerAnnulerDemandeDélaiCommand(getProjetAggregateRoot);
+  registerPasserEnInstructionDemandeDélaiCommand(getProjetAggregateRoot);
   registerRejeterDemandeDélaiCommand(getProjetAggregateRoot);
 };
 

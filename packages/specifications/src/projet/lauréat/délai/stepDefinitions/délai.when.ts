@@ -2,6 +2,7 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture';
@@ -23,6 +24,38 @@ Quand(
   'la DREAL associée au projet rejette le délai pour le projet lauréat',
   async function (this: PotentielWorld) {
     await rejeterDemandeDélai.call(this);
+  },
+);
+
+Quand(
+  /(.*) passe en instruction la demande de délai pour le projet lauréat/,
+  async function (this: PotentielWorld, _: string) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+      // const régionDreal = this.utilisateurWorld.drealFixture.région;
+
+      // if (rôleUtilisateur === 'un nouvel administrateur') {
+      //   this.utilisateurWorld.drealFixture.créer({
+      //     région: régionDreal,
+      //   });
+      // }
+
+      const { passéEnInstructionLe, passéEnInstructionPar } =
+        this.lauréatWorld.délaiWorld.passerEnInstructionDemandeDélaiFixture.créer({
+          passéEnInstructionPar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
+        });
+
+      await mediator.send<Lauréat.Délai.PasserEnInstructionDemandeDélaiUseCase>({
+        type: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantUtilisateurValue: passéEnInstructionPar,
+          datePassageEnInstructionValue: passéEnInstructionLe,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );
 

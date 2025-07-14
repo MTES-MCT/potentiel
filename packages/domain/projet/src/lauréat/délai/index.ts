@@ -9,6 +9,7 @@ import {
 } from './demande/consulter/consulterDemandeDélai.query';
 import { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase';
 import { RejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
+import { PasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase';
 import {
   ListerDemandeDélaiQuery,
   ListerDemandeDélaiReadModel,
@@ -46,14 +47,22 @@ export type {
 export type DélaiUseCase =
   | DemanderDélaiUseCase
   | AnnulerDemandeDélaiUseCase
-  | RejeterDemandeDélaiUseCase;
-export type { DemanderDélaiUseCase, AnnulerDemandeDélaiUseCase, RejeterDemandeDélaiUseCase };
+  | RejeterDemandeDélaiUseCase
+  | PasserEnInstructionDemandeDélaiUseCase;
+
+export type {
+  DemanderDélaiUseCase,
+  AnnulerDemandeDélaiUseCase,
+  RejeterDemandeDélaiUseCase,
+  PasserEnInstructionDemandeDélaiUseCase,
+};
 
 // Event
 export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
 export type { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
 export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
+export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event';
 export * from './délai.event';
 
 // Register

@@ -13,7 +13,7 @@ type demandeDélaiRejetéeNotificationsProps = {
   projet: { nom: string; département: string; url: string };
 };
 
-export const demandeDélaiRejetéeNotifications = async ({
+export const demandeDélaiRejetéeNotification = async ({
   sendEmail,
   event,
   projet,

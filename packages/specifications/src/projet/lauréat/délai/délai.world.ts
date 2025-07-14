@@ -5,6 +5,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
 import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture';
+import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture';
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();
@@ -25,6 +26,12 @@ export class DélaiWorld {
 
   get rejeterDemandeDélaiFixture() {
     return this.#rejeterDemandeDélaiFixture;
+  }
+  readonly #passerEnInstructionDemandeDélaiFixture: PasserEnInstructionDemandeDélaiFixture =
+    new PasserEnInstructionDemandeDélaiFixture();
+
+  get passerEnInstructionDemandeDélaiFixture() {
+    return this.#passerEnInstructionDemandeDélaiFixture;
   }
 
   mapToExpected(
@@ -63,6 +70,17 @@ export class DélaiWorld {
           }
         : undefined,
     };
+
+    if (this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé) {
+      expected.instruction = {
+        passéEnInstructionLe: DateTime.convertirEnValueType(
+          this.#passerEnInstructionDemandeDélaiFixture.passéEnInstructionLe,
+        ),
+        passéEnInstructionPar: Email.convertirEnValueType(
+          this.#passerEnInstructionDemandeDélaiFixture.passéEnInstructionPar,
+        ),
+      };
+    }
 
     return expected;
   }

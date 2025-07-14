@@ -9,9 +9,10 @@ import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../helpers';
 import { getBaseUrl } from '../../../helpers';
 
+import { demandeDélaiRejetéeNotification } from './demandeDélaiRejetée.notification';
 import { délaiDemandéNotification } from './délaiDemandé.notification';
-import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnuléeNotification';
-import { demandeDélaiRejetéeNotifications } from './demandeDélaiRejetée.notifications';
+import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnulée.notification';
+import { demandeDélaiPasséeEnInstructionNotification } from './demandeDélaiPasséeEnInstruction.notification';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent & Event;
 
@@ -38,7 +39,15 @@ export const registerDélaiNotifications = ({
         demandeDélaiAnnuléeNotification({ sendEmail, event, projet }),
       )
       .with({ type: 'DemandeDélaiRejetée-V1' }, async (event) =>
-        demandeDélaiRejetéeNotifications({ sendEmail, event, projet }),
+        demandeDélaiRejetéeNotification({ sendEmail, event, projet }),
+      )
+      .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, async (event) =>
+        demandeDélaiPasséeEnInstructionNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
       )
       .with({ type: 'DélaiAccordé-V1' }, () => undefined)
       .exhaustive();
