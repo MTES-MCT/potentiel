@@ -82,7 +82,11 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
       }}
       rightColumn={{
         className: 'flex flex-col gap-8',
-        children: mapToActionComponents({ actions, identifiantProjet: identifiantProjetValueType }),
+        children: mapToActionComponents({
+          actions,
+          identifiantProjet: identifiantProjetValueType,
+          dateDemande: DateTime.bind(demandéLe).formatter(),
+        }),
       }}
     />
   );
@@ -91,16 +95,24 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
 type MapToActionsComponentsProps = {
   actions: Array<DemandeDélaiActions>;
   identifiantProjet: IdentifiantProjet.ValueType;
+  dateDemande: DateTime.RawType;
 };
 
-const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsComponentsProps) => (
+const mapToActionComponents = ({
+  identifiantProjet,
+  dateDemande,
+  actions,
+}: MapToActionsComponentsProps) => (
   <>
     <Heading2>Actions</Heading2>
     {actions.includes('annuler') && (
       <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
     )}
     {actions.includes('rejeter') && (
-      <RejeterDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+      <RejeterDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande}
+      />
     )}
   </>
 );

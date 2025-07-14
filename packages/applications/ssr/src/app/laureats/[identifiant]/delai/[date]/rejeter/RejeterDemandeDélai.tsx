@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -16,9 +17,15 @@ import {
   RejeterDemandeDélaiFormKeys,
 } from './rejeterDemandeDélai.action';
 
-type RejeterDemandeDélaiFormProps = { identifiantProjet: IdentifiantProjet.RawType };
+type RejeterDemandeDélaiFormProps = {
+  identifiantProjet: IdentifiantProjet.RawType;
+  dateDemande: DateTime.RawType;
+};
 
-export const RejeterDemandeDélai = ({ identifiantProjet }: RejeterDemandeDélaiFormProps) => {
+export const RejeterDemandeDélai = ({
+  identifiantProjet,
+  dateDemande,
+}: RejeterDemandeDélaiFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RejeterDemandeDélaiFormKeys>
   >({});
@@ -63,7 +70,7 @@ export const RejeterDemandeDélai = ({ identifiantProjet }: RejeterDemandeDélai
               />
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Délai.téléchargerModèleRéponseRejeté(identifiantProjet)}
+                url={Routes.Délai.téléchargerModèleRéponse(identifiantProjet, dateDemande, false)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />

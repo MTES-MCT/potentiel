@@ -10,5 +10,9 @@ export const détail = (identifiantProjet: string, date: DateTime.RawType) =>
 
 export const lister = `/laureats/changements/delai`;
 
-export const téléchargerModèleRéponseRejeté = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/délai/demande/modele-reponse?estAccordé=false`;
+export const téléchargerModèleRéponse = (
+  identifiantProjet: string,
+  date: DateTime.RawType,
+  estAccordé: boolean,
+) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/délai/${date}/modele-reponse?estAccordé=${estAccordé}`;
