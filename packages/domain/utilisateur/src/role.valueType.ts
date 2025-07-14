@@ -258,7 +258,9 @@ const référencielPermissions = {
             'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         },
       },
-      query: { consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement' },
+      query: {
+        consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+      },
     },
     représentantLégal: {
       query: {
@@ -370,9 +372,15 @@ const référencielPermissions = {
       },
     },
     cahierDesCharges: {
-      query: { consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi' },
-      command: { choisir: 'Lauréat.Command.ChoisirCahierDesCharges' },
-      usecase: { choisir: 'Lauréat.UseCase.ChoisirCahierDesCharges' },
+      query: {
+        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+      },
+      command: {
+        choisir: 'Lauréat.Command.ChoisirCahierDesCharges',
+      },
+      usecase: {
+        choisir: 'Lauréat.UseCase.ChoisirCahierDesCharges',
+      },
     },
     délai: {
       query: {
@@ -456,12 +464,21 @@ const référencielPermissions = {
     },
   },
   période: {
-    query: { consulter: 'Période.Query.ConsulterPériode', lister: 'Période.Query.ListerPériodes' },
-    usecase: { notifier: 'Période.UseCase.NotifierPériode' },
-    command: { notifier: 'Période.Command.NotifierPériode' },
+    query: {
+      consulter: 'Période.Query.ConsulterPériode',
+      lister: 'Période.Query.ListerPériodes',
+    },
+    usecase: {
+      notifier: 'Période.UseCase.NotifierPériode',
+    },
+    command: {
+      notifier: 'Période.Command.NotifierPériode',
+    },
   },
   document: {
-    query: { consulter: 'Document.Query.ConsulterDocumentProjet' },
+    query: {
+      consulter: 'Document.Query.ConsulterDocumentProjet',
+    },
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       déplacer: 'Document.Command.DéplacerDocumentProjet',
@@ -528,7 +545,11 @@ const référencielPermissions = {
       lister: 'Tâche.Query.ListerTâches',
     },
   },
-  historique: { query: { lister: 'Lauréat.Query.ListerHistoriqueProjet' } },
+  historique: {
+    query: {
+      lister: 'Lauréat.Query.ListerHistoriqueProjet',
+    },
+  },
 } as const;
 
 /**
@@ -1157,7 +1178,9 @@ const policies = {
       référencielPermissions.lauréat.command.modifier,
     ],
   },
-  éliminé: { consulter: [référencielPermissions.éliminé.query.consulter] },
+  éliminé: {
+    consulter: [référencielPermissions.éliminé.query.consulter],
+  },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
     lister: [référencielPermissions.accès.query.lister],
@@ -1244,8 +1267,14 @@ const policies = {
       ],
     },
   },
-  projet: { accèsDonnées: { prix: [] } },
-  appelOffre: { consulter: [référencielPermissions.appelOffre.query.consulter] },
+  projet: {
+    accèsDonnées: {
+      prix: [],
+    },
+  },
+  appelOffre: {
+    consulter: [référencielPermissions.appelOffre.query.consulter],
+  },
 } as const;
 
 /**
