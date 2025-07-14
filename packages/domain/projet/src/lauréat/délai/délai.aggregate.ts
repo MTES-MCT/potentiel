@@ -83,7 +83,11 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     await this.publish(event);
   }
 
-  async rejeterDemandeDélai({ rejetéeLe, rejetéePar, réponseSignée }: RejeterDemandeDélaiOptions) {
+  async rejeterDemandeDélai({
+    dateRejet,
+    identifiantUtilisateur,
+    réponseSignée,
+  }: RejeterDemandeDélaiOptions) {
     if (!this.#demande) {
       throw new DemandeDeDélaiInexistanteError();
     }
@@ -96,8 +100,8 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.identifiantProjet.formatter(),
         dateDemande: this.#demande.demandéLe,
         réponseSignée: { format: réponseSignée.format },
-        rejetéeLe: rejetéeLe.formatter(),
-        rejetéePar: rejetéePar.formatter(),
+        rejetéeLe: dateRejet.formatter(),
+        rejetéePar: identifiantUtilisateur.formatter(),
       },
     };
 

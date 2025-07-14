@@ -2,7 +2,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 export type RejeterDemandeDélaiOptions = {
-  rejetéeLe: DateTime.ValueType;
-  rejetéePar: Email.ValueType;
+  dateRejet: DateTime.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };

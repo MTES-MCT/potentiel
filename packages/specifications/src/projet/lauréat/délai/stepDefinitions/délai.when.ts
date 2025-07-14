@@ -81,8 +81,8 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
     await mediator.send<Lauréat.Délai.RejeterDemandeDélaiUseCase>({
       type: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
       data: {
-        rejetéeLeValue: rejetéeLe,
-        rejetéeParValue: rejetéePar,
+        dateRejetValue: rejetéeLe,
+        identifiantUtilisateurValue: rejetéePar,
         réponseSignéeValue: réponseSignée,
         identifiantProjetValue: identifiantProjet,
       },

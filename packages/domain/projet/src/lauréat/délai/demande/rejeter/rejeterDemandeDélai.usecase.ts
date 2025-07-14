@@ -12,8 +12,8 @@ export type RejeterDemandeDélaiUseCase = Message<
   'Lauréat.Délai.UseCase.RejeterDemandeDélai',
   {
     identifiantProjetValue: string;
-    rejetéeLeValue: string;
-    rejetéeParValue: string;
+    dateRejetValue: string;
+    identifiantUtilisateurValue: string;
     réponseSignéeValue: { content: ReadableStream; format: string };
   }
 >;
@@ -21,17 +21,17 @@ export type RejeterDemandeDélaiUseCase = Message<
 export const registerRejeterDemandeDélaiUseCase = () => {
   const runner: MessageHandler<RejeterDemandeDélaiUseCase> = async ({
     identifiantProjetValue,
-    rejetéeLeValue,
-    rejetéeParValue,
+    dateRejetValue,
+    identifiantUtilisateurValue,
     réponseSignéeValue: { format, content },
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const rejetéeLe = DateTime.convertirEnValueType(rejetéeLeValue);
-    const rejetéePar = Email.convertirEnValueType(rejetéeParValue);
+    const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentDemandeDélai.demandeRejetée.formatter(),
-      rejetéeLe.formatter(),
+      dateRejet.formatter(),
       format,
     );
 
@@ -42,7 +42,7 @@ export const registerRejeterDemandeDélaiUseCase = () => {
 
     await mediator.send<RejeterDemandeDélaiCommand>({
       type: 'Lauréat.Délai.Command.RejeterDemandeDélai',
-      data: { rejetéeLe, rejetéePar, identifiantProjet, réponseSignée },
+      data: { dateRejet, identifiantUtilisateur, identifiantProjet, réponseSignée },
     });
   };
   mediator.register('Lauréat.Délai.UseCase.RejeterDemandeDélai', runner);

@@ -14,6 +14,7 @@ import { Heading2 } from '@/components/atoms/headings';
 
 import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
+import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
 
 export type DemandeDélaiActions = 'annuler' | 'passer-en-instruction' | 'accorder' | 'rejeter';
 
@@ -81,10 +82,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
       }}
       rightColumn={{
         className: 'flex flex-col gap-8',
-        children: mapToActionComponents({
-          actions,
-          identifiantProjet: identifiantProjetValueType,
-        }),
+        children: mapToActionComponents({ actions, identifiantProjet: identifiantProjetValueType }),
       }}
     />
   );
@@ -100,6 +98,9 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
     <Heading2>Actions</Heading2>
     {actions.includes('annuler') && (
       <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+    )}
+    {actions.includes('rejeter') && (
+      <RejeterDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
     )}
   </>
 );

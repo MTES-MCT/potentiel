@@ -258,9 +258,7 @@ const référencielPermissions = {
             'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         },
       },
-      query: {
-        consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
-      },
+      query: { consulter: 'Lauréat.Achèvement.Query.ConsulterAchèvement' },
     },
     représentantLégal: {
       query: {
@@ -372,15 +370,9 @@ const référencielPermissions = {
       },
     },
     cahierDesCharges: {
-      query: {
-        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-      },
-      command: {
-        choisir: 'Lauréat.Command.ChoisirCahierDesCharges',
-      },
-      usecase: {
-        choisir: 'Lauréat.UseCase.ChoisirCahierDesCharges',
-      },
+      query: { consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi' },
+      command: { choisir: 'Lauréat.Command.ChoisirCahierDesCharges' },
+      usecase: { choisir: 'Lauréat.UseCase.ChoisirCahierDesCharges' },
     },
     délai: {
       query: {
@@ -391,10 +383,12 @@ const référencielPermissions = {
       usecase: {
         demander: 'Lauréat.Délai.UseCase.DemanderDélai',
         annuler: 'Lauréat.Délai.UseCase.AnnulerDemande',
+        rejeter: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
       },
       command: {
         demander: 'Lauréat.Délai.Command.DemanderDélai',
         annuler: 'Lauréat.Délai.Command.AnnulerDemande',
+        rejeter: 'Lauréat.Délai.Command.RejeterDemandeDélai',
       },
     },
     usecase: {
@@ -462,21 +456,12 @@ const référencielPermissions = {
     },
   },
   période: {
-    query: {
-      consulter: 'Période.Query.ConsulterPériode',
-      lister: 'Période.Query.ListerPériodes',
-    },
-    usecase: {
-      notifier: 'Période.UseCase.NotifierPériode',
-    },
-    command: {
-      notifier: 'Période.Command.NotifierPériode',
-    },
+    query: { consulter: 'Période.Query.ConsulterPériode', lister: 'Période.Query.ListerPériodes' },
+    usecase: { notifier: 'Période.UseCase.NotifierPériode' },
+    command: { notifier: 'Période.Command.NotifierPériode' },
   },
   document: {
-    query: {
-      consulter: 'Document.Query.ConsulterDocumentProjet',
-    },
+    query: { consulter: 'Document.Query.ConsulterDocumentProjet' },
     command: {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       déplacer: 'Document.Command.DéplacerDocumentProjet',
@@ -543,11 +528,7 @@ const référencielPermissions = {
       lister: 'Tâche.Query.ListerTâches',
     },
   },
-  historique: {
-    query: {
-      lister: 'Lauréat.Query.ListerHistoriqueProjet',
-    },
-  },
+  historique: { query: { lister: 'Lauréat.Query.ListerHistoriqueProjet' } },
 } as const;
 
 /**
@@ -1176,9 +1157,7 @@ const policies = {
       référencielPermissions.lauréat.command.modifier,
     ],
   },
-  éliminé: {
-    consulter: [référencielPermissions.éliminé.query.consulter],
-  },
+  éliminé: { consulter: [référencielPermissions.éliminé.query.consulter] },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
     lister: [référencielPermissions.accès.query.lister],
@@ -1242,6 +1221,10 @@ const policies = {
       référencielPermissions.lauréat.délai.command.annuler,
       référencielPermissions.lauréat.délai.usecase.annuler,
     ],
+    rejeterDemande: [
+      référencielPermissions.lauréat.délai.command.rejeter,
+      référencielPermissions.lauréat.délai.usecase.rejeter,
+    ],
   },
   api: {
     raccordement: {
@@ -1261,14 +1244,8 @@ const policies = {
       ],
     },
   },
-  projet: {
-    accèsDonnées: {
-      prix: [],
-    },
-  },
-  appelOffre: {
-    consulter: [référencielPermissions.appelOffre.query.consulter],
-  },
+  projet: { accèsDonnées: { prix: [] } },
+  appelOffre: { consulter: [référencielPermissions.appelOffre.query.consulter] },
 } as const;
 
 /**
@@ -1460,6 +1437,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+  'délai.rejeterDemande',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1519,6 +1497,7 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+  'délai.rejeterDemande',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1618,6 +1597,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+  'délai.rejeterDemande',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

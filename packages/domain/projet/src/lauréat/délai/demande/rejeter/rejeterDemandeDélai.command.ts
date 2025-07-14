@@ -9,8 +9,8 @@ export type RejeterDemandeDélaiCommand = Message<
   'Lauréat.Délai.Command.RejeterDemandeDélai',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    rejetéeLe: DateTime.ValueType;
-    rejetéePar: Email.ValueType;
+    dateRejet: DateTime.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
@@ -20,13 +20,17 @@ export const registerRejeterDemandeDélaiCommand = (
 ) => {
   const handler: MessageHandler<RejeterDemandeDélaiCommand> = async ({
     identifiantProjet,
-    rejetéeLe,
-    rejetéePar,
+    dateRejet,
+    identifiantUtilisateur,
     réponseSignée,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await projet.lauréat.délai.rejeterDemandeDélai({ rejetéeLe, rejetéePar, réponseSignée });
+    await projet.lauréat.délai.rejeterDemandeDélai({
+      dateRejet,
+      identifiantUtilisateur,
+      réponseSignée,
+    });
   };
   mediator.register('Lauréat.Délai.Command.RejeterDemandeDélai', handler);
 };
