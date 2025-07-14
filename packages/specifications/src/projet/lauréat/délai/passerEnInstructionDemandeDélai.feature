@@ -21,7 +21,7 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai                                                                                  |
 
-    Scénario: Une dreal reprend l'instruction de la demande de délai du projet lauréat
+    Scénario: Une nouvelle dreal reprend l'instruction de la demande de délai du projet lauréat
         Etant donné une demande de délai en instruction pour le projet lauréat
         Quand une nouvelle dreal passe en instruction la demande de délai pour le projet lauréat
         Alors la demande de délai du projet lauréat devrait être en passée en instruction
@@ -30,6 +30,13 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
         Quand la dreal passe en instruction la demande de délai pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
 
+    Scénario: Impossible de passer en instruction une demande de délai si celle-ci est déjà en instruction avec le même utilisateur dreal
+        Etant donné une demande de délai en instruction pour le projet lauréat
+        Quand la même dreal passe en instruction la demande de délai pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "La demande de délai est déjà en instruction avec le même utilisateur dreal"
+
+
+# TODO quand les usecase seront disponible
 
 # Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si la demande a déjà été accordée
 #     Etant donné une demande de délai accordée pour le projet lauréat
@@ -40,8 +47,3 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
 #     Etant donné une demande de délai rejetée pour le projet lauréat
 #     Quand la dreal passe en instruction la demande de délai pour le projet lauréat
 #     Alors l'utilisateur devrait être informé que "La demande de délai a déjà été rejetée"
-
-# Scénario: Impossible de reprendre l'abandon d'un projet lauréat en instruction si on instruit déjà l'abandon
-#     Etant donné une demande de délai en instruction pour le projet lauréat
-#     Quand la même dreal passe en instruction la demande de délai pour le projet lauréat
-#     Alors l'utilisateur devrait être informé que "La demande de délai est déjà en instruction avec le même utilisateur dreal"
