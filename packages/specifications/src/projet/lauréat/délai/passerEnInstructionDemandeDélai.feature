@@ -21,11 +21,11 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai                                                                                  |
 
+    Scénario: Une dreal reprend l'instruction de la demande de délai du projet lauréat
+        Etant donné une demande de délai en instruction pour le projet lauréat
+        Quand une nouvelle dreal passe en instruction la demande de délai pour le projet lauréat
+        Alors la demande de délai du projet lauréat devrait être en passée en instruction
 
-# Scénario: Une dreal reprend l'instruction de la demande de délai du projet lauréat
-#     Etant donné une demande de délai en instruction pour le projet lauréat
-#     Quand une nouvelle dreal passe en instruction la demande de délai pour le projet lauréat
-#     Alors la demande de délai du projet lauréat devrait être en instruction
 
 # Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si la demande a déjà été accordée
 #     Etant donné une demande de délai accordée pour le projet lauréat

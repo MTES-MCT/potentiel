@@ -29,33 +29,11 @@ Quand(
 
 Quand(
   /(.*) passe en instruction la demande de délai pour le projet lauréat/,
-  async function (this: PotentielWorld, _: string) {
-    try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-      // const régionDreal = this.utilisateurWorld.drealFixture.région;
-
-      // if (rôleUtilisateur === 'un nouvel administrateur') {
-      //   this.utilisateurWorld.drealFixture.créer({
-      //     région: régionDreal,
-      //   });
-      // }
-
-      const { passéEnInstructionLe, passéEnInstructionPar } =
-        this.lauréatWorld.délaiWorld.passerEnInstructionDemandeDélaiFixture.créer({
-          passéEnInstructionPar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
-        });
-
-      await mediator.send<Lauréat.Délai.PasserEnInstructionDemandeDélaiUseCase>({
-        type: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          identifiantUtilisateurValue: passéEnInstructionPar,
-          datePassageEnInstructionValue: passéEnInstructionLe,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+  async function (this: PotentielWorld, utilisateur: string) {
+    await passerDemanderDélaiEnInstruction.call(
+      this,
+      utilisateur.includes('une nouvelle dreal') ? true : undefined,
+    );
   },
 );
 
@@ -97,6 +75,35 @@ export async function annulerDemandeDélai(this: PotentielWorld) {
         dateAnnulationValue: annuléeLe,
         identifiantUtilisateurValue: annuléePar,
         identifiantProjetValue: identifiantProjet,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, nouvelleDreal?: true) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    const régionDreal = this.utilisateurWorld.drealFixture.région;
+
+    if (nouvelleDreal) {
+      this.utilisateurWorld.drealFixture.créer({
+        région: régionDreal,
+      });
+    }
+
+    const { passéEnInstructionLe, passéEnInstructionPar } =
+      this.lauréatWorld.délaiWorld.passerEnInstructionDemandeDélaiFixture.créer({
+        passéEnInstructionPar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
+      });
+
+    await mediator.send<Lauréat.Délai.PasserEnInstructionDemandeDélaiUseCase>({
+      type: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: passéEnInstructionPar,
+        datePassageEnInstructionValue: passéEnInstructionLe,
       },
     });
   } catch (error) {
