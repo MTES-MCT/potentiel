@@ -10,6 +10,7 @@ import { getLauréat } from '../../../helpers';
 import { getBaseUrl } from '../../../helpers';
 
 import { délaiDemandéNotification } from './délaiDemandé.notification';
+import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnuléeNotification';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent & Event;
 
@@ -37,6 +38,13 @@ export const registerDélaiNotifications = ({
           event,
           projet,
           baseUrl,
+        }),
+      )
+      .with({ type: 'DemandeDélaiAnnulée-V1' }, async (event) =>
+        demandeDélaiAnnuléeNotification({
+          sendEmail,
+          event,
+          projet,
         }),
       )
       .with({ type: 'DélaiAccordé-V1' }, () => undefined)

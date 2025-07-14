@@ -5,11 +5,13 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
+import { DemandeDélaiActions, DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
 
 export const metadata: Metadata = {
   title: 'Détail de la demande de délai - Potentiel',
@@ -24,28 +26,47 @@ type PageProps = {
 };
 
 export default async function Page({ params: { identifiant, date } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    const demandéLe = decodeParameter(date);
+      const demandéLe = decodeParameter(date);
 
-    const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
-      type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-        demandéLe,
-      },
-    });
+      const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+        type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe,
+        },
+      });
 
-    if (Option.isNone(demande)) {
-      return notFound();
-    }
+      if (Option.isNone(demande)) {
+        return notFound();
+      }
 
-    return (
-      <DétailsDemandeDélaiPage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
-        demande={mapToPlainObject(demande)}
-      />
-    );
-  });
+      return (
+        <DétailsDemandeDélaiPage
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          demande={mapToPlainObject(demande)}
+          actions={mapToActions(utilisateur.role, demande.statut)}
+        />
+      );
+    }),
+  );
 }
+
+const mapToActions = (
+  role: Role.ValueType,
+  statut: Lauréat.Délai.ConsulterDemandeDélaiReadModel['statut'],
+) => {
+  const actions: Array<DemandeDélaiActions> = [];
+
+  if (statut.estDemandé()) {
+    if (role.aLaPermission('délai.annulerDemande')) {
+      actions.push('annuler');
+    }
+  }
+  return actions;
+};

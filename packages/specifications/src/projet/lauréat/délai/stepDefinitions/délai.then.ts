@@ -18,6 +18,25 @@ Alors('la demande de délai devrait être consultable', async function (this: Po
   );
 });
 
+Alors(
+  'la demande de délai ne devrait plus être consultable',
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+        type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe: this.lauréatWorld.délaiWorld.demanderDélaiFixture.demandéLe,
+        },
+      });
+
+      Option.isNone(demande).should.be.true;
+    });
+  },
+);
+
 async function vérifierDemandeDélai(
   this: PotentielWorld,
   identifiantProjet: string,

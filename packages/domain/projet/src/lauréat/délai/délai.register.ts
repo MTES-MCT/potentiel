@@ -4,6 +4,8 @@ import {
   ConsulterDélaiDependencies,
   registerConsulterDélai,
 } from './consulter/consulterABénéficiéDuDélaiCDC2022.query';
+import { registerAnnulerDemandeDélaiCommand } from './demande/annuler/annulerDemandeDélai.command';
+import { registerAnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase';
 import {
   ConsulterDemandeDélaiDependencies,
   registerConsulterDemandeDélaiQuery,
@@ -21,8 +23,10 @@ export type DélaiCommandDependencies = {
 
 export const registerDélaiUseCases = ({ getProjetAggregateRoot }: DélaiCommandDependencies) => {
   registerDemanderDélaiDélaiUseCase();
+  registerAnnulerDemandeDélaiUseCase();
 
   registerDemanderDélaiDélaiCommand(getProjetAggregateRoot);
+  registerAnnulerDemandeDélaiCommand(getProjetAggregateRoot);
 };
 
 export type DélaiQueryDependencies = ConsulterDélaiDependencies &
