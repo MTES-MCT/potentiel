@@ -8,14 +8,15 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Et un cahier des charges modificatif choisi
 
+    @select
     Scénario: Annuler la demande de délai d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur annule la demande de délai pour le projet lauréat
         Alors la demande de délai ne devrait plus être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
-            | nom_projet | Du boulodrome de Marseille                                                                                      |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                           |
+            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille situé dans le département(.*) a été annulée |
+            | nom_projet | Du boulodrome de Marseille                                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                 |
 
 
 # Scénario: Annuler la demande de changement de puissance à la hause d'un projet lauréat

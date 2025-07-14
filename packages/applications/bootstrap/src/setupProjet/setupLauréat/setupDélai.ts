@@ -17,7 +17,7 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
   DélaiNotification.registerDélaiNotifications({ sendEmail });
   await délai.setupSubscription<DélaiNotification.SubscriptionEvent, DélaiNotification.Execute>({
     name: 'notifications',
-    eventType: ['DélaiDemandé-V1', 'DélaiAccordé-V1'],
+    eventType: ['DélaiDemandé-V1', 'DemandeDélaiAnnulée-V1', 'DélaiAccordé-V1'],
     messageType: 'System.Notification.Lauréat.Délai',
   });
 
