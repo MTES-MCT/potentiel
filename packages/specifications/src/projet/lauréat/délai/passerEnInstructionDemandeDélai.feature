@@ -26,6 +26,10 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
         Quand une nouvelle dreal passe en instruction la demande de délai pour le projet lauréat
         Alors la demande de délai du projet lauréat devrait être en passée en instruction
 
+    Scénario: Impossible de passer en instruction une demande de délai inexistante pour un projet lauréat
+        Quand la dreal passe en instruction la demande de délai pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
+
 
 # Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si la demande a déjà été accordée
 #     Etant donné une demande de délai accordée pour le projet lauréat
@@ -36,10 +40,6 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
 #     Etant donné une demande de délai rejetée pour le projet lauréat
 #     Quand la dreal passe en instruction la demande de délai pour le projet lauréat
 #     Alors l'utilisateur devrait être informé que "La demande de délai a déjà été rejetée"
-
-# Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si aucune demande n'a été demandée
-#     Quand l'administrateur passe en instruction la demande de délai pour le projet lauréat
-#     Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
 
 # Scénario: Impossible de reprendre l'abandon d'un projet lauréat en instruction si on instruit déjà l'abandon
 #     Etant donné une demande de délai en instruction pour le projet lauréat
