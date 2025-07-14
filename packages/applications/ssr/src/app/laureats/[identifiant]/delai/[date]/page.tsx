@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -64,13 +65,26 @@ const mapToActions = (
 ) => {
   const actions: Array<DemandeDélaiActions> = [];
 
-  if (statut.estDemandé()) {
-    if (role.aLaPermission('délai.annulerDemande')) {
-      actions.push('annuler');
-    }
-    if (role.aLaPermission('délai.rejeterDemande')) {
-      actions.push('rejeter');
-    }
-  }
-  return actions;
+  return match(statut.statut)
+    .with('demandé', () => {
+      if (role.aLaPermission('délai.annulerDemande')) {
+        actions.push('annuler');
+      }
+      if (role.aLaPermission('délai.passerEnInstructionDemande')) {
+        actions.push('passer-en-instruction');
+      }
+      if (role.aLaPermission('délai.rejeterDemande')) {
+        actions.push('rejeter');
+      }
+
+      return actions;
+    })
+    .with('en-instruction', () => {
+      if (role.aLaPermission('délai.passerEnInstructionDemande')) {
+        actions.push('passer-en-instruction');
+      }
+
+      return actions;
+    })
+    .otherwise(() => actions);
 };

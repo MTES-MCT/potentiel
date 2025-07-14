@@ -15,6 +15,7 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
+import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
 import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
 
 export type DemandeDélaiActions = 'annuler' | 'passer-en-instruction' | 'accorder' | 'rejeter';
@@ -115,6 +116,9 @@ const mapToActionComponents = ({
     <Heading2>Actions</Heading2>
     {actions.includes('annuler') && (
       <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+    )}
+    {actions.includes('passer-en-instruction') && (
+      <PasserEnInstructionDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
     )}
     {actions.includes('rejeter') && (
       <RejeterDemandeDélai

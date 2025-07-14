@@ -92,7 +92,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     await this.publish(event);
   }
 
-  async rejetDemandeDélai({
+  async rejeterDemandeDélai({
     dateRejet,
     identifiantUtilisateur,
     réponseSignée,
