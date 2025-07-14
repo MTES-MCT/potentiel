@@ -8,6 +8,7 @@ import {
   ConsulterDemandeDélaiReadModel,
 } from './demande/consulter/consulterDemandeDélai.query';
 import { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase';
+import { RejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
 import {
   ListerDemandeDélaiQuery,
   ListerDemandeDélaiReadModel,
@@ -42,13 +43,17 @@ export type {
 };
 
 // UseCases
-export type DélaiUseCase = DemanderDélaiUseCase | AnnulerDemandeDélaiUseCase;
-export type { DemanderDélaiUseCase, AnnulerDemandeDélaiUseCase };
+export type DélaiUseCase =
+  | DemanderDélaiUseCase
+  | AnnulerDemandeDélaiUseCase
+  | RejeterDemandeDélaiUseCase;
+export type { DemanderDélaiUseCase, AnnulerDemandeDélaiUseCase, RejeterDemandeDélaiUseCase };
 
 // Event
 export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
 export type { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
 export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
+export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 export * from './délai.event';
 
 // Register

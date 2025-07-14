@@ -14,6 +14,8 @@ import { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.ev
 import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options';
 import { DemandeDeDélaiInexistanteError } from './errors';
 import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
+import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options';
+import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 
 export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {
@@ -48,9 +50,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         nombreDeMois,
-        pièceJustificative: {
-          format: pièceJustificative.format,
-        },
+        pièceJustificative: { format: pièceJustificative.format },
         raison,
         demandéLe: dateDemande.formatter(),
         demandéPar: identifiantUtilisateur.formatter(),
@@ -83,22 +83,44 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     await this.publish(event);
   }
 
+  async rejeterDemandeDélai({ rejetéeLe, rejetéePar, réponseSignée }: RejeterDemandeDélaiOptions) {
+    if (!this.#demande) {
+      throw new DemandeDeDélaiInexistanteError();
+    }
+
+    this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
+
+    const event: DemandeDélaiRejetéeEvent = {
+      type: 'DemandeDélaiRejetée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dateDemande: this.#demande.demandéLe,
+        réponseSignée: { format: réponseSignée.format },
+        rejetéeLe: rejetéeLe.formatter(),
+        rejetéePar: rejetéePar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: DélaiEvent) {
     match(event)
       .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandé.bind(this))
       .with({ type: 'DélaiAccordé-V1' }, this.applyDélaiAccordé.bind(this))
       .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
+      .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
       .exhaustive();
   }
 
   private applyDélaiDemandé({ payload: { nombreDeMois, demandéLe } }: DélaiDemandéEvent) {
-    this.#demande = {
-      statut: StatutDemandeDélai.demandé,
-      nombreDeMois,
-      demandéLe,
-    };
+    this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe };
   }
-  private applyDemandeDélaiAnnulée(this: DélaiAggregate) {
+  private applyDemandeDélaiAnnulée() {
+    this.#demande = undefined;
+  }
+
+  private applyDemandeDélaiRejetée(_: DemandeDélaiRejetéeEvent) {
     this.#demande = undefined;
   }
 

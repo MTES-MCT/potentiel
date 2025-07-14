@@ -39,16 +39,11 @@ export type ConsulterDemandeDélaiReadModel = {
 
 export type ConsulterDemandeDélaiQuery = Message<
   'Lauréat.Délai.Query.ConsulterDemandeDélai',
-  {
-    identifiantProjet: string;
-    demandéLe: string;
-  },
+  { identifiantProjet: string; demandéLe: string },
   Option.Type<ConsulterDemandeDélaiReadModel>
 >;
 
-export type ConsulterDemandeDélaiDependencies = {
-  find: Find;
-};
+export type ConsulterDemandeDélaiDependencies = { find: Find };
 
 export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeDélaiDependencies) => {
   const handler: MessageHandler<ConsulterDemandeDélaiQuery> = async ({
@@ -62,12 +57,7 @@ export const registerConsulterDemandeDélaiQuery = ({ find }: ConsulterDemandeD�
     );
 
     return Option.match(demande)
-      .some((demande) =>
-        mapToReadModel({
-          identifiantProjet: identifiantProjetValueType,
-          demande,
-        }),
-      )
+      .some((demande) => mapToReadModel({ identifiantProjet: identifiantProjetValueType, demande }))
       .none();
   };
   mediator.register('Lauréat.Délai.Query.ConsulterDemandeDélai', handler);
@@ -124,7 +114,7 @@ const mapToReadModel: MapToReadModel = ({
       rejetéLe: DateTime.convertirEnValueType(rejet.rejetéLe),
       réponseSignée: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Délai.TypeDocumentDemandeDélai.demandeAccordée.formatter(),
+        Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
         rejet.rejetéLe,
         rejet.réponseSignée.format,
       ),

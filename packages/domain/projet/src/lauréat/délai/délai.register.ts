@@ -12,21 +12,23 @@ import {
 } from './demande/consulter/consulterDemandeDélai.query';
 import { registerDemanderDélaiDélaiCommand } from './demande/demander/demanderDélai.command';
 import { registerDemanderDélaiDélaiUseCase } from './demande/demander/demanderDélai.usecase';
+import { registerRejeterDemandeDélaiCommand } from './demande/rejeter/rejeterDemandeDélai.command';
+import { registerRejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
 import {
   ListerDemandeDélaiDependencies,
   registerListerDemandeDélaiQuery,
 } from './lister/listerDemandeDélai.query';
 
-export type DélaiCommandDependencies = {
-  getProjetAggregateRoot: GetProjetAggregateRoot;
-};
+export type DélaiCommandDependencies = { getProjetAggregateRoot: GetProjetAggregateRoot };
 
 export const registerDélaiUseCases = ({ getProjetAggregateRoot }: DélaiCommandDependencies) => {
   registerDemanderDélaiDélaiUseCase();
   registerAnnulerDemandeDélaiUseCase();
+  registerRejeterDemandeDélaiUseCase();
 
   registerDemanderDélaiDélaiCommand(getProjetAggregateRoot);
   registerAnnulerDemandeDélaiCommand(getProjetAggregateRoot);
+  registerRejeterDemandeDélaiCommand(getProjetAggregateRoot);
 };
 
 export type DélaiQueryDependencies = ConsulterDélaiDependencies &

@@ -11,14 +11,13 @@ import { getBaseUrl } from '../../../helpers';
 
 import { délaiDemandéNotification } from './délaiDemandé.notification';
 import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnuléeNotification';
+import { demandeDélaiRejetéeNotifications } from './demandeDélaiRejetée.notifications';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent & Event;
 
 export type Execute = Message<'System.Notification.Lauréat.Délai', SubscriptionEvent>;
 
-export type RegisterDélaiNotificationDependencies = {
-  sendEmail: SendEmail;
-};
+export type RegisterDélaiNotificationDependencies = { sendEmail: SendEmail };
 
 export const registerDélaiNotifications = ({
   sendEmail,
@@ -33,19 +32,13 @@ export const registerDélaiNotifications = ({
 
     return match(event)
       .with({ type: 'DélaiDemandé-V1' }, async (event) =>
-        délaiDemandéNotification({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
+        délaiDemandéNotification({ sendEmail, event, projet, baseUrl }),
       )
       .with({ type: 'DemandeDélaiAnnulée-V1' }, async (event) =>
-        demandeDélaiAnnuléeNotification({
-          sendEmail,
-          event,
-          projet,
-        }),
+        demandeDélaiAnnuléeNotification({ sendEmail, event, projet }),
+      )
+      .with({ type: 'DemandeDélaiRejetée-V1' }, async (event) =>
+        demandeDélaiRejetéeNotifications({ sendEmail, event, projet }),
       )
       .with({ type: 'DélaiAccordé-V1' }, () => undefined)
       .exhaustive();
