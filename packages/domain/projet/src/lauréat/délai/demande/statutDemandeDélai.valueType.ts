@@ -105,21 +105,19 @@ export const enInstruction = convertirEnValueType<'en-instruction'>('en-instruct
 
 class StatutDélaiInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`Le statut ne correspond à aucune valeur connue`, {
-      value,
-    });
+    super(`Le statut ne correspond à aucune valeur connue`, { value });
   }
 }
 
 class DélaiDéjàAccordéError extends InvalidOperationError {
   constructor() {
-    super(`Le délai a déjà été accordé`);
+    super(`La demande de délai a déjà été accordé`);
   }
 }
 
 class DélaiDéjàRejetéError extends InvalidOperationError {
   constructor() {
-    super(`Le délai a déjà été rejeté`);
+    super(`La demande de délai a déjà été rejetée`);
   }
 }
 
