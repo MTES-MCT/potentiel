@@ -390,9 +390,11 @@ const référencielPermissions = {
       },
       usecase: {
         demander: 'Lauréat.Délai.UseCase.DemanderDélai',
+        annuler: 'Lauréat.Délai.UseCase.AnnulerDemande',
       },
       command: {
         demander: 'Lauréat.Délai.Command.DemanderDélai',
+        annuler: 'Lauréat.Délai.Command.AnnulerDemande',
       },
     },
     usecase: {
@@ -1236,6 +1238,10 @@ const policies = {
       référencielPermissions.lauréat.délai.usecase.demander,
       référencielPermissions.lauréat.délai.query.consulterDemande,
     ],
+    annulerDemande: [
+      référencielPermissions.lauréat.délai.command.annuler,
+      référencielPermissions.lauréat.délai.usecase.annuler,
+    ],
   },
   api: {
     raccordement: {
@@ -1725,6 +1731,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'délai.consulterDemande',
   'délai.listerDemande',
   'délai.demander',
+  'délai.annulerDemande',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

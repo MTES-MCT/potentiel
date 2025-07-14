@@ -98,10 +98,9 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       demandéLe,
     };
   }
-
-  private applyDélaiAccordé(_: DélaiAccordéEvent) {}
-
   private applyDemandeDélaiAnnulée(this: DélaiAggregate) {
     this.#demande = undefined;
   }
+
+  private applyDélaiAccordé(_: DélaiAccordéEvent) {}
 }
