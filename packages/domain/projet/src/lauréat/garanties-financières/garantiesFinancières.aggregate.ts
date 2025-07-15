@@ -131,7 +131,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
-    if (this.estSoumisAuxGarantiesFinancières()) {
+    const aDesGarantiesFinancièresEnAttente = this.#dateLimiteSoumission && this.#motifDemande;
+
+    if (this.estSoumisAuxGarantiesFinancières() || aDesGarantiesFinancièresEnAttente) {
       const event: GarantiesFinancièresDemandéesEvent = {
         type: 'GarantiesFinancièresDemandées-V1',
         payload: {

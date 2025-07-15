@@ -5,7 +5,6 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
     Contexte:
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
 
-    @select
     Plan du Scénario: Un porteur supprime un dépôt de garanties financières avec une date limite de soumission
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2023-11-01 |

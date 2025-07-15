@@ -42,16 +42,15 @@ EtantDonné(
   'le projet lauréat sans garanties financières importées {string}',
   async function (this: PotentielWorld, nomProjet: string) {
     try {
-      const { appelOffre, période } =
-        this.candidatureWorld.identifiantProjetSansGarantiesFinancières;
-
       const dateDésignation = this.lauréatWorld.dateDésignation;
 
       await importerCandidature.call(this, nomProjet, 'classé', {
+        // PPE2 Innvation n'est pas soumis aux GF,
+        // donc permet l'import d'une candidature sans type de GF
+        appelOffreValue: 'PPE2 - Innovation',
+        périodeValue: '1',
         typeGarantiesFinancièresValue: undefined,
         dateÉchéanceGfValue: undefined,
-        appelOffreValue: appelOffre,
-        périodeValue: période,
       });
 
       await notifierLauréat.call(this, dateDésignation);
