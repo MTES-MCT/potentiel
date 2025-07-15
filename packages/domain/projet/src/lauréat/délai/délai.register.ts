@@ -18,6 +18,10 @@ import {
   ListerDemandeDélaiDependencies,
   registerListerDemandeDélaiQuery,
 } from './lister/listerDemandeDélai.query';
+import {
+  ListerHistoriqueDélaiProjetDependencies,
+  registerListerHistoriqueDélaiProjetQuery,
+} from './lister/listerHistoriqueDélaiProjet.query';
 
 export type DélaiCommandDependencies = { getProjetAggregateRoot: GetProjetAggregateRoot };
 
@@ -33,10 +37,12 @@ export const registerDélaiUseCases = ({ getProjetAggregateRoot }: DélaiCommand
 
 export type DélaiQueryDependencies = ConsulterDélaiDependencies &
   ConsulterDemandeDélaiDependencies &
-  ListerDemandeDélaiDependencies;
+  ListerDemandeDélaiDependencies &
+  ListerHistoriqueDélaiProjetDependencies;
 
 export const registerDélaiQueries = (dependencies: DélaiQueryDependencies) => {
   registerConsulterDélai(dependencies);
   registerConsulterDemandeDélaiQuery(dependencies);
   registerListerDemandeDélaiQuery(dependencies);
+  registerListerHistoriqueDélaiProjetQuery(dependencies);
 };

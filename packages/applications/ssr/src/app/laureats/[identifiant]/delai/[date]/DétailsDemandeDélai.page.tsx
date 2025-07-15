@@ -11,6 +11,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
+import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
@@ -22,6 +23,7 @@ export type DétailsDemandeDélaiPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>;
   actions: Array<DemandeDélaiActions>;
+  historique: Array<TimelineItemProps>;
 };
 
 export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
@@ -35,6 +37,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
     pièceJustificative,
   },
   actions,
+  historique,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.bind(identifiantProjet);
   return (
@@ -76,6 +79,11 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                   )}
                 />
               </div>
+            </div>
+
+            <div className="mb-4">
+              <Heading2>Historique</Heading2>
+              <Timeline items={historique} />
             </div>
           </>
         ),

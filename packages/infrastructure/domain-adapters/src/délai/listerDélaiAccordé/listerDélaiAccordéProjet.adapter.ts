@@ -10,7 +10,7 @@ import {
 
 export type RécupérerDélaiÉvénement = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-}) => Promise<Lauréat.Délai.ListerHistoriqueDélaiProjetReadModel>;
+}) => ReturnType<Lauréat.Délai.ListerDélaiAccordéProjetPort>;
 
 export const listerDélaiAccordéProjetAdapter: Lauréat.Délai.ListerDélaiAccordéProjetPort = async (
   identifiantProjet: string,

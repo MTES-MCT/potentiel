@@ -81,7 +81,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
       }}
     >
       <TimelineOppositeContent>
-        <div className="font-bold pt-3 print:pt-0">
+        <div className={`font-bold print:pt-0 ${icon && 'pt-3'}`}>
           <FormattedDate date={date} />
         </div>
       </TimelineOppositeContent>
@@ -116,7 +116,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
             alignContent: 'flex-start',
           },
           '@media screen': {
-            alignContent: 'center',
+            alignContent: icon ? 'center' : 'flex-start',
           },
         }}
       >

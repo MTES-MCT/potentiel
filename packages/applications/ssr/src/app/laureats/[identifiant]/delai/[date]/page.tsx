@@ -10,6 +10,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 
 import { DemandeDélaiActions, DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
 
@@ -38,11 +39,19 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
+      const historique = await mediator.send<Lauréat.Délai.ListerHistoriqueDélaiProjetQuery>({
+        type: 'Lauréat.Délai.Query.ListerHistoriqueDélaiProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
       return (
         <DétailsDemandeDélaiPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(demande)}
           actions={mapToActions(utilisateur.role, demande.statut)}
+          historique={historique.items.map(mapToDélaiTimelineItemProps)}
         />
       );
     }),
