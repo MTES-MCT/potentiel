@@ -30,7 +30,7 @@ export const PasserEnInstructionDemandeDélai = ({
 
       <ModalWithForm
         id="passer-en-instruction-demande-délai"
-        title="Passer en instruction la demande de délai"
+        title="Passer la demande de délai en instruction"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
