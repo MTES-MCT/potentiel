@@ -17,11 +17,11 @@ import { ValidationErrors } from '@/utils/formAction';
 import {
   transmettreAttestationConformitéAction,
   TransmettreAttestationConformitéFormKeys,
-} from './transmettre/transmettreAttestationConformité.action';
+} from './attestation-conformite:transmettre/transmettreAttestationConformité.action';
 import {
   modifierAttestationConformitéAction,
   ModifierAttestationConformitéFormKeys,
-} from './modifier/modifierAttestationConformité.action';
+} from './attestation-conformite:modifier/modifierAttestationConformité.action';
 
 type Action =
   | typeof transmettreAttestationConformitéAction
