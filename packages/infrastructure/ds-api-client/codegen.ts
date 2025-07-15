@@ -10,12 +10,15 @@ const config: CodegenConfig = {
     './src/graphql/client.ts': {
       plugins: [
         { add: { content: '/* eslint-disable */' } },
+
         { add: { content: '//#region Types', placement: 'content' } },
         'typescript',
         { add: { content: '//#endregion\n', placement: 'content' } },
+
         { add: { content: '//#region Operations', placement: 'content' } },
         'typescript-operations',
         { add: { content: '//#endregion\n', placement: 'content' } },
+
         { add: { content: '//#region graphql-request', placement: 'content' } },
         'typescript-graphql-request',
         { add: { content: '//#endregion\n', placement: 'content' } },
