@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
+import { match, P } from 'ts-pattern';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -115,15 +116,11 @@ const mapToActions = ({
   const statutRecandidature = demande.recandidature?.statut;
   const passéEnInstructionPar = demande.instruction?.passéEnInstructionPar;
 
-  switch (utilisateur.role.nom) {
-    case 'admin':
-    case 'dreal':
-      if (demande.recandidature) {
-        break;
-      }
-      if (!demande.autoritéCompétente.estCompétent(utilisateur.role)) {
-        break;
-      }
+  return match(utilisateur.role.nom)
+    .with(P.union('admin', 'dreal'), () => {
+      if (demande.recandidature) return actions;
+      if (!demande.autoritéCompétente.estCompétent(utilisateur.role)) return actions;
+
       if (changementPossible(statut, 'confirmation-demandée')) {
         actions.push('demander-confirmation');
       }
@@ -145,9 +142,10 @@ const mapToActions = ({
           actions.push('passer-en-instruction');
         }
       }
-      break;
+      return actions;
+    })
 
-    case 'dgec-validateur':
+    .with('dgec-validateur', () => {
       if (changementPossible(statut, 'confirmation-demandée')) {
         actions.push('demander-confirmation');
       }
@@ -171,9 +169,9 @@ const mapToActions = ({
           actions.push('passer-en-instruction');
         }
       }
-      break;
-
-    case 'porteur-projet':
+      return actions;
+    })
+    .with('porteur-projet', () => {
       if (changementPossible(statut, 'confirmé')) {
         actions.push('confirmer');
       }
@@ -184,10 +182,11 @@ const mapToActions = ({
       if (statut.estAccordé() && statutRecandidature?.estEnAttente()) {
         actions.push('transmettre-preuve-recandidature');
       }
-      break;
-  }
 
-  return actions;
+      return actions;
+    })
+
+    .otherwise(() => actions);
 };
 
 const changementPossible = (

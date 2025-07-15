@@ -14,6 +14,11 @@ export type DemandeDélaiEntity = Entity<
       format: string;
     };
 
+    instruction?: {
+      passéeEnInstructionLe: string;
+      passéeEnInstructionPar: string;
+    };
+
     accord?: {
       accordéLe: string;
       accordéPar: string;

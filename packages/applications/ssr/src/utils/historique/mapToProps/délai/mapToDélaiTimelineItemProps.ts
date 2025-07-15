@@ -4,10 +4,13 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToDélaiAccordéTimelineItemProps } from './events/mapToDélaiAccordéTimelineItemProps';
-import { mapToDemandeDélaiAnnuléeTimelineItemProps } from './events/mapToDemandeDélaiAnnuléeTimelineItemProps';
-import { mapToDélaiDemandéTimelineItemProps } from './events/mapToDélaiDemandéTimelineItemProps';
-import { mapToDemandeDélaiRejetéeTimelineItemProps } from './events/mapToDemandeDélaiRejetéeTimelineItemProps';
+import {
+  mapToDemandeDélaiAnnuléeTimelineItemProps,
+  mapToDemandeDélaiPasséeEnInstructionTimelineItemProps,
+  mapToDemandeDélaiRejetéeTimelineItemProps,
+  mapToDélaiAccordéTimelineItemProps,
+  mapToDélaiDemandéTimelineItemProps,
+} from './events';
 
 export const mapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
@@ -25,6 +28,12 @@ export const mapToDélaiTimelineItemProps = (
         type: 'DemandeDélaiAnnulée-V1',
       },
       mapToDemandeDélaiAnnuléeTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'DemandeDélaiPasséeEnInstruction-V1',
+      },
+      mapToDemandeDélaiPasséeEnInstructionTimelineItemProps,
     )
     .with(
       {

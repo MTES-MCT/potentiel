@@ -2,6 +2,7 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { CréerDemandeDélaiFixture } from '../fixtures/demanderDélai.fixture';
@@ -23,6 +24,16 @@ Quand(
   'la DREAL associée au projet rejette le délai pour le projet lauréat',
   async function (this: PotentielWorld) {
     await rejeterDemandeDélai.call(this);
+  },
+);
+
+Quand(
+  /(.*) passe en instruction la demande de délai pour le projet lauréat/,
+  async function (this: PotentielWorld, utilisateur: string) {
+    await passerDemanderDélaiEnInstruction.call(
+      this,
+      utilisateur.includes('un nouvel utilisateur dreal') ? true : undefined,
+    );
   },
 );
 
@@ -64,6 +75,35 @@ export async function annulerDemandeDélai(this: PotentielWorld) {
         dateAnnulationValue: annuléeLe,
         identifiantUtilisateurValue: annuléePar,
         identifiantProjetValue: identifiantProjet,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, nouvelleDreal?: true) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    const régionDreal = this.utilisateurWorld.drealFixture.région;
+
+    if (nouvelleDreal) {
+      this.utilisateurWorld.drealFixture.créer({
+        région: régionDreal,
+      });
+    }
+
+    const { passéeEnInstructionLe, passéeEnInstructionPar } =
+      this.lauréatWorld.délaiWorld.passerEnInstructionDemandeDélaiFixture.créer({
+        passéeEnInstructionPar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
+      });
+
+    await mediator.send<Lauréat.Délai.PasserEnInstructionDemandeDélaiUseCase>({
+      type: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: passéeEnInstructionPar,
+        datePassageEnInstructionValue: passéeEnInstructionLe,
       },
     });
   } catch (error) {

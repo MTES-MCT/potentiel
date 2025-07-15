@@ -1,11 +1,12 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -30,12 +31,12 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const demandéLe = decodeParameter(date);
 
-      const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+      const demandeDélai = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
         type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
         data: { identifiantProjet: identifiantProjet.formatter(), demandéLe },
       });
 
-      if (Option.isNone(demande)) {
+      if (Option.isNone(demandeDélai)) {
         return notFound();
       }
 
@@ -49,8 +50,11 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       return (
         <DétailsDemandeDélaiPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          demande={mapToPlainObject(demande)}
-          actions={mapToActions(utilisateur.role, demande.statut)}
+          demande={mapToPlainObject(demandeDélai)}
+          actions={mapToActions({
+            utilisateur,
+            demandeDélai,
+          })}
           historique={historique.items.map(mapToDélaiTimelineItemProps)}
         />
       );
@@ -58,19 +62,48 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
   );
 }
 
-const mapToActions = (
-  role: Role.ValueType,
-  statut: Lauréat.Délai.ConsulterDemandeDélaiReadModel['statut'],
-) => {
+type MapToActionsProps = {
+  utilisateur: Utilisateur.ValueType;
+  demandeDélai: Lauréat.Délai.ConsulterDemandeDélaiReadModel;
+};
+
+const mapToActions = ({
+  utilisateur: { identifiantUtilisateur, role },
+  demandeDélai: { statut, instruction },
+}: MapToActionsProps) => {
   const actions: Array<DemandeDélaiActions> = [];
 
-  if (statut.estDemandé()) {
-    if (role.aLaPermission('délai.annulerDemande')) {
-      actions.push('annuler');
-    }
-    if (role.aLaPermission('délai.rejeterDemande')) {
-      actions.push('rejeter');
-    }
-  }
-  return actions;
+  return match(statut.statut)
+    .with('demandé', () => {
+      if (role.aLaPermission('délai.annulerDemande')) {
+        actions.push('annuler');
+      }
+      if (role.aLaPermission('délai.passerEnInstructionDemande')) {
+        actions.push('passer-en-instruction');
+      }
+      if (role.aLaPermission('délai.rejeterDemande')) {
+        actions.push('rejeter');
+      }
+
+      return actions;
+    })
+    .with('en-instruction', () => {
+      if (!instruction) {
+        return actions;
+      }
+
+      if (role.aLaPermission('délai.rejeterDemande')) {
+        actions.push('rejeter');
+      }
+
+      if (
+        !identifiantUtilisateur.estÉgaleÀ(instruction.passéeEnInstructionPar) &&
+        role.aLaPermission('délai.reprendreInstructionDemande')
+      ) {
+        actions.push('reprendre-instruction');
+      }
+
+      return actions;
+    })
+    .otherwise(() => actions);
 };

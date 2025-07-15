@@ -15,9 +15,15 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
+import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
 import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
 
-export type DemandeDélaiActions = 'annuler' | 'passer-en-instruction' | 'accorder' | 'rejeter';
+export type DemandeDélaiActions =
+  | 'annuler'
+  | 'passer-en-instruction'
+  | 'reprendre-instruction'
+  | 'accorder'
+  | 'rejeter';
 
 export type DétailsDemandeDélaiPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -110,17 +116,24 @@ const mapToActionComponents = ({
   identifiantProjet,
   dateDemande,
   actions,
-}: MapToActionsComponentsProps) => (
-  <>
-    <Heading2>Actions</Heading2>
-    {actions.includes('annuler') && (
-      <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
-    )}
-    {actions.includes('rejeter') && (
-      <RejeterDemandeDélai
-        identifiantProjet={identifiantProjet.formatter()}
-        dateDemande={dateDemande}
-      />
-    )}
-  </>
-);
+}: MapToActionsComponentsProps) =>
+  actions.length > 0 ? (
+    <>
+      <Heading2>Actions</Heading2>
+      {actions.includes('annuler') && (
+        <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+      )}
+      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+        <PasserEnInstructionDemandeDélai
+          identifiantProjet={identifiantProjet.formatter()}
+          estUneReprise={actions.includes('reprendre-instruction')}
+        />
+      )}
+      {actions.includes('rejeter') && (
+        <RejeterDemandeDélai
+          identifiantProjet={identifiantProjet.formatter()}
+          dateDemande={dateDemande}
+        />
+      )}
+    </>
+  ) : null;

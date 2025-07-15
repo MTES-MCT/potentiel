@@ -8,6 +8,7 @@ import { délaiRebuilTriggeredProjector } from './délaiRebuildTrigerred.project
 import { délaiDemandéProjector } from './délaiDemandé.projector';
 import { demandeDélaiAnnuléeProjector } from './demandeDélaiAnnulée.projector';
 import { demandeDélaiRejetéeProjector } from './demandeDélaiRejetée.projector';
+import { demandeDélaiPasséeEnInstructionProjector } from './demandeDélaiPasséeEnInstruction.projector';
 
 export type SubscriptionEvent = (Lauréat.Délai.DélaiEvent & Event) | RebuildTriggered;
 
@@ -18,6 +19,12 @@ export const registerDélaiProjectors = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, délaiRebuilTriggeredProjector)
       .with({ type: 'DélaiDemandé-V1' }, délaiDemandéProjector)
+      .with(
+        {
+          type: 'DemandeDélaiPasséeEnInstruction-V1',
+        },
+        demandeDélaiPasséeEnInstructionProjector,
+      )
       .with({ type: 'DemandeDélaiAnnulée-V1' }, demandeDélaiAnnuléeProjector)
       .with({ type: 'DemandeDélaiRejetée-V1' }, demandeDélaiRejetéeProjector)
       .with({ type: 'DélaiAccordé-V1' }, async () => {})

@@ -393,10 +393,12 @@ const référencielPermissions = {
         demander: 'Lauréat.Délai.UseCase.DemanderDélai',
         annuler: 'Lauréat.Délai.UseCase.AnnulerDemande',
         rejeter: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
+        passerEnInstruction: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
       },
       command: {
         demander: 'Lauréat.Délai.Command.DemanderDélai',
         annuler: 'Lauréat.Délai.Command.AnnulerDemande',
+        passerEnInstruction: 'Lauréat.Délai.Command.PasserEnInstructionDemande',
         rejeter: 'Lauréat.Délai.Command.RejeterDemandeDélai',
       },
     },
@@ -1248,6 +1250,14 @@ const policies = {
       référencielPermissions.lauréat.délai.command.annuler,
       référencielPermissions.lauréat.délai.usecase.annuler,
     ],
+    passerEnInstructionDemande: [
+      référencielPermissions.lauréat.délai.command.passerEnInstruction,
+      référencielPermissions.lauréat.délai.usecase.passerEnInstruction,
+    ],
+    reprendreInstructionDemande: [
+      référencielPermissions.lauréat.délai.command.passerEnInstruction,
+      référencielPermissions.lauréat.délai.usecase.passerEnInstruction,
+    ],
     rejeterDemande: [
       référencielPermissions.lauréat.délai.command.rejeter,
       référencielPermissions.lauréat.délai.usecase.rejeter,
@@ -1470,6 +1480,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+  'délai.passerEnInstructionDemande',
+  'délai.reprendreInstructionDemande',
   'délai.rejeterDemande',
 ];
 
@@ -1629,6 +1641,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+  'délai.passerEnInstructionDemande',
+  'délai.reprendreInstructionDemande',
   'délai.rejeterDemande',
 ];
 
