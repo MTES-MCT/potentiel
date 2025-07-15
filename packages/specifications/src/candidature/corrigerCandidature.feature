@@ -59,7 +59,7 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de corriger une candidature avec une famille d'AO inexistante
         Quand le DGEC validateur corrige la candidature avec :
             | famille | x |
-        Alors l'administrateur devrait être informé que "La candidature n'existe pas"
+        Alors l'administrateur devrait être informé que "La famille de période d'appel d'offre spécifiée n'existe pas"
 
     Scénario: Impossible de changer le numéro CRE d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
