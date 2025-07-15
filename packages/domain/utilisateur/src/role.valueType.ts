@@ -1557,8 +1557,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'abandon.accorder',
   'abandon.rejeter',
   'abandon.demander-confirmation',
-  'délai.passerEnInstructionDemande',
-  'délai.reprendreInstructionDemande',
+  'abandon.passer-en-instruction',
 
   // Recours
   'recours.consulter.liste',
@@ -1643,6 +1642,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'délai.consulterDemande',
   'délai.listerDemande',
   'délai.passerEnInstructionDemande',
+  'délai.reprendreInstructionDemande',
   'délai.rejeterDemande',
 ];
 
