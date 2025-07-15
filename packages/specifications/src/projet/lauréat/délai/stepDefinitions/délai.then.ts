@@ -38,7 +38,7 @@ Alors(
 );
 
 Alors(
-  `la demande de délai du projet lauréat devrait être en passée en instruction`,
+  `la demande de délai du projet lauréat devrait être en instruction`,
   async function (this: PotentielWorld) {
     await vérifierDemandeDélai.call(
       this,
