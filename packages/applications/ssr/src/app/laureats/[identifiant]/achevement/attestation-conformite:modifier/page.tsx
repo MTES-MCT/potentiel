@@ -8,11 +8,12 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+
 import {
   ModifierAttestationConformitéPage,
   ModifierAttestationConformitéPageProps,
-} from '@/components/pages/attestation-conformité/modifier/modifierAttestationConformité.page';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+} from './modifierAttestationConformité.page';
 
 export const metadata: Metadata = {
   title: `Modifier l'attestation de conformité - Potentiel`,

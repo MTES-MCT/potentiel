@@ -8,11 +8,12 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+
 import {
   TransmettreAttestationConformitéPage,
   TransmettreAttestationConformitéPageProps,
-} from '@/components/pages/attestation-conformité/transmettre/transmettreAttestationConformité.page';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+} from './transmettreAttestationConformité.page';
 
 export const metadata: Metadata = {
   title: `Transmettre l'attestation de conformité - Potentiel`,
