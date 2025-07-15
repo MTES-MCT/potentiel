@@ -8,7 +8,7 @@ import {
   mapNumber,
   mapOptionalBoolean,
   mapValueType,
-} from '../helpers/exempleMapper';
+} from '../helpers/mapToExemple';
 
 export const dépôtExempleMap: FieldToExempleMapper<
   Omit<Candidature.Dépôt.RawType, 'localité' | 'fournisseurs'>

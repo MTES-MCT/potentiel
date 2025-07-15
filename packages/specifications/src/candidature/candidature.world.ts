@@ -3,7 +3,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { mapToExemple } from '../helpers/exempleMapper';
+import { mapToExemple } from '../helpers/mapToExemple';
 
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
 import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
