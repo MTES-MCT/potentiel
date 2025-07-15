@@ -35,15 +35,14 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
         Quand la même dreal passe en instruction la demande de délai pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La demande de délai est déjà en instruction avec le même utilisateur dreal"
 
+    Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si la demande a déjà été rejetée
+        Etant donné une demande de délai rejetée pour le projet lauréat
+        Quand la dreal passe en instruction la demande de délai pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
+
 
 # TODO quand les usecase seront disponible
-
 # Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si la demande a déjà été accordée
 #     Etant donné une demande de délai accordée pour le projet lauréat
 #     Quand la dreal passe en instruction la demande de délai pour le projet lauréat
 #     Alors l'utilisateur devrait être informé que "La demande de délai a déjà été accordé"
-
-# Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si la demande a déjà été rejetée
-#     Etant donné une demande de délai rejetée pour le projet lauréat
-#     Quand la dreal passe en instruction la demande de délai pour le projet lauréat
-#     Alors l'utilisateur devrait être informé que "La demande de délai a déjà été rejetée"
