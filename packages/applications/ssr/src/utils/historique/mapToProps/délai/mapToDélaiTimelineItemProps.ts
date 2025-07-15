@@ -6,6 +6,8 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToDélaiAccordéTimelineItemProps } from './events/mapToDélaiAccordéTimelineItemProps';
 import { mapToDemandeDélaiAnnuléeTimelineItemProps } from './events/mapToDemandeDélaiAnnuléeTimelineItemProps';
+import { mapToDélaiDemandéTimelineItemProps } from './events/mapToDélaiDemandéTimelineItemProps';
+import { mapToDemandeDélaiRejetéeTimelineItemProps } from './events/mapToDemandeDélaiRejetéeTimelineItemProps';
 
 export const mapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
@@ -16,13 +18,19 @@ export const mapToDélaiTimelineItemProps = (
       {
         type: 'DélaiDemandé-V1',
       },
-      mapToDélaiTimelineItemProps,
+      mapToDélaiDemandéTimelineItemProps,
     )
     .with(
       {
         type: 'DemandeDélaiAnnulée-V1',
       },
       mapToDemandeDélaiAnnuléeTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'DemandeDélaiRejetée-V1',
+      },
+      mapToDemandeDélaiRejetéeTimelineItemProps,
     )
     .with(
       {

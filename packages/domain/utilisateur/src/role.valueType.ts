@@ -391,10 +391,12 @@ const référencielPermissions = {
       usecase: {
         demander: 'Lauréat.Délai.UseCase.DemanderDélai',
         annuler: 'Lauréat.Délai.UseCase.AnnulerDemande',
+        rejeter: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
       },
       command: {
         demander: 'Lauréat.Délai.Command.DemanderDélai',
         annuler: 'Lauréat.Délai.Command.AnnulerDemande',
+        rejeter: 'Lauréat.Délai.Command.RejeterDemandeDélai',
       },
     },
     usecase: {
@@ -1242,6 +1244,10 @@ const policies = {
       référencielPermissions.lauréat.délai.command.annuler,
       référencielPermissions.lauréat.délai.usecase.annuler,
     ],
+    rejeterDemande: [
+      référencielPermissions.lauréat.délai.command.rejeter,
+      référencielPermissions.lauréat.délai.usecase.rejeter,
+    ],
   },
   api: {
     raccordement: {
@@ -1460,6 +1466,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+  'délai.rejeterDemande',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1618,6 +1625,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+  'délai.rejeterDemande',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

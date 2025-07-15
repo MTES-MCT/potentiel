@@ -37,6 +37,16 @@ Alors(
   },
 );
 
+Alors('la demande de délai devrait être rejetée', async function (this: PotentielWorld) {
+  return waitForExpect(async () => {
+    await vérifierDemandeDélai.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Lauréat.Délai.StatutDemandeDélai.rejeté,
+    );
+  });
+});
+
 async function vérifierDemandeDélai(
   this: PotentielWorld,
   identifiantProjet: string,

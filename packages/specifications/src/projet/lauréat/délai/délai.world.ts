@@ -4,6 +4,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
+import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture';
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();
@@ -17,6 +18,13 @@ export class DélaiWorld {
 
   get annulerDélaiFixture() {
     return this.#annulerDemandeDélaiFixture;
+  }
+
+  readonly #rejeterDemandeDélaiFixture: RejeterDemandeDélaiFixture =
+    new RejeterDemandeDélaiFixture();
+
+  get rejeterDemandeDélaiFixture() {
+    return this.#rejeterDemandeDélaiFixture;
   }
 
   mapToExpected(
@@ -40,6 +48,20 @@ export class DélaiWorld {
         this.#demanderDélaiFixture.demandéLe,
         this.#demanderDélaiFixture.pièceJustificative.format,
       ),
+
+      rejet: this.#rejeterDemandeDélaiFixture.aÉtéCréé
+        ? {
+            rejetéLe: DateTime.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéeLe),
+            rejetéPar: Email.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéePar),
+
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              identifiantProjet.formatter(),
+              Lauréat.Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
+              DateTime.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéeLe).formatter(),
+              this.#rejeterDemandeDélaiFixture.réponseSignée.format,
+            ),
+          }
+        : undefined,
     };
 
     return expected;

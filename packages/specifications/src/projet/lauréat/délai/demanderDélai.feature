@@ -16,11 +16,6 @@ Fonctionnalité: Demander un délai pour un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai                                                     |
 
-    # Scénario: Un porteur demande un délai pour un projet lauréat après un rejet
-    #     Etant donné délai rejeté pour le projet lauréat
-    #     Quand le porteur demande un délai pour le projet lauréat
-    #     Alors un délai du projet lauréat devrait être de nouveau demandé
-    #
     Scénario: Impossible de demander un délai pour un projet si une demande de délai est en cours
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur demande un délai pour le projet lauréat

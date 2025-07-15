@@ -18,12 +18,7 @@ export const metadata: Metadata = {
   description: 'Détail de la demande de délai',
 };
 
-type PageProps = {
-  params: {
-    identifiant: string;
-    date: string;
-  };
-};
+type PageProps = { params: { identifiant: string; date: string } };
 
 export default async function Page({ params: { identifiant, date } }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -36,10 +31,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
         type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          demandéLe,
-        },
+        data: { identifiantProjet: identifiantProjet.formatter(), demandéLe },
       });
 
       if (Option.isNone(demande)) {
@@ -66,6 +58,9 @@ const mapToActions = (
   if (statut.estDemandé()) {
     if (role.aLaPermission('délai.annulerDemande')) {
       actions.push('annuler');
+    }
+    if (role.aLaPermission('délai.rejeterDemande')) {
+      actions.push('rejeter');
     }
   }
   return actions;
