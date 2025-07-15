@@ -29,7 +29,7 @@ export const demandeDélaiPasséeEnInstructionNotification = async ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
 
-  const messageSubject = `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} est passée en instruction`;
+  const messageSubject = `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} est en instruction`;
 
   const url = `${baseUrl}${Routes.Délai.détail(identifiantProjet.formatter(), event.payload.dateDemande)}`;
 
@@ -37,7 +37,7 @@ export const demandeDélaiPasséeEnInstructionNotification = async ({
     getLogger().error('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'DemandeDélaiAnnuléeNotification',
+      fonction: 'demandeDélaiPasséeEnInstructionNotification',
     });
   } else {
     await sendEmail({
@@ -55,10 +55,10 @@ export const demandeDélaiPasséeEnInstructionNotification = async ({
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (porteurs.length === 0) {
-    getLogger().error('Aucune dreal trouvée', {
+    getLogger().error('Aucune porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'DemandeDélaiAnnuléeNotification',
+      fonction: 'demandeDélaiPasséeEnInstructionNotification',
     });
   } else {
     await sendEmail({
