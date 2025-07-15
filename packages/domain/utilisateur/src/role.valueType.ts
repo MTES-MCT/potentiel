@@ -1526,7 +1526,6 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
-  'délai.rejeterDemande',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
