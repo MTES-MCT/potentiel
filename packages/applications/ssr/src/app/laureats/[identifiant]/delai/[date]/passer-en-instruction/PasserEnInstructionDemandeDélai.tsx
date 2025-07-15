@@ -42,7 +42,7 @@ export const PasserEnInstructionDemandeDélai = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir passer en instruction la demande de délai ?
+                Êtes-vous sûr de vouloir passer la demande de délai en instruction ?
               </p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
