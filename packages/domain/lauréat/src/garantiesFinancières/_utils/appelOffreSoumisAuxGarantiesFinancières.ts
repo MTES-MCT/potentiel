@@ -14,6 +14,6 @@ export const appelOffreSoumisAuxGarantiesFinancières = ({
     ?.familles.find((f) => f.id === famille);
 
   return familleDétails
-    ? familleDétails.soumisAuxGarantiesFinancieres !== 'non soumis'
-    : appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis';
+    ? familleDétails.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis'
+    : appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis';
 };

@@ -81,7 +81,6 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   renvoiEngagementIPFPGPFC: '3.2.6 et 7.1.2',
   paragrapheClauseCompetitivite: '2.8',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
@@ -89,7 +88,16 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+  garantiesFinancières: {
+    renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
+    renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
+  },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -148,21 +156,25 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 30,
         },
         {
           id: '2',
           title: '2',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
         {
           id: '3',
           title: '3',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
       ],
@@ -193,21 +205,25 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 30,
         },
         {
           id: '2',
           title: '2',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
         {
           id: '3',
           title: '3',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
       ],
@@ -238,20 +254,24 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
         },
         {
           id: '2',
           title: '2',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
         {
           id: '3',
           title: '3',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
       ],

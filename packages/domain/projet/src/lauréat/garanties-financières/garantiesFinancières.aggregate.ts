@@ -21,6 +21,12 @@ import {
 import { DemanderOptions } from './demander/demanderGarantiesFinancières.options';
 import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 import { ImporterOptions } from './importer/importerGarantiesFinancières.option';
+import {
+  DateÉchéanceGarantiesFinancièresRequiseError,
+  DateÉchéanceNonAttendueError,
+  GarantiesFinancièresRequisesPourAppelOffreError,
+  TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
+} from './garantiesFinancières.error';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -65,10 +71,51 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.#aUnDépôtEnCours;
   }
 
+  vérifierSiLesGarantiesFinancièresSontValides(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+    dateÉchéance: DateTime.ValueType | undefined,
+  ) {
+    this.vérifierSiLesGarantiesFinancièresSontRequises(type);
+    this.vérifierSiLaDateÉchéanceEstValide(type, dateÉchéance);
+    this.vérifierSiLeTypeEstDisponiblePourAppelOffre(type);
+  }
+
+  private vérifierSiLeTypeEstDisponiblePourAppelOffre(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+  ) {
+    const typesDisponibles =
+      this.lauréat.projet.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles;
+    if (type && !typesDisponibles.includes(type.type)) {
+      throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError();
+    }
+  }
+
+  private vérifierSiLaDateÉchéanceEstValide(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+    dateÉchéance: DateTime.ValueType | undefined,
+  ) {
+    if (!type) return;
+    if (type.estAvecDateÉchéance() && !dateÉchéance) {
+      throw new DateÉchéanceGarantiesFinancièresRequiseError();
+    }
+    if (!type.estAvecDateÉchéance() && dateÉchéance) {
+      throw new DateÉchéanceNonAttendueError();
+    }
+  }
+
+  private vérifierSiLesGarantiesFinancièresSontRequises(
+    type: TypeGarantiesFinancières.ValueType | undefined,
+  ) {
+    if (!type && this.estSoumisAuxGarantiesFinancières()) {
+      throw new GarantiesFinancièresRequisesPourAppelOffreError();
+    }
+  }
+
   async importer({ type, importéLe, dateÉchéance }: ImporterOptions) {
     if (!type) {
       return;
     }
+    this.vérifierSiLesGarantiesFinancièresSontValides(type, dateÉchéance);
 
     const event: TypeGarantiesFinancièresImportéEvent = {
       type: 'TypeGarantiesFinancièresImporté-V1',
@@ -84,7 +131,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
-    if (this.estSoumisAuxGarantiesFinancières()) {
+    const aDesGarantiesFinancièresEnAttente = this.#dateLimiteSoumission && this.#motifDemande;
+
+    if (this.estSoumisAuxGarantiesFinancières() || aDesGarantiesFinancièresEnAttente) {
       const event: GarantiesFinancièresDemandéesEvent = {
         type: 'GarantiesFinancièresDemandées-V1',
         payload: {
@@ -149,10 +198,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   estSoumisAuxGarantiesFinancières() {
     const { appelOffre, famille } = this.lauréat.projet;
-    return (
-      famille?.soumisAuxGarantiesFinancieres !== 'non soumis' ||
-      appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis'
-    );
+    const { soumisAuxGarantiesFinancieres } =
+      famille?.garantiesFinancières ?? appelOffre.garantiesFinancières;
+    return soumisAuxGarantiesFinancieres && soumisAuxGarantiesFinancieres !== 'non soumis';
   }
 
   apply(event: GarantiesFinancièresEvent): void {

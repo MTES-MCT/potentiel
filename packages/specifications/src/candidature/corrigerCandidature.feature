@@ -54,12 +54,12 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de changer la période d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | période | x |
-        Alors l'administrateur devrait être informé que "La candidature n'existe pas"
+        Alors l'administrateur devrait être informé que "La période d'appel d'offre spécifiée n'existe pas"
 
     Scénario: Impossible de corriger une candidature avec une famille d'AO inexistante
         Quand le DGEC validateur corrige la candidature avec :
             | famille | x |
-        Alors l'administrateur devrait être informé que "La candidature n'existe pas"
+        Alors l'administrateur devrait être informé que "La famille de période d'appel d'offre spécifiée n'existe pas"
 
     Scénario: Impossible de changer le numéro CRE d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
@@ -155,3 +155,11 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | coefficient K choisi |  |
         Alors l'administrateur devrait être informé que "Le choix du coefficient K est requis pour cette période"
+
+    Scénario: Impossible de corriger une candidature avec un type de garanties financières non disponible dans l'appel d'offre
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | statut        | classé          |
+            | appel d'offre | PPE2 - Bâtiment |
+        Quand le DGEC validateur corrige la candidature avec :
+            | type GF | garantie-bancaire |
+        Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"

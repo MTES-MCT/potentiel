@@ -59,8 +59,16 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.2',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.1',
-  soumisAuxGarantiesFinancieres: 'à la candidature',
+  garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
+    soumisAuxGarantiesFinancieres: 'à la candidature',
+    renvoiRetraitDesignationGarantieFinancieres: '5.1',
+  },
   renvoiEngagementIPFPGPFC: '3.2.7',
   paragrapheClauseCompetitivite: '2.9',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",

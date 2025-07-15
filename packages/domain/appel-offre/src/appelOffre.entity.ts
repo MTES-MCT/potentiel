@@ -34,12 +34,25 @@ type ChangementPuissance = { paragrapheAlerte?: string } & (
     }
 );
 
+// Type des Garanties Financières
+export type TypeGarantiesFinancières =
+  | 'consignation'
+  | 'avec-date-échéance'
+  | 'six-mois-après-achèvement'
+  | 'type-inconnu'
+  | 'garantie-bancaire';
+
 // GF AO
-type GarantiesFinancièresAppelOffre =
+type GarantiesFinancièresAppelOffre = {
+  typeGarantiesFinancièresDisponibles: Array<TypeGarantiesFinancières>;
+  renvoiRetraitDesignationGarantieFinancieres: string;
+  renvoiSoumisAuxGarantiesFinancieres?: string;
+} & (
   | GarantiesFinancièresFamille
   | {
       soumisAuxGarantiesFinancieres?: undefined;
-    };
+    }
+);
 
 // Courriers
 export type DonnéesCourriersRéponse = Record<
@@ -119,7 +132,8 @@ export type Famille = {
   id: string;
   title: string;
   puissanceMax?: number;
-} & GarantiesFinancièresFamille;
+  garantiesFinancières: GarantiesFinancièresFamille;
+};
 
 type NoteThresholdByCategory = {
   volumeReserve: {
@@ -199,7 +213,6 @@ export type Periode = {
     valeur: number;
     texte: string;
   };
-  garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
   /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */
@@ -253,7 +266,6 @@ export type AppelOffreReadModel = {
   renvoiModification: string;
   affichageParagrapheECS: boolean;
   renvoiDemandeCompleteRaccordement: string;
-  renvoiRetraitDesignationGarantieFinancieres: string;
   renvoiEngagementIPFPGPFC: string;
   paragrapheClauseCompetitivite: string;
   tarifOuPrimeRetenue: string;
@@ -262,7 +274,6 @@ export type AppelOffreReadModel = {
   afficherPhraseRegionImplantation: boolean;
   dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
-  renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
@@ -275,7 +286,7 @@ export type AppelOffreReadModel = {
     autoritéCompétente: AutoritéCompétente;
   };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
-} & GarantiesFinancièresAppelOffre &
-  TechnologieAppelOffre;
+  garantiesFinancières: GarantiesFinancièresAppelOffre;
+} & TechnologieAppelOffre;
 
 export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

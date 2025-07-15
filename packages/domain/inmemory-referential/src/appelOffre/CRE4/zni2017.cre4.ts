@@ -61,7 +61,6 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.3',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '7.1',
   renvoiEngagementIPFPGPFC: '',
   paragrapheClauseCompetitivite: '',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
@@ -69,7 +68,16 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+  garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
+    renvoiRetraitDesignationGarantieFinancieres: '7.1',
+    renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+  },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -132,22 +140,28 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 100kWc - 250kWc',
-          soumisAuxGarantiesFinancieres: 'après candidature',
-          garantieFinanciereEnMois,
+          garantiesFinancières: {
+            soumisAuxGarantiesFinancieres: 'après candidature',
+            garantieFinanciereEnMois,
+          },
           puissanceMax: 0.25,
         },
         {
           id: '2',
           title: '2. 250kWc - 1,5MWc',
-          soumisAuxGarantiesFinancieres: 'après candidature',
-          garantieFinanciereEnMois,
+          garantiesFinancières: {
+            soumisAuxGarantiesFinancieres: 'après candidature',
+            garantieFinanciereEnMois,
+          },
           puissanceMax: 1.5,
         },
         {
           id: '3',
           title: '3. 250kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'après candidature',
-          garantieFinanciereEnMois,
+          garantiesFinancières: {
+            soumisAuxGarantiesFinancieres: 'après candidature',
+            garantieFinanciereEnMois,
+          },
           puissanceMax: 5,
         },
       ],

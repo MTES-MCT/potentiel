@@ -9,7 +9,7 @@ type LaureatProps = { project: AttestationPPE2Options };
 
 export const buildLauréat = ({ project }: LaureatProps) => {
   const { appelOffre, technologie, période } = project;
-  const { soumisAuxGarantiesFinancieres } = appelOffre || {};
+  const { soumisAuxGarantiesFinancieres } = appelOffre.garantiesFinancières || {};
   const { delaiDcrEnMois } = période;
 
   const paragrapheEngagementIPFPGPFC =
@@ -115,7 +115,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
           </Text>
 
           {soumisAuxGarantiesFinancieres &&
-            appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
+            appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres && (
               <Text
                 style={{
                   marginTop: 10,

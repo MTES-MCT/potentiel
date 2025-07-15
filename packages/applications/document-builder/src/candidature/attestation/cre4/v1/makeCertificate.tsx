@@ -14,7 +14,8 @@ const Laureat = (project: AttestationCRE4Options) => {
   const objet = `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
 
   const soumisAuxGarantiesFinancieres =
-    famille?.soumisAuxGarantiesFinancieres || appelOffre?.soumisAuxGarantiesFinancieres;
+    famille?.garantiesFinancières.soumisAuxGarantiesFinancieres ||
+    appelOffre?.garantiesFinancières.soumisAuxGarantiesFinancieres;
 
   const footNotes: Array<Footnote> = [];
   const addFootNote = makeAddFootnote(footNotes);
@@ -104,7 +105,8 @@ const Laureat = (project: AttestationCRE4Options) => {
           : ''}
         ;
       </Text>
-      {soumisAuxGarantiesFinancieres && appelOffre.renvoiSoumisAuxGarantiesFinancieres ? (
+      {soumisAuxGarantiesFinancieres &&
+      appelOffre.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres ? (
         <Text
           style={{
             fontSize: 10,
@@ -120,9 +122,15 @@ const Laureat = (project: AttestationCRE4Options) => {
           d’une procédure de mise en demeure. En l’absence d’exécution dans un délai d’un mois après
           réception de la mise en demeure, le candidat pourra faire l’objet d’un retrait de la
           présente décision le désignant lauréat
-          <Text>{addFootNote(appelOffre.renvoiRetraitDesignationGarantieFinancieres)}</Text>.{' '}
+          <Text>
+            {addFootNote(
+              appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres,
+            )}
+          </Text>
+          .{' '}
           <Text style={{ textDecoration: 'underline' }}>
-            La durée de la garantie {appelOffre.renvoiSoumisAuxGarantiesFinancieres};
+            La durée de la garantie{' '}
+            {appelOffre.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres};
           </Text>
         </Text>
       ) : (

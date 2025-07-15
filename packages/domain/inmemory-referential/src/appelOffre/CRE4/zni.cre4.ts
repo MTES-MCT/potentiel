@@ -96,7 +96,6 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.2 et 6.2',
   renvoiEngagementIPFPGPFC: '3.3.6 et 7.1',
   paragrapheClauseCompetitivite: '2.8',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
@@ -104,7 +103,16 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+  garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
+    renvoiRetraitDesignationGarantieFinancieres: '5.2 et 6.2',
+    renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
+  },
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -171,58 +179,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 100kWc - 250kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '2',
           title: '2. 250kWc - 1,5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '3',
           title: '3. 250kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         // 2019 ZNI avec stockage
         {
           id: '1a',
           title: '1a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '1b',
           title: '1b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '1c',
           title: '1c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
         // 2019 ZNI sans stockage
         {
           id: '2a',
           title: '2a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '2b',
           title: '2b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '2c',
           title: '2c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
       ],
@@ -254,58 +270,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 100kWc - 250kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '2',
           title: '2. 250kWc - 1,5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '3',
           title: '3. 250kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         // 2019 ZNI avec stockage
         {
           id: '1a',
           title: '1a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '1b',
           title: '1b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '1c',
           title: '1c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
         // 2019 ZNI sans stockage
         {
           id: '2a',
           title: '2a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '2b',
           title: '2b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '2c',
           title: '2c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
       ],
@@ -337,58 +361,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 100kWc - 250kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '2',
           title: '2. 250kWc - 1,5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '3',
           title: '3. 250kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         // 2019 ZNI avec stockage
         {
           id: '1a',
           title: '1a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '1b',
           title: '1b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '1c',
           title: '1c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
         // 2019 ZNI sans stockage
         {
           id: '2a',
           title: '2a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '2b',
           title: '2b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '2c',
           title: '2c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
       ],
@@ -420,58 +452,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 100kWc - 250kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '2',
           title: '2. 250kWc - 1,5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '3',
           title: '3. 250kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         // 2019 ZNI avec stockage
         {
           id: '1a',
           title: '1a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '1b',
           title: '1b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '1c',
           title: '1c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
         // 2019 ZNI sans stockage
         {
           id: '2a',
           title: '2a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '2b',
           title: '2b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '2c',
           title: '2c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
       ],
@@ -503,58 +543,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 100kWc - 250kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '2',
           title: '2. 250kWc - 1,5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '3',
           title: '3. 250kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         // 2019 ZNI avec stockage
         {
           id: '1a',
           title: '1a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '1b',
           title: '1b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '1c',
           title: '1c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
         // 2019 ZNI sans stockage
         {
           id: '2a',
           title: '2a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '2b',
           title: '2b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '2c',
           title: '2c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
       ],
@@ -586,58 +634,66 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         {
           id: '1',
           title: '1. 100kWc - 250kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '2',
           title: '2. 250kWc - 1,5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         {
           id: '3',
           title: '3. 250kWc - 5MWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
         },
         // 2019 ZNI avec stockage
         {
           id: '1a',
           title: '1a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '1b',
           title: '1b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '1c',
           title: '1c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
         // 2019 ZNI sans stockage
         {
           id: '2a',
           title: '2a. 100kWc - 500 kWc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.5,
         },
         {
           id: '2b',
           title: '2b. 500 kWc - 1,5MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 1.5,
         },
         {
           id: '2c',
           title: '2c. 500 kWc - 5 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 5,
         },
       ],

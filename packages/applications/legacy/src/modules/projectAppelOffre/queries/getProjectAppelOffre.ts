@@ -27,7 +27,7 @@ export const makeGetProjectAppelOffre: (
       periode,
       famille,
       isSoumisAuxGF: famille
-        ? famille.soumisAuxGarantiesFinancieres !== 'non soumis'
-        : appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis',
+        ? famille.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis'
+        : appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres !== 'non soumis',
     };
   };

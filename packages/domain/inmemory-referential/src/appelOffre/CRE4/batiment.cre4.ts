@@ -59,7 +59,6 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   renvoiModification: '5.4',
   affichageParagrapheECS: true,
   renvoiDemandeCompleteRaccordement: '6.1',
-  renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   renvoiEngagementIPFPGPFC: '3.2.5 et 7.1.2',
   paragrapheClauseCompetitivite: '2.6',
   tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
@@ -67,12 +66,21 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois.toString()} mois`,
   changementPuissance: {
     ratios: {
       min: 0.9,
       max: 1.1,
     },
+  },
+  garantiesFinancières: {
+    typeGarantiesFinancièresDisponibles: [
+      'consignation',
+      'avec-date-échéance',
+      'six-mois-après-achèvement',
+      'type-inconnu',
+    ],
+    renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois.toString()} mois`,
+    renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
@@ -129,14 +137,16 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -186,14 +196,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -243,14 +255,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -300,14 +314,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -357,14 +373,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -414,14 +432,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -471,14 +491,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -528,14 +550,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -585,14 +609,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -642,14 +668,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -699,14 +727,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -756,14 +786,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],
@@ -813,14 +845,16 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         {
           id: '1',
           title: '1. 100 kWc – 500 Mwc',
-          soumisAuxGarantiesFinancieres: 'non soumis',
+          garantiesFinancières: { soumisAuxGarantiesFinancieres: 'non soumis' },
           puissanceMax: 0.499,
         },
         {
           id: '2',
           title: '2. 500 kWc – 8 MWc',
-          garantieFinanciereEnMois,
-          soumisAuxGarantiesFinancieres: 'après candidature',
+          garantiesFinancières: {
+            garantieFinanciereEnMois,
+            soumisAuxGarantiesFinancieres: 'après candidature',
+          },
           puissanceMax: 8,
         },
       ],

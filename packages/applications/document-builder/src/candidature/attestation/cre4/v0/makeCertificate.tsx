@@ -15,10 +15,10 @@ const Laureat = (project: AttestationCRE4Options) => {
   const objet = `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`;
 
   const garantieFinanciereEnMois =
-    famille?.soumisAuxGarantiesFinancieres === 'après candidature'
-      ? famille.garantieFinanciereEnMois
-      : appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
-        ? appelOffre.garantieFinanciereEnMois
+    famille?.garantiesFinancières.soumisAuxGarantiesFinancieres === 'après candidature'
+      ? famille.garantiesFinancières.garantieFinanciereEnMois
+      : appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres === 'après candidature'
+        ? appelOffre.garantiesFinancières.garantieFinanciereEnMois
         : undefined;
 
   const footNotes: Array<Footnote> = [];
@@ -120,7 +120,12 @@ const Laureat = (project: AttestationCRE4Options) => {
           prévu feront l’objet d’une procédure de mise en demeure. En l’absence d’exécution dans un
           délai d’un mois après réception de la mise en demeure, le candidat pourra faire l’objet
           d’un retrait de la présente décision le désignant lauréat
-          <Text>{addFootNote(appelOffre.renvoiRetraitDesignationGarantieFinancieres)}</Text>.{' '}
+          <Text>
+            {addFootNote(
+              appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres,
+            )}
+          </Text>
+          .{' '}
           <Text style={{ textDecoration: 'underline' }}>
             La durée de la garantie doit être au minimum de {garantieFinanciereEnMois} mois.
           </Text>
