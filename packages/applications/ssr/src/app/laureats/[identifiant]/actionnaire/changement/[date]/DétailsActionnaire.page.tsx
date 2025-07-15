@@ -14,8 +14,8 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { AccorderChangementActionnaire } from './accorder/AccorderChangementActionnaire.form';
 import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
 import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionnaire.form';
-import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
+import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
 
 export type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 

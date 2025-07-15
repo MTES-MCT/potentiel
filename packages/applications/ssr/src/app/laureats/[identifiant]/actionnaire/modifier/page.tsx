@@ -3,14 +3,15 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ModifierActionnairePage } from '@/components/pages/actionnaire/modifier/ModifierActionnaire.page';
+
+import { ModifierActionnairePage } from './ModifierActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Changement d'actionnaire(s) du projet - Potentiel",
