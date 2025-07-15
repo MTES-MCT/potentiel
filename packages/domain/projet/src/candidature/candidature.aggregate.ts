@@ -176,7 +176,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
-    this.vérifierQueLaPériodeEtLaFamilleSontValides();
+    this.vérifierQueLaPériodeEstValide();
     this.vérifierCoefficientKChoisi(candidature);
     this.vérifierTechnologie(candidature);
 
@@ -367,15 +367,13 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierQueLaPériodeEtLaFamilleSontValides() {
+  private vérifierQueLaPériodeEstValide() {
     if (this.projet.période.type === 'legacy') {
       throw new PériodeAppelOffreLegacyError(
         this.projet.identifiantProjet.appelOffre,
         this.projet.identifiantProjet.période,
       );
     }
-    // le getter vérifie que la famille est valide.
-    this.projet.famille;
   }
 
   private vérifierSiLaCandidatureADéjàÉtéImportée() {

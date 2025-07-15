@@ -1,6 +1,10 @@
 import { Option } from '@potentiel-libraries/monads';
 import { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
-import { AppelOffreAggregate, LoadAppelOffreAggregatePort } from '@potentiel-domain/appel-offre';
+import {
+  AppelOffre,
+  AppelOffreAggregate,
+  LoadAppelOffreAggregatePort,
+} from '@potentiel-domain/appel-offre';
 
 import { IdentifiantProjet, StatutProjet } from '.';
 
@@ -84,34 +88,14 @@ export class ProjetAggregateRoot {
     return this.#lauréat.estNotifié || this.#éliminé.estNotifié;
   }
 
+  #période!: AppelOffre.Periode;
   get période() {
-    const période = this.appelOffre.periodes.find((x) => x.id === this.identifiantProjet.période);
-
-    if (!période) {
-      throw new PériodeInexistanteError(
-        this.#identifiantProjet.appelOffre,
-        this.identifiantProjet.période,
-      );
-    }
-
-    return période;
+    return this.#période;
   }
 
+  #famille?: AppelOffre.Famille;
   get famille() {
-    if (!this.identifiantProjet.famille) {
-      return undefined;
-    }
-
-    const famille = this.période.familles.find((x) => x.id === this.identifiantProjet.famille);
-    if (!famille) {
-      throw new FamilleInexistanteError(
-        this.#identifiantProjet.appelOffre,
-        this.identifiantProjet.période,
-        this.identifiantProjet.famille,
-      );
-    }
-
-    return famille;
+    return this.#famille;
   }
 
   get champsSupplémentaires() {
@@ -177,6 +161,28 @@ export class ProjetAggregateRoot {
       throw new AppelOffreInexistantError(this.#identifiantProjet.appelOffre);
     }
     this.#appelOffre = appelOffre;
+
+    const période = this.appelOffre.periodes.find((x) => x.id === this.identifiantProjet.période);
+
+    if (!période) {
+      throw new PériodeInexistanteError(
+        this.#identifiantProjet.appelOffre,
+        this.identifiantProjet.période,
+      );
+    }
+    this.#période = période;
+
+    if (this.identifiantProjet.famille) {
+      const famille = this.période.familles.find((x) => x.id === this.identifiantProjet.famille);
+      if (!famille) {
+        throw new FamilleInexistanteError(
+          this.#identifiantProjet.appelOffre,
+          this.identifiantProjet.période,
+          this.identifiantProjet.famille,
+        );
+      }
+      this.#famille = famille;
+    }
 
     this.#initialized = true;
   }
