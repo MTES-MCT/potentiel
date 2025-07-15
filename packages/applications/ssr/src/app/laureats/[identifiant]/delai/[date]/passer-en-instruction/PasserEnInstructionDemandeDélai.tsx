@@ -11,12 +11,18 @@ import { passerEnInstructionDemandeDélaiAction } from './passerEnInstructionDem
 
 type PasserEnInstructionDemandeDélaiFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
+  estUneReprise: boolean;
 };
 
 export const PasserEnInstructionDemandeDélai = ({
   identifiantProjet,
+  estUneReprise,
 }: PasserEnInstructionDemandeDélaiFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const label = estUneReprise
+    ? "Êtes-vous sûr de vouloir reprendre l'instruction de la demande de délai ?"
+    : 'Êtes-vous sûr de vouloir passer la demande de délai en instruction ?';
+  const acceptButtonLabel = estUneReprise ? "Reprendre l'instruction" : 'Instruire';
 
   return (
     <>
@@ -31,7 +37,7 @@ export const PasserEnInstructionDemandeDélai = ({
       <ModalWithForm
         id="passer-en-instruction-demande-délai"
         title="Passer la demande de délai en instruction"
-        acceptButtonLabel="Oui"
+        acceptButtonLabel={acceptButtonLabel}
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -41,9 +47,7 @@ export const PasserEnInstructionDemandeDélai = ({
           omitMandatoryFieldsLegend: true,
           children: (
             <>
-              <p className="mt-3">
-                Êtes-vous sûr de vouloir passer la demande de délai en instruction ?
-              </p>
+              <p className="mt-3">{label}</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
           ),

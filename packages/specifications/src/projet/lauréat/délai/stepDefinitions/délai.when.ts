@@ -32,7 +32,7 @@ Quand(
   async function (this: PotentielWorld, utilisateur: string) {
     await passerDemanderDélaiEnInstruction.call(
       this,
-      utilisateur.includes('une nouvelle dreal') ? true : undefined,
+      utilisateur.includes('un nouvel utilisateur dreal') ? true : undefined,
     );
   },
 );

@@ -18,7 +18,12 @@ import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
 import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
 import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
 
-export type DemandeDélaiActions = 'annuler' | 'passer-en-instruction' | 'accorder' | 'rejeter';
+export type DemandeDélaiActions =
+  | 'annuler'
+  | 'passer-en-instruction'
+  | 'reprendre-instruction'
+  | 'accorder'
+  | 'rejeter';
 
 export type DétailsDemandeDélaiPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -117,9 +122,13 @@ const mapToActionComponents = ({
     {actions.includes('annuler') && (
       <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
     )}
-    {actions.includes('passer-en-instruction') && (
-      <PasserEnInstructionDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
-    )}
+    {actions.includes('passer-en-instruction') ||
+      (actions.includes('passer-en-instruction') && (
+        <PasserEnInstructionDemandeDélai
+          identifiantProjet={identifiantProjet.formatter()}
+          estUneReprise={actions.includes('passer-en-instruction')}
+        />
+      ))}
     {actions.includes('rejeter') && (
       <RejeterDemandeDélai
         identifiantProjet={identifiantProjet.formatter()}
