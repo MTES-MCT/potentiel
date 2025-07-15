@@ -31,12 +31,12 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const demandéLe = decodeParameter(date);
 
-      const demande = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
+      const demandeDélai = await mediator.send<Lauréat.Délai.ConsulterDemandeDélaiQuery>({
         type: 'Lauréat.Délai.Query.ConsulterDemandeDélai',
         data: { identifiantProjet: identifiantProjet.formatter(), demandéLe },
       });
 
-      if (Option.isNone(demande)) {
+      if (Option.isNone(demandeDélai)) {
         return notFound();
       }
 
@@ -50,10 +50,10 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       return (
         <DétailsDemandeDélaiPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          demande={mapToPlainObject(demande)}
+          demande={mapToPlainObject(demandeDélai)}
           actions={mapToActions({
             utilisateur,
-            demandeDélai: demande,
+            demandeDélai,
           })}
           historique={historique.items.map(mapToDélaiTimelineItemProps)}
         />
@@ -92,9 +92,14 @@ const mapToActions = ({
         return actions;
       }
 
-      if (identifiantUtilisateur.estÉgaleÀ(instruction.passéEnInstructionPar)) {
+      if (role.aLaPermission('délai.rejeterDemande')) {
         actions.push('rejeter');
-      } else {
+      }
+
+      if (
+        !identifiantUtilisateur.estÉgaleÀ(instruction.passéeEnInstructionPar) &&
+        role.aLaPermission('délai.reprendreInstructionDemande')
+      ) {
         actions.push('reprendre-instruction');
       }
 

@@ -6,8 +6,8 @@ export class DemandeDeDélaiInexistanteError extends InvalidOperationError {
   }
 }
 
-export class DemandeDélaiDéjàEnInstructionAvecLeMêmeUtilisateurDrealError extends InvalidOperationError {
+export class DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal extends InvalidOperationError {
   constructor() {
-    super('La demande de délai est déjà en instruction avec le même utilisateur dreal');
+    super('La demande de délai est déjà instruite par le même utilisateur dreal');
   }
 }

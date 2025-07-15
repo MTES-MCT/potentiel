@@ -73,11 +73,11 @@ export class DélaiWorld {
 
     if (this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé) {
       expected.instruction = {
-        passéEnInstructionLe: DateTime.convertirEnValueType(
-          this.#passerEnInstructionDemandeDélaiFixture.passéEnInstructionLe,
+        passéeEnInstructionLe: DateTime.convertirEnValueType(
+          this.#passerEnInstructionDemandeDélaiFixture.passéeEnInstructionLe,
         ),
-        passéEnInstructionPar: Email.convertirEnValueType(
-          this.#passerEnInstructionDemandeDélaiFixture.passéEnInstructionPar,
+        passéeEnInstructionPar: Email.convertirEnValueType(
+          this.#passerEnInstructionDemandeDélaiFixture.passéeEnInstructionPar,
         ),
       };
     }

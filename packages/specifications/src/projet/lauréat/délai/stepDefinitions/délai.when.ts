@@ -93,17 +93,17 @@ export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, no
       });
     }
 
-    const { passéEnInstructionLe, passéEnInstructionPar } =
+    const { passéeEnInstructionLe, passéeEnInstructionPar } =
       this.lauréatWorld.délaiWorld.passerEnInstructionDemandeDélaiFixture.créer({
-        passéEnInstructionPar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
+        passéeEnInstructionPar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
       });
 
     await mediator.send<Lauréat.Délai.PasserEnInstructionDemandeDélaiUseCase>({
       type: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
       data: {
         identifiantProjetValue: identifiantProjet,
-        identifiantUtilisateurValue: passéEnInstructionPar,
-        datePassageEnInstructionValue: passéEnInstructionLe,
+        identifiantUtilisateurValue: passéeEnInstructionPar,
+        datePassageEnInstructionValue: passéeEnInstructionLe,
       },
     });
   } catch (error) {

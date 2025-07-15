@@ -7,8 +7,8 @@ export type DemandeDélaiPasséeEnInstructionEvent = DomainEvent<
   'DemandeDélaiPasséeEnInstruction-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    passéEnInstructionLe: DateTime.RawType;
-    passéEnInstructionPar: Email.RawType;
+    passéeEnInstructionLe: DateTime.RawType;
+    passéeEnInstructionPar: Email.RawType;
     dateDemande: DateTime.RawType;
   }
 >;

@@ -15,7 +15,7 @@ import { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.ev
 import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options';
 import {
   DemandeDeDélaiInexistanteError,
-  DemandeDélaiDéjàEnInstructionAvecLeMêmeUtilisateurDrealError,
+  DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
 } from './délai.error';
 import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options';
@@ -130,15 +130,15 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     );
 
     if (this.#demande.instruction?.passéEnInstructionPar.estÉgaleÀ(identifiantUtilisateur)) {
-      throw new DemandeDélaiDéjàEnInstructionAvecLeMêmeUtilisateurDrealError();
+      throw new DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal();
     }
 
     const event: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent = {
       type: 'DemandeDélaiPasséeEnInstruction-V1',
       payload: {
         identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
-        passéEnInstructionLe: datePassageEnInstruction.formatter(),
-        passéEnInstructionPar: identifiantUtilisateur.formatter(),
+        passéeEnInstructionLe: datePassageEnInstruction.formatter(),
+        passéeEnInstructionPar: identifiantUtilisateur.formatter(),
         dateDemande: this.#demande.demandéLe,
       },
     };
@@ -171,12 +171,12 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   }
 
   private applyDemandeDélaiPasséeEnInstruction({
-    payload: { passéEnInstructionPar },
+    payload: { passéeEnInstructionPar },
   }: DemandeDélaiPasséeEnInstructionEvent) {
     if (this.#demande) {
       this.#demande.statut = StatutDemandeDélai.enInstruction;
       this.#demande.instruction = {
-        passéEnInstructionPar: Email.convertirEnValueType(passéEnInstructionPar),
+        passéEnInstructionPar: Email.convertirEnValueType(passéeEnInstructionPar),
       };
     }
   }

@@ -33,7 +33,7 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
     Scénario: Impossible de passer en instruction une demande de délai si celle-ci est déjà instruite par le même utilisateur dreal
         Etant donné une demande de délai en instruction pour le projet lauréat
         Quand la même dreal passe en instruction la demande de délai pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "La demande de délai est déjà en instruction avec le même utilisateur dreal"
+        Alors l'utilisateur devrait être informé que "La demande de délai est déjà instruite par le même utilisateur dreal"
 
     Scénario: Impossible de passer la demande de délai d'un projet lauréat en instruction si la demande a été annulée
         Etant donné une demande de délai annulée pour le projet lauréat

@@ -2,14 +2,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const demandeDélaiPasséeEnInstructionProjector = async ({
-  payload: { identifiantProjet, passéEnInstructionLe, passéEnInstructionPar, dateDemande },
+  payload: { identifiantProjet, passéeEnInstructionLe, passéeEnInstructionPar, dateDemande },
 }: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent) => {
   await updateOneProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${dateDemande}`,
     {
       instruction: {
-        passéEnInstructionLe,
-        passéEnInstructionPar,
+        passéeEnInstructionLe,
+        passéeEnInstructionPar,
       },
       statut: Lauréat.Délai.StatutDemandeDélai.enInstruction.statut,
     },

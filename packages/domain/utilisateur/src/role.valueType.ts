@@ -1254,6 +1254,10 @@ const policies = {
       référencielPermissions.lauréat.délai.command.passerEnInstruction,
       référencielPermissions.lauréat.délai.usecase.passerEnInstruction,
     ],
+    reprendreInstructionDemande: [
+      référencielPermissions.lauréat.délai.command.passerEnInstruction,
+      référencielPermissions.lauréat.délai.usecase.passerEnInstruction,
+    ],
     rejeterDemande: [
       référencielPermissions.lauréat.délai.command.rejeter,
       référencielPermissions.lauréat.délai.usecase.rejeter,
@@ -1477,6 +1481,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'délai.consulterDemande',
   'délai.listerDemande',
   'délai.passerEnInstructionDemande',
+  'délai.reprendreInstructionDemande',
   'délai.rejeterDemande',
 ];
 
@@ -1552,7 +1557,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'abandon.accorder',
   'abandon.rejeter',
   'abandon.demander-confirmation',
-  'abandon.passer-en-instruction',
+  'délai.passerEnInstructionDemande',
+  'délai.reprendreInstructionDemande',
 
   // Recours
   'recours.consulter.liste',

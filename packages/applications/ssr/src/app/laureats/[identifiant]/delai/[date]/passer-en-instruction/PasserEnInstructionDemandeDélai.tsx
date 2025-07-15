@@ -31,13 +31,13 @@ export const PasserEnInstructionDemandeDélai = ({
         onClick={() => setIsOpen(true)}
         className="block w-1/2 text-center"
       >
-        Passer en instruction
+        {acceptButtonLabel}
       </Button>
 
       <ModalWithForm
         id="passer-en-instruction-demande-délai"
         title="Passer la demande de délai en instruction"
-        acceptButtonLabel={acceptButtonLabel}
+        acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

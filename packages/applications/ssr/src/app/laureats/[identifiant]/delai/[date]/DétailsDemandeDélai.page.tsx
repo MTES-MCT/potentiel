@@ -116,24 +116,24 @@ const mapToActionComponents = ({
   identifiantProjet,
   dateDemande,
   actions,
-}: MapToActionsComponentsProps) => (
-  <>
-    <Heading2>Actions</Heading2>
-    {actions.includes('annuler') && (
-      <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
-    )}
-    {actions.includes('passer-en-instruction') ||
-      (actions.includes('passer-en-instruction') && (
+}: MapToActionsComponentsProps) =>
+  actions.length > 0 ? (
+    <>
+      <Heading2>Actions</Heading2>
+      {actions.includes('annuler') && (
+        <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+      )}
+      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
         <PasserEnInstructionDemandeDélai
           identifiantProjet={identifiantProjet.formatter()}
-          estUneReprise={actions.includes('passer-en-instruction')}
+          estUneReprise={actions.includes('reprendre-instruction')}
         />
-      ))}
-    {actions.includes('rejeter') && (
-      <RejeterDemandeDélai
-        identifiantProjet={identifiantProjet.formatter()}
-        dateDemande={dateDemande}
-      />
-    )}
-  </>
-);
+      )}
+      {actions.includes('rejeter') && (
+        <RejeterDemandeDélai
+          identifiantProjet={identifiantProjet.formatter()}
+          dateDemande={dateDemande}
+        />
+      )}
+    </>
+  ) : null;

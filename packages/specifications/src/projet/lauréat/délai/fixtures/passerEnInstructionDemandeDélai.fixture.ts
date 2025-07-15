@@ -3,37 +3,37 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../fixture';
 
 interface PasserEnInstructionDemandeDélai {
-  readonly passéEnInstructionLe: string;
-  readonly passéEnInstructionPar: string;
+  readonly passéeEnInstructionLe: string;
+  readonly passéeEnInstructionPar: string;
 }
 
 export class PasserEnInstructionDemandeDélaiFixture
   extends AbstractFixture<PasserEnInstructionDemandeDélai>
   implements PasserEnInstructionDemandeDélai
 {
-  #passéEnInstructionLe!: string;
+  #passéeEnInstructionLe!: string;
 
-  get passéEnInstructionLe(): string {
-    return this.#passéEnInstructionLe;
+  get passéeEnInstructionLe(): string {
+    return this.#passéeEnInstructionLe;
   }
 
-  #passéEnInstructionPar!: string;
+  #passéeEnInstructionPar!: string;
 
-  get passéEnInstructionPar(): string {
-    return this.#passéEnInstructionPar;
+  get passéeEnInstructionPar(): string {
+    return this.#passéeEnInstructionPar;
   }
 
   créer(
     partialData?: Partial<Readonly<PasserEnInstructionDemandeDélai>>,
   ): Readonly<PasserEnInstructionDemandeDélai> {
     const fixture: PasserEnInstructionDemandeDélai = {
-      passéEnInstructionLe: faker.date.soon().toISOString(),
-      passéEnInstructionPar: faker.internet.email(),
+      passéeEnInstructionLe: faker.date.soon().toISOString(),
+      passéeEnInstructionPar: faker.internet.email(),
       ...partialData,
     };
 
-    this.#passéEnInstructionLe = fixture.passéEnInstructionLe;
-    this.#passéEnInstructionPar = fixture.passéEnInstructionPar;
+    this.#passéeEnInstructionLe = fixture.passéeEnInstructionLe;
+    this.#passéeEnInstructionPar = fixture.passéeEnInstructionPar;
 
     this.aÉtéCréé = true;
     return fixture;
