@@ -10,7 +10,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 
-import { StatutChangementActionnaireBadge } from '../StatutChangementActionnaireBadge';
+import { StatutChangementActionnaireBadge } from '../../StatutChangementActionnaireBadge';
 
 import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 

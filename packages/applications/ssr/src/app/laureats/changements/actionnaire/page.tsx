@@ -9,10 +9,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+
 import {
   ChangementActionnaireListPage,
   ChangementActionnaireListPageProps,
-} from '@/components/pages/actionnaire/changement/lister/ChangementActionnaireList.page';
+} from './ChangementActionnaireList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;

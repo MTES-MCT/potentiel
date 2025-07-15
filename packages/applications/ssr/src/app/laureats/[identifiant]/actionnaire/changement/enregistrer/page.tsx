@@ -10,7 +10,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { EnregistrerChangementActionnairePage } from '@/components/pages/actionnaire/enregistrerChangement/EnregistrerChangementActionnaire.page';
+
+import { EnregistrerChangementActionnairePage } from './EnregistrerChangementActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Changement d'actionnaire(s) d'un projet - Potentiel",

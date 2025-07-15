@@ -10,7 +10,7 @@ import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectLis
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { StatutChangementActionnaireBadge } from '../StatutChangementActionnaireBadge';
+import { StatutChangementActionnaireBadge } from '../../[identifiant]/actionnaire/StatutChangementActionnaireBadge';
 
 export type ChangementActionnaireListItemProps = PlainType<
   Lauréat.Actionnaire.ListerChangementActionnaireReadModel['items'][number]
