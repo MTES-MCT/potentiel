@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
+import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
 import { DélaiEvent } from '../délai.event';
+import { isFonctionnalitéDélaiActivée } from '../isFonctionnalitéDélaiActivée';
 
 export type ListerDélaiAccordéProjetPort = (
   identifiantProjet: string,
@@ -10,7 +11,11 @@ export type ListerDélaiAccordéProjetPort = (
 
 export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<'délai', DélaiEvent>;
 
-export type ListerHistoriqueDélaiProjetReadModel = Array<HistoriqueDélaiProjetListItemReadModel>;
+export type ListerHistoriqueDélaiProjetReadModel = {
+  items: ReadonlyArray<HistoriqueDélaiProjetListItemReadModel>;
+  range: RangeOptions;
+  total: number;
+};
 
 export type ListerHistoriqueDélaiProjetQuery = Message<
   'Lauréat.Délai.Query.ListerHistoriqueDélaiProjet',
@@ -21,14 +26,35 @@ export type ListerHistoriqueDélaiProjetQuery = Message<
 >;
 
 export type ListerHistoriqueDélaiProjetDependencies = {
-  listerDélaiAccordé: ListerDélaiAccordéProjetPort;
+  listerDélaiAccordéProjet: ListerDélaiAccordéProjetPort;
+  listHistory: ListHistory<HistoriqueDélaiProjetListItemReadModel>;
 };
 
 export const registerListerHistoriqueDélaiProjetQuery = ({
-  listerDélaiAccordé,
+  listerDélaiAccordéProjet,
+  listHistory,
 }: ListerHistoriqueDélaiProjetDependencies) => {
-  const handler: MessageHandler<ListerHistoriqueDélaiProjetQuery> = async ({ identifiantProjet }) =>
-    listerDélaiAccordé(identifiantProjet);
+  const handler: MessageHandler<ListerHistoriqueDélaiProjetQuery> = async ({
+    identifiantProjet,
+  }) => {
+    if (isFonctionnalitéDélaiActivée()) {
+      return listHistory({
+        id: identifiantProjet,
+        category: 'délai',
+      });
+    }
+
+    const legacyHistorique = await listerDélaiAccordéProjet(identifiantProjet);
+
+    return {
+      items: legacyHistorique,
+      range: {
+        startPosition: 0,
+        endPosition: legacyHistorique.length,
+      },
+      total: legacyHistorique.length,
+    };
+  };
 
   mediator.register('Lauréat.Délai.Query.ListerHistoriqueDélaiProjet', handler);
 };

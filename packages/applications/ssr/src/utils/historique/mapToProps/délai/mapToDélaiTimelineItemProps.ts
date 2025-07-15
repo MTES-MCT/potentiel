@@ -13,7 +13,7 @@ export const mapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
 ) =>
   match(readmodel)
-    .returnType<TimelineItemProps | undefined>()
+    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'DélaiDemandé-V1',
