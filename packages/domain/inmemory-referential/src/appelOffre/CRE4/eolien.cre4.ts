@@ -33,8 +33,16 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
-      nécessiteInstruction: true,
+      informationEnregistréePossible: false,
+      demandeDeChangementPossible: true,
       typeTâchePlanifiée: 'rejet-automatique',
+    },
+    actionnaire: {
+      informationEnregistréePossible: true,
+      demandeDeChangementPossible: true,
+    },
+    fournisseur: {
+      informationEnregistréePossible: true,
     },
   },
   cahiersDesChargesUrl:

@@ -56,6 +56,10 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     return;
   }
 
+  const typeTâchePlanifiée =
+    période.changement?.représentantLégal?.typeTâchePlanifiée ??
+    appelOffre.changement?.représentantLégal?.typeTâchePlanifiée;
+
   const changementEnCours =
     await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
       {
@@ -75,13 +79,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     return;
   }
 
-  const {
-    changement: {
-      représentantLégal: { nécessiteInstruction, typeTâchePlanifiée },
-    },
-  } = période;
-
-  if (!nécessiteInstruction) {
+  if (!typeTâchePlanifiée) {
     return;
   }
 

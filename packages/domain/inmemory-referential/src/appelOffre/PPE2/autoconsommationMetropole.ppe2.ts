@@ -78,8 +78,16 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
-      nécessiteInstruction: true,
+      informationEnregistréePossible: false,
+      demandeDeChangementPossible: true,
       typeTâchePlanifiée: 'rejet-automatique',
+    },
+    actionnaire: {
+      informationEnregistréePossible: true,
+      demandeDeChangementPossible: true,
+    },
+    fournisseur: {
+      informationEnregistréePossible: true,
     },
   },
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },

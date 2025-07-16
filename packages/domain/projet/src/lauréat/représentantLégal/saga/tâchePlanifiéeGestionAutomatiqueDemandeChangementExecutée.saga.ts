@@ -47,13 +47,11 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
     );
   }
 
-  const {
-    changement: {
-      représentantLégal: { nécessiteInstruction, typeTâchePlanifiée },
-    },
-  } = période;
+  const typeTâchePlanifiée =
+    période.changement?.représentantLégal?.typeTâchePlanifiée ??
+    appelOffre.changement?.représentantLégal?.typeTâchePlanifiée;
 
-  if (!nécessiteInstruction) {
+  if (!typeTâchePlanifiée) {
     return;
   }
 

@@ -45,8 +45,16 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
-      nécessiteInstruction: true,
+      informationEnregistréePossible: false,
+      demandeDeChangementPossible: true,
       typeTâchePlanifiée: 'accord-automatique',
+    },
+    actionnaire: {
+      informationEnregistréePossible: true,
+      demandeDeChangementPossible: true,
+    },
+    fournisseur: {
+      informationEnregistréePossible: true,
     },
   },
   délaiRéalisationEnMois: 30,

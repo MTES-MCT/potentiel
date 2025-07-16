@@ -56,15 +56,18 @@ type GarantiesFinancièresAppelOffre = {
 
 // Demandes
 type DemandeChangement = {
-  représentantLégal:
-    | {
-        nécessiteInstruction: true;
-        typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
-      }
-    | {
-        nécessiteInstruction: false;
-        typeTâchePlanifiée?: undefined;
-      };
+  représentantLégal: {
+    informationEnregistréePossible: boolean;
+    demandeDeChangementPossible: boolean;
+    typeTâchePlanifiée?: 'accord-automatique' | 'rejet-automatique';
+  };
+  actionnaire: {
+    informationEnregistréePossible: boolean;
+    demandeDeChangementPossible: boolean;
+  };
+  fournisseur: {
+    informationEnregistréePossible: boolean;
+  };
 };
 
 // Courriers
