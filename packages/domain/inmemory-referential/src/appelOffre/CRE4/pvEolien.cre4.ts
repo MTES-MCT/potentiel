@@ -63,7 +63,6 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       informationEnregistréePossible: false,
-      demandeDeChangementPossible: true,
       typeTâchePlanifiée: 'accord-automatique',
     },
     actionnaire: {

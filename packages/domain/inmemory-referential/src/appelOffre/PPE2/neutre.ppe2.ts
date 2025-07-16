@@ -18,7 +18,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       informationEnregistréePossible: false,
-      demandeDeChangementPossible: true,
+
       typeTâchePlanifiée: 'rejet-automatique',
     },
     actionnaire: {
