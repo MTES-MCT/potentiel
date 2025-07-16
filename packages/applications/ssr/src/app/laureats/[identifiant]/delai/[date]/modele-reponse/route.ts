@@ -39,7 +39,6 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     });
 
     if (Option.isNone(achèvement)) {
-      console.log('achèvement none');
       return notFound();
     }
 
@@ -49,7 +48,6 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     });
 
     if (Option.isNone(demandeDélai)) {
-      console.log('demandeDélai none');
       return notFound();
     }
 
