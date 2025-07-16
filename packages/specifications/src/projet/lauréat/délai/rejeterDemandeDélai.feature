@@ -1,6 +1,6 @@
 # language: fr
 @délai
-@rejeter-délai
+@rejeter-demande-délai
 Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
 
     Contexte:
@@ -12,7 +12,6 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand la DREAL associée au projet rejette le délai pour le projet lauréat
         Alors la demande de délai devrait être rejetée
-        # Et la date d'achèvement prévisionnel du projet lauréat ne devrait pas être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
             | nom_projet | Du boulodrome de Marseille                                                                                      |

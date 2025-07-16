@@ -9,8 +9,8 @@ export const demandeDélaiRejetéeProjector = async ({
     {
       statut: Lauréat.Délai.StatutDemandeDélai.rejeté.statut,
       rejet: {
-        rejetéLe: rejetéeLe,
-        rejetéPar: rejetéePar,
+        rejetéeLe,
+        rejetéePar,
         réponseSignée: { format: réponseSignée.format },
       },
     },

@@ -19,6 +19,16 @@ EtantDonné(
 );
 
 EtantDonné(
+  'une demande de délai en cours de {string} mois pour le projet lauréat',
+  async function (this: PotentielWorld, nombreDeMois: string) {
+    await demanderDélai.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      nombreDeMois: Number(nombreDeMois),
+    });
+  },
+);
+
+EtantDonné(
   'une demande de délai annulée pour le projet lauréat',
   async function (this: PotentielWorld) {
     await demanderDélai.call(this, {

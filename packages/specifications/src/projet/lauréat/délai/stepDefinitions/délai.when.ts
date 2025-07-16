@@ -28,6 +28,13 @@ Quand(
 );
 
 Quand(
+  'la DREAL associée au projet accorde le délai pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await accorderDemandeDélai.call(this);
+  },
+);
+
+Quand(
   /(.*) passe en instruction la demande de délai pour le projet lauréat/,
   async function (this: PotentielWorld, utilisateur: string) {
     await passerDemanderDélaiEnInstruction.call(
@@ -127,6 +134,29 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
         identifiantProjetValue: identifiantProjet,
       },
     });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function accorderDemandeDélai(this: PotentielWorld) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const { accordéeLe, accordéePar, réponseSignée } =
+      this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.créer();
+
+    console.log(identifiantProjet, accordéeLe, accordéePar, réponseSignée);
+
+    // await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
+    //   type: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
+    //   data: {
+    //     identifiantProjetValue: identifiantProjet,
+    //     identifiantUtilisateurValue: accordéePar,
+    //     dateAccordValue: accordéeLe,
+    //     réponseSignéeValue: réponseSignée,
+    //   },
+    // });
   } catch (error) {
     this.error = error as Error;
   }

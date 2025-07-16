@@ -20,8 +20,8 @@ export type DemandeDélaiEntity = Entity<
     };
 
     accord?: {
-      accordéLe: string;
-      accordéPar: string;
+      accordéeLe: string;
+      accordéePar: string;
       nombreDeMois: number;
       réponseSignée: {
         format: string;
@@ -29,8 +29,8 @@ export type DemandeDélaiEntity = Entity<
     };
 
     rejet?: {
-      rejetéLe: string;
-      rejetéPar: string;
+      rejetéeLe: string;
+      rejetéePar: string;
       motif: string;
       réponseSignée: {
         format: string;

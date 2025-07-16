@@ -8,7 +8,7 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | appel d'offre        | <appel d'offre>        |
             | délai de réalisation | <délai de réalisation> |
         Quand le DGEC validateur notifie la candidature lauréate le "<date notification>"
-        Alors la date d'achèvement prévisionnel du projet devrait être "<date achèvement prévisionnel attendue>"
+        Alors la date d'achèvement prévisionnel du projet lauréat devrait être "<date achèvement prévisionnel attendue>"
 
         Exemples:
             | appel d'offre   | délai de réalisation | date notification | date achèvement prévisionnel attendue |
@@ -21,13 +21,10 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | appel d'offre | <appel d'offre>         |
             | technologie   | <technologie du projet> |
         Quand le DGEC validateur notifie la candidature lauréate le "<date notification>"
-        Alors la date d'achèvement prévisionnel du projet devrait être "<date achèvement prévisionnel attendue>"
+        Alors la date d'achèvement prévisionnel du projet lauréat devrait être "<date achèvement prévisionnel attendue>"
 
         Exemples:
             | appel d'offre | technologie du projet | date notification | date achèvement prévisionnel attendue |
             | PPE2 - Neutre | pv                    | 2024-10-05        | 2027-04-05                            |
             | PPE2 - Neutre | eolien                | 2024-10-05        | 2027-10-05                            |
             | PPE2 - Neutre | hydraulique           | 2024-10-05        | 2027-10-05                            |
-
-    Scénario:
-

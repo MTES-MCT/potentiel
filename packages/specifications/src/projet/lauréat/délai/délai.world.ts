@@ -6,6 +6,7 @@ import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
 import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture';
 import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture';
+import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture';
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();
@@ -21,17 +22,25 @@ export class DélaiWorld {
     return this.#annulerDemandeDélaiFixture;
   }
 
+  readonly #passerEnInstructionDemandeDélaiFixture: PasserEnInstructionDemandeDélaiFixture =
+    new PasserEnInstructionDemandeDélaiFixture();
+
+  get passerEnInstructionDemandeDélaiFixture() {
+    return this.#passerEnInstructionDemandeDélaiFixture;
+  }
+
   readonly #rejeterDemandeDélaiFixture: RejeterDemandeDélaiFixture =
     new RejeterDemandeDélaiFixture();
 
   get rejeterDemandeDélaiFixture() {
     return this.#rejeterDemandeDélaiFixture;
   }
-  readonly #passerEnInstructionDemandeDélaiFixture: PasserEnInstructionDemandeDélaiFixture =
-    new PasserEnInstructionDemandeDélaiFixture();
 
-  get passerEnInstructionDemandeDélaiFixture() {
-    return this.#passerEnInstructionDemandeDélaiFixture;
+  readonly #accorderDemandeDélaiFixture: AccorderDemandeDélaiFixture =
+    new AccorderDemandeDélaiFixture();
+
+  get accorderDemandeDélaiFixture() {
+    return this.#accorderDemandeDélaiFixture;
   }
 
   mapToExpected(
@@ -56,10 +65,21 @@ export class DélaiWorld {
         this.#demanderDélaiFixture.pièceJustificative.format,
       ),
 
+      instruction: this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé
+        ? {
+            passéeEnInstructionLe: DateTime.convertirEnValueType(
+              this.#passerEnInstructionDemandeDélaiFixture.passéeEnInstructionLe,
+            ),
+            passéeEnInstructionPar: Email.convertirEnValueType(
+              this.#passerEnInstructionDemandeDélaiFixture.passéeEnInstructionPar,
+            ),
+          }
+        : undefined,
+
       rejet: this.#rejeterDemandeDélaiFixture.aÉtéCréé
         ? {
-            rejetéLe: DateTime.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéeLe),
-            rejetéPar: Email.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéePar),
+            rejetéeLe: DateTime.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéeLe),
+            rejetéePar: Email.convertirEnValueType(this.#rejeterDemandeDélaiFixture.rejetéePar),
 
             réponseSignée: DocumentProjet.convertirEnValueType(
               identifiantProjet.formatter(),
@@ -69,18 +89,23 @@ export class DélaiWorld {
             ),
           }
         : undefined,
-    };
 
-    if (this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé) {
-      expected.instruction = {
-        passéeEnInstructionLe: DateTime.convertirEnValueType(
-          this.#passerEnInstructionDemandeDélaiFixture.passéeEnInstructionLe,
-        ),
-        passéeEnInstructionPar: Email.convertirEnValueType(
-          this.#passerEnInstructionDemandeDélaiFixture.passéeEnInstructionPar,
-        ),
-      };
-    }
+      accord: this.#accorderDemandeDélaiFixture.aÉtéCréé
+        ? {
+            accordéeLe: DateTime.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéeLe),
+            accordéePar: Email.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéePar),
+            nombreDeMois: this.#demanderDélaiFixture.nombreDeMois,
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              identifiantProjet.formatter(),
+              Lauréat.Délai.TypeDocumentDemandeDélai.demandeAccordée.formatter(),
+              DateTime.convertirEnValueType(
+                this.#accorderDemandeDélaiFixture.accordéeLe,
+              ).formatter(),
+              this.#accorderDemandeDélaiFixture.réponseSignée.format,
+            ),
+          }
+        : undefined,
+    };
 
     return expected;
   }
