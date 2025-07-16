@@ -50,6 +50,12 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 20,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      nécessiteInstruction: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+  },
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
@@ -178,12 +184,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -238,12 +238,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -298,12 +292,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '4',
@@ -358,12 +346,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '5',
@@ -418,12 +400,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '6',
@@ -478,12 +454,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '7',
@@ -538,12 +508,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '8',
@@ -598,12 +562,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '9',
@@ -658,12 +616,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '10',
@@ -718,12 +670,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '11',
@@ -778,12 +724,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '12',
@@ -838,12 +778,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '13',
@@ -896,12 +830,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };
