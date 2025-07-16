@@ -12,7 +12,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCahierDesCharges, getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges, getPériodeAppelOffres } from '@/app/_helpers';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
@@ -26,7 +26,6 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     const identifiantProjet = decodeParameter(identifiant);
     const demandéLe = decodeParameter(date);
 
-    const { technologie } = await getCandidature(identifiantProjet);
     const { lauréat, représentantLégal, puissance } = await getLauréat({ identifiantProjet });
     const { appelOffres, période, famille } = await getPériodeAppelOffres(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -73,7 +72,7 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
 
     const getDélaiRéalisationEnMois = () => {
       if (appelOffres.multiplesTechnologies) {
-        return appelOffres.délaiRéalisationEnMois[technologie.type];
+        return appelOffres.délaiRéalisationEnMois[lauréat.technologie.type];
       }
 
       return appelOffres.délaiRéalisationEnMois;
