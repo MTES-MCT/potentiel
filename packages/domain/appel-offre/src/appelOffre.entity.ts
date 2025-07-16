@@ -219,9 +219,15 @@ export type Periode = {
   choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
   changement: {
-    représentantLégal: {
-      typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
-    };
+    représentantLégal:
+      | {
+          nécessiteInstruction: true;
+          typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
+        }
+      | {
+          nécessiteInstruction: false;
+          typeTâchePlanifiée?: undefined;
+        };
   };
   addendums?: {
     /**

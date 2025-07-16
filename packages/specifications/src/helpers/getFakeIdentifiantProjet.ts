@@ -10,7 +10,8 @@ export const getFakeIdentifiantProjet = (props: GetFakeIdentifiantProjetProps = 
 
   const appelOffre = props.appelOffre
     ? appelsOffreData.find((ao) => ao.id === props.appelOffre)
-    : faker.helpers.arrayElement(appelsOffreData);
+    : // L'AO Petit PV (AO Simplifié) a des règles trop différentes pour être choisi aléatoirement (GF par exemple).
+      faker.helpers.arrayElement(appelsOffreData.filter((x) => x.id !== 'PPE2 - Petit PV'));
 
   if (!appelOffre) {
     if (!!props.appelOffre && !!props.période) {

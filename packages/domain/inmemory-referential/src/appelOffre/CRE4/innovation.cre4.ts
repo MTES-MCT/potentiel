@@ -197,6 +197,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
@@ -234,6 +235,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
@@ -271,6 +273,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },

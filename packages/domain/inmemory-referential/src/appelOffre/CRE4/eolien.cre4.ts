@@ -159,6 +159,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -215,6 +216,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -270,6 +272,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -325,6 +328,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -380,6 +384,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -435,6 +440,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -490,6 +496,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -545,6 +552,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },

@@ -1,4 +1,5 @@
 # language: fr
+@abandon
 Fonctionnalité: Demander l'abandon d'un projet lauréat
 
     Contexte:

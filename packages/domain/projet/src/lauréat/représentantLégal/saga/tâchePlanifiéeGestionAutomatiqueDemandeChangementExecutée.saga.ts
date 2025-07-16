@@ -49,9 +49,13 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
 
   const {
     changement: {
-      représentantLégal: { typeTâchePlanifiée },
+      représentantLégal: { nécessiteInstruction, typeTâchePlanifiée },
     },
   } = période;
+
+  if (!nécessiteInstruction) {
+    return;
+  }
 
   await match(typeTâchePlanifiée)
     .with('accord-automatique', async () => {

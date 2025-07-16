@@ -77,9 +77,13 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
 
   const {
     changement: {
-      représentantLégal: { typeTâchePlanifiée },
+      représentantLégal: { nécessiteInstruction, typeTâchePlanifiée },
     },
   } = période;
+
+  if (!nécessiteInstruction) {
+    return;
+  }
 
   const messageSubject = `Potentiel - La demande de modification du représentant légal pour le projet ${nom} dans le département ${département} nécessite votre instruction`;
 
