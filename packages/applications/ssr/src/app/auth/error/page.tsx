@@ -2,11 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import {
-  CustomErrorPage,
-  CustomErrorProps,
-  ErrorType,
-} from '@/components/pages/custom-error/CustomError.page';
+import { CustomErrorPage, CustomErrorProps, ErrorType } from '@/app/error/CustomError.page';
 
 export default function Unauthorized() {
   const params = useSearchParams();

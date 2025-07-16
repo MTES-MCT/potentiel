@@ -10,7 +10,7 @@ import {
 } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 
-import { CustomErrorPage } from '@/components/pages/custom-error/CustomError.page';
+import { CustomErrorPage } from '@/app/error/CustomError.page';
 
 import { withErrorHandling } from './withErrorHandling';
 
