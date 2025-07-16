@@ -18,7 +18,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       informationEnregistréePossible: false,
-      demandeDeChangementPossible: false,
     },
     actionnaire: {
       informationEnregistréePossible: false,

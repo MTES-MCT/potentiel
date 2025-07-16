@@ -56,7 +56,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       informationEnregistréePossible: false,
-      demandeDeChangementPossible: true,
+
       typeTâchePlanifiée: 'rejet-automatique',
     },
     actionnaire: {
@@ -325,7 +325,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       changement: {
         représentantLégal: {
           informationEnregistréePossible: false,
-          demandeDeChangementPossible: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
         actionnaire: {

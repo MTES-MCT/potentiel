@@ -53,7 +53,6 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       informationEnregistréePossible: false,
-      demandeDeChangementPossible: true,
       typeTâchePlanifiée: 'accord-automatique',
     },
     actionnaire: {

@@ -58,7 +58,6 @@ type GarantiesFinancièresAppelOffre = {
 type DemandeChangement = {
   représentantLégal: {
     informationEnregistréePossible: boolean;
-    demandeDeChangementPossible: boolean;
     typeTâchePlanifiée?: 'accord-automatique' | 'rejet-automatique';
   };
   actionnaire: {
