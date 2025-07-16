@@ -21,13 +21,16 @@ EtantDonné(
   'le projet éliminé {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
+
     await importerCandidature.call(this, {
       nomProjet,
       statut: 'éliminé',
       ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
     });
 
-    const dateDésignation = this.éliminéWorld.dateDésignation;
+    const dateDésignation = exemple['date notification']
+      ? new Date(exemple['date notification']).toISOString()
+      : this.éliminéWorld.dateDésignation;
 
     await notifierÉliminé.call(this, dateDésignation);
   },
@@ -45,18 +48,6 @@ EtantDonné(
     await notifierÉliminé.call(this, dateDésignation);
   },
 );
-
-EtantDonné(
-  'le projet éliminé {string} ayant été notifié le {string}',
-  async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
-    const dateDésignation = new Date(dateNotification).toISOString();
-
-    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
-
-    await notifierÉliminé.call(this, dateDésignation);
-  },
-);
-
 export async function notifierÉliminé(this: PotentielWorld, dateDésignation: string) {
   const candidature = this.candidatureWorld.importerCandidature;
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(

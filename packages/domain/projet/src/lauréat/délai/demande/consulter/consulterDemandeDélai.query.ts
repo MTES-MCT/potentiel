@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutDemandeDélai } from '../..';
 import { Délai } from '../../..';
-import { DemandeDélaiEntity } from '../../demandeDélai.entity';
+import { DemandeDélaiEntity } from '../demandeDélai.entity';
 import { IdentifiantProjet } from '../../../..';
 
 export type ConsulterDemandeDélaiReadModel = {

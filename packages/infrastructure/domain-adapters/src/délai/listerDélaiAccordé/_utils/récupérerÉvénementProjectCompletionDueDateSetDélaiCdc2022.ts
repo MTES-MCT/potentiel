@@ -32,7 +32,7 @@ export const récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022: Ré
       id: `${identifiantProjet}#${dateCréation}`,
       category: 'délai',
       createdAt: dateCréation,
-      type: 'DélaiAccordé-V1',
+      type: 'LegacyDélaiAccordé-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         durée,

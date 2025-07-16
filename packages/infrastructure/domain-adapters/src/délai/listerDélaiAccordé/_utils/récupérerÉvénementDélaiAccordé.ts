@@ -32,7 +32,7 @@ export const récupérerÉvénementDélaiAccordé: RécupérerDélaiÉvénement 
     id: `${identifiantProjet}#${dateCréation}`,
     category: 'délai',
     createdAt: dateCréation,
-    type: 'DélaiAccordé-V1',
+    type: 'LegacyDélaiAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       durée,

@@ -10,6 +10,7 @@ import {
   mapToDemandeDélaiRejetéeTimelineItemProps,
   mapToDélaiAccordéTimelineItemProps,
   mapToDélaiDemandéTimelineItemProps,
+  mapToLegacyDélaiAccordéTimelineItemProps,
 } from './events';
 
 export const mapToDélaiTimelineItemProps = (
@@ -46,5 +47,11 @@ export const mapToDélaiTimelineItemProps = (
         type: 'DélaiAccordé-V1',
       },
       mapToDélaiAccordéTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'LegacyDélaiAccordé-V1',
+      },
+      mapToLegacyDélaiAccordéTimelineItemProps,
     )
     .exhaustive();

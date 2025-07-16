@@ -30,14 +30,16 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
         Alors le gestionnaire de réseau devrait être informé que "La date ne peut pas être une date future"
 
     Scénario: Impossible de transmettre une date de mise en service antérieure à la date de notification du projet
-        Etant donné le projet lauréat "Du boulodrome de Lille" ayant été notifié le "2022-10-26"
+        Etant donné le projet lauréat "Du boulodrome de Lille" avec :
+            | date notification | 2022-10-26 |
         Et une demande complète de raccordement pour le projet lauréat
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |
         Alors le gestionnaire de réseau devrait être informé que "La date de mise en service ne peut pas être antérieure à la date de désignation du projet"
 
     Scénario: Impossible de transmettre une date de mise en service plus d'une fois
-        Etant donné le projet lauréat "Du boulodrome de Lille" ayant été notifié le "2021-10-26"
+        Etant donné le projet lauréat "Du boulodrome de Lille" avec :
+            | date notification | 2021-10-26 |
         Etant donné une demande complète de raccordement pour le projet lauréat
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2021-12-31 |

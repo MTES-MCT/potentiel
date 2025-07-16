@@ -11,7 +11,7 @@ import { DemandeDélaiPasséeEnInstructionEvent, StatutDemandeDélai } from '.';
 import { DélaiEvent } from './délai.event';
 import { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
 import { DemanderDélaiOptions } from './demande/demander/demanderDélai.options';
-import { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
+import { DélaiAccordéEvent } from './accorder/accorderDélai.event';
 import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDélai.options';
 import {
   DemandeDeDélaiInexistanteError,
@@ -21,6 +21,7 @@ import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDél
 import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options';
 import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 import { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option';
+import { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options';
 
 export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {
@@ -117,6 +118,38 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     await this.publish(event);
   }
 
+  async accorderDemandeDélai({
+    dateAccord,
+    identifiantUtilisateur,
+    réponseSignée,
+  }: AccorderDemandeDélaiOptions) {
+    if (!this.#demande) {
+      throw new DemandeDeDélaiInexistanteError();
+    }
+
+    this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
+
+    await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
+      type: 'délai-accordé',
+      nombreDeMois: this.#demande.nombreDeMois,
+    });
+
+    const délaiAccordéEvent: DélaiAccordéEvent = {
+      type: 'DélaiAccordé-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        accordéLe: dateAccord.formatter(),
+        accordéPar: identifiantUtilisateur.formatter(),
+        durée: this.#demande.nombreDeMois,
+        raison: 'demande',
+        réponseSignée: { format: réponseSignée.format },
+        dateDemande: this.#demande.demandéLe,
+      },
+    };
+
+    await this.publish(délaiAccordéEvent);
+  }
+
   async passerEnInstructionDemandeDélai({
     identifiantUtilisateur,
     datePassageEnInstruction,
@@ -149,13 +182,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   apply(event: DélaiEvent) {
     match(event)
       .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandé.bind(this))
-      .with({ type: 'DélaiAccordé-V1' }, this.applyDélaiAccordé.bind(this))
       .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
-      .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
       .with(
         { type: 'DemandeDélaiPasséeEnInstruction-V1' },
         this.applyDemandeDélaiPasséeEnInstruction.bind(this),
       )
+      .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
+      .with({ type: 'DélaiAccordé-V1' }, this.applyDélaiAccordé.bind(this))
       .exhaustive();
   }
 
@@ -163,10 +196,6 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe };
   }
   private applyDemandeDélaiAnnulée() {
-    this.#demande = undefined;
-  }
-
-  private applyDemandeDélaiRejetée(_: DemandeDélaiRejetéeEvent) {
     this.#demande = undefined;
   }
 
@@ -181,5 +210,11 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
   }
 
-  private applyDélaiAccordé(_: DélaiAccordéEvent) {}
+  private applyDemandeDélaiRejetée(_: DemandeDélaiRejetéeEvent) {
+    this.#demande = undefined;
+  }
+
+  private applyDélaiAccordé(_: DélaiAccordéEvent) {
+    this.#demande = undefined;
+  }
 }

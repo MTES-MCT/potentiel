@@ -4,12 +4,16 @@ import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/enti
 
 import { DélaiEvent } from '../délai.event';
 import { isFonctionnalitéDélaiActivée } from '../isFonctionnalitéDélaiActivée';
+import { LegacyDélaiAccordéEvent } from '../accorder/accorderDélai.event';
 
 export type ListerDélaiAccordéProjetPort = (
   identifiantProjet: string,
 ) => Promise<Array<HistoriqueDélaiProjetListItemReadModel>>;
 
-export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<'délai', DélaiEvent>;
+export type HistoriqueDélaiProjetListItemReadModel = HistoryRecord<
+  'délai',
+  DélaiEvent | LegacyDélaiAccordéEvent
+>;
 
 export type ListerHistoriqueDélaiProjetReadModel = {
   items: ReadonlyArray<HistoriqueDélaiProjetListItemReadModel>;

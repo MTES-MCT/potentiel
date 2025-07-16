@@ -8,25 +8,25 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Et un cahier des charges modificatif choisi
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    Plan du scénario: la DREAL associée au projet accorder le délai d'un projet lauréat
-        Etant donné le projet lauréat "Du boulodrome de Bordeaux" ayant été notifié le "<date désignation>"
+    Plan du scénario: la DREAL associée au projet accorde le délai d'un projet lauréat
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
+            | appel d'offre        | <appel d'offre>                |
+            | délai de réalisation | <délai de réalisation de l'AO> |
+            | date notification    | <date notification>            |
         Et un cahier des charges modificatif choisi
         Et la dreal "Dreal du sud" associée à la région du projet
-        Et une demande de délai en cours de "<durée>" mois pour le projet lauréat
-        Quand la DREAL associée au projet accorde le délai pour le projet lauréat
+        Et une demande de délai en cours de "<durée du délai demandé>" mois pour le projet lauréat
+        Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
         Alors la demande de délai devrait être accordée
         Et la date d'achèvement prévisionnel du projet lauréat devrait être "<date achèvement prévisionnel attendue>"
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Bordeaux dans le département(.*) a été accordée |
-            | nom_projet | Du boulodrome de Bordeaux                                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                           |
-            | type       | accord                                                                                                          |
+            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Bordeaux situé dans le département(.*) a été accordée |
+            | nom_projet | Du boulodrome de Bordeaux                                                                                             |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                 |
 
         Exemples:
-            | date désignation | durée | date achèvement prévisionnel attendue |
-            | 2020-01-01       | 11    | 2020-11-01                            |
-            | 2021-04-30       | 36    | 2024-05-31                            |
-            | 2025-07-16       | 6     | 2026-01-16                            |
+            | appel d'offre   | délai de réalisation de l'AO | date notification | durée du délai demandé | date achèvement prévisionnel attendue |
+            | PPE2 - Bâtiment | 30                           | 2020-01-01        | 10                     | 2023-05-01                            |
 
 
 # Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours

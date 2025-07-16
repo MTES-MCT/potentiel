@@ -13,6 +13,7 @@ import { demandeDélaiRejetéeNotification } from './demandeDélaiRejetée.notif
 import { délaiDemandéNotification } from './délaiDemandé.notification';
 import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnulée.notification';
 import { demandeDélaiPasséeEnInstructionNotification } from './demandeDélaiPasséeEnInstruction.notification';
+import { demandeDélaiAccordéeNotification } from './démandeDélaiAccordée.notification';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent & Event;
 
@@ -49,7 +50,9 @@ export const registerDélaiNotifications = ({
           baseUrl,
         }),
       )
-      .with({ type: 'DélaiAccordé-V1' }, () => undefined)
+      .with({ type: 'DélaiAccordé-V1' }, async (event) =>
+        demandeDélaiAccordéeNotification({ sendEmail, event, projet }),
+      )
       .exhaustive();
   };
 
