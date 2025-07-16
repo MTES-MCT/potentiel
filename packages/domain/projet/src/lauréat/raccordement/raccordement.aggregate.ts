@@ -235,6 +235,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     référenceDossierRaccordement,
     formatPropositionTechniqueEtFinancièreSignée,
   }: ModifierPropositionTechniqueEtFinancièreOptions) {
+    this.lauréat.vérifierPasEnCoursAbandon();
+
     if (dateSignature.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }

@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Transmettre une demande complète de raccordement
 
     Contexte:
