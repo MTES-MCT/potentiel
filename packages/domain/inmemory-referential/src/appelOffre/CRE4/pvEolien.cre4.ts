@@ -60,6 +60,12 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   technologie: 'eolien',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      nécessiteInstruction: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+  },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   délaiRéalisationEnMois: 24,
   paragraphePrixReference: '7',
@@ -151,12 +157,6 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };

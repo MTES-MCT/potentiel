@@ -59,6 +59,12 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      nécessiteInstruction: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+  },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
@@ -151,12 +157,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
     // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)

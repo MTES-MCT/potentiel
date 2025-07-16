@@ -53,6 +53,12 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MW',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      nécessiteInstruction: true,
+      typeTâchePlanifiée: 'rejet-automatique',
+    },
+  },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -145,12 +151,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -187,12 +187,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -218,12 +212,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '4',
@@ -241,12 +229,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '5',
@@ -264,12 +246,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '6',
@@ -287,12 +263,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '7',
@@ -310,12 +280,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '8',
@@ -333,12 +297,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '9',

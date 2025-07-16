@@ -53,6 +53,12 @@ export const sol: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 24,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      nécessiteInstruction: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+  },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.4',
@@ -198,12 +204,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -271,12 +271,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -344,12 +338,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '4',
@@ -417,12 +405,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '5',
@@ -490,12 +472,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '6',
@@ -562,12 +538,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '7',
@@ -634,12 +604,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '8',
@@ -706,12 +670,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '9',
@@ -778,12 +736,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '10',
@@ -850,12 +802,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };
