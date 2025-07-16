@@ -10,11 +10,7 @@ import { importerCandidature } from '../../../candidature/stepDefinitions/candid
 import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
-  // un projet éliminé a rarement ces informations lors d'un import de candidature
-  await importerCandidature.call(this, nomProjet, 'éliminé', {
-    typeGarantiesFinancièresValue: undefined,
-    dateÉchéanceGfValue: undefined,
-  });
+  await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
 
   const dateDésignation = this.éliminéWorld.dateDésignation;
 
@@ -25,11 +21,10 @@ EtantDonné(
   'le projet éliminé {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    // un projet éliminé a rarement ces informations lors d'un import de candidature
-    await importerCandidature.call(this, nomProjet, 'éliminé', {
+    await importerCandidature.call(this, {
+      nomProjet,
+      statut: 'éliminé',
       ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
-      typeGarantiesFinancièresValue: undefined,
-      dateÉchéanceGfValue: undefined,
     });
 
     const dateDésignation = this.éliminéWorld.dateDésignation;
@@ -43,12 +38,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
 
-    await importerCandidaturePériodeLegacy.call(
-      this,
-      nomProjet,
-      'éliminé',
-      this.candidatureWorld.mapExempleToFixtureValues(exemple),
-    );
+    await importerCandidaturePériodeLegacy.call(this, nomProjet, 'éliminé', exemple);
 
     const dateDésignation = this.éliminéWorld.dateDésignation;
 
@@ -61,7 +51,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
     const dateDésignation = new Date(dateNotification).toISOString();
 
-    await importerCandidature.call(this, nomProjet, 'éliminé');
+    await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
 
     await notifierÉliminé.call(this, dateDésignation);
   },

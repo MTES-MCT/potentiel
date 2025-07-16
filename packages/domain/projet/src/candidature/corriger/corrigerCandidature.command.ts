@@ -3,11 +3,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
-import { ImporterCandidatureCommand } from '../importer/importerCandidature.command';
+import { Dépôt, Instruction } from '..';
+import { IdentifiantProjet } from '../..';
 
 export type CorrigerCandidatureCommand = Message<
   'Candidature.Command.CorrigerCandidature',
-  Omit<ImporterCandidatureCommand['data'], 'importéLe' | 'importéPar'> & {
+  {
+    identifiantProjet: IdentifiantProjet.ValueType;
+    dépôt: Dépôt.ValueType;
+    instruction: Instruction.ValueType;
     corrigéLe: DateTime.ValueType;
     corrigéPar: Email.ValueType;
     doitRégénérerAttestation?: true;

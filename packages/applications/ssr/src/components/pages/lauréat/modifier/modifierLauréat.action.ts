@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -147,12 +147,9 @@ export const modifierLauréatAction = formAction(action, modifierLauréatEtCandi
 const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
   data: PartialModifierCandidatureNotifiéeFormEntries,
-  previous: Candidature.ConsulterCandidatureReadModel,
+  { dépôt: previous, instruction }: Candidature.ConsulterCandidatureReadModel,
   doitRegenererAttestation?: boolean,
 ): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
-  const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   const localitéValue = {
     adresse1: data.adresse1 ?? previous.localité.adresse1,
     adresse2: data.adresse2 ?? previous.localité.adresse2,
@@ -163,39 +160,41 @@ const mapBodyToCandidatureUsecaseData = (
   };
 
   return {
-    appelOffreValue: appelOffre,
-    périodeValue: période,
-    familleValue: famille,
-    numéroCREValue: numéroCRE,
-    nomProjetValue: data.nomProjet ?? previous.nomProjet,
-    sociétéMèreValue: data.actionnaire ?? previous.sociétéMère,
-    nomReprésentantLégalValue: data.nomRepresentantLegal ?? previous.nomReprésentantLégal,
-    technologieValue: data.technologie ?? previous.technologie.formatter(),
-    nomCandidatValue: data.nomCandidat ?? previous.nomCandidat,
-    puissanceProductionAnnuelleValue:
-      data.puissanceProductionAnnuelle ?? previous.puissanceProductionAnnuelle,
-    prixRéférenceValue: data.prixReference ?? previous.prixReference,
-    noteTotaleValue: data.noteTotale ?? previous.noteTotale,
-    emailContactValue: data.emailContact ?? previous.emailContact.formatter(),
-    localitéValue,
-    puissanceALaPointeValue: data.puissanceALaPointe ?? previous.puissanceALaPointe,
-    evaluationCarboneSimplifiéeValue:
-      data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
-    actionnariatValue: data.actionnariat ?? previous.actionnariat?.formatter(),
+    identifiantProjetValue: identifiantProjet,
+    instructionValue: {
+      motifÉlimination: instruction.motifÉlimination,
+      statut: instruction.statut.formatter(),
+      noteTotale: data.noteTotale ?? instruction.noteTotale,
+    },
+    dépôtValue: {
+      nomProjet: data.nomProjet ?? previous.nomProjet,
+      sociétéMère: data.actionnaire ?? previous.sociétéMère,
+      nomReprésentantLégal: data.nomRepresentantLegal ?? previous.nomReprésentantLégal,
+      technologie: data.technologie ?? previous.technologie.formatter(),
+      nomCandidat: data.nomCandidat ?? previous.nomCandidat,
+      puissanceProductionAnnuelle:
+        data.puissanceProductionAnnuelle ?? previous.puissanceProductionAnnuelle,
+      prixReference: data.prixReference ?? previous.prixReference,
+      emailContact: data.emailContact ?? previous.emailContact.formatter(),
+      localité: localitéValue,
+      puissanceALaPointe: data.puissanceALaPointe ?? previous.puissanceALaPointe,
+      evaluationCarboneSimplifiée:
+        data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
+      actionnariat: data.actionnariat ?? previous.actionnariat?.formatter(),
+      coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
+
+      // non-editable fields
+      typeGarantiesFinancières: previous.typeGarantiesFinancières?.type,
+      dateÉchéanceGf: previous.dateÉchéanceGf?.formatter(),
+      territoireProjet: previous.territoireProjet,
+      historiqueAbandon: previous.historiqueAbandon.formatter(),
+      fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+      obligationDeSolarisation: previous.obligationDeSolarisation,
+      typeInstallationsAgrivoltaiques: previous.typeInstallationsAgrivoltaiques?.formatter(),
+      typologieDeBâtiment: previous.typologieDeBâtiment?.formatter(),
+      élémentsSousOmbrière: previous.élémentsSousOmbrière,
+    },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
-    coefficientKChoisiValue: data.coefficientKChoisi ?? previous.coefficientKChoisi,
-    // non-editable fields
-    motifÉliminationValue: previous.motifÉlimination,
-    statutValue: previous.statut.formatter(),
-    typeGarantiesFinancièresValue: previous.typeGarantiesFinancières?.type,
-    dateÉchéanceGfValue: previous.dateÉchéanceGf?.formatter(),
-    territoireProjetValue: previous.territoireProjet,
-    historiqueAbandonValue: previous.historiqueAbandon.formatter(),
-    fournisseursValue: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
-    obligationDeSolarisationValue: previous.obligationDeSolarisation,
-    typeInstallationsAgrivoltaiquesValue: previous.typeInstallationsAgrivoltaiques?.formatter(),
-    typologieDeBâtimentValue: previous.typologieDeBâtiment?.formatter(),
-    élémentsSousOmbrièreValue: previous.élémentsSousOmbrière,
     détailsValue: undefined,
   };
 };

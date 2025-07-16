@@ -1,5 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
@@ -46,32 +45,8 @@ export const mapToCandidatureToUpsert = ({
     identifiantProjet: identifiantProjet.formatter(),
     appelOffre: identifiantProjet.appelOffre,
     période: identifiantProjet.période,
-    nomProjet: payload.nomProjet,
-    sociétéMère: payload.sociétéMère,
-    nomCandidat: payload.nomCandidat,
-    puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
-    prixReference: payload.prixReference,
-    noteTotale: payload.noteTotale,
-    nomReprésentantLégal: payload.nomReprésentantLégal,
-    emailContact: payload.emailContact,
-    localité: payload.localité,
-    motifÉlimination: payload.motifÉlimination,
-    puissanceALaPointe: payload.puissanceALaPointe,
-    evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
-    actionnariat: payload.actionnariat,
-    territoireProjet: payload.territoireProjet,
-    statut: Candidature.StatutCandidature.convertirEnValueType(payload.statut).statut,
-    typeGarantiesFinancières: payload.typeGarantiesFinancières
-      ? Candidature.TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières)
-          .type
-      : undefined,
-    historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(payload.historiqueAbandon)
-      .type,
-    dateÉchéanceGf: payload.dateÉchéanceGf
-      ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
-      : undefined,
-    technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
-    coefficientKChoisi: payload.coefficientKChoisi,
+    ...Candidature.Dépôt.convertirEnValueType(payload).formatter(),
+    ...Candidature.Instruction.convertirEnValueType(payload).formatter(),
     estNotifiée: Option.isSome(candidature) ? candidature.estNotifiée : false,
     notification,
     misÀJourLe: payload.corrigéLe,
@@ -82,6 +57,5 @@ export const mapToCandidatureToUpsert = ({
         : // ce cas est théoriquement impossible,
           // on ne peut pas avoir de correction sur une candidature non importée
           payload.corrigéLe,
-    fournisseurs: payload.fournisseurs,
   };
 };

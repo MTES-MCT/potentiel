@@ -4,54 +4,19 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../..';
-import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
+import { Dépôt, Instruction } from '..';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
 export type ImporterCandidatureUseCase = Message<
   'Candidature.UseCase.ImporterCandidature',
   {
-    typeGarantiesFinancièresValue?: string;
-    historiqueAbandonValue: string;
-    appelOffreValue: string;
-    périodeValue: string;
-    familleValue: string;
-    numéroCREValue: string;
-    nomProjetValue: string;
-    sociétéMèreValue: string;
-    nomCandidatValue: string;
-    puissanceProductionAnnuelleValue: number;
-    prixRéférenceValue: number;
-    noteTotaleValue: number;
-    nomReprésentantLégalValue: string;
-    emailContactValue: string;
-    localitéValue: {
-      adresse1: string;
-      adresse2: string;
-      codePostal: string;
-      commune: string;
-      région: string;
-      département: string;
-    };
-    statutValue: string;
-    motifÉliminationValue: string | undefined;
-    puissanceALaPointeValue: boolean;
-    evaluationCarboneSimplifiéeValue: number;
-    technologieValue: string;
-    actionnariatValue: string | undefined;
-    dateÉchéanceGfValue: string | undefined;
-    territoireProjetValue: string;
-    coefficientKChoisiValue: boolean | undefined;
-    typeInstallationsAgrivoltaiquesValue: string | undefined;
-    élémentsSousOmbrièreValue: string | undefined;
-    typologieDeBâtimentValue: string | undefined;
-    obligationDeSolarisationValue: boolean | undefined;
-    fournisseursValue: Array<{
-      typeFournisseur: string;
-      nomDuFabricant: string;
-      lieuDeFabrication: string;
-    }>;
-    détailsValue: Record<string, string> | undefined;
+    identifiantProjetValue: string;
+
+    dépôtValue: Dépôt.RawType;
+    instructionValue: Instruction.RawType;
+
+    détailsValue?: Record<string, string>;
     importéLe: string;
     importéPar: string;
   }
@@ -60,7 +25,7 @@ export type ImporterCandidatureUseCase = Message<
 export const registerImporterCandidatureUseCase = () => {
   const handler: MessageHandler<ImporterCandidatureUseCase> = async (message) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      `${message.appelOffreValue}#${message.périodeValue}#${message.familleValue}#${message.numéroCREValue}`,
+      message.identifiantProjetValue,
     );
     const importéLe = DateTime.convertirEnValueType(message.importéLe);
 
@@ -84,7 +49,8 @@ export const registerImporterCandidatureUseCase = () => {
       type: 'Candidature.Command.ImporterCandidature',
       data: {
         identifiantProjet,
-        ...mapToCommonCandidatureUseCaseData(message),
+        dépôt: Dépôt.convertirEnValueType(message.dépôtValue),
+        instruction: Instruction.convertirEnValueType(message.instructionValue),
         importéLe,
         importéPar: Email.convertirEnValueType(message.importéPar),
       },

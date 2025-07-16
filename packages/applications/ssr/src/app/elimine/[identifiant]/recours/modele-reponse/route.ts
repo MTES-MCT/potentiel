@@ -64,31 +64,35 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           delaiRealisationTexte: appelOffres.delaiRealisationTexte,
           eolien: formatBoolean(appelOffres.typeAppelOffre === 'eolien'),
           isInvestissementParticipatif: formatBoolean(
-            candidature.actionnariat?.estInvestissementParticipatif(),
+            candidature.dépôt.actionnariat?.estInvestissementParticipatif(),
           ),
           isEngagementParticipatif: formatBoolean(
-            candidature.actionnariat?.estFinancementParticipatif() ||
-              candidature.actionnariat?.estInvestissementParticipatif(),
+            candidature.dépôt.actionnariat?.estFinancementParticipatif() ||
+              candidature.dépôt.actionnariat?.estInvestissementParticipatif(),
           ),
           isFinancementCollectif: formatBoolean(
-            candidature.actionnariat?.estFinancementCollectif(),
+            candidature.dépôt.actionnariat?.estFinancementCollectif(),
           ),
           isFinancementParticipatif: formatBoolean(
-            candidature.actionnariat?.estFinancementParticipatif(),
+            candidature.dépôt.actionnariat?.estFinancementParticipatif(),
           ),
-          isGouvernancePartagée: formatBoolean(candidature.actionnariat?.estGouvernancePartagée()),
-          evaluationCarbone: candidature.evaluationCarboneSimplifiée.toString(),
-          engagementFournitureDePuissanceAlaPointe: formatBoolean(candidature.puissanceALaPointe),
-          motifsElimination: candidature.motifÉlimination ?? '',
+          isGouvernancePartagée: formatBoolean(
+            candidature.dépôt.actionnariat?.estGouvernancePartagée(),
+          ),
+          evaluationCarbone: candidature.dépôt.evaluationCarboneSimplifiée.toString(),
+          engagementFournitureDePuissanceAlaPointe: formatBoolean(
+            candidature.dépôt.puissanceALaPointe,
+          ),
+          motifsElimination: candidature.instruction.motifÉlimination ?? '',
           nonInstruit: formatBoolean(
-            candidature.motifÉlimination?.toLowerCase().includes('non instruit'),
+            candidature.instruction.motifÉlimination?.toLowerCase().includes('non instruit'),
           ),
           paragrapheAttestationConformite: appelOffres.paragrapheAttestationConformite,
           paragrapheDelaiDerogatoire: appelOffres.paragrapheDelaiDerogatoire,
           paragrapheEngagementIPFPGPFC:
             période.paragrapheEngagementIPFPGPFC ?? appelOffres.paragrapheEngagementIPFPGPFC,
           paragraphePrixReference: appelOffres.paragraphePrixReference,
-          prixReference: candidature.prixReference.toString(),
+          prixReference: candidature.dépôt.prixReference.toString(),
           renvoiDemandeCompleteRaccordement: appelOffres.renvoiDemandeCompleteRaccordement,
           renvoiModification: appelOffres.renvoiModification,
           renvoiRetraitDesignationGarantieFinancieres:
@@ -108,7 +112,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return new Response(content, {
         headers: getDocxDocumentHeader({
           identifiantProjet: identifiantProjetValue,
-          nomProjet: candidature.nomProjet,
+          nomProjet: candidature.dépôt.nomProjet,
           type,
         }),
       });

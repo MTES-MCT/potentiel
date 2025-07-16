@@ -5,7 +5,9 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
-import { FournisseurImportéEvent, Fournisseur } from '../lauréat/fournisseur';
+import { FournisseurImportéEvent } from '../lauréat/fournisseur';
+
+import { Dépôt, Instruction } from '.';
 
 import { CandidatureEvent } from './candidature.event';
 import {
@@ -14,10 +16,6 @@ import {
   DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event';
 import { ImporterCandidatureOptions } from './importer/importerCandidature.options';
-import * as StatutCandidature from './statutCandidature.valueType';
-import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
-import * as TypeActionnariat from './typeActionnariat.valueType';
-import * as HistoriqueAbandon from './historiqueAbandon.valueType';
 import * as TypeTechnologie from './typeTechnologie.valueType';
 import {
   AttestationNonGénéréeError,
@@ -41,7 +39,6 @@ import {
   CandidatureCorrigéeEvent,
   CandidatureCorrigéeEventV1,
 } from './corriger/candidatureCorrigée.event';
-import * as Localité from './localité.valueType';
 import { NotifierOptions } from './notifier/notifierCandidature.options';
 import {
   CandidatureNotifiéeEvent,
@@ -59,30 +56,11 @@ export class CandidatureAggregate extends AbstractAggregate<
     return this.parent;
   }
 
-  #statut?: StatutCandidature.ValueType;
+  #dépôt?: Dépôt.ValueType;
+  #instruction?: Instruction.ValueType;
   #estNotifiée: boolean = false;
   #notifiéeLe?: DateTime.ValueType;
   #notifiéePar?: Email.ValueType;
-  #nomCandidat: string = '';
-  #nomReprésentantLégal: string = '';
-  #sociétéMère: string = '';
-  #noteTotale: number = 0;
-  #actionnariat?: TypeActionnariat.ValueType;
-  #nomProjet: string = '';
-  #localité?: Localité.ValueType;
-  #emailContact: Email.ValueType = Email.inconnu;
-  #prixRéférence: number = 0;
-  #evaluationCarboneSimplifiée: number = 0;
-  #historiqueAbandon?: HistoriqueAbandon.ValueType;
-  #typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
-  #motifÉlimination?: string;
-  #technologie?: TypeTechnologie.ValueType;
-  #dateÉchéanceGf?: DateTime.ValueType;
-  #puissanceALaPointe?: boolean;
-  #puissanceProductionAnnuelle: number = 0;
-  #territoireProjet: string = '';
-  #coefficientKChoisi?: boolean;
-  #fournisseurs: Array<Fournisseur.ValueType> = [];
 
   get estNotifiée() {
     return !!this.notifiéeLe;
@@ -103,75 +81,88 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   get statut() {
-    if (!this.#statut) {
+    if (!this.#instruction) {
       throw new CandidatureNonTrouvéeError();
     }
-    return this.#statut;
+    return this.#instruction.statut;
+  }
+
+  get dépôt() {
+    if (!this.#dépôt) {
+      throw new CandidatureNonTrouvéeError();
+    }
+    return this.#dépôt;
+  }
+  get instruction() {
+    if (!this.#instruction) {
+      throw new CandidatureNonTrouvéeError();
+    }
+    return this.#instruction;
   }
 
   get nomProjet() {
-    return this.#nomProjet;
+    return this.dépôt.nomProjet;
   }
 
   get nomReprésentantLégal() {
-    return this.#nomReprésentantLégal;
+    return this.dépôt.nomReprésentantLégal;
   }
 
   get emailContact() {
-    return this.#emailContact;
+    return this.dépôt.emailContact;
   }
 
   get sociétéMère() {
-    return this.#sociétéMère;
+    return this.dépôt.sociétéMère;
   }
 
   get puissanceProductionAnnuelle() {
-    return this.#puissanceProductionAnnuelle;
+    return this.dépôt.puissanceProductionAnnuelle;
   }
 
   get prixRéférence() {
-    return this.#prixRéférence;
+    return this.dépôt.prixReference;
   }
 
   get typeGarantiesFinancières() {
-    return this.#typeGarantiesFinancières;
+    return this.dépôt.typeGarantiesFinancières;
   }
 
   get dateÉchéanceGf() {
-    return this.#dateÉchéanceGf;
+    return this.dépôt.dateÉchéanceGf;
   }
 
   get typeActionnariat() {
-    return this.#actionnariat;
+    return this.dépôt.actionnariat;
   }
 
   get technologie(): TypeTechnologie.ValueType<AppelOffre.Technologie> {
     return TypeTechnologie.déterminer({
       appelOffre: this.projet.appelOffre,
       projet: {
-        technologie: this.#technologie?.type ?? 'N/A',
+        technologie: this.dépôt.technologie?.type ?? 'N/A',
       },
     });
   }
 
   get noteTotale() {
-    return this.#noteTotale;
+    return this.instruction.noteTotale;
   }
 
   get localité() {
-    return this.#localité!;
+    return this.dépôt.localité!;
   }
 
   get nomCandidat() {
-    return this.#nomCandidat;
+    return this.dépôt.nomCandidat;
   }
 
   get evaluationCarboneSimplifiée() {
-    return this.#evaluationCarboneSimplifiée;
+    return this.dépôt.evaluationCarboneSimplifiée;
   }
 
   get fournisseurs() {
-    return this.#fournisseurs;
+    return this.dépôt.fournisseurs;
   }
 
   async importer(candidature: ImporterCandidatureOptions) {
@@ -180,18 +171,19 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierCoefficientKChoisi(candidature);
     this.vérifierTechnologie(candidature);
 
-    if (candidature.statut.estClassé()) {
+    if (candidature.instruction.statut.estClassé()) {
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.typeGarantiesFinancières,
-        candidature.dateÉchéanceGf,
+        candidature.dépôt.typeGarantiesFinancières,
+        candidature.dépôt.dateÉchéanceGf,
       );
     }
 
     const event: CandidatureImportéeEvent = {
       type: 'CandidatureImportée-V2',
       payload: {
-        ...this.mapToEventPayload(candidature),
-        fournisseurs: candidature.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        ...candidature.instruction.formatter(),
+        ...candidature.dépôt.formatter(),
         importéLe: candidature.importéLe.formatter(),
         importéPar: candidature.importéPar.formatter(),
       },
@@ -209,18 +201,19 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
-    if (candidature.statut.estClassé()) {
+    if (candidature.instruction.statut.estClassé()) {
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.typeGarantiesFinancières,
-        candidature.dateÉchéanceGf,
+        candidature.dépôt.typeGarantiesFinancières,
+        candidature.dépôt.dateÉchéanceGf,
       );
     }
 
     const event: CandidatureCorrigéeEvent = {
       type: 'CandidatureCorrigée-V2',
       payload: {
-        ...this.mapToEventPayload(candidature),
-        fournisseurs: candidature.fournisseurs.map((fournisseur) => fournisseur.formatter()),
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        ...candidature.instruction.formatter(),
+        ...candidature.dépôt.formatter(),
         corrigéLe: candidature.corrigéLe.formatter(),
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
@@ -269,14 +262,16 @@ export class CandidatureAggregate extends AbstractAggregate<
     candidature: CorrigerCandidatureOptions,
   ) {
     if (this.#estNotifiée) {
-      if (candidature.typeGarantiesFinancières) {
+      if (candidature.dépôt.typeGarantiesFinancières) {
         if (
-          !this.#typeGarantiesFinancières?.type ||
-          !this.#typeGarantiesFinancières?.estÉgaleÀ(candidature.typeGarantiesFinancières)
+          !this.dépôt.typeGarantiesFinancières?.type ||
+          !this.dépôt.typeGarantiesFinancières?.estÉgaleÀ(
+            candidature.dépôt.typeGarantiesFinancières,
+          )
         ) {
           throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
         }
-      } else if (this.#typeGarantiesFinancières?.type) {
+      } else if (this.dépôt.typeGarantiesFinancières?.type) {
         throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
     }
@@ -285,7 +280,11 @@ export class CandidatureAggregate extends AbstractAggregate<
   private vérifierQueLeStatutEstNonModifiableAprésNotification(
     candidature: CorrigerCandidatureOptions,
   ) {
-    if (this.#estNotifiée && this.#statut && !candidature.statut.estÉgaleÀ(this.#statut)) {
+    if (
+      this.#estNotifiée &&
+      this.instruction.statut &&
+      !candidature.instruction.statut.estÉgaleÀ(this.instruction.statut)
+    ) {
       throw new StatutNonModifiableAprèsNotificationError();
     }
   }
@@ -295,61 +294,11 @@ export class CandidatureAggregate extends AbstractAggregate<
     corrigéPar: _corrigéPar,
     doitRégénérerAttestation: _doitRégénérerAttestation,
     détailsMisÀJour: _détailsMisÀJour,
-    ...otherData
+    dépôt,
+    instruction,
   }: CorrigerCandidatureOptions) {
-    const {
-      emailContact,
-      evaluationCarboneSimplifiée,
-      historiqueAbandon,
-      localité,
-      nomCandidat,
-      nomProjet,
-      nomReprésentantLégal,
-      noteTotale,
-      prixRéférence,
-      puissanceALaPointe,
-      puissanceProductionAnnuelle,
-      sociétéMère,
-      statut,
-      technologie,
-      territoireProjet,
-      coefficientKChoisi,
-      actionnariat,
-      dateÉchéanceGf,
-      motifÉlimination,
-      typeGarantiesFinancières,
-    } = otherData;
-
-    const dépôtEstÉgale =
-      this.#emailContact.estÉgaleÀ(emailContact) &&
-      this.#evaluationCarboneSimplifiée === evaluationCarboneSimplifiée &&
-      this.#historiqueAbandon?.estÉgaleÀ(historiqueAbandon) &&
-      this.#localité?.estÉgaleÀ(Localité.bind(localité)) &&
-      this.#nomCandidat === nomCandidat &&
-      this.#nomProjet === nomProjet &&
-      this.#nomReprésentantLégal === nomReprésentantLégal &&
-      this.#noteTotale === noteTotale &&
-      this.#prixRéférence === prixRéférence &&
-      this.#puissanceALaPointe === puissanceALaPointe &&
-      this.#puissanceProductionAnnuelle === puissanceProductionAnnuelle &&
-      this.#sociétéMère === sociétéMère &&
-      this.#statut?.estÉgaleÀ(statut) &&
-      this.#technologie?.estÉgaleÀ(technologie) &&
-      this.#territoireProjet === territoireProjet &&
-      this.#coefficientKChoisi === coefficientKChoisi &&
-      (actionnariat === undefined
-        ? this.#actionnariat === undefined
-        : this.#actionnariat?.estÉgaleÀ(actionnariat)) &&
-      (dateÉchéanceGf === undefined
-        ? this.#dateÉchéanceGf === undefined
-        : this.#dateÉchéanceGf?.estÉgaleÀ(dateÉchéanceGf)) &&
-      this.#motifÉlimination === motifÉlimination &&
-      (typeGarantiesFinancières === undefined
-        ? this.#typeGarantiesFinancières === undefined
-        : this.#typeGarantiesFinancières?.estÉgaleÀ(typeGarantiesFinancières));
-
-    if (dépôtEstÉgale) {
-      throw new CandidatureNonModifiéeError(otherData.nomProjet);
+    if (dépôt.estÉgaleÀ(this.dépôt) && instruction.estÉgaleÀ(this.instruction)) {
+      throw new CandidatureNonModifiéeError(dépôt.nomProjet);
     }
   }
 
@@ -377,34 +326,34 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierSiLaCandidatureADéjàÉtéImportée() {
-    if (this.#statut) {
+    if (this.#dépôt) {
       throw new CandidatureDéjàImportéeError();
     }
   }
 
-  private vérifierCoefficientKChoisi(candidature: CandidatureBehaviorOptions) {
+  private vérifierCoefficientKChoisi({ dépôt }: CandidatureBehaviorOptions) {
     if (
       this.projet.champsSupplémentaires.coefficientKChoisi === 'requis' &&
-      candidature.coefficientKChoisi === undefined
+      dépôt.coefficientKChoisi === undefined
     ) {
       throw new ChoixCoefficientKRequisError();
     }
     if (
       !this.projet.champsSupplémentaires.coefficientKChoisi &&
-      candidature.coefficientKChoisi !== undefined
+      dépôt.coefficientKChoisi !== undefined
     ) {
       throw new ChoixCoefficientKNonAttenduError();
     }
   }
 
-  private vérifierTechnologie(candidature: CandidatureBehaviorOptions) {
+  private vérifierTechnologie({ dépôt }: CandidatureBehaviorOptions) {
     if (this.projet.appelOffre.multiplesTechnologies) {
-      if (candidature.technologie.estNonApplicable()) {
+      if (dépôt.technologie.estNonApplicable()) {
         throw new TechnologieRequiseError();
       }
     } else if (
-      !candidature.technologie.estNonApplicable() &&
-      !candidature.technologie.estÉgaleÀ(
+      !dépôt.technologie.estNonApplicable() &&
+      !dépôt.technologie.estÉgaleÀ(
         TypeTechnologie.convertirEnValueType(this.projet.appelOffre.technologie),
       )
     ) {
@@ -492,60 +441,15 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.#notifiéePar = Email.convertirEnValueType(event.payload.notifiéePar);
   }
 
-  private applyCommonEventPayload({
-    emailContact,
-    evaluationCarboneSimplifiée,
-    historiqueAbandon,
-    localité,
-    nomCandidat,
-    nomProjet,
-    nomReprésentantLégal,
-    noteTotale,
-    prixReference,
-    puissanceALaPointe,
-    puissanceProductionAnnuelle,
-    technologie,
-    territoireProjet,
-    coefficientKChoisi,
-    actionnariat,
-    dateÉchéanceGf,
-    motifÉlimination,
-    typeGarantiesFinancières,
-    sociétéMère,
-    statut,
-  }:
-    | CandidatureImportéeEvent['payload']
-    | CandidatureCorrigéeEventV1['payload']
-    | CandidatureImportéeEventV1['payload']
-    | CandidatureCorrigéeEvent['payload']) {
-    this.#statut = StatutCandidature.convertirEnValueType(statut);
-    this.#nomProjet = nomProjet;
-    this.#localité = Localité.bind(localité);
-    this.#typeGarantiesFinancières = typeGarantiesFinancières
-      ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
-      : undefined;
-
-    this.#dateÉchéanceGf = dateÉchéanceGf
-      ? DateTime.convertirEnValueType(dateÉchéanceGf)
-      : undefined;
-
-    this.#actionnariat = actionnariat
-      ? TypeActionnariat.convertirEnValueType(actionnariat)
-      : undefined;
-    this.#emailContact = Email.convertirEnValueType(emailContact);
-    this.#prixRéférence = prixReference;
-    this.#sociétéMère = sociétéMère;
-    this.#nomReprésentantLégal = nomReprésentantLégal;
-    this.#puissanceProductionAnnuelle = puissanceProductionAnnuelle;
-    this.#evaluationCarboneSimplifiée = evaluationCarboneSimplifiée;
-    this.#historiqueAbandon = HistoriqueAbandon.convertirEnValueType(historiqueAbandon);
-    this.#nomCandidat = nomCandidat;
-    this.#noteTotale = noteTotale;
-    this.#puissanceALaPointe = puissanceALaPointe;
-    this.#technologie = TypeTechnologie.convertirEnValueType(technologie);
-    this.#territoireProjet = territoireProjet;
-    this.#coefficientKChoisi = coefficientKChoisi;
-    this.#motifÉlimination = motifÉlimination;
+  private applyCommonEventPayload(
+    payload:
+      | CandidatureImportéeEvent['payload']
+      | CandidatureCorrigéeEventV1['payload']
+      | CandidatureImportéeEventV1['payload']
+      | CandidatureCorrigéeEvent['payload'],
+  ) {
+    this.#dépôt = Dépôt.convertirEnValueType({ ...payload, fournisseurs: [] });
+    this.#instruction = Instruction.convertirEnValueType(payload);
   }
 
   private applyFournisseurEventPayload(
@@ -553,36 +457,9 @@ export class CandidatureAggregate extends AbstractAggregate<
       | FournisseurImportéEvent['payload']['fournisseurs']
       | CandidatureImportéeEvent['payload']['fournisseurs'],
   ) {
-    this.#fournisseurs = fournisseurs.map(Fournisseur.convertirEnValueType);
+    this.#dépôt = Dépôt.convertirEnValueType({
+      ...this.dépôt.formatter(),
+      fournisseurs,
+    });
   }
-
-  private mapToEventPayload = (
-    candidature: Omit<ImporterCandidatureOptions, 'fournisseurs'> | CorrigerCandidatureOptions,
-  ) => ({
-    identifiantProjet: this.projet.identifiantProjet.formatter(),
-    statut: candidature.statut.statut,
-    technologie: candidature.technologie.type,
-    dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
-    historiqueAbandon: candidature.historiqueAbandon.formatter(),
-    typeGarantiesFinancières: candidature.typeGarantiesFinancières?.type,
-    nomProjet: candidature.nomProjet,
-    sociétéMère: candidature.sociétéMère,
-    nomCandidat: candidature.nomCandidat,
-    puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
-    prixReference: candidature.prixRéférence,
-    noteTotale: candidature.noteTotale,
-    nomReprésentantLégal: candidature.nomReprésentantLégal,
-    emailContact: candidature.emailContact.formatter(),
-    localité: candidature.localité,
-    motifÉlimination: candidature.motifÉlimination,
-    puissanceALaPointe: candidature.puissanceALaPointe,
-    evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
-    actionnariat: candidature.actionnariat?.formatter(),
-    territoireProjet: candidature.territoireProjet,
-    coefficientKChoisi: candidature.coefficientKChoisi,
-    typeInstallationsAgrivoltaiques: candidature.typeInstallationsAgrivoltaiques?.formatter(),
-    élémentsSousOmbrière: candidature.élémentsSousOmbrière,
-    typologieDeBâtiment: candidature.typologieDeBâtiment?.formatter(),
-    obligationDeSolarisation: candidature.obligationDeSolarisation,
-  });
 }

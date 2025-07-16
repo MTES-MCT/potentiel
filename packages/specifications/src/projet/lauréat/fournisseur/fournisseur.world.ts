@@ -33,15 +33,16 @@ export class FournisseurWorld {
         ? this.enregistrerChangementFournisseur.fournisseurs.map(
             Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
           )
-        : candidature.fournisseurs,
+        : candidature.dépôt.fournisseurs,
       évaluationCarboneSimplifiée: this.modifierÉvaluationCarbone.aÉtéCréé
         ? this.modifierÉvaluationCarbone.évaluationCarbone
         : this.enregistrerChangementFournisseur.aÉtéCréé
           ? this.enregistrerChangementFournisseur.évaluationCarbone
-          : candidature.evaluationCarboneSimplifiée,
+          : candidature.dépôt.evaluationCarboneSimplifiée,
       technologie:
-        appelOffres.technologie ?? (candidature.technologie.formatter() as AppelOffre.Technologie),
-      évaluationCarboneSimplifiéeInitiale: candidature.evaluationCarboneSimplifiée,
+        appelOffres.technologie ??
+        (candidature.dépôt.technologie.formatter() as AppelOffre.Technologie),
+      évaluationCarboneSimplifiéeInitiale: candidature.dépôt.evaluationCarboneSimplifiée,
     };
 
     return expected;

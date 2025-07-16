@@ -274,9 +274,7 @@ async function créerPreuveRecandidatureTransmise(this: PotentielWorld) {
 
   const dateDésignation = new Date('2024-01-01').toISOString();
 
-  await importerCandidature.call(this, faker.company.name(), 'classé', {
-    importéLe: dateDésignation,
-  });
+  await importerCandidature.call(this, { statut: 'classé' });
   await notifierLauréat.call(this, dateDésignation);
 
   const { transmiseLe: dateTransmissionPreuveRecandidature, preuveRecandidature } =

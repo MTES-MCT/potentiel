@@ -140,20 +140,24 @@ EtantDonné(
 EtantDonné(
   "le projet lauréat {string} sur une période d'appel d'offre avec {accord-rejet} automatique du changement de représentant légal",
   async function (this: PotentielWorld, nomProjet: string, action: 'accord' | 'rejet') {
-    const { appelOffreValue, périodeValue } = match(action)
+    const { appelOffre, période } = match(action)
       .with('accord', () => ({
-        appelOffreValue: 'PPE2 - Sol',
-        périodeValue: '1',
+        appelOffre: 'PPE2 - Sol',
+        période: '1',
       }))
       .with('rejet', () => ({
-        appelOffreValue: 'PPE2 - Eolien',
-        périodeValue: '1',
+        appelOffre: 'PPE2 - Eolien',
+        période: '1',
       }))
       .exhaustive();
 
-    await importerCandidature.call(this, nomProjet, 'classé', {
-      appelOffreValue,
-      périodeValue,
+    await importerCandidature.call(this, {
+      nomProjet,
+      statut: 'classé',
+      identifiantProjet: {
+        appelOffre,
+        période,
+      },
     });
 
     const dateDésignation = this.lauréatWorld.dateDésignation;

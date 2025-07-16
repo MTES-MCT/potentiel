@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
   'consignation',
@@ -17,13 +17,14 @@ export type ValueType = ReadonlyValueType<{
   estAvecDateÉchéance: () => boolean;
   estSixMoisAprèsAchèvement: () => boolean;
   estInconnu: () => boolean;
+  formatter(): RawType;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+  estValide(type);
   return {
     get type() {
-      return value;
+      return type;
     },
     estÉgaleÀ(valueType) {
       return this.type === valueType.type;
@@ -43,7 +44,15 @@ export const convertirEnValueType = (value: string): ValueType => {
     estInconnu() {
       return this.type === 'type-inconnu';
     },
+    formatter() {
+      return this.type;
+    },
   };
+};
+
+export const convertirEnValueType = (type: string) => {
+  estValide(type);
+  return bind({ type });
 };
 
 function estValide(value: string): asserts value is RawType {

@@ -12,6 +12,7 @@ import { AbandonEntity } from '../abandon';
 import { Abandon } from '..';
 import {
   CandidatureEntity,
+  Localité,
   TypeTechnologie,
   UnitéPuissance,
   VolumeRéservé,
@@ -24,24 +25,17 @@ export type ConsulterLauréatReadModel = {
   notifiéLe: DateTime.ValueType;
   notifiéPar: Email.ValueType;
   nomProjet: string;
-  localité: {
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    région: string;
-    département: string;
-  };
+  localité: Localité.ValueType;
   technologie: TypeTechnologie.ValueType;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutProjet.ValueType;
   volumeRéservé?: VolumeRéservé.ValueType;
   attestationDésignation?: DocumentProjet.ValueType;
 } & Pick<
-  Candidature.ConsulterCandidatureReadModel,
+  Candidature.Dépôt.ValueType,
   // on ne sélectionne que des propriétés non modifiables de Candidature
   // Pour des propriétés modifiables comme la puissance, on utilisera ConsulterPuissance
-  'emailContact' | 'nomCandidat' | 'unitéPuissance' | 'prixReference' | 'coefficientKChoisi'
+  'emailContact' | 'nomCandidat' | 'prixReference' | 'coefficientKChoisi'
 >;
 
 export type ConsulterLauréatQuery = Message<
@@ -123,22 +117,22 @@ const mapToReadModel: MapToReadModel = (
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
   nomProjet,
-  localité: {
+  localité: Localité.bind({
     adresse1,
     adresse2,
     codePostal,
     commune,
     département,
     région,
-  },
+  }),
   statut,
 
   volumeRéservé: candidature.volumeRéservé,
-  technologie: candidature.technologie,
+  technologie: candidature.dépôt.technologie,
   unitéPuissance: candidature.unitéPuissance,
-  emailContact: candidature.emailContact,
-  nomCandidat: candidature.nomCandidat,
-  prixReference: candidature.prixReference,
-  coefficientKChoisi: candidature.coefficientKChoisi,
+  emailContact: candidature.dépôt.emailContact,
+  nomCandidat: candidature.dépôt.nomCandidat,
+  prixReference: candidature.dépôt.prixReference,
+  coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
   attestationDésignation: candidature.notification?.attestation,
 });

@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import { Email } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
@@ -17,18 +17,18 @@ export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   statut: PlainType<Candidature.StatutCandidature.ValueType>;
   estNotifiée: boolean;
-  nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
-  nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
-  nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
+  nomProjet: Candidature.Dépôt.RawType['nomProjet'];
+  nomCandidat: Candidature.Dépôt.RawType['nomCandidat'];
+  nomReprésentantLégal: Candidature.Dépôt.RawType['nomReprésentantLégal'];
   emailContact: PlainType<Email.ValueType>;
-  puissanceProductionAnnuelle: Candidature.ConsulterCandidatureReadModel['puissanceProductionAnnuelle'];
-  prixReference: Candidature.ConsulterCandidatureReadModel['prixReference'];
-  evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
+  puissanceProductionAnnuelle: Candidature.Dépôt.RawType['puissanceProductionAnnuelle'];
+  prixReference: Candidature.Dépôt.RawType['prixReference'];
+  evaluationCarboneSimplifiée: Candidature.Dépôt.RawType['evaluationCarboneSimplifiée'];
   actionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
   localité: {
-    commune: Candidature.ConsulterCandidatureReadModel['localité']['commune'];
-    département: Candidature.ConsulterCandidatureReadModel['localité']['département'];
-    région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
+    commune: Candidature.Localité.RawType['commune'];
+    département: Candidature.Localité.RawType['département'];
+    région: Candidature.Localité.RawType['région'];
   };
   unitéPuissance: string;
   actions: CandidatureListItemActionsProps['actions'];
