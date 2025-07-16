@@ -12,7 +12,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges, getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
@@ -27,31 +27,12 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     const demandéLe = decodeParameter(date);
 
     const { technologie } = await getCandidature(identifiantProjet);
-    const { lauréat, représentantLégal } = await getLauréat({ identifiantProjet });
+    const { lauréat, représentantLégal, puissance } = await getLauréat({ identifiantProjet });
     const { appelOffres, période, famille } = await getPériodeAppelOffres(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
     );
 
-    const cahierDesChargesChoisi =
-      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-        data: { identifiantProjet },
-      });
-
-    if (Option.isNone(cahierDesChargesChoisi)) {
-      console.log('cdc none');
-      return notFound();
-    }
-
-    const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
-      type: 'Lauréat.Puissance.Query.ConsulterPuissance',
-      data: { identifiantProjet },
-    });
-
-    if (Option.isNone(puissance)) {
-      console.log('puissance none');
-      return notFound();
-    }
+    const cahierDesChargesChoisi = await getCahierDesCharges(identifiantProjet);
 
     const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
       type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
@@ -91,10 +72,6 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     });
 
     const getDélaiRéalisationEnMois = () => {
-      if (technologie.type === 'N/A') {
-        throw new Error();
-      }
-
       if (appelOffres.multiplesTechnologies) {
         return appelOffres.délaiRéalisationEnMois[technologie.type];
       }
