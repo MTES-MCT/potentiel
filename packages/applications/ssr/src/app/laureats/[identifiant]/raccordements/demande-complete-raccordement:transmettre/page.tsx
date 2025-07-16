@@ -11,7 +11,7 @@ import { TransmettreDemandeComplèteRaccordementPage } from '@/components/pages/
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { getPériodeAppelOffres, récupérerLauréatNiAbandonnéNiEnCoursAbandon } from '@/app/_helpers';
+import { getPériodeAppelOffres, récupérerLauréatSansAbandon } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -24,7 +24,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    await récupérerLauréatNiAbandonnéNiEnCoursAbandon(identifiantProjet.formatter());
+    await récupérerLauréatSansAbandon(identifiantProjet.formatter());
 
     const { période } = await getPériodeAppelOffres(identifiantProjet);
 
