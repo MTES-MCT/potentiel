@@ -1,4 +1,4 @@
-import { CustomErrorPage } from '@/components/pages/custom-error/CustomError.page';
+import { CustomErrorPage } from './CustomError.page';
 
 export default async function Page() {
   return <CustomErrorPage statusCode="500" type="ServerError" />;

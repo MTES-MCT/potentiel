@@ -4,7 +4,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import * as Sentry from '@sentry/nextjs';
 import { useEffect } from 'react';
 
-import { DefaultError } from '../components/pages/custom-error/DefaultError';
+import { DefaultError } from './error/DefaultError';
 
 type GlobalErrorProps = {
   error: Error & { digest?: string };
