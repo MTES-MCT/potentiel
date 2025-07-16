@@ -70,7 +70,7 @@ export const RejeterDemandeDélai = ({
               />
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Délai.téléchargerModèleRéponse(identifiantProjet, dateDemande, false)}
+                url={Routes.Délai.téléchargerModèleRéponse(identifiantProjet, dateDemande)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />
