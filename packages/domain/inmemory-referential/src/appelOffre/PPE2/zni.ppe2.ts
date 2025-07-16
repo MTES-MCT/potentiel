@@ -106,6 +106,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
@@ -137,6 +138,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
@@ -168,6 +170,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },

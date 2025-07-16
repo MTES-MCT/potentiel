@@ -112,6 +112,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
@@ -130,6 +131,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },

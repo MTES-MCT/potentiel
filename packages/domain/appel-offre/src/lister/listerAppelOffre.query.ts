@@ -24,9 +24,14 @@ export type ListerAppelOffreDependencies = {
 
 export const registerListerAppelOffreQuery = ({ list }: ListerAppelOffreDependencies) => {
   const handler: MessageHandler<ListerAppelOffreQuery> = async ({ cycle }) => {
+    const aosActif =
+      process.env.FEATURES?.split(',')
+        .map((s) => s.trim())
+        .includes('aos') ?? false;
     const result = await list<AppelOffreEntity>('appel-offre', {
       where: {
         cycleAppelOffre: Where.equal(cycle),
+        id: aosActif ? undefined : Where.notEqual('PPE2 - Petit PV'),
       },
       orderBy: {
         id: 'ascending',

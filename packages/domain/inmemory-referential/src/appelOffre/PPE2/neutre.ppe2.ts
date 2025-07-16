@@ -106,6 +106,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -136,6 +137,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -166,6 +168,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },

@@ -147,6 +147,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -188,6 +189,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -218,6 +220,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -240,6 +243,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -262,6 +266,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -284,6 +289,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -306,6 +312,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -328,6 +335,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'rejet-automatique',
         },
       },
@@ -350,6 +358,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },

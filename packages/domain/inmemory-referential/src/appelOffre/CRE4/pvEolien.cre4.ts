@@ -153,6 +153,7 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
+          nécessiteInstruction: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
