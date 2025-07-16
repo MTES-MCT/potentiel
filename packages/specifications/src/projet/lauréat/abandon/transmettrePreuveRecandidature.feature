@@ -1,4 +1,5 @@
 # language: fr
+@abandon
 Fonctionnalité: Transmettre une preuve de recandidature
 
     Contexte:

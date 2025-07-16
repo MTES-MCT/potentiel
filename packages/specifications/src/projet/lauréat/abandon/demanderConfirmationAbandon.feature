@@ -1,4 +1,5 @@
 # language: fr
+@abandon
 Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
 
     Contexte:
@@ -17,23 +18,19 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
         Alors la confirmation d'abandon du projet lauréat devrait être demandée
         Et une tâche indiquant de "confirmer un abandon" est consultable dans la liste des tâches du porteur pour le projet
 
-    # à activer lorsqu'un AO avec cette option (ie AO simplifié) existera
-    @NotImplemented
     Scénario: Une dreal peut demande une confirmation l'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | AOS |
-            | période       | 1   |
+            | appel d'offre | PPE2 - Petit PV |
+            | période       | 1               |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL demande une confirmation d'abandon pour le projet lauréat
         Alors la confirmation d'abandon du projet lauréat devrait être demandée
 
-    # à activer lorsqu'un AO avec cette option (ie AO simplifié) existera
-    @NotImplemented
     Scénario: La DGEC peut demande une confirmation l'abandon si l'autorité compétente est la DREAL
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | AOS |
-            | période       | 1   |
+            | appel d'offre | PPE2 - Petit PV |
+            | période       | 1               |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur demande une confirmation d'abandon pour le projet lauréat

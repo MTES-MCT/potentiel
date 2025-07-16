@@ -1,4 +1,5 @@
 # language: fr
+@abandon
 Fonctionnalité: Conformer l'abandon d'un projet lauréat
 
     Contexte:
