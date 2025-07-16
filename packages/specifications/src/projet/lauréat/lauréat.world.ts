@@ -142,7 +142,8 @@ export class LauréatWorld {
 
   mapToExpected() {
     const {
-      dépôt: { emailContact, nomCandidat, technologie, prixReference, coefficientKChoisi },
+      dépôt: { emailContact, nomCandidat, prixReference, coefficientKChoisi },
+      technologie,
       unitéPuissance,
       volumeRéservé,
     } = this.#candidatureWorld.mapToExpected();
