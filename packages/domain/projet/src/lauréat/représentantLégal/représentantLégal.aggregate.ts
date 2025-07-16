@@ -44,6 +44,7 @@ import {
   ChangementDéjàRejetéError,
   DemandeChangementInexistanteError,
 } from './changement/changementReprésentantLégal.error';
+import { EnregistrerChangementOptions } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.options';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
@@ -197,6 +198,42 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeRappelInstructionÀDeuxMois.ajouter({
       àExécuterLe: dateDemande.ajouterNombreDeMois(2),
     });
+  }
+
+  async enregistrerChangement({
+    dateChangement,
+    identifiantUtilisateur,
+    nomReprésentantLégal,
+    pièceJustificative,
+    typeReprésentantLégal,
+  }: EnregistrerChangementOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'représentantLégal');
+
+    this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
+
+    if (typeReprésentantLégal.estInconnu()) {
+      throw new ReprésentantLégalTypeInconnuError();
+    }
+
+    if (this.#demande) {
+      this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+        StatutChangementReprésentantLégal.demandé,
+      );
+    }
+
+    const event: ChangementReprésentantLégalDemandéEvent = {
+      type: 'ChangementReprésentantLégalDemandé-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        nomReprésentantLégal,
+        typeReprésentantLégal: typeReprésentantLégal.formatter(),
+        demandéLe: dateChangement.formatter(),
+        demandéPar: identifiantUtilisateur.formatter(),
+        pièceJustificative: { format: pièceJustificative.format },
+      },
+    };
+
+    await this.publish(event);
   }
 
   async corrigerDemandeChangement({

@@ -30,6 +30,8 @@ import {
   ListerHistoriqueReprésentantLégalProjetDependencies,
   registerListerHistoriqueReprésentantLégalProjetQuery,
 } from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query';
+import { registerEnregistrerChangementReprésentantLégalCommand } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.command';
+import { registerEnregistrerChangementReprésentantLégalUseCase } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.usecase';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
   ListerChangementReprésentantLégalDependencies &
@@ -60,6 +62,9 @@ export const registerReprésentantLégalUseCases = ({
 
   registerRejeterChangementReprésentantLégalCommand(getProjetAggregateRoot);
   registerRejeterChangementReprésentantLégalUseCase();
+
+  registerEnregistrerChangementReprésentantLégalCommand(getProjetAggregateRoot);
+  registerEnregistrerChangementReprésentantLégalUseCase();
 
   registerSupprimerDocumentProjetSensibleCommand({
     getProjetAggregateRoot,

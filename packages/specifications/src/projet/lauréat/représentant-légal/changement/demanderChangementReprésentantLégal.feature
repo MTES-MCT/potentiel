@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Demander le changement de représentant légal d'un projet lauréat
 
     Contexte:
@@ -44,6 +45,13 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
+    Scénario: Impossible d'enregistrer un changement de représentant légal si le cahier des charges ne le permet pas
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+
     # Tâches planifiées
     Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un accord automatique
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec accord automatique du changement de représentant légal
@@ -83,11 +91,3 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet déjà en service"
-
-    Scénario: Impossible d'enregistrer un changement de puissance si le cahier des charges ne le permet pas
-        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
-            | appel d'offre | CRE4 - Sol |
-            | période       | 1          |
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance | 0.95 |
-        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
