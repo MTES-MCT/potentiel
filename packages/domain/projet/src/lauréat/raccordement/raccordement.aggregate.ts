@@ -337,7 +337,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmiseLe,
   }: TransmettreDemandeOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNonAbandonné();
+    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
 
     if (!this.référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();
