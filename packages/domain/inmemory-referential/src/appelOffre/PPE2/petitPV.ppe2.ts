@@ -17,7 +17,15 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dreal' },
   changement: {
     représentantLégal: {
-      nécessiteInstruction: false,
+      informationEnregistréePossible: false,
+      demandeDeChangementPossible: false,
+    },
+    actionnaire: {
+      informationEnregistréePossible: false,
+      demandeDeChangementPossible: false,
+    },
+    fournisseur: {
+      informationEnregistréePossible: false,
     },
   },
   paragraphePrixReference: '7', // à vérifier

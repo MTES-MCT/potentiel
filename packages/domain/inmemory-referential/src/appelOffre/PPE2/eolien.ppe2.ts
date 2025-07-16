@@ -55,8 +55,16 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
-      nécessiteInstruction: true,
+      informationEnregistréePossible: false,
+      demandeDeChangementPossible: true,
       typeTâchePlanifiée: 'rejet-automatique',
+    },
+    actionnaire: {
+      informationEnregistréePossible: true,
+      demandeDeChangementPossible: true,
+    },
+    fournisseur: {
+      informationEnregistréePossible: true,
     },
   },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
@@ -316,8 +324,16 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
-          nécessiteInstruction: true,
+          informationEnregistréePossible: false,
+          demandeDeChangementPossible: true,
           typeTâchePlanifiée: 'accord-automatique',
+        },
+        actionnaire: {
+          informationEnregistréePossible: true,
+          demandeDeChangementPossible: true,
+        },
+        fournisseur: {
+          informationEnregistréePossible: true,
         },
       },
     },
