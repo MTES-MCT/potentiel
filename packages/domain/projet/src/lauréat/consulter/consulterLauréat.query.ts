@@ -26,7 +26,7 @@ export type ConsulterLauréatReadModel = {
   notifiéPar: Email.ValueType;
   nomProjet: string;
   localité: Localité.ValueType;
-  technologie: TypeTechnologie.ValueType;
+  technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutProjet.ValueType;
   volumeRéservé?: VolumeRéservé.ValueType;
@@ -128,7 +128,7 @@ const mapToReadModel: MapToReadModel = (
   statut,
 
   volumeRéservé: candidature.volumeRéservé,
-  technologie: candidature.dépôt.technologie,
+  technologie: candidature.technologie,
   unitéPuissance: candidature.unitéPuissance,
   emailContact: candidature.dépôt.emailContact,
   nomCandidat: candidature.dépôt.nomCandidat,
