@@ -39,9 +39,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Quand le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
-    # Cas impossibles à tester car il n'y a pas de DCR pour un projet éliminé ou abandonné
-    # Scénario: Impossible de modifier une proposition technique et financière d'un projet abandonné
-    # À vérifier côté métier
-    @NotImplemented
-    Scénario: Impossible de modifier une proposition technique et financière si la date de mise en service est déjà renseignée
 
+# Cas impossibles à tester car il n'y a pas de DCR pour un projet éliminé ou abandonné
+# Scénario: Impossible de modifier une proposition technique et financière d'un projet abandonné
+# Scénario: Impossible de modifier une proposition technique et financière d'un projet éliminé
