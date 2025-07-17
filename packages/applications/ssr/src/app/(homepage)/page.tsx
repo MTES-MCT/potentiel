@@ -2,8 +2,9 @@ import { Metadata } from 'next';
 
 import { getContext } from '@potentiel-applications/request-context';
 
-import { HomePage } from '@/components/pages/home/Home.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+
+import { HomePage } from './Home.page';
 
 export const metadata: Metadata = {
   title: 'Accueil - Potentiel',
