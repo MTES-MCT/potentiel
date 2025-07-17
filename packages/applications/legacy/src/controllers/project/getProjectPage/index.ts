@@ -213,7 +213,6 @@ v1Router.get(
 
       const instructionChangementActionnaire =
         Lauréat.Actionnaire.InstructionChangementActionnaire.bind({
-          appelOffre: project.appelOffreId,
           aDesGarantiesFinancièresConstituées: !!garantiesFinancières?.actuelles,
           aUnDépotEnCours: !!garantiesFinancières?.dépôtÀTraiter,
           typeActionnariat: project.isFinancementParticipatif
@@ -224,7 +223,10 @@ v1Router.get(
         });
 
       const demandeNécessiteInstructionPourActionnaire =
-        role.estÉgaleÀ(Role.porteur) && instructionChangementActionnaire.estRequise();
+        role.estÉgaleÀ(Role.porteur) &&
+        // normalement on doit vérifier pour la période avant, mais c'est que pour un AO, et cette page est legacy
+        project.appelOffre.changement.actionnaire.demande &&
+        instructionChangementActionnaire.estRequise();
 
       const recours = await getRecours(identifiantProjetValueType);
 
