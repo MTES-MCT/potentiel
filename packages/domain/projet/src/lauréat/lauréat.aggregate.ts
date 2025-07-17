@@ -362,7 +362,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierQueAppelOffrePermetUnChangement(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainChangement,
+    domaine: AppelOffre.DomaineDeDemandeChangement,
   ) {
     if (
       this.projet.appelOffre.changement[domaine] &&
@@ -374,7 +374,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainChangement,
+    domaine: AppelOffre.DomaineDeDemandeChangement,
   ) {
     this.vérifierQueLeLauréatExiste();
     this.vérifierNiAbandonnéNiEnCoursAbandon();
