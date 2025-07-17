@@ -8,9 +8,10 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { ChoisirCahierDesChargesPage } from '@/components/pages/lauréat/choisirCahierDesCharges/ChoisirCahierDesCharges.page';
 import { getPériodeAppelOffres, getCahierDesCharges } from '@/app/_helpers';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+
+import { ChoisirCahierDesChargesPage } from './ChoisirCahierDesCharges.page';
 
 export const metadata: Metadata = {
   title: 'Choix du Cahier des Charges - Potentiel',

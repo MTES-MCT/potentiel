@@ -13,8 +13,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
-
-import { FormAlertError } from '../../../atoms/form/FormAlertError';
+import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 
 import {
   choisirCahierDesChargesAction,
