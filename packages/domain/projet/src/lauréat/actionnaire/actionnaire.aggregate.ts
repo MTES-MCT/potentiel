@@ -107,7 +107,6 @@ export class ActionnaireAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'actionnaire');
 
     const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
-      appelOffre: this.identifiantProjet.appelOffre,
       // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
       // Par ailleurs les données sont les mêmes à date (janv 2025)
       typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
