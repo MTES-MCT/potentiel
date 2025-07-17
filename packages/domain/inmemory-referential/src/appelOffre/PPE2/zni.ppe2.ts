@@ -14,6 +14,28 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   delaiRealisationTexte: 'trente (30) mois',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+    actionnaire: {
+      'information-enregistrée': true,
+    },
+    fournisseur: {
+      'information-enregistrée': true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      'information-enregistrée': true,
+    },
+    puissance: {
+      'information-enregistrée': true,
+      demande: true,
+    },
+  },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
   paragrapheAttestationConformite: '6.5',
@@ -104,12 +126,6 @@ du paragraphe 2.6.`,
         },
       ],
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -136,12 +152,6 @@ du paragraphe 2.6.`,
         },
       ],
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -168,12 +178,6 @@ du paragraphe 2.6.`,
         },
       ],
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };

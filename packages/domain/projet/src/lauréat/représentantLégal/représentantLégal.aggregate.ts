@@ -163,7 +163,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     pièceJustificative,
     typeReprésentantLégal,
   }: DemanderChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
+    this.lauréat.vérifierQueLeChangementEstPossible('demande', 'représentantLégal');
 
     this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
 

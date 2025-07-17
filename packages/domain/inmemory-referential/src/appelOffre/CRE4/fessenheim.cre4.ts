@@ -72,6 +72,28 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 24,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+    actionnaire: {
+      'information-enregistrée': true,
+    },
+    fournisseur: {
+      'information-enregistrée': true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      'information-enregistrée': true,
+    },
+    puissance: {
+      'information-enregistrée': true,
+      demande: true,
+    },
+  },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
@@ -187,12 +209,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -237,12 +253,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -286,12 +296,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };

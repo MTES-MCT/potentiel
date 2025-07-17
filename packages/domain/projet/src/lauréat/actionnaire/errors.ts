@@ -18,8 +18,8 @@ export class ChangementActionnaireInexistanteErreur extends InvalidOperationErro
   }
 }
 
-export class ActionnaireNePeutPasÊtreModifiéDirectement extends DomainError {
+export class ActionnairePeutÊtreModifiéDirectement extends DomainError {
   constructor() {
-    super("Impossible de modifier directement l'actionnaire dans ces conditions");
+    super("Impossible de demander un changement d'actionnaire dans ces conditions");
   }
 }

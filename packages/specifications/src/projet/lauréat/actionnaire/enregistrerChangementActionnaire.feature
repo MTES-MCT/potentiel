@@ -3,7 +3,8 @@
 Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Bâtiment |
         Et la dreal "DREAL" associée à la région du projet
         Et un cahier des charges modificatif choisi
 
@@ -24,15 +25,17 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Quand le porteur enregistre un changement d'actionnaire avec la même valeur pour le projet lauréat
         Alors le changement enregistré de l'actionnaire devrait être consultable
 
+    Scénario: Impossible d'enregistrer un changement d'actionnaire pour certains AO
+        Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
+            | appel d'offre | PPE2 - Petit PV |
+            | période       | 1               |
+        Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
+
     Scénario: Impossible d'enregistrer un changement d'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le porteur enregistre un changement d'actionnaire pour le projet éliminé
         Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
-
-    Scénario: Impossible d'enregistrer un changement d'actionnaire alors qu'un changement d'actionnaire est en cours
-        Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
-        Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
     Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet lauréat abandonné
         Etant donné un abandon accordé pour le projet lauréat
@@ -89,3 +92,11 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | période       | 1          |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+
+    # un projet EOLIEN avec les bonnes conditions
+    # les conditions changent
+    # Et
+    Scénario: Impossible d'enregistrer un changement d'actionnaire alors qu'un changement d'actionnaire est en cours
+        Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
+        Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"

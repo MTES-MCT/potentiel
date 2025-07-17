@@ -50,6 +50,28 @@ export const autoconsommationZNI: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 30,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+    actionnaire: {
+      'information-enregistrée': true,
+    },
+    fournisseur: {
+      'information-enregistrée': true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      'information-enregistrée': true,
+    },
+    puissance: {
+      'information-enregistrée': true,
+      demande: true,
+    },
+  },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
@@ -134,12 +156,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -161,12 +177,6 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };

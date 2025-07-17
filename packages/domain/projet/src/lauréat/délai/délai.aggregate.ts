@@ -49,7 +49,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     pièceJustificative,
     raison,
   }: DemanderDélaiOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
+    this.lauréat.vérifierQueLeChangementEstPossible('demande', 'délai');
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.demandé);

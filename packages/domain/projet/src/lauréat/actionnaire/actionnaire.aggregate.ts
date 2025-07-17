@@ -4,12 +4,12 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
-import { StatutChangementActionnaire, InstructionChangementActionnaire } from '.';
+import { InstructionChangementActionnaire, StatutChangementActionnaire } from '.';
 
 import { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.event';
 import {
   ActionnaireDéjàTransmisError,
-  ActionnaireNePeutPasÊtreModifiéDirectement,
+  ActionnairePeutÊtreModifiéDirectement,
   ChangementActionnaireInexistanteErreur,
   DemandeDeChangementEnCoursError,
 } from './errors';
@@ -104,21 +104,9 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
-
-    const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
-      appelOffre: this.identifiantProjet.appelOffre,
-      // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
-      // Par ailleurs les données sont les mêmes à date (janv 2025)
-      typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
-      aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
-      aDesGarantiesFinancièresConstituées:
-        this.lauréat.garantiesFinancières.aDesGarantiesFinancières,
-    });
-
-    if (instructionChangementActionnaire.estRequise()) {
-      throw new ActionnaireNePeutPasÊtreModifiéDirectement();
-    }
+    // on vérifie déjà ici que l'AO n'est pas Eolien
+    // Donc pas besoin de vérifier l'instruction
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'actionnaire');
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
@@ -150,7 +138,20 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: DemanderChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
+    this.lauréat.vérifierQueLeChangementEstPossible('demande', 'actionnaire');
+
+    const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
+      // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
+      // Par ailleurs les données sont les mêmes à date (janv 2025)
+      typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
+      aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
+      aDesGarantiesFinancièresConstituées:
+        this.lauréat.garantiesFinancières.aDesGarantiesFinancières,
+    });
+
+    if (!instructionChangementActionnaire.estRequise()) {
+      throw new ActionnairePeutÊtreModifiéDirectement();
+    }
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(

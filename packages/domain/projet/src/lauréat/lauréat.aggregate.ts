@@ -16,6 +16,7 @@ import {
 import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
 import { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
 import {
+  AppelOffreOuPériodeEmpêcheModificationError,
   CahierDesChargesEmpêcheModificationError,
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
@@ -359,11 +360,30 @@ export class LauréatAggregate extends AbstractAggregate<
     }
   }
 
-  vérifierQueLeChangementEstPossible() {
+  vérifierQueAppelOffreEtPériodePermettentUnChangement(
+    typeChangement: 'information-enregistrée' | 'demande',
+    domaine: AppelOffre.DomainesConcernésParChangement,
+  ) {
+    // les règles au niveau de la période override celles de l'appel d'offre
+    const changement = {
+      ...this.projet.appelOffre.changement,
+      ...this.projet.période.changement,
+    };
+
+    if (changement[domaine][typeChangement] !== true) {
+      throw new AppelOffreOuPériodeEmpêcheModificationError();
+    }
+  }
+
+  vérifierQueLeChangementEstPossible(
+    typeChangement: 'information-enregistrée' | 'demande',
+    domaine: AppelOffre.DomainesConcernésParChangement,
+  ) {
     this.vérifierQueLeLauréatExiste();
     this.vérifierNiAbandonnéNiEnCoursAbandon();
     this.vérifierNonAchevé();
     this.vérifierQueLeCahierDesChargesPermetUnChangement();
+    this.vérifierQueAppelOffreEtPériodePermettentUnChangement(typeChangement, domaine);
   }
 
   apply(event: LauréatEvent): void {

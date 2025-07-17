@@ -15,6 +15,28 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      typeTâchePlanifiée: 'rejet-automatique',
+    },
+    actionnaire: {
+      'information-enregistrée': true,
+    },
+    fournisseur: {
+      'information-enregistrée': true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      'information-enregistrée': true,
+    },
+    puissance: {
+      'information-enregistrée': true,
+      demande: true,
+    },
+  },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',
@@ -104,12 +126,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -135,12 +151,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -166,15 +176,10 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
     // ℹ️ à partir de la P4, penser à activer champsSupplémentaires: {coefficientKChoisi: "requis"}
     // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
+    // ℹ️ représentation légal sera réputé accordé à partir de la P4
   ],
 };

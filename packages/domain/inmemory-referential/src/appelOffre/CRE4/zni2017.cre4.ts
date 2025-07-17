@@ -52,6 +52,28 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 36,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      typeTâchePlanifiée: 'accord-automatique',
+    },
+    actionnaire: {
+      'information-enregistrée': true,
+    },
+    fournisseur: {
+      'information-enregistrée': true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      'information-enregistrée': true,
+    },
+    puissance: {
+      'information-enregistrée': true,
+      demande: true,
+    },
+  },
   delaiRealisationTexte: 'trente-six (36) mois',
   paragraphePrixReference: '4.4',
   paragrapheDelaiDerogatoire: '6.4',
@@ -168,12 +190,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };
