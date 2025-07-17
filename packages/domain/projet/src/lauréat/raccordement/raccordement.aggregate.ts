@@ -235,6 +235,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     référenceDossierRaccordement,
     formatPropositionTechniqueEtFinancièreSignée,
   }: ModifierPropositionTechniqueEtFinancièreOptions) {
+    this.lauréat.vérifierPasEnCoursAbandon();
+
     if (dateSignature.estDansLeFutur()) {
       throw new DateDansLeFuturError();
     }
@@ -337,7 +339,7 @@ export class RaccordementAggregate extends AbstractAggregate<
     transmiseLe,
   }: TransmettreDemandeOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-    this.lauréat.vérifierNonAbandonné();
+    this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
 
     if (!this.référenceDossierExpressionRegulière.valider(référenceDossier.référence)) {
       throw new FormatRéférenceDossierRaccordementInvalideError();

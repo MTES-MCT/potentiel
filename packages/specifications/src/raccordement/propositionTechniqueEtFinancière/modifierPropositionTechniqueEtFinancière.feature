@@ -31,7 +31,15 @@ Fonctionnalité: Modifier une proposition technique et financière
             | La date de signature | 2999-12-31 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
 
-    # À vérifier côté métier
-    @NotImplemented
-    Scénario: Impossible de modifier une proposition technique et financière si la date de mise en service est déjà renseignée
+    Scénario: Impossible de modifier une proposition technique et financière d'un projet en cours d'abandon
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Et un cahier des charges modificatif choisi
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
+
+# Cas impossibles à tester car il n'y a pas de DCR pour un projet éliminé ou abandonné
+# Scénario: Impossible de modifier une proposition technique et financière d'un projet abandonné
+# Scénario: Impossible de modifier une proposition technique et financière d'un projet éliminé

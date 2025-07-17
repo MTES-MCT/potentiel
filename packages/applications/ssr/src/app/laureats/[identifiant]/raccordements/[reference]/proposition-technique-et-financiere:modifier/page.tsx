@@ -13,7 +13,7 @@ import {
   ModifierPropositionTechniqueEtFinancièrePage,
   ModifierPropositionTechniqueEtFinancièrePageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierPropositionTechniqueEtFinancière/ModifierPropositionTechniqueEtFinancière.page';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { récupérerLauréatSansAbandon } from '@/app/_helpers';
 
 type PageProps = {
   params: {
@@ -31,7 +31,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
+    await récupérerLauréatSansAbandon(identifiantProjet.formatter());
 
     const referenceDossierRaccordement = decodeParameter(reference);
 

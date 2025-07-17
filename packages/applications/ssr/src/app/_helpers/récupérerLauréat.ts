@@ -34,3 +34,20 @@ export const récupérerLauréatNonAbandonné = async (identifiantProjet: string
 
   return projet;
 };
+
+export const récupérerLauréatSansAbandon = async (identifiantProjet: string) => {
+  const projet = await récupérerLauréat(identifiantProjet);
+
+  const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
+    type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+
+  if (Option.isSome(abandon) && (abandon.statut.estEnCours() || abandon.statut.estAccordé())) {
+    return notFound();
+  }
+
+  return projet;
+};
