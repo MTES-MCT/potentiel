@@ -56,9 +56,8 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     return;
   }
 
-  const typeTâchePlanifiée =
-    période.changement?.représentantLégal?.typeTâchePlanifiée ??
-    appelOffre.changement?.représentantLégal?.typeTâchePlanifiée;
+  const changementRègles =
+    période.changement?.représentantLégal ?? appelOffre.changement?.représentantLégal;
 
   const changementEnCours =
     await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
@@ -79,7 +78,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     return;
   }
 
-  if (!typeTâchePlanifiée) {
+  if (!changementRègles) {
     return;
   }
 
@@ -90,7 +89,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     recipients: dreals,
     templateId: 6636431,
     variables: {
-      type: typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
+      type: changementRègles.typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
       nom_projet: nom,
       departement_projet: département,
       url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
