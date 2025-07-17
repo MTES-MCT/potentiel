@@ -63,7 +63,7 @@ export type DomaineDeDemandeChangement =
   | 'producteur'
   | 'puissance';
 
-type RèglesDemandesChangement = Partial<
+export type RèglesDemandesChangement = Partial<
   Record<
     DomaineDeDemandeChangement,
     {

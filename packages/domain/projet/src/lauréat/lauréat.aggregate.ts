@@ -378,13 +378,21 @@ export class LauréatAggregate extends AbstractAggregate<
     typeChangement: 'information-enregistrée' | 'demande',
     domaine: AppelOffre.DomaineDeDemandeChangement,
   ) {
-    if (this.projet.période.changement && this.projet.période.changement[domaine]) {
-      if (this.projet.période.changement[domaine][typeChangement] === false) {
-        throw new AppelOffreOuPériodeEmpêcheModificationError();
-      }
-    } else if (
-      this.projet.appelOffre.changement[domaine] &&
-      this.projet.appelOffre.changement[domaine][typeChangement] === false
+    const changementInterdit = (règlesChangement?: AppelOffre.RèglesDemandesChangement) => {
+      return règlesChangement?.[domaine]?.[typeChangement] === false;
+    };
+
+    const changementAutorisé = (règlesChangement?: AppelOffre.RèglesDemandesChangement) => {
+      return règlesChangement?.[domaine]?.[typeChangement] === true;
+    };
+
+    if (changementInterdit(this.projet.période.changement)) {
+      throw new AppelOffreOuPériodeEmpêcheModificationError();
+    }
+
+    if (
+      !changementAutorisé(this.projet.période.changement) &&
+      changementInterdit(this.projet.appelOffre.changement)
     ) {
       throw new AppelOffreOuPériodeEmpêcheModificationError();
     }
