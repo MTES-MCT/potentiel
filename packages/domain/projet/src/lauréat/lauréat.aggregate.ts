@@ -362,7 +362,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierQueAppelOffreEtPériodePermettentUnChangement(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomaineDeDemandeChangement,
+    domaine: AppelOffre.DomainesConcernésParChangement,
   ) {
     // les règles au niveau de la période override celles de l'appel d'offre
     const changement = {
@@ -377,7 +377,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomaineDeDemandeChangement,
+    domaine: AppelOffre.DomainesConcernésParChangement,
   ) {
     this.vérifierQueLeLauréatExiste();
     this.vérifierNiAbandonnéNiEnCoursAbandon();
