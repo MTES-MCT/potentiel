@@ -39,4 +39,4 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
 
         Exemples:
             | appel d'offre   | période | date achèvement prévisionnel actuelle | date achèvement prévisionnel attendue |
-            | PPE2 - Bâtiment | 1       | 2020-01-01                            | 2024-01-01                            |
+            | PPE2 - Bâtiment | 1       | 2020-01-01                            | 2021-07-01                            |
