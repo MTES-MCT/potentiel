@@ -222,11 +222,12 @@ v1Router.get(
               : undefined,
         });
 
-      const demandeNécessiteInstructionPourActionnaire =
+      const demandeNécessiteInstructionPourActionnaire = !!(
         role.estÉgaleÀ(Role.porteur) &&
         // normalement on doit vérifier pour la période avant, mais c'est que pour un AO, et cette page est legacy
         project.appelOffre.changement.actionnaire.demande &&
-        instructionChangementActionnaire.estRequise();
+        instructionChangementActionnaire.estRequise()
+      );
 
       const recours = await getRecours(identifiantProjetValueType);
 
