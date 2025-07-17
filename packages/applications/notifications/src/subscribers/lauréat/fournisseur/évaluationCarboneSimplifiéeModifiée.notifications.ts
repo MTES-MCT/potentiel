@@ -28,7 +28,7 @@ export const évaluationCarboneSimplifiéeModifiéeNotifications = async ({
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (dreals.length === 0 && porteurs.length === 0) {
-    getLogger().error('Aucune dreal ou porteur trouvée', {
+    getLogger().info('Aucune dreal ou porteur trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'évaluationCarboneSimplifiéeModifiéeNotifications',

@@ -24,7 +24,7 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
     Scénario: Impossible d'annuler la demande de délai d'un projet lauréat si la demande a déjà été rejetée
         Etant donné une demande de délai rejetée pour le projet lauréat
         Quand le porteur annule la demande de délai pour le projet lauréat
-        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
+        Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
 
 
 # TODO quand les usecase seront disponible

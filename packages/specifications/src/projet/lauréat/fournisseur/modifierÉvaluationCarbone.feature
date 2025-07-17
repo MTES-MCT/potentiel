@@ -1,4 +1,5 @@
 # language: fr
+@fournisseur
 Fonctionnalité: Modifier l'évaluation carbone du projet
 
     Contexte:

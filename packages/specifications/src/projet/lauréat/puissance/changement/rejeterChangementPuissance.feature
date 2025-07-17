@@ -1,4 +1,5 @@
 # language: fr
+@puissance
 Fonctionnalité: Rejeter la demande de changement de puissance d'un projet lauréat
 
     Contexte:

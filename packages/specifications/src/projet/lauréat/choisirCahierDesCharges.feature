@@ -1,4 +1,5 @@
 # language: fr
+@lauréat
 Fonctionnalité: Choisir un cahier des charges
 
     Scénario: Choisir un cahier des charges modifié

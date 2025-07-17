@@ -34,7 +34,7 @@ export const changementPuissanceAnnuléNotification = async ({
   }
 
   if (dreals.length === 0) {
-    getLogger().error('Aucune dreal trouvée', {
+    getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'demandeChangementPuissanceAnnuléeNotification',

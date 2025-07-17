@@ -1,4 +1,5 @@
 # language: fr
+@fournisseur
 Fonctionnalité: Enregistrer un changement de fournisseur
 
     Contexte:
