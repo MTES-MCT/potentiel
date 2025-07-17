@@ -55,15 +55,17 @@ export const sol: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
-      informationEnregistréePossible: false,
+      'information-enregistrée': false,
+      demande: true,
       typeTâchePlanifiée: 'accord-automatique',
     },
     actionnaire: {
-      informationEnregistréePossible: true,
-      demandeDeChangementPossible: true,
+      'information-enregistrée': true,
+      demande: true,
     },
     fournisseur: {
-      informationEnregistréePossible: true,
+      'information-enregistrée': true,
+      demande: false,
     },
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',

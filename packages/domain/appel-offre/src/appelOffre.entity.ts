@@ -55,19 +55,24 @@ type GarantiesFinancièresAppelOffre = {
 );
 
 // Demandes
-type DemandeChangement = {
-  représentantLégal: {
-    informationEnregistréePossible: boolean;
-    typeTâchePlanifiée?: 'accord-automatique' | 'rejet-automatique';
-  };
-  actionnaire: {
-    informationEnregistréePossible: boolean;
-    demandeDeChangementPossible: boolean;
-  };
-  fournisseur: {
-    informationEnregistréePossible: boolean;
-  };
-};
+export type DomainChangement =
+  | 'actionnaire'
+  | 'fournisseur'
+  | 'représentantLégal'
+  | 'délai'
+  | 'producteur'
+  | 'puissance';
+
+type DemandeChangement = Partial<
+  Record<
+    DomainChangement,
+    {
+      'information-enregistrée': boolean;
+      demande: boolean;
+      typeTâchePlanifiée?: 'accord-automatique' | 'rejet-automatique';
+    }
+  >
+>;
 
 // Courriers
 export type DonnéesCourriersRéponse = Record<

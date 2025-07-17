@@ -17,16 +17,17 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
-      informationEnregistréePossible: false,
-
+      'information-enregistrée': false,
+      demande: true,
       typeTâchePlanifiée: 'rejet-automatique',
     },
     actionnaire: {
-      informationEnregistréePossible: true,
-      demandeDeChangementPossible: true,
+      'information-enregistrée': true,
+      demande: true,
     },
     fournisseur: {
-      informationEnregistréePossible: true,
+      'information-enregistrée': true,
+      demande: false,
     },
   },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',

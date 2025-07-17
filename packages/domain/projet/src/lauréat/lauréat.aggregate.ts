@@ -16,6 +16,7 @@ import {
 import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
 import { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
 import {
+  AppelOffreEmpêcheModificationError,
   CahierDesChargesEmpêcheModificationError,
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
@@ -373,11 +374,27 @@ export class LauréatAggregate extends AbstractAggregate<
     }
   }
 
-  vérifierQueLeChangementEstPossible() {
+  vérifierQueAppelOffrePermetUnChangement(
+    typeChangement: 'information-enregistrée' | 'demande',
+    domaine: AppelOffre.DomainChangement,
+  ) {
+    if (
+      this.projet.appelOffre.changement[domaine] &&
+      this.projet.appelOffre.changement[domaine][typeChangement] === false
+    ) {
+      throw new AppelOffreEmpêcheModificationError();
+    }
+  }
+
+  vérifierQueLeChangementEstPossible(
+    typeChangement: 'information-enregistrée' | 'demande',
+    domaine: AppelOffre.DomainChangement,
+  ) {
     this.vérifierQueLeLauréatExiste();
     this.vérifierNiAbandonnéNiEnCoursAbandon();
     this.vérifierNonAchevé();
     this.vérifierQueLeCahierDesChargesPermetUnChangement();
+    this.vérifierQueAppelOffrePermetUnChangement(typeChangement, domaine);
   }
 
   apply(event: LauréatEvent): void {
