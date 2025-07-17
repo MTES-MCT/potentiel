@@ -9,10 +9,11 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+
 import {
   ChangementFournisseurListPage,
   ChangementFournisseurListPageProps,
-} from '@/components/pages/fournisseur/changement/lister/ChangementFournisseurList.page';
+} from './ChangementFournisseurList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;

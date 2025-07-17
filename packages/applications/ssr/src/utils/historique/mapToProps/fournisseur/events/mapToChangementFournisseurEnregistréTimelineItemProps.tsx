@@ -3,7 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { ListeFournisseurs } from '@/components/pages/fournisseur/changement/ListeFournisseurs';
+import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   record: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent,

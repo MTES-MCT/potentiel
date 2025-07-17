@@ -6,9 +6,10 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { EnregistrerChangementFournisseurPage } from '@/components/pages/fournisseur/changement/enregistrer/EnregistrerChangementFournisseur.page';
 
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';
+
+import { EnregistrerChangementFournisseurPage } from './EnregistrerChangementFournisseur.page';
 
 export const metadata: Metadata = {
   title: 'Changer le fournisseur du projet - Potentiel',

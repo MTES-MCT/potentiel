@@ -10,10 +10,10 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { AlerteChangementÉvaluationCarbone } from '@/components/molecules/fournisseur/AlerteChangementÉvaluationCarbone';
 
-import { StatutChangementFournisseurBadge } from '../StatutChangementFournisseurBadge';
 import { ListeFournisseurs } from '../ListeFournisseurs';
+import { StatutChangementFournisseurBadge } from '../../StatutChangementFournisseurBadge';
+import { AlerteChangementÉvaluationCarbone } from '../AlerteChangementÉvaluationCarbone';
 
 export type DétailsChangementFournisseurProps = {
   changement: PlainType<Lauréat.Fournisseur.ConsulterChangementFournisseurReadModel['changement']>;
