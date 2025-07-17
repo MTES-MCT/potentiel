@@ -152,6 +152,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: accordéePar,
         dateAccordValue: accordéeLe,
+        nombreDeMois: this.lauréatWorld.délaiWorld.demanderDélaiFixture.nombreDeMois,
         réponseSignéeValue: réponseSignée,
       },
     });

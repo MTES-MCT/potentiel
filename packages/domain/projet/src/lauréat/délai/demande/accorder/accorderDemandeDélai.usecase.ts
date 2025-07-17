@@ -13,6 +13,7 @@ export type AccorderDemandeDélaiUseCase = Message<
   {
     identifiantProjetValue: string;
     dateAccordValue: string;
+    nombreDeMois: number;
     identifiantUtilisateurValue: string;
     réponseSignéeValue: { content: ReadableStream; format: string };
   }
@@ -22,6 +23,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
   const runner: MessageHandler<AccorderDemandeDélaiUseCase> = async ({
     identifiantProjetValue,
     dateAccordValue,
+    nombreDeMois,
     identifiantUtilisateurValue,
     réponseSignéeValue: { format, content },
   }) => {
@@ -42,7 +44,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
 
     await mediator.send<AccorderDemandeDélaiCommand>({
       type: 'Lauréat.Délai.Command.AccorderDemandeDélai',
-      data: { dateAccord, identifiantUtilisateur, identifiantProjet, réponseSignée },
+      data: { dateAccord, identifiantUtilisateur, identifiantProjet, réponseSignée, nombreDeMois },
     });
   };
   mediator.register('Lauréat.Délai.UseCase.AccorderDemandeDélai', runner);

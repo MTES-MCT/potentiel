@@ -16,7 +16,7 @@ export const récupérerÉvénementDemandeDelaiSignaled: RécupérerDélaiÉvén
             (
               to_timestamp((payload->>'newCompletionDueOn')::bigint / 1000)::date - 
               to_timestamp((payload->>'oldCompletionDueOn')::bigint / 1000)::date
-            )::float / 30) as "durée"
+            )::float / 30) as "nombreDeMois"
         from "eventStores" es
         join "projects" p on p."id"::text = es.payload->>'projectId'
         where 
@@ -30,7 +30,7 @@ export const récupérerÉvénementDemandeDelaiSignaled: RécupérerDélaiÉvén
           and p."numeroCRE" = $4;
       `;
 
-  const items = await executeSelect<{ dateCréation: string; durée: number }>(
+  const items = await executeSelect<{ dateCréation: string; nombreDeMois: number }>(
     query,
     identifiantProjet.appelOffre,
     identifiantProjet.période,
@@ -38,14 +38,14 @@ export const récupérerÉvénementDemandeDelaiSignaled: RécupérerDélaiÉvén
     identifiantProjet.numéroCRE,
   );
 
-  return items.map(({ dateCréation, durée }) => ({
+  return items.map(({ dateCréation, nombreDeMois }) => ({
     id: `${identifiantProjet}#${dateCréation}`,
     category: 'délai',
     createdAt: dateCréation,
     type: 'LegacyDélaiAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      durée,
+      nombreDeMois,
       raison: 'demande',
       accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
     },

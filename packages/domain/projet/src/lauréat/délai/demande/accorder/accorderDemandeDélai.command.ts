@@ -11,6 +11,7 @@ export type AccorderDemandeDélaiCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateAccord: DateTime.ValueType;
+    nombreDeMois: number;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
@@ -22,6 +23,7 @@ export const registerAccorderDemandeDélaiCommand = (
     identifiantProjet,
     dateAccord,
     identifiantUtilisateur,
+    nombreDeMois,
     réponseSignée,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
@@ -30,6 +32,7 @@ export const registerAccorderDemandeDélaiCommand = (
       identifiantUtilisateur,
       réponseSignée,
       dateAccord,
+      nombreDeMois,
     });
   };
   mediator.register('Lauréat.Délai.Command.AccorderDemandeDélai', handler);

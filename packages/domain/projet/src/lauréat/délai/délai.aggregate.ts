@@ -122,6 +122,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     dateAccord,
     identifiantUtilisateur,
     réponseSignée,
+    nombreDeMois,
   }: AccorderDemandeDélaiOptions) {
     if (!this.#demande) {
       throw new DemandeDeDélaiInexistanteError();
@@ -129,15 +130,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
 
-    const durée = this.#demande.nombreDeMois;
-
     const délaiAccordéEvent: DélaiAccordéEvent = {
       type: 'DélaiAccordé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
-        durée,
+        nombreDeMois,
         raison: 'demande',
         réponseSignée: { format: réponseSignée.format },
         dateDemande: this.#demande.demandéLe,
@@ -148,7 +147,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
     await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
       type: 'délai-accordé',
-      nombreDeMois: durée,
+      nombreDeMois,
     });
   }
 

@@ -5,14 +5,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 export const mapToDélaiAccordéTimelineItemProps = (
   délaiAccordé: Lauréat.Délai.DélaiAccordéEvent,
 ) => {
-  const { accordéLe, durée, raison } = délaiAccordé.payload;
+  const { accordéLe, nombreDeMois, raison } = délaiAccordé.payload;
 
   return {
     date: accordéLe,
     title: <div>{getTitleFromRaison(raison)}</div>,
     content: (
       <>
-        Durée : <span className="font-semibold">{durée} mois</span>
+        Durée : <span className="font-semibold">{nombreDeMois} mois</span>
       </>
     ),
   };

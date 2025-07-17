@@ -5,4 +5,5 @@ export type AccorderDemandeDélaiOptions = {
   identifiantUtilisateur: Email.ValueType;
   dateAccord: DateTime.ValueType;
   réponseSignée: DocumentProjet.ValueType;
+  nombreDeMois: number;
 };
