@@ -1,8 +1,12 @@
 # language: fr
+@actionnaire
 Fonctionnalité: Rejeter la demande de changement d'actionnaire d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | Eolien                      |
+            | période       | 6                           |
+            | actionnariat  | investissement-participatif |
         Et un cahier des charges modificatif choisi
         Et la dreal "Dreal du sud" associée à la région du projet
 
