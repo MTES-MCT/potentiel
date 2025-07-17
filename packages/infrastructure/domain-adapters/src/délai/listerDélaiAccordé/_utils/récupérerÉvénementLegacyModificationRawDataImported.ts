@@ -49,7 +49,7 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
       const ancienneDate = new Date(Number.parseInt(ancienneDateLimiteAchevement));
       const nouvelleDate = new Date(Number.parseInt(nouvelleDateLimiteAchevement));
 
-      const durée =
+      const nombreDeMois =
         (nouvelleDate.getFullYear() - ancienneDate.getFullYear()) * 12 +
         (nouvelleDate.getMonth() - ancienneDate.getMonth());
 
@@ -57,10 +57,10 @@ export const récupérerÉvénementLegacyModificationRawDataImported: Récupére
         id: `${identifiantProjet}#${dateCréation}`,
         category: 'délai',
         createdAt: dateCréation,
-        type: 'DélaiAccordé-V1',
+        type: 'LegacyDélaiAccordé-V1',
         payload: {
           identifiantProjet: identifiantProjet.formatter(),
-          durée,
+          nombreDeMois,
           raison: 'demande',
           accordéLe: dateCréation,
         },

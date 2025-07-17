@@ -1,3 +1,4 @@
+import { AccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase';
 import {
   ConsulterDélaiQuery,
   ConsulterABénéficiéDuDélaiCDC2022Port,
@@ -47,22 +48,24 @@ export type {
 export type DélaiUseCase =
   | DemanderDélaiUseCase
   | AnnulerDemandeDélaiUseCase
+  | PasserEnInstructionDemandeDélaiUseCase
   | RejeterDemandeDélaiUseCase
-  | PasserEnInstructionDemandeDélaiUseCase;
+  | AccorderDemandeDélaiUseCase;
 
 export type {
   DemanderDélaiUseCase,
   AnnulerDemandeDélaiUseCase,
-  RejeterDemandeDélaiUseCase,
   PasserEnInstructionDemandeDélaiUseCase,
+  RejeterDemandeDélaiUseCase,
+  AccorderDemandeDélaiUseCase,
 };
 
 // Event
 export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
-export type { DélaiAccordéEvent } from './demande/accorder/accorderDemandeDélai.event';
 export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
-export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event';
+export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
+export type { DélaiAccordéEvent, LegacyDélaiAccordéEvent } from './accorder/accorderDélai.event';
 export * from './délai.event';
 
 // Register
@@ -76,7 +79,7 @@ export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType';
 export * as TypeDocumentDemandeDélai from './demande/typeDocumentDemandeDélai.valueType';
 
 // Entities
-export * from './demandeDélai.entity';
+export * from './demande/demandeDélai.entity';
 
 // Feature flag
 export * from './isFonctionnalitéDélaiActivée';

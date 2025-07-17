@@ -67,7 +67,7 @@ export class DemanderDélaiFixture extends AbstractFixture<DemanderDélai> imple
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
-      nombreDeMois: faker.number.int({ min: 1 }),
+      nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       pièceJustificative: {
         format: 'application/pdf',
         content: convertStringToReadableStream(content),

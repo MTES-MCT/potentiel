@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { isFonctionnalitéDélaiActivée } from '../délai';
@@ -19,6 +20,7 @@ import { AttestationConformitéTransmiseEvent } from './attestationConformité/t
 import { TypeDocumentAttestationConformité } from './attestationConformité';
 import { AchèvementEvent } from './achèvement.event';
 import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
+import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,
@@ -54,15 +56,29 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.lauréat.projet.appelOffre.délaiRéalisationEnMois;
   }
 
-  async calculerDateAchèvementPrévisionnel() {
+  #dateAchèvementPrévisionnel!: DateTime.ValueType;
+  get dateAchèvementPrévisionnel() {
+    return this.#dateAchèvementPrévisionnel;
+  }
+
+  async calculerDateAchèvementPrévisionnel(options: CalculerDateAchèvementPrévisionnelOptions) {
     if (isFonctionnalitéDélaiActivée()) {
-      const delaiRealisationEnMois = this.délaiRéalisationEnMois;
+      const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
+
+      const date = match(options)
+        .with({ type: 'notification' }, () =>
+          this.lauréat.notifiéLe.ajouterNombreDeMois(this.délaiRéalisationEnMois).formatter(),
+        )
+        .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
+          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(nombreDeMois).formatter(),
+        )
+        .exhaustive();
 
       const event: DateAchèvementPrévisionnelCalculéeEvent = {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
         payload: {
-          identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
-          date: this.lauréat.notifiéLe.ajouterNombreDeMois(delaiRealisationEnMois).formatter(),
+          identifiantProjet,
+          date,
         },
       };
 
@@ -159,7 +175,7 @@ export class AchèvementAggregate extends AbstractAggregate<
         {
           type: 'DateAchèvementPrévisionnelCalculée-V1',
         },
-        (event) => this.applyDatePrévisionnelleCalculéeV1(event),
+        (event) => this.applyDateAchèvementPrévisionnelCalculéeV1(event),
       )
       .exhaustive();
   }
@@ -214,5 +230,9 @@ export class AchèvementAggregate extends AbstractAggregate<
     );
   }
 
-  private applyDatePrévisionnelleCalculéeV1(_: DateAchèvementPrévisionnelCalculéeEvent) {}
+  private applyDateAchèvementPrévisionnelCalculéeV1({
+    payload: { date },
+  }: DateAchèvementPrévisionnelCalculéeEvent) {
+    this.#dateAchèvementPrévisionnel = DateTime.convertirEnValueType(date);
+  }
 }

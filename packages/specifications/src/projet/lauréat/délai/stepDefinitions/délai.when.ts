@@ -1,5 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -24,6 +25,13 @@ Quand(
   'la DREAL associée au projet rejette le délai pour le projet lauréat',
   async function (this: PotentielWorld) {
     await rejeterDemandeDélai.call(this);
+  },
+);
+
+Quand(
+  'la DREAL associée au projet accorde la demande de délai pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await accorderDemandeDélai.call(this);
   },
 );
 
@@ -125,6 +133,32 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
         identifiantUtilisateurValue: rejetéePar,
         réponseSignéeValue: réponseSignée,
         identifiantProjetValue: identifiantProjet,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function accorderDemandeDélai(this: PotentielWorld) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const { accordéeLe, accordéePar, réponseSignée, nombreDeMois } =
+      this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.créer({
+        nombreDeMois:
+          this.lauréatWorld.délaiWorld.demanderDélaiFixture.nombreDeMois ??
+          faker.number.int({ min: 1, max: 100 }),
+      });
+
+    await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
+      type: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: accordéePar,
+        dateAccordValue: accordéeLe,
+        nombreDeMois,
+        réponseSignéeValue: réponseSignée,
       },
     });
   } catch (error) {

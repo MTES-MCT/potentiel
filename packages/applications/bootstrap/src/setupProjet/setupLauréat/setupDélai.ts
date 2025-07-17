@@ -13,10 +13,10 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
     eventType: [
       'RebuildTriggered',
       'DélaiDemandé-V1',
-      'DélaiAccordé-V1',
       'DemandeDélaiAnnulée-V1',
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',
+      'DélaiAccordé-V1',
     ],
     messageType: 'System.Projector.Lauréat.Délai',
   });
@@ -27,9 +27,9 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
     eventType: [
       'DélaiDemandé-V1',
       'DemandeDélaiAnnulée-V1',
-      'DélaiAccordé-V1',
-      'DemandeDélaiRejetée-V1',
       'DemandeDélaiPasséeEnInstruction-V1',
+      'DemandeDélaiRejetée-V1',
+      'DélaiAccordé-V1',
     ],
     messageType: 'System.Notification.Lauréat.Délai',
   });

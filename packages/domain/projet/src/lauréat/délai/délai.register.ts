@@ -1,5 +1,7 @@
 import { GetProjetAggregateRoot } from '../..';
 
+import { registerAccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase';
+import { registerAccorderDemandeDélaiCommand } from './demande/accorder/accorderDemandeDélai.command';
 import {
   ConsulterDélaiDependencies,
   registerConsulterDélai,
@@ -32,11 +34,13 @@ export const registerDélaiUseCases = ({ getProjetAggregateRoot }: DélaiCommand
   registerAnnulerDemandeDélaiUseCase();
   registerPasserEnInstructionDemandeDélaiUseCase();
   registerRejeterDemandeDélaiUseCase();
+  registerAccorderDemandeDélaiUseCase();
 
   registerDemanderDélaiDélaiCommand(getProjetAggregateRoot);
   registerAnnulerDemandeDélaiCommand(getProjetAggregateRoot);
   registerPasserEnInstructionDemandeDélaiCommand(getProjetAggregateRoot);
   registerRejeterDemandeDélaiCommand(getProjetAggregateRoot);
+  registerAccorderDemandeDélaiCommand(getProjetAggregateRoot);
 };
 
 export type DélaiQueryDependencies = ConsulterDélaiDependencies &

@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutDemandeDélai } from '../..';
 import { Délai } from '../../..';
-import { DemandeDélaiEntity } from '../../demandeDélai.entity';
+import { DemandeDélaiEntity } from '../demandeDélai.entity';
 import { IdentifiantProjet } from '../../../..';
 
 export type ConsulterDemandeDélaiReadModel = {
@@ -29,15 +29,15 @@ export type ConsulterDemandeDélaiReadModel = {
   };
 
   accord?: {
-    accordéPar: Email.ValueType;
-    accordéLe: DateTime.ValueType;
+    accordéePar: Email.ValueType;
+    accordéeLe: DateTime.ValueType;
     réponseSignée: DocumentProjet.ValueType;
     nombreDeMois: number;
   };
 
   rejet?: {
-    rejetéPar: Email.ValueType;
-    rejetéLe: DateTime.ValueType;
+    rejetéePar: Email.ValueType;
+    rejetéeLe: DateTime.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   };
 };
@@ -107,27 +107,27 @@ const mapToReadModel: MapToReadModel = ({
       passéeEnInstructionPar: Email.convertirEnValueType(instruction.passéeEnInstructionPar),
     },
 
+    rejet: rejet && {
+      motif: rejet.motif,
+      rejetéePar: Email.convertirEnValueType(rejet.rejetéePar),
+      rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéeLe),
+      réponseSignée: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
+        rejet.rejetéeLe,
+        rejet.réponseSignée.format,
+      ),
+    },
+
     accord: accord && {
-      accordéPar: Email.convertirEnValueType(accord.accordéPar),
-      accordéLe: DateTime.convertirEnValueType(accord.accordéLe),
+      accordéePar: Email.convertirEnValueType(accord.accordéePar),
+      accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
       nombreDeMois: accord.nombreDeMois,
       réponseSignée: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         Délai.TypeDocumentDemandeDélai.demandeAccordée.formatter(),
-        accord.accordéLe,
+        accord.accordéeLe,
         accord.réponseSignée.format,
-      ),
-    },
-
-    rejet: rejet && {
-      motif: rejet.motif,
-      rejetéPar: Email.convertirEnValueType(rejet.rejetéPar),
-      rejetéLe: DateTime.convertirEnValueType(rejet.rejetéLe),
-      réponseSignée: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Délai.TypeDocumentDemandeDélai.demandeRejetée.formatter(),
-        rejet.rejetéLe,
-        rejet.réponseSignée.format,
       ),
     },
   };

@@ -31,7 +31,9 @@ EtantDonné(
       ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
     });
 
-    const dateDésignation = this.lauréatWorld.dateDésignation;
+    const dateDésignation = exemple['date notification']
+      ? new Date(exemple['date notification']).toISOString()
+      : this.lauréatWorld.dateDésignation;
 
     await notifierLauréat.call(this, dateDésignation);
   },
@@ -61,18 +63,6 @@ EtantDonné(
     }
   },
 );
-
-EtantDonné(
-  'le projet lauréat {string} ayant été notifié le {string}',
-  async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
-    const dateDésignation = new Date(dateNotification).toISOString();
-
-    await importerCandidature.call(this, { nomProjet, statut: 'classé' });
-
-    await notifierLauréat.call(this, dateDésignation);
-  },
-);
-
 EtantDonné('un cahier des charges modificatif choisi', async function (this: PotentielWorld) {
   const { identifiantProjet } = this.lauréatWorld;
   const période = appelsOffreData

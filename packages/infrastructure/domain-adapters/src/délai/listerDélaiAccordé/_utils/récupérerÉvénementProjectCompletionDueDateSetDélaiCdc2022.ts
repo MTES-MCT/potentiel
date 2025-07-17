@@ -8,7 +8,7 @@ export const récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022: Ré
     const query = `
       select 
 	      (SELECT to_char (es."createdAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "dateCréation", 
-	      18 as "durée"
+	      18 as "nombreDeMois"
       from "eventStores" es
       join projects p on p.id::text = es.payload->>'projectId'
       where 
@@ -20,7 +20,7 @@ export const récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022: Ré
           and p."numeroCRE" = $4;
       `;
 
-    const items = await executeSelect<{ dateCréation: string; durée: number }>(
+    const items = await executeSelect<{ dateCréation: string; nombreDeMois: number }>(
       query,
       identifiantProjet.appelOffre,
       identifiantProjet.période,
@@ -28,14 +28,14 @@ export const récupérerÉvénementProjectCompletionDueDateSetDélaiCdc2022: Ré
       identifiantProjet.numéroCRE,
     );
 
-    return items.map(({ dateCréation, durée }) => ({
+    return items.map(({ dateCréation, nombreDeMois }) => ({
       id: `${identifiantProjet}#${dateCréation}`,
       category: 'délai',
       createdAt: dateCréation,
-      type: 'DélaiAccordé-V1',
+      type: 'LegacyDélaiAccordé-V1',
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
-        durée,
+        nombreDeMois,
         raison: 'cdc-18-mois',
         accordéLe: DateTime.convertirEnValueType(dateCréation).formatter(),
       },
