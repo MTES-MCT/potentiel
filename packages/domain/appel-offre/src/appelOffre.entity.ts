@@ -55,7 +55,7 @@ type GarantiesFinancièresAppelOffre = {
 );
 
 // Demandes
-export type DomainChangement =
+export type DomaineDeDemandeChangement =
   | 'actionnaire'
   | 'fournisseur'
   | 'représentantLégal'
@@ -63,9 +63,9 @@ export type DomainChangement =
   | 'producteur'
   | 'puissance';
 
-type DemandeChangement = Partial<
+type RèglesDemandesChangement = Partial<
   Record<
-    DomainChangement,
+    DomaineDeDemandeChangement,
     {
       'information-enregistrée': boolean;
       demande: boolean;
@@ -238,7 +238,7 @@ export type Periode = {
   /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */
   choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
-  changement?: DemandeChangement;
+  changement?: RèglesDemandesChangement;
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
@@ -301,7 +301,7 @@ export type AppelOffreReadModel = {
   abandon: {
     autoritéCompétente: AutoritéCompétente;
   };
-  changement: DemandeChangement;
+  changement: RèglesDemandesChangement;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

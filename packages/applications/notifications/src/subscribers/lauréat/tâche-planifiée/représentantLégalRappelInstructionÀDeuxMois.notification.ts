@@ -57,7 +57,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
   }
 
   const changementRègles =
-    période.changement?.représentantLégal ?? appelOffre.changement?.représentantLégal;
+    période.changement?.représentantLégal ?? appelOffre.changement.représentantLégal;
 
   const changementEnCours =
     await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
