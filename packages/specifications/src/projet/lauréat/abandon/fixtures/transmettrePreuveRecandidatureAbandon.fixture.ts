@@ -34,7 +34,12 @@ export class TransmettrePreuveRecandidatureAbandonFixture
     partialData?: Partial<Readonly<TransmettrePreuveRecandidatureAbandon>> | undefined,
   ): Readonly<TransmettrePreuveRecandidatureAbandon> {
     const fixture: TransmettrePreuveRecandidatureAbandon = {
-      transmiseLe: faker.date.soon().toISOString(),
+      transmiseLe: faker.date
+        .between({
+          from: '2023-12-15',
+          to: '2024-01-01',
+        })
+        .toISOString(),
       transmisePar: faker.internet.email(),
       preuveRecandidature: faker.potentiel.identifiantProjet(),
       ...partialData,

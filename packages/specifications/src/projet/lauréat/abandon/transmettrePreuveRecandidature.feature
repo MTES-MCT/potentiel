@@ -8,9 +8,9 @@ Fonctionnalité: Transmettre une preuve de recandidature
 
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet lauréat
         Etant donné un abandon accordé avec recandidature pour le projet lauréat
-        Et le projet lauréat "Boulodrome Sainte Livrade" avec :
-            | date notification | 2024-01-01 |  |
-        Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet
+        Et le projet lauréat "Boulodrome de Bordeaux" avec :
+            | date notification | 2024-10-01 |
+        Quand le porteur transmet le projet lauréat "Boulodrome de Bordeaux" comme preuve de recandidature suite à l'abandon du projet
         Alors la preuve de recandidature devrait être transmise pour le projet lauréat
         Et une tâche indiquant de "transmettre la preuve de recandidature" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
@@ -24,7 +24,7 @@ Fonctionnalité: Transmettre une preuve de recandidature
 
     Scénario: Impossible de transmettre si une preuve de recandidature a déjà été saisie
         Etant donné un abandon accordé avec recandidature avec preuve transmise pour le projet lauréat
-        Et le projet lauréat "Boulodrome Sainte Livrade" avec:
+        Et le projet lauréat "Boulodrome Sainte Livrade" avec :
             | date notification | 2024-10-01 |
         Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet
         Alors le porteur devrait être informé que "La preuve de recandidature a déjà été transmise"
