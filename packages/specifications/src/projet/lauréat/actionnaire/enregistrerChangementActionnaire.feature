@@ -29,7 +29,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | appel d'offre | PPE2 - Petit PV |
             | période       | 1               |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre"
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
 
     Scénario: Impossible d'enregistrer un changement d'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"

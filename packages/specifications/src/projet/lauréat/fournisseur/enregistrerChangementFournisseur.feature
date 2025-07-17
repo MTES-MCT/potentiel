@@ -25,7 +25,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
             | appel d'offre | PPE2 - Petit PV |
             | période       | 1               |
         Quand le porteur enregistre un changement de fournisseur
-        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre"
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
 
     Scénario: Impossible d'enregistrer un changement de fournisseur sans modification
         Quand le porteur enregistre un changement de fournisseur sans modification

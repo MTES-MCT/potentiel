@@ -42,9 +42,9 @@ export class CahierDesChargesEmpêcheModificationError extends InvalidOperationE
   }
 }
 
-export class AppelOffreEmpêcheModificationError extends InvalidOperationError {
+export class AppelOffreOuPériodeEmpêcheModificationError extends InvalidOperationError {
   constructor() {
-    super("Impossible de faire ce type de changement pour cet appel d'offre");
+    super("Impossible de faire ce type de changement pour cet appel d'offre ou cette période");
   }
 }
 
