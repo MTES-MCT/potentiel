@@ -382,18 +382,17 @@ export class LauréatAggregate extends AbstractAggregate<
       return règlesChangement?.[domaine]?.[typeChangement] === false;
     };
 
-    const changementAutorisé = (règlesChangement?: AppelOffre.RèglesDemandesChangement) => {
-      return règlesChangement?.[domaine]?.[typeChangement] === true;
-    };
-
+    // on vérifie déjà la règle au niveau de la période
     if (changementInterdit(this.projet.période.changement)) {
       throw new AppelOffreOuPériodeEmpêcheModificationError();
     }
 
-    if (
-      !changementAutorisé(this.projet.période.changement) &&
-      changementInterdit(this.projet.appelOffre.changement)
-    ) {
+    if (this.projet.période.changement?.[domaine]?.[typeChangement] === true) {
+      return;
+    }
+
+    // Puis au niveau de l'appel d'offre
+    if (changementInterdit(this.projet.appelOffre.changement)) {
       throw new AppelOffreOuPériodeEmpêcheModificationError();
     }
   }
