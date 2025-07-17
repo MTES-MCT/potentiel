@@ -16,7 +16,7 @@ import {
 import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
 import { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
 import {
-  AppelOffreEmpêcheModificationError,
+  AppelOffreOuPériodeEmpêcheModificationError,
   CahierDesChargesEmpêcheModificationError,
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
@@ -360,15 +360,19 @@ export class LauréatAggregate extends AbstractAggregate<
     }
   }
 
-  vérifierQueAppelOffrePermetUnChangement(
+  vérifierQueAppelOffreEtPériodePermettentUnChangement(
     typeChangement: 'information-enregistrée' | 'demande',
     domaine: AppelOffre.DomaineDeDemandeChangement,
   ) {
-    if (
+    if (this.projet.période.changement && this.projet.période.changement[domaine]) {
+      if (this.projet.période.changement[domaine][typeChangement] === false) {
+        throw new AppelOffreOuPériodeEmpêcheModificationError();
+      }
+    } else if (
       this.projet.appelOffre.changement[domaine] &&
       this.projet.appelOffre.changement[domaine][typeChangement] === false
     ) {
-      throw new AppelOffreEmpêcheModificationError();
+      throw new AppelOffreOuPériodeEmpêcheModificationError();
     }
   }
 
@@ -380,7 +384,7 @@ export class LauréatAggregate extends AbstractAggregate<
     this.vérifierNiAbandonnéNiEnCoursAbandon();
     this.vérifierNonAchevé();
     this.vérifierQueLeCahierDesChargesPermetUnChangement();
-    this.vérifierQueAppelOffrePermetUnChangement(typeChangement, domaine);
+    this.vérifierQueAppelOffreEtPériodePermettentUnChangement(typeChangement, domaine);
   }
 
   apply(event: LauréatEvent): void {
