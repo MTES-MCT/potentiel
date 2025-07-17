@@ -104,7 +104,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'actionnaire');
 
     const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
       appelOffre: this.identifiantProjet.appelOffre,
@@ -150,7 +150,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: DemanderChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
+    this.lauréat.vérifierQueLeChangementEstPossible('demande', 'actionnaire');
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
