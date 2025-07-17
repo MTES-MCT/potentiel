@@ -7,6 +7,7 @@ import {
   demanderDélai,
   rejeterDemandeDélai,
   passerDemanderDélaiEnInstruction,
+  accorderDemandeDélai,
 } from './délai.when';
 
 EtantDonné(
@@ -39,6 +40,16 @@ EtantDonné(
 );
 
 EtantDonné(
+  'une demande de délai en instruction pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await demanderDélai.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+    });
+    await passerDemanderDélaiEnInstruction.call(this);
+  },
+);
+
+EtantDonné(
   'une demande de délai rejetée pour le projet lauréat',
   async function (this: PotentielWorld) {
     await demanderDélai.call(this, {
@@ -49,11 +60,11 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de délai en instruction pour le projet lauréat',
+  'une demande de délai accordée pour le projet lauréat',
   async function (this: PotentielWorld) {
     await demanderDélai.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
     });
-    await passerDemanderDélaiEnInstruction.call(this);
+    await accorderDemandeDélai.call(this);
   },
 );

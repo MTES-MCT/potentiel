@@ -1,5 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -143,8 +144,12 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { accordéeLe, accordéePar, réponseSignée } =
-      this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.créer();
+    const { accordéeLe, accordéePar, réponseSignée, nombreDeMois } =
+      this.lauréatWorld.délaiWorld.accorderDemandeDélaiFixture.créer({
+        nombreDeMois:
+          this.lauréatWorld.délaiWorld.demanderDélaiFixture.nombreDeMois ??
+          faker.number.int({ min: 1, max: 100 }),
+      });
 
     await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
       type: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
@@ -152,7 +157,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: accordéePar,
         dateAccordValue: accordéeLe,
-        nombreDeMois: this.lauréatWorld.délaiWorld.demanderDélaiFixture.nombreDeMois,
+        nombreDeMois,
         réponseSignéeValue: réponseSignée,
       },
     });

@@ -22,11 +22,11 @@ Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
         Quand la DREAL associée au projet rejette le délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
-    # Scénario: Impossible de rejeter le délai d'un projet lauréat si la demande a déjà été accordée
-    #     Etant donné une demande de délai accordée pour le projet lauréat
-    #     Quand la DREAL associée au projet rejette le délai pour le projet lauréat
-    #     Alors l'utilisateur DREAL devrait être informé que "La demande de délai a déjà été accordée"
-    #
+    Scénario: Impossible de rejeter le délai d'un projet lauréat si la demande a déjà été accordée
+        Etant donné une demande de délai accordée pour le projet lauréat
+        Quand la DREAL associée au projet rejette le délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
+
     Scénario: Impossible de rejeter le délai d'un projet lauréat si la demande a déjà été annulée
         Etant donné une demande de délai annulée pour le projet lauréat
         Quand la DREAL associée au projet rejette le délai pour le projet lauréat

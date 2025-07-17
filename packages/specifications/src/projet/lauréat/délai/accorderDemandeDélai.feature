@@ -22,24 +22,26 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Exemples:
             | date achèvement prévisionnel actuelle | durée du délai demandé | date achèvement prévisionnel attendue |
             | 2022-05-01                            | 12                     | 2023-05-01                            |
+            | 2024-12-01                            | 1                      | 2025-01-01                            |
+            | 2024-02-29                            | 1                      | 2024-03-31                            |
+            | 2020-02-29                            | 56                     | 2024-10-31                            |
+            | 2023-04-21                            | 46                     | 2027-02-21                            |
 
+    Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
+        Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
-# Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
-#     Quand la DREAL associée au projet rejette le délai pour le projet lauréat
-#     Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
+    Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été accordée
+        Etant donné une demande de délai accordée pour le projet lauréat
+        Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
-# Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été accordée
-#     Etant donné une demande de délai accordée pour le projet lauréat
-#     Quand la DREAL associée au projet rejette le délai pour le projet lauréat
-#     Alors l'utilisateur DREAL devrait être informé que "La demande de délai a déjà été accordée"
-#
+    Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été annulée
+        Etant donné une demande de délai annulée pour le projet lauréat
+        Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
-# Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été annulée
-#     Etant donné une demande de délai annulée pour le projet lauréat
-#     Quand la DREAL associée au projet rejette le délai pour le projet lauréat
-#     Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
-
-# Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été rejetée
-#     Etant donné une demande de délai rejetée pour le projet lauréat
-#     Quand la DREAL associée au projet rejette le délai pour le projet lauréat
-#     Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
+    Scénario: Impossible d'accorder le délai d'un projet lauréat si la demande a déjà été rejetée
+        Etant donné une demande de délai rejetée pour le projet lauréat
+        Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"

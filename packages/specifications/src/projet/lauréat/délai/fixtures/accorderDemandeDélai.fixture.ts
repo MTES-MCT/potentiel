@@ -7,6 +7,7 @@ interface AccorderDemandeDélai {
   readonly réponseSignée: { format: string; content: ReadableStream };
   readonly accordéeLe: string;
   readonly accordéePar: string;
+  readonly nombreDeMois: number;
 }
 
 export class AccorderDemandeDélaiFixture
@@ -48,12 +49,14 @@ export class AccorderDemandeDélaiFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
+      nombreDeMois: faker.number.int({ min: 1, max: 100 }),
       ...partialData,
     };
 
     this.#accordéeLe = fixture.accordéeLe;
     this.#accordéePar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;
+    this.#nombreDeMois = fixture.nombreDeMois;
     this.#content = content;
 
     this.aÉtéCréé = true;

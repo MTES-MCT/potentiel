@@ -26,16 +26,7 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
         Quand le porteur annule la demande de délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
 
-
-# TODO quand les usecase seront disponible
-
-# Scénario: Impossible d'annuler la demande de changement de puissance si la demande est acceptée
-#     Etant donné une demande de changement de délai accordée pour le projet lauréat
-#     Quand le porteur annule la demande de délai pour le projet lauréat
-#     Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
-
-# Scénario: Impossible d'annuler la demande de changement de puissance si la demande est rejetée
-#     Etant donné une demande de changement de puissance rejetée pour le projet lauréat
-#         | ratio puissance | 0.75 |
-#     Quand le porteur annule la demande de changement de puissance pour le projet lauréat
-#     Alors l'utilisateur devrait être informé que "Aucune demande de changement de puissance n'est en cours"
+    Scénario: Impossible d'annuler la demande de délai d'un projet lauréat si la demande a déjà été accordée
+        Etant donné une demande de délai accordée pour le projet lauréat
+        Quand le porteur annule la demande de délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
