@@ -26,7 +26,7 @@ import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { EmailPayload } from '@potentiel-applications/notifications';
 import { Option } from '@potentiel-libraries/monads';
-import { createLogger, initLogger } from '@potentiel-libraries/monitoring';
+import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -87,8 +87,6 @@ AfterStep(async function (this: PotentielWorld, { pickleStep, result, pickle }) 
 });
 
 BeforeAll(async () => {
-  const logger = createLogger({});
-  initLogger(logger);
   process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
   process.env.S3_ENDPOINT = 'http://localhost:9001';
   process.env.S3_BUCKET = bucketName;
@@ -106,7 +104,12 @@ BeforeAll(async () => {
   );
 });
 
-Before<PotentielWorld>(async function (this: PotentielWorld) {
+Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
+  resetLogger();
+  const logger = createLogger({
+    defaultMeta: { test: pickle.name },
+  });
+  initLogger(logger);
   await executeQuery(`delete from "projects"`);
   await executeQuery(`delete from event_store.pending_acknowledgement`);
   await executeQuery(`delete from event_store.event_stream`);
