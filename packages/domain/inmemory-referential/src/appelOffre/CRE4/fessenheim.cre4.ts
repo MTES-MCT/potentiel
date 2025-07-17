@@ -93,6 +93,15 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      'information-enregistrée': true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',

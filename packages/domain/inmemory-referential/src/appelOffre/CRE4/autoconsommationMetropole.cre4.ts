@@ -48,6 +48,15 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      'information-enregistrée': true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   délaiRéalisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',

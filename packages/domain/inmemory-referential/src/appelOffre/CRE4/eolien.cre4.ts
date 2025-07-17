@@ -25,7 +25,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   typeAppelOffre: 'eolien',
   cycleAppelOffre: 'CRE4',
   title:
-    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
+    'portant sur la réalisation et l’exploitation d’Installateions de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Eolien',
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
@@ -52,6 +52,15 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
     },
     puissance: {
       informationEnregistrée: true,
+      demande: true,
+    },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      'information-enregistrée': true,
+    },
+    abandon: {
       demande: true,
     },
   },

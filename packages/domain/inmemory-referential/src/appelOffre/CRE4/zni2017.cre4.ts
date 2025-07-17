@@ -73,6 +73,15 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      'information-enregistrée': true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   delaiRealisationTexte: 'trente-six (36) mois',
   paragraphePrixReference: '4.4',

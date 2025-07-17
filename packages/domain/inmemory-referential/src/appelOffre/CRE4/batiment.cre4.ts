@@ -71,6 +71,15 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      'information-enregistrée': true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
