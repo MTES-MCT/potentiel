@@ -1,4 +1,5 @@
 # language: fr
+@représentant-légal
 Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Modifier le représentant légal d'un projet lauréat

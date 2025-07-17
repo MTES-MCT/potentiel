@@ -36,7 +36,7 @@ export const changementPuissanceDemandéNotification = async ({
   }
 
   if (recipients.length === 0) {
-    getLogger().error('Aucune dreal ou DGEC trouvée', {
+    getLogger().info('Aucune dreal ou DGEC trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'demandeChangementPuissanceDemandéNotification',

@@ -1,4 +1,5 @@
 # language: fr
+@lauréat
 Fonctionnalité: Modifier le nom d'un projet lauréat
 
     Contexte:

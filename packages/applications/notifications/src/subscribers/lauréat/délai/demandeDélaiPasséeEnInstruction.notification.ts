@@ -34,7 +34,7 @@ export const demandeDélaiPasséeEnInstructionNotification = async ({
   const url = `${baseUrl}${Routes.Délai.détail(identifiantProjet.formatter(), event.payload.dateDemande)}`;
 
   if (dreals.length === 0) {
-    getLogger().error('Aucune dreal trouvée', {
+    getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'demandeDélaiPasséeEnInstructionNotification',

@@ -1,5 +1,6 @@
 # language: fr
-Fonctionnalité: Annuler la demande changement de puissance d'un projet lauréat
+@puissance
+Fonctionnalité: Annuler la demande de changement de puissance d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

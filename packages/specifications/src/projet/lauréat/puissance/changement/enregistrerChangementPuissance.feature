@@ -1,4 +1,5 @@
 # language: fr
+@puissance
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
     Contexte:

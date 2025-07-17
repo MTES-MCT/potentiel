@@ -30,7 +30,7 @@ export const délaiDemandéNotification = async ({
   const recipients: Array<Recipient> = [...(await listerDrealsRecipients(projet.région))];
 
   if (recipients.length === 0) {
-    getLogger().error('Aucune dreal trouvée', {
+    getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'délaiDemandéNotification',

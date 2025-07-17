@@ -27,7 +27,7 @@ export const changementReprésentantLégalAnnuléNotification = async ({
   const dreals = await listerDrealsRecipients(projet.région);
 
   if (dreals.length === 0) {
-    getLogger().error('Aucune dreal trouvée', {
+    getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'changementReprésentantLégalAnnuléNotification',

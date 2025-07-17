@@ -56,14 +56,14 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
         Quand un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"
         Alors l'utilisateur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières en cours pour ce projet"
 
-    Scénario: Impossible de rejeter une demande de mainelevée si le projet a déjà une demande de mainlevée accordée
+    Scénario: Impossible de rejeter une demande de mainlevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
         Quand un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"
 
-    Scénario: Impossible de rejeter une demande de mainelevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
+    Scénario: Impossible de rejeter une demande de mainlevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières rejetée pour le projet "Du boulodrome de Marseille" achevé

@@ -1,4 +1,5 @@
 # language: fr
+@producteur
 Fonctionnalité: Modifier le producteur d'un projet lauréat
 
     Contexte:
