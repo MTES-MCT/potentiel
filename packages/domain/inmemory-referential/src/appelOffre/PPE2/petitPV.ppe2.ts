@@ -28,6 +28,18 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       'information-enregistrée': false,
       demande: false,
     },
+    délai: {
+      'information-enregistrée': false,
+      demande: true,
+    },
+    producteur: {
+      'information-enregistrée': true,
+      demande: false,
+    },
+    puissance: {
+      'information-enregistrée': true,
+      demande: true,
+    },
   },
   paragraphePrixReference: '7', // à vérifier
   paragrapheDelaiDerogatoire: '6.3', // à vérifier

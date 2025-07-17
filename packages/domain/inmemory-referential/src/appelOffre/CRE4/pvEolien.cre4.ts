@@ -68,11 +68,23 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
     },
     actionnaire: {
       'information-enregistrée': true,
-      demande: true,
+      demande: false,
     },
     fournisseur: {
       'information-enregistrée': true,
       demande: false,
+    },
+    délai: {
+      'information-enregistrée': false,
+      demande: true,
+    },
+    producteur: {
+      'information-enregistrée': true,
+      demande: false,
+    },
+    puissance: {
+      'information-enregistrée': true,
+      demande: true,
     },
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
