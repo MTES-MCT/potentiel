@@ -392,14 +392,16 @@ const référencielPermissions = {
       usecase: {
         demander: 'Lauréat.Délai.UseCase.DemanderDélai',
         annuler: 'Lauréat.Délai.UseCase.AnnulerDemande',
-        rejeter: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
         passerEnInstruction: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
+        rejeter: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
+        accorder: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
       },
       command: {
         demander: 'Lauréat.Délai.Command.DemanderDélai',
         annuler: 'Lauréat.Délai.Command.AnnulerDemande',
         passerEnInstruction: 'Lauréat.Délai.Command.PasserEnInstructionDemande',
         rejeter: 'Lauréat.Délai.Command.RejeterDemandeDélai',
+        accorder: 'Lauréat.Délai.Command.AccorderDemandeDélai',
       },
     },
     usecase: {
@@ -1262,6 +1264,10 @@ const policies = {
       référencielPermissions.lauréat.délai.command.rejeter,
       référencielPermissions.lauréat.délai.usecase.rejeter,
     ],
+    accorderDemande: [
+      référencielPermissions.lauréat.délai.command.accorder,
+      référencielPermissions.lauréat.délai.usecase.accorder,
+    ],
   },
   api: {
     raccordement: {
@@ -1483,6 +1489,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'délai.passerEnInstructionDemande',
   'délai.reprendreInstructionDemande',
   'délai.rejeterDemande',
+  'délai.accorderDemande',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1644,6 +1651,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'délai.passerEnInstructionDemande',
   'délai.reprendreInstructionDemande',
   'délai.rejeterDemande',
+  'délai.accorderDemande',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

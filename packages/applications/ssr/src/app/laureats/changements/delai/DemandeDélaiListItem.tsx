@@ -48,7 +48,7 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
     <ul className="mt-3 text-sm">
       <li>
         <span>
-          Délai demandé : <span className="font-semibold">{nombreDeMois}</span>
+          Délai demandé : <span className="font-semibold">{nombreDeMois} mois</span>
         </span>
       </li>
       <li>

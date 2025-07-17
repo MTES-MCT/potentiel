@@ -47,10 +47,24 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         },
       });
 
+      const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
+        type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
+
+      if (Option.isNone(achèvement)) {
+        return notFound();
+      }
+
       return (
         <DétailsDemandeDélaiPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(demandeDélai)}
+          dateAchèvementPrévisionnelActuelle={mapToPlainObject(
+            achèvement.dateAchèvementPrévisionnel,
+          )}
           actions={mapToActions({
             utilisateur,
             demandeDélai,
@@ -85,6 +99,10 @@ const mapToActions = ({
         actions.push('rejeter');
       }
 
+      if (role.aLaPermission('délai.accorderDemande')) {
+        actions.push('accorder');
+      }
+
       return actions;
     })
     .with('en-instruction', () => {
@@ -94,6 +112,10 @@ const mapToActions = ({
 
       if (role.aLaPermission('délai.rejeterDemande')) {
         actions.push('rejeter');
+      }
+
+      if (role.aLaPermission('délai.accorderDemande')) {
+        actions.push('accorder');
       }
 
       if (

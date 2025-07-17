@@ -17,6 +17,7 @@ import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
 import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
 import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
+import { AccorderDemandeDélai } from './accorder/AccorderDemandeDélai';
 
 export type DemandeDélaiActions =
   | 'annuler'
@@ -28,6 +29,9 @@ export type DemandeDélaiActions =
 export type DétailsDemandeDélaiPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>;
+  dateAchèvementPrévisionnelActuelle: PlainType<
+    Lauréat.Achèvement.ConsulterAchèvementReadModel['dateAchèvementPrévisionnel']
+  >;
   actions: Array<DemandeDélaiActions>;
   historique: Array<TimelineItemProps>;
 };
@@ -41,7 +45,9 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
     raison,
     statut: { statut },
     pièceJustificative,
+    accord,
   },
+  dateAchèvementPrévisionnelActuelle,
   actions,
   historique,
 }) => {
@@ -67,9 +73,15 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                 <StatutDemandeDélaiBadge statut={statut} />
               </div>
               <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Nombre de mois :</div>
-                <div>{nombreDeMois}</div>
+                <div className="font-semibold whitespace-nowrap">Nombre de mois demandé :</div>
+                <div>{nombreDeMois} mois</div>
               </div>
+              {accord && (
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">Nombre de mois accordé :</div>
+                  <div>{accord.nombreDeMois} mois</div>
+                </div>
+              )}
               <div className="flex gap-2">
                 <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
                 <div>{raison}</div>
@@ -99,7 +111,9 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
         children: mapToActionComponents({
           actions,
           identifiantProjet: identifiantProjetValueType,
-          dateDemande: DateTime.bind(demandéLe).formatter(),
+          dateDemande: DateTime.bind(demandéLe),
+          nombreDeMois,
+          dateAchèvementPrévisionnelActuelle: DateTime.bind(dateAchèvementPrévisionnelActuelle),
         }),
       }}
     />
@@ -109,13 +123,17 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
 type MapToActionsComponentsProps = {
   actions: Array<DemandeDélaiActions>;
   identifiantProjet: IdentifiantProjet.ValueType;
-  dateDemande: DateTime.RawType;
+  dateDemande: DateTime.ValueType;
+  nombreDeMois: number;
+  dateAchèvementPrévisionnelActuelle: DateTime.ValueType;
 };
 
 const mapToActionComponents = ({
   identifiantProjet,
   dateDemande,
   actions,
+  nombreDeMois,
+  dateAchèvementPrévisionnelActuelle,
 }: MapToActionsComponentsProps) =>
   actions.length > 0 ? (
     <>
@@ -132,7 +150,15 @@ const mapToActionComponents = ({
       {actions.includes('rejeter') && (
         <RejeterDemandeDélai
           identifiantProjet={identifiantProjet.formatter()}
-          dateDemande={dateDemande}
+          dateDemande={dateDemande.formatter()}
+        />
+      )}
+      {actions.includes('accorder') && (
+        <AccorderDemandeDélai
+          identifiantProjet={identifiantProjet.formatter()}
+          dateDemande={dateDemande.formatter()}
+          nombreDeMois={nombreDeMois}
+          dateAchèvementPrévisionnelActuelle={dateAchèvementPrévisionnelActuelle.formatter()}
         />
       )}
     </>
