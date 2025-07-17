@@ -73,6 +73,9 @@ type RèglesDemandesChangement = {
       }
     | { demande: true; instructionAutomatique: 'accord' | 'rejet' }
   );
+  recours: Changement;
+  achèvement: Changement;
+  abandon: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
@@ -90,11 +93,6 @@ export type DonnéesCourriersRéponse = Record<
     dispositions: string;
   }
 >;
-
-// Cahier des charges
-export type CahierDesCharges = {
-  référence: string;
-};
 
 export type DélaiApplicable = {
   délaiEnMois: number;
@@ -231,7 +229,7 @@ export type Periode = {
    * IPFPGPFC = Investissement Participatif/ Financement Partagé / Gouvernance Partagée / Finacement Collectif
    **/
   paragrapheEngagementIPFPGPFC?: string;
-  cahierDesCharges: CahierDesCharges;
+  cahierDesCharges: { référence: string };
   delaiDcrEnMois: {
     valeur: number;
     texte: string;

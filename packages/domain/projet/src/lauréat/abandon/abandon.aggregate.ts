@@ -78,7 +78,10 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
   }: DemanderOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNonAchevé();
-    this.lauréat.vérifierQueLeCahierDesChargesPermetUnChangement();
+    this.lauréat.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(
+      'demande',
+      'abandon',
+    );
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
 

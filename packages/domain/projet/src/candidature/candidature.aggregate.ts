@@ -7,7 +7,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { FournisseurImportéEvent } from '../lauréat/fournisseur';
 
-import { Dépôt, Instruction } from '.';
+import { Dépôt, Instruction, VolumeRéservé } from '.';
 
 import { CandidatureEvent } from './candidature.event';
 import {
@@ -142,6 +142,14 @@ export class CandidatureAggregate extends AbstractAggregate<
       projet: {
         technologie: this.dépôt.technologie?.type ?? 'N/A',
       },
+    });
+  }
+
+  get volumeRéservé() {
+    return VolumeRéservé.déterminer({
+      note: this.noteTotale,
+      période: this.projet.période,
+      puissanceInitiale: this.puissanceProductionAnnuelle,
     });
   }
 

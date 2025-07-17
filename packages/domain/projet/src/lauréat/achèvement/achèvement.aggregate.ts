@@ -48,13 +48,7 @@ export class AchèvementAggregate extends AbstractAggregate<
   }
 
   get délaiRéalisationEnMois() {
-    if (this.lauréat.projet.appelOffre.multiplesTechnologies) {
-      return this.lauréat.projet.appelOffre.délaiRéalisationEnMois[
-        this.lauréat.projet.candidature.technologie.formatter()
-      ];
-    }
-
-    return this.lauréat.projet.appelOffre.délaiRéalisationEnMois;
+    return this.lauréat.projet.cahierDesChargesActuel.getDélaiRéalisationEnMois();
   }
 
   #dateAchèvementPrévisionnel!: DateAchèvementPrévisionnel.ValueType;
@@ -111,8 +105,10 @@ export class AchèvementAggregate extends AbstractAggregate<
   }: TransmettreAttestationConformitéOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
-    this.lauréat.vérifierQueLeCahierDesChargesPermetUnChangement();
-
+    this.lauréat.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(
+      'information-enregistrée',
+      'achèvement',
+    );
     if (dateTransmissionAuCocontractant.estDansLeFutur()) {
       throw new DateDeTransmissionAuCoContractantFuturError();
     }

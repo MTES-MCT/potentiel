@@ -98,6 +98,24 @@ export class ProjetAggregateRoot {
     return this.#famille;
   }
 
+  get cahierDesChargesActuel() {
+    return AppelOffre.CahierDesCharges.bind({
+      appelOffre: this.appelOffre,
+      période: this.période,
+      famille: this.famille,
+      cahierDesChargesModificatif: this.lauréat.exists
+        ? this.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
+            AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(
+              this.lauréat.référenceCahierDesCharges,
+            ),
+          )
+        : undefined,
+      technologie: this.candidature.exists
+        ? this.candidature.technologie.type
+        : this.appelOffre.technologie,
+    });
+  }
+
   get champsSupplémentaires() {
     return {
       ...this.appelOffre.champsSupplémentaires,

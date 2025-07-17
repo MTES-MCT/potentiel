@@ -23,6 +23,7 @@ export * from './appelOffre.entity';
 
 // ValueType
 export { RéférenceCahierDesCharges };
+export * as CahierDesCharges from './cahierDesCharges.valueType';
 
 /** @deprecated use RéférenceCahierDesCharges.RawType */
 export type CahierDesChargesRéférence = RéférenceCahierDesCharges.RawType;

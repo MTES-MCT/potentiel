@@ -1,0 +1,120 @@
+import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
+
+import {
+  AppelOffreReadModel,
+  CahierDesChargesModifié,
+  DomainesConcernésParChangement,
+  Famille,
+  Periode,
+  Technologie,
+} from './appelOffre.entity';
+import { RéférenceCahierDesCharges } from './appelOffre';
+
+export type ValueType = {
+  appelOffre: PlainType<AppelOffreReadModel>;
+  période: PlainType<Periode>;
+  famille: PlainType<Famille> | undefined;
+  cahierDesChargesModificatif: PlainType<CahierDesChargesModifié> | undefined;
+  technologie: Technologie | undefined;
+  vérifierQueLeChangementEstPossible(
+    typeChangement: 'informationEnregistrée' | 'demande',
+    domaine: DomainesConcernésParChangement,
+  ): void;
+  estSoumisAuxGarantiesFinancières(): boolean;
+  getDélaiRéalisationEnMois(): number;
+  getRatiosChangementPuissance(): { min: number; max: number };
+};
+
+export const bind = ({
+  appelOffre,
+  période,
+  famille,
+  cahierDesChargesModificatif,
+  technologie,
+}: PlainType<ValueType>): ValueType => ({
+  appelOffre,
+  période,
+  famille,
+  cahierDesChargesModificatif,
+  technologie,
+  vérifierQueLeChangementEstPossible(typeChangement, domaine) {
+    const changement = {
+      ...this.appelOffre.changement,
+      ...this.période.changement,
+    };
+    if (changement[domaine]?.[typeChangement] !== true) {
+      throw new AppelOffreOuPériodeEmpêcheModificationError();
+    }
+    if (
+      this.période.choisirNouveauCahierDesCharges &&
+      this.cahierDesChargesModificatif === undefined
+    ) {
+      throw new CahierDesChargesEmpêcheModificationError();
+    }
+  },
+
+  estSoumisAuxGarantiesFinancières() {
+    const { appelOffre, famille } = this;
+    const { soumisAuxGarantiesFinancieres } =
+      famille?.garantiesFinancières ?? appelOffre.garantiesFinancières;
+    return !!soumisAuxGarantiesFinancieres && soumisAuxGarantiesFinancieres !== 'non soumis';
+  },
+
+  getDélaiRéalisationEnMois() {
+    if (!this.technologie) {
+      throw new TechnologieNonSpécifiéeError();
+    }
+    if (this.appelOffre.multiplesTechnologies) {
+      return this.appelOffre.délaiRéalisationEnMois[this.technologie];
+    }
+
+    return this.appelOffre.délaiRéalisationEnMois;
+  },
+
+  getRatiosChangementPuissance() {
+    if (!this.technologie) {
+      throw new TechnologieNonSpécifiéeError();
+    }
+    // prendre les ratios du CDC 2022 si existants
+    if (
+      this.cahierDesChargesModificatif &&
+      RéférenceCahierDesCharges.bind(this.cahierDesChargesModificatif).estCDC2022()
+    ) {
+      const seuilsCDC = this.cahierDesChargesModificatif.seuilSupplémentaireChangementPuissance;
+
+      if (seuilsCDC?.changementByTechnologie) {
+        return seuilsCDC.ratios[this.technologie];
+      } else if (seuilsCDC) {
+        return seuilsCDC.ratios;
+      }
+    }
+
+    // sinon prendre les ratio du CDC initial par technologie
+    const { changementPuissance } = this.appelOffre;
+
+    if (changementPuissance.changementByTechnologie) {
+      return changementPuissance.ratios[this.technologie];
+    }
+
+    // sinon prendre les ratios du CDC initial
+    return changementPuissance.ratios;
+  },
+});
+
+class TechnologieNonSpécifiéeError extends InvalidOperationError {
+  constructor() {
+    super("La technologie n'a pas été spécifiée");
+  }
+}
+
+class AppelOffreOuPériodeEmpêcheModificationError extends InvalidOperationError {
+  constructor() {
+    super("Impossible de faire ce type de changement pour cet appel d'offre ou cette période");
+  }
+}
+
+class CahierDesChargesEmpêcheModificationError extends InvalidOperationError {
+  constructor() {
+    super('Impossible de faire un changement pour ce cahier des charges');
+  }
+}

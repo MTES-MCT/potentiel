@@ -1,54 +1,39 @@
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature, Lauréat } from '../../..';
 import { VolumeRéservé } from '../../../candidature';
-
-import { getRatiosChangementPuissance } from './helpers';
 
 export type RawType = number;
 
 export type ValueType = {
   puissanceInitiale: number;
   nouvellePuissance: number;
-  ratiosCdcActuel: { min: number; max: number };
-  ratiosCdcInitial: { min: number; max: number };
-  puissanceMaxFamille?: number;
-  volumeRéservé?: VolumeRéservé.ValueType;
-  ratio: number;
+  ratios: { min: number; max: number };
+  puissanceMaxFamille: number | undefined;
+  volumeRéservé: VolumeRéservé.ValueType | undefined;
   vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
   dépasseRatiosChangementPuissance: () => boolean;
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
   dépassePuissanceMaxFamille: () => boolean;
-  dépasseRatiosChangementPuissanceDuCahierDesChargesInitial: () => boolean;
 };
 
 export const bind = ({
   nouvellePuissance,
   puissanceInitiale,
   volumeRéservé,
-  ratiosCdcActuel,
-  ratiosCdcInitial,
+  ratios: ratiosCdcActuel,
   puissanceMaxFamille,
-}: PlainType<Omit<ValueType, 'ratio'>>): ValueType => {
+}: PlainType<ValueType>): ValueType => {
+  const ratio = nouvellePuissance / puissanceInitiale;
   return {
-    ratiosCdcActuel,
-    ratiosCdcInitial,
+    ratios: ratiosCdcActuel,
     puissanceMaxFamille,
     nouvellePuissance,
     puissanceInitiale,
-    get volumeRéservé() {
-      return volumeRéservé ? VolumeRéservé.bind(volumeRéservé) : undefined;
-    },
-    get ratio() {
-      return this.nouvellePuissance / puissanceInitiale;
-    },
+    volumeRéservé: volumeRéservé ? VolumeRéservé.bind(volumeRéservé) : undefined,
     dépasseRatiosChangementPuissance() {
-      return this.ratio < this.ratiosCdcActuel.min || this.ratio > this.ratiosCdcActuel.max;
+      return ratio < this.ratios.min || ratio > this.ratios.max;
     },
-    dépasseRatiosChangementPuissanceDuCahierDesChargesInitial() {
-      return this.ratio < this.ratiosCdcInitial.min || this.ratio > this.ratiosCdcInitial.max;
-    },
+
     dépassePuissanceMaxFamille() {
       return this.puissanceMaxFamille !== undefined
         ? this.nouvellePuissance > this.puissanceMaxFamille
@@ -58,7 +43,6 @@ export const bind = ({
       return this.volumeRéservé?.dépassePuissanceMax(this.nouvellePuissance) ?? false;
     },
     vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
-      // ordre des erreurs suit celui du legacy
       if (this.dépassePuissanceMaxFamille()) {
         throw new PuissanceDépassePuissanceMaxFamille();
       }
@@ -68,57 +52,16 @@ export const bind = ({
       }
 
       if (typeDemande === 'information-enregistrée') {
-        if (this.ratio > this.ratiosCdcActuel.max) {
+        if (ratio > this.ratios.max) {
           throw new PuissanceDépassePuissanceMaxAO();
         }
 
-        if (this.ratio < this.ratiosCdcActuel.min) {
+        if (ratio < this.ratios.min) {
           throw new PuissanceEnDeçaPuissanceMinAO();
         }
       }
     },
   };
-};
-
-type DéterminerProps = {
-  appelOffre: PlainType<AppelOffre.ConsulterAppelOffreReadModel>;
-  famille?: PlainType<AppelOffre.Famille>;
-  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
-  technologie: PlainType<Candidature.TypeTechnologie.ValueType>;
-  puissanceInitiale: number;
-  nouvellePuissance: number;
-  volumeRéservé?: PlainType<Candidature.VolumeRéservé.ValueType>;
-};
-
-export const déterminer = ({
-  appelOffre,
-  famille,
-  technologie,
-  cahierDesCharges,
-  nouvellePuissance,
-  puissanceInitiale,
-  volumeRéservé,
-}: DéterminerProps): ValueType => {
-  const ratiosCdcActuel = getRatiosChangementPuissance({
-    appelOffre,
-    technologie,
-    cahierDesCharges,
-  });
-
-  const ratiosCdcInitial = getRatiosChangementPuissance({
-    appelOffre,
-    technologie,
-    cahierDesCharges: { type: 'initial' },
-  });
-
-  return bind({
-    nouvellePuissance,
-    puissanceInitiale,
-    ratiosCdcActuel,
-    ratiosCdcInitial,
-    puissanceMaxFamille: famille?.puissanceMax,
-    volumeRéservé: volumeRéservé && VolumeRéservé.bind(volumeRéservé),
-  });
 };
 
 class PuissanceDépassePuissanceMaxAO extends InvalidOperationError {

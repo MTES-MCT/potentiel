@@ -16,8 +16,6 @@ import {
 import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
 import { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
 import {
-  AppelOffreOuPériodeEmpêcheModificationError,
-  CahierDesChargesEmpêcheModificationError,
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
   LauréatDéjàNotifiéError,
@@ -49,7 +47,7 @@ export class LauréatAggregate extends AbstractAggregate<
 > {
   #nomProjet?: string;
   #localité?: Candidature.Localité.ValueType;
-  #cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
+  #référenceCahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
     AppelOffre.RéférenceCahierDesCharges.initial;
 
   get projet() {
@@ -70,8 +68,8 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#estNotifié;
   }
 
-  get cahierDesCharges() {
-    return this.#cahierDesCharges;
+  get référenceCahierDesCharges() {
+    return this.#référenceCahierDesCharges;
   }
 
   #abandon!: AggregateType<AbandonAggregate>;
@@ -283,7 +281,7 @@ export class LauréatAggregate extends AbstractAggregate<
     this.vérifierQueLeLauréatExiste();
     this.vérifierNiAbandonnéNiEnCoursAbandon();
     this.vérifierNonAchevé();
-    if (this.#cahierDesCharges.estÉgaleÀ(cahierDesCharges)) {
+    if (this.#référenceCahierDesCharges.estÉgaleÀ(cahierDesCharges)) {
       throw new CahierDesChargesNonModifiéError();
     }
 
@@ -303,7 +301,7 @@ export class LauréatAggregate extends AbstractAggregate<
       throw new RetourAuCahierDesChargesInitialImpossibleError();
     }
 
-    const cdcActuel = this.#cahierDesCharges;
+    const cdcActuel = this.référenceCahierDesCharges;
 
     const event: CahierDesChargesChoisiEvent = {
       type: 'CahierDesChargesChoisi-V1',
@@ -365,33 +363,6 @@ export class LauréatAggregate extends AbstractAggregate<
     }
   }
 
-  vérifierQueLeCahierDesChargesPermetUnChangement() {
-    if (
-      this.projet.période.choisirNouveauCahierDesCharges &&
-      this.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
-    ) {
-      throw new CahierDesChargesEmpêcheModificationError();
-    }
-  }
-
-  vérifierQueAppelOffreEtPériodePermettentUnChangement(
-    typeChangement: 'information-enregistrée' | 'demande',
-    domaine: AppelOffre.DomainesConcernésParChangement,
-  ) {
-    // les règles au niveau de la période override celles de l'appel d'offre
-    const changement = {
-      ...this.projet.appelOffre.changement,
-      ...this.projet.période.changement,
-    };
-
-    const newTypeChangement =
-      typeChangement === 'information-enregistrée' ? 'informationEnregistrée' : 'demande';
-
-    if (changement[domaine][newTypeChangement] !== true) {
-      throw new AppelOffreOuPériodeEmpêcheModificationError();
-    }
-  }
-
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
     domaine: AppelOffre.DomainesConcernésParChangement,
@@ -399,8 +370,7 @@ export class LauréatAggregate extends AbstractAggregate<
     this.vérifierQueLeLauréatExiste();
     this.vérifierNiAbandonnéNiEnCoursAbandon();
     this.vérifierNonAchevé();
-    this.vérifierQueLeCahierDesChargesPermetUnChangement();
-    this.vérifierQueAppelOffreEtPériodePermettentUnChangement(typeChangement, domaine);
+    this.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(typeChangement, domaine);
   }
 
   apply(event: LauréatEvent): void {
@@ -446,7 +416,7 @@ export class LauréatAggregate extends AbstractAggregate<
   private applyCahierDesChargesChoisi({
     payload: { cahierDesCharges },
   }: CahierDesChargesChoisiEvent) {
-    this.#cahierDesCharges =
+    this.#référenceCahierDesCharges =
       AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(cahierDesCharges);
   }
 }

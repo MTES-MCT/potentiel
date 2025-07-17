@@ -1,6 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/projet';
 
+/** @deprecated use AppelOffre.CahierDesCharges.ValueType */
 export const getDélaiDeRéalisation = (
   appelOffre: AppelOffre.AppelOffreReadModel,
   technologie: Candidature.TypeTechnologie.RawType,

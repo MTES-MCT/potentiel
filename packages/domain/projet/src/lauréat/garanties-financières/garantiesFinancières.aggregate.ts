@@ -106,7 +106,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   private vérifierSiLesGarantiesFinancièresSontRequises(
     type: TypeGarantiesFinancières.ValueType | undefined,
   ) {
-    if (!type && this.estSoumisAuxGarantiesFinancières()) {
+    if (!type && this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
       throw new GarantiesFinancièresRequisesPourAppelOffreError();
     }
   }
@@ -133,7 +133,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
     const aDesGarantiesFinancièresEnAttente = this.#dateLimiteSoumission && this.#motifDemande;
 
-    if (this.estSoumisAuxGarantiesFinancières() || aDesGarantiesFinancièresEnAttente) {
+    if (
+      this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières() ||
+      aDesGarantiesFinancièresEnAttente
+    ) {
       const event: GarantiesFinancièresDemandéesEvent = {
         type: 'GarantiesFinancièresDemandées-V1',
         payload: {
@@ -194,13 +197,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappel1mois.annuler();
     await this.#tâchePlanifiéeRappel2mois.annuler();
-  }
-
-  estSoumisAuxGarantiesFinancières() {
-    const { appelOffre, famille } = this.lauréat.projet;
-    const { soumisAuxGarantiesFinancieres } =
-      famille?.garantiesFinancières ?? appelOffre.garantiesFinancières;
-    return soumisAuxGarantiesFinancieres && soumisAuxGarantiesFinancieres !== 'non soumis';
   }
 
   apply(event: GarantiesFinancièresEvent): void {
