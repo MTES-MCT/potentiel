@@ -18,23 +18,14 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       'information-enregistrée': true,
-      demande: false,
     },
-    actionnaire: {
-      'information-enregistrée': false,
-      demande: false,
-    },
-    fournisseur: {
-      'information-enregistrée': false,
-      demande: false,
-    },
+    actionnaire: {},
+    fournisseur: {},
     délai: {
-      'information-enregistrée': false,
       demande: true,
     },
     producteur: {
       'information-enregistrée': true,
-      demande: false,
     },
     puissance: {
       'information-enregistrée': true,

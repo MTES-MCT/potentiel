@@ -54,25 +54,20 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
-      'information-enregistrée': false,
       demande: true,
       typeTâchePlanifiée: 'accord-automatique',
     },
     actionnaire: {
       'information-enregistrée': true,
-      demande: false,
     },
     fournisseur: {
       'information-enregistrée': true,
-      demande: false,
     },
     délai: {
-      'information-enregistrée': false,
       demande: true,
     },
     producteur: {
       'information-enregistrée': true,
-      demande: false,
     },
     puissance: {
       'information-enregistrée': true,
