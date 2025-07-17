@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
@@ -13,11 +13,8 @@ import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.f
 
 export type DemanderChangementPuissancePageProps = PlainType<
   Lauréat.Puissance.ConsulterPuissanceReadModel & {
-    appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
-    période: AppelOffre.Periode;
-    technologie: Candidature.TypeTechnologie.ValueType;
-    famille?: AppelOffre.Famille;
-    cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
+    cahierDesCharges: PlainType<AppelOffre.CahierDesCharges.ValueType>;
+    cahierDesChargesInitial: PlainType<AppelOffre.CahierDesCharges.ValueType>;
     volumeRéservé?: PlainType<Candidature.VolumeRéservé.ValueType>;
   }
 >;
@@ -25,11 +22,8 @@ export type DemanderChangementPuissancePageProps = PlainType<
 export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePageProps> = ({
   identifiantProjet,
   puissance,
-  appelOffre,
-  période,
-  technologie,
-  famille,
   cahierDesCharges,
+  cahierDesChargesInitial,
   volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
@@ -43,11 +37,8 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
     <DemanderChangementPuissanceForm
       identifiantProjet={identifiantProjet}
       puissance={puissance}
-      appelOffre={appelOffre}
-      période={période}
-      technologie={technologie}
-      famille={famille}
       cahierDesCharges={cahierDesCharges}
+      cahierDesChargesInitial={cahierDesChargesInitial}
       volumeRéservé={volumeRéservé}
       unitéPuissance={unitéPuissance}
       puissanceInitiale={puissanceInitiale}

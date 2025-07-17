@@ -7,6 +7,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
@@ -25,10 +26,8 @@ export type DemanderChangementPuissanceFormProps = DemanderChangementPuissancePa
 export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceFormProps> = ({
   identifiantProjet,
   puissance,
-  appelOffre,
-  technologie,
-  famille,
   cahierDesCharges,
+  cahierDesChargesInitial,
   volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
@@ -40,17 +39,23 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const ratio = nouvellePuissance / puissanceInitiale;
   const ratioActuelleNouvelle = nouvellePuissance / puissance;
 
-  const ratioValueType = Lauréat.Puissance.RatioChangementPuissance.déterminer({
-    appelOffre,
-    famille,
-    cahierDesCharges,
-    technologie,
+  const ratioCdcActuel = Lauréat.Puissance.RatioChangementPuissance.bind({
+    puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
+    ratios: AppelOffre.CahierDesCharges.bind(cahierDesCharges).getRatiosChangementPuissance(),
+    puissanceInitiale,
+    nouvellePuissance,
+    volumeRéservé,
+  });
+  const ratioCdcInitial = Lauréat.Puissance.RatioChangementPuissance.bind({
+    puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
+    ratios:
+      AppelOffre.CahierDesCharges.bind(cahierDesChargesInitial).getRatiosChangementPuissance(),
     puissanceInitiale,
     nouvellePuissance,
     volumeRéservé,
   });
 
-  const dépasseLesRatioDeAppelOffres = ratioValueType.dépasseRatiosChangementPuissance();
+  const dépasseLesRatioDeAppelOffres = ratioCdcActuel.dépasseRatiosChangementPuissance();
 
   const ratioHintText = isNaN(nouvellePuissance) ? (
     "Aucune valeur n'est encore renseignée"
@@ -129,13 +134,20 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             }}
           />
           <DemanderChangementPuissanceFormErrors
-            ratioChangementPuissance={ratioValueType}
+            ratioCdcActuel={ratioCdcActuel}
+            ratioCdcInitial={ratioCdcInitial}
             aChoisiCDC2022={
-              cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022'
+              cahierDesCharges.cahierDesChargesModificatif
+                ? AppelOffre.RéférenceCahierDesCharges.bind(
+                    cahierDesCharges.cahierDesChargesModificatif,
+                  ).estCDC2022()
+                : false
             }
             fourchetteRatioInitialEtCDC2022AlertMessage={
-              cahierDesCharges.type === 'modifié'
-                ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
+              // TODO seuilSupplémentaireChangementPuissance?.paragrapheAlerte ne devrait pas dépendre du cahierDesChargesModificatif
+              cahierDesCharges.cahierDesChargesModificatif?.type === 'modifié'
+                ? cahierDesCharges?.cahierDesChargesModificatif
+                    .seuilSupplémentaireChangementPuissance?.paragrapheAlerte
                 : undefined
             }
             unitéPuissance={unitéPuissance.unité}
