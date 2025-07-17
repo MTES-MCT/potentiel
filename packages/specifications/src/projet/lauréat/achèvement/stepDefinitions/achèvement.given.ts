@@ -2,6 +2,8 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -26,5 +28,23 @@ EtantDonné(
         },
       },
     );
+  },
+);
+
+EtantDonné(
+  "une date d'achèvement prévisionnel pour le projet lauréat au {string}",
+  async function (this: PotentielWorld, dateAchèvementPrévisionnel: string) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    const event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent = {
+      type: 'DateAchèvementPrévisionnelCalculée-V1',
+      payload: {
+        identifiantProjet,
+        date: DateTime.convertirEnValueType(
+          new Date(dateAchèvementPrévisionnel).toISOString(),
+        ).formatter(),
+      },
+    };
+
+    await publish(`achevement|${identifiantProjet}`, event);
   },
 );

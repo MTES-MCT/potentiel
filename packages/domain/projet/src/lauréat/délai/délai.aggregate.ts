@@ -16,7 +16,7 @@ import { AnnulerDemandeDélaiOptions } from './demande/annuler/annulerDemandeDé
 import {
   DemandeDeDélaiInexistanteError,
   DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal,
-} from './délai.error';
+} from './demande/demandeDélai.error';
 import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDélai.options';
 import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
@@ -129,10 +129,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
 
-    await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
-      type: 'délai-accordé',
-      nombreDeMois: this.#demande.nombreDeMois,
-    });
+    const durée = this.#demande.nombreDeMois;
 
     const délaiAccordéEvent: DélaiAccordéEvent = {
       type: 'DélaiAccordé-V1',
@@ -140,7 +137,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.identifiantProjet.formatter(),
         accordéLe: dateAccord.formatter(),
         accordéPar: identifiantUtilisateur.formatter(),
-        durée: this.#demande.nombreDeMois,
+        durée,
         raison: 'demande',
         réponseSignée: { format: réponseSignée.format },
         dateDemande: this.#demande.demandéLe,
@@ -148,6 +145,11 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     };
 
     await this.publish(délaiAccordéEvent);
+
+    await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
+      type: 'délai-accordé',
+      nombreDeMois: durée,
+    });
   }
 
   async passerEnInstructionDemandeDélai({
