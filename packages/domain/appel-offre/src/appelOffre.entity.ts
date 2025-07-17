@@ -55,24 +55,23 @@ type GarantiesFinancièresAppelOffre = {
 );
 
 // Demandes
-export type DomaineDeDemandeChangement =
-  | 'actionnaire'
-  | 'fournisseur'
-  | 'représentantLégal'
-  | 'délai'
-  | 'producteur'
-  | 'puissance';
+type Changement = {
+  'information-enregistrée': boolean;
+  demande: boolean;
+};
 
-export type RèglesDemandesChangement = Partial<
-  Record<
-    DomaineDeDemandeChangement,
-    {
-      'information-enregistrée': boolean;
-      demande: boolean;
-      typeTâchePlanifiée?: 'accord-automatique' | 'rejet-automatique';
-    }
-  >
->;
+type RèglesDemandesChangement = {
+  actionnaire: Changement;
+  fournisseur: Changement;
+  délai: Changement;
+  producteur: Changement;
+  puissance: Changement;
+  représentantLégal: Changement & {
+    typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
+  };
+};
+
+export type DomaineDeDemandeChangement = keyof RèglesDemandesChangement;
 
 // Courriers
 export type DonnéesCourriersRéponse = Record<
@@ -238,7 +237,7 @@ export type Periode = {
   /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */
   choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
-  changement?: RèglesDemandesChangement;
+  changement?: Partial<RèglesDemandesChangement>;
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
