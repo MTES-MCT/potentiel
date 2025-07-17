@@ -56,8 +56,8 @@ type GarantiesFinancièresAppelOffre = {
 
 // Demandes
 type Changement = {
-  'information-enregistrée': boolean;
-  demande: boolean;
+  'information-enregistrée'?: true;
+  demande?: true;
 };
 
 type RèglesDemandesChangement = {
