@@ -71,7 +71,7 @@ type RèglesDemandesChangement = {
   };
 };
 
-export type DomaineDeDemandeChangement = keyof RèglesDemandesChangement;
+export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
 
 // Courriers
 export type DonnéesCourriersRéponse = Record<
