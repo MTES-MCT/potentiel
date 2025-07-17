@@ -341,26 +341,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           demande: true,
           typeTâchePlanifiée: 'accord-automatique',
         },
-        actionnaire: {
-          'information-enregistrée': true,
-          demande: true,
-        },
-        fournisseur: {
-          'information-enregistrée': true,
-          demande: false,
-        },
-        délai: {
-          'information-enregistrée': false,
-          demande: true,
-        },
-        producteur: {
-          'information-enregistrée': true,
-          demande: false,
-        },
-        puissance: {
-          'information-enregistrée': true,
-          demande: true,
-        },
       },
     },
     // ℹ️ représentation légal sera réputé accordé à partir de la P9, à garder par la suite
