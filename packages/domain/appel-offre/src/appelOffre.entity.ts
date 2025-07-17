@@ -67,7 +67,7 @@ type RèglesDemandesChangement = {
   producteur: Changement;
   puissance: Changement;
   représentantLégal: Changement & {
-    typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
+    typeTâchePlanifiée?: 'accord-automatique' | 'rejet-automatique';
   };
 };
 

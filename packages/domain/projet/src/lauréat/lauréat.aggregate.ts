@@ -378,21 +378,13 @@ export class LauréatAggregate extends AbstractAggregate<
     typeChangement: 'information-enregistrée' | 'demande',
     domaine: AppelOffre.DomaineDeDemandeChangement,
   ) {
-    const changementInterdit = (règlesChangement?: AppelOffre.RèglesDemandesChangement) => {
-      return règlesChangement?.[domaine]?.[typeChangement] === false;
+    // les règles au niveau de la période override celles de l'appel d'offre
+    const changement = {
+      ...this.projet.appelOffre.changement,
+      ...this.projet.période.changement,
     };
 
-    // on vérifie déjà la règle au niveau de la période
-    if (changementInterdit(this.projet.période.changement)) {
-      throw new AppelOffreOuPériodeEmpêcheModificationError();
-    }
-
-    if (this.projet.période.changement?.[domaine]?.[typeChangement] === true) {
-      return;
-    }
-
-    // Puis au niveau de l'appel d'offre
-    if (changementInterdit(this.projet.appelOffre.changement)) {
+    if (changement[domaine][typeChangement] !== true) {
       throw new AppelOffreOuPériodeEmpêcheModificationError();
     }
   }
