@@ -1,4 +1,4 @@
-import { differenceInDays, addMonths, isLastDayOfMonth, lastDayOfMonth } from 'date-fns';
+import { differenceInDays, addMonths } from 'date-fns';
 import { UTCDate } from '@date-fns/utc';
 
 import { ReadonlyValueType, InvalidOperationError, PlainType } from '@potentiel-domain/core';
@@ -69,13 +69,9 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
     },
     ajouterNombreDeMois(nombreDeMois) {
       const utcDate = new UTCDate(this.date);
-      const estLeDernierJourDuMois = isLastDayOfMonth(utcDate);
-
       const avecNombreDeMoisAjouté = addMonths(utcDate, nombreDeMois);
 
-      return convertirEnValueType(
-        estLeDernierJourDuMois ? lastDayOfMonth(avecNombreDeMoisAjouté) : avecNombreDeMoisAjouté,
-      );
+      return convertirEnValueType(avecNombreDeMoisAjouté);
     },
     retirerNombreDeMois(nombreDeMois) {
       return this.ajouterNombreDeMois(-nombreDeMois);

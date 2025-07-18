@@ -67,21 +67,22 @@ export class AchèvementAggregate extends AbstractAggregate<
 
       const date = match(options)
         .with({ type: 'notification' }, () =>
-          this.lauréat.notifiéLe.ajouterNombreDeMois(this.délaiRéalisationEnMois).formatter(),
+          this.lauréat.notifiéLe.ajouterNombreDeMois(this.délaiRéalisationEnMois),
         )
         .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
-          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(nombreDeMois).formatter(),
+          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(nombreDeMois),
         )
         .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
-          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(18).formatter(),
+          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(18),
         )
         .exhaustive();
 
+      const duréeInstructionEdfOaEnJours = 1;
       const event: DateAchèvementPrévisionnelCalculéeEvent = {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
         payload: {
           identifiantProjet,
-          date,
+          date: date.retirerNombreDeJours(duréeInstructionEdfOaEnJours).formatter(),
         },
       };
 
