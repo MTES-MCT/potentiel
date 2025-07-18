@@ -29,14 +29,10 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | PPE2 - Neutre | eolien                | 2024-10-05        | 2027-10-05                            |
             | PPE2 - Neutre | hydraulique           | 2024-10-05        | 2027-10-05                            |
 
-    Plan du scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat change son cahier des charges par le CDC paru le 30/08/2022
+    Scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat change son cahier des charges par le CDC paru le 30/08/2022
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
-            | appel d'offre | <appel d'offre> |
-            | période       | <période>       |
-        Et une date d'achèvement prévisionnel pour le projet lauréat au "<date achèvement prévisionnel actuelle>"
+            | appel d'offre | PPE2 - Bâtiment |
+            | période       | 1               |
+        Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
         Quand le porteur choisit le cahier des charges "30/08/2022"
-        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "<date achèvement prévisionnel attendue>"
-
-        Exemples:
-            | appel d'offre   | période | date achèvement prévisionnel actuelle | date achèvement prévisionnel attendue |
-            | PPE2 - Bâtiment | 1       | 2020-01-01                            | 2021-07-01                            |
+        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-07-01"
