@@ -1,4 +1,4 @@
-import { differenceInDays, addMonths } from 'date-fns';
+import { differenceInDays, addMonths, subMonths } from 'date-fns';
 import { UTCDate } from '@date-fns/utc';
 
 import { ReadonlyValueType, InvalidOperationError, PlainType } from '@potentiel-domain/core';
@@ -74,7 +74,10 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       return convertirEnValueType(avecNombreDeMoisAjouté);
     },
     retirerNombreDeMois(nombreDeMois) {
-      return this.ajouterNombreDeMois(-nombreDeMois);
+      const utcDate = new UTCDate(this.date);
+      const avecNombreDeMoisRetiré = subMonths(utcDate, nombreDeMois);
+
+      return convertirEnValueType(avecNombreDeMoisRetiré);
     },
   };
 };

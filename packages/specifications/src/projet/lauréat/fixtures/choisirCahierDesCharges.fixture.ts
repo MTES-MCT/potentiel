@@ -10,7 +10,7 @@ export interface ChoisirCahierDesCharges {
   readonly modifiéPar: string;
 }
 
-const nomCdcToRéférence: Record<string, AppelOffre.CahierDesChargesRéférence> = {
+const nomCdcToRéférence: Record<string, AppelOffre.RéférenceCahierDesCharges.RawType> = {
   initial: 'initial',
   'modifié paru le 30/08/2022': '30/08/2022',
 };
