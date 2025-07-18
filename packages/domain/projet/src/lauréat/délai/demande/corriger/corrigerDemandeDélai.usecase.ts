@@ -15,8 +15,8 @@ export type CorrigerDemandeDélaiUseCase = Message<
     identifiantUtilisateurValue: string;
     dateDemandeValue: string;
     dateCorrectionValue: string;
-    nombreDeMois: number;
-    raison: string;
+    nombreDeMoisValue: number;
+    raisonValue: string;
     pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
@@ -30,8 +30,8 @@ export const registerCorrigerDemandeDélaiUseCase = () => {
     identifiantUtilisateurValue,
     dateDemandeValue,
     dateCorrectionValue,
-    nombreDeMois,
-    raison,
+    nombreDeMoisValue: nombreDeMois,
+    raisonValue: raison,
     pièceJustificativeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);

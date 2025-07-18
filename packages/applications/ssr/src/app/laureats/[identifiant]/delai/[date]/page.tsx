@@ -103,6 +103,10 @@ const mapToActions = ({
         actions.push('accorder');
       }
 
+      if (role.aLaPermission('délai.corrigerDemande')) {
+        actions.push('corriger');
+      }
+
       return actions;
     })
     .with('en-instruction', () => {
@@ -116,6 +120,10 @@ const mapToActions = ({
 
       if (role.aLaPermission('délai.accorderDemande')) {
         actions.push('accorder');
+      }
+
+      if (role.aLaPermission('délai.corrigerDemande')) {
+        actions.push('corriger');
       }
 
       if (

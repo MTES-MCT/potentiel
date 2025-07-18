@@ -96,8 +96,8 @@ export async function corrigerDemandeDélai(this: PotentielWorld) {
         identifiantProjetValue: identifiantProjet,
         dateDemandeValue: demandéLe,
         dateCorrectionValue: corrigéeLe,
-        nombreDeMois,
-        raison,
+        nombreDeMoisValue: nombreDeMois,
+        raisonValue: raison,
         pièceJustificativeValue: pièceJustificative,
       },
     });
