@@ -19,7 +19,7 @@ import {
   getTechnologieTypeLabel,
 } from '@/app/_helpers';
 
-import { ListeFournisseurs } from '../../../components/pages/fournisseur/changement/ListeFournisseurs';
+import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',

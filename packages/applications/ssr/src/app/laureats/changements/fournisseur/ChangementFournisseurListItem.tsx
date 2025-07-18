@@ -9,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { StatutChangementFournisseurBadge } from '../StatutChangementFournisseurBadge';
+import { StatutChangementFournisseurBadge } from '../../[identifiant]/fournisseur/StatutChangementFournisseurBadge';
 
 export type ChangementFournisseurListItemProps = PlainType<
   Lauréat.Fournisseur.ListerChangementFournisseurReadModel['items'][number]

@@ -6,12 +6,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { DétailsChangementFournisseurPage as DétailsChangementFournisseurPage } from '@/components/pages/fournisseur/changement/détails/DétailsChangementFournisseur.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToFournisseurTimelineItemProps } from '@/utils/historique/mapToProps/fournisseur';
 
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';
+
+import { DétailsChangementFournisseurPage } from './DétailsChangementFournisseur.page';
 
 export const metadata: Metadata = {
   title: 'Détail du changement de fournisseur du projet - Potentiel',
