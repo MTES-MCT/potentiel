@@ -72,6 +72,9 @@ export class AchèvementAggregate extends AbstractAggregate<
         .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
           this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(nombreDeMois).formatter(),
         )
+        .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
+          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(18).formatter(),
+        )
         .exhaustive();
 
       const event: DateAchèvementPrévisionnelCalculéeEvent = {

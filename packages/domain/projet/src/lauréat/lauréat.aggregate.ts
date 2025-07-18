@@ -313,6 +313,12 @@ export class LauréatAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    if (cahierDesCharges.estCDC2022()) {
+      await this.achèvement.calculerDateAchèvementPrévisionnel({
+        type: 'ajout-délai-cdc-30_08_2022',
+      });
+    }
   }
 
   private vérifierQueLeLauréatPeutÊtreNotifié() {
