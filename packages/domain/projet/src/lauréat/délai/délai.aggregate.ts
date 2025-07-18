@@ -189,7 +189,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         this.applyDemandeDélaiPasséeEnInstruction.bind(this),
       )
       .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
-      .with({ type: 'DélaiAccordé-V1' }, this.applyDélaiAccordé.bind(this))
+      .with({ type: 'DélaiAccordé-V1' }, this.applyDemandeDélaiAccordée.bind(this))
       .exhaustive();
   }
 
@@ -215,7 +215,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande = undefined;
   }
 
-  private applyDélaiAccordé(_: DélaiAccordéEvent) {
+  private applyDemandeDélaiAccordée(_: DélaiAccordéEvent) {
     this.#demande = undefined;
   }
 }
