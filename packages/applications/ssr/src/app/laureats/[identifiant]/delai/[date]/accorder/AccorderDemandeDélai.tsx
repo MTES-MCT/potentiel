@@ -43,7 +43,7 @@ export const AccorderDemandeDélai = ({
     dateActuelle.ajouterNombreDeMois(nombreDeMois),
   );
 
-  const peutAccorderUnDélai = () => nouvelleDate.estUltérieureÀ(dateActuelle);
+  const laNouvelleDateEstValide = () => nouvelleDate.estUltérieureÀ(dateActuelle);
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
     const nouvelleDate = dateActuelle.ajouterNombreDeMois(nombreDeMois);
@@ -82,7 +82,7 @@ export const AccorderDemandeDélai = ({
               <div>
                 <Input
                   label="Durée du délai"
-                  hintText="Veuillez saisir une durée de délai en mois, avec au minimum 1 mois"
+                  hintText="Veuillez saisir une durée de délai en mois, d'au minimum 1 mois"
                   className="w-full md:w-1/2"
                   nativeInputProps={{
                     min: '1',
@@ -98,7 +98,7 @@ export const AccorderDemandeDélai = ({
                   state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
                   stateRelatedMessage={validationErrors['nombreDeMois']}
                 />
-                {peutAccorderUnDélai() && (
+                {laNouvelleDateEstValide() && (
                   <div>
                     Après accord de votre demande de délai, la date d'achèvement prévisionnel serait
                     le <FormattedDate date={nouvelleDate.formatter()} className="font-semibold" />

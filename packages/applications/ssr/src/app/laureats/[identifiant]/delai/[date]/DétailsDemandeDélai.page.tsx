@@ -73,12 +73,12 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                 <StatutDemandeDélaiBadge statut={statut} />
               </div>
               <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Nombre de mois demandé :</div>
+                <div className="font-semibold whitespace-nowrap">Nombre de mois demandé(s) :</div>
                 <div>{nombreDeMois} mois</div>
               </div>
               {accord && (
                 <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Nombre de mois accordé :</div>
+                  <div className="font-semibold whitespace-nowrap">Nombre de mois accordé(s) :</div>
                   <div>{accord.nombreDeMois} mois</div>
                 </div>
               )}
