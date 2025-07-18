@@ -3,10 +3,11 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { isFonctionnalitéDélaiActivée } from '../délai';
+
+import { DateAchèvementPrévisionnel } from '.';
 
 import {
   AttestationDeConformitéDéjàTransmiseError,
@@ -56,7 +57,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.lauréat.projet.appelOffre.délaiRéalisationEnMois;
   }
 
-  #dateAchèvementPrévisionnel!: DateTime.ValueType;
+  #dateAchèvementPrévisionnel!: DateAchèvementPrévisionnel.ValueType;
   get dateAchèvementPrévisionnel() {
     return this.#dateAchèvementPrévisionnel;
   }
@@ -67,22 +68,21 @@ export class AchèvementAggregate extends AbstractAggregate<
 
       const date = match(options)
         .with({ type: 'notification' }, () =>
-          this.lauréat.notifiéLe.ajouterNombreDeMois(this.délaiRéalisationEnMois),
+          this.lauréat.notifiéLe.ajouterNombreDeMois(this.délaiRéalisationEnMois).formatter(),
         )
         .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
-          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(nombreDeMois),
+          this.#dateAchèvementPrévisionnel.ajouterDélai(nombreDeMois).formatter(),
         )
         .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
-          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(18),
+          this.#dateAchèvementPrévisionnel.ajouterDélai(18).formatter(),
         )
         .exhaustive();
 
-      const duréeInstructionEdfOaEnJours = 1;
       const event: DateAchèvementPrévisionnelCalculéeEvent = {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
         payload: {
           identifiantProjet,
-          date: date.retirerNombreDeJours(duréeInstructionEdfOaEnJours).formatter(),
+          date,
         },
       };
 
@@ -237,6 +237,6 @@ export class AchèvementAggregate extends AbstractAggregate<
   private applyDateAchèvementPrévisionnelCalculéeV1({
     payload: { date },
   }: DateAchèvementPrévisionnelCalculéeEvent) {
-    this.#dateAchèvementPrévisionnel = DateTime.convertirEnValueType(date);
+    this.#dateAchèvementPrévisionnel = DateAchèvementPrévisionnel.convertirEnValueType(date);
   }
 }

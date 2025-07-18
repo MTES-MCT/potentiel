@@ -7,7 +7,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -92,14 +91,11 @@ Alors(
       assert(Option.isSome(achèvement), `Aucun achèvement trouvé pour le projet`);
 
       const actual = achèvement.dateAchèvementPrévisionnel;
-      const expected = DateTime.convertirEnValueType(
-        new Date(datePrévisionnelleAttendue).toISOString(),
+      const expected = Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
+        new Date(datePrévisionnelleAttendue),
       );
 
-      expect(
-        actual.estÉgaleÀ(expected),
-        `La date prévisionnelle (${actual.formatterDate()}) n'est pas celle attendue (${datePrévisionnelleAttendue})`,
-      ).to.be.true;
+      expect(actual.formatter()).to.be.equal(expected.formatter());
     });
   },
 );

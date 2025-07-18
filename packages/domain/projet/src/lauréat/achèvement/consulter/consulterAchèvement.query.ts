@@ -1,15 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
 import { AchèvementEntity } from '../achèvement.entity';
 import { IdentifiantProjet } from '../../..';
+import { DateAchèvementPrévisionnel } from '..';
 
 export type ConsulterAchèvementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  dateAchèvementPrévisionnel: DateTime.ValueType;
+  dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.ValueType;
 };
 
 export type ConsulterAchèvementQuery = Message<
@@ -48,6 +48,8 @@ const mapToReadModel = ({
 }: AchèvementEntity): ConsulterAchèvementReadModel => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    dateAchèvementPrévisionnel: DateTime.convertirEnValueType(dateAchèvementPrévisionnel),
+    dateAchèvementPrévisionnel: DateAchèvementPrévisionnel.convertirEnValueType(
+      dateAchèvementPrévisionnel,
+    ),
   };
 };

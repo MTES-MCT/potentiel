@@ -14,9 +14,11 @@ export type { ConsulterAchèvementReadModel };
 // Entity
 export { AchèvementEntity } from './achèvement.entity';
 
+// ValueTypes
+export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType';
+
 // Event
 export * from './achèvement.event';
-
 export { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
 
 // Attestation de conformité
