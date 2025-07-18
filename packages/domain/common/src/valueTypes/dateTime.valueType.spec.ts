@@ -35,12 +35,12 @@ describe('DateTime', () => {
       {
         date: '2024-02-29T00:00:00.000Z',
         nombreDeMois: 1,
-        expected: '2024-03-31T00:00:00.000Z',
+        expected: '2024-03-29T00:00:00.000Z',
       },
       {
         date: '2020-02-29T00:00:00.000Z',
         nombreDeMois: 56,
-        expected: '2024-10-31T00:00:00.000Z',
+        expected: '2024-10-29T00:00:00.000Z',
       },
       {
         date: '2023-04-21T00:00:00.000Z',

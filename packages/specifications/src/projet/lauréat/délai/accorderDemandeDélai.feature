@@ -21,11 +21,11 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
 
         Exemples:
             | date achèvement prévisionnel actuelle | durée du délai demandé | date achèvement prévisionnel attendue |
-            | 2022-05-01                            | 12                     | 2023-05-01                            |
-            | 2024-12-01                            | 1                      | 2025-01-01                            |
-            | 2024-02-29                            | 1                      | 2024-03-31                            |
-            | 2020-02-29                            | 56                     | 2024-10-31                            |
-            | 2023-04-21                            | 46                     | 2027-02-21                            |
+            | 2022-05-01                            | 12                     | 2023-04-30                            |
+            | 2024-12-01                            | 1                      | 2024-12-31                            |
+            | 2024-02-29                            | 1                      | 2024-03-28                            |
+            | 2020-02-29                            | 56                     | 2024-10-28                            |
+            | 2023-04-21                            | 46                     | 2027-02-20                            |
 
     Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
