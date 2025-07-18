@@ -7,6 +7,7 @@ import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fix
 import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture';
 import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture';
 import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture';
+import { CorrigerDemandeDélaiFixture } from './fixtures/corrigerDélai.fixture';
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();
@@ -41,6 +42,13 @@ export class DélaiWorld {
 
   get accorderDemandeDélaiFixture() {
     return this.#accorderDemandeDélaiFixture;
+  }
+
+  readonly #corrigerDemandeDélaiFixture: CorrigerDemandeDélaiFixture =
+    new CorrigerDemandeDélaiFixture();
+
+  get corrigerDemandeDélaiFixture() {
+    return this.#corrigerDemandeDélaiFixture;
   }
 
   mapToExpected(
@@ -106,6 +114,17 @@ export class DélaiWorld {
           }
         : undefined,
     };
+
+    if (this.corrigerDemandeDélaiFixture.aÉtéCréé) {
+      expected.nombreDeMois = this.corrigerDemandeDélaiFixture.nombreDeMois;
+      expected.raison = this.corrigerDemandeDélaiFixture.raison;
+      expected.pièceJustificative = DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
+        this.#demanderDélaiFixture.demandéLe,
+        this.#corrigerDemandeDélaiFixture.pièceJustificative.format,
+      );
+    }
 
     return expected;
   }

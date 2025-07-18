@@ -395,6 +395,7 @@ const référencielPermissions = {
         passerEnInstruction: 'Lauréat.Délai.UseCase.PasserEnInstructionDemande',
         rejeter: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
         accorder: 'Lauréat.Délai.UseCase.AccorderDemandeDélai',
+        corriger: 'Lauréat.Délai.UseCase.CorrigerDemandeDélai',
       },
       command: {
         demander: 'Lauréat.Délai.Command.DemanderDélai',
@@ -402,6 +403,7 @@ const référencielPermissions = {
         passerEnInstruction: 'Lauréat.Délai.Command.PasserEnInstructionDemande',
         rejeter: 'Lauréat.Délai.Command.RejeterDemandeDélai',
         accorder: 'Lauréat.Délai.Command.AccorderDemandeDélai',
+        corriger: 'Lauréat.Délai.Command.CorrigerDemandeDélai',
       },
     },
     usecase: {
@@ -1268,6 +1270,10 @@ const policies = {
       référencielPermissions.lauréat.délai.command.accorder,
       référencielPermissions.lauréat.délai.usecase.accorder,
     ],
+    corrigerDemande: [
+      référencielPermissions.lauréat.délai.command.corriger,
+      référencielPermissions.lauréat.délai.usecase.corriger,
+    ],
   },
   api: {
     raccordement: {
@@ -1766,6 +1772,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'délai.listerDemande',
   'délai.demander',
   'délai.annulerDemande',
+  'délai.corrigerDemande',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

@@ -21,6 +21,7 @@ import {
   ListerHistoriqueDélaiProjetReadModel,
   ListerDélaiAccordéProjetPort,
 } from './lister/listerHistoriqueDélaiProjet.query';
+import { CorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
 
 // Query
 export type DélaiQuery =
@@ -50,7 +51,8 @@ export type DélaiUseCase =
   | AnnulerDemandeDélaiUseCase
   | PasserEnInstructionDemandeDélaiUseCase
   | RejeterDemandeDélaiUseCase
-  | AccorderDemandeDélaiUseCase;
+  | AccorderDemandeDélaiUseCase
+  | CorrigerDemandeDélaiUseCase;
 
 export type {
   DemanderDélaiUseCase,
@@ -58,10 +60,12 @@ export type {
   PasserEnInstructionDemandeDélaiUseCase,
   RejeterDemandeDélaiUseCase,
   AccorderDemandeDélaiUseCase,
+  CorrigerDemandeDélaiUseCase,
 };
 
 // Event
 export type { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
+export type { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event';
 export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event';
 export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';

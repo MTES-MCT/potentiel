@@ -10,7 +10,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
-Alors('la demande de délai devrait être consultable', async function (this: PotentielWorld) {
+Alors(/la demande.* de délai devrait être consultable/, async function (this: PotentielWorld) {
   await vérifierDemandeDélai.call(
     this,
     this.candidatureWorld.importerCandidature.identifiantProjet,
