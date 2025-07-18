@@ -17,6 +17,7 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',
       'DélaiAccordé-V1',
+      'DemandeDélaiCorrigée-V1',
     ],
     messageType: 'System.Projector.Lauréat.Délai',
   });
@@ -30,6 +31,7 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
       'DemandeDélaiPasséeEnInstruction-V1',
       'DemandeDélaiRejetée-V1',
       'DélaiAccordé-V1',
+      'DemandeDélaiCorrigée-V1',
     ],
     messageType: 'System.Notification.Lauréat.Délai',
   });

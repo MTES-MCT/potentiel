@@ -10,6 +10,7 @@ import { demandeDélaiAnnuléeProjector } from './demandeDélaiAnnulée.projecto
 import { demandeDélaiRejetéeProjector } from './demandeDélaiRejetée.projector';
 import { demandeDélaiPasséeEnInstructionProjector } from './demandeDélaiPasséeEnInstruction.projector';
 import { délaiAccordéProjector } from './délaiAccordée.projector';
+import { demandeDélaiCorrigéeProjector } from './demandeDélaiCorrigée.projector';
 
 export type SubscriptionEvent = (Lauréat.Délai.DélaiEvent & Event) | RebuildTriggered;
 
@@ -29,6 +30,7 @@ export const registerDélaiProjectors = () => {
       .with({ type: 'DemandeDélaiAnnulée-V1' }, demandeDélaiAnnuléeProjector)
       .with({ type: 'DemandeDélaiRejetée-V1' }, demandeDélaiRejetéeProjector)
       .with({ type: 'DélaiAccordé-V1' }, délaiAccordéProjector)
+      .with({ type: 'DemandeDélaiCorrigée-V1' }, demandeDélaiCorrigéeProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Délai', handler);
