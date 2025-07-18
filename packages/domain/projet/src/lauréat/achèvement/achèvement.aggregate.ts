@@ -65,24 +65,41 @@ export class AchèvementAggregate extends AbstractAggregate<
     if (isFonctionnalitéDélaiActivée()) {
       const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
 
+      const duréeInstructionEdfOaEnJours = 1;
+      const duréeDélaiSupplémentaireCDC30082022 = 18;
+
       const date = match(options)
         .with({ type: 'notification' }, () =>
-          this.lauréat.notifiéLe.ajouterNombreDeMois(this.délaiRéalisationEnMois),
+          this.lauréat.notifiéLe
+            .ajouterNombreDeMois(this.délaiRéalisationEnMois)
+            .retirerNombreDeJours(duréeInstructionEdfOaEnJours)
+            .formatter(),
         )
         .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
-          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(nombreDeMois),
+          this.#dateAchèvementPrévisionnel
+            .ajouterNombreDeMois(nombreDeMois)
+            .retirerNombreDeJours(duréeInstructionEdfOaEnJours)
+            .formatter(),
         )
         .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
-          this.#dateAchèvementPrévisionnel.ajouterNombreDeMois(18),
+          this.#dateAchèvementPrévisionnel
+            .ajouterNombreDeMois(duréeDélaiSupplémentaireCDC30082022)
+            .retirerNombreDeJours(duréeInstructionEdfOaEnJours)
+            .formatter(),
+        )
+        .with({ type: 'retrait-délai-cdc-30_08_2022' }, () =>
+          this.#dateAchèvementPrévisionnel
+            .ajouterNombreDeJours(duréeInstructionEdfOaEnJours)
+            .retirerNombreDeMois(duréeDélaiSupplémentaireCDC30082022)
+            .formatter(),
         )
         .exhaustive();
 
-      const duréeInstructionEdfOaEnJours = 1;
       const event: DateAchèvementPrévisionnelCalculéeEvent = {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
         payload: {
           identifiantProjet,
-          date: date.retirerNombreDeJours(duréeInstructionEdfOaEnJours).formatter(),
+          date,
         },
       };
 

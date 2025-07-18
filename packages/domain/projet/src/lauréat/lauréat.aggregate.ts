@@ -302,6 +302,8 @@ export class LauréatAggregate extends AbstractAggregate<
       throw new RetourAuCahierDesChargesInitialImpossibleError();
     }
 
+    const cdcActuel = this.#cahierDesCharges;
+
     const event: CahierDesChargesChoisiEvent = {
       type: 'CahierDesChargesChoisi-V1',
       payload: {
@@ -317,6 +319,12 @@ export class LauréatAggregate extends AbstractAggregate<
     if (cahierDesCharges.estCDC2022()) {
       await this.achèvement.calculerDateAchèvementPrévisionnel({
         type: 'ajout-délai-cdc-30_08_2022',
+      });
+    }
+
+    if (cdcActuel.estCDC2022()) {
+      await this.achèvement.calculerDateAchèvementPrévisionnel({
+        type: 'retrait-délai-cdc-30_08_2022',
       });
     }
   }
