@@ -316,7 +316,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
     if (cahierDesCharges.estCDC2022()) {
       await this.achèvement.calculerDateAchèvementPrévisionnel({
-        type: 'ajout-cdc-30/08/2022',
+        type: 'ajout-délai-cdc-30_08_2022',
       });
     }
   }

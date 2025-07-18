@@ -29,7 +29,7 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | PPE2 - Neutre | eolien                | 2024-10-05        | 2027-10-05                            |
             | PPE2 - Neutre | hydraulique           | 2024-10-05        | 2027-10-05                            |
 
-    Plan du scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat change son cahier des charges par le CDC du 30/08/2022
+    Plan du scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat change son cahier des charges par le CDC paru le 30/08/2022
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
             | appel d'offre | <appel d'offre> |
             | période       | <période>       |
