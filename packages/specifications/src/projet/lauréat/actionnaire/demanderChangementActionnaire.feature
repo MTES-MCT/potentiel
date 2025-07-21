@@ -1,4 +1,5 @@
 # language: fr
+@actionnaire
 Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CRE4 Eolien
 
     Contexte:

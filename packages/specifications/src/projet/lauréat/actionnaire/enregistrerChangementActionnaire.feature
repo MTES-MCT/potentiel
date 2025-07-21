@@ -1,4 +1,5 @@
 # language: fr
+@actionnaire
 Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Contexte:
