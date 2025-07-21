@@ -6,13 +6,13 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 
 import {
   mapToDemandeDélaiAnnuléeTimelineItemProps,
+  mapToDemandeDélaiCorrigéeTimelineItemProps,
   mapToDemandeDélaiPasséeEnInstructionTimelineItemProps,
   mapToDemandeDélaiRejetéeTimelineItemProps,
   mapToDélaiAccordéTimelineItemProps,
   mapToDélaiDemandéTimelineItemProps,
   mapToLegacyDélaiAccordéTimelineItemProps,
 } from './events';
-import { mapToDemandeDélaiCorrigéeTimelineItemProps } from './events/mapToDemandeDélaiCorrigéeTimelineItemProps';
 
 export const mapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
