@@ -9,7 +9,7 @@ import { ValidationErrors } from '@/utils/formAction';
 import { Heading3 } from '@/components/atoms/headings';
 
 import { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
-import { TypeReprésentantLégalSelect } from '../../TypeReprésentantLégalSelect';
+import { TypeReprésentantLégalSelect } from '../TypeReprésentantLégalSelect';
 
 import { SaisieTypeSociétéStep, TypeSociété } from './SaisieTypeSociété.step';
 

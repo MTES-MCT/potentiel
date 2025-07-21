@@ -16,8 +16,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { StatutChangementReprésentantLégalBadge } from '../../StatutChangementReprésentantLégalBadge';
-
+import { StatutChangementReprésentantLégalBadge } from './StatutChangementReprésentantLégalBadge';
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';

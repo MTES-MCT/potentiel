@@ -10,7 +10,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ModifierReprésentantLégalPage } from '@/components/pages/représentant-légal/modifier/ModifierReprésentantLégal.page';
+
+import { ModifierReprésentantLégalPage } from './ModifierReprésentantLégal.page';
 
 export const metadata: Metadata = {
   title: 'Modifier le représentant légal du projet - Potentiel',

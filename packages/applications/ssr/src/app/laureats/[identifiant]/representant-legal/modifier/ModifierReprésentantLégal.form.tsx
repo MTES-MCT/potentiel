@@ -10,8 +10,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
-import { SaisieNomStep, SaisieTypeStep, ValidationStep } from '../_utils/steps';
-import { TypeSociété } from '../_utils/steps/SaisieTypeSociété.step';
+import { SaisieNomStep, SaisieTypeStep, TypeSociété, ValidationStep } from '../_helpers/steps';
 
 import {
   modifierReprésentantLégalAction,

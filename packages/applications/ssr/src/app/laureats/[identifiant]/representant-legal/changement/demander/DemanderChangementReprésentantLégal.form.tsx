@@ -3,9 +3,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -13,27 +10,23 @@ import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
 import {
+  TypeSociété,
+  SaisieTypeStep,
   SaisieNomStep,
   SaisiePièceJustificativeStep,
-  SaisieTypeStep,
   ValidationStep,
-} from '../../_utils/steps';
-import { TypeSociété } from '../../_utils/steps/SaisieTypeSociété.step';
+} from '../../_helpers/steps';
 
 import {
-  corrigerChangementReprésentantLégalAction,
-  CorrigerChangementReprésentantLégalFormKeys,
-} from './corrigerChangementReprésentantLégal.action';
+  demanderChangementReprésentantLégalAction,
+  DemanderChangementReprésentantLégalFormKeys,
+} from './demanderChangementReprésentantLégal.action';
 
-export type CorrigerChangementReprésentantLégalFormProps = PlainType<{
-  identifiantProjet: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['identifiantProjet'];
-  typeReprésentantLégal: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['typeReprésentantLégal'];
-  nomReprésentantLégal: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['nomReprésentantLégal'];
-  pièceJustificative: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['pièceJustificative'];
-  dateDemande: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['demandéLe'];
-}>;
+export type DemanderChangementReprésentantLégalFormProps = {
+  identifiantProjet: string;
+};
 
-type CorrigerChangementReprésentantLégalState = {
+type DemanderChangementReprésentantLégalState = {
   step: number;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
@@ -41,24 +34,19 @@ type CorrigerChangementReprésentantLégalState = {
   piècesJustificatives: Array<string>;
 };
 
-export const CorrigerChangementReprésentantLégalForm: FC<
-  CorrigerChangementReprésentantLégalFormProps
-> = ({
-  identifiantProjet,
-  typeReprésentantLégal,
-  nomReprésentantLégal,
-  pièceJustificative,
-  dateDemande,
-}) => {
+export const DemanderChangementReprésentantLégalForm: FC<
+  DemanderChangementReprésentantLégalFormProps
+> = ({ identifiantProjet }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<CorrigerChangementReprésentantLégalFormKeys>
+    ValidationErrors<DemanderChangementReprésentantLégalFormKeys>
   >({});
-  const [state, setState] = useState<CorrigerChangementReprésentantLégalState>({
+
+  const [state, setState] = useState<DemanderChangementReprésentantLégalState>({
     step: 1,
-    nomReprésentantLégal,
-    typeReprésentantLégal: typeReprésentantLégal.type,
+    typeReprésentantLégal: 'inconnu',
     typeSociété: 'non renseignée',
-    piècesJustificatives: [DocumentProjet.bind(pièceJustificative).formatter()],
+    nomReprésentantLégal: '',
+    piècesJustificatives: [],
   });
 
   const disableCondition =
@@ -69,13 +57,14 @@ export const CorrigerChangementReprésentantLégalForm: FC<
 
   const conditionDésactivationÉtape1 =
     !state.typeReprésentantLégal ||
-    state.typeReprésentantLégal === 'inconnu' ||
-    (state.typeReprésentantLégal === 'personne-morale' && state.typeSociété === 'non renseignée');
+    (state.typeReprésentantLégal === 'personne-morale' && state.typeSociété === 'non renseignée') ||
+    state.typeReprésentantLégal === 'inconnu';
 
   useEffect(() => {
     if (validationErrors['typeRepresentantLegal']) {
       setState((state) => ({ ...state, step: 1 }));
     }
+
     if (validationErrors['nomRepresentantLegal'] || validationErrors['piecesJustificatives']) {
       setState((state) => ({ ...state, step: 2 }));
     }
@@ -94,21 +83,22 @@ export const CorrigerChangementReprésentantLégalForm: FC<
           </p>
 
           <p>
-            Pour ce faire vous allez devoir remplir une demande en ligne avec des éléments selon la
-            situation du nouveau représentant légal du projet.
+            Pour ce faire vous allez devoir remplir une demande en ligne avec des pièces
+            justificatives à fournir selon la situation du nouveau représentant légal du projet.
           </p>
+
           <SaisieTypeStep
-            contexte="corriger"
+            contexte="demander"
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
             validationErrors={validationErrors}
-            onChange={({ typeReprésentantLégal, typeSociété }) =>
+            onChange={({ typeReprésentantLégal, typeSociété }) => {
               setState((state) => ({
                 ...state,
                 typeReprésentantLégal,
                 typeSociété,
-              }))
-            }
+              }));
+            }}
           />
         </div>
       ),
@@ -120,30 +110,21 @@ export const CorrigerChangementReprésentantLégalForm: FC<
     },
     {
       index: 2,
-      name: `Renseigner les informations concernant la correction de la demande de changement`,
+      name: `Renseigner les informations concernant le changement`,
       children: (
         <>
           <SaisieNomStep
             typeReprésentantLégal={state.typeReprésentantLégal}
             nomReprésentantLégal={state.nomReprésentantLégal}
             validationErrors={validationErrors}
-            onChange={(nouveauNom) =>
-              setState((state) => ({
-                ...state,
-                nomReprésentantLégal: nouveauNom,
-              }))
-            }
+            onChange={(nomReprésentantLégal) => setState({ ...state, nomReprésentantLégal })}
           />
           <SaisiePièceJustificativeStep
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
-            pièceJustificative={state.piècesJustificatives}
             validationErrors={validationErrors}
-            onChange={(nouvellesPiècesJustificatives) =>
-              setState((state) => ({
-                ...state,
-                piècesJustificatives: [...nouvellesPiècesJustificatives],
-              }))
+            onChange={(piècesJustificatives) =>
+              setState((state) => ({ ...state, piècesJustificatives }))
             }
           />
         </>
@@ -157,7 +138,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
     },
     {
       index: 3,
-      name: `Confirmer la correction de la demande de changement`,
+      name: `Confirmer la demande de changement`,
       children: (
         <ValidationStep
           typeReprésentantLégal={state.typeReprésentantLégal}
@@ -165,8 +146,8 @@ export const CorrigerChangementReprésentantLégalForm: FC<
           nomReprésentantLégal={state.nomReprésentantLégal}
           piècesJustificatives={state.piècesJustificatives}
           message={`
-            Vous êtes sur le point de corriger la demande de changement du représentant légal du projet. 
-            Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct.
+            Vous êtes sur le point de demander le changement du représentant légal du projet. 
+            Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct. 
             Ensuite votre demande sera alors instruite par le service de l'état en région de votre projet. 
             À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
             règles du cahier des charges en vigueur de votre projet.`}
@@ -175,8 +156,8 @@ export const CorrigerChangementReprésentantLégalForm: FC<
       previousStep: { name: 'Corriger' },
       nextStep: {
         type: 'submit',
-        name: 'Confirmer la correction',
-        disabled: disableCondition && Object.keys(validationErrors).length === 0,
+        name: 'Confirmer la demande',
+        disabled: disableCondition && !validationErrors,
       },
     },
   ];
@@ -192,7 +173,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
       />
 
       <Form
-        action={corrigerChangementReprésentantLégalAction}
+        action={demanderChangementReprésentantLégalAction}
         onInvalid={() => setState((state) => ({ ...state, step: 2 }))}
         onValidationError={(validationErrors) => {
           setValidationErrors(validationErrors);
@@ -200,13 +181,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
         actions={null}
         omitMandatoryFieldsLegend={state.step !== 2 ? true : undefined}
       >
-        <input type="hidden" value={DateTime.bind(dateDemande).formatter()} name="dateDemande" />
-
-        <input
-          type={'hidden'}
-          value={IdentifiantProjet.bind(identifiantProjet).formatter()}
-          name="identifiantProjet"
-        />
+        <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
         <Steps
           steps={steps}
