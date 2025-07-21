@@ -61,7 +61,7 @@ type Changement = {
 };
 
 type RèglesDemandesChangement = {
-  actionnaire: Changement;
+  actionnaire: Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
   fournisseur: Changement;
   délai: Changement;
   producteur: Changement;

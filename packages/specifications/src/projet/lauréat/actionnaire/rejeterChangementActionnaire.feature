@@ -1,5 +1,4 @@
 # language: fr
-@actionnaire
 Fonctionnalité: Rejeter la demande de changement d'actionnaire d'un projet lauréat
 
     Contexte:

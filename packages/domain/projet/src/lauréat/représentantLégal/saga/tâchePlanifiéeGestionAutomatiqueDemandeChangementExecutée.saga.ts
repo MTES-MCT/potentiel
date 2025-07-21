@@ -47,14 +47,14 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
     );
   }
 
-  const changementRègles =
+  const règlesChangement =
     période.changement?.représentantLégal ?? appelOffre.changement.représentantLégal;
 
-  if (!changementRègles || !changementRègles.typeTâchePlanifiée) {
+  if (!règlesChangement || !règlesChangement.typeTâchePlanifiée) {
     return;
   }
 
-  await match(changementRègles.typeTâchePlanifiée)
+  await match(règlesChangement.typeTâchePlanifiée)
     .with('accord-automatique', async () => {
       await mediator.send<AccorderChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',

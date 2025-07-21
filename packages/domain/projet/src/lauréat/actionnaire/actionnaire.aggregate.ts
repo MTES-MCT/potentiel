@@ -9,9 +9,10 @@ import { InstructionChangementActionnaire, StatutChangementActionnaire } from '.
 import { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.event';
 import {
   ActionnaireDéjàTransmisError,
-  ActionnairePeutÊtreModifiéDirectement,
+  DemandeChangementActionnaireImpossibleError,
   ChangementActionnaireInexistanteErreur,
   DemandeDeChangementEnCoursError,
+  InstructionObligatoireError,
 } from './errors';
 import { ActionnaireEvent } from './actionnaire.event';
 import { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.event';
@@ -104,9 +105,23 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    // on vérifie déjà ici que l'AO n'est pas Eolien
-    // Donc pas besoin de vérifier l'instruction
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'actionnaire');
+
+    if (
+      this.lauréat.projet.appelOffre.changement.actionnaire
+        .informationEnregistréeEstSoumiseÀConditions
+    ) {
+      const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
+        typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
+        aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
+        aDesGarantiesFinancièresConstituées:
+          this.lauréat.garantiesFinancières.aDesGarantiesFinancières,
+      });
+
+      if (instructionChangementActionnaire.estRequise()) {
+        throw new InstructionObligatoireError();
+      }
+    }
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
@@ -140,8 +155,6 @@ export class ActionnaireAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeChangementEstPossible('demande', 'actionnaire');
 
     const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
-      // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
-      // Par ailleurs les données sont les mêmes à date (janv 2025)
       typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
       aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
       aDesGarantiesFinancièresConstituées:
@@ -149,7 +162,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     });
 
     if (!instructionChangementActionnaire.estRequise()) {
-      throw new ActionnairePeutÊtreModifiéDirectement();
+      throw new DemandeChangementActionnaireImpossibleError();
     }
 
     if (this.#demande) {

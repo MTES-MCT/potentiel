@@ -1,5 +1,4 @@
 # language: fr
-@actionnaire
 Fonctionnalité: Supprimer la demande de changement d'actionnaire
 
     Contexte:
