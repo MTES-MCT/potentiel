@@ -17,7 +17,7 @@ const mapDomainError = (e: DomainError) => {
     return mapTo400(e);
   }
   if (e instanceof OperationRejectedError) {
-    return mapTo403();
+    return mapTo403(e);
   }
   if (e instanceof AggregateNotFoundError) {
     return mapTo404(e);
@@ -40,6 +40,7 @@ const mapToHttpError = (status: number, message: string) =>
 
 const mapTo400 = (e: Error) => mapToHttpError(400, e.message);
 const mapTo401 = () => mapToHttpError(401, "L'authentification a échoué");
-const mapTo403 = () => mapToHttpError(403, 'Opération rejetée');
+const mapTo403 = (e: Error) =>
+  mapToHttpError(403, e.message ? `Opération rejetée : ${e.message}` : `Opération rejetée`);
 const mapTo404 = (e: Error) => mapToHttpError(404, e.message);
 const mapTo500 = () => mapToHttpError(500, 'Une erreur est survenue');

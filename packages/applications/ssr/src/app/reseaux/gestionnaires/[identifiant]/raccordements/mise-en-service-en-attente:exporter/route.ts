@@ -128,5 +128,5 @@ function vérifierAccèsAuGestionnaireRéseau(
   ) {
     return;
   }
-  throw new OperationRejectedError(`Accès refusé`);
+  throw new OperationRejectedError(`L'accès au gestionnaire réseau n'est pas permis`);
 }
