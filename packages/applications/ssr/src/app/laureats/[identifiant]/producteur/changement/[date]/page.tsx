@@ -3,14 +3,14 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { DétailsProducteurPage } from '@/components/pages/producteur/changement/détails/DétailsProducteur.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
+
+import { DétailsProducteurPage } from './DétailsProducteur.page';
 
 export const metadata: Metadata = {
   title: 'Détail du changement de producteur du projet - Potentiel',
