@@ -9,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { récupérerLauréatSansAbandon } from '@/app/_helpers';
 import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { DemanderDélaiPage } from './DemanderDélai.page';
@@ -23,7 +23,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet);
+    const lauréat = await récupérerLauréatSansAbandon(identifiantProjet);
     const { période } = await getPériodeAppelOffres(lauréat.identifiantProjet);
 
     const cahierDesChargesChoisi =
