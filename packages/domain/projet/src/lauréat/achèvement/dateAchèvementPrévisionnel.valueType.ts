@@ -18,8 +18,12 @@ export const bind = ({ dateTime: date }: PlainType<ValueType>): ValueType => {
 const duréeInstructionEdfOaEnJours = 1;
 
 export const convertirEnValueType = (value: Date | string): ValueType => {
+  const dateSansHeure = DateTime.convertirEnValueType(
+    new Date(DateTime.convertirEnValueType(value).formatterDate()),
+  );
+
   return {
-    dateTime: DateTime.convertirEnValueType(value),
+    dateTime: dateSansHeure,
     formatter() {
       return this.dateTime.formatter();
     },
