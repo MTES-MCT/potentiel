@@ -34,7 +34,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       demande: true,
-      typeTâchePlanifiée: 'rejet-automatique',
+      instructionAutomatique: 'rejet',
     },
     actionnaire: {
       'information-enregistrée': true,

@@ -78,7 +78,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     return;
   }
 
-  if (!règlesChangement) {
+  if (!règlesChangement.instructionAutomatique) {
     return;
   }
 
@@ -89,7 +89,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     recipients: dreals,
     templateId: 6636431,
     variables: {
-      type: règlesChangement.typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
+      type: règlesChangement.instructionAutomatique,
       nom_projet: nom,
       departement_projet: département,
       url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,

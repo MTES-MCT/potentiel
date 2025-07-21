@@ -79,7 +79,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       demande: true,
-      typeTâchePlanifiée: 'rejet-automatique',
+      instructionAutomatique: 'rejet',
     },
     actionnaire: {
       'information-enregistrée': true,

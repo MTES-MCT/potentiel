@@ -30,7 +30,7 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       demande: true,
-      typeTâchePlanifiée: 'accord-automatique',
+      instructionAutomatique: 'accord',
     },
     actionnaire: {
       'information-enregistrée': true,

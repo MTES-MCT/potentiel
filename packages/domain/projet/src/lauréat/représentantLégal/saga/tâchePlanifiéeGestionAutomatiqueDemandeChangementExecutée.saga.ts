@@ -50,12 +50,12 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
   const règlesChangement =
     période.changement?.représentantLégal ?? appelOffre.changement.représentantLégal;
 
-  if (!règlesChangement || !règlesChangement.typeTâchePlanifiée) {
+  if (!règlesChangement || !règlesChangement.instructionAutomatique) {
     return;
   }
 
-  await match(règlesChangement.typeTâchePlanifiée)
-    .with('accord-automatique', async () => {
+  await match(règlesChangement.instructionAutomatique)
+    .with('accord', async () => {
       await mediator.send<AccorderChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         data: {
@@ -66,7 +66,7 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
         },
       });
     })
-    .with('rejet-automatique', async () => {
+    .with('rejet', async () => {
       await mediator.send<RejeterChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
         data: {

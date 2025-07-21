@@ -66,9 +66,13 @@ type RèglesDemandesChangement = {
   délai: Changement;
   producteur: Changement;
   puissance: Changement;
-  représentantLégal: Changement & {
-    typeTâchePlanifiée?: 'accord-automatique' | 'rejet-automatique';
-  };
+  représentantLégal: { 'information-enregistrée'?: boolean } & (
+    | {
+        demande?: undefined;
+        instructionAutomatique?: undefined;
+      }
+    | { demande: true; instructionAutomatique: 'accord' | 'rejet' }
+  );
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
