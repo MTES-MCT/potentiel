@@ -66,7 +66,6 @@ export class AchèvementAggregate extends AbstractAggregate<
     if (isFonctionnalitéDélaiActivée()) {
       const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
 
-      const duréeInstructionEdfOaEnJours = 1;
       const duréeDélaiSupplémentaireCDC30082022 = 18;
 
       const date = match(options)
@@ -84,7 +83,9 @@ export class AchèvementAggregate extends AbstractAggregate<
             .formatter(),
         )
         .with({ type: 'retrait-délai-cdc-30_08_2022' }, () =>
-          this.#dateAchèvementPrévisionnel.retirerDélai(duréeInstructionEdfOaEnJours).formatter(),
+          this.#dateAchèvementPrévisionnel
+            .retirerDélai(duréeDélaiSupplémentaireCDC30082022)
+            .formatter(),
         )
         .exhaustive();
 
