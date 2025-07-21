@@ -1,5 +1,5 @@
 import React from 'react';
-import { User } from '../../../../entities';
+import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
@@ -14,7 +14,7 @@ import { GetFournisseurForProjectPage } from 'src/controllers/project/getProject
 
 export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
-  user: User;
+  user: UtilisateurReadModel;
   abandonEnCoursOuAccordé: boolean;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
@@ -24,6 +24,7 @@ export type ProjectHeaderProps = {
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
+  features: Array<string>;
 };
 
 export const ProjectHeader = ({
@@ -74,6 +75,7 @@ export const ProjectHeader = ({
         actionnaireAffichage={actionnaireAffichage}
         producteurAffichage={producteurAffichage}
         fournisseurAffichage={fournisseurAffichage}
+        features={user.features}
       />
     </div>
   </div>
