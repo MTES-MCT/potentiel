@@ -58,7 +58,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | période       | 6                           |
             | actionnariat  | investissement-participatif |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement d'actionnaire d'un projet "Eolien" si l'actionnariat est 'financement-participatif'
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
@@ -66,7 +66,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | période       | 6                        |
             | actionnariat  | financement-participatif |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement d'actionnaire d'un projet "Eolien" si il n'y a pas de GFs en cours
         Etant donné le projet lauréat legacy "Du bouchon de Lyon" avec :
@@ -75,7 +75,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | actionnariat  |        |
             | type GF       |        |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement d'actionnaire d'un projet "Eolien" si il y a un dépot de GFs en cours
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
@@ -84,7 +84,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | actionnariat  |        |
         Et un dépôt de garanties financières pour le projet "Du bouchon de Lyon"
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
 
     Scénario: Impossible d'enregistrer le changement d'actionnaire d'un projet lauréat ayant un cahier des charges qui ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
@@ -92,11 +92,3 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | période       | 1          |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
-
-    # un projet EOLIEN avec les bonnes conditions
-    # les conditions changent
-    # Et
-    Scénario: Impossible d'enregistrer un changement d'actionnaire alors qu'un changement d'actionnaire est en cours
-        Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
-        Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"

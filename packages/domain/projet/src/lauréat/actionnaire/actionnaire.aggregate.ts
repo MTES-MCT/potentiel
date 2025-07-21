@@ -129,8 +129,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  // l'actionnaire peut être le même
-  // car une demande peut être une simple transmission de documents
+  // Une demande peut être une transmission de documents donc on ne vérifie pas que les valeurs diffèrent
   async demanderChangement({
     identifiantUtilisateur,
     actionnaire,
