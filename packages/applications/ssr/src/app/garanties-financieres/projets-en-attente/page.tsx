@@ -12,14 +12,15 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  ListProjetsAvecGarantiesFinancièresEnAttentePage,
-  ListProjetsAvecGarantiesFinancièresEnAttenteProps,
-} from '@/components/pages/garanties-financières/en-attente/lister/ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+
+import {
+  ListProjetsAvecGarantiesFinancièresEnAttentePage,
+  ListProjetsAvecGarantiesFinancièresEnAttenteProps,
+} from './ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),

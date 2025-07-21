@@ -13,11 +13,12 @@ import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
 } from '@/components/pages/garanties-financières/mainlevée/convertForView';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+
 import {
   ListeDemandeMainlevéePage,
   ListeDemandeMainlevéeProps,
-} from '@/components/pages/garanties-financières/mainlevée/lister/ListeDemandeMainlevée.page';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+} from './ListeDemandeMainlevée.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;

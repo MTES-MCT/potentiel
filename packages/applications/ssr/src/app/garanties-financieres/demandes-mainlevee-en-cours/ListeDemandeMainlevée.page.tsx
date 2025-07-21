@@ -20,20 +20,18 @@ export type ListeDemandeMainlevéeProps = {
 export const ListeDemandeMainlevéePage: FC<ListeDemandeMainlevéeProps> = ({
   list: { items: mainslevées, currentPage, totalItems, itemsPerPage },
   filters,
-}) => {
-  return (
-    <ListPageTemplate
-      heading="Demandes de mainlevée"
-      actions={[]}
-      items={mainslevées.map((mainlevée) => ({
-        ...mainlevée,
-        key: `${mainlevée.identifiantProjet}#${mainlevée.demandéLe}`,
-      }))}
-      currentPage={currentPage}
-      totalItems={totalItems}
-      itemsPerPage={itemsPerPage}
-      ItemComponent={ListItemDemandeMainlevée}
-      filters={filters}
-    />
-  );
-};
+}) => (
+  <ListPageTemplate
+    heading="Demandes de mainlevée"
+    actions={[]}
+    items={mainslevées.map((mainlevée) => ({
+      ...mainlevée,
+      key: `${mainlevée.identifiantProjet}#${mainlevée.demandéLe}`,
+    }))}
+    currentPage={currentPage}
+    totalItems={totalItems}
+    itemsPerPage={itemsPerPage}
+    ItemComponent={ListItemDemandeMainlevée}
+    filters={filters}
+  />
+);

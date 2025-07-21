@@ -9,15 +9,16 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import {
-  ListDépôtsEnCoursGarantiesFinancièresPage,
-  ListDépôtsEnCoursGarantiesFinancièresProps,
-} from '@/components/pages/garanties-financières/dépôt/lister/ListerDépôtsEnCoursGarantiesFinancières.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
+
+import {
+  ListDépôtsEnCoursGarantiesFinancièresPage,
+  ListDépôtsEnCoursGarantiesFinancièresProps,
+} from './ListerDépôtsEnCoursGarantiesFinancières.page';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
