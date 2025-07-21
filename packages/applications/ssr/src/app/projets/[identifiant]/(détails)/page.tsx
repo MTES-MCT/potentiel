@@ -10,14 +10,15 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getPériodeAppelOffres, getProjet } from '@/app/_helpers';
+
+import { getProjetÉliminé } from '../_helpers/getÉliminé';
+
 import {
   DétailsProjetÉliminéActions,
   DétailsProjetÉliminéPage,
   DétailsProjetÉliminéPageProps,
-} from '@/components/pages/projet/éliminé/détails/DétailsProjetÉliminé.page';
-import { getPériodeAppelOffres, getProjet } from '@/app/_helpers';
-
-import { getProjetÉliminé } from './_helpers/getÉliminé';
+} from './DétailsProjetÉliminé.page';
 
 type PageProps = IdentifiantParameter;
 
