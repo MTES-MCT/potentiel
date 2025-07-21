@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { SignJWT } from 'jose';
 import { z } from 'zod';
 
-import { StatistiquesPubliquesPage } from '@/components/pages/statistiques-publiques/StatistiquesPubliques.page';
+import { StatistiquesPubliquesPage } from '@/app/statistiques-publiques/StatistiquesPubliques.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export const metadata: Metadata = {
@@ -52,13 +52,10 @@ export default async function Page() {
     );
 
     return (
-      <>
-        <StatistiquesPubliquesPage
-          mainDashboardIframeUrl={mainDashboardIframeUrl.toString()}
-          mapDashboardIframeUrl={mapDashboardIframeUrl.toString()}
-        />
-        ;
-      </>
+      <StatistiquesPubliquesPage
+        mainDashboardIframeUrl={mainDashboardIframeUrl.toString()}
+        mapDashboardIframeUrl={mapDashboardIframeUrl.toString()}
+      />
     );
   });
 }
