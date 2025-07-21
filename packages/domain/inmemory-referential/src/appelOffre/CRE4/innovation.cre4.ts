@@ -1,5 +1,37 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+const changementsCdc = {
+  représentantLégal: {
+    demande: true,
+    instructionAutomatique: 'accord',
+  },
+  actionnaire: {
+    informationEnregistrée: true,
+  },
+  fournisseur: {
+    informationEnregistrée: true,
+  },
+  délai: {
+    demande: true,
+  },
+  producteur: {
+    informationEnregistrée: true,
+  },
+  puissance: {
+    informationEnregistrée: true,
+    demande: true,
+  },
+  recours: {
+    demande: true,
+  },
+  achèvement: {
+    informationEnregistrée: true,
+  },
+  abandon: {
+    demande: true,
+  },
+} as const;
+
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
@@ -11,6 +43,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
+  changement: changementsCdc,
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -57,6 +90,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 - Inférieure à la limite de puissance de 3 MWc pour la période 1 ou de 5 MWc pour les périodes 2 et 3, mentionnée au 2.2. 
 `,
   },
+  changement: changementsCdc,
 };
 
 export const innovation: AppelOffre.AppelOffreReadModel = {
@@ -74,36 +108,17 @@ export const innovation: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 24,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  // les changements nécessitent le choix d'un cahier des charges
   changement: {
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-    },
-    recours: {
-      demande: true,
-    },
-    achèvement: {
-      'information-enregistrée': true,
-    },
-    abandon: {
-      demande: true,
-    },
+    représentantLégal: {},
+    actionnaire: {},
+    fournisseur: {},
+    délai: {},
+    producteur: {},
+    puissance: {},
+    recours: {},
+    achèvement: {},
+    abandon: {},
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',

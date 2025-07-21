@@ -13,7 +13,7 @@ import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges, getPériodeAppelOffres } from '@/app/_helpers';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
@@ -44,15 +44,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
       );
 
-      const cahierDesChargesChoisi =
-        await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-          type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-          data: { identifiantProjet },
-        });
-
-      if (Option.isNone(cahierDesChargesChoisi)) {
-        return notFound();
-      }
+      const cahierDesChargesChoisi = await getCahierDesCharges(identifiantProjet);
 
       const { logo, data } = mapLauréatToModèleRéponsePayload({
         identifiantProjet,

@@ -39,7 +39,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       demande: true,
     },
     achèvement: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
     },
     abandon: {
       demande: true,

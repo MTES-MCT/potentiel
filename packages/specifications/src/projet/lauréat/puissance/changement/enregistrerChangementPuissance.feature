@@ -119,4 +119,4 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | période       | 1          |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.95 |
-        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

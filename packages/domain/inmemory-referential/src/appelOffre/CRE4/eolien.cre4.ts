@@ -58,7 +58,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
       demande: true,
     },
     achèvement: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
     },
     abandon: {
       demande: true,

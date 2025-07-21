@@ -10,7 +10,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges, getPériodeAppelOffres } from '@/app/_helpers';
 
 import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
 
@@ -42,17 +42,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     });
     const { appelOffres, période } = await getPériodeAppelOffres(lauréat.identifiantProjet);
 
-    const cahierDesChargesChoisi =
-      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
-    if (Option.isNone(cahierDesChargesChoisi)) {
-      return notFound();
-    }
+    const cahierDesChargesChoisi = await getCahierDesCharges(identifiantProjet.formatter());
 
     return (
       <DemanderChangementPuissancePage
@@ -63,6 +53,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         période={mapToPlainObject(période)}
         technologie={mapToPlainObject(lauréat.technologie)}
         famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
+        // TODO
         cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
         volumeRéservé={lauréat.volumeRéservé ? mapToPlainObject(lauréat.volumeRéservé) : undefined}
         puissanceInitiale={puissance.puissanceInitiale}

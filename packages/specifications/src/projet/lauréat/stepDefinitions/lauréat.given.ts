@@ -72,7 +72,7 @@ EtantDonné('un cahier des charges modificatif choisi', async function (this: Po
     throw new Error('Données invalides - période non trouvée');
   }
 
-  if (période.choisirNouveauCahierDesCharges) {
+  if (période.cahiersDesChargesModifiésDisponibles.length > 0) {
     await choisirCahierDesCharges.call(
       this,
       AppelOffre.RéférenceCahierDesCharges.bind(

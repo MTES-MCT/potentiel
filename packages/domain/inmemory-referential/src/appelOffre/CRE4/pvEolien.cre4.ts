@@ -42,24 +42,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.`,
   },
-};
-
-export const pvEolien: AppelOffre.AppelOffreReadModel = {
-  id: 'PV - Eolien',
-  typeAppelOffre: 'eolien',
-  cycleAppelOffre: 'CRE4',
-  title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
-  shortTitle: 'PV - Eolien',
-  launchDate: 'Décembre 2017',
-  cahiersDesChargesUrl:
-    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique-o',
-  unitePuissance: 'MW',
-  // on devrait avoir "multiplesTechnologies" pour cet AO
-  // mais les projets existants ont "N/A" comme technologie, ce qui créerait une inconsistance.
-  // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
-  technologie: 'eolien',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -85,11 +67,41 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
       demande: true,
     },
     achèvement: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
     },
     abandon: {
       demande: true,
     },
+  },
+};
+
+export const pvEolien: AppelOffre.AppelOffreReadModel = {
+  id: 'PV - Eolien',
+  typeAppelOffre: 'eolien',
+  cycleAppelOffre: 'CRE4',
+  title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
+  shortTitle: 'PV - Eolien',
+  launchDate: 'Décembre 2017',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique-o',
+  unitePuissance: 'MW',
+  // on devrait avoir "multiplesTechnologies" pour cet AO
+  // mais les projets existants ont "N/A" comme technologie, ce qui créerait une inconsistance.
+  // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
+  technologie: 'eolien',
+  délai: { autoritéCompétente: 'dreal' },
+  abandon: { autoritéCompétente: 'dgec' },
+  // les changements nécessitent le choix d'un cahier des charges
+  changement: {
+    représentantLégal: {},
+    actionnaire: {},
+    fournisseur: {},
+    délai: {},
+    producteur: {},
+    puissance: {},
+    recours: {},
+    achèvement: {},
+    abandon: {},
   },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   délaiRéalisationEnMois: 24,

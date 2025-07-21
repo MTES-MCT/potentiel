@@ -11,22 +11,6 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-};
-
-export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
-  id: 'CRE4 - Autoconsommation métropole',
-  typeAppelOffre: 'autoconso',
-  cycleAppelOffre: 'CRE4',
-  title:
-    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
-  shortTitle: 'CRE4 - Autoconsommation métropole',
-  launchDate: 'mars 2017',
-  cahiersDesChargesUrl:
-    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-auto',
-  technologie: 'pv',
-  unitePuissance: 'MWc',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -52,11 +36,39 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
       demande: true,
     },
     achèvement: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
     },
     abandon: {
       demande: true,
     },
+  },
+};
+
+export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
+  id: 'CRE4 - Autoconsommation métropole',
+  typeAppelOffre: 'autoconso',
+  cycleAppelOffre: 'CRE4',
+  title:
+    'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
+  shortTitle: 'CRE4 - Autoconsommation métropole',
+  launchDate: 'mars 2017',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-auto',
+  technologie: 'pv',
+  unitePuissance: 'MWc',
+  délai: { autoritéCompétente: 'dreal' },
+  abandon: { autoritéCompétente: 'dgec' },
+  // les changements nécessitent le choix d'un cahier des charges
+  changement: {
+    actionnaire: {},
+    fournisseur: {},
+    délai: {},
+    producteur: {},
+    puissance: {},
+    recours: {},
+    achèvement: {},
+    abandon: {},
+    représentantLégal: {},
   },
   délaiRéalisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',

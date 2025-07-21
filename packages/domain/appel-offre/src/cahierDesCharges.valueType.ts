@@ -41,14 +41,9 @@ export const bind = ({
     const changement = {
       ...this.appelOffre.changement,
       ...this.période.changement,
+      ...this.cahierDesChargesModificatif?.changement,
     };
     if (changement[domaine]?.[typeChangement] !== true) {
-      throw new AppelOffreOuPériodeEmpêcheModificationError();
-    }
-    if (
-      this.période.choisirNouveauCahierDesCharges &&
-      this.cahierDesChargesModificatif === undefined
-    ) {
       throw new CahierDesChargesEmpêcheModificationError();
     }
   },
@@ -107,14 +102,8 @@ class TechnologieNonSpécifiéeError extends InvalidOperationError {
   }
 }
 
-class AppelOffreOuPériodeEmpêcheModificationError extends InvalidOperationError {
-  constructor() {
-    super("Impossible de faire ce type de changement pour cet appel d'offre ou cette période");
-  }
-}
-
 class CahierDesChargesEmpêcheModificationError extends InvalidOperationError {
   constructor() {
-    super('Impossible de faire un changement pour ce cahier des charges');
+    super('Le cahier des charges de ce projet ne permet pas ce changement');
   }
 }

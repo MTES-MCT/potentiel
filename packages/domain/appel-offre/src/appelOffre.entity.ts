@@ -108,6 +108,7 @@ export type CahierDesChargesModifié = {
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
   seuilSupplémentaireChangementPuissance?: ChangementPuissance;
+  changement?: Partial<RèglesDemandesChangement>;
 };
 
 // Technologies
@@ -236,7 +237,10 @@ export type Periode = {
   };
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
-  /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */
+  /**
+   * les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif
+   * @deprecated  utiliser changement
+   **/
   choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
   changement?: Partial<RèglesDemandesChangement>;
