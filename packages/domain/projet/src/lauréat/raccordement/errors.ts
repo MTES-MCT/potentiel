@@ -1,5 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 export class DateDansLeFuturError extends InvalidOperationError {
@@ -28,7 +28,7 @@ export class GestionnaireRéseauDéjàExistantError extends InvalidOperationErro
   }
 }
 
-export class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends OperationRejectedError {
+export class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends InvalidOperationError {
   constructor() {
     super(
       `Il est impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,

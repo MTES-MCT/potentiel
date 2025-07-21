@@ -1,4 +1,4 @@
-import { InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 export class EmailNonCorrespondantError extends InvalidOperationError {
   constructor() {
@@ -30,13 +30,13 @@ export class UtilisateurAPasAccèsAuProjetError extends InvalidOperationError {
   }
 }
 
-export class AccèsProjetDéjàAutoriséError extends OperationRejectedError {
+export class AccèsProjetDéjàAutoriséError extends InvalidOperationError {
   constructor() {
     super(`L'utilisateur a déjà accès à ce projet`);
   }
 }
 
-export class ProjetNonRéclamableError extends OperationRejectedError {
+export class ProjetNonRéclamableError extends InvalidOperationError {
   constructor() {
     super(`Le projet ne peut être réclamé`);
   }

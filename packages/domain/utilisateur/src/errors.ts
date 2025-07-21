@@ -22,21 +22,8 @@ export class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
     });
   }
 }
-export class GroupeRefuséError extends OperationRejectedError {
-  constructor(value: string) {
-    super(`Le groupe ne correspond à aucun format connu`, {
-      value,
-    });
-  }
-}
 
-export class AuMoinsUnProjetRequisError extends OperationRejectedError {
-  constructor() {
-    super('Au moins un projet doit être spécifié');
-  }
-}
-
-export class UtilisateurNonPorteurError extends OperationRejectedError {
+export class UtilisateurNonPorteurError extends InvalidOperationError {
   constructor() {
     super(`L'utilisateur ne peut être invité sur ce projet`);
   }
