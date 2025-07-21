@@ -9,7 +9,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { CorrigerChangementReprésentantLégalPage } from '@/components/pages/représentant-légal/changement/corriger/CorrigerChangementReprésentantLégal.page';
+
+import { CorrigerChangementReprésentantLégalPage } from './CorrigerChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {
   title: 'Corriger la demande de changement du représentant légal du projet - Potentiel',
