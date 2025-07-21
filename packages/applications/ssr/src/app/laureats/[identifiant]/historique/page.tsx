@@ -9,10 +9,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import {
-  HistoriqueLauréatAction,
-  HistoriqueLauréatPage,
-} from '@/components/pages/lauréat/historique/HistoriqueLauréat.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
@@ -30,6 +26,8 @@ import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/dél
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
+
+import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
 const categoriesDisponibles = [
   'abandon',
