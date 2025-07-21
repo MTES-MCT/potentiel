@@ -17,6 +17,6 @@ export const getDateAchèvementPrévisionnel = async (
   });
 
   return Option.match(achèvement)
-    .some((achèvement) => achèvement.dateAchèvementPrévisionnel.date.getTime())
+    .some((achèvement) => achèvement.dateAchèvementPrévisionnel.dateTime.date.getTime())
     .none(() => dateAchèvementLegacy);
 };

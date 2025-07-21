@@ -13,7 +13,6 @@ import {
   mapToDélaiDemandéTimelineItemProps,
   mapToLegacyDélaiAccordéTimelineItemProps,
 } from './events';
-import { mapToDemandeDélaiCorrigéeTimelineItemProps } from './events/mapToDemandeDélaiCorrigéeTimelineItemProps';
 
 export const mapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,

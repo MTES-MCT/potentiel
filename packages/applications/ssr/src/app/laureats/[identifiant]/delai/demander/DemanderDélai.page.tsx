@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
+import { Lauréat } from '@potentiel-domain/projet';
+
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -20,7 +22,12 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
       description={
         <div>
           La date d'achèvement prévisionnel actuelle est{' '}
-          <FormattedDate date={dateAchèvementPrévisionnelActuelle} className="font-semibold" />
+          <FormattedDate
+            date={Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
+              dateAchèvementPrévisionnelActuelle,
+            ).formatter()}
+            className="font-semibold"
+          />
         </div>
       }
       severity="info"

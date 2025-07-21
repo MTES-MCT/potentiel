@@ -115,7 +115,9 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
           identifiantProjet: identifiantProjetValueType,
           dateDemande: DateTime.bind(demandéLe),
           nombreDeMois,
-          dateAchèvementPrévisionnelActuelle: DateTime.bind(dateAchèvementPrévisionnelActuelle),
+          dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
+            dateAchèvementPrévisionnelActuelle,
+          ),
         }),
       }}
     />
@@ -127,7 +129,7 @@ type MapToActionsComponentsProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateDemande: DateTime.ValueType;
   nombreDeMois: number;
-  dateAchèvementPrévisionnelActuelle: DateTime.ValueType;
+  dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType;
 };
 
 const mapToActionComponents = ({
