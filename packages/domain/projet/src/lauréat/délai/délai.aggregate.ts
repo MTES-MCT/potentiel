@@ -22,6 +22,8 @@ import { RejeterDemandeDélaiOptions } from './demande/rejeter/rejeterDemandeDé
 import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 import { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.option';
 import { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options';
+import { CorrigerDemandeDélaiOptions } from './demande/corriger/corrigerDemandeDélai.options';
+import { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event';
 
 export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {
@@ -64,6 +66,33 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         raison,
         demandéLe: dateDemande.formatter(),
         demandéPar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async corrigerDemandeDélai({
+    identifiantUtilisateur,
+    dateCorrection,
+    nombreDeMois,
+    pièceJustificative,
+    raison,
+  }: CorrigerDemandeDélaiOptions) {
+    if (!this.#demande) {
+      throw new DemandeDeDélaiInexistanteError();
+    }
+
+    const event: DemandeDélaiCorrigéeEvent = {
+      type: 'DemandeDélaiCorrigée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        corrigéeLe: dateCorrection.formatter(),
+        corrigéePar: identifiantUtilisateur.formatter(),
+        dateDemande: this.#demande.demandéLe,
+        nombreDeMois,
+        raison,
+        pièceJustificative: { format: pièceJustificative.format },
       },
     };
 
@@ -183,6 +212,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   apply(event: DélaiEvent) {
     match(event)
       .with({ type: 'DélaiDemandé-V1' }, this.applyDélaiDemandé.bind(this))
+      .with({ type: 'DemandeDélaiCorrigée-V1' }, this.applyDemandeDélaiCorrigée.bind(this))
       .with({ type: 'DemandeDélaiAnnulée-V1' }, this.applyDemandeDélaiAnnulée.bind(this))
       .with(
         { type: 'DemandeDélaiPasséeEnInstruction-V1' },
@@ -196,6 +226,13 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   private applyDélaiDemandé({ payload: { nombreDeMois, demandéLe } }: DélaiDemandéEvent) {
     this.#demande = { statut: StatutDemandeDélai.demandé, nombreDeMois, demandéLe };
   }
+
+  private applyDemandeDélaiCorrigée({ payload: { nombreDeMois } }: DemandeDélaiCorrigéeEvent) {
+    if (this.#demande) {
+      this.#demande.nombreDeMois = nombreDeMois;
+    }
+  }
+
   private applyDemandeDélaiAnnulée() {
     this.#demande = undefined;
   }

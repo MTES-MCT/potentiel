@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
@@ -24,7 +25,8 @@ export type DemandeDélaiActions =
   | 'passer-en-instruction'
   | 'reprendre-instruction'
   | 'accorder'
-  | 'rejeter';
+  | 'rejeter'
+  | 'corriger';
 
 export type DétailsDemandeDélaiPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -160,6 +162,17 @@ const mapToActionComponents = ({
           nombreDeMois={nombreDeMois}
           dateAchèvementPrévisionnelActuelle={dateAchèvementPrévisionnelActuelle.formatter()}
         />
+      )}
+      {actions.includes('corriger') && (
+        <Button
+          linkProps={{
+            href: Routes.Délai.corriger(identifiantProjet.formatter(), dateDemande.formatter()),
+            prefetch: false,
+          }}
+          className="block w-1/2 text-center"
+        >
+          Corriger
+        </Button>
       )}
     </>
   ) : null;

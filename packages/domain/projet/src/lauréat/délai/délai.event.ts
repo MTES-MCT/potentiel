@@ -3,10 +3,12 @@ import { DélaiAccordéEvent } from './accorder/accorderDélai.event';
 import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDélai.event';
 import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 import { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event';
+import { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event';
 
 export type DélaiEvent =
   | DélaiAccordéEvent
   | DélaiDemandéEvent
   | DemandeDélaiAnnuléeEvent
   | DemandeDélaiPasséeEnInstructionEvent
-  | DemandeDélaiRejetéeEvent;
+  | DemandeDélaiRejetéeEvent
+  | DemandeDélaiCorrigéeEvent;

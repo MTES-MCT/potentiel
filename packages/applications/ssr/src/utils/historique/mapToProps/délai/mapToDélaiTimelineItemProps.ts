@@ -6,6 +6,7 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 
 import {
   mapToDemandeDélaiAnnuléeTimelineItemProps,
+  mapToDemandeDélaiCorrigéeTimelineItemProps,
   mapToDemandeDélaiPasséeEnInstructionTimelineItemProps,
   mapToDemandeDélaiRejetéeTimelineItemProps,
   mapToDélaiAccordéTimelineItemProps,
@@ -53,5 +54,11 @@ export const mapToDélaiTimelineItemProps = (
         type: 'LegacyDélaiAccordé-V1',
       },
       mapToLegacyDélaiAccordéTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'DemandeDélaiCorrigée-V1',
+      },
+      mapToDemandeDélaiCorrigéeTimelineItemProps,
     )
     .exhaustive();

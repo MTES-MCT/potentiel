@@ -45,6 +45,13 @@ Quand(
   },
 );
 
+Quand(
+  /le porteur corrige la demande de délai pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    await corrigerDemandeDélai.call(this);
+  },
+);
+
 export async function demanderDélai(
   this: PotentielWorld,
   partialFixture: CréerDemandeDélaiFixture,
@@ -62,6 +69,36 @@ export async function demanderDélai(
         pièceJustificativeValue: pièceJustificative,
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function corrigerDemandeDélai(this: PotentielWorld) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const { nombreDeMois, raison, pièceJustificative, corrigéeLe, corrigéePar } =
+      this.lauréatWorld.délaiWorld.corrigerDemandeDélaiFixture.créer({
+        corrigéePar: this.utilisateurWorld.porteurFixture.email,
+      });
+
+    const { demandéLe } = this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
+      ? this.lauréatWorld.délaiWorld.demanderDélaiFixture
+      : this.lauréatWorld.délaiWorld.demanderDélaiFixture.créer({ identifiantProjet });
+
+    await mediator.send<Lauréat.Délai.CorrigerDemandeDélaiUseCase>({
+      type: 'Lauréat.Délai.UseCase.CorrigerDemandeDélai',
+      data: {
+        identifiantUtilisateurValue: corrigéePar,
+        identifiantProjetValue: identifiantProjet,
+        dateDemandeValue: demandéLe,
+        dateCorrectionValue: corrigéeLe,
+        nombreDeMoisValue: nombreDeMois,
+        raisonValue: raison,
+        pièceJustificativeValue: pièceJustificative,
       },
     });
   } catch (error) {

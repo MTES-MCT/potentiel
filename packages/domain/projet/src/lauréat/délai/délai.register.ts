@@ -26,6 +26,8 @@ import {
   ListerHistoriqueDélaiProjetDependencies,
   registerListerHistoriqueDélaiProjetQuery,
 } from './lister/listerHistoriqueDélaiProjet.query';
+import { registerCorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
+import { registerCorrigerDemandeDélaiCommand } from './demande/corriger/corrigerDemandeDélai.command';
 
 export type DélaiCommandDependencies = { getProjetAggregateRoot: GetProjetAggregateRoot };
 
@@ -35,12 +37,14 @@ export const registerDélaiUseCases = ({ getProjetAggregateRoot }: DélaiCommand
   registerPasserEnInstructionDemandeDélaiUseCase();
   registerRejeterDemandeDélaiUseCase();
   registerAccorderDemandeDélaiUseCase();
+  registerCorrigerDemandeDélaiUseCase();
 
   registerDemanderDélaiDélaiCommand(getProjetAggregateRoot);
   registerAnnulerDemandeDélaiCommand(getProjetAggregateRoot);
   registerPasserEnInstructionDemandeDélaiCommand(getProjetAggregateRoot);
   registerRejeterDemandeDélaiCommand(getProjetAggregateRoot);
   registerAccorderDemandeDélaiCommand(getProjetAggregateRoot);
+  registerCorrigerDemandeDélaiCommand(getProjetAggregateRoot);
 };
 
 export type DélaiQueryDependencies = ConsulterDélaiDependencies &
