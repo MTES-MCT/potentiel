@@ -6,9 +6,10 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ModifierPuissancePage } from '@/components/pages/puissance/modifier/ModifierPuissance.page';
 
 import { getPuissanceInfos } from '../../_helpers/getLauréat';
+
+import { ModifierPuissancePage } from './ModifierPuissance.page';
 
 export const metadata: Metadata = {
   title: 'Changement de puissance du projet - Potentiel',

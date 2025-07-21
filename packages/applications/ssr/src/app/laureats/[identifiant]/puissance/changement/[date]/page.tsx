@@ -7,16 +7,14 @@ import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import {
-  ChangementPuissanceActions,
-  DétailsPuissancePage,
-} from '@/components/pages/puissance/changement/détails/DétailsPuissance.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
+
+import { ChangementPuissanceActions, DétailsPuissancePage } from './DétailsPuissance.page';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',

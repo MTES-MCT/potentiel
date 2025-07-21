@@ -10,10 +10,11 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+
 import {
   ChangementPuissanceListPage,
   ChangementPuissanceListPageProps,
-} from '@/components/pages/puissance/changement/lister/ChangementPuissanceList.page';
+} from './ChangementPuissanceList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;
