@@ -8,12 +8,13 @@ import { Tâche } from '@potentiel-domain/tache';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 
-import { TâcheListPage } from '@/components/pages/tâche/TâcheList.page';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+
+import { TâcheListPage } from './TâcheList.page';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
