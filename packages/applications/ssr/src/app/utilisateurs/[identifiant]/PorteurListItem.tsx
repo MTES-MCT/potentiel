@@ -8,7 +8,7 @@ import { Heading3 } from '@/components/atoms/headings';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { retirerAccèsProjetAction } from '../retirerAccès/retirerAccèsProjet.action';
+import { retirerAccèsProjetAction } from './retirerAccèsProjet.action';
 
 type PorteurListItem = {
   identifiantProjet: IdentifiantProjet.RawType;

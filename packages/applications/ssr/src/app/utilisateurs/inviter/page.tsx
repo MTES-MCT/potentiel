@@ -5,8 +5,9 @@ import { InviterUtilisateurUseCase, Role, Région } from '@potentiel-domain/util
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { InviterUtilisateurPage } from '@/components/pages/utilisateur/inviter/InviterUtilisateur.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { InviterUtilisateurPage } from './InviterUtilisateur.page';
 
 export const metadata: Metadata = {
   title: 'Inviter - Potentiel',

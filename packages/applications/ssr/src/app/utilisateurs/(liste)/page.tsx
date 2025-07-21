@@ -16,14 +16,12 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import {
-  UtilisateurListPage,
-  UtilisateurListPageProps,
-} from '@/components/pages/utilisateur/lister/UtilisateurList.page';
 import { listeDesRoles } from '@/utils/utilisateur/format-role';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { UtilisateurListItemProps } from '@/components/pages/utilisateur/lister/UtilisateurListItem';
+
+import { UtilisateurListPage, UtilisateurListPageProps } from './UtilisateurList.page';
+import { UtilisateurListItemProps } from './UtilisateurListItem';
 
 export const metadata: Metadata = {
   title: 'Utilisateurs - Potentiel',

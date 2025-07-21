@@ -19,8 +19,8 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { roleToLabel } from '@/utils/utilisateur/format-role';
 
-import { désactiverUtilisateurAction } from '../désactiver/désactiverUtilisateur.action';
-import { réactiverUtilisateurAction } from '../réactiver/réactiverUtilisateur.action';
+import { réactiverUtilisateurAction } from './réactiverUtilisateur.action';
+import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
 
 export type UtilisateurActions = {
   actions: ('désactiver' | 'réactiver')[];
