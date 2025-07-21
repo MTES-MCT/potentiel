@@ -3,10 +3,11 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { isFonctionnalitéDélaiActivée } from '../délai';
+
+import { DateAchèvementPrévisionnel } from '.';
 
 import {
   AttestationDeConformitéDéjàTransmiseError,
@@ -56,7 +57,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.lauréat.projet.appelOffre.délaiRéalisationEnMois;
   }
 
-  #dateAchèvementPrévisionnel!: DateTime.ValueType;
+  #dateAchèvementPrévisionnel!: DateAchèvementPrévisionnel.ValueType;
   get dateAchèvementPrévisionnel() {
     return this.#dateAchèvementPrévisionnel;
   }
@@ -65,32 +66,25 @@ export class AchèvementAggregate extends AbstractAggregate<
     if (isFonctionnalitéDélaiActivée()) {
       const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
 
-      const duréeInstructionEdfOaEnJours = 1;
       const duréeDélaiSupplémentaireCDC30082022 = 18;
 
       const date = match(options)
         .with({ type: 'notification' }, () =>
-          this.lauréat.notifiéLe
-            .ajouterNombreDeMois(this.délaiRéalisationEnMois)
-            .retirerNombreDeJours(duréeInstructionEdfOaEnJours)
+          DateAchèvementPrévisionnel.convertirEnValueType(this.lauréat.notifiéLe.date)
+            .ajouterDélai(this.délaiRéalisationEnMois)
             .formatter(),
         )
         .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
-          this.#dateAchèvementPrévisionnel
-            .ajouterNombreDeMois(nombreDeMois)
-            .retirerNombreDeJours(duréeInstructionEdfOaEnJours)
-            .formatter(),
+          this.#dateAchèvementPrévisionnel.ajouterDélai(nombreDeMois).formatter(),
         )
         .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
           this.#dateAchèvementPrévisionnel
-            .ajouterNombreDeMois(duréeDélaiSupplémentaireCDC30082022)
-            .retirerNombreDeJours(duréeInstructionEdfOaEnJours)
+            .ajouterDélai(duréeDélaiSupplémentaireCDC30082022)
             .formatter(),
         )
         .with({ type: 'retrait-délai-cdc-30_08_2022' }, () =>
           this.#dateAchèvementPrévisionnel
-            .ajouterNombreDeJours(duréeInstructionEdfOaEnJours)
-            .retirerNombreDeMois(duréeDélaiSupplémentaireCDC30082022)
+            .retirerDélai(duréeDélaiSupplémentaireCDC30082022)
             .formatter(),
         )
         .exhaustive();
@@ -254,6 +248,6 @@ export class AchèvementAggregate extends AbstractAggregate<
   private applyDateAchèvementPrévisionnelCalculéeV1({
     payload: { date },
   }: DateAchèvementPrévisionnelCalculéeEvent) {
-    this.#dateAchèvementPrévisionnel = DateTime.convertirEnValueType(date);
+    this.#dateAchèvementPrévisionnel = DateAchèvementPrévisionnel.convertirEnValueType(date);
   }
 }

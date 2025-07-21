@@ -5,6 +5,7 @@ import { notFound, redirect } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -61,7 +62,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     return (
       <DemanderDélaiPage
         identifiantProjet={identifiantProjet}
-        dateAchèvementPrévisionnelActuelle={achèvement.dateAchèvementPrévisionnel.formatter()}
+        dateAchèvementPrévisionnelActuelle={mapToPlainObject(achèvement.dateAchèvementPrévisionnel)}
       />
     );
   });

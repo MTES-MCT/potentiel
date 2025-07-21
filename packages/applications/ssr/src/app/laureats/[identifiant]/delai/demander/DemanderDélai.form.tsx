@@ -6,6 +6,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -17,27 +19,29 @@ import { demanderDélaiAction, DemanderDélaiFormKeys } from './DemanderDélai.a
 
 export type DemanderDélaiFormProps = {
   identifiantProjet: string;
-  dateAchèvementPrévisionnelActuelle: DateTime.RawType;
+  dateAchèvementPrévisionnelActuelle: PlainType<Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType>;
 };
 
 export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
   identifiantProjet,
   dateAchèvementPrévisionnelActuelle,
 }) => {
-  const dateActuelle = DateTime.convertirEnValueType(dateAchèvementPrévisionnelActuelle);
+  const dateActuelle = Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
+    dateAchèvementPrévisionnelActuelle,
+  );
 
-  const [nouvelleDate, setNouvelleDate] = useState<DateTime.ValueType>(dateActuelle);
+  const [nouvelleDate, setNouvelleDate] = useState<DateTime.ValueType>(dateActuelle.dateTime);
 
   const [validationErrors, setValidationErrors] = useState<ValidationErrors<DemanderDélaiFormKeys>>(
     {},
   );
 
-  const peutDemanderUnDélai = () => nouvelleDate.estUltérieureÀ(dateActuelle);
+  const peutDemanderUnDélai = () => nouvelleDate.estUltérieureÀ(dateActuelle.dateTime);
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
-    const nouvelleDate = dateActuelle.ajouterNombreDeMois(nombreDeMois);
+    const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);
 
-    setNouvelleDate(nouvelleDate);
+    setNouvelleDate(nouvelleDate.dateTime);
   };
 
   return (
@@ -61,11 +65,6 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
       }
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-      <input
-        type={'hidden'}
-        value={dateAchèvementPrévisionnelActuelle}
-        name="dateAchevementPrevisionnelleActuelle"
-      />
 
       <div>
         <Input

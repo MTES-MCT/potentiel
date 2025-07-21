@@ -87,13 +87,14 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
         enCopies: getEnCopies(lauréat.localité.région),
         contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
         referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
-        dateAchèvementDemandée: achèvement.dateAchèvementPrévisionnel
-          .ajouterNombreDeMois(demandeDélai.nombreDeMois)
-          .formatterDate(),
+        dateAchèvementDemandée: formatDateForDocument(
+          achèvement.dateAchèvementPrévisionnel.ajouterDélai(demandeDélai.nombreDeMois).dateTime
+            .date,
+        ),
         dateLimiteAchevementActuelle: achèvement.dateAchèvementPrévisionnel.formatterDate(),
-        dateLimiteAchevementInitiale: lauréat.notifiéLe
-          .ajouterNombreDeMois(getDélaiRéalisationEnMois())
-          .formatterDate(),
+        dateLimiteAchevementInitiale: formatDateForDocument(
+          lauréat.notifiéLe.ajouterNombreDeMois(getDélaiRéalisationEnMois()).date,
+        ),
         demandePrecedente: '',
       },
     });

@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -115,7 +115,9 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
           identifiantProjet: identifiantProjetValueType,
           dateDemande: DateTime.bind(demandéLe),
           nombreDeMois,
-          dateAchèvementPrévisionnelActuelle: DateTime.bind(dateAchèvementPrévisionnelActuelle),
+          dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
+            dateAchèvementPrévisionnelActuelle,
+          ),
         }),
       }}
     />
@@ -127,7 +129,7 @@ type MapToActionsComponentsProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dateDemande: DateTime.ValueType;
   nombreDeMois: number;
-  dateAchèvementPrévisionnelActuelle: DateTime.ValueType;
+  dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType;
 };
 
 const mapToActionComponents = ({
@@ -160,7 +162,7 @@ const mapToActionComponents = ({
           identifiantProjet={identifiantProjet.formatter()}
           dateDemande={dateDemande.formatter()}
           nombreDeMois={nombreDeMois}
-          dateAchèvementPrévisionnelActuelle={dateAchèvementPrévisionnelActuelle.formatter()}
+          dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
         />
       )}
       {actions.includes('corriger') && (
