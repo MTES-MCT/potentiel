@@ -4,7 +4,7 @@ import { Tâche } from '@potentiel-domain/tache';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { TâcheListItem } from '@/components/pages/tâche/TâcheListItem';
+import { TâcheListItem } from '@/app/taches/TâcheListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
