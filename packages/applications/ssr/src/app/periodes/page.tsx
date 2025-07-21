@@ -7,12 +7,13 @@ import { Candidature } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PériodeListPage } from '@/components/pages/période/PériodeList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { PériodeListItemProps } from '@/components/pages/période/PériodeListItem';
 import { mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+
+import { PériodeListPage } from './PériodeList.page';
+import { PériodeListItemProps } from './PériodeListItem';
 
 type SearchParams = 'page' | 'appelOffre' | 'statut';
 
