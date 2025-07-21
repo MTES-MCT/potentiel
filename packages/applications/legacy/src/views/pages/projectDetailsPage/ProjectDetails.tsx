@@ -163,6 +163,7 @@ export const ProjectDetails = ({
         actionnaireAffichage={actionnaire?.affichage}
         producteurAffichage={producteur?.affichage}
         fournisseurAffichage={fournisseur?.affichage}
+        features={user.features}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

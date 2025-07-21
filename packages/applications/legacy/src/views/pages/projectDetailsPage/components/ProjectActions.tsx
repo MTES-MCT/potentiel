@@ -85,6 +85,7 @@ const PorteurProjetActions = ({
   puissanceAffichage,
   producteurAffichage,
   fournisseurAffichage,
+  features,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
@@ -144,7 +145,11 @@ const PorteurProjetActions = ({
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             <DropdownMenuSecondaryButton.DropdownItem
-              href={routes.DEMANDER_DELAI(project.id)}
+              href={
+                features.includes('délai')
+                  ? Routes.Délai.demander(identifiantProjet)
+                  : routes.DEMANDER_DELAI(project.id)
+              }
               disabled={demandesDisabled}
             >
               <span>Demander un délai</span>
@@ -300,6 +305,7 @@ export const ProjectActions = ({
   actionnaireAffichage,
   producteurAffichage,
   fournisseurAffichage,
+  features,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -333,6 +339,7 @@ export const ProjectActions = ({
           producteurAffichage={producteurAffichage}
           fournisseurAffichage={fournisseurAffichage}
           identifiantProjet={identifiantProjet}
+          features={features}
         />
       )}
       {userIs(['dreal'])(user) && (
