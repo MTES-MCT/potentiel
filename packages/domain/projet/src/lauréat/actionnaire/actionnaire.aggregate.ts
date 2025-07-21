@@ -105,7 +105,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'actionnaire');
+    this.lauréat.vérifierQueLeChangementEstPossible('informationEnregistrée', 'actionnaire');
 
     if (
       this.lauréat.projet.appelOffre.changement.actionnaire

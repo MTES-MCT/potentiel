@@ -301,7 +301,10 @@ export class PuissanceAggregate extends AbstractAggregate<
     type: 'demande' | 'information-enregistrée',
     nouvellePuissance: number,
   ) {
-    this.lauréat.vérifierQueLeChangementEstPossible(type, 'puissance');
+    this.lauréat.vérifierQueLeChangementEstPossible(
+      type === 'demande' ? type : 'informationEnregistrée',
+      'puissance',
+    );
 
     const {
       noteTotale: note,

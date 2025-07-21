@@ -93,19 +93,19 @@ export const zni: AppelOffre.AppelOffreReadModel = {
       instructionAutomatique: 'accord',
     },
     actionnaire: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
     },
     fournisseur: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
     },
     délai: {
       demande: true,
     },
     producteur: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
     },
     puissance: {
-      'information-enregistrée': true,
+      informationEnregistrée: true,
       demande: true,
     },
   },

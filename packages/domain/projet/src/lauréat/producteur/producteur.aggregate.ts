@@ -55,7 +55,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementProducteurOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'producteur');
+    this.lauréat.vérifierQueLeChangementEstPossible('informationEnregistrée', 'producteur');
 
     if (this.producteur === producteur) {
       throw new ProducteurIdentiqueError();

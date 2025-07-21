@@ -56,7 +56,7 @@ type GarantiesFinancièresAppelOffre = {
 
 // Demandes
 type Changement = {
-  'information-enregistrée'?: boolean;
+  informationEnregistrée?: boolean;
   demande?: boolean;
 };
 
@@ -66,7 +66,7 @@ type RèglesDemandesChangement = {
   délai: Changement;
   producteur: Changement;
   puissance: Changement;
-  représentantLégal: { 'information-enregistrée'?: boolean } & (
+  représentantLégal: { informationEnregistrée?: boolean } & (
     | {
         demande?: undefined;
         instructionAutomatique?: undefined;
