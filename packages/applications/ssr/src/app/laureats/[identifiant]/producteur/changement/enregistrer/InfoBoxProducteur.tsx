@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { Heading6 } from '../../../../atoms/headings';
+import { Heading6 } from '@/components/atoms/headings';
 
 export const InfoBoxRévocationDesDroits: FC = () => (
   <Alert

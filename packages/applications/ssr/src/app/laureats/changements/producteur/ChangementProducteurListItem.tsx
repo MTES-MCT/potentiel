@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { StatutChangementProducteurBadge } from '../StatutChangementProducteurBadge';
+import { StatutChangementProducteurBadge } from '../../[identifiant]/producteur/changement/StatutChangementProducteurBadge';
 
 import { ChangementProducteurListPageProps } from './ChangementProducteurList.page';
 
