@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -40,7 +41,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const puissance = await getPuissanceInfos({
       identifiantProjet: identifiantProjet.formatter(),
     });
-    const { appelOffres, période } = await getPériodeAppelOffres(lauréat.identifiantProjet);
+    const { appelOffres, période, famille } = await getPériodeAppelOffres(
+      lauréat.identifiantProjet,
+    );
 
     const cahierDesChargesChoisi = await getCahierDesCharges(identifiantProjet.formatter());
 
@@ -49,12 +52,21 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
         puissance={puissanceActuelle.puissance}
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
-        appelOffre={mapToPlainObject(appelOffres)}
-        période={mapToPlainObject(période)}
-        technologie={mapToPlainObject(lauréat.technologie)}
-        famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
-        // TODO
-        cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
+        cahierDesCharges={AppelOffre.CahierDesCharges.bind({
+          appelOffre: appelOffres,
+          période,
+          famille,
+          technologie: lauréat.technologie.type,
+          cahierDesChargesModificatif:
+            cahierDesChargesChoisi.type === 'initial' ? undefined : cahierDesChargesChoisi,
+        })}
+        cahierDesChargesInitial={AppelOffre.CahierDesCharges.bind({
+          appelOffre: appelOffres,
+          période,
+          famille,
+          technologie: lauréat.technologie.type,
+          cahierDesChargesModificatif: undefined,
+        })}
         volumeRéservé={lauréat.volumeRéservé ? mapToPlainObject(lauréat.volumeRéservé) : undefined}
         puissanceInitiale={puissance.puissanceInitiale}
       />
