@@ -9,7 +9,7 @@ import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectLis
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { StatutChangementPuissanceBadge } from '../StatutChangementPuissanceBadge';
+import { StatutChangementPuissanceBadge } from '../../[identifiant]/puissance/changement/[date]/StatutChangementPuissanceBadge';
 
 import { ChangementPuissanceListPageProps } from './ChangementPuissanceList.page';
 

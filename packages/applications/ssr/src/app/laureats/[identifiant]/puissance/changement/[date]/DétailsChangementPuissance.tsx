@@ -12,9 +12,8 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 
-import { StatutChangementPuissanceBadge } from '../StatutChangementPuissanceBadge';
-
 import { DétailsPuissancePageProps } from './DétailsPuissance.page';
+import { StatutChangementPuissanceBadge } from './StatutChangementPuissanceBadge';
 
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
