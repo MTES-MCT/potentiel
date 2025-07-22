@@ -5,9 +5,10 @@ import { PlainType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { GestionnaireRéseauListItem } from '@/components/molecules/réseau/gestionnaireRéseau/GestionnaireRéseauListItem';
 import { ListPageTemplate } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
+
+import { GestionnaireRéseauListItem } from './GestionnaireRéseauListItem';
 
 export type GestionnaireAvecNombreDeRaccordement =
   GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel &

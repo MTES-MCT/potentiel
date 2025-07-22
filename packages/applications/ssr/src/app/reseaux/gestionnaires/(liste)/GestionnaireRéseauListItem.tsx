@@ -7,7 +7,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { GestionnaireAvecNombreDeRaccordement } from '../../../pages/réseau/gestionnaire/lister/GestionnaireRéseauList.page';
+import { GestionnaireAvecNombreDeRaccordement } from './GestionnaireRéseauList.page';
 
 type GestionnaireRéseauListItemProps = PlainType<GestionnaireAvecNombreDeRaccordement>;
 
