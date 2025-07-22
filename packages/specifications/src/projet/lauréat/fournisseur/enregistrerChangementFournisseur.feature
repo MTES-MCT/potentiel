@@ -20,7 +20,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                       |
 
-    Scénario: Impossible d'enregistrer un changement de fournisseur pour certains AO
+    Scénario: Impossible d'enregistrer un changement de fournisseur si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
             | appel d'offre | PPE2 - Petit PV |
             | période       | 1               |
