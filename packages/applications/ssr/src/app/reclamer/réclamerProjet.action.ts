@@ -13,7 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { withRateLimit } from '@/utils/withRateLimit';
 import { numéroCRESchema, prixRéférenceSchema } from '@/utils/candidature/candidatureFields.schema';
 
-import { déchiffrerIdentifiantProjet } from '../_utils/chiffrement';
+import { déchiffrerIdentifiantProjet } from './_helpers/chiffrement';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
