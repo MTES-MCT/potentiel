@@ -43,6 +43,28 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      instructionAutomatique: 'accord',
+    },
+    actionnaire: {
+      informationEnregistrée: true,
+    },
+    fournisseur: {
+      informationEnregistrée: true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      informationEnregistrée: true,
+    },
+    puissance: {
+      informationEnregistrée: true,
+      demande: true,
+    },
+  },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
@@ -151,12 +173,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -195,12 +211,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -225,12 +235,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '4',
@@ -266,12 +270,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '5',
@@ -307,12 +305,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '6',
@@ -348,12 +340,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '7',
@@ -389,12 +375,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     // ℹ️ à partir de la P8, penser à activer champsSupplémentaires: {coefficientKChoisi: "requis"}
     // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)

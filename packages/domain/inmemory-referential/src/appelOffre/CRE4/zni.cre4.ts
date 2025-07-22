@@ -87,6 +87,28 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 24,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      instructionAutomatique: 'accord',
+    },
+    actionnaire: {
+      informationEnregistrée: true,
+    },
+    fournisseur: {
+      informationEnregistrée: true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      informationEnregistrée: true,
+    },
+    puissance: {
+      informationEnregistrée: true,
+      demande: true,
+    },
+  },
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.4',
@@ -251,12 +273,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -343,12 +359,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -435,12 +445,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '4',
@@ -527,12 +531,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '5',
@@ -619,12 +617,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '6',
@@ -703,12 +695,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié07022023, CDCModifié07022023Alternatif],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };

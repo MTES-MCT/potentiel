@@ -54,6 +54,29 @@ type GarantiesFinancièresAppelOffre = {
     }
 );
 
+// Demandes
+type Changement = {
+  informationEnregistrée?: boolean;
+  demande?: boolean;
+};
+
+type RèglesDemandesChangement = {
+  actionnaire: Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
+  fournisseur: Changement;
+  délai: Changement;
+  producteur: Changement;
+  puissance: Changement;
+  représentantLégal: { informationEnregistrée?: boolean } & (
+    | {
+        demande?: undefined;
+        instructionAutomatique?: undefined;
+      }
+    | { demande: true; instructionAutomatique: 'accord' | 'rejet' }
+  );
+};
+
+export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
+
 // Courriers
 export type DonnéesCourriersRéponse = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
@@ -218,17 +241,7 @@ export type Periode = {
   /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */
   choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
-  changement: {
-    représentantLégal:
-      | {
-          nécessiteInstruction: true;
-          typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
-        }
-      | {
-          nécessiteInstruction: false;
-          typeTâchePlanifiée?: undefined;
-        };
-  };
+  changement?: Partial<RèglesDemandesChangement>;
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
@@ -291,6 +304,7 @@ export type AppelOffreReadModel = {
   abandon: {
     autoritéCompétente: AutoritéCompétente;
   };
+  changement: RèglesDemandesChangement;
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

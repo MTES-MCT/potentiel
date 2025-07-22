@@ -76,6 +76,28 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      instructionAutomatique: 'rejet',
+    },
+    actionnaire: {
+      informationEnregistrée: true,
+    },
+    fournisseur: {
+      informationEnregistrée: true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      informationEnregistrée: true,
+    },
+    puissance: {
+      informationEnregistrée: true,
+      demande: true,
+    },
+  },
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes',
@@ -175,12 +197,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -195,12 +211,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -216,12 +226,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     {
       id: '4',
@@ -236,12 +240,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'rejet-automatique',
-        },
-      },
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
     // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)

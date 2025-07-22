@@ -3,7 +3,6 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { Candidature } from '../..';
 
 export type ValueType = ReadonlyValueType<{
-  appelOffre: string;
   typeActionnariat: Candidature.TypeActionnariat.ValueType | undefined;
   aDesGarantiesFinancièresConstituées: boolean;
   aUnDépotEnCours: boolean;
@@ -16,26 +15,18 @@ export type ValueType = ReadonlyValueType<{
 }>;
 
 export const bind = ({
-  appelOffre,
   typeActionnariat,
   aDesGarantiesFinancièresConstituées,
   aUnDépotEnCours,
 }: PlainType<ValueType>): ValueType => {
   return {
-    appelOffre,
     typeActionnariat: typeActionnariat
       ? Candidature.TypeActionnariat.convertirEnValueType(typeActionnariat.type)
       : undefined,
     aDesGarantiesFinancièresConstituées,
     aUnDépotEnCours,
-    estÉgaleÀ({
-      appelOffre,
-      typeActionnariat,
-      aDesGarantiesFinancièresConstituées,
-      aUnDépotEnCours,
-    }) {
+    estÉgaleÀ({ typeActionnariat, aDesGarantiesFinancièresConstituées, aUnDépotEnCours }) {
       return (
-        this.appelOffre === appelOffre &&
         (this.typeActionnariat !== undefined
           ? typeActionnariat !== undefined && this.typeActionnariat.estÉgaleÀ(typeActionnariat)
           : typeActionnariat === undefined) &&
@@ -44,21 +35,20 @@ export const bind = ({
       );
     },
     estRequise() {
-      if (this.appelOffre === 'Eolien') {
-        // La demande doit être en "instruction" si il n'y a pas de GF validées sur le projet
-        // ou si il y a une demande de renouvellement ou de modifications des garanties financières en cours
-        if (!this.aDesGarantiesFinancièresConstituées || this.aUnDépotEnCours) {
-          return true;
-        }
-
-        // La demande doit être en "instruction" si le candidat a joint à son offre la lettre d’engagement (l'investissement participatif ou financement participatif)
-        if (this.typeActionnariat) {
-          return (
-            this.typeActionnariat?.estFinancementParticipatif() ||
-            this.typeActionnariat?.estInvestissementParticipatif()
-          );
-        }
+      // La demande doit être en "instruction" si il n'y a pas de GF validées sur le projet
+      // ou si il y a une demande de renouvellement ou de modifications des garanties financières en cours
+      if (!this.aDesGarantiesFinancièresConstituées || this.aUnDépotEnCours) {
+        return true;
       }
+
+      // La demande doit être en "instruction" si le candidat a joint à son offre la lettre d’engagement (l'investissement participatif ou financement participatif)
+      if (this.typeActionnariat) {
+        return (
+          this.typeActionnariat?.estFinancementParticipatif() ||
+          this.typeActionnariat?.estInvestissementParticipatif()
+        );
+      }
+
       // Dans tous les autres cas, l'instruction n'est pas nécessaire
       return false;
     },

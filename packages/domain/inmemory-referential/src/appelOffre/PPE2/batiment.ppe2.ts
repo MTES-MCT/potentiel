@@ -50,6 +50,28 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 30,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      instructionAutomatique: 'accord',
+    },
+    actionnaire: {
+      informationEnregistrée: true,
+    },
+    fournisseur: {
+      informationEnregistrée: true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      informationEnregistrée: true,
+    },
+    puissance: {
+      informationEnregistrée: true,
+      demande: true,
+    },
+  },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
@@ -155,12 +177,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -203,12 +219,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '3',
@@ -245,12 +255,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '4',
@@ -275,12 +279,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '5',
@@ -316,12 +314,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '6',
@@ -357,12 +349,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '7',
@@ -398,12 +384,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '8',
@@ -439,12 +419,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
+
       // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
       addendums: addendumPériode8EtSuivantes,
     },
@@ -482,12 +457,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
+
       addendums: addendumPériode8EtSuivantes,
     },
     {
@@ -524,12 +494,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
+
       addendums: addendumPériode8EtSuivantes,
       champsSupplémentaires: {
         coefficientKChoisi: 'requis',

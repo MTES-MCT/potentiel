@@ -4,14 +4,15 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
-import { StatutChangementActionnaire, InstructionChangementActionnaire } from '.';
+import { InstructionChangementActionnaire, StatutChangementActionnaire } from '.';
 
 import { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.event';
 import {
   ActionnaireDéjàTransmisError,
-  ActionnaireNePeutPasÊtreModifiéDirectement,
+  DemandeChangementActionnaireImpossibleError,
   ChangementActionnaireInexistanteErreur,
   DemandeDeChangementEnCoursError,
+  InstructionObligatoireError,
 } from './errors';
 import { ActionnaireEvent } from './actionnaire.event';
 import { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.event';
@@ -104,20 +105,22 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'actionnaire');
 
-    const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
-      appelOffre: this.identifiantProjet.appelOffre,
-      // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
-      // Par ailleurs les données sont les mêmes à date (janv 2025)
-      typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
-      aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
-      aDesGarantiesFinancièresConstituées:
-        this.lauréat.garantiesFinancières.aDesGarantiesFinancières,
-    });
+    if (
+      this.lauréat.projet.appelOffre.changement.actionnaire
+        .informationEnregistréeEstSoumiseÀConditions
+    ) {
+      const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
+        typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
+        aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
+        aDesGarantiesFinancièresConstituées:
+          this.lauréat.garantiesFinancières.aDesGarantiesFinancières,
+      });
 
-    if (instructionChangementActionnaire.estRequise()) {
-      throw new ActionnaireNePeutPasÊtreModifiéDirectement();
+      if (instructionChangementActionnaire.estRequise()) {
+        throw new InstructionObligatoireError();
+      }
     }
 
     if (this.#demande) {
@@ -141,8 +144,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  // l'actionnaire peut être le même
-  // car une demande peut être une simple transmission de documents
+  // Une demande peut être une transmission de documents donc on ne vérifie pas que les valeurs diffèrent
   async demanderChangement({
     identifiantUtilisateur,
     actionnaire,
@@ -150,7 +152,18 @@ export class ActionnaireAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: DemanderChangementOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible();
+    this.lauréat.vérifierQueLeChangementEstPossible('demande', 'actionnaire');
+
+    const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
+      typeActionnariat: this.lauréat.projet.candidature.typeActionnariat,
+      aUnDépotEnCours: this.lauréat.garantiesFinancières.aUnDépôtEnCours,
+      aDesGarantiesFinancièresConstituées:
+        this.lauréat.garantiesFinancières.aDesGarantiesFinancières,
+    });
+
+    if (!instructionChangementActionnaire.estRequise()) {
+      throw new DemandeChangementActionnaireImpossibleError();
+    }
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(

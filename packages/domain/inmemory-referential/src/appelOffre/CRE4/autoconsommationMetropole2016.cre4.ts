@@ -27,6 +27,28 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
+  changement: {
+    représentantLégal: {
+      demande: true,
+      instructionAutomatique: 'accord',
+    },
+    actionnaire: {
+      informationEnregistrée: true,
+    },
+    fournisseur: {
+      informationEnregistrée: true,
+    },
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      informationEnregistrée: true,
+    },
+    puissance: {
+      informationEnregistrée: true,
+      demande: true,
+    },
+  },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
@@ -110,12 +132,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
     {
       id: '2',
@@ -129,12 +145,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: true,
-          typeTâchePlanifiée: 'accord-automatique',
-        },
-      },
     },
   ],
 };

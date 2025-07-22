@@ -15,6 +15,23 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
   delaiRealisationTexte: 'trente (30) mois', // à vérifier
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dreal' },
+  changement: {
+    représentantLégal: {
+      informationEnregistrée: true,
+    },
+    actionnaire: {},
+    fournisseur: {},
+    délai: {
+      demande: true,
+    },
+    producteur: {
+      informationEnregistrée: true,
+    },
+    puissance: {
+      informationEnregistrée: true,
+      demande: true,
+    },
+  },
   paragraphePrixReference: '7', // à vérifier
   paragrapheDelaiDerogatoire: '6.3', // à vérifier
   paragrapheAttestationConformite: '6.5', // à vérifier
@@ -86,11 +103,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       delaiDcrEnMois: { valeur: 3, texte: 'trois' }, // à vérifier
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
-      changement: {
-        représentantLégal: {
-          nécessiteInstruction: false,
-        },
-      },
       champsSupplémentaires: {},
     },
   ],
