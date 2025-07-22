@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     await vérifierQueLeCahierDesChargesPermetUnChangement(
       lauréat.identifiantProjet,
       'demande',
-      'abandon',
+      'délai',
     );
 
     const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
