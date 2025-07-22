@@ -5,29 +5,28 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Accès, Lauréat } from '@potentiel-domain/projet';
+import { Accès, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
-  DétailsGarantiesFinancièresPage,
-  DétailsGarantiesFinancièresPageProps,
-} from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
-import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
-import {
   getGarantiesFinancièresTypeLabel,
   récupérerLauréat,
   getPériodeAppelOffres,
 } from '@/app/_helpers';
 
-import { getHistoriqueMainlevéeRejetéesActions } from './helpers/getHistoriqueMainlevéeRejetéesActions';
-import { getMainlevéeActions } from './helpers/getMainlevéeActions';
-import { getGarantiesFinancièresActuellesActions } from './helpers/getGarantiesFinancièresActuellesActions';
-import { getDépôtActions } from './helpers/getDépôtActions';
+import { mapToHistoriqueMainlevéeRejetéesActions } from './(mainlevée)/(historique-main-levée-rejetée)/mapToHistoriqueMainlevéeRejetéesActions';
+import { mapToGarantiesFinancièresActuellesActions } from './(actuelles)/mapToGarantiesFinancièresActuellesActions';
+import { mapToDépôtGarantiesFinancièresActions } from './(dépôt)/mapToDépôtGarantiesFinancièresActions';
+import { ProjetNonSoumisAuxGarantiesFinancièresPage } from './ProjetNonSoumisAuxGarantiesFinancières.page';
+import {
+  DétailsGarantiesFinancièresPage,
+  DétailsGarantiesFinancièresPageProps,
+} from './DétailsGarantiesFinancières.page';
+import { projetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { mapToMainlevéeActions } from './(mainlevée)/mapToMainlevéeActions';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -221,9 +220,9 @@ const mapToProps: MapToProps = ({
   }
 
   const actions = {
-    dépôt: getDépôtActions(utilisateur.role),
+    dépôt: mapToDépôtGarantiesFinancièresActions(utilisateur.role),
     garantiesFinancièresActuelles: gfActuellesExistante
-      ? getGarantiesFinancièresActuellesActions({
+      ? mapToGarantiesFinancièresActuellesActions({
           role: utilisateur.role,
           garantiesFinancières: gfActuellesExistante.garantiesFinancières,
           dépôt: dépôtEnCoursGarantiesFinancières,
@@ -232,8 +231,8 @@ const mapToProps: MapToProps = ({
           estAbandonné,
         })
       : [],
-    mainlevée: getMainlevéeActions({ role: utilisateur.role, mainlevée: mainlevéeEnCours }),
-    historiqueMainlevée: getHistoriqueMainlevéeRejetéesActions({
+    mainlevée: mapToMainlevéeActions({ role: utilisateur.role, mainlevée: mainlevéeEnCours }),
+    historiqueMainlevée: mapToHistoriqueMainlevéeRejetéesActions({
       role: utilisateur.role,
       mainlevée: mainlevéeEnCours,
       historiqueMainlevéeRejetée: historiqueMainlevéeExistant,

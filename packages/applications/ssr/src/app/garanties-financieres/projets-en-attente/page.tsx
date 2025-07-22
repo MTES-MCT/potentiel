@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
+import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -12,7 +13,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
@@ -145,3 +145,16 @@ const mapToListProps = (
     ...mapToPagination(range, 10),
   };
 };
+
+const getGarantiesFinancièresMotifLabel = (
+  type: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
+) =>
+  match(type)
+    .with('changement-producteur', () => 'Changement de producteur')
+    .with('recours-accordé', () => 'Recours accordé')
+    .with(
+      'échéance-garanties-financières-actuelles',
+      () => 'Garanties financières arrivées à échéance',
+    )
+    .with('motif-inconnu', () => 'Inconnu')
+    .exhaustive();

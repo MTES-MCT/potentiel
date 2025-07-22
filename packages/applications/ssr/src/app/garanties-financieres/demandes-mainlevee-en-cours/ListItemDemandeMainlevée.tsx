@@ -7,11 +7,10 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutMainlevéeBadge } from '@/components/molecules/mainlevée/StatutMainlevéeBadge';
+import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/StatutMainlevéeBadge';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-
-import { convertMotifMainlevéeForView } from '../../../components/pages/garanties-financières/mainlevée/convertForView';
+import { convertMotifMainlevéeForView } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
 
 export type ListItemDemandeMainlevéeProps = {
   demandéLe: Iso8601DateTime;
