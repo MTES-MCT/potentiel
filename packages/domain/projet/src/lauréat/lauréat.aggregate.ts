@@ -375,7 +375,7 @@ export class LauréatAggregate extends AbstractAggregate<
   }
 
   vérifierQueAppelOffreEtPériodePermettentUnChangement(
-    typeChangement: 'informationEnregistrée' | 'demande',
+    typeChangement: 'information-enregistrée' | 'demande',
     domaine: AppelOffre.DomainesConcernésParChangement,
   ) {
     // les règles au niveau de la période override celles de l'appel d'offre
@@ -384,13 +384,16 @@ export class LauréatAggregate extends AbstractAggregate<
       ...this.projet.période.changement,
     };
 
-    if (changement[domaine][typeChangement] !== true) {
+    const newTypeChangement =
+      typeChangement === 'information-enregistrée' ? 'informationEnregistrée' : 'demande';
+
+    if (changement[domaine][newTypeChangement] !== true) {
       throw new AppelOffreOuPériodeEmpêcheModificationError();
     }
   }
 
   vérifierQueLeChangementEstPossible(
-    typeChangement: 'informationEnregistrée' | 'demande',
+    typeChangement: 'information-enregistrée' | 'demande',
     domaine: AppelOffre.DomainesConcernésParChangement,
   ) {
     this.vérifierQueLeLauréatExiste();

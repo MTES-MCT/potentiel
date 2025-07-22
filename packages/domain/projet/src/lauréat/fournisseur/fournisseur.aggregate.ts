@@ -91,7 +91,7 @@ export class FournisseurAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: EnregistrerChangementFournisseurOptions) {
-    this.lauréat.vérifierQueLeChangementEstPossible('informationEnregistrée', 'fournisseur');
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'fournisseur');
 
     if (évaluationCarboneSimplifiée !== undefined && fournisseurs !== undefined) {
       this.vérifierÉvaluationCarboneEtFournisseurs(évaluationCarboneSimplifiée, fournisseurs);
