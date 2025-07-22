@@ -12,7 +12,7 @@ import { Icon, IconProps } from '@/components/atoms/Icon';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { notifierPériodeAction } from '../../components/pages/période/notifier/notifierPériode.action';
+import { notifierPériodeAction } from './notifierPériode.action';
 
 export type PériodeListItemProps = {
   identifiantPériode: string;
