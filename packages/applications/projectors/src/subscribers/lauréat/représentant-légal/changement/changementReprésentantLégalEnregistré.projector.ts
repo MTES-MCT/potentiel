@@ -21,7 +21,8 @@ export const changementReprésentantLégalEnregistréProjector = async ({
     {
       identifiantProjet,
       demande: {
-        statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+        statut:
+          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée.formatter(),
         nomReprésentantLégal,
         typeReprésentantLégal,
         pièceJustificative,

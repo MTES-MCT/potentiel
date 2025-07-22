@@ -12,7 +12,7 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 
 Alors(
-  'le changement enregistré du producteur du projet lauréat devrait être consultable',
+  'le changement enregistré du représentant légal du projet lauréat devrait être consultable',
   async function (this: PotentielWorld) {
     await vérifierDemande.call(
       this,
@@ -110,6 +110,7 @@ async function vérifierDemande(
       });
 
     const actual = mapToPlainObject(demande);
+
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,

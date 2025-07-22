@@ -57,7 +57,7 @@ export const getReprésentantLégal = async ({
         nom: représentantLégal.nomReprésentantLégal,
         affichage: utilisateur.aLaPermission('représentantLégal.consulterChangement')
           ? {
-              url: Routes.ReprésentantLégal.changement.détail(
+              url: Routes.ReprésentantLégal.changement.détails(
                 identifiantProjet.formatter(),
                 demandeEnCours.demandéLe.formatter(),
               ),

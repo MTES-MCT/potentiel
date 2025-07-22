@@ -66,7 +66,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
           <div className="flex flex-col gap-8">
             {dateDemandeEnCoursPourLien && (
               <InfoBoxDemandeEnCours
-                lien={Routes.ReprésentantLégal.changement.détail(
+                lien={Routes.ReprésentantLégal.changement.détails(
                   idProjet,
                   dateDemandeEnCoursPourLien,
                 )}

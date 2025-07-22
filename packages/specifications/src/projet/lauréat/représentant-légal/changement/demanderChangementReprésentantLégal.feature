@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Demander le changement de représentant légal d'un projet lauréat
 
     Contexte:

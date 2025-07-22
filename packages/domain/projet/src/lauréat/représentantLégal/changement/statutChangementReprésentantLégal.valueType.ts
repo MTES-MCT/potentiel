@@ -59,7 +59,6 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
         }
       }
 
-      // cas ajouté (annulé)
       if (
         (nouveauStatut.estAccordé() || nouveauStatut.estRejeté()) &&
         (this.estAccordé() || this.estRejeté() || this.estAnnulé())

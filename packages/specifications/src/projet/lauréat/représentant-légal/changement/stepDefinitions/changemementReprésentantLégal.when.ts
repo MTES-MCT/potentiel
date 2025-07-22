@@ -141,6 +141,22 @@ Quand(
 );
 
 Quand(
+  'le porteur enregistre un changement de représentant légal avec les mêmes valeurs',
+  async function (this: PotentielWorld) {
+    const { nomReprésentantLégal, typeReprésentantLégal } =
+      this.lauréatWorld.représentantLégalWorld.mapToExpected(
+        this.lauréatWorld.identifiantProjet,
+        this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+      );
+
+    await enregistrerChangementReprésentantLégal.call(this, {
+      typeReprésentantLégal,
+      nomReprésentantLégal,
+    });
+  },
+);
+
+Quand(
   'le porteur enregistre un changement de représentant légal',
   async function (this: PotentielWorld) {
     await enregistrerChangementReprésentantLégal.call(this, {});
