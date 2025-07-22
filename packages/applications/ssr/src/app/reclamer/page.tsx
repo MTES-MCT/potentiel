@@ -5,16 +5,14 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Accès } from '@potentiel-domain/projet';
 
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import {
-  chiffrerIdentifiantProjet,
-  generateIV,
-} from '@/components/pages/réclamer-projets/_utils/chiffrement';
 
 import { PageWithErrorHandling } from '../../utils/PageWithErrorHandling';
 import { withUtilisateur } from '../../utils/withUtilisateur';
 import { mapToRangeOptions } from '../../utils/pagination';
-import { RéclamerProjetsListItemProps } from '../../components/pages/réclamer-projets/RéclamerProjetsListItem';
-import { RéclamerProjetsListPage } from '../../components/pages/réclamer-projets/RéclamerProjetList.page';
+
+import { RéclamerProjetsListItemProps } from './RéclamerProjetsListItem';
+import { RéclamerProjetsListPage } from './RéclamerProjetList.page';
+import { chiffrerIdentifiantProjet, generateIV } from './_helpers/chiffrement';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'nomProjet';
 

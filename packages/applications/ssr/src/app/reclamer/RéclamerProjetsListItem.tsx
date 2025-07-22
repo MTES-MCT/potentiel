@@ -9,10 +9,10 @@ import Image from 'next/image';
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
-import { ModalWithForm } from '../../molecules/ModalWithForm';
-import { ValidationErrors } from '../../../utils/formAction';
+import { ModalWithForm } from '../../components/molecules/ModalWithForm';
+import { ValidationErrors } from '../../utils/formAction';
 
-import { réclamerProjetAction, RéclamerProjetsFormKeys } from './réclamer/réclamerProjet.action';
+import { réclamerProjetAction, RéclamerProjetsFormKeys } from './réclamerProjet.action';
 
 export type RéclamerProjetsListItemProps = {
   identifiantProjet: string;
