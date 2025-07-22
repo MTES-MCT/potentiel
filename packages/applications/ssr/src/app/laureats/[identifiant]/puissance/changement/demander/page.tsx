@@ -49,11 +49,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
         puissance={puissanceActuelle.puissance}
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
-        cahierDesCharges={cahierDesCharges}
-        cahierDesChargesInitial={AppelOffre.CahierDesCharges.bind({
-          ...cahierDesCharges,
-          cahierDesChargesModificatif: undefined,
-        })}
+        cahierDesCharges={mapToPlainObject(cahierDesCharges)}
+        cahierDesChargesInitial={mapToPlainObject(
+          AppelOffre.CahierDesCharges.bind({
+            ...cahierDesCharges,
+            cahierDesChargesModificatif: undefined,
+          }),
+        )}
         volumeRéservé={lauréat.volumeRéservé ? mapToPlainObject(lauréat.volumeRéservé) : undefined}
         puissanceInitiale={puissance.puissanceInitiale}
       />
