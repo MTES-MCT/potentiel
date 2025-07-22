@@ -10,11 +10,12 @@ import {
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PorteurListPage } from '@/components/pages/utilisateur/lister/PorteurList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { PorteurListPage } from './PorteurList.page';
 
 type PageProps = IdentifiantParameter;
 
