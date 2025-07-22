@@ -6,8 +6,12 @@ import {
   AppelOffreReadModel,
   CahierDesChargesModifié,
   DomainesConcernésParChangement,
+  DomainesCourriersRéponse,
+  DonnéesCourriersRéponse,
+  DonnéesCourriersRéponseParDomaine,
   Famille,
   Periode,
+  Ratios,
   Technologie,
 } from './appelOffre.entity';
 import { RéférenceCahierDesCharges } from './appelOffre';
@@ -24,7 +28,8 @@ export type ValueType = {
   ): void;
   estSoumisAuxGarantiesFinancières(): boolean;
   getDélaiRéalisationEnMois(): number;
-  getRatiosChangementPuissance(): { min: number; max: number };
+  getRatiosChangementPuissance(): Ratios;
+  getDonnéesCourriersRéponse(domaine: DomainesCourriersRéponse): DonnéesCourriersRéponse;
 };
 
 export const bind = ({
@@ -75,6 +80,7 @@ export const bind = ({
     return this.appelOffre.délaiRéalisationEnMois;
   },
 
+  // TODO changementPuissance et seuilSupplémentaireChangementPuissance devraient être déplacés dans changement.puissance
   getRatiosChangementPuissance() {
     if (!this.technologie) {
       throw new TechnologieNonSpécifiéeError();
@@ -102,6 +108,31 @@ export const bind = ({
 
     // sinon prendre les ratios du CDC initial
     return changementPuissance.ratios;
+  },
+
+  getDonnéesCourriersRéponse(domaine) {
+    const key = match(domaine)
+      .returnType<keyof DonnéesCourriersRéponseParDomaine>()
+      .with('abandon', () => 'texteEngagementRéalisationEtModalitésAbandon')
+      .with('délai', () => 'texteDélaisDAchèvement')
+      .with('puissance', () => 'texteChangementDePuissance')
+      .with('actionnaire', () => 'texteChangementDActionnariat')
+      .exhaustive();
+
+    const { dispositions, référenceParagraphe } = {
+      ...this.appelOffre.donnéesCourriersRéponse[key],
+      ...this.période.donnéesCourriersRéponse?.[key],
+      ...this.cahierDesChargesModificatif?.donnéesCourriersRéponse?.[key],
+    };
+
+    if (!dispositions || !référenceParagraphe) {
+      return {
+        référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
+        dispositions: '!!!CONTENU NON DISPONIBLE!!!',
+      };
+    }
+
+    return { dispositions, référenceParagraphe };
   },
 });
 

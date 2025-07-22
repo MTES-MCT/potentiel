@@ -91,14 +91,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       référenceParagraphe: '5.2.2',
       dispositions: `***** A AJOUTER *****`,
     },
-    texteChangementDeProducteur: {
-      référenceParagraphe: `5.2.1`,
-      dispositions: `***** A AJOUTER *****`,
-    },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: `2.4`,
-      dispositions: `***** A AJOUTER *****`,
-    },
   },
   periodes: [
     {

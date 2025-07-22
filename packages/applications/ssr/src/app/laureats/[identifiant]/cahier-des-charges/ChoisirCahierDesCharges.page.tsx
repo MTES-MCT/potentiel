@@ -1,9 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
-import { PlainType } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
@@ -12,15 +9,12 @@ import {
   ChoisirCahierDesChargesFormProps,
 } from './ChoisirCahierDesCharges.form';
 
-export type ChoisirCahierDesChargesPageProps = ChoisirCahierDesChargesFormProps & {
-  appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
-};
+export type ChoisirCahierDesChargesPageProps = ChoisirCahierDesChargesFormProps;
 
 export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPageProps> = ({
   identifiantProjet,
   cahierDesCharges,
   cahiersDesChargesDisponibles,
-  appelOffres,
   aBénéficiéDuDélaiCDC2022,
 }) => {
   return (
@@ -56,7 +50,7 @@ export const ChoisirCahierDesChargesPage: React.FC<ChoisirCahierDesChargesPagePr
                   <span className="block mt-3">
                     Les cahiers des charges disponibles pour votre appel d'offres, sont consultables
                     sur&nbsp;
-                    <Link target="_blank" href={appelOffres.cahiersDesChargesUrl}>
+                    <Link target="_blank" href={cahierDesCharges.appelOffre.cahiersDesChargesUrl}>
                       cette page de la CRE
                     </Link>
                     .

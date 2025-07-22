@@ -114,10 +114,6 @@ Par exception, le Candidat est délié de cette obligation :
 Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée. 
 Le Candidat peut également être délié de cette obligation selon appréciation du ministre chargé de l’énergie  suite  à  une  demande  dûment  justifiée.  Le  Ministre  peut  accompagner  son accord  de conditions. L’accord du Ministre et les conditions imposées le cas échéant, ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
     },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: '2.5',
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
-    },
   },
   periodes: [
     {
@@ -147,11 +143,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         texteChangementDActionnariat: {
           référenceParagraphe: '5.4.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
-        },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.4.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
@@ -184,11 +175,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.4.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
         },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.4.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
-        },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
@@ -219,11 +205,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         texteChangementDActionnariat: {
           référenceParagraphe: '5.4.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
-        },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.4.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
@@ -256,11 +237,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
         },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.3.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
-        },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
@@ -291,11 +267,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         texteChangementDActionnariat: {
           référenceParagraphe: '5.3.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
-        },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.3.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
@@ -328,11 +299,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
         },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.3.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
-        },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
@@ -363,11 +329,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         texteChangementDActionnariat: {
           référenceParagraphe: '5.3.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
-        },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.3.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
@@ -400,11 +361,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
         },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.3.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
-        },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
@@ -436,11 +392,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           référenceParagraphe: '5.3.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
         },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.3.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
-        },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
@@ -471,11 +422,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         texteChangementDActionnariat: {
           référenceParagraphe: '5.3.2',
           dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
-        },
-        texteChangementDeProducteur: {
-          référenceParagraphe: '5.3.1',
-          dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],

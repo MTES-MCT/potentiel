@@ -12,7 +12,7 @@ type AppelOffreTypes =
   | 'zni'
   | 'autre';
 
-type Ratios = {
+export type Ratios = {
   min: number;
   max: number;
 };
@@ -81,17 +81,17 @@ type RèglesDemandesChangement = {
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
 
 // Courriers
-export type DonnéesCourriersRéponse = Record<
+export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
+export type DonnéesCourriersRéponse = {
+  référenceParagraphe: string;
+  dispositions: string;
+};
+export type DonnéesCourriersRéponseParDomaine = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
   | 'texteChangementDActionnariat'
   | 'texteChangementDePuissance'
-  | 'texteIdentitéDuProducteur'
-  | 'texteChangementDeProducteur'
   | 'texteDélaisDAchèvement',
-  {
-    référenceParagraphe: string;
-    dispositions: string;
-  }
+  DonnéesCourriersRéponse
 >;
 
 export type DélaiApplicable = {
@@ -104,7 +104,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié;
   alternatif?: true;
   numéroGestionnaireRequis?: true;
-  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
   seuilSupplémentaireChangementPuissance?: ChangementPuissance;
@@ -224,7 +224,7 @@ export type Periode = {
   title: string;
   /** Surcharge l'unité de puissance par défaut définie dans l'AO, même si elle est définie par technologie */
   unitéPuissance?: UnitéPuissance;
-  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   /**
    * Permet de modifier le paragraphe engagement IPFPGPFC, configuré dans l'AO
    * IPFPGPFC = Investissement Participatif/ Financement Partagé / Gouvernance Partagée / Finacement Collectif
@@ -297,7 +297,7 @@ export type AppelOffreReadModel = {
   periodes: Periode[];
   changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;
-  donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
+  donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
   puissanceALaPointeDisponible?: true;
   délai: {

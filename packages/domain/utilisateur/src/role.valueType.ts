@@ -373,7 +373,7 @@ const référencielPermissions = {
     },
     cahierDesCharges: {
       query: {
-        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
       },
       command: {
         choisir: 'Lauréat.Command.ChoisirCahierDesCharges',

@@ -1,8 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
@@ -13,7 +12,7 @@ import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCahierDesCharges, getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
@@ -40,28 +39,20 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         return notFound();
       }
 
-      const { appelOffres, période, famille } = await getPériodeAppelOffres(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      );
-
-      const cahierDesChargesChoisi = await getCahierDesCharges(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
 
       const { logo, data } = mapLauréatToModèleRéponsePayload({
         identifiantProjet,
         lauréat,
         puissance,
         représentantLégal,
-        appelOffres,
-        période,
-        famille,
+        appelOffres: cahierDesCharges.appelOffre,
+        période: cahierDesCharges.période,
+        famille: cahierDesCharges.famille,
         utilisateur,
       });
 
-      const dispositionCDC = getCDCAbandonRefs({
-        appelOffres,
-        période,
-        cahierDesChargesChoisi,
-      });
+      const dispositionCDC = cahierDesCharges.getDonnéesCourriersRéponse('abandon');
 
       const type = 'abandon';
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
@@ -89,31 +80,3 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       });
     }),
   );
-
-const getCDCAbandonRefs = ({
-  appelOffres,
-  période,
-  cahierDesChargesChoisi,
-}: {
-  appelOffres: AppelOffre.AppelOffreReadModel;
-  période: AppelOffre.Periode;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
-}) => {
-  const cahierDesChargesModifié =
-    cahierDesChargesChoisi.type === 'modifié' &&
-    période?.cahiersDesChargesModifiésDisponibles.find(
-      (c) =>
-        c.paruLe === cahierDesChargesChoisi.paruLe &&
-        c.alternatif === cahierDesChargesChoisi.alternatif,
-    );
-
-  return {
-    référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
-    dispositions: '!!!CONTENU NON DISPONIBLE!!!',
-    ...appelOffres.donnéesCourriersRéponse.texteEngagementRéalisationEtModalitésAbandon,
-    ...période?.donnéesCourriersRéponse?.texteEngagementRéalisationEtModalitésAbandon,
-    ...(cahierDesChargesModifié &&
-      cahierDesChargesModifié.donnéesCourriersRéponse
-        ?.texteEngagementRéalisationEtModalitésAbandon),
-  };
-};

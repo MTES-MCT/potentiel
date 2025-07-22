@@ -22,7 +22,7 @@ import {
 
 export type ChoisirCahierDesChargesFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
+  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesReadModel>;
   cahiersDesChargesDisponibles: {
     label: string;
     value: AppelOffre.RéférenceCahierDesCharges.RawType;
@@ -38,7 +38,9 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
   cahiersDesChargesDisponibles,
   aBénéficiéDuDélaiCDC2022,
 }) => {
-  const cdcActuel = AppelOffre.RéférenceCahierDesCharges.bind(cahierDesCharges);
+  const cdcActuel = AppelOffre.RéférenceCahierDesCharges.bind(
+    cahierDesCharges.cahierDesChargesModificatif ?? { type: 'initial' },
+  );
   const [cdcChoisi, setCdcChoisi] = useState(cdcActuel);
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ChoisirCahierDesChargesFormKeys>

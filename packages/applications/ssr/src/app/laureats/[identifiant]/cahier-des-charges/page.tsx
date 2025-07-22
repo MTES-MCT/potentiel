@@ -8,7 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { getPériodeAppelOffres, getCahierDesCharges } from '@/app/_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { ChoisirCahierDesChargesPage } from './ChoisirCahierDesCharges.page';
@@ -21,8 +21,7 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
-    const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet);
-    const cahierDesCharges = await getCahierDesCharges(identifiantProjet.formatter());
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
     const délai = await mediator.send<Lauréat.Délai.ConsulterDélaiQuery>({
       type: 'Lauréat.Délai.Query.ConsulterDélai',
@@ -34,22 +33,21 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     return (
       <ChoisirCahierDesChargesPage
         identifiantProjet={identifiantProjet.formatter()}
-        appelOffres={mapToPlainObject(appelOffres)}
         cahierDesCharges={mapToPlainObject(cahierDesCharges)}
         cahiersDesChargesDisponibles={[
           {
             label:
               'Instruction selon les dispositions du cahier des charges en vigueur au moment de la candidature',
             value: 'initial',
-            disabled: !appelOffres.doitPouvoirChoisirCDCInitial,
-            descriptions: période.choisirNouveauCahierDesCharges
+            disabled: !cahierDesCharges.appelOffre.doitPouvoirChoisirCDCInitial,
+            descriptions: cahierDesCharges.période.choisirNouveauCahierDesCharges
               ? [
                   'Je dois envoyer ma demande ou mon signalement au format papier.',
                   "Je pourrai changer de mode d'instruction lors de ma prochaine demande si je le souhaite.",
                 ]
               : [],
           },
-          ...période.cahiersDesChargesModifiésDisponibles.map((cdc) => ({
+          ...cahierDesCharges.période.cahiersDesChargesModifiésDisponibles.map((cdc) => ({
             label: `Instruction selon le cahier des charges${cdc.alternatif ? ' alternatif' : ''} modifié rétroactivement et publié le ${cdc.paruLe}.`,
             value: AppelOffre.RéférenceCahierDesCharges.bind(cdc).formatter(),
             descriptions: [

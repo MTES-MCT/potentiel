@@ -11,7 +11,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getCahierDesCharges, getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
 
@@ -41,30 +41,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const puissance = await getPuissanceInfos({
       identifiantProjet: identifiantProjet.formatter(),
     });
-    const { appelOffres, période, famille } = await getPériodeAppelOffres(
-      lauréat.identifiantProjet,
-    );
 
-    const cahierDesChargesChoisi = await getCahierDesCharges(identifiantProjet.formatter());
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
     return (
       <DemanderChangementPuissancePage
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
         puissance={puissanceActuelle.puissance}
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
-        cahierDesCharges={AppelOffre.CahierDesCharges.bind({
-          appelOffre: appelOffres,
-          période,
-          famille,
-          technologie: lauréat.technologie.type,
-          cahierDesChargesModificatif:
-            cahierDesChargesChoisi.type === 'initial' ? undefined : cahierDesChargesChoisi,
-        })}
+        cahierDesCharges={cahierDesCharges}
         cahierDesChargesInitial={AppelOffre.CahierDesCharges.bind({
-          appelOffre: appelOffres,
-          période,
-          famille,
-          technologie: lauréat.technologie.type,
+          ...cahierDesCharges,
           cahierDesChargesModificatif: undefined,
         })}
         volumeRéservé={lauréat.volumeRéservé ? mapToPlainObject(lauréat.volumeRéservé) : undefined}
