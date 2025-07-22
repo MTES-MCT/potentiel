@@ -6,45 +6,41 @@ import { PlainType } from '@potentiel-domain/core';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import {
-  ListItemDépôtEnCoursGarantiesFinancières,
-  ListItemDépôtEnCoursGarantiesFinancièresProps,
-} from './ListItemDépôtEnCoursGarantiesFinancières';
+  ListItemDépôtGarantiesFinancières,
+  ListItemDépôtGarantiesFinancièresProps,
+} from './ListItemDépôtGarantiesFinancières';
 
-export type ListDépôtsEnCoursGarantiesFinancièresProps = {
+export type ListDépôtsGarantiesFinancièresProps = {
   list: {
-    items: Array<ListItemDépôtEnCoursGarantiesFinancièresProps>;
+    items: Array<ListItemDépôtGarantiesFinancièresProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  filters: ListPageTemplateProps<ListItemDépôtEnCoursGarantiesFinancièresProps>['filters'];
+  filters: ListPageTemplateProps<ListItemDépôtGarantiesFinancièresProps>['filters'];
   role: PlainType<Role.ValueType>;
 };
 
-export const ListDépôtsEnCoursGarantiesFinancièresPage: FC<
-  ListDépôtsEnCoursGarantiesFinancièresProps
-> = ({
+export const ListDépôtsGarantiesFinancièresPage: FC<ListDépôtsGarantiesFinancièresProps> = ({
   list: { items: garantiesFinancières, currentPage, totalItems, itemsPerPage },
   filters,
   role,
-}) => {
-  return (
-    <ListPageTemplate
-      heading={
-        Role.bind(role).estÉgaleÀ(Role.porteur)
-          ? `Garanties financières à traiter par l'autorité compétente`
-          : 'Garanties financières à traiter'
-      }
-      actions={[]}
-      items={garantiesFinancières.map((gf) => ({
-        ...gf,
-        key: gf.identifiantProjet,
-      }))}
-      currentPage={currentPage}
-      totalItems={totalItems}
-      itemsPerPage={itemsPerPage}
-      ItemComponent={ListItemDépôtEnCoursGarantiesFinancières}
-      filters={filters}
-    />
-  );
-};
+}) => (
+  <ListPageTemplate
+    heading={
+      Role.bind(role).estÉgaleÀ(Role.porteur)
+        ? `Garanties financières à traiter par l'autorité compétente`
+        : 'Garanties financières à traiter'
+    }
+    actions={[]}
+    items={garantiesFinancières.map((gf) => ({
+      ...gf,
+      key: gf.identifiantProjet,
+    }))}
+    currentPage={currentPage}
+    totalItems={totalItems}
+    itemsPerPage={itemsPerPage}
+    ItemComponent={ListItemDépôtGarantiesFinancières}
+    filters={filters}
+  />
+);

@@ -9,11 +9,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
-} from '@/components/pages/garanties-financières/mainlevée/convertForView';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+} from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
 
 import {
   ListeDemandeMainlevéePage,

@@ -16,8 +16,8 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
 
 import {
-  ListDépôtsEnCoursGarantiesFinancièresPage,
-  ListDépôtsEnCoursGarantiesFinancièresProps,
+  ListDépôtsGarantiesFinancièresPage,
+  ListDépôtsGarantiesFinancièresProps,
 } from './ListerDépôtsEnCoursGarantiesFinancières.page';
 
 const searchParamsSchema = z.object({
@@ -96,7 +96,7 @@ export default async function Page({ searchParams }: PageProps) {
       }
 
       return (
-        <ListDépôtsEnCoursGarantiesFinancièresPage
+        <ListDépôtsGarantiesFinancièresPage
           list={mapToListProps(dépôtsEnCoursGarantiesFinancières)}
           filters={filters}
           role={mapToPlainObject(utilisateur.role)}
@@ -110,7 +110,7 @@ const mapToListProps = ({
   items,
   range,
   total,
-}: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel): ListDépôtsEnCoursGarantiesFinancièresProps['list'] => {
+}: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel): ListDépôtsGarantiesFinancièresProps['list'] => {
   const mappedItems = items.map(
     ({ identifiantProjet, nomProjet, dépôt: { type, dateÉchéance, dernièreMiseÀJour } }) => ({
       identifiantProjet: identifiantProjet.formatter(),
