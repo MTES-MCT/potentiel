@@ -5,7 +5,7 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Bordeaux"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Plan du scénario: la DREAL associée au projet accorde la demande de délai d'un projet lauréat

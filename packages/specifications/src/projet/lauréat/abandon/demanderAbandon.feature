@@ -6,9 +6,8 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | CRE4 - Autoconsommation métropole |
             | période       | 10                                |
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
-    @select
     Scénario: Un porteur demande l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé

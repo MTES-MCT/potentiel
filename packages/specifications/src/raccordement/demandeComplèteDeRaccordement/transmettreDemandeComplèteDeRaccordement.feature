@@ -4,7 +4,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet

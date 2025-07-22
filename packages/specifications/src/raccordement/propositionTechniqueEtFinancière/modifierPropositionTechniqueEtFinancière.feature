@@ -34,7 +34,7 @@ Fonctionnalité: Modifier une proposition technique et financière
     Scénario: Impossible de modifier une proposition technique et financière d'un projet en cours d'abandon
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"

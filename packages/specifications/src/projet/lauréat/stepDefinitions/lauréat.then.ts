@@ -27,10 +27,10 @@ Alors('le projet lauréat devrait être consultable', async function (this: Pote
 
 Alors('le cahier des charges devrait être modifié', async function (this: PotentielWorld) {
   await waitForExpect(async () => {
-    const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+    const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
       data: {
-        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
       },
     });
 

@@ -6,7 +6,7 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-est" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
     Scénario: Un porteur corrige sa demande de délai
         Etant donné une demande de délai en cours pour le projet lauréat

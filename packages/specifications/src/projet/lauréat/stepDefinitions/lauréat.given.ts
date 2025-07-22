@@ -63,24 +63,27 @@ EtantDonné(
     }
   },
 );
-EtantDonné('un cahier des charges modificatif choisi', async function (this: PotentielWorld) {
-  const { identifiantProjet } = this.lauréatWorld;
-  const période = appelsOffreData
-    .find((ao) => ao.id === identifiantProjet.appelOffre)
-    ?.periodes.find((p) => p.id === identifiantProjet.période);
-  if (!période) {
-    throw new Error('Données invalides - période non trouvée');
-  }
+EtantDonné(
+  'un cahier des charges permettant la modification du projet',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const période = appelsOffreData
+      .find((ao) => ao.id === identifiantProjet.appelOffre)
+      ?.periodes.find((p) => p.id === identifiantProjet.période);
+    if (!période) {
+      throw new Error('Données invalides - période non trouvée');
+    }
 
-  if (période.cahiersDesChargesModifiésDisponibles.length > 0) {
-    await choisirCahierDesCharges.call(
-      this,
-      AppelOffre.RéférenceCahierDesCharges.bind(
-        période.cahiersDesChargesModifiésDisponibles[0]!,
-      ).formatter(),
-    );
-  }
-});
+    if (période.choisirNouveauCahierDesCharges) {
+      await choisirCahierDesCharges.call(
+        this,
+        AppelOffre.RéférenceCahierDesCharges.bind(
+          période.cahiersDesChargesModifiésDisponibles[0]!,
+        ).formatter(),
+      );
+    }
+  },
+);
 
 EtantDonné(
   'le cahier des charges {string} choisi pour le projet lauréat',

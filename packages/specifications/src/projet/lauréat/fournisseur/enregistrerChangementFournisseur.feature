@@ -4,7 +4,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Enregistrer un changement de fournisseur

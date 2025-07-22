@@ -4,7 +4,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
     Plan du scénario: Rejeter la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat

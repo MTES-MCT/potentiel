@@ -8,7 +8,7 @@ Fonctionnalité: Supprimer la demande de changement d'actionnaire
             | période       | 6                           |
             | actionnariat  | investissement-participatif |
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
     Scénario: Le système supprime la demande de changement d'actionnaire si celui-ci est abandonné
         Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat

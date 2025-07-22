@@ -1,13 +1,12 @@
 # language: fr
 @actionnaire
-@select
 Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
         Et la dreal "DREAL" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
     Scénario: Enregistrer un changement d'actionnaire d'un projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat

@@ -4,7 +4,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
     Scénario: Un porteur demande le changement de réprésentant légal d'un projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat le "2024-10-24"

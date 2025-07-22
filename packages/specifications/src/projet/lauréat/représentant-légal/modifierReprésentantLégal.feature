@@ -13,7 +13,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Modifier le représentant légal d'un projet lauréat abandonné
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et un abandon accordé pour le projet lauréat
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
         Alors le représentant légal du projet lauréat devrait être mis à jour
@@ -24,7 +24,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Modifier le représentant légal d'un projet lauréat achevé
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
         Alors le représentant légal du projet lauréat devrait être mis à jour
@@ -45,7 +45,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
     Scénario: Impossible de modifier le représentant légal d'un projet lauréat si une demande de changement de représentant légal est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Impossible de modifier le représentant légal car une demande de changement est déjà en cours"
