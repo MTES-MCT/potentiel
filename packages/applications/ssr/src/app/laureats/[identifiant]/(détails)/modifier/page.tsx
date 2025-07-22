@@ -7,13 +7,11 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
-import {
-  ModifierLauréatPage,
-  ModifierLauréatPageProps,
-} from '@/components/pages/lauréat/modifier/ModifierLauréat.page';
 import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
 
-import { GetLauréat, getLauréat } from '../_helpers/getLauréat';
+import { GetLauréat, getLauréat } from '../../_helpers/getLauréat';
+
+import { ModifierLauréatPage, ModifierLauréatPageProps } from './ModifierLauréat.page';
 
 export const metadata: Metadata = {
   title: 'Page de modification du projet lauréat - Potentiel',
