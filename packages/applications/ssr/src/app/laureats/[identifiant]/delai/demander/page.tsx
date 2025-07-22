@@ -13,7 +13,6 @@ import {
   récupérerLauréatSansAbandon,
   vérifierQueLeCahierDesChargesPermetUnChangement,
 } from '@/app/_helpers';
-import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { DemanderDélaiPage } from './DemanderDélai.page';
 

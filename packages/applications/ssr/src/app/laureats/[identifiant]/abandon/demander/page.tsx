@@ -7,7 +7,6 @@ import {
   récupérerLauréatSansAbandon,
   vérifierQueLeCahierDesChargesPermetUnChangement,
 } from '@/app/_helpers';
-import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { DemanderAbandonPage } from './DemanderAbandon.page';
 
