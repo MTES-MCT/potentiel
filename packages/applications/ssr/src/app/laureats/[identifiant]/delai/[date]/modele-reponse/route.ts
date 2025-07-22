@@ -46,7 +46,7 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
       return notFound();
     }
 
-    const texteDélaisDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('achèvement');
+    const texteDélaisDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('délai');
 
     const { logo, data } = mapLauréatToModèleRéponsePayload({
       identifiantProjet,
