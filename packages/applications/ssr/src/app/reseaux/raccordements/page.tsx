@@ -11,8 +11,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { DossierRaccordementListPage } from '@/components/pages/réseau/raccordement/lister/DossierRaccordementList.page';
 import { mapToRangeOptions } from '@/utils/pagination';
+
+import { DossierRaccordementListPage } from './DossierRaccordementList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;

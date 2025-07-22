@@ -1,8 +1,9 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { CorrigerRéférencesDossierPage } from '@/components/pages/réseau/raccordement/corriger-par-lot/CorrigerRéférencesDossier.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { CorrigerRéférencesDossierPage } from './CorrigerRéférencesDossier.page';
 
 export default async function Page() {
   return PageWithErrorHandling(async () =>
