@@ -9,9 +9,7 @@ type PièceJustificative = { format: string; content: ReadableStream };
 
 export type CréerDemandeChangementReprésentantLégalFixture = Partial<
   Readonly<DemanderChangementReprésentantLégal>
-> & {
-  identifiantProjet: string;
-};
+>;
 
 export interface DemanderChangementReprésentantLégal {
   readonly nomReprésentantLégal: string;
@@ -25,12 +23,6 @@ export class DemanderChangementReprésentantLégalFixture
   extends AbstractFixture<DemanderChangementReprésentantLégal>
   implements DemanderChangementReprésentantLégal
 {
-  #identifiantProjet!: string;
-
-  get identifiantProjet(): string {
-    return this.#identifiantProjet;
-  }
-
   #nomReprésentantLégal!: string;
 
   get nomReprésentantLégal(): string {
@@ -92,7 +84,6 @@ export class DemanderChangementReprésentantLégalFixture
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
 
-    this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
     this.#demandéLe = fixture.demandéLe;

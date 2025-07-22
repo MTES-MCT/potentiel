@@ -9,9 +9,9 @@ import { DemanderChangementReprésentantLégalFixture } from './fixtures/demande
 import { CorrigerChangementReprésentantLégalFixture } from './fixtures/corrigerChangementReprésentantLégal.fixture';
 
 export class ChangementReprésentantLégalWorld {
-  #demanderChangementReprésentantLégalFixture: DemanderChangementReprésentantLégalFixture;
-  get demanderChangementReprésentantLégalFixture() {
-    return this.#demanderChangementReprésentantLégalFixture;
+  #demanderOuEnregistrerChangementReprésentantLégalFixture: DemanderChangementReprésentantLégalFixture;
+  get demanderOuEnregistrerChangementReprésentantLégalFixture() {
+    return this.#demanderOuEnregistrerChangementReprésentantLégalFixture;
   }
 
   #annulerChangementReprésentantLégalFixture: AnnulerChangementReprésentantLégalFixture;
@@ -35,7 +35,7 @@ export class ChangementReprésentantLégalWorld {
   }
 
   constructor() {
-    this.#demanderChangementReprésentantLégalFixture =
+    this.#demanderOuEnregistrerChangementReprésentantLégalFixture =
       new DemanderChangementReprésentantLégalFixture();
     this.#annulerChangementReprésentantLégalFixture =
       new AnnulerChangementReprésentantLégalFixture();
@@ -54,21 +54,22 @@ export class ChangementReprésentantLégalWorld {
     const expected: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
       identifiantProjet,
       demande: {
-        statut: statut ?? this.#demanderChangementReprésentantLégalFixture.statut,
-        nomReprésentantLégal: this.#demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
+        statut: statut ?? this.#demanderOuEnregistrerChangementReprésentantLégalFixture.statut,
+        nomReprésentantLégal:
+          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:
-          this.#demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
+          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.typeReprésentantLégal,
         demandéLe: DateTime.convertirEnValueType(
-          this.#demanderChangementReprésentantLégalFixture.demandéLe,
+          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         ),
         demandéPar: Email.convertirEnValueType(
-          this.#demanderChangementReprésentantLégalFixture.demandéPar,
+          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéPar,
         ),
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Lauréat.ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-          this.#demanderChangementReprésentantLégalFixture.demandéLe,
-          this.#demanderChangementReprésentantLégalFixture.pièceJustificative!.format,
+          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+          this.#demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative!.format,
         ),
       },
     };
@@ -81,7 +82,7 @@ export class ChangementReprésentantLégalWorld {
       expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         Lauréat.ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-        this.#demanderChangementReprésentantLégalFixture.demandéLe,
+        this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
       );
     }

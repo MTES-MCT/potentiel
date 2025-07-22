@@ -12,6 +12,16 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 
 Alors(
+  'le changement enregistré du producteur du projet lauréat devrait être consultable',
+  async function (this: PotentielWorld) {
+    await vérifierDemande.call(
+      this,
+      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée,
+    );
+  },
+);
+
+Alors(
   /une demande de changement de représentant légal du projet lauréat devrait être consultable/,
   async function (this: PotentielWorld) {
     await vérifierDemande.call(this);
@@ -38,7 +48,7 @@ Alors(
             identifiantProjet: identifiantProjet.formatter(),
             demandéLe:
               this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderChangementReprésentantLégalFixture.demandéLe,
+                .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
           },
         });
 
@@ -81,7 +91,10 @@ Alors(
   },
 );
 
-async function vérifierDemande(this: PotentielWorld) {
+async function vérifierDemande(
+  this: PotentielWorld,
+  statut?: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
+) {
   await waitForExpect(async () => {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -92,7 +105,7 @@ async function vérifierDemande(this: PotentielWorld) {
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.demandéLe,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         },
       });
 
@@ -100,6 +113,7 @@ async function vérifierDemande(this: PotentielWorld) {
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,
+        statut,
       ),
     );
 
@@ -118,14 +132,14 @@ async function vérifierDemande(this: PotentielWorld) {
       const actualContent = await convertReadableStreamToString(result.content);
 
       const {
-        demanderChangementReprésentantLégalFixture,
+        demanderOuEnregistrerChangementReprésentantLégalFixture,
         corrigerChangementReprésentantLégalFixture,
       } = this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld;
 
       const expectedContent = await convertReadableStreamToString(
         corrigerChangementReprésentantLégalFixture.aÉtéCréé
           ? corrigerChangementReprésentantLégalFixture.pièceJustificative.content
-          : demanderChangementReprésentantLégalFixture.pièceJustificative.content,
+          : demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative.content,
       );
 
       actualContent.should.be.equal(expectedContent);
@@ -147,7 +161,7 @@ async function vérifierInstructionDemande(
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.demandéLe,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         },
       });
 
@@ -177,7 +191,7 @@ async function vérifierInstructionAutomatiqueDemande(
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.demandéLe,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         },
       });
 

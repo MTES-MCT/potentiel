@@ -44,12 +44,13 @@ export class ReprésentantLégalWorld {
     }
 
     if (
-      this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.aÉtéCréé
+      this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture
+        .aÉtéCréé
     ) {
       expected.demandeEnCours = {
         demandéLe:
-          this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture
-            .demandéLe,
+          this.#changementReprésentantLégalWorld
+            .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
       };
     }
 

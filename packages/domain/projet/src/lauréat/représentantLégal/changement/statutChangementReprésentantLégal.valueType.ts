@@ -2,7 +2,13 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 
 import { DemandeChangementInexistanteError } from './changementReprésentantLégal.error';
 
-export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté'] as const;
+export const statuts = [
+  'accordé',
+  'annulé',
+  'demandé',
+  'rejeté',
+  'information-enregistrée',
+] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -13,6 +19,7 @@ export type ValueType = ReadonlyValueType<{
   estAnnulé: () => boolean;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
+  estInformationEnregistrée: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
@@ -38,21 +45,35 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     estRejeté() {
       return this.statut === 'rejeté';
     },
+    estInformationEnregistrée() {
+      return this.statut === 'information-enregistrée';
+    },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (nouveauStatut.estDemandé() && this.estDemandé()) {
-        throw new DemandeChangementDéjàDemandéeError();
+      if (this.estInformationEnregistrée()) {
+        throw new AucuneDemandeDeChangementEnCoursError();
       }
 
+      if (this.estDemandé()) {
+        if (nouveauStatut.estDemandé() || nouveauStatut.estInformationEnregistrée()) {
+          throw new DemandeChangementDéjàEnCoursError();
+        }
+      }
+
+      // cas ajouté (annulé)
       if (
         (nouveauStatut.estAccordé() || nouveauStatut.estRejeté()) &&
-        (this.estAccordé() || this.estRejeté())
+        (this.estAccordé() || this.estRejeté() || this.estAnnulé())
       ) {
         throw new DemandeChangementInexistanteError();
       }
 
       if (nouveauStatut.estAnnulé()) {
-        if (this.estAccordé()) throw new DemandeChangementDéjàAccordéeError();
-        if (this.estRejeté()) throw new DemandeChangementDéjàRejetéeError();
+        if (this.estAccordé()) {
+          throw new DemandeChangementDéjàAccordéeError();
+        }
+        if (this.estRejeté()) {
+          throw new DemandeChangementDéjàRejetéeError();
+        }
       }
     },
   };
@@ -75,6 +96,7 @@ export const demandé = convertirEnValueType('demandé');
 export const annulé = convertirEnValueType('annulé');
 export const accordé = convertirEnValueType('accordé');
 export const rejeté = convertirEnValueType('rejeté');
+export const informationEnregistrée = convertirEnValueType('information-enregistrée');
 
 class StatutChangementReprésentantLégalInvalideError extends InvalidOperationError {
   constructor(value: string) {
@@ -84,7 +106,7 @@ class StatutChangementReprésentantLégalInvalideError extends InvalidOperationE
   }
 }
 
-class DemandeChangementDéjàDemandéeError extends InvalidOperationError {
+class DemandeChangementDéjàEnCoursError extends InvalidOperationError {
   constructor() {
     super(`Une demande de changement de représentant légal est déjà en cours`);
   }
@@ -98,5 +120,11 @@ class DemandeChangementDéjàAccordéeError extends InvalidOperationError {
 class DemandeChangementDéjàRejetéeError extends InvalidOperationError {
   constructor() {
     super(`La demande de changement de représentant légal a déjà été rejetée`);
+  }
+}
+
+class AucuneDemandeDeChangementEnCoursError extends InvalidOperationError {
+  constructor() {
+    super(`Aucune demande de changement n'est en cours`);
   }
 }

@@ -19,7 +19,7 @@ export const StatutChangementReprésentantLégalBadge: FC<
 const getSeverity = (statut: StatutChangementReprésentantLégalBadgeProps['statut']) =>
   match(statut)
     .returnType<BadgeProps['severity']>()
-    .with('demandé', () => 'new')
+    .with(P.union('demandé', 'information-enregistrée'), () => 'new')
     .with('accordé', () => 'success')
     .with(P.union('rejeté', 'annulé'), () => 'warning')
     .exhaustive();

@@ -16,6 +16,7 @@ import {
   mapToChangementReprésentantLégalAnnuléTimelineItemProps,
 } from './events';
 
+// viovio à changer
 export const mapToReprésentantLégalTimelineItemProps = (
   readmodel: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
 ) =>
@@ -62,6 +63,12 @@ export const mapToReprésentantLégalTimelineItemProps = (
         type: 'ChangementReprésentantLégalAnnulé-V1',
       },
       mapToChangementReprésentantLégalAnnuléTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'ChangementReprésentantLégalEnregistré-V1',
+      },
+      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
     )
     .with(
       {

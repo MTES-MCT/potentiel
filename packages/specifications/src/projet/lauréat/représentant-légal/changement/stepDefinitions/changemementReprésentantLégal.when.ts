@@ -12,9 +12,7 @@ import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixture
 Quand(
   'le porteur demande le changement de réprésentant pour le projet lauréat',
   async function (this: PotentielWorld) {
-    await demanderChangement.call(this, {
-      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-    });
+    await demanderChangement.call(this, {});
   },
 );
 
@@ -86,7 +84,7 @@ Quand(
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
       corrigéPar:
         this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .demanderChangementReprésentantLégalFixture.demandéPar,
+          .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéPar,
     });
   },
 );
@@ -142,12 +140,45 @@ Quand(
   },
 );
 
+Quand(
+  'le porteur enregistre un changement de représentant légal',
+  async function (this: PotentielWorld) {
+    await enregistrerChangementReprésentantLégal.call(this, {});
+  },
+);
+
+async function enregistrerChangementReprésentantLégal(
+  this: PotentielWorld,
+  partialFixture: CréerDemandeChangementReprésentantLégalFixture,
+) {
+  const { nomReprésentantLégal, typeReprésentantLégal, pièceJustificative, demandéLe, demandéPar } =
+    this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
+      { ...partialFixture },
+    );
+
+  try {
+    await mediator.send<Lauréat.ReprésentantLégal.EnregistrerChangementReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+        nomReprésentantLégalValue: nomReprésentantLégal,
+        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+        pièceJustificativeValue: pièceJustificative,
+        dateChangementValue: demandéLe,
+        identifiantUtilisateurValue: demandéPar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
 async function demanderChangement(
   this: PotentielWorld,
   partialFixture: CréerDemandeChangementReprésentantLégalFixture,
 ) {
   const { nomReprésentantLégal, typeReprésentantLégal, pièceJustificative, demandéLe, demandéPar } =
-    this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
+    this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
       { ...partialFixture },
     );
 
@@ -155,7 +186,7 @@ async function demanderChangement(
     await mediator.send<Lauréat.ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
-        identifiantProjetValue: partialFixture.identifiantProjet,
+        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         nomReprésentantLégalValue: nomReprésentantLégal,
         typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
         pièceJustificativeValue: pièceJustificative,
@@ -194,9 +225,9 @@ async function corrigerDemandeChangement(
         typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
         pièceJustificativeValue: pièceJustificative,
         dateDemandeValue: this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .demanderChangementReprésentantLégalFixture.aÉtéCréé
+          .demanderOuEnregistrerChangementReprésentantLégalFixture.aÉtéCréé
           ? this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.demandéLe
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe
           : DateTime.now().formatter(),
         dateCorrectionValue: corrigéLe,
         identifiantUtilisateurValue: corrigéPar,
@@ -223,7 +254,7 @@ async function instruireChangement(
               nomReprésentantLégal:
                 correctionNomReprésentantLégal ??
                 this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                  .demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
+                  .demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal,
             },
           );
 
@@ -277,10 +308,10 @@ async function instruireAutomatiquementChangement(
           accordéePar: Email.system().formatter(),
           nomReprésentantLégal:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal,
           typeReprésentantLégal:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.typeReprésentantLégal,
         },
       );
     } else {
