@@ -6,7 +6,7 @@ import { getCahierDesCharges } from './getCahierDesCharges';
 
 export const vérifierQueLeCahierDesChargesPermetUnChangement = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-  typeChangement: 'informationEnregistrée' | 'demande',
+  typeChangement: 'information-enregistrée' | 'demande',
   domaine: AppelOffre.DomainesConcernésParChangement,
 ) => {
   const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);

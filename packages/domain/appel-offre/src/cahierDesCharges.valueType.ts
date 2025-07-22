@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 
 import {
@@ -17,7 +19,7 @@ export type ValueType = {
   cahierDesChargesModificatif: PlainType<CahierDesChargesModifié> | undefined;
   technologie: Technologie | undefined;
   vérifierQueLeChangementEstPossible(
-    typeChangement: 'informationEnregistrée' | 'demande',
+    typeChangement: 'information-enregistrée' | 'demande',
     domaine: DomainesConcernésParChangement,
   ): void;
   estSoumisAuxGarantiesFinancières(): boolean;
@@ -43,7 +45,14 @@ export const bind = ({
       ...this.période.changement,
       ...this.cahierDesChargesModificatif?.changement,
     };
-    if (changement[domaine]?.[typeChangement] !== true) {
+
+    const règlesChangement = changement[domaine] ?? {};
+    const règleTypeChangement = match(typeChangement)
+      .with('demande', () => règlesChangement.demande)
+      .with('information-enregistrée', () => règlesChangement.informationEnregistrée)
+      .exhaustive();
+
+    if (règleTypeChangement !== true) {
       throw new CahierDesChargesEmpêcheModificationError();
     }
   },

@@ -106,7 +106,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeLauréatExiste();
     this.lauréat.vérifierNiAbandonnéNiEnCoursAbandon();
     this.lauréat.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(
-      'informationEnregistrée',
+      'information-enregistrée',
       'achèvement',
     );
     if (dateTransmissionAuCocontractant.estDansLeFutur()) {
