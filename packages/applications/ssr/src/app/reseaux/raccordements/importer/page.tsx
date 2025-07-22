@@ -1,11 +1,12 @@
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ImporterDatesMiseEnServicePage } from '@/components/pages/réseau/raccordement/importerDatesMiseEnService/ImporterDatesMiseEnService.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { récupérerLesGestionnairesParUtilisateur } from '../_helpers/récupérerLesGestionnairesParUtilisateur';
+
+import { ImporterDatesMiseEnServicePage } from './ImporterDatesMiseEnService.page';
 
 export default async function Page() {
   return PageWithErrorHandling(async () =>
