@@ -10,10 +10,11 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+
 import {
   GestionnaireRéseauSelect,
   GestionnaireRéseauSelectProps,
-} from '@/app/laureats/[identifiant]/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
+} from '../../../laureats/[identifiant]/raccordements/(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
 
 import {
   importerDatesMiseEnServiceAction,

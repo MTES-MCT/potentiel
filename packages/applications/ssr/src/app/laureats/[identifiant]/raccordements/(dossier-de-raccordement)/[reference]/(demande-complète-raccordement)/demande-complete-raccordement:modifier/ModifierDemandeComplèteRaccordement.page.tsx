@@ -3,12 +3,12 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import {
-  InformationDemandeComplèteRaccordementProps,
-  InformationDemandeComplèteRaccordement,
-} from '@/app/laureats/[identifiant]/raccordements/(dossier-de-raccordement)/[reference]/(demande-complète-raccordement)/InformationDemandeComplèteRaccordement';
 
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
+import {
+  InformationDemandeComplèteRaccordement,
+  InformationDemandeComplèteRaccordementProps,
+} from '../InformationDemandeComplèteRaccordement';
 
 import {
   ModifierDemandeComplèteRaccordementForm,

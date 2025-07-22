@@ -10,15 +10,16 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  DétailsRaccordementDuProjetPage,
-  DétailsRaccordementPageProps,
-} from '@/app/laureats/[identifiant]/raccordements/(raccordement-du-projet)/(détails)/DétailsRaccordementDuProjet.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+
+import {
+  DétailsRaccordementDuProjetPage,
+  DétailsRaccordementPageProps,
+} from './DétailsRaccordementDuProjet.page';
 
 type PageProps = IdentifiantParameter;
 
