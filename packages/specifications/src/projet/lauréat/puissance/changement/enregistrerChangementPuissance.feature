@@ -81,7 +81,6 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | PPE2 - Eolien | 1       | 0.75  |
             | CRE4 - Sol    | 7       | 0.85  |
 
-    @select
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est supérieure au ratio max autorisé par l'appel d'offres
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | <Appel d'offre> |
