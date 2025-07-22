@@ -6,7 +6,7 @@ import waitForExpect from 'wait-for-expect';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';

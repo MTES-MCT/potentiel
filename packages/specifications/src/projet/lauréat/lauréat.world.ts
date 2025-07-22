@@ -1,5 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat, StatutProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat, StatutProjet } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { CandidatureWorld } from '../../candidature/candidature.world';

@@ -6,7 +6,7 @@ import { assert } from 'chai';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../../potentiel.world';

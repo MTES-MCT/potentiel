@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';

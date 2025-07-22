@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Éliminé } from '@potentiel-domain/projet';
 

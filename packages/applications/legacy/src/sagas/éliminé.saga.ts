@@ -3,7 +3,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectNotified } from '../modules/project';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger } from '../core/utils';
 import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';

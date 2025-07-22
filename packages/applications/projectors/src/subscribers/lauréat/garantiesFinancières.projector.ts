@@ -5,7 +5,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 

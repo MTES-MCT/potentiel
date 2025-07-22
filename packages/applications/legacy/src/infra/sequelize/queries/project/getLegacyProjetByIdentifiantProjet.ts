@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Project } from '../../projectionsNext';
 import { PlainType } from '@potentiel-domain/core';
 

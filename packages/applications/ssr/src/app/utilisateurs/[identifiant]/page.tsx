@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Accès } from '@potentiel-domain/projet';
 import {

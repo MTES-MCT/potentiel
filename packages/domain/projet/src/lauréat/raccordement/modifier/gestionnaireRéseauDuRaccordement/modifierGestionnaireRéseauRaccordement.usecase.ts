@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+
+import { IdentifiantProjet } from '../../../..';
 
 import { ModifierGestionnaireRéseauRaccordementCommand } from './modifierGestionnaireRéseauRaccordement.command';
 

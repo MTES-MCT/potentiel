@@ -16,7 +16,7 @@ import {
   FiltreListeProjets,
 } from '../../modules/project/queries/listerProjets';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 const getFiltres = ({

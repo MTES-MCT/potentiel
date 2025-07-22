@@ -1,8 +1,7 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
-
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
+import { IdentifiantProjet } from '../../../..';
 
 import { SupprimerDossierDuRaccordementCommand } from './supprimerDossierDuRaccordement.command';
 

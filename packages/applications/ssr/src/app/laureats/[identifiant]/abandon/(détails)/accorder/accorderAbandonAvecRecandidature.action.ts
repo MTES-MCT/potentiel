@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';

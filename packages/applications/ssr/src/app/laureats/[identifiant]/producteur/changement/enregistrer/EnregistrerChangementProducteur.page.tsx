@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';

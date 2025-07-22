@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { GetProjetAggregateRoot } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type ModifierGestionnaireRéseauRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
