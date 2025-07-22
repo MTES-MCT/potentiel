@@ -7,7 +7,7 @@ import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/candidature';
 
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
-import { getInputTypeNativeProps } from '../../_utils/getInputTypeNativeProps';
+import { getInputTypeNativeProps } from '../../_helpers/getInputTypeNativeProps';
 
 export type CandidatureFieldProps<T> = {
   candidature: T;

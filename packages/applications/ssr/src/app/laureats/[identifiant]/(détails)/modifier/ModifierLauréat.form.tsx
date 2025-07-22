@@ -17,8 +17,7 @@ import {
   ModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
 import { ValidationErrors } from '@/utils/formAction';
-
-import { FormAlertError } from '../../../atoms/form/FormAlertError';
+import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ProjectField } from './components/fields/ProjectField';
