@@ -8,9 +8,6 @@ import react from 'eslint-plugin-react';
 import eslintJs from '@eslint/js';
 import next from '@next/eslint-plugin-next';
 
-/**
- * @type {import("eslint").Linter.FlatConfig}
- */
 export default eslintTs.config(
   eslintJs.configs.recommended,
   prettierConfig,
@@ -39,7 +36,13 @@ export default eslintTs.config(
 
   {
     files: ['**/*.ts'],
-    ignores: ['.github/**/*', '**/*.test*.ts', '**/*.integration.ts', '**/*.spec*.ts'],
+    ignores: [
+      '.github/**/*',
+      '**/*.test*.ts',
+      '**/*.integration.ts',
+      '**/*.spec*.ts',
+      'packages/infrastructure/ds-api-client/codegen.ts',
+    ],
     languageOptions: {
       parserOptions: {
         project: true,
