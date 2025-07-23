@@ -44,12 +44,18 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-    Scénario: Impossible d'enregistrer un changement de représentant légal si le cahier des charges ne le permet pas
+    Scénario: Impossible de demander un changement de représentant légal si le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+
+    Scénario: Impossible de demander un changement de représentant légal si l'AO ne le permet pas
+        Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
+            | appel d'offre | PPE2 - Petit PV |
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
 
     # Tâches planifiées
     Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un accord automatique

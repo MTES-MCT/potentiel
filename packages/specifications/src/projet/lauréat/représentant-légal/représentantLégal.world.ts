@@ -47,11 +47,6 @@ export class ReprésentantLégalWorld {
       this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture
         .aÉtéCréé
     ) {
-      expected.demandeEnCours = {
-        demandéLe:
-          this.#changementReprésentantLégalWorld
-            .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
-      };
       if (
         this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.statut.estInformationEnregistrée()
       ) {
@@ -59,6 +54,12 @@ export class ReprésentantLégalWorld {
           this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal;
         expected.typeReprésentantLégal =
           this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.typeReprésentantLégal;
+      } else {
+        expected.demandeEnCours = {
+          demandéLe:
+            this.#changementReprésentantLégalWorld
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+        };
       }
     }
 
