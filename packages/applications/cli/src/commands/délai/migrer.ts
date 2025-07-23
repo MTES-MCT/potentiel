@@ -40,11 +40,67 @@ export class Migrer extends Command {
         mr."cancelledOn" as "dateAnnulation"
       from "modificationRequests" mr 
       join "projects" p on p."id" = mr."projectId"
-      where mr.type = 'delai'
+      where 
+        mr.type = 'delai' 
+        and mr.status <> 'accord-de-principe'
       order by mr."createdAt";
     `;
 
-    const demandes = await executeSelect<{}>(demandesDélaiQuery);
+    type DélaiDemandéSurPotentiel = {
+      identifiantProjet: string;
+      nombreDeMois: number;
+      dateDemande: number;
+      identifiantUtilisateur: string;
+      identifiantPièceJustificative?: string;
+      raison?: string;
+      identifiantInstructeur?: string;
+      dateInstruction?: number;
+      identifiantRéponseSignée?: string;
+    } & (
+      | {
+          statut: 'acceptée';
+          accord:
+            | {
+                dateAchèvementAccordée: string;
+              }
+            | {
+                delayInMonths: number;
+              };
+          identifiantInstructeur: string;
+          dateInstruction: number;
+        }
+      | {
+          statut: 'rejetée';
+          identifiantInstructeur: string;
+          dateInstruction: number;
+        }
+      | {
+          statut: 'en instruction' | 'envoyée';
+        }
+      | {
+          statut: 'annulée';
+          identifiantAnnulateur: string;
+          dateAnnulation: number;
+        }
+    );
+
+    type DélaiTraitéHorsPotentielEtImporté = {
+      identifiantProjet: string;
+      dateInstruction: number;
+    } & (
+      | {
+          statut: 'acceptée';
+          accord: {
+            ancienneDateLimiteAchevement: number;
+            nouvelleDateLimiteAchevement: number;
+          };
+        }
+      | { statut: 'rejetée' }
+    );
+
+    const demandes = await executeSelect<
+      DélaiDemandéSurPotentiel | DélaiTraitéHorsPotentielEtImporté
+    >(demandesDélaiQuery);
 
     const newEvents: Array<Lauréat.Délai.DélaiAccordéEvent> = [];
 
