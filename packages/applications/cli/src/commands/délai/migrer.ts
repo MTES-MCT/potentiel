@@ -9,6 +9,17 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { copyFile, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
+// type DélaiTraitéHorsPotentielEtImporté = {
+//   identifiantProjet: string;
+//   dateInstruction: string;
+//   dateDemande: undefined;
+//   statut: 'acceptée';
+//   accord: {
+//     ancienneDateLimiteAchevement: string;
+//     nouvelleDateLimiteAchevement: string;
+//   };
+// };
+
 type DélaiDemandéSurPotentiel = {
   legacyProjectId: string;
   identifiantProjet: string;
@@ -68,90 +79,92 @@ export class Migrer extends Command {
 
     const eventsStats: Record<string, number> = {};
 
-    const demandesDélaiQuery = `
-      select 
-		    p.id as "legacyProjectId",
-        p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet",
-        mr."delayInMonths" as "nombreDeMois",
-        mr."dateAchèvementDemandée" as "dateAchèvementDemandée",
-        mr."requestedOn" as "dateDemande",
-        mr."userId" as "identifiantUtilisateur",
-        mr."status" as "statut",
-        mr."justification" as "raison",
-        mr."fileId" as "identifiantPièceJustificative",
-        mr."respondedBy" as "identifiantInstructeur",
-        mr."respondedOn" as "dateInstruction",
-        mr."responseFileId" as "identifiantRéponseSignée",
-        mr."acceptanceParams" as "accord",
-        mr."cancelledBy" as "identifiantAnnulateur",
-        mr."cancelledOn" as "dateAnnulation"
-      from "modificationRequests" mr 
-      join "projects" p on p."id" = mr."projectId"
-      where 
-        mr.type = 'delai' 
-        and mr.status <> 'accord-de-principe'
-        and (mr."delayInMonths" is not null or mr."dateAchèvementDemandée" is not null)
-      order by mr."createdAt"
+    try {
+      const demandesDélaiQuery = `
+        select 
+          p.id as "legacyProjectId",
+          p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet",
+          mr."delayInMonths" as "nombreDeMois",
+          mr."dateAchèvementDemandée" as "dateAchèvementDemandée",
+          mr."requestedOn" as "dateDemande",
+          mr."userId" as "identifiantUtilisateur",
+          mr."status" as "statut",
+          mr."justification" as "raison",
+          mr."fileId" as "identifiantPièceJustificative",
+          mr."respondedBy" as "identifiantInstructeur",
+          mr."respondedOn" as "dateInstruction",
+          mr."responseFileId" as "identifiantRéponseSignée",
+          mr."acceptanceParams" as "accord",
+          mr."cancelledBy" as "identifiantAnnulateur",
+          mr."cancelledOn" as "dateAnnulation"
+        from "modificationRequests" mr 
+        join "projects" p on p."id" = mr."projectId"
+        where 
+          mr.type = 'delai' 
+          and mr.status <> 'accord-de-principe'
+          and (mr."delayInMonths" is not null or mr."dateAchèvementDemandée" is not null)
+        order by mr."createdAt"
     `;
 
-    // type DélaiTraitéHorsPotentielEtImporté = {
-    //   identifiantProjet: string;
-    //   dateInstruction: string;
-    //   dateDemande: undefined;
-    //   statut: 'acceptée';
-    //   accord: {
-    //     ancienneDateLimiteAchevement: string;
-    //     nouvelleDateLimiteAchevement: string;
-    //   };
-    // };
+      const demandes = await executeSelect<DélaiDemandéSurPotentiel>(demandesDélaiQuery);
 
-    const demandes = await executeSelect<DélaiDemandéSurPotentiel>(demandesDélaiQuery);
+      const newEvents: Array<Lauréat.Délai.DélaiEvent> = [];
 
-    const newEvents: Array<Lauréat.Délai.DélaiAccordéEvent> = [];
+      for (const demande of demandes) {
+        const demandéPar = await getIdentifiantUtilisateur(demande.identifiantUtilisateur);
+        const nombreDeMois = await getDélaiDemandé(demande);
+        const pièceJustificative = await migrerDocumentProjet(demande, flags.dryRun);
 
-    for (const demande of demandes) {
-      const délaiDemandéEvent: Lauréat.Délai.DélaiDemandéEvent = {
-        type: 'DélaiDemandé-V1',
-        payload: {
-          demandéLe: DateTime.convertirEnValueType(
-            new Date(Number(demande.dateDemande)),
-          ).formatter(),
-          demandéPar: await getIdentifiantUtilisateur(demande.identifiantUtilisateur),
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(
-            demande.identifiantProjet,
-          ).formatter(),
-          nombreDeMois: await getDélaiDemandé(demande),
-          pièceJustificative: await getDocumentProjet(demande),
-          raison: demande.raison ?? 'Raison non spécifiée',
-        },
-      };
+        const demandéLe = DateTime.convertirEnValueType(
+          new Date(Number(demande.dateDemande)),
+        ).formatter();
 
-      await publish(`délai|${demande.identifiantProjet}`, délaiDemandéEvent);
-    }
+        const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+          demande.identifiantProjet,
+        ).formatter();
 
-    for (const newEvent of newEvents) {
-      if (!flags.dryRun) {
-        await publish(`délai|${newEvent.payload.identifiantProjet}`, newEvent);
+        const raison = demande.raison ?? 'Raison non spécifiée';
+
+        const délaiDemandéEvent: Lauréat.Délai.DélaiDemandéEvent = {
+          type: 'DélaiDemandé-V1',
+          payload: {
+            demandéLe,
+            demandéPar,
+            identifiantProjet,
+            nombreDeMois,
+            pièceJustificative,
+            raison,
+          },
+        };
+
+        newEvents.push(délaiDemandéEvent);
       }
 
-      eventsStats[newEvent.type] ??= 0;
-      eventsStats[newEvent.type]++;
-    }
+      for (const newEvent of newEvents) {
+        if (!flags.dryRun) {
+          await publish(`délai|${newEvent.payload.identifiantProjet}`, newEvent);
+        }
 
-    console.log(eventsStats);
-    console.log('All events published.');
+        eventsStats[newEvent.type] ??= 0;
+        eventsStats[newEvent.type]++;
+      }
+
+      console.log(eventsStats);
+      console.log('All events published.');
+    } catch (error) {
+      console.error(error);
+    }
     process.exit(0);
   }
 }
 
-const getDocumentProjet = async (demande: DélaiDemandéSurPotentiel) => {
+const migrerDocumentProjet = async (demande: DélaiDemandéSurPotentiel, dryRun: boolean) => {
   if (demande.identifiantPièceJustificative) {
-    // récupérer fichier du legacy avec la table files
     const query = `
       select 
         "storedAt" 
       from "files"
-      where "id" = '$1'
+      where "id" = $1
   `;
 
     const file = await executeSelect<{
@@ -175,7 +188,9 @@ const getDocumentProjet = async (demande: DélaiDemandéSurPotentiel) => {
       const sourceKey = file[0].storedAt.replace('S3:potentiel-production:', '');
 
       try {
-        await copyFile(sourceKey, pièceJustificative.formatter());
+        if (!dryRun) {
+          await copyFile(sourceKey, pièceJustificative.formatter());
+        }
 
         return {
           format,
@@ -199,7 +214,16 @@ const getDocumentProjet = async (demande: DélaiDemandéSurPotentiel) => {
   const doc = await getReplacementDoc(
     "Fichier généré automatiquement en l'absence de pièces justificatives",
   );
-  await upload(pièceJustificative.formatter(), doc);
+
+  if (!dryRun) {
+    try {
+      await upload(pièceJustificative.formatter(), doc);
+    } catch (error) {
+      throw new Error(
+        `Impossible de créer le fichier de remplacement vers ${pièceJustificative.formatter()}`,
+      );
+    }
+  }
 
   return { format };
 };
@@ -218,15 +242,15 @@ const getDélaiDemandé = async (demande: DélaiDemandéSurPotentiel): Promise<n
       es.payload->>'completionDueOn' as "dateAchèvementPrévisionnel"
     from "eventStores" es 
     where es.type = 'ProjectCompletionDueDateSet' 
-      and es."aggregateId" && '{$1}'
-      and es."occurredAt" < to_timestamp($2/1000)::date
+      and es.payload->>'projectId' = $1
+      and es."occurredAt" < to_timestamp($2)::date
     order by es.payload->>'completionDueOn' desc
   `;
 
   const achèvement = await executeSelect<{ dateAchèvementPrévisionnel: string }>(
     queryLastDueDateSet,
     demande.legacyProjectId,
-    demande.dateDemande,
+    Number(demande.dateDemande) / 1000,
   );
 
   if (achèvement.length > 0) {
@@ -247,7 +271,7 @@ const getIdentifiantUtilisateur = async (
   identifiantUtilisateur: string,
 ): Promise<Email.RawType> => {
   const query = `
-    select u.email as "email"
+    select email as "email"
     from users
     where id = $1
   `;
