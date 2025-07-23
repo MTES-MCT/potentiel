@@ -113,7 +113,6 @@ export class Migrer extends Command {
       for (const demande of demandes) {
         const demandéPar = await getIdentifiantUtilisateur(demande.identifiantUtilisateur);
         const nombreDeMois = await getDélaiDemandé(demande);
-        const pièceJustificative = await migrerDocumentProjet(demande, flags.dryRun);
 
         const demandéLe = DateTime.convertirEnValueType(
           new Date(Number(demande.dateDemande)),
@@ -122,6 +121,16 @@ export class Migrer extends Command {
         const identifiantProjet = IdentifiantProjet.convertirEnValueType(
           demande.identifiantProjet,
         ).formatter();
+
+        const pièceJustificative = await migrerDocumentProjet(
+          {
+            dateDocument: demandéLe,
+            identifiantProjet,
+            typeDocument: 'délai/pièce-justificative',
+            fileId: demande.identifiantPièceJustificative,
+          },
+          flags.dryRun,
+        );
 
         const raison = demande.raison ?? 'Raison non spécifiée';
 
@@ -138,6 +147,119 @@ export class Migrer extends Command {
         };
 
         newEvents.push(délaiDemandéEvent);
+
+        if (demande.statut === 'en instruction') {
+          const passéeEnInstructionLe = DateTime.convertirEnValueType(
+            new Date(Number(demande.dateInstruction)),
+          ).formatter();
+
+          const passéeEnInstructionPar = demande.identifiantInstructeur
+            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+            : Email.inconnu.formatter();
+
+          const demandeDélaiPasséeEnInstructionEvent: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent =
+            {
+              type: 'DemandeDélaiPasséeEnInstruction-V1',
+              payload: {
+                identifiantProjet,
+                dateDemande: demandéLe,
+                passéeEnInstructionLe,
+                passéeEnInstructionPar,
+              },
+            };
+
+          newEvents.push(demandeDélaiPasséeEnInstructionEvent);
+        }
+
+        if (demande.statut === 'annulée') {
+          const annuléLe = DateTime.convertirEnValueType(
+            new Date(Number(demande.dateInstruction)),
+          ).formatter();
+
+          const annuléPar = demande.identifiantInstructeur
+            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+            : Email.inconnu.formatter();
+
+          const demandeDélaiAnnuléeEvent: Lauréat.Délai.DemandeDélaiAnnuléeEvent = {
+            type: 'DemandeDélaiAnnulée-V1',
+            payload: {
+              identifiantProjet,
+              dateDemande: demandéLe,
+              annuléLe,
+              annuléPar,
+            },
+          };
+
+          newEvents.push(demandeDélaiAnnuléeEvent);
+        }
+
+        if (demande.statut === 'rejetée') {
+          const rejetéeLe = DateTime.convertirEnValueType(
+            new Date(Number(demande.dateInstruction)),
+          ).formatter();
+
+          const rejetéePar = demande.identifiantInstructeur
+            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+            : Email.inconnu.formatter();
+
+          const réponseSignée = await migrerDocumentProjet(
+            {
+              dateDocument: rejetéeLe,
+              identifiantProjet,
+              typeDocument: 'délai/demande-rejetée',
+              fileId: demande.identifiantRéponseSignée,
+            },
+            flags.dryRun,
+          );
+
+          const demandeDélaiRejetéeEvent: Lauréat.Délai.DemandeDélaiRejetéeEvent = {
+            type: 'DemandeDélaiRejetée-V1',
+            payload: {
+              identifiantProjet,
+              dateDemande: demandéLe,
+              rejetéeLe,
+              rejetéePar,
+              réponseSignée,
+            },
+          };
+
+          newEvents.push(demandeDélaiRejetéeEvent);
+        }
+
+        if (demande.statut === 'acceptée') {
+          const accordéLe = DateTime.convertirEnValueType(
+            new Date(Number(demande.dateInstruction)),
+          ).formatter();
+
+          const accordéPar = demande.identifiantInstructeur
+            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+            : Email.inconnu.formatter();
+
+          const réponseSignée = await migrerDocumentProjet(
+            {
+              dateDocument: accordéLe,
+              identifiantProjet,
+              typeDocument: 'délai/demande-accordée',
+              fileId: demande.identifiantRéponseSignée,
+            },
+            flags.dryRun,
+          );
+
+          const demandeDélaiRejetéeEvent: Lauréat.Délai.DélaiAccordéEvent = {
+            type: 'DélaiAccordé-V1',
+            payload: {
+              identifiantProjet,
+              dateDemande: demandéLe,
+              nombreDeMois,
+              raison: 'demande',
+              accordéLe,
+              accordéPar,
+              réponseSignée,
+            },
+          };
+
+          newEvents.push(demandeDélaiRejetéeEvent);
+        }
       }
 
       for (const newEvent of newEvents) {
@@ -158,8 +280,21 @@ export class Migrer extends Command {
   }
 }
 
-const migrerDocumentProjet = async (demande: DélaiDemandéSurPotentiel, dryRun: boolean) => {
-  if (demande.identifiantPièceJustificative) {
+const migrerDocumentProjet = async (
+  {
+    dateDocument,
+    identifiantProjet,
+    typeDocument,
+    fileId,
+  }: {
+    fileId?: string;
+    identifiantProjet: IdentifiantProjet.RawType;
+    dateDocument: DateTime.RawType;
+    typeDocument: Lauréat.Délai.TypeDocumentDemandeDélai.RawType;
+  },
+  dryRun: boolean,
+) => {
+  if (fileId) {
     const query = `
       select 
         "storedAt" 
@@ -169,7 +304,7 @@ const migrerDocumentProjet = async (demande: DélaiDemandéSurPotentiel, dryRun:
 
     const file = await executeSelect<{
       storedAt: string;
-    }>(query, demande.identifiantPièceJustificative);
+    }>(query, fileId);
 
     if (file.length) {
       const format = lookup(file[0].storedAt);
@@ -179,9 +314,9 @@ const migrerDocumentProjet = async (demande: DélaiDemandéSurPotentiel, dryRun:
       }
 
       const pièceJustificative = DocumentProjet.convertirEnValueType(
-        demande.identifiantProjet,
-        Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(new Date(Number(demande.dateDemande))).formatter(),
+        identifiantProjet,
+        typeDocument,
+        dateDocument,
         format,
       );
 
@@ -205,9 +340,9 @@ const migrerDocumentProjet = async (demande: DélaiDemandéSurPotentiel, dryRun:
 
   const format = 'application/pdf';
   const pièceJustificative = DocumentProjet.convertirEnValueType(
-    demande.identifiantProjet,
-    Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
-    DateTime.convertirEnValueType(new Date(Number(demande.dateDemande))).formatter(),
+    identifiantProjet,
+    typeDocument,
+    dateDocument,
     format,
   );
 
