@@ -1,9 +1,13 @@
 import { Command, Flags } from '@oclif/core';
+import { lookup } from 'mime-types';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { copyFile, upload } from '@potentiel-libraries/file-storage';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 type DélaiDemandéSurPotentiel = {
   legacyProjectId: string;
@@ -117,7 +121,7 @@ export class Migrer extends Command {
             demande.identifiantProjet,
           ).formatter(),
           nombreDeMois: await getDélaiDemandé(demande),
-          pièceJustificative: await getDocumentProjet(demande.identifiantPièceJustificative),
+          pièceJustificative: await getDocumentProjet(demande),
           raison: demande.raison ?? 'Raison non spécifiée',
         },
       };
@@ -139,6 +143,66 @@ export class Migrer extends Command {
     process.exit(0);
   }
 }
+
+const getDocumentProjet = async (demande: DélaiDemandéSurPotentiel) => {
+  if (demande.identifiantPièceJustificative) {
+    // récupérer fichier du legacy avec la table files
+    const query = `
+      select 
+        "storedAt" 
+      from "files"
+      where "id" = '$1'
+  `;
+
+    const file = await executeSelect<{
+      storedAt: string;
+    }>(query, demande.identifiantPièceJustificative);
+
+    if (file.length) {
+      const format = lookup(file[0].storedAt);
+
+      if (!format) {
+        throw new Error(`Problème avec le format du fichier : ${file[0].storedAt}`);
+      }
+
+      const pièceJustificative = DocumentProjet.convertirEnValueType(
+        demande.identifiantProjet,
+        Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
+        DateTime.convertirEnValueType(new Date(Number(demande.dateDemande))).formatter(),
+        format,
+      );
+
+      const sourceKey = file[0].storedAt.replace('S3:potentiel-production:', '');
+
+      try {
+        await copyFile(sourceKey, pièceJustificative.formatter());
+
+        return {
+          format,
+        };
+      } catch (e) {
+        throw new Error(
+          `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
+        );
+      }
+    }
+  }
+
+  const format = 'application/pdf';
+  const pièceJustificative = DocumentProjet.convertirEnValueType(
+    demande.identifiantProjet,
+    Lauréat.Délai.TypeDocumentDemandeDélai.pièceJustificative.formatter(),
+    DateTime.convertirEnValueType(new Date(Number(demande.dateDemande))).formatter(),
+    format,
+  );
+
+  const doc = await getReplacementDoc(
+    "Fichier généré automatiquement en l'absence de pièces justificatives",
+  );
+  await upload(pièceJustificative.formatter(), doc);
+
+  return { format };
+};
 
 const getDélaiDemandé = async (demande: DélaiDemandéSurPotentiel): Promise<number> => {
   if (demande.nombreDeMois) {
@@ -195,4 +259,26 @@ const getIdentifiantUtilisateur = async (
   }
 
   return Email.convertirEnValueType(user[0].email).formatter();
+};
+
+const getReplacementDoc = async (text: string) => {
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage();
+
+  const textSize = 14;
+
+  const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const textWidth = helveticaFont.widthOfTextAtSize(text, textSize);
+  const textHeight = helveticaFont.heightAtSize(textSize);
+
+  page.drawText(text, {
+    x: page.getWidth() / 2 - textWidth / 2,
+    y: (2 / 3) * page.getHeight() - textHeight / 2,
+    size: textSize,
+    font: helveticaFont,
+  });
+
+  const pdfBytes = await pdfDoc.save();
+
+  return new Blob([pdfBytes], { type: 'application/pdf' }).stream();
 };
