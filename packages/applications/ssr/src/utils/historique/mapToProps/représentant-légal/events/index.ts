@@ -5,3 +5,4 @@ export { mapToChangementReprésentantLégalCorrigéTimelineItemProps } from './m
 export { mapToChangementReprésentantLégalAnnuléTimelineItemProps } from './mapToChangementReprésentantLégalAnnuléTimelineItemProps';
 export { mapToChangementReprésentantLégalAccordéTimelineItemProps } from './mapToChangementReprésentantLégalAccordéTimelineItemProps';
 export { mapToChangementReprésentantLégalRejetéTimelineItemProps } from './mapToChangementReprésentantLégalRejetéTimelineItemProps';
+export { mapToChangementReprésentantLégalEnregistréTimelineItemProps } from './mapToChangementReprésentantLégalEnregistréTimelineItemsProps';

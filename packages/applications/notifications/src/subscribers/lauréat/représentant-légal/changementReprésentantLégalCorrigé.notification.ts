@@ -66,7 +66,7 @@ export const changementReprésentantLégalCorrigéNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détails(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
     },
   });
 };

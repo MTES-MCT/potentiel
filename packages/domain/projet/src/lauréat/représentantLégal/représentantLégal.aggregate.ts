@@ -24,6 +24,7 @@ import type {
   ChangementReprésentantLégalRejetéEvent,
   ChangementReprésentantLégalAnnuléEvent,
   ChangementReprésentantLégalSuppriméEvent,
+  ChangementReprésentantLégalEnregistréEvent,
 } from './représentantLégal.event';
 import type { ImporterOptions } from './importer/importerReprésentantLégal.options';
 import type { ModifierOptions } from './modifier/modifierReprésentantLégal.options';
@@ -44,6 +45,7 @@ import {
   ChangementDéjàRejetéError,
   DemandeChangementInexistanteError,
 } from './changement/changementReprésentantLégal.error';
+import { EnregistrerChangementOptions } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.options';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
@@ -53,7 +55,8 @@ export type ReprésentantLégalEvent =
   | ChangementReprésentantLégalAccordéEvent
   | ChangementReprésentantLégalRejetéEvent
   | ChangementReprésentantLégalAnnuléEvent
-  | ChangementReprésentantLégalSuppriméEvent;
+  | ChangementReprésentantLégalSuppriméEvent
+  | ChangementReprésentantLégalEnregistréEvent;
 
 export class ReprésentantLégalAggregate extends AbstractAggregate<
   ReprésentantLégalEvent,
@@ -197,6 +200,42 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeRappelInstructionÀDeuxMois.ajouter({
       àExécuterLe: dateDemande.ajouterNombreDeMois(2),
     });
+  }
+
+  async enregistrerChangement({
+    dateChangement,
+    identifiantUtilisateur,
+    nomReprésentantLégal,
+    pièceJustificative,
+    typeReprésentantLégal,
+  }: EnregistrerChangementOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'représentantLégal');
+
+    this.vérifierQueReprésentantLégalNEstPasIdentique(nomReprésentantLégal, typeReprésentantLégal);
+
+    if (typeReprésentantLégal.estInconnu()) {
+      throw new ReprésentantLégalTypeInconnuError();
+    }
+
+    if (this.#demande) {
+      this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+        StatutChangementReprésentantLégal.demandé,
+      );
+    }
+
+    const event: ChangementReprésentantLégalEnregistréEvent = {
+      type: 'ChangementReprésentantLégalEnregistré-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        nomReprésentantLégal,
+        typeReprésentantLégal: typeReprésentantLégal.formatter(),
+        enregistréLe: dateChangement.formatter(),
+        enregistréPar: identifiantUtilisateur.formatter(),
+        pièceJustificative: { format: pièceJustificative.format },
+      },
+    };
+
+    await this.publish(event);
   }
 
   async corrigerDemandeChangement({
@@ -365,6 +404,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         { type: 'ChangementReprésentantLégalSupprimé-V1' },
         this.applyChangementReprésentantLégalSupprimé.bind(this),
       )
+      .with(
+        { type: 'ChangementReprésentantLégalEnregistré-V1' },
+        this.applyChangementReprésentantLégalEnregistré.bind(this),
+      )
       .exhaustive();
   }
 
@@ -440,6 +483,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         accordéLe: payload.accordéLe,
       };
     }
+    this.#représentantLégal = {
+      nom: payload.nomReprésentantLégal,
+      type: TypeReprésentantLégal.convertirEnValueType(payload.typeReprésentantLégal),
+    };
   }
 
   private applyChangementReprésentantLégalRejeté({
@@ -452,6 +499,15 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         rejetéLe: payload.rejetéLe,
       };
     }
+  }
+
+  private applyChangementReprésentantLégalEnregistré({
+    payload,
+  }: ChangementReprésentantLégalEnregistréEvent) {
+    this.#représentantLégal = {
+      nom: payload.nomReprésentantLégal,
+      type: TypeReprésentantLégal.convertirEnValueType(payload.typeReprésentantLégal),
+    };
   }
 
   private applyChangementReprésentantLégalAnnulé(_: ChangementReprésentantLégalAnnuléEvent) {

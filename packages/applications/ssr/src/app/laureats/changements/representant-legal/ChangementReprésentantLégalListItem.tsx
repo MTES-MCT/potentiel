@@ -33,7 +33,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
     }
     actions={
       <Link
-        href={Routes.ReprésentantLégal.changement.détail(
+        href={Routes.ReprésentantLégal.changement.détails(
           IdentifiantProjet.bind(identifiantProjet).formatter(),
           demandéLe,
         )}

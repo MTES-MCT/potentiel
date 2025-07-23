@@ -12,6 +12,13 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 
 Alors(
+  'le changement enregistré du représentant légal du projet lauréat devrait être consultable',
+  async function (this: PotentielWorld) {
+    await vérifierDemande.call(this);
+  },
+);
+
+Alors(
   /une demande de changement de représentant légal du projet lauréat devrait être consultable/,
   async function (this: PotentielWorld) {
     await vérifierDemande.call(this);
@@ -38,7 +45,7 @@ Alors(
             identifiantProjet: identifiantProjet.formatter(),
             demandéLe:
               this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderChangementReprésentantLégalFixture.demandéLe,
+                .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
           },
         });
 
@@ -50,20 +57,14 @@ Alors(
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être accordée',
   async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.call(
-      this,
-      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
-    );
+    await vérifierInstructionDemande.call(this);
   },
 );
 
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
   async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.call(
-      this,
-      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
-    );
+    await vérifierInstructionDemande.call(this);
   },
 );
 
@@ -92,11 +93,12 @@ async function vérifierDemande(this: PotentielWorld) {
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.demandéLe,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         },
       });
 
     const actual = mapToPlainObject(demande);
+
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,
@@ -118,14 +120,14 @@ async function vérifierDemande(this: PotentielWorld) {
       const actualContent = await convertReadableStreamToString(result.content);
 
       const {
-        demanderChangementReprésentantLégalFixture,
+        demanderOuEnregistrerChangementReprésentantLégalFixture,
         corrigerChangementReprésentantLégalFixture,
       } = this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld;
 
       const expectedContent = await convertReadableStreamToString(
         corrigerChangementReprésentantLégalFixture.aÉtéCréé
           ? corrigerChangementReprésentantLégalFixture.pièceJustificative.content
-          : demanderChangementReprésentantLégalFixture.pièceJustificative.content,
+          : demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative.content,
       );
 
       actualContent.should.be.equal(expectedContent);
@@ -133,10 +135,7 @@ async function vérifierDemande(this: PotentielWorld) {
   });
 }
 
-async function vérifierInstructionDemande(
-  this: PotentielWorld,
-  statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
-) {
+async function vérifierInstructionDemande(this: PotentielWorld) {
   await waitForExpect(async () => {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -147,7 +146,7 @@ async function vérifierInstructionDemande(
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.demandéLe,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         },
       });
 
@@ -155,7 +154,6 @@ async function vérifierInstructionDemande(
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,
-        statut,
       ),
     );
 
@@ -177,22 +175,16 @@ async function vérifierInstructionAutomatiqueDemande(
           identifiantProjet: identifiantProjet.formatter(),
           demandéLe:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.demandéLe,
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         },
       });
 
     assert(Option.isSome(changement), 'Aucune demande de changement de représentant légal trouvée');
 
-    const statut =
-      action === 'accord'
-        ? Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé
-        : Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté;
-
     const actual = mapToPlainObject(changement);
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,
-        statut,
       ),
     );
 

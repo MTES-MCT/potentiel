@@ -32,7 +32,7 @@ export const changementProducteurEnregistréNotification = async ({
     getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementActionnaireEnregistréNotifications',
+      fonction: 'changementProducteurEnregistréNotifications',
     });
     return;
   }

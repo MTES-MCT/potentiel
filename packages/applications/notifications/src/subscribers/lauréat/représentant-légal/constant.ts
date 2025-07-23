@@ -1,5 +1,6 @@
 export const représentantLégalNotificationTemplateId = {
   changement: {
+    enregistrer: 7175025,
     accord: {
       avecCorrection: 6661131,
       sansCorrection: 6582166,

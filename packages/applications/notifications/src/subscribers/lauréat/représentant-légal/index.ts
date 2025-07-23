@@ -13,6 +13,7 @@ import { changementReprésentantLégalCorrigéNotification } from './changementR
 import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
 import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
 import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
+import { changementReprésentantLégalEnregistréNotification } from './changementReprésentantLégalEnregistré.notification';
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent & Event;
 
@@ -46,6 +47,13 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
           event,
           projet,
           baseUrl,
+        }),
+      )
+      .with({ type: 'ChangementReprésentantLégalEnregistré-V1' }, async (event) =>
+        changementReprésentantLégalEnregistréNotification({
+          sendEmail,
+          event,
+          projet,
         }),
       )
       .with({ type: 'ChangementReprésentantLégalAnnulé-V1' }, async (event) =>

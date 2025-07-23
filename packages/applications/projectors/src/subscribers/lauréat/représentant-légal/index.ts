@@ -13,6 +13,7 @@ import { changementReprésentantLégalRejetéProjector } from './changement/chan
 import { changementReprésentantLégalSuppriméProjector } from './changement/changementReprésentantLégalSupprimé.projector';
 import { changementReprésentantLégalAnnuléProjector } from './changement/changementReprésentantLégalAnnulé.projector';
 import { changementReprésentantLégalCorrigéProjector } from './changement/changementReprésentantLégalCorrigé.projector';
+import { changementReprésentantLégalEnregistréProjector } from './changement/changementReprésentantLégalEnregistré.projector';
 
 export type SubscriptionEvent =
   | (Lauréat.ReprésentantLégal.ReprésentantLégalEvent & Event)
@@ -53,6 +54,12 @@ export const register = () => {
           type: 'ChangementReprésentantLégalSupprimé-V1',
         },
         changementReprésentantLégalSuppriméProjector,
+      )
+      .with(
+        {
+          type: 'ChangementReprésentantLégalEnregistré-V1',
+        },
+        changementReprésentantLégalEnregistréProjector,
       )
       .exhaustive();
 

@@ -14,6 +14,7 @@ import {
   mapToChangementReprésentantLégalAccordéTimelineItemProps,
   mapToChangementReprésentantLégalRejetéTimelineItemProps,
   mapToChangementReprésentantLégalAnnuléTimelineItemProps,
+  mapToChangementReprésentantLégalEnregistréTimelineItemProps,
 } from './events';
 
 export const mapToReprésentantLégalTimelineItemProps = (
@@ -62,6 +63,12 @@ export const mapToReprésentantLégalTimelineItemProps = (
         type: 'ChangementReprésentantLégalAnnulé-V1',
       },
       mapToChangementReprésentantLégalAnnuléTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'ChangementReprésentantLégalEnregistré-V1',
+      },
+      mapToChangementReprésentantLégalEnregistréTimelineItemProps,
     )
     .with(
       {

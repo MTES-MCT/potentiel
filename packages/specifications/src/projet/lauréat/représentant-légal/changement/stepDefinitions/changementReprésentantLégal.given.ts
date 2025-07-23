@@ -15,10 +15,8 @@ EtantDonné(
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const fixture =
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
-        {
-          identifiantProjet,
-        },
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
+        {},
       );
 
     const dateDemande = DateTime.convertirEnValueType(fixture.demandéLe);
@@ -62,10 +60,8 @@ EtantDonné(
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const fixtureDemander =
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
-        {
-          identifiantProjet,
-        },
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
+        {},
       );
 
     await mediator.send<Lauréat.ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
@@ -103,10 +99,8 @@ EtantDonné(
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const fixtureDemander =
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
-        {
-          identifiantProjet,
-        },
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
+        {},
       );
 
     await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({

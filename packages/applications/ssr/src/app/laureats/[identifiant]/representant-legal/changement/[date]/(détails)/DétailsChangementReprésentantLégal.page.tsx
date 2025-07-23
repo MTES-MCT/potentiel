@@ -55,18 +55,28 @@ export const DétailsChangementReprésentantLégalPage: FC<
   historique,
   dateDemandeEnCoursPourLien,
 }) => {
+  const estUneInformationEnregistrée =
+    Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(
+      statut,
+    ).estInformationEnregistrée();
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
 
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={idProjet} />}
-      heading={<Heading1>Détail de la demande de changement de représentant légal</Heading1>}
+      heading={
+        <Heading1>
+          {estUneInformationEnregistrée
+            ? 'Changement de représentant légal'
+            : 'Demande de changement de représentant légal'}
+        </Heading1>
+      }
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
             {dateDemandeEnCoursPourLien && (
               <InfoBoxDemandeEnCours
-                lien={Routes.ReprésentantLégal.changement.détail(
+                lien={Routes.ReprésentantLégal.changement.détails(
                   idProjet,
                   dateDemandeEnCoursPourLien,
                 )}
@@ -87,19 +97,25 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 nomReprésentantLégal={nomReprésentantLégal}
                 typeReprésentantLégal={typeReprésentantLégal}
               />
-            ) : (
-              Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(
+            ) : estUneInformationEnregistrée ? (
+              <InformationEnregistrée
+                demandéLe={demandéLe}
+                demandéPar={demandéPar}
+                nomReprésentantLégal={nomReprésentantLégal}
+                typeReprésentantLégal={typeReprésentantLégal}
+                pièceJustificative={pièceJustificative}
+              />
+            ) : Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(
                 statut,
-              ).estDemandé() && (
-                <ChangementDemandé
-                  demandéLe={demandéLe}
-                  demandéPar={demandéPar}
-                  nomReprésentantLégal={nomReprésentantLégal}
-                  typeReprésentantLégal={typeReprésentantLégal}
-                  pièceJustificative={pièceJustificative}
-                />
-              )
-            )}
+              ).estDemandé() ? (
+              <ChangementDemandé
+                demandéLe={demandéLe}
+                demandéPar={demandéPar}
+                nomReprésentantLégal={nomReprésentantLégal}
+                typeReprésentantLégal={typeReprésentantLégal}
+                pièceJustificative={pièceJustificative}
+              />
+            ) : null}
             <div className="mb-4">
               <Heading2>Historique</Heading2>
               <Timeline items={historique} />
@@ -232,6 +248,51 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({
       </div>
     </div>
   </div>
+);
+
+const InformationEnregistrée: FC<ChangementDemandéProps> = ({
+  demandéLe,
+  demandéPar,
+  typeReprésentantLégal,
+  nomReprésentantLégal,
+  pièceJustificative,
+}) => (
+  <>
+    <div className="text-xs italic">
+      Modifié le{' '}
+      <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} /> par{' '}
+      <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold">Statut :</div>{' '}
+      <StatutChangementReprésentantLégalBadge
+        statut={
+          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée.statut
+        }
+      />
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Type :</div>
+      <div>
+        {getTypeLabel(
+          Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
+        )}
+      </div>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Nom représentant légal :</div>
+      <div>{nomReprésentantLégal}</div>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
+      <DownloadDocument
+        className="mb-0"
+        label="Télécharger la pièce justificative"
+        format={pièceJustificative.format}
+        url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
+      />
+    </div>
+  </>
 );
 
 type ChangementAccordéProps = NonNullable<

@@ -43,13 +43,23 @@ export class ReprésentantLégalWorld {
     }
 
     if (
-      this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.aÉtéCréé
+      this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture
+        .aÉtéCréé
     ) {
-      expected.demandeEnCours = {
-        demandéLe:
-          this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture
-            .demandéLe,
-      };
+      if (
+        this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.statut.estInformationEnregistrée()
+      ) {
+        expected.nomReprésentantLégal =
+          this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal;
+        expected.typeReprésentantLégal =
+          this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.typeReprésentantLégal;
+      } else {
+        expected.demandeEnCours = {
+          demandéLe:
+            this.#changementReprésentantLégalWorld
+              .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+        };
+      }
     }
 
     if (

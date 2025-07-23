@@ -54,7 +54,7 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
       }
       if (this.statut === 'demandé') {
         if (nouveauStatut.statut === 'demandé') {
-          throw new ChangementActionnaireDéjàEnCoursErreur();
+          throw new DemandeDeChangementEnCoursError();
         }
         if (nouveauStatut.statut === 'information-enregistrée') {
           throw new DemandeDeChangementEnCoursError();
@@ -114,12 +114,6 @@ class ChangementActionnaireDéjàRejetéeErreur extends InvalidOperationError {
 class ChangementActionnaireDéjàAnnuléeErreur extends InvalidOperationError {
   constructor() {
     super(`La demande de changement d'actionnaire a déjà été annulée`);
-  }
-}
-
-class ChangementActionnaireDéjàEnCoursErreur extends InvalidOperationError {
-  constructor() {
-    super(`Une demande de changement est déjà en cours`);
   }
 }
 

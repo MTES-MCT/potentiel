@@ -13,7 +13,8 @@ export type ReprésentantLégalEvent =
   | ChangementReprésentantLégalDemandéEvent
   | ChangementReprésentantLégalRejetéEvent
   | ChangementReprésentantLégalSuppriméEvent
-  | ChangementReprésentantLégalCorrigéEvent;
+  | ChangementReprésentantLégalCorrigéEvent
+  | ChangementReprésentantLégalEnregistréEvent;
 
 export type ReprésentantLégalImportéEvent = DomainEvent<
   'ReprésentantLégalImporté-V1',
@@ -103,5 +104,19 @@ export type ChangementReprésentantLégalSuppriméEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     suppriméLe: DateTime.RawType;
     suppriméPar: Email.RawType;
+  }
+>;
+
+export type ChangementReprésentantLégalEnregistréEvent = DomainEvent<
+  'ChangementReprésentantLégalEnregistré-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    nomReprésentantLégal: string;
+    typeReprésentantLégal: TypeReprésentantLégal.RawType;
+    enregistréLe: DateTime.RawType;
+    enregistréPar: Email.RawType;
+    pièceJustificative: {
+      format: string;
+    };
   }
 >;
