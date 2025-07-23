@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
 

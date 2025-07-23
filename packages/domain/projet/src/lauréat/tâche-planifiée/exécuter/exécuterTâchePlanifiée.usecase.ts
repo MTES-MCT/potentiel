@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '../../..';
 
 import { ExécuterTâchePlanifiéeCommand } from './exécuterTâchePlanifiée.command';
 

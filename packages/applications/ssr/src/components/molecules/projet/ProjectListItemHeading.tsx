@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
 import { Candidature, StatutProjet } from '@potentiel-domain/projet';

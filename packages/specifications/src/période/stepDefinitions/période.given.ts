@@ -1,6 +1,6 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';

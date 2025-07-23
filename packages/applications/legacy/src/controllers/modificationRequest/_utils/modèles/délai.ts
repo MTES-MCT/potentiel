@@ -4,7 +4,7 @@ import {
 } from '@potentiel-applications/document-builder';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';
 import { Option } from '@potentiel-libraries/monads';

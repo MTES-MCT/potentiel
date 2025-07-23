@@ -15,7 +15,7 @@ import { match } from 'ts-pattern';
 
 import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { InfoActionnaire } from './InfoActionnaire';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';

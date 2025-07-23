@@ -5,7 +5,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';

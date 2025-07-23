@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
 import { Lauréat } from '@potentiel-domain/projet';
 

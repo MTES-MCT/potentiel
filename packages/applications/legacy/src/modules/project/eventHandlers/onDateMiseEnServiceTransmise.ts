@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { EventStore, TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { logger, okAsync, ResultAsync } from '../../../core/utils';
 import { GetProjectAppelOffre } from '../../projectAppelOffre';

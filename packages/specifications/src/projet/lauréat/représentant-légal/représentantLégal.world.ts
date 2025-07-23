@@ -1,5 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
 import { ChangementReprésentantLégalWorld } from './changement/changementReprésentantLégal.world';

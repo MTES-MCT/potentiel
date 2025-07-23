@@ -3,7 +3,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { publishToEventBus } from '../config/eventBus.config';
 import { ProjectAbandoned } from '../modules/project';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { logger } from '../core/utils';
 import { Lauréat } from '@potentiel-domain/projet';
 

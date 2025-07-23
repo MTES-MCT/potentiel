@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { Tâche } from '@potentiel-domain/tache';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { TâcheListItem } from '@/app/taches/TâcheListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';

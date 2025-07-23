@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from 'react';
 import Stepper from '@codegouvfr/react-dsfr/Stepper';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';

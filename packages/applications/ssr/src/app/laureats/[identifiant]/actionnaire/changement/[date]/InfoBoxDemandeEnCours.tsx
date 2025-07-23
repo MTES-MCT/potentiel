@@ -2,7 +2,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 

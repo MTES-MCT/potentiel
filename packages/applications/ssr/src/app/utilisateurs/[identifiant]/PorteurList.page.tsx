@@ -3,7 +3,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';

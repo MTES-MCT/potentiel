@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../fixture';
 

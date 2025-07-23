@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';

@@ -25,6 +25,7 @@
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/reseau": "*",

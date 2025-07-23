@@ -13,7 +13,7 @@ import {
   LinkButton,
 } from '../../../components';
 import { match } from 'ts-pattern';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { ProjectHeaderProps } from './ProjectHeader';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
