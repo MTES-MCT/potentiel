@@ -294,10 +294,7 @@ export class LauréatAggregate extends AbstractAggregate<
       throw new CahierDesChargesIndisponibleError();
     }
 
-    if (
-      cahierDesCharges.type === 'initial' &&
-      !this.projet.appelOffre.doitPouvoirChoisirCDCInitial
-    ) {
+    if (cahierDesCharges.estInitial() && !this.projet.appelOffre.doitPouvoirChoisirCDCInitial) {
       throw new RetourAuCahierDesChargesInitialImpossibleError();
     }
 

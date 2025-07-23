@@ -11,6 +11,7 @@ import { IdentifiantProjet, StatutProjet } from '.';
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 import {
   AppelOffreInexistantError,
+  CahierDesChargesInexistantError,
   FamilleInexistanteError,
   PériodeInexistanteError,
 } from './appelOffre.error';
@@ -99,17 +100,25 @@ export class ProjetAggregateRoot {
   }
 
   get cahierDesChargesActuel() {
+    const cahierDesChargesModificatif = this.lauréat.exists
+      ? this.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
+          AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(
+            this.lauréat.référenceCahierDesCharges,
+          ),
+        )
+      : undefined;
+    if (!this.lauréat.référenceCahierDesCharges.estInitial() && !cahierDesChargesModificatif) {
+      throw new CahierDesChargesInexistantError(
+        this.appelOffre.id,
+        this.période.id,
+        this.lauréat.référenceCahierDesCharges.formatter(),
+      );
+    }
     return AppelOffre.CahierDesCharges.bind({
       appelOffre: this.appelOffre,
       période: this.période,
       famille: this.famille,
-      cahierDesChargesModificatif: this.lauréat.exists
-        ? this.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
-            AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(
-              this.lauréat.référenceCahierDesCharges,
-            ),
-          )
-        : undefined,
+      cahierDesChargesModificatif,
       technologie: this.candidature.exists
         ? this.candidature.technologie.type
         : this.appelOffre.technologie,

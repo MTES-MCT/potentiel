@@ -237,10 +237,7 @@ export type Periode = {
   };
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
-  /**
-   * les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif
-   * @deprecated  utiliser changement
-   **/
+  /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */
   choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
   changement?: Partial<RèglesDemandesChangement>;
