@@ -7,6 +7,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -92,7 +93,8 @@ Alors(
 
       const actual = achèvement.dateAchèvementPrévisionnel;
       const expected = Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
-        new Date(datePrévisionnelleAttendue),
+        DateTime.convertirEnValueType(new Date(datePrévisionnelleAttendue)).définirHeureÀMidi()
+          .date,
       );
 
       expect(actual.formatter()).to.be.equal(expected.formatter());

@@ -52,9 +52,9 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
           type: 'DateAchèvementPrévisionnelCalculée-V1',
           payload: {
             identifiantProjet: idProjet,
-            date: DateTime.convertirEnValueType(
-              new Date(Number(dateAchèvementPrévisionnelActuelle)).toISOString(),
-            ).formatter(),
+            date: DateTime.convertirEnValueType(new Date(dateAchèvementPrévisionnelActuelle))
+              .définirHeureÀMidi()
+              .formatter(),
           },
         };
 
