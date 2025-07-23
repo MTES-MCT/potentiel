@@ -22,6 +22,10 @@ export type ValueType = {
   famille: PlainType<Famille> | undefined;
   cahierDesChargesModificatif: PlainType<CahierDesChargesModifié> | undefined;
   technologie: Technologie | undefined;
+  changementEstDisponible(
+    typeChangement: 'information-enregistrée' | 'demande',
+    domaine: DomainesConcernésParChangement,
+  ): boolean;
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
     domaine: DomainesConcernésParChangement,
@@ -44,7 +48,8 @@ export const bind = ({
   famille,
   cahierDesChargesModificatif,
   technologie,
-  vérifierQueLeChangementEstPossible(typeChangement, domaine) {
+
+  changementEstDisponible(typeChangement, domaine) {
     const changement = {
       ...this.appelOffre.changement,
       ...this.période.changement,
@@ -57,7 +62,11 @@ export const bind = ({
       .with('information-enregistrée', () => règlesChangement.informationEnregistrée)
       .exhaustive();
 
-    if (règleTypeChangement !== true) {
+    return règleTypeChangement === true;
+  },
+
+  vérifierQueLeChangementEstPossible(typeChangement, domaine) {
+    if (!this.changementEstDisponible(typeChangement, domaine)) {
       throw new CahierDesChargesEmpêcheModificationError();
     }
   },

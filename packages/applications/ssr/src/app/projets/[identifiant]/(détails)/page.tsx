@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres, getProjet } from '@/app/_helpers';
+import { getProjet, getCahierDesCharges } from '@/app/_helpers';
 
 import { getProjetÉliminé } from '../_helpers/getÉliminé';
 
@@ -54,7 +54,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const { période } = await getPériodeAppelOffres(identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
@@ -75,9 +75,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           actions={mapToActions({
             role: utilisateur.role,
             demandeRecoursEnCours,
-            // TODO
-            changementDeCahierDesChargeNécessairePourDemanderUnRecours:
-              période.choisirNouveauCahierDesCharges ?? false,
+            cahierDesChargesPermetDemandeRecours: cahierDesCharges.changementEstDisponible(
+              'demande',
+              'recours',
+            ),
           })}
         />
       );
@@ -98,13 +99,13 @@ const mapToProps: MapToProps = ({ éliminé, role }) => ({
 type MapToActions = (args: {
   role: Role.ValueType;
   demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
-  changementDeCahierDesChargeNécessairePourDemanderUnRecours: boolean;
+  cahierDesChargesPermetDemandeRecours: boolean;
 }) => Array<DétailsProjetÉliminéActions>;
 
 const mapToActions: MapToActions = ({
   role,
   demandeRecoursEnCours,
-  changementDeCahierDesChargeNécessairePourDemanderUnRecours,
+  cahierDesChargesPermetDemandeRecours,
 }) => {
   const actions: Array<DétailsProjetÉliminéActions> = [];
 
@@ -112,10 +113,7 @@ const mapToActions: MapToActions = ({
     if (role.aLaPermission('recours.consulter.détail')) {
       actions.push('consulter-demande-recours');
     }
-  } else if (
-    role.aLaPermission('recours.demander') &&
-    !changementDeCahierDesChargeNécessairePourDemanderUnRecours
-  ) {
+  } else if (role.aLaPermission('recours.demander') && !cahierDesChargesPermetDemandeRecours) {
     actions.push('faire-demande-recours');
   }
 
