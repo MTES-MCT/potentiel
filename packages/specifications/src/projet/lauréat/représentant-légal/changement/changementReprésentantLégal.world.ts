@@ -49,12 +49,17 @@ export class ChangementReprésentantLégalWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-    statut?: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
   ): Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
+    const expectedStatut = this.accorderChangementReprésentantLégalFixture.aÉtéCréé
+      ? Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé
+      : this.rejeterChangementReprésentantLégalFixture.aÉtéCréé
+        ? Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté
+        : this.demanderOuEnregistrerChangementReprésentantLégalFixture.statut;
+
     const expected: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
       identifiantProjet,
       demande: {
-        statut: statut ?? this.#demanderOuEnregistrerChangementReprésentantLégalFixture.statut,
+        statut: expectedStatut,
         nomReprésentantLégal:
           this.#demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:

@@ -97,20 +97,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 nomReprésentantLégal={nomReprésentantLégal}
                 typeReprésentantLégal={typeReprésentantLégal}
               />
-            ) : (
-              Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(
-                statut,
-              ).estDemandé() && (
-                <ChangementDemandé
-                  demandéLe={demandéLe}
-                  demandéPar={demandéPar}
-                  nomReprésentantLégal={nomReprésentantLégal}
-                  typeReprésentantLégal={typeReprésentantLégal}
-                  pièceJustificative={pièceJustificative}
-                />
-              )
-            )}
-            {estUneInformationEnregistrée && (
+            ) : estUneInformationEnregistrée ? (
               <InformationEnregistrée
                 demandéLe={demandéLe}
                 demandéPar={demandéPar}
@@ -118,7 +105,17 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 typeReprésentantLégal={typeReprésentantLégal}
                 pièceJustificative={pièceJustificative}
               />
-            )}
+            ) : Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(
+                statut,
+              ).estDemandé() ? (
+              <ChangementDemandé
+                demandéLe={demandéLe}
+                demandéPar={demandéPar}
+                nomReprésentantLégal={nomReprésentantLégal}
+                typeReprésentantLégal={typeReprésentantLégal}
+                pièceJustificative={pièceJustificative}
+              />
+            ) : null}
             <div className="mb-4">
               <Heading2>Historique</Heading2>
               <Timeline items={historique} />

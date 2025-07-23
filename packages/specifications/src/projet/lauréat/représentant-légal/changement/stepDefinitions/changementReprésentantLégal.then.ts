@@ -14,10 +14,7 @@ import { convertReadableStreamToString } from '../../../../../helpers/convertRea
 Alors(
   'le changement enregistré du représentant légal du projet lauréat devrait être consultable',
   async function (this: PotentielWorld) {
-    await vérifierDemande.call(
-      this,
-      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée,
-    );
+    await vérifierDemande.call(this);
   },
 );
 
@@ -60,20 +57,14 @@ Alors(
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être accordée',
   async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.call(
-      this,
-      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
-    );
+    await vérifierInstructionDemande.call(this);
   },
 );
 
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
   async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.call(
-      this,
-      Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
-    );
+    await vérifierInstructionDemande.call(this);
   },
 );
 
@@ -91,10 +82,7 @@ Alors(
   },
 );
 
-async function vérifierDemande(
-  this: PotentielWorld,
-  statut?: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
-) {
+async function vérifierDemande(this: PotentielWorld) {
   await waitForExpect(async () => {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -114,7 +102,6 @@ async function vérifierDemande(
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,
-        statut,
       ),
     );
 
@@ -148,10 +135,7 @@ async function vérifierDemande(
   });
 }
 
-async function vérifierInstructionDemande(
-  this: PotentielWorld,
-  statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
-) {
+async function vérifierInstructionDemande(this: PotentielWorld) {
   await waitForExpect(async () => {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -170,7 +154,6 @@ async function vérifierInstructionDemande(
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,
-        statut,
       ),
     );
 
@@ -198,16 +181,10 @@ async function vérifierInstructionAutomatiqueDemande(
 
     assert(Option.isSome(changement), 'Aucune demande de changement de représentant légal trouvée');
 
-    const statut =
-      action === 'accord'
-        ? Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé
-        : Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté;
-
     const actual = mapToPlainObject(changement);
     const expected = mapToPlainObject(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
         identifiantProjet,
-        statut,
       ),
     );
 
