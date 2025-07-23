@@ -13,7 +13,7 @@ export const lister = (filters: ListerFilters = {}) => {
     searchParams.set('statut', filters.statut);
   }
 
-  return `/abandons${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+  return `/laureats/changements/abandon${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };
 
 export const détail = (identifiantProjet: string) =>
