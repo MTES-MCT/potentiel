@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Enregistrer un changement de représentant légal
 
     Contexte:
@@ -11,16 +10,12 @@ Fonctionnalité: Enregistrer un changement de représentant légal
 
     Scénario: Enregistrer un changement de représentant légal
         Quand le porteur enregistre un changement de représentant légal
+        Alors le changement enregistré du représentant légal du projet lauréat devrait être consultable
         Et le représentant légal du projet lauréat devrait être mis à jour
-        Et le changement enregistré du représentant légal du projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Enregistrement d'un changement de représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                              |
-        Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Enregistrement d'un changement de représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                         |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                              |
+            | sujet      | Potentiel - Déclaration de changement de représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                         |
 
     Scénario: Impossible d'enregistrer un changement de représentant légal pour certains AO
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :

@@ -47,6 +47,7 @@ export const setupReprésentantLégal: SetupProjet = async ({ sendEmail }) => {
       'ChangementReprésentantLégalCorrigé-V1',
       'ChangementReprésentantLégalAccordé-V1',
       'ChangementReprésentantLégalRejeté-V1',
+      'ChangementReprésentantLégalEnregistré-V1',
     ],
     messageType: 'System.Notification.Lauréat.ReprésentantLégal',
   });

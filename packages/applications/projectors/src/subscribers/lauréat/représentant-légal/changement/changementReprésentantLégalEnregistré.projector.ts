@@ -37,6 +37,9 @@ export const changementReprésentantLégalEnregistréProjector = async ({
     {
       nomReprésentantLégal,
       typeReprésentantLégal,
+      demandeEnCours: {
+        demandéLe: enregistréLe,
+      },
     },
   );
 };

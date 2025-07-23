@@ -169,7 +169,10 @@ async function enregistrerChangementReprésentantLégal(
 ) {
   const { nomReprésentantLégal, typeReprésentantLégal, pièceJustificative, demandéLe, demandéPar } =
     this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
-      { ...partialFixture },
+      {
+        ...partialFixture,
+        statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée,
+      },
     );
 
   try {

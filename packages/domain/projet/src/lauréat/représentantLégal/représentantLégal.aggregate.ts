@@ -24,6 +24,7 @@ import type {
   ChangementReprésentantLégalRejetéEvent,
   ChangementReprésentantLégalAnnuléEvent,
   ChangementReprésentantLégalSuppriméEvent,
+  ChangementReprésentantLégalEnregistréEvent,
 } from './représentantLégal.event';
 import type { ImporterOptions } from './importer/importerReprésentantLégal.options';
 import type { ModifierOptions } from './modifier/modifierReprésentantLégal.options';
@@ -54,7 +55,8 @@ export type ReprésentantLégalEvent =
   | ChangementReprésentantLégalAccordéEvent
   | ChangementReprésentantLégalRejetéEvent
   | ChangementReprésentantLégalAnnuléEvent
-  | ChangementReprésentantLégalSuppriméEvent;
+  | ChangementReprésentantLégalSuppriméEvent
+  | ChangementReprésentantLégalEnregistréEvent;
 
 export class ReprésentantLégalAggregate extends AbstractAggregate<
   ReprésentantLégalEvent,
@@ -221,14 +223,14 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
       );
     }
 
-    const event: ChangementReprésentantLégalDemandéEvent = {
-      type: 'ChangementReprésentantLégalDemandé-V1',
+    const event: ChangementReprésentantLégalEnregistréEvent = {
+      type: 'ChangementReprésentantLégalEnregistré-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         nomReprésentantLégal,
         typeReprésentantLégal: typeReprésentantLégal.formatter(),
-        demandéLe: dateChangement.formatter(),
-        demandéPar: identifiantUtilisateur.formatter(),
+        enregistréLe: dateChangement.formatter(),
+        enregistréPar: identifiantUtilisateur.formatter(),
         pièceJustificative: { format: pièceJustificative.format },
       },
     };
@@ -402,6 +404,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         { type: 'ChangementReprésentantLégalSupprimé-V1' },
         this.applyChangementReprésentantLégalSupprimé.bind(this),
       )
+      .with(
+        { type: 'ChangementReprésentantLégalEnregistré-V1' },
+        this.applyChangementReprésentantLégalEnregistré.bind(this),
+      )
       .exhaustive();
   }
 
@@ -477,6 +483,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         accordéLe: payload.accordéLe,
       };
     }
+    this.#représentantLégal = {
+      nom: payload.nomReprésentantLégal,
+      type: TypeReprésentantLégal.convertirEnValueType(payload.typeReprésentantLégal),
+    };
   }
 
   private applyChangementReprésentantLégalRejeté({
@@ -489,6 +499,15 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
         rejetéLe: payload.rejetéLe,
       };
     }
+  }
+
+  private applyChangementReprésentantLégalEnregistré({
+    payload,
+  }: ChangementReprésentantLégalEnregistréEvent) {
+    this.#représentantLégal = {
+      nom: payload.nomReprésentantLégal,
+      type: TypeReprésentantLégal.convertirEnValueType(payload.typeReprésentantLégal),
+    };
   }
 
   private applyChangementReprésentantLégalAnnulé(_: ChangementReprésentantLégalAnnuléEvent) {

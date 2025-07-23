@@ -52,6 +52,14 @@ export class ReprésentantLégalWorld {
           this.#changementReprésentantLégalWorld
             .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
       };
+      if (
+        this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.statut.estInformationEnregistrée()
+      ) {
+        expected.nomReprésentantLégal =
+          this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal;
+        expected.typeReprésentantLégal =
+          this.#changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.typeReprésentantLégal;
+      }
     }
 
     if (

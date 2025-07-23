@@ -17,6 +17,7 @@ export interface DemanderChangementReprésentantLégal {
   readonly pièceJustificative: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
+  readonly statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.ValueType;
 }
 
 export class DemanderChangementReprésentantLégalFixture

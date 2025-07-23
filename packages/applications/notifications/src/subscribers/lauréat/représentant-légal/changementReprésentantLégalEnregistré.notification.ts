@@ -1,4 +1,3 @@
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -15,15 +14,14 @@ type ChangementReprésentantLégalEnregistréNotificationProps = {
     nom: string;
     département: string;
     région: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const changementReprésentantLégalEnregistréNotification = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ChangementReprésentantLégalEnregistréNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
@@ -44,7 +42,7 @@ export const changementReprésentantLégalEnregistréNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détails(identifiantProjet.formatter(), event.payload.enregistréLe)}`,
+      url: projet.url,
     },
   });
 };
