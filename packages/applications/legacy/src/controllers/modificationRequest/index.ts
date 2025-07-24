@@ -1,5 +1,4 @@
 export * from './délai';
-export * from './getDemandePage';
 export * from './getModeleReponse';
 export * from './getModificationRequestListForAdminPage';
 export * from './getModificationRequestListForPorteurPage';

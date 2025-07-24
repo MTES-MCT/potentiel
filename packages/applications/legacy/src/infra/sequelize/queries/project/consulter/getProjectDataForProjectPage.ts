@@ -73,7 +73,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       // TODO: retirer le any ici et résoudre les problèmes de typage pour cahierDesChargesActuel
       project: any;
       cahierDesCharges:
-        | AppelOffre.CahierDesCharges
+        | AppelOffre.Periode['cahierDesCharges']
         | { type: string; url: string; paruLe?: undefined; alternatif?: undefined }
         | {
             type: string;

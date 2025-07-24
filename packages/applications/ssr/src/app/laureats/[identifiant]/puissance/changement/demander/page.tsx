@@ -3,14 +3,14 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
 
@@ -40,30 +40,21 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const puissance = await getPuissanceInfos({
       identifiantProjet: identifiantProjet.formatter(),
     });
-    const { appelOffres, période } = await getPériodeAppelOffres(lauréat.identifiantProjet);
 
-    const cahierDesChargesChoisi =
-      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
-    if (Option.isNone(cahierDesChargesChoisi)) {
-      return notFound();
-    }
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
     return (
       <DemanderChangementPuissancePage
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
         puissance={puissanceActuelle.puissance}
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
-        appelOffre={mapToPlainObject(appelOffres)}
-        période={mapToPlainObject(période)}
-        technologie={mapToPlainObject(lauréat.technologie)}
-        famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
-        cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
+        cahierDesCharges={mapToPlainObject(cahierDesCharges)}
+        cahierDesChargesInitial={mapToPlainObject(
+          CahierDesCharges.bind({
+            ...cahierDesCharges,
+            cahierDesChargesModificatif: undefined,
+          }),
+        )}
         volumeRéservé={lauréat.volumeRéservé ? mapToPlainObject(lauréat.volumeRéservé) : undefined}
         puissanceInitiale={puissance.puissanceInitiale}
       />

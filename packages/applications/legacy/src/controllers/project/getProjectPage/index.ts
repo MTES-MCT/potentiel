@@ -160,7 +160,14 @@ v1Router.get(
         data: { identifiantProjet: identifiantProjetValueType.formatter() },
       });
 
-      if (Option.isNone(lauréat)) {
+      const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
+        data: {
+          identifiantProjetValue: identifiantProjetValueType.formatter(),
+        },
+      });
+
+      if (Option.isNone(lauréat) || Option.isNone(cahierDesCharges)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
@@ -208,7 +215,7 @@ v1Router.get(
       const garantiesFinancières = await getGarantiesFinancières(
         identifiantProjetValueType,
         role,
-        project.appelOffre.isSoumisAuxGF,
+        cahierDesCharges.estSoumisAuxGarantiesFinancières(),
       );
 
       const instructionChangementActionnaire =
@@ -224,8 +231,7 @@ v1Router.get(
 
       const demandeNécessiteInstructionPourActionnaire = !!(
         role.estÉgaleÀ(Role.porteur) &&
-        // normalement on doit vérifier pour la période avant, mais c'est que pour un AO, et cette page est legacy
-        project.appelOffre.changement.actionnaire.demande &&
+        cahierDesCharges.getRèglesChangements('actionnaire').demande &&
         instructionChangementActionnaire.estRequise()
       );
 
@@ -257,15 +263,14 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             changementProducteurPossibleAvantAchèvement:
-              project.appelOffre.changementProducteurPossibleAvantAchèvement,
+              cahierDesCharges.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
           emailContact: lauréat.emailContact.formatter(),
           estAchevé: !!attestationConformité,
           attestationConformité,
           dateAchèvementPrévisionnel,
           modificationsNonPermisesParLeCDCActuel:
-            project.cahierDesChargesActuel.type === 'initial' &&
-            !!project.appelOffre.periode.choisirNouveauCahierDesCharges,
+            cahierDesCharges.doitChoisirUnCahierDesChargesModificatif(),
           coefficientKChoisi: lauréat.coefficientKChoisi,
           fournisseur: await getFournisseur({
             identifiantProjet: identifiantProjetValueType,

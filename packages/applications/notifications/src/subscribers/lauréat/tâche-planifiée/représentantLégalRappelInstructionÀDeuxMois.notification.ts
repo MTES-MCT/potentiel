@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -29,15 +28,15 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
 }: HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps) => {
   const dreals = await listerDrealsRecipients(région);
 
-  const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    type: 'AppelOffre.Query.ConsulterAppelOffre',
+  const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+    type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
     data: {
-      identifiantAppelOffre: identifiantProjet.appelOffre,
+      identifiantProjetValue: identifiantProjet.formatter(),
     },
   });
 
-  if (Option.isNone(appelOffre)) {
-    getLogger().error("Appel d'offre non trouvé", {
+  if (Option.isNone(cahierDesCharges)) {
+    getLogger().error('Projet non trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
@@ -45,19 +44,10 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
     return;
   }
 
-  const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
-
-  if (!période) {
-    getLogger().error('Période non trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
-    });
+  const règlesChangement = cahierDesCharges.getRèglesChangements('représentantLégal');
+  if (!règlesChangement.instructionAutomatique) {
     return;
   }
-
-  const règlesChangement =
-    période.changement?.représentantLégal ?? appelOffre.changement.représentantLégal;
 
   const changementEnCours =
     await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>(
@@ -75,10 +65,6 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
       application: 'notifications',
       fonction: 'représentantLégalRappelInstructionÀDeuxMoisNotification',
     });
-    return;
-  }
-
-  if (!règlesChangement.instructionAutomatique) {
     return;
   }
 

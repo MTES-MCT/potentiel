@@ -60,11 +60,10 @@ v1Router.get(
       data: { identifiantAppelOffre: identifiantProjet.appelOffre },
     });
 
-    const cahierDesChargesChoisi =
-      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-        data: { identifiantProjet: identifiantProjet.formatter() },
-      });
+    const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
 
     const représentantLégal =
       await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
@@ -74,11 +73,7 @@ v1Router.get(
         },
       });
 
-    if (
-      Option.isNone(lauréat) ||
-      Option.isNone(appelOffres) ||
-      Option.isNone(cahierDesChargesChoisi)
-    ) {
+    if (Option.isNone(lauréat) || Option.isNone(appelOffres) || Option.isNone(cahierDesCharges)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
@@ -117,7 +112,7 @@ v1Router.get(
           identifiantProjet,
           lauréat,
           appelOffres,
-          cahierDesChargesChoisi,
+          cahierDesCharges,
           représentantLégal,
           dateDemande: new Date(modificationRequest.requestedOn),
           justification: modificationRequest.justification ?? '',

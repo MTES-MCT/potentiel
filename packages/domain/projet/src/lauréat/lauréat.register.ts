@@ -3,9 +3,9 @@ import { GetProjetAggregateRoot } from '..';
 import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
 import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
 import {
-  ConsulterCahierDesChargesChoisiDependencies,
-  registerConsulterCahierDesChargesChoisiQuery,
-} from './cahierDesCharges/consulter/consulterCahierDesChargesChoisi.query';
+  ConsulterCahierDesChargesDependencies,
+  registerConsulterCahierDesChargesQuery,
+} from './cahierDesCharges/consulter/consulterCahierDesCharges.query';
 import {
   ConsulterLauréatDependencies,
   registerConsulterLauréatQuery,
@@ -60,7 +60,7 @@ import { SupprimerDocumentProjetSensibleCommandDependencies } from './représent
 import { registerTâchePlanifiéeQuery, registerTâchePlanifiéeUseCases } from './tâche-planifiée';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
-  ConsulterCahierDesChargesChoisiDependencies &
+  ConsulterCahierDesChargesDependencies &
   DélaiQueryDependencies &
   ProducteurQueryDependencies &
   PuissanceQueryDependencies &
@@ -101,7 +101,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
   registerConsulterLauréatQuery(dependencies);
-  registerConsulterCahierDesChargesChoisiQuery(dependencies);
+  registerConsulterCahierDesChargesQuery(dependencies);
 
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);

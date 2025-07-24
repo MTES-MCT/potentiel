@@ -64,6 +64,15 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',

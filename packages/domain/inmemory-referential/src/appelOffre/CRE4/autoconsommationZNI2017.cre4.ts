@@ -1,5 +1,37 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+const changementsCDCModifié = {
+  représentantLégal: {
+    demande: true,
+    instructionAutomatique: 'accord',
+  },
+  actionnaire: {
+    informationEnregistrée: true,
+  },
+  fournisseur: {
+    informationEnregistrée: true,
+  },
+  délai: {
+    demande: true,
+  },
+  producteur: {
+    informationEnregistrée: true,
+  },
+  puissance: {
+    informationEnregistrée: true,
+    demande: true,
+  },
+  recours: {
+    demande: true,
+  },
+  achèvement: {
+    informationEnregistrée: true,
+  },
+  abandon: {
+    demande: true,
+  },
+} as const;
+
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
@@ -11,6 +43,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
+  changement: changementsCDCModifié,
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -33,6 +66,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     },
     paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance mentionnée au 2.2.`,
   },
+  changement: changementsCDCModifié,
 };
 
 export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
@@ -50,28 +84,7 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 30,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
-  changement: {
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-    },
-  },
+  changement: 'indisponible',
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
   paragrapheDelaiDerogatoire: '6.3',
@@ -123,15 +136,6 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
       référenceParagraphe: '5.2.2',
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat.`,
     },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: '2.5',
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: '5.2.1',
-      dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
-    },
     texteDélaisDAchèvement: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -153,7 +157,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
   ],
 };

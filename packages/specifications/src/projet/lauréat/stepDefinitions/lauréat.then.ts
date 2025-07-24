@@ -6,6 +6,7 @@ import waitForExpect from 'wait-for-expect';
 import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -27,14 +28,18 @@ Alors('le projet lauréat devrait être consultable', async function (this: Pote
 
 Alors('le cahier des charges devrait être modifié', async function (this: PotentielWorld) {
   await waitForExpect(async () => {
-    const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+    const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
       data: {
-        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
       },
     });
 
-    const actual = mapToPlainObject(cahierDesCharges);
+    const actual = mapToPlainObject(
+      Option.match(cahierDesCharges)
+        .some((cdc) => cdc.cahierDesChargesModificatif ?? { type: 'initial' })
+        .none(),
+    );
     const expected = mapToPlainObject(
       AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
         this.lauréatWorld.choisirCahierDesChargesFixture.cahierDesCharges,

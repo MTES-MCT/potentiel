@@ -2,7 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Accès, Lauréat } from '@potentiel-domain/projet';
+import { Accès, CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -63,24 +63,34 @@ EtantDonné(
     }
   },
 );
-EtantDonné('un cahier des charges modificatif choisi', async function (this: PotentielWorld) {
-  const { identifiantProjet } = this.lauréatWorld;
-  const période = appelsOffreData
-    .find((ao) => ao.id === identifiantProjet.appelOffre)
-    ?.periodes.find((p) => p.id === identifiantProjet.période);
-  if (!période) {
-    throw new Error('Données invalides - période non trouvée');
-  }
+EtantDonné(
+  'un cahier des charges permettant la modification du projet',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const appelOffre = appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre)!;
+    const période = appelOffre?.periodes.find((p) => p.id === identifiantProjet.période);
+    if (!période) {
+      throw new Error('Données invalides - période non trouvée');
+    }
+    const cdc = CahierDesCharges.bind({
+      appelOffre,
+      période,
+      cahierDesChargesModificatif: undefined,
+      // famille et technologie n'ont pas d'influence dans ce contexte
+      famille: période.familles?.[0],
+      technologie: undefined,
+    });
 
-  if (période.choisirNouveauCahierDesCharges) {
-    await choisirCahierDesCharges.call(
-      this,
-      AppelOffre.RéférenceCahierDesCharges.bind(
-        période.cahiersDesChargesModifiésDisponibles[0]!,
-      ).formatter(),
-    );
-  }
-});
+    if (cdc.doitChoisirUnCahierDesChargesModificatif()) {
+      await choisirCahierDesCharges.call(
+        this,
+        AppelOffre.RéférenceCahierDesCharges.bind(
+          période.cahiersDesChargesModifiésDisponibles[0]!,
+        ).formatter(),
+      );
+    }
+  },
+);
 
 EtantDonné(
   'le cahier des charges {string} choisi pour le projet lauréat',

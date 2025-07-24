@@ -36,18 +36,6 @@ export class RetourAuCahierDesChargesInitialImpossibleError extends InvalidOpera
   }
 }
 
-export class CahierDesChargesEmpêcheModificationError extends InvalidOperationError {
-  constructor() {
-    super('Impossible de faire un changement pour ce cahier des charges');
-  }
-}
-
-export class AppelOffreOuPériodeEmpêcheModificationError extends InvalidOperationError {
-  constructor() {
-    super("Impossible de faire ce type de changement pour cet appel d'offre ou cette période");
-  }
-}
-
 export class ProjetAbandonnéError extends InvalidOperationError {
   constructor() {
     super('Impossible de faire un changement pour un projet abandonné');

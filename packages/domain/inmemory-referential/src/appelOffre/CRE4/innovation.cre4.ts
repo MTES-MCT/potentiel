@@ -1,5 +1,37 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+const changementsCDCModifié = {
+  représentantLégal: {
+    demande: true,
+    instructionAutomatique: 'accord',
+  },
+  actionnaire: {
+    informationEnregistrée: true,
+  },
+  fournisseur: {
+    informationEnregistrée: true,
+  },
+  délai: {
+    demande: true,
+  },
+  producteur: {
+    informationEnregistrée: true,
+  },
+  puissance: {
+    informationEnregistrée: true,
+    demande: true,
+  },
+  recours: {
+    demande: true,
+  },
+  achèvement: {
+    informationEnregistrée: true,
+  },
+  abandon: {
+    demande: true,
+  },
+} as const;
+
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
@@ -11,6 +43,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
+  changement: changementsCDCModifié,
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -57,6 +90,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 - Inférieure à la limite de puissance de 3 MWc pour la période 1 ou de 5 MWc pour les périodes 2 et 3, mentionnée au 2.2. 
 `,
   },
+  changement: changementsCDCModifié,
 };
 
 export const innovation: AppelOffre.AppelOffreReadModel = {
@@ -74,28 +108,7 @@ export const innovation: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 24,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
-  changement: {
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-    },
-  },
+  changement: 'indisponible',
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',
   paragrapheDelaiDerogatoire: '6.3',
@@ -143,15 +156,6 @@ Le Candidat dont l’offre a été retenue met en oeuvre les éléments, disposi
     texteChangementDActionnariat: {
       référenceParagraphe: '5.4.2',
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. `,
-    },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: '2.5',
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: '5.4.1',
-      dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
     },
     texteDélaisDAchèvement: {
       référenceParagraphe: '6.3',
@@ -216,7 +220,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -248,7 +251,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '3',
@@ -280,7 +282,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
   ],
 };

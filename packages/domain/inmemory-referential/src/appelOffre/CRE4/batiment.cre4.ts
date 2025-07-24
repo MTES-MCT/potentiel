@@ -2,6 +2,38 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const garantieFinanciereEnMois = 36;
 
+const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
+  représentantLégal: {
+    demande: true,
+    instructionAutomatique: 'accord',
+  },
+  actionnaire: {
+    informationEnregistrée: true,
+  },
+  fournisseur: {
+    informationEnregistrée: true,
+  },
+  délai: {
+    demande: true,
+  },
+  producteur: {
+    informationEnregistrée: true,
+  },
+  puissance: {
+    informationEnregistrée: true,
+    demande: true,
+  },
+  recours: {
+    demande: true,
+  },
+  achèvement: {
+    informationEnregistrée: true,
+  },
+  abandon: {
+    demande: true,
+  },
+} as const;
+
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
@@ -13,6 +45,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
+  changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -33,6 +66,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     },
     paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation lorsqu’elle est requise (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant.`,
   },
+  changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
 };
 
 export const batiment: AppelOffre.AppelOffreReadModel = {
@@ -50,28 +84,7 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 20,
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
-  changement: {
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-    },
-  },
+  changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.4',
@@ -122,16 +135,6 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
     texteChangementDActionnariat: {
       référenceParagraphe: '5.4.2',
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le candidat a joint à son offre la lettre d’engagement du 3.2.5, il est de sa responsabilité de s’assurer du respect de son engagement.`,
-    },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: '2.5',
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: '5.4.1',
-      dispositions: `Les changements de Producteur avant constitution des garanties financières prévues au 6.2 ne sont pas autorisés. 
-Les changements de Producteur après constitution des garanties financières prévues au 6.2 sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société ainsi que les nouvelles garanties financières prévues au 6.2. `,
     },
     texteDélaisDAchèvement: {
       référenceParagraphe: '6.4',
@@ -199,7 +202,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '2',
@@ -253,7 +256,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '3',
@@ -307,7 +310,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '4',
@@ -361,7 +364,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '5',
@@ -415,7 +418,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '6',
@@ -469,7 +472,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '7',
@@ -523,7 +526,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '8',
@@ -577,7 +580,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '9',
@@ -631,7 +634,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '10',
@@ -685,7 +688,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '11',
@@ -739,7 +742,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '12',
@@ -793,7 +796,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
+      changement: 'indisponible',
     },
     {
       id: '13',

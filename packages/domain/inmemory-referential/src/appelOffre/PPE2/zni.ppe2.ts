@@ -35,6 +35,15 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
@@ -90,14 +99,6 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     texteChangementDActionnariat: {
       référenceParagraphe: '5.2.2',
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat s’est engagé au Financement Collectif ou à la Gouvernance Partagée du projet prévu au 3.2.7, il est de sa responsabilité́ de s’assurer du respect de son engagement.`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: `5.2.1`,
-      dispositions: `Les changements de Producteur sont réputés autorisés. Ils doivent faire l’objet d’une information dans un délai d’un mois au Préfet et le cas échéant au co-contractant. A cette fin, le producteur transmet au Préfet t les nouvelles garanties financières de la nouvelle société.`,
-    },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: `2.4`,
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
     },
   },
   periodes: [

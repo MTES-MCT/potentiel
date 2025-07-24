@@ -66,7 +66,6 @@ class routes {
   static LISTE_PROJETS = '/projets.html';
 
   static USER_LIST_REQUESTS = '/mes-demandes.html';
-  static DEMANDE_GENERIQUE = '/demande-modification.html';
 
   static DEMANDER_DELAI = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/demander-delai.html';

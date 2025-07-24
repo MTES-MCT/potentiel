@@ -181,4 +181,8 @@ const mapCorrectionToCandidature = (
     période: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet).période,
     technologie: payload.technologie,
   }),
+  technologie: Candidature.TypeTechnologie.déterminer({
+    appelOffre: appelOffres,
+    projet: { technologie: payload.technologie },
+  }),
 });

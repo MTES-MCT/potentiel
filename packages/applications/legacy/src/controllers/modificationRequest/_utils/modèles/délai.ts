@@ -42,7 +42,7 @@ type MapToDélaiModèleRéponseProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   lauréat: Lauréat.ConsulterLauréatReadModel;
   appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
+  cahierDesCharges: Lauréat.ConsulterCahierDesChargesReadModel;
   représentantLégal: Option.Type<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
   puissanceActuelle: number;
   dateAchèvementDemandée: Date;
@@ -58,7 +58,7 @@ export const mapToDélaiModèleRéponseProps = ({
   identifiantProjet,
   lauréat,
   appelOffres,
-  cahierDesChargesChoisi,
+  cahierDesCharges,
   justification,
   représentantLégal,
   utilisateur,
@@ -70,11 +70,7 @@ export const mapToDélaiModèleRéponseProps = ({
   demandePrécédente,
 }: MapToDélaiModèleRéponseProps): ModèleRéponseSignée.ModèleRéponseDélai['data'] => {
   const période = appelOffres.periodes.find((période) => période.id === identifiantProjet.période);
-  const paragraphe = getDonnéesCourriersRéponse({
-    appelOffres,
-    période: identifiantProjet.période,
-    cahierDesChargesChoisi,
-  });
+  const paragraphe = cahierDesCharges.getDonnéesCourriersRéponse('délai');
 
   const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : '';
 
@@ -179,26 +175,4 @@ export const mapToDélaiModèleRéponseProps = ({
   }
 
   return donnéesDélai;
-};
-
-const getDonnéesCourriersRéponse = ({
-  appelOffres,
-  période,
-  cahierDesChargesChoisi,
-}: {
-  appelOffres: AppelOffre.AppelOffreReadModel;
-  période: string;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
-}): AppelOffre.DonnéesCourriersRéponse['texteDélaisDAchèvement'] => {
-  const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
-
-  return {
-    référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
-    dispositions: '!!!CONTENU NON DISPONIBLE!!!',
-    ...appelOffres.donnéesCourriersRéponse.texteDélaisDAchèvement,
-    ...périodeDetails?.donnéesCourriersRéponse?.texteDélaisDAchèvement,
-    ...(cahierDesChargesChoisi.type === 'initial'
-      ? {}
-      : cahierDesChargesChoisi.donnéesCourriersRéponse?.texteDélaisDAchèvement),
-  };
 };

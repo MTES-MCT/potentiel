@@ -74,6 +74,15 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',

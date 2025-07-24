@@ -11,9 +11,3 @@ export class AucunRecoursEnCours extends AggregateNotFoundError {
     super(`Aucun recours n'est en cours`);
   }
 }
-
-export class RecoursImpossiblePourPériodeError extends InvalidOperationError {
-  constructor() {
-    super('La période ne permet pas de faire une demande de recours');
-  }
-}

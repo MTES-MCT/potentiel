@@ -1,5 +1,4 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
 
 export type Common = {
   appelOffre: AppelOffre.AppelOffreReadModel;
@@ -21,7 +20,7 @@ export type Common = {
   communeProjet: string;
   puissance: number;
   potentielId: string;
-  technologie: Candidature.TypeTechnologie.RawType;
+  technologie: AppelOffre.Technologie;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
   coefficientKChoisi: boolean | undefined;
 

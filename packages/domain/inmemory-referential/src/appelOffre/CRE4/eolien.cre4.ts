@@ -54,6 +54,15 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',
@@ -118,15 +127,6 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       référenceParagraphe: '5.4.2',
       dispositions: `Les modifications de la structure du Capital du Candidat avant la constitution des garanties financières prévues au 6.2 ne sont pas autorisées.
 Après constitution des garanties financières, si le Candidat n’a pas joint à son offre la lettre d’engagement du 3.3.6, les modifications de la structure du Capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat a joint à son offre la lettre d’engagement du 3.3.6, les modifications de la structure du Capital du Candidat doivent être autorisées par le Préfet.`,
-    },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: '2.5',
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: `5.4.1`,
-      dispositions: `Aucun changement de Producteur n’est possible avant l’Achèvement.
-Les changements de Producteur postérieurement à l’Achèvement sont réputés autorisés. Ils doivent faire l’objet d’une information préalable au Préfet et à EDF au minimum un (1) mois à l’avance.`,
     },
   },
   periodes: [

@@ -71,6 +71,15 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',

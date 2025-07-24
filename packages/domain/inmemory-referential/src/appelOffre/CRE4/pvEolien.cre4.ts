@@ -42,24 +42,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.`,
   },
-};
-
-export const pvEolien: AppelOffre.AppelOffreReadModel = {
-  id: 'PV - Eolien',
-  typeAppelOffre: 'eolien',
-  cycleAppelOffre: 'CRE4',
-  title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
-  shortTitle: 'PV - Eolien',
-  launchDate: 'Décembre 2017',
-  cahiersDesChargesUrl:
-    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique-o',
-  unitePuissance: 'MW',
-  // on devrait avoir "multiplesTechnologies" pour cet AO
-  // mais les projets existants ont "N/A" comme technologie, ce qui créerait une inconsistance.
-  // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
-  technologie: 'eolien',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -81,7 +63,35 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
+};
+
+export const pvEolien: AppelOffre.AppelOffreReadModel = {
+  id: 'PV - Eolien',
+  typeAppelOffre: 'eolien',
+  cycleAppelOffre: 'CRE4',
+  title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
+  shortTitle: 'PV - Eolien',
+  launchDate: 'Décembre 2017',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique-o',
+  unitePuissance: 'MW',
+  // on devrait avoir "multiplesTechnologies" pour cet AO
+  // mais les projets existants ont "N/A" comme technologie, ce qui créerait une inconsistance.
+  // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
+  technologie: 'eolien',
+  délai: { autoritéCompétente: 'dreal' },
+  abandon: { autoritéCompétente: 'dgec' },
+  changement: 'indisponible',
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   délaiRéalisationEnMois: 24,
   paragraphePrixReference: '7',
@@ -133,16 +143,6 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       dispositions: `Les modifications de la structure du capital du Candidat avant la constitution des garanties financières prévues au 6.2 ne sont pas autorisées.
 Les modifications de la structure du capital du Candidat après constitution des garanties financières sont réputées autorisées si le Candidat n’a pas joint à son offre la lettre d’engagement du 3.3.7. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat a joint à son offre la lettre d’engagement du 3.3.7, les modifications de la structure du capital du Candidat doivent être autorisées par le Préfet.`,
     },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: '2.5',
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: '5.4.1',
-      dispositions: `Aucun changement de Producteur n’est possible avant l’Achèvement.
-En application de l’article R311-27-5 du code de l’énergie, les changements de Producteur postérieurement à l’Achèvement sont réputés autorisés. Ils doivent faire l’objet d’une information au Préfet et à EDF au minimum un (1) mois à l’avance.
-En cas de changement de Producteur, le nouveau Producteur est tenu par le contenu de l’offre déposée ainsi que par les engagements et prescriptions du présent cahier des charges. En cas de changement de Producteur après signature du contrat, un avenant est conclu et les clauses et conditions du contrat s’imposent au nouveau Producteur pour la durée souscrite restante.`,
-    },
     texteDélaisDAchèvement: {
       référenceParagraphe: '6.4',
       dispositions: `
@@ -172,7 +172,6 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
-      choisirNouveauCahierDesCharges: true,
     },
   ],
 };

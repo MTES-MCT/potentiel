@@ -8,7 +8,8 @@ import { v1Router } from '../../v1Router';
 
 import { DemanderDelaiPage } from '../../../views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
-import { Candidature } from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 v1Router.get(
   routes.DEMANDER_DELAI(),
@@ -49,11 +50,20 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' });
     }
 
-    const doitChoisirCahierDesCharges =
-      appelOffre.periode.choisirNouveauCahierDesCharges &&
-      project.cahierDesChargesActuel === 'initial';
+    const référenceCdcActuel = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
+      project.cahierDesChargesActuel,
+    );
+    const cahierDesCharges = CahierDesCharges.bind({
+      appelOffre,
+      période: appelOffre.periode,
+      famille: undefined,
+      cahierDesChargesModificatif: appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
+        (cdc) => AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(référenceCdcActuel),
+      ),
+      technologie: project.technologie,
+    });
 
-    if (doitChoisirCahierDesCharges) {
+    if (cahierDesCharges.doitChoisirUnCahierDesChargesModificatif()) {
       return unauthorizedResponse({
         request,
         response,

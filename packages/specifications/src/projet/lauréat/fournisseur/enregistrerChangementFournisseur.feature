@@ -4,7 +4,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Enregistrer un changement de fournisseur
@@ -25,7 +25,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
             | appel d'offre | PPE2 - Petit PV |
             | période       | 1               |
         Quand le porteur enregistre un changement de fournisseur
-        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
     Scénario: Impossible d'enregistrer un changement de fournisseur sans modification
         Quand le porteur enregistre un changement de fournisseur sans modification
@@ -70,4 +70,4 @@ Fonctionnalité: Enregistrer un changement de fournisseur
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
         Quand le porteur enregistre un changement de fournisseur
-        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

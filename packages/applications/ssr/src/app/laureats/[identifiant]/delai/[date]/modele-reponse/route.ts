@@ -2,17 +2,16 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCahierDesCharges, getPériodeAppelOffres } from '@/app/_helpers';
+import { getCahierDesCharges } from '@/app/_helpers';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
@@ -27,11 +26,7 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
     const demandéLe = decodeParameter(date);
 
     const { lauréat, représentantLégal, puissance } = await getLauréat({ identifiantProjet });
-    const { appelOffres, période, famille } = await getPériodeAppelOffres(
-      IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    );
-
-    const cahierDesChargesChoisi = await getCahierDesCharges(identifiantProjet);
+    const cahierDesCharges = await getCahierDesCharges(lauréat.identifiantProjet);
 
     const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
       type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
@@ -51,30 +46,20 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
       return notFound();
     }
 
-    const texteDélaisDAchèvement = getDonnéesCourriersRéponse({
-      appelOffres,
-      cahierDesChargesChoisi,
-      période,
-    });
+    const texteDélaisDAchèvement = cahierDesCharges.getDonnéesCourriersRéponse('délai');
 
     const { logo, data } = mapLauréatToModèleRéponsePayload({
       identifiantProjet,
       lauréat,
       puissance,
       représentantLégal,
-      appelOffres,
-      période,
-      famille,
+      appelOffres: cahierDesCharges.appelOffre,
+      période: cahierDesCharges.période,
+      famille: cahierDesCharges.famille,
       utilisateur,
     });
 
-    const getDélaiRéalisationEnMois = () => {
-      if (appelOffres.multiplesTechnologies) {
-        return appelOffres.délaiRéalisationEnMois[lauréat.technologie.type];
-      }
-
-      return appelOffres.délaiRéalisationEnMois;
-    };
+    const délaiRéalisationEnMois = cahierDesCharges.getDélaiRéalisationEnMois();
 
     const type = 'délai';
     const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
@@ -93,7 +78,7 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
         ),
         dateLimiteAchevementActuelle: achèvement.dateAchèvementPrévisionnel.formatterDate(),
         dateLimiteAchevementInitiale: formatDateForDocument(
-          lauréat.notifiéLe.ajouterNombreDeMois(getDélaiRéalisationEnMois()).date,
+          lauréat.notifiéLe.ajouterNombreDeMois(délaiRéalisationEnMois).date,
         ),
         demandePrecedente: '',
       },
@@ -103,23 +88,3 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
       headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
     });
   });
-
-const getDonnéesCourriersRéponse = ({
-  appelOffres,
-  période,
-  cahierDesChargesChoisi,
-}: {
-  appelOffres: AppelOffre.AppelOffreReadModel;
-  période: AppelOffre.Periode;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
-}): AppelOffre.DonnéesCourriersRéponse['texteDélaisDAchèvement'] => {
-  return {
-    référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
-    dispositions: '!!!CONTENU NON DISPONIBLE!!!',
-    ...appelOffres.donnéesCourriersRéponse.texteDélaisDAchèvement,
-    ...période?.donnéesCourriersRéponse?.texteDélaisDAchèvement,
-    ...(cahierDesChargesChoisi.type === 'initial'
-      ? {}
-      : cahierDesChargesChoisi.donnéesCourriersRéponse?.texteDélaisDAchèvement),
-  };
-};

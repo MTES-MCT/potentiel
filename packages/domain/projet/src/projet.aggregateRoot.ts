@@ -6,11 +6,12 @@ import {
   LoadAppelOffreAggregatePort,
 } from '@potentiel-domain/appel-offre';
 
-import { IdentifiantProjet, StatutProjet } from '.';
+import { CahierDesCharges, IdentifiantProjet, StatutProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 import {
   AppelOffreInexistantError,
+  CahierDesChargesInexistantError,
   FamilleInexistanteError,
   PériodeInexistanteError,
 } from './appelOffre.error';
@@ -96,6 +97,32 @@ export class ProjetAggregateRoot {
   #famille?: AppelOffre.Famille;
   get famille() {
     return this.#famille;
+  }
+
+  get cahierDesChargesActuel() {
+    const cahierDesChargesModificatif = this.lauréat.exists
+      ? this.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
+          AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(
+            this.lauréat.référenceCahierDesCharges,
+          ),
+        )
+      : undefined;
+    if (!this.lauréat.référenceCahierDesCharges.estInitial() && !cahierDesChargesModificatif) {
+      throw new CahierDesChargesInexistantError(
+        this.appelOffre.id,
+        this.période.id,
+        this.lauréat.référenceCahierDesCharges.formatter(),
+      );
+    }
+    return CahierDesCharges.bind({
+      appelOffre: this.appelOffre,
+      période: this.période,
+      famille: this.famille,
+      cahierDesChargesModificatif,
+      technologie: this.candidature.exists
+        ? this.candidature.technologie.type
+        : this.appelOffre.technologie,
+    });
   }
 
   get champsSupplémentaires() {

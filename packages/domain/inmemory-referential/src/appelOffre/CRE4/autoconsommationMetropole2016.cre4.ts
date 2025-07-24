@@ -11,22 +11,6 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-};
-
-export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
-  id: 'CRE4 - Autoconsommation métropole 2016',
-  typeAppelOffre: 'autoconso',
-  cycleAppelOffre: 'CRE4',
-  title:
-    'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir d’énergies renouvelables en autoconsommation',
-  shortTitle: 'CRE4 - Autoconsommation métropole 2016',
-  launchDate: 'juillet 2016',
-  cahiersDesChargesUrl:
-    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
-  technologie: 'pv',
-  unitePuissance: 'MWc',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -48,7 +32,33 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
+};
+
+export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
+  id: 'CRE4 - Autoconsommation métropole 2016',
+  typeAppelOffre: 'autoconso',
+  cycleAppelOffre: 'CRE4',
+  title:
+    'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir d’énergies renouvelables en autoconsommation',
+  shortTitle: 'CRE4 - Autoconsommation métropole 2016',
+  launchDate: 'juillet 2016',
+  cahiersDesChargesUrl:
+    'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
+  technologie: 'pv',
+  unitePuissance: 'MWc',
+  délai: { autoritéCompétente: 'dreal' },
+  abandon: { autoritéCompétente: 'dgec' },
+  changement: 'indisponible',
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
@@ -101,15 +111,6 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
       référenceParagraphe: '5.2.2',
       dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
     },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: '2.5',
-      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: '5.2.1',
-      dispositions: `Les changements de Producteur sont réputés autorisés.
-Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société. `,
-    },
     texteDélaisDAchèvement: {
       référenceParagraphe: '6.2',
       dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -131,7 +132,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -144,7 +144,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
   ],
 };

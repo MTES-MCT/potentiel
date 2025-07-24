@@ -21,3 +21,13 @@ export class FamilleInexistanteError extends InvalidOperationError {
     });
   }
 }
+
+export class CahierDesChargesInexistantError extends InvalidOperationError {
+  constructor(appelOffre: string, période: string, cahierDesCharges: string) {
+    super(`Le cahier des charges spécifié n'existe pas`, {
+      appelOffre,
+      période,
+      cahierDesCharges,
+    });
+  }
+}

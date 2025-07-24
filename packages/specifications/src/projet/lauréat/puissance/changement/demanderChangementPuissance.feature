@@ -35,7 +35,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
         Et la dreal "Dreal du sud" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
         Alors la demande de changement de puissance devrait être consultable
@@ -110,4 +110,4 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | période       | 1          |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
-        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

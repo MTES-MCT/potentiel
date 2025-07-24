@@ -12,7 +12,7 @@ type AppelOffreTypes =
   | 'zni'
   | 'autre';
 
-type Ratios = {
+export type Ratios = {
   min: number;
   max: number;
 };
@@ -60,7 +60,7 @@ type Changement = {
   demande?: boolean;
 };
 
-type RèglesDemandesChangement = {
+export type RèglesDemandesChangement = {
   actionnaire: Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
   fournisseur: Changement;
   délai: Changement;
@@ -73,28 +73,26 @@ type RèglesDemandesChangement = {
       }
     | { demande: true; instructionAutomatique: 'accord' | 'rejet' }
   );
+  recours: Changement;
+  achèvement: Changement;
+  abandon: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
 
 // Courriers
-export type DonnéesCourriersRéponse = Record<
+export type DomainesCourriersRéponse = 'abandon' | 'actionnaire' | 'puissance' | 'délai';
+export type DonnéesCourriersRéponse = {
+  référenceParagraphe: string;
+  dispositions: string;
+};
+export type DonnéesCourriersRéponseParDomaine = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
   | 'texteChangementDActionnariat'
   | 'texteChangementDePuissance'
-  | 'texteIdentitéDuProducteur'
-  | 'texteChangementDeProducteur'
   | 'texteDélaisDAchèvement',
-  {
-    référenceParagraphe: string;
-    dispositions: string;
-  }
+  DonnéesCourriersRéponse
 >;
-
-// Cahier des charges
-export type CahierDesCharges = {
-  référence: string;
-};
 
 export type DélaiApplicable = {
   délaiEnMois: number;
@@ -106,10 +104,11 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié;
   alternatif?: true;
   numéroGestionnaireRequis?: true;
-  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
   seuilSupplémentaireChangementPuissance?: ChangementPuissance;
+  changement?: Partial<RèglesDemandesChangement>;
 };
 
 // Technologies
@@ -225,23 +224,24 @@ export type Periode = {
   title: string;
   /** Surcharge l'unité de puissance par défaut définie dans l'AO, même si elle est définie par technologie */
   unitéPuissance?: UnitéPuissance;
-  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   /**
    * Permet de modifier le paragraphe engagement IPFPGPFC, configuré dans l'AO
    * IPFPGPFC = Investissement Participatif/ Financement Partagé / Gouvernance Partagée / Finacement Collectif
    **/
   paragrapheEngagementIPFPGPFC?: string;
-  cahierDesCharges: CahierDesCharges;
+  cahierDesCharges: { référence: string };
   delaiDcrEnMois: {
     valeur: number;
     texte: string;
   };
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
-  /** les projets de la période ne peuvent pas faire de modification sans choisir un CDC modificatif */
-  choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
-  changement?: Partial<RèglesDemandesChangement>;
+  /**
+   * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
+   **/
+  changement?: Partial<RèglesDemandesChangement> | 'indisponible';
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
@@ -295,7 +295,7 @@ export type AppelOffreReadModel = {
   periodes: Periode[];
   changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;
-  donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
+  donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
   puissanceALaPointeDisponible?: true;
   délai: {
@@ -304,7 +304,10 @@ export type AppelOffreReadModel = {
   abandon: {
     autoritéCompétente: AutoritéCompétente;
   };
-  changement: RèglesDemandesChangement;
+  /**
+   * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
+   **/
+  changement: RèglesDemandesChangement | 'indisponible';
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

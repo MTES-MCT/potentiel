@@ -1,14 +1,14 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-export const getCahierDesCharges = async (identifiantProjet: string) => {
-  const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
-    type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+export const getCahierDesCharges = async (identifiantProjet: IdentifiantProjet.ValueType) => {
+  const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+    type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
     data: {
-      identifiantProjet,
+      identifiantProjetValue: identifiantProjet.formatter(),
     },
   });
 

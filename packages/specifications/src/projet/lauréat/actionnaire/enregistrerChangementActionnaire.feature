@@ -6,7 +6,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
         Et la dreal "DREAL" associée à la région du projet
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
     Scénario: Enregistrer un changement d'actionnaire d'un projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
@@ -30,7 +30,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | appel d'offre | PPE2 - Petit PV |
             | période       | 1               |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
     Scénario: Impossible d'enregistrer un changement d'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
@@ -102,4 +102,4 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

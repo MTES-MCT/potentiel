@@ -7,7 +7,7 @@ Fonctionnalité: Rejeter la demande de changement d'actionnaire d'un projet laur
             | appel d'offre | Eolien                      |
             | période       | 6                           |
             | actionnariat  | investissement-participatif |
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: la DREAL associée au projet rejette le changement d'actionnaire d'un projet lauréat

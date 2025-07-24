@@ -108,7 +108,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     this.lauréat.vérifierQueLeChangementEstPossible('information-enregistrée', 'actionnaire');
 
     if (
-      this.lauréat.projet.appelOffre.changement.actionnaire
+      this.lauréat.projet.cahierDesChargesActuel.getRèglesChangements('actionnaire')
         .informationEnregistréeEstSoumiseÀConditions
     ) {
       const instructionChangementActionnaire = InstructionChangementActionnaire.bind({

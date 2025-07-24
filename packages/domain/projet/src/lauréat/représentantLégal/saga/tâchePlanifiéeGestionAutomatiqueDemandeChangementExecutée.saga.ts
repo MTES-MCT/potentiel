@@ -1,9 +1,8 @@
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   AccorderChangementReprésentantLégalUseCase,
@@ -12,45 +11,33 @@ import {
 } from '..';
 import { Lauréat } from '../../..';
 
-export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = async (
-  event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent,
-) => {
+export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = async ({
+  payload: { identifiantProjet, typeTâchePlanifiée },
+}: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent) => {
   if (
-    event.payload.typeTâchePlanifiée !==
+    typeTâchePlanifiée !==
     TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type
   ) {
     return;
   }
 
-  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-
-  const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    type: 'AppelOffre.Query.ConsulterAppelOffre',
+  const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+    type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
     data: {
-      identifiantAppelOffre: identifiantProjet.appelOffre,
+      identifiantProjetValue: identifiantProjet,
     },
   });
 
-  if (Option.isNone(appelOffre)) {
+  if (Option.isNone(cahierDesCharges)) {
     throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
-      `Appel d'offre non trouvé`,
-      identifiantProjet.formatter(),
+      `Projet non trouvé`,
+      identifiantProjet,
     );
   }
 
-  const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
+  const règlesChangement = cahierDesCharges.getRèglesChangements('représentantLégal');
 
-  if (!période) {
-    throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
-      `Période non trouvée`,
-      identifiantProjet.formatter(),
-    );
-  }
-
-  const règlesChangement =
-    période.changement?.représentantLégal ?? appelOffre.changement.représentantLégal;
-
-  if (!règlesChangement || !règlesChangement.instructionAutomatique) {
+  if (!règlesChangement.instructionAutomatique) {
     return;
   }
 
@@ -59,7 +46,7 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
       await mediator.send<AccorderChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet,
           identifiantUtilisateurValue: Email.system().formatter(),
           dateAccordValue: DateTime.now().formatter(),
           accordAutomatiqueValue: true,
@@ -70,7 +57,7 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
       await mediator.send<RejeterChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet,
           identifiantUtilisateurValue: Email.system().formatter(),
           motifRejetValue: 'Rejet automatique',
           dateRejetValue: DateTime.now().formatter(),

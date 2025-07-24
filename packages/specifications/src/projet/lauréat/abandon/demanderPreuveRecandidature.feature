@@ -6,7 +6,7 @@ Fonctionnalité: demander un porteur pour qu'il transmette une preuve de recandi
 
 # Contexte:
 #     Etant donné le projet lauréat "Du boulodrome de Marseille"
-#     Et un cahier des charges modificatif choisi
+#     Et un cahier des charges permettant la modification du projet
 
 # Scénario: Demander la preuve de recandidature au porteur du projet
 #     Etant donné un abandon accordé avec recandidature sans preuve transmise pour le projet lauréat

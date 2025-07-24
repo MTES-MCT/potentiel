@@ -31,6 +31,15 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
       informationEnregistrée: true,
       demande: true,
     },
+    recours: {
+      demande: true,
+    },
+    achèvement: {
+      informationEnregistrée: true,
+    },
+    abandon: {
+      demande: true,
+    },
   },
   paragraphePrixReference: '7', // à vérifier
   paragrapheDelaiDerogatoire: '6.3', // à vérifier
@@ -80,14 +89,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
     // probablement à supprimer, pas de changement d'actionnaire
     texteChangementDActionnariat: {
       référenceParagraphe: '5.2.2',
-      dispositions: `***** A AJOUTER *****`,
-    },
-    texteChangementDeProducteur: {
-      référenceParagraphe: `5.2.1`,
-      dispositions: `***** A AJOUTER *****`,
-    },
-    texteIdentitéDuProducteur: {
-      référenceParagraphe: `2.4`,
       dispositions: `***** A AJOUTER *****`,
     },
   },

@@ -21,7 +21,6 @@ import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInst
 import {
   AucunRecoursEnCours,
   RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError,
-  RecoursImpossiblePourPériodeError,
 } from './recours.error';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
@@ -87,11 +86,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
     raison,
   }: DemanderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.demandé);
-    // Un éliminé ne peut pas choisir de nouveau cahier des charges.
-    // Les périodes nécessitant un choix de cahier des charges sont trop anciennes pour permettre une demande de recours.
-    if (this.éliminé.projet.période.choisirNouveauCahierDesCharges) {
-      throw new RecoursImpossiblePourPériodeError();
-    }
+    this.éliminé.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(
+      'demande',
+      'recours',
+    );
 
     const event: RecoursDemandéEvent = {
       type: 'RecoursDemandé-V1',

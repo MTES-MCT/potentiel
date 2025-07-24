@@ -4,7 +4,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Contexte:
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
 
     Scénario: Un porteur demande la mainlevée des garanties financières de son projet abandonné
         Etant donnée un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
@@ -102,7 +102,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet abandonné
         Etant donné le projet lauréat "Du boulodrome de Lyon"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et un abandon accordé pour le projet lauréat "Du boulodrome de Lyon"
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Lyon" avec :
             | motif | projet-abandonné |
@@ -110,7 +110,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet achevé
         Etant donné le projet lauréat "Du boulodrome de Lyon"
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Lyon" avec :
             | motif | projet-achevé |

@@ -7,6 +7,7 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
 
 import { formatBoolean } from './formatBoolean';
 import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';
@@ -14,9 +15,9 @@ import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetFor
 type CommonProps = {
   identifiantProjet: string;
 
-  appelOffres: AppelOffre.AppelOffreReadModel;
-  période: AppelOffre.Periode;
-  famille: AppelOffre.Famille | undefined;
+  appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
+  période: PlainType<AppelOffre.Periode>;
+  famille: PlainType<AppelOffre.Famille> | undefined;
   utilisateur: Utilisateur.ValueType;
 };
 

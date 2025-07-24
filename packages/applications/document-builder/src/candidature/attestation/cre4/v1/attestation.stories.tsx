@@ -47,7 +47,7 @@ const fakeProject: AttestationCRE4Options = {
   communeProjet: 'communeProjet',
   puissance: 42,
   potentielId: 'potentielId',
-  technologie: 'N/A',
+  technologie: 'eolien',
   unitePuissance: 'MW',
   coefficientKChoisi: undefined,
 };

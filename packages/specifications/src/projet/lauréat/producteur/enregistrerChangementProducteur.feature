@@ -34,7 +34,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
@@ -82,4 +82,4 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
