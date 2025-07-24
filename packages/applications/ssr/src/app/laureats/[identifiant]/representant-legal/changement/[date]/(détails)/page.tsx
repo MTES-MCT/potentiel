@@ -12,6 +12,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
 
+import { récupérerChangementsPermisParLeCahierDesCharges } from '../../../../../../_helpers/récupérerChangementsPermisParLeCahierDesCharges';
+
 import {
   AvailableChangementReprésentantLégalAction,
   DétailsChangementReprésentantLégalPage,
@@ -36,6 +38,11 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         decodeParameter(identifiant),
       );
       const demandéLe = decodeParameter(date);
+      const { demande, informationEnregistrée } =
+        await récupérerChangementsPermisParLeCahierDesCharges(
+          identifiantProjet,
+          'représentantLégal',
+        );
 
       const changement =
         await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
@@ -80,7 +87,12 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
-          actions={mapToActions(utilisateur.role, changement.demande.statut)}
+          actions={mapToActions(
+            utilisateur.role,
+            changement.demande.statut,
+            demande,
+            informationEnregistrée,
+          )}
           historique={historique.items.map(mapToReprésentantLégalTimelineItemProps)}
           dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
         />
@@ -92,10 +104,17 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   role: Role.ValueType,
   statut: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['statut'],
+  demande: boolean,
+  informationEnregistrée: boolean,
 ) => {
   const actions: Array<AvailableChangementReprésentantLégalAction> = [];
+  if (!statut.estDemandé() && informationEnregistrée) {
+    if (role.aLaPermission('représentantLégal.enregistrerChangement')) {
+      actions.push('enregistrer-changement');
+    }
+  }
 
-  if (statut.estDemandé()) {
+  if (statut.estDemandé() && demande) {
     if (role.aLaPermission('représentantLégal.accorderChangement')) {
       actions.push('accorder');
     }

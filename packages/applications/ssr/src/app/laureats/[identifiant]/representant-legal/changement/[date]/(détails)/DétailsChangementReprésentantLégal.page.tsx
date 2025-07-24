@@ -26,7 +26,8 @@ export type AvailableChangementReprésentantLégalAction =
   | 'accorder'
   | 'rejeter'
   | 'annuler'
-  | 'corriger';
+  | 'corriger'
+  | 'enregistrer-changement';
 
 export type DétailsChangementReprésentantLégalPageProps =
   PlainType<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
@@ -172,7 +173,6 @@ const mapToActionComponents = ({
       {actions.includes('rejeter') && (
         <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
       )}
-
       {actions.includes('annuler') && (
         <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
       )}
@@ -185,6 +185,16 @@ const mapToActionComponents = ({
           className="block w-1/2 text-center"
         >
           Corriger
+        </Button>
+      )}
+      {actions.includes('enregistrer-changement') && (
+        <Button
+          priority="secondary"
+          linkProps={{
+            href: Routes.ReprésentantLégal.changement.enregistrerChangement(identifiantProjet),
+          }}
+        >
+          Faire une nouvelle déclaration de changement
         </Button>
       )}
     </div>

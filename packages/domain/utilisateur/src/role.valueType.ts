@@ -278,7 +278,10 @@ const référencielPermissions = {
         annulerChangement: 'Lauréat.ReprésentantLégal.UseCase.AnnulerChangementReprésentantLégal',
         corrigerChangement: 'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
-        rejeterChangement: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+        rejeterChangement:
+          'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
+        enregistrerChangement:
+          'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       },
       command: {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
@@ -287,6 +290,8 @@ const référencielPermissions = {
         corrigerChangement: 'Lauréat.ReprésentantLégal.Command.CorrigerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
         rejeterChangement: 'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
+        enregistrerChangement:
+          'Lauréat.ReprésentantLégal.Command.EnregistrerChangementReprésentantLégal',
         supprimerDocumentSensible:
           'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
       },
@@ -943,6 +948,11 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
       référencielPermissions.lauréat.représentantLégal.query.consulterChangementEnCours,
       référencielPermissions.document.query.consulter,
+    ],
+    enregistrerChangement: [
+      référencielPermissions.lauréat.représentantLégal.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.représentantLégal.command.enregistrerChangement,
+      référencielPermissions.document.command.enregister,
     ],
     listerChangement: [
       référencielPermissions.appelOffre.query.lister,
@@ -1720,6 +1730,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.annulerChangement',
   'représentantLégal.corrigerChangement',
   'représentantLégal.consulterChangement',
+  'représentantLégal.enregistrerChangement',
   'représentantLégal.listerChangement',
   'représentantLégal.consulter',
 
