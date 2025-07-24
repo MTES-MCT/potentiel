@@ -240,7 +240,7 @@ export type Periode = {
   familles: Array<Famille>;
   /**
    * Indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
-   * Cette information est à des fins d'affichage, la vérification effective que le changement est disponible se fait avec `changement`.
+   * Cette information est à des fins d'affichage, la vérification effective que le changement est possible se fait avec `changement`.
    **/
   choisirNouveauCahierDesCharges?: true;
   changement?: Partial<RèglesDemandesChangement>;

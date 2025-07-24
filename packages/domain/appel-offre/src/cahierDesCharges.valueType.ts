@@ -22,10 +22,17 @@ export type ValueType = {
   famille: PlainType<Famille> | undefined;
   cahierDesChargesModificatif: PlainType<CahierDesChargesModifié> | undefined;
   technologie: Technologie | undefined;
+  /**
+   * Un changement peut être "information enregistrée" ou "demande" ou indisponible.
+   * Cette règle, définie dans le Cahier des charges outrepasse celle de la période, qui elle même outrepasse celle de l'appel d'offre.
+   **/
   changementEstDisponible(
     typeChangement: 'information-enregistrée' | 'demande',
     domaine: DomainesConcernésParChangement,
   ): boolean;
+  /**
+   * Applique les règles de @see ValueType.changementEstDisponible, en émettant une erreur si le changement n'est pas disponible.
+   **/
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
     domaine: DomainesConcernésParChangement,
