@@ -18,13 +18,13 @@ import {
 } from '../../_helpers/steps';
 import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../../_helpers/schema';
 
-import { demanderChangementReprésentantLégalAction } from './demanderChangementReprésentantLégal.action';
+import { enregistrerChangementReprésentantLégalAction } from './enregistrerChangementReprésentantLégal.action';
 
-export type DemanderChangementReprésentantLégalFormProps = {
+export type EnregistrerChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
 };
 
-type DemanderChangementReprésentantLégalState = {
+type EnregistrerChangementReprésentantLégalState = {
   step: number;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
@@ -32,14 +32,14 @@ type DemanderChangementReprésentantLégalState = {
   piècesJustificatives: Array<string>;
 };
 
-export const DemanderChangementReprésentantLégalForm: FC<
-  DemanderChangementReprésentantLégalFormProps
+export const EnregistrerChangementReprésentantLégalForm: FC<
+  EnregistrerChangementReprésentantLégalFormProps
 > = ({ identifiantProjet }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>
   >({});
 
-  const [state, setState] = useState<DemanderChangementReprésentantLégalState>({
+  const [state, setState] = useState<EnregistrerChangementReprésentantLégalState>({
     step: 1,
     typeReprésentantLégal: 'inconnu',
     typeSociété: 'non renseignée',
@@ -81,8 +81,9 @@ export const DemanderChangementReprésentantLégalForm: FC<
           </p>
 
           <p>
-            Pour ce faire vous allez devoir remplir une demande en ligne avec des pièces
-            justificatives à fournir selon la situation du nouveau représentant légal du projet.
+            Pour ce faire vous allez devoir remplir une déclaration de changement en ligne avec des
+            pièces justificatives à fournir selon la situation du nouveau représentant légal du
+            projet.
           </p>
 
           <SaisieTypeStep
@@ -136,7 +137,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
     },
     {
       index: 3,
-      name: `Confirmer la demande de changement`,
+      name: `Confirmer le changement`,
       children: (
         <ValidationStep
           typeReprésentantLégal={state.typeReprésentantLégal}
@@ -144,11 +145,8 @@ export const DemanderChangementReprésentantLégalForm: FC<
           nomReprésentantLégal={state.nomReprésentantLégal}
           piècesJustificatives={state.piècesJustificatives}
           message={`
-            Vous êtes sur le point de demander le changement du représentant légal du projet. 
-            Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct. 
-            Ensuite votre demande sera alors instruite par le service de l'état en région de votre projet. 
-            À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
-            règles du cahier des charges en vigueur de votre projet.`}
+            Vous êtes sur le point de déclarer le changement du représentant légal du projet. 
+            Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct.`}
         />
       ),
       previousStep: { name: 'Corriger' },
@@ -171,7 +169,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
       />
 
       <Form
-        action={demanderChangementReprésentantLégalAction}
+        action={enregistrerChangementReprésentantLégalAction}
         onInvalid={() => setState((state) => ({ ...state, step: 2 }))}
         onValidationError={(validationErrors) => {
           setValidationErrors(validationErrors);

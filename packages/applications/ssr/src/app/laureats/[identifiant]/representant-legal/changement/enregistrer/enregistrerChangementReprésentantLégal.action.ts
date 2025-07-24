@@ -15,29 +15,27 @@ const action: FormAction<FormState, typeof demanderOuEnregistrerChangementSchema
   { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    const dateDemandeValue = new Date().toISOString();
-
     await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
-      type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
+      type: 'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
         nomReprésentantLégalValue: nomRepresentantLegal,
         typeReprésentantLégalValue: typeRepresentantLegal,
         pièceJustificativeValue: piecesJustificatives,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateDemandeValue,
+        dateChangementValue: new Date().toISOString(),
       },
     });
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, dateDemandeValue),
-        message: 'La demande de changement de représentant légal a bien été transmise',
+        url: Routes.Projet.details(identifiantProjet),
+        message: 'Le changement de représentant légal a bien été transmis',
       },
     };
   });
 
-export const demanderChangementReprésentantLégalAction = formAction(
+export const enregistrerChangementReprésentantLégalAction = formAction(
   action,
   demanderOuEnregistrerChangementSchema,
 );

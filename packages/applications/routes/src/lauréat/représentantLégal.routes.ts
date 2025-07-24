@@ -14,6 +14,8 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/${demandéLe}`,
   demander: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/demander`,
+  enregistrerChangement: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/enregistrer`,
   corriger: (identifiantProjet: string, demandéLe: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/${demandéLe}/corriger`,
   lister: (filters: ListerFilters = {}) => {
