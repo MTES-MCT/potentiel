@@ -9,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
-import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/demander/demanderChangementReprésentantLégal.action';
+import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
 
 import { TypeSociété } from './SaisieTypeSociété.step';
 
@@ -18,7 +18,7 @@ export type SaisiePièceJustificativeProps = {
   typeSociété?: TypeSociété;
   pièceJustificative?: Array<string>;
   onChange?: (piècesJustificative: Array<string>) => void;
-  validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
+  validationErrors: ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>;
 };
 
 export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> = ({
