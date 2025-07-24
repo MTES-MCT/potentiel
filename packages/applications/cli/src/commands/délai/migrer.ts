@@ -294,7 +294,7 @@ export class Migrer extends Command {
         if (!flags.dryRun) {
           try {
             await publish(`délai|${newEvent.payload.identifiantProjet}`, newEvent);
-            await reporter.success(`${newEvent.payload.identifiantProjet} => ${newEvent.type}`);
+            // await reporter.success(`${newEvent.payload.identifiantProjet} => ${newEvent.type}`);
           } catch (error) {
             await reporter.error(`${error}`);
           }
@@ -434,7 +434,7 @@ const getDélaiDemandé = async (demande: DélaiDemandéSurPotentiel): Promise<n
 
   if (achèvement.length > 0) {
     const ancienneDate = new Date(Number.parseInt(achèvement[0].dateAchèvementPrévisionnel));
-    const nouvelleDate = new Date(Number.parseInt(demande.dateAchèvementDemandée));
+    const nouvelleDate = new Date(demande.dateAchèvementDemandée);
 
     const nombreDeMois =
       (nouvelleDate.getFullYear() - ancienneDate.getFullYear()) * 12 +
