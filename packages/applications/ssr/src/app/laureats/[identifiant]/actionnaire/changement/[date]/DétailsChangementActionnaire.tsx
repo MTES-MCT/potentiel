@@ -29,43 +29,36 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
           ? "Changement d'actionnaire(s)"
           : "Demande de changement d'actionnaire(s)"}
       </Heading2>
-      <>
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            {demande.accord && (
-              <ChangementAccordé
-                accordéeLe={demande.accord.accordéeLe}
-                accordéePar={demande.accord.accordéePar}
-                réponseSignée={demande.accord.réponseSignée}
-              />
-            )}
-            {demande.rejet && (
-              <ChangementRejeté
-                rejetéeLe={demande.rejet.rejetéeLe}
-                rejetéePar={demande.rejet.rejetéePar}
-                réponseSignée={demande.rejet.réponseSignée}
-              />
-            )}
-            {Lauréat.Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
-              <ChangementDemandé
-                demandéeLe={demande.demandéeLe}
-                demandéePar={demande.demandéePar}
-              />
-            )}
-            {estUneInformationEnregistrée && (
-              <InformationEnregistrée
-                demandéeLe={demande.demandéeLe}
-                demandéePar={demande.demandéePar}
-              />
-            )}
-          </div>
-        </div>
+      <div className="flex flex-col">
+        {demande.accord && (
+          <ChangementAccordé
+            accordéeLe={demande.accord.accordéeLe}
+            accordéePar={demande.accord.accordéePar}
+            réponseSignée={demande.accord.réponseSignée}
+          />
+        )}
+        {demande.rejet && (
+          <ChangementRejeté
+            rejetéeLe={demande.rejet.rejetéeLe}
+            rejetéePar={demande.rejet.rejetéePar}
+            réponseSignée={demande.rejet.réponseSignée}
+          />
+        )}
+        {Lauréat.Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
+          <ChangementDemandé demandéeLe={demande.demandéeLe} demandéePar={demande.demandéePar} />
+        )}
+        {estUneInformationEnregistrée && (
+          <InformationEnregistrée
+            demandéeLe={demande.demandéeLe}
+            demandéePar={demande.demandéePar}
+          />
+        )}
         <Changement
           nouvelActionnaire={demande.nouvelActionnaire}
           raison={demande.raison}
           pièceJustificative={demande.pièceJustificative}
         />
-      </>
+      </div>
     </div>
   );
 };
@@ -100,7 +93,7 @@ const Changement: FC<ChangementProps> = ({ nouvelActionnaire, pièceJustificativ
 );
 
 const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, demandéePar }) => (
-  <>
+  <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Modifié le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
@@ -112,7 +105,7 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, dem
         statut={Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut}
       />
     </div>
-  </>
+  </div>
 );
 
 type ChangementDemandéProps = Pick<
@@ -121,7 +114,7 @@ type ChangementDemandéProps = Pick<
 >;
 
 const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandéePar }) => (
-  <>
+  <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Demandé le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
@@ -133,7 +126,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
         statut={Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut}
       />
     </div>
-  </>
+  </div>
 );
 
 type ChangementAccordéProps = NonNullable<
@@ -145,7 +138,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
   accordéePar,
   réponseSignée,
 }) => (
-  <>
+  <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Accordée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
@@ -166,7 +159,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
         url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
       />
     </div>
-  </>
+  </div>
 );
 
 type ChangementRejetéProps = NonNullable<
@@ -174,7 +167,7 @@ type ChangementRejetéProps = NonNullable<
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
-  <>
+  <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Rejetée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
@@ -195,5 +188,5 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
         url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
       />
     </div>
-  </>
+  </div>
 );
