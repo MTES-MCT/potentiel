@@ -10,8 +10,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { makeReporter, reporterFlags } from '../../helpers/reporter';
-
 // type DélaiTraitéHorsPotentielEtImporté = {
 //   identifiantProjet: string;
 //   dateInstruction: string;
@@ -64,6 +62,9 @@ type DélaiDemandéSurPotentiel = {
     }
 );
 
+let migrateFileCount = 0;
+let generateFileCount = 0;
+
 const envSchema = z.object({
   DATABASE_CONNECTION_STRING: z.string().url(),
   AWS_REGION: z.string(),
@@ -76,7 +77,6 @@ const envSchema = z.object({
 export class Migrer extends Command {
   static flags = {
     dryRun: Flags.boolean(),
-    ...reporterFlags,
   };
 
   async init() {
@@ -90,8 +90,6 @@ export class Migrer extends Command {
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);
-
-    const reporter = await makeReporter(flags);
 
     const subscriberCount = await executeSelect<{ count: number }>(
       "select count(*) as count from event_store.subscriber where stream_category='délai'",
@@ -135,8 +133,11 @@ export class Migrer extends Command {
       const demandes = await executeSelect<DélaiDemandéSurPotentiel>(demandesDélaiQuery);
 
       const newEvents: Array<Lauréat.Délai.DélaiEvent> = [];
+      let current = 0;
 
       for (const demande of demandes) {
+        console.log(`${current++} / ${demandes.length}`);
+
         try {
           const demandéPar = await getIdentifiantUtilisateur(demande.identifiantUtilisateur);
           const nombreDeMois = await getDélaiDemandé(demande);
@@ -285,23 +286,21 @@ export class Migrer extends Command {
             newEvents.push(demandeDélaiRejetéeEvent);
           }
         } catch (error) {
-          await reporter.error(`${error}`);
+          console.error(error);
         }
       }
 
       for (const newEvent of newEvents) {
         if (!flags.dryRun) {
-          try {
-            await publish(`délai|${newEvent.payload.identifiantProjet}`, newEvent);
-            // await reporter.success(`${newEvent.payload.identifiantProjet} => ${newEvent.type}`);
-          } catch (error) {
-            await reporter.error(`${error}`);
-          }
+          await publish(`délai|${newEvent.payload.identifiantProjet}`, newEvent);
         }
 
         eventsStats[newEvent.type] ??= 0;
         eventsStats[newEvent.type]++;
       }
+
+      console.log(`${migrateFileCount} fichiers existants ont été déplacés`);
+      console.log(`${generateFileCount} fichiers ont été générés`);
 
       console.log(eventsStats);
       console.log('All events published.');
@@ -365,6 +364,7 @@ const migrerDocumentProjet = async (
         try {
           if (!dryRun) {
             await copyFile(sourceKey, pièceJustificative.formatter());
+            migrateFileCount++;
           }
 
           return {
@@ -396,6 +396,7 @@ const migrerDocumentProjet = async (
   if (!dryRun) {
     try {
       await upload(pièceJustificative.formatter(), doc);
+      generateFileCount++;
     } catch (error) {
       throw new Error(
         `Impossible de créer le fichier de remplacement vers ${pièceJustificative.formatter()}`,
