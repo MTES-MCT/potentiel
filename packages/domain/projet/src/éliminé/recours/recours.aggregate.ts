@@ -1,13 +1,10 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import { Email } from '@potentiel-domain/common';
 
 import { ÉliminéAggregate } from '../éliminé.aggregate';
 import { GarantiesFinancières } from '../../lauréat';
-
-import { TypeDocumentRecours } from '.';
 
 import { RecoursEvent } from './recours.event';
 import { AccorderOptions } from './accorder/recoursAccordé.options';
@@ -30,36 +27,9 @@ import {
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
   statut = StatutRecours.inconnu;
 
-  demande: {
-    raison: string;
-    pièceJustificative?: DocumentProjet.ValueType;
-    demandéLe: DateTime.ValueType;
-    demandéPar: Email.ValueType;
-    instruction?: {
-      démarréLe: DateTime.ValueType;
-      instruitPar: Email.ValueType;
-    };
-  } = {
-    raison: '',
-    demandéPar: Email.unknownUser,
-    demandéLe: DateTime.convertirEnValueType(new Date()),
+  instruction?: {
+    instruitPar: Email.ValueType;
   };
-
-  rejet?: {
-    rejetéLe: DateTime.ValueType;
-    réponseSignée: {
-      format: string;
-    };
-  };
-
-  accord?: {
-    accordéLe: DateTime.ValueType;
-    réponseSignée: {
-      format: string;
-    };
-  };
-
-  annuléLe?: DateTime.ValueType;
 
   get éliminé() {
     return this.parent;
@@ -164,7 +134,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
-    if (this.demande.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
+    if (this.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
       throw new RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError();
     }
 
@@ -215,62 +185,30 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       .exhaustive();
   }
 
-  private applyRecoursAccordéV1({ payload: { accordéLe, réponseSignée } }: RecoursAccordéEvent) {
+  private applyRecoursAccordéV1(_: RecoursAccordéEvent) {
     this.statut = StatutRecours.accordé;
-    this.rejet = undefined;
-    this.accord = {
-      accordéLe: DateTime.convertirEnValueType(accordéLe),
-      réponseSignée,
-    };
+    this.instruction = undefined;
   }
 
-  private applyRecoursAnnuléV1({ payload: { annuléLe } }: RecoursAnnuléEvent) {
+  private applyRecoursAnnuléV1(_: RecoursAnnuléEvent) {
     this.statut = StatutRecours.annulé;
-    this.annuléLe = DateTime.convertirEnValueType(annuléLe);
-    this.accord = undefined;
-    this.rejet = undefined;
+    this.instruction = undefined;
   }
 
-  private applyRecoursDemandéV1({
-    payload: { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative },
-  }: RecoursDemandéEvent) {
+  private applyRecoursDemandéV1(_: RecoursDemandéEvent) {
     this.statut = StatutRecours.demandé;
-
-    this.demande = {
-      pièceJustificative:
-        pièceJustificative &&
-        DocumentProjet.convertirEnValueType(
-          identifiantProjet,
-          TypeDocumentRecours.pièceJustificative.formatter(),
-          demandéLe,
-          pièceJustificative?.format,
-        ),
-      raison,
-      demandéLe: DateTime.convertirEnValueType(demandéLe),
-      demandéPar: Email.convertirEnValueType(demandéPar),
-    };
-    this.rejet = undefined;
-    this.accord = undefined;
-    this.annuléLe = undefined;
   }
 
-  private applyRecoursRejetéV1({ payload: { rejetéLe, réponseSignée } }: RecoursRejetéEvent) {
+  private applyRecoursRejetéV1(_: RecoursRejetéEvent) {
     this.statut = StatutRecours.rejeté;
-
-    this.rejet = {
-      rejetéLe: DateTime.convertirEnValueType(rejetéLe),
-      réponseSignée,
-    };
-    this.accord = undefined;
+    this.instruction = undefined;
   }
 
   private applyRecoursPasséEnInstructionV1({
-    payload: { passéEnInstructionLe, passéEnInstructionPar },
+    payload: { passéEnInstructionPar },
   }: RecoursPasséEnInstructionEvent) {
     this.statut = StatutRecours.enInstruction;
-    this.demande.instruction = {
-      démarréLe:
-        this.demande.instruction?.démarréLe ?? DateTime.convertirEnValueType(passéEnInstructionLe),
+    this.instruction = {
       instruitPar: Email.convertirEnValueType(passéEnInstructionPar),
     };
   }
