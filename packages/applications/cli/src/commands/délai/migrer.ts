@@ -25,6 +25,7 @@ import { makeReporter, reporterFlags } from '../../helpers/reporter';
 
 type DélaiDemandéSurPotentiel = {
   legacyProjectId: string;
+  legacyDemandeId: string;
   identifiantProjet: string;
   nombreDeMois?: string;
   dateAchèvementDemandée?: string;
@@ -107,6 +108,7 @@ export class Migrer extends Command {
       const demandesDélaiQuery = `
         select 
           p.id as "legacyProjectId",
+          mr.id as "legacyDemandeId",
           p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet",
           mr."delayInMonths" as "nombreDeMois",
           mr."dateAchèvementDemandée" as "dateAchèvementDemandée",
@@ -174,26 +176,23 @@ export class Migrer extends Command {
           newEvents.push(délaiDemandéEvent);
 
           if (demande.statut === 'en instruction') {
-            const passéeEnInstructionLe = DateTime.convertirEnValueType(
-              new Date(Number(demande.dateInstruction)),
-            ).formatter();
+            const passageEnInstruction = await getPassageEnInstruction(demande);
 
-            const passéeEnInstructionPar = demande.identifiantInstructeur
-              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-              : Email.inconnu.formatter();
+            if (passageEnInstruction) {
+              const { passéeEnInstructionLe, passéeEnInstructionPar } = passageEnInstruction;
+              const demandeDélaiPasséeEnInstructionEvent: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent =
+                {
+                  type: 'DemandeDélaiPasséeEnInstruction-V1',
+                  payload: {
+                    identifiantProjet,
+                    dateDemande: demandéLe,
+                    passéeEnInstructionLe,
+                    passéeEnInstructionPar,
+                  },
+                };
 
-            const demandeDélaiPasséeEnInstructionEvent: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent =
-              {
-                type: 'DemandeDélaiPasséeEnInstruction-V1',
-                payload: {
-                  identifiantProjet,
-                  dateDemande: demandéLe,
-                  passéeEnInstructionLe,
-                  passéeEnInstructionPar,
-                },
-              };
-
-            newEvents.push(demandeDélaiPasséeEnInstructionEvent);
+              newEvents.push(demandeDélaiPasséeEnInstructionEvent);
+            }
           }
 
           if (demande.statut === 'annulée') {
@@ -330,8 +329,8 @@ const migrerDocumentProjet = async (
   if (fileId) {
     try {
       const query = `
-      select 
-        "storedAt" 
+      select
+        "storedAt"
       from "files"
       where "id" = $1
   `;
@@ -444,6 +443,43 @@ const getDélaiDemandé = async (demande: DélaiDemandéSurPotentiel): Promise<n
   }
 
   throw new Error(`Aucune date d'achèvement prévisionnel récupérée !!`);
+};
+
+type GetPassageEnInstruction = (demande: DélaiDemandéSurPotentiel) => Promise<
+  | {
+      passéeEnInstructionLe: DateTime.RawType;
+      passéeEnInstructionPar: Email.RawType;
+    }
+  | undefined
+>;
+
+const getPassageEnInstruction: GetPassageEnInstruction = async (demande) => {
+  const query = `
+    select 
+      to_char(es."occurredAt", 'YYYY-MM-DD') as "datePassageEnInstruction",
+      es."payload"->>'modifiéPar' as "passéEnInstructionPar"
+    from "eventStores" es 
+    where es.type = 'DélaiEnInstruction' 
+      and es.payload->>'projetId' = $1
+      and es.payload->>'demandeDélaiId' = $2
+    order by es.payload->>'completionDueOn' desc
+  `;
+
+  const events = await executeSelect<{
+    datePassageEnInstruction: string;
+    passéEnInstructionPar: string;
+  }>(query, demande.legacyProjectId, demande.legacyDemandeId);
+
+  if (events.length > 0) {
+    return {
+      passéeEnInstructionLe: DateTime.convertirEnValueType(
+        new Date(events[0].datePassageEnInstruction),
+      ).formatter(),
+      passéeEnInstructionPar: await getIdentifiantUtilisateur(events[0].passéEnInstructionPar),
+    };
+  }
+
+  return undefined;
 };
 
 const getIdentifiantUtilisateur = async (
