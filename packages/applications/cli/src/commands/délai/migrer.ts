@@ -371,9 +371,9 @@ const migrerDocumentProjet = async (
             format,
           };
         } catch (e) {
-          // throw new Error(
-          //   `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
-          // );
+          throw new Error(
+            `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
+          );
         }
       }
     } catch (error) {
