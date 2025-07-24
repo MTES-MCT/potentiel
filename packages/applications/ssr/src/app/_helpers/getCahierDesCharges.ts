@@ -15,5 +15,6 @@ export const getCahierDesCharges = async (identifiantProjet: IdentifiantProjet.V
   if (Option.isNone(cahierDesCharges)) {
     return notFound();
   }
+
   return cahierDesCharges;
 };

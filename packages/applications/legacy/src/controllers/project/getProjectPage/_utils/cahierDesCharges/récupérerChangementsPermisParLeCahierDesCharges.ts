@@ -9,11 +9,13 @@ export const récupérerChangementsPermisParLeCahierDesCharges = async (
   domaine: AppelOffre.DomainesConcernésParChangement,
 ) => {
   const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+
   return {
-    demandeEstPossible: cahierDesCharges.changementEstDisponible('demande', domaine),
-    informationEnregistréeEstPossible: cahierDesCharges.changementEstDisponible(
-      'information-enregistrée',
-      domaine,
-    ),
+    demandeEstPossible: cahierDesCharges
+      ? cahierDesCharges.changementEstDisponible('demande', domaine)
+      : false,
+    informationEnregistréeEstPossible: cahierDesCharges
+      ? cahierDesCharges.changementEstDisponible('information-enregistrée', domaine)
+      : false,
   };
 };

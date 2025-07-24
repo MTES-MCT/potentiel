@@ -1,5 +1,4 @@
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
@@ -15,7 +14,8 @@ export const getCahierDesCharges = async (identifiantProjet: IdentifiantProjet.V
   });
 
   if (Option.isNone(cahierDesCharges)) {
-    return notFound();
+    return undefined;
   }
+
   return cahierDesCharges;
 };

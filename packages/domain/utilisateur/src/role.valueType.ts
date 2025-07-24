@@ -278,10 +278,9 @@ const référencielPermissions = {
         annulerChangement: 'Lauréat.ReprésentantLégal.UseCase.AnnulerChangementReprésentantLégal',
         corrigerChangement: 'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
-        rejeterChangement:
-          'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
         enregistrerChangement:
-          'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+          'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
+        rejeterChangement: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       },
       command: {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
