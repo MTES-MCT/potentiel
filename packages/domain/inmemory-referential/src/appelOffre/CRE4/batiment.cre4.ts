@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const garantieFinanciereEnMois = 36;
 
-const changementsCdcEtAPartirDeP13 = {
+const changementsCdcOuApplicablesAPartirDeP13 = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -45,7 +45,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: changementsCdcEtAPartirDeP13,
+  changement: changementsCdcOuApplicablesAPartirDeP13,
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -66,7 +66,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     },
     paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation lorsqu’elle est requise (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant.`,
   },
-  changement: changementsCdcEtAPartirDeP13,
+  changement: changementsCdcOuApplicablesAPartirDeP13,
 };
 
 export const batiment: AppelOffre.AppelOffreReadModel = {
@@ -834,7 +834,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
           puissanceMax: 8,
         },
       ],
-      changement: changementsCdcEtAPartirDeP13,
+      changement: changementsCdcOuApplicablesAPartirDeP13,
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
