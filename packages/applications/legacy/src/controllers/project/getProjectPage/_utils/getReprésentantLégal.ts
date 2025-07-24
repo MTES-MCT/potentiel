@@ -29,6 +29,9 @@ export const getReprésentantLégal = async ({
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
+    // viovio
+    // ajouter un check du value type ici
+
     const représentantLégal =
       await mediator.send<Lauréat.ReprésentantLégal.ConsulterReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
