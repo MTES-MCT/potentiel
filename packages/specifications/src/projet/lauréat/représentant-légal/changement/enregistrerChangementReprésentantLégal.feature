@@ -5,7 +5,7 @@ Fonctionnalité: Enregistrer un changement de représentant légal
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Petit PV |
             | période       | 1               |
-        Et un cahier des charges modificatif choisi
+        Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Enregistrer un changement de représentant légal
@@ -21,7 +21,7 @@ Fonctionnalité: Enregistrer un changement de représentant légal
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
             | appel d'offre | PPE2 - Bâtiment |
         Quand le porteur enregistre un changement de représentant légal
-        Alors le porteur devrait être informé que "Impossible de faire ce type de changement pour cet appel d'offre ou cette période"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
     Scénario: Impossible d'enregistrer un changement de représentant légal sans modification
         Quand le porteur enregistre un changement de représentant légal avec les mêmes valeurs
