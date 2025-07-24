@@ -1,5 +1,37 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+const changementsCDCModifié = {
+  représentantLégal: {
+    demande: true,
+    instructionAutomatique: 'accord',
+  },
+  actionnaire: {
+    informationEnregistrée: true,
+  },
+  fournisseur: {
+    informationEnregistrée: true,
+  },
+  délai: {
+    demande: true,
+  },
+  producteur: {
+    informationEnregistrée: true,
+  },
+  puissance: {
+    informationEnregistrée: true,
+    demande: true,
+  },
+  recours: {
+    demande: true,
+  },
+  achèvement: {
+    informationEnregistrée: true,
+  },
+  abandon: {
+    demande: true,
+  },
+} as const;
+
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/07/2021',
@@ -11,37 +43,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: {
-    représentantLégal: {
-      demande: true,
-      instructionAutomatique: 'accord',
-    },
-    actionnaire: {
-      informationEnregistrée: true,
-    },
-    fournisseur: {
-      informationEnregistrée: true,
-    },
-    délai: {
-      demande: true,
-    },
-    producteur: {
-      informationEnregistrée: true,
-    },
-    puissance: {
-      informationEnregistrée: true,
-      demande: true,
-    },
-    recours: {
-      demande: true,
-    },
-    achèvement: {
-      informationEnregistrée: true,
-    },
-    abandon: {
-      demande: true,
-    },
-  },
+  changement: changementsCDCModifié,
 };
 
 export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
@@ -58,18 +60,7 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
-  // les changements nécessitent le choix d'un cahier des charges
-  changement: {
-    actionnaire: {},
-    fournisseur: {},
-    délai: {},
-    producteur: {},
-    puissance: {},
-    recours: {},
-    achèvement: {},
-    abandon: {},
-    représentantLégal: {},
-  },
+  changement: 'indisponible',
   délaiRéalisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',
@@ -147,7 +138,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -178,7 +168,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '3',
@@ -209,7 +198,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '4',
@@ -240,7 +228,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '5',
@@ -271,7 +258,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '6',
@@ -302,7 +288,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '7',
@@ -333,7 +318,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '8',
@@ -364,7 +348,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '9',
@@ -395,7 +378,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '10',
@@ -426,7 +408,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
   ],
 };

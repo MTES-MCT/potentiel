@@ -12,6 +12,7 @@ import {
   Famille,
   Periode,
   Ratios,
+  RèglesDemandesChangement,
   Technologie,
 } from './appelOffre.entity';
 import { RéférenceCahierDesCharges } from './appelOffre';
@@ -41,6 +42,10 @@ export type ValueType = {
   getDélaiRéalisationEnMois(): number;
   getRatiosChangementPuissance(): Ratios;
   getDonnéesCourriersRéponse(domaine: DomainesCourriersRéponse): DonnéesCourriersRéponse;
+  doitChoisirUnCahierDesChargesModificatif(): boolean;
+  getRèglesChangements<TDomain extends keyof RèglesDemandesChangement>(
+    domaine: TDomain,
+  ): RèglesDemandesChangement[TDomain];
 };
 
 export const bind = ({
@@ -56,14 +61,33 @@ export const bind = ({
   cahierDesChargesModificatif,
   technologie,
 
-  changementEstDisponible(typeChangement, domaine) {
-    const changement = {
-      ...this.appelOffre.changement,
-      ...this.période.changement,
-      ...this.cahierDesChargesModificatif?.changement,
+  getRèglesChangements(domaine) {
+    const changementIndisponible: RèglesDemandesChangement = {
+      abandon: {},
+      achèvement: {},
+      actionnaire: {},
+      délai: {},
+      fournisseur: {},
+      producteur: {},
+      puissance: {},
+      recours: {},
+      représentantLégal: {},
     };
 
-    const règlesChangement = changement[domaine] ?? {};
+    const règlesChangement = {
+      ...(this.appelOffre.changement === 'indisponible'
+        ? changementIndisponible
+        : this.appelOffre.changement),
+      ...(this.période.changement === 'indisponible'
+        ? changementIndisponible
+        : this.période.changement),
+      ...this.cahierDesChargesModificatif?.changement,
+    };
+    return règlesChangement[domaine];
+  },
+
+  changementEstDisponible(typeChangement, domaine) {
+    const règlesChangement = this.getRèglesChangements(domaine);
     const règleTypeChangement = match(typeChangement)
       .with('demande', () => règlesChangement.demande)
       .with('information-enregistrée', () => règlesChangement.informationEnregistrée)
@@ -76,6 +100,11 @@ export const bind = ({
     if (!this.changementEstDisponible(typeChangement, domaine)) {
       throw new CahierDesChargesEmpêcheModificationError();
     }
+  },
+
+  doitChoisirUnCahierDesChargesModificatif() {
+    const changement = this.période.changement ?? this.appelOffre.changement;
+    return this.cahierDesChargesModificatif === undefined && changement === 'indisponible';
   },
 
   estSoumisAuxGarantiesFinancières() {

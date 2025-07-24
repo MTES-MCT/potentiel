@@ -11,6 +11,7 @@ import { Project } from '../../../project';
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.';
 import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 type DemanderDélai = (commande: {
   user: User;
@@ -62,11 +63,20 @@ export const makeDemanderDélai: MakeDemanderDélai =
       })
       .andThen((appelOffre) => {
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
-          if (
-            project.cahierDesCharges.type === 'initial' &&
-            appelOffre?.periodes.find(({ id }) => id === project.periodeId)
-              ?.choisirNouveauCahierDesCharges
-          ) {
+          const période = appelOffre?.periodes.find(({ id }) => id === project.periodeId)!;
+          const référenceCdcActuel = AppelOffre.RéférenceCahierDesCharges.bind(
+            project.cahierDesCharges,
+          );
+          const cdc = AppelOffre.CahierDesCharges.bind({
+            appelOffre: appelOffre!,
+            période,
+            cahierDesChargesModificatif: période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
+              AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(référenceCdcActuel),
+            ),
+            famille: undefined,
+            technologie: undefined,
+          });
+          if (cdc.doitChoisirUnCahierDesChargesModificatif()) {
             return errAsync(new NouveauCahierDesChargesNonChoisiError());
           }
           if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {

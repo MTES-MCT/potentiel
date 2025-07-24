@@ -67,14 +67,21 @@ EtantDonné(
   'un cahier des charges permettant la modification du projet',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
-    const période = appelsOffreData
-      .find((ao) => ao.id === identifiantProjet.appelOffre)
-      ?.periodes.find((p) => p.id === identifiantProjet.période);
+    const appelOffre = appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre)!;
+    const période = appelOffre?.periodes.find((p) => p.id === identifiantProjet.période);
     if (!période) {
       throw new Error('Données invalides - période non trouvée');
     }
+    const cdc = AppelOffre.CahierDesCharges.bind({
+      appelOffre,
+      période,
+      cahierDesChargesModificatif: undefined,
+      // famille et technologie n'ont pas d'influence dans ce contexte
+      famille: période.familles?.[0],
+      technologie: undefined,
+    });
 
-    if (période.choisirNouveauCahierDesCharges) {
+    if (cdc.doitChoisirUnCahierDesChargesModificatif()) {
       await choisirCahierDesCharges.call(
         this,
         AppelOffre.RéférenceCahierDesCharges.bind(

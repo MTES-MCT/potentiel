@@ -60,7 +60,7 @@ type Changement = {
   demande?: boolean;
 };
 
-type RèglesDemandesChangement = {
+export type RèglesDemandesChangement = {
   actionnaire: Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
   fournisseur: Changement;
   délai: Changement;
@@ -239,11 +239,9 @@ export type Periode = {
   abandonAvecRecandidature?: true;
   familles: Array<Famille>;
   /**
-   * Indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
-   * Cette information est à des fins d'affichage, la vérification effective que le changement est possible se fait avec `changement`.
+   * "indisponible" indique que les projets de la période ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
    **/
-  choisirNouveauCahierDesCharges?: true;
-  changement?: Partial<RèglesDemandesChangement>;
+  changement?: Partial<RèglesDemandesChangement> | 'indisponible';
   addendums?: {
     /**
      * Permet un ajout personalisé dans le paragraphe Prix.
@@ -306,7 +304,10 @@ export type AppelOffreReadModel = {
   abandon: {
     autoritéCompétente: AutoritéCompétente;
   };
-  changement: RèglesDemandesChangement;
+  /**
+   * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
+   **/
+  changement: RèglesDemandesChangement | 'indisponible';
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
   garantiesFinancières: GarantiesFinancièresAppelOffre;
 } & TechnologieAppelOffre;

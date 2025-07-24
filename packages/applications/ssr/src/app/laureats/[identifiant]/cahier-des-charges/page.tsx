@@ -40,7 +40,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
               'Instruction selon les dispositions du cahier des charges en vigueur au moment de la candidature',
             value: 'initial',
             disabled: !cahierDesCharges.appelOffre.doitPouvoirChoisirCDCInitial,
-            descriptions: cahierDesCharges.période.choisirNouveauCahierDesCharges
+            descriptions: cahierDesCharges.doitChoisirUnCahierDesChargesModificatif()
               ? [
                   'Je dois envoyer ma demande ou mon signalement au format papier.',
                   "Je pourrai changer de mode d'instruction lors de ma prochaine demande si je le souhaite.",

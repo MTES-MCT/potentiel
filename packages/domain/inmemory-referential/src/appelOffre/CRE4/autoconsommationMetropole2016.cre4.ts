@@ -58,18 +58,7 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délai: { autoritéCompétente: 'dreal' },
   abandon: { autoritéCompétente: 'dgec' },
-  // les changements nécessitent le choix d'un cahier des charges
-  changement: {
-    représentantLégal: {},
-    actionnaire: {},
-    fournisseur: {},
-    délai: {},
-    producteur: {},
-    puissance: {},
-    recours: {},
-    achèvement: {},
-    abandon: {},
-  },
+  changement: 'indisponible',
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
@@ -143,7 +132,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
     {
       id: '2',
@@ -156,7 +144,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
-      choisirNouveauCahierDesCharges: true,
     },
   ],
 };
