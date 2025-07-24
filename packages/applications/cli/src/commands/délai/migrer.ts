@@ -354,7 +354,9 @@ const migrerDocumentProjet = async (
           format,
         );
 
-        const sourceKey = file[0].storedAt.replace('S3:potentiel-production:', '');
+        const sourceKey = file[0].storedAt
+          .replace('S3:potentiel-production:', '')
+          .replace('S3:production-potentiel', '');
 
         const doesExist = await fileExists(sourceKey);
         if (!doesExist) {
