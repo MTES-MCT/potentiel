@@ -54,7 +54,7 @@ const fakeProject = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   coefficientKChoisi: undefined,
-} satisfies Omit<AttestationPPE2V2Options, 'période' | 'appelOffre'>;
+} satisfies Omit<AttestationPPE2V2Options, 'période' | 'appelOffre' | 'cahierDesCharges'>;
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif: Story = {
   args: {

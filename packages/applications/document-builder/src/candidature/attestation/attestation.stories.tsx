@@ -71,7 +71,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     communeProjet: 'communeProjet',
     puissance: 42,
     potentielId: 'potentielId',
-    technologie: 'N/A',
+    technologie: 'eolien',
     unitePuissance: 'MW',
     coefficientKChoisi: undefined,
   } satisfies Partial<AttestationCandidatureOptions>;

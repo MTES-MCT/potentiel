@@ -1,14 +1,18 @@
 import { Text, View } from '@react-pdf/renderer';
 import React from 'react';
 
+import { CahierDesCharges } from '@potentiel-domain/projet';
+
 import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { formatNumber } from '../../helpers';
-import { getDélaiDeRéalisation } from '../../helpers/getDélaiDeRéalisation';
 
-type LaureatProps = { project: AttestationPPE2Options };
+type LaureatProps = {
+  project: AttestationPPE2Options;
+  cahierDesCharges: CahierDesCharges.ValueType;
+};
 
-export const buildLauréat = ({ project }: LaureatProps) => {
-  const { appelOffre, technologie, période } = project;
+export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
+  const { appelOffre, période } = project;
   const { soumisAuxGarantiesFinancieres } = appelOffre.garantiesFinancières || {};
   const { delaiDcrEnMois } = période;
 
@@ -148,7 +152,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
           >
             - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier
             des charges, achever l’installation dans un délai de{' '}
-            {getDélaiDeRéalisation(appelOffre, technologie)} mois à compter de la présente
+            {cahierDesCharges.getDélaiRéalisationEnMois()} mois à compter de la présente
             notification;
           </Text>
 

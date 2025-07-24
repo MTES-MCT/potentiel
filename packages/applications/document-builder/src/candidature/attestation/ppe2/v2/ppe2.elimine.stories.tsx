@@ -50,7 +50,7 @@ const fakeProject = {
   communeProjet: 'communeProjet',
   puissance: 42,
   potentielId: 'potentielId',
-  technologie: 'N/A',
+  technologie: 'pv',
   unitePuissance: 'MW',
   coefficientKChoisi: undefined,
 } satisfies AttestationPPE2V2Options;

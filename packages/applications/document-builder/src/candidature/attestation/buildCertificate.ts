@@ -41,6 +41,7 @@ export type BuildCertificateProps = {
     dépôt: Candidature.Dépôt.ValueType;
     instruction: Candidature.Instruction.ValueType;
     unitéPuissance: Candidature.UnitéPuissance.ValueType;
+    technologie: Candidature.TypeTechnologie.ValueType<AppelOffre.Technologie>;
   };
   notifiéLe: DateTime.RawType;
 };
@@ -123,7 +124,7 @@ const mapToCertificateData = ({
       evaluationCarbone: candidature.dépôt.evaluationCarboneSimplifiée,
       prixReference: candidature.dépôt.prixReference,
       puissance: candidature.dépôt.puissanceProductionAnnuelle,
-      technologie: candidature.dépôt.technologie.type,
+      technologie: candidature.technologie.type,
       engagementFournitureDePuissanceAlaPointe: candidature.dépôt.puissanceALaPointe,
       motifsElimination: candidature.instruction.motifÉlimination ?? '',
 

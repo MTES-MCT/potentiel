@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { CahierDesCharges } from '@potentiel-domain/projet';
 
 import { Certificate } from '../components/Certificate';
 import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';
@@ -18,8 +19,13 @@ const makeCertificate = (
   validateur: AppelOffre.Validateur,
   imagesRootPath: string,
 ): React.JSX.Element => {
+  const cahierDesCharges = CahierDesCharges.bind({
+    ...project,
+    // pas de CDC modificatif possible à la désignation
+    cahierDesChargesModificatif: undefined,
+  });
   const { content, objet } = project.isClasse
-    ? buildLauréat({ project })
+    ? buildLauréat({ project, cahierDesCharges })
     : buildElimine({ project });
 
   return (
