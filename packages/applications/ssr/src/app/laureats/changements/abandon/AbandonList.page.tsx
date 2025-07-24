@@ -1,7 +1,8 @@
 import { FC } from 'react';
 
-import { AbandonListItem, AbandonListItemProps } from '@/app/abandons/AbandonListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+
+import { AbandonListItem, AbandonListItemProps } from './AbandonListItem';
 
 export type AbandonListPageProps = {
   list: {
