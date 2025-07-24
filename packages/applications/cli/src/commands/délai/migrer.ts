@@ -10,6 +10,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
+import { makeReporter, reporterFlags } from '../../helpers/reporter';
+
 // type DélaiTraitéHorsPotentielEtImporté = {
 //   identifiantProjet: string;
 //   dateInstruction: string;
@@ -63,19 +65,32 @@ type DélaiDemandéSurPotentiel = {
 
 const envSchema = z.object({
   DATABASE_CONNECTION_STRING: z.string().url(),
+  AWS_REGION: z.string(),
+  S3_BUCKET: z.string(),
+  S3_ENDPOINT: z.string(),
+  AWS_ACCESS_KEY_ID: z.string(),
+  AWS_SECRET_ACCESS_KEY: z.string(),
 });
 
 export class Migrer extends Command {
   static flags = {
     dryRun: Flags.boolean(),
+    ...reporterFlags,
   };
 
   async init() {
-    envSchema.parse(process.env);
+    const { error } = envSchema.safeParse(process.env);
+
+    if (error) {
+      console.error(error.errors);
+      process.exit(1);
+    }
   }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);
+
+    const reporter = await makeReporter(flags);
 
     const subscriberCount = await executeSelect<{ count: number }>(
       "select count(*) as count from event_store.subscriber where stream_category='délai'",
@@ -120,160 +135,169 @@ export class Migrer extends Command {
       const newEvents: Array<Lauréat.Délai.DélaiEvent> = [];
 
       for (const demande of demandes) {
-        const demandéPar = await getIdentifiantUtilisateur(demande.identifiantUtilisateur);
-        const nombreDeMois = await getDélaiDemandé(demande);
+        try {
+          const demandéPar = await getIdentifiantUtilisateur(demande.identifiantUtilisateur);
+          const nombreDeMois = await getDélaiDemandé(demande);
 
-        const demandéLe = DateTime.convertirEnValueType(
-          new Date(Number(demande.dateDemande)),
-        ).formatter();
-
-        const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-          demande.identifiantProjet,
-        ).formatter();
-
-        const pièceJustificative = await migrerDocumentProjet(
-          {
-            dateDocument: demandéLe,
-            identifiantProjet,
-            typeDocument: 'délai/pièce-justificative',
-            fileId: demande.identifiantPièceJustificative,
-          },
-          flags.dryRun,
-        );
-
-        const raison = demande.raison ?? 'Raison non spécifiée';
-
-        const délaiDemandéEvent: Lauréat.Délai.DélaiDemandéEvent = {
-          type: 'DélaiDemandé-V1',
-          payload: {
-            demandéLe,
-            demandéPar,
-            identifiantProjet,
-            nombreDeMois,
-            pièceJustificative,
-            raison,
-          },
-        };
-
-        newEvents.push(délaiDemandéEvent);
-
-        if (demande.statut === 'en instruction') {
-          const passéeEnInstructionLe = DateTime.convertirEnValueType(
-            new Date(Number(demande.dateInstruction)),
+          const demandéLe = DateTime.convertirEnValueType(
+            new Date(Number(demande.dateDemande)),
           ).formatter();
 
-          const passéeEnInstructionPar = demande.identifiantInstructeur
-            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-            : Email.inconnu.formatter();
+          const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+            demande.identifiantProjet,
+          ).formatter();
 
-          const demandeDélaiPasséeEnInstructionEvent: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent =
+          const pièceJustificative = await migrerDocumentProjet(
             {
-              type: 'DemandeDélaiPasséeEnInstruction-V1',
+              dateDocument: demandéLe,
+              identifiantProjet,
+              typeDocument: 'délai/pièce-justificative',
+              fileId: demande.identifiantPièceJustificative,
+            },
+            flags.dryRun,
+          );
+
+          const raison = demande.raison ?? 'Raison non spécifiée';
+
+          const délaiDemandéEvent: Lauréat.Délai.DélaiDemandéEvent = {
+            type: 'DélaiDemandé-V1',
+            payload: {
+              demandéLe,
+              demandéPar,
+              identifiantProjet,
+              nombreDeMois,
+              pièceJustificative,
+              raison,
+            },
+          };
+
+          newEvents.push(délaiDemandéEvent);
+
+          if (demande.statut === 'en instruction') {
+            const passéeEnInstructionLe = DateTime.convertirEnValueType(
+              new Date(Number(demande.dateInstruction)),
+            ).formatter();
+
+            const passéeEnInstructionPar = demande.identifiantInstructeur
+              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+              : Email.inconnu.formatter();
+
+            const demandeDélaiPasséeEnInstructionEvent: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent =
+              {
+                type: 'DemandeDélaiPasséeEnInstruction-V1',
+                payload: {
+                  identifiantProjet,
+                  dateDemande: demandéLe,
+                  passéeEnInstructionLe,
+                  passéeEnInstructionPar,
+                },
+              };
+
+            newEvents.push(demandeDélaiPasséeEnInstructionEvent);
+          }
+
+          if (demande.statut === 'annulée') {
+            const annuléLe = DateTime.convertirEnValueType(
+              new Date(Number(demande.dateInstruction)),
+            ).formatter();
+
+            const annuléPar = demande.identifiantInstructeur
+              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+              : Email.inconnu.formatter();
+
+            const demandeDélaiAnnuléeEvent: Lauréat.Délai.DemandeDélaiAnnuléeEvent = {
+              type: 'DemandeDélaiAnnulée-V1',
               payload: {
                 identifiantProjet,
                 dateDemande: demandéLe,
-                passéeEnInstructionLe,
-                passéeEnInstructionPar,
+                annuléLe,
+                annuléPar,
               },
             };
 
-          newEvents.push(demandeDélaiPasséeEnInstructionEvent);
-        }
+            newEvents.push(demandeDélaiAnnuléeEvent);
+          }
 
-        if (demande.statut === 'annulée') {
-          const annuléLe = DateTime.convertirEnValueType(
-            new Date(Number(demande.dateInstruction)),
-          ).formatter();
+          if (demande.statut === 'rejetée') {
+            const rejetéeLe = DateTime.convertirEnValueType(
+              new Date(Number(demande.dateInstruction)),
+            ).formatter();
 
-          const annuléPar = demande.identifiantInstructeur
-            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-            : Email.inconnu.formatter();
+            const rejetéePar = demande.identifiantInstructeur
+              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+              : Email.inconnu.formatter();
 
-          const demandeDélaiAnnuléeEvent: Lauréat.Délai.DemandeDélaiAnnuléeEvent = {
-            type: 'DemandeDélaiAnnulée-V1',
-            payload: {
-              identifiantProjet,
-              dateDemande: demandéLe,
-              annuléLe,
-              annuléPar,
-            },
-          };
+            const réponseSignée = await migrerDocumentProjet(
+              {
+                dateDocument: rejetéeLe,
+                identifiantProjet,
+                typeDocument: 'délai/demande-rejetée',
+                fileId: demande.identifiantRéponseSignée,
+              },
+              flags.dryRun,
+            );
 
-          newEvents.push(demandeDélaiAnnuléeEvent);
-        }
+            const demandeDélaiRejetéeEvent: Lauréat.Délai.DemandeDélaiRejetéeEvent = {
+              type: 'DemandeDélaiRejetée-V1',
+              payload: {
+                identifiantProjet,
+                dateDemande: demandéLe,
+                rejetéeLe,
+                rejetéePar,
+                réponseSignée,
+              },
+            };
 
-        if (demande.statut === 'rejetée') {
-          const rejetéeLe = DateTime.convertirEnValueType(
-            new Date(Number(demande.dateInstruction)),
-          ).formatter();
+            newEvents.push(demandeDélaiRejetéeEvent);
+          }
 
-          const rejetéePar = demande.identifiantInstructeur
-            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-            : Email.inconnu.formatter();
+          if (demande.statut === 'acceptée') {
+            const accordéLe = DateTime.convertirEnValueType(
+              new Date(Number(demande.dateInstruction)),
+            ).formatter();
 
-          const réponseSignée = await migrerDocumentProjet(
-            {
-              dateDocument: rejetéeLe,
-              identifiantProjet,
-              typeDocument: 'délai/demande-rejetée',
-              fileId: demande.identifiantRéponseSignée,
-            },
-            flags.dryRun,
-          );
+            const accordéPar = demande.identifiantInstructeur
+              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+              : Email.inconnu.formatter();
 
-          const demandeDélaiRejetéeEvent: Lauréat.Délai.DemandeDélaiRejetéeEvent = {
-            type: 'DemandeDélaiRejetée-V1',
-            payload: {
-              identifiantProjet,
-              dateDemande: demandéLe,
-              rejetéeLe,
-              rejetéePar,
-              réponseSignée,
-            },
-          };
+            const réponseSignée = await migrerDocumentProjet(
+              {
+                dateDocument: accordéLe,
+                identifiantProjet,
+                typeDocument: 'délai/demande-accordée',
+                fileId: demande.identifiantRéponseSignée,
+              },
+              flags.dryRun,
+            );
 
-          newEvents.push(demandeDélaiRejetéeEvent);
-        }
+            const demandeDélaiRejetéeEvent: Lauréat.Délai.DélaiAccordéEvent = {
+              type: 'DélaiAccordé-V1',
+              payload: {
+                identifiantProjet,
+                dateDemande: demandéLe,
+                nombreDeMois,
+                raison: 'demande',
+                accordéLe,
+                accordéPar,
+                réponseSignée,
+              },
+            };
 
-        if (demande.statut === 'acceptée') {
-          const accordéLe = DateTime.convertirEnValueType(
-            new Date(Number(demande.dateInstruction)),
-          ).formatter();
-
-          const accordéPar = demande.identifiantInstructeur
-            ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-            : Email.inconnu.formatter();
-
-          const réponseSignée = await migrerDocumentProjet(
-            {
-              dateDocument: accordéLe,
-              identifiantProjet,
-              typeDocument: 'délai/demande-accordée',
-              fileId: demande.identifiantRéponseSignée,
-            },
-            flags.dryRun,
-          );
-
-          const demandeDélaiRejetéeEvent: Lauréat.Délai.DélaiAccordéEvent = {
-            type: 'DélaiAccordé-V1',
-            payload: {
-              identifiantProjet,
-              dateDemande: demandéLe,
-              nombreDeMois,
-              raison: 'demande',
-              accordéLe,
-              accordéPar,
-              réponseSignée,
-            },
-          };
-
-          newEvents.push(demandeDélaiRejetéeEvent);
+            newEvents.push(demandeDélaiRejetéeEvent);
+          }
+        } catch (error) {
+          await reporter.error(`${error}`);
         }
       }
 
       for (const newEvent of newEvents) {
         if (!flags.dryRun) {
-          await publish(`délai|${newEvent.payload.identifiantProjet}`, newEvent);
+          try {
+            await publish(`délai|${newEvent.payload.identifiantProjet}`, newEvent);
+            await reporter.success(`${newEvent.payload.identifiantProjet} => ${newEvent.type}`);
+          } catch (error) {
+            await reporter.error(`${error}`);
+          }
         }
 
         eventsStats[newEvent.type] ??= 0;
@@ -346,9 +370,9 @@ const migrerDocumentProjet = async (
             format,
           };
         } catch (e) {
-          throw new Error(
-            `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
-          );
+          // throw new Error(
+          //   `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
+          // );
         }
       }
     } catch (error) {
