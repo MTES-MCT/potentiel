@@ -36,7 +36,7 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
     };
 
     const datesActuelles = await executeSelect<{
-      dateAchèvementPrévisionnelActuelle: number;
+      dateAchèvementPrévisionnelActuelle: string;
       identifiantProjet: string;
     }>(query);
 
@@ -52,7 +52,9 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
           type: 'DateAchèvementPrévisionnelCalculée-V1',
           payload: {
             identifiantProjet: idProjet,
-            date: DateTime.convertirEnValueType(new Date(dateAchèvementPrévisionnelActuelle))
+            date: DateTime.convertirEnValueType(
+              new Date(Number(dateAchèvementPrévisionnelActuelle)),
+            )
               .définirHeureÀMidi()
               .formatter(),
           },
