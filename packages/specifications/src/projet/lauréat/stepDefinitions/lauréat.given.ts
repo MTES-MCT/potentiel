@@ -2,7 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Accès, Lauréat } from '@potentiel-domain/projet';
+import { Accès, CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -72,7 +72,7 @@ EtantDonné(
     if (!période) {
       throw new Error('Données invalides - période non trouvée');
     }
-    const cdc = AppelOffre.CahierDesCharges.bind({
+    const cdc = CahierDesCharges.bind({
       appelOffre,
       période,
       cahierDesChargesModificatif: undefined,

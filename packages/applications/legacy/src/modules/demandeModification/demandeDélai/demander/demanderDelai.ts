@@ -12,6 +12,7 @@ import { Project } from '../../../project';
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.';
 import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { CahierDesCharges } from '@potentiel-domain/projet';
 
 type DemanderDélai = (commande: {
   user: User;
@@ -67,7 +68,7 @@ export const makeDemanderDélai: MakeDemanderDélai =
           const référenceCdcActuel = AppelOffre.RéférenceCahierDesCharges.bind(
             project.cahierDesCharges,
           );
-          const cdc = AppelOffre.CahierDesCharges.bind({
+          const cdc = CahierDesCharges.bind({
             appelOffre: appelOffre!,
             période,
             cahierDesChargesModificatif: période.cahiersDesChargesModifiésDisponibles.find((cdc) =>

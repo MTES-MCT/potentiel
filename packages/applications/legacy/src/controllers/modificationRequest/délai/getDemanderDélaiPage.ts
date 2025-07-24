@@ -8,7 +8,7 @@ import { v1Router } from '../../v1Router';
 
 import { DemanderDelaiPage } from '../../../views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
-import { Candidature } from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 v1Router.get(
@@ -53,7 +53,7 @@ v1Router.get(
     const référenceCdcActuel = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
       project.cahierDesChargesActuel,
     );
-    const cahierDesCharges = AppelOffre.CahierDesCharges.bind({
+    const cahierDesCharges = CahierDesCharges.bind({
       appelOffre,
       période: appelOffre.periode,
       famille: undefined,

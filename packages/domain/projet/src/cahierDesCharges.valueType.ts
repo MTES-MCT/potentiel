@@ -1,51 +1,39 @@
 import { match } from 'ts-pattern';
 
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
-
-import {
-  AppelOffreReadModel,
-  CahierDesChargesModifié,
-  DomainesConcernésParChangement,
-  DomainesCourriersRéponse,
-  DonnéesCourriersRéponse,
-  DonnéesCourriersRéponseParDomaine,
-  Famille,
-  Periode,
-  Ratios,
-  RèglesDemandesChangement,
-  Technologie,
-} from './appelOffre.entity';
-import { RéférenceCahierDesCharges } from './appelOffre';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type ValueType = {
-  appelOffre: PlainType<AppelOffreReadModel>;
-  période: PlainType<Periode>;
-  famille: PlainType<Famille> | undefined;
-  cahierDesChargesModificatif: PlainType<CahierDesChargesModifié> | undefined;
-  technologie: Technologie | undefined;
+  appelOffre: PlainType<AppelOffre.AppelOffreReadModel>;
+  période: PlainType<AppelOffre.Periode>;
+  famille: PlainType<AppelOffre.Famille> | undefined;
+  cahierDesChargesModificatif: PlainType<AppelOffre.CahierDesChargesModifié> | undefined;
+  technologie: AppelOffre.Technologie | undefined;
   /**
    * Un changement peut être "information enregistrée" ou "demande" ou indisponible.
    * Cette règle, définie dans le Cahier des charges outrepasse celle de la période, qui elle même outrepasse celle de l'appel d'offre.
    **/
   changementEstDisponible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: DomainesConcernésParChangement,
+    domaine: AppelOffre.DomainesConcernésParChangement,
   ): boolean;
   /**
    * Applique les règles de @see ValueType.changementEstDisponible, en émettant une erreur si le changement n'est pas disponible.
    **/
   vérifierQueLeChangementEstPossible(
     typeChangement: 'information-enregistrée' | 'demande',
-    domaine: DomainesConcernésParChangement,
+    domaine: AppelOffre.DomainesConcernésParChangement,
   ): void;
   estSoumisAuxGarantiesFinancières(): boolean;
   getDélaiRéalisationEnMois(): number;
-  getRatiosChangementPuissance(): Ratios;
-  getDonnéesCourriersRéponse(domaine: DomainesCourriersRéponse): DonnéesCourriersRéponse;
+  getRatiosChangementPuissance(): AppelOffre.Ratios;
+  getDonnéesCourriersRéponse(
+    domaine: AppelOffre.DomainesCourriersRéponse,
+  ): AppelOffre.DonnéesCourriersRéponse;
   doitChoisirUnCahierDesChargesModificatif(): boolean;
-  getRèglesChangements<TDomain extends keyof RèglesDemandesChangement>(
+  getRèglesChangements<TDomain extends keyof AppelOffre.RèglesDemandesChangement>(
     domaine: TDomain,
-  ): RèglesDemandesChangement[TDomain];
+  ): AppelOffre.RèglesDemandesChangement[TDomain];
 };
 
 export const bind = ({
@@ -62,7 +50,7 @@ export const bind = ({
   technologie,
 
   getRèglesChangements(domaine) {
-    const changementIndisponible: RèglesDemandesChangement = {
+    const changementIndisponible: AppelOffre.RèglesDemandesChangement = {
       abandon: {},
       achèvement: {},
       actionnaire: {},
@@ -133,7 +121,7 @@ export const bind = ({
     // prendre les ratios du CDC 2022 si existants
     if (
       this.cahierDesChargesModificatif &&
-      RéférenceCahierDesCharges.bind(this.cahierDesChargesModificatif).estCDC2022()
+      AppelOffre.RéférenceCahierDesCharges.bind(this.cahierDesChargesModificatif).estCDC2022()
     ) {
       const seuilsCDC = this.cahierDesChargesModificatif.seuilSupplémentaireChangementPuissance;
 
@@ -157,7 +145,7 @@ export const bind = ({
 
   getDonnéesCourriersRéponse(domaine) {
     const key = match(domaine)
-      .returnType<keyof DonnéesCourriersRéponseParDomaine>()
+      .returnType<keyof AppelOffre.DonnéesCourriersRéponseParDomaine>()
       .with('abandon', () => 'texteEngagementRéalisationEtModalitésAbandon')
       .with('délai', () => 'texteDélaisDAchèvement')
       .with('puissance', () => 'texteChangementDePuissance')

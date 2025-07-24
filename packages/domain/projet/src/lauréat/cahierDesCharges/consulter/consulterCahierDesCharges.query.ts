@@ -5,11 +5,11 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Find } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../lauréat.entity';
-import { IdentifiantProjet } from '../../..';
+import { CahierDesCharges, IdentifiantProjet } from '../../..';
 import { CandidatureEntity } from '../../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../../candidature/consulter/consulterCandidature.query';
 
-export type ConsulterCahierDesChargesReadModel = AppelOffre.CahierDesCharges.ValueType;
+export type ConsulterCahierDesChargesReadModel = CahierDesCharges.ValueType;
 
 export type ConsulterCahierDesChargesQuery = Message<
   'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
@@ -77,7 +77,7 @@ export const registerConsulterCahierDesChargesQuery = ({
       cahierDesChargesChoisi.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.bind(c)),
     );
 
-    return AppelOffre.CahierDesCharges.bind({
+    return CahierDesCharges.bind({
       appelOffre: appelOffres,
       période,
       famille,

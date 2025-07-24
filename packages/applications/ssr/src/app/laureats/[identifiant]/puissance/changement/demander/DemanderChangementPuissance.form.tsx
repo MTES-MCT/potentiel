@@ -5,7 +5,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -41,15 +41,14 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
 
   const ratioCdcActuel = Lauréat.Puissance.RatioChangementPuissance.bind({
     puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
-    ratios: AppelOffre.CahierDesCharges.bind(cahierDesCharges).getRatiosChangementPuissance(),
+    ratios: CahierDesCharges.bind(cahierDesCharges).getRatiosChangementPuissance(),
     puissanceInitiale,
     nouvellePuissance,
     volumeRéservé,
   });
   const ratioCdcInitial = Lauréat.Puissance.RatioChangementPuissance.bind({
     puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
-    ratios:
-      AppelOffre.CahierDesCharges.bind(cahierDesChargesInitial).getRatiosChangementPuissance(),
+    ratios: CahierDesCharges.bind(cahierDesChargesInitial).getRatiosChangementPuissance(),
     puissanceInitiale,
     nouvellePuissance,
     volumeRéservé,
