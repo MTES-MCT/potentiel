@@ -123,7 +123,7 @@ const mapToActionComponents = ({
         <Button
           priority="secondary"
           linkProps={{
-            href: Routes.ReprésentantLégal.changement.enregistrerChangement(identifiantProjet),
+            href: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet),
           }}
         >
           Faire une nouvelle déclaration de changement

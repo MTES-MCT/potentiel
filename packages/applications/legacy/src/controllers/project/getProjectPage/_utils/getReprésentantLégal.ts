@@ -7,6 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
+import { récupérerChangementsPermisParLeCahierDesCharges } from './cahierDesCharges/récupérerChangementsPermisParLeCahierDesCharges';
 
 export type GetReprésentantLégalForProjectPage = {
   nom: string;
@@ -79,21 +80,42 @@ export const getReprésentantLégal = async ({
       };
     }
 
+    const { demandeEstPossible, informationEnregistréeEstPossible } =
+      await récupérerChangementsPermisParLeCahierDesCharges(identifiantProjet, 'représentantLégal');
+
     const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
       identifiantProjet,
       rôle,
     );
 
     if (
-      utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
-      !aUnAbandonEnCours &&
-      !estAbandonné &&
-      !estAchevé
+      aUnAbandonEnCours ||
+      estAbandonné ||
+      estAchevé ||
+      (!demandeEstPossible && !informationEnregistréeEstPossible)
     ) {
+      return undefined;
+    }
+
+    if (utilisateur.aLaPermission('représentantLégal.demanderChangement') && demandeEstPossible) {
       return {
         nom: représentantLégal.nomReprésentantLégal,
         affichage: {
           url: Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter()),
+          label: 'Changer de représentant légal',
+          labelActions: 'Changer de représentant légal',
+        },
+      };
+    }
+
+    if (
+      utilisateur.aLaPermission('représentantLégal.enregistrerChangement') &&
+      informationEnregistréeEstPossible
+    ) {
+      return {
+        nom: représentantLégal.nomReprésentantLégal,
+        affichage: {
+          url: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
           label: 'Changer de représentant légal',
           labelActions: 'Changer de représentant légal',
         },

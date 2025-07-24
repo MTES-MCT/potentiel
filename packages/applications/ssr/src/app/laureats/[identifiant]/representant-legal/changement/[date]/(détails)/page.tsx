@@ -38,7 +38,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         decodeParameter(identifiant),
       );
       const demandéLe = decodeParameter(date);
-      const { demande, informationEnregistrée } =
+      const { informationEnregistréeEstPossible } =
         await récupérerChangementsPermisParLeCahierDesCharges(
           identifiantProjet,
           'représentantLégal',
@@ -90,8 +90,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions(
             utilisateur.role,
             changement.demande.statut,
-            demande,
-            informationEnregistrée,
+            informationEnregistréeEstPossible,
           )}
           historique={historique.items.map(mapToReprésentantLégalTimelineItemProps)}
           dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
@@ -104,17 +103,16 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   role: Role.ValueType,
   statut: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['statut'],
-  demande: boolean,
-  informationEnregistrée: boolean,
+  informationEnregistréeEstPossible: boolean,
 ) => {
   const actions: Array<AvailableChangementReprésentantLégalAction> = [];
-  if (!statut.estDemandé() && informationEnregistrée) {
+  if (!statut.estDemandé() && informationEnregistréeEstPossible) {
     if (role.aLaPermission('représentantLégal.enregistrerChangement')) {
       actions.push('enregistrer-changement');
     }
   }
 
-  if (statut.estDemandé() && demande) {
+  if (statut.estDemandé()) {
     if (role.aLaPermission('représentantLégal.accorderChangement')) {
       actions.push('accorder');
     }
