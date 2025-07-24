@@ -1,12 +1,13 @@
 import { Command, Flags } from '@oclif/core';
 import { lookup } from 'mime-types';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
+import z from 'zod';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { copyFile, upload } from '@potentiel-libraries/file-storage';
+import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 // type DélaiTraitéHorsPotentielEtImporté = {
@@ -60,10 +61,18 @@ type DélaiDemandéSurPotentiel = {
     }
 );
 
+const envSchema = z.object({
+  DATABASE_CONNECTION_STRING: z.string().url(),
+});
+
 export class Migrer extends Command {
   static flags = {
     dryRun: Flags.boolean(),
   };
+
+  async init() {
+    envSchema.parse(process.env);
+  }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);
@@ -295,46 +304,55 @@ const migrerDocumentProjet = async (
   dryRun: boolean,
 ) => {
   if (fileId) {
-    const query = `
+    try {
+      const query = `
       select 
         "storedAt" 
       from "files"
       where "id" = $1
   `;
 
-    const file = await executeSelect<{
-      storedAt: string;
-    }>(query, fileId);
+      const file = await executeSelect<{
+        storedAt: string;
+      }>(query, fileId);
 
-    if (file.length) {
-      const format = lookup(file[0].storedAt);
+      if (file.length) {
+        const format = lookup(file[0].storedAt);
 
-      if (!format) {
-        throw new Error(`Problème avec le format du fichier : ${file[0].storedAt}`);
-      }
-
-      const pièceJustificative = DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        typeDocument,
-        dateDocument,
-        format,
-      );
-
-      const sourceKey = file[0].storedAt.replace('S3:potentiel-production:', '');
-
-      try {
-        if (!dryRun) {
-          await copyFile(sourceKey, pièceJustificative.formatter());
+        if (!format) {
+          throw new Error(`Problème avec le format du fichier : ${file[0].storedAt}`);
         }
 
-        return {
+        const pièceJustificative = DocumentProjet.convertirEnValueType(
+          identifiantProjet,
+          typeDocument,
+          dateDocument,
           format,
-        };
-      } catch (e) {
-        throw new Error(
-          `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
         );
+
+        const sourceKey = file[0].storedAt.replace('S3:potentiel-production:', '');
+
+        const doesExist = await fileExists(sourceKey);
+        if (!doesExist) {
+          throw new Error(`Le fichier source ${sourceKey} n'existe pas`);
+        }
+
+        try {
+          if (!dryRun) {
+            await copyFile(sourceKey, pièceJustificative.formatter());
+          }
+
+          return {
+            format,
+          };
+        } catch (e) {
+          throw new Error(
+            `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
+          );
+        }
       }
+    } catch (error) {
+      console.error(error);
     }
   }
 
