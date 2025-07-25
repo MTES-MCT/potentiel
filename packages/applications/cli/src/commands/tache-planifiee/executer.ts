@@ -35,12 +35,6 @@ export class Executer extends Command {
   };
 
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
-    if (!['production'].includes(APPLICATION_STAGE)) {
-      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
-      process.exit(0);
-    }
-
     registerProjetQueries({
       list: listProjection,
       find: findProjection,
@@ -70,6 +64,12 @@ export class Executer extends Command {
   }
 
   async run() {
+    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+    if (!['production'].includes(APPLICATION_STAGE)) {
+      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
+      return;
+    }
+
     const { flags } = await this.parse(Executer);
     const àExécuterLe = DateTime.convertirEnValueType(new Date(flags.date));
     const logger = getLogger('Scheduler');

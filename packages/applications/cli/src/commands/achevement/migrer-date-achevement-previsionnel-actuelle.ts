@@ -67,7 +67,5 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
     }
 
     console.log(stats);
-
-    process.exit(0);
   }
 }

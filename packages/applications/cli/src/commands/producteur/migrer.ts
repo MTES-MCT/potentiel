@@ -165,7 +165,5 @@ export class Migrer extends Command {
     console.log(filesStats);
 
     console.log('All files copied.');
-
-    process.exit(0);
   }
 }
