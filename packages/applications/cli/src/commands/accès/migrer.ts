@@ -113,6 +113,5 @@ export class Migrer extends Command {
 
     console.log(eventsStats);
     console.log('All events published.');
-    process.exit(0);
   }
 }
