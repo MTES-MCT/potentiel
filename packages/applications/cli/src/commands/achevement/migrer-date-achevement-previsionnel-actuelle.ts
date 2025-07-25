@@ -71,6 +71,7 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
             )
               .définirHeureÀMidi()
               .formatter(),
+            raison: 'inconnue',
           },
         };
 

@@ -8,16 +8,12 @@ export type DélaiAccordéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     nombreDeMois: number;
+    dateAchèvementPrévisionnelCalculée: DateTime.RawType;
     accordéLe: DateTime.RawType;
     accordéPar: Email.RawType;
-  } & (
-    | { raison: 'covid' | 'cdc-18-mois' }
-    | {
-        raison: 'demande';
-        dateDemande: DateTime.RawType;
-        réponseSignée: { format: string };
-      }
-  )
+    dateDemande: DateTime.RawType;
+    réponseSignée: { format: string };
+  }
 >;
 
 export type LegacyDélaiAccordéEvent = DomainEvent<

@@ -39,6 +39,12 @@ export class AccorderDemandeDélaiFixture
     return this.#nombreDeMois;
   }
 
+  #dateAchèvementPrévisionnelCalculée!: string;
+
+  get dateAchèvementPrévisionnelCalculée(): string {
+    return this.#dateAchèvementPrévisionnelCalculée;
+  }
+
   créer(partialData?: Partial<AccorderDemandeDélai>): Readonly<AccorderDemandeDélai> {
     const content = faker.word.words();
 
@@ -50,6 +56,7 @@ export class AccorderDemandeDélaiFixture
         content: convertStringToReadableStream(content),
       },
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
+      dateAchèvementPrévisionnelCalculée: faker.date.recent().toISOString(),
       ...partialData,
     };
 
@@ -57,6 +64,7 @@ export class AccorderDemandeDélaiFixture
     this.#accordéePar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;
     this.#nombreDeMois = fixture.nombreDeMois;
+    this.#dateAchèvementPrévisionnelCalculée = fixture.dateAchèvementPrévisionnelCalculée;
     this.#content = content;
 
     this.aÉtéCréé = true;

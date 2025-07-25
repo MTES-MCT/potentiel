@@ -8,5 +8,11 @@ export type DateAchèvementPrévisionnelCalculéeEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     date: DateTime.RawType;
+    raison:
+      | 'notification'
+      | 'ajout-délai-cdc-30_08_2022'
+      | 'retrait-délai-cdc-30_08_2022'
+      | 'délai-accordé'
+      | 'inconnue';
   }
 >;

@@ -42,6 +42,7 @@ EtantDonné(
         date: DateTime.convertirEnValueType(
           new Date(dateAchèvementPrévisionnel).toISOString(),
         ).formatter(),
+        raison: 'inconnue',
       },
     };
 
