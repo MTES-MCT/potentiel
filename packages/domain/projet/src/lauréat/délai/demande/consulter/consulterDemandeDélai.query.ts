@@ -33,6 +33,7 @@ export type ConsulterDemandeDélaiReadModel = {
     accordéeLe: DateTime.ValueType;
     réponseSignée: DocumentProjet.ValueType;
     nombreDeMois: number;
+    dateAchèvementPrévisionnelCalculée: DateTime.ValueType;
   };
 
   rejet?: {
@@ -123,6 +124,9 @@ const mapToReadModel: MapToReadModel = ({
       accordéePar: Email.convertirEnValueType(accord.accordéePar),
       accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
       nombreDeMois: accord.nombreDeMois,
+      dateAchèvementPrévisionnelCalculée: DateTime.convertirEnValueType(
+        accord.dateAchèvementPrévisionnelCalculée,
+      ),
       réponseSignée: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         Délai.TypeDocumentDemandeDélai.demandeAccordée.formatter(),

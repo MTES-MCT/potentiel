@@ -81,7 +81,13 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
               {accord && (
                 <div className="flex gap-2">
                   <div className="font-semibold whitespace-nowrap">Nombre de mois accordé(s) :</div>
-                  <div>{accord.nombreDeMois} mois</div>
+                  <div>
+                    {accord.nombreDeMois} mois pour une date d'achèvement prévisionnel au{' '}
+                    <FormattedDate
+                      date={DateTime.bind(accord.dateAchèvementPrévisionnelCalculée).formatter()}
+                    />
+                    )
+                  </div>
                 </div>
               )}
               <div className="flex gap-2">

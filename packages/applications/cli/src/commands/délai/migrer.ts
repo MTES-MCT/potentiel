@@ -308,13 +308,19 @@ export class Migrer extends Command {
                 flags.dryRun,
               );
 
+              const dateAchèvementPrévisionnelCalculée =
+                await getDateAchèvementPrévisionnelAccordée({
+                  legacyProjectId: demande.legacyProjectId,
+                  dateAccord: accordéLe,
+                });
+
               const demandeDélaiRejetéeEvent: Lauréat.Délai.DélaiAccordéEvent = {
                 type: 'DélaiAccordé-V1',
                 payload: {
                   identifiantProjet,
                   dateDemande: demandéLe,
                   nombreDeMois,
-                  raison: 'demande',
+                  dateAchèvementPrévisionnelCalculée,
                   accordéLe,
                   accordéPar,
                   réponseSignée,
@@ -386,7 +392,9 @@ export class Migrer extends Command {
                 identifiantProjet,
                 dateDemande: demandéLe,
                 nombreDeMois,
-                raison: 'demande',
+                dateAchèvementPrévisionnelCalculée: DateTime.convertirEnValueType(nouvelleDate)
+                  .définirHeureÀMidi()
+                  .formatter(),
                 accordéLe,
                 accordéPar,
                 réponseSignée,
@@ -574,6 +582,39 @@ const getDélaiDemandé = async (demande: DélaiDemandéSurPotentiel): Promise<n
   }
 
   throw new Error(`Aucune date d'achèvement prévisionnel récupérée !!`);
+};
+
+const getDateAchèvementPrévisionnelAccordée = async ({
+  dateAccord,
+  legacyProjectId,
+}: {
+  legacyProjectId: string;
+  dateAccord: DateTime.RawType;
+}): Promise<DateTime.RawType> => {
+  const query = `
+    select 
+      es."occurredAt" ,
+      es.payload->>'completionDueOn' as "dateAchèvementPrévisionnel"
+    from "eventStores" es 
+    where es.type = 'ProjectCompletionDueDateSet' 
+      and es.payload->>'projectId' = $1
+      and es."occurredAt" >= $2::date
+    order by es.payload->>'completionDueOn' asc;
+  `;
+
+  const achèvement = await executeSelect<{ dateAchèvementPrévisionnel: string }>(
+    query,
+    legacyProjectId,
+    dateAccord,
+  );
+
+  if (achèvement.length > 0) {
+    return DateTime.convertirEnValueType(new Date(Number(achèvement[0].dateAchèvementPrévisionnel)))
+      .définirHeureÀMidi()
+      .formatter();
+  }
+
+  throw new Error(`Aucune date d'achèvement prévisionnel accordée récupérée !!`);
 };
 
 type GetPassageEnInstruction = (demande: DélaiDemandéSurPotentiel) => Promise<

@@ -7,6 +7,7 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 import {
   mapToAttestationConformitéModifiéeTimelineItemProps,
   mapToAttestationConformitéTransmiseTimelineItemProps,
+  mapToDateAchèvementPrévisionnelCalculéeProps,
 } from './events';
 
 export const mapToAchèvementTimelineItemProps = (
@@ -30,6 +31,6 @@ export const mapToAchèvementTimelineItemProps = (
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
       },
-      () => undefined,
+      mapToDateAchèvementPrévisionnelCalculéeProps,
     )
     .exhaustive();
