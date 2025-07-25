@@ -61,55 +61,57 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
         children: (
           <>
             <Heading2>Demande de délai</Heading2>
-            <div className="flex flex-col gap-4">
-              <div className="text-xs italic">
-                Demandé le{' '}
-                <FormattedDate
-                  className="font-semibold"
-                  date={DateTime.bind(demandéLe).formatter()}
-                />{' '}
-                par <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
-              </div>
-              <div className="flex gap-2">
-                <div className="font-semibold">Statut :</div>{' '}
-                <StatutDemandeDélaiBadge statut={statut} />
-              </div>
-              <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Nombre de mois demandé(s) :</div>
-                <div>{nombreDeMois} mois</div>
-              </div>
-              {accord && (
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Nombre de mois accordé(s) :</div>
-                  <div>
-                    {accord.nombreDeMois} mois pour une date d'achèvement prévisionnel au{' '}
-                    <FormattedDate
-                      date={DateTime.bind(accord.dateAchèvementPrévisionnelCalculée).formatter()}
-                    />
-                    )
-                  </div>
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-4">
+                <div className="text-xs italic">
+                  Demandé le{' '}
+                  <FormattedDate
+                    className="font-semibold"
+                    date={DateTime.bind(demandéLe).formatter()}
+                  />{' '}
+                  par <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
                 </div>
-              )}
-              <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-                <div>{raison}</div>
+                <div className="flex gap-2">
+                  <div className="font-semibold">Statut :</div>{' '}
+                  <StatutDemandeDélaiBadge statut={statut} />
+                </div>
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">Nombre de mois demandé(s) :</div>
+                  <div>{nombreDeMois} mois</div>
+                </div>
+                {accord && (
+                  <div className="flex gap-2">
+                    <div className="font-semibold whitespace-nowrap">
+                      Nombre de mois accordé(s) :
+                    </div>
+                    <div>
+                      {accord.nombreDeMois} mois pour une date d'achèvement prévisionnel au{' '}
+                      <FormattedDate
+                        date={DateTime.bind(accord.dateAchèvementPrévisionnelCalculée).formatter()}
+                      />
+                    </div>{' '}
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
+                  <div>{raison}</div>
+                </div>
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
+                  <DownloadDocument
+                    className="mb-0"
+                    label="Télécharger la pièce justificative"
+                    format={pièceJustificative.format}
+                    url={Routes.Document.télécharger(
+                      DocumentProjet.bind(pièceJustificative).formatter(),
+                    )}
+                  />
+                </div>
               </div>
-              <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
-                <DownloadDocument
-                  className="mb-0"
-                  label="Télécharger la pièce justificative"
-                  format={pièceJustificative.format}
-                  url={Routes.Document.télécharger(
-                    DocumentProjet.bind(pièceJustificative).formatter(),
-                  )}
-                />
+              <div className="mb-4">
+                <Heading2>Historique</Heading2>
+                <Timeline items={historique} />
               </div>
-            </div>
-
-            <div className="mb-4">
-              <Heading2>Historique</Heading2>
-              <Timeline items={historique} />
             </div>
           </>
         ),
