@@ -29,8 +29,6 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   shortTitle: 'Eolien',
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
-  délai: { autoritéCompétente: 'dgec' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -46,6 +44,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
     producteur: {
       informationEnregistrée: true,
@@ -62,6 +61,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
   cahiersDesChargesUrl:

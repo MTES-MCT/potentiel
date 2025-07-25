@@ -125,7 +125,10 @@ export const makeDemanderDélai: MakeDemanderDélai =
               ...(fileId && { fichierId: fileId }),
               justification,
               dateAchèvementDemandée,
-              autorité: appelOffre?.délai.autoritéCompétente ?? 'dreal',
+              autorité:
+                !appelOffre || appelOffre.changement === 'indisponible'
+                  ? 'dreal'
+                  : appelOffre.changement.délai.autoritéCompétente,
               porteurId: user.id,
               cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },

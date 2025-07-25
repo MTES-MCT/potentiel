@@ -13,8 +13,6 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30, // à vérifier
   delaiRealisationTexte: 'trente (30) mois', // à vérifier
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dreal' },
   changement: {
     représentantLégal: {
       informationEnregistrée: true,
@@ -23,6 +21,7 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
     fournisseur: {},
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -39,6 +38,7 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
   },
   paragraphePrixReference: '7', // à vérifier

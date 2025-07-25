@@ -32,7 +32,10 @@ export const abandonDemandéProjector = async (
       demandéPar: event.payload.demandéPar,
       raison: event.payload.raison,
       estUneRecandidature,
-      autoritéCompétente: appelOffre.abandon.autoritéCompétente,
+      autoritéCompétente:
+        appelOffre.changement === 'indisponible'
+          ? 'dgec'
+          : appelOffre.changement.abandon.autoritéCompétente,
       recandidature: estUneRecandidature
         ? {
             statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,

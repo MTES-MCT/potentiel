@@ -13,8 +13,6 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique',
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -28,6 +26,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -44,6 +43,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
