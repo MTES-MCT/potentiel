@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
+import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 
 export type GetActionnaireAffichageForProjectPage = {
   label: string;
