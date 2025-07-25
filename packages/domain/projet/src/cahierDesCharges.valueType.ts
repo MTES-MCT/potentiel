@@ -51,10 +51,10 @@ export const bind = ({
 
   getRèglesChangements(domaine) {
     const changementIndisponible: AppelOffre.RèglesDemandesChangement = {
-      abandon: {},
+      abandon: { autoritéCompétente: 'dgec' },
       achèvement: {},
       actionnaire: {},
-      délai: {},
+      délai: { autoritéCompétente: 'dgec' },
       fournisseur: {},
       producteur: {},
       puissance: {},

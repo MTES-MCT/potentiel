@@ -41,8 +41,6 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-a2',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -56,6 +54,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -72,6 +71,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
   délaiRéalisationEnMois: 30,

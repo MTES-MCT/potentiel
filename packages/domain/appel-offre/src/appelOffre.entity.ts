@@ -63,7 +63,9 @@ type Changement = {
 export type RèglesDemandesChangement = {
   actionnaire: Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
   fournisseur: Changement;
-  délai: Changement;
+  délai: Changement & {
+    autoritéCompétente: AutoritéCompétente;
+  };
   producteur: Changement;
   puissance: Changement;
   représentantLégal: { informationEnregistrée?: boolean } & (
@@ -75,7 +77,9 @@ export type RèglesDemandesChangement = {
   );
   recours: Changement;
   achèvement: Changement;
-  abandon: Changement;
+  abandon: Changement & {
+    autoritéCompétente: AutoritéCompétente;
+  };
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
@@ -298,12 +302,6 @@ export type AppelOffreReadModel = {
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
   puissanceALaPointeDisponible?: true;
-  délai: {
-    autoritéCompétente: AutoritéCompétente;
-  };
-  abandon: {
-    autoritéCompétente: AutoritéCompétente;
-  };
   /**
    * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
    **/

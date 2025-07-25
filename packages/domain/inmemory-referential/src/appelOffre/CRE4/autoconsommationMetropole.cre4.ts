@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-const changementsCDCModifié = {
+const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -13,6 +13,7 @@ const changementsCDCModifié = {
   },
   délai: {
     demande: true,
+    autoritéCompétente: 'dreal',
   },
   producteur: {
     informationEnregistrée: true,
@@ -29,8 +30,9 @@ const changementsCDCModifié = {
   },
   abandon: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
-} as const;
+};
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -58,8 +60,6 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-auto',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: 'indisponible',
   délaiRéalisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',

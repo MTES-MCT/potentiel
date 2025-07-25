@@ -74,8 +74,6 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   // dans les faits, seulement PV pour le moment (P1 à 4), mais théoriquement possible
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -89,6 +87,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -105,6 +104,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },

@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const garantieFinanciereEnMois = 36;
 
-const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
+const changementsCdcModifiéOuApplicablesAPartirDeP6: AppelOffre.RèglesDemandesChangement = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -15,6 +15,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   },
   délai: {
     demande: true,
+    autoritéCompétente: 'dreal',
   },
   producteur: {
     informationEnregistrée: true,
@@ -31,8 +32,9 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   },
   abandon: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
-} as const;
+};
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -122,8 +124,6 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 24,
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',

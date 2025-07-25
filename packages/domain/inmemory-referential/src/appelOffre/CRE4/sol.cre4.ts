@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const garantieFinanciereEnMois = 42;
 
-const changementCdc = {
+const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -15,6 +15,7 @@ const changementCdc = {
   },
   délai: {
     demande: true,
+    autoritéCompétente: 'dreal',
   },
   producteur: {
     informationEnregistrée: true,
@@ -31,8 +32,9 @@ const changementCdc = {
   },
   abandon: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
-} as const;
+};
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -45,7 +47,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  changement: changementCdc,
+  changement: changementsCDCModifié,
 };
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
@@ -69,7 +71,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
 - Inférieure à la limite de puissance de 17 MWc pour les périodes 1 à 3 ou de 30 MWc pour les périodes ultérieures, si celle-ci est applicable.
 `,
   },
-  changement: changementCdc,
+  changement: changementsCDCModifié,
 };
 
 export const sol: AppelOffre.AppelOffreReadModel = {
@@ -85,8 +87,6 @@ export const sol: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 24,
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: 'indisponible',
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',
