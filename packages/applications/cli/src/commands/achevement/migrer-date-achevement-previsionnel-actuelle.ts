@@ -1,5 +1,6 @@
 import { Command, Flags } from '@oclif/core';
 import z from 'zod';
+import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
@@ -26,15 +27,33 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
 
   async run(): Promise<void> {
     const query = `
-    select 
-      es.payload->>'completionDueOn' as "dateAchèvementPrévisionnelActuelle",
-      p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet" 
-    from "eventStores" es
-    join projects p 
-      on p.id::text = es.payload->>'projectId'
-    where 
-      es.type = 'ProjectCompletionDueDateSet'
-      and es.payload->>'projectId' not in ('a1513e26-7ea2-4564-8012-ed13d60e878b', 'a835ea21-b273-49ce-bb1f-870c260dd907');
+      select 
+        es."occurredAt",
+        es.payload->>'reason' as "raison",
+        es.payload->>'completionDueOn' as "dateAchèvementPrévisionnelActuelle",
+        p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet" 
+      from "eventStores" es
+      join projects p 
+        on p.id::text = es.payload->>'projectId'
+      where 
+        es.type = 'ProjectCompletionDueDateSet'
+        and es.payload->>'projectId' not in ('a1513e26-7ea2-4564-8012-ed13d60e878b', 'a835ea21-b273-49ce-bb1f-870c260dd907')
+
+      union all
+
+      select 
+        es."occurredAt",
+        'covid' as "raison",
+        es.payload->>'completionDueOn' as "dateAchèvementPrévisionnelActuelle",
+        p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet" 
+      from "eventStores" es
+      join projects p 
+        on p.id::text = es.payload->>'projectId'
+      where 
+        es.type = 'CovidDelayGranted'
+        and es.payload->>'projectId' not in ('a1513e26-7ea2-4564-8012-ed13d60e878b', 'a835ea21-b273-49ce-bb1f-870c260dd907')
+
+      order by "occurredAt" asc;    
     `;
 
     type Stats = {
@@ -52,11 +71,16 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
     const datesActuelles = await executeSelect<{
       dateAchèvementPrévisionnelActuelle: string;
       identifiantProjet: string;
+      raison?: 'délaiCdc2022' | 'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022' | 'covid';
     }>(query);
 
     stats.total = datesActuelles.length;
     let current = 0;
-    for (const { identifiantProjet, dateAchèvementPrévisionnelActuelle } of datesActuelles) {
+    for (const {
+      identifiantProjet,
+      dateAchèvementPrévisionnelActuelle,
+      raison,
+    } of datesActuelles) {
       console.log(`${current++} / ${stats.total}`);
 
       try {
@@ -71,7 +95,18 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
             )
               .définirHeureÀMidi()
               .formatter(),
-            raison: 'inconnue',
+            raison: match(raison)
+              .returnType<
+                Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent['payload']['raison']
+              >()
+              .with('délaiCdc2022', () => 'ajout-délai-cdc-30_08_2022')
+              .with(
+                'DemandeComplèteRaccordementTransmiseAnnuleDélaiCdc2022',
+                () => 'retrait-délai-cdc-30_08_2022',
+              )
+              .with('covid', () => 'covid')
+              .with(undefined, () => 'inconnue')
+              .exhaustive(() => 'inconnue'),
           },
         };
 
