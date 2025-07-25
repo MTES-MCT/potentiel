@@ -1,14 +1,28 @@
 import { Command, Flags } from '@oclif/core';
+import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
+const envSchema = z.object({
+  DATABASE_CONNECTION_STRING: z.string().url(),
+});
+
 export class MigrerDateAchevementPrevisionnelActuelle extends Command {
   static flags = {
     dryRun: Flags.boolean(),
   };
+
+  async init() {
+    const { error } = envSchema.safeParse(process.env);
+
+    if (error) {
+      console.error(error.errors);
+      process.exit(1);
+    }
+  }
 
   async run(): Promise<void> {
     const query = `
@@ -36,7 +50,7 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
     };
 
     const datesActuelles = await executeSelect<{
-      dateAchèvementPrévisionnelActuelle: number;
+      dateAchèvementPrévisionnelActuelle: string;
       identifiantProjet: string;
     }>(query);
 
@@ -52,13 +66,18 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
           type: 'DateAchèvementPrévisionnelCalculée-V1',
           payload: {
             identifiantProjet: idProjet,
-            date: DateTime.convertirEnValueType(new Date(dateAchèvementPrévisionnelActuelle))
+            date: DateTime.convertirEnValueType(
+              new Date(Number(dateAchèvementPrévisionnelActuelle)),
+            )
               .définirHeureÀMidi()
               .formatter(),
           },
         };
 
         await publish(`achevement|${idProjet}`, event);
+
+        await sleep(1);
+
         stats.sucess++;
       } catch (error) {
         console.log(error);
@@ -71,3 +90,7 @@ export class MigrerDateAchevementPrevisionnelActuelle extends Command {
     process.exit(0);
   }
 }
+
+export const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
