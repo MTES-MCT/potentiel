@@ -156,6 +156,7 @@ const mapToActionComponents = ({
       {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
         <PasserEnInstructionDemandeDélai
           identifiantProjet={identifiantProjet.formatter()}
+          dateDemande={dateDemande.formatter()}
           estUneReprise={actions.includes('reprendre-instruction')}
         />
       )}
