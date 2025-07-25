@@ -8,14 +8,17 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 
+import { booleanSchema } from '../../../../../utils/candidature/schemaBase';
+
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
+  estLeDernierDossier: booleanSchema,
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, referenceDossier },
+  { identifiantProjet, referenceDossier, estLeDernierDossier },
 ) => {
   await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
     type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
@@ -27,7 +30,11 @@ const action: FormAction<FormState, typeof schema> = async (
 
   return {
     status: 'success',
-    redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
+    redirection: {
+      url: estLeDernierDossier
+        ? Routes.Projet.details(identifiantProjet)
+        : Routes.Raccordement.détail(identifiantProjet),
+    },
   };
 };
 
