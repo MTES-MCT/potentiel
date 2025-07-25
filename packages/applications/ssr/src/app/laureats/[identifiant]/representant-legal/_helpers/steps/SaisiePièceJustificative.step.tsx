@@ -85,7 +85,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
               </Link>
               . )
             </li>
-            <li>Les pièces seront automatiquement supprimées après traitement de votre demande.</li>
+            <li>Les pièces seront automatiquement supprimées après traitement de votre demande</li>
           </ul>
         }
       />

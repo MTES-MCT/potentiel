@@ -146,8 +146,9 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
           nomReprésentantLégal={state.nomReprésentantLégal}
           piècesJustificatives={state.piècesJustificatives}
           message={`Vous êtes sur le point de demander le changement du représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct. ${
-            estUneDemande &&
-            "Votre demande sera alors instruite par le service de l'état en région de votre projet. À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux règles du cahier des charges en vigueur de votre projet."
+            estUneDemande
+              ? "Votre demande sera alors instruite par le service de l'état en région de votre projet. À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux règles du cahier des charges en vigueur de votre projet."
+              : ''
           }`}
         />
       ),
