@@ -33,7 +33,6 @@ export type DossierRaccordementProps = {
     demandeComplèteRaccordement: ÉtapeDemandeComplèteRaccordementProps['actions'];
     supprimer: boolean;
   };
-  estLeDernierDossier?: boolean;
 };
 
 export const DossierRaccordement: FC<DossierRaccordementProps> = ({
@@ -45,7 +44,6 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
     miseEnService,
   },
   actions,
-  estLeDernierDossier,
 }) => {
   return (
     <>
@@ -79,7 +77,6 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
         <SupprimerDossierDuRaccordement
           identifiantProjet={identifiantProjet}
           référenceDossier={référence.référence}
-          estLeDernierDossier={estLeDernierDossier}
         />
       )}
     </>
@@ -89,12 +86,10 @@ export const DossierRaccordement: FC<DossierRaccordementProps> = ({
 type SupprimerDossierDuRaccordementProps = {
   identifiantProjet: string;
   référenceDossier: string;
-  estLeDernierDossier?: boolean;
 };
 const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = ({
   identifiantProjet,
   référenceDossier,
-  estLeDernierDossier,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -121,11 +116,6 @@ const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = 
               </p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               <input type={'hidden'} value={référenceDossier} name="referenceDossier" />
-              <input
-                type={'hidden'}
-                value={estLeDernierDossier ? 'true' : 'false'}
-                name="estLeDernierDossier"
-              />
             </>
           ),
         }}

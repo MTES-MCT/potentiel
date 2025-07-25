@@ -89,7 +89,6 @@ export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps>
               dossier={raccordement.dossiers[0]}
               identifiantProjet={identifiantProjetValue}
               actions={actions}
-              estLeDernierDossier={true}
             />
           ) : (
             raccordement.dossiers.map((dossier) => (
