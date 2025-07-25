@@ -7,13 +7,13 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
 
-import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/demander/demanderChangementReprésentantLégal.action';
+import { DemanderOuEnregistrerChangementReprésentantLégalFormKeys } from '../schema';
 
 export type SaisieNomProps = {
   nomReprésentantLégal: string;
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   onChange?: (nouveauNom: string) => void;
-  validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
+  validationErrors: ValidationErrors<DemanderOuEnregistrerChangementReprésentantLégalFormKeys>;
 };
 
 export const SaisieNomStep: FC<SaisieNomProps> = ({

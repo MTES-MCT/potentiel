@@ -6,18 +6,18 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { DemanderOuEnregistrerChangementReprésentantLégalForm } from '../components/DemanderOuEnregistrerChangementReprésentantLégal.form';
 
-export type DemanderChangementReprésentantLégalPageProps = {
+export type EnregistrerChangementReprésentantLégalPageProps = {
   identifiantProjet: string;
 };
 
-export const DemanderChangementReprésentantLégalPage: FC<
-  DemanderChangementReprésentantLégalPageProps
+export const EnregistrerChangementReprésentantLégalPage: FC<
+  EnregistrerChangementReprésentantLégalPageProps
 > = ({ identifiantProjet }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
-    <Heading1>Demander un changement de représentant légal</Heading1>
+    <Heading1>Déclarer un changement de représentant légal</Heading1>
     <DemanderOuEnregistrerChangementReprésentantLégalForm
       identifiantProjet={identifiantProjet}
-      estUneDemande={true}
+      estUneDemande={false}
     />
   </PageTemplate>
 );

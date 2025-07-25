@@ -8,11 +8,11 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
 
-import { DemanderChangementReprésentantLégalPage } from './DemanderChangementReprésentantLégal.page';
+import { EnregistrerChangementReprésentantLégalPage } from './EnregistrerChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {
-  title: 'Demander le changement de représentant légal du projet - Potentiel',
-  description: "Formulaire de demande de changement de représentant légal d'un projet",
+  title: 'Déclarer le changement de représentant légal du projet - Potentiel',
+  description: "Formulaire de déclaration de changement de représentant légal d'un projet",
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
@@ -20,11 +20,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
   await vérifierQueLeCahierDesChargesPermetUnChangement(
     identifiantProjet,
-    'demande',
+    'information-enregistrée',
     'représentantLégal',
   );
 
   return PageWithErrorHandling(async () => (
-    <DemanderChangementReprésentantLégalPage identifiantProjet={identifiantProjet.formatter()} />
+    <EnregistrerChangementReprésentantLégalPage identifiantProjet={identifiantProjet.formatter()} />
   ));
 }
