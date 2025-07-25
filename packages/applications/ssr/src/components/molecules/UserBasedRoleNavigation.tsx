@@ -22,14 +22,6 @@ const toutesLesDemandesWording = 'Toutes les demandes';
 const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
   const demandesMenuLinks: Array<MenuProps.Link> = [
     {
-      text: toutesLesDemandesWording,
-      linkProps: {
-        href: utilisateur.role.estÉgaleÀ(Role.porteur)
-          ? '/mes-demandes.html'
-          : '/admin/demandes.html',
-      },
-    },
-    {
       text: 'Abandon',
       linkProps: {
         href: Routes.Abandon.lister({ statut: 'demandé' }),
@@ -79,16 +71,22 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Fournisseur.changement.lister,
       },
     },
+    Lauréat.Délai.isFonctionnalitéDélaiActivée()
+      ? {
+          text: 'Délai',
+          linkProps: {
+            href: Routes.Délai.lister,
+          },
+        }
+      : {
+          text: toutesLesDemandesWording,
+          linkProps: {
+            href: utilisateur.role.estÉgaleÀ(Role.porteur)
+              ? '/mes-demandes.html'
+              : '/admin/demandes.html',
+          },
+        },
   ];
-
-  if (Lauréat.Délai.isFonctionnalitéDélaiActivée()) {
-    demandesMenuLinks.push({
-      text: 'Délai',
-      linkProps: {
-        href: Routes.Délai.lister,
-      },
-    });
-  }
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [
     {
