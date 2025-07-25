@@ -21,12 +21,6 @@ export class Relancer extends Command {
   static monitoringSlug = 'relance-abandon-sans-preuve';
 
   async init() {
-    const { APPLICATION_STAGE } = envSchema.parse(process.env);
-    if (!['production', 'development'].includes(APPLICATION_STAGE)) {
-      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
-      process.exit(0);
-    }
-
     registerLauréatQueries({
       find: findProjection,
       list: listProjection,
@@ -44,6 +38,11 @@ export class Relancer extends Command {
   }
 
   async run() {
+    const { APPLICATION_STAGE } = envSchema.parse(process.env);
+    if (!['production', 'development'].includes(APPLICATION_STAGE)) {
+      console.log(`This job can't be executed on ${APPLICATION_STAGE} environment`);
+      return;
+    }
     const abandonsÀRelancer =
       await mediator.send<Lauréat.Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
