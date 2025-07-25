@@ -79,6 +79,7 @@ export const AccorderDemandeDélai = ({
               <p className="mt-3">Êtes-vous sûr de vouloir accorder la demande de délai ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
 
               <div>
                 <Input
