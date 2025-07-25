@@ -21,6 +21,10 @@ const changementsCDCModifié: AppelOffre.RèglesDemandesChangement = {
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    ratios: {
+      min: 0.8,
+      max: 1,
+    },
   },
   recours: {
     demande: true,
@@ -87,12 +91,6 @@ export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
       'six-mois-après-achèvement',
       'type-inconnu',
     ],
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {

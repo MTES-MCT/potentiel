@@ -23,17 +23,6 @@ const emailsDGEC = [
 ] as const;
 type EmailDGEC = (typeof emailsDGEC)[number];
 
-type ChangementPuissance = { paragrapheAlerte?: string } & (
-  | {
-      changementByTechnologie?: undefined;
-      ratios: Ratios;
-    }
-  | {
-      changementByTechnologie: true;
-      ratios: Record<Technologie, Ratios>;
-    }
-);
-
 // Type des Garanties Financières
 export type TypeGarantiesFinancières =
   | 'consignation'
@@ -59,36 +48,61 @@ type Changement = {
   informationEnregistrée?: boolean;
   demande?: boolean;
 };
+type ChangementAvecAutoritéCompétente =
+  | {
+      informationEnregistrée?: boolean;
+      demande?: undefined;
+    }
+  | {
+      informationEnregistrée?: boolean;
+      demande: true;
+      autoritéCompétente: AutoritéCompétente;
+    };
+
+type ChangementPuissance =
+  | {
+      demande?: undefined;
+      informationEnregistrée?: undefined;
+      paragrapheAlerte?: string;
+    }
+  | ({ demande: true; informationEnregistrée?: boolean; paragrapheAlerte?: string } & (
+      | {
+          changementByTechnologie?: undefined;
+          ratios: Ratios;
+        }
+      | {
+          changementByTechnologie: true;
+          ratios: Record<Technologie, Ratios>;
+        }
+    ));
+
+type ChangementReprésentantLégal =
+  | {
+      informationEnregistrée?: undefined;
+      demande?: undefined;
+      instructionAutomatique?: undefined;
+    }
+  | {
+      informationEnregistrée: true;
+      demande?: undefined;
+      instructionAutomatique?: undefined;
+    }
+  | {
+      informationEnregistrée?: undefined;
+      demande: true;
+      instructionAutomatique: 'accord' | 'rejet';
+    };
 
 export type RèglesDemandesChangement = {
   actionnaire: Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
   fournisseur: Changement;
-  délai: Changement & {
-    autoritéCompétente: AutoritéCompétente;
-  };
+  délai: ChangementAvecAutoritéCompétente;
   producteur: Changement;
-  puissance: Changement;
-  représentantLégal:
-    | {
-        informationEnregistrée?: undefined;
-        demande?: undefined;
-        instructionAutomatique?: undefined;
-      }
-    | {
-        informationEnregistrée: true;
-        demande?: undefined;
-        instructionAutomatique?: undefined;
-      }
-    | {
-        informationEnregistrée?: undefined;
-        demande: true;
-        instructionAutomatique: 'accord' | 'rejet';
-      };
+  puissance: ChangementPuissance;
+  représentantLégal: ChangementReprésentantLégal;
   recours: Changement;
   achèvement: Changement;
-  abandon: Changement & {
-    autoritéCompétente: AutoritéCompétente;
-  };
+  abandon: ChangementAvecAutoritéCompétente;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
@@ -120,7 +134,6 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponseParDomaine>;
   délaiApplicable?: DélaiApplicable;
   délaiAnnulationAbandon?: Date;
-  seuilSupplémentaireChangementPuissance?: ChangementPuissance;
   changement?: Partial<RèglesDemandesChangement>;
 };
 
@@ -129,7 +142,7 @@ export const technologies = ['pv', 'eolien', 'hydraulique'] as const;
 export type Technologie = (typeof technologies)[number];
 export type UnitéPuissance = 'MW' | 'MWc';
 
-type AutoritéCompétente = 'dreal' | 'dgec';
+export type AutoritéCompétente = 'dreal' | 'dgec';
 
 type TechnologieAppelOffre =
   | {
@@ -306,11 +319,9 @@ export type AppelOffreReadModel = {
   afficherPhraseRegionImplantation: boolean;
   dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
-  changementPuissance: ChangementPuissance;
   changementProducteurPossibleAvantAchèvement: boolean;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
-  puissanceALaPointeDisponible?: true;
   /**
    * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
    **/

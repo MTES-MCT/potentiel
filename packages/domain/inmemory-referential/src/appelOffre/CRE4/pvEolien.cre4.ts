@@ -35,13 +35,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1.4,
-    },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.`,
-  },
   changement: {
     représentantLégal: {
       demande: true,
@@ -60,9 +53,15 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     producteur: {
       informationEnregistrée: true,
     },
+    // NB: le ratio max de changement de puissance pour cet AO est de 1, mais l'AO en lui même ne permet pas le changement sans un choix de ce CDC, qui porte ce ratio à 1.4.
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.8,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.`,
     },
     recours: {
       demande: true,
@@ -121,7 +120,6 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
     garantieFinanciereEnMois,
   },
-  changementPuissance: { ratios: { min: 0.8, max: 1 } },
   changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

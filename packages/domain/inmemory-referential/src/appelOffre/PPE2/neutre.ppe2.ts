@@ -34,6 +34,10 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.8,
+        max: 1.2,
+      },
     },
     recours: {
       demande: true,
@@ -72,12 +76,6 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     ],
     soumisAuxGarantiesFinancieres: 'à la candidature',
     renvoiRetraitDesignationGarantieFinancieres: '5.1',
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1.2,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {

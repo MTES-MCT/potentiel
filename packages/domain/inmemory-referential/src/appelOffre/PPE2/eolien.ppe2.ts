@@ -26,6 +26,23 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     `,
     },
   },
+  délaiApplicable: {
+    délaiEnMois: 18,
+    intervaleDateMiseEnService: {
+      min: new Date('2022-06-01').toISOString(),
+      max: new Date('2024-09-30').toISOString(),
+    },
+  },
+  changement: {
+    puissance: {
+      demande: true,
+      ratios: {
+        min: 0.8,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
+    },
+  },
 };
 
 const texteEngagementRéalisationEtModalitésAbandonAPartirDeP4 = {
@@ -72,6 +89,10 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.8,
+        max: 1.2,
+      },
     },
     recours: {
       demande: true,
@@ -110,12 +131,6 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
     ],
     soumisAuxGarantiesFinancieres: 'à la candidature',
     renvoiRetraitDesignationGarantieFinancieres: '5.1',
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1.2,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
@@ -156,25 +171,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      cahiersDesChargesModifiésDisponibles: [
-        {
-          ...CDCModifié30082022,
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-06-01').toISOString(),
-              max: new Date('2024-09-30').toISOString(),
-            },
-          },
-          seuilSupplémentaireChangementPuissance: {
-            ratios: {
-              min: 0.8,
-              max: 1.4,
-            },
-            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
-          },
-        },
-      ],
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
     },
     {
@@ -190,13 +187,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
-          seuilSupplémentaireChangementPuissance: {
-            ratios: {
-              min: 0.8,
-              max: 1.4,
-            },
-            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
-          },
+          délaiApplicable: undefined,
         },
       ],
       donnéesCourriersRéponse: {

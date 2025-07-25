@@ -33,6 +33,10 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.9,
+        max: 1.1,
+      },
     },
     recours: {
       demande: true,
@@ -71,12 +75,6 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
-  changementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.1,
-    },
-  },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

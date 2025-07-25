@@ -33,15 +33,18 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.7,
-      max: 1.4,
-    },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit : 
+  changement: {
+    puissance: {
+      demande: true,
+      ratios: {
+        min: 0.7,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) lorsqu’elle est requise par le code de l’urbanisme et que la Puissance modifiée soit : 
 - Inférieure au plafond de puissance de la famille dans laquelle entre l’offre ; 
 - Inférieure à la limite de puissance de 5 MWc spécifiée au paragraphe 2.2. 
 `,
+    },
   },
 };
 
@@ -78,6 +81,10 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.7,
+        max: 1.1,
+      },
     },
     recours: {
       demande: true,
@@ -116,12 +123,6 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
       'type-inconnu',
     ],
     renvoiRetraitDesignationGarantieFinancieres: '',
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.7,
-      max: 1.1,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
