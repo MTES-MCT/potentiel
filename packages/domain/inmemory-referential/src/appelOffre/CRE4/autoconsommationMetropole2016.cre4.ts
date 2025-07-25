@@ -32,6 +32,10 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.8,
+        max: 1,
+      },
     },
     recours: {
       demande: true,
@@ -85,12 +89,6 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
       'six-mois-après-achèvement',
       'type-inconnu',
     ],
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {

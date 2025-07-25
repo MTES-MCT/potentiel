@@ -126,7 +126,9 @@ export const makeDemanderDélai: MakeDemanderDélai =
               justification,
               dateAchèvementDemandée,
               autorité:
-                !appelOffre || appelOffre.changement === 'indisponible'
+                !appelOffre ||
+                appelOffre.changement === 'indisponible' ||
+                !appelOffre.changement.délai.demande
                   ? 'dreal'
                   : appelOffre.changement.délai.autoritéCompétente,
               porteurId: user.id,

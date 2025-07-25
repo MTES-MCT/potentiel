@@ -2,7 +2,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const garantieFinanciereEnMois = 36;
 
-const changementsCdcModifiéOuApplicablesAPartirDeP6: AppelOffre.RèglesDemandesChangement = {
+const changementsCdcModifiéOuApplicablesAPartirDeP6 = {
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -23,6 +23,10 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6: AppelOffre.RèglesDemandes
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    ratios: {
+      min: 0.9,
+      max: 1.1,
+    },
   },
   recours: {
     demande: true,
@@ -34,7 +38,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP6: AppelOffre.RèglesDemandes
     demande: true,
     autoritéCompétente: 'dgec',
   },
-};
+} satisfies AppelOffre.RèglesDemandesChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -63,14 +67,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.4,
+  changement: {
+    ...changementsCdcModifiéOuApplicablesAPartirDeP6,
+    puissance: {
+      ...changementsCdcModifiéOuApplicablesAPartirDeP6.puissance,
+      ratios: {
+        min: changementsCdcModifiéOuApplicablesAPartirDeP6.puissance.ratios.min,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre. `,
     },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre. `,
   },
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
 };
 
 const CDCModifié30082022Alternatif: AppelOffre.CahierDesChargesModifié = {
@@ -84,14 +91,7 @@ const CDCModifié30082022Alternatif: AppelOffre.CahierDesChargesModifié = {
       dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre.Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.4,
-    },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre.`,
-  },
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
+  changement: CDCModifié30082022.changement,
 };
 
 const CDCModifié07022023: AppelOffre.CahierDesChargesModifié = {
@@ -107,8 +107,8 @@ const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
   paruLe: '07/02/2023',
   alternatif: true,
   numéroGestionnaireRequis: true,
-  délaiAnnulationAbandon: new Date('2023-02-23'),
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP6,
+  délaiAnnulationAbandon: CDCModifié07022023.délaiAnnulationAbandon,
+  changement: CDCModifié07022023.changement,
 };
 
 export const zni: AppelOffre.AppelOffreReadModel = {
@@ -150,12 +150,6 @@ export const zni: AppelOffre.AppelOffreReadModel = {
     ],
     renvoiRetraitDesignationGarantieFinancieres: '5.2 et 6.2',
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.1,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
