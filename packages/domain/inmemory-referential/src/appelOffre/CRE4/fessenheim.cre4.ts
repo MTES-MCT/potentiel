@@ -15,6 +15,7 @@ const changementsCDCModifié = {
   },
   délai: {
     demande: true,
+    autoritéCompétente: 'dreal',
   },
   producteur: {
     informationEnregistrée: true,
@@ -22,6 +23,10 @@ const changementsCDCModifié = {
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    ratios: {
+      min: 0.9,
+      max: 1.1,
+    },
   },
   recours: {
     demande: true,
@@ -31,8 +36,9 @@ const changementsCDCModifié = {
   },
   abandon: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
-} as const;
+} satisfies AppelOffre.RèglesDemandesChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -77,18 +83,21 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.4,
+  changement: {
+    ...changementsCDCModifié,
+    puissance: {
+      ...changementsCDCModifié.puissance,
+      ratios: {
+        min: changementsCDCModifié.puissance.ratios.min,
+        max: 1.4,
+      },
+      paragrapheAlerte: `
+        Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit :
+        - Inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant ; 
+        - Inférieure à la limite de puissance de 30 MWc spécifiée au paragraphe 2.2 si celle-ci est applicable. 
+    `,
     },
-    paragrapheAlerte: `
-    Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit :
-    - Inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant ; 
-    - Inférieure à la limite de puissance de 30 MWc spécifiée au paragraphe 2.2 si celle-ci est applicable. 
-`,
   },
-  changement: changementsCDCModifié,
 };
 
 export const fessenheim: AppelOffre.AppelOffreReadModel = {
@@ -104,8 +113,6 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 24,
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: 'indisponible',
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7',
@@ -132,12 +139,6 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
       'six-mois-après-achèvement',
       'type-inconnu',
     ],
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.1,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {

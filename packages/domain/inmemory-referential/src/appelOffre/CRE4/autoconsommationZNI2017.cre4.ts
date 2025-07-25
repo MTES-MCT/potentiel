@@ -13,6 +13,7 @@ const changementsCDCModifié = {
   },
   délai: {
     demande: true,
+    autoritéCompétente: 'dreal',
   },
   producteur: {
     informationEnregistrée: true,
@@ -20,6 +21,10 @@ const changementsCDCModifié = {
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    ratios: {
+      min: 0.8,
+      max: 1,
+    },
   },
   recours: {
     demande: true,
@@ -29,8 +34,9 @@ const changementsCDCModifié = {
   },
   abandon: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
-} as const;
+} satisfies AppelOffre.RèglesDemandesChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -59,14 +65,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1.4,
+  changement: {
+    ...changementsCDCModifié,
+    puissance: {
+      ...changementsCDCModifié.puissance,
+      ratios: {
+        min: changementsCDCModifié.puissance.ratios.min,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance mentionnée au 2.2.`,
     },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance mentionnée au 2.2.`,
   },
-  changement: changementsCDCModifié,
 };
 
 export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
@@ -82,8 +91,6 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: 'indisponible',
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
@@ -110,12 +117,6 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
       'six-mois-après-achèvement',
       'type-inconnu',
     ],
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {

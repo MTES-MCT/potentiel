@@ -12,8 +12,6 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -27,6 +25,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -34,6 +33,10 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.9,
+        max: 1.1,
+      },
     },
     recours: {
       demande: true,
@@ -43,6 +46,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
   paragraphePrixReference: '7',
@@ -71,12 +75,6 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
-  changementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.1,
-    },
-  },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

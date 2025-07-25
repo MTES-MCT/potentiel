@@ -39,9 +39,10 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const ratio = nouvellePuissance / puissanceInitiale;
   const ratioActuelleNouvelle = nouvellePuissance / puissance;
 
+  const cdcActuel = CahierDesCharges.bind(cahierDesCharges);
   const ratioCdcActuel = Lauréat.Puissance.RatioChangementPuissance.bind({
     puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
-    ratios: CahierDesCharges.bind(cahierDesCharges).getRatiosChangementPuissance(),
+    ratios: cdcActuel.getRatiosChangementPuissance(),
     puissanceInitiale,
     nouvellePuissance,
     volumeRéservé,
@@ -143,11 +144,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
                 : false
             }
             fourchetteRatioInitialEtCDC2022AlertMessage={
-              // TODO seuilSupplémentaireChangementPuissance?.paragrapheAlerte ne devrait pas dépendre du cahierDesChargesModificatif
-              cahierDesCharges.cahierDesChargesModificatif?.type === 'modifié'
-                ? cahierDesCharges?.cahierDesChargesModificatif
-                    .seuilSupplémentaireChangementPuissance?.paragrapheAlerte
-                : undefined
+              cdcActuel.getRèglesChangements('puissance').paragrapheAlerte
             }
             unitéPuissance={unitéPuissance.unité}
           />
