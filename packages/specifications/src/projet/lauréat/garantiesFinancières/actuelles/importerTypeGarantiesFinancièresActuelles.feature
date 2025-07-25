@@ -13,11 +13,11 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | date d'échéance | <date d'échéance> |
 
         Exemples:
-            | type GF                   | AO              | date d'échéance |
-            | avec-date-échéance        | PPE2 - Sol      | 2027-12-01      |
-            | six-mois-après-achèvement | PPE2 - Eolien   |                 |
-            | consignation              | CRE4 - ZNI      |                 |
-            | garantie-bancaire         | PPE2 - Petit PV |                 |
+            | type GF                   | AO                       | date d'échéance |
+            | avec-date-échéance        | PPE2 - Sol               | 2027-12-01      |
+            | six-mois-après-achèvement | PPE2 - Eolien            |                 |
+            | consignation              | CRE4 - ZNI               |                 |
+            | garantie-bancaire         | PPE2 - Petit PV Bâtiment |                 |
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
