@@ -5,7 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
+import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { mediator } from 'mediateur';
 
 export type GetFournisseurForProjectPage = Pick<

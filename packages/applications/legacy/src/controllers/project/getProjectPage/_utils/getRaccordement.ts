@@ -4,10 +4,10 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Role } from '@potentiel-domain/utilisateur';
-import { checkLauréatNonAbandonné } from './checkLauréatNonAbandonné';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 
 type GetRaccordementProps = {
   role: Role.ValueType;
@@ -44,16 +44,27 @@ export const getRaccordement = async ({
       Lauréat.Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
     )
   ) {
-    const estClasséNonAbandonné = await checkLauréatNonAbandonné(identifiantProjet.formatter());
+    const { aUnAbandonEnCours, estAbandonné } = await checkAbandonAndAchèvement(
+      identifiantProjet,
+      role.nom,
+    );
 
     return {
       raccordement: Option.none,
-      affichage: estClasséNonAbandonné
+      affichage: estAbandonné
         ? {
-            label: 'Renseigner les données de raccordement',
-            url: Routes.Raccordement.détail(identifiantProjet.formatter()),
+            label:
+              'Aucun raccordement pour ce projet',
           }
-        : { label: 'Aucun raccordement pour ce projet' },
+        : aUnAbandonEnCours
+          ? {
+              label:
+                "Impossible de renseigner ce raccordement car une demande d'abandon est en cours",
+            }
+          : {
+              label: 'Renseigner les données de raccordement',
+              url: Routes.Raccordement.détail(identifiantProjet.formatter()),
+            },
     };
   }
 
