@@ -109,6 +109,8 @@ export class Migrer extends Command {
     try {
       const demandesDélaiQuery = `
         select 
+          'demande-faite-sur-potentiel' as "type",
+          mr."createdAt" as "createdAt",
           p.id as "legacyProjectId",
           mr.id as "legacyDemandeId",
           p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet",
@@ -131,25 +133,36 @@ export class Migrer extends Command {
           mr.type = 'delai' 
           and mr.status <> 'accord-de-principe'
           and (mr."delayInMonths" is not null or mr."dateAchèvementDemandée" is not null)
-        order by mr."createdAt"
 
-        UNION
+        union all
 
         select 
+          'demande-faite-hors-potentiel' as "type",
+          mr."createdAt" as "createdAt",
           p.id as "legacyProjectId",
           mr.id as "legacyDemandeId",
           p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet",
+          mr."delayInMonths" as "nombreDeMois",
+          mr."dateAchèvementDemandée" as "dateAchèvementDemandée",
           mr."requestedOn" as "dateDemande",
+          mr."userId" as "identifiantUtilisateur",
           mr."status" as "statut",
+          mr."justification" as "raison",
+          mr."fileId" as "identifiantPièceJustificative",
+          mr."respondedBy" as "identifiantInstructeur",
           mr."respondedOn" as "dateInstruction",
-          mr."acceptanceParams" as "accord"
+          mr."responseFileId" as "identifiantRéponseSignée",
+          mr."acceptanceParams" as "accord",
+          mr."cancelledBy" as "identifiantAnnulateur",
+          mr."cancelledOn" as "dateAnnulation"
         from "modificationRequests" mr 
         join "projects" p on p."id" = mr."projectId"
         where 
           mr.type = 'delai' 
           and mr.status = 'acceptée'
           and mr."isLegacy" = true
-        order by mr."createdAt"
+
+      order by "createdAt"
     `;
 
       const demandes = await executeSelect<
