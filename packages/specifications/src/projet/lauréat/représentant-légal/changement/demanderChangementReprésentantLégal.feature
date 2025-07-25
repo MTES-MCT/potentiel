@@ -53,7 +53,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
 
     Scénario: Impossible de demander un changement de représentant légal si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Petit PV |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 

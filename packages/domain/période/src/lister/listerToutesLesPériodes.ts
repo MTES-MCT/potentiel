@@ -16,8 +16,19 @@ export const listerToutesLesPériodes = async (
     },
   });
 
+  const aosActif =
+    process.env.FEATURES?.split(',')
+      .map((s) => s.trim())
+      .includes('aos') ?? false;
+
   const appelOffres = await list<AppelOffre.AppelOffreEntity>(`appel-offre`, {
-    where: { id: Where.equal(appelOffre) },
+    where: {
+      id: appelOffre
+        ? Where.equal(appelOffre)
+        : aosActif
+          ? undefined
+          : Where.notEqual('PPE2 - Petit PV Bâtiment'),
+    },
   });
 
   const all = appelOffres.items

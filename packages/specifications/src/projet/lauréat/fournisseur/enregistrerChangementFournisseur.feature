@@ -22,8 +22,8 @@ Fonctionnalité: Enregistrer un changement de fournisseur
 
     Scénario: Impossible d'enregistrer un changement de fournisseur si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Petit PV |
-            | période       | 1               |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | période       | 1                        |
         Quand le porteur enregistre un changement de fournisseur
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 

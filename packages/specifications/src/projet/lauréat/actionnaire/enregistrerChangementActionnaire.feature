@@ -27,8 +27,8 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Scénario: Impossible d'enregistrer un changement d'actionnaire si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Petit PV |
-            | période       | 1               |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | période       | 1                        |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 

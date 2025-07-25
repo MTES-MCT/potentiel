@@ -13,8 +13,8 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
 
     Scénario: Une dreal peut accorder l'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV |
-            | période       | 1               |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | période       | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL accorde l'abandon pour le projet lauréat
@@ -22,8 +22,8 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
 
     Scénario: La DGEC peut accorder l'abandon si l'autorité compétente est la DREAL
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV |
-            | période       | 1               |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | période       | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur accorde l'abandon pour le projet lauréat

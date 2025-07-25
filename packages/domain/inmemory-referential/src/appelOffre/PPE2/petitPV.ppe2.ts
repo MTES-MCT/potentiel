@@ -2,11 +2,11 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 // TODO vérifier nom : AOS ou Petit PV ?
 export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
-  id: 'PPE2 - Petit PV',
-  typeAppelOffre: 'batiment', // à vérifier
-  cycleAppelOffre: 'PPE2', // à vérifier
+  id: 'PPE2 - Petit PV Bâtiment',
+  typeAppelOffre: 'batiment',
+  cycleAppelOffre: 'PPE2',
   title: `portant sur la réalisation et l'exploitation d'Installations de production d'électricité à partir de l'énergie solaire en Métropole continentale`, // titre à vérifier
-  shortTitle: 'PPE2 - Petit PV', // à vérifier
+  shortTitle: 'PPE2 - Petit PV Bâtiment',
   launchDate: 'XXX 2025', // à vérifier
   cahiersDesChargesUrl: `TODO`, // à vérifier
   technologie: 'pv',
