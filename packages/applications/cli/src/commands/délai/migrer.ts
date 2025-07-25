@@ -10,18 +10,22 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-// type DélaiTraitéHorsPotentielEtImporté = {
-//   identifiantProjet: string;
-//   dateInstruction: string;
-//   dateDemande: undefined;
-//   statut: 'acceptée';
-//   accord: {
-//     ancienneDateLimiteAchevement: string;
-//     nouvelleDateLimiteAchevement: string;
-//   };
-// };
+type DélaiTraitéHorsPotentielEtImporté = {
+  type: 'demande-faite-hors-potentiel';
+  legacyProjectId: string;
+  legacyDemandeId: string;
+  identifiantProjet: string;
+  dateDemande: undefined;
+  dateInstruction: string;
+  statut: 'acceptée';
+  accord: {
+    ancienneDateLimiteAchevement: string;
+    nouvelleDateLimiteAchevement: string;
+  };
+};
 
 type DélaiDemandéSurPotentiel = {
+  type: 'demande-faite-sur-potentiel';
   legacyProjectId: string;
   legacyDemandeId: string;
   identifiantProjet: string;
@@ -128,9 +132,29 @@ export class Migrer extends Command {
           and mr.status <> 'accord-de-principe'
           and (mr."delayInMonths" is not null or mr."dateAchèvementDemandée" is not null)
         order by mr."createdAt"
+
+        UNION
+
+        select 
+          p.id as "legacyProjectId",
+          mr.id as "legacyDemandeId",
+          p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" as "identifiantProjet",
+          mr."requestedOn" as "dateDemande",
+          mr."status" as "statut",
+          mr."respondedOn" as "dateInstruction",
+          mr."acceptanceParams" as "accord"
+        from "modificationRequests" mr 
+        join "projects" p on p."id" = mr."projectId"
+        where 
+          mr.type = 'delai' 
+          and mr.status = 'acceptée'
+          and mr."isLegacy" = true
+        order by mr."createdAt"
     `;
 
-      const demandes = await executeSelect<DélaiDemandéSurPotentiel>(demandesDélaiQuery);
+      const demandes = await executeSelect<
+        DélaiDemandéSurPotentiel | DélaiTraitéHorsPotentielEtImporté
+      >(demandesDélaiQuery);
 
       const newEvents: Array<Lauréat.Délai.DélaiEvent> = [];
       let current = 0;
@@ -139,136 +163,209 @@ export class Migrer extends Command {
         console.log(`${current++} / ${demandes.length}`);
 
         try {
-          const demandéPar = await getIdentifiantUtilisateur(demande.identifiantUtilisateur);
-          const nombreDeMois = await getDélaiDemandé(demande);
+          if (demande.type === 'demande-faite-sur-potentiel') {
+            const demandéPar = await getIdentifiantUtilisateur(demande.identifiantUtilisateur);
+            const nombreDeMois = await getDélaiDemandé(demande);
 
-          const demandéLe = DateTime.convertirEnValueType(
-            new Date(Number(demande.dateDemande)),
-          ).formatter();
-
-          const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-            demande.identifiantProjet,
-          ).formatter();
-
-          const pièceJustificative = await migrerDocumentProjet(
-            {
-              dateDocument: demandéLe,
-              identifiantProjet,
-              typeDocument: 'délai/pièce-justificative',
-              fileId: demande.identifiantPièceJustificative,
-            },
-            flags.dryRun,
-          );
-
-          const raison = demande.raison ?? 'Raison non spécifiée';
-
-          const délaiDemandéEvent: Lauréat.Délai.DélaiDemandéEvent = {
-            type: 'DélaiDemandé-V1',
-            payload: {
-              demandéLe,
-              demandéPar,
-              identifiantProjet,
-              nombreDeMois,
-              pièceJustificative,
-              raison,
-            },
-          };
-
-          newEvents.push(délaiDemandéEvent);
-
-          if (demande.statut === 'en instruction') {
-            const passageEnInstruction = await getPassageEnInstruction(demande);
-
-            if (passageEnInstruction) {
-              const { passéeEnInstructionLe, passéeEnInstructionPar } = passageEnInstruction;
-              const demandeDélaiPasséeEnInstructionEvent: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent =
-                {
-                  type: 'DemandeDélaiPasséeEnInstruction-V1',
-                  payload: {
-                    identifiantProjet,
-                    dateDemande: demandéLe,
-                    passéeEnInstructionLe,
-                    passéeEnInstructionPar,
-                  },
-                };
-
-              newEvents.push(demandeDélaiPasséeEnInstructionEvent);
-            }
-          }
-
-          if (demande.statut === 'annulée') {
-            const annuléLe = DateTime.convertirEnValueType(
-              new Date(Number(demande.dateInstruction)),
+            const demandéLe = DateTime.convertirEnValueType(
+              new Date(Number(demande.dateDemande)),
             ).formatter();
 
-            const annuléPar = demande.identifiantInstructeur
-              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-              : Email.inconnu.formatter();
-
-            const demandeDélaiAnnuléeEvent: Lauréat.Délai.DemandeDélaiAnnuléeEvent = {
-              type: 'DemandeDélaiAnnulée-V1',
-              payload: {
-                identifiantProjet,
-                dateDemande: demandéLe,
-                annuléLe,
-                annuléPar,
-              },
-            };
-
-            newEvents.push(demandeDélaiAnnuléeEvent);
-          }
-
-          if (demande.statut === 'rejetée') {
-            const rejetéeLe = DateTime.convertirEnValueType(
-              new Date(Number(demande.dateInstruction)),
+            const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+              demande.identifiantProjet,
             ).formatter();
 
-            const rejetéePar = demande.identifiantInstructeur
-              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-              : Email.inconnu.formatter();
-
-            const réponseSignée = await migrerDocumentProjet(
+            const pièceJustificative = await migrerDocumentProjet(
               {
-                dateDocument: rejetéeLe,
+                dateDocument: demandéLe,
                 identifiantProjet,
-                typeDocument: 'délai/demande-rejetée',
-                fileId: demande.identifiantRéponseSignée,
+                typeDocument: 'délai/pièce-justificative',
+                fileId: demande.identifiantPièceJustificative,
               },
               flags.dryRun,
             );
 
-            const demandeDélaiRejetéeEvent: Lauréat.Délai.DemandeDélaiRejetéeEvent = {
-              type: 'DemandeDélaiRejetée-V1',
+            const raison = demande.raison ?? 'Raison non spécifiée';
+
+            const délaiDemandéEvent: Lauréat.Délai.DélaiDemandéEvent = {
+              type: 'DélaiDemandé-V1',
               payload: {
+                demandéLe,
+                demandéPar,
                 identifiantProjet,
-                dateDemande: demandéLe,
-                rejetéeLe,
-                rejetéePar,
-                réponseSignée,
+                nombreDeMois,
+                pièceJustificative,
+                raison,
               },
             };
 
-            newEvents.push(demandeDélaiRejetéeEvent);
-          }
+            newEvents.push(délaiDemandéEvent);
 
-          if (demande.statut === 'acceptée') {
+            if (demande.statut === 'en instruction') {
+              const passageEnInstruction = await getPassageEnInstruction(demande);
+
+              if (passageEnInstruction) {
+                const { passéeEnInstructionLe, passéeEnInstructionPar } = passageEnInstruction;
+                const demandeDélaiPasséeEnInstructionEvent: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent =
+                  {
+                    type: 'DemandeDélaiPasséeEnInstruction-V1',
+                    payload: {
+                      identifiantProjet,
+                      dateDemande: demandéLe,
+                      passéeEnInstructionLe,
+                      passéeEnInstructionPar,
+                    },
+                  };
+
+                newEvents.push(demandeDélaiPasséeEnInstructionEvent);
+              }
+            }
+
+            if (demande.statut === 'annulée') {
+              const annuléLe = DateTime.convertirEnValueType(
+                new Date(Number(demande.dateInstruction)),
+              ).formatter();
+
+              const annuléPar = demande.identifiantInstructeur
+                ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+                : Email.inconnu.formatter();
+
+              const demandeDélaiAnnuléeEvent: Lauréat.Délai.DemandeDélaiAnnuléeEvent = {
+                type: 'DemandeDélaiAnnulée-V1',
+                payload: {
+                  identifiantProjet,
+                  dateDemande: demandéLe,
+                  annuléLe,
+                  annuléPar,
+                },
+              };
+
+              newEvents.push(demandeDélaiAnnuléeEvent);
+            }
+
+            if (demande.statut === 'rejetée') {
+              const rejetéeLe = DateTime.convertirEnValueType(
+                new Date(Number(demande.dateInstruction)),
+              ).formatter();
+
+              const rejetéePar = demande.identifiantInstructeur
+                ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+                : Email.inconnu.formatter();
+
+              const réponseSignée = await migrerDocumentProjet(
+                {
+                  dateDocument: rejetéeLe,
+                  identifiantProjet,
+                  typeDocument: 'délai/demande-rejetée',
+                  fileId: demande.identifiantRéponseSignée,
+                },
+                flags.dryRun,
+              );
+
+              const demandeDélaiRejetéeEvent: Lauréat.Délai.DemandeDélaiRejetéeEvent = {
+                type: 'DemandeDélaiRejetée-V1',
+                payload: {
+                  identifiantProjet,
+                  dateDemande: demandéLe,
+                  rejetéeLe,
+                  rejetéePar,
+                  réponseSignée,
+                },
+              };
+
+              newEvents.push(demandeDélaiRejetéeEvent);
+            }
+
+            if (demande.statut === 'acceptée') {
+              const accordéLe = DateTime.convertirEnValueType(
+                new Date(Number(demande.dateInstruction)),
+              ).formatter();
+
+              const accordéPar = demande.identifiantInstructeur
+                ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+                : Email.inconnu.formatter();
+
+              const réponseSignée = await migrerDocumentProjet(
+                {
+                  dateDocument: accordéLe,
+                  identifiantProjet,
+                  typeDocument: 'délai/demande-accordée',
+                  fileId: demande.identifiantRéponseSignée,
+                },
+                flags.dryRun,
+              );
+
+              const demandeDélaiRejetéeEvent: Lauréat.Délai.DélaiAccordéEvent = {
+                type: 'DélaiAccordé-V1',
+                payload: {
+                  identifiantProjet,
+                  dateDemande: demandéLe,
+                  nombreDeMois,
+                  raison: 'demande',
+                  accordéLe,
+                  accordéPar,
+                  réponseSignée,
+                },
+              };
+
+              newEvents.push(demandeDélaiRejetéeEvent);
+            }
+          } else {
+            const demandéPar = Email.inconnu.formatter();
+            const ancienneDate = new Date(
+              Number.parseInt(demande.accord.ancienneDateLimiteAchevement),
+            );
+            const nouvelleDate = new Date(
+              Number.parseInt(demande.accord.nouvelleDateLimiteAchevement),
+            );
+
+            const nombreDeMois =
+              (nouvelleDate.getFullYear() - ancienneDate.getFullYear()) * 12 +
+              (nouvelleDate.getMonth() - ancienneDate.getMonth());
+
+            const demandéLe = DateTime.convertirEnValueType(
+              new Date(Number(demande.dateDemande)),
+            ).formatter();
+
+            const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+              demande.identifiantProjet,
+            ).formatter();
+
+            const pièceJustificative = await uploadReplacementDoc({
+              identifiantProjet,
+              typeDocument: 'délai/pièce-justificative',
+              dateDocument: demandéLe,
+              dryRun: flags.dryRun,
+            });
+
+            const raison = 'Raison non spécifiée';
+
+            const délaiDemandéEvent: Lauréat.Délai.DélaiDemandéEvent = {
+              type: 'DélaiDemandé-V1',
+              payload: {
+                demandéLe,
+                demandéPar,
+                identifiantProjet,
+                nombreDeMois,
+                pièceJustificative,
+                raison,
+              },
+            };
+
+            newEvents.push(délaiDemandéEvent);
+
             const accordéLe = DateTime.convertirEnValueType(
               new Date(Number(demande.dateInstruction)),
             ).formatter();
 
-            const accordéPar = demande.identifiantInstructeur
-              ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
-              : Email.inconnu.formatter();
+            const accordéPar = Email.inconnu.formatter();
 
-            const réponseSignée = await migrerDocumentProjet(
-              {
-                dateDocument: accordéLe,
-                identifiantProjet,
-                typeDocument: 'délai/demande-accordée',
-                fileId: demande.identifiantRéponseSignée,
-              },
-              flags.dryRun,
-            );
+            const réponseSignée = await uploadReplacementDoc({
+              identifiantProjet,
+              typeDocument: 'délai/demande-accordée',
+              dateDocument: accordéLe,
+              dryRun: flags.dryRun,
+            });
 
             const demandeDélaiRejetéeEvent: Lauréat.Délai.DélaiAccordéEvent = {
               type: 'DélaiAccordé-V1',
@@ -324,7 +421,7 @@ const migrerDocumentProjet = async (
     typeDocument: Lauréat.Délai.TypeDocumentDemandeDélai.RawType;
   },
   dryRun: boolean,
-) => {
+): Promise<{ format: string }> => {
   if (fileId) {
     try {
       const query = `
@@ -381,6 +478,26 @@ const migrerDocumentProjet = async (
     }
   }
 
+  return uploadReplacementDoc({
+    identifiantProjet,
+    typeDocument,
+    dateDocument,
+    dryRun,
+  });
+};
+
+type UploadReplacementDoc = (infosDemande: {
+  identifiantProjet: IdentifiantProjet.RawType;
+  typeDocument: Lauréat.Délai.TypeDocumentDemandeDélai.RawType;
+  dateDocument: DateTime.RawType;
+  dryRun: boolean;
+}) => Promise<{ format: string }>;
+const uploadReplacementDoc: UploadReplacementDoc = async ({
+  identifiantProjet,
+  typeDocument,
+  dateDocument,
+  dryRun,
+}) => {
   const format = 'application/pdf';
   const pièceJustificative = DocumentProjet.convertirEnValueType(
     identifiantProjet,
