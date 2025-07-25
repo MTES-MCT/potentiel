@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 
@@ -17,6 +18,15 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, referenceDossier },
 ) => {
+  const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({
+    type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+
+  const estLeDernierDossier = Option.isSome(raccordement) && raccordement.dossiers.length === 1;
+
   await mediator.send<Lauréat.Raccordement.RaccordementUseCase>({
     type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
     data: {
@@ -27,7 +37,11 @@ const action: FormAction<FormState, typeof schema> = async (
 
   return {
     status: 'success',
-    redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
+    redirection: {
+      url: estLeDernierDossier
+        ? Routes.Projet.details(identifiantProjet)
+        : Routes.Raccordement.détail(identifiantProjet),
+    },
   };
 };
 
