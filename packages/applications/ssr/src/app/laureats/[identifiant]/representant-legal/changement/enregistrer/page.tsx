@@ -6,6 +6,8 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
+import { vérifierQueLeCahierDesChargesPermetUnChangement } from '../../../../../_helpers';
+
 import { EnregistrerChangementReprésentantLégalPage } from './EnregistrerChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {
@@ -14,11 +16,15 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+
+  await vérifierQueLeCahierDesChargesPermetUnChangement(
+    identifiantProjet,
+    'information-enregistrée',
+    'représentantLégal',
+  );
+
   return PageWithErrorHandling(async () => (
-    <EnregistrerChangementReprésentantLégalPage
-      identifiantProjet={IdentifiantProjet.convertirEnValueType(
-        decodeParameter(identifiant),
-      ).formatter()}
-    />
+    <EnregistrerChangementReprésentantLégalPage identifiantProjet={identifiantProjet.formatter()} />
   ));
 }

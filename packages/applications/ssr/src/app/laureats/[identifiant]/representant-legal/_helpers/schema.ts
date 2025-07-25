@@ -2,8 +2,8 @@ import * as zod from 'zod';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { manyDocuments } from '../../../../../utils/zod/document/manyDocuments';
-import { singleDocument } from '../../../../../utils/zod/document/singleDocument';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const commonSchema = zod.object({
   identifiantProjet: zod.string().min(1),
