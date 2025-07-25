@@ -60,8 +60,6 @@ export class Relancer extends Command {
             identifiantProjetValue: identifiantProjet.formatter(),
           },
         });
-
-        process.exit(0);
       } catch (e) {
         errors++;
         getLogger().error(e as Error);
