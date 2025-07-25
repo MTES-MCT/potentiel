@@ -66,13 +66,22 @@ export type RèglesDemandesChangement = {
   délai: Changement;
   producteur: Changement;
   puissance: Changement;
-  représentantLégal: { informationEnregistrée?: boolean } & (
+  représentantLégal:
     | {
+        informationEnregistrée?: undefined;
         demande?: undefined;
         instructionAutomatique?: undefined;
       }
-    | { demande: true; instructionAutomatique: 'accord' | 'rejet' }
-  );
+    | {
+        informationEnregistrée: true;
+        demande?: undefined;
+        instructionAutomatique?: undefined;
+      }
+    | {
+        informationEnregistrée?: undefined;
+        demande: true;
+        instructionAutomatique: 'accord' | 'rejet';
+      };
   recours: Changement;
   achèvement: Changement;
   abandon: Changement;
