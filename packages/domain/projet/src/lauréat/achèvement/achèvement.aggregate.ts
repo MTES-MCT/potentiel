@@ -65,8 +65,6 @@ export class AchèvementAggregate extends AbstractAggregate<
       );
     }
 
-    const duréeDélaiSupplémentaireCDC30082022 = 18;
-
     const date = match(options)
       .with({ type: 'notification' }, () =>
         DateAchèvementPrévisionnel.convertirEnValueType(this.lauréat.notifiéLe.date)
@@ -76,15 +74,11 @@ export class AchèvementAggregate extends AbstractAggregate<
       .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
         this.#dateAchèvementPrévisionnel.ajouterDélai(nombreDeMois).formatter(),
       )
-      .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
-        this.#dateAchèvementPrévisionnel
-          .ajouterDélai(duréeDélaiSupplémentaireCDC30082022)
-          .formatter(),
+      .with({ type: 'ajout-délai-cdc-30_08_2022' }, ({ nombreDeMois }) =>
+        this.#dateAchèvementPrévisionnel.ajouterDélai(nombreDeMois).formatter(),
       )
-      .with({ type: 'retrait-délai-cdc-30_08_2022' }, () =>
-        this.#dateAchèvementPrévisionnel
-          .retirerDélai(duréeDélaiSupplémentaireCDC30082022)
-          .formatter(),
+      .with({ type: 'retrait-délai-cdc-30_08_2022' }, ({ nombreDeMois }) =>
+        this.#dateAchèvementPrévisionnel.retirerDélai(nombreDeMois).formatter(),
       )
       .exhaustive();
 
