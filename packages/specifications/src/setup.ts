@@ -87,7 +87,7 @@ AfterStep(async function (this: PotentielWorld, { pickleStep, result, pickle }) 
   }
 });
 
-BeforeAll({ timeout: 10000 }, async () => {
+BeforeAll({ timeout: 30000 }, async () => {
   const { postgres, s3 } = await prepareEnvironment();
 
   process.env.DATABASE_CONNECTION_STRING = `postgres://potentiel@localhost:${postgres.port}/potentiel`;
