@@ -9,6 +9,7 @@ export const dateAchèvementPrévisionnelCalculéeProjector = async ({
     {
       identifiantProjet: payload.identifiantProjet,
       dateAchèvementPrévisionnel: payload.date,
+      raison: payload.raison,
     },
   );
 };

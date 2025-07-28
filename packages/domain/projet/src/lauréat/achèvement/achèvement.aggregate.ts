@@ -5,7 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { isFonctionnalitéDélaiActivée } from '../délai';
+import { FonctionnalitéDélaiIndisponibleError, isFonctionnalitéDélaiActivée } from '../délai';
 
 import { DateAchèvementPrévisionnel } from '.';
 
@@ -56,43 +56,60 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.#dateAchèvementPrévisionnel;
   }
 
-  async calculerDateAchèvementPrévisionnel(options: CalculerDateAchèvementPrévisionnelOptions) {
-    if (isFonctionnalitéDélaiActivée()) {
-      const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
-
-      const duréeDélaiSupplémentaireCDC30082022 = 18;
-
-      const date = match(options)
-        .with({ type: 'notification' }, () =>
-          DateAchèvementPrévisionnel.convertirEnValueType(this.lauréat.notifiéLe.date)
-            .ajouterDélai(this.délaiRéalisationEnMois)
-            .formatter(),
-        )
-        .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
-          this.#dateAchèvementPrévisionnel.ajouterDélai(nombreDeMois).formatter(),
-        )
-        .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
-          this.#dateAchèvementPrévisionnel
-            .ajouterDélai(duréeDélaiSupplémentaireCDC30082022)
-            .formatter(),
-        )
-        .with({ type: 'retrait-délai-cdc-30_08_2022' }, () =>
-          this.#dateAchèvementPrévisionnel
-            .retirerDélai(duréeDélaiSupplémentaireCDC30082022)
-            .formatter(),
-        )
-        .exhaustive();
-
-      const event: DateAchèvementPrévisionnelCalculéeEvent = {
-        type: 'DateAchèvementPrévisionnelCalculée-V1',
-        payload: {
-          identifiantProjet,
-          date,
-        },
-      };
-
-      await this.publish(event);
+  async getDateAchèvementPrévisionnelCalculée(
+    options: CalculerDateAchèvementPrévisionnelOptions,
+  ): Promise<DateAchèvementPrévisionnel.RawType> {
+    if (!isFonctionnalitéDélaiActivée()) {
+      throw new FonctionnalitéDélaiIndisponibleError(
+        `La fonctionnalité de calcul des délais n'est pas active !`,
+      );
     }
+
+    const duréeDélaiSupplémentaireCDC30082022 = 18;
+
+    const date = match(options)
+      .with({ type: 'notification' }, () =>
+        DateAchèvementPrévisionnel.convertirEnValueType(this.lauréat.notifiéLe.date)
+          .ajouterDélai(this.délaiRéalisationEnMois)
+          .formatter(),
+      )
+      .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
+        this.#dateAchèvementPrévisionnel.ajouterDélai(nombreDeMois).formatter(),
+      )
+      .with({ type: 'ajout-délai-cdc-30_08_2022' }, () =>
+        this.#dateAchèvementPrévisionnel
+          .ajouterDélai(duréeDélaiSupplémentaireCDC30082022)
+          .formatter(),
+      )
+      .with({ type: 'retrait-délai-cdc-30_08_2022' }, () =>
+        this.#dateAchèvementPrévisionnel
+          .retirerDélai(duréeDélaiSupplémentaireCDC30082022)
+          .formatter(),
+      )
+      .exhaustive();
+
+    return date;
+  }
+
+  async calculerDateAchèvementPrévisionnel(
+    options: CalculerDateAchèvementPrévisionnelOptions,
+  ): Promise<DateAchèvementPrévisionnel.RawType> {
+    const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
+
+    const date = await this.getDateAchèvementPrévisionnelCalculée(options);
+
+    const event: DateAchèvementPrévisionnelCalculéeEvent = {
+      type: 'DateAchèvementPrévisionnelCalculée-V1',
+      payload: {
+        identifiantProjet,
+        date,
+        raison: options.type,
+      },
+    };
+
+    await this.publish(event);
+
+    return date;
   }
 
   async transmettreAttestationConformité({

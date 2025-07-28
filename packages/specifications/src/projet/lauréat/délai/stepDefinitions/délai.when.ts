@@ -186,6 +186,9 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         nombreDeMois:
           this.lauréatWorld.délaiWorld.demanderDélaiFixture.nombreDeMois ??
           faker.number.int({ min: 1, max: 100 }),
+        dateAchèvementPrévisionnelActuelle:
+          this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture
+            .dateAchèvementPrévisionnel,
       });
 
     await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({

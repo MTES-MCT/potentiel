@@ -16,7 +16,7 @@ import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
 import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
 import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
-import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
+import { HistoriqueDélaiProjetListItemReadModel, isFonctionnalitéDélaiActivée } from '../../délai';
 import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistoriqueDélaiProjet.query';
 import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
 import { AchèvementEvent } from '../../achèvement';
@@ -79,7 +79,9 @@ export const registerListerHistoriqueProjetQuery = ({
       range,
     });
 
-    const délais = await listerDélaiAccordéProjet(identifiantProjet);
+    const délais = isFonctionnalitéDélaiActivée()
+      ? []
+      : await listerDélaiAccordéProjet(identifiantProjet);
 
     const items = [...history.items, ...délais].sort(
       (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),

@@ -28,6 +28,7 @@ export type DemandeDélaiEntity = Entity<
       accordéeLe: string;
       accordéePar: string;
       nombreDeMois: number;
+      dateAchèvementPrévisionnelCalculée: string;
       réponseSignée: {
         format: string;
       };

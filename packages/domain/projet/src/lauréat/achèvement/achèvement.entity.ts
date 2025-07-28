@@ -5,5 +5,12 @@ export type AchèvementEntity = Entity<
   {
     identifiantProjet: string;
     dateAchèvementPrévisionnel: string;
+    raison:
+      | 'notification'
+      | 'covid'
+      | 'ajout-délai-cdc-30_08_2022'
+      | 'retrait-délai-cdc-30_08_2022'
+      | 'délai-accordé'
+      | 'inconnue';
   }
 >;
