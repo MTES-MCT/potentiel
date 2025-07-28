@@ -9,8 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { Icon } from '@/components/atoms/Icon';
 import { CopyButton } from '@/components/molecules/CopyButton';
-
-import { ProjetBannerProps } from '../../../../../../components/molecules/projet/ProjetBanner';
+import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type ModifierGestionnaireRéseauDuRaccordementProps = {
   gestionnaireRéseau: PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;

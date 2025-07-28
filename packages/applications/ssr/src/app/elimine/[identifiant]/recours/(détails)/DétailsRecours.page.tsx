@@ -9,6 +9,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { StatutRecoursBadge } from './StatutRecoursBadge';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
@@ -90,18 +91,16 @@ type MapToActionsComponentsProps = {
   identifiantProjet: string;
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
-  actions.length ? (
-    <div className="flex flex-col gap-4">
-      <Heading2>Actions</Heading2>
-      {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
-      {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
-      {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
-      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-        <PasserRecoursEnInstruction
-          identifiantProjet={identifiantProjet}
-          estUneReprise={actions.includes('reprendre-instruction')}
-        />
-      )}
-    </div>
-  ) : null;
+const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
+  <ActionsList actionsListLength={actions.length}>
+    {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
+    {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
+    {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
+    {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+      <PasserRecoursEnInstruction
+        identifiantProjet={identifiantProjet}
+        estUneReprise={actions.includes('reprendre-instruction')}
+      />
+    )}
+  </ActionsList>
+);

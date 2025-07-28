@@ -10,6 +10,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { InviterPorteurForm } from '../inviter/InviterPorteur.form';
+import { ActionsList } from '../../../components/templates/ActionsList.template';
 
 import { PorteurListItem } from './PorteurListItem';
 
@@ -69,18 +70,15 @@ const PorteurListActions: FC<{
   identifiantProjet: IdentifiantProjet.RawType;
   items: PlainType<ConsulterUtilisateurReadModel>[];
   nombreDeProjets?: number;
-}> = ({ identifiantProjet, items, nombreDeProjets }) => {
-  return (
-    <div className="flex flex-col gap-4 pl-10">
-      <Heading2>Actions</Heading2>
-      <InviterPorteurForm identifiantProjet={identifiantProjet} nombreDeProjets={nombreDeProjets} />
-      <Button
-        iconId="fr-icon-mail-line"
-        priority="secondary"
-        linkProps={{ href: `mailto:${items.map((item) => item.email).join(',')}` }}
-      >
-        Contacter tous les utilisateurs
-      </Button>
-    </div>
-  );
-};
+}> = ({ identifiantProjet, items, nombreDeProjets }) => (
+  <ActionsList actionsListLength={2} className="pl-10">
+    <InviterPorteurForm identifiantProjet={identifiantProjet} nombreDeProjets={nombreDeProjets} />
+    <Button
+      iconId="fr-icon-mail-line"
+      priority="secondary"
+      linkProps={{ href: `mailto:${items.map((item) => item.email).join(',')}` }}
+    >
+      Contacter tous les utilisateurs
+    </Button>
+  </ActionsList>
+);

@@ -13,6 +13,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
@@ -146,44 +147,42 @@ const mapToActionComponents = ({
   actions,
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
-}: MapToActionsComponentsProps) =>
-  actions.length > 0 ? (
-    <>
-      <Heading2>Actions</Heading2>
-      {actions.includes('annuler') && (
-        <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
-      )}
-      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-        <PasserEnInstructionDemandeDélai
-          identifiantProjet={identifiantProjet.formatter()}
-          dateDemande={dateDemande.formatter()}
-          estUneReprise={actions.includes('reprendre-instruction')}
-        />
-      )}
-      {actions.includes('rejeter') && (
-        <RejeterDemandeDélai
-          identifiantProjet={identifiantProjet.formatter()}
-          dateDemande={dateDemande.formatter()}
-        />
-      )}
-      {actions.includes('accorder') && (
-        <AccorderDemandeDélai
-          identifiantProjet={identifiantProjet.formatter()}
-          dateDemande={dateDemande.formatter()}
-          nombreDeMois={nombreDeMois}
-          dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
-        />
-      )}
-      {actions.includes('corriger') && (
-        <Button
-          linkProps={{
-            href: Routes.Délai.corriger(identifiantProjet.formatter(), dateDemande.formatter()),
-            prefetch: false,
-          }}
-          className="block w-1/2 text-center"
-        >
-          Corriger
-        </Button>
-      )}
-    </>
-  ) : null;
+}: MapToActionsComponentsProps) => (
+  <ActionsList actionsListLength={actions.length}>
+    {actions.includes('annuler') && (
+      <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+    )}
+    {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+      <PasserEnInstructionDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+        estUneReprise={actions.includes('reprendre-instruction')}
+      />
+    )}
+    {actions.includes('rejeter') && (
+      <RejeterDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+      />
+    )}
+    {actions.includes('accorder') && (
+      <AccorderDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+        nombreDeMois={nombreDeMois}
+        dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
+      />
+    )}
+    {actions.includes('corriger') && (
+      <Button
+        linkProps={{
+          href: Routes.Délai.corriger(identifiantProjet.formatter(), dateDemande.formatter()),
+          prefetch: false,
+        }}
+        className="block w-1/2 text-center"
+      >
+        Corriger
+      </Button>
+    )}
+  </ActionsList>
+);

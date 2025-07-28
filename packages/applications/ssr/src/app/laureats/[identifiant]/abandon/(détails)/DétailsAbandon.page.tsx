@@ -11,6 +11,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import {
   TransmettrePreuveRecandidature,
@@ -129,37 +130,34 @@ const mapToActionComponents = ({
   actions,
   identifiantProjet,
   projetsÀSélectionner,
-}: MapToActionsComponentsProps) =>
-  actions.length ? (
-    <div className="flex flex-col gap-4">
-      <Heading2>Actions</Heading2>
-
-      {actions.includes('demander-confirmation') && (
-        <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('accorder-avec-recandidature') && (
-        <AccorderAbandonAvecRecandidature identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('accorder-sans-recandidature') && (
-        <AccorderAbandonSansRecandidature identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
-      {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
-      {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
-      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-        <PasserAbandonEnInstruction
-          identifiantProjet={identifiantProjet}
-          estUneReprise={actions.includes('reprendre-instruction')}
-        />
-      )}
-      {actions.includes('transmettre-preuve-recandidature') && (
-        <TransmettrePreuveRecandidature
-          identifiantProjet={identifiantProjet}
-          projetsÀSélectionner={projetsÀSélectionner}
-        />
-      )}
-    </div>
-  ) : null;
+}: MapToActionsComponentsProps) => (
+  <ActionsList actionsListLength={actions.length}>
+    {actions.includes('demander-confirmation') && (
+      <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('accorder-avec-recandidature') && (
+      <AccorderAbandonAvecRecandidature identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('accorder-sans-recandidature') && (
+      <AccorderAbandonSansRecandidature identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
+    {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
+    {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
+    {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+      <PasserAbandonEnInstruction
+        identifiantProjet={identifiantProjet}
+        estUneReprise={actions.includes('reprendre-instruction')}
+      />
+    )}
+    {actions.includes('transmettre-preuve-recandidature') && (
+      <TransmettrePreuveRecandidature
+        identifiantProjet={identifiantProjet}
+        projetsÀSélectionner={projetsÀSélectionner}
+      />
+    )}
+  </ActionsList>
+);
 
 type MapToInformationsComponentsProps = {
   informations: Array<AvailableInformation>;
