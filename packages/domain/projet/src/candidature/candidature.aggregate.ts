@@ -197,8 +197,8 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   async corriger(candidature: CorrigerCandidatureOptions) {
     this.vérifierQueLaCandidatureExiste();
-    this.vérifierQueLeStatutEstNonModifiableAprésNotification(candidature);
-    this.vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(candidature);
+    this.vérifierQueLeStatutEstModifiable(candidature);
+    this.vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
     this.vérifierCoefficientKChoisi(candidature);
     this.vérifierTechnologie(candidature);
@@ -260,7 +260,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  private vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(
+  private vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(
     candidature: CorrigerCandidatureOptions,
   ) {
     if (this.#estNotifiée) {
@@ -274,26 +274,13 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierQueLeStatutEstNonModifiableAprésNotification(
-    candidature: CorrigerCandidatureOptions,
-  ) {
-    if (
-      this.#estNotifiée &&
-      this.instruction.statut &&
-      !candidature.instruction.statut.estÉgaleÀ(this.instruction.statut)
-    ) {
+  private vérifierQueLeStatutEstModifiable(candidature: CorrigerCandidatureOptions) {
+    if (this.#estNotifiée && !candidature.instruction.statut.estÉgaleÀ(this.instruction.statut)) {
       throw new StatutNonModifiableAprèsNotificationError();
     }
   }
 
-  private vérifierQueLaCorrectionEstJustifiée({
-    corrigéLe: _corrigéLe,
-    corrigéPar: _corrigéPar,
-    doitRégénérerAttestation: _doitRégénérerAttestation,
-    détailsMisÀJour: _détailsMisÀJour,
-    dépôt,
-    instruction,
-  }: CorrigerCandidatureOptions) {
+  private vérifierQueLaCorrectionEstJustifiée({ dépôt, instruction }: CorrigerCandidatureOptions) {
     if (dépôt.estÉgaleÀ(this.dépôt) && instruction.estÉgaleÀ(this.instruction)) {
       throw new CandidatureNonModifiéeError(dépôt.nomProjet);
     }
