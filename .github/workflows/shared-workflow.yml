@@ -37,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
+      DEBUG: testcontainers*
 
     steps:
       - uses: actions/checkout@v4
