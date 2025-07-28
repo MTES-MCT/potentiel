@@ -16,7 +16,7 @@ export type ImporterCandidatureUseCase = Message<
     dépôtValue: Dépôt.RawType;
     instructionValue: Instruction.RawType;
 
-    détailsValue?: Record<string, string>;
+    détailsValue?: Record<string, string | number | boolean>;
     importéLe: string;
     importéPar: string;
   }

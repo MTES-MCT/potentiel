@@ -10,13 +10,52 @@ import { DateTime } from '@potentiel-domain/common';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/_helpers';
-import { candidatureSchema } from '@/utils/candidature';
+import {
+  identifiantProjetSchema,
+  dépôtSchema,
+  instructionSchema,
+  doitRegenererAttestationSchema,
+} from '@/utils/candidature';
 
 export type CorrigerCandidaturesState = FormState;
 
-const schema = candidatureSchema;
+// sans les accents, et avec ls champs spécifiques à la correction
+const schema = zod
+  .object({
+    identifiantProjet: identifiantProjetSchema,
+    doitRegenererAttestation: doitRegenererAttestationSchema,
 
-export type CorrigerCandidatureFormEntries = zod.infer<typeof candidatureSchema>;
+    nomProjet: dépôtSchema.shape.nomProjet,
+    societeMere: dépôtSchema.shape.sociétéMère,
+    nomCandidat: dépôtSchema.shape.nomCandidat,
+    puissanceProductionAnnuelle: dépôtSchema.shape.puissanceProductionAnnuelle,
+    prixReference: dépôtSchema.shape.prixReference,
+    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
+    emailContact: dépôtSchema.shape.emailContact,
+    adresse1: dépôtSchema.shape.adresse1,
+    adresse2: dépôtSchema.shape.adresse2,
+    codePostal: dépôtSchema.shape.codePostal,
+    commune: dépôtSchema.shape.commune,
+    departement: dépôtSchema.shape.departement,
+    region: dépôtSchema.shape.region,
+    puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
+    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
+    actionnariat: dépôtSchema.shape.actionnariat,
+    technologie: dépôtSchema.shape.technologie,
+    typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
+    dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
+    coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
+
+    statut: instructionSchema.shape.statut,
+    motifElimination: instructionSchema.shape.motifÉlimination,
+    noteTotale: instructionSchema.shape.noteTotale,
+  })
+  .catch(({ input, error }) => {
+    console.log({ input, error });
+    throw error;
+  });
+
+export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {

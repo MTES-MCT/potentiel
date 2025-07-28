@@ -21,7 +21,7 @@ class InvalidFieldTypeError extends Error {
   }
 }
 
-type Champs = GetDossierQuery['dossier']['champs'];
+export type Champs = GetDossierQuery['dossier']['champs'];
 export const getChampValue = <TType extends ChampFragmentFragment['__typename']>(
   champs: Champs,
   name: string,
@@ -29,7 +29,6 @@ export const getChampValue = <TType extends ChampFragmentFragment['__typename']>
 ): (ChampFragmentFragment & { __typename: TType }) | undefined => {
   const champ = champs.find((x) => x.label === name);
   if (!champ) {
-    return undefined;
     throw new FieldNotFoundError(name);
   }
   if (champ.__typename !== type) {
@@ -44,6 +43,9 @@ export const getStringValue = (champs: Champs, name: string) =>
 
 export const getDecimalValue = (champs: Champs, name: string) =>
   getChampValue(champs, name, 'DecimalNumberChamp')?.decimalNumber ?? undefined;
+
+export const getUrlPièceJustificativeValue = (champs: Champs, name: string): string =>
+  getChampValue(champs, name, 'PieceJustificativeChamp')?.files?.[0]?.url;
 
 export const getDSApiClient = () => {
   const { DS_API_URL, DS_API_TOKEN } = process.env;

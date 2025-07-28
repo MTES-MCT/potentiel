@@ -39,7 +39,7 @@ describe('candidatureSchema', () => {
       noteTotale: 80,
       puissanceALaPointe: true,
       evaluationCarboneSimplifiee: 10,
-      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf),
+      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf).toISOString(),
     });
   });
 
@@ -59,7 +59,7 @@ describe('candidatureSchema', () => {
       puissanceALaPointe: true,
       evaluationCarboneSimplifiee: 10,
       motifElimination: 'Motif',
-      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf),
+      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf).toISOString(),
     });
   });
 

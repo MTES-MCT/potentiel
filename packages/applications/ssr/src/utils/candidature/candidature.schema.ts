@@ -27,6 +27,7 @@ import {
   régionSchema,
   choixCoefficientKSchema,
   puissanceDeSiteSchema,
+  identifiantProjetSchema,
 } from './candidatureFields.schema';
 
 /**
@@ -35,7 +36,7 @@ import {
  **/
 export const candidatureSchema = z
   .object({
-    identifiantProjet: z.string(),
+    identifiantProjet: identifiantProjetSchema,
     nomProjet: nomProjetSchema,
     societeMere: sociétéMèreSchema,
     nomCandidat: nomCandidatSchema,

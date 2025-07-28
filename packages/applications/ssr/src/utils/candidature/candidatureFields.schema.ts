@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
 
@@ -17,6 +18,8 @@ import {
   requiredStringSchema,
   strictlyPositiveNumberSchema,
 } from './schemaBase';
+
+export const identifiantProjetSchema = requiredStringSchema;
 
 export const appelOffreSchema = requiredStringSchema;
 export const périodeSchema = requiredStringSchema;
@@ -67,7 +70,7 @@ export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnari
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
 export const dateEchéanceOuDéliberationGfSchema = z
   .string()
-  .transform((str) => (str ? new Date(str) : undefined))
+  .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
   .optional();
 export const territoireProjetSchema = optionalStringSchema;
 
@@ -84,10 +87,18 @@ export const technologieCsvSchema = z
   .union([z.enum(['N/A', 'Eolien', 'Hydraulique', 'PV']), z.literal('')])
   .optional()
   .transform((val) => val || 'N/A');
+
+const statut = {
+  éliminé: 'éliminé',
+  eliminé: 'éliminé',
+  classé: 'classé',
+  retenu: 'classé',
+} satisfies Record<string, Candidature.StatutCandidature.RawType>;
 export const statutCsvSchema = z
   .string()
   .toLowerCase()
-  .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']));
+  .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']))
+  .transform((val) => statut[val]);
 
 export const adresse1CsvSchema = optionalStringSchema;
 export const dateEchéanceGfCsvSchema = dateSchema.optional();
