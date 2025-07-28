@@ -14,7 +14,19 @@ export class DateÉchéanceGarantiesFinancièresRequiseError extends InvalidOper
 
 export class DateÉchéanceNonAttendueError extends InvalidOperationError {
   constructor() {
-    super(`La date d'échéance pour ce type de garanties financières ne peut être renseignée`);
+    super(`La date d'échéance ne peut être renseignée pour ce type de garanties financières`);
+  }
+}
+
+export class DateDélibérationRequiseError extends InvalidOperationError {
+  constructor() {
+    super(`La date de délibération de l'exemption des garanties financières est requise`);
+  }
+}
+
+export class DateDélibérationNonAttendueError extends InvalidOperationError {
+  constructor() {
+    super(`La date de délibération ne peut être renseignée pour ce type de garanties financières`);
   }
 }
 

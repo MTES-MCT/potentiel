@@ -78,6 +78,9 @@ const mapBodyToUseCaseData = (
       dateÉchéanceGf: data.dateEcheanceGf
         ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
         : undefined,
+      dateDélibérationGf: previous.dépôt.garantiesFinancières?.estExemption()
+        ? previous.dépôt.garantiesFinancières.dateDélibération.formatter()
+        : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
 
       // non-editable fields

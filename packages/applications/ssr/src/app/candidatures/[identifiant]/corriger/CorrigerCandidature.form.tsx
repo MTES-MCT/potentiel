@@ -7,7 +7,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -34,10 +34,14 @@ export type CorrigerCandidatureFormProps = {
   aUneAttestation: boolean;
   unitéPuissance: string;
   champsSupplémentaires: AppelOffre.ChampsSupplémentairesCandidature;
+  typesGarantiesFinancières: Candidature.TypeGarantiesFinancières.RawType[];
+  typesActionnariat: Candidature.TypeActionnariat.RawType[];
 };
 
 export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = ({
   candidature,
+  typesGarantiesFinancières,
+  typesActionnariat,
   estNotifiée,
   aUneAttestation,
   unitéPuissance,
@@ -48,9 +52,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   >({});
 
   const [estÉliminé, setEstÉliminé] = useState(candidature.statut === 'éliminé');
-  const [showDateGf, setShowDateGf] = useState(
-    candidature.typeGarantiesFinancieres === 'avec-date-échéance',
-  );
+  const [typeGf, setTypeGf] = useState(candidature.typeGarantiesFinancieres);
 
   const [commune, setCommune] = useState({
     commune: candidature.commune,
@@ -58,12 +60,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
     departement: candidature.departement,
     region: candidature.region,
   });
-
-  const typesActionnariat = IdentifiantProjet.convertirEnValueType(
-    candidature.identifiantProjet,
-  ).appelOffre.startsWith('PPE2')
-    ? Candidature.TypeActionnariat.ppe2Types
-    : Candidature.TypeActionnariat.cre4Types;
 
   return (
     <Form
@@ -350,11 +346,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             state={validationErrors['typeGarantiesFinancieres'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['typeGarantiesFinancieres']}
             label="Type de Garanties Financières"
-            options={[
-              Candidature.TypeGarantiesFinancières.consignation,
-              Candidature.TypeGarantiesFinancières.avecDateÉchéance,
-              Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement,
-            ].map(({ type }) => ({
+            options={typesGarantiesFinancières.map((type) => ({
               value: type,
               label: getGarantiesFinancièresTypeLabel(type),
             }))}
@@ -363,13 +355,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
               defaultValue: candidature.typeGarantiesFinancieres,
               required: true,
               'aria-required': true,
-              onChange: (e) =>
-                setShowDateGf(
-                  e.target.value === Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
-                ),
+              onChange: (e) => setTypeGf(e.target.value),
             }}
           />
-          {showDateGf && (
+          {typeGf === 'avec-date-échéance' && (
             <InputDate
               name="dateEcheanceGf"
               label="Date d'échéance des Garanties Financières"
@@ -380,6 +369,19 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
               }
               state={validationErrors['dateEcheanceGf'] ? 'error' : 'default'}
               stateRelatedMessage={validationErrors['dateEcheanceGf']}
+            />
+          )}
+          {typeGf === 'exemption' && (
+            <InputDate
+              name="dateDeliberationGf"
+              label="Date de délibération de l'exemption de Garanties Financières"
+              required
+              defaultValue={
+                candidature.dateDeliberationGf &&
+                DateTime.convertirEnValueType(candidature.dateDeliberationGf).formatter()
+              }
+              state={validationErrors['dateDeliberationGf'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['dateDeliberationGf']}
             />
           )}
         </>

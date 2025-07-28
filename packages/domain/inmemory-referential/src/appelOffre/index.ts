@@ -20,7 +20,7 @@ import {
   innovationPPE2,
   autoconsommationMetropolePPE2,
   zniPPE2,
-  petitPVPPE2,
+  petitPVBâtimentPPE2,
 } from './PPE2';
 
 export const appelsOffreData = [
@@ -43,5 +43,5 @@ export const appelsOffreData = [
   innovationPPE2,
   autoconsommationMetropolePPE2,
   zniPPE2,
-  petitPVPPE2,
+  petitPVBâtimentPPE2,
 ];

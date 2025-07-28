@@ -1,7 +1,8 @@
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Fournisseur } from '../lauréat/fournisseur';
+import { GarantiesFinancières } from '../lauréat';
 
 import {
   HistoriqueAbandon,
@@ -30,6 +31,7 @@ export type RawType = {
   actionnariat: TypeActionnariat.RawType | undefined;
   typeGarantiesFinancières: TypeGarantiesFinancières.RawType | undefined;
   dateÉchéanceGf: DateTime.RawType | undefined;
+  dateDélibérationGf: DateTime.RawType | undefined;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.RawType>;
   typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.RawType | undefined;
@@ -53,8 +55,7 @@ export type ValueType = ReadonlyValueType<{
   evaluationCarboneSimplifiée: number;
   technologie: TypeTechnologie.ValueType;
   actionnariat: TypeActionnariat.ValueType | undefined;
-  typeGarantiesFinancières: TypeGarantiesFinancières.ValueType | undefined;
-  dateÉchéanceGf: DateTime.ValueType | undefined;
+  garantiesFinancières?: GarantiesFinancières.GarantiesFinancières.ValueType;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.ValueType>;
   typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
@@ -84,11 +85,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   technologie: TypeTechnologie.bind(plain.technologie),
 
   actionnariat: bindOptional(TypeActionnariat.bind, plain.actionnariat),
-  dateÉchéanceGf: bindOptional(DateTime.bind, plain.dateÉchéanceGf),
-  typeGarantiesFinancières: bindOptional(
-    TypeGarantiesFinancières.bind,
-    plain.typeGarantiesFinancières,
-  ),
+  garantiesFinancières: plain.garantiesFinancières
+    ? GarantiesFinancières.GarantiesFinancières.bind(plain.garantiesFinancières)
+    : undefined,
   typeInstallationsAgrivoltaiques: bindOptional(
     TypeInstallationsAgrivoltaiques.bind,
     plain.typeInstallationsAgrivoltaiques,
@@ -116,8 +115,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.historiqueAbandon, this.historiqueAbandon) &&
       areEqual(valueType.technologie, this.technologie) &&
       areEqual(valueType.actionnariat, this.actionnariat) &&
-      areEqual(valueType.dateÉchéanceGf, this.dateÉchéanceGf) &&
-      areEqual(valueType.typeGarantiesFinancières, this.typeGarantiesFinancières) &&
+      areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
       areEqual(valueType.typologieDeBâtiment, this.typologieDeBâtiment) &&
       areEqual(valueType.typeInstallationsAgrivoltaiques, this.typeInstallationsAgrivoltaiques) &&
       areEqualArrays(valueType.fournisseurs, this.fournisseurs)
@@ -142,8 +140,13 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       historiqueAbandon: this.historiqueAbandon.formatter(),
       technologie: this.technologie.formatter(),
       actionnariat: this.actionnariat?.formatter(),
-      dateÉchéanceGf: this.dateÉchéanceGf?.formatter(),
-      typeGarantiesFinancières: this.typeGarantiesFinancières?.formatter(),
+      dateÉchéanceGf: this.garantiesFinancières?.estAvecDateÉchéance()
+        ? this.garantiesFinancières.dateÉchéance.formatter()
+        : undefined,
+      dateDélibérationGf: this.garantiesFinancières?.estExemption()
+        ? this.garantiesFinancières.dateDélibération.formatter()
+        : undefined,
+      typeGarantiesFinancières: this.garantiesFinancières?.type.formatter(),
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       typeInstallationsAgrivoltaiques: this.typeInstallationsAgrivoltaiques?.formatter(),
       typologieDeBâtiment: this.typologieDeBâtiment?.formatter(),
@@ -176,11 +179,15 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     historiqueAbandon: HistoriqueAbandon.convertirEnValueType(raw.historiqueAbandon),
     technologie: TypeTechnologie.convertirEnValueType(raw.technologie),
     actionnariat: bindOptional(TypeActionnariat.convertirEnValueType, raw.actionnariat),
-    dateÉchéanceGf: raw.dateÉchéanceGf ? { date: raw.dateÉchéanceGf } : undefined,
-    typeGarantiesFinancières: bindOptional(
-      TypeGarantiesFinancières.convertirEnValueType,
-      raw.typeGarantiesFinancières,
-    ),
+    garantiesFinancières: raw.typeGarantiesFinancières
+      ? mapToPlainObject(
+          GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+            type: raw.typeGarantiesFinancières!,
+            dateDélibération: raw.dateDélibérationGf,
+            dateÉchéance: raw.dateÉchéanceGf,
+          }),
+        )
+      : undefined,
     fournisseurs: raw.fournisseurs.map(Fournisseur.convertirEnValueType),
     typeInstallationsAgrivoltaiques: bindOptional(
       TypeInstallationsAgrivoltaiques.convertirEnValueType,

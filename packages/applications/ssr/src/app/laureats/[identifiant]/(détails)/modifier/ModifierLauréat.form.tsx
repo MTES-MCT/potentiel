@@ -4,7 +4,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { CahierDesCharges } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -42,10 +43,9 @@ export type ModifierLauréatFormProps = {
   projet: {
     identifiantProjet: string;
     nomProjet: string;
-    isPPE2: boolean;
     unitéPuissance: string;
   };
-  champsSupplémentaires: AppelOffre.ChampsSupplémentairesCandidature;
+  cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
 };
 export type FieldValidationErrors =
   ValidationErrors<ModifierLauréatEtCandidatureNotifiéeFormEntries>;
@@ -54,9 +54,12 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   candidature,
   lauréat,
   projet,
-  champsSupplémentaires,
+  cahierDesCharges,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
+
+  const cdcActuel = CahierDesCharges.bind(cahierDesCharges);
+  const champsSupplémentaires = cdcActuel.getChampsSupplémentaires();
 
   return (
     <Form
@@ -142,7 +145,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.actionnariat ?? ''}
             label="Type d'actionnariat"
             name="actionnariat"
-            isPPE2={projet.isPPE2}
+            typesActionnariat={cdcActuel.getTypesActionnariat()}
             validationErrors={validationErrors}
           />
         </FormRow>

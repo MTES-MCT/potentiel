@@ -124,12 +124,8 @@ export class CandidatureAggregate extends AbstractAggregate<
     return this.dépôt.prixReference;
   }
 
-  get typeGarantiesFinancières() {
-    return this.dépôt.typeGarantiesFinancières;
-  }
-
-  get dateÉchéanceGf() {
-    return this.dépôt.dateÉchéanceGf;
+  get garantiesFinancières() {
+    return this.dépôt.garantiesFinancières;
   }
 
   get typeActionnariat() {
@@ -181,8 +177,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (candidature.instruction.statut.estClassé()) {
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.dépôt.typeGarantiesFinancières,
-        candidature.dépôt.dateÉchéanceGf,
+        candidature.dépôt.garantiesFinancières,
       );
     }
 
@@ -211,8 +206,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (candidature.instruction.statut.estClassé()) {
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.dépôt.typeGarantiesFinancières,
-        candidature.dépôt.dateÉchéanceGf,
+        candidature.dépôt.garantiesFinancières,
       );
     }
 
@@ -270,16 +264,11 @@ export class CandidatureAggregate extends AbstractAggregate<
     candidature: CorrigerCandidatureOptions,
   ) {
     if (this.#estNotifiée) {
-      if (candidature.dépôt.typeGarantiesFinancières) {
-        if (
-          !this.dépôt.typeGarantiesFinancières?.type ||
-          !this.dépôt.typeGarantiesFinancières?.estÉgaleÀ(
-            candidature.dépôt.typeGarantiesFinancières,
-          )
-        ) {
+      if (candidature.dépôt.garantiesFinancières) {
+        if (!this.dépôt.garantiesFinancières?.estÉgaleÀ(candidature.dépôt.garantiesFinancières)) {
           throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
         }
-      } else if (this.dépôt.typeGarantiesFinancières?.type) {
+      } else if (this.dépôt.garantiesFinancières) {
         throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
     }

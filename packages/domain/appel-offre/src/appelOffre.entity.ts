@@ -29,7 +29,8 @@ export type TypeGarantiesFinancières =
   | 'avec-date-échéance'
   | 'six-mois-après-achèvement'
   | 'type-inconnu'
-  | 'garantie-bancaire';
+  | 'garantie-bancaire'
+  | 'exemption';
 
 // GF AO
 type GarantiesFinancièresAppelOffre = {

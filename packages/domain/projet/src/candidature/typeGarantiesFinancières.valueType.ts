@@ -6,25 +6,28 @@ export const types = [
   'six-mois-après-achèvement',
   'type-inconnu',
   'garantie-bancaire',
+  'exemption',
 ] as const;
 
 export type RawType = (typeof types)[number];
 
-export type ValueType = ReadonlyValueType<{
-  type: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  type: Type;
   estGarantieBancaire: () => boolean;
   estConsignation: () => boolean;
   estAvecDateÉchéance: () => boolean;
   estSixMoisAprèsAchèvement: () => boolean;
-  estInconnu: () => boolean;
-  formatter(): RawType;
+  estExemption: () => boolean;
+  formatter(): Type;
 }>;
 
-export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  type,
+}: PlainType<ValueType>): ValueType<Type> => {
   estValide(type);
   return {
     get type() {
-      return type;
+      return type as Type;
     },
     estÉgaleÀ(valueType) {
       return this.type === valueType.type;
@@ -41,8 +44,8 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
     estSixMoisAprèsAchèvement() {
       return this.type === 'six-mois-après-achèvement';
     },
-    estInconnu() {
-      return this.type === 'type-inconnu';
+    estExemption() {
+      return this.type === 'exemption';
     },
     formatter() {
       return this.type;
@@ -50,9 +53,9 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   };
 };
 
-export const convertirEnValueType = (type: string) => {
+export const convertirEnValueType = <Type extends RawType = RawType>(type: string) => {
   estValide(type);
-  return bind({ type });
+  return bind<Type>({ type });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -63,11 +66,14 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const consignation = convertirEnValueType('consignation');
-export const avecDateÉchéance = convertirEnValueType('avec-date-échéance');
-export const sixMoisAprèsAchèvement = convertirEnValueType('six-mois-après-achèvement');
-export const garantieBancaire = convertirEnValueType('garantie-bancaire');
-export const typeInconnu = convertirEnValueType('type-inconnu');
+export const consignation = convertirEnValueType<'consignation'>('consignation');
+export const avecDateÉchéance = convertirEnValueType<'avec-date-échéance'>('avec-date-échéance');
+export const sixMoisAprèsAchèvement = convertirEnValueType<'six-mois-après-achèvement'>(
+  'six-mois-après-achèvement',
+);
+export const garantieBancaire = convertirEnValueType<'garantie-bancaire'>('garantie-bancaire');
+export const exemption = convertirEnValueType<'exemption'>('exemption');
+export const typeInconnu = convertirEnValueType<'type-inconnu'>('type-inconnu');
 
 class TypeGarantiesFinancièresInvalideError extends InvalidOperationError {
   constructor(value: string) {

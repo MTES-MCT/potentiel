@@ -64,7 +64,7 @@ export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
-export const dateEchéanceGfSchema = z
+export const dateEchéanceOuDeliberationGfSchema = z
   .string()
   .transform((str) => (str ? new Date(str) : undefined))
   .optional();
