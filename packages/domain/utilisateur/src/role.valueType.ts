@@ -1347,9 +1347,6 @@ const pageProjetPolicies: Policy[] = [
   // Recours
   'recours.consulter.détail',
 
-  // Achèvement
-  'achèvement.consulter',
-
   // Candidature
   'candidature.attestation.télécharger',
 
@@ -1375,6 +1372,7 @@ const pageProjetPolicies: Policy[] = [
 
   // Achèvement
   'achèvement.consulter',
+  'achèvement.attestationConformité.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1612,7 +1610,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.rejeter',
 
   // Attestation conformité
-  'achèvement.attestationConformité.consulter',
   'achèvement.attestationConformité.transmettre',
   'achèvement.attestationConformité.modifier',
 
@@ -1718,7 +1715,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.enAttente.consulter',
 
   // Attestation conformité
-  'achèvement.attestationConformité.consulter',
   'achèvement.attestationConformité.transmettre',
 
   // Candidature
