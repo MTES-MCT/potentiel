@@ -236,11 +236,11 @@ export class Migrer extends Command {
 
             if (demande.statut === 'annulée') {
               const annuléLe = DateTime.convertirEnValueType(
-                new Date(Number(demande.dateInstruction)),
+                new Date(Number(demande.dateAnnulation)),
               ).formatter();
 
-              const annuléPar = demande.identifiantInstructeur
-                ? await getIdentifiantUtilisateur(demande.identifiantInstructeur)
+              const annuléPar = demande.identifiantAnnulateur
+                ? await getIdentifiantUtilisateur(demande.identifiantAnnulateur)
                 : Email.inconnu.formatter();
 
               const demandeDélaiAnnuléeEvent: Lauréat.Délai.DemandeDélaiAnnuléeEvent = {
