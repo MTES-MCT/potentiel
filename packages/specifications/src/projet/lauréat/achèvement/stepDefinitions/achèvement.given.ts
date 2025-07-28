@@ -33,15 +33,21 @@ EtantDonné(
 
 EtantDonné(
   "une date d'achèvement prévisionnel pour le projet lauréat au {string}",
-  async function (this: PotentielWorld, dateAchèvementPrévisionnel: string) {
+  async function (this: PotentielWorld, date: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    const dateAchèvementPrévisionnel = DateTime.convertirEnValueType(
+      new Date(date).toISOString(),
+    ).formatter();
+
+    this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture.créer({
+      dateAchèvementPrévisionnel,
+    });
+
     const event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent = {
       type: 'DateAchèvementPrévisionnelCalculée-V1',
       payload: {
         identifiantProjet,
-        date: DateTime.convertirEnValueType(
-          new Date(dateAchèvementPrévisionnel).toISOString(),
-        ).formatter(),
+        date: dateAchèvementPrévisionnel,
         raison: 'inconnue',
       },
     };

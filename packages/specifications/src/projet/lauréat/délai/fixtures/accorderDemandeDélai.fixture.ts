@@ -8,6 +8,7 @@ interface AccorderDemandeDélai {
   readonly accordéeLe: string;
   readonly accordéePar: string;
   readonly nombreDeMois: number;
+  readonly dateAchèvementPrévisionnelActuelle: string;
 }
 
 export class AccorderDemandeDélaiFixture
@@ -39,10 +40,10 @@ export class AccorderDemandeDélaiFixture
     return this.#nombreDeMois;
   }
 
-  #dateAchèvementPrévisionnelCalculée!: string;
+  #dateAchèvementPrévisionnelActuelle!: string;
 
-  get dateAchèvementPrévisionnelCalculée(): string {
-    return this.#dateAchèvementPrévisionnelCalculée;
+  get dateAchèvementPrévisionnelActuelle(): string {
+    return this.#dateAchèvementPrévisionnelActuelle;
   }
 
   créer(partialData?: Partial<AccorderDemandeDélai>): Readonly<AccorderDemandeDélai> {
@@ -56,7 +57,7 @@ export class AccorderDemandeDélaiFixture
         content: convertStringToReadableStream(content),
       },
       nombreDeMois: faker.number.int({ min: 1, max: 100 }),
-      dateAchèvementPrévisionnelCalculée: faker.date.recent().toISOString(),
+      dateAchèvementPrévisionnelActuelle: faker.date.recent().toISOString(),
       ...partialData,
     };
 
@@ -64,7 +65,7 @@ export class AccorderDemandeDélaiFixture
     this.#accordéePar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;
     this.#nombreDeMois = fixture.nombreDeMois;
-    this.#dateAchèvementPrévisionnelCalculée = fixture.dateAchèvementPrévisionnelCalculée;
+    this.#dateAchèvementPrévisionnelActuelle = fixture.dateAchèvementPrévisionnelActuelle;
     this.#content = content;
 
     this.aÉtéCréé = true;

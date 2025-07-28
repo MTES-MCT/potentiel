@@ -103,9 +103,10 @@ export class DélaiWorld {
             accordéeLe: DateTime.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéeLe),
             accordéePar: Email.convertirEnValueType(this.#accorderDemandeDélaiFixture.accordéePar),
             nombreDeMois: this.#demanderDélaiFixture.nombreDeMois,
-            dateAchèvementPrévisionnelCalculée: DateTime.convertirEnValueType(
-              this.#accorderDemandeDélaiFixture.dateAchèvementPrévisionnelCalculée,
-            ),
+            dateAchèvementPrévisionnelCalculée:
+              Lauréat.Achèvement.DateAchèvementPrévisionnel.convertirEnValueType(
+                this.#accorderDemandeDélaiFixture.dateAchèvementPrévisionnelActuelle,
+              ).ajouterDélai(this.#demanderDélaiFixture.nombreDeMois).dateTime,
             réponseSignée: DocumentProjet.convertirEnValueType(
               identifiantProjet.formatter(),
               Lauréat.Délai.TypeDocumentDemandeDélai.demandeAccordée.formatter(),

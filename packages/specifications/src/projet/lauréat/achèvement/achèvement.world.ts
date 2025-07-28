@@ -4,17 +4,25 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TransmettreOuModifierAttestationConformitéFixture } from './fixture/transmettreOuModifierAttestationConformité.fixture';
+import { CalculerDateAchèvementPrévisionnelFixture } from './fixture/calculerDateAchèvementPrévisionnel.fixture';
 
 export class AchèvementWorld {
   #transmettreOuModifierAttestationConformitéFixture: TransmettreOuModifierAttestationConformitéFixture;
+  #calculerDateAchèvementPrévisionnelFixture: CalculerDateAchèvementPrévisionnelFixture;
 
   get transmettreOuModifierAttestationConformitéFixture() {
     return this.#transmettreOuModifierAttestationConformitéFixture;
   }
 
+  get calculerDateAchèvementPrévisionnelFixture() {
+    return this.#calculerDateAchèvementPrévisionnelFixture;
+  }
+
   constructor() {
     this.#transmettreOuModifierAttestationConformitéFixture =
       new TransmettreOuModifierAttestationConformitéFixture();
+    this.#calculerDateAchèvementPrévisionnelFixture =
+      new CalculerDateAchèvementPrévisionnelFixture();
   }
 
   mapToExpected(
