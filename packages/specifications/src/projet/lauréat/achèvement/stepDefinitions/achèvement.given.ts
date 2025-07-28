@@ -35,9 +35,9 @@ EtantDonné(
   "une date d'achèvement prévisionnel pour le projet lauréat au {string}",
   async function (this: PotentielWorld, date: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-    const dateAchèvementPrévisionnel = DateTime.convertirEnValueType(
-      new Date(date).toISOString(),
-    ).formatter();
+    const dateAchèvementPrévisionnel = DateTime.convertirEnValueType(new Date(date).toISOString())
+      .définirHeureÀMidi()
+      .formatter();
 
     this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture.créer({
       dateAchèvementPrévisionnel,
