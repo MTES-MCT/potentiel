@@ -35,13 +35,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1.4,
-    },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.`,
-  },
   changement: {
     représentantLégal: {
       demande: true,
@@ -55,13 +48,20 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
     },
+    // NB: le ratio max de changement de puissance pour cet AO est de 1, mais l'AO en lui même ne permet pas le changement si ce CDC n'a pas été choisi, qui porte ce ratio à 1.4.
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.8,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance de 18 MW mentionnée au 1.2.1.`,
     },
     recours: {
       demande: true,
@@ -71,6 +71,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
 };
@@ -89,8 +90,6 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   // mais les projets existants ont "N/A" comme technologie, ce qui créerait une inconsistance.
   // Comme il s'agit d'un AO legacy, on utilise "eolien" pour cohérence avec l'unité de puissance ci-dessus
   technologie: 'eolien',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: 'indisponible',
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   délaiRéalisationEnMois: 24,
@@ -121,7 +120,6 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
     garantieFinanciereEnMois,
   },
-  changementPuissance: { ratios: { min: 0.8, max: 1 } },
   changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

@@ -41,23 +41,26 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    changementByTechnologie: true,
-    ratios: {
-      pv: {
-        min: 0.9,
-        max: 1.4,
+  changement: {
+    puissance: {
+      demande: true,
+      changementByTechnologie: true,
+      ratios: {
+        pv: {
+          min: 0.9,
+          max: 1.4,
+        },
+        eolien: {
+          min: 0.8,
+          max: 1.4,
+        },
+        hydraulique: {
+          min: 0.9,
+          max: 1.4,
+        },
       },
-      eolien: {
-        min: 0.8,
-        max: 1.4,
-      },
-      hydraulique: {
-        min: 0.9,
-        max: 1.4,
-      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) ou par l’autorisation environnementale de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance spécifiée au paragraphe 2.2 applicable à l’Installation.`,
     },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) ou par l’autorisation environnementale de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure à la limite de puissance spécifiée au paragraphe 2.2 applicable à l’Installation.`,
   },
 };
 
@@ -74,8 +77,6 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   // dans les faits, seulement PV pour le moment (P1 à 4), mais théoriquement possible
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -89,6 +90,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -96,6 +98,21 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      changementByTechnologie: true,
+      ratios: {
+        pv: {
+          min: 0.9,
+          max: 1.1,
+        },
+        eolien: {
+          min: 0.8,
+          max: 1.2,
+        },
+        hydraulique: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
     },
     recours: {
       demande: true,
@@ -105,6 +122,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
   délaiRéalisationEnMois: { eolien: 36, pv: 30, hydraulique: 0 },
@@ -136,23 +154,6 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
-  changementPuissance: {
-    changementByTechnologie: true,
-    ratios: {
-      pv: {
-        min: 0.9,
-        max: 1.1,
-      },
-      eolien: {
-        min: 0.8,
-        max: 1.2,
-      },
-      hydraulique: {
-        min: 0.9,
-        max: 1.1,
-      },
-    },
-  },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {

@@ -101,6 +101,8 @@ export class AbandonWord {
       throw new Error(`Aucune demande d'abandon n'a été créée dans AbandonWorld`);
     }
 
+    const ao = appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre);
+
     const expected: Lauréat.Abandon.ConsulterAbandonReadModel = {
       statut,
       identifiantProjet,
@@ -115,8 +117,9 @@ export class AbandonWord {
             }
           : undefined,
         autoritéCompétente: Lauréat.Abandon.AutoritéCompétente.convertirEnValueType(
-          appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre)!.abandon
-            .autoritéCompétente,
+          ao!.changement === 'indisponible' || !ao?.changement.abandon.demande
+            ? 'dgec'
+            : ao.changement.abandon.autoritéCompétente,
         ),
       },
     };

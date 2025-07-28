@@ -34,6 +34,7 @@ export type ValueType = {
   getRèglesChangements<TDomain extends keyof AppelOffre.RèglesDemandesChangement>(
     domaine: TDomain,
   ): AppelOffre.RèglesDemandesChangement[TDomain];
+  getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
 };
 
 export const bind = ({
@@ -72,6 +73,14 @@ export const bind = ({
       ...this.cahierDesChargesModificatif?.changement,
     };
     return règlesChangement[domaine];
+  },
+
+  getAutoritéCompétente(domaine) {
+    const règlesChangement = this.getRèglesChangements(domaine);
+    if (!règlesChangement.demande) {
+      throw new CahierDesChargesEmpêcheModificationError();
+    }
+    return règlesChangement.autoritéCompétente;
   },
 
   changementEstDisponible(typeChangement, domaine) {
@@ -113,34 +122,18 @@ export const bind = ({
     return this.appelOffre.délaiRéalisationEnMois;
   },
 
-  // TODO changementPuissance et seuilSupplémentaireChangementPuissance devraient être déplacés dans changement.puissance
   getRatiosChangementPuissance() {
     if (!this.technologie) {
       throw new TechnologieNonSpécifiéeError();
     }
-    // prendre les ratios du CDC 2022 si existants
-    if (
-      this.cahierDesChargesModificatif &&
-      AppelOffre.RéférenceCahierDesCharges.bind(this.cahierDesChargesModificatif).estCDC2022()
-    ) {
-      const seuilsCDC = this.cahierDesChargesModificatif.seuilSupplémentaireChangementPuissance;
-
-      if (seuilsCDC?.changementByTechnologie) {
-        return seuilsCDC.ratios[this.technologie];
-      } else if (seuilsCDC) {
-        return seuilsCDC.ratios;
-      }
+    const règlesPuissance = this.getRèglesChangements('puissance');
+    if (!règlesPuissance.demande) {
+      throw new CahierDesChargesEmpêcheModificationError();
     }
-
-    // sinon prendre les ratio du CDC initial par technologie
-    const { changementPuissance } = this.appelOffre;
-
-    if (changementPuissance.changementByTechnologie) {
-      return changementPuissance.ratios[this.technologie];
+    if (règlesPuissance.changementByTechnologie) {
+      return règlesPuissance.ratios[this.technologie];
     }
-
-    // sinon prendre les ratios du CDC initial
-    return changementPuissance.ratios;
+    return règlesPuissance.ratios;
   },
 
   getDonnéesCourriersRéponse(domaine) {

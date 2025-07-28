@@ -25,6 +25,23 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
 Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.3 et au 7.1, pour la mise en service peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
+  changement: {
+    puissance: {
+      demande: true,
+      ratios: {
+        min: 0.9,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé.`,
+    },
+  },
+  délaiApplicable: {
+    délaiEnMois: 18,
+    intervaleDateMiseEnService: {
+      min: new Date('2022-09-01').toISOString(),
+      max: new Date('2024-12-31').toISOString(),
+    },
+  },
 };
 
 // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
@@ -48,8 +65,6 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: {
     représentantLégal: {
       demande: true,
@@ -63,6 +78,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -70,6 +86,10 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.9,
+        max: 1.1,
+      },
     },
     recours: {
       demande: true,
@@ -79,6 +99,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
   delaiRealisationTexte: 'trente (30) mois',
@@ -108,12 +129,6 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
-  changementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.1,
-    },
-  },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
@@ -166,25 +181,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 26.46,
         },
       },
-      cahiersDesChargesModifiésDisponibles: [
-        {
-          ...CDCModifié30082022,
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01').toISOString(),
-              max: new Date('2024-12-31').toISOString(),
-            },
-          },
-          seuilSupplémentaireChangementPuissance: {
-            ratios: {
-              min: 0.9,
-              max: 1.4,
-            },
-            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé.`,
-          },
-        },
-      ],
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
     },
     {
@@ -208,25 +205,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           noteThreshold: 11.4362187267599,
         },
       },
-      cahiersDesChargesModifiésDisponibles: [
-        {
-          ...CDCModifié30082022,
-          délaiApplicable: {
-            délaiEnMois: 18,
-            intervaleDateMiseEnService: {
-              min: new Date('2022-09-01').toISOString(),
-              max: new Date('2024-12-31').toISOString(),
-            },
-          },
-          seuilSupplémentaireChangementPuissance: {
-            ratios: {
-              min: 0.9,
-              max: 1.4,
-            },
-            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé.`,
-          },
-        },
-      ],
+      cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
     },
     {
@@ -254,13 +233,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
-          seuilSupplémentaireChangementPuissance: {
-            ratios: {
-              min: 0.9,
-              max: 1.4,
-            },
-            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé.`,
-          },
+          délaiApplicable: undefined,
         },
       ],
       abandonAvecRecandidature: true,

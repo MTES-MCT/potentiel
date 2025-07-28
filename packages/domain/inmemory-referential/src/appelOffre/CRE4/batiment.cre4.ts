@@ -15,6 +15,7 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   },
   délai: {
     demande: true,
+    autoritéCompétente: 'dreal',
   },
   producteur: {
     informationEnregistrée: true,
@@ -22,6 +23,10 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   puissance: {
     informationEnregistrée: true,
     demande: true,
+    ratios: {
+      min: 0.9,
+      max: 1.1,
+    },
   },
   recours: {
     demande: true,
@@ -31,8 +36,9 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   },
   abandon: {
     demande: true,
+    autoritéCompétente: 'dgec',
   },
-} as const;
+} satisfies AppelOffre.RèglesDemandesChangement;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -59,14 +65,17 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
       max: new Date('2024-12-31').toISOString(),
     },
   },
-  seuilSupplémentaireChangementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.4,
+  changement: {
+    ...changementsCdcModifiéOuApplicablesAPartirDeP13,
+    puissance: {
+      ...changementsCdcModifiéOuApplicablesAPartirDeP13.puissance,
+      ratios: {
+        min: changementsCdcModifiéOuApplicablesAPartirDeP13.puissance.ratios.min,
+        max: 1.4,
+      },
+      paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation lorsqu’elle est requise (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant.`,
     },
-    paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre à condition qu’elles soient permises par l’autorisation d’urbanisme de l’Installation lorsqu’elle est requise (y compris si celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de la famille dans laquelle entre l’offre, le cas échéant.`,
   },
-  changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
 };
 
 export const batiment: AppelOffre.AppelOffreReadModel = {
@@ -82,8 +91,6 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 20,
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: changementsCdcModifiéOuApplicablesAPartirDeP13,
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',
@@ -101,12 +108,6 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  changementPuissance: {
-    ratios: {
-      min: 0.9,
-      max: 1.1,
-    },
-  },
   garantiesFinancières: {
     typeGarantiesFinancièresDisponibles: [
       'consignation',

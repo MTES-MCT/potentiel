@@ -24,6 +24,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     },
     délai: {
       demande: true,
+      autoritéCompétente: 'dreal',
     },
     producteur: {
       informationEnregistrée: true,
@@ -31,6 +32,10 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     puissance: {
       informationEnregistrée: true,
       demande: true,
+      ratios: {
+        min: 0.8,
+        max: 1,
+      },
     },
     recours: {
       demande: true,
@@ -40,6 +45,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     },
     abandon: {
       demande: true,
+      autoritéCompétente: 'dgec',
     },
   },
 };
@@ -56,8 +62,6 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
   technologie: 'pv',
   unitePuissance: 'MWc',
-  délai: { autoritéCompétente: 'dreal' },
-  abandon: { autoritéCompétente: 'dgec' },
   changement: 'indisponible',
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
@@ -85,12 +89,6 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
       'six-mois-après-achèvement',
       'type-inconnu',
     ],
-  },
-  changementPuissance: {
-    ratios: {
-      min: 0.8,
-      max: 1,
-    },
   },
   changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
