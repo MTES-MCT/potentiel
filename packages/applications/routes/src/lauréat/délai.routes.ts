@@ -11,7 +11,7 @@ export const détail = (identifiantProjet: string, date: DateTime.RawType) =>
 export const corriger = (identifiantProjet: string, date: DateTime.RawType) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/corriger`;
 
-export const lister = `/laureats/changements/delai`;
+export const lister = `/laureats/changements/delai?statut=demandé`;
 
 export const téléchargerModèleRéponse = (identifiantProjet: string, date: DateTime.RawType) =>
   `/laureats/${encodeParameter(identifiantProjet)}/delai/${date}/modele-reponse`;

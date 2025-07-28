@@ -18,6 +18,7 @@ import {
   getGarantiesFinancièresTypeLabel,
   getTechnologieTypeLabel,
 } from '@/app/_helpers';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 
@@ -188,8 +189,7 @@ type MapToActionsComponentsProps = {
 };
 
 const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsComponentsProps) => (
-  <>
-    <Heading2>Actions</Heading2>
+  <ActionsList actionsListLength={Object.keys(actions).length}>
     {actions.corriger && (
       <Button
         linkProps={{
@@ -243,7 +243,7 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
         Prévisualiser Attestation
       </Button>
     )}
-  </>
+  </ActionsList>
 );
 
 type FieldProps = { name: string; children: React.ReactNode };

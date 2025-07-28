@@ -11,6 +11,7 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
@@ -90,44 +91,41 @@ const mapToActionComponents = ({
   typeReprésentantLégal,
   nomReprésentantLégal,
   dateDemande,
-}: MapToActionsComponentsProps) =>
-  actions.length ? (
-    <div className="flex flex-col gap-4">
-      <Heading2>Actions</Heading2>
-
-      {actions.includes('accorder') && (
-        <AccorderChangementReprésentantLégal
-          identifiantProjet={identifiantProjet}
-          typeReprésentantLégal={typeReprésentantLégal}
-          nomReprésentantLégal={nomReprésentantLégal}
-        />
-      )}
-      {actions.includes('rejeter') && (
-        <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('annuler') && (
-        <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('corriger') && (
-        <Button
-          linkProps={{
-            href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet, dateDemande),
-            prefetch: false,
-          }}
-          className="block w-1/2 text-center"
-        >
-          Corriger
-        </Button>
-      )}
-      {actions.includes('enregistrer-changement') && (
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet),
-          }}
-        >
-          Faire une nouvelle déclaration de changement
-        </Button>
-      )}
-    </div>
-  ) : null;
+}: MapToActionsComponentsProps) => (
+  <ActionsList actionsListLength={actions.length}>
+    {actions.includes('accorder') && (
+      <AccorderChangementReprésentantLégal
+        identifiantProjet={identifiantProjet}
+        typeReprésentantLégal={typeReprésentantLégal}
+        nomReprésentantLégal={nomReprésentantLégal}
+      />
+    )}
+    {actions.includes('rejeter') && (
+      <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('annuler') && (
+      <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('corriger') && (
+      <Button
+        linkProps={{
+          href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet, dateDemande),
+          prefetch: false,
+        }}
+        className="block w-1/2 text-center"
+      >
+        Corriger
+      </Button>
+    )}
+    {actions.includes('enregistrer-changement') && (
+      <Button
+        priority="secondary"
+        linkProps={{
+          href: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet),
+        }}
+      >
+        Faire une nouvelle déclaration de changement
+      </Button>
+    )}
+  </ActionsList>
+);

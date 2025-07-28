@@ -13,6 +13,8 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ReadMore } from '@/components/atoms/ReadMore';
 
 import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
@@ -61,55 +63,57 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
         children: (
           <>
             <Heading2>Demande de délai</Heading2>
-            <div className="flex flex-col gap-4">
-              <div className="text-xs italic">
-                Demandé le{' '}
-                <FormattedDate
-                  className="font-semibold"
-                  date={DateTime.bind(demandéLe).formatter()}
-                />{' '}
-                par <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
-              </div>
-              <div className="flex gap-2">
-                <div className="font-semibold">Statut :</div>{' '}
-                <StatutDemandeDélaiBadge statut={statut} />
-              </div>
-              <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Nombre de mois demandé(s) :</div>
-                <div>{nombreDeMois} mois</div>
-              </div>
-              {accord && (
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Nombre de mois accordé(s) :</div>
-                  <div>
-                    {accord.nombreDeMois} mois pour une date d'achèvement prévisionnel au{' '}
-                    <FormattedDate
-                      date={DateTime.bind(accord.dateAchèvementPrévisionnelCalculée).formatter()}
-                    />
-                    )
-                  </div>
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-4">
+                <div className="text-xs italic">
+                  Demandé le{' '}
+                  <FormattedDate
+                    className="font-semibold"
+                    date={DateTime.bind(demandéLe).formatter()}
+                  />{' '}
+                  par <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
                 </div>
-              )}
-              <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-                <div>{raison}</div>
+                <div className="flex gap-2">
+                  <div className="font-semibold">Statut :</div>{' '}
+                  <StatutDemandeDélaiBadge statut={statut} />
+                </div>
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">Nombre de mois demandé(s) :</div>
+                  <div>{nombreDeMois} mois</div>
+                </div>
+                {accord && (
+                  <div className="flex gap-2">
+                    <div className="font-semibold whitespace-nowrap">
+                      Nombre de mois accordé(s) :
+                    </div>
+                    <div>
+                      {accord.nombreDeMois} mois pour une date d'achèvement prévisionnel au{' '}
+                      <FormattedDate
+                        date={DateTime.bind(accord.dateAchèvementPrévisionnelCalculée).formatter()}
+                      />
+                    </div>{' '}
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
+                  <ReadMore text={raison} />
+                </div>
+                <div className="flex gap-2">
+                  <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
+                  <DownloadDocument
+                    className="mb-0"
+                    label="Télécharger la pièce justificative"
+                    format={pièceJustificative.format}
+                    url={Routes.Document.télécharger(
+                      DocumentProjet.bind(pièceJustificative).formatter(),
+                    )}
+                  />
+                </div>
               </div>
-              <div className="flex gap-2">
-                <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
-                <DownloadDocument
-                  className="mb-0"
-                  label="Télécharger la pièce justificative"
-                  format={pièceJustificative.format}
-                  url={Routes.Document.télécharger(
-                    DocumentProjet.bind(pièceJustificative).formatter(),
-                  )}
-                />
+              <div className="mb-4">
+                <Heading2>Historique</Heading2>
+                <Timeline items={historique} />
               </div>
-            </div>
-
-            <div className="mb-4">
-              <Heading2>Historique</Heading2>
-              <Timeline items={historique} />
             </div>
           </>
         ),
@@ -144,43 +148,42 @@ const mapToActionComponents = ({
   actions,
   nombreDeMois,
   dateAchèvementPrévisionnelActuelle,
-}: MapToActionsComponentsProps) =>
-  actions.length > 0 ? (
-    <>
-      <Heading2>Actions</Heading2>
-      {actions.includes('annuler') && (
-        <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
-      )}
-      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-        <PasserEnInstructionDemandeDélai
-          identifiantProjet={identifiantProjet.formatter()}
-          estUneReprise={actions.includes('reprendre-instruction')}
-        />
-      )}
-      {actions.includes('rejeter') && (
-        <RejeterDemandeDélai
-          identifiantProjet={identifiantProjet.formatter()}
-          dateDemande={dateDemande.formatter()}
-        />
-      )}
-      {actions.includes('accorder') && (
-        <AccorderDemandeDélai
-          identifiantProjet={identifiantProjet.formatter()}
-          dateDemande={dateDemande.formatter()}
-          nombreDeMois={nombreDeMois}
-          dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
-        />
-      )}
-      {actions.includes('corriger') && (
-        <Button
-          linkProps={{
-            href: Routes.Délai.corriger(identifiantProjet.formatter(), dateDemande.formatter()),
-            prefetch: false,
-          }}
-          className="block w-1/2 text-center"
-        >
-          Corriger
-        </Button>
-      )}
-    </>
-  ) : null;
+}: MapToActionsComponentsProps) => (
+  <ActionsList actionsListLength={actions.length}>
+    {actions.includes('annuler') && (
+      <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
+    )}
+    {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+      <PasserEnInstructionDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+        estUneReprise={actions.includes('reprendre-instruction')}
+      />
+    )}
+    {actions.includes('rejeter') && (
+      <RejeterDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+      />
+    )}
+    {actions.includes('accorder') && (
+      <AccorderDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+        nombreDeMois={nombreDeMois}
+        dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
+      />
+    )}
+    {actions.includes('corriger') && (
+      <Button
+        linkProps={{
+          href: Routes.Délai.corriger(identifiantProjet.formatter(), dateDemande.formatter()),
+          prefetch: false,
+        }}
+        className="block w-1/2 text-center"
+      >
+        Corriger
+      </Button>
+    )}
+  </ActionsList>
+);

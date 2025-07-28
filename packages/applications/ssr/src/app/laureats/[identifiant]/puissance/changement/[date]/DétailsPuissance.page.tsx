@@ -10,6 +10,7 @@ import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';
@@ -82,29 +83,26 @@ type MapToActionsComponentsProps = {
   identifiantProjet: string;
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
-  actions.length ? (
-    <div className="flex flex-col gap-4">
-      <Heading2>Actions</Heading2>
-
-      {actions.includes('annuler') && (
-        <AnnulerChangementPuissance identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('accorder') && (
-        <AccorderChangementPuissance identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('rejeter') && (
-        <RejeterChangementPuissance identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('demander') && (
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Puissance.changement.demander(identifiantProjet),
-          }}
-        >
-          Faire une nouvelle demande de changement
-        </Button>
-      )}
-    </div>
-  ) : null;
+const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
+  <ActionsList actionsListLength={actions.length}>
+    {actions.includes('annuler') && (
+      <AnnulerChangementPuissance identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('accorder') && (
+      <AccorderChangementPuissance identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('rejeter') && (
+      <RejeterChangementPuissance identifiantProjet={identifiantProjet} />
+    )}
+    {actions.includes('demander') && (
+      <Button
+        priority="secondary"
+        linkProps={{
+          href: Routes.Puissance.changement.demander(identifiantProjet),
+        }}
+      >
+        Faire une nouvelle demande de changement
+      </Button>
+    )}
+  </ActionsList>
+);

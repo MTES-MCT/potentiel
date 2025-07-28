@@ -10,6 +10,7 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading2 } from '@/components/atoms/headings';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -123,76 +124,68 @@ type MapToActionsComponentsProps = {
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
-  actions.length ? (
-    <div className="flex flex-col gap-4">
-      <Heading2>Actions</Heading2>
-
-      {actions.includes('télécharger-attestation-désignation') && (
-        <Button
-          linkProps={{
-            href: Routes.Candidature.téléchargerAttestation(identifiantProjet),
-            prefetch: false,
-          }}
-          title={`Télécharger l'attestation de désignation`}
-          aria-label={`Télécharger l'attestation de désignation`}
-          priority="secondary"
-          iconId="fr-icon-file-download-line"
-          iconPosition="right"
-        >
-          Télécharger l'attestation de désignation
-        </Button>
-      )}
-
-      {actions.includes('faire-demande-recours') && (
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Recours.demander(identifiantProjet),
-            prefetch: false,
-          }}
-        >
-          Faire une demande de recours
-        </Button>
-      )}
-
-      {actions.includes('consulter-demande-recours') && (
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Recours.détail(identifiantProjet),
-            prefetch: false,
-          }}
-        >
-          Consulter la demande de recours
-        </Button>
-      )}
-
-      {actions.includes('modifier-candidature') && (
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Candidature.corriger(identifiantProjet),
-            prefetch: false,
-          }}
-        >
-          Modifier la candidature
-        </Button>
-      )}
-
-      {(actions.includes('gérer-accès-au-projet') ||
-        actions.includes('lister-accès-au-projet')) && (
-        <Button
-          priority="secondary"
-          linkProps={{
-            href: Routes.Utilisateur.listerPorteurs(identifiantProjet),
-            prefetch: false,
-          }}
-        >
-          {actions.includes('gérer-accès-au-projet')
-            ? 'Gérer les accès des utilisateurs au projet'
-            : 'Lister les utilisateurs ayant accès au projet'}
-        </Button>
-      )}
-    </div>
-  ) : null;
+const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
+  <ActionsList actionsListLength={actions.length}>
+    {actions.includes('télécharger-attestation-désignation') && (
+      <Button
+        linkProps={{
+          href: Routes.Candidature.téléchargerAttestation(identifiantProjet),
+          prefetch: false,
+        }}
+        title={`Télécharger l'attestation de désignation`}
+        aria-label={`Télécharger l'attestation de désignation`}
+        priority="secondary"
+        iconId="fr-icon-file-download-line"
+        iconPosition="right"
+      >
+        Télécharger l'attestation de désignation
+      </Button>
+    )}
+    {actions.includes('faire-demande-recours') && (
+      <Button
+        priority="secondary"
+        linkProps={{
+          href: Routes.Recours.demander(identifiantProjet),
+          prefetch: false,
+        }}
+      >
+        Faire une demande de recours
+      </Button>
+    )}
+    {actions.includes('consulter-demande-recours') && (
+      <Button
+        priority="secondary"
+        linkProps={{
+          href: Routes.Recours.détail(identifiantProjet),
+          prefetch: false,
+        }}
+      >
+        Consulter la demande de recours
+      </Button>
+    )}
+    {actions.includes('modifier-candidature') && (
+      <Button
+        priority="secondary"
+        linkProps={{
+          href: Routes.Candidature.corriger(identifiantProjet),
+          prefetch: false,
+        }}
+      >
+        Modifier la candidature
+      </Button>
+    )}
+    {(actions.includes('gérer-accès-au-projet') || actions.includes('lister-accès-au-projet')) && (
+      <Button
+        priority="secondary"
+        linkProps={{
+          href: Routes.Utilisateur.listerPorteurs(identifiantProjet),
+          prefetch: false,
+        }}
+      >
+        {actions.includes('gérer-accès-au-projet')
+          ? 'Gérer les accès des utilisateurs au projet'
+          : 'Lister les utilisateurs ayant accès au projet'}
+      </Button>
+    )}
+  </ActionsList>
+);
