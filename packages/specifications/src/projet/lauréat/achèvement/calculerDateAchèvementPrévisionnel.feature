@@ -42,8 +42,8 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
 
         Exemples:
             | Date de mise en service |
-            | 2023-09-10              |
             | 2022-09-01              |
+            | 2023-09-10              |
             | 2024-12-31              |
 
     Scénario: Ne pas appliquer le délai du CDC 2022 lorsqu'un projet lauréat change son cahier des charges pour celui paru le 30/08/2022

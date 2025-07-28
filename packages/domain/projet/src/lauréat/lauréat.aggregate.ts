@@ -316,7 +316,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    if (cdcAvantChoix.référence.estCDC2022() && cdcAvantChoix.délaiApplicable) {
+    if (cdcAvantChoix.délaiApplicable) {
       const { délaiEnMois, intervaleDateMiseEnService } = cdcAvantChoix.délaiApplicable;
 
       if (this.raccordement.aUneDateDeMiseEnServiceDansIntervalle(intervaleDateMiseEnService)) {
@@ -333,7 +333,7 @@ export class LauréatAggregate extends AbstractAggregate<
         this.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable,
     };
 
-    if (cdcChoisi.référence.estCDC2022() && cdcChoisi.délaiApplicable) {
+    if (cdcChoisi.délaiApplicable) {
       const { délaiEnMois, intervaleDateMiseEnService } = cdcChoisi.délaiApplicable;
 
       if (this.raccordement.aUneDateDeMiseEnServiceDansIntervalle(intervaleDateMiseEnService)) {
