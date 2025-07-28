@@ -29,17 +29,35 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | PPE2 - Neutre | eolien                | 2024-10-05        | 2027-10-04                            |
             | PPE2 - Neutre | hydraulique           | 2024-10-05        | 2027-10-04                            |
 
-    Scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat change son cahier des charges pour celui paru le 30/08/2022
+    Plan du scénario: Appliquer le délai du CDC 2022 lorsqu'un projet lauréat change son cahier des charges pour celui paru le 30/08/2022
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
-            | appel d'offre | PPE2 - Bâtiment |
-            | période       | 1               |
+            | appel d'offre     | PPE2 - Bâtiment |
+            | période           | 1               |
+            | date notification | 2019-10-30      |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
         Et une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service pour le dossier de raccordement du projet lauréat
+        Et une date de mise en service au "<Date de mise en service>" pour le dossier de raccordement du projet lauréat
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-06-30"
 
-    Scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat passe d'un cahier des charges paru le 30/08/2022 à un CDC initial
+        Exemples:
+            | Date de mise en service |
+            | 2023-09-10              |
+            | 2022-09-01              |
+            | 2024-12-31              |
+
+    Scénario: Ne pas appliquer le délai du CDC 2022 lorsqu'un projet lauréat change son cahier des charges pour celui paru le 30/08/2022
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
+            | appel d'offre     | PPE2 - Bâtiment |
+            | période           | 1               |
+            | date notification | 2019-10-30      |
+        Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
+        Et une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service au "2025-06-10" pour le dossier de raccordement du projet lauréat
+        Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
+        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2020-01-01"
+
+    Scénario: Retirer le délai du CDC 2022 lorsqu'un projet lauréat passe d'un cahier des charges paru le 30/08/2022 à un CDC initial
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
@@ -50,7 +68,7 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
         Quand le porteur choisit le cahier des charges "initial"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2020-01-01"
 
-    Scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat a une date de mise en service transmise dans l'intervalle prévu
+    Scénario: Appliquer le délai du CDC 2022 lorsqu'un projet lauréat a une date de mise en service transmise dans l'intervalle prévu par le CDC
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Bordeaux" avec :
             | appel d'offre     | PPE2 - Bâtiment |
@@ -64,7 +82,7 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | La date de mise en service | 2023-09-10 |
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-06-30"
 
-    Scénario: Ne pas calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat a une date de mise en service transmise en dehors de l'intervalle prévu
+    Scénario: Ne pas appliquer le délai du CDC 2022 lorsqu'un projet lauréat a une date de mise en service transmise en dehors de l'intervalle prévu par le CDC
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Bordeaux" avec :
             | appel d'offre | PPE2 - Bâtiment |

@@ -49,7 +49,11 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       return this.date.getTime() > dateTime.date.getTime();
     },
     estDansIntervalle(intervalle: { min: ValueType; max: ValueType }) {
-      if (this.estUltérieureÀ(intervalle.min) && this.estAntérieurÀ(intervalle.max)) {
+      if (
+        this.estÉgaleÀ(intervalle.min) ||
+        this.estÉgaleÀ(intervalle.max) ||
+        (this.estUltérieureÀ(intervalle.min) && this.estAntérieurÀ(intervalle.max))
+      ) {
         return true;
       }
 
