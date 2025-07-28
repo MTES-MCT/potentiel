@@ -35,7 +35,9 @@ export class TransmettreDateMiseEnServiceFixture
     },
   ): Readonly<TransmettreDateDeMiseEnService> {
     const fixture = {
-      dateMiseEnService: faker.date.recent().toISOString(),
+      dateMiseEnService: faker.date
+        .between({ from: new Date('2022-09-01'), to: new Date('2024-12-31') })
+        .toISOString(),
       ...partialFixture,
     };
 
