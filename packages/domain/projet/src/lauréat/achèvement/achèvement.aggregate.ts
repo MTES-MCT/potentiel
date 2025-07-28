@@ -56,7 +56,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.#dateAchèvementPrévisionnel;
   }
 
-  async calculerDateAchèvementPrévisionnel(
+  async getDateAchèvementPrévisionnelCalculée(
     options: CalculerDateAchèvementPrévisionnelOptions,
   ): Promise<DateAchèvementPrévisionnel.RawType> {
     if (!isFonctionnalitéDélaiActivée()) {
@@ -64,8 +64,6 @@ export class AchèvementAggregate extends AbstractAggregate<
         `La fonctionnalité de calcul des délais n'est pas active !`,
       );
     }
-
-    const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
 
     const duréeDélaiSupplémentaireCDC30082022 = 18;
 
@@ -89,6 +87,16 @@ export class AchèvementAggregate extends AbstractAggregate<
           .formatter(),
       )
       .exhaustive();
+
+    return date;
+  }
+
+  async calculerDateAchèvementPrévisionnel(
+    options: CalculerDateAchèvementPrévisionnelOptions,
+  ): Promise<DateAchèvementPrévisionnel.RawType> {
+    const identifiantProjet = this.lauréat.projet.identifiantProjet.formatter();
+
+    const date = await this.getDateAchèvementPrévisionnelCalculée(options);
 
     const event: DateAchèvementPrévisionnelCalculéeEvent = {
       type: 'DateAchèvementPrévisionnelCalculée-V1',

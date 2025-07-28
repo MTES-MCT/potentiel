@@ -160,7 +160,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
 
     const dateAchèvementPrévisionnelCalculée =
-      await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
+      await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
         type: 'délai-accordé',
         nombreDeMois,
       });
@@ -179,6 +179,11 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     };
 
     await this.publish(délaiAccordéEvent);
+
+    await this.parent.achèvement.calculerDateAchèvementPrévisionnel({
+      type: 'délai-accordé',
+      nombreDeMois,
+    });
   }
 
   async passerEnInstructionDemandeDélai({
