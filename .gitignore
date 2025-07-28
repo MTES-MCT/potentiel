@@ -147,5 +147,5 @@ test-results/
 # Turbo repo
 .turbo
 
-# Graphql Codegen
+# Generated Graphql client
 packages/infrastructure/ds-api-client/src/graphql/client.ts

@@ -1,23 +1,32 @@
 import { mediator } from 'mediateur';
+import { z } from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Période } from '@potentiel-domain/periode';
 
-import { ImporterDémarchesPage } from './ImporterDémarches.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-export default async function Page() {
-  const appelsOffre = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
-    type: 'AppelOffre.Query.ListerAppelOffre',
-    data: {},
+import { ImporterPériodePage } from './ImporterPériode.page';
+
+const paramsSchema = z.object({
+  reimport: z.any(),
+});
+
+type PageProps = {
+  searchParams?: Record<string, string>;
+};
+export default async function Page({ searchParams }: PageProps) {
+  return PageWithErrorHandling(async () => {
+    const { reimport } = paramsSchema.parse(searchParams);
+    const périodes = await mediator.send<Période.ListerPériodesQuery>({
+      type: 'Période.Query.ListerPériodes',
+      data: {
+        estNotifiée: reimport ? true : false,
+      },
+    });
+
+    return PageWithErrorHandling(async () => (
+      <ImporterPériodePage périodes={mapToPlainObject(périodes)} />
+    ));
   });
-  return PageWithErrorHandling(async () => (
-    <ImporterDémarchesPage
-      appelsOffre={mapToPlainObject(
-        appelsOffre.items
-          .filter((ao) => ao.cycleAppelOffre === 'PPE2')
-          .sort((ao1, ao2) => ao1.id.localeCompare(ao2.id)),
-      )}
-    />
-  ));
 }
