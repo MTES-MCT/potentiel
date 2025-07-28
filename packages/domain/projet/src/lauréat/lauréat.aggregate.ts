@@ -300,9 +300,8 @@ export class LauréatAggregate extends AbstractAggregate<
 
     const cdcAvantChoix = {
       référence: this.référenceCahierDesCharges,
-      nombreDeMois:
-        this.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable
-          ?.délaiEnMois,
+      délaiApplicable:
+        this.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable,
     };
 
     const event: CahierDesChargesChoisiEvent = {
@@ -317,25 +316,32 @@ export class LauréatAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    if (cdcAvantChoix.référence.estCDC2022() && cdcAvantChoix.nombreDeMois) {
-      return this.achèvement.calculerDateAchèvementPrévisionnel({
-        type: 'retrait-délai-cdc-30_08_2022',
-        nombreDeMois: cdcAvantChoix.nombreDeMois,
-      });
+    if (cdcAvantChoix.référence.estCDC2022() && cdcAvantChoix.délaiApplicable) {
+      const { délaiEnMois, intervaleDateMiseEnService } = cdcAvantChoix.délaiApplicable;
+
+      if (this.raccordement.aUneDateDeMiseEnServiceDansIntervalle(intervaleDateMiseEnService)) {
+        return this.achèvement.calculerDateAchèvementPrévisionnel({
+          type: 'retrait-délai-cdc-30_08_2022',
+          nombreDeMois: délaiEnMois,
+        });
+      }
     }
 
     const cdcChoisi = {
       référence: cahierDesCharges,
-      nombreDeMois:
-        this.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable
-          ?.délaiEnMois,
+      délaiApplicable:
+        this.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable,
     };
 
-    if (cdcChoisi.référence.estCDC2022() && cdcChoisi.nombreDeMois) {
-      return await this.achèvement.calculerDateAchèvementPrévisionnel({
-        type: 'ajout-délai-cdc-30_08_2022',
-        nombreDeMois: cdcChoisi.nombreDeMois,
-      });
+    if (cdcChoisi.référence.estCDC2022() && cdcChoisi.délaiApplicable) {
+      const { délaiEnMois, intervaleDateMiseEnService } = cdcChoisi.délaiApplicable;
+
+      if (this.raccordement.aUneDateDeMiseEnServiceDansIntervalle(intervaleDateMiseEnService)) {
+        return await this.achèvement.calculerDateAchèvementPrévisionnel({
+          type: 'ajout-délai-cdc-30_08_2022',
+          nombreDeMois: délaiEnMois,
+        });
+      }
     }
   }
 

@@ -140,6 +140,24 @@ export class RaccordementAggregate extends AbstractAggregate<
     return dossier;
   }
 
+  public aUneDateDeMiseEnServiceDansIntervalle(intervalle: { min: string; max: string }): boolean {
+    for (const [, dossier] of this.#dossiers.entries()) {
+      if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+        if (
+          dossier.miseEnService.dateMiseEnService.estUltérieureÀ(
+            DateTime.convertirEnValueType(new Date(intervalle.min)),
+          ) &&
+          dossier.miseEnService.dateMiseEnService.estAntérieurÀ(
+            DateTime.convertirEnValueType(new Date(intervalle.max)),
+          )
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   private aUneDateDeMiseEnService(): boolean {
     for (const [, dossier] of this.#dossiers.entries()) {
       if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {

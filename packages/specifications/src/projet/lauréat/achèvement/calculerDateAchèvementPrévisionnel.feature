@@ -34,6 +34,8 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
+        Et une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-06-30"
 
@@ -42,6 +44,8 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
+        Et une demande complète de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
         Quand le porteur choisit le cahier des charges "initial"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2020-01-01"

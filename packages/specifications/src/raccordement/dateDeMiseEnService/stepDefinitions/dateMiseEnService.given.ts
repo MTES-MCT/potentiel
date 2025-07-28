@@ -14,6 +14,7 @@ EtantDonné(
     const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
+      dateMiseEnService: new Date('2023-09-10').toISOString(),
     });
 
     try {
