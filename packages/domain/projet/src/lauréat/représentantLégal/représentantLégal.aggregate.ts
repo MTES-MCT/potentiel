@@ -65,6 +65,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 > {
   #tâchePlanifiéeGestionAutomatiqueDemandeChangement!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappelInstructionÀDeuxMois!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeSuppressionDocumentÀTroisMois!: AggregateType<TâchePlanifiéeAggregate>;
 
   async init() {
     this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement = await this.lauréat.loadTâchePlanifiée(
@@ -72,6 +73,9 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     );
     this.#tâchePlanifiéeRappelInstructionÀDeuxMois = await this.lauréat.loadTâchePlanifiée(
       TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
+    );
+    this.#tâchePlanifiéeSuppressionDocumentÀTroisMois = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeChangementReprésentantLégal.suppressionDocumentÀTroisMois.type,
     );
   }
 
@@ -236,6 +240,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.ajouter({
+      àExécuterLe: dateChangement.ajouterNombreDeMois(3),
+    });
   }
 
   async corrigerDemandeChangement({

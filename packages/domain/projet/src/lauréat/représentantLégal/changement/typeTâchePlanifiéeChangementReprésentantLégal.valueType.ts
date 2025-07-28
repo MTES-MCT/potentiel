@@ -3,6 +3,7 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 const types = [
   'représentant-légal.gestion-automatique-demande-changement',
   'représentant-légal.rappel-instruction-à-deux-mois',
+  'représentant-légal.suppression-document-à-trois-mois',
 ] as const;
 
 export type RawType = (typeof types)[number];
@@ -11,6 +12,7 @@ export type ValueType = ReadonlyValueType<{
   type: RawType;
   estGestionAutomatiqueDemandeChangement: () => boolean;
   estRappelInstructionÀDeuxMois: () => boolean;
+  estSuppressionDocumentÀTroisMois: () => boolean;
 }>;
 
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
@@ -24,6 +26,9 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
     },
     estRappelInstructionÀDeuxMois() {
       return this.type === 'représentant-légal.rappel-instruction-à-deux-mois';
+    },
+    estSuppressionDocumentÀTroisMois() {
+      return this.type === 'représentant-légal.suppression-document-à-trois-mois';
     },
   };
 };
@@ -50,6 +55,11 @@ export const gestionAutomatiqueDemandeChangement = convertirEnValueType(
 export const rappelInstructionÀDeuxMois = convertirEnValueType(
   'représentant-légal.rappel-instruction-à-deux-mois',
 );
+
+export const suppressionDocumentÀTroisMois = convertirEnValueType(
+  'représentant-légal.suppression-document-à-trois-mois',
+);
+
 export class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type de tâche planifiée ne correspond à aucune valeur connue`, {
