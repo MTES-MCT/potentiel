@@ -87,7 +87,7 @@ services:
       - 8025:8025
     profiles: ['app']
   db_test:
-    container_name: potentiel_db_tests_integration
+    # container_name: potentiel_db_tests_integration
     image: postgres:16
     volumes:
       - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
@@ -103,7 +103,7 @@ services:
     profiles: ['test']
     command: postgres -c 'max_connections=30'
   s3_test:
-    container_name: potentiel_s3_tests_integration
+    # container_name: potentiel_s3_tests_integration
     image: quay.io/minio/minio
     command: server /data --console-address ":9090"
     restart: always

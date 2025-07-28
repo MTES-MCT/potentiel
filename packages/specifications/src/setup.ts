@@ -36,6 +36,7 @@ import { getFakeContent } from './helpers/getFakeContent';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
 import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
 import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
+import { prepareEnvironment } from './environment';
 
 should();
 setWorldConstructor(PotentielWorld);
@@ -86,9 +87,12 @@ AfterStep(async function (this: PotentielWorld, { pickleStep, result, pickle }) 
   }
 });
 
-BeforeAll(async () => {
-  process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
-  process.env.S3_ENDPOINT = 'http://localhost:9001';
+BeforeAll({ timeout: 10000 }, async () => {
+  const { postgres, s3 } = await prepareEnvironment();
+
+  process.env.DATABASE_CONNECTION_STRING = `postgres://potentiel@localhost:${postgres.port}/potentiel`;
+
+  process.env.S3_ENDPOINT = `http://localhost:${s3.port}`;
   process.env.S3_BUCKET = bucketName;
   process.env.AWS_REGION = 'localhost';
   process.env.AWS_ACCESS_KEY_ID = 'minioadmin';
