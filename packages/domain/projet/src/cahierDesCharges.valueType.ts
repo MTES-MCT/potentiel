@@ -1,12 +1,7 @@
 import { match } from 'ts-pattern';
 
-import { PlainType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-
-import {
-  CahierDesChargesEmpêcheModificationError,
-  TechnologieNonSpécifiéeError,
-} from './cahierDesCharges.error';
 
 export type ValueType = {
   appelOffre: PlainType<AppelOffre.AppelOffreReadModel>;
@@ -166,3 +161,15 @@ export const bind = ({
     return { dispositions, référenceParagraphe };
   },
 });
+
+class TechnologieNonSpécifiéeError extends InvalidOperationError {
+  constructor() {
+    super("La technologie n'a pas été spécifiée");
+  }
+}
+
+class CahierDesChargesEmpêcheModificationError extends InvalidOperationError {
+  constructor() {
+    super('Le cahier des charges de ce projet ne permet pas ce changement');
+  }
+}
