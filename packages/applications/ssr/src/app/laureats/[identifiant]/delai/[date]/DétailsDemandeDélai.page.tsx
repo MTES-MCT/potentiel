@@ -14,6 +14,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ReadMore } from '@/components/atoms/ReadMore';
 
 import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
@@ -95,7 +96,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                 )}
                 <div className="flex gap-2">
                   <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-                  <div>{raison}</div>
+                  <ReadMore text={raison} />
                 </div>
                 <div className="flex gap-2">
                   <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>

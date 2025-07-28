@@ -13,7 +13,7 @@ type PageTemplateProps = {
 
 export const ActionsList: FC<PageTemplateProps> = ({ children, actionsListLength, className }) =>
   actionsListLength === 0 ? null : (
-    <div className={clsx(`flex flex-col gap-4`, className)}>
+    <div className={clsx(`flex md:flex-col gap-4 flex-wrap`, className)}>
       <Heading2>Actions</Heading2>
       {children}
     </div>

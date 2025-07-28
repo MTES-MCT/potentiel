@@ -8,9 +8,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Heading2 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { InviterPorteurForm } from '../inviter/InviterPorteur.form';
-import { ActionsList } from '../../../components/templates/ActionsList.template';
 
 import { PorteurListItem } from './PorteurListItem';
 
