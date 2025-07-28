@@ -3,8 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
-import { ReadMore } from '../../../../../components/atoms/ReadMore';
+import { ReadMore } from '@/components/atoms/ReadMore';
 
 export const mapToDélaiDemandéTimelineItemProps = (record: Lauréat.Délai.DélaiDemandéEvent) => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, nombreDeMois, raison } =
