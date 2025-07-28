@@ -59,22 +59,19 @@ type ChangementAvecAutoritéCompétente =
       autoritéCompétente: AutoritéCompétente;
     };
 
+type ChangementActionnaire = Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
+
+type RatiosChangementPuissance =
+  | { changementByTechnologie?: undefined; ratios: Ratios }
+  | { changementByTechnologie: true; ratios: Record<Technologie, Ratios> };
+
 type ChangementPuissance =
-  | {
-      demande?: undefined;
-      informationEnregistrée?: undefined;
+  | { demande?: undefined; informationEnregistrée?: undefined; paragrapheAlerte?: undefined }
+  | ({
+      demande: true;
+      informationEnregistrée?: boolean;
       paragrapheAlerte?: string;
-    }
-  | ({ demande: true; informationEnregistrée?: boolean; paragrapheAlerte?: string } & (
-      | {
-          changementByTechnologie?: undefined;
-          ratios: Ratios;
-        }
-      | {
-          changementByTechnologie: true;
-          ratios: Record<Technologie, Ratios>;
-        }
-    ));
+    } & RatiosChangementPuissance);
 
 type ChangementReprésentantLégal =
   | {
@@ -94,7 +91,7 @@ type ChangementReprésentantLégal =
     };
 
 export type RèglesDemandesChangement = {
-  actionnaire: Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
+  actionnaire: ChangementActionnaire;
   fournisseur: Changement;
   délai: ChangementAvecAutoritéCompétente;
   producteur: Changement;

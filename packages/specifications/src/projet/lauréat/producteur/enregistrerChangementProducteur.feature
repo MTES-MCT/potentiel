@@ -50,7 +50,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Et le changement enregistré du producteur du projet lauréat devrait être consultable
         Et le porteur ne doit plus avoir accès au projet lauréat
-        # à challenger, pas évident...
+        # à challenger, le projet étant achevé il ne devrait sûrement pas apparaitre dans la list des projets à réclamer...
         Et le projet lauréat est consultable dans la liste des projets à réclamer
 
     Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat si l'appel d'offre empêche un changement avant l'achèvement du projet

@@ -53,7 +53,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     producteur: {
       informationEnregistrée: true,
     },
-    // NB: le ratio max de changement de puissance pour cet AO est de 1, mais l'AO en lui même ne permet pas le changement sans un choix de ce CDC, qui porte ce ratio à 1.4.
+    // NB: le ratio max de changement de puissance pour cet AO est de 1, mais l'AO en lui même ne permet pas le changement si ce CDC n'a pas été choisi, qui porte ce ratio à 1.4.
     puissance: {
       informationEnregistrée: true,
       demande: true,
