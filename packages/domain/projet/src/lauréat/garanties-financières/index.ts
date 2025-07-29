@@ -22,3 +22,6 @@ export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motif
 export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
 export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
+
+// Saga
+export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';

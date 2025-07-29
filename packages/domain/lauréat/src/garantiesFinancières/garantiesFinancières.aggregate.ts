@@ -51,10 +51,7 @@ import {
   accorderDemandeMainlevéeGarantiesFinancières,
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
-import {
-  applyGarantiesFinancièresÉchues,
-  échoir,
-} from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
+import { applyGarantiesFinancièresÉchues } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
@@ -100,7 +97,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
   readonly validerDépôtEnCours: typeof validerDépôtEnCours;
   readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
-  readonly échoir: typeof échoir;
   readonly demanderMainlevée: typeof demanderMainlevée;
   readonly annulerDemandeMainlevée: typeof annulerDemandeMainlevée;
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
@@ -123,7 +119,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   démarrerInstructionDemandeMainlevée,
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
-  échoir,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {

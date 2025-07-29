@@ -121,8 +121,5 @@ export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 
-// Saga
-export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
-
 // utils
 export * from './_utils/appelOffreSoumisAuxGarantiesFinancières';

@@ -41,5 +41,14 @@ export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmai
     messageType: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
   });
 
+  await tâchePlanifiée.setupSubscription<
+    Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent,
+    Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.Execute
+  >({
+    name: 'garanties-financieres-tache-planifiee-saga',
+    eventType: ['TâchePlanifiéeExecutée-V1'],
+    messageType: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
+  });
+
   return tâchePlanifiée.clearSubscriptions;
 };

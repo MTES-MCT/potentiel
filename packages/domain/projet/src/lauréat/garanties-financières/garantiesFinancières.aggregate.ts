@@ -25,6 +25,7 @@ import {
   GarantiesFinancièresEnregistréesEvent,
   GarantiesFinancièresEvent,
   GarantiesFinancièresModifiéesEvent,
+  GarantiesFinancièresÉchuesEvent,
   HistoriqueGarantiesFinancièresEffacéEvent,
   TypeGarantiesFinancièresImportéEvent,
 } from './garantiesFinancières.event';
@@ -32,14 +33,19 @@ import { DemanderOptions } from './demander/demanderGarantiesFinancières.option
 import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 import { ImporterOptions } from './importer/importerGarantiesFinancières.option';
 import {
+  AttestationDeConformitéError,
   AttestationGarantiesFinancièresDéjàExistante,
   AucunesGarantiesFinancièresActuellesError,
   DateConstitutionDansLeFuturError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
+  DateÉchéanceNonPasséeError,
+  DépôtEnCoursError,
   GarantiesFinancièresDéjàEnregistréesError,
   GarantiesFinancièresDéjàLevéesError,
+  GarantiesFinancièresDéjàÉchuesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
+  GarantiesFinancièresSansÉchéanceError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error';
 import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
@@ -93,6 +99,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   #estLevé: boolean = false;
   get estLevé() {
     return this.#estLevé;
+  }
+
+  #estÉchu: boolean = false;
+  get estÉchu() {
+    return this.#estÉchu;
   }
 
   #aUneAttestation: boolean = false;
@@ -281,6 +292,42 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.ajouterTâchesPlanifiées();
   }
 
+  async échoir() {
+    this.vérifierQueLesGarantiesFinancièresActuellesExistent();
+
+    if (!this.#dateÉchéance) {
+      throw new GarantiesFinancièresSansÉchéanceError();
+    }
+
+    const now = DateTime.now();
+    if (!now.estUltérieureÀ(this.#dateÉchéance)) {
+      throw new DateÉchéanceNonPasséeError();
+    }
+
+    if (this.#estÉchu) {
+      throw new GarantiesFinancièresDéjàÉchuesError();
+    }
+
+    if (this.aUnDépôtEnCours) {
+      throw new DépôtEnCoursError();
+    }
+
+    if (this.lauréat.achèvement.estAchevé) {
+      throw new AttestationDeConformitéError();
+    }
+
+    const event: GarantiesFinancièresÉchuesEvent = {
+      type: 'GarantiesFinancièresÉchues-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dateÉchéance: this.#dateÉchéance.formatter(),
+        échuLe: now.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
     if (this.aDesGarantiesFinancières || this.aUnDépôtEnCours) {
       const event: HistoriqueGarantiesFinancièresEffacéEvent = {
@@ -389,6 +436,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         },
         this.applyAttestationGarantiesFinancièresEnregistréeV1.bind(this),
       )
+      .with(
+        { type: 'GarantiesFinancièresÉchues-V1' },
+        this.applyGarantiesFinancièresÉchuesV1.bind(this),
+      )
       .otherwise(() => {});
     // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
     // .exhaustive();
@@ -469,6 +520,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }: GarantiesFinancièresDemandéesEvent) {
     this.#motifDemande = MotifDemandeGarantiesFinancières.convertirEnValueType(motif);
     this.#dateLimiteSoumission = DateTime.convertirEnValueType(dateLimiteSoumission);
+  }
+
+  private applyGarantiesFinancièresÉchuesV1(_: GarantiesFinancièresÉchuesEvent) {
+    this.#estÉchu = true;
   }
 
   // Mainlevée

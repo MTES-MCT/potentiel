@@ -1,29 +1,23 @@
-import { GetProjetAggregateRoot } from '../..';
+import {
+  GarantiesFinancièresActuellesUseCasesDependencies,
+  registerGarantiesFinancièresActuellesQueries,
+  GarantiesFinancièresActuellesQueryDependencies,
+  registerGarantiesFinancièresActuellesUseCases,
+} from './actuelles/garantiesFinancièresActuelles.register';
 
-import { registerEnregistrerGarantiesFinancièresCommand } from './actuelles/enregistrer/enregistrerGarantiesFinancières.command';
-import { registerEnregistrerGarantiesFinancièresUseCase } from './actuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
-import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
-import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
-import { registerModifierGarantiesFinancièresCommand } from './actuelles/modifier/modifierGarantiesFinancières.command';
-import { registerModifierGarantiesFinancièresUseCase } from './actuelles/modifier/modifierGarantiesFinancières.usecase';
+export type GarantiesFinancièresQueryDependencies = GarantiesFinancièresActuellesQueryDependencies;
 
-export type GarantiesFinancièresQueryDependencies = {};
+export type GarantiesFinancièresUseCasesDependencies =
+  GarantiesFinancièresActuellesUseCasesDependencies;
 
-export type GarantiesFinancièresUseCasesDependencies = {
-  getProjetAggregateRoot: GetProjetAggregateRoot;
+export const registerGarantiesFinancièresUseCases = (
+  dependencies: GarantiesFinancièresUseCasesDependencies,
+) => {
+  registerGarantiesFinancièresActuellesUseCases(dependencies);
 };
 
-export const registerGarantiesFinancièresUseCases = ({
-  getProjetAggregateRoot,
-}: GarantiesFinancièresUseCasesDependencies) => {
-  registerModifierGarantiesFinancièresCommand(getProjetAggregateRoot);
-  registerModifierGarantiesFinancièresUseCase();
-
-  registerEnregistrerAttestationGarantiesFinancièresCommand(getProjetAggregateRoot);
-  registerEnregistrerAttestationGarantiesFinancièresUseCase();
-
-  registerEnregistrerGarantiesFinancièresCommand(getProjetAggregateRoot);
-  registerEnregistrerGarantiesFinancièresUseCase();
+export const registerGarantiesFinancièresQueries = (
+  dependencies: GarantiesFinancièresQueryDependencies,
+) => {
+  registerGarantiesFinancièresActuellesQueries(dependencies);
 };
-
-export const registerGarantiesFinancièresQueries = (_: GarantiesFinancièresQueryDependencies) => {};

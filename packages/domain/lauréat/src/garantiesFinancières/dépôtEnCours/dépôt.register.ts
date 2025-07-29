@@ -8,6 +8,7 @@ import { registerSoumettreDépôtGarantiesFinancièresUseCase } from './soumettr
 import { registerSupprimerDépôtGarantiesFinancièresEnCoursCommand } from './supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.command';
 import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.command';
 import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
+import { registerSupprimerGarantiesFinancièresÀTraiterUseCase } from './supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
 
 export const registerDépôt = (
   loadAggregate: LoadAggregate,
@@ -20,6 +21,7 @@ export const registerDépôt = (
   registerModifierDépôtGarantiesFinancièresEnCoursCommand(loadAggregate);
 
   // usecases
+  registerSupprimerGarantiesFinancièresÀTraiterUseCase();
   registerSoumettreDépôtGarantiesFinancièresUseCase();
   registerValiderDépôtGarantiesFinancièresEnCoursUseCase();
   registerModifierDépôtGarantiesFinancièresEnCoursUseCase();
