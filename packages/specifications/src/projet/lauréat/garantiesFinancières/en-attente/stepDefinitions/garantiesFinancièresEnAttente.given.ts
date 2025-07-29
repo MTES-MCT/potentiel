@@ -9,17 +9,18 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 EtantDonné(
   `des garanties financières en attente pour le projet lauréat`,
   async function (this: PotentielWorld) {
-    const dateDésignation = DateTime.convertirEnValueType(
-      this.lauréatWorld.notifierLauréatFixture.notifiéLe,
-    );
+    const { motif, dateLimiteSoumission, demandéLe } =
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.demander.créer();
 
     const event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent = {
       type: 'GarantiesFinancièresDemandées-V1',
       payload: {
         identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-        motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifInconnu.motif,
-        dateLimiteSoumission: dateDésignation.ajouterNombreDeMois(2).formatter(),
-        demandéLe: dateDésignation.formatter(),
+        motif:
+          Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif)
+            .motif,
+        dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission).formatter(),
+        demandéLe: DateTime.convertirEnValueType(demandéLe).formatter(),
       },
     };
     await publish(`garanties-financieres|${event.payload.identifiantProjet}`, event);

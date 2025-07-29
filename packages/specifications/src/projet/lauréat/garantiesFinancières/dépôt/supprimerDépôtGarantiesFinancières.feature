@@ -7,9 +7,6 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
 
     Plan du Scénario: Un porteur supprime un dépôt de garanties financières avec une date limite de soumission
         Etant donné des garanties financières en attente pour le projet lauréat
-            | date limite de soumission | 2023-11-01 |
-            | date de notification      | 2023-09-01 |
-            | motif                     | <motif>    |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF              | <type GF>              |
             | date d'échéance      | <date d'échéance>      |
@@ -20,9 +17,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | soumis par           | porteur@test.test      |
         Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Et des garanties financières devraient être attendues pour le projet lauréat avec :
-            | date limite de soumission | 2023-11-01 |
-            | motif                     | <motif>    |
+        Et des garanties financières devraient être attendues pour le projet lauréat
 
         Exemples:
             | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | motif                                    |
