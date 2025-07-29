@@ -1,11 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
@@ -19,9 +18,8 @@ export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
 >;
 
 export const registerEnregistrerAttestationGarantiesFinancièresCommand = (
-  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const handler: MessageHandler<EnregistrerAttestationGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     attestation,
@@ -29,9 +27,9 @@ export const registerEnregistrerAttestationGarantiesFinancièresCommand = (
     enregistréLe,
     enregistréPar,
   }) => {
-    const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    await garantiesFinancières.enregistrerAttestation({
-      identifiantProjet,
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+
+    await projet.lauréat.garantiesFinancières.enregistrerAttestation({
       attestation,
       dateConstitution,
       enregistréLe,

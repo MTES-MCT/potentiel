@@ -55,3 +55,9 @@ export class DateConstitutionDansLeFuturError extends InvalidOperationError {
     super(`La date de constitution des garanties financières ne peut pas être une date future`);
   }
 }
+
+export class AttestationGarantiesFinancièresDéjàExistante extends InvalidOperationError {
+  constructor() {
+    super(`Il y a déjà une attestation pour ces garanties financières`);
+  }
+}

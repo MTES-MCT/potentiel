@@ -1,6 +1,7 @@
 # language: fr
 @garanties-financières
 @garanties-financières-actuelles
+@select
 Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
 
     Contexte:

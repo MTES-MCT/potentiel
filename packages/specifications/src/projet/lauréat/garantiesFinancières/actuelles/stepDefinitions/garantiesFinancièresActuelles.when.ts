@@ -62,13 +62,15 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
-        data: setGarantiesFinancièresData({
-          identifiantProjet,
-          exemple,
-        }),
-      });
+      await mediator.send<Lauréat.GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
+          data: setGarantiesFinancièresData({
+            identifiantProjet,
+            exemple,
+          }),
+        },
+      );
     } catch (error) {
       this.error = error as Error;
     }

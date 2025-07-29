@@ -1,11 +1,14 @@
+import { EnregistrerAttestationGarantiesFinancièresUseCase } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresUseCase } from './actuelles/modifier/modifierGarantiesFinancières.usecase';
 
 // Events
 export * from './garantiesFinancières.event';
 
 // UseCases
-export type GarantiesFinancièresUseCases = ModifierGarantiesFinancièresUseCase;
-export { ModifierGarantiesFinancièresUseCase };
+export type GarantiesFinancièresUseCases =
+  | ModifierGarantiesFinancièresUseCase
+  | EnregistrerAttestationGarantiesFinancièresUseCase;
+export { ModifierGarantiesFinancièresUseCase, EnregistrerAttestationGarantiesFinancièresUseCase };
 
 // Value types
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';

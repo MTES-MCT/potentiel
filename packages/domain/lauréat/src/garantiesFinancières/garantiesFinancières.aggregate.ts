@@ -33,10 +33,7 @@ import {
   applyEnregistrerGarantiesFinancières,
 } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
 import { applyModifierGarantiesFinancières } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.behavior';
-import {
-  enregistrerAttestation,
-  applyEnregistrerAttestationGarantiesFinancières,
-} from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
+import { applyEnregistrerAttestationGarantiesFinancières } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 import {
   applyMainlevéeGarantiesFinancièresDemandée,
   demanderMainlevée,
@@ -106,7 +103,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
   readonly validerDépôtEnCours: typeof validerDépôtEnCours;
   readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
-  readonly enregistrerAttestation: typeof enregistrerAttestation;
   readonly enregistrer: typeof enregistrer;
   readonly échoir: typeof échoir;
   readonly demanderMainlevée: typeof demanderMainlevée;
@@ -126,7 +122,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   validerDépôtEnCours,
   modifierDépôtGarantiesFinancièresEnCours,
 
-  enregistrerAttestation,
   enregistrer,
 
   demanderMainlevée,
