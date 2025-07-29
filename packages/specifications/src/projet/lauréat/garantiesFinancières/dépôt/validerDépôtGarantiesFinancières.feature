@@ -6,10 +6,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
 
     Plan du Scénario: Valide un dépôt de garanties financières
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01    |
-            | date de notification      | 2023-09-01    |
-            | motif                     | motif-inconnu |
+        Etant donné des garanties financières en attente pour le projet lauréat
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF              | <type GF>              |
             | date d'échéance      | <date d'échéance>      |
@@ -20,13 +17,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | soumis par           | porteur@test.test      |
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | <date de validation> |
-        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
-            | type GF              | <type GF>              |
-            | date d'échéance      | <date d'échéance>      |
-            | format               | <format du fichier>    |
-            | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
-            | date de validation   | <date de validation>   |
+        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
 
         Exemples:
@@ -75,10 +66,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
     Scénario: Impossible de valider un dépôt de garanties financières si aucune dépôt n'est trouvé
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01    |
-            | date de notification      | 2023-09-01    |
-            | motif                     | motif-inconnu |
+        Etant donné des garanties financières en attente pour le projet lauréat
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | date de validation | 2023-09-02 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"

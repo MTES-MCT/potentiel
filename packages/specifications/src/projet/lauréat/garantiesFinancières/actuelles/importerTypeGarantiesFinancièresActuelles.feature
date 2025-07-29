@@ -9,9 +9,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
         Quand un admin importe le type des garanties financières actuelles pour le projet avec :
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
-        Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
-            | type GF         | <type GF>         |
-            | date d'échéance | <date d'échéance> |
+        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
         Exemples:
             | type GF                   | AO                       | date d'échéance |

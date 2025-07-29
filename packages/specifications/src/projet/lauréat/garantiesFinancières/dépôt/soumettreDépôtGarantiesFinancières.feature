@@ -7,10 +7,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Et un cahier des charges permettant la modification du projet
 
     Plan du Scénario: Un porteur soumet un dépôt de garanties financières
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01    |
-            | date de notification      | 2023-09-01    |
-            | motif                     | motif-inconnu |
+        Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF              | <type GF>              |
             | date d'échéance      | <date d'échéance>      |

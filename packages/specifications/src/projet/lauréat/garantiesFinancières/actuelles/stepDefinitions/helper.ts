@@ -3,6 +3,7 @@ import {
   SetCommonGarantiesFinancièresDataProps,
 } from '../../helper';
 
+/** @deprecated use fixtures */
 export const setGarantiesFinancièresData = ({
   identifiantProjet,
   exemple,

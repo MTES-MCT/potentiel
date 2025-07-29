@@ -12,7 +12,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Quand un admin échoie les garanties financières actuelles pour le projet lauréat
         Alors les garanties financières actuelles du projet "Du boulodrome de Marseille" sont échues
         Et un email a été envoyé au porteur avec :
             | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
@@ -46,7 +46,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si il n'y a pas de garanties financières actuelles pour ce projet
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières actuelles pour ce projet"
@@ -56,7 +56,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-16 |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières n'est pas encore passée"
@@ -66,7 +66,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-17 |
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières n'est pas encore passée"
@@ -76,7 +76,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Les garanties financières du projet sont déjà échues"
@@ -87,7 +87,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Le projet dispose d'un dépôt de garanties financières en attente de validation, ce qui empêche de pouvoir échoir ses garanties financières"
@@ -98,7 +98,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et une attestation de conformité transmise pour le projet lauréat
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |
         Alors l'utilisateur devrait être informé que "Le projet dispose d'une attestation de conformité, ce qui empêche de pouvoir échoir ses garanties financières"

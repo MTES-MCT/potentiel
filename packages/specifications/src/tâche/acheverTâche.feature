@@ -5,10 +5,7 @@ Fonctionnalité: Achever une tâche
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
 
     Scénario: Une tâche est achevée lorsqu'un dépot de garanties financières est soumis pour un projet en attente de garanties financières
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01    |
-            | date de notification      | 2023-09-01    |
-            | motif                     | motif-inconnu |
+        Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF              | consignation          |
             | format               | application/pdf       |
@@ -19,11 +16,8 @@ Fonctionnalité: Achever une tâche
         Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Une tâche est achevée lorsque les garanties financières sont enregistrées pour un projet en attente de garanties financières
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01    |
-            | date de notification      | 2023-09-01    |
-            | motif                     | motif-inconnu |
-        Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières en attente pour le projet lauréat
+        Quand un porteur enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF              | consignation    |
             | format               | application/pdf |
             | contenu fichier      | contenu fichier |

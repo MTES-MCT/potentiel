@@ -6,7 +6,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
 
     Plan du Scénario: Un porteur supprime un dépôt de garanties financières avec une date limite de soumission
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières en attente pour le projet lauréat
             | date limite de soumission | 2023-11-01 |
             | date de notification      | 2023-09-01 |
             | motif                     | <motif>    |
@@ -74,9 +74,6 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
     Scénario: Impossible de supprimer des garanties financières en attente de validation s'il n'y a pas de dépôt de garanties financières
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01    |
-            | date de notification      | 2023-09-01    |
-            | motif                     | motif-inconnu |
+        Etant donné des garanties financières en attente pour le projet lauréat
         Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"
