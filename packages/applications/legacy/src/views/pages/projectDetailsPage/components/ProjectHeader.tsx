@@ -24,6 +24,11 @@ export type ProjectHeaderProps = {
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
+  délaiAffichage?: {
+    label?: string;
+    labelActions: string;
+    url: string;
+  };
   features: Array<string>;
 };
 
@@ -39,6 +44,7 @@ export const ProjectHeader = ({
   actionnaireAffichage,
   producteurAffichage,
   fournisseurAffichage,
+  délaiAffichage,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -75,6 +81,7 @@ export const ProjectHeader = ({
         actionnaireAffichage={actionnaireAffichage}
         producteurAffichage={producteurAffichage}
         fournisseurAffichage={fournisseurAffichage}
+        délaiAffichage={délaiAffichage}
         features={user.features}
       />
     </div>

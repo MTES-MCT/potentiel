@@ -43,7 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
             itemsPerPage: 10,
           }),
-          statut,
+          statuts: statut ? [statut] : undefined,
           appelOffre,
           nomProjet,
         },
