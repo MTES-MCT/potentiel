@@ -70,10 +70,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => false,
     }))
-    .with({ type: { type: 'six-mois-après-achèvement' } }, ({ type: { type } }) => ({
+    .with({ type: { type: 'six-mois-après-achèvement' } }, () => ({
       type: TypeGarantiesFinancières.sixMoisAprèsAchèvement,
-      estÉgaleÀ: (valueType) => valueType.type.type === type,
-      formatter: () => ({ type }),
+      estÉgaleÀ: (valueType) => valueType.type.type === 'six-mois-après-achèvement',
+      formatter: () => ({ type: 'six-mois-après-achèvement' }),
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => false,
     }))
