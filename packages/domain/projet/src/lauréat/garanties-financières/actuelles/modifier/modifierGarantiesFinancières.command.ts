@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { TypeGarantiesFinancières } from '../../../../candidature';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
@@ -15,7 +14,7 @@ export type ModifierGarantiesFinancièresCommand = Message<
     dateÉchéance?: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
-    modifiéPar: IdentifiantUtilisateur.ValueType;
+    modifiéPar: Email.ValueType;
     modifiéLe: DateTime.ValueType;
   }
 >;

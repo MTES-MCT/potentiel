@@ -1,5 +1,4 @@
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { TypeGarantiesFinancières } from '../../../../candidature';
 
@@ -13,5 +12,5 @@ export type ModifierActuellesOptions = {
   /** @deprecated replace with GarantiesFinancières.ValueType ? */
   dateConstitution: DateTime.ValueType;
   modifiéLe: DateTime.ValueType;
-  modifiéPar: IdentifiantUtilisateur.ValueType;
+  modifiéPar: Email.ValueType;
 };

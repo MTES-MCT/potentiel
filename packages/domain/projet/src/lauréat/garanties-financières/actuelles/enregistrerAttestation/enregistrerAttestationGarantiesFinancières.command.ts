@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
@@ -12,7 +11,7 @@ export type EnregistrerAttestationGarantiesFinancièresCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
-    enregistréPar: IdentifiantUtilisateur.ValueType;
+    enregistréPar: Email.ValueType;
     enregistréLe: DateTime.ValueType;
   }
 >;
