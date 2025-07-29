@@ -63,7 +63,12 @@ type ProjectDetailsProps = {
   coefficientKChoisi: boolean | undefined;
   emailContact: string;
   fournisseur: MaterielsEtTechnologiesProps['fournisseur'];
-  délai: { affichage: boolean };
+  délai: {
+    affichage?: {
+      labelActions: string;
+      url: string;
+    };
+  };
 };
 
 export const ProjectDetails = ({

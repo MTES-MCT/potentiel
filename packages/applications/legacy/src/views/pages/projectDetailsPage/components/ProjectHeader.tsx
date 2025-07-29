@@ -24,7 +24,10 @@ export type ProjectHeaderProps = {
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
-  délaiAffichage: boolean;
+  délaiAffichage?: {
+    labelActions: string;
+    url: string;
+  };
   features: Array<string>;
 };
 
