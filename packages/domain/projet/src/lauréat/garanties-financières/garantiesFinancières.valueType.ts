@@ -146,7 +146,7 @@ export const convertirEnValueType = ({
       bind({
         type: { type },
         dateÉchéance: {
-          date: vérifierDateDélibération(dateÉchéance).formatter(),
+          date: vérifierDateÉchéance(dateÉchéance).formatter(),
         },
       }),
     )
