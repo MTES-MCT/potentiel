@@ -49,7 +49,7 @@ export const getDélai = async (
         affichage: {
           label: 'Voir la demande de délai',
           labelActions: 'Demander un délai',
-          url: Routes.Actionnaire.changement.détails(
+          url: Routes.Délai.détail(
             identifiantProjet.formatter(),
             demandeEnCours.demandéLe.formatter(),
           ),

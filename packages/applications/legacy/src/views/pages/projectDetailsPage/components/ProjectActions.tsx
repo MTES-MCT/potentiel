@@ -158,7 +158,7 @@ const PorteurProjetActions = ({
                 href={délaiAffichage.url}
                 disabled={demandesDisabled}
               >
-                <span>{délaiAffichage.labelActions}</span>
+                <span>{délaiAffichage.label ?? délaiAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {peutDemanderAbandonOuAchèvement && (

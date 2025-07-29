@@ -240,6 +240,7 @@ v1Router.get(
       const délai = await getDélai(
         identifiantProjetValueType,
         project.id,
+        user.email,
         user.role,
         user.features,
       );
