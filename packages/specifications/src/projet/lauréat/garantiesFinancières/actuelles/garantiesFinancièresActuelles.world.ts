@@ -1,5 +1,6 @@
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
 import { FieldToExempleMapper, mapDateTime, mapToExemple } from '../../../../helpers/mapToExemple';
@@ -42,12 +43,29 @@ export class GarantiesFinancièresActuellesWorld {
       .filter((action) => action.aÉtéCréé)
       .sort((a, b) => a.enregistréLe.localeCompare(b.enregistréLe));
 
+    const { dépôtValue: dépôtCandidature } =
+      this.garantiesFinancièresWorld.lauréatWorld.candidatureWorld.importerCandidature;
+    const { notifiéLe } = this.garantiesFinancièresWorld.lauréatWorld.notifierLauréatFixture;
+
+    const { typeGarantiesFinancières, dateÉchéanceGf } = dépôtCandidature;
+
+    const valeurImport = typeGarantiesFinancières
+      ? ({
+          type: Candidature.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières),
+          dateÉchéance: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
+          statut: GarantiesFinancières.StatutGarantiesFinancières.validé,
+          dernièreMiseÀJour: {
+            date: DateTime.convertirEnValueType(notifiéLe),
+          },
+        } satisfies GarantiesFinancières.GarantiesFinancièresReadModel)
+      : ({} as GarantiesFinancières.GarantiesFinancièresReadModel);
+
     const garantiesFinancières = actions.reduce(
       (prev, curr) => ({
         ...prev,
         ...curr.mapToExpected(),
       }),
-      {} as GarantiesFinancières.GarantiesFinancièresReadModel,
+      valeurImport,
     );
     return {
       identifiantProjet,

@@ -7,6 +7,4 @@ export class GarantiesFinancièresWorld {
   constructor(public readonly lauréatWorld: LauréatWorld) {
     this.actuelles = new GarantiesFinancièresActuellesWorld(this);
   }
-
-  mapToExpected() {}
 }

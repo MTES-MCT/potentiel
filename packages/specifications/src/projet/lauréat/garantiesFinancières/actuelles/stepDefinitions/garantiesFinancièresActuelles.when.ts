@@ -4,40 +4,12 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { corrigerCandidature } from '../../../../../candidature/stepDefinitions/candidature.when';
-import { notifierLauréat } from '../../../stepDefinitions/lauréat.given';
 
 import {
   enregistrerAttestation,
   enregistrerGarantiesFinancièresActuelles,
   modifierGarantiesFinancièresActuelles,
 } from './garantiesFinancièresActuelles.given';
-
-Quand(
-  `un admin importe le type des garanties financières actuelles pour le projet avec :`,
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    const dateDésignation = exemple["date d'import"]
-      ? new Date(exemple["date d'import"]).toISOString()
-      : new Date().toISOString();
-
-    try {
-      // cela mettra à jour l'aggrégat candidature avec les bonnes données avant notification si nécessaire
-      if (
-        exemple['type GF'] !==
-        this.candidatureWorld.importerCandidature.values.typeGarantiesFinancièresValue
-      ) {
-        await corrigerCandidature.call(this, exemple);
-      }
-
-      // cela déclenchera l'import des GFs iso prod
-      await notifierLauréat.call(this, dateDésignation);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
 
 Quand(
   `un admin modifie les garanties financières actuelles du projet lauréat avec :`,
