@@ -86,7 +86,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
     }))
     .with({ type: { type: 'avec-date-échéance' } }, ({ dateÉchéance }) => ({
       type: TypeGarantiesFinancières.avecDateÉchéance,
-      dateÉchéance: vérifierDate(dateÉchéance?.date, DateÉchéanceGarantiesFinancièresRequiseError),
+      dateÉchéance: vérifierDateÉchéance(dateÉchéance?.date),
       estÉgaleÀ(valueType: ValueType) {
         const raw = valueType.formatter();
         return raw.type === 'avec-date-échéance' && raw.dateÉchéance === dateÉchéance.date;
@@ -94,10 +94,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       formatter() {
         return {
           type: 'avec-date-échéance',
-          dateÉchéance: vérifierDate(
-            dateÉchéance?.date,
-            DateÉchéanceGarantiesFinancièresRequiseError,
-          ).formatter(),
+          dateÉchéance: vérifierDateÉchéance(dateÉchéance?.date).formatter(),
         };
       },
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => true,
@@ -105,7 +102,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
     }))
     .with({ type: { type: 'exemption' } }, ({ dateDélibération }) => ({
       type: TypeGarantiesFinancières.exemption,
-      dateDélibération: vérifierDate(dateDélibération?.date, DateDélibérationRequiseError),
+      dateDélibération: vérifierDateDélibération(dateDélibération?.date),
       estÉgaleÀ(valueType: ValueType) {
         const raw = valueType.formatter();
         return raw.type === 'exemption' && raw.dateDélibération === dateDélibération.date;
@@ -113,10 +110,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       formatter() {
         return {
           type: 'exemption',
-          dateDélibération: vérifierDate(
-            dateDélibération?.date,
-            DateDélibérationRequiseError,
-          ).formatter(),
+          dateDélibération: vérifierDateDélibération(dateDélibération?.date).formatter(),
         };
       },
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
@@ -152,10 +146,7 @@ export const convertirEnValueType = ({
       bind({
         type: { type },
         dateÉchéance: {
-          date: vérifierDate(
-            dateÉchéance,
-            DateÉchéanceGarantiesFinancièresRequiseError,
-          ).formatter(),
+          date: vérifierDateDélibération(dateÉchéance).formatter(),
         },
       }),
     )
@@ -163,7 +154,7 @@ export const convertirEnValueType = ({
       bind({
         type: { type },
         dateDélibération: {
-          date: vérifierDate(dateDélibération, DateDélibérationRequiseError).formatter(),
+          date: vérifierDateDélibération(dateDélibération).formatter(),
         },
       }),
     )
@@ -173,9 +164,16 @@ export const convertirEnValueType = ({
     .exhaustive();
 };
 
-const vérifierDate = (date: string | undefined, Erreur: new () => Error) => {
+const vérifierDateÉchéance = (date: string | undefined) => {
   if (!date) {
-    throw new Erreur();
+    throw new DateÉchéanceGarantiesFinancièresRequiseError();
+  }
+  return DateTime.convertirEnValueType(date);
+};
+
+const vérifierDateDélibération = (date: string | undefined) => {
+  if (!date) {
+    throw new DateDélibérationRequiseError();
   }
   return DateTime.convertirEnValueType(date);
 };
