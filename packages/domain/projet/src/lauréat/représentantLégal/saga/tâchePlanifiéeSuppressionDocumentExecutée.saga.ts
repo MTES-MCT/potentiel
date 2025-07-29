@@ -6,15 +6,34 @@ import { TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
 import { Lauréat } from '../../..';
 import { SupprimerDocumentProjetSensibleCommand } from '../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
+// comment savoir de quels documents il s'agit ?
 export const tâchePlanifiéeSuppressionDocumentExecutéeSaga = async ({
-  payload: { identifiantProjet, typeTâchePlanifiée },
+  payload: { identifiantProjet, typeTâchePlanifiée, mis },
 }: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent) => {
   if (
     typeTâchePlanifiée !==
-    TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type
+    TypeTâchePlanifiéeChangementReprésentantLégal.suppressionDocumentÀTroisMois.type
   ) {
     return;
   }
+
+  const tâchePlanifiée = await mediator.send<Lauréat.TâchePlanifiée.ListerTâchesPlanifiéesQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+    data: {
+      identifiantProjet,
+      demandéLe: 
+      
+    }
+  })
+
+  const informationEnregistrée = await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+    data: {
+      identifiantProjet,
+      demandéLe: 
+      
+    }
+  })
 
   const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
     type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
