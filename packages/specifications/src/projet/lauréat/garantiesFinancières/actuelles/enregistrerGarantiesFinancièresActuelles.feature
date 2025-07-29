@@ -99,7 +99,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
             | enregistré par  | admin@test.test   |
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner de date d'échéance pour ce type de garanties financières"
+        Alors l'utilisateur devrait être informé que "La date d'échéance pour ce type de garanties financières ne peut être renseignée"
 
         Exemples:
             | type GF                   | date d'échéance |
@@ -111,7 +111,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | type GF         | avec-date-échéance |
             | date d'échéance |                    |
             | enregistré par  | admin@test.test    |
-        Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
+        Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
     Scénario: Impossible d'enregister des garanties financières actuelles si la date de constitution est dans le futur
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :

@@ -37,12 +37,14 @@ import {
   DateConstitutionDansLeFuturError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
+  GarantiesFinancièresDéjàEnregistréesError,
   GarantiesFinancièresDéjàLevéesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error';
 import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
 import { EnregistrerAttestationOptions } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.options';
+import { EnregisterOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -88,9 +90,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.#aUnDépôtEnCours;
   }
 
-  #sontLevées: boolean = false;
-  get sontLevées() {
-    return this.#sontLevées;
+  #estLevé: boolean = false;
+  get estLevé() {
+    return this.#estLevé;
   }
 
   #aUneAttestation: boolean = false;
@@ -130,7 +132,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private vérifierSiLesGarantiesFinancièresSontLevées() {
-    if (this.sontLevées) {
+    if (this.estLevé) {
       throw new GarantiesFinancièresDéjàLevéesError();
     }
   }
@@ -246,6 +248,37 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+  }
+
+  async enregistrer({
+    attestation,
+    dateConstitution,
+    type,
+    dateÉchéance,
+    enregistréLe,
+    enregistréPar,
+  }: EnregisterOptions) {
+    if (this.aDesGarantiesFinancières) {
+      throw new GarantiesFinancièresDéjàEnregistréesError();
+    }
+    this.vérifierSiLaDateÉchéanceEstValide(type, dateÉchéance);
+    this.vérifierSiLaDateDeConsitutionEstValide(dateConstitution);
+
+    const event: GarantiesFinancièresEnregistréesEvent = {
+      type: 'GarantiesFinancièresEnregistrées-V1',
+      payload: {
+        attestation: { format: attestation.format },
+        dateConstitution: dateConstitution.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        type: type.type,
+        dateÉchéance: dateÉchéance?.formatter(),
+        enregistréLe: enregistréLe.formatter(),
+        enregistréPar: enregistréPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+    await this.ajouterTâchesPlanifiées();
   }
 
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
@@ -443,12 +476,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   private applyDemandeMainlevéeGarantiesFinancièresAccordéeV1(
     _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
   ) {
-    // if (this.demandeMainlevéeEnCours) {
-    //   this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.accordé;
-    // } else {
-    //   this.demandeMainlevéeEnCours = { statut: StatutMainlevéeGarantiesFinancières.accordé };
-    // }
-    this.#sontLevées = true;
+    this.#estLevé = true;
   }
 
   private applyAttestationGarantiesFinancièresEnregistréeV1(

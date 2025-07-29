@@ -1,5 +1,7 @@
 import { GetProjetAggregateRoot } from '../..';
 
+import { registerEnregistrerGarantiesFinancièresCommand } from './actuelles/enregistrer/enregistrerGarantiesFinancières.command';
+import { registerEnregistrerGarantiesFinancièresUseCase } from './actuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
 import { registerEnregistrerAttestationGarantiesFinancièresCommand } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.command';
 import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { registerModifierGarantiesFinancièresCommand } from './actuelles/modifier/modifierGarantiesFinancières.command';
@@ -19,6 +21,9 @@ export const registerGarantiesFinancièresUseCases = ({
 
   registerEnregistrerAttestationGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerEnregistrerAttestationGarantiesFinancièresUseCase();
+
+  registerEnregistrerGarantiesFinancièresCommand(getProjetAggregateRoot);
+  registerEnregistrerGarantiesFinancièresUseCase();
 };
 
 export const registerGarantiesFinancièresQueries = (_: GarantiesFinancièresQueryDependencies) => {};

@@ -261,7 +261,7 @@ void (async () => {
         continue;
       }
 
-      await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
+      await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

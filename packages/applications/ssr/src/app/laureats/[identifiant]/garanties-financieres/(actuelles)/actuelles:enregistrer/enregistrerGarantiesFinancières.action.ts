@@ -3,8 +3,8 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -31,7 +31,7 @@ export type EnregistrerGarantiesFinancièresFormKeys = keyof zod.infer<typeof sc
 
 const action: FormAction<FormState, typeof schema> = async (_, props) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
+    await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
       data: {
         identifiantProjetValue: props.identifiantProjet,

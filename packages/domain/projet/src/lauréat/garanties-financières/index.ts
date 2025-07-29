@@ -1,3 +1,4 @@
+import { EnregistrerGarantiesFinancièresUseCase } from './actuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
 import { ModifierGarantiesFinancièresUseCase } from './actuelles/modifier/modifierGarantiesFinancières.usecase';
 
@@ -7,8 +8,13 @@ export * from './garantiesFinancières.event';
 // UseCases
 export type GarantiesFinancièresUseCases =
   | ModifierGarantiesFinancièresUseCase
-  | EnregistrerAttestationGarantiesFinancièresUseCase;
-export { ModifierGarantiesFinancièresUseCase, EnregistrerAttestationGarantiesFinancièresUseCase };
+  | EnregistrerAttestationGarantiesFinancièresUseCase
+  | EnregistrerGarantiesFinancièresUseCase;
+export {
+  ModifierGarantiesFinancièresUseCase,
+  EnregistrerAttestationGarantiesFinancièresUseCase,
+  EnregistrerGarantiesFinancièresUseCase,
+};
 
 // Value types
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
