@@ -63,8 +63,8 @@ export default async function Page({ params }: PageProps) {
         estLauréat={props.estLauréat}
         champsSupplémentaires={props.champsSupplémentaires}
         unitéPuissance={props.unitéPuissance}
-        typesActionnariat={props.typesActionnariat}
-        typesGarantiesFinancières={props.typesGarantiesFinancières}
+        typesActionnariatDisponibles={props.typesActionnariatDisponibles}
+        typesGarantiesFinancièresDisponibles={props.typesGarantiesFinancièresDisponibles}
       />
     );
   });
@@ -111,7 +111,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
   estLauréat: Option.isSome(lauréat),
   unitéPuissance: candidature.unitéPuissance.formatter(),
   champsSupplémentaires: cahierDesCharges.getChampsSupplémentaires(),
-  typesActionnariat: cahierDesCharges.getTypesActionnariat(),
-  typesGarantiesFinancières:
+  typesActionnariatDisponibles: cahierDesCharges.getTypesActionnariat(),
+  typesGarantiesFinancièresDisponibles:
     cahierDesCharges.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles,
 });

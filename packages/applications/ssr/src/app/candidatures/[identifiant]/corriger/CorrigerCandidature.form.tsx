@@ -34,14 +34,14 @@ export type CorrigerCandidatureFormProps = {
   aUneAttestation: boolean;
   unitéPuissance: string;
   champsSupplémentaires: AppelOffre.ChampsSupplémentairesCandidature;
-  typesGarantiesFinancières: Candidature.TypeGarantiesFinancières.RawType[];
-  typesActionnariat: Candidature.TypeActionnariat.RawType[];
+  typesGarantiesFinancièresDisponibles: Candidature.TypeGarantiesFinancières.RawType[];
+  typesActionnariatDisponibles: Candidature.TypeActionnariat.RawType[];
 };
 
 export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = ({
   candidature,
-  typesGarantiesFinancières,
-  typesActionnariat,
+  typesGarantiesFinancièresDisponibles,
+  typesActionnariatDisponibles,
   estNotifiée,
   aUneAttestation,
   unitéPuissance,
@@ -176,7 +176,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Type d'actionnariat (optionnel)"
         options={[
           { label: 'Aucun', value: '' },
-          ...typesActionnariat.map((type) => ({
+          ...typesActionnariatDisponibles.map((type) => ({
             label: getActionnariatTypeLabel(type),
             value: type,
           })),
@@ -346,7 +346,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             state={validationErrors['typeGarantiesFinancieres'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['typeGarantiesFinancieres']}
             label="Type de Garanties Financières"
-            options={typesGarantiesFinancières.map((type) => ({
+            options={typesGarantiesFinancièresDisponibles.map((type) => ({
               value: type,
               label: getGarantiesFinancièresTypeLabel(type),
             }))}

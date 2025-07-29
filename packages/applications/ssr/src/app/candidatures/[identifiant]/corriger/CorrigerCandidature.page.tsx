@@ -24,8 +24,8 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
   estLauréat,
   champsSupplémentaires,
   unitéPuissance,
-  typesActionnariat,
-  typesGarantiesFinancières,
+  typesActionnariatDisponibles,
+  typesGarantiesFinancièresDisponibles,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(candidature.identifiantProjet);
 
@@ -53,8 +53,8 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
             aUneAttestation={aUneAttestation}
             champsSupplémentaires={champsSupplémentaires}
             unitéPuissance={unitéPuissance}
-            typesActionnariat={typesActionnariat}
-            typesGarantiesFinancières={typesGarantiesFinancières}
+            typesActionnariatDisponibles={typesActionnariatDisponibles}
+            typesGarantiesFinancièresDisponibles={typesGarantiesFinancièresDisponibles}
           />
         ),
       }}
