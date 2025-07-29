@@ -35,3 +35,23 @@ export class TypeGarantiesFinancièresNonDisponiblePourAppelOffreError extends I
     super(`Ce type de garanties financières n'est pas disponible pour cet appel d'offre`);
   }
 }
+
+export class AucunesGarantiesFinancièresActuellesError extends InvalidOperationError {
+  constructor() {
+    super(`Il n'y a aucunes garanties financières actuelles pour ce projet`);
+  }
+}
+
+export class GarantiesFinancièresDéjàLevéesError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet',
+    );
+  }
+}
+
+export class DateConstitutionDansLeFuturError extends InvalidOperationError {
+  constructor() {
+    super(`La date de constitution des garanties financières ne peut pas être une date future`);
+  }
+}

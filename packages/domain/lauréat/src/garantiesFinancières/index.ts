@@ -4,7 +4,6 @@ import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCo
 import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
 import { EnregistrerGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
 import { EnregistrerAttestationGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
-import { ModifierGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.usecase';
 import {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
@@ -81,7 +80,6 @@ export type GarantiesFinancièresUseCase =
   | SupprimerGarantiesFinancièresÀTraiterUseCase
   | ValiderDépôtGarantiesFinancièresEnCoursUseCase
   | ModifierDépôtGarantiesFinancièresEnCoursUseCase
-  | ModifierGarantiesFinancièresUseCase
   | EnregistrerAttestationGarantiesFinancièresUseCase
   | EnregistrerGarantiesFinancièresUseCase
   | DemanderMainlevéeGarantiesFinancièresUseCase
@@ -95,7 +93,6 @@ export type {
   SupprimerGarantiesFinancièresÀTraiterUseCase,
   ValiderDépôtGarantiesFinancièresEnCoursUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
-  ModifierGarantiesFinancièresUseCase,
   EnregistrerAttestationGarantiesFinancièresUseCase,
   EnregistrerGarantiesFinancièresUseCase,
   DemanderMainlevéeGarantiesFinancièresUseCase,

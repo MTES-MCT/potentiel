@@ -14,6 +14,7 @@ import {
 } from '.';
 
 import {
+  DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
   DépôtGarantiesFinancièresEnCoursValidéEvent,
   GarantiesFinancièresDemandéesEvent,
   GarantiesFinancièresEnregistréesEvent,
@@ -26,9 +27,15 @@ import { DemanderOptions } from './demander/demanderGarantiesFinancières.option
 import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 import { ImporterOptions } from './importer/importerGarantiesFinancières.option';
 import {
+  AucunesGarantiesFinancièresActuellesError,
+  DateConstitutionDansLeFuturError,
+  DateÉchéanceGarantiesFinancièresRequiseError,
+  DateÉchéanceNonAttendueError,
+  GarantiesFinancièresDéjàLevéesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error';
+import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -38,6 +45,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   #tâchePlanifiéeEchoir!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel1mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel2mois!: AggregateType<TâchePlanifiéeAggregate>;
+
   #type!: TypeGarantiesFinancières.ValueType;
   #dateÉchéance: DateTime.ValueType | undefined;
   #motifDemande: MotifDemandeGarantiesFinancières.ValueType | undefined;
@@ -73,11 +81,22 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.#aUnDépôtEnCours;
   }
 
+  #sontLevées: boolean = false;
+  get sontLevées() {
+    return this.#sontLevées;
+  }
+
   vérifierSiLesGarantiesFinancièresSontValides(
     garantiesFinancières: GarantiesFinancières.ValueType | undefined,
   ) {
     this.vérifierSiLesGarantiesFinancièresSontRequises(garantiesFinancières?.type);
     this.vérifierSiLeTypeEstDisponiblePourAppelOffre(garantiesFinancières?.type);
+  }
+
+  private vérifierSiLaDateDeConsitutionEstValide(dateConstitution: DateTime.ValueType) {
+    if (dateConstitution.estDansLeFutur()) {
+      throw new DateConstitutionDansLeFuturError();
+    }
   }
 
   private vérifierSiLeTypeEstDisponiblePourAppelOffre(
@@ -98,7 +117,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  async importer({ garantiesFinancières, importéLe }: ImporterOptions) {
+  private vérifierSiLesGarantiesFinancièresSontLevées() {
+    if (this.sontLevées) {
+      throw new GarantiesFinancièresDéjàLevéesError();
+    }
+  }
+
+  private vérifierQueLesGarantiesFinancièresActuellesExistent() {
+    if (!this.aDesGarantiesFinancières) {
+      throw new AucunesGarantiesFinancièresActuellesError();
+    }
+  }
+
+  async importer({ importéLe, garantiesFinancières }: ImporterOptions) {
     if (!garantiesFinancières) {
       return;
     }
@@ -146,6 +177,36 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       });
     }
     // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
+    await this.ajouterTâchesPlanifiées();
+  }
+
+  async modifier({
+    attestation,
+    dateConstitution,
+    type,
+    dateÉchéance,
+    modifiéLe,
+    modifiéPar,
+  }: ModifierActuellesOptions) {
+    this.vérifierSiLesGarantiesFinancièresSontValides(type, dateÉchéance);
+    this.vérifierSiLaDateDeConsitutionEstValide(dateConstitution);
+    this.vérifierQueLesGarantiesFinancièresActuellesExistent();
+    this.vérifierSiLesGarantiesFinancièresSontLevées();
+
+    const event: GarantiesFinancièresModifiéesEvent = {
+      type: 'GarantiesFinancièresModifiées-V1',
+      payload: {
+        attestation: { format: attestation.format },
+        dateConstitution: dateConstitution.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        type: type.type,
+        dateÉchéance: dateÉchéance?.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
     await this.ajouterTâchesPlanifiées();
   }
 
@@ -247,10 +308,16 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         },
         this.applyGarantiesFinancièresDemandées.bind(this),
       )
+      .with(
+        { type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1' },
+        this.applyDemandeMainlevéeGarantiesFinancièresAccordée.bind(this),
+      )
       .otherwise(() => {});
     // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
     // .exhaustive();
   }
+
+  // Dépôt
 
   private applyDépôtGarantiesFinancièresEnCoursSuppriméV1() {
     this.#aUnDépôtEnCours = false;
@@ -277,6 +344,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
     this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }
+
+  // Actuelles
 
   private applyGarantiesFinancièresEnregistréesV1({
     payload: { dateÉchéance, type },
@@ -312,5 +381,18 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }: GarantiesFinancièresDemandéesEvent) {
     this.#motifDemande = MotifDemandeGarantiesFinancières.convertirEnValueType(motif);
     this.#dateLimiteSoumission = DateTime.convertirEnValueType(dateLimiteSoumission);
+  }
+
+  // Mainlevée
+
+  private applyDemandeMainlevéeGarantiesFinancièresAccordée(
+    _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  ) {
+    // if (this.demandeMainlevéeEnCours) {
+    //   this.demandeMainlevéeEnCours.statut = StatutMainlevéeGarantiesFinancières.accordé;
+    // } else {
+    //   this.demandeMainlevéeEnCours = { statut: StatutMainlevéeGarantiesFinancières.accordé };
+    // }
+    this.#sontLevées = true;
   }
 }

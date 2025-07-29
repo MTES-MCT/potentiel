@@ -1,18 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature, GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
-import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
+import { TypeGarantiesFinancières } from '../../../../candidature';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type ModifierGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    type: Candidature.TypeGarantiesFinancières.ValueType;
+    type: TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
@@ -22,10 +21,8 @@ export type ModifierGarantiesFinancièresCommand = Message<
 >;
 
 export const registerModifierGarantiesFinancièresCommand = (
-  loadAggregate: LoadAggregate,
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const handler: MessageHandler<ModifierGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     attestation,
@@ -35,10 +32,9 @@ export const registerModifierGarantiesFinancièresCommand = (
     modifiéLe,
     modifiéPar,
   }) => {
-    const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await garantiesFinancières.modifier({
-      identifiantProjet,
+    await projet.lauréat.garantiesFinancières.modifier({
       attestation,
       dateConstitution,
       type,
@@ -46,10 +42,6 @@ export const registerModifierGarantiesFinancièresCommand = (
       modifiéLe,
       modifiéPar,
     });
-    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
-    const projet = await getProjetAggregateRoot(identifiantProjet);
-    // TODO move to Garanties Financière Aggregate
-    await projet.lauréat.garantiesFinancières.ajouterTâchesPlanifiées();
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières', handler);
 };
