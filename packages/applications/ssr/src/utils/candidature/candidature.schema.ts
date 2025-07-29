@@ -6,7 +6,7 @@ import {
   adresse1Schema,
   adresse2Schema,
   codePostalSchema,
-  dateEchéanceOuDeliberationGfSchema,
+  dateEchéanceOuDéliberationGfSchema,
   doitRegenererAttestationSchema,
   emailContactSchema,
   évaluationCarboneSimplifiéeSchema,
@@ -57,8 +57,8 @@ export const candidatureSchema = z
     motifElimination: motifEliminationSchema, // see refine below
     technologie: technologieSchema,
     typeGarantiesFinancieres: typeGarantiesFinancieresSchema, // see refine below
-    dateEcheanceGf: dateEchéanceOuDeliberationGfSchema, // see refine below
-    dateDeliberationGf: dateEchéanceOuDeliberationGfSchema, // see refine below
+    dateEcheanceGf: dateEchéanceOuDéliberationGfSchema, // see refine below
+    dateDeliberationGf: dateEchéanceOuDéliberationGfSchema, // see refine below
     coefficientKChoisi: choixCoefficientKSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
