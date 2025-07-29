@@ -140,6 +140,22 @@ export class RaccordementAggregate extends AbstractAggregate<
     return dossier;
   }
 
+  public aUneDateDeMiseEnServiceDansIntervalle(intervalle: { min: string; max: string }): boolean {
+    for (const [, dossier] of this.#dossiers.entries()) {
+      if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
+        if (
+          dossier.miseEnService.dateMiseEnService.estDansIntervalle({
+            min: DateTime.convertirEnValueType(new Date(intervalle.min)),
+            max: DateTime.convertirEnValueType(new Date(intervalle.max)),
+          })
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   private aUneDateDeMiseEnService(): boolean {
     for (const [, dossier] of this.#dossiers.entries()) {
       if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
@@ -411,6 +427,25 @@ export class RaccordementAggregate extends AbstractAggregate<
     };
 
     await this.publish(dateMiseEnServiceTransmise);
+
+    const délaiApplicable =
+      this.lauréat.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable;
+
+    if (délaiApplicable) {
+      const { intervaleDateMiseEnService, délaiEnMois } = délaiApplicable;
+
+      if (
+        dateMiseEnService.estDansIntervalle({
+          min: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.min)),
+          max: DateTime.convertirEnValueType(new Date(intervaleDateMiseEnService.max)),
+        })
+      ) {
+        return this.lauréat.achèvement.calculerDateAchèvementPrévisionnel({
+          type: 'ajout-délai-cdc-30_08_2022',
+          nombreDeMois: délaiEnMois,
+        });
+      }
+    }
   }
 
   async supprimerDateMiseEnService({

@@ -298,7 +298,11 @@ export class LauréatAggregate extends AbstractAggregate<
       throw new RetourAuCahierDesChargesInitialImpossibleError();
     }
 
-    const cdcActuel = this.référenceCahierDesCharges;
+    const cdcAvantChoix = {
+      référence: this.référenceCahierDesCharges,
+      délaiApplicable:
+        this.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable,
+    };
 
     const event: CahierDesChargesChoisiEvent = {
       type: 'CahierDesChargesChoisi-V1',
@@ -312,16 +316,32 @@ export class LauréatAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    if (cahierDesCharges.estCDC2022()) {
-      await this.achèvement.calculerDateAchèvementPrévisionnel({
-        type: 'ajout-délai-cdc-30_08_2022',
-      });
+    if (cdcAvantChoix.délaiApplicable) {
+      const { délaiEnMois, intervaleDateMiseEnService } = cdcAvantChoix.délaiApplicable;
+
+      if (this.raccordement.aUneDateDeMiseEnServiceDansIntervalle(intervaleDateMiseEnService)) {
+        return this.achèvement.calculerDateAchèvementPrévisionnel({
+          type: 'retrait-délai-cdc-30_08_2022',
+          nombreDeMois: délaiEnMois,
+        });
+      }
     }
 
-    if (cdcActuel.estCDC2022()) {
-      await this.achèvement.calculerDateAchèvementPrévisionnel({
-        type: 'retrait-délai-cdc-30_08_2022',
-      });
+    const cdcChoisi = {
+      référence: cahierDesCharges,
+      délaiApplicable:
+        this.projet.cahierDesChargesActuel.cahierDesChargesModificatif?.délaiApplicable,
+    };
+
+    if (cdcChoisi.délaiApplicable) {
+      const { délaiEnMois, intervaleDateMiseEnService } = cdcChoisi.délaiApplicable;
+
+      if (this.raccordement.aUneDateDeMiseEnServiceDansIntervalle(intervaleDateMiseEnService)) {
+        return await this.achèvement.calculerDateAchèvementPrévisionnel({
+          type: 'ajout-délai-cdc-30_08_2022',
+          nombreDeMois: délaiEnMois,
+        });
+      }
     }
   }
 
