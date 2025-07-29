@@ -1,7 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-// TODO vérifier nom : AOS ou Petit PV ?
-export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
+export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Petit PV Bâtiment',
   typeAppelOffre: 'batiment',
   cycleAppelOffre: 'PPE2',
@@ -54,11 +53,7 @@ export const petitPVPPE2: AppelOffre.AppelOffreReadModel = {
   affichageParagrapheECS: true, // à vérifier
   renvoiDemandeCompleteRaccordement: '6.1', // à vérifier
   garantiesFinancières: {
-    typeGarantiesFinancièresDisponibles: [
-      'consignation',
-      'garantie-bancaire',
-      // 'exemption', // TODO non existant pour le moment
-    ],
+    typeGarantiesFinancièresDisponibles: ['consignation', 'garantie-bancaire', 'exemption'],
     soumisAuxGarantiesFinancieres: 'à la candidature', // à vérifier
     renvoiRetraitDesignationGarantieFinancieres: '5.1', // à vérifier
   },

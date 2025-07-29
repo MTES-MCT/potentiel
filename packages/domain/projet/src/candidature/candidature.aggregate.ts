@@ -124,12 +124,8 @@ export class CandidatureAggregate extends AbstractAggregate<
     return this.dépôt.prixReference;
   }
 
-  get typeGarantiesFinancières() {
-    return this.dépôt.typeGarantiesFinancières;
-  }
-
-  get dateÉchéanceGf() {
-    return this.dépôt.dateÉchéanceGf;
+  get garantiesFinancières() {
+    return this.dépôt.garantiesFinancières;
   }
 
   get typeActionnariat() {
@@ -181,8 +177,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (candidature.instruction.statut.estClassé()) {
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.dépôt.typeGarantiesFinancières,
-        candidature.dépôt.dateÉchéanceGf,
+        candidature.dépôt.garantiesFinancières,
       );
     }
 
@@ -202,8 +197,8 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   async corriger(candidature: CorrigerCandidatureOptions) {
     this.vérifierQueLaCandidatureExiste();
-    this.vérifierQueLeStatutEstNonModifiableAprésNotification(candidature);
-    this.vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(candidature);
+    this.vérifierQueLeStatutEstModifiable(candidature);
+    this.vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
     this.vérifierCoefficientKChoisi(candidature);
     this.vérifierTechnologie(candidature);
@@ -211,8 +206,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (candidature.instruction.statut.estClassé()) {
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.dépôt.typeGarantiesFinancières,
-        candidature.dépôt.dateÉchéanceGf,
+        candidature.dépôt.garantiesFinancières,
       );
     }
 
@@ -266,45 +260,27 @@ export class CandidatureAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  private vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(
+  private vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(
     candidature: CorrigerCandidatureOptions,
   ) {
     if (this.#estNotifiée) {
-      if (candidature.dépôt.typeGarantiesFinancières) {
-        if (
-          !this.dépôt.typeGarantiesFinancières?.type ||
-          !this.dépôt.typeGarantiesFinancières?.estÉgaleÀ(
-            candidature.dépôt.typeGarantiesFinancières,
-          )
-        ) {
+      if (candidature.dépôt.garantiesFinancières) {
+        if (!this.dépôt.garantiesFinancières?.estÉgaleÀ(candidature.dépôt.garantiesFinancières)) {
           throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
         }
-      } else if (this.dépôt.typeGarantiesFinancières?.type) {
+      } else if (this.dépôt.garantiesFinancières) {
         throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
     }
   }
 
-  private vérifierQueLeStatutEstNonModifiableAprésNotification(
-    candidature: CorrigerCandidatureOptions,
-  ) {
-    if (
-      this.#estNotifiée &&
-      this.instruction.statut &&
-      !candidature.instruction.statut.estÉgaleÀ(this.instruction.statut)
-    ) {
+  private vérifierQueLeStatutEstModifiable(candidature: CorrigerCandidatureOptions) {
+    if (this.#estNotifiée && !candidature.instruction.statut.estÉgaleÀ(this.instruction.statut)) {
       throw new StatutNonModifiableAprèsNotificationError();
     }
   }
 
-  private vérifierQueLaCorrectionEstJustifiée({
-    corrigéLe: _corrigéLe,
-    corrigéPar: _corrigéPar,
-    doitRégénérerAttestation: _doitRégénérerAttestation,
-    détailsMisÀJour: _détailsMisÀJour,
-    dépôt,
-    instruction,
-  }: CorrigerCandidatureOptions) {
+  private vérifierQueLaCorrectionEstJustifiée({ dépôt, instruction }: CorrigerCandidatureOptions) {
     if (dépôt.estÉgaleÀ(this.dépôt) && instruction.estÉgaleÀ(this.instruction)) {
       throw new CandidatureNonModifiéeError(dépôt.nomProjet);
     }

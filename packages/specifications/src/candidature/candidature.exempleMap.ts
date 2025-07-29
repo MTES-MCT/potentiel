@@ -39,6 +39,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
   nomReprésentantLégal: ['nom représentant légal'],
   élémentsSousOmbrière: ['éléments sous ombrière'],
   dateÉchéanceGf: ["date d'échéance", mapDateTime],
+  dateDélibérationGf: ['date de délibération', mapDateTime],
   puissanceProductionAnnuelle: ['puissance production annuelle', mapNumber],
   prixReference: ['prix reference', mapNumber],
   evaluationCarboneSimplifiée: ['évaluation carbone simplifiée', mapNumber],

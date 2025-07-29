@@ -1,10 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -43,8 +42,18 @@ export default async function Page({ params }: PageProps) {
       },
     });
 
-    const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
-    const props = mapToProps(candidature, lauréat, appelOffres, période);
+    const { appelOffres, période, famille } = await getPériodeAppelOffres(
+      candidature.identifiantProjet,
+    );
+    const cahierDesCharges = CahierDesCharges.bind({
+      appelOffre: appelOffres,
+      période,
+      famille,
+      technologie: candidature.technologie.type,
+      cahierDesChargesModificatif: undefined,
+    });
+
+    const props = mapToProps(candidature, lauréat, cahierDesCharges);
 
     return (
       <CorrigerCandidaturePage
@@ -54,6 +63,8 @@ export default async function Page({ params }: PageProps) {
         estLauréat={props.estLauréat}
         champsSupplémentaires={props.champsSupplémentaires}
         unitéPuissance={props.unitéPuissance}
+        typesActionnariatDisponibles={props.typesActionnariatDisponibles}
+        typesGarantiesFinancièresDisponibles={props.typesGarantiesFinancièresDisponibles}
       />
     );
   });
@@ -61,11 +72,10 @@ export default async function Page({ params }: PageProps) {
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
   lauréat: Option.Type<Lauréat.ConsulterLauréatReadModel>,
-  appelOffres: AppelOffre.AppelOffreReadModel,
-  période: AppelOffre.Periode,
+  cahierDesCharges: CahierDesCharges.ValueType,
 ) => CorrigerCandidaturePageProps;
 
-const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) => ({
+const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
   candidature: {
     identifiantProjet: candidature.identifiantProjet.formatter(),
 
@@ -90,16 +100,18 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
     departement: candidature.dépôt.localité.département,
     region: candidature.dépôt.localité.région,
     technologie: candidature.dépôt.technologie.formatter(),
-    typeGarantiesFinancieres: candidature.dépôt.typeGarantiesFinancières?.type,
-    dateEcheanceGf: candidature.dépôt.dateÉchéanceGf?.date,
+    typeGarantiesFinancieres: candidature.dépôt.garantiesFinancières?.type.type,
+    dateEcheanceGf: candidature.dépôt.garantiesFinancières?.estAvecDateÉchéance()
+      ? candidature.dépôt.garantiesFinancières.dateÉchéance?.date
+      : undefined,
     coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
   estLauréat: Option.isSome(lauréat),
   unitéPuissance: candidature.unitéPuissance.formatter(),
-  champsSupplémentaires: {
-    ...appelOffres.champsSupplémentaires,
-    ...période.champsSupplémentaires,
-  },
+  champsSupplémentaires: cahierDesCharges.getChampsSupplémentaires(),
+  typesActionnariatDisponibles: cahierDesCharges.getTypesActionnariat(),
+  typesGarantiesFinancièresDisponibles:
+    cahierDesCharges.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles,
 });

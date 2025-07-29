@@ -5,4 +5,4 @@ export * from './innovation.ppe2';
 export * from './neutre.ppe2';
 export * from './sol.ppe2';
 export * from './zni.ppe2';
-export * from './petitPV.ppe2';
+export * from './petitPVBâtiment.ppe2';

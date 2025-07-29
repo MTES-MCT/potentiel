@@ -7,7 +7,11 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import { TypeGarantiesFinancières } from '../../candidature';
 
-import { MotifDemandeGarantiesFinancières, TypeTâchePlanifiéeGarantiesFinancières } from '.';
+import {
+  GarantiesFinancières,
+  MotifDemandeGarantiesFinancières,
+  TypeTâchePlanifiéeGarantiesFinancières,
+} from '.';
 
 import {
   DépôtGarantiesFinancièresEnCoursValidéEvent,
@@ -22,8 +26,6 @@ import { DemanderOptions } from './demander/demanderGarantiesFinancières.option
 import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 import { ImporterOptions } from './importer/importerGarantiesFinancières.option';
 import {
-  DateÉchéanceGarantiesFinancièresRequiseError,
-  DateÉchéanceNonAttendueError,
   GarantiesFinancièresRequisesPourAppelOffreError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error';
@@ -72,12 +74,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   vérifierSiLesGarantiesFinancièresSontValides(
-    type: TypeGarantiesFinancières.ValueType | undefined,
-    dateÉchéance: DateTime.ValueType | undefined,
+    garantiesFinancières: GarantiesFinancières.ValueType | undefined,
   ) {
-    this.vérifierSiLesGarantiesFinancièresSontRequises(type);
-    this.vérifierSiLaDateÉchéanceEstValide(type, dateÉchéance);
-    this.vérifierSiLeTypeEstDisponiblePourAppelOffre(type);
+    this.vérifierSiLesGarantiesFinancièresSontRequises(garantiesFinancières?.type);
+    this.vérifierSiLeTypeEstDisponiblePourAppelOffre(garantiesFinancières?.type);
   }
 
   private vérifierSiLeTypeEstDisponiblePourAppelOffre(
@@ -90,19 +90,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierSiLaDateÉchéanceEstValide(
-    type: TypeGarantiesFinancières.ValueType | undefined,
-    dateÉchéance: DateTime.ValueType | undefined,
-  ) {
-    if (!type) return;
-    if (type.estAvecDateÉchéance() && !dateÉchéance) {
-      throw new DateÉchéanceGarantiesFinancièresRequiseError();
-    }
-    if (!type.estAvecDateÉchéance() && dateÉchéance) {
-      throw new DateÉchéanceNonAttendueError();
-    }
-  }
-
   private vérifierSiLesGarantiesFinancièresSontRequises(
     type: TypeGarantiesFinancières.ValueType | undefined,
   ) {
@@ -111,19 +98,18 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  async importer({ type, importéLe, dateÉchéance }: ImporterOptions) {
-    if (!type) {
+  async importer({ garantiesFinancières, importéLe }: ImporterOptions) {
+    if (!garantiesFinancières) {
       return;
     }
-    this.vérifierSiLesGarantiesFinancièresSontValides(type, dateÉchéance);
+    this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
     const event: TypeGarantiesFinancièresImportéEvent = {
       type: 'TypeGarantiesFinancièresImporté-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        type: type.type,
-        dateÉchéance: dateÉchéance?.formatter(),
         importéLe: importéLe.formatter(),
+        ...garantiesFinancières.formatter(),
       },
     };
     await this.publish(event);

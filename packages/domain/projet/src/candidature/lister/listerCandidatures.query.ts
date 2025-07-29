@@ -9,7 +9,6 @@ import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
 import { IdentifiantProjet } from '../..';
 import { Dépôt, UnitéPuissance } from '..';
 import { Fournisseur } from '../../lauréat/fournisseur';
@@ -18,23 +17,25 @@ export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   nomProjet: Dépôt.ValueType['nomProjet'];
+  /** @deprecated Existe uniquement pour les tests, à supprimer */
   nomCandidat: Dépôt.ValueType['nomCandidat'];
   nomReprésentantLégal: Dépôt.ValueType['nomReprésentantLégal'];
   emailContact: Dépôt.ValueType['emailContact'];
   puissanceProductionAnnuelle: number;
   prixReference: Dépôt.ValueType['prixReference'];
   evaluationCarboneSimplifiée: Dépôt.ValueType['evaluationCarboneSimplifiée'];
-  actionnariat: Dépôt.ValueType['actionnariat'];
+  /** @deprecated Existe uniquement pour les tests, à supprimer */
   typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   localité: {
     commune: Dépôt.ValueType['localité']['commune'];
     département: Dépôt.ValueType['localité']['département'];
     région: Dépôt.ValueType['localité']['région'];
   };
-  détailsImport: ConsulterCandidatureReadModel['détailsImport'];
   estNotifiée: boolean;
   attestation?: DocumentProjet.ValueType;
+  /** @deprecated Existe uniquement pour les tests, à supprimer */
   sociétéMère: String;
+  /** @deprecated Existe uniquement pour les tests, à supprimer */
   fournisseurs: Dépôt.ValueType['fournisseurs'];
   unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];
 };
@@ -121,12 +122,10 @@ export const mapToReadModel = ({
   prixReference,
   localité: { commune, département, région },
   evaluationCarboneSimplifiée,
-  détailsMisÀJourLe,
   estNotifiée,
   notification,
   typeGarantiesFinancières,
   sociétéMère,
-  actionnariat,
   fournisseurs,
   période,
   technologie,
@@ -144,18 +143,11 @@ export const mapToReadModel = ({
   typeGarantiesFinancières: typeGarantiesFinancières
     ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
     : undefined,
-  actionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
   localité: {
     commune,
     département,
     région,
   },
-  détailsImport: DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    'candidature/import',
-    détailsMisÀJourLe,
-    'application/json',
-  ),
   estNotifiée,
   ...(estNotifiée &&
     notification.attestation && {

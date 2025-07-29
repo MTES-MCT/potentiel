@@ -54,6 +54,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
             identifiantProjetValue: IdentifiantProjet.bind(line).formatter(),
             dépôtValue: {
               ...line,
+              dateDélibérationGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
               localité: getLocalité(line),
             },

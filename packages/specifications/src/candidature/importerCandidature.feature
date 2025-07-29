@@ -11,6 +11,23 @@ Fonctionnalité: Importer une candidature
             | classé  |
             | éliminé |
 
+    Plan du Scénario: Importer une candidature avec les différents types de garanties financières
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut               | classé                 |
+            | appel d'offre        | <appel d'offre>        |
+            | type GF              | <type GF>              |
+            | date de délibération | <date de délibération> |
+            | date d'échéance      | <date d'échéance>      |
+        Alors la candidature devrait être consultable
+
+        Exemples:
+            | appel d'offre            | type GF                   | date d'échéance | date de délibération |
+            | PPE2 - Bâtiment          | consignation              |                 |                      |
+            | PPE2 - Sol               | avec-date-échéance        | 01/12/2042      |                      |
+            | PPE2 - Innovation        | six-mois-après-achèvement |                 |                      |
+            | PPE2 - Petit PV Bâtiment | garantie-bancaire         |                 |                      |
+            | PPE2 - Petit PV Bâtiment | exemption                 |                 | 02/11/2043           |
+
     Scénario: Importer une candidature avec des champs optionnels
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut                       | classé  |
@@ -71,7 +88,7 @@ Fonctionnalité: Importer une candidature
             | type GF       | avec-date-échéance |
         Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
-    Scénario: Impossible d'importer une candidature classée avec des GF sans date d'échéance si la date d'échéance est indiquée
+    Scénario: Impossible d'importer une candidature classée avec une date d'échéance pour un type de GF qui n'en attend pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut          | classé                    |
             | appel d'offre   | PPE2 - Bâtiment           |
@@ -79,7 +96,26 @@ Fonctionnalité: Importer une candidature
             | famille         |                           |
             | type GF         | six-mois-après-achèvement |
             | date d'échéance | 2024-01-01                |
-        Alors l'administrateur devrait être informé que "La date d'échéance pour ce type de garanties financières ne peut être renseignée"
+        Alors l'administrateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
+
+    Scénario: Impossible d'importer une candidature classée avec exemption de GF si la date de délibération est manquante
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut        | classé          |
+            | appel d'offre | PPE2 - Bâtiment |
+            | période       | 1               |
+            | famille       |                 |
+            | type GF       | exemption       |
+        Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières est requise"
+
+    Scénario: Impossible d'importer une candidature classée avec une date de délibération pour un type de GF qui n'en attend pas
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut               | classé                    |
+            | appel d'offre        | PPE2 - Bâtiment           |
+            | période              | 1                         |
+            | famille              |                           |
+            | type GF              | six-mois-après-achèvement |
+            | date de délibération | 2024-01-01                |
+        Alors l'administrateur devrait être informé que "La date de délibération ne peut être renseignée pour ce type de garanties financières"
 
     Scénario: Impossible d'importer une candidature d'une période d'AO "legacy"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :

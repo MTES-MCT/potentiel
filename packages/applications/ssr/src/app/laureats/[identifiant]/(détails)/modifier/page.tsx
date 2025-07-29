@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
+import { getCandidature, getCahierDesCharges } from '@/app/_helpers';
 
 import { GetLauréat, getLauréat } from '../../_helpers/getLauréat';
 
@@ -24,16 +24,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = decodeParameter(identifiant);
       const candidature = await getCandidature(identifiantProjet);
       const lauréat = await getLauréat({ identifiantProjet });
-      const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
+      const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet);
 
-      const props = mapToProps(candidature, lauréat, appelOffres, période);
+      const props = mapToProps(candidature, lauréat, cahierDesCharges);
 
       return (
         <ModifierLauréatPage
           candidature={props.candidature}
           lauréat={props.lauréat}
           projet={props.projet}
-          champsSupplémentaires={props.champsSupplémentaires}
+          cahierDesCharges={props.cahierDesCharges}
         />
       );
     }),
@@ -43,11 +43,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
   lauréat: GetLauréat,
-  appelOffres: AppelOffre.AppelOffreReadModel,
-  période: AppelOffre.Periode,
+  cahierDesCharges: CahierDesCharges.ValueType,
 ) => ModifierLauréatPageProps;
 
-const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) => ({
+const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
   candidature: {
     actionnaire: candidature.dépôt.sociétéMère,
     nomRepresentantLegal: candidature.dépôt.nomReprésentantLégal,
@@ -122,11 +121,7 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
   projet: {
     nomProjet: candidature.dépôt.nomProjet,
     identifiantProjet: candidature.identifiantProjet.formatter(),
-    isPPE2: appelOffres.cycleAppelOffre === 'PPE2',
     unitéPuissance: candidature.unitéPuissance.formatter(),
   },
-  champsSupplémentaires: {
-    ...appelOffres.champsSupplémentaires,
-    ...période.champsSupplémentaires,
-  },
+  cahierDesCharges: mapToPlainObject(cahierDesCharges),
 });
