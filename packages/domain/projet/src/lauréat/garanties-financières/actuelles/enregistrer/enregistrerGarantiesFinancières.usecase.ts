@@ -3,8 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { TypeDocumentGarantiesFinancières } from '../..';
-import { TypeGarantiesFinancières } from '../../../../candidature';
+import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 
 import { EnregistrerGarantiesFinancièresCommand } from './enregistrerGarantiesFinancières.command';
 
@@ -35,10 +34,10 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
     enregistréParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const type = TypeGarantiesFinancières.convertirEnValueType(typeValue);
-    const dateÉchéance = dateÉchéanceValue
-      ? DateTime.convertirEnValueType(dateÉchéanceValue)
-      : undefined;
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+      type: typeValue,
+      dateÉchéance: dateÉchéanceValue,
+    });
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
     const enregistréLe = DateTime.convertirEnValueType(enregistréLeValue);
     const attestation = DocumentProjet.convertirEnValueType(
@@ -63,8 +62,7 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
         attestation,
         dateConstitution,
         identifiantProjet,
-        type,
-        dateÉchéance,
+        garantiesFinancières,
         enregistréLe,
         enregistréPar,
       },

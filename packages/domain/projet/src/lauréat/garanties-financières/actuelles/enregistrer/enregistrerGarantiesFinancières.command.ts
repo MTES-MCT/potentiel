@@ -1,17 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { GetProjetAggregateRoot } from '../../../..';
-import { TypeGarantiesFinancières } from '../../../../candidature';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { GarantiesFinancières } from '../..';
 
 export type EnregistrerGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    type: TypeGarantiesFinancières.ValueType;
-    dateÉchéance?: DateTime.ValueType;
+    garantiesFinancières: GarantiesFinancières.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
     enregistréPar: Email.ValueType;
@@ -26,8 +25,7 @@ export const registerEnregistrerGarantiesFinancièresCommand = (
     identifiantProjet,
     attestation,
     dateConstitution,
-    type,
-    dateÉchéance,
+    garantiesFinancières,
     enregistréLe,
     enregistréPar,
   }) => {
@@ -36,8 +34,7 @@ export const registerEnregistrerGarantiesFinancièresCommand = (
     await projet.lauréat.garantiesFinancières.enregistrer({
       attestation,
       dateConstitution,
-      type,
-      dateÉchéance,
+      garantiesFinancières,
       enregistréLe,
       enregistréPar,
     });

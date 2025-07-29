@@ -37,8 +37,6 @@ import {
   AttestationGarantiesFinancièresDéjàExistante,
   AucunesGarantiesFinancièresActuellesError,
   DateConstitutionDansLeFuturError,
-  DateÉchéanceGarantiesFinancièresRequiseError,
-  DateÉchéanceNonAttendueError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
   GarantiesFinancièresDéjàEnregistréesError,
@@ -208,12 +206,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async modifier({
     attestation,
     dateConstitution,
-    type,
-    dateÉchéance,
+    garantiesFinancières,
     modifiéLe,
     modifiéPar,
   }: ModifierActuellesOptions) {
-    this.vérifierSiLesGarantiesFinancièresSontValides(type, dateÉchéance);
+    this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
+    // TODO this.vérifierQueLesGarantiesFinancièresSontModifiables(this.garantiesFinancières);
     this.vérifierSiLaDateDeConsitutionEstValide(dateConstitution);
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
     this.vérifierSiLesGarantiesFinancièresSontLevées();
@@ -224,8 +222,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         attestation: { format: attestation.format },
         dateConstitution: dateConstitution.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
-        type: type.type,
-        dateÉchéance: dateÉchéance?.formatter(),
+        ...garantiesFinancières.formatter(),
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
       },
@@ -264,15 +261,13 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async enregistrer({
     attestation,
     dateConstitution,
-    type,
-    dateÉchéance,
+    garantiesFinancières,
     enregistréLe,
     enregistréPar,
   }: EnregisterOptions) {
     if (this.aDesGarantiesFinancières) {
       throw new GarantiesFinancièresDéjàEnregistréesError();
     }
-    this.vérifierSiLaDateÉchéanceEstValide(type, dateÉchéance);
     this.vérifierSiLaDateDeConsitutionEstValide(dateConstitution);
 
     const event: GarantiesFinancièresEnregistréesEvent = {
@@ -281,8 +276,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         attestation: { format: attestation.format },
         dateConstitution: dateConstitution.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
-        type: type.type,
-        dateÉchéance: dateÉchéance?.formatter(),
+        ...garantiesFinancières.formatter(),
         enregistréLe: enregistréLe.formatter(),
         enregistréPar: enregistréPar.formatter(),
       },

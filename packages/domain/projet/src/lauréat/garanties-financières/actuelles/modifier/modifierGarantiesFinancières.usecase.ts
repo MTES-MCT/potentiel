@@ -4,8 +4,7 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../../..';
-import { TypeGarantiesFinancières } from '../../../../candidature';
-import { TypeDocumentGarantiesFinancières } from '../..';
+import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 
 import { ModifierGarantiesFinancièresCommand } from './modifierGarantiesFinancières.command';
 
@@ -36,10 +35,10 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
     modifiéParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const type = TypeGarantiesFinancières.convertirEnValueType(typeValue);
-    const dateÉchéance = dateÉchéanceValue
-      ? DateTime.convertirEnValueType(dateÉchéanceValue)
-      : undefined;
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+      type: typeValue,
+      dateÉchéance: dateÉchéanceValue,
+    });
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const attestation = DocumentProjet.convertirEnValueType(
@@ -64,8 +63,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
         attestation,
         dateConstitution,
         identifiantProjet,
-        type,
-        dateÉchéance,
+        garantiesFinancières,
         modifiéLe,
         modifiéPar,
       },

@@ -120,7 +120,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
 };
 
 type ConvertirEnValueTypeProps = {
-  type: TypeGarantiesFinancières.RawType;
+  type: string;
   dateÉchéance?: string;
   dateDélibération?: string;
 };
@@ -130,14 +130,15 @@ export const convertirEnValueType = ({
   dateDélibération,
   dateÉchéance,
 }: ConvertirEnValueTypeProps) => {
-  if (dateÉchéance && type !== 'avec-date-échéance') {
+  const typeGarantiesFinancières = TypeGarantiesFinancières.convertirEnValueType(type);
+  if (dateÉchéance && !typeGarantiesFinancières.estAvecDateÉchéance()) {
     throw new DateÉchéanceNonAttendueError();
   }
-  if (dateDélibération && type !== 'exemption') {
+  if (dateDélibération && !typeGarantiesFinancières.estExemption()) {
     throw new DateDélibérationNonAttendueError();
   }
 
-  return match(type)
+  return match(typeGarantiesFinancières.type)
     .returnType<ValueType>()
     .with('consignation', (type) => bind({ type: { type } }))
     .with('garantie-bancaire', (type) => bind({ type: { type } }))

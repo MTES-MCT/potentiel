@@ -3,15 +3,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { TypeGarantiesFinancières } from '../../../../candidature';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import { GarantiesFinancières } from '../..';
 
 export type ModifierGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    type: TypeGarantiesFinancières.ValueType;
-    dateÉchéance?: DateTime.ValueType;
+    garantiesFinancières: GarantiesFinancières.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
     modifiéPar: Email.ValueType;
@@ -26,8 +25,7 @@ export const registerModifierGarantiesFinancièresCommand = (
     identifiantProjet,
     attestation,
     dateConstitution,
-    type,
-    dateÉchéance,
+    garantiesFinancières,
     modifiéLe,
     modifiéPar,
   }) => {
@@ -36,8 +34,7 @@ export const registerModifierGarantiesFinancièresCommand = (
     await projet.lauréat.garantiesFinancières.modifier({
       attestation,
       dateConstitution,
-      type,
-      dateÉchéance,
+      garantiesFinancières,
       modifiéLe,
       modifiéPar,
     });

@@ -1,10 +1,9 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeGarantiesFinancières } from '../../../../candidature';
+import { GarantiesFinancières } from '../..';
 
 export type EnregisterOptions = {
-  type: TypeGarantiesFinancières.ValueType;
-  dateÉchéance?: DateTime.ValueType;
+  garantiesFinancières: GarantiesFinancières.ValueType;
   attestation: { format: string };
   dateConstitution: DateTime.ValueType;
   enregistréLe: DateTime.ValueType;

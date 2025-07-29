@@ -1,15 +1,12 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeGarantiesFinancières } from '../../../../candidature';
+import { GarantiesFinancières } from '../..';
 
 export type ModifierActuellesOptions = {
-  /** @deprecated replace with GarantiesFinancières.ValueType */
-  type: TypeGarantiesFinancières.ValueType;
-  /** @deprecated replace with GarantiesFinancières.ValueType */
-  dateÉchéance?: DateTime.ValueType;
-  /** @deprecated replace with GarantiesFinancières.ValueType */
+  garantiesFinancières: GarantiesFinancières.ValueType;
+  /** @deprecated move to GarantiesFinancières.ValueType */
   attestation: { format: string };
-  /** @deprecated replace with GarantiesFinancières.ValueType ? */
+  /** @deprecated move to GarantiesFinancières.ValueType */
   dateConstitution: DateTime.ValueType;
   modifiéLe: DateTime.ValueType;
   modifiéPar: Email.ValueType;
