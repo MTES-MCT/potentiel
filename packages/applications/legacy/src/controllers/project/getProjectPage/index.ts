@@ -37,6 +37,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { checkAbandonAndAchèvement } from './_utils/checkLauréat/checkAbandonAndAchèvement';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -236,6 +237,7 @@ v1Router.get(
       );
 
       const recours = await getRecours(identifiantProjetValueType);
+      const délai = await getDélai(identifiantProjetValueType, user.role);
 
       return response.send(
         ProjectDetailsPage({
@@ -276,8 +278,22 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
+          délai,
         }),
       );
     },
   ),
 );
+
+const getDélai = async (identifiantProjet: IdentifiantProjet.ValueType, rôle: string) => {
+  const role = Role.convertirEnValueType(rôle);
+  const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
+    identifiantProjet,
+    rôle,
+  );
+
+  return {
+    affichage:
+      role.aLaPermission('délai.demander') && !aUnAbandonEnCours && !estAbandonné && !estAchevé,
+  };
+};

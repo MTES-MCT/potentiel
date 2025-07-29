@@ -63,6 +63,7 @@ type ProjectDetailsProps = {
   coefficientKChoisi: boolean | undefined;
   emailContact: string;
   fournisseur: MaterielsEtTechnologiesProps['fournisseur'];
+  délai: { affichage: boolean };
 };
 
 export const ProjectDetails = ({
@@ -84,6 +85,7 @@ export const ProjectDetails = ({
   producteur,
   emailContact,
   fournisseur,
+  délai,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -163,6 +165,7 @@ export const ProjectDetails = ({
         actionnaireAffichage={actionnaire?.affichage}
         producteurAffichage={producteur?.affichage}
         fournisseurAffichage={fournisseur?.affichage}
+        délaiAffichage={délai.affichage}
         features={user.features}
       />
       <div className="print:hidden">

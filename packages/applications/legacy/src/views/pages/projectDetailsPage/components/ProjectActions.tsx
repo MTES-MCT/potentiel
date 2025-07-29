@@ -85,10 +85,20 @@ const PorteurProjetActions = ({
   puissanceAffichage,
   producteurAffichage,
   fournisseurAffichage,
+  délaiAffichage,
   features,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
+
+  const auMoinsUneActionDisponible =
+    producteurAffichage ||
+    fournisseurAffichage ||
+    actionnaireAffichage ||
+    puissanceAffichage ||
+    représentantLégalAffichage ||
+    délaiAffichage ||
+    peutDemanderAbandonOuAchèvement;
 
   return (
     <div className="flex flex-col gap-3">
@@ -102,7 +112,7 @@ const PorteurProjetActions = ({
           </SecondaryLinkButton>
         )}
 
-        {project.isClasse && (
+        {project.isClasse && auMoinsUneActionDisponible && (
           <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
             {!!producteurAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
@@ -144,16 +154,18 @@ const PorteurProjetActions = ({
                 <span>{représentantLégalAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={
-                features.includes('délai')
-                  ? Routes.Délai.demander(identifiantProjet)
-                  : routes.DEMANDER_DELAI(project.id)
-              }
-              disabled={demandesDisabled}
-            >
-              <span>Demander un délai</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
+            {délaiAffichage && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={
+                  features.includes('délai')
+                    ? Routes.Délai.demander(identifiantProjet)
+                    : routes.DEMANDER_DELAI(project.id)
+                }
+                disabled={demandesDisabled}
+              >
+                <span>Demander un délai</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
             {peutDemanderAbandonOuAchèvement && (
               <>
                 <DropdownMenuSecondaryButton.DropdownItem
@@ -305,6 +317,7 @@ export const ProjectActions = ({
   actionnaireAffichage,
   producteurAffichage,
   fournisseurAffichage,
+  délaiAffichage,
   features,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
@@ -338,6 +351,7 @@ export const ProjectActions = ({
           actionnaireAffichage={actionnaireAffichage}
           producteurAffichage={producteurAffichage}
           fournisseurAffichage={fournisseurAffichage}
+          délaiAffichage={délaiAffichage}
           identifiantProjet={identifiantProjet}
           features={features}
         />
