@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { Metadata, ResolvingMetadata } from 'next';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Accès, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Accès, CahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getProjet, getCahierDesCharges } from '@/app/_helpers';
+import { getProjet, getPériodeAppelOffres } from '@/app/_helpers';
 
 import { getProjetÉliminé } from '../_helpers/getÉliminé';
 
@@ -54,8 +54,15 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+      const { appelOffres, famille, période } = await getPériodeAppelOffres(identifiantProjet);
 
+      const cahierDesCharges = CahierDesCharges.bind({
+        appelOffre: appelOffres,
+        famille,
+        période,
+        cahierDesChargesModificatif: undefined,
+        technologie: undefined,
+      });
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
         data: {
