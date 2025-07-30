@@ -7,11 +7,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { DemandeDélaiActions, DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
 
@@ -58,6 +60,18 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
+      const périodeAppelOffres = await getPériodeAppelOffres(identifiantProjet);
+      const getAuthoritéCompétente = () => {
+        if (
+          périodeAppelOffres.appelOffres.changement !== 'indisponible' &&
+          périodeAppelOffres.appelOffres.changement.délai.demande
+        ) {
+          return périodeAppelOffres.appelOffres.changement.délai.autoritéCompétente;
+        }
+
+        return undefined;
+      };
+
       return (
         <DétailsDemandeDélaiPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
@@ -68,6 +82,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions({
             utilisateur,
             demandeDélai,
+            authoritéCompétente: getAuthoritéCompétente(),
           })}
           historique={historique.items.map(mapToDélaiTimelineItemProps)}
         />
@@ -79,27 +94,31 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
   demandeDélai: Lauréat.Délai.ConsulterDemandeDélaiReadModel;
+  authoritéCompétente?: AppelOffre.AutoritéCompétente;
 };
 
 const mapToActions = ({
   utilisateur: { identifiantUtilisateur, role },
   demandeDélai: { statut, instruction },
+  authoritéCompétente,
 }: MapToActionsProps) => {
   const actions: Array<DemandeDélaiActions> = [];
+  const estAuthoriséÀInstruire =
+    role.estDGEC() || (role.estDreal() && authoritéCompétente === 'dreal');
 
   return match(statut.statut)
     .with('demandé', () => {
       if (role.aLaPermission('délai.annulerDemande')) {
         actions.push('annuler');
       }
-      if (role.aLaPermission('délai.passerEnInstructionDemande')) {
+      if (role.aLaPermission('délai.passerEnInstructionDemande') && estAuthoriséÀInstruire) {
         actions.push('passer-en-instruction');
       }
-      if (role.aLaPermission('délai.rejeterDemande')) {
+      if (role.aLaPermission('délai.rejeterDemande') && estAuthoriséÀInstruire) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande')) {
+      if (role.aLaPermission('délai.accorderDemande') && estAuthoriséÀInstruire) {
         actions.push('accorder');
       }
 
@@ -114,11 +133,11 @@ const mapToActions = ({
         return actions;
       }
 
-      if (role.aLaPermission('délai.rejeterDemande')) {
+      if (role.aLaPermission('délai.rejeterDemande') && estAuthoriséÀInstruire) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande')) {
+      if (role.aLaPermission('délai.accorderDemande') && estAuthoriséÀInstruire) {
         actions.push('accorder');
       }
 
@@ -128,7 +147,8 @@ const mapToActions = ({
 
       if (
         !identifiantUtilisateur.estÉgaleÀ(instruction.passéeEnInstructionPar) &&
-        role.aLaPermission('délai.reprendreInstructionDemande')
+        role.aLaPermission('délai.reprendreInstructionDemande') &&
+        estAuthoriséÀInstruire
       ) {
         actions.push('reprendre-instruction');
       }
