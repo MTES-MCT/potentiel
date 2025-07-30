@@ -7,6 +7,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -22,7 +24,7 @@ import {
 export type CorrigerDemandeDélaiFormProps = {
   identifiantProjet: string;
   dateDemande: DateTime.RawType;
-  dateAchèvementPrévisionnelActuelle: DateTime.RawType;
+  dateAchèvementPrévisionnelActuelle: PlainType<Lauréat.Achèvement.DateAchèvementPrévisionnel.ValueType>;
   nombreDeMois: number;
   raison: string;
   pièceJustificative: DocumentProjet.RawType;
@@ -36,20 +38,20 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
   pièceJustificative,
   raison,
 }) => {
-  const dateActuelle = DateTime.convertirEnValueType(dateAchèvementPrévisionnelActuelle);
-
-  const [nouvelleDate, setNouvelleDate] = useState<DateTime.ValueType>(
-    dateActuelle.ajouterNombreDeMois(nombreDeMois),
+  const dateActuelle = Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
+    dateAchèvementPrévisionnelActuelle,
   );
+
+  const [nouvelleDate, setNouvelleDate] = useState(dateActuelle.ajouterDélai(nombreDeMois));
 
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerDemandeDélaiFormKeys>
   >({});
 
-  const peutDemanderUnDélai = () => nouvelleDate.estUltérieureÀ(dateActuelle);
+  const peutDemanderUnDélai = () => nouvelleDate.dateTime.estUltérieureÀ(dateActuelle.dateTime);
 
   const ajouterDélaiÀLaDateActuelle = (nombreDeMois: number) => {
-    const nouvelleDate = dateActuelle.ajouterNombreDeMois(nombreDeMois);
+    const nouvelleDate = dateActuelle.ajouterDélai(nombreDeMois);
 
     setNouvelleDate(nouvelleDate);
   };
