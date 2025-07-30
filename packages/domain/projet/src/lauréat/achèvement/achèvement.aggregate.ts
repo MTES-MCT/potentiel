@@ -65,10 +65,13 @@ export class AchèvementAggregate extends AbstractAggregate<
       );
     }
 
+    const duréeInstructionEdfOaEnJours = 1;
+
     const date = match(options)
       .with({ type: 'notification' }, () =>
         DateAchèvementPrévisionnel.convertirEnValueType(this.lauréat.notifiéLe.date)
           .ajouterDélai(this.délaiRéalisationEnMois)
+          .dateTime.retirerNombreDeJours(duréeInstructionEdfOaEnJours)
           .formatter(),
       )
       .with({ type: 'délai-accordé' }, ({ nombreDeMois }) =>
