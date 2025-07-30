@@ -4,10 +4,12 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const tâchePlanifiéeAjoutéeProjector = async ({
   payload: { identifiantProjet, typeTâchePlanifiée, ajoutéeLe, àExécuterLe },
 }: Lauréat.TâchePlanifiée.TâchePlanifiéeAjoutéeEvent) => {
-  const identifiantChangement = `${identifiantProjet}#${typeTâchePlanifiée}#${ajoutéeLe}`;
+  const identifiantTâche =
+    typeTâchePlanifiée ===
+    'représentant-légal.suppression-document-à-trois-mois' ? `${identifiantProjet}#${typeTâchePlanifiée}#${àExécuterLe}`;
 
   await upsertProjection<Lauréat.TâchePlanifiée.TâchePlanifiéeEntity>(
-    `tâche-planifiée|${identifiantChangement}`,
+    `tâche-planifiée|${identifiantTâche}`,
     {
       identifiantProjet,
       typeTâche: typeTâchePlanifiée,

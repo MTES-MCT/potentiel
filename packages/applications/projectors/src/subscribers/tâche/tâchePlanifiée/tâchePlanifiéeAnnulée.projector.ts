@@ -5,6 +5,8 @@ import { removeProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const tâchePlanifiéeAnnuléeProjector = async ({
   payload: { identifiantProjet, typeTâchePlanifiée },
 }: Lauréat.TâchePlanifiée.TâchePlanifiéeAnnuléeEvent) => {
+    const identifiantTâche = `${identifiantProjet}#${typeTâchePlanifiée}#${àExécuterLe}`;
+
   //   const identifiantChangement = `${identifiantProjet}#${typeTâchePlanifiée}#${ajoutéeLe}`;
 
   const tâchePlanifiéeToRemove = await findProjection<Lauréat.TâchePlanifiée.TâchePlanifiéeEntity>(
