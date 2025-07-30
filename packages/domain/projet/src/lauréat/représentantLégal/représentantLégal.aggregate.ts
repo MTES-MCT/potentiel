@@ -223,7 +223,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-        StatutChangementReprésentantLégal.demandé,
+        StatutChangementReprésentantLégal.informationEnregistrée,
       );
     }
 
@@ -240,6 +240,8 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.exécuterÉventuelleTâcheEnDoublon();
 
     await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.ajouter({
       àExécuterLe: dateChangement.ajouterNombreDeMois(3),
@@ -510,11 +512,29 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
   }
 
   private applyChangementReprésentantLégalEnregistré({
-    payload,
+    payload: {
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      enregistréLe,
+      identifiantProjet,
+      pièceJustificative: { format },
+    },
   }: ChangementReprésentantLégalEnregistréEvent) {
     this.#représentantLégal = {
-      nom: payload.nomReprésentantLégal,
-      type: TypeReprésentantLégal.convertirEnValueType(payload.typeReprésentantLégal),
+      nom: nomReprésentantLégal,
+      type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+    };
+    this.#demande = {
+      statut: StatutChangementReprésentantLégal.informationEnregistrée,
+      nom: nomReprésentantLégal,
+      demandéLe: DateTime.convertirEnValueType(enregistréLe),
+      type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+        enregistréLe,
+        format,
+      ),
     };
   }
 

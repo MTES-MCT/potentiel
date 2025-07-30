@@ -76,6 +76,20 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async exécuterÉventuelleTâcheEnDoublon() {
+    if (this.#statut.estEnAttenteExécution()) {
+      const event: TâchePlanifiéeExecutéeEvent = {
+        type: 'TâchePlanifiéeExecutée-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          exécutéeLe: DateTime.now().formatter(),
+          typeTâchePlanifiée: this.typeTâchePlanifiée,
+        },
+      };
+      await this.publish(event);
+    }
+  }
+
   apply(event: TâchePlanifiéeEvent) {
     match(event)
       .with({ type: 'TâchePlanifiéeAjoutée-V1' }, this.applyTâchePlanifiéeAjoutée.bind(this))

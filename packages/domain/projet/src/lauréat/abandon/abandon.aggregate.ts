@@ -112,7 +112,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     rôleUtilisateur,
   }: AccorderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
-k
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
+
     const event: AbandonAccordéEvent = {
       type: 'AbandonAccordé-V1',
       payload: {

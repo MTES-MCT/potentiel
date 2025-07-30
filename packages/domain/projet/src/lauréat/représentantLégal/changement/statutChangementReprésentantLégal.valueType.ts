@@ -50,7 +50,8 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (this.estInformationEnregistrée()) {
-        throw new AucuneDemandeDeChangementEnCoursError();
+        if (nouveauStatut.estAccordé() || nouveauStatut.estAnnulé() || nouveauStatut.estRejeté())
+          throw new AucuneDemandeDeChangementEnCoursError();
       }
 
       if (this.estDemandé()) {

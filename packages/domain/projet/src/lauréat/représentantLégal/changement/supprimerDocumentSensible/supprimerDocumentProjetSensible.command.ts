@@ -34,6 +34,7 @@ export const registerSupprimerDocumentProjetSensibleCommand = ({
 
     // viovio, il faut changer ça
     const { pièceJustificative } = projet.lauréat.représentantLégal;
+
     if (pièceJustificative) {
       await supprimerDocumentProjetSensible(pièceJustificative, raison);
     }
