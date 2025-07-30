@@ -4,6 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture';
+import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world';
 
 export interface ValiderDépôtGarantiesFinancières {
   validéLe: string;
@@ -20,6 +21,10 @@ export class ValiderDépôtGarantiesFinancièresFixture extends AbstractFixture<
   #validéPar!: string;
   get validéPar() {
     return this.#validéPar;
+  }
+
+  constructor(public dépôtGarantiesFinancièresWorld: DépôtGarantiesFinancièresWorld) {
+    super();
   }
 
   créer(

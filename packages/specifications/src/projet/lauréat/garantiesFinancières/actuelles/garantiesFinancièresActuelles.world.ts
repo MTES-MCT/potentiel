@@ -12,18 +12,21 @@ import {
 import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture';
 import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture';
 import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture';
+import { ÉchoirGarantiesFinancièresFixture } from './fixtures/échoirGarantiesFinancières.fixture';
 
 export class GarantiesFinancièresActuellesWorld {
   readonly modifier: ModifierGarantiesFinancièresFixture;
   readonly enregistrer: EnregistrerGarantiesFinancièresFixture;
   readonly enregistrerAttestation: EnregistrerAttestationGarantiesFinancièresFixture;
   readonly demander: DemanderGarantiesFinancièresFixture;
+  readonly échoir: ÉchoirGarantiesFinancièresFixture;
 
   constructor(public readonly garantiesFinancièresWorld: GarantiesFinancièresWorld) {
     this.modifier = new ModifierGarantiesFinancièresFixture(this);
     this.enregistrer = new EnregistrerGarantiesFinancièresFixture(this);
     this.enregistrerAttestation = new EnregistrerAttestationGarantiesFinancièresFixture(this);
     this.demander = new DemanderGarantiesFinancièresFixture(this);
+    this.échoir = new ÉchoirGarantiesFinancièresFixture();
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>): EnregistrerGarantiesFinancièresProps {
@@ -74,6 +77,9 @@ export class GarantiesFinancièresActuellesWorld {
       }),
       valeurImport,
     );
+    if (this.échoir.aÉtéCréé) {
+      garantiesFinancières.statut = GarantiesFinancières.StatutGarantiesFinancières.échu;
+    }
     return {
       identifiantProjet,
       garantiesFinancières,

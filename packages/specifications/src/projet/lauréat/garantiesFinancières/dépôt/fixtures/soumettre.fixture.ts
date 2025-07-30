@@ -96,28 +96,29 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     this.aÉtéCréé = true;
     return fixture;
   }
-  mapToExpected() {
+  mapToExpected():
+    | GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel['dépôt']
+    | undefined {
+    if (!this.aÉtéCréé) return undefined;
     const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
       type: this.type,
       dateÉchéance: this.dateÉchéance,
     });
-    const readModel: GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel['dépôt'] =
-      {
-        type: gf.type,
-        dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
-        dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
-        attestation: DocumentProjet.convertirEnValueType(
-          this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-          Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-          this.dateConstitution,
-          this.attestation.format,
-        ),
-        soumisLe: DateTime.convertirEnValueType(this.soumisLe),
-        dernièreMiseÀJour: {
-          date: DateTime.convertirEnValueType(this.soumisLe),
-          par: Email.convertirEnValueType(this.soumisPar),
-        },
-      };
-    return readModel;
+    return {
+      type: gf.type,
+      dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
+      dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
+      soumisLe: DateTime.convertirEnValueType(this.soumisLe),
+      attestation: DocumentProjet.convertirEnValueType(
+        this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
+        Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+        this.dateConstitution,
+        this.attestation.format,
+      ),
+      dernièreMiseÀJour: {
+        date: DateTime.convertirEnValueType(this.soumisLe),
+        par: Email.convertirEnValueType(this.soumisPar),
+      },
+    };
   }
 }

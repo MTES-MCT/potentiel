@@ -5,10 +5,6 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture';
-import {
-  soumettreDépôt,
-  validerDépôtEnCours,
-} from '../../dépôt/stepDefinitions/dépôtGarantiesFinancières.when';
 
 EtantDonné(
   'des garanties financières actuelles pour le projet {string} avec :',
@@ -66,14 +62,26 @@ EtantDonné(
     const exemple = dataTable.rowsHash();
 
     const { identifiantProjet } = this.lauréatWorld;
+    try {
+      await enregistrerGarantiesFinancièresActuelles.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
+      );
+    } catch (e) {
+      if (
+        e instanceof Error &&
+        e.message === 'Il y a déjà des garanties financières pour ce projet'
+      ) {
+        await modifierGarantiesFinancièresActuelles.call(
+          this,
+          this.lauréatWorld.identifiantProjet,
+          {},
+        );
+      }
+    }
 
-    await soumettreDépôt.call(
-      this,
-      identifiantProjet,
-      this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapExempleToUseCaseData(exemple),
-    );
-
-    await validerDépôtEnCours.call(this, identifiantProjet, {});
+    this.lauréatWorld.garantiesFinancièresWorld.actuelles.échoir.créer();
 
     await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',

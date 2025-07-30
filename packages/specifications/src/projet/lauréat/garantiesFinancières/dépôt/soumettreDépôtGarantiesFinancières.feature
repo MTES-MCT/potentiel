@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@dépôt-garanties-financières
 Fonctionnalité: Soumettre de nouvelles garanties financières
 
     Contexte:
@@ -53,8 +54,8 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si date d'échéance manquante
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type GF      | avec-date-échéance |
-            | dateÉchéance |                    |
+            | type GF         | avec-date-échéance |
+            | date d'échéance |                    |
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
     Plan du Scénario: Impossible de soumettre un dépôt de garanties financières si la date d'échéance est non compatible avec le type

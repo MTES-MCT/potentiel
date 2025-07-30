@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@dépôt-garanties-financières
 Fonctionnalité: Valider un dépôt de garanties financières
 
     Contexte:
@@ -25,7 +26,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet lauréat
-        Et un historique des garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
+        Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
             | raison | modification des garanties financières |
 
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut échu
@@ -34,7 +35,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | date d'échéance | 2024-07-17         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet lauréat
-        Et un historique des garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
+        Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
             | type GF         | avec-date-échéance                              |
             | date d'échéance | 2024-07-17                                      |
             | statut          | échu                                            |

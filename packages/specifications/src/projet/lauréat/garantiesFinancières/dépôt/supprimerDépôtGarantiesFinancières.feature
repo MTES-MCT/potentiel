@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@dépôt-garanties-financières
 Fonctionnalité: Supprimer un dépôt de garanties financières
 
     Contexte:

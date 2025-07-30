@@ -1,6 +1,10 @@
+import { DocumentProjet } from '@potentiel-domain/document';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
 import { mapToExemple, FieldToExempleMapper, mapDateTime } from '../../../../helpers/mapToExemple';
 import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
 
+import { ModifierDépôtGarantiesFinancièresFixture } from './fixtures/modifier.fixture';
 import {
   SoumettreDépôtGarantiesFinancièresFixture,
   SoumettreDépôtGarantiesFinancièresProps,
@@ -9,10 +13,13 @@ import { ValiderDépôtGarantiesFinancièresFixture } from './fixtures/valider.f
 
 export class DépôtGarantiesFinancièresWorld {
   readonly soumettre: SoumettreDépôtGarantiesFinancièresFixture;
+  readonly modifier: ModifierDépôtGarantiesFinancièresFixture;
   readonly valider: ValiderDépôtGarantiesFinancièresFixture;
+
   constructor(public readonly garantiesFinancièresWorld: GarantiesFinancièresWorld) {
     this.soumettre = new SoumettreDépôtGarantiesFinancièresFixture(this);
-    this.valider = new ValiderDépôtGarantiesFinancièresFixture();
+    this.modifier = new ModifierDépôtGarantiesFinancièresFixture(this);
+    this.valider = new ValiderDépôtGarantiesFinancièresFixture(this);
   }
 
   mapExempleToUseCaseData(
@@ -29,16 +36,35 @@ export class DépôtGarantiesFinancièresWorld {
   }
 
   mapToExpected() {
+    const dépôt: Partial<
+      GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel['dépôt']
+    > = {
+      ...this.soumettre.mapToExpected(),
+      ...this.modifier.mapToExpected(),
+      ...this.valider.mapToExpected(),
+    };
+
+    if (this.valider.aÉtéCréé && dépôt.attestation) {
+      dépôt.attestation = DocumentProjet.bind({
+        ...dépôt.attestation,
+        typeDocument:
+          GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+      });
+    }
+
     return {
       identifiantProjet: this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet,
-      garantiesFinancières: {
-        ...this.soumettre.mapToExpected(),
-        ...this.valider.mapToExpected(),
+      dépôt: {
+        ...dépôt,
+        soumisLe: this.soumettre?.mapToExpected()?.soumisLe,
       },
     };
   }
 
   mapToAttestation() {
+    if (this.modifier.aÉtéCréé) {
+      return { content: this.modifier.content, format: this.modifier.attestation.format };
+    }
     return { content: this.soumettre.content, format: this.soumettre.attestation.format };
   }
 }

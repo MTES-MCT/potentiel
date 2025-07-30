@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@dépôt-garanties-financières
 Fonctionnalité: Modifier un dépôt de garanties financières
 
     Contexte:
@@ -7,37 +8,19 @@ Fonctionnalité: Modifier un dépôt de garanties financières
 
     Plan du Scénario: Un porteur modifie un dépôt de garanties financières
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type GF              | <type GF>              |
-            | date d'échéance      | <date d'échéance>      |
-            | format               | <format du fichier>    |
-            | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
-            | date de soumission   | <date de soumission>   |
-            | soumis par           | porteur@test.test      |
+            | type GF         | <type GF>         |
+            | date d'échéance | <date d'échéance> |
         Quand le porteur modifie un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type GF              | consignation           |
-            | date d'échéance      |                        |
-            | format               | application/pdf        |
-            | contenu fichier      | nouveau fichier        |
-            | date de constitution | 2023-06-12             |
-            | date de modification | <date de modification> |
-            | modifié par          | porteur@test.test      |
-        Alors le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
-            | type GF                      | consignation           |
-            | date d'échéance              |                        |
-            | format                       | application/pdf        |
-            | contenu fichier              | nouveau fichier        |
-            | date de constitution         | 2023-06-12             |
-            | date de soumission           | <date de soumission>   |
-            | soumis par                   | porteur@test.test      |
-            | date de dernière mise à jour | <date de modification> |
+            | type GF         | consignation |
+            | date d'échéance |              |
+        Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
 
         Exemples:
-            | type GF            | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission | date de modification |
-            | avec-date-échéance | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
+            | type GF                   | date d'échéance |
+            | avec-date-échéance        | 2027-12-01      |
+            | consignation              |                 |
+            | six-mois-après-achèvement |                 |
 
-    # | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
-    # | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
     Plan du Scénario: Impossible de modifier un dépôt de garanties financières si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF | consignation |

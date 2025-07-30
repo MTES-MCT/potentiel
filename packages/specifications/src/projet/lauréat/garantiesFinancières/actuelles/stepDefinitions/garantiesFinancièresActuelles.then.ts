@@ -12,8 +12,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
 
-import { setGarantiesFinancièresData } from './helper';
-
 Alors(
   'les garanties financières actuelles devraient être consultables pour le projet lauréat',
   async function (this: PotentielWorld) {
@@ -92,22 +90,23 @@ Alors(
 );
 
 Alors(
-  `un historique des garanties financières devrait être consultable pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `un historique des garanties financières devrait être consultable pour le projet lauréat avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-    const {
-      typeValue,
-      dateÉchéanceValue,
-      attestationValue: { format, content },
-      dateConstitutionValue,
-      validéLeValue,
-      statutValue,
-    } = setGarantiesFinancièresData({
-      identifiantProjet,
-      exemple,
-    });
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const { garantiesFinancières } =
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToExpected();
+
+    const typeValue = garantiesFinancières.type.formatter();
+    const dateÉchéanceValue = garantiesFinancières.dateÉchéance?.formatter();
+    const dateConstitutionValue = garantiesFinancières.dateConstitution?.formatter();
+    const validéLeValue = garantiesFinancières.validéLe?.formatter();
+    const statutValue = garantiesFinancières.statut.statut;
+
+    const { format, content } =
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
 
     const raisonValue = exemple['raison'];
 
@@ -175,8 +174,7 @@ Alors(
           actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.format,
         ).to.be.equal(format);
         const actualContent = await convertReadableStreamToString(file.content);
-        const expectedContent = await convertReadableStreamToString(content);
-        actualContent.should.be.equal(expectedContent);
+        actualContent.should.be.equal(content);
       }
     });
   },

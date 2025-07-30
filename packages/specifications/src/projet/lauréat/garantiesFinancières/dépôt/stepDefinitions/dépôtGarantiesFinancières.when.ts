@@ -5,7 +5,6 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../.././../potentiel.world';
-import { convertStringToReadableStream } from '../../../.././../helpers/convertStringToReadable';
 import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture';
 import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture';
 
@@ -32,28 +31,11 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const typeGarantiesFinancières = exemple['type GF'] || 'consignation';
-      const dateÉchéance = exemple[`date d'échéance`] || undefined;
-      const format = exemple['format'] || 'application/pdf';
-      const dateConstitution = exemple[`date de constitution`] || '2024-01-01';
-      const contenuFichier = exemple['contenu fichier'] || 'contenu fichier';
-      const dateModification = exemple['date de modification'] || '2024-01-02';
-      const modifiéPar = exemple['modifié par'] || 'user@test.test';
-
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await mediator.send<GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: typeGarantiesFinancières,
-          dateConstitutionValue: new Date(dateConstitution).toISOString(),
-          modifiéLeValue: new Date(dateModification).toISOString(),
-          modifiéParValue: modifiéPar,
-          attestationValue: { content: convertStringToReadableStream(contenuFichier), format },
-          ...(dateÉchéance && { dateÉchéanceValue: new Date(dateÉchéance).toISOString() }),
-        },
-      });
+      await modifierDépôt.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapExempleToUseCaseData(exemple),
+      );
     } catch (error) {
       this.error = error as Error;
     }
@@ -109,6 +91,29 @@ export async function soumettreDépôt(
       soumisLeValue: soumisLe,
       soumisParValue: soumisPar,
       typeValue: type,
+      dateÉchéanceValue: dateÉchéance,
+    },
+  });
+}
+
+export async function modifierDépôt(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  props: SoumettreDépôtGarantiesFinancièresProps,
+) {
+  const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
+    this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
+      ...props,
+    });
+  await mediator.send<GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>({
+    type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      typeValue: type,
+      dateConstitutionValue: new Date(dateConstitution).toISOString(),
+      modifiéLeValue: new Date(soumisLe).toISOString(),
+      modifiéParValue: soumisPar,
+      attestationValue: attestation,
       dateÉchéanceValue: dateÉchéance,
     },
   });

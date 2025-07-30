@@ -16,7 +16,7 @@ export class GarantiesFinancièresWorld {
       const { dépôt, identifiantProjet } = this.dépôt.mapToExpected();
       return {
         identifiantProjet,
-        garantiesFinacnières: dépôt,
+        garantiesFinancières: dépôt,
       };
     }
     return this.actuelles.mapToExpected();
