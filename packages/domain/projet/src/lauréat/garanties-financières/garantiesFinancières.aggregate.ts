@@ -116,7 +116,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.vérifierSiLeTypeEstDisponiblePourAppelOffre(garantiesFinancières?.type);
   }
 
-  private vérifierSiLaDateDeConsitutionEstValide(dateConstitution: DateTime.ValueType) {
+  private vérifierLaValiditéDeLaDateDeConstitution(dateConstitution: DateTime.ValueType) {
     if (dateConstitution.estDansLeFutur()) {
       throw new DateConstitutionDansLeFuturError();
     }
@@ -212,7 +212,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }: ModifierActuellesOptions) {
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
     // TODO this.vérifierQueLesGarantiesFinancièresSontModifiables(this.garantiesFinancières);
-    this.vérifierSiLaDateDeConsitutionEstValide(dateConstitution);
+    this.vérifierLaValiditéDeLaDateDeConstitution(dateConstitution);
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
     this.vérifierSiLesGarantiesFinancièresSontLevées();
 
@@ -242,7 +242,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.aUneAttestation) {
       throw new AttestationGarantiesFinancièresDéjàExistante();
     }
-    this.vérifierSiLaDateDeConsitutionEstValide(dateConstitution);
+    this.vérifierLaValiditéDeLaDateDeConstitution(dateConstitution);
 
     const event: AttestationGarantiesFinancièresEnregistréeEvent = {
       type: 'AttestationGarantiesFinancièresEnregistrée-V1',
@@ -268,7 +268,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.aDesGarantiesFinancières) {
       throw new GarantiesFinancièresDéjàEnregistréesError();
     }
-    this.vérifierSiLaDateDeConsitutionEstValide(dateConstitution);
+    this.vérifierLaValiditéDeLaDateDeConstitution(dateConstitution);
 
     const event: GarantiesFinancièresEnregistréesEvent = {
       type: 'GarantiesFinancièresEnregistrées-V1',
