@@ -352,6 +352,11 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       dateSuppression,
       identifiantUtilisateur,
     });
+
+    await this.lauréat.délai.supprimerDemandeDélai({
+      dateSuppression,
+      identifiantUtilisateur,
+    });
   }
 
   apply(event: AbandonEvent): void {

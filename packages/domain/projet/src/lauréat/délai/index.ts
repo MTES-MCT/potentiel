@@ -70,6 +70,7 @@ export type { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemand
 export type { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event';
 export type { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 export type { DélaiAccordéEvent, LegacyDélaiAccordéEvent } from './accorder/accorderDélai.event';
+export type { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event';
 export * from './délai.event';
 
 // Register

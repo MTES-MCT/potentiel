@@ -4,6 +4,7 @@ import { DemandeDélaiAnnuléeEvent } from './demande/annuler/annulerDemandeDél
 import { DemandeDélaiRejetéeEvent } from './demande/rejeter/rejeterDemandeDélai.event';
 import { DemandeDélaiPasséeEnInstructionEvent } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.event';
 import { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event';
+import { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event';
 
 export type DélaiEvent =
   | DélaiAccordéEvent
@@ -11,4 +12,5 @@ export type DélaiEvent =
   | DemandeDélaiAnnuléeEvent
   | DemandeDélaiPasséeEnInstructionEvent
   | DemandeDélaiRejetéeEvent
-  | DemandeDélaiCorrigéeEvent;
+  | DemandeDélaiCorrigéeEvent
+  | DemandeDélaiSuppriméeEvent;

@@ -57,6 +57,7 @@ export const registerDélaiNotifications = ({
       .with({ type: 'DemandeDélaiCorrigée-V1' }, async (event) =>
         demandeDélaiCorrigéeNotification({ sendEmail, event, projet, baseUrl }),
       )
+      .with({ type: 'DemandeDélaiSupprimée-V1' }, () => Promise.resolve())
       .exhaustive();
   };
 

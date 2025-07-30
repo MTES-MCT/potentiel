@@ -24,6 +24,8 @@ import { PasserEnInstructionDemandeDélaiOptions } from './demande/passer-en-ins
 import { AccorderDemandeDélaiOptions } from './demande/accorder/accorderDemandeDélai.options';
 import { CorrigerDemandeDélaiOptions } from './demande/corriger/corrigerDemandeDélai.options';
 import { DemandeDélaiCorrigéeEvent } from './demande/corriger/corrigerDemandeDélai.event';
+import { SupprimerDemandeDélaiOptions } from './demande/supprimer/supprimerDemandeDélai.options';
+import { DemandeDélaiSuppriméeEvent } from './demande/supprimer/supprimerDemandeDélai.event';
 
 export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', LauréatAggregate> {
   #demande?: {
@@ -115,6 +117,27 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
         identifiantProjet: this.identifiantProjet.formatter(),
         annuléLe: dateAnnulation.formatter(),
         annuléPar: identifiantUtilisateur.formatter(),
+        dateDemande: this.#demande.demandéLe,
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async supprimerDemandeDélai({
+    identifiantUtilisateur,
+    dateSuppression,
+  }: SupprimerDemandeDélaiOptions) {
+    if (!this.#demande) {
+      return;
+    }
+
+    const event: DemandeDélaiSuppriméeEvent = {
+      type: 'DemandeDélaiSupprimée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        suppriméLe: dateSuppression.formatter(),
+        suppriméPar: identifiantUtilisateur.formatter(),
         dateDemande: this.#demande.demandéLe,
       },
     };
@@ -226,6 +249,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       )
       .with({ type: 'DemandeDélaiRejetée-V1' }, this.applyDemandeDélaiRejetée.bind(this))
       .with({ type: 'DélaiAccordé-V1' }, this.applyDemandeDélaiAccordée.bind(this))
+      .with({ type: 'DemandeDélaiSupprimée-V1' }, this.applyDemandeDélaiSupprimée.bind(this))
       .exhaustive();
   }
 
@@ -240,6 +264,10 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   }
 
   private applyDemandeDélaiAnnulée() {
+    this.#demande = undefined;
+  }
+
+  private applyDemandeDélaiSupprimée() {
     this.#demande = undefined;
   }
 
