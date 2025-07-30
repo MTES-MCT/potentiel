@@ -13,12 +13,13 @@ import {
   mapToDélaiDemandéTimelineItemProps,
   mapToLegacyDélaiAccordéTimelineItemProps,
 } from './events';
+import { mapToDemandeDélaiSuppriméeTimelineItemProps } from './events/mapToDemandeDélaiSuppriméeTimelineItemProps';
 
 export const mapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
 ) =>
   match(readmodel)
-    .returnType<TimelineItemProps | undefined>()
+    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'DélaiDemandé-V1',
@@ -65,6 +66,6 @@ export const mapToDélaiTimelineItemProps = (
       {
         type: 'DemandeDélaiSupprimée-V1',
       },
-      () => undefined,
+      mapToDemandeDélaiSuppriméeTimelineItemProps,
     )
     .exhaustive();
