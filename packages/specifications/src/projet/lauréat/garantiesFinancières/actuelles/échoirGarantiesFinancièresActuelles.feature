@@ -73,7 +73,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si les garanties financières sont déjà échues
-        Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles échues pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
@@ -83,7 +83,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si le projet dispose d'un dépôt de garanties financières
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"

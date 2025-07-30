@@ -36,7 +36,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
     # Règles métier à confirmer
     @NotImplemented
     Scénario: Un porteur enregistre des garanties financières actuelles ayant initialement un statut échu
-        Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles échues pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
         Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
@@ -76,6 +76,12 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :
             | date de constitution | 2050-01-01 |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
+
+    Scénario: Impossible d'enregister des garanties financières actuelles avec un type exemption
+        Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :
+            | type GF              | exemption  |
+            | date de délibération | 2020-01-01 |
+        Alors l'utilisateur devrait être informé que "Impossible d'enregistrer ou modifier une exemption de garanties financières"
 
     Scénario: Impossible d'enregister des garanties financières s'il y a déjà des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"

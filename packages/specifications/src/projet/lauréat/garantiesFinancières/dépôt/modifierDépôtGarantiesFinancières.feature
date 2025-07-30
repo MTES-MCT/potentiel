@@ -33,11 +33,11 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | date de dernière mise à jour | <date de modification> |
 
         Exemples:
-            | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission | date de modification |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
+            | type GF            | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission | date de modification |
+            | avec-date-échéance | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
 
+    # | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
+    # | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-07-01         | 2023-11-01           |
     Plan du Scénario: Impossible de modifier un dépôt de garanties financières si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF | consignation |

@@ -172,11 +172,15 @@ const vérifierDateÉchéance = (date: string | undefined) => {
   return DateTime.convertirEnValueType(date);
 };
 
-const vérifierDateDélibération = (date: string | undefined) => {
-  if (!date) {
+const vérifierDateDélibération = (dateStr: string | undefined) => {
+  if (!dateStr) {
     throw new DateDélibérationRequiseError();
   }
-  return DateTime.convertirEnValueType(date);
+  const date = DateTime.convertirEnValueType(dateStr);
+  // if (date.estDansLeFutur()) {
+  //   // thro
+  // }
+  return date;
 };
 
 class TypeGarantiesFinancièresInconnu extends InvalidOperationError {

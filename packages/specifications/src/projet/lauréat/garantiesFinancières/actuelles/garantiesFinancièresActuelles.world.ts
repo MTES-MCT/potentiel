@@ -11,16 +11,19 @@ import {
 } from './fixtures/enregistrerGarantiesFinancières.fixture';
 import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture';
 import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture';
+import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture';
 
 export class GarantiesFinancièresActuellesWorld {
   readonly modifier: ModifierGarantiesFinancièresFixture;
   readonly enregistrer: EnregistrerGarantiesFinancièresFixture;
   readonly enregistrerAttestation: EnregistrerAttestationGarantiesFinancièresFixture;
+  readonly demander: DemanderGarantiesFinancièresFixture;
 
   constructor(public readonly garantiesFinancièresWorld: GarantiesFinancièresWorld) {
     this.modifier = new ModifierGarantiesFinancièresFixture(this);
     this.enregistrer = new EnregistrerGarantiesFinancièresFixture(this);
     this.enregistrerAttestation = new EnregistrerAttestationGarantiesFinancièresFixture(this);
+    this.demander = new DemanderGarantiesFinancièresFixture(this);
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>): EnregistrerGarantiesFinancièresProps {
@@ -32,9 +35,13 @@ export class GarantiesFinancièresActuellesWorld {
       dateDélibération: ['date de délibération', mapDateTime],
     };
 
+    const otherProps = mapToExemple(exemple, {
+      dateConstitution: ['date de constitution', mapDateTime],
+    });
+
     return {
       garantiesFinancières: mapToExemple(exemple, garantiesFinancièresMapper),
-      dateConstitution: mapDateTime(exemple['date de constitution']),
+      ...otherProps,
     };
   }
   mapToExpected(): GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {

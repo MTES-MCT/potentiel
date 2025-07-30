@@ -23,7 +23,7 @@ Alors(
       const actual = mapToPlainObject(actualReadModel);
 
       const expected = mapToPlainObject(
-        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToExpected(),
+        this.lauréatWorld.garantiesFinancièresWorld.mapToExpected(),
       );
 
       actual.should.be.deep.equal(expected);
@@ -37,8 +37,7 @@ Alors(
         });
 
         assert(Option.isSome(file), `Attestation non trouvée !`);
-        const expectedAttestation =
-          this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
+        const expectedAttestation = this.lauréatWorld.garantiesFinancièresWorld.mapToAttestation();
 
         expect(actualReadModel.garantiesFinancières.attestation.format).to.be.equal(
           expectedAttestation.format,

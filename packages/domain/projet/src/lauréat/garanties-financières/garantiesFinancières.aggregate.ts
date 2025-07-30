@@ -36,6 +36,7 @@ import {
   AttestationDeConformitéError,
   AttestationGarantiesFinancièresDéjàExistante,
   AucunesGarantiesFinancièresActuellesError,
+  ChoixExemptionImpossibleError,
   DateConstitutionDansLeFuturError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
@@ -44,6 +45,7 @@ import {
   GarantiesFinancièresDéjàÉchuesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
   GarantiesFinancièresSansÉchéanceError,
+  ProjetExemptDeGarantiesFinancièresError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error';
 import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
@@ -140,6 +142,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
+  private vérifierQueLesGarantiesFinancièresSontModifiables() {
+    if (this.#type?.estExemption()) {
+      throw new ProjetExemptDeGarantiesFinancièresError();
+    }
+  }
+
   private vérifierSiLesGarantiesFinancièresSontLevées() {
     if (this.estLevé) {
       throw new GarantiesFinancièresDéjàLevéesError();
@@ -211,7 +219,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     modifiéPar,
   }: ModifierActuellesOptions) {
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
-    // TODO this.vérifierQueLesGarantiesFinancièresSontModifiables(this.garantiesFinancières);
+    this.vérifierQueLesGarantiesFinancièresSontModifiables();
     this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
     this.vérifierSiLesGarantiesFinancièresSontLevées();
@@ -269,6 +277,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       throw new GarantiesFinancièresDéjàEnregistréesError();
     }
     this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
+    if (garantiesFinancières.estExemption()) {
+      throw new ChoixExemptionImpossibleError();
+    }
 
     const event: GarantiesFinancièresEnregistréesEvent = {
       type: 'GarantiesFinancièresEnregistrées-V1',
@@ -482,6 +493,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { dateÉchéance, type },
   }: GarantiesFinancièresEnregistréesEvent) {
     this.#aDesGarantiesFinancières = true;
+    this.#aUneAttestation = true;
     this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
     this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }
@@ -490,6 +502,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { type, dateÉchéance },
   }: GarantiesFinancièresModifiéesEvent) {
     this.#aDesGarantiesFinancières = true;
+    this.#aUneAttestation = true;
     this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
     this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }

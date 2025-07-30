@@ -101,3 +101,17 @@ export class AttestationDeConformitéError extends InvalidOperationError {
     );
   }
 }
+
+export class ChoixExemptionImpossibleError extends InvalidOperationError {
+  constructor() {
+    super(`Impossible d'enregistrer ou modifier une exemption de garanties financières`);
+  }
+}
+
+export class ProjetExemptDeGarantiesFinancièresError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Vous ne pouvez pas déposer ou modifier des garanties financières car ce projet en est exempt`,
+    );
+  }
+}

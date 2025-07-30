@@ -90,3 +90,12 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+
+    Scénario: Impossible de modifier des garanties financières actuelles si le projet en est exempt
+        Etant donné le projet lauréat "Du boulodrome de Toulouse" avec :
+            | appel d'offre        | PPE2 - Petit PV Bâtiment |
+            | type GF              | exemption                |
+            | date de délibération | 2023-01-02               |
+        Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
+            | type GF | consignation |
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car ce projet en est exempt"
