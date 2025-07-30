@@ -9,28 +9,15 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Plan du Scénario: Un porteur soumet un dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type GF              | <type GF>              |
-            | date d'échéance      | <date d'échéance>      |
-            | format               | <format du fichier>    |
-            | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
-            | date de soumission   | <date de soumission>   |
-            | soumis par           | porteur@test.test      |
-        Alors le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
-            | type GF                      | <type GF>              |
-            | date d'échéance              | <date d'échéance>      |
-            | format                       | <format du fichier>    |
-            | contenu fichier              | <contenu du fichier>   |
-            | date de constitution         | <date de constitution> |
-            | date de soumission           | <date de soumission>   |
-            | soumis par                   | porteur@test.test      |
-            | date de dernière mise à jour | <date de soumission>   |
+            | type GF         | <type GF>         |
+            | date d'échéance | <date d'échéance> |
+        Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
 
         Exemples:
-            | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
+            | type GF                   | date d'échéance |
+            | avec-date-échéance        | 2027-12-01      |
+            | consignation              |                 |
+            | six-mois-après-achèvement |                 |
 
     Scénario: Une tâche du type "échoir les garanties financières" est annulée quand une dépôt de garanties financiéres est soumis
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :

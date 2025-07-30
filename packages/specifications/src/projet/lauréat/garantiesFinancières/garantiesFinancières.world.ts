@@ -13,7 +13,11 @@ export class GarantiesFinancièresWorld {
 
   mapToExpected() {
     if (this.dépôt.valider.aÉtéCréé) {
-      return this.dépôt.mapToExpected();
+      const { dépôt, identifiantProjet } = this.dépôt.mapToExpected();
+      return {
+        identifiantProjet,
+        garantiesFinacnières: dépôt,
+      };
     }
     return this.actuelles.mapToExpected();
   }

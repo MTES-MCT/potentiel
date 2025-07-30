@@ -101,23 +101,23 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       type: this.type,
       dateÉchéance: this.dateÉchéance,
     });
-    const readModel: GarantiesFinancières.GarantiesFinancièresReadModel = {
-      statut: GarantiesFinancières.StatutGarantiesFinancières.validé,
-      type: gf.type,
-      dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
-      dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
-      attestation: DocumentProjet.convertirEnValueType(
-        this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-        Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-        this.dateConstitution,
-        this.attestation.format,
-      ),
-      soumisLe: DateTime.convertirEnValueType(this.soumisLe),
-      dernièreMiseÀJour: {
-        date: DateTime.convertirEnValueType(this.soumisLe),
-        par: Email.convertirEnValueType(this.soumisPar),
-      },
-    };
+    const readModel: GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel['dépôt'] =
+      {
+        type: gf.type,
+        dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
+        dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
+        attestation: DocumentProjet.convertirEnValueType(
+          this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
+          Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+          this.dateConstitution,
+          this.attestation.format,
+        ),
+        soumisLe: DateTime.convertirEnValueType(this.soumisLe),
+        dernièreMiseÀJour: {
+          date: DateTime.convertirEnValueType(this.soumisLe),
+          par: Email.convertirEnValueType(this.soumisPar),
+        },
+      };
     return readModel;
   }
 }
