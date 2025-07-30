@@ -38,7 +38,7 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
         Et une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service au "<Date de mise en service>" pour le dossier de raccordement du projet lauréat
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
-        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-06-30"
+        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-07-01"
 
         Exemples:
             | Date de mise en service |
@@ -80,7 +80,7 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
         Et une demande complète de raccordement pour le projet lauréat
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2023-09-10 |
-        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-06-30"
+        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2021-07-01"
 
     Scénario: Ne pas appliquer le délai du CDC 2022 lorsqu'un projet lauréat a une date de mise en service transmise en dehors de l'intervalle prévu par le CDC
         Etant donné le gestionnaire de réseau "Enedis"
