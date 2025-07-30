@@ -10,14 +10,14 @@ import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/d
 import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture';
 
 Quand(
-  'le porteur demande le changement de réprésentant pour le projet lauréat',
+  'le porteur demande le changement de représentant pour le projet lauréat',
   async function (this: PotentielWorld) {
     await demanderChangement.call(this, {});
   },
 );
 
 Quand(
-  'le porteur demande le changement de réprésentant pour le projet lauréat avec les mêmes valeurs',
+  'le porteur demande le changement de représentant pour le projet lauréat avec les mêmes valeurs',
   async function (this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet;
     const { nomReprésentantLégal, typeReprésentantLégal } =
@@ -35,7 +35,7 @@ Quand(
 );
 
 Quand(
-  'le porteur demande le changement de réprésentant pour le projet lauréat avec un type inconnu',
+  'le porteur demande le changement de représentant pour le projet lauréat avec un type inconnu',
   async function (this: PotentielWorld) {
     await demanderChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
@@ -46,7 +46,7 @@ Quand(
 );
 
 Quand(
-  'le porteur demande le changement de réprésentant pour le projet lauréat le {string}',
+  'le porteur demande le changement de représentant pour le projet lauréat le {string}',
   async function (this: PotentielWorld, dateDemande: string) {
     await demanderChangement.call(this, {
       identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
@@ -160,6 +160,16 @@ Quand(
   'le porteur enregistre un changement de représentant légal',
   async function (this: PotentielWorld) {
     await enregistrerChangementReprésentantLégal.call(this, {});
+  },
+);
+
+Quand(
+  'le porteur enregistre un changement de représentant légal le {string}',
+  async function (this: PotentielWorld, dateDemande: string) {
+    await enregistrerChangementReprésentantLégal.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      demandéLe: DateTime.convertirEnValueType(new Date(dateDemande)).formatter(),
+    });
   },
 );
 

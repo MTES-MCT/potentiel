@@ -32,7 +32,6 @@ export const registerSupprimerDocumentProjetSensibleCommand = ({
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    // viovio, il faut changer ça
     const { pièceJustificative } = projet.lauréat.représentantLégal;
 
     if (pièceJustificative) {

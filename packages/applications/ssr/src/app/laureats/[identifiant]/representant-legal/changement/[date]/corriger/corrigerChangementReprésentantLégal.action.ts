@@ -16,7 +16,7 @@ import {
 const commonSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
-    invalid_type_error: 'Le type de réprésentant légal est invalide',
+    invalid_type_error: 'Le type de représentant légal est invalide',
     required_error: 'Champ obligatoire',
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),

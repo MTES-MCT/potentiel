@@ -9,7 +9,8 @@ export type TypeTâchePlanifiée =
   | 'rappel échéance garanties financières à un mois'
   | 'rappel échéance garanties financières à deux mois'
   | 'gestion automatique de la demande de changement de représentant légal'
-  | "rappel d'instruction de la demande de changement de représentant légal à deux mois";
+  | "rappel d'instruction de la demande de changement de représentant légal à deux mois"
+  | 'suppression automatique du document à trois mois';
 
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'exécutée';
 
@@ -35,8 +36,6 @@ export class TâchePlanifiéeWorld {
 
     return tâche;
   }
-
-  // viovio ajouter ici
 
   rechercherTypeTâchePlanifiée(value: TypeTâchePlanifiée) {
     return match(value)
@@ -66,6 +65,12 @@ export class TâchePlanifiéeWorld {
         () =>
           Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
             .rappelInstructionÀDeuxMois,
+      )
+      .with(
+        'suppression automatique du document à trois mois',
+        () =>
+          Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
+            .suppressionDocumentÀTroisMois,
       )
       .exhaustive();
   }
