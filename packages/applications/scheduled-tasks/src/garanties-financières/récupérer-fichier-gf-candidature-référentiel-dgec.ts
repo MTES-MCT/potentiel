@@ -221,7 +221,7 @@ void (async () => {
           gf.garantiesFinancières.dateConstitution?.formatter() ?? DateTime.now().formatter(),
         ).formatter();
 
-        await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
+        await mediator.send<Lauréat.GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
           {
             type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
             data: {
@@ -261,7 +261,7 @@ void (async () => {
         continue;
       }
 
-      await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
+      await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

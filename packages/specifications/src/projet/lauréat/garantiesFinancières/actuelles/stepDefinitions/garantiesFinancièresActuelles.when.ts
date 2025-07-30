@@ -1,7 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -44,7 +43,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
+      await mediator.send<Lauréat.GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
         data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });
@@ -62,13 +61,15 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
-        data: setGarantiesFinancièresData({
-          identifiantProjet,
-          exemple,
-        }),
-      });
+      await mediator.send<Lauréat.GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
+          data: setGarantiesFinancièresData({
+            identifiantProjet,
+            exemple,
+          }),
+        },
+      );
     } catch (error) {
       this.error = error as Error;
     }
@@ -83,7 +84,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
+      await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
       });

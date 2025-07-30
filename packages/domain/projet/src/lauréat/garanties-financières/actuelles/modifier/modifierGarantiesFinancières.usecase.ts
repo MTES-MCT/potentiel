@@ -1,11 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeDocumentGarantiesFinancières } from '../..';
+import { IdentifiantProjet } from '../../../..';
+import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 
 import { ModifierGarantiesFinancièresCommand } from './modifierGarantiesFinancières.command';
 
@@ -36,10 +35,10 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
     modifiéParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const type = Candidature.TypeGarantiesFinancières.convertirEnValueType(typeValue);
-    const dateÉchéance = dateÉchéanceValue
-      ? DateTime.convertirEnValueType(dateÉchéanceValue)
-      : undefined;
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+      type: typeValue,
+      dateÉchéance: dateÉchéanceValue,
+    });
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const attestation = DocumentProjet.convertirEnValueType(
@@ -48,7 +47,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
       dateConstitutionValue,
       attestationValue.format,
     );
-    const modifiéPar = IdentifiantUtilisateur.convertirEnValueType(modifiéParValue);
+    const modifiéPar = Email.convertirEnValueType(modifiéParValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -64,8 +63,7 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
         attestation,
         dateConstitution,
         identifiantProjet,
-        type,
-        dateÉchéance,
+        garantiesFinancières,
         modifiéLe,
         modifiéPar,
       },
