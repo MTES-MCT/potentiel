@@ -17,11 +17,5 @@ Fonctionnalité: Achever une tâche
 
     Scénario: Une tâche est achevée lorsque les garanties financières sont enregistrées pour un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
-        Quand un porteur enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type GF              | consignation    |
-            | format               | application/pdf |
-            | contenu fichier      | contenu fichier |
-            | date de constitution | 2023-06-12      |
-            | date mise à jour     | 2024-03-01      |
-            | enregistré par       | admin@test.test |
+        Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat
         Alors une tâche indiquant de "transmettre les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
