@@ -102,8 +102,12 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   async annulerDemandeDélai({
     identifiantUtilisateur,
     dateAnnulation,
+    nePasLeverUneErreur,
   }: AnnulerDemandeDélaiOptions) {
     if (!this.#demande) {
+      if (nePasLeverUneErreur) {
+        return;
+      }
       throw new DemandeDeDélaiInexistanteError();
     }
 

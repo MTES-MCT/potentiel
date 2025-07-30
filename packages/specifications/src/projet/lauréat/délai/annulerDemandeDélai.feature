@@ -17,6 +17,12 @@ Fonctionnalité: Annuler la demande de délai d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                            |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                 |
 
+    Scénario: Accorder un abandon annule la demande de délai en cours d'un projet lauréat
+        Etant donné une demande de délai en cours pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand l'administrateur accorde l'abandon pour le projet lauréat
+        Alors la demande de délai ne devrait plus être consultable
+
     Scénario: Impossible d'annuler la demande de changement de puissance si la demande est inexistante
         Quand le porteur annule la demande de délai pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Aucune demande de délai n'est en cours"
