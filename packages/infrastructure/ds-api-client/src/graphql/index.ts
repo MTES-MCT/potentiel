@@ -26,10 +26,15 @@ export const getChampValue = <TType extends ChampFragmentFragment['__typename']>
   champs: Champs,
   name: string,
   type: TType,
+  optionnel?: boolean,
 ): (ChampFragmentFragment & { __typename: TType }) | undefined => {
   const champ = champs.find((x) => x.label === name);
   if (!champ) {
-    throw new FieldNotFoundError(name);
+    if (optionnel) {
+      return;
+    } else {
+      throw new FieldNotFoundError(name);
+    }
   }
   if (champ.__typename !== type) {
     throw new InvalidFieldTypeError(name, type!, champ.__typename);
@@ -43,6 +48,12 @@ export const getStringValue = (champs: Champs, name: string) =>
 
 export const getDecimalValue = (champs: Champs, name: string) =>
   getChampValue(champs, name, 'DecimalNumberChamp')?.decimalNumber ?? undefined;
+
+export const getIntegerValue = (champs: Champs, name: string) =>
+  getChampValue(champs, name, 'IntegerNumberChamp')?.integerNumber ?? undefined;
+
+export const getDateValue = (champs: Champs, name: string) =>
+  getChampValue(champs, name, 'DateChamp')?.date ?? undefined;
 
 export const getUrlPièceJustificativeValue = (champs: Champs, name: string): string =>
   getChampValue(champs, name, 'PieceJustificativeChamp')?.files?.[0]?.url;
