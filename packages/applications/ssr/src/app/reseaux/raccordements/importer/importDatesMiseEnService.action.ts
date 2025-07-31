@@ -147,7 +147,7 @@ const action: FormAction<FormState, typeof schema> = async (
           ? ''
           : success === 1
             ? `${success} date de mise en service transmise`
-            : `${success} date(s) de mise en service transmise(s)`,
+            : `${success} dates de mise en service transmises`,
       errors,
     },
   };

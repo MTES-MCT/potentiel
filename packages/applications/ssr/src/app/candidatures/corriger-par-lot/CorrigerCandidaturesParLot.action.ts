@@ -87,7 +87,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
             ? ''
             : success === 1
               ? `${success} candidat corrigé`
-              : `${success} candidat(s) corrigé(s)`,
+              : `${success} candidats corrigés`,
         errors,
       },
     };

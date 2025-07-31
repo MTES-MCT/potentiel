@@ -104,7 +104,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
             ? ''
             : success === 1
               ? `${success} référence dossier modifiée`
-              : `${success} référence(s) dossier modifiée(s)`,
+              : `${success} références dossier modifiées`,
         errors,
       },
     };

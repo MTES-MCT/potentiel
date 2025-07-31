@@ -90,7 +90,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
             ? ''
             : success === 1
               ? `${success} candidat importé`
-              : `${success} candidat(s) importé(s)`,
+              : `${success} candidats importés`,
         errors,
       },
       redirection:
