@@ -16,7 +16,7 @@ Fonctionnalité: Enregistrer un changement de représentant légal
             | sujet      | Potentiel - Déclaration de changement de représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                    |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                         |
-        Et une tâche "suppression automatique du document à trois mois" est planifiée à la date du "2025-01-24" pour le projet lauréat
+        Et une tâche "supprimer automatiquement le document à trois mois" est planifiée à la date du "2025-01-24" pour le projet lauréat
 
     Scénario: Impossible d'enregistrer un changement de représentant légal si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :

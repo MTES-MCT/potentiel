@@ -10,7 +10,7 @@ export type TypeTâchePlanifiée =
   | 'rappel échéance garanties financières à deux mois'
   | 'gestion automatique de la demande de changement de représentant légal'
   | "rappel d'instruction de la demande de changement de représentant légal à deux mois"
-  | 'suppression automatique du document à trois mois';
+  | 'supprimer automatiquement le document à trois mois';
 
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'exécutée';
 
@@ -67,7 +67,7 @@ export class TâchePlanifiéeWorld {
             .rappelInstructionÀDeuxMois,
       )
       .with(
-        'suppression automatique du document à trois mois',
+        'supprimer automatiquement le document à trois mois',
         () =>
           Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
             .suppressionDocumentÀTroisMois,

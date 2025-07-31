@@ -32,16 +32,16 @@ Quand(
 );
 
 Quand(
-  'on exécute la tâche planifiée {string} pour le projet {string}',
-  async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée, nomProjet: string) {
+  'on exécute la tâche planifiée {string} pour le projet lauréat',
+  async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée) {
     try {
-      const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
       const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);
 
       await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
         data: {
-          identifiantProjetValue: projet.identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet.formatter(),
           typeTâchePlanifiéeValue: actualTypeTâche.type,
         },
       });
