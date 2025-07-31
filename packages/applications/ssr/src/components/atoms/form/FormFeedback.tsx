@@ -10,10 +10,9 @@ import { FormAlertError } from './FormAlertError';
 
 export type FormFeedbackProps = {
   formState: FormState;
-  successMessage?: string;
 };
 
-export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage }) => {
+export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
   const { pending } = useFormStatus();
 
   if (pending) {
@@ -24,22 +23,13 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
     case 'success':
       if (formState.result) {
         const {
-          result: { successCount, errors },
+          result: { successMessage, errors },
         } = formState;
 
         return (
           <>
-            {successCount > 0 && successMessage && (
-              <Alert
-                small
-                closable
-                severity="success"
-                description={
-                  <p>
-                    {successCount} {successMessage}
-                  </p>
-                }
-              />
+            {successMessage && (
+              <Alert small closable severity="success" description={<p>{successMessage}</p>} />
             )}
             {errors.length > 0 && (
               <Alert

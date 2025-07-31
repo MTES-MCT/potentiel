@@ -99,7 +99,12 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     return {
       status: 'success',
       result: {
-        successCount: success,
+        successMessage:
+          success === 0
+            ? ''
+            : success === 1
+              ? `${success} référence dossier modifiée`
+              : `${success} références dossier modifiées`,
         errors,
       },
     };

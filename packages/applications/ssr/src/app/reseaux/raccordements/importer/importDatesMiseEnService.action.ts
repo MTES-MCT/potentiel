@@ -142,7 +142,12 @@ const action: FormAction<FormState, typeof schema> = async (
   return {
     status: 'success',
     result: {
-      successCount: success,
+      successMessage:
+        success === 0
+          ? ''
+          : success === 1
+            ? `${success} date de mise en service transmise`
+            : `${success} dates de mise en service transmises`,
       errors,
     },
   };

@@ -27,7 +27,6 @@ export const CorrigerCandidaturesParLotForm: FC = () => {
         children: 'Correction des candidats en cours...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'candidat(s) corrigé(s)'}
       actions={<SubmitButton>Corriger</SubmitButton>}
     >
       <UploadNewOrModifyExistingDocument

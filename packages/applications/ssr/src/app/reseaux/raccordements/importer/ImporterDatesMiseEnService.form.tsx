@@ -49,7 +49,6 @@ export const ImporterDatesMiseEnServiceForm: FC<
         children: 'Import des dates de mise en service en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'date(s) de mise en service transmise(s)'}
       actions={<SubmitButton>Importer</SubmitButton>}
     >
       <GestionnaireRéseauSelect

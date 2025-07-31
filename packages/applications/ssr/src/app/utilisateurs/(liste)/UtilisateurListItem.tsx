@@ -136,7 +136,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
             id: 'enable-user-form',
             action: réactiverUtilisateurAction,
             omitMandatoryFieldsLegend: true,
-            successMessage: 'Utilisateur réactivé TEST',
             children: (
               <>
                 <p className="mt-3">

@@ -27,7 +27,6 @@ export const ImporterCandidaturesForm: FC = () => {
         children: 'Import des candidats en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'candidat(s) importé(s)'}
       actions={<SubmitButton>Importer</SubmitButton>}
     >
       <UploadNewOrModifyExistingDocument
