@@ -8,10 +8,13 @@ export const optionalStringSchema = z
   .optional()
   .transform((val) => val ?? '');
 
-export const _numberSchemaBase = z
-  .string()
-  // replace french commas to "."
-  .transform((str) => (str ? Number(str.replace(/,/g, '.')) : undefined));
+export const _numberSchemaBase = z.union([
+  z
+    .string()
+    // replace french commas to "."
+    .transform((str) => (str ? Number(str.replace(/,/g, '.')) : undefined)),
+  z.number(),
+]);
 
 export const numberSchema = _numberSchemaBase
   // transform to number
@@ -73,13 +76,16 @@ export const dateSchema = z
     return new Date(`${year}-${month}-${day}`);
   });
 
-export const booleanSchema = z
-  .string()
-  .toLowerCase()
-  .optional()
-  .default('false')
-  .transform((s) => JSON.parse(s))
-  .pipe(z.boolean());
+export const booleanSchema = z.union([
+  z.boolean(),
+  z
+    .string()
+    .toLowerCase()
+    .optional()
+    .default('false')
+    .transform((s) => JSON.parse(s))
+    .pipe(z.boolean()),
+]);
 
 export const optionalEnum = <TEnumSchema extends [string, ...string[]]>(
   enumSchema: z.ZodEnum<TEnumSchema>,

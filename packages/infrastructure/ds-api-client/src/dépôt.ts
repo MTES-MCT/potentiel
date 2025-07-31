@@ -80,6 +80,6 @@ export const mapApiResponseToDépôt = ({
     fournisseurs: [],
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
-    technologie: undefined,
+    technologie: 'N/A',
   };
 };

@@ -31,7 +31,7 @@ export const ImporterPériodePage = ({ périodes }: ImporterPériodePageProps) =
               </p>
               <p>
                 Seul le fichier contenant le résultat de l'instruction de la CRE doit être transmis
-                ici, au format suivant :
+                ici, au format CSV, avec les colonnes suivantes :
               </p>
               <Table
                 className="lg:mx-4 my-4 border-spacing-0"
@@ -47,6 +47,10 @@ export const ImporterPériodePage = ({ périodes }: ImporterPériodePageProps) =
                   ],
                 ]}
               />
+              <p>
+                Pour importer des candidats oubliés sur une période déjà notifiée, cliquer{' '}
+                <Link href={`?reimport=true`}>ici</Link>
+              </p>
             </div>
           }
         />

@@ -4,6 +4,8 @@ import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import { useSearchParams } from 'next/navigation';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
@@ -16,18 +18,24 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { importerPériodeAction, ImporterPériodeFormKeys } from './importerPériode.action';
 
 export type ImporterPériodeFormProps = {
-  périodes: PlainType<Période.ListerPériodesReadModel>;
+  périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
 };
 export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes }) => {
+  const searchParams = useSearchParams();
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ImporterPériodeFormKeys>
   >({});
-  const appelOffres = [...new Set(périodes.items.map((p) => p.identifiantPériode.appelOffre))];
+  const appelOffres = groupBy(périodes, (p) => p.identifiantPériode.appelOffre);
+
   const [appelOffre, setAppelOffre] = useState(
-    périodes.items.length === 1 ? périodes.items[0].identifiantPériode.appelOffre : '',
+    périodes.length === 1
+      ? périodes[0].identifiantPériode.appelOffre
+      : (searchParams.get('appelOffre') ?? undefined),
   );
   const defaultPériode =
-    périodes.items.length === 1 ? périodes.items[0].identifiantPériode.période : '';
+    appelOffre && appelOffres[appelOffre]?.length === 1
+      ? périodes[0].identifiantPériode.période
+      : '';
 
   return (
     <Form
@@ -39,13 +47,15 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
         children: 'Import des candidats en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'candidat(s) importé(s)'}
       actions={<SubmitButton>Importer</SubmitButton>}
     >
       <div className="flex justify-between">
         <Select
           label="Appel Offre"
-          options={appelOffres.map((appelOffre) => ({ label: appelOffre, value: appelOffre }))}
+          options={Object.keys(appelOffres).map((appelOffre) => ({
+            label: appelOffre,
+            value: appelOffre,
+          }))}
           nativeSelectProps={{
             name: 'appelOffre',
             value: appelOffre,
@@ -59,12 +69,14 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
         <Select
           label="Période"
           options={
-            périodes.items
+            périodes
               .filter((période) => période.identifiantPériode.appelOffre == appelOffre)
               .map(({ identifiantPériode }) => ({
                 label: identifiantPériode.période,
                 value: identifiantPériode.période,
-              })) ?? []
+              }))
+              .sort((a, b) => a.label.padStart(2, '0').localeCompare(b.label.padStart(2, '0'))) ??
+            []
           }
           nativeSelectProps={{
             name: 'periode',
@@ -77,7 +89,21 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
         />
       </div>
       <Input
-        label="Numéro de la démarche"
+        label={
+          <>
+            Numéro de la démarche{' '}
+            <Tooltip
+              kind="hover"
+              title={
+                <>
+                  Ce numéro peut-être trouvé dans l'URL de la démarche :
+                  <br />
+                  https://demarches.numerique.gouv.fr/admin/procedures/XXX
+                </>
+              }
+            />
+          </>
+        }
         className="max-w-64"
         nativeInputProps={{
           name: 'demarcheId',
@@ -107,7 +133,22 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
             },
           },
         ]}
-      />{' '}
+      />
     </Form>
   );
 };
+
+/** @deprecated replace with Object.groupBy when available */
+const groupBy = <K extends PropertyKey, T>(
+  items: T[],
+  keySelector: (item: T, index: number) => K,
+): Partial<Record<K, T[]>> =>
+  items.reduce(
+    (result, item, index) => {
+      const key = keySelector(item, index);
+      result[key] ??= [];
+      result[key].push(item);
+      return result;
+    },
+    {} as Record<K, T[]>,
+  );

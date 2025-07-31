@@ -26,7 +26,13 @@ export default async function Page({ searchParams }: PageProps) {
     });
 
     return PageWithErrorHandling(async () => (
-      <ImporterPériodePage périodes={mapToPlainObject(périodes)} />
+      <ImporterPériodePage
+        périodes={mapToPlainObject(
+          périodes.items.toSorted((a, b) =>
+            a.identifiantPériode.formatter().localeCompare(b.identifiantPériode.formatter()),
+          ),
+        )}
+      />
     ));
   });
 }
