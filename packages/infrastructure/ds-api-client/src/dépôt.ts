@@ -1,13 +1,13 @@
 import { Candidature } from '@potentiel-domain/projet';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
+import { GetDossierQuery, createDossierAccessor } from './graphql';
 import {
-  GetDossierQuery,
-  getStringValue,
-  getDecimalValue,
-  getIntegerValue,
-  getDateValue,
-} from './graphql';
-import { getTypeGarantiesFinancières, getHistoriqueAbandon, getLocalité } from './specialFields';
+  getTypeGarantiesFinancières,
+  getHistoriqueAbandon,
+  getLocalité,
+  getTypologieBâtiment,
+} from './specialFields';
 import { DeepPartial } from './utils';
 
 const colonnes = {
@@ -26,48 +26,55 @@ const colonnes = {
 
   localité: 'Adresse postale',
   historiqueAbandon: 'Préciser le statut du projet',
+
+  obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation (loi APER)`,
+  typologieDeBâtiment: 'Typologie secondaire du projet (Bâtiment)',
+  élémentsSousOmbrière: "Préciser les éléments sous l'ombrière",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 export const mapApiResponseToDépôt = ({
   champs,
+  demarche,
 }: GetDossierQuery['dossier']): DeepPartial<Candidature.Dépôt.RawType> => {
+  const accessor = createDossierAccessor(champs, colonnes, demarche.revision.champDescriptors);
+  accessor.getStringValue('nomCandidat');
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
-    champs,
-    colonnes.typeGarantiesFinancières,
+    accessor,
+    'typeGarantiesFinancières',
   );
   return {
     //  1. Renseignements administratifs
-    nomCandidat: getStringValue(champs, colonnes.nomCandidat),
-    sociétéMère: getStringValue(champs, colonnes.sociétéMère),
-    nomReprésentantLégal: getStringValue(champs, colonnes.nomReprésentantLégal),
-    emailContact: getStringValue(champs, colonnes.emailContact),
+    nomCandidat: accessor.getStringValue('nomCandidat'),
+    sociétéMère: accessor.getStringValue('sociétéMère'),
+    nomReprésentantLégal: accessor.getStringValue('nomReprésentantLégal'),
+    emailContact: accessor.getStringValue('emailContact'),
 
     //  2. Identification du projet
-    nomProjet: getStringValue(champs, colonnes.nomProjet),
-    puissanceProductionAnnuelle: getDecimalValue(champs, colonnes.puissanceProductionAnnuelle),
+    nomProjet: accessor.getStringValue('nomProjet'),
+    puissanceProductionAnnuelle: accessor.getNumberValue('puissanceProductionAnnuelle'),
     // TODO Puissance du site p+q
 
-    prixReference: getDecimalValue(champs, colonnes.prixReference),
-    evaluationCarboneSimplifiée: getIntegerValue(champs, colonnes.evaluationCarboneSimplifiée),
+    prixReference: accessor.getNumberValue('prixReference'),
+    evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
 
     typeGarantiesFinancières: typeGarantiesFinancieres,
     dateDélibérationGf:
       typeGarantiesFinancieres === 'exemption'
-        ? getDateValue(champs, colonnes.dateDélibérationGf)
+        ? (accessor.getDateValue('dateDélibérationGf') as Iso8601DateTime)
         : undefined,
-    historiqueAbandon: getHistoriqueAbandon(champs, colonnes.historiqueAbandon),
+    historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 
-    // TODO
-    obligationDeSolarisation: undefined,
-    typeInstallationsAgrivoltaiques: undefined,
-    typologieDeBâtiment: undefined,
-    élémentsSousOmbrière: undefined,
+    obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
+    typologieDeBâtiment: getTypologieBâtiment(accessor, 'typologieDeBâtiment'),
+    // TODO typologieOmbrière
+    élémentsSousOmbrière: accessor.getStringValue('élémentsSousOmbrière'),
     // TODO autorisation d'urbanisme
 
     // TODO quelle adresse choisir... site de production ?
-    localité: getLocalité(champs, colonnes.localité),
+    localité: getLocalité(accessor, 'localité'),
 
     // Non disponibles sur Démarche simplifiée
+    typeInstallationsAgrivoltaiques: undefined,
     actionnariat: undefined,
     coefficientKChoisi: undefined,
     fournisseurs: [],

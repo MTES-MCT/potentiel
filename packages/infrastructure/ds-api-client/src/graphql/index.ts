@@ -1,62 +1,10 @@
 import { GraphQLClient } from 'graphql-request';
 
-import { ChampFragmentFragment, GetDossierQuery, getSdk } from './client';
+import { GetDossierQuery, getSdk } from './client';
 
 export type * from './client';
+export * from './accessor';
 export type TypeChamp = GetDossierQuery['dossier']['champs'][number]['__typename'];
-
-class FieldNotFoundError extends Error {
-  constructor(public fieldName: string) {
-    super('Champs not found');
-  }
-}
-
-class InvalidFieldTypeError extends Error {
-  constructor(
-    public fieldName: string,
-    public expected: string,
-    public actual: string,
-  ) {
-    super('Type de champs non valide');
-  }
-}
-
-export type Champs = GetDossierQuery['dossier']['champs'];
-export const getChampValue = <TType extends ChampFragmentFragment['__typename']>(
-  champs: Champs,
-  name: string,
-  type: TType,
-  optionnel?: boolean,
-): (ChampFragmentFragment & { __typename: TType }) | undefined => {
-  const champ = champs.find((x) => x.label === name);
-  if (!champ) {
-    if (optionnel) {
-      return;
-    } else {
-      throw new FieldNotFoundError(name);
-    }
-  }
-  if (champ.__typename !== type) {
-    throw new InvalidFieldTypeError(name, type!, champ.__typename);
-  }
-
-  return champ as ChampFragmentFragment & { __typename: TType };
-};
-
-export const getStringValue = (champs: Champs, name: string) =>
-  getChampValue(champs, name, 'TextChamp')?.stringValue ?? undefined;
-
-export const getDecimalValue = (champs: Champs, name: string) =>
-  getChampValue(champs, name, 'DecimalNumberChamp')?.decimalNumber ?? undefined;
-
-export const getIntegerValue = (champs: Champs, name: string) =>
-  getChampValue(champs, name, 'IntegerNumberChamp')?.integerNumber ?? undefined;
-
-export const getDateValue = (champs: Champs, name: string) =>
-  getChampValue(champs, name, 'DateChamp')?.date ?? undefined;
-
-export const getUrlPièceJustificativeValue = (champs: Champs, name: string): string =>
-  getChampValue(champs, name, 'PieceJustificativeChamp')?.files?.[0]?.url;
 
 export const getDSApiClient = () => {
   const { DS_API_URL, DS_API_TOKEN } = process.env;
