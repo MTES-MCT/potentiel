@@ -9,6 +9,7 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -47,7 +48,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { appelOffre, periode, fichierInstruction, demarcheId, test },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    const success: number = 0;
+    let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
     const { parsedData: instructions } = await parseCsv(
@@ -70,13 +71,21 @@ const action: FormAction<FormState, typeof schema> = async (
         if (Option.isNone(dossier)) {
           errors.push({
             key,
-            reason: `Une erreur inconnue empêche l'import des candidatures`,
+            reason: `Le dossier n'a pas été trouvé`,
           });
           continue;
         }
 
         key += ` - ${dossier.dépôt.nomProjet}`;
-        const dépôt = dépôtSchema.parse(dossier);
+        const dépôt = dépôtSchema.parse({
+          ...dossier.dépôt,
+          localité: getLocalité({
+            adresse1: dossier.dépôt.localité?.adresse1 ?? '',
+            adresse2: dossier.dépôt.localité?.adresse2 ?? '',
+            codePostaux: [dossier.dépôt.localité?.codePostal ?? ''],
+            commune: dossier.dépôt.localité?.commune ?? '',
+          }),
+        });
         const instruction = instructionSchema.parse({
           statut,
           noteTotale: note,
@@ -91,27 +100,18 @@ const action: FormAction<FormState, typeof schema> = async (
             numéroCRE: String(numeroDossierDS),
           }).formatter(),
           dépôtValue: {
-            ...dépôt,
-            fournisseurs: [],
-            localité: getLocalité({
-              adresse1: dépôt.adresse1,
-              adresse2: dépôt.adresse2,
-              codePostaux: [dépôt.codePostal],
-              commune: dépôt.commune,
-            }),
-            typeGarantiesFinancières: dépôt.typeGarantiesFinancières,
-            dateÉchéanceGf: dépôt.dateÉchéanceGf,
-            dateDélibérationGf: dépôt.dateÉchéanceGf,
-
-            // TODO les champs ci dessous sont à ajouter
-            historiqueAbandon: Candidature.HistoriqueAbandon.premièreCandidature.formatter(),
-            obligationDeSolarisation: undefined,
-            territoireProjet: '',
-            typeInstallationsAgrivoltaiques: undefined,
-            typologieDeBâtiment: undefined,
-            élémentsSousOmbrière: undefined,
             actionnariat: undefined,
             coefficientKChoisi: undefined,
+            obligationDeSolarisation: undefined,
+            typeInstallationsAgrivoltaiques: undefined,
+            élémentsSousOmbrière: undefined,
+            typologieDeBâtiment: undefined,
+            territoireProjet: '',
+            fournisseurs: [],
+            typeGarantiesFinancières: undefined,
+            dateÉchéanceGf: undefined,
+            dateDélibérationGf: undefined,
+            ...dépôt,
           },
           détailsValue: {
             typeImport: 'démarches-simplifiées',
@@ -121,13 +121,7 @@ const action: FormAction<FormState, typeof schema> = async (
           instructionValue: instruction,
         });
       } catch (error) {
-        console.log(error);
-        if (error instanceof DomainError) {
-          errors.push({
-            key,
-            reason: error.message,
-          });
-        } else if (error instanceof zod.ZodError) {
+        if (error instanceof zod.ZodError) {
           error.errors.forEach((error) => {
             errors.push({
               key,
@@ -137,7 +131,7 @@ const action: FormAction<FormState, typeof schema> = async (
         } else {
           errors.push({
             key,
-            reason: `Une erreur inconnue empêche l'import des candidatures`,
+            reason: `Une erreur inconnue empêche l'import de la candidature`,
           });
         }
       }
@@ -147,7 +141,17 @@ const action: FormAction<FormState, typeof schema> = async (
       return {
         status: 'success',
         result: {
-          successCount: 0,
+          successMessage: `${candidatures.length} candidatures seront importées`,
+          errors,
+        },
+      };
+    }
+
+    if (errors.length) {
+      return {
+        status: 'success',
+        result: {
+          successMessage: ``,
           errors,
         },
       };
@@ -159,23 +163,53 @@ const action: FormAction<FormState, typeof schema> = async (
       instructionValue,
       détailsValue,
     } of candidatures) {
-      await mediator.send<Candidature.ImporterCandidatureUseCase>({
-        type: 'Candidature.UseCase.ImporterCandidature',
-        data: {
-          identifiantProjetValue,
-          dépôtValue,
-          instructionValue,
-          détailsValue,
-          importéLe: DateTime.now().formatter(),
-          importéPar: utilisateur.identifiantUtilisateur.email,
-        },
-      });
+      try {
+        await mediator.send<Candidature.ImporterCandidatureUseCase>({
+          type: 'Candidature.UseCase.ImporterCandidature',
+          data: {
+            identifiantProjetValue,
+            dépôtValue,
+            instructionValue,
+            détailsValue,
+            importéLe: DateTime.now().formatter(),
+            importéPar: utilisateur.identifiantUtilisateur.email,
+          },
+        });
+        success++;
+      } catch (error) {
+        if (error instanceof DomainError) {
+          errors.push({
+            key: identifiantProjetValue,
+            reason: error.message,
+          });
+        } else if (error instanceof zod.ZodError) {
+          error.errors.forEach((error) => {
+            errors.push({
+              key: identifiantProjetValue,
+              reason: `${error.path.join('.')} : ${error.message}`,
+            });
+          });
+        } else {
+          errors.push({
+            key: identifiantProjetValue,
+            reason: `Une erreur inconnue empêche l'import de la candidature`,
+          });
+        }
+      }
     }
 
     return {
       status: 'success',
       result: {
-        successCount: success,
+        successMessage: `${success} candidatures ont été importées avec succès.`,
+        link: {
+          href: Routes.Candidature.lister({
+            appelOffre,
+            période: periode,
+            estNotifié: false,
+          }),
+          label: 'Voir les candidatures importées',
+        },
         errors,
       },
     };

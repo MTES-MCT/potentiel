@@ -2,9 +2,6 @@ import { z } from 'zod';
 
 import {
   actionnariatSchema,
-  adresse1Schema,
-  adresse2Schema,
-  codePostalSchema,
   dateEchéanceOuDéliberationGfSchema,
   emailContactSchema,
   évaluationCarboneSimplifiéeSchema,
@@ -17,11 +14,14 @@ import {
   sociétéMèreSchema,
   technologieSchema,
   typeGarantiesFinancieresSchema,
-  communeSchema,
-  départementSchema,
-  régionSchema,
   choixCoefficientKSchema,
+  historiqueAbandonSchema,
+  obligationDeSolarisationSchema,
+  typologieDeBâtimentSchema,
+  élémentsSousOmbrièreSchema,
+  typeInstallationsAgrivoltaiquesSchema,
 } from './candidatureFields.schema';
+import { localitéSchema } from './localité.schema';
 
 export const dépôtSchema = z.object({
   nomProjet: nomProjetSchema,
@@ -39,16 +39,11 @@ export const dépôtSchema = z.object({
   dateÉchéanceGf: dateEchéanceOuDéliberationGfSchema,
   dateDélibérationGf: dateEchéanceOuDéliberationGfSchema,
   coefficientKChoisi: choixCoefficientKSchema,
-  // typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiquesSchema,
-  // élémentsSousOmbrière: élémentsSousOmbrièreCsvSchema
-  // typologieDeBâtiment
-  // obligationDeSolarisation
+  historiqueAbandon: historiqueAbandonSchema,
+  typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiquesSchema,
+  typologieDeBâtiment: typologieDeBâtimentSchema,
+  obligationDeSolarisation: obligationDeSolarisationSchema,
+  élémentsSousOmbrière: élémentsSousOmbrièreSchema,
 
-  // TODO move to addressSchema
-  adresse1: adresse1Schema,
-  adresse2: adresse2Schema,
-  codePostal: codePostalSchema,
-  commune: communeSchema,
-  departement: départementSchema,
-  region: régionSchema,
+  localité: localitéSchema,
 });

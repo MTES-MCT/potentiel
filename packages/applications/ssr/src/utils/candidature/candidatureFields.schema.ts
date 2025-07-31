@@ -66,7 +66,12 @@ export const puissanceALaPointeSchema = booleanSchema;
 export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
+export const historiqueAbandonSchema = z.enum(Candidature.HistoriqueAbandon.types);
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
+export const typologieDeBâtimentSchema = optionalEnum(z.enum(Candidature.TypologieBâtiment.types));
+export const typeInstallationsAgrivoltaiquesSchema = optionalEnum(
+  z.enum(Candidature.TypeInstallationsAgrivoltaiques.types),
+);
 export const dateEchéanceOuDéliberationGfSchema = z
   .string()
   .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
@@ -74,6 +79,8 @@ export const dateEchéanceOuDéliberationGfSchema = z
 export const territoireProjetSchema = optionalStringSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
+export const obligationDeSolarisationSchema = booleanSchema.optional();
+export const élémentsSousOmbrièreSchema = z.string().optional();
 
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
