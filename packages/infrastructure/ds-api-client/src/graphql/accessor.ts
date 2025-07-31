@@ -1,0 +1,106 @@
+import {
+  AddressFragmentFragment,
+  ChampDescriptor,
+  ChampFragmentFragment,
+  GetDossierQuery,
+} from './client';
+
+export type Champs = GetDossierQuery['dossier']['champs'];
+
+export type DossierAccessor<
+  TColonnes extends Record<string, string> = Record<string, string>,
+  TKey extends keyof TColonnes = keyof TColonnes,
+> = {
+  getStringValue: (nom: TKey) => string | undefined;
+  getNumberValue: (nom: TKey) => number | undefined;
+  getDateValue: (nom: TKey) => string | undefined;
+  getBooleanValue: (nom: TKey) => boolean | undefined;
+  getUrlPièceJustificativeValue: (nom: TKey) => string | undefined;
+  getAdresse: (nom: TKey) => AddressFragmentFragment | undefined;
+};
+/**
+ * @param champs un array représentant les champs du dossier
+ * @param colonnesMap une map entre le nom "technique" et le label du champ utilisé dans la démarche
+ * @param descriptors la liste des champs de la démarche
+ */
+export const createDossierAccessor = <
+  TColonnes extends Record<string, string>,
+  TKey extends keyof TColonnes = keyof TColonnes,
+>(
+  champs: Champs,
+  colonnesMap: TColonnes,
+  descriptors: Pick<ChampDescriptor, 'label' | 'required'>[],
+): DossierAccessor<TColonnes, TKey> => {
+  const getChampValue = <TType extends ChampFragmentFragment['__typename']>(
+    nom: TKey,
+    types: TType | TType[],
+  ): (ChampFragmentFragment & { __typename: TType }) | undefined => {
+    const labelDémarche = colonnesMap[nom];
+    const typesPossibles = Array.isArray(types) ? types : [types];
+    const descriptor = descriptors.find((x) => x.label === labelDémarche);
+    if (!descriptor) {
+      throw new FieldNotFoundError(labelDémarche);
+    }
+
+    const champ = champs.find((x) => x.label === labelDémarche);
+    if (!champ) {
+      // TODO comment gére la logique d'affichage conditionnelle ?
+      // if (descriptor.required) {
+      //   throw new RequiredFieldMissingError(labelDémarche);
+      // }
+      return;
+    }
+    if (!(typesPossibles as string[]).includes(champ.__typename)) {
+      throw new InvalidFieldTypeError(labelDémarche, typesPossibles.join(','), champ.__typename);
+    }
+
+    return champ as ChampFragmentFragment & { __typename: TType };
+  };
+
+  return {
+    getStringValue: (nom) => getChampValue(nom, 'TextChamp')?.stringValue ?? undefined,
+
+    getNumberValue: (nom) => {
+      const val = getChampValue(nom, ['DecimalNumberChamp', 'IntegerNumberChamp']);
+      const num =
+        (val?.__typename === 'IntegerNumberChamp' ? val.integerNumber : val?.decimalNumber) ??
+        undefined;
+
+      return num ? Number(num) : undefined;
+    },
+
+    getDateValue: (nom) => getChampValue(nom, 'DateChamp')?.date ?? undefined,
+
+    getBooleanValue: (nom) => {
+      const val = getChampValue(nom, ['YesNoChamp', 'CheckboxChamp'])?.stringValue ?? undefined;
+      return val === 'false' ? false : val === 'true' ? true : undefined;
+    },
+
+    getUrlPièceJustificativeValue: (nom) =>
+      getChampValue(nom, 'PieceJustificativeChamp')?.files?.[0]?.url,
+
+    getAdresse: (nom) => getChampValue(nom, 'AddressChamp')?.address ?? undefined,
+  };
+};
+
+class FieldNotFoundError extends Error {
+  constructor(public fieldName: string) {
+    super('Champ non existant dans la démarche');
+  }
+}
+
+// class RequiredFieldMissingError extends Error {
+//   constructor(public fieldName: string) {
+//     super('Un champ requis est manquant dans le dossier');
+//   }
+// }
+
+class InvalidFieldTypeError extends Error {
+  constructor(
+    public fieldName: string,
+    public expected: string,
+    public actual: string,
+  ) {
+    super('Type de champs non valide');
+  }
+}

@@ -392,11 +392,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             name="typeGarantiesFinancieres"
             value={candidature.typeGarantiesFinancieres}
           />
-          <input
-            type="hidden"
-            name="dateEcheanceGf"
-            value={candidature.dateEcheanceGf?.toISOString()}
-          />
+          <input type="hidden" name="dateEcheanceGf" value={candidature.dateEcheanceGf} />
         </>
       )}
       {champsSupplémentaires.coefficientKChoisi && (
