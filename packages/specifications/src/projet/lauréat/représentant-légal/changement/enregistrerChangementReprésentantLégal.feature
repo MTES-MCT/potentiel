@@ -8,7 +8,6 @@ Fonctionnalité: Enregistrer un changement de représentant légal
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Scénario: Enregistrer un changement de représentant légal
         Quand le porteur enregistre un changement de représentant légal le "2024-10-24"
         Alors le changement enregistré du représentant légal du projet lauréat devrait être consultable

@@ -9,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../potentiel.world';
 import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
-async function récupérerTâche(
+async function récupérerTâchePlanifiée(
   typeTâche: string,
   identifiantProjet: IdentifiantProjet.ValueType,
   dateTâche?: DateTime.RawType,
@@ -41,7 +41,7 @@ Alors(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const actualTâche = await récupérerTâche(
+      const actualTâche = await récupérerTâchePlanifiée(
         actualTypeTâche,
         identifiantProjet,
         DateTime.convertirEnValueType(new Date(dateTâche)).formatter(),
@@ -59,7 +59,7 @@ Alors(
 
       const { identifiantProjet } = this.lauréatWorld;
 
-      const actualTâche = await récupérerTâche(
+      const actualTâche = await récupérerTâchePlanifiée(
         actualTypeTâche,
         identifiantProjet,
         DateTime.convertirEnValueType(new Date(dateTâche)).formatter(),
@@ -76,7 +76,7 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualTâche = await récupérerTâche(actualTypeTâche, identifiantProjet);
+      const actualTâche = await récupérerTâchePlanifiée(actualTypeTâche, identifiantProjet);
       expect(actualTâche).to.be.undefined;
     });
   },
@@ -89,7 +89,7 @@ Alors(
       const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
       const { identifiantProjet } = this.lauréatWorld;
 
-      const actualTâche = await récupérerTâche(actualTypeTâche, identifiantProjet);
+      const actualTâche = await récupérerTâchePlanifiée(actualTypeTâche, identifiantProjet);
 
       expect(actualTâche).to.be.undefined;
     });
