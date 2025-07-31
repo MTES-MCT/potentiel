@@ -37,6 +37,7 @@ export const dépôtSchema = z.object({
   technologie: technologieSchema,
   typeGarantiesFinancières: typeGarantiesFinancieresSchema,
   dateÉchéanceGf: dateEchéanceOuDéliberationGfSchema,
+  dateDélibérationGf: dateEchéanceOuDéliberationGfSchema,
   coefficientKChoisi: choixCoefficientKSchema,
   // typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiquesSchema,
   // élémentsSousOmbrière: élémentsSousOmbrièreCsvSchema
