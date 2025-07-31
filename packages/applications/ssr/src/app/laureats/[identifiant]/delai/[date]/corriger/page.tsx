@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -54,7 +55,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       <CorrigerDemandeDélaiPage
         identifiantProjet={identifiantProjet.formatter()}
         dateDemande={demande.demandéLe.formatter()}
-        dateAchèvementPrévisionnelActuelle={achèvement.dateAchèvementPrévisionnel.formatter()}
+        dateAchèvementPrévisionnelActuelle={mapToPlainObject(achèvement.dateAchèvementPrévisionnel)}
         nombreDeMois={demande.nombreDeMois}
         raison={demande.raison}
         pièceJustificative={demande.pièceJustificative.formatter()}

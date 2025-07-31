@@ -37,6 +37,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { getDélai } from './_utils/getDélai';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -236,6 +237,13 @@ v1Router.get(
       );
 
       const recours = await getRecours(identifiantProjetValueType);
+      const délai = await getDélai(
+        identifiantProjetValueType,
+        project.id,
+        user.email,
+        user.role,
+        user.features,
+      );
 
       return response.send(
         ProjectDetailsPage({
@@ -276,6 +284,7 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
+          délai,
         }),
       );
     },

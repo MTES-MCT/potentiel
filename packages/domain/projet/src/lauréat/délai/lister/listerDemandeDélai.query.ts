@@ -26,7 +26,8 @@ export type ListerDemandeDélaiQuery = Message<
   'Lauréat.Délai.Query.ListerDemandeDélai',
   {
     utilisateur: Email.RawType;
-    statut?: StatutDemandeDélai.RawType;
+    statuts?: StatutDemandeDélai.RawType[];
+    identifiantProjet?: IdentifiantProjet.RawType;
     appelOffre?: string;
     nomProjet?: string;
     range: RangeOptions;
@@ -44,13 +45,25 @@ export const registerListerDemandeDélaiQuery = ({
   getScopeProjetUtilisateur,
 }: ListerDemandeDélaiDependencies) => {
   const handler: MessageHandler<ListerDemandeDélaiQuery> = async ({
-    statut,
+    statuts,
     appelOffre,
     nomProjet,
     utilisateur,
     range,
+    identifiantProjet,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
+
+    const identifiantProjets =
+      scope.type === 'projet'
+        ? identifiantProjet
+          ? // If filtering on identifiantProjet, check that the user can access it
+            scope.identifiantProjets.filter((id) => id === identifiantProjet)
+          : scope.identifiantProjets
+        : identifiantProjet
+          ? [identifiantProjet]
+          : undefined;
+
     const demandes = await list<DemandeDélaiEntity, LauréatEntity>('demande-délai', {
       range,
       orderBy: {
@@ -68,9 +81,8 @@ export const registerListerDemandeDélaiQuery = ({
         },
       },
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        statut: Where.equal(statut),
+        identifiantProjet: Where.matchAny(identifiantProjets),
+        statut: Where.matchAny(statuts),
       },
     });
 

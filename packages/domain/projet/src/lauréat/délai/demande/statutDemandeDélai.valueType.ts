@@ -4,7 +4,7 @@ export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté', 'en-instru
 
 export type RawType = (typeof statuts)[number];
 
-const statutsEnCours: Array<RawType> = ['demandé', 'en-instruction'];
+export const statutsEnCours: Array<RawType> = ['demandé', 'en-instruction'];
 
 export type ValueType<T extends RawType = RawType> = ReadonlyValueType<{
   statut: T;

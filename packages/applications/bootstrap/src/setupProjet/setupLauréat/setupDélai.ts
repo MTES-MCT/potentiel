@@ -18,6 +18,7 @@ export const setupDélai: SetupProjet = async ({ sendEmail }) => {
       'DemandeDélaiRejetée-V1',
       'DélaiAccordé-V1',
       'DemandeDélaiCorrigée-V1',
+      'DemandeDélaiSupprimée-V1',
     ],
     messageType: 'System.Projector.Lauréat.Délai',
   });

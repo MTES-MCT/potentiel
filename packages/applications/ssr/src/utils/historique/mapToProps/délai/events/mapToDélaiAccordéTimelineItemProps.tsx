@@ -9,12 +9,17 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 export const mapToDélaiAccordéTimelineItemProps = (
   délaiAccordé: Lauréat.Délai.DélaiAccordéEvent,
 ) => {
-  const { accordéLe, nombreDeMois, dateAchèvementPrévisionnelCalculée, ...payload } =
+  const { accordéPar, accordéLe, nombreDeMois, dateAchèvementPrévisionnelCalculée, ...payload } =
     délaiAccordé.payload;
 
   return {
     date: accordéLe,
-    title: <div>Demande de délai exceptionnel accordée par l'administration</div>,
+    title: (
+      <div>
+        Demande de délai exceptionnel accordée par{' '}
+        <span className="font-semibold">{accordéPar}</span>
+      </div>
+    ),
     content: (
       <div className="flex flex-col gap-2">
         <div>

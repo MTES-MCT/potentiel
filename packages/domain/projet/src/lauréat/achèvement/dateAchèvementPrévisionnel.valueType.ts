@@ -15,8 +15,6 @@ export const bind = ({ dateTime: date }: PlainType<ValueType>): ValueType => {
   return convertirEnValueType(date.date);
 };
 
-const duréeInstructionEdfOaEnJours = 1;
-
 export const convertirEnValueType = (value: Date | string): ValueType => {
   return {
     dateTime: DateTime.convertirEnValueType(value),
@@ -27,18 +25,12 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
       return this.dateTime.formatterDate();
     },
     ajouterDélai(nombreDeMois) {
-      const dateAvecDélai = this.dateTime
-        .définirHeureÀMidi()
-        .ajouterNombreDeMois(nombreDeMois)
-        .retirerNombreDeJours(duréeInstructionEdfOaEnJours);
+      const dateAvecDélai = this.dateTime.définirHeureÀMidi().ajouterNombreDeMois(nombreDeMois);
 
       return convertirEnValueType(dateAvecDélai.date);
     },
     retirerDélai(nombreDeMois) {
-      const dateSansDélai = this.dateTime
-        .définirHeureÀMidi()
-        .ajouterNombreDeJours(duréeInstructionEdfOaEnJours)
-        .retirerNombreDeMois(nombreDeMois);
+      const dateSansDélai = this.dateTime.définirHeureÀMidi().retirerNombreDeMois(nombreDeMois);
 
       return convertirEnValueType(dateSansDélai.date);
     },
