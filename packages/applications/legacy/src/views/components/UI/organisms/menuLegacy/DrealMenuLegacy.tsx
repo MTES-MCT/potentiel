@@ -7,10 +7,9 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type DrealMenuLegacyProps = {
   currentPage?: string;
-  features: Array<string>;
 };
 
-export const DrealMenuLegacy = ({ currentPage, features }: DrealMenuLegacyProps) => (
+export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -19,14 +18,6 @@ export const DrealMenuLegacy = ({ currentPage, features }: DrealMenuLegacyProps)
       Projets
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
-      {!features.includes('délai') && (
-        <DropdownMenu.DropdownItem
-          href={routes.ADMIN_LIST_REQUESTS}
-          {...(currentPage === 'list-requests' && { isCurrent: true })}
-        >
-          Toutes les demandes
-        </DropdownMenu.DropdownItem>
-      )}
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
         Abandon
       </DropdownMenu.DropdownItem>
@@ -55,9 +46,7 @@ export const DrealMenuLegacy = ({ currentPage, features }: DrealMenuLegacyProps)
       <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
         Fournisseur
       </DropdownMenu.DropdownItem>
-      {features.includes('délai') && (
-        <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>

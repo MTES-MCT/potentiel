@@ -239,13 +239,7 @@ v1Router.get(
       );
 
       const recours = await getRecours(identifiantProjetValueType);
-      const délai = await getDélai(
-        identifiantProjetValueType,
-        project.id,
-        user.email,
-        user.role,
-        user.features,
-      );
+      const délai = await getDélai(identifiantProjetValueType, project.id, user.email);
 
       return response.send(
         ProjectDetailsPage({

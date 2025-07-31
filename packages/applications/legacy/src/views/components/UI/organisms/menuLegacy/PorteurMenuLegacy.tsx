@@ -7,9 +7,8 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type PorteurMenuLegacyProps = {
   currentPage?: string;
-  features: Array<string>;
 };
-export const PorteurMenuLegacy = ({ currentPage, features }: PorteurMenuLegacyProps) => (
+export const PorteurMenuLegacy = ({ currentPage }: PorteurMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -18,14 +17,6 @@ export const PorteurMenuLegacy = ({ currentPage, features }: PorteurMenuLegacyPr
       Mes projets
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
-      {!features.includes('délai') && (
-        <DropdownMenu.DropdownItem
-          href={routes.USER_LIST_REQUESTS}
-          {...(currentPage === 'list-requests' && { isCurrent: true })}
-        >
-          Mes demandes
-        </DropdownMenu.DropdownItem>
-      )}
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
         Abandon
       </DropdownMenu.DropdownItem>
@@ -49,9 +40,7 @@ export const PorteurMenuLegacy = ({ currentPage, features }: PorteurMenuLegacyPr
       <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
         Fournisseur
       </DropdownMenu.DropdownItem>
-      {features.includes('délai') && (
-        <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <Header.MenuItem
