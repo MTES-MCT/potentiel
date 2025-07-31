@@ -16,8 +16,7 @@ import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
 import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
 import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
-import { HistoriqueDélaiProjetListItemReadModel, isFonctionnalitéDélaiActivée } from '../../délai';
-import { ListerDélaiAccordéProjetPort } from '../../délai/lister/listerHistoriqueDélaiProjet.query';
+import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
 import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
 import { AchèvementEvent } from '../../achèvement';
 
@@ -61,37 +60,21 @@ export type ListerHistoriqueProjetQuery = Message<
 
 export type ListerHistoriqueProjetDependencies = {
   listHistory: ListHistory<HistoriqueListItemReadModels>;
-  listerDélaiAccordéProjet: ListerDélaiAccordéProjetPort;
 };
 
 export const registerListerHistoriqueProjetQuery = ({
   listHistory,
-  listerDélaiAccordéProjet,
 }: ListerHistoriqueProjetDependencies) => {
   const handler: MessageHandler<ListerHistoriqueProjetQuery> = async ({
     identifiantProjet,
     category,
     range,
-  }) => {
-    const history = await listHistory({
+  }) =>
+    listHistory({
       id: identifiantProjet,
       category,
       range,
     });
 
-    const délais = isFonctionnalitéDélaiActivée()
-      ? []
-      : await listerDélaiAccordéProjet(identifiantProjet);
-
-    const items = [...history.items, ...délais].sort(
-      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-    );
-
-    return {
-      ...history,
-      items,
-      total: history.total + délais.length,
-    };
-  };
   mediator.register('Lauréat.Query.ListerHistoriqueProjet', handler);
 };

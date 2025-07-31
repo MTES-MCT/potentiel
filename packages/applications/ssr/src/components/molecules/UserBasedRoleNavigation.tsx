@@ -3,9 +3,8 @@ import { match, P } from 'ts-pattern';
 import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { NavLinks } from './NavLinks';
 
@@ -71,21 +70,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Fournisseur.changement.lister,
       },
     },
-    Lauréat.Délai.isFonctionnalitéDélaiActivée()
-      ? {
-          text: 'Délai',
-          linkProps: {
-            href: Routes.Délai.lister,
-          },
-        }
-      : {
-          text: toutesLesDemandesWording,
-          linkProps: {
-            href: utilisateur.role.estÉgaleÀ(Role.porteur)
-              ? '/mes-demandes.html'
-              : '/admin/demandes.html',
-          },
-        },
+    {
+      text: 'Délai',
+      linkProps: {
+        href: Routes.Délai.lister,
+      },
+    },
   ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [

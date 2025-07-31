@@ -197,8 +197,10 @@ v1Router.get(
 
       const dateAchèvementPrévisionnel = await getDateAchèvementPrévisionnel(
         identifiantProjetValueType,
-        project.completionDueOn,
       );
+      if (Option.isNone(dateAchèvementPrévisionnel)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
 
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',

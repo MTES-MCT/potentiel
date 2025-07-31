@@ -19,7 +19,6 @@ import {
   HistoriqueDélaiProjetListItemReadModel,
   ListerHistoriqueDélaiProjetQuery,
   ListerHistoriqueDélaiProjetReadModel,
-  ListerDélaiAccordéProjetPort,
 } from './lister/listerHistoriqueDélaiProjet.query';
 import { CorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
 
@@ -77,7 +76,7 @@ export * from './délai.event';
 export * from './délai.register';
 
 // Port
-export type { ConsulterABénéficiéDuDélaiCDC2022Port, ListerDélaiAccordéProjetPort };
+export type { ConsulterABénéficiéDuDélaiCDC2022Port };
 
 // ValueTypes
 export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType';
@@ -85,6 +84,3 @@ export * as TypeDocumentDemandeDélai from './demande/typeDocumentDemandeDélai.
 
 // Entities
 export * from './demande/demandeDélai.entity';
-
-// Feature flag
-export * from './isFonctionnalitéDélaiActivée';
