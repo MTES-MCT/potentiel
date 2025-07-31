@@ -101,6 +101,7 @@ const action: FormAction<FormState, typeof schema> = async (
             }),
             typeGarantiesFinancières: dépôt.typeGarantiesFinancières,
             dateÉchéanceGf: dépôt.dateÉchéanceGf,
+            dateDélibérationGf: dépôt.dateÉchéanceGf,
 
             // TODO les champs ci dessous sont à ajouter
             historiqueAbandon: Candidature.HistoriqueAbandon.premièreCandidature.formatter(),
@@ -115,7 +116,7 @@ const action: FormAction<FormState, typeof schema> = async (
           détailsValue: {
             typeImport: 'démarches-simplifiées',
             demarcheId,
-            pièceJustificativeGf: dossier.fichiers.garantiesFinancièresUrl,
+            pièceJustificativeGf: dossier.fichiers.garantiesFinancièresUrl ?? '',
           },
           instructionValue: instruction,
         });
