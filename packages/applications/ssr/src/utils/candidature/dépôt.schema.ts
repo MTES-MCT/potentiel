@@ -5,7 +5,7 @@ import {
   adresse1Schema,
   adresse2Schema,
   codePostalSchema,
-  dateEchéanceGfSchema,
+  dateEchéanceOuDéliberationGfSchema,
   emailContactSchema,
   évaluationCarboneSimplifiéeSchema,
   nomCandidatSchema,
@@ -36,7 +36,7 @@ export const dépôtSchema = z.object({
   actionnariat: actionnariatSchema,
   technologie: technologieSchema,
   typeGarantiesFinancières: typeGarantiesFinancieresSchema,
-  dateÉchéanceGf: dateEchéanceGfSchema,
+  dateÉchéanceGf: dateEchéanceOuDéliberationGfSchema,
   coefficientKChoisi: choixCoefficientKSchema,
   // typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiquesSchema,
   // élémentsSousOmbrière: élémentsSousOmbrièreCsvSchema
