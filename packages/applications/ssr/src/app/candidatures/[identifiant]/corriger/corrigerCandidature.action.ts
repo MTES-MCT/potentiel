@@ -44,6 +44,7 @@ const schema = zod
     technologie: dépôtSchema.shape.technologie,
     typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
     dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
+    dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
     coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
 
     statut: instructionSchema.shape.statut,
