@@ -7,6 +7,5 @@ export type TâchePlanifiéeAnnuléeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     typeTâchePlanifiée: string;
     annuléeLe: DateTime.RawType;
-    àExécuterLe?: DateTime.RawType;
   }
 >;
