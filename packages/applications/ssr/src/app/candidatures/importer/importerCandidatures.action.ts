@@ -85,7 +85,12 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
     return {
       status: 'success',
       result: {
-        successCount: success,
+        message:
+          success === 0
+            ? ''
+            : success === 1
+              ? `${success} candidat importé`
+              : `${success} candidat(s) importé(s)`,
         errors,
       },
       redirection:

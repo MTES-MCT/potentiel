@@ -27,7 +27,7 @@ void i18next.init({
 zod.setErrorMap(zodI18nMap);
 
 export type ActionResult = {
-  successCount: number;
+  message: string;
   errors: Array<{
     key: string;
     reason: string;
@@ -66,7 +66,7 @@ export type FormState =
       status: 'unknown-error';
     };
 
-export type FormAction<TState, TSchema extends zod.ZodType = zod.AnyZodObject> = (
+export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.AnyZodObject> = (
   previousState: TState,
   data: zod.infer<TSchema>,
 ) => Promise<TState>;

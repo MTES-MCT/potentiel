@@ -23,7 +23,6 @@ export type FormProps = {
   onValidationError?: (validationErrors: ValidationErrors) => void;
   onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
   onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
-  successMessage?: string;
 };
 
 export const Form: FC<FormProps> = ({
@@ -34,7 +33,6 @@ export const Form: FC<FormProps> = ({
   children,
   heading,
   pendingModal,
-  successMessage,
   actions,
   onError,
   onInvalid,
@@ -74,7 +72,7 @@ export const Form: FC<FormProps> = ({
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError}>
       <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
-      <FormFeedback formState={state} successMessage={successMessage} />
+      <FormFeedback formState={state} />
 
       {pendingModal && (
         <FormPendingModal id={pendingModal.id} title={pendingModal.title}>
