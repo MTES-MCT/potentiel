@@ -6,13 +6,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 type AcheteurObligéMenuLegacyProps = {
   currentPage?: string;
-  features: Array<string>;
 };
 
-export const AcheteurObligéMenuLegacy = ({
-  currentPage,
-  features,
-}: AcheteurObligéMenuLegacyProps) => (
+export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -38,9 +34,7 @@ export const AcheteurObligéMenuLegacy = ({
       <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
         Fournisseur
       </DropdownMenu.DropdownItem>
-      {features.includes('délai') && (
-        <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
 );

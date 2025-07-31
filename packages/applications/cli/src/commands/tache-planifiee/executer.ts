@@ -46,9 +46,6 @@ export class Executer extends Command {
       getScopeProjetUtilisateur: () => {
         throw new Error('notImplemented');
       },
-      listerDélaiAccordéProjet: () => {
-        throw new Error('notImplemented');
-      },
       récupérerProjetsEligiblesPreuveRecanditure: () => {
         throw new Error('notImplemented');
       },

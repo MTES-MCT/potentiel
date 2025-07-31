@@ -2,7 +2,6 @@ import { Routes } from '@potentiel-applications/routes';
 import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
-import routes from '../../../../routes';
 import {
   PreviewLinkButton,
   DropdownMenuSecondaryButton,
@@ -40,11 +39,6 @@ const EnregistrerUneModification = ({
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
-      <DropdownMenuSecondaryButton.DropdownItem
-        href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(projectId)}
-      >
-        <span>Demande de délai</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
       {!!producteurAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={producteurAffichage.url}>
           <span>{producteurAffichage.labelActions}</span>
