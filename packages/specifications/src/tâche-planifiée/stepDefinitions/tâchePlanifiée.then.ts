@@ -9,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../potentiel.world';
 import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
-async function récupérerTâchePlanifiée(
+export async function récupérerTâchePlanifiée(
   typeTâche: string,
   identifiantProjet: IdentifiantProjet.ValueType,
   dateTâche?: DateTime.RawType,
@@ -70,27 +70,13 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} n'est plus planifiée pour le projet {string}`,
-  async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée, nomProjet: string) {
-    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    await waitForExpect(async () => {
-      const actualTâche = await récupérerTâchePlanifiée(actualTypeTâche, identifiantProjet);
-      expect(actualTâche).to.be.undefined;
-    });
-  },
-);
-
-Alors(
   `une tâche {string} n'est plus planifiée pour le projet lauréat`,
   async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée) {
+    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
+    const { identifiantProjet } = this.lauréatWorld;
+
     await waitForExpect(async () => {
-      const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
-      const { identifiantProjet } = this.lauréatWorld;
-
       const actualTâche = await récupérerTâchePlanifiée(actualTypeTâche, identifiantProjet);
-
       expect(actualTâche).to.be.undefined;
     });
   },

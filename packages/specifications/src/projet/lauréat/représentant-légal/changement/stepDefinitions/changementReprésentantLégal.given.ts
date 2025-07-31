@@ -2,7 +2,6 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -19,27 +18,6 @@ EtantDonné(
         {},
       );
 
-    const dateDemande = DateTime.convertirEnValueType(fixture.demandéLe);
-
-    this.tâchePlanifiéeWorld.ajouterTâchesPlanifiéesFixture.créer({
-      tâches: [
-        {
-          identifiantProjet,
-          ajoutéeLe: dateDemande.formatter(),
-          àExécuterLe: dateDemande.ajouterNombreDeMois(3).formatter(),
-          typeTâchePlanifiée:
-            'gestion automatique de la demande de changement de représentant légal',
-        },
-        {
-          identifiantProjet,
-          ajoutéeLe: dateDemande.formatter(),
-          àExécuterLe: dateDemande.ajouterNombreDeMois(2).formatter(),
-          typeTâchePlanifiée:
-            "rappel d'instruction de la demande de changement de représentant légal à deux mois",
-        },
-      ],
-    });
-
     await mediator.send<Lauréat.ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
@@ -49,6 +27,30 @@ EtantDonné(
         pièceJustificativeValue: fixture.pièceJustificative,
         identifiantUtilisateurValue: fixture.demandéPar,
         dateDemandeValue: fixture.demandéLe,
+      },
+    });
+  },
+);
+
+EtantDonné(
+  'un changement de représentant légal enregistré pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const fixture =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
+        {},
+      );
+
+    await mediator.send<Lauréat.ReprésentantLégal.EnregistrerChangementReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        nomReprésentantLégalValue: fixture.nomReprésentantLégal,
+        typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
+        pièceJustificativeValue: fixture.pièceJustificative,
+        identifiantUtilisateurValue: fixture.demandéPar,
+        dateChangementValue: fixture.demandéLe,
       },
     });
   },

@@ -27,7 +27,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-01         |
-        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
 
     Scénario: Une tâche du type "rappel échéance garanties financières à un mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -36,7 +36,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-01         |
-        Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat
 
     Scénario: Une tâche du type "rappel échéance garanties financières à deux mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -45,7 +45,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-01         |
-        Alors une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet lauréat
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si la date de constitution est dans le futur
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :

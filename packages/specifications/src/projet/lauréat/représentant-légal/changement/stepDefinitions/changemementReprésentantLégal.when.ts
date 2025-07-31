@@ -8,6 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture';
 import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture';
+import { récupérerTâchePlanifiée } from '../../../../../tâche-planifiée/stepDefinitions/tâchePlanifiée.then';
 
 Quand(
   'le porteur demande le changement de représentant pour le projet lauréat',
@@ -352,23 +353,21 @@ async function instruireAutomatiquementChangement(
       );
     }
 
-    const tâchePlanifiée = this.tâchePlanifiéeWorld.rechercherTâchePlanifiée(
-      'gestion automatique de la demande de changement de représentant légal',
+    const tâchePlanifiéeGestion = await récupérerTâchePlanifiée(
+      Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
+        .gestionAutomatiqueDemandeChangement.type,
+      this.lauréatWorld.identifiantProjet,
     );
 
-    if (!tâchePlanifiée) {
-      throw new Error('Type de tâche planifiée non trouvé');
+    if (!tâchePlanifiéeGestion) {
+      throw new Error('Tâche planifiée non trouvée');
     }
-
-    const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-      tâchePlanifiée.typeTâchePlanifiée,
-    ).type;
 
     await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
       data: {
         identifiantProjetValue: identifiantProjet,
-        typeTâchePlanifiéeValue,
+        typeTâchePlanifiéeValue: tâchePlanifiéeGestion.typeTâchePlanifiée,
       },
     });
   } catch (error) {
@@ -380,19 +379,21 @@ async function relancerAutomatiquementDreal(this: PotentielWorld) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const tâchePlanifiée = this.tâchePlanifiéeWorld.rechercherTâchePlanifiée(
-      "rappel d'instruction de la demande de changement de représentant légal à deux mois",
+    const tâchePlanifiéeRelanceDreal = await récupérerTâchePlanifiée(
+      Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
+        .rappelInstructionÀDeuxMois.type,
+      this.lauréatWorld.identifiantProjet,
     );
 
-    const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-      tâchePlanifiée.typeTâchePlanifiée,
-    ).type;
+    if (!tâchePlanifiéeRelanceDreal) {
+      throw new Error('Tâche planifiée non trouvée');
+    }
 
     await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
       type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
       data: {
         identifiantProjetValue: identifiantProjet,
-        typeTâchePlanifiéeValue,
+        typeTâchePlanifiéeValue: tâchePlanifiéeRelanceDreal.typeTâchePlanifiée,
       },
     });
   } catch (error) {

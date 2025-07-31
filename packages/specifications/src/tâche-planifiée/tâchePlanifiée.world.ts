@@ -2,8 +2,6 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AjouterTâchesPlanifiéesFixture } from './fixtures/ajouterTâchesPlanifiées.fixture';
-
 export type TypeTâchePlanifiée =
   | 'échoir les garanties financières'
   | 'rappel échéance garanties financières à un mois'
@@ -15,28 +13,6 @@ export type TypeTâchePlanifiée =
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'exécutée';
 
 export class TâchePlanifiéeWorld {
-  #ajouterTâchesPlanifiéesFixture: AjouterTâchesPlanifiéesFixture;
-
-  get ajouterTâchesPlanifiéesFixture() {
-    return this.#ajouterTâchesPlanifiéesFixture;
-  }
-
-  constructor() {
-    this.#ajouterTâchesPlanifiéesFixture = new AjouterTâchesPlanifiéesFixture();
-  }
-
-  rechercherTâchePlanifiée(value: TypeTâchePlanifiée) {
-    const tâche = this.#ajouterTâchesPlanifiéesFixture.tâches.find(
-      (t) => t.typeTâchePlanifiée === value,
-    );
-
-    if (!tâche) {
-      throw new Error('Tâche planifiée non trouvée');
-    }
-
-    return tâche;
-  }
-
   rechercherTypeTâchePlanifiée(value: TypeTâchePlanifiée) {
     return match(value)
       .with(
