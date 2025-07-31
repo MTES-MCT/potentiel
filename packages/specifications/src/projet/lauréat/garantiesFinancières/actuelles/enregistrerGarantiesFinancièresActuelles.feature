@@ -54,7 +54,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
-    Plan du Scénario: Impossible d'enregister des garanties financières actuelles si le type renseigné n'est pas compatible avec une date d'échéance
+    Plan du Scénario: Impossible d'enregistrer des garanties financières actuelles avec date d'échéance si le type renseigné n'est pas compatible
         Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | <type GF>  |
             | date d'échéance | 2027-12-01 |
@@ -66,7 +66,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | six-mois-après-achèvement |
             | garantie-bancaire         |
 
-    Scénario: Impossible d'enregister des garanties financières actuelles si la date d'échéance est manquante
+    Scénario: Impossible d'enregister des garanties financières actuelles de type avec date d'échéance   si la date d'échéance est manquante
         Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance |                    |
@@ -81,7 +81,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF              | exemption  |
             | date de délibération | 2020-01-01 |
-        Alors l'utilisateur devrait être informé que "Impossible d'enregistrer ou modifier une exemption de garanties financières"
+        Alors l'utilisateur devrait être informé que "Impossible d'enregistrer ou de modifier une exemption de garanties financières"
 
     Scénario: Impossible d'enregister des garanties financières s'il y a déjà des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
