@@ -159,11 +159,7 @@ export const RequestList = ({ modificationRequests, requestActions, currentUrl, 
                 </Td>
                 <Td>
                   <LinkButton
-                    href={
-                      modificationRequest.type === 'delai'
-                        ? ROUTES.GET_DETAILS_DEMANDE_DELAI_PAGE(modificationRequest.id)
-                        : ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)
-                    }
+                    href={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}
                     aria-label={`Voir le détail de ${intituléLien(
                       modificationRequest.type,
                     )} pour le projet ${project.nomProjet}`}

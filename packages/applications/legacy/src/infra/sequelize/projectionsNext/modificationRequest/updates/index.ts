@@ -1,15 +1,6 @@
 import { EventBus } from '../../../../../core/domain';
 import { logger } from '../../../../../core/utils';
 import {
-  DélaiAccordé,
-  DélaiAccordéCorrigé,
-  DélaiAnnulé,
-  DélaiDemandé,
-  DélaiEnInstruction,
-  DélaiRejeté,
-  RejetDélaiAnnulé,
-} from '../../../../../modules/demandeModification';
-import {
   ConfirmationRequested,
   LegacyModificationImported,
   ModificationReceived,
@@ -22,15 +13,6 @@ import {
 } from '../../../../../modules/modificationRequest';
 import { onConfirmationRequested } from './onConfirmationRequested';
 import { onLegacyModificationImported } from './onLegacyModificationImported';
-import {
-  onDélaiDemandé,
-  onDélaiAnnulé,
-  onDélaiRejeté,
-  onDélaiAccordé,
-  onRejetDélaiAnnulé,
-  onDélaiEnInstruction,
-  onDélaiAccordéCorrigé,
-} from './délai';
 import { onModificationReceived } from './onModificationReceived';
 import { onModificationRequestAccepted } from './onModificationRequestAccepted';
 import { onModificationRequestConfirmed } from './onModificationRequestConfirmed';
@@ -53,14 +35,6 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
 
   eventBus.subscribe(ModificationReceived.type, onModificationReceived);
   eventBus.subscribe(LegacyModificationImported.type, onLegacyModificationImported);
-
-  eventBus.subscribe(DélaiDemandé.type, onDélaiDemandé);
-  eventBus.subscribe(DélaiAnnulé.type, onDélaiAnnulé);
-  eventBus.subscribe(DélaiRejeté.type, onDélaiRejeté);
-  eventBus.subscribe(DélaiAccordé.type, onDélaiAccordé);
-  eventBus.subscribe(DélaiAccordéCorrigé.type, onDélaiAccordéCorrigé);
-  eventBus.subscribe(RejetDélaiAnnulé.type, onRejetDélaiAnnulé);
-  eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction);
 
   logger.info('Initialized ModificationRequest projections');
 };

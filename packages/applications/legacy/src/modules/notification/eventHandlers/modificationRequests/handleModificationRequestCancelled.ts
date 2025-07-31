@@ -23,10 +23,7 @@ export const handleModificationRequestCancelled =
     } = deps;
     return getModificationRequestInfoForStatusNotification(modificationRequestId).match(
       ({ nomProjet, departementProjet, regionProjet, type, autorité, appelOffreId, périodeId }) => {
-        const demandeUrl =
-          type === 'delai'
-            ? routes.GET_DETAILS_DEMANDE_DELAI_PAGE(modificationRequestId)
-            : routes.DEMANDE_PAGE_DETAILS(modificationRequestId);
+        const demandeUrl = routes.DEMANDE_PAGE_DETAILS(modificationRequestId);
 
         if (autorité === 'dreal') {
           const regions = regionProjet.split(' / ');
