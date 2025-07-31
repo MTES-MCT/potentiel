@@ -7,20 +7,42 @@ import { Option } from '@potentiel-libraries/monads';
 import {
   AccorderChangementReprésentantLégalUseCase,
   RejeterChangementReprésentantLégalUseCase,
-  TypeTâchePlanifiéeChangementReprésentantLégal,
 } from '..';
-import { Lauréat } from '../../..';
+import { IdentifiantProjet, Lauréat } from '../../..';
+import { SupprimerDocumentProjetSensibleCommand } from '../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
-export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = async ({
-  payload: { identifiantProjet, typeTâchePlanifiée },
-}: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent) => {
-  if (
-    typeTâchePlanifiée !==
-    TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type
-  ) {
-    return;
-  }
+export const tâchePlanifiéeReprésentantLégalExecutéeSaga = async (
+  event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent,
+) => {
+  const { payload } = event;
 
+  return match(payload)
+    .with(
+      { typeTâchePlanifiée: 'représentant-légal.gestion-automatique-demande-changement' },
+      tâchePlanifiéeGestionAutomatiqueExecutéeSaga,
+    )
+    .with(
+      { typeTâchePlanifiée: 'représentant-légal.suppression-document-à-trois-mois' },
+      tâchePlanifiéeSuppressionDocumentExecutéeSaga,
+    )
+    .otherwise(() => {});
+};
+
+const tâchePlanifiéeSuppressionDocumentExecutéeSaga = async ({
+  identifiantProjet,
+}: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent['payload']) => {
+  await mediator.send<SupprimerDocumentProjetSensibleCommand>({
+    type: 'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
+    data: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      raison: 'Pièce justificative supprimée automatiquement après 3 mois',
+    },
+  });
+};
+
+const tâchePlanifiéeGestionAutomatiqueExecutéeSaga = async ({
+  identifiantProjet,
+}: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent['payload']) => {
   const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
     type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
     data: {
