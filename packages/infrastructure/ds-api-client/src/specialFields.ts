@@ -1,7 +1,28 @@
 import { Candidature } from '@potentiel-domain/projet';
 
-import { Champs, getChampValue, getStringValue } from './graphql';
 import { reverseRecord } from './utils';
+import { DossierAccessor } from './graphql';
+
+class ValeurInconnuePourChampsSelectError extends Error {
+  constructor(public nomDuChamp: string) {
+    super('La valeur fournie est invalide');
+  }
+}
+
+const mapSelectToValueType = <T>(
+  map: Record<string, T>,
+  accessor: DossierAccessor,
+  nom: string,
+) => {
+  const value = accessor.getStringValue(nom);
+  if (!value) {
+    return;
+  }
+  if (map[value]) {
+    return map[value];
+  }
+  throw new ValeurInconnuePourChampsSelectError(nom);
+};
 
 const typeGfMap = reverseRecord({
   'garantie-bancaire':
@@ -10,22 +31,48 @@ const typeGfMap = reverseRecord({
   consignation: 'Consignation entre les mains de la Caisse des dépôts et Consignations (CDC)',
   exemption: `Exemption de fourniture (collectivité territoriale ou groupement de collectivités territoriales)`,
 } satisfies Partial<Record<Candidature.TypeGarantiesFinancières.RawType, string>>);
+export const getTypeGarantiesFinancières = <
+  T extends Record<string, string>,
+  TName extends string & keyof T,
+>(
+  accessor: DossierAccessor<T>,
+  nom: TName,
+) => mapSelectToValueType(typeGfMap, accessor, nom);
 
-export const getTypeGarantiesFinancières = (champs: Champs, nom: string) => {
-  const typeGf = getStringValue(champs, nom);
+const typeHistoriqueAbandonMap = reverseRecord({
+  'abandon-classique': `Le projet avait été retenu mais a demandé l'abandon de son statut de lauréat`,
+  'première-candidature': `Le projet n'avait pas été retenu`,
+} satisfies Partial<Record<Candidature.HistoriqueAbandon.RawType, string>>);
 
-  if (!typeGf) {
-    return;
-  }
-  if (typeGfMap[typeGf]) {
-    return typeGfMap[typeGf];
-  }
-  throw new Error('Le type de garanties financières est inconnu');
-};
+export const getHistoriqueAbandon = <
+  T extends Record<string, string>,
+  TName extends string & keyof T,
+>(
+  accessor: DossierAccessor<T>,
+  nom: TName,
+) => mapSelectToValueType(typeHistoriqueAbandonMap, accessor, nom) ?? 'première-candidature';
 
-export const getLocalité = (champs: Champs, nom: string) => {
+const typologieBâtimentMap = reverseRecord({
+  neuf: `Bâtiment neuf`,
+  'existant-avec-rénovation-de-toiture': `Bâtiment existant avec rénovation de toiture`,
+  'existant-sans-rénovation-de-toiture': 'Bâtiment existant sans rénovation de toiture',
+  mixte: 'Bâtiment autre',
+} satisfies Partial<Record<Candidature.TypologieBâtiment.RawType, string>>);
+
+export const getTypologieBâtiment = <
+  T extends Record<string, string>,
+  TName extends string & keyof T,
+>(
+  accessor: DossierAccessor<T>,
+  nom: TName,
+) => mapSelectToValueType(typologieBâtimentMap, accessor, nom);
+
+export const getLocalité = <T extends Record<string, string>, TName extends string & keyof T>(
+  accessor: DossierAccessor<T>,
+  nom: TName,
+) => {
   const { streetAddress, departmentName, regionName, cityName, postalCode } =
-    getChampValue(champs, nom, 'AddressChamp')?.address ?? {};
+    accessor.getAdresse(nom) ?? {};
 
   return {
     adresse1: streetAddress ?? undefined,
@@ -34,21 +81,4 @@ export const getLocalité = (champs: Champs, nom: string) => {
     commune: cityName ?? undefined,
     codePostal: postalCode ?? undefined,
   };
-};
-
-const typeHistoriqueAbandonMap = reverseRecord({
-  'abandon-classique': `Le projet avait été retenu mais a demandé l'abandon de son statut de lauréat`,
-  'première-candidature': `Le projet n'avait pas été retenu`,
-} satisfies Partial<Record<Candidature.HistoriqueAbandon.RawType, string>>);
-
-export const getHistoriqueAbandon = (
-  champs: Champs,
-  nom: string,
-): Candidature.HistoriqueAbandon.RawType => {
-  const historiqueAbandon = getChampValue(champs, nom, 'TextChamp', true)?.stringValue;
-  if (!historiqueAbandon) {
-    return 'première-candidature';
-  }
-
-  return typeHistoriqueAbandonMap[historiqueAbandon];
 };

@@ -1,6 +1,6 @@
 import { Option } from '@potentiel-libraries/monads';
 
-import { GetDossierQuery, getDSApiClient, getUrlPièceJustificativeValue } from './graphql';
+import { createDossierAccessor, GetDossierQuery, getDSApiClient } from './graphql';
 import { mapApiResponseToDépôt } from './dépôt';
 
 export type Dossier = Awaited<ReturnType<typeof getDépôtCandidature>>;
@@ -31,12 +31,18 @@ export const getDossiersDemarche = async (démarcheNumber: number) => {
     .map((node) => node!.number);
 };
 
-const mapApiResponseToFichiers = ({ champs }: GetDossierQuery['dossier']) => ({
-  garantiesFinancièresUrl: getUrlPièceJustificativeValue(
+const mapApiResponseToFichiers = ({ champs, demarche }: GetDossierQuery['dossier']) => {
+  const accessor = createDossierAccessor(
     champs,
-    'Pièce n°2 : Garantie financière de mise en œuvre',
-  ),
-});
+    {
+      garantiesFinancièresUrl: 'Pièce n°2 : Garantie financière de mise en œuvre',
+    },
+    demarche.revision.champDescriptors,
+  );
+  return {
+    garantiesFinancièresUrl: accessor.getUrlPièceJustificativeValue('garantiesFinancièresUrl'),
+  };
+};
 
 const mapApiResponseToDétails = ({ champs }: GetDossierQuery['dossier']) => {
   return champs.reduce(
