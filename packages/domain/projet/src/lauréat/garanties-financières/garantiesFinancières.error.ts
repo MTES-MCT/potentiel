@@ -6,6 +6,12 @@ export class GarantiesFinancièresRequisesPourAppelOffreError extends InvalidOpe
   }
 }
 
+export class TypeGarantiesFinancièresInconnu extends InvalidOperationError {
+  constructor() {
+    super('Le type de garanties financières est inconnu');
+  }
+}
+
 export class DateÉchéanceGarantiesFinancièresRequiseError extends InvalidOperationError {
   constructor() {
     super(`La date d'échéance des garanties financières est requise`);
@@ -21,6 +27,14 @@ export class DateÉchéanceNonAttendueError extends InvalidOperationError {
 export class DateDélibérationRequiseError extends InvalidOperationError {
   constructor() {
     super(`La date de délibération de l'exemption des garanties financières est requise`);
+  }
+}
+
+export class DateDélibérationDansLeFuturError extends InvalidOperationError {
+  constructor() {
+    super(
+      `La date de délibération de l'exemption des garanties financières ne peut pas être une date future`,
+    );
   }
 }
 

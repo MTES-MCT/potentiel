@@ -1,4 +1,5 @@
 # language: fr
+@candidature
 Fonctionnalité: Importer une candidature
 
     Plan du scénario: Importer une candidature
@@ -26,7 +27,7 @@ Fonctionnalité: Importer une candidature
             | PPE2 - Sol               | avec-date-échéance        | 01/12/2042      |                      |
             | PPE2 - Innovation        | six-mois-après-achèvement |                 |                      |
             | PPE2 - Petit PV Bâtiment | garantie-bancaire         |                 |                      |
-            | PPE2 - Petit PV Bâtiment | exemption                 |                 | 02/11/2043           |
+            | PPE2 - Petit PV Bâtiment | exemption                 |                 | 02/11/2023           |
 
     Scénario: Importer une candidature avec des champs optionnels
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -100,12 +101,18 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Impossible d'importer une candidature classée avec exemption de GF si la date de délibération est manquante
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut        | classé          |
-            | appel d'offre | PPE2 - Bâtiment |
-            | période       | 1               |
-            | famille       |                 |
-            | type GF       | exemption       |
+            | statut        | classé                   |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | type GF       | exemption                |
         Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières est requise"
+
+    Scénario: Impossible d'importer une candidature classée avec exemption de GF si la date de délibération est future
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut               | classé                   |
+            | appel d'offre        | PPE2 - Petit PV Bâtiment |
+            | type GF              | exemption                |
+            | date de délibération | 2050-01-01               |
+        Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible d'importer une candidature classée avec une date de délibération pour un type de GF qui n'en attend pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
