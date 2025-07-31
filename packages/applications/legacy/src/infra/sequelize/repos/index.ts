@@ -7,8 +7,7 @@ import { makeModificationRequestRepo } from './modificationRequestRepo';
 import { NotificationRepo } from './notificationRepo';
 import { makeProjectRepo } from './projectRepo';
 import { makeLegacyCandidateNotification } from '../../../modules/legacyCandidateNotification';
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils';
-import { makeDemandeDélai } from '../../../modules/demandeModification';
+import { makeEventStoreTransactionalRepo } from '../../../core/utils';
 import { makeUtilisateur } from '../../../modules/utilisateur';
 
 export const fileRepo = makeFileRepo({ fileStorageService });
@@ -23,16 +22,6 @@ export const userRepo = makeEventStoreTransactionalRepo({
   eventStore,
   makeAggregate: makeUser,
 });
-export const demandeDélaiRepo = {
-  ...makeEventStoreTransactionalRepo({
-    eventStore,
-    makeAggregate: makeDemandeDélai,
-  }),
-  ...makeEventStoreRepo({
-    eventStore,
-    makeAggregate: makeDemandeDélai,
-  }),
-};
 
 export const utilisateurRepo = {
   ...makeEventStoreTransactionalRepo({

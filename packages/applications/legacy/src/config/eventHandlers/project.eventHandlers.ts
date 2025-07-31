@@ -4,8 +4,6 @@ import { LegacyModificationImported } from '../../modules/modificationRequest';
 import {
   handleLegacyModificationImported,
   handleProjectRawDataCorrected,
-  makeOnDélaiAccordé,
-  makeOnDélaiAccordéCorrigé,
   DateMiseEnServiceTransmise,
   makeOnCahierDesChargesChoisi,
   CahierDesChargesChoisi,
@@ -47,40 +45,6 @@ eventStore.subscribe(
     getProjectAppelOffre,
   }),
 );
-
-const onDélaiAccordéHandler = makeOnDélaiAccordé({
-  projectRepo,
-  publishToEventStore: eventStore.publish,
-});
-
-const onDélaiAccordé = async (event: DomainEvent) => {
-  if (!(event instanceof DélaiAccordé)) {
-    return Promise.resolve();
-  }
-
-  return onDélaiAccordéHandler(event).match(
-    () => Promise.resolve(),
-    (e) => Promise.reject(e),
-  );
-};
-subscribeToRedis(onDélaiAccordé, 'Project.onDélaiAccordé');
-
-const onDélaiAccordéCorrigéHandler = makeOnDélaiAccordéCorrigé({
-  projectRepo,
-  publishToEventStore: eventStore.publish,
-});
-
-const onDélaiAccordéCorrigé = async (event: DomainEvent) => {
-  if (!(event instanceof DélaiAccordéCorrigé)) {
-    return Promise.resolve();
-  }
-
-  return onDélaiAccordéCorrigéHandler(event).match(
-    () => Promise.resolve(),
-    (e) => Promise.reject(e),
-  );
-};
-subscribeToRedis(onDélaiAccordéCorrigé, 'Project.onDélaiAccordéCorrigé');
 
 const onCahierDesChargesChoisiHandler = makeOnCahierDesChargesChoisi({
   projectRepo,

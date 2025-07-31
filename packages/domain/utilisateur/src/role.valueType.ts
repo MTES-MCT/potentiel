@@ -146,7 +146,7 @@ const référencielPermissions = {
           'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
         listerDossierRaccordement: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         listerDossierRaccordementManquants:
-          'Lauréat.Raccordement.Query.ListerDohttps://github.com/MTES-MCT/potentiel/pull/3359ssierRaccordementManquantsQuery',
+          'Lauréat.Raccordement.Query.ListerDossierRaccordementManquantsQuery',
         listerHistoriqueRaccordement:
           'Lauréat.Raccordement.Query.ListerHistoriqueRaccordementProjet',
       },

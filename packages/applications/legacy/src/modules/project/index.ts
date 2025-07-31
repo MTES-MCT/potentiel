@@ -5,6 +5,5 @@ export * from './events';
 export * from './mappers';
 export * from './queries';
 export * from './types';
-export * from './useCases';
 export * from './utils';
 export * from './Project';
