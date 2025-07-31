@@ -32,29 +32,6 @@ class routes {
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html';
 
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest';
-  static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai';
-
-  static ADMIN_ANNULER_DELAI_REJETE = (args?: { modificationRequestId: string }) => {
-    const route = '/admin/demande/:modificationRequestId/annuler-rejet-demande-delai';
-    if (args) {
-      return route.replace(':modificationRequestId', args.modificationRequestId);
-    } else return route;
-  };
-
-  static ADMIN_SIGNALER_DEMANDE_DELAI_PAGE = (projectId?: Project['id']) => {
-    const route = '/admin/projet/:projectId/signalerDemandeDelai.html';
-    if (projectId) {
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-  static ADMIN_SIGNALER_DEMANDE_DELAI_POST = '/admin/signalerDemandeDelai';
-
-  static ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION = (args?: { modificationRequestId: string }) => {
-    const route = '/admin/demande/:modificationRequestId/passer-demande-delai-en-instruction';
-    if (args) {
-      return route.replace(':modificationRequestId', args.modificationRequestId);
-    } else return route;
-  };
 
   static SUCCESS_OR_ERROR_PAGE = withParams<{
     success?: string;
@@ -67,19 +44,9 @@ class routes {
 
   static USER_LIST_REQUESTS = '/mes-demandes.html';
 
-  static DEMANDER_DELAI = (projectId?: Project['id']) => {
-    const route = '/projet/:projectId/demander-delai.html';
-    if (projectId) {
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
   static DEMANDE_ACTION = '/soumettre-demande';
 
-  static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai';
-
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
-  static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename';
@@ -94,22 +61,6 @@ class routes {
       return route.replace(':modificationRequestId', encodeURIComponent(modificationRequestId));
     } else return route;
   };
-
-  static GET_DETAILS_DEMANDE_DELAI_PAGE = (demandeDelaiId?: string) => {
-    const route = '/demande-delai/:demandeDelaiId/details.html';
-    if (demandeDelaiId) {
-      return route.replace(':demandeDelaiId', encodeURIComponent(demandeDelaiId));
-    } else return route;
-  };
-
-  static GET_CORRIGER_DELAI_ACCORDE_PAGE = (demandeDelaiId?: string) => {
-    const route = '/demande-delai/:demandeDelaiId/corriger.html';
-    if (demandeDelaiId) {
-      return route.replace(':demandeDelaiId', encodeURIComponent(demandeDelaiId));
-    } else return route;
-  };
-
-  static POST_CORRIGER_DELAI_ACCORDE = '/corriger-delai-accorde.html';
 
   static TELECHARGER_MODELE_REPONSE = (
     project?: { potentielIdentifier: string; id: string },
