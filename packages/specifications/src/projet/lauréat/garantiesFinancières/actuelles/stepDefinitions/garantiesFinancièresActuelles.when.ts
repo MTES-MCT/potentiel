@@ -4,71 +4,65 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { corrigerCandidature } from '../../../../../candidature/stepDefinitions/candidature.when';
-import { notifierLauréat } from '../../../stepDefinitions/lauréat.given';
 
-import { setGarantiesFinancièresData } from './helper';
+import {
+  enregistrerAttestation,
+  enregistrerGarantiesFinancièresActuelles,
+  modifierGarantiesFinancièresActuelles,
+} from './garantiesFinancièresActuelles.given';
 
 Quand(
-  `un admin importe le type des garanties financières actuelles pour le projet avec :`,
+  `un admin modifie les garanties financières actuelles du projet lauréat avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+    try {
+      await modifierGarantiesFinancièresActuelles.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `un admin modifie les garanties financières actuelles du projet lauréat`,
+  async function (this: PotentielWorld) {
+    try {
+      await modifierGarantiesFinancièresActuelles.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        {},
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
+  `un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerAttestation.call(this, this.lauréatWorld.identifiantProjet, {});
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const dateDésignation = exemple["date d'import"]
-      ? new Date(exemple["date d'import"]).toISOString()
-      : new Date().toISOString();
-
     try {
-      // cela mettra à jour l'aggrégat candidature avec les bonnes données avant notification si nécessaire
-      if (
-        exemple['type GF'] !==
-        this.candidatureWorld.importerCandidature.values.typeGarantiesFinancièresValue
-      ) {
-        await corrigerCandidature.call(this, exemple);
-      }
-
-      // cela déclenchera l'import des GFs iso prod
-      await notifierLauréat.call(this, dateDésignation);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `un admin modifie les garanties financières actuelles pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await mediator.send<Lauréat.GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
-        data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `un porteur enregistre l'attestation des garanties financières actuelles pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await mediator.send<Lauréat.GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
-          data: setGarantiesFinancièresData({
-            identifiantProjet,
-            exemple,
-          }),
-        },
+      await enregistrerAttestation.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
       );
     } catch (error) {
       this.error = error as Error;
@@ -77,33 +71,44 @@ Quand(
 );
 
 Quand(
-  `un admin enregistre les garanties financières actuelles pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `un porteur enregistre les garanties financières actuelles pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerGarantiesFinancièresActuelles.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        {},
+      );
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+Quand(
+  `un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
-        data: setGarantiesFinancièresData({ identifiantProjet, exemple }),
-      });
-    } catch (error) {
-      this.error = error as Error;
+      await enregistrerGarantiesFinancièresActuelles.call(
+        this,
+        this.lauréatWorld.identifiantProjet,
+        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
+      );
+    } catch (e) {
+      this.error = e as Error;
     }
   },
 );
 
 Quand(
-  `un admin échoie les garanties financières actuelles pour le projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `un admin échoie les garanties financières actuelles pour le projet lauréat`,
+  async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
       await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           typeTâchePlanifiéeValue:
             Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
         },

@@ -1,4 +1,4 @@
-import { Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Then as Alors } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
@@ -7,61 +7,42 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
 
 Alors(
-  'le dépôt de garanties financières devrait être consultable pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
+  'le dépôt de garanties financières devrait être consultable pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
-    const typeGarantiesFinancières = exemple['type GF'];
-    const dateÉchéance = exemple[`date d'échéance`];
-    const format = exemple['format'];
-    const dateConstitution = exemple[`date de constitution`];
-    const contenu = exemple['contenu fichier'];
-    const dateSoumission = exemple['date de soumission'];
-    const soumisPar = exemple['soumis par'];
-    const dateMiseÀJour = exemple['date de dernière mise à jour'];
-
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    // ASSERT ON READ MODEL
     await waitForExpect(async () => {
       const actualReadModel = await getDépôtEnCoursGarantiesFinancières(identifiantProjet);
 
-      const dépôtEnCours = actualReadModel.dépôt;
+      const actual = mapToPlainObject(actualReadModel);
 
-      expect(dépôtEnCours).not.to.be.undefined;
-      assert(dépôtEnCours);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapToExpected(),
+      );
 
-      expect(dépôtEnCours.type.type).to.deep.equal(typeGarantiesFinancières);
-      expect(dépôtEnCours.dateConstitution.date).to.deep.equal(new Date(dateConstitution));
-      expect(dépôtEnCours.soumisLe.date).to.deep.equal(new Date(dateSoumission));
-      expect(dépôtEnCours.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dateMiseÀJour));
-      expect(dépôtEnCours.dernièreMiseÀJour.par.formatter()).to.deep.equal(soumisPar);
+      actual.should.be.deep.equal(expected);
 
-      if (dépôtEnCours.dateÉchéance) {
-        expect(dépôtEnCours.dateÉchéance.date).to.deep.equal(new Date(dateÉchéance));
-      }
-
-      // ASSERT ON FILE
-      expect(dépôtEnCours.attestation).not.to.be.undefined;
-      expect(dépôtEnCours.attestation.format).to.deep.equal(format);
-
-      if (dépôtEnCours?.attestation) {
+      if (actualReadModel.dépôt.attestation) {
         const file = await mediator.send<ConsulterDocumentProjetQuery>({
           type: 'Document.Query.ConsulterDocumentProjet',
           data: {
-            documentKey: dépôtEnCours.attestation.formatter(),
+            documentKey: actualReadModel.dépôt.attestation.formatter(),
           },
         });
 
         assert(Option.isSome(file), `Attestation non trouvée !`);
+        const expectedAttestation =
+          this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapToAttestation();
 
+        expect(actualReadModel.dépôt.attestation.format).to.be.equal(expectedAttestation.format);
         const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(contenu);
+        expect(actualContent).to.equal(expectedAttestation.content);
       }
     });
   },

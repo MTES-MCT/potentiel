@@ -1,4 +1,4 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { Given as EtantDonné } from '@cucumber/cucumber';
 
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -7,28 +7,22 @@ import { DateTime } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../../../../potentiel.world';
 
 EtantDonné(
-  `des garanties financières en attente pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    const notifiéLe = exemple['date de notification'];
-    const dateLimiteSoumission = exemple['date limite de soumission'];
-    const motif = exemple['motif'];
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `des garanties financières en attente pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { motif, dateLimiteSoumission, demandéLe } =
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.demander.créer();
 
     const event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent = {
       type: 'GarantiesFinancièresDemandées-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
         motif:
           Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif)
             .motif,
-        dateLimiteSoumission: DateTime.convertirEnValueType(
-          new Date(dateLimiteSoumission),
-        ).formatter(),
-        demandéLe: DateTime.convertirEnValueType(new Date(notifiéLe)).formatter(),
+        dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission).formatter(),
+        demandéLe: DateTime.convertirEnValueType(demandéLe).formatter(),
       },
     };
-    await publish(`garanties-financieres|${identifiantProjet.formatter()}`, event);
+    await publish(`garanties-financieres|${event.payload.identifiantProjet}`, event);
   },
 );

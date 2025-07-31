@@ -12,8 +12,11 @@ export type ModifierGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
   {
     identifiantProjetValue: string;
-    typeValue: string;
-    dateÉchéanceValue?: string;
+    garantiesFinancièresValue: {
+      type: string;
+      dateÉchéance?: string;
+      dateDélibération?: string;
+    };
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -30,15 +33,12 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
     dateConstitutionValue,
     identifiantProjetValue,
     modifiéLeValue,
-    typeValue,
-    dateÉchéanceValue,
+    garantiesFinancièresValue,
     modifiéParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
-      type: typeValue,
-      dateÉchéance: dateÉchéanceValue,
-    });
+    const garantiesFinancières =
+      GarantiesFinancières.convertirEnValueType(garantiesFinancièresValue);
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const attestation = DocumentProjet.convertirEnValueType(

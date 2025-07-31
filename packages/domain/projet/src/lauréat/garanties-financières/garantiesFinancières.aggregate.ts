@@ -36,6 +36,7 @@ import {
   AttestationDeConformitéError,
   AttestationGarantiesFinancièresDéjàExistante,
   AucunesGarantiesFinancièresActuellesError,
+  ChoixExemptionImpossibleError,
   DateConstitutionDansLeFuturError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
@@ -44,6 +45,7 @@ import {
   GarantiesFinancièresDéjàÉchuesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
   GarantiesFinancièresSansÉchéanceError,
+  ProjetExemptDeGarantiesFinancièresError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error';
 import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
@@ -116,7 +118,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.vérifierSiLeTypeEstDisponiblePourAppelOffre(garantiesFinancières?.type);
   }
 
-  private vérifierLaValiditéDeLaDateDeConstitution(dateConstitution: DateTime.ValueType) {
+  private vérifierQueLaDateDeConstitutionEstValide(dateConstitution: DateTime.ValueType) {
     if (dateConstitution.estDansLeFutur()) {
       throw new DateConstitutionDansLeFuturError();
     }
@@ -137,6 +139,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   ) {
     if (!type && this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
       throw new GarantiesFinancièresRequisesPourAppelOffreError();
+    }
+  }
+
+  private vérifierQueLesGarantiesFinancièresSontModifiables() {
+    if (this.#type?.estExemption()) {
+      throw new ProjetExemptDeGarantiesFinancièresError();
     }
   }
 
@@ -211,8 +219,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     modifiéPar,
   }: ModifierActuellesOptions) {
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
-    // TODO this.vérifierQueLesGarantiesFinancièresSontModifiables(this.garantiesFinancières);
-    this.vérifierLaValiditéDeLaDateDeConstitution(dateConstitution);
+    this.vérifierQueLesGarantiesFinancièresSontModifiables();
+    this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
     this.vérifierSiLesGarantiesFinancièresSontLevées();
 
@@ -242,7 +250,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.aUneAttestation) {
       throw new AttestationGarantiesFinancièresDéjàExistante();
     }
-    this.vérifierLaValiditéDeLaDateDeConstitution(dateConstitution);
+    this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
 
     const event: AttestationGarantiesFinancièresEnregistréeEvent = {
       type: 'AttestationGarantiesFinancièresEnregistrée-V1',
@@ -268,7 +276,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.aDesGarantiesFinancières) {
       throw new GarantiesFinancièresDéjàEnregistréesError();
     }
-    this.vérifierLaValiditéDeLaDateDeConstitution(dateConstitution);
+    this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
+    if (garantiesFinancières.estExemption()) {
+      throw new ChoixExemptionImpossibleError();
+    }
 
     const event: GarantiesFinancièresEnregistréesEvent = {
       type: 'GarantiesFinancièresEnregistrées-V1',
@@ -482,6 +493,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { dateÉchéance, type },
   }: GarantiesFinancièresEnregistréesEvent) {
     this.#aDesGarantiesFinancières = true;
+    this.#aUneAttestation = true;
     this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
     this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }
@@ -490,6 +502,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { type, dateÉchéance },
   }: GarantiesFinancièresModifiéesEvent) {
     this.#aDesGarantiesFinancières = true;
+    this.#aUneAttestation = true;
     this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
     this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }

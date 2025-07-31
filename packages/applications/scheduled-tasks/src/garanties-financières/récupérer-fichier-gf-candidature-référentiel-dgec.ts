@@ -265,7 +265,9 @@ void (async () => {
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: Candidature.TypeGarantiesFinancières.typeInconnu.type,
+          garantiesFinancièresValue: {
+            type: Candidature.TypeGarantiesFinancières.typeInconnu.type,
+          },
           dateConstitutionValue: période.notifiéeLe.formatter(),
           attestationValue: {
             content,

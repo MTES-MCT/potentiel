@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@dépôt-garanties-financières
 Fonctionnalité: Soumettre de nouvelles garanties financières
 
     Contexte:
@@ -7,33 +8,17 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Et un cahier des charges permettant la modification du projet
 
     Plan du Scénario: Un porteur soumet un dépôt de garanties financières
-        Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
-            | date limite de soumission | 2023-11-01    |
-            | date de notification      | 2023-09-01    |
-            | motif                     | motif-inconnu |
+        Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type GF              | <type GF>              |
-            | date d'échéance      | <date d'échéance>      |
-            | format               | <format du fichier>    |
-            | contenu fichier      | <contenu du fichier>   |
-            | date de constitution | <date de constitution> |
-            | date de soumission   | <date de soumission>   |
-            | soumis par           | porteur@test.test      |
-        Alors le dépôt de garanties financières devrait être consultable pour le projet "Du boulodrome de Marseille" avec :
-            | type GF                      | <type GF>              |
-            | date d'échéance              | <date d'échéance>      |
-            | format                       | <format du fichier>    |
-            | contenu fichier              | <contenu du fichier>   |
-            | date de constitution         | <date de constitution> |
-            | date de soumission           | <date de soumission>   |
-            | soumis par                   | porteur@test.test      |
-            | date de dernière mise à jour | <date de soumission>   |
+            | type GF         | <type GF>         |
+            | date d'échéance | <date d'échéance> |
+        Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
 
         Exemples:
-            | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | date de soumission |
-            | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
-            | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
-            | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | 2023-10-01         |
+            | type GF                   | date d'échéance |
+            | avec-date-échéance        | 2027-12-01      |
+            | consignation              |                 |
+            | six-mois-après-achèvement |                 |
 
     Scénario: Une tâche du type "échoir les garanties financières" est annulée quand une dépôt de garanties financiéres est soumis
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -69,8 +54,8 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si date d'échéance manquante
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type GF      | avec-date-échéance |
-            | dateÉchéance |                    |
+            | type GF         | avec-date-échéance |
+            | date d'échéance |                    |
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
     Plan du Scénario: Impossible de soumettre un dépôt de garanties financières si la date d'échéance est non compatible avec le type

@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { TypeGarantiesFinancières } from '../../candidature';
 
@@ -10,6 +10,8 @@ import {
   DateDélibérationRequiseError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
+  DateDélibérationDansLeFuturError,
+  TypeGarantiesFinancièresInconnu,
 } from './garantiesFinancières.error';
 
 export type RawType =
@@ -172,21 +174,13 @@ const vérifierDateÉchéance = (date: string | undefined) => {
   return DateTime.convertirEnValueType(date);
 };
 
-const vérifierDateDélibération = (date: string | undefined) => {
-  if (!date) {
+const vérifierDateDélibération = (dateStr: string | undefined) => {
+  if (!dateStr) {
     throw new DateDélibérationRequiseError();
   }
-  return DateTime.convertirEnValueType(date);
-};
-
-class TypeGarantiesFinancièresInconnu extends InvalidOperationError {
-  constructor() {
-    super('Le type de garanties financières est inconnu');
+  const date = DateTime.convertirEnValueType(dateStr);
+  if (date.estDansLeFutur()) {
+    throw new DateDélibérationDansLeFuturError();
   }
-}
-
-export const estAvecDateÉchéance = (
-  valueType: ValueType,
-): valueType is ValueType<'avec-date-échéance'> => {
-  return valueType.type.estAvecDateÉchéance();
+  return date;
 };
