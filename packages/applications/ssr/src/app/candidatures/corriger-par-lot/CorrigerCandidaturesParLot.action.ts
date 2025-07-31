@@ -82,7 +82,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
     return {
       status: 'success',
       result: {
-        message:
+        successMessage:
           success === 0
             ? ''
             : success === 1

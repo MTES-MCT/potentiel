@@ -23,12 +23,14 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
     case 'success':
       if (formState.result) {
         const {
-          result: { message, errors },
+          result: { successMessage, errors },
         } = formState;
 
         return (
           <>
-            {message && <Alert small closable severity="success" description={<p>{message}</p>} />}
+            {successMessage && (
+              <Alert small closable severity="success" description={<p>{successMessage}</p>} />
+            )}
             {errors.length > 0 && (
               <Alert
                 small

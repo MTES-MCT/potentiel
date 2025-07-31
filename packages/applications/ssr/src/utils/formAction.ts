@@ -27,7 +27,7 @@ void i18next.init({
 zod.setErrorMap(zodI18nMap);
 
 export type ActionResult = {
-  message: string;
+  successMessage: string;
   errors: Array<{
     key: string;
     reason: string;
