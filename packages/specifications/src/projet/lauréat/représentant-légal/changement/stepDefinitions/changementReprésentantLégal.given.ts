@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given';
@@ -40,6 +41,30 @@ EtantDonné(
     const fixture =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
         {},
+      );
+
+    await mediator.send<Lauréat.ReprésentantLégal.EnregistrerChangementReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.EnregistrerChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        nomReprésentantLégalValue: fixture.nomReprésentantLégal,
+        typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
+        pièceJustificativeValue: fixture.pièceJustificative,
+        identifiantUtilisateurValue: fixture.demandéPar,
+        dateChangementValue: fixture.demandéLe,
+      },
+    });
+  },
+);
+
+EtantDonné(
+  'un changement de représentant légal enregistré pour le projet lauréat le {string}',
+  async function (this: PotentielWorld, date: string) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const fixture =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
+        { demandéLe: DateTime.convertirEnValueType(new Date(date)).formatter() },
       );
 
     await mediator.send<Lauréat.ReprésentantLégal.EnregistrerChangementReprésentantLégalUseCase>({

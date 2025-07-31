@@ -68,21 +68,30 @@ Alors(
 );
 
 Alors(
-  'le document sensible fourni lors du changement de représentant légal devrait être remplacé',
-  async function (this: PotentielWorld) {
+  /le document sensible fourni lors du changement de représentant légal(.*) devrait être remplacé/,
+  async function (this: PotentielWorld, dateChangement?: string) {
     return waitForExpect(async () => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
+
+      let demandéLe =
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe;
+
+      if (dateChangement) {
+        const match = dateChangement.match(/"([^"]*)"/);
+        if (match) {
+          demandéLe = match[1];
+        }
+      }
 
       const changement =
         await mediator.send<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            demandéLe:
-              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
+            demandéLe,
           },
         });
 

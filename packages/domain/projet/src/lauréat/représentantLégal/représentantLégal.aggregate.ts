@@ -241,7 +241,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.exécuterÉventuelleTâcheEnDoublon();
+    await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.annulerTâcheEnDoublon();
 
     await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.ajouter({
       àExécuterLe: dateChangement.ajouterNombreDeMois(3),

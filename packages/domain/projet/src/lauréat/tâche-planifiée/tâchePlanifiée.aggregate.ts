@@ -76,13 +76,13 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async exécuterÉventuelleTâcheEnDoublon() {
+  async annulerTâcheEnDoublon() {
     if (this.#statut.estEnAttenteExécution()) {
-      const event: TâchePlanifiéeExecutéeEvent = {
-        type: 'TâchePlanifiéeExecutée-V1',
+      const event: TâchePlanifiéeAnnuléeEvent = {
+        type: 'TâchePlanifiéeAnnulée-V1',
         payload: {
           identifiantProjet: this.identifiantProjet.formatter(),
-          exécutéeLe: DateTime.now().formatter(),
+          annuléeLe: DateTime.now().formatter(),
           typeTâchePlanifiée: this.typeTâchePlanifiée,
         },
       };
