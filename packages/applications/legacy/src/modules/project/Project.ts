@@ -9,7 +9,6 @@ import {
 } from '../../core/utils';
 import { ProjectAppelOffre, User, CahierDesChargesRéférenceParsed } from '../../entities';
 import { isNotifiedPeriode } from '../../entities/periode';
-import { ProjetDéjàClasséError } from '../modificationRequest';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '../projectAppelOffre';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { add, isSameDay, sub } from 'date-fns';
@@ -25,19 +24,13 @@ import {
 } from '../shared';
 import { ProjectDataForCertificate } from './dtos';
 import {
-  AttachmentRequiredForDemandeRecoursAcceptedError,
-  EliminatedProjectCannotBeAbandonnedError,
   IllegalProjectStateError,
-  ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
-  ChangementProducteurImpossiblePourEolienError,
 } from './errors';
 import {
   AppelOffreProjetModifié,
   CovidDelayGranted,
-  DemandeDelaiSignaled,
-  DemandeRecoursSignaled,
   IdentifiantPotentielPPE2Batiment2Corrigé,
   LegacyProjectSourced,
   ProjectAbandoned,
@@ -64,8 +57,6 @@ import {
 import { toProjectDataForCertificate } from './mappers';
 
 export interface Project extends EventStoreAggregate {
-  abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>;
-  abandonLegacy: (abandonnedOn: number) => Result<null, never>;
   import: (args: {
     appelOffre: ProjectAppelOffre;
     data: ProjectRawDataImportedPayload['data'];
@@ -75,49 +66,10 @@ export interface Project extends EventStoreAggregate {
     user: User,
     data: ProjectDataCorrectedPayload['correctedData'],
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
-  moveCompletionDueDate: (
-    user: User,
-    delayInMonths: number,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
   setCompletionDueDate: (args: {
     appelOffre: ProjectAppelOffre;
     completionDueOn: number;
   }) => Result<null, never>;
-  updatePuissance: (
-    user: User,
-    newPuissance: number,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  updateActionnaire: (
-    user: User,
-    newActionnaire: string,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  updateProducteur: (
-    user: User,
-    newProducteur: string,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  updateFournisseurs: (
-    user: User,
-    newFournisseurs: Fournisseur[],
-    newEvaluationCarbone?: number,
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
-  grantClasse: (user: User) => Result<null, ProjetDéjàClasséError>;
-  signalerDemandeDelai: (
-    args: {
-      decidedOn: Date;
-      notes?: string;
-      attachment?: { id: string; name: string };
-      signaledBy: User;
-    } & (
-      | {
-          status: 'acceptée';
-          newCompletionDueOn: Date;
-          délaiCdc2022?: true;
-        }
-      | {
-          status: 'rejetée' | 'accord-de-principe';
-        }
-    ),
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
 
   readonly isClasse?: boolean;
   readonly isLegacy?: boolean;
@@ -269,40 +221,6 @@ export const makeProject = (args: {
 
   // public methods
   return ok({
-    abandon: function (user) {
-      if (!props.isClasse) {
-        return err(new EliminatedProjectCannotBeAbandonnedError());
-      }
-
-      _publishEvent(
-        new ProjectAbandoned({
-          payload: {
-            projectId: projectId.toString(),
-            abandonAcceptedBy: user.id,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
-    abandonLegacy: function (abandonnedOn) {
-      if (props.isClasse) {
-        _publishEvent(
-          new ProjectAbandoned({
-            payload: {
-              projectId: projectId.toString(),
-              abandonAcceptedBy: '',
-            },
-            original: {
-              version: 1,
-              occurredAt: new Date(abandonnedOn),
-            },
-          }),
-        );
-      }
-
-      return ok(null);
-    },
     import: function ({ appelOffre, data, importId }) {
       const { appelOffreId, periodeId, familleId, numeroCRE } = data;
 
@@ -444,162 +362,6 @@ export const makeProject = (args: {
         completionDueOn,
       });
 
-      return ok(null);
-    },
-    moveCompletionDueDate: function (user, delayInMonths) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      const { completionDueOn, notifiedOn, appelOffre } = props;
-
-      const newCompletionDueOn = add(completionDueOn, {
-        months: delayInMonths,
-      }).getTime();
-
-      if (newCompletionDueOn <= notifiedOn) {
-        return err(
-          new IllegalProjectStateError({
-            completionDueOn:
-              'La nouvelle date de mise en service doit postérieure à la date de notification.',
-          }),
-        );
-      }
-
-      appelOffre &&
-        _updateCompletionDate(appelOffre, { setBy: user.id, completionDueOn: newCompletionDueOn });
-
-      return ok(null);
-    },
-
-    updatePuissance: function (user, newPuissance) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      _publishEvent(
-        new ProjectPuissanceUpdated({
-          payload: {
-            projectId: props.projectId.toString(),
-            newPuissance,
-            updatedBy: user.id,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
-    updateActionnaire: function (user, newActionnaire) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      _publishEvent(
-        new ProjectActionnaireUpdated({
-          payload: {
-            projectId: props.projectId.toString(),
-            newActionnaire,
-            updatedBy: user.id,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
-    updateProducteur: function (user, newProducteur) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      if (!props.appelOffre?.changementProducteurPossibleAvantAchèvement) {
-        return err(new ChangementProducteurImpossiblePourEolienError());
-      }
-
-      _publishEvent(
-        new ProjectProducteurUpdated({
-          payload: {
-            projectId: props.projectId.toString(),
-            newProducteur,
-            updatedBy: user.id,
-          },
-        }),
-      );
-      return ok(null);
-    },
-    updateFournisseurs: function (user, newFournisseurs: Fournisseur[], newEvaluationCarbone) {
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      _publishEvent(
-        new ProjectFournisseursUpdated({
-          payload: {
-            projectId: props.projectId.toString(),
-            newFournisseurs,
-            newEvaluationCarbone,
-            updatedBy: user.id,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
-    grantClasse: function (user) {
-      if (props.isClasse) {
-        return err(new ProjetDéjàClasséError());
-      }
-      _publishEvent(
-        new ProjectClasseGranted({
-          payload: {
-            projectId: props.projectId.toString(),
-            grantedBy: user.id,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
-    signalerDemandeDelai: function (args) {
-      const { decidedOn, status, notes, attachment, signaledBy } = args;
-      if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
-      }
-
-      const isNewDateApplicable =
-        status === 'acceptée' && props.completionDueOn < args.newCompletionDueOn.getTime();
-
-      _publishEvent(
-        new DemandeDelaiSignaled({
-          payload: {
-            projectId: props.projectId.toString(),
-            decidedOn: decidedOn.getTime(),
-            notes,
-            attachments: attachment ? [attachment] : [],
-            signaledBy: signaledBy.id,
-            ...(status === 'acceptée'
-              ? {
-                  status,
-                  ...(isNewDateApplicable && { oldCompletionDueOn: props.completionDueOn }),
-                  newCompletionDueOn: args.newCompletionDueOn.getTime(),
-                  isNewDateApplicable,
-                }
-              : { status }),
-          },
-        }),
-      );
-
-      if (isNewDateApplicable) {
-        _publishEvent(
-          new ProjectCompletionDueDateSet({
-            payload: {
-              projectId: props.projectId.toString(),
-              completionDueOn: args.newCompletionDueOn.getTime(),
-              setBy: signaledBy.id,
-              ...(args.délaiCdc2022 && { reason: 'délaiCdc2022' }),
-            },
-          }),
-        );
-      }
       return ok(null);
     },
 
