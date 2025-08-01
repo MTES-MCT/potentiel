@@ -89,7 +89,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
-        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
 
     Scénario: Impossible de modifier des garanties financières actuelles si le projet en est exempt
         Etant donné le projet lauréat "Du boulodrome de Toulouse" avec :

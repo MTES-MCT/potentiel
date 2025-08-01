@@ -26,7 +26,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
-        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
 
     Scénario: Une tâche du type "rappel échéance garanties financières à un mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -34,7 +34,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
-        Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat
 
     Scénario: Une tâche du type "rappel échéance garanties financières à deux mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -42,7 +42,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
-        Alors une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet lauréat
 
     Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au co-contractant est dans le futur
         Quand le porteur transmet une attestation de conformité pour le projet lauréat avec :

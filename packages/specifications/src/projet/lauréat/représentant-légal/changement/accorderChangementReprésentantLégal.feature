@@ -1,4 +1,5 @@
 # language: fr
+@représentant-légal
 Fonctionnalité: Accorder la demande de changement de représentant légal d'un projet lauréat
 
     Contexte:

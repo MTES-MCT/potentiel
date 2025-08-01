@@ -33,6 +33,7 @@ export const registerSupprimerDocumentProjetSensibleCommand = ({
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     const { pièceJustificative } = projet.lauréat.représentantLégal;
+
     if (pièceJustificative) {
       await supprimerDocumentProjetSensible(pièceJustificative, raison);
     }

@@ -67,7 +67,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
     Scénario: Une tâche du type "échoir les garanties financières" n'est pas planifiée quand le porteur supprime un dépôt et que le projet ne dispose pas de garanties financières actuelles avec date d'échéance
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
 
     Scénario: Impossible de supprimer des garanties financières en attente de validation s'il n'y a pas de dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat

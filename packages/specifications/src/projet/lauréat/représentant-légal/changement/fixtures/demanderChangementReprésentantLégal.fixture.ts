@@ -64,6 +64,18 @@ export class DemanderChangementReprésentantLégalFixture
     return this.#statut;
   }
 
+  // demandes indexés par demandéLe
+  #demandesPrécédentes = new Map<
+    string,
+    DemanderChangementReprésentantLégal & { content: string }
+  >();
+  #ajouterDemandePrécédente(demande: DemanderChangementReprésentantLégal & { content: string }) {
+    this.#demandesPrécédentes.set(new Date(demande.demandéLe).toISOString(), demande);
+  }
+  getDemandePrécédente(demandéLe: string) {
+    return this.#demandesPrécédentes.get(new Date(demandéLe).toISOString());
+  }
+
   créer(
     partialFixture: CréerDemandeChangementReprésentantLégalFixture,
   ): Readonly<DemanderChangementReprésentantLégal> {
@@ -92,6 +104,8 @@ export class DemanderChangementReprésentantLégalFixture
     this.#statut = fixture.statut;
 
     this.aÉtéCréé = true;
+
+    this.#ajouterDemandePrécédente({ ...fixture, content });
 
     return fixture;
   }

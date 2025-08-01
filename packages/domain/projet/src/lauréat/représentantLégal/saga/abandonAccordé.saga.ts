@@ -11,7 +11,7 @@ export const abandonAccordéSaga = async ({ payload }: Abandon.AbandonAccordéEv
     type: 'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
     data: {
       identifiantProjet,
-      raison: 'Pièce justificative supprimée automatiquement après annulation',
+      raison: 'Pièce justificative supprimée automatiquement après abandon',
     },
   });
 };

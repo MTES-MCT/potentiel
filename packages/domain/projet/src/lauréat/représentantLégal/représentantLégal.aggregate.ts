@@ -45,7 +45,7 @@ import {
   ChangementDéjàRejetéError,
   DemandeChangementInexistanteError,
 } from './changement/changementReprésentantLégal.error';
-import { EnregistrerChangementOptions } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.options';
+import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
@@ -65,6 +65,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 > {
   #tâchePlanifiéeGestionAutomatiqueDemandeChangement!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappelInstructionÀDeuxMois!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeSuppressionDocumentÀTroisMois!: AggregateType<TâchePlanifiéeAggregate>;
 
   async init() {
     this.#tâchePlanifiéeGestionAutomatiqueDemandeChangement = await this.lauréat.loadTâchePlanifiée(
@@ -72,6 +73,9 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     );
     this.#tâchePlanifiéeRappelInstructionÀDeuxMois = await this.lauréat.loadTâchePlanifiée(
       TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
+    );
+    this.#tâchePlanifiéeSuppressionDocumentÀTroisMois = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeChangementReprésentantLégal.suppressionDocumentÀTroisMois.type,
     );
   }
 
@@ -219,7 +223,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-        StatutChangementReprésentantLégal.demandé,
+        StatutChangementReprésentantLégal.informationEnregistrée,
       );
     }
 
@@ -236,6 +240,10 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.ajouter({
+      àExécuterLe: dateChangement.ajouterNombreDeMois(3),
+    });
   }
 
   async corrigerDemandeChangement({
@@ -502,11 +510,29 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
   }
 
   private applyChangementReprésentantLégalEnregistré({
-    payload,
+    payload: {
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      enregistréLe,
+      identifiantProjet,
+      pièceJustificative: { format },
+    },
   }: ChangementReprésentantLégalEnregistréEvent) {
     this.#représentantLégal = {
-      nom: payload.nomReprésentantLégal,
-      type: TypeReprésentantLégal.convertirEnValueType(payload.typeReprésentantLégal),
+      nom: nomReprésentantLégal,
+      type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+    };
+    this.#demande = {
+      statut: StatutChangementReprésentantLégal.informationEnregistrée,
+      nom: nomReprésentantLégal,
+      demandéLe: DateTime.convertirEnValueType(enregistréLe),
+      type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+        enregistréLe,
+        format,
+      ),
     };
   }
 
