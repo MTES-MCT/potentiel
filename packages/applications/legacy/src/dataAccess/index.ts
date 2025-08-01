@@ -11,5 +11,4 @@ export * from './db';
 
 export * from './user';
 export * from './project';
-export * from './modificationRequest';
 export * from './appelOffre';

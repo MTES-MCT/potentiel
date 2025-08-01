@@ -14,7 +14,6 @@ import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
-import { MulterError } from 'multer';
 import { runWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
 import {
