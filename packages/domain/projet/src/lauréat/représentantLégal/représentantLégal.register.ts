@@ -30,8 +30,8 @@ import {
   ListerHistoriqueReprésentantLégalProjetDependencies,
   registerListerHistoriqueReprésentantLégalProjetQuery,
 } from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query';
-import { registerEnregistrerChangementReprésentantLégalCommand } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.command';
-import { registerEnregistrerChangementReprésentantLégalUseCase } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.usecase';
+import { registerEnregistrerChangementReprésentantLégalCommand } from './changement/enregistrer/enregistrerChangementReprésentantLégal.command';
+import { registerEnregistrerChangementReprésentantLégalUseCase } from './changement/enregistrer/enregistrerChangementReprésentantLégal.usecase';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
   ListerChangementReprésentantLégalDependencies &

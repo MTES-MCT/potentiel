@@ -6,6 +6,7 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { TypeReprésentantLégal } from '../..';
 import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
 import { IdentifiantProjet } from '../../../..';
+import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 import { EnregistrerChangementReprésentantLégalCommand } from './enregistrerChangementReprésentantLégal.command';
 
@@ -46,6 +47,15 @@ export const registerEnregistrerChangementReprésentantLégalUseCase = () => {
       dateChangementValue,
       pièceJustificativeValue.format,
     );
+
+    await mediator.send<SupprimerDocumentProjetSensibleCommand>({
+      type: 'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
+      data: {
+        identifiantProjet,
+        raison:
+          'Pièce justificative supprimée automatiquement car un nouveau changement a été déclaré',
+      },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

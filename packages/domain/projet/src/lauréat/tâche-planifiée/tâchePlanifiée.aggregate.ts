@@ -45,7 +45,7 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
   }
 
   async annuler() {
-    if (this.#statut.estÉgaleÀ(StatutTâchePlanifiée.enAttenteExécution)) {
+    if (this.#statut.estEnAttenteExécution()) {
       const event: TâchePlanifiéeAnnuléeEvent = {
         type: 'TâchePlanifiéeAnnulée-V1',
         payload: {
@@ -74,20 +74,6 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
       },
     };
     await this.publish(event);
-  }
-
-  async annulerTâcheEnDoublon() {
-    if (this.#statut.estEnAttenteExécution()) {
-      const event: TâchePlanifiéeAnnuléeEvent = {
-        type: 'TâchePlanifiéeAnnulée-V1',
-        payload: {
-          identifiantProjet: this.identifiantProjet.formatter(),
-          annuléeLe: DateTime.now().formatter(),
-          typeTâchePlanifiée: this.typeTâchePlanifiée,
-        },
-      };
-      await this.publish(event);
-    }
   }
 
   apply(event: TâchePlanifiéeEvent) {

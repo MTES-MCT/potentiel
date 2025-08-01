@@ -45,7 +45,7 @@ import {
   ChangementDéjàRejetéError,
   DemandeChangementInexistanteError,
 } from './changement/changementReprésentantLégal.error';
-import { EnregistrerChangementOptions } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.options';
+import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
@@ -240,8 +240,6 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-
-    await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.annulerTâcheEnDoublon();
 
     await this.#tâchePlanifiéeSuppressionDocumentÀTroisMois.ajouter({
       àExécuterLe: dateChangement.ajouterNombreDeMois(3),

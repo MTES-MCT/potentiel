@@ -1,4 +1,5 @@
 # language: fr
+@représentant-légal
 Fonctionnalité: Supprimer la demande de changement de représentant légal
 
     Contexte:

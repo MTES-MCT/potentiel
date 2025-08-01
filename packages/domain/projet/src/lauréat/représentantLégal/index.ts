@@ -24,7 +24,7 @@ import {
   ListerHistoriqueReprésentantLégalProjetQuery,
   HistoriqueReprésentantLégalProjetListItemReadModel,
 } from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query';
-import { EnregistrerChangementReprésentantLégalUseCase } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.usecase';
+import { EnregistrerChangementReprésentantLégalUseCase } from './changement/enregistrer/enregistrerChangementReprésentantLégal.usecase';
 
 // Query
 export type ReprésentantLégalQuery =
@@ -67,7 +67,7 @@ export type { AnnulerChangementReprésentantLégalUseCase } from './changement/a
 export type { CorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
 export type { AccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase';
 export type { RejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase';
-export type { EnregistrerChangementReprésentantLégalUseCase } from './changement/enregistreChangement/enregistrerChangementReprésentantLégal.usecase';
+export type { EnregistrerChangementReprésentantLégalUseCase } from './changement/enregistrer/enregistrerChangementReprésentantLégal.usecase';
 
 // Event
 export * from './représentantLégal.event';

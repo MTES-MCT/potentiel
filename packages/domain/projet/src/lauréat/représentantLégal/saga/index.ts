@@ -6,12 +6,10 @@ import { Lauréat } from '../../..';
 
 import { abandonAccordéSaga } from './abandonAccordé.saga';
 import { tâchePlanifiéeReprésentantLégalExecutéeSaga } from './tâchePlanifiéeReprésentantLégalExecutée.saga';
-import { tâchePlanifiéeReprésentantLégalAnnuléeSaga } from './tâchePlanifiéeReprésentantLégalAnnulée.saga';
 
 type Event = { version: number; created_at: string; stream_id: string };
 export type SubscriptionEvent = (
   | Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent
-  | Lauréat.TâchePlanifiée.TâchePlanifiéeAnnuléeEvent
   | Abandon.AbandonAccordéEvent
 ) &
   Event;
@@ -27,12 +25,7 @@ export const register = () => {
         },
         tâchePlanifiéeReprésentantLégalExecutéeSaga,
       )
-      .with(
-        {
-          type: 'TâchePlanifiéeAnnulée-V1',
-        },
-        tâchePlanifiéeReprésentantLégalAnnuléeSaga,
-      )
+
       .with({ type: 'AbandonAccordé-V1' }, abandonAccordéSaga)
       .exhaustive();
 

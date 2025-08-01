@@ -40,7 +40,10 @@ EtantDonné(
 
     const fixture =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
-        {},
+        {
+          statut:
+            Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée,
+        },
       );
 
     await mediator.send<Lauréat.ReprésentantLégal.EnregistrerChangementReprésentantLégalUseCase>({
@@ -64,7 +67,11 @@ EtantDonné(
 
     const fixture =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.créer(
-        { demandéLe: DateTime.convertirEnValueType(new Date(date)).formatter() },
+        {
+          statut:
+            Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée,
+          demandéLe: DateTime.convertirEnValueType(new Date(date)).formatter(),
+        },
       );
 
     await mediator.send<Lauréat.ReprésentantLégal.EnregistrerChangementReprésentantLégalUseCase>({

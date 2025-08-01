@@ -82,7 +82,7 @@ Alors(
       if (dateChangement) {
         const match = dateChangement.match(/"([^"]*)"/);
         if (match) {
-          demandéLe = match[1];
+          demandéLe = new Date(match[1]).toISOString();
         }
       }
 
@@ -106,11 +106,14 @@ Alors(
 
       assert(Option.isSome(document));
 
+      const demandePrécédenteFixture =
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderOuEnregistrerChangementReprésentantLégalFixture.getDemandePrécédente(
+          demandéLe,
+        );
+      assert(demandePrécédenteFixture, "la demande précédente n'a pas été trouvée");
+
       const actualContent = await convertReadableStreamToString(document.content);
-      const oldContent = await convertReadableStreamToString(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .demanderOuEnregistrerChangementReprésentantLégalFixture.pièceJustificative.content,
-      );
+      const oldContent = demandePrécédenteFixture.content;
       actualContent.should.not.be.equal(oldContent);
     });
   },
