@@ -7,7 +7,6 @@ import * as CandidatureSaga from './candidature.saga';
 import * as LauréatSaga from './lauréat.saga';
 import * as ProducteurSaga from './producteur.saga';
 import * as PuissanceSaga from './puissance.saga';
-import * as RaccordementSaga from './raccordement.saga';
 import * as UtilisateurSaga from './utilisateur.saga';
 import * as ÉliminéSaga from './éliminé.saga';
 import * as FournisseurSaga from './fournisseur.saga';
@@ -17,7 +16,6 @@ import * as AchèvementSaga from './achèvement.saga';
  * @deprecated à bouger dans la nouvelle app
  */
 export const registerSagas = async () => {
-  RaccordementSaga.register();
   AbandonSaga.register();
   CandidatureSaga.register();
   LauréatSaga.register();
@@ -29,22 +27,6 @@ export const registerSagas = async () => {
   AccèsSaga.register();
   FournisseurSaga.register();
   AchèvementSaga.register();
-
-  const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
-    name: 'legacy-saga',
-    eventType: [
-      'DateMiseEnServiceTransmise-V1',
-      'DateMiseEnServiceTransmise-V2',
-      'DemandeComplèteDeRaccordementTransmise-V2',
-    ],
-    eventHandler: async (event) => {
-      await mediator.send<RaccordementSaga.Execute>({
-        type: 'System.Saga.Raccordement',
-        data: event,
-      });
-    },
-    streamCategory: 'raccordement',
-  });
 
   const unsubscribeAbandon = await subscribe<AbandonSaga.SubscriptionEvent>({
     name: 'legacy-saga',
@@ -187,7 +169,6 @@ export const registerSagas = async () => {
   });
 
   return async () => {
-    await unsubscribeRaccordement();
     await unsubscribeAbandon();
     await unsubscribeCandidature();
     await unsubscribeLauréat();
