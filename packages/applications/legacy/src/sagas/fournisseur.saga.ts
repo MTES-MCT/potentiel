@@ -12,8 +12,6 @@ import {
 } from '../modules/project';
 import { Option } from '@potentiel-libraries/monads';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
-import { UniqueEntityID } from '../core/domain';
-import { ModificationReceived } from '../modules/modificationRequest';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent & Event;
 
@@ -63,23 +61,6 @@ export const register = () => {
           }),
         );
         const { fournisseurs, évaluationCarboneSimplifiée } = payload;
-
-        await eventStore.publish(
-          new ModificationReceived({
-            payload: {
-              modificationRequestId: new UniqueEntityID().toString(),
-              projectId: projet.id,
-              requestedBy: updatedBy,
-              type: 'fournisseur',
-              fournisseurs: fournisseurs?.map((fournisseur) => ({
-                kind: CORRESPONDANCE_CHAMPS_FOURNISSEURS[fournisseur.typeFournisseur],
-                name: fournisseur.nomDuFabricant,
-              })),
-              evaluationCarbone: évaluationCarboneSimplifiée,
-              authority: 'dreal',
-            },
-          }),
-        );
 
         const fournisseurActuel =
           await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({

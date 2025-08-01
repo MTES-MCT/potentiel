@@ -2,10 +2,8 @@ import { DomainEvent } from '../../../core/domain';
 import { logger } from '../../../core/utils';
 import * as AuthorizationEvents from '../../../modules/authZ/events';
 import * as CandidateNotificationEvents from '../../../modules/notificationCandidats/events';
-import * as ModificationRequestEvents from '../../../modules/modificationRequest/events';
 import * as ProjectEvents from '../../../modules/project/events';
 import * as UserEvents from '../../../modules/users/events';
-import * as DemandeDelaiEvents from '../../../modules/demandeModification/demandeDélai';
 import * as UtilisateurEvents from '../../../modules/utilisateur/events';
 
 import { transformerISOStringEnDate } from '../../helpers';
@@ -24,12 +22,10 @@ interface HasEventConstructor {
 }
 
 const EventClassByType: Record<string, HasEventConstructor> = {
-  ...ModificationRequestEvents,
   ...CandidateNotificationEvents,
   ...ProjectEvents,
   ...AuthorizationEvents,
   ...UserEvents,
-  ...DemandeDelaiEvents,
   ...UtilisateurEvents,
 };
 

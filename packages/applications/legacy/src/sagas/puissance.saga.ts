@@ -7,8 +7,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectDataCorrected, ProjectPuissanceUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
-import { ModificationReceived } from '../modules/modificationRequest';
-import { UniqueEntityID } from '../core/domain';
 import { match } from 'ts-pattern';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent & Event;
@@ -49,19 +47,6 @@ export const register = () => {
           getUserByEmail(identifiantUtilisateur).map((user) => {
             r(user?.id ?? '');
             return ok(user);
-          }),
-        );
-
-        await eventStore.publish(
-          new ModificationReceived({
-            payload: {
-              type: 'puissance',
-              puissance,
-              authority: 'dreal',
-              modificationRequestId: new UniqueEntityID().toString(),
-              projectId: projet.id,
-              requestedBy: userId,
-            },
           }),
         );
 

@@ -26,5 +26,3 @@ export * from './ProjectProducteurUpdated';
 export * from './ProjectPuissanceUpdated';
 export * from './ProjectRawDataImported';
 export * from './ProjectReimported';
-export * from './DateMiseEnServiceTransmise';
-export * from './DemandeComplèteRaccordementTransmise';
