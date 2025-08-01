@@ -2,7 +2,6 @@ import { sequelizeInstance } from '../../sequelize.config';
 
 import { makeUserRepo } from './user';
 import { makeProjectRepo, getFullTextSearchOptions } from './project';
-import { makeModificationRequestRepo } from './modificationRequest';
 import { logger } from '../../core/utils';
 
 import { appelOffreRepo } from '../inMemory/appelOffreRepo';
@@ -16,8 +15,6 @@ const userRepo = makeUserRepo({ sequelizeInstance });
 
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 const projectRepo = makeProjectRepo({ sequelizeInstance, getProjectAppelOffre });
-
-const modificationRequestRepo = makeModificationRequestRepo({ sequelizeInstance });
 
 // Sync the database models
 let _isDatabaseInitialized = false;
@@ -48,7 +45,6 @@ const resetDatabase = async () => {
 const dbAccess = Object.freeze({
   userRepo,
   projectRepo,
-  modificationRequestRepo,
   appelOffreRepo,
   initDatabase,
   resetDatabase,
@@ -58,7 +54,6 @@ export default dbAccess;
 export {
   userRepo,
   projectRepo,
-  modificationRequestRepo,
   appelOffreRepo,
   initDatabase,
   resetDatabase,
