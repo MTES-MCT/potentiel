@@ -12,7 +12,6 @@ import {
   Union,
   Unknown,
 } from '../types/schemaTypes';
-import { ModificationRequest } from './modificationRequest';
 import { User } from './user';
 import { ProjectAppelOffre } from './appelOffre';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -128,7 +127,6 @@ type ProjectEvent = {
     | 'dcr-submission'
     | 'dcr-removal'
     | 'dcr-file-move';
-  modificationRequestId?: ModificationRequest['id'];
   isNew?: true;
 };
 
@@ -142,7 +140,6 @@ interface ApplyProjectUpdateProps {
   context: {
     userId: User['id'];
     type: ProjectEvent['type'];
-    modificationRequestId?: ModificationRequest['id'];
   };
 }
 const buildApplyProjectUpdate = (makeId: () => string) => {
