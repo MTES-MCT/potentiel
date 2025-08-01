@@ -22,7 +22,6 @@ import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail'
 import { ok } from 'neverthrow';
 import { getCompletionDate } from './_helpers/getCompletionDate';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Project } from '../infra/sequelize/projectionsNext';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureImportéeEvent
