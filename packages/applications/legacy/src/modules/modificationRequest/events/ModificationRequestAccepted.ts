@@ -1,5 +1,11 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
-import { ModificationRequestAcceptanceParams } from '../ModificationRequest';
+
+export type ModificationRequestAcceptanceParams =
+  | { type: 'recours'; newNotificationDate: Date }
+  | { type: 'delai'; delayInMonths: number }
+  | { type: 'puissance'; newPuissance: number; isDecisionJustice?: boolean }
+  | { type: 'actionnaire'; newActionnaire: string }
+  | { type: 'producteur'; newProducteur: string };
 
 export interface ModificationRequestAcceptedPayload {
   modificationRequestId: string;

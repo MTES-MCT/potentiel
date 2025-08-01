@@ -5,7 +5,6 @@ import * as CandidateNotificationEvents from '../../../modules/notificationCandi
 import * as ModificationRequestEvents from '../../../modules/modificationRequest/events';
 import * as ProjectEvents from '../../../modules/project/events';
 import * as UserEvents from '../../../modules/users/events';
-import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events';
 import * as DemandeDelaiEvents from '../../../modules/demandeModification/demandeDélai';
 import * as UtilisateurEvents from '../../../modules/utilisateur/events';
 
@@ -30,7 +29,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...ProjectEvents,
   ...AuthorizationEvents,
   ...UserEvents,
-  ...LegacyCandidateNotificationEvents,
   ...DemandeDelaiEvents,
   ...UtilisateurEvents,
 };
