@@ -7,8 +7,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectDataCorrected, ProjectProducteurUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
-import { ModificationReceived } from '../modules/modificationRequest';
-import { UniqueEntityID } from '../core/domain';
 
 export type SubscriptionEvent = Lauréat.Producteur.ProducteurEvent & Event;
 
@@ -39,19 +37,6 @@ export const register = () => {
           }),
         );
         const { producteur } = payload;
-
-        await eventStore.publish(
-          new ModificationReceived({
-            payload: {
-              type: 'producteur',
-              producteur,
-              authority: 'dreal',
-              modificationRequestId: new UniqueEntityID().toString(),
-              projectId: projet.id,
-              requestedBy: updatedBy,
-            },
-          }),
-        );
 
         await eventStore.publish(
           new ProjectProducteurUpdated({
