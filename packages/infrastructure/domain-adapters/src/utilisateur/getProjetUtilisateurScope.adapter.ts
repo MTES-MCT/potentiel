@@ -7,7 +7,7 @@ import {
   Accès,
   IdentifiantProjet,
 } from '@potentiel-domain/projet';
-import { UtilisateurEntity, UtilisateurInconnuError } from '@potentiel-domain/utilisateur';
+import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Where } from '@potentiel-domain/entity';
 
@@ -15,7 +15,10 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
   const utilisateur = await findProjection<UtilisateurEntity>(`utilisateur|${email.formatter()}`);
 
   if (Option.isNone(utilisateur)) {
-    throw new UtilisateurInconnuError();
+    return {
+      type: 'projet',
+      identifiantProjets: [],
+    };
   }
 
   return match(utilisateur)
