@@ -316,16 +316,11 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierCoefficientKChoisi({ dépôt }: CandidatureBehaviorOptions) {
-    if (
-      this.projet.champsSupplémentaires.coefficientKChoisi === 'requis' &&
-      dépôt.coefficientKChoisi === undefined
-    ) {
+    const { coefficientKChoisi } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
+    if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
       throw new ChoixCoefficientKRequisError();
     }
-    if (
-      !this.projet.champsSupplémentaires.coefficientKChoisi &&
-      dépôt.coefficientKChoisi !== undefined
-    ) {
+    if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
       throw new ChoixCoefficientKNonAttenduError();
     }
   }
