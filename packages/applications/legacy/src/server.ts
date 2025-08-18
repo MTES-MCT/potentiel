@@ -7,14 +7,13 @@ import path, { join } from 'path';
 import morgan from 'morgan';
 import * as Sentry from '@sentry/node';
 import { isLocalEnv, registerAuth } from './config';
-import { FILE_SIZE_LIMIT_IN_MB, v1Router } from './controllers';
+import { v1Router } from './controllers';
 import { logger } from './core/utils';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
-import { MulterError } from 'multer';
 import { runWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
 import {
@@ -105,7 +104,6 @@ export async function makeServer(port: number) {
       } else {
         express.urlencoded({
           extended: false,
-          limit: FILE_SIZE_LIMIT_IN_MB + 'mb',
         })(req, res, next);
       }
     });
@@ -119,10 +117,6 @@ export async function makeServer(port: number) {
 
     app.use((error, req, res, next) => {
       logger.error(error);
-
-      if (error instanceof MulterError && error.code === 'LIMIT_FILE_SIZE') {
-        return res.status(400).send(`Le fichier ne doit pas dépasser ${FILE_SIZE_LIMIT_IN_MB} Mo`);
-      }
 
       return res
         .status(500)

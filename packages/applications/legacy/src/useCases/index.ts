@@ -1,4 +1,3 @@
-import { eventStore, fileRepo, sendNotification, projectRepo } from '../config';
 import { projectRepo as OldProjectRepo, userRepo } from '../dataAccess';
 import makeGetUserProject from './getUserProject';
 import makeShouldUserAccessProject from './shouldUserAccessProject';
@@ -11,10 +10,9 @@ const getUserProject = makeGetUserProject({
 });
 
 const useCases = Object.freeze({
-  sendNotification,
   getUserProject,
   shouldUserAccessProject,
 });
 
 export default useCases;
-export { sendNotification, getUserProject, shouldUserAccessProject };
+export { getUserProject, shouldUserAccessProject };
