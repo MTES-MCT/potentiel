@@ -145,7 +145,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
           <p className="text-xs text-grey-425-base mt-2 mb-4">
             Sauf mention contraire, tous les contenus de ce site sont sous{' '}
             <a
-              href="https://github.com/etalab/licence-ouverte/blob/main/LO.md"
+              href="https://github.com/etalab/licence-ouverte/blob/master/LO.md"
               target="_blank"
               className="text-grey-425-base underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
             >
