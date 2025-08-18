@@ -48,5 +48,6 @@ export type ModèleRéponseDélai = ModèleRéponse & {
     justificationDemande: string;
 
     enCopies: Array<string>;
+    nombreDeMoisDemandé: number;
   } & ({ demandePrecedente: '' } | DemandePrécédente);
 };

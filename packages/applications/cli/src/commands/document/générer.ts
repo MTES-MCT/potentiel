@@ -231,6 +231,8 @@ function getData(
           dateDemandePrecedenteDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
           dateDemandePrecedenteAccordée: faker.date.recent().toLocaleDateString('fr-FR'),
 
+          nombreDeMoisDemandé: faker.number.int(),
+
           enCopies: [],
         },
       };
