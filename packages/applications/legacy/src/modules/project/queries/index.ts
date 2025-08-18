@@ -4,8 +4,6 @@ export * from './BuildProjectIdentifier';
 export * from './FindProjectByIdentifiers';
 export * from './GetDélaiCdc2022Applicable';
 export * from './GetProjectDataForProjectPage';
-export * from './GetProjectDataForSignalerDemandeAbandonPage';
-export * from './GetProjectDataForSignalerDemandeDelaiPage';
 export * from './GetProjectIdsForPeriode';
 export * from './GetProjectsByContactEmail';
 export * from './GetUnnotifiedProjectsForPeriode';
