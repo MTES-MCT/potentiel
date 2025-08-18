@@ -14,20 +14,17 @@ type ActionnariatFieldProps = {
   name: 'actionnariat';
   label: string;
   validationErrors: FieldValidationErrors;
-  isPPE2: boolean;
+  typesActionnariat: Candidature.TypeActionnariat.RawType[];
 };
 
 export const ActionnariatField = ({
   candidature,
-  isPPE2,
+  typesActionnariat,
   name,
   validationErrors,
   label,
 }: ActionnariatFieldProps) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
-  const typesActionnariat = isPPE2
-    ? Candidature.TypeActionnariat.ppe2Types
-    : Candidature.TypeActionnariat.cre4Types;
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">

@@ -2,9 +2,6 @@ import { SoumettreDépôtGarantiesFinancièresUseCase } from './dépôtEnCours/s
 import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
 import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
 import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
-import { EnregistrerGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.usecase';
-import { EnregistrerAttestationGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.usecase';
-import { ModifierGarantiesFinancièresUseCase } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.usecase';
 import {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
@@ -81,9 +78,6 @@ export type GarantiesFinancièresUseCase =
   | SupprimerGarantiesFinancièresÀTraiterUseCase
   | ValiderDépôtGarantiesFinancièresEnCoursUseCase
   | ModifierDépôtGarantiesFinancièresEnCoursUseCase
-  | ModifierGarantiesFinancièresUseCase
-  | EnregistrerAttestationGarantiesFinancièresUseCase
-  | EnregistrerGarantiesFinancièresUseCase
   | DemanderMainlevéeGarantiesFinancièresUseCase
   | AnnulerMainlevéeGarantiesFinancièresUseCase
   | DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase
@@ -95,9 +89,6 @@ export type {
   SupprimerGarantiesFinancièresÀTraiterUseCase,
   ValiderDépôtGarantiesFinancièresEnCoursUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
-  ModifierGarantiesFinancièresUseCase,
-  EnregistrerAttestationGarantiesFinancièresUseCase,
-  EnregistrerGarantiesFinancièresUseCase,
   DemanderMainlevéeGarantiesFinancièresUseCase,
   AnnulerMainlevéeGarantiesFinancièresUseCase,
   DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
@@ -129,9 +120,6 @@ export * from './garantiesFinancièresActuelles/archivesGarantiesFinancières.en
 export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
-
-// Saga
-export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
 
 // utils
 export * from './_utils/appelOffreSoumisAuxGarantiesFinancières';

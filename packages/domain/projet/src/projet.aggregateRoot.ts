@@ -125,13 +125,6 @@ export class ProjetAggregateRoot {
     });
   }
 
-  get champsSupplémentaires() {
-    return {
-      ...this.appelOffre.champsSupplémentaires,
-      ...this.période.champsSupplémentaires,
-    };
-  }
-
   private constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
     loadAggregate: LoadAggregateV2,

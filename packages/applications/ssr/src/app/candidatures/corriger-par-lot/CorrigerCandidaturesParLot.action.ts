@@ -52,6 +52,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
             identifiantProjetValue: IdentifiantProjet.bind(line).formatter(),
             dépôtValue: {
               ...line,
+              dateDélibérationGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
               localité: getLocalité(line),
             },
@@ -81,7 +82,12 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
     return {
       status: 'success',
       result: {
-        successCount: success,
+        successMessage:
+          success === 0
+            ? ''
+            : success === 1
+              ? `${success} candidat corrigé`
+              : `${success} candidats corrigés`,
         errors,
       },
     };

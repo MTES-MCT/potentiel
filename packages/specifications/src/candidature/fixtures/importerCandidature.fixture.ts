@@ -176,6 +176,7 @@ const créerDépôt = (
       faker.helpers.arrayElement(Candidature.TypeActionnariat.types),
     ),
     dateÉchéanceGf: undefined,
+    dateDélibérationGf: undefined,
     coefficientKChoisi: undefined,
     typeInstallationsAgrivoltaiques: undefined,
     élémentsSousOmbrière: undefined,

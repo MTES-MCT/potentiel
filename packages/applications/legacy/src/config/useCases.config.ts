@@ -1,13 +1,3 @@
-import {
-  makeAccorderDemandeDélai,
-  makeAnnulerDemandeDélai,
-  makeAnnulerRejetDélai,
-  makeDemanderDélai,
-  makeRejeterDemandeDélai,
-  makePasserDemandeDélaiEnInstruction,
-  makeCorrigerDélaiAccordé,
-} from '../modules/demandeModification/demandeDélai';
-
 import { makeLoadFileForUser } from '../modules/file';
 import {
   makeAcceptModificationRequest,
@@ -16,12 +6,10 @@ import {
   makeRejectModificationRequest,
   makeRequestConfirmation,
 } from '../modules/modificationRequest';
-import { makeSignalerDemandeDelai } from '../modules/project';
 import { makeCreateUser } from '../modules/users';
 import { eventStore } from './eventStore.config';
 import { getFileProject, getProjectAppelOffreId } from './queries.config';
 import {
-  demandeDélaiRepo,
   fileRepo,
   modificationRequestRepo,
   oldAppelOffreRepo,
@@ -68,62 +56,6 @@ export const createUser = makeCreateUser({
 export const cancelModificationRequest = makeCancelModificationRequest({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   modificationRequestRepo,
-});
-
-export const signalerDemandeDelai = makeSignalerDemandeDelai({
-  fileRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const demanderDélai = makeDemanderDélai({
-  fileRepo,
-  findAppelOffreById: oldAppelOffreRepo.findById,
-  publishToEventStore,
-  getProjectAppelOffreId,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-});
-
-export const annulerDemandeDélai = makeAnnulerDemandeDélai({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  demandeDélaiRepo,
-  publishToEventStore,
-});
-
-export const rejeterDemandeDélai = makeRejeterDemandeDélai({
-  fileRepo,
-  demandeDélaiRepo,
-  publishToEventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const accorderDemandeDélai = makeAccorderDemandeDélai({
-  fileRepo,
-  demandeDélaiRepo,
-  publishToEventStore,
-  projectRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const corrigerDélaiAccordé = makeCorrigerDélaiAccordé({
-  fileRepo,
-  demandeDélaiRepo,
-  publishToEventStore,
-  projectRepo,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const annulerRejetDélai = makeAnnulerRejetDélai({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  demandeDélaiRepo,
-  publishToEventStore,
-});
-
-export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  demandeDélaiRepo,
-  publishToEventStore,
 });
 
 export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({

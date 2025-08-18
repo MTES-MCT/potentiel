@@ -55,30 +55,29 @@ async function annulerTâche(
 }
 
 EtantDonné(
-  'une tâche {string} pour le projet {string} avec :',
+  'une tâche {string} pour le projet lauréat avec :',
   async function (
     this: PotentielWorld,
     statutTâche: RechercherStatutTâchePlanifiée,
-    nomProjet: string,
     dataTable: DataTable,
   ) {
     const exemple = dataTable.rowsHash();
-    const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
     const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
       exemple['type'] as TypeTâchePlanifiée,
     ).type;
     const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
     await ajouterTâchePlanifiée(
-      projet.identifiantProjet,
+      identifiantProjet,
       typeTâche,
       new Date(exemple["date d'exécution"]),
     );
 
     if (actualStatutTâche.estAnnulé()) {
-      await annulerTâche(projet.identifiantProjet, typeTâche);
+      await annulerTâche(identifiantProjet, typeTâche);
     }
     if (actualStatutTâche.estExécuté()) {
-      await exécuterTâche(projet.identifiantProjet, typeTâche);
+      await exécuterTâche(identifiantProjet, typeTâche);
     }
   },
 );

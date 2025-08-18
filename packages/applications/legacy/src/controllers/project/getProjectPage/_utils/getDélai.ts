@@ -2,8 +2,6 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import routes from '../../../../routes';
-
 import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { mediator } from 'mediateur';
@@ -16,13 +14,13 @@ export type GetDélaiForProjectPage = {
   };
 };
 
-export const getDélai = async (
-  identifiantProjet: IdentifiantProjet.ValueType,
-  legacyProjetId: string,
-  identifiantUtilisateur: string,
-  rôle: string,
-  features: Array<string>,
-): Promise<GetDélaiForProjectPage> => {
+type GetDélai = (args: {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  identifiantUtilisateur: string;
+  rôle: string;
+}) => Promise<GetDélaiForProjectPage>;
+
+export const getDélai: GetDélai = async ({ identifiantProjet, identifiantUtilisateur, rôle }) => {
   try {
     const role = Role.convertirEnValueType(rôle);
     const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
@@ -62,9 +60,7 @@ export const getDélai = async (
         role.aLaPermission('délai.demander') && !aUnAbandonEnCours && !estAbandonné && !estAchevé
           ? {
               labelActions: 'Demander un délai',
-              url: features.includes('délai')
-                ? Routes.Délai.demander(identifiantProjet.formatter())
-                : routes.DEMANDER_DELAI(legacyProjetId),
+              url: Routes.Délai.demander(identifiantProjet.formatter()),
             }
           : undefined,
     };

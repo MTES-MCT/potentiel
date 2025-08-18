@@ -184,8 +184,13 @@ const mapBodyToCandidatureUsecaseData = (
       coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
 
       // non-editable fields
-      typeGarantiesFinancières: previous.typeGarantiesFinancières?.type,
-      dateÉchéanceGf: previous.dateÉchéanceGf?.formatter(),
+      typeGarantiesFinancières: previous.garantiesFinancières?.type.type,
+      dateÉchéanceGf: previous.garantiesFinancières?.estAvecDateÉchéance()
+        ? previous.garantiesFinancières.dateÉchéance?.formatter()
+        : undefined,
+      dateDélibérationGf: previous.garantiesFinancières?.estExemption()
+        ? previous.garantiesFinancières.dateDélibération.formatter()
+        : undefined,
       territoireProjet: previous.territoireProjet,
       historiqueAbandon: previous.historiqueAbandon.formatter(),
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),

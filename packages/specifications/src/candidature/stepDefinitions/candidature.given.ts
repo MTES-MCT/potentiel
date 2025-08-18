@@ -88,19 +88,15 @@ export async function importerCandidature(
       importéPar: this.utilisateurWorld.validateurFixture.email,
     });
 
-  try {
-    await mediator.send<Candidature.ImporterCandidatureUseCase>({
-      type: 'Candidature.UseCase.ImporterCandidature',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        dépôtValue,
-        détailsValue,
-        importéLe,
-        importéPar,
-        instructionValue,
-      },
-    });
-  } catch (e) {
-    this.error = e as Error;
-  }
+  await mediator.send<Candidature.ImporterCandidatureUseCase>({
+    type: 'Candidature.UseCase.ImporterCandidature',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      dépôtValue,
+      détailsValue,
+      importéLe,
+      importéPar,
+      instructionValue,
+    },
+  });
 }

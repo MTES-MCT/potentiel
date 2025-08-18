@@ -42,6 +42,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
   actions,
 }) => {
   const identifiantProjet = IdentifiantProjet.bind({ appelOffre, famille, numéroCRE, période });
+  const garantiesFinancières = dépôt.garantiesFinancières
+    ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(dépôt.garantiesFinancières)
+    : undefined;
   return (
     <ColumnPageTemplate
       banner={
@@ -81,15 +84,21 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 <span>Puissance installée: {dépôt.puissanceProductionAnnuelle} MW</span>
                 <span>Prix de référence: {dépôt.prixReference} €/MWh</span>
               </Field>
-              {dépôt.typeGarantiesFinancières && (
+              {garantiesFinancières && (
                 <Field name="Garanties Financières">
                   <span>
-                    Type: {getGarantiesFinancièresTypeLabel(dépôt.typeGarantiesFinancières.type)}
+                    Type: {getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type)}
                   </span>
-                  {dépôt.dateÉchéanceGf && (
+                  {garantiesFinancières.estAvecDateÉchéance() && (
                     <span>
                       Date d'échéance:{' '}
-                      <FormattedDate date={DateTime.bind(dépôt.dateÉchéanceGf).formatter()} />
+                      <FormattedDate date={garantiesFinancières.dateÉchéance.formatter()} />
+                    </span>
+                  )}
+                  {garantiesFinancières.estExemption() && (
+                    <span>
+                      Date de délibération:{' '}
+                      <FormattedDate date={garantiesFinancières.dateDélibération.formatter()} />
                     </span>
                   )}
                 </Field>

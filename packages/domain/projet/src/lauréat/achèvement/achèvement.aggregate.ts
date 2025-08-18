@@ -5,7 +5,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { FonctionnalitéDélaiIndisponibleError, isFonctionnalitéDélaiActivée } from '../délai';
 
 import { DateAchèvementPrévisionnel } from '.';
 
@@ -59,12 +58,6 @@ export class AchèvementAggregate extends AbstractAggregate<
   async getDateAchèvementPrévisionnelCalculée(
     options: CalculerDateAchèvementPrévisionnelOptions,
   ): Promise<DateAchèvementPrévisionnel.RawType> {
-    if (!isFonctionnalitéDélaiActivée()) {
-      throw new FonctionnalitéDélaiIndisponibleError(
-        `La fonctionnalité de calcul des délais n'est pas active !`,
-      );
-    }
-
     const duréeInstructionEdfOaEnJours = 1;
 
     const date = match(options)

@@ -14,6 +14,7 @@ import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharg
 import { ProducteurWorld } from './producteur/producteur.world';
 import { FournisseurWorld } from './fournisseur/fournisseur.world';
 import { DélaiWorld } from './délai/délai.world';
+import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
 
 type LauréatFixture = {
   nom: string;
@@ -24,7 +25,6 @@ type LauréatFixture = {
 };
 
 export class LauréatWorld {
-  #candidatureWorld: CandidatureWorld;
   #lauréatFixtures: Map<string, LauréatFixture> = new Map();
   get lauréatFixtures() {
     return this.#lauréatFixtures;
@@ -113,6 +113,11 @@ export class LauréatWorld {
   get délaiWorld() {
     return this.#délaiWorld;
   }
+  #garantiesFinancièresWorld!: GarantiesFinancièresWorld;
+
+  get garantiesFinancièresWorld() {
+    return this.#garantiesFinancièresWorld;
+  }
 
   #dateDésignation: string;
 
@@ -120,8 +125,7 @@ export class LauréatWorld {
     return this.#dateDésignation;
   }
 
-  constructor(candidatureWorld: CandidatureWorld) {
-    this.#candidatureWorld = candidatureWorld;
+  constructor(public readonly candidatureWorld: CandidatureWorld) {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
     this.#actionnaireWorld = new ActionnaireWorld();
@@ -130,6 +134,7 @@ export class LauréatWorld {
     this.#achèvementWorld = new AchèvementWorld();
     this.#fournisseurWorld = new FournisseurWorld();
     this.#délaiWorld = new DélaiWorld();
+    this.#garantiesFinancièresWorld = new GarantiesFinancièresWorld(this);
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
     this.#modifierLauréatFixture = new ModifierLauréatFixture();
@@ -145,7 +150,7 @@ export class LauréatWorld {
       technologie,
       unitéPuissance,
       volumeRéservé,
-    } = this.#candidatureWorld.mapToExpected();
+    } = this.candidatureWorld.mapToExpected();
     const expected: Lauréat.ConsulterLauréatReadModel = {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),

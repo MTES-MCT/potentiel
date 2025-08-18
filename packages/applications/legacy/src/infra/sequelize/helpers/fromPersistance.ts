@@ -6,7 +6,7 @@ import * as ModificationRequestEvents from '../../../modules/modificationRequest
 import * as ProjectEvents from '../../../modules/project/events';
 import * as UserEvents from '../../../modules/users/events';
 import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events';
-import * as DemandeDelaiEvents from '../../../modules/demandeModification/demandeDélai/events';
+import * as DemandeDelaiEvents from '../../../modules/demandeModification/demandeDélai';
 import * as UtilisateurEvents from '../../../modules/utilisateur/events';
 
 import { transformerISOStringEnDate } from '../../helpers';

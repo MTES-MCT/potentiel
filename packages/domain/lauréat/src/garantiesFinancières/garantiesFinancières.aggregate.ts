@@ -28,18 +28,9 @@ import {
 } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import { applyEffacerHistoriqueGarantiesFinancières } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 import { applyTypeGarantiesFinancièresImporté } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
-import {
-  enregistrer,
-  applyEnregistrerGarantiesFinancières,
-} from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
-import {
-  applyModifierGarantiesFinancières,
-  modifier,
-} from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.behavior';
-import {
-  enregistrerAttestation,
-  applyEnregistrerAttestationGarantiesFinancières,
-} from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
+import { applyEnregistrerGarantiesFinancières } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
+import { applyModifierGarantiesFinancières } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.behavior';
+import { applyEnregistrerAttestationGarantiesFinancières } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
 import {
   applyMainlevéeGarantiesFinancièresDemandée,
   demanderMainlevée,
@@ -60,10 +51,7 @@ import {
   accorderDemandeMainlevéeGarantiesFinancières,
   applyDemandeMainlevéeGarantiesFinancièresAccordée,
 } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
-import {
-  applyGarantiesFinancièresÉchues,
-  échoir,
-} from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
+import { applyGarantiesFinancièresÉchues } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent
@@ -109,10 +97,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
   readonly validerDépôtEnCours: typeof validerDépôtEnCours;
   readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
-  readonly modifier: typeof modifier;
-  readonly enregistrerAttestation: typeof enregistrerAttestation;
-  readonly enregistrer: typeof enregistrer;
-  readonly échoir: typeof échoir;
   readonly demanderMainlevée: typeof demanderMainlevée;
   readonly annulerDemandeMainlevée: typeof annulerDemandeMainlevée;
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
@@ -129,15 +113,12 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   supprimerDépôtGarantiesFinancièresEnCours,
   validerDépôtEnCours,
   modifierDépôtGarantiesFinancièresEnCours,
-  modifier,
-  enregistrerAttestation,
-  enregistrer,
+
   demanderMainlevée,
   annulerDemandeMainlevée,
   démarrerInstructionDemandeMainlevée,
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
-  échoir,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {

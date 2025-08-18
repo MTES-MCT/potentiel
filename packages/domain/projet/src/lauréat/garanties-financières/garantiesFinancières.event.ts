@@ -187,6 +187,7 @@ export type DemandeMainlevéeGarantiesFinancièresRejetéeEvent = DomainEvent<
   }
 >;
 
+/** @deprecated utiliser DépôtGarantiesFinancièresEnCoursSuppriméEvent */
 export type DépôtGarantiesFinancièresEnCoursSuppriméEventV1 = DomainEvent<
   'DépôtGarantiesFinancièresEnCoursSupprimé-V1',
   {

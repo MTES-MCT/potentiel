@@ -45,6 +45,7 @@ import {
 import {
   registerReprésentantLégalQueries,
   registerReprésentantLégalUseCases,
+  ReprésentantLégalCommandDependencies,
   ReprésentantLégalQueryDependencies,
 } from './représentantLégal/représentantLégal.register';
 import {
@@ -56,8 +57,12 @@ import {
   ListerHistoriqueProjetDependencies,
   registerListerHistoriqueProjetQuery,
 } from './historique/lister/listerHistoriqueProjet.query';
-import { SupprimerDocumentProjetSensibleCommandDependencies } from './représentantLégal/changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 import { registerTâchePlanifiéeQuery, registerTâchePlanifiéeUseCases } from './tâche-planifiée';
+import {
+  GarantiesFinancièresQueryDependencies,
+  registerGarantiesFinancièresQueries,
+  registerGarantiesFinancièresUseCases,
+} from './garanties-financières/garantiesFinancières.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesDependencies &
@@ -70,12 +75,13 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ReprésentantLégalQueryDependencies &
   RaccordementQueryDependencies &
   ReprésentantLégalQueryDependencies &
+  GarantiesFinancièresQueryDependencies &
   ListerHistoriqueProjetDependencies &
   AchèvementQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-} & SupprimerDocumentProjetSensibleCommandDependencies;
+} & ReprésentantLégalCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
@@ -97,6 +103,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerRaccordementUseCases(dependencies);
   registerDélaiUseCases(dependencies);
   registerTâchePlanifiéeUseCases(dependencies);
+  registerGarantiesFinancièresUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -113,6 +120,6 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerReprésentantLégalQueries(dependencies);
   registerRaccordementQueries(dependencies);
   registerTâchePlanifiéeQuery(dependencies);
-
+  registerGarantiesFinancièresQueries(dependencies);
   registerListerHistoriqueProjetQuery(dependencies);
 };

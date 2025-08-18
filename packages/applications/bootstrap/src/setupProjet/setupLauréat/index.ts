@@ -15,6 +15,7 @@ import { setupReprésentantLégal } from './setupReprésentantLégal';
 import { setupRaccordement } from './setupRaccordement';
 import { setupDélai } from './setupDélai';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
+import { setupGarantiesFinancières } from './setupGarantiesFinancière';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();
@@ -73,6 +74,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupReprésentantLégal = await setupReprésentantLégal(dependencies);
   const unsetupRaccordement = await setupRaccordement(dependencies);
   const unsetupDélai = await setupDélai(dependencies);
+  const unsetupGarantiesFinancières = await setupGarantiesFinancières(dependencies);
   const unsetupTâchePlanifiée = await setupTâchePlanifiée(dependencies);
 
   return async () => {
@@ -87,6 +89,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupReprésentantLégal();
     await unsetupRaccordement();
     await unsetupDélai();
+    await unsetupGarantiesFinancières();
     await unsetupTâchePlanifiée();
   };
 };

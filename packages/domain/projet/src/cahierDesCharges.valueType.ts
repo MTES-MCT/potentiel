@@ -3,6 +3,8 @@ import { match } from 'ts-pattern';
 import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { TypeActionnariat } from './candidature';
+
 export type ValueType = {
   appelOffre: PlainType<AppelOffre.AppelOffreReadModel>;
   période: PlainType<AppelOffre.Periode>;
@@ -35,6 +37,8 @@ export type ValueType = {
     domaine: TDomain,
   ): AppelOffre.RèglesDemandesChangement[TDomain];
   getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
+  getChampsSupplémentaires(): AppelOffre.ChampsSupplémentairesCandidature;
+  getTypesActionnariat(): TypeActionnariat.RawType[];
 };
 
 export const bind = ({
@@ -159,6 +163,19 @@ export const bind = ({
     }
 
     return { dispositions, référenceParagraphe };
+  },
+  getChampsSupplémentaires() {
+    return {
+      ...this.appelOffre.champsSupplémentaires,
+      ...this.période.champsSupplémentaires,
+    };
+  },
+  getTypesActionnariat() {
+    return [
+      ...(this.appelOffre.cycleAppelOffre === 'PPE2'
+        ? TypeActionnariat.ppe2Types
+        : TypeActionnariat.cre4Types),
+    ];
   },
 });
 

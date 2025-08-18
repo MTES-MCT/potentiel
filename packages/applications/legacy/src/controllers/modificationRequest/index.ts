@@ -1,4 +1,3 @@
-export * from './délai';
 export * from './getModificationRequestListForAdminPage';
 export * from './getModificationRequestListForPorteurPage';
 export * from './getModificationRequestPage';

@@ -5,12 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 export const getDateAchèvementPrévisionnel = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-  dateAchèvementLegacy: number,
 ) => {
-  if (!Lauréat.Délai.isFonctionnalitéDélaiActivée()) {
-    return dateAchèvementLegacy;
-  }
-
   const achèvement = await mediator.send<Lauréat.Achèvement.ConsulterAchèvementQuery>({
     type: 'Lauréat.Achèvement.Query.ConsulterAchèvement',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
@@ -18,5 +13,5 @@ export const getDateAchèvementPrévisionnel = async (
 
   return Option.match(achèvement)
     .some((achèvement) => achèvement.dateAchèvementPrévisionnel.dateTime.date.getTime())
-    .none(() => dateAchèvementLegacy);
+    .none();
 };

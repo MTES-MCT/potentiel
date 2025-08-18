@@ -1,17 +1,13 @@
 import { makeHtml } from './index.html';
 import {
-  DemanderDelai,
   Error,
   ModificationRequest,
   ModificationRequestList,
   NewModificationRequest,
   ProjectDetails,
-  SignalerDemandeDelai,
   ListeProjets,
   SuccèsOuErreur,
   AccèsNonAutorisé,
-  DetailsDemandeDelai,
-  CorrigerDelaiAccorde,
 } from './pages';
 
 export { App } from './App';
@@ -44,32 +40,11 @@ export const ModificationRequestPage = (props: Parameters<typeof ModificationReq
     title: 'Détails demande',
   });
 
-export const DetailsDemandeDelaiPage = (props: Parameters<typeof DetailsDemandeDelai>[0]) =>
-  makeHtml({
-    Component: DetailsDemandeDelai,
-    props,
-    title: 'Détails demande délai',
-  });
-
-export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
-  makeHtml({
-    Component: DemanderDelai,
-    props,
-    title: 'Demander délai',
-  });
-
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
   makeHtml({
     Component: ModificationRequestList,
     props,
     title: 'Demandes de modification',
-  });
-
-export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemandeDelai>[0]) =>
-  makeHtml({
-    Component: SignalerDemandeDelai,
-    props,
-    title: 'Signaler demande de délai',
   });
 
 export const ListeProjetsPage = (props: Parameters<typeof ListeProjets>[0]) =>
@@ -89,11 +64,4 @@ export const AccèsNonAutoriséPage = (props: Parameters<typeof AccèsNonAutoris
   makeHtml({
     Component: AccèsNonAutorisé,
     props,
-  });
-
-export const CorrigerDelaiAccordePage = (props: Parameters<typeof CorrigerDelaiAccorde>[0]) =>
-  makeHtml({
-    Component: CorrigerDelaiAccorde,
-    props,
-    title: 'Corriger un délai accordé',
   });

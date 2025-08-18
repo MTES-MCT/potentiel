@@ -3,8 +3,8 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -32,15 +32,17 @@ export type ModifierGarantiesFinancièresFormKeys = keyof zod.infer<typeof schem
 
 const action: FormAction<FormState, typeof schema> = async (_, data) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
+    await mediator.send<Lauréat.GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
       data: {
         identifiantProjetValue: data.identifiantProjet,
-        typeValue: data.type,
-        dateÉchéanceValue:
-          data.type === 'avec-date-échéance'
-            ? new Date(data.dateEcheance).toISOString()
-            : undefined,
+        garantiesFinancièresValue: {
+          type: data.type,
+          dateÉchéance:
+            data.type === 'avec-date-échéance'
+              ? new Date(data.dateEcheance).toISOString()
+              : undefined,
+        },
         dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
         attestationValue: data.attestation,
         modifiéLeValue: new Date().toISOString(),

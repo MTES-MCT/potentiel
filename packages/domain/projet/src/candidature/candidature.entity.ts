@@ -6,13 +6,16 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '..';
 import { Fournisseur } from '../lauréat/fournisseur';
 
-import { StatutCandidature, TypeInstallationsAgrivoltaiques, TypologieBâtiment } from '.';
-
-import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
-import * as TypeTechnologie from './typeTechnologie.valueType';
-import * as TypeActionnariat from './typeActionnariat.valueType';
-import * as HistoriqueAbandon from './historiqueAbandon.valueType';
-import * as Localité from './localité.valueType';
+import {
+  HistoriqueAbandon,
+  Localité,
+  StatutCandidature,
+  TypeActionnariat,
+  TypeGarantiesFinancières,
+  TypeInstallationsAgrivoltaiques,
+  TypeTechnologie,
+  TypologieBâtiment,
+} from '.';
 
 type CandidatureNonNotifiée = {
   estNotifiée: false;
@@ -56,6 +59,7 @@ export type CandidatureEntity = Entity<
     evaluationCarboneSimplifiée: number;
     actionnariat?: TypeActionnariat.RawType;
     dateÉchéanceGf?: DateTime.RawType;
+    dateDélibérationGf?: DateTime.RawType;
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
     coefficientKChoisi?: boolean;

@@ -197,8 +197,10 @@ v1Router.get(
 
       const dateAchèvementPrévisionnel = await getDateAchèvementPrévisionnel(
         identifiantProjetValueType,
-        project.completionDueOn,
       );
+      if (Option.isNone(dateAchèvementPrévisionnel)) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
 
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
@@ -237,13 +239,11 @@ v1Router.get(
       );
 
       const recours = await getRecours(identifiantProjetValueType);
-      const délai = await getDélai(
-        identifiantProjetValueType,
-        project.id,
-        user.email,
-        user.role,
-        user.features,
-      );
+      const délai = await getDélai({
+        identifiantProjet: identifiantProjetValueType,
+        identifiantUtilisateur: user.email,
+        rôle: user.role,
+      });
 
       return response.send(
         ProjectDetailsPage({

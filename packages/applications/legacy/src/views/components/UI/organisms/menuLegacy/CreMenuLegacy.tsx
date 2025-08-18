@@ -6,10 +6,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 type CreMenuLegacyProps = {
   currentPage?: string;
-  features: Array<string>;
 };
 
-export const CreMenuLegacy = ({ currentPage, features }: CreMenuLegacyProps) => (
+export const CreMenuLegacy = ({ currentPage }: CreMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -41,9 +40,7 @@ export const CreMenuLegacy = ({ currentPage, features }: CreMenuLegacyProps) => 
       <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
         Fournisseur
       </DropdownMenu.DropdownItem>
-      {features.includes('délai') && (
-        <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
     <Header.MenuItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
