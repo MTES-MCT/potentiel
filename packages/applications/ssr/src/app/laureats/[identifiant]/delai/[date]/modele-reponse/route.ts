@@ -81,6 +81,7 @@ export const GET = async (request: NextRequest, { params: { identifiant, date } 
           lauréat.notifiéLe.ajouterNombreDeMois(délaiRéalisationEnMois).date,
         ),
         demandePrecedente: '',
+        nombreDeMoisDemandé: demandeDélai.nombreDeMois,
       },
     });
 
