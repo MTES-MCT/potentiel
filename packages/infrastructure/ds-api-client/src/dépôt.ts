@@ -12,19 +12,19 @@ import { DeepPartial } from './utils';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
-  sociétéMère: `Nom de l'entité mère`,
+  sociétéMère: `Nom de la société mère finale`,
   nomReprésentantLégal: `NOM et Prénom du représentant légal`,
   emailContact: 'Adresse électronique du contact',
   nomProjet: 'Nom du projet',
-  puissanceProductionAnnuelle: 'Puissance installée P (en kWc)',
-  prixReference: 'Prix unitaire de référence (en €/MWh)',
-  evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée (ECS)',
+  puissanceProductionAnnuelle: 'Puissance installée P',
+  prixReference: 'Prix unitaire de référence',
+  evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
   typeGarantiesFinancières: 'Type de garantie financière',
   dateÉchéanceGf: "Date d'échéance des garanties financières",
   dateDélibérationGf: "Date de la délibération portant sur le projet objet de l'offre",
 
-  localité: 'Adresse postale',
+  localité: 'Adresse postale du site de production',
   historiqueAbandon: 'Préciser le statut du projet',
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation (loi APER)`,

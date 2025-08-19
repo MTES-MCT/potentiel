@@ -35,7 +35,7 @@ const mapApiResponseToFichiers = ({ champs, demarche }: GetDossierQuery['dossier
   const accessor = createDossierAccessor(
     champs,
     {
-      garantiesFinancièresUrl: 'Pièce n°2 : Garantie financière de mise en œuvre',
+      garantiesFinancièresUrl: 'Garantie financière de mise en œuvre du projet',
     },
     demarche.revision.champDescriptors,
   );
