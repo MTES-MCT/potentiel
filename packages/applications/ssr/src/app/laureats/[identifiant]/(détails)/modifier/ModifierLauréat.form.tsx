@@ -203,6 +203,16 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
+        {champsSupplémentaires.puissanceDeSite && (
+          <FormRow>
+            <CandidatureField
+              candidature={candidature.puissanceDeSite ?? 0}
+              label={`Puissance de site (en ${projet.unitéPuissance})`}
+              name="puissanceDeSite"
+              validationErrors={validationErrors}
+            />
+          </FormRow>
+        )}
 
         {champsSupplémentaires.coefficientKChoisi && (
           <FormRow>
