@@ -94,7 +94,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Demandes de mainlevée en cours',
       linkProps: {
-        href: Routes.GarantiesFinancières.demandeMainlevée.lister,
+        href: Routes.GarantiesFinancières.demandeMainlevée.lister({ statut: 'demandé' }),
       },
     },
   ];

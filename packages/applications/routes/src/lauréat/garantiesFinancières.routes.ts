@@ -1,4 +1,10 @@
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+
 import { encodeParameter } from '../encodeParameter';
+
+type ListerFilters = {
+  statut?: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
+};
 
 export const dépôt = {
   soumettre: (identifiantProjet: string) =>
@@ -20,7 +26,15 @@ export const actuelles = {
 };
 
 export const demandeMainlevée = {
-  lister: `/garanties-financieres/demandes-mainlevee-en-cours`,
+  lister: (filters: ListerFilters) => {
+    const searchParams = new URLSearchParams();
+
+    if (filters?.statut) {
+      searchParams.set('statut', filters.statut);
+    }
+
+    return `/garanties-financieres/demandes-mainlevee-en-cours${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+  },
   téléchargerModèleRéponseAccordé: (identitifiantProjet: string) =>
     `/laureats/${encodeParameter(identitifiantProjet)}/garanties-financieres/modele-reponse-mainlevee?estAccordée=true`,
   téléchargerModèleRéponseRejeté: (identitifiantProjet: string) =>
