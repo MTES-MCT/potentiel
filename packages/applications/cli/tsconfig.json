@@ -16,6 +16,9 @@
       "path": "../../infrastructure/domain-adapters"
     },
     {
+      "path": "../../infrastructure/ds-api-client"
+    },
+    {
       "path": "../../statistiques/statistiques-publiques"
     }
   ]
