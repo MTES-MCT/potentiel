@@ -10,7 +10,7 @@ import dynamicImport from 'next/dynamic';
 import { getContext } from '@potentiel-applications/request-context';
 
 import { Footer } from '@/components/organisms/Footer';
-import { Header } from '@/components/organisms/Header';
+import { Header } from '@/components/organisms/header/Header';
 
 import { defaultColorScheme } from './defaultColorScheme';
 import Providers from './Providers';

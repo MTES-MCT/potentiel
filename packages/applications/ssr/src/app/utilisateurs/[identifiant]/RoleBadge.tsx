@@ -5,9 +5,11 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { roleToLabel } from '@/utils/utilisateur/format-role';
 
-export const RoleBadge: FC<{
+type RoleBadgeProps = {
   role: Role.RawType;
-}> = ({ role }) => (
+};
+
+export const RoleBadge: FC<RoleBadgeProps> = ({ role }) => (
   <Badge small noIcon severity="info">
     {roleToLabel[role]}
   </Badge>

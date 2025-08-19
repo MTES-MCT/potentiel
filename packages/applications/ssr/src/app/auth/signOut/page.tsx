@@ -4,8 +4,9 @@ import { redirect } from 'next/navigation';
 import { getLogoutUrl } from '@potentiel-applications/request-context';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { SignOutRedirect } from '@/components/molecules/SignOutRedirect';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+
+import { SignOutRedirect } from './SignOutRedirect';
 
 type PageProps = {
   searchParams: {
