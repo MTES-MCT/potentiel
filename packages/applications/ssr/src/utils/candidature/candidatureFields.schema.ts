@@ -72,6 +72,8 @@ export const territoireProjetSchema = optionalStringSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
 
+export const puissanceDeSiteSchema = numberSchema.optional();
+
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
 export const évaluationCarboneSimplifiéeCsvSchema = z

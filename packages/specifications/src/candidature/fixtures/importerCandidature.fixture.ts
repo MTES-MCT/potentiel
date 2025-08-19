@@ -182,6 +182,10 @@ const créerDépôt = (
     élémentsSousOmbrière: undefined,
     typologieDeBâtiment: undefined,
     obligationDeSolarisation: undefined,
+    puissanceDeSite:
+      aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+        ? faker.number.int({ min: 1 })
+        : undefined,
 
     ...dépôt,
 

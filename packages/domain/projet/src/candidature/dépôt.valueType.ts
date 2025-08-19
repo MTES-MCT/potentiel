@@ -38,6 +38,7 @@ export type RawType = {
   élémentsSousOmbrière: string | undefined;
   typologieDeBâtiment: TypologieBâtiment.RawType | undefined;
   obligationDeSolarisation: boolean | undefined;
+  puissanceDeSite: number | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -62,6 +63,7 @@ export type ValueType = ReadonlyValueType<{
   élémentsSousOmbrière: string | undefined;
   typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
   obligationDeSolarisation: boolean | undefined;
+  puissanceDeSite: number | undefined;
   formatter(): RawType;
 }>;
 
@@ -95,6 +97,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   typologieDeBâtiment: bindOptional(TypologieBâtiment.bind, plain.typologieDeBâtiment),
 
   fournisseurs: plain.fournisseurs.map(Fournisseur.bind),
+  puissanceDeSite: plain.puissanceDeSite,
 
   estÉgaleÀ(valueType) {
     return (
@@ -105,6 +108,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.evaluationCarboneSimplifiée === this.evaluationCarboneSimplifiée &&
       valueType.puissanceALaPointe === this.puissanceALaPointe &&
       valueType.coefficientKChoisi === this.coefficientKChoisi &&
+      valueType.puissanceDeSite === this.puissanceDeSite &&
       valueType.puissanceProductionAnnuelle === this.puissanceProductionAnnuelle &&
       valueType.sociétéMère === this.sociétéMère &&
       valueType.territoireProjet === this.territoireProjet &&
@@ -133,6 +137,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       sociétéMère: this.sociétéMère,
       territoireProjet: this.territoireProjet,
       coefficientKChoisi: this.coefficientKChoisi,
+      puissanceDeSite: this.puissanceDeSite,
       élémentsSousOmbrière: this.élémentsSousOmbrière,
       obligationDeSolarisation: this.obligationDeSolarisation,
       emailContact: this.emailContact.formatter(),
@@ -197,6 +202,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       TypologieBâtiment.convertirEnValueType,
       raw.typologieDeBâtiment,
     ),
+    puissanceDeSite: raw.puissanceDeSite,
   });
 
 const bindOptional = <TValue, TValueType>(

@@ -40,6 +40,7 @@ type CandidatureImportéeEventPayload = {
   dateDélibérationGf?: DateTime.RawType;
   territoireProjet: string;
   coefficientKChoisi?: boolean;
+  puissanceDeSite?: number;
   typeInstallationsAgrivoltaiques?: TypeInstallationsAgrivoltaiques.RawType;
   élémentsSousOmbrière?: string;
   typologieDeBâtiment?: TypologieBâtiment.RawType;

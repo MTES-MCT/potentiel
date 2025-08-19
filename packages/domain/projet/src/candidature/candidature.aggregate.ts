@@ -28,6 +28,8 @@ import {
   ChoixCoefficientKRequisError,
   FonctionManquanteError,
   NomManquantError,
+  PuissanceDeSiteNonAttendueError,
+  PuissanceDeSiteRequiseError,
   PériodeAppelOffreLegacyError,
   StatutNonModifiableAprèsNotificationError,
   TechnologieIndisponibleError,
@@ -172,7 +174,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();
-    this.vérifierCoefficientKChoisi(candidature);
+    this.vérifierChampSupplémentaires(candidature);
     this.vérifierTechnologie(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
@@ -200,7 +202,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierQueLeStatutEstModifiable(candidature);
     this.vérifierQueLeTypeDesGarantiesFinancièresEstModifiable(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
-    this.vérifierCoefficientKChoisi(candidature);
+    this.vérifierChampSupplémentaires(candidature);
     this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
@@ -315,13 +317,21 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierCoefficientKChoisi({ dépôt }: CandidatureBehaviorOptions) {
-    const { coefficientKChoisi } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
+  private vérifierChampSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
+    const { coefficientKChoisi, puissanceDeSite } =
+      this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
       throw new ChoixCoefficientKRequisError();
     }
     if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
       throw new ChoixCoefficientKNonAttenduError();
+    }
+
+    if (puissanceDeSite === 'requis' && dépôt.puissanceDeSite === undefined) {
+      throw new PuissanceDeSiteRequiseError();
+    }
+    if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
+      throw new PuissanceDeSiteNonAttendueError();
     }
   }
 

@@ -26,6 +26,7 @@ import {
   départementSchema,
   régionSchema,
   choixCoefficientKSchema,
+  puissanceDeSiteSchema,
 } from './candidatureFields.schema';
 
 /**
@@ -60,6 +61,7 @@ export const candidatureSchema = z
     dateEcheanceGf: dateEchéanceOuDéliberationGfSchema, // see refine below
     dateDeliberationGf: dateEchéanceOuDéliberationGfSchema, // see refine below
     coefficientKChoisi: choixCoefficientKSchema,
+    puissanceDeSite: puissanceDeSiteSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {

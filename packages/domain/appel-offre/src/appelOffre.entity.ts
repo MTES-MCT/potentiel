@@ -235,6 +235,11 @@ const champsCandidature = [
    * Cette information est utilisée par le co-contractant.
    */
   'coefficientKChoisi',
+  /**
+   * puissance du projet (P) + autres installations sur le même site d'implantation (Q)
+   * puissance de site = P + Q
+   */
+  'puissanceDeSite',
 ] as const;
 export type ChampCandidature = (typeof champsCandidature)[number];
 

@@ -38,6 +38,7 @@ import {
   élémentsSousOmbrièreCsvSchema,
   typologieDeBâtimentCsvSchema,
   obligationDeSolarisationCsvSchema,
+  puissanceDeSiteSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -119,10 +120,12 @@ const colonnes = {
   élémentsSousOmbrière: 'Eléments sous l’ombrière',
   typologieDeBâtiment: 'Typologie de bâtiment',
   obligationDeSolarisation: 'Obligation de solarisation',
+  puissanceDeSite: 'Puissance de site',
 } as const;
 
 const candidatureCsvRowSchema = z
   .object({
+    notifiedOn: notifiedOnCsvSchema,
     [colonnes.appelOffre]: appelOffreSchema,
     [colonnes.période]: périodeSchema,
     [colonnes.famille]: familleSchema,
@@ -149,7 +152,7 @@ const candidatureCsvRowSchema = z
     [colonnes.gouvernancePartagée]: gouvernancePartagéeCsvSchema,
     [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
     [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
-    notifiedOn: notifiedOnCsvSchema,
+    [colonnes.puissanceDeSite]: puissanceDeSiteSchema,
     [colonnes.typeInstallationsAgrivoltaiques]: installationsAgrivoltaiquesCsvSchema,
     [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,

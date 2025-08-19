@@ -38,6 +38,12 @@ Fonctionnalité: Importer une candidature
             | obligation de solarisation   | oui     |
         Alors la candidature devrait être consultable
 
+    Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre     | PPE2 - Petit PV Bâtiment |
+            | puissance de site | 100                      |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible d'importer 2 fois la même candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
@@ -182,3 +188,15 @@ Fonctionnalité: Importer une candidature
             | appel d'offre | PPE2 - Bâtiment   |
             | type GF       | garantie-bancaire |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature sans puissance de site pour un appel d'offre qui a ce champ requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre     | PPE2 - Petit PV Bâtiment |
+            | puissance de site |                          |
+        Alors l'administrateur devrait être informé que "La puissance de site est requise pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature avec une puissance de site si l'appel d'offre ne le propose pas
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre     | PPE2 - Bâtiment |
+            | puissance de site | 200             |
+        Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"

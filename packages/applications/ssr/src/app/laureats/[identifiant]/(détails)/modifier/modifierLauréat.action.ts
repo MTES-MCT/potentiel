@@ -182,6 +182,7 @@ const mapBodyToCandidatureUsecaseData = (
         data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
       actionnariat: data.actionnariat ?? previous.actionnariat?.formatter(),
       coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
+      puissanceDeSite: data.puissanceDeSite ?? previous.puissanceDeSite,
 
       // non-editable fields
       typeGarantiesFinancières: previous.garantiesFinancières?.type.type,
