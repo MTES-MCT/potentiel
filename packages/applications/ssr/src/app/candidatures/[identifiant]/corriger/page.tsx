@@ -105,6 +105,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
       ? candidature.dépôt.garantiesFinancières.dateÉchéance?.date
       : undefined,
     coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
+    puissanceDeSite: candidature.dépôt.puissanceDeSite,
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
