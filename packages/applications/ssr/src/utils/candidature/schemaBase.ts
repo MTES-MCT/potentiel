@@ -22,6 +22,7 @@ export const numberSchema = _numberSchemaBase
   );
 
 export const optionalNumberSchema = _numberSchemaBase
+  .optional()
   // transform to number
   .pipe(
     z
