@@ -15,7 +15,9 @@
     "@graphql-codegen/cli": "^5.0.5",
     "@graphql-codegen/typescript-graphql-request": "^6.2.0",
     "@potentiel-domain/projet": "*",
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*"
   },
   "dependencies": {
     "graphql-request": "^7.1.2"

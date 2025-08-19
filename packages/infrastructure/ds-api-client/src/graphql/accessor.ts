@@ -18,6 +18,7 @@ export type DossierAccessor<
   getUrlPièceJustificativeValue: (nom: TKey) => string | undefined;
   getAdresse: (nom: TKey) => AddressFragmentFragment | undefined;
 };
+
 /**
  * @param champs un array représentant les champs du dossier
  * @param colonnesMap une map entre le nom "technique" et le label du champ utilisé dans la démarche
@@ -33,10 +34,10 @@ export const createDossierAccessor = <
 ): DossierAccessor<TColonnes, TKey> => {
   const getChampValue = <TType extends ChampFragmentFragment['__typename']>(
     nom: TKey,
-    types: TType | TType[],
+    types: TType[],
   ): (ChampFragmentFragment & { __typename: TType }) | undefined => {
     const labelDémarche = colonnesMap[nom];
-    const typesPossibles = Array.isArray(types) ? types : [types];
+
     const descriptor = descriptors.find((x) => x.label === labelDémarche);
     if (!descriptor) {
       throw new FieldNotFoundError(labelDémarche);
@@ -45,20 +46,21 @@ export const createDossierAccessor = <
     const champ = champs.find((x) => x.label === labelDémarche);
     if (!champ) {
       // TODO comment gére la logique d'affichage conditionnelle ?
+      // Actuellement, required peut être `true` pour un champ affiché conditionnellement
       // if (descriptor.required) {
       //   throw new RequiredFieldMissingError(labelDémarche);
       // }
       return;
     }
-    if (!(typesPossibles as string[]).includes(champ.__typename)) {
-      throw new InvalidFieldTypeError(labelDémarche, typesPossibles.join(','), champ.__typename);
+    if (!(types as string[]).includes(champ.__typename)) {
+      throw new InvalidFieldTypeError(labelDémarche, types.join(','), champ.__typename);
     }
 
     return champ as ChampFragmentFragment & { __typename: TType };
   };
 
   return {
-    getStringValue: (nom) => getChampValue(nom, 'TextChamp')?.stringValue ?? undefined,
+    getStringValue: (nom) => getChampValue(nom, ['TextChamp'])?.stringValue ?? undefined,
 
     getNumberValue: (nom) => {
       const val = getChampValue(nom, ['DecimalNumberChamp', 'IntegerNumberChamp']);
@@ -69,7 +71,7 @@ export const createDossierAccessor = <
       return num ? Number(num) : undefined;
     },
 
-    getDateValue: (nom) => getChampValue(nom, 'DateChamp')?.date ?? undefined,
+    getDateValue: (nom) => getChampValue(nom, ['DateChamp'])?.date ?? undefined,
 
     getBooleanValue: (nom) => {
       const val = getChampValue(nom, ['YesNoChamp', 'CheckboxChamp'])?.stringValue ?? undefined;
@@ -77,9 +79,9 @@ export const createDossierAccessor = <
     },
 
     getUrlPièceJustificativeValue: (nom) =>
-      getChampValue(nom, 'PieceJustificativeChamp')?.files?.[0]?.url,
+      getChampValue(nom, ['PieceJustificativeChamp'])?.files?.[0]?.url,
 
-    getAdresse: (nom) => getChampValue(nom, 'AddressChamp')?.address ?? undefined,
+    getAdresse: (nom) => getChampValue(nom, ['AddressChamp'])?.address ?? undefined,
   };
 };
 

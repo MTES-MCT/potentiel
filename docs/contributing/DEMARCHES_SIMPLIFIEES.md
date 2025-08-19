@@ -37,7 +37,7 @@ Le fichier du résultat de l'instruction transmis par la CRE contient les inform
 Démarche Simplifiées propose une API Graphql, qui permet entre autre de récupérer un dossier par son identifiant.
 
 - Documentation : https://doc.demarches-simplifiees.fr/api-graphql
-- Playground : https://www.demarches-simplifiees.fr/graphql
+- Playground : https://demarches.numerique.gouv.fr/graphql
 
 Le package [ds-api-client](/packages/infrastructure/ds-api-client/) permet de traiter le résultat de cette API afin de récupérer les informations du dépôt de la candidature.
 
@@ -48,6 +48,6 @@ Le code se basant sur le nom des champs dans le formulaire, il est essentiel que
 Pour accéder à une démarche, un [jeton d'accès](https://doc.demarches-simplifiees.fr/api-graphql/jeton-dauthentification) est requis.
 Ce jeton doit avoir accès à la démarche concernée.
 
-> NB: À ce jour (Août 2025), un compte Instructeur ne peut pas accéder aux Dossiers d'une démarche. Un compte Administrateur est requis.
-> Afin de garantir l'indépendence de la CRE, Potentiel n'a pas d'accès Administrateur à la démarche.
-> À la place, la CRE gère un unique jeton, transmis à Potentiel, auquel elle donne accès en lecture seule à chaque nouvelle démarche. Voir [ici](https://doc.demarches-simplifiees.fr/api-graphql/jeton-dauthentification#acceder-en-lecture-et-ou-ecriture-uniquement-a-une-liste-fermee-des-demarches-de-ladministrateur-aya).
+À ce jour (Août 2025), un compte Instructeur ne peut pas accéder aux Dossiers d'une démarche; un compte Administrateur est requis.
+Afin de garantir l'indépendence de la CRE, Potentiel n'a pas d'accès Administrateur à la démarche.
+À la place, la CRE gère un unique jeton, transmis à Potentiel, auquel elle donne accès en lecture seule à chaque nouvelle démarche. Voir [ici](https://doc.demarches-simplifiees.fr/api-graphql/jeton-dauthentification#acceder-en-lecture-et-ou-ecriture-uniquement-a-une-liste-fermee-des-demarches-de-ladministrateur-aya).

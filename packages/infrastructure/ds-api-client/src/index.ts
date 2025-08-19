@@ -1,4 +1,5 @@
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { createDossierAccessor, GetDossierQuery, getDSApiClient } from './graphql';
 import { mapApiResponseToDépôt } from './dépôt';
@@ -16,8 +17,10 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
       détails: mapApiResponseToDétails(dossier),
     };
   } catch (e) {
-    console.log(e);
-
+    getLogger('ds-api-client').warn('Impossible de lire le dossier', {
+      dossierNumber,
+      error: e,
+    });
     return Option.none;
   }
 };

@@ -13,10 +13,10 @@
   "include": ["./src"],
   "references": [
     {
-      "path": "../../libraries/http-client"
+      "path": "../../libraries/monads"
     },
     {
-      "path": "../../libraries/monads"
+      "path": "../../libraries/monitoring"
     },
     {
       "path": "../../domain/projet"
