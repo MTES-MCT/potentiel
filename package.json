@@ -28,6 +28,7 @@
     "storybook:documents": "npm run storybook build -w @potentiel-applications/document-builder",
     "up:test": "./.docker-scripts/up-test.sh",
     "down:test": "./.docker-scripts/down-test.sh",
+    "db:restart": "docker stop potentiel_db && docker rm potentiel_db && npm run up",
     "pretest": "npm run down:test && npm run up:test",
     "pretest:libraries": "npm run pretest && turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* --filter=@potentiel-applications/projectors --filter=@potentiel-applications/request-context",
     "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
