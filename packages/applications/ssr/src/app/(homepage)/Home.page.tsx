@@ -1,9 +1,9 @@
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
-import { PropositionDeValeur } from '@/components/molecules/home/PropositionDeValeur';
-import { Bienvenue } from '@/components/molecules/home/Bienvenue';
-import { InscriptionConnexion } from '@/components/molecules/home/InscriptionConnexion';
-import { Benefices } from '@/components/molecules/home/Benefices';
+import { Benefices } from './Benefices';
+import { Bienvenue } from './Bienvenue';
+import { InscriptionConnexion } from './InscriptionConnexion';
+import { PropositionDeValeur } from './PropositionDeValeur';
 
 export type HomePageProps = {
   utilisateur?: Utilisateur.ValueType;
