@@ -11,7 +11,9 @@ export const MenuGarantiesFinancières = () => (
     <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.enAttente.lister}>
       Projets avec garanties financières en attente
     </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.demandeMainlevée.lister}>
+    <DropdownMenu.DropdownItem
+      href={Routes.GarantiesFinancières.demandeMainlevée.lister({ statut: 'demandé' })}
+    >
       Demandes de mainlevée
     </DropdownMenu.DropdownItem>
   </DropdownMenu>

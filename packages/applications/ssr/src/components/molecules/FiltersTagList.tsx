@@ -25,7 +25,7 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
     return [
       ...allFilters,
       {
-        label: `${label}: ${options.find((x) => x.value === currentFilterValue)?.label}`,
+        label: `${label} : ${options.find((x) => x.value === currentFilterValue)?.label}`,
         searchParamKey,
         affects,
       },
