@@ -62,20 +62,6 @@ jobs:
       - run: npm run test:apps
       - run: npm run test:libraries
 
-  test_ssr:
-    runs-on: ubuntu-latest
-    env:
-      APPLICATION_STAGE: test
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run test:ssr
-
   verify_statistics:
     runs-on: ubuntu-latest
     env:

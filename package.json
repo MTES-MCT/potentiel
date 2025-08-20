@@ -34,8 +34,6 @@
     "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
     "pretest:apps": "npm run pretest:libraries",
     "test:apps": "turbo run test --filter=@potentiel-applications/*",
-    "pretest:ssr": "turbo run build --filter=@potentiel-domain/projet",
-    "test:ssr": "turbo run test --filter=@potentiel-applications/ssr",
     "prespecs": "npm run pretest && turbo run build --filter=@potentiel/specifications",
     "specs": "npm run test -w @potentiel/specifications -- ",
     "prespecs:select": "npm run prespecs",
