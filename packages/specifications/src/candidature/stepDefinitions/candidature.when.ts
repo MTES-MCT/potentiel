@@ -74,6 +74,7 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
           ...this.candidatureWorld.importerCandidature.dépôtValue.localité,
           ...changedValues.dépôt.localité,
         },
+        autorisationDUrbanisme: undefined,
         fournisseurs: this.candidatureWorld.importerCandidature.dépôtValue.fournisseurs,
       },
       instructionValue: {
