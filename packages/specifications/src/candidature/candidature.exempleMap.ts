@@ -1,5 +1,6 @@
 import { PlainType } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import {
   FieldToExempleMapper,
@@ -11,7 +12,7 @@ import {
 } from '../helpers/mapToExemple';
 
 export const dépôtExempleMap: FieldToExempleMapper<
-  Omit<Candidature.Dépôt.RawType, 'localité' | 'fournisseurs'>
+  Omit<Candidature.Dépôt.RawType, 'localité' | 'fournisseurs' | 'autorisationDUrbanisme'>
 > = {
   typeGarantiesFinancières: [
     'type GF',
@@ -71,4 +72,12 @@ export const localitéExempleMap: FieldToExempleMapper<Candidature.Localité.Raw
   commune: ['commune'],
   région: ['région'],
   département: ['département'],
+};
+
+export const autorisationDUrbanismeExempleMap: FieldToExempleMapper<{
+  numéro: string;
+  date: DateTime.RawType;
+}> = {
+  date: [`date de l'autorisation d'urbanisme`, mapDateTime],
+  numéro: [`numéro de l'autorisation d'urbanisme`],
 };
