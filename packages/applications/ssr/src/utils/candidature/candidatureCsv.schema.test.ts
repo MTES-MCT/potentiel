@@ -81,7 +81,6 @@ describe('Schema candidature', () => {
       typeGarantiesFinancières: undefined,
       financementCollectif: false,
       gouvernancePartagée: true,
-      actionnariat: 'gouvernance-partagée',
       dateÉchéanceGf: undefined,
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
@@ -90,6 +89,8 @@ describe('Schema candidature', () => {
       élémentsSousOmbrière: undefined,
       typologieDeBâtiment: undefined,
       obligationDeSolarisation: undefined,
+      puissanceDeSite: undefined,
+      actionnariat: 'gouvernance-partagée',
     });
   });
 
@@ -121,7 +122,6 @@ describe('Schema candidature', () => {
       typeGarantiesFinancières: 'avec-date-échéance',
       financementCollectif: false,
       gouvernancePartagée: true,
-      actionnariat: 'gouvernance-partagée',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
@@ -130,6 +130,8 @@ describe('Schema candidature', () => {
       élémentsSousOmbrière: undefined,
       typologieDeBâtiment: undefined,
       obligationDeSolarisation: undefined,
+      puissanceDeSite: undefined,
+      actionnariat: 'gouvernance-partagée',
     });
   });
 
@@ -169,7 +171,6 @@ describe('Schema candidature', () => {
       typeGarantiesFinancières: 'avec-date-échéance',
       financementCollectif: false,
       gouvernancePartagée: true,
-      actionnariat: 'gouvernance-partagée',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
@@ -178,6 +179,8 @@ describe('Schema candidature', () => {
       élémentsSousOmbrière: '...',
       typologieDeBâtiment: 'existant-avec-rénovation-de-toiture',
       obligationDeSolarisation: true,
+      puissanceDeSite: undefined,
+      actionnariat: 'gouvernance-partagée',
     });
   });
 
