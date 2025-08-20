@@ -39,6 +39,7 @@ export type RawType = {
   typologieDeBâtiment: TypologieBâtiment.RawType | undefined;
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
+  autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -64,6 +65,8 @@ export type ValueType = ReadonlyValueType<{
   typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
+  autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
+
   formatter(): RawType;
 }>;
 
@@ -98,6 +101,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
 
   fournisseurs: plain.fournisseurs.map(Fournisseur.bind),
   puissanceDeSite: plain.puissanceDeSite,
+  autorisationDUrbanisme: plain.autorisationDUrbanisme
+    ? {
+        date: DateTime.bind(plain.autorisationDUrbanisme.date),
+        numéro: plain.autorisationDUrbanisme.numéro,
+      }
+    : undefined,
 
   estÉgaleÀ(valueType) {
     return (
@@ -155,6 +164,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       typeInstallationsAgrivoltaiques: this.typeInstallationsAgrivoltaiques?.formatter(),
       typologieDeBâtiment: this.typologieDeBâtiment?.formatter(),
+      autorisationDUrbanisme: this.autorisationDUrbanisme
+        ? {
+            date: this.autorisationDUrbanisme.date.formatter(),
+            numéro: this.autorisationDUrbanisme.numéro,
+          }
+        : undefined,
     };
   },
 });
@@ -204,6 +219,12 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       raw.typologieDeBâtiment,
     ),
     puissanceDeSite: raw.puissanceDeSite,
+    autorisationDUrbanisme: raw.autorisationDUrbanisme
+      ? mapToPlainObject({
+          date: DateTime.convertirEnValueType(raw.autorisationDUrbanisme.date),
+          numéro: raw.autorisationDUrbanisme.numéro,
+        })
+      : undefined,
   });
 
 const bindOptional = <TValue, TValueType>(

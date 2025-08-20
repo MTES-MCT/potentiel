@@ -8,6 +8,7 @@ import { mapToExemple } from '../helpers/mapToExemple';
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
 import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
 import {
+  autorisationDUrbanismeExempleMap,
   dépôtExempleMap,
   identifiantProjetExempleMap,
   instructionExempleMap,
@@ -36,12 +37,14 @@ export class CandidatureWorld {
     const instruction = mapToExemple(exemple, instructionExempleMap);
     const identifiantProjet = mapToExemple(exemple, identifiantProjetExempleMap);
     const localité = mapToExemple(exemple, localitéExempleMap);
+    const autorisationDUrbanisme = mapToExemple(exemple, autorisationDUrbanismeExempleMap);
 
     return {
       identifiantProjet,
       dépôt: {
         ...dépôt,
         localité,
+        autorisationDUrbanisme,
       },
       instruction,
     };
@@ -71,7 +74,9 @@ export class CandidatureWorld {
     }
 
     const expected: Candidature.ConsulterCandidatureReadModel = {
-      dépôt: Candidature.Dépôt.convertirEnValueType(dépôtValue),
+      dépôt: {
+        ...Candidature.Dépôt.convertirEnValueType(dépôtValue),
+      },
       instruction: Candidature.Instruction.convertirEnValueType(instructionValue),
       détailsImport: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
