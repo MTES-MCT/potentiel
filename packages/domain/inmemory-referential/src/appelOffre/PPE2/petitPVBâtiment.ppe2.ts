@@ -85,6 +85,9 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       dispositions: `***** A AJOUTER *****`,
     },
   },
+  champsSupplémentaires: {
+    puissanceDeSite: 'requis',
+  },
   periodes: [
     {
       id: '1',

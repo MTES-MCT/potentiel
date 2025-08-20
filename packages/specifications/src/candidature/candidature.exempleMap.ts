@@ -46,6 +46,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
   puissanceALaPointe: ['puissance à la pointe', mapBoolean],
   obligationDeSolarisation: ['obligation de solarisation', mapOptionalBoolean],
   coefficientKChoisi: ['coefficient K choisi', mapOptionalBoolean],
+  puissanceDeSite: ['puissance de site', mapNumber],
 };
 
 export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction.RawType> = {

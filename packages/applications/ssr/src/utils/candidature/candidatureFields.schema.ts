@@ -9,6 +9,7 @@ import {
   dateSchema,
   numberSchema,
   optionalEnum,
+  optionalNumberSchema,
   optionalOuiNonSchema,
   optionalOuiNonVideSchema,
   optionalStringSchema,
@@ -71,6 +72,8 @@ export const dateEchéanceOuDéliberationGfSchema = z
 export const territoireProjetSchema = optionalStringSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
+
+export const puissanceDeSiteSchema = optionalNumberSchema;
 
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;

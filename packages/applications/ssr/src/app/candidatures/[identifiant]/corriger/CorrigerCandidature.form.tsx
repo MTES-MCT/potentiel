@@ -309,6 +309,24 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           ]}
         />
       )}
+      {champsSupplémentaires.puissanceDeSite && (
+        <Input
+          state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['puissanceDeSite']}
+          id="puissanceDeSite"
+          label={'Puissance de site'}
+          nativeInputProps={{
+            name: 'puissanceDeSite',
+            defaultValue: candidature.puissanceDeSite,
+            required: champsSupplémentaires.puissanceDeSite === 'requis',
+            'aria-required': champsSupplémentaires.puissanceDeSite === 'requis',
+            type: 'number',
+            inputMode: 'decimal',
+            pattern: '[0-9]+([.][0-9]+)?',
+            step: 0.1,
+          }}
+        />
+      )}
       <Input
         state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}

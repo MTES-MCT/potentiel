@@ -82,6 +82,7 @@ const mapBodyToUseCaseData = (
         ? previous.dépôt.garantiesFinancières.dateDélibération.formatter()
         : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
+      puissanceDeSite: data.puissanceDeSite,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,

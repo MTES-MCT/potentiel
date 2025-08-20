@@ -85,6 +85,18 @@ export class ChoixCoefficientKNonAttenduError extends InvalidOperationError {
   }
 }
 
+export class PuissanceDeSiteRequiseError extends InvalidOperationError {
+  constructor() {
+    super(`La puissance de site est requise pour cet appel d'offre`);
+  }
+}
+
+export class PuissanceDeSiteNonAttendueError extends InvalidOperationError {
+  constructor() {
+    super(`La puissance de site ne peut être renseignée pour cet appel d'offre`);
+  }
+}
+
 export class TechnologieRequiseError extends InvalidOperationError {
   constructor() {
     super("Une technologie est requise pour cet appel d'offre");

@@ -21,6 +21,17 @@ export const numberSchema = _numberSchemaBase
     }),
   );
 
+export const optionalNumberSchema = _numberSchemaBase
+  .optional()
+  // transform to number
+  .pipe(
+    z
+      .number({
+        invalid_type_error: 'Le champ doit être un nombre',
+      })
+      .optional(),
+  );
+
 export const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
   .pipe(z.number().gt(0, { message: 'Le champ doit être un nombre positif' }));

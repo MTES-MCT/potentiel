@@ -41,6 +41,14 @@ Fonctionnalité: Corriger une candidature
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
         Et l'attestation de désignation de la candidature devrait être consultable
 
+    Scénario: Corriger une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre     | PPE2 - Petit PV Bâtiment |
+            | puissance de site | 100                      |
+        Quand le DGEC validateur corrige la candidature avec :
+            | puissance de site | 200 |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
@@ -187,3 +195,16 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | type GF | garantie-bancaire |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+
+    Scénario: Impossible de corriger une candidature sans puissance de site pour un appel d'offre qui a ce champ requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre     | PPE2 - Petit PV Bâtiment |
+            | puissance de site | 100                      |
+        Quand le DGEC validateur corrige la candidature avec :
+            | puissance de site |  |
+        Alors l'administrateur devrait être informé que "La puissance de site est requise pour cet appel d'offre"
+
+    Scénario: Impossible de corriger une candidature avec une puissance de site si l'appel d'offre ne le propose pas
+        Quand le DGEC validateur corrige la candidature avec :
+            | puissance de site | 100 |
+        Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
