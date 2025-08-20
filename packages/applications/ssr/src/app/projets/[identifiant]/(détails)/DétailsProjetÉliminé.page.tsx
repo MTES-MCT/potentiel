@@ -132,13 +132,13 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
           href: Routes.Candidature.téléchargerAttestation(identifiantProjet),
           prefetch: false,
         }}
-        title={`Télécharger l'attestation de désignation`}
-        aria-label={`Télécharger l'attestation de désignation`}
+        title={`Télécharger l'avis de rejet`}
+        aria-label={`Télécharger l'avis de rejet`}
         priority="secondary"
         iconId="fr-icon-file-download-line"
         iconPosition="right"
       >
-        Télécharger l'attestation de désignation
+        Télécharger l'avis de rejet
       </Button>
     )}
     {actions.includes('faire-demande-recours') && (
