@@ -37,6 +37,7 @@ const messagesToTruncate = [
   'AppelOffre.Query.ListerAppelOffre',
   'AppelOffre.Query.ConsulterAppelOffre',
   'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+  'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
 ];
 // This is to avoid extremely long results from ConsulterAppelOffre, which makes the logs unreadable.
 const getResultJsonBody = (messageType: string, result: unknown) => {
