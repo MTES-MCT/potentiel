@@ -1,4 +1,4 @@
-import { describe, test } from 'node:test';
+import { before, describe, test } from 'node:test';
 import assert from 'node:assert';
 
 import { SendVerificationRequestParams } from 'next-auth/providers';
@@ -103,6 +103,10 @@ const buildSendVerificationRequestParams = (
   };
 };
 
+before(() => {
+  process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
+});
+
 describe(`Envoyer un email avec un lien de connexion`, () => {
   const utilisateursPouvantSeConnecterParEmail = [
     {
@@ -201,7 +205,7 @@ describe(`Ne pas envoyer d'email avec un lien de connexion pour les utilisateurs
           messageSubject: 'Potentiel - Connexion avec ProConnect obligatoire',
           recipients: [{ email: identifier, fullName: '' }],
           variables: {
-            url: Routes.Auth.signIn({ forceProConnect: true }),
+            url: process.env.BASE_URL + Routes.Auth.signIn({ forceProConnect: true }),
           },
         };
 
