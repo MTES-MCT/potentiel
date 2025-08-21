@@ -9,7 +9,7 @@
     "lint:fix": "next lint --fix",
     "predev": "react-dsfr update-icons",
     "prebuild": "react-dsfr update-icons",
-    "test": "find . -name \"*.test.ts\" -exec tsx --test {} ';'"
+    "test": "glob -c \"tsx --test\" \"src/**/*.test.ts\""
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "1.20.4",
@@ -64,6 +64,7 @@
     "@types/react-dom": "^18.3.6",
     "@types/swagger-ui-react": "^4.19.0",
     "autoprefixer": "^10.4.21",
+    "glob": "^11.0.3",
     "postcss": "^8.5.3",
     "sass": "^1.86.3",
     "tailwindcss": "^3.4.17"

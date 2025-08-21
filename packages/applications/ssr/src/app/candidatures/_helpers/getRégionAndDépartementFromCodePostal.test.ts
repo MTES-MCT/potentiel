@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { getRégionAndDépartementFromCodePostal } from './getRégionAndDépartementFromCodePostal';
 
-describe.only('getRégionAndDépartementFromCodePostal helper', () => {
+describe('getRégionAndDépartementFromCodePostal helper', () => {
   const corseDuSud = { département: 'Corse-du-Sud', région: 'Corse' };
   const hauteCorse = { département: 'Haute-Corse', région: 'Corse' };
 

@@ -65,7 +65,7 @@ describe('Schema candidature', () => {
       sociétéMère: '',
       nomCandidat: 'candidat',
       puissanceProductionAnnuelle: 1,
-      prixRéférence: 1,
+      prixReference: 1,
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
@@ -75,20 +75,22 @@ describe('Schema candidature', () => {
       commune: 'MARSEILLE',
       statut: 'éliminé',
       motifÉlimination: 'motif',
-      puissanceÀLaPointe: false,
+      puissanceALaPointe: false,
       evaluationCarboneSimplifiée: 0,
       technologie: 'N/A',
-      typeGf: undefined,
+      typeGarantiesFinancières: undefined,
       financementCollectif: false,
       gouvernancePartagée: true,
       dateÉchéanceGf: undefined,
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
-      installationsAgrivoltaiques: undefined,
+      typeInstallationsAgrivoltaiques: undefined,
       élémentsSousOmbrière: undefined,
       typologieDeBâtiment: undefined,
       obligationDeSolarisation: undefined,
+      puissanceDeSite: undefined,
+      actionnariat: 'gouvernance-partagée',
     });
   });
 
@@ -104,7 +106,7 @@ describe('Schema candidature', () => {
       sociétéMère: '',
       nomCandidat: 'candidat',
       puissanceProductionAnnuelle: 1,
-      prixRéférence: 1,
+      prixReference: 1,
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
@@ -114,20 +116,22 @@ describe('Schema candidature', () => {
       commune: 'MARSEILLE',
       statut: 'classé',
       motifÉlimination: undefined,
-      puissanceÀLaPointe: false,
+      puissanceALaPointe: false,
       evaluationCarboneSimplifiée: 0,
       technologie: 'N/A',
-      typeGf: 'avec-date-échéance',
+      typeGarantiesFinancières: 'avec-date-échéance',
       financementCollectif: false,
       gouvernancePartagée: true,
-      dateÉchéanceGf: new Date('2024-12-01T00:00:00.000Z'),
+      dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
-      installationsAgrivoltaiques: undefined,
+      typeInstallationsAgrivoltaiques: undefined,
       élémentsSousOmbrière: undefined,
       typologieDeBâtiment: undefined,
       obligationDeSolarisation: undefined,
+      puissanceDeSite: undefined,
+      actionnariat: 'gouvernance-partagée',
     });
   });
 
@@ -151,7 +155,7 @@ describe('Schema candidature', () => {
       sociétéMère: '',
       nomCandidat: 'candidat',
       puissanceProductionAnnuelle: 1,
-      prixRéférence: 1,
+      prixReference: 1,
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
@@ -161,20 +165,22 @@ describe('Schema candidature', () => {
       commune: 'MARSEILLE',
       statut: 'classé',
       motifÉlimination: undefined,
-      puissanceÀLaPointe: true,
+      puissanceALaPointe: true,
       evaluationCarboneSimplifiée: 0,
       technologie: 'eolien',
-      typeGf: 'avec-date-échéance',
+      typeGarantiesFinancières: 'avec-date-échéance',
       financementCollectif: false,
       gouvernancePartagée: true,
-      dateÉchéanceGf: new Date('2024-12-01T00:00:00.000Z'),
+      dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
-      installationsAgrivoltaiques: 'jachère-plus-de-5-ans',
+      typeInstallationsAgrivoltaiques: 'jachère-plus-de-5-ans',
       élémentsSousOmbrière: '...',
       typologieDeBâtiment: 'existant-avec-rénovation-de-toiture',
       obligationDeSolarisation: true,
+      puissanceDeSite: undefined,
+      actionnariat: 'gouvernance-partagée',
     });
   });
 
@@ -364,7 +370,7 @@ describe('Schema candidature', () => {
           '',
       });
       assert(result.success);
-      expect(result.data.typeGf).to.be.undefined;
+      expect(result.data.typeGarantiesFinancières).to.be.undefined;
     });
 
     test('Enum avec N/A', () => {
@@ -374,7 +380,7 @@ describe('Schema candidature', () => {
           'N/A',
       });
       assert(result.success);
-      expect(result.data.typeGf).to.be.undefined;
+      expect(result.data.typeGarantiesFinancières).to.be.undefined;
     });
 
     test('Email non valide', () => {
