@@ -2,6 +2,7 @@ import { test, describe } from 'node:test';
 
 import { expect, assert } from 'chai';
 import { SafeParseReturnType, SafeParseSuccess } from 'zod';
+import { diffJson } from 'diff';
 
 import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '.';
 
@@ -91,7 +92,7 @@ describe('Schema candidature', () => {
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
     };
-    expect(result.data).to.deep.equal(expected);
+    deepEqualWithRichDiff(result.data, expected);
   });
 
   test('Cas nominal, classé', () => {
@@ -132,7 +133,7 @@ describe('Schema candidature', () => {
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
     };
-    expect(result.data).to.deep.equal(expected);
+    deepEqualWithRichDiff(result.data, expected);
   });
 
   test('Champs optionnels, spécifiques à certains AOs', () => {
@@ -183,7 +184,8 @@ describe('Schema candidature', () => {
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
     };
-    expect(result.data).to.deep.equal(expected);
+
+    deepEqualWithRichDiff(result.data, expected);
   });
 
   describe('Erreurs courantes', () => {
@@ -644,3 +646,28 @@ describe('Schema candidature', () => {
     });
   });
 });
+
+const deepEqualWithRichDiff = (actual: object, expected: object) => {
+  try {
+    expect(actual).to.deep.equal(expected);
+  } catch (e) {
+    // Use 'jest-diff' for a clear diff output
+    // You need to install it: npm install jest-diff --save-dev
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const diff = diffJson(expected, actual);
+
+    const formattedDiff = diff
+      .map((part) => {
+        const color = part.added ? '\x1b[32m' : part.removed ? '\x1b[31m' : '\x1b[0m';
+        return color + part.value + '\x1b[0m';
+      })
+      .join('');
+    console.log('Difference between actual and expected:\n', formattedDiff);
+
+    const error = e as Record<string, unknown>;
+    error.diff = diff
+      .filter((part) => part.added || part.removed)
+      .map((part) => (part.added ? { actual: part.value } : { expected: part.value }));
+    throw error;
+  }
+};
