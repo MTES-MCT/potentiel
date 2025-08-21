@@ -34,7 +34,7 @@ export const noteTotaleSchema = numberSchema;
 export const nomReprésentantLégalSchema = requiredStringSchema;
 export const emailContactSchema = requiredStringSchema.email();
 export const adresse1Schema = requiredStringSchema;
-export const adresse2Schema = optionalStringSchema;
+export const adresse2Schema = optionalStringSchema.transform((val) => val || '');
 
 const normalizeStringArray = (value: string) =>
   value
@@ -84,6 +84,9 @@ export const obligationDeSolarisationSchema = booleanSchema.optional();
 export const élémentsSousOmbrièreSchema = z.string().optional();
 
 export const puissanceDeSiteSchema = optionalNumberSchema;
+
+export const dateDAutorisationDUrbanismeSchema = dateSchema.optional();
+export const numéroDAutorisationDUrbanismeSchema = optionalStringSchema;
 
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;

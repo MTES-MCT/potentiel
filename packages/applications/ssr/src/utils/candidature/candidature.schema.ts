@@ -28,6 +28,8 @@ import {
   choixCoefficientKSchema,
   puissanceDeSiteSchema,
   identifiantProjetSchema,
+  dateDAutorisationDUrbanismeSchema,
+  numéroDAutorisationDUrbanismeSchema,
 } from './candidatureFields.schema';
 
 /**
@@ -63,6 +65,8 @@ export const candidatureSchema = z
     dateDeliberationGf: dateEchéanceOuDéliberationGfSchema, // see refine below
     coefficientKChoisi: choixCoefficientKSchema,
     puissanceDeSite: puissanceDeSiteSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
+    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
