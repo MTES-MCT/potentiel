@@ -20,42 +20,37 @@ import {
 export type CorrigerCandidaturesState = FormState;
 
 // sans les accents, et avec les champs spécifiques à la correction
-const schema = zod
-  .object({
-    identifiantProjet: identifiantProjetSchema,
-    doitRegenererAttestation: doitRegenererAttestationSchema,
+const schema = zod.object({
+  identifiantProjet: identifiantProjetSchema,
+  doitRegenererAttestation: doitRegenererAttestationSchema,
 
-    nomProjet: dépôtSchema.shape.nomProjet,
-    societeMere: dépôtSchema.shape.sociétéMère,
-    nomCandidat: dépôtSchema.shape.nomCandidat,
-    puissanceProductionAnnuelle: dépôtSchema.shape.puissanceProductionAnnuelle,
-    prixReference: dépôtSchema.shape.prixReference,
-    nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
-    emailContact: dépôtSchema.shape.emailContact,
-    adresse1: dépôtSchema.shape.localité.shape.adresse1,
-    adresse2: dépôtSchema.shape.localité.shape.adresse2,
-    codePostal: dépôtSchema.shape.localité.shape.codePostal,
-    commune: dépôtSchema.shape.localité.shape.commune,
-    departement: dépôtSchema.shape.localité.shape.département,
-    region: dépôtSchema.shape.localité.shape.région,
-    puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
-    evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
-    actionnariat: dépôtSchema.shape.actionnariat,
-    technologie: dépôtSchema.shape.technologie,
-    typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
-    dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
-    dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
-    coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
-    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
+  nomProjet: dépôtSchema.shape.nomProjet,
+  societeMere: dépôtSchema.shape.sociétéMère,
+  nomCandidat: dépôtSchema.shape.nomCandidat,
+  puissanceProductionAnnuelle: dépôtSchema.shape.puissanceProductionAnnuelle,
+  prixReference: dépôtSchema.shape.prixReference,
+  nomRepresentantLegal: dépôtSchema.shape.nomReprésentantLégal,
+  emailContact: dépôtSchema.shape.emailContact,
+  adresse1: dépôtSchema.shape.localité.shape.adresse1,
+  adresse2: dépôtSchema.shape.localité.shape.adresse2,
+  codePostal: dépôtSchema.shape.localité.shape.codePostal,
+  commune: dépôtSchema.shape.localité.shape.commune,
+  departement: dépôtSchema.shape.localité.shape.département,
+  region: dépôtSchema.shape.localité.shape.région,
+  puissanceALaPointe: dépôtSchema.shape.puissanceALaPointe,
+  evaluationCarboneSimplifiee: dépôtSchema.shape.evaluationCarboneSimplifiée,
+  actionnariat: dépôtSchema.shape.actionnariat,
+  technologie: dépôtSchema.shape.technologie,
+  typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
+  dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
+  dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
+  coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
+  puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
 
-    statut: instructionSchema.shape.statut,
-    motifElimination: instructionSchema.shape.motifÉlimination,
-    noteTotale: instructionSchema.shape.noteTotale,
-  })
-  .catch(({ input, error }) => {
-    console.log({ input, error });
-    throw error;
-  });
+  statut: instructionSchema.shape.statut,
+  motifElimination: instructionSchema.shape.motifÉlimination,
+  noteTotale: instructionSchema.shape.noteTotale,
+});
 
 export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
 
