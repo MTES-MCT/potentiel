@@ -66,7 +66,7 @@ export const candidatureSchema = z
     coefficientKChoisi: choixCoefficientKSchema,
     puissanceDeSite: puissanceDeSiteSchema,
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
-    numéroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
