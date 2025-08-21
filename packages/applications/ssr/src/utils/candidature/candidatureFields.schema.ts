@@ -93,7 +93,7 @@ export const statutCsvSchema = z
   .toLowerCase()
   .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']));
 
-export const adresse1CsvSchema = optionalStringSchema;
+export const adresse1CsvSchema = optionalStringWithDefaultValueSchema;
 export const dateEchéanceGfCsvSchema = dateSchema.optional();
 export const financementCollectifCsvSchema = ouiNonSchema;
 export const gouvernancePartagéeCsvSchema = ouiNonSchema;
