@@ -73,10 +73,11 @@ export const mapApiResponseToDépôt = ({
     // TODO quelle adresse choisir... site de production ?
     localité: getLocalité(accessor, 'localité'),
 
-    // Non disponibles sur Démarche simplifiée
+    // TODO ajouter
+    coefficientKChoisi: undefined,
+    // Non disponibles sur Démarches simplifiées
     typeInstallationsAgrivoltaiques: undefined,
     actionnariat: undefined,
-    coefficientKChoisi: undefined,
     fournisseurs: [],
     puissanceALaPointe: undefined,
     territoireProjet: undefined,

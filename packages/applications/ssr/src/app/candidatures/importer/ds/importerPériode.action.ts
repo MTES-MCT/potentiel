@@ -111,6 +111,7 @@ const action: FormAction<FormState, typeof schema> = async (
             typeGarantiesFinancières: undefined,
             dateÉchéanceGf: undefined,
             dateDélibérationGf: undefined,
+            puissanceDeSite: undefined,
             ...dépôt,
           },
           détailsValue: {

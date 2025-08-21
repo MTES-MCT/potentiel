@@ -22,7 +22,7 @@ export const ImporterCandidaturesPage: FC = () => (
             small
             description={
               <div className="py-4 ">
-                Pour importer des candidatures depuis Démarche Simplifiée, c'est{' '}
+                Pour importer des candidatures depuis Démarches Simplifiée, c'est{' '}
                 <Link href={Routes.Candidature.importerDS}>ici</Link>.
               </div>
             }

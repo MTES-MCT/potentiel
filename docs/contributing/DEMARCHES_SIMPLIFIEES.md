@@ -34,7 +34,7 @@ Le fichier du résultat de l'instruction transmis par la CRE contient les inform
 
 ### Graphql
 
-Démarche Simplifiées propose une API Graphql, qui permet entre autre de récupérer un dossier par son identifiant.
+Démarches Simplifiées propose une API Graphql, qui permet entre autre de récupérer un dossier par son identifiant.
 
 - Documentation : https://doc.demarches-simplifiees.fr/api-graphql
 - Playground : https://demarches.numerique.gouv.fr/graphql
