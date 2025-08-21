@@ -34,7 +34,10 @@ export const registerNotifierLauréatCommand = (getProjetAggregateRoot: GetProje
       validateur,
     });
 
-    await projet.lauréat.notifier({ attestation: { format: attestation.format } });
+    await projet.lauréat.notifier({
+      attestation: { format: attestation.format },
+      importerGarantiesFinancières: true,
+    });
   };
 
   mediator.register('Lauréat.Command.NotifierLauréat', handler);

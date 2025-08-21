@@ -53,7 +53,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
 
     await this.publish(event);
 
-    await this.éliminé.projet.lauréat.notifier({ attestation: { format: réponseSignée.format } });
+    await this.éliminé.projet.lauréat.notifier({
+      attestation: { format: réponseSignée.format },
+      importerGarantiesFinancières: false,
+    });
 
     await this.éliminé.projet.lauréat.garantiesFinancières.demander({
       demandéLe: dateAccord,
