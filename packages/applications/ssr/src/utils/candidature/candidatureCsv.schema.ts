@@ -39,6 +39,8 @@ import {
   typologieDeBâtimentCsvSchema,
   obligationDeSolarisationCsvSchema,
   puissanceDeSiteSchema,
+  dateDAutorisationDUrbanismeSchema,
+  numéroDAutorisationDUrbanismeSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -121,6 +123,8 @@ const colonnes = {
   typologieDeBâtiment: 'Typologie de bâtiment',
   obligationDeSolarisation: 'Obligation de solarisation',
   puissanceDeSite: 'Puissance de site',
+  dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
+  numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -157,6 +161,8 @@ const candidatureCsvRowSchema = z
     [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
+    [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeSchema,
+    [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
@@ -229,7 +235,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
     );
   })
   // Transforme les valeurs en index ("1,2,3") en des valeurs plus claires ("avec-date-échéance")
-  .transform((val) => {
+  .transform(({ numéroDAutorisationDUrbanisme, dateDAutorisationDUrbanisme, ...val }) => {
     return {
       ...val,
       typeGarantiesFinancières: val.typeGarantiesFinancières
@@ -244,11 +250,18 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
         ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
         : undefined,
-      dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime,
+      dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime | undefined,
       actionnariat: val.financementCollectif
         ? Candidature.TypeActionnariat.financementCollectif.formatter()
         : val.gouvernancePartagée
           ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+          : undefined,
+      autorisationDUrbanisme:
+        dateDAutorisationDUrbanisme && numéroDAutorisationDUrbanisme
+          ? {
+              date: dateDAutorisationDUrbanisme.toISOString() as Iso8601DateTime,
+              numéro: numéroDAutorisationDUrbanisme,
+            }
           : undefined,
     };
   });

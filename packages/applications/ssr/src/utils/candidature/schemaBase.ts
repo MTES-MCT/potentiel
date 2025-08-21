@@ -2,11 +2,7 @@ import { z } from 'zod';
 
 export const requiredStringSchema = z.string().trim().min(1);
 
-export const optionalStringSchema = z
-  .string()
-  .trim()
-  .optional()
-  .transform((val) => val ?? '');
+export const optionalStringSchema = z.string().trim().optional();
 
 export const _numberSchemaBase = z
   .string()
