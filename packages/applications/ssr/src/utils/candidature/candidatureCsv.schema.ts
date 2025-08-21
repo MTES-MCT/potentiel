@@ -228,7 +228,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
     );
   })
   // Transforme les valeurs en index ("1,2,3") en des valeurs plus claires ("avec-date-échéance")
-  .transform(({ numéroDAutorisationDUrbanisme, dateDAutorisationDUrbanisme, ...val }) => {
+  .transform((val) => {
     return {
       ...val,
       typeGarantiesFinancières: val.typeGarantiesFinancières
@@ -249,10 +249,10 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
           : undefined,
       autorisationDUrbanisme:
-        dateDAutorisationDUrbanisme && numéroDAutorisationDUrbanisme
+        val.dateDAutorisationDUrbanisme && val.numéroDAutorisationDUrbanisme
           ? {
-              date: dateDAutorisationDUrbanisme.toISOString() as Iso8601DateTime,
-              numéro: numéroDAutorisationDUrbanisme,
+              date: val.dateDAutorisationDUrbanisme.toISOString() as Iso8601DateTime,
+              numéro: val.numéroDAutorisationDUrbanisme,
             }
           : undefined,
     };
