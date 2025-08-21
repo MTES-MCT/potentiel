@@ -207,3 +207,10 @@ Fonctionnalité: Importer une candidature
             | appel d'offre     | PPE2 - Bâtiment |
             | puissance de site | 200             |
         Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offre qui a ces champs requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           |                          |
+            | date d'obtention de l'autorisation d'urbanisme |                          |
+        Alors l'administrateur devrait être informé que "le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cette appel d'offre"
