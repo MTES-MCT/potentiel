@@ -13,6 +13,7 @@ import {
   optionalOuiNonSchema,
   optionalOuiNonVideSchema,
   optionalStringSchema,
+  optionalStringWithDefaultValueSchema,
   ouiNonSchema,
   requiredStringSchema,
   strictlyPositiveNumberSchema,
@@ -20,10 +21,10 @@ import {
 
 export const appelOffreSchema = requiredStringSchema;
 export const périodeSchema = requiredStringSchema;
-export const familleSchema = optionalStringSchema;
+export const familleSchema = optionalStringWithDefaultValueSchema;
 export const numéroCRESchema = requiredStringSchema;
 export const nomProjetSchema = requiredStringSchema;
-export const sociétéMèreSchema = optionalStringSchema;
+export const sociétéMèreSchema = optionalStringWithDefaultValueSchema;
 export const nomCandidatSchema = requiredStringSchema;
 export const puissanceProductionAnnuelleSchema = strictlyPositiveNumberSchema;
 export const prixRéférenceSchema = strictlyPositiveNumberSchema;
@@ -31,7 +32,7 @@ export const noteTotaleSchema = numberSchema;
 export const nomReprésentantLégalSchema = requiredStringSchema;
 export const emailContactSchema = requiredStringSchema.email();
 export const adresse1Schema = requiredStringSchema;
-export const adresse2Schema = optionalStringSchema.transform((val) => val || '');
+export const adresse2Schema = optionalStringWithDefaultValueSchema;
 
 const normalizeStringArray = (value: string) =>
   value
@@ -55,7 +56,7 @@ export const communeSchema = requiredStringSchema.transform(normalizeStringArray
 export const départementSchema = requiredStringSchema;
 export const régionSchema = requiredStringSchema;
 export const doitRegenererAttestationSchema = booleanSchema.optional();
-export const motifEliminationSchema = optionalStringSchema.transform((val) => val || undefined);
+export const motifEliminationSchema = optionalStringSchema;
 export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
@@ -69,7 +70,7 @@ export const dateEchéanceOuDéliberationGfSchema = z
   .string()
   .transform((str) => (str ? new Date(str) : undefined))
   .optional();
-export const territoireProjetSchema = optionalStringSchema;
+export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
 
