@@ -2,10 +2,8 @@
 
 import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useSearchParams } from 'next/navigation';
-import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
@@ -88,31 +86,6 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
           disabled={!appelOffre}
         />
       </div>
-      <Input
-        label={
-          <>
-            Numéro de la démarche{' '}
-            <Tooltip
-              kind="hover"
-              title={
-                <>
-                  Ce numéro peut-être trouvé dans l'URL de la démarche :
-                  <br />
-                  https://demarches.numerique.gouv.fr/admin/procedures/XXX
-                </>
-              }
-            />
-          </>
-        }
-        className="max-w-64"
-        nativeInputProps={{
-          name: 'demarcheId',
-          type: 'number',
-          required: true,
-        }}
-        state={validationErrors['demarcheId'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['demarcheId']}
-      />
       <UploadNewOrModifyExistingDocument
         label="Fichier CSV d'instruction des candidatures"
         name="fichierInstruction"

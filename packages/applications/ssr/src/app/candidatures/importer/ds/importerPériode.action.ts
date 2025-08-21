@@ -16,6 +16,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
+import { statutCsvSchema } from '@/utils/candidature';
 
 import { getLocalité } from '../../_helpers';
 
@@ -23,8 +24,6 @@ const schema = zod.object({
   appelOffre: zod.string(),
   periode: zod.string(),
   famille: zod.string().optional(),
-
-  demarcheId: zod.coerce.number(),
 
   fichierInstruction: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 
@@ -38,14 +37,14 @@ export type ImporterPériodeFormKeys = keyof zod.infer<typeof schema>;
 
 const instructionCsvSchema = zod.object({
   numeroDossierDS: zod.coerce.number(),
-  statut: instructionSchema.shape.statut,
+  statut: statutCsvSchema,
   note: instructionSchema.shape.noteTotale,
   motifElimination: instructionSchema.shape.motifÉlimination,
 });
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { appelOffre, periode, fichierInstruction, demarcheId, test },
+  { appelOffre, periode, fichierInstruction, test },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     let success: number = 0;
@@ -116,7 +115,7 @@ const action: FormAction<FormState, typeof schema> = async (
           },
           détailsValue: {
             typeImport: 'démarches-simplifiées',
-            demarcheId,
+            demarcheId: dossier.demarcheId,
             pièceJustificativeGf: dossier.fichiers.garantiesFinancièresUrl ?? '',
           },
           instructionValue: instruction,
@@ -203,14 +202,17 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       result: {
         successMessage: `${success} candidatures ont été importées avec succès.`,
-        link: {
-          href: Routes.Candidature.lister({
-            appelOffre,
-            période: periode,
-            estNotifié: false,
-          }),
-          label: 'Voir les candidatures importées',
-        },
+        link:
+          success > 0
+            ? {
+                href: Routes.Candidature.lister({
+                  appelOffre,
+                  période: periode,
+                  estNotifié: false,
+                }),
+                label: 'Voir les candidatures importées',
+              }
+            : undefined,
         errors,
       },
     };

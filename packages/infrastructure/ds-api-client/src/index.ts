@@ -12,6 +12,7 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
     const { dossier } = await sdk.GetDossier({ dossier: dossierNumber });
 
     return {
+      demarcheId: dossier.demarche.number,
       dépôt: mapApiResponseToDépôt(dossier),
       fichiers: mapApiResponseToFichiers(dossier),
       détails: mapApiResponseToDétails(dossier),
