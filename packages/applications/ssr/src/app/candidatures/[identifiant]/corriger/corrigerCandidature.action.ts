@@ -19,7 +19,7 @@ import {
 
 export type CorrigerCandidaturesState = FormState;
 
-// sans les accents, et avec ls champs spécifiques à la correction
+// sans les accents, et avec les champs spécifiques à la correction
 const schema = zod
   .object({
     identifiantProjet: identifiantProjetSchema,
