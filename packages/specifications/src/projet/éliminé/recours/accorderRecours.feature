@@ -5,19 +5,21 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Sol |
 
+    @select
     Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
-        Et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille"
+        Et il ne devrait pas y avoir de garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
 
+    @select
     Scénario: Un DGEC validateur accorde le recours en instruction d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
-        Et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille"
+        Et il ne devrait pas y avoir de garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
 
