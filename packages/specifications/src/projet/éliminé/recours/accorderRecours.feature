@@ -9,7 +9,7 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
-        Et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille"
+        Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
 
@@ -17,7 +17,7 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
-        Et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille"
+        Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
 

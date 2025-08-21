@@ -16,7 +16,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Et le porteur ne doit plus avoir accès au projet lauréat
         Et le projet lauréat est consultable dans la liste des projets à réclamer
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Et il ne devrait pas y avoir de garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
             | raison          | changement de producteur |
             | type GF         | avec-date-échéance       |

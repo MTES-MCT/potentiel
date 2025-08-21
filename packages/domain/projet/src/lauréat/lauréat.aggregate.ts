@@ -39,6 +39,7 @@ import { ReprésentantLégalAggregate } from './représentantLégal/représentan
 import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
 import { DélaiAggregate } from './délai/délai.aggregate';
 import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate';
+import { NotifierOptions } from './notifier/notifierLauréat.option';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -184,7 +185,7 @@ export class LauréatAggregate extends AbstractAggregate<
     );
   }
 
-  async notifier({ attestation: { format } }: { attestation: { format: string } }) {
+  async notifier({ attestation: { format }, importerGarantiesFinancières }: NotifierOptions) {
     this.vérifierQueLeLauréatPeutÊtreNotifié();
 
     const { notifiéeLe, notifiéePar, nomProjet, localité } = this.projet.candidature;
@@ -204,10 +205,12 @@ export class LauréatAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
-    await this.garantiesFinancières.importer({
-      garantiesFinancières: this.projet.candidature.garantiesFinancières,
-      importéLe: notifiéeLe,
-    });
+    if (importerGarantiesFinancières) {
+      await this.garantiesFinancières.importer({
+        garantiesFinancières: this.projet.candidature.garantiesFinancières,
+        importéLe: notifiéeLe,
+      });
+    }
 
     await this.producteur.importer({
       identifiantProjet: this.projet.identifiantProjet,
