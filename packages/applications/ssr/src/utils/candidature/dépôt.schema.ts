@@ -20,6 +20,7 @@ import {
   typologieDeBâtimentSchema,
   élémentsSousOmbrièreSchema,
   typeInstallationsAgrivoltaiquesSchema,
+  puissanceDeSiteSchema,
 } from './candidatureFields.schema';
 import { localitéSchema } from './localité.schema';
 
@@ -44,6 +45,7 @@ export const dépôtSchema = z.object({
   typologieDeBâtiment: typologieDeBâtimentSchema,
   obligationDeSolarisation: obligationDeSolarisationSchema,
   élémentsSousOmbrière: élémentsSousOmbrièreSchema,
+  puissanceDeSite: puissanceDeSiteSchema,
 
   localité: localitéSchema,
 });

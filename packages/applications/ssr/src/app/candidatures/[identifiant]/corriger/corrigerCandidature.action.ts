@@ -46,6 +46,7 @@ const schema = zod
     dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
     dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
     coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
+    puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
 
     statut: instructionSchema.shape.statut,
     motifElimination: instructionSchema.shape.motifÉlimination,
