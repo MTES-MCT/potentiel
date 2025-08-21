@@ -119,6 +119,13 @@ const mapBodyToUseCaseData = (
         : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
+      autorisationDUrbanisme:
+        data.numéroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
+          ? {
+              numéro: data.numéroDAutorisationDUrbanisme,
+              date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
+            }
+          : undefined,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,

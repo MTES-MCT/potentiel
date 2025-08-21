@@ -3,7 +3,7 @@ import { test, describe } from 'node:test';
 import { expect, assert } from 'chai';
 import { SafeParseReturnType, SafeParseSuccess } from 'zod';
 
-import { CandidatureCsvRowShape, candidatureCsvSchema } from '.';
+import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '.';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   "Appel d'offres": "appel d'offre",
@@ -56,7 +56,7 @@ describe('Schema candidature', () => {
       ...minimumValuesEliminé,
     });
     assertNoError(result);
-    expect(result.data).to.deep.equal({
+    const expected: CandidatureShape = {
       appelOffre: "appel d'offre",
       période: 'période',
       famille: '',
@@ -91,13 +91,15 @@ describe('Schema candidature', () => {
       obligationDeSolarisation: undefined,
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
-    });
+      autorisationDUrbanisme: undefined,
+    };
+    expect(result.data).to.deep.equal(expected);
   });
 
   test('Cas nominal, classé', () => {
     const result = candidatureCsvSchema.safeParse(minimumValuesClassé);
     assertNoError(result);
-    expect(result.data).to.deep.equal({
+    const expected: CandidatureShape = {
       appelOffre: "appel d'offre",
       période: 'période',
       famille: '',
@@ -132,7 +134,9 @@ describe('Schema candidature', () => {
       obligationDeSolarisation: undefined,
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
-    });
+      autorisationDUrbanisme: undefined,
+    };
+    expect(result.data).to.deep.equal(expected);
   });
 
   test('Champs optionnels, spécifiques à certains AOs', () => {
@@ -144,9 +148,11 @@ describe('Schema candidature', () => {
       'Eléments sous l’ombrière': '...',
       'Typologie de bâtiment': 'Bâtiment existant avec rénovation de toiture',
       'Obligation de solarisation': 'Oui',
+      "Date d'obtention de l'autorisation d'urbanisme": '21/08/2025',
+      "Numéro de l'autorisation d'urbanisme": '123',
     });
     assertNoError(result);
-    expect(result.data).to.deep.equal({
+    const expected: CandidatureShape = {
       appelOffre: "appel d'offre",
       période: 'période',
       famille: '',
@@ -181,7 +187,9 @@ describe('Schema candidature', () => {
       obligationDeSolarisation: true,
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
-    });
+      autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
+    };
+    expect(result.data).to.deep.equal(expected);
   });
 
   describe('Erreurs courantes', () => {
