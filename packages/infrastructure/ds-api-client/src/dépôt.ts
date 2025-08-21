@@ -17,6 +17,7 @@ const colonnes = {
   emailContact: 'Adresse électronique du contact',
   nomProjet: 'Nom du projet',
   puissanceProductionAnnuelle: 'Puissance installée P',
+  puissanceDeSite: 'Puissance P+Q',
   prixReference: 'Prix unitaire de référence',
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
@@ -52,7 +53,7 @@ export const mapApiResponseToDépôt = ({
     //  2. Identification du projet
     nomProjet: accessor.getStringValue('nomProjet'),
     puissanceProductionAnnuelle: accessor.getNumberValue('puissanceProductionAnnuelle'),
-    // TODO Puissance du site p+q
+    puissanceDeSite: accessor.getNumberValue('puissanceDeSite'),
 
     prixReference: accessor.getNumberValue('prixReference'),
     evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
