@@ -199,6 +199,12 @@ const mapBodyToCandidatureUsecaseData = (
       typeInstallationsAgrivoltaiques: previous.typeInstallationsAgrivoltaiques?.formatter(),
       typologieDeBâtiment: previous.typologieDeBâtiment?.formatter(),
       élémentsSousOmbrière: previous.élémentsSousOmbrière,
+      autorisationDUrbanisme: previous.autorisationDUrbanisme
+        ? {
+            date: previous.autorisationDUrbanisme.date.formatter(),
+            numéro: previous.autorisationDUrbanisme.numéro,
+          }
+        : undefined,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

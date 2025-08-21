@@ -55,16 +55,6 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
               dateDélibérationGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
               localité: getLocalité(line),
-              autorisationDUrbanisme:
-                // TO DO : dans le candidatureCsv.schema : si on a le numéro on doit avoir la date
-                line.dateDAutorisationDUrbanisme && line.numéroDAutorisationDUrbanisme
-                  ? {
-                      date: DateTime.convertirEnValueType(
-                        line.dateDAutorisationDUrbanisme,
-                      ).formatter(),
-                      numéro: line.numéroDAutorisationDUrbanisme,
-                    }
-                  : undefined,
             },
             instructionValue: line,
             détailsValue: rawLine,

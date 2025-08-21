@@ -120,9 +120,9 @@ const mapBodyToUseCaseData = (
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
       autorisationDUrbanisme:
-        data.numéroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
+        data.numeroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
           ? {
-              numéro: data.numéroDAutorisationDUrbanisme,
+              numéro: data.numeroDAutorisationDUrbanisme,
               date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
             }
           : undefined,
