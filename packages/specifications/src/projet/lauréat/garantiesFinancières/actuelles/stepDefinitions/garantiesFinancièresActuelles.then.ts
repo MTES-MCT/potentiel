@@ -72,9 +72,9 @@ Alors(
 );
 
 Alors(
-  `il ne devrait pas y avoir de garanties financières actuelles pour le projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
       const garantiesFinancièresActuelles =
