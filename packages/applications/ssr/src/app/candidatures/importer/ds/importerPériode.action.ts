@@ -53,7 +53,7 @@ const action: FormAction<FormState, typeof schema> = async (
     const { parsedData: instructions } = await parseCsv(
       fichierInstruction.content,
       instructionCsvSchema,
-      { encoding: 'win1252', delimiter: ';' },
+      { delimiter: ';' },
     );
 
     const candidatures: Omit<
