@@ -65,6 +65,7 @@
     "@types/react-dom": "^18.3.6",
     "@types/swagger-ui-react": "^4.19.0",
     "autoprefixer": "^10.4.21",
+    "diff": "^8.0.2",
     "glob": "^11.0.3",
     "postcss": "^8.5.3",
     "sass": "^1.86.3",
