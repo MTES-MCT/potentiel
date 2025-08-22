@@ -109,7 +109,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
       : undefined,
     coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
     puissanceDeSite: candidature.dépôt.puissanceDeSite,
-    numéroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro
+    numeroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro
       ? candidature.dépôt.autorisationDUrbanisme.numéro
       : undefined,
     dateDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.date
