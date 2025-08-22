@@ -488,7 +488,7 @@ const migrerDocumentProjet = async (
           return {
             format,
           };
-        } catch (e) {
+        } catch {
           throw new Error(
             `Impossible de copier le fichier de ${sourceKey} vers ${pièceJustificative.formatter()}`,
           );
@@ -535,7 +535,7 @@ const uploadReplacementDoc: UploadReplacementDoc = async ({
     try {
       await upload(pièceJustificative.formatter(), doc);
       generateFileCount++;
-    } catch (error) {
+    } catch (_error) {
       throw new Error(
         `Impossible de créer le fichier de remplacement vers ${pièceJustificative.formatter()}`,
       );

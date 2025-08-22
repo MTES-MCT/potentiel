@@ -22,7 +22,7 @@ export const ajouterFiligrane = async (
     const documentAvecFiligrane = await getWatermarkedFile(token);
 
     return documentAvecFiligrane;
-  } catch (error) {
+  } catch {
     /**
      * @todo À investiguer parce qu'aujourd'hui ça casse le build SSR
      */
