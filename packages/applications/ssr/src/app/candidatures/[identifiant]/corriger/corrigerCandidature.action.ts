@@ -46,6 +46,8 @@ const schema = zod.object({
   dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
   coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
   puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
+  dateDAutorisationDUrbanisme: dépôtSchema.shape.dateDAutorisationDUrbanisme,
+  numeroDAutorisationDUrbanisme: dépôtSchema.shape.numéroDAutorisationDUrbanisme,
 
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
