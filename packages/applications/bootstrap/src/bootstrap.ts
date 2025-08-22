@@ -1,23 +1,22 @@
-import { Middleware, mediator } from 'mediateur';
+import { type Middleware, mediator } from 'mediateur';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { setupLauréat } from './setupLauréat';
-import { setupDocumentProjet } from './setupDocumentProjet';
-import { setupAppelOffre } from './setupAppelOffre';
-import { setupTâche } from './setupTâche';
-import { setupUtilisateur } from './setupUtilisateur';
-import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
+import { setupAppelOffre } from './setupAppelOffre';
+import { setupDocumentProjet } from './setupDocumentProjet';
+import { setupHistorique } from './setupHistorique';
+import { setupLauréat } from './setupLauréat';
 import { setupProjet } from './setupProjet';
 import { setupPériode } from './setupPériode';
-import { setupHistorique } from './setupHistorique';
+import { setupRéseau } from './setupRéseau';
 import { setupStatistiques } from './setupStatistiques';
+import { setupTâche } from './setupTâche';
+import { setupUtilisateur } from './setupUtilisateur';
 
 let unsubscribe: (() => Promise<void>) | undefined;
-let mutex: Promise<void> | undefined;
 
 const defaultDependencies = {
   sendEmail,
@@ -32,13 +31,6 @@ export const bootstrap = async ({
   middlewares,
   dependencies,
 }: BootstrapProps): Promise<() => Promise<void>> => {
-  // if there's already a bootstrap operation in progress, wait for it to finish
-  if (mutex) {
-    await mutex;
-  }
-  let resolveMutex: (() => void) | undefined;
-  mutex = new Promise((r) => (resolveMutex = r));
-
   if (!unsubscribe) {
     mediator.use({
       middlewares: [logMiddleware, ...middlewares],
@@ -75,9 +67,5 @@ export const bootstrap = async ({
       unsubscribe = undefined;
     };
   }
-  if (resolveMutex) {
-    resolveMutex();
-  }
-  mutex = undefined;
   return unsubscribe;
 };

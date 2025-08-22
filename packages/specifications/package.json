@@ -6,8 +6,6 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "lint": "eslint ./src --ext .ts",
-    "format": "prettier './src/**/*.{ts,feature}' --write",
     "test": "cucumber-js --tags \"not @NotImplemented\"",
     "test:select": "cucumber-js --tags @select --tags \"not @NotImplemented\""
   },

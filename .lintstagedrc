@@ -1,4 +1,8 @@
 {
-  "*.{js,ts,jsx,tsx,json,md,yml,yaml}": "eslint --fix",
-  "*.{json,yml,yaml,feature}": "prettier -w"
+  "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc,md,yml,yaml}": [
+    "biome check",
+    "biome format --write --no-errors-on-unmatched",
+    "biome lint --write --no-errors-on-unmatched"
+  ],
+  "*": ["biome check --no-errors-on-unmatched --files-ignore-unknown=true"]
 }
