@@ -28,6 +28,7 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-infrastructure/ds-api-client": "*",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monitoring": "*",
@@ -36,6 +37,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@json2csv/plainjs": "^7.0.6",
     "@potentiel-config/tsconfig": "*",
     "@types/node": "^18.19.37",
     "oclif": "^4.20.4",

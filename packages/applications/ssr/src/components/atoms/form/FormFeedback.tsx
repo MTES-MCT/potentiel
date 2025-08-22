@@ -3,6 +3,7 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useFormStatus } from 'react-dom';
+import Link from 'next/link';
 
 import { FormState } from '@/utils/formAction';
 
@@ -23,13 +24,27 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState }) => {
     case 'success':
       if (formState.result) {
         const {
-          result: { successMessage, errors },
+          result: { successMessage, errors, link },
         } = formState;
 
         return (
           <>
             {successMessage && (
-              <Alert small closable severity="success" description={<p>{successMessage}</p>} />
+              <Alert
+                small
+                closable
+                severity="success"
+                description={
+                  <div className="flex flex-col gap-2">
+                    <p>{successMessage}</p>
+                    {link && (
+                      <p>
+                        <Link href={link.href}>{link.label}</Link>
+                      </p>
+                    )}
+                  </div>
+                }
+              />
             )}
             {errors.length > 0 && (
               <Alert

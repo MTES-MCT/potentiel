@@ -1,0 +1,51 @@
+import { z } from 'zod';
+
+import {
+  actionnariatSchema,
+  dateEchéanceOuDéliberationGfSchema,
+  emailContactSchema,
+  évaluationCarboneSimplifiéeSchema,
+  nomCandidatSchema,
+  nomProjetSchema,
+  nomReprésentantLégalSchema,
+  prixRéférenceSchema,
+  puissanceALaPointeSchema,
+  puissanceProductionAnnuelleSchema,
+  sociétéMèreSchema,
+  technologieSchema,
+  typeGarantiesFinancieresSchema,
+  choixCoefficientKSchema,
+  historiqueAbandonSchema,
+  obligationDeSolarisationSchema,
+  typologieDeBâtimentSchema,
+  élémentsSousOmbrièreSchema,
+  typeInstallationsAgrivoltaiquesSchema,
+  puissanceDeSiteSchema,
+} from './candidatureFields.schema';
+import { localitéSchema } from './localité.schema';
+
+export const dépôtSchema = z.object({
+  nomProjet: nomProjetSchema,
+  sociétéMère: sociétéMèreSchema,
+  nomCandidat: nomCandidatSchema,
+  puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
+  prixReference: prixRéférenceSchema,
+  nomReprésentantLégal: nomReprésentantLégalSchema,
+  emailContact: emailContactSchema,
+  puissanceALaPointe: puissanceALaPointeSchema,
+  evaluationCarboneSimplifiée: évaluationCarboneSimplifiéeSchema,
+  actionnariat: actionnariatSchema,
+  technologie: technologieSchema,
+  typeGarantiesFinancières: typeGarantiesFinancieresSchema,
+  dateÉchéanceGf: dateEchéanceOuDéliberationGfSchema,
+  dateDélibérationGf: dateEchéanceOuDéliberationGfSchema,
+  coefficientKChoisi: choixCoefficientKSchema,
+  historiqueAbandon: historiqueAbandonSchema,
+  typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiquesSchema,
+  typologieDeBâtiment: typologieDeBâtimentSchema,
+  obligationDeSolarisation: obligationDeSolarisationSchema,
+  élémentsSousOmbrière: élémentsSousOmbrièreSchema,
+  puissanceDeSite: puissanceDeSiteSchema,
+
+  localité: localitéSchema,
+});

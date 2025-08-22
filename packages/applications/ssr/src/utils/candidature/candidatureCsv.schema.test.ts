@@ -272,7 +272,7 @@ describe('Schema candidature', () => {
     test('nombre strictement positif vaut 0', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
-        puissance_production_annuelle: '0',
+        puissance_production_annuelle: 0,
       });
       assert(!result.success);
       expect(result.error.errors[0]).to.deep.eq({
@@ -293,11 +293,13 @@ describe('Schema candidature', () => {
       });
       assert(!result.success);
       expect(result.error.errors[0]).to.deep.eq({
-        code: 'invalid_type',
-        expected: 'string',
-        received: 'number',
+        code: 'too_small',
+        minimum: 0,
+        type: 'number',
+        inclusive: false,
+        exact: false,
+        message: 'Le champ doit être un nombre positif',
         path: ['puissance_production_annuelle'],
-        message: 'Expected string, received number',
       });
     });
 

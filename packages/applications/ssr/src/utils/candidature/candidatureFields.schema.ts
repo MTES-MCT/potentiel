@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
 
@@ -17,6 +18,8 @@ import {
   requiredStringSchema,
   strictlyPositiveNumberSchema,
 } from './schemaBase';
+
+export const identifiantProjetSchema = requiredStringSchema;
 
 export const appelOffreSchema = requiredStringSchema;
 export const périodeSchema = requiredStringSchema;
@@ -59,19 +62,26 @@ export const motifEliminationSchema = optionalStringSchema.transform((val) => va
 export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
-export const statutSchema = z.enum(Candidature.StatutCandidature.statuts).optional(); // plus modifiable une fois notifiée
+export const statutSchema = z.enum(Candidature.StatutCandidature.statuts);
 export const puissanceALaPointeSchema = booleanSchema;
 export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
+export const historiqueAbandonSchema = z.enum(Candidature.HistoriqueAbandon.types);
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
+export const typologieDeBâtimentSchema = optionalEnum(z.enum(Candidature.TypologieBâtiment.types));
+export const typeInstallationsAgrivoltaiquesSchema = optionalEnum(
+  z.enum(Candidature.TypeInstallationsAgrivoltaiques.types),
+);
 export const dateEchéanceOuDéliberationGfSchema = z
   .string()
-  .transform((str) => (str ? new Date(str) : undefined))
+  .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
   .optional();
 export const territoireProjetSchema = optionalStringSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
+export const obligationDeSolarisationSchema = booleanSchema.optional();
+export const élémentsSousOmbrièreSchema = z.string().optional();
 
 export const puissanceDeSiteSchema = optionalNumberSchema;
 
@@ -84,10 +94,18 @@ export const technologieCsvSchema = z
   .union([z.enum(['N/A', 'Eolien', 'Hydraulique', 'PV']), z.literal('')])
   .optional()
   .transform((val) => val || 'N/A');
+
+const statut = {
+  éliminé: 'éliminé',
+  eliminé: 'éliminé',
+  classé: 'classé',
+  retenu: 'classé',
+} satisfies Record<string, Candidature.StatutCandidature.RawType>;
 export const statutCsvSchema = z
   .string()
   .toLowerCase()
-  .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']));
+  .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']))
+  .transform((val) => statut[val]);
 
 export const adresse1CsvSchema = optionalStringSchema;
 export const dateEchéanceGfCsvSchema = dateSchema.optional();

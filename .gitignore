@@ -146,3 +146,6 @@ test-results/
 
 # Turbo repo
 .turbo
+
+# Generated Graphql client
+packages/infrastructure/ds-api-client/src/graphql/client.ts

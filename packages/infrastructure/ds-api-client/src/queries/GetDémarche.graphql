@@ -1,0 +1,11 @@
+query GetDemarche($demarche: Int!) {
+  demarche(number: $demarche) {
+    number
+    dossiers {
+      nodes {
+        number
+        state
+      }
+    }
+  }
+}

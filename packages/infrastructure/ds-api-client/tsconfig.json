@@ -1,0 +1,25 @@
+{
+  "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./schema.graphql"
+      }
+    ]
+  },
+  "include": ["./src"],
+  "references": [
+    {
+      "path": "../../libraries/monads"
+    },
+    {
+      "path": "../../libraries/monitoring"
+    },
+    {
+      "path": "../../domain/projet"
+    }
+  ]
+}

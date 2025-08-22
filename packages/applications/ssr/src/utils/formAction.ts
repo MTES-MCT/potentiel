@@ -28,6 +28,10 @@ zod.setErrorMap(zodI18nMap);
 
 export type ActionResult = {
   successMessage: string;
+  link?: {
+    href: string;
+    label: string;
+  };
   errors: Array<{
     key: string;
     reason: string;

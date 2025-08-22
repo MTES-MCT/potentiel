@@ -8,7 +8,7 @@ import {
 import {
   ListerPériodesDependencies,
   registerListerPériodesQuery,
-} from './lister/listerPériode.query';
+} from './lister/listerPériodes.query';
 import { registerNotifierPériodeCommand } from './notifier/notifierPériode.command';
 import { registerNotifierPériodeUseCase } from './notifier/notifierPériode.usecase';
 

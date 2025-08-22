@@ -16,25 +16,37 @@ export const ImporterCandidaturesPage: FC = () => (
     rightColumn={{
       className: 'mt-20',
       children: (
-        <Alert
-          severity="info"
-          small
-          description={
-            <div className="py-4 text-justify">
-              Il est possible de corriger des candidat existants:
-              <ul className="list-disc px-4">
-                <li>
-                  au cas par cas, via la{' '}
-                  <Link href={Routes.Candidature.lister()}>page des candidatures</Link>
-                </li>
-                <li>
-                  par lot (CSV), via la{' '}
-                  <Link href={Routes.Candidature.corrigerParLot}>page de correction</Link>
-                </li>
-              </ul>
-            </div>
-          }
-        />
+        <div className="flex flex-col gap-2">
+          <Alert
+            severity="info"
+            small
+            description={
+              <div className="py-4 ">
+                Pour importer des candidatures depuis Démarches Simplifiée, c'est{' '}
+                <Link href={Routes.Candidature.importerDS}>ici</Link>.
+              </div>
+            }
+          />
+          <Alert
+            severity="info"
+            small
+            description={
+              <div className="py-4 text-justify">
+                Il est possible de corriger des candidat existants:
+                <ul className="list-disc px-4">
+                  <li>
+                    au cas par cas, via la{' '}
+                    <Link href={Routes.Candidature.lister()}>page des candidatures</Link>
+                  </li>
+                  <li>
+                    par lot (CSV), via la{' '}
+                    <Link href={Routes.Candidature.corrigerParLot}>page de correction</Link>
+                  </li>
+                </ul>
+              </div>
+            }
+          />
+        </div>
       ),
     }}
   />

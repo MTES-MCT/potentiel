@@ -1,6 +1,7 @@
 import { encodeParameter } from '../encodeParameter';
 
 export const importer = '/candidatures/importer';
+export const importerDS = '/candidatures/importer/ds';
 export const corrigerParLot = '/candidatures/corriger-par-lot';
 
 type ListerFilters = {

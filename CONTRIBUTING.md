@@ -3,6 +3,7 @@
 👋 Bienvenue sur le guide de contribution du projet **Potentiel**. Avant tout, nous tenons à vous remercier pour le temps que vous allez consacrer à l'amélioration du projet 🙏
 
 ## Table des matières
+
 - [Contribuer à Potentiel](#contribuer-à-potentiel)
   - [Table des matières](#table-des-matières)
   - [ Developer's Certificate of Origin 1.1](#-developers-certificate-of-origin-11)
@@ -23,6 +24,7 @@
 > (d) Je comprends et accepte que ce projet et ma contribution sont publics, et qu’un enregistrement de cette contribution (comprenant également l’ensemble des informations à caractère personnel me concernant et notamment ma signature) soit attaché indéfiniment à ce projet et qu’il peut librement être rediffusé à des tiers conformément à la licence applicable au projet ou aux autres licences impliquées.
 
 ## <a id="premiers-pas"></a> Premiers pas dans le projet Potentiel
+
 - [Mise en place du projet](./docs/contributing/GETTING_STARTED.md#mise-en-place-du-projet)
 - [Keycloack](./docs/contributing/GETTING_STARTED.md#keycloak)
 - [Configurer un environnement local](./docs/contributing/GETTING_STARTED.md#configurer-un-environnement-local)
@@ -30,12 +32,15 @@
 - [Lancer les tests](./docs/contributing/GETTING_STARTED.md#lancer-les-tests)
 - [Metabase](./docs/contributing//GETTING_STARTED.md#metabase)
 - [Restaurer un dump de la base de données](./docs/contributing/GETTING_STARTED.md#restaurer-dump-db)
+- [Démarches Simplifiées](./docs/contributing/DEMARCHES_SIMPLIFIEES.md)
 
 ## <a id="architecture"></a> Architecture
+
 - [Patterns d'architecture](./docs/contributing/ARCHITECTURE.md#patterns-darchitecture)
 - [API](./docs/contributing/API.md)
 
 ## <a id="flow-développement"></a> Flow de développement
+
 - [Organisation du code source](./docs/contributing/DEVELOPMENT_FLOW.md#organisation-du-code-source)
 - [Scripts NPM](./docs/contributing/DEVELOPMENT_FLOW.md#scripts-npm)
 - [Environnements](./docs/contributing/DEVELOPMENT_FLOW.md#environnements)

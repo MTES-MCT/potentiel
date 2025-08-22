@@ -33,6 +33,7 @@
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
+    "@potentiel-infrastructure/ds-api-client": "*",
     "@potentiel-infrastructure/filigrane-facile-client": "*",
     "@potentiel-infrastructure/geo-api-client": "*",
     "@potentiel-libraries/csv": "*",

@@ -55,13 +55,6 @@ const historiqueAbandon = [
   'lauréat-autre-période',
 ] satisfies Array<Candidature.HistoriqueAbandon.RawType>;
 
-const statut = {
-  éliminé: 'éliminé',
-  eliminé: 'éliminé',
-  classé: 'classé',
-  retenu: 'classé',
-} satisfies Record<string, Candidature.StatutCandidature.RawType>;
-
 const technologie = {
   Eolien: 'eolien',
   Hydraulique: 'hydraulique',
@@ -165,7 +158,7 @@ const candidatureCsvRowSchema = z
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
-    const actualStatut = statut[obj[colonnes.statut]];
+    const actualStatut = obj[colonnes.statut];
     if (actualStatut === 'éliminé' && !obj[colonnes.motifÉlimination]) {
       ctx.addIssue(
         conditionalRequiredError(colonnes.motifÉlimination, colonnes.statut, actualStatut),
@@ -174,7 +167,7 @@ const candidatureCsvRowSchema = z
   })
   // le type de GF est obligatoire si la candidature est classée
   .superRefine((obj, ctx) => {
-    const actualStatut = statut[obj[colonnes.statut]];
+    const actualStatut = obj[colonnes.statut];
     const ao = obj[colonnes.appelOffre];
     const isPPE2 = ao.startsWith('PPE2');
     if (isPPE2 && actualStatut === 'classé' && !obj[colonnes.typeGarantiesFinancières]) {
@@ -185,7 +178,7 @@ const candidatureCsvRowSchema = z
   })
   // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
   .superRefine((obj, ctx) => {
-    const actualStatut = statut[obj[colonnes.statut]];
+    const actualStatut = obj[colonnes.statut];
     if (actualStatut === 'éliminé') return;
     const actualTypeGf = obj[colonnes.typeGarantiesFinancières]
       ? typeGf[Number(obj[colonnes.typeGarantiesFinancières]) - 1]
@@ -236,7 +229,6 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
         ? typeGf[Number(val.typeGarantiesFinancières) - 1]
         : undefined,
       historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
-      statut: statut[val.statut],
       technologie: technologie[val.technologie],
       typologieDeBâtiment: val.typologieDeBâtiment
         ? typologieDeBâtiment[val.typologieDeBâtiment]
