@@ -56,7 +56,9 @@ export const SaisieNomStep: FC<SaisieNomProps> = ({
         defaultValue: nomReprésentantLégal,
         onChange: ({ target: { value } }) => {
           delete validationErrors.nomRepresentantLegal;
-          onChange && onChange(value);
+          if (onChange) {
+            onChange(value);
+          }
         },
       }}
       state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}

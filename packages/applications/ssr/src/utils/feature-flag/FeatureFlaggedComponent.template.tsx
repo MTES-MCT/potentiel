@@ -21,7 +21,9 @@ export const FeatureFlaggedComponent: FC<FeatureFlaggedComponent> = ({
   const isFeatureOn = features.includes(feature);
 
   if (!isFeatureOn) {
-    isOff && isOff();
+    if (isOff) {
+      isOff();
+    }
     return offRender;
   }
 

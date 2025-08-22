@@ -4,6 +4,7 @@ export type PlainType<T> =
     : T extends ReadonlyArray<infer U>
       ? ReadonlyArray<PlainType<U>>
       : {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
           [K in keyof T as T[K] extends Function ? never : K]: T[K] extends Array<infer U>
             ? Array<PlainType<U>>
             : T[K] extends ReadonlyArray<infer U>

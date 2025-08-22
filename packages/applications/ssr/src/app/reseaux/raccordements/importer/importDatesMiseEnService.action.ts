@@ -94,7 +94,9 @@ const action: FormAction<FormState, typeof schema> = async (
           referenceDossier,
           dateMiseEnService,
         );
-        errorTransmission && errors.push(errorTransmission);
+        if (errorTransmission) {
+          errors.push(errorTransmission);
+        }
       } else {
         errors.push(errorAttribution);
       }
@@ -130,7 +132,9 @@ const action: FormAction<FormState, typeof schema> = async (
             referenceDossier,
             dateMiseEnService,
           );
-          errorTransmission && errors.push(errorTransmission);
+          if (errorTransmission) {
+            errors.push(errorTransmission);
+          }
         } else {
           errors.push(errorAttribution);
         }

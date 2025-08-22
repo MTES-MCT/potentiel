@@ -1,9 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const;
-
-export type DateParutionCahierDesChargesModifié =
-  (typeof datesParutionCahiersDesChargesModifiés)[number];
+export type DateParutionCahierDesChargesModifié = '30/07/2021' | '30/08/2022' | '07/02/2023';
 
 export const références = [
   'initial',

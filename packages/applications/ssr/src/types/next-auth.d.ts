@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { PotentielJWT, PotentielSession } from '@potentiel-applications/request-context';
 
 declare module 'next-auth/jwt' {

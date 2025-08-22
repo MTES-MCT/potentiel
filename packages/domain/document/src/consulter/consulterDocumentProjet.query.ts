@@ -36,7 +36,7 @@ export const registerConsulterDocumentProjetQuery = ({
         content,
         format,
       };
-    } catch (error) {
+    } catch {
       return Option.none;
     }
   };
