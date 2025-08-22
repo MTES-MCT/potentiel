@@ -39,8 +39,8 @@ import {
   typologieDeBâtimentCsvSchema,
   obligationDeSolarisationCsvSchema,
   puissanceDeSiteSchema,
-  dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
+  dateDAutorisationDUrbanismeCsvSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -154,7 +154,7 @@ const candidatureCsvRowSchema = z
     [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
-    [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeSchema,
+    [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
