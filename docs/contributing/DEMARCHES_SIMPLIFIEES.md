@@ -51,3 +51,20 @@ Ce jeton doit avoir accès à la démarche concernée.
 À ce jour (Août 2025), un compte Instructeur ne peut pas accéder aux Dossiers d'une démarche; un compte Administrateur est requis.
 Afin de garantir l'indépendence de la CRE, Potentiel n'a pas d'accès Administrateur à la démarche.
 À la place, la CRE gère un unique jeton, transmis à Potentiel, auquel elle donne accès en lecture seule à chaque nouvelle démarche. Voir [ici](https://doc.demarches-simplifiees.fr/api-graphql/jeton-dauthentification#acceder-en-lecture-et-ou-ecriture-uniquement-a-une-liste-fermee-des-demarches-de-ladministrateur-aya).
+
+## Tester l'intégration
+
+Pour tester l'intégration à Démarches Simplifiées :
+
+- accéder à la version la plus récente du formulaire sur https://demarches.numerique.gouv.fr/ (vDGEC indique une version créée par la CRE pour les besoins de test de Potentiel)
+- ETQ usager DS, créer un premier dossier s'il n'en existe pas encore
+- ETQ usager DS, dupliquer le dossier autant de fois que nécessaire
+- (optionnel) Utiliser la ligne de commande potentiel pour générer un fichier d'instruction (statuts aléatoires) :
+
+```bash
+export DS_API_URL=https://demarches.numerique.gouv.fr/api/v2/graphql
+export DS_API_TOKEN=JETON API
+potentiel-cli candidature lister-dossiers NUMERO_DE_LA_DEMARCHE --instruction
+```
+
+- Sur http://localhost:3000/candidatures/importer/ds, sélectionner l'appel d'offre et la période, puis le fichier préalablement généré (ou un fichier manuellement créé)
