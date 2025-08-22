@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
 
@@ -9,6 +8,7 @@ import {
   booleanSchema,
   dateSchema,
   numberSchema,
+  optionalDateSchema,
   optionalEnum,
   optionalNumberSchema,
   optionalOuiNonSchema,
@@ -74,10 +74,7 @@ export const typologieDeBâtimentSchema = optionalEnum(z.enum(Candidature.Typolo
 export const typeInstallationsAgrivoltaiquesSchema = optionalEnum(
   z.enum(Candidature.TypeInstallationsAgrivoltaiques.types),
 );
-export const dateEchéanceOuDéliberationGfSchema = z
-  .string()
-  .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
-  .optional();
+export const dateEchéanceOuDéliberationGfSchema = optionalDateSchema;
 export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
@@ -86,7 +83,7 @@ export const élémentsSousOmbrièreSchema = z.string().optional();
 
 export const puissanceDeSiteSchema = optionalNumberSchema;
 
-export const dateDAutorisationDUrbanismeSchema = dateSchema.optional();
+export const dateDAutorisationDUrbanismeSchema = optionalDateSchema;
 export const numéroDAutorisationDUrbanismeSchema = optionalStringSchema;
 
 // champs spécifiques au Csv
@@ -136,3 +133,4 @@ export const typologieDeBâtimentCsvSchema = optionalEnum(
   ]),
 );
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
+export const dateDAutorisationDUrbanismeCsvSchema = dateSchema.optional();
