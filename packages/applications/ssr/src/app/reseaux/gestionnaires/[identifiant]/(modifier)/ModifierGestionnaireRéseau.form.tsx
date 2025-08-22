@@ -68,8 +68,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'raisonSociale',
           defaultValue: raisonSociale,
         }}
-        state={validationErrors['raisonSociale'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['raisonSociale']}
+        state={validationErrors.raisonSociale ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.raisonSociale}
       />
 
       <Input
@@ -79,8 +79,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'contactEmail',
           defaultValue: contactEmailValue,
         }}
-        state={validationErrors['contactEmail'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['contactEmail']}
+        state={validationErrors.contactEmail ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.contactEmail}
       />
 
       <Input
@@ -92,8 +92,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
             .some((format) => format)
             .none(() => ''),
         }}
-        state={validationErrors['format'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['format']}
+        state={validationErrors.format ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.format}
         hintText="Exemple : XXX-RP-AAAA-999999"
       />
 
@@ -106,8 +106,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
             .some((légende) => légende)
             .none(() => ''),
         }}
-        state={validationErrors['legende'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['legende']}
+        state={validationErrors.legende ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.legende}
         hintText="Exemple : X = caractère alphabétique en majuscule, AAAA = Année, 9 = caractère numérique de 0 à 9"
       />
 
@@ -118,8 +118,8 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
           name: 'expressionReguliere',
           defaultValue: expressionReguliereValue,
         }}
-        state={validationErrors['expressionReguliere'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['expressionReguliere']}
+        state={validationErrors.expressionReguliere ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.expressionReguliere}
         hintText="Exemple : [a-zA-Z]{3}-RP-2[0-9]{3}-[0-9]{6}"
       />
     </Form>

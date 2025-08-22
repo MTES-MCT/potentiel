@@ -33,8 +33,8 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
                 conduit au recours."
         nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
-        state={validationErrors['raison'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['raison']}
+        state={validationErrors.raison ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.raison}
       />
 
       <UploadNewOrModifyExistingDocument
@@ -42,8 +42,8 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         name="pieceJustificative"
         required
         formats={['pdf']}
-        state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['pieceJustificative']}
+        state={validationErrors.pieceJustificative ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.pieceJustificative}
       />
     </Form>
   );

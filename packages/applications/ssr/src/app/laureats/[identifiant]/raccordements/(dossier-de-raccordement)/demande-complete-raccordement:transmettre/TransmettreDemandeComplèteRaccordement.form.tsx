@@ -121,8 +121,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           label="Gestionnaire de réseau"
           listeGestionnairesRéseau={listeGestionnairesRéseau}
           gestionnaireRéseauActuel={gestionnaireRéseauActuel}
-          state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
+          state={validationErrors.identifiantGestionnaireReseau ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.identifiantGestionnaireReseau}
           onGestionnaireRéseauSelected={(identifiantGestionnaireRéseau) =>
             setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
           }
@@ -145,8 +145,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
               ))}
           </div>
         }
-        state={validationErrors['referenceDossier'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['referenceDossier']}
+        state={validationErrors.referenceDossier ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.referenceDossier}
         nativeInputProps={{
           name: 'referenceDossier',
           required: true,
@@ -161,8 +161,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
 
       <Input
         label="Date de l'accusé de réception"
-        state={validationErrors['dateQualification'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateQualification']}
+        state={validationErrors.dateQualification ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateQualification}
         nativeInputProps={{
           type: 'date',
           name: 'dateQualification',
@@ -177,8 +177,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         name="accuseReception"
         required
         formats={['pdf']}
-        state={validationErrors['accuseReception'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['accuseReception']}
+        state={validationErrors.accuseReception ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.accuseReception}
       />
     </Form>
   );

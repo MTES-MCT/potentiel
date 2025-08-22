@@ -120,11 +120,11 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
   ];
 
   useEffect(() => {
-    if (validationErrors['typeRepresentantLegal']) {
+    if (validationErrors.typeRepresentantLegal) {
       setState((state) => ({ ...state, step: 1 }));
     }
 
-    if (validationErrors['nomRepresentantLegal']) {
+    if (validationErrors.nomRepresentantLegal) {
       setState((state) => ({ ...state, step: 2 }));
     }
   }, [validationErrors]);

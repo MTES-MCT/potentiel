@@ -69,8 +69,8 @@ export const EnregistrerChangementFournisseurForm: FC<
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <Input
-            state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}
+            state={validationErrors.evaluationCarboneSimplifiee ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors.evaluationCarboneSimplifiee}
             label="Évaluation carbone simplifiée"
             hintText="kg eq CO2/kWc"
             className="md:max-w-64"
@@ -115,8 +115,8 @@ export const EnregistrerChangementFournisseurForm: FC<
             required: true,
             'aria-required': true,
           }}
-          state={validationErrors['raison'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['raison']}
+          state={validationErrors.raison ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.raison}
         />
         <UploadNewOrModifyExistingDocument
           label={'Pièce(s) justificative(s)'}
@@ -124,8 +124,8 @@ export const EnregistrerChangementFournisseurForm: FC<
           required
           multiple
           formats={['pdf']}
-          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['piecesJustificatives']}
+          state={validationErrors.piecesJustificatives ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.piecesJustificatives}
         />
       </div>
     </Form>

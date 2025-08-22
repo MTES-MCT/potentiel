@@ -52,8 +52,8 @@ export const RejeterChangementReprésentantLégal = ({
                 className="mt-3"
                 label="Motif du rejet"
                 hintText="Veuillez préciser le motif du rejet"
-                state={validationErrors['motifRejet'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['motifRejet']}
+                state={validationErrors.motifRejet ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.motifRejet}
                 textArea
                 nativeTextAreaProps={{
                   name: 'motifRejet',

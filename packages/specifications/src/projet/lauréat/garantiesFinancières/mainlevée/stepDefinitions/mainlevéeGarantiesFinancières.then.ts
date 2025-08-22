@@ -18,8 +18,8 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const motif = exemple['motif'] || defaultMainlevéeData.demande.motif;
-    const utilisateur = exemple['utilisateur'] || defaultMainlevéeData.demande.utilisateur;
+    const motif = exemple.motif || defaultMainlevéeData.demande.motif;
+    const utilisateur = exemple.utilisateur || defaultMainlevéeData.demande.utilisateur;
     const dateDemande = exemple['date demande'] || defaultMainlevéeData.demande.date;
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -219,7 +219,7 @@ Alors(
     const formatFichierRéponse = exemple['format fichier réponse'];
     const demandéLe = exemple['demandé le'];
     const demandéPar = exemple['demandé par'];
-    const motif = exemple['motif'];
+    const motif = exemple.motif;
 
     await waitForExpect(async () => {
       const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({

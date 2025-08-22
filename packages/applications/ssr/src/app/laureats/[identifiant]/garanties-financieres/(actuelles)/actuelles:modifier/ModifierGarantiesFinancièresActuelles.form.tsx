@@ -73,8 +73,8 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         max={now()}
         defaultValue={actuelles.dateConstitution}
         required
-        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateConstitution']}
+        state={validationErrors.dateConstitution ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateConstitution}
       />
 
       <UploadNewOrModifyExistingDocument
@@ -82,8 +82,8 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         name="attestation"
         required
         formats={['pdf']}
-        state={validationErrors['attestation'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['attestation']}
+        state={validationErrors.attestation ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.attestation}
         documentKeys={actuelles.attestation ? [actuelles.attestation] : []}
       />
     </Form>

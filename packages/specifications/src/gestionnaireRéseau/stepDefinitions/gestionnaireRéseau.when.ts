@@ -15,8 +15,8 @@ Quand(
       const codeEIC = exemple['Code EIC'];
       const raisonSociale = exemple['Raison sociale'] ?? 'Une raison sociale';
       const aideSaisieRéférenceDossierRaccordement = {
-        format: exemple['Format'],
-        légende: exemple['Légende'],
+        format: exemple.Format,
+        légende: exemple.Légende,
         expressionReguliere: exemple['Expression régulière'],
       };
       const contactEmail = exemple['Email de contact'];
@@ -54,8 +54,8 @@ Quand(
     const raisonSociale = exemple['Raison sociale'];
     const codeEIC = exemple['Code EIC'] ?? raisonSociale.toUpperCase();
     const aideSaisieRéférenceDossierRaccordement = {
-      format: exemple['Format'],
-      légende: exemple['Légende'],
+      format: exemple.Format,
+      légende: exemple.Légende,
       expressionReguliere: exemple['Expression régulière'],
     };
     const contactEmail = exemple['Email de contact'];

@@ -85,7 +85,7 @@ export const TransmettrePreuveRecandidature = ({
           <SelectNext
             label="Choisir un projet comme preuve de recandidature"
             placeholder={`Sélectionner un projet`}
-            state={validationErrors['preuveRecandidature'] ? 'error' : 'default'}
+            state={validationErrors.preuveRecandidature ? 'error' : 'default'}
             stateRelatedMessage="La sélection du projet est obligatoire"
             nativeSelectProps={{
               name: 'preuveRecandidature',

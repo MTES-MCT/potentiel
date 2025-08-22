@@ -33,8 +33,8 @@ export const CorrigerRéférencesDossierForm: FC = () => {
         formats={['csv']}
         name="fichierCorrections"
         required
-        state={validationErrors['fichierCorrections'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['fichierCorrections']}
+        state={validationErrors.fichierCorrections ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.fichierCorrections}
       />
     </Form>
   );

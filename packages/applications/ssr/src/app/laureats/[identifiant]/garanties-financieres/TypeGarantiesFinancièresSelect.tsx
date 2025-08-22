@@ -49,8 +49,8 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
         }}
         placeholder="Sélectionnez le type de garanties financières"
         options={typesGarantiesFinancières}
-        state={validationErrors['type'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['type']}
+        state={validationErrors.type ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.type}
         disabled={disabled}
       />
 
@@ -66,8 +66,8 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
             'aria-required': true,
             defaultValue: dateÉchéanceActuelle,
           }}
-          state={validationErrors['dateEcheance'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['dateEcheance']}
+          state={validationErrors.dateEcheance ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.dateEcheance}
           disabled={disabled}
         />
       )}

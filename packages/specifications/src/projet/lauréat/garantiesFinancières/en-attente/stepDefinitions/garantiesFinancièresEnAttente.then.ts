@@ -33,7 +33,7 @@ Alors(
 
     const exemple = dataTable.rowsHash();
     const dateLimiteSoumission = exemple['date limite de soumission'];
-    const motif = exemple['motif'];
+    const motif = exemple.motif;
     await vérifierGarantiesFinancièresAttendues.call(
       this,
       identifiantProjet,

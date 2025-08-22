@@ -66,8 +66,8 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
           <GestionnaireRéseauSelect
             id="identifiantGestionnaireReseau"
             name="identifiantGestionnaireReseau"
-            state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
+            state={validationErrors.identifiantGestionnaireReseau ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors.identifiantGestionnaireReseau}
             listeGestionnairesRéseau={listeGestionnairesRéseau}
             gestionnaireRéseauActuel={gestionnaireRéseauActuel}
           />

@@ -170,8 +170,8 @@ const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
                 }
               />
               <Input
-                state={validationErrors['prixReference'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['prixReference']}
+                state={validationErrors.prixReference ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.prixReference}
                 label="Prix de référence"
                 nativeInputProps={{
                   name: 'prixReference',
@@ -190,8 +190,8 @@ const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
                   'aria-required': true,
                 }}
                 label="Numéro CRE"
-                state={validationErrors['numeroCRE'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['numeroCRE']}
+                state={validationErrors.numeroCRE ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.numeroCRE}
               />
               <input type={'hidden'} value={iv} name="iv" />
               <input type={'hidden'} value={'false'} name="hasSameEmail" />

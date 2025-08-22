@@ -56,8 +56,8 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <Input
-            state={validationErrors['producteur'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['producteur']}
+            state={validationErrors.producteur ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors.producteur}
             label={'Producteur'}
             nativeInputProps={{
               name: 'producteur',
@@ -77,8 +77,8 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
             required: false,
             'aria-required': false,
           }}
-          state={validationErrors['raison'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['raison']}
+          state={validationErrors.raison ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.raison}
         />
         <UploadNewOrModifyExistingDocument
           label={'Pièce justificative'}
@@ -86,8 +86,8 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           hintText="Joindre les statuts mis à jour"
           required={true}
           formats={['pdf']}
-          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['piecesJustificatives']}
+          state={validationErrors.piecesJustificatives ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.piecesJustificatives}
         />
       </div>
     </Form>

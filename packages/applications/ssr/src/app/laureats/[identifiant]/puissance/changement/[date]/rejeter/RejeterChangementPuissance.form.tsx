@@ -52,8 +52,8 @@ export const RejeterChangementPuissance = ({
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
+                state={validationErrors.reponseSignee ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.reponseSignee}
                 name="reponseSignee"
                 required
                 className="mb-4"
@@ -66,8 +66,8 @@ export const RejeterChangementPuissance = ({
                 label="Télécharger le modèle de réponse"
               />
               <Checkbox
-                state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
+                state={validationErrors.estUneDecisionDEtat ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.estUneDecisionDEtat}
                 options={[
                   {
                     label:

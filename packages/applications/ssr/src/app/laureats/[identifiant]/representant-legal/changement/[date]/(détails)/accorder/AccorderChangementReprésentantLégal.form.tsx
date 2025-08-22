@@ -70,8 +70,8 @@ export const AccorderChangementReprésentantLégal = ({
                   'aria-required': true,
                   defaultValue: nomReprésentantLégal,
                 }}
-                state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['nomRepresentantLegal']}
+                state={validationErrors.nomRepresentantLegal ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.nomRepresentantLegal}
               />
             </>
           ),

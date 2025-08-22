@@ -53,8 +53,8 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
 
       <Input
         label="Date de signature"
-        state={validationErrors['dateSignature'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateSignature']}
+        state={validationErrors.dateSignature ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateSignature}
         nativeInputProps={{
           type: 'date',
           name: 'dateSignature',
@@ -69,8 +69,8 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
         name="propositionTechniqueEtFinanciereSignee"
         required
         formats={['pdf']}
-        state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
+        state={validationErrors.propositionTechniqueEtFinanciereSignee ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.propositionTechniqueEtFinanciereSignee}
       />
     </Form>
   );

@@ -13,8 +13,8 @@ EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, 
   const raisonSociale = exemple['Raison sociale'] ?? 'Une raison sociale';
   const codeEIC = exemple['Code EIC'] ?? raisonSociale.toUpperCase();
   const aideSaisieRéférenceDossierRaccordement = {
-    format: exemple['Format'],
-    légende: exemple['Légende'],
+    format: exemple.Format,
+    légende: exemple.Légende,
     expressionReguliere: exemple['Expression régulière'],
   };
   const contactEmail = exemple['Email de contact'];

@@ -59,8 +59,8 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
             onChange: (ev) => setAppelOffre(ev.target.value),
             required: true,
           }}
-          state={validationErrors['appelOffre'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['appelOffre']}
+          state={validationErrors.appelOffre ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.appelOffre}
         />
 
         <Select
@@ -80,8 +80,8 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
             defaultValue: defaultPériode,
             required: true,
           }}
-          state={validationErrors['periode'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['periode']}
+          state={validationErrors.periode ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.periode}
           disabled={!appelOffre}
         />
       </div>
@@ -90,8 +90,8 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
         name="fichierInstruction"
         required
         formats={['csv']}
-        state={validationErrors['fichierInstruction'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['fichierInstruction']}
+        state={validationErrors.fichierInstruction ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.fichierInstruction}
       />
       <Checkbox
         id="test"

@@ -89,8 +89,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
     >
       <input name="identifiantProjet" type="hidden" value={candidature.identifiantProjet} />
       <Select
-        state={validationErrors['statut'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['statut']}
+        state={validationErrors.statut ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.statut}
         label="Statut"
         options={[
           {
@@ -115,8 +115,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       {estÉliminé && (
         <Input
           textArea
-          state={validationErrors['motifElimination'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['motifElimination']}
+          state={validationErrors.motifElimination ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.motifElimination}
           label="Motif élimination"
           nativeTextAreaProps={{
             name: 'motifElimination',
@@ -127,8 +127,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         />
       )}
       <Input
-        state={validationErrors['nomProjet'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['nomProjet']}
+        state={validationErrors.nomProjet ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.nomProjet}
         label="Nom du projet"
         nativeInputProps={{
           name: 'nomProjet',
@@ -138,8 +138,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['nomCandidat'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['nomCandidat']}
+        state={validationErrors.nomCandidat ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.nomCandidat}
         label="Nom du producteur"
         nativeInputProps={{
           name: 'nomCandidat',
@@ -149,8 +149,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['emailContact'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['emailContact']}
+        state={validationErrors.emailContact ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.emailContact}
         label="Email"
         nativeInputProps={{
           name: 'emailContact',
@@ -160,8 +160,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['nomRepresentantLegal']}
+        state={validationErrors.nomRepresentantLegal ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.nomRepresentantLegal}
         label="Nom complet du représentant légal"
         nativeInputProps={{
           name: 'nomRepresentantLegal',
@@ -171,8 +171,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Select
-        state={validationErrors['actionnariat'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['actionnariat']}
+        state={validationErrors.actionnariat ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.actionnariat}
         label="Type d'actionnariat (optionnel)"
         options={[
           { label: 'Aucun', value: '' },
@@ -187,8 +187,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['societeMere'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['societeMere']}
+        state={validationErrors.societeMere ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.societeMere}
         label="Société mère (optionnel)"
         nativeInputProps={{
           name: 'societeMere',
@@ -196,8 +196,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['adresse1'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['adresse1']}
+        state={validationErrors.adresse1 ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.adresse1}
         label="Adresse 1"
         nativeInputProps={{
           name: 'adresse1',
@@ -207,8 +207,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['adresse2'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['adresse2']}
+        state={validationErrors.adresse2 ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.adresse2}
         label="Adresse 2 (optionnel)"
         nativeInputProps={{
           name: 'adresse2',
@@ -227,14 +227,14 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           className="mb-6 flex-1"
         />
         <input type="hidden" value={commune.commune} name="commune" />
-        {validationErrors['commune']}
+        {validationErrors.commune}
         <input type="hidden" value={commune.departement} name="departement" />
-        {validationErrors['departement']}
+        {validationErrors.departement}
         <input type="hidden" value={commune.region} name="region" />
-        {validationErrors['region']}
+        {validationErrors.region}
         <Input
-          state={validationErrors['codePostal'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['codePostal']}
+          state={validationErrors.codePostal ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.codePostal}
           label="Code Postal"
           nativeInputProps={{
             name: 'codePostal',
@@ -248,8 +248,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         />
       </div>
       <Select
-        state={validationErrors['technologie'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['technologie']}
+        state={validationErrors.technologie ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.technologie}
         label="Technologie"
         nativeSelectProps={{
           name: 'technologie',
@@ -263,8 +263,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }))}
       />
       <Input
-        state={validationErrors['prixReference'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['prixReference']}
+        state={validationErrors.prixReference ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.prixReference}
         label="Prix de référence"
         nativeInputProps={{
           name: 'prixReference',
@@ -278,8 +278,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['puissanceProductionAnnuelle'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['puissanceProductionAnnuelle']}
+        state={validationErrors.puissanceProductionAnnuelle ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.puissanceProductionAnnuelle}
         label={`Puissance (en ${unitéPuissance})`}
         nativeInputProps={{
           name: 'puissanceProductionAnnuelle',
@@ -294,8 +294,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       />
       {champsSupplémentaires.puissanceALaPointe && (
         <Checkbox
-          state={validationErrors['puissanceALaPointe'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['puissanceALaPointe']}
+          state={validationErrors.puissanceALaPointe ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.puissanceALaPointe}
           id="puissanceALaPointe"
           options={[
             {
@@ -311,8 +311,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       )}
       {champsSupplémentaires.puissanceDeSite && (
         <Input
-          state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['puissanceDeSite']}
+          state={validationErrors.puissanceDeSite ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.puissanceDeSite}
           id="puissanceDeSite"
           label={'Puissance de site'}
           nativeInputProps={{
@@ -328,8 +328,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         />
       )}
       <Input
-        state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}
+        state={validationErrors.evaluationCarboneSimplifiee ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.evaluationCarboneSimplifiee}
         label="Évaluation carbone simplifiée"
         hintText="kg eq CO2/kWc"
         nativeInputProps={{
@@ -344,8 +344,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }}
       />
       <Input
-        state={validationErrors['noteTotale'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['noteTotale']}
+        state={validationErrors.noteTotale ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.noteTotale}
         label="Note"
         nativeInputProps={{
           name: 'noteTotale',
@@ -361,8 +361,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       {!estNotifiée && !estÉliminé ? (
         <>
           <Select
-            state={validationErrors['typeGarantiesFinancieres'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['typeGarantiesFinancieres']}
+            state={validationErrors.typeGarantiesFinancieres ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors.typeGarantiesFinancieres}
             label="Type de Garanties Financières"
             options={typesGarantiesFinancièresDisponibles.map((type) => ({
               value: type,
@@ -385,8 +385,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
                 candidature.dateEcheanceGf &&
                 DateTime.convertirEnValueType(candidature.dateEcheanceGf).formatter()
               }
-              state={validationErrors['dateEcheanceGf'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['dateEcheanceGf']}
+              state={validationErrors.dateEcheanceGf ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors.dateEcheanceGf}
             />
           )}
           {typeGf === 'exemption' && (
@@ -398,8 +398,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
                 candidature.dateDeliberationGf &&
                 DateTime.convertirEnValueType(candidature.dateDeliberationGf).formatter()
               }
-              state={validationErrors['dateDeliberationGf'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['dateDeliberationGf']}
+              state={validationErrors.dateDeliberationGf ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors.dateDeliberationGf}
             />
           )}
         </>
@@ -415,8 +415,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       )}
       {champsSupplémentaires.coefficientKChoisi && (
         <Select
-          state={validationErrors['coefficientKChoisi'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['coefficientKChoisi']}
+          state={validationErrors.coefficientKChoisi ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.coefficientKChoisi}
           id="coefficientKChoisi"
           label={'Choix du coefficient K'}
           nativeSelectProps={{
@@ -433,8 +433,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       )}
 
       <RadioButtons
-        state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['doitRegenererAttestation']}
+        state={validationErrors.doitRegenererAttestation ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.doitRegenererAttestation}
         legend={'Attestation de désignation'}
         disabled={!aUneAttestation}
         options={[

@@ -56,14 +56,14 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
                       'aria-required': true,
                     }}
                     label="Courrier électronique de la personne habilitée à suivre ce projet"
-                    state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
-                    stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
+                    state={validationErrors.identifiantUtilisateurInvite ? 'error' : 'default'}
+                    stateRelatedMessage={validationErrors.identifiantUtilisateurInvite}
                   />
                   {nombreDeProjets && nombreDeProjets > 1 && (
                     <Checkbox
                       id="inviterATousSesProjets"
-                      state={validationErrors['inviterATousSesProjets'] ? 'error' : 'default'}
-                      stateRelatedMessage={validationErrors['inviterATousSesProjets']}
+                      state={validationErrors.inviterATousSesProjets ? 'error' : 'default'}
+                      stateRelatedMessage={validationErrors.inviterATousSesProjets}
                       options={[
                         {
                           label: `Je souhaite inviter l'utilisateur à tous mes projets (${nombreDeProjets} projets)`,

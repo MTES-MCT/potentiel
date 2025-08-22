@@ -108,7 +108,7 @@ Alors(
     const { format, content } =
       this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
 
-    const raisonValue = exemple['raison'];
+    const raisonValue = exemple.raison;
 
     await waitForExpect(async () => {
       const actualArchivesGarantiesFinancièresReadModel =

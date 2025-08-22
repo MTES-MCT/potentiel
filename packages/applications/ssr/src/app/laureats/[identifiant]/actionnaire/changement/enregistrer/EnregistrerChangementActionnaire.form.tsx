@@ -55,8 +55,8 @@ export const EnregistrerChangementActionnaireForm: FC<
 
       <div className="flex flex-col gap-6">
         <Input
-          state={validationErrors['actionnaire'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['actionnaire']}
+          state={validationErrors.actionnaire ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.actionnaire}
           label="Nouvelle société mère"
           hintText="Si le changement d'actionnaire(s) n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
           nativeInputProps={{
@@ -72,8 +72,8 @@ export const EnregistrerChangementActionnaireForm: FC<
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
-          state={validationErrors['raison'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['raison']}
+          state={validationErrors.raison ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.raison}
         />
         <UploadNewOrModifyExistingDocument
           label={`Pièce(s) justificative(s)`}
@@ -82,8 +82,8 @@ export const EnregistrerChangementActionnaireForm: FC<
           required
           formats={['pdf']}
           multiple
-          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['piecesJustificatives']}
+          state={validationErrors.piecesJustificatives ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.piecesJustificatives}
         />
       </div>
     </Form>

@@ -14,8 +14,8 @@ export const AttestationField = ({ validationErrors }: AttestationFieldProps) =>
       </span>
     </div>
     <RadioButtons
-      state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
-      stateRelatedMessage={validationErrors['doitRegenererAttestation']}
+      state={validationErrors.doitRegenererAttestation ? 'error' : 'default'}
+      stateRelatedMessage={validationErrors.doitRegenererAttestation}
       hintText="Attention, vous ne pourrez pas régénérer l'attestation si la candidature n'est pas corrigée"
       legend=""
       orientation="horizontal"

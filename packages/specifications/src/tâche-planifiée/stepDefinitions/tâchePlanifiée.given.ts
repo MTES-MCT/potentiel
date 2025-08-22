@@ -64,7 +64,7 @@ EtantDonné(
     const exemple = dataTable.rowsHash();
     const { identifiantProjet } = this.lauréatWorld;
     const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-      exemple['type'] as TypeTâchePlanifiée,
+      exemple.type as TypeTâchePlanifiée,
     ).type;
     const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
     await ajouterTâchePlanifiée(

@@ -97,8 +97,8 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
               </ul>
             ) : null,
           }))}
-          state={validationErrors['cahierDesCharges'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['cahierDesCharges']}
+          state={validationErrors.cahierDesCharges ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.cahierDesCharges}
         />
 
         {showAlerteDélaiCdc2022 && (
@@ -123,8 +123,8 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
         )}
 
         <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-        {validationErrors['identifiantProjet'] && (
-          <FormAlertError description={validationErrors['identifiantProjet']} />
+        {validationErrors.identifiantProjet && (
+          <FormAlertError description={validationErrors.identifiantProjet} />
         )}
       </div>
     </Form>

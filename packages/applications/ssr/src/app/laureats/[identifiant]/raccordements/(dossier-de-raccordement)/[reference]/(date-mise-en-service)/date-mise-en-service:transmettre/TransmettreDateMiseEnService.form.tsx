@@ -64,8 +64,8 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
         min={dateDésignation}
         max={now()}
         required
-        state={validationErrors['dateMiseEnService'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateMiseEnService']}
+        state={validationErrors.dateMiseEnService ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateMiseEnService}
       />
     </Form>
   );

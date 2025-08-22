@@ -100,8 +100,8 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
         max={now()}
         defaultValue={defaultValues?.dateConstitution}
         required
-        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateConstitution']}
+        state={validationErrors.dateConstitution ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateConstitution}
       />
 
       <UploadNewOrModifyExistingDocument
@@ -109,8 +109,8 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
         name="attestation"
         required
         formats={['pdf']}
-        state={validationErrors['attestation'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['attestation']}
+        state={validationErrors.attestation ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.attestation}
         documentKeys={defaultValues?.attestation ? [defaultValues.attestation] : undefined}
       />
     </Form>

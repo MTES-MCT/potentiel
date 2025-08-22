@@ -63,10 +63,10 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         required
         formats={['pdf']}
         multiple={typeSociété !== 'constituée' ? true : undefined}
-        state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['piecesJustificatives']}
+        state={validationErrors.piecesJustificatives ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.piecesJustificatives}
         onChange={(piècesJustificatives) => {
-          delete validationErrors['piecesJustificatives'];
+          delete validationErrors.piecesJustificatives;
           onChange && onChange(piècesJustificatives);
         }}
         documentKeys={pièceJustificative}

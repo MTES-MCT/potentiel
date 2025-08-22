@@ -115,8 +115,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <Input
-            state={validationErrors['puissance'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['puissance']}
+            state={validationErrors.puissance ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors.puissance}
             label={`Puissance (en ${unitéPuissance.unité})`}
             hintText={ratioHintText}
             nativeInputProps={{
@@ -157,8 +157,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             required: dépasseLesRatioDeAppelOffres,
             'aria-required': dépasseLesRatioDeAppelOffres,
           }}
-          state={validationErrors['raison'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['raison']}
+          state={validationErrors.raison ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.raison}
         />
         <UploadNewOrModifyExistingDocument
           label={`Pièce justificative ${dépasseLesRatioDeAppelOffres ? '' : '(optionnel)'}`}
@@ -166,8 +166,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           hintText="Joindre votre justificatif"
           required={dépasseLesRatioDeAppelOffres}
           formats={['pdf']}
-          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['piecesJustificatives']}
+          state={validationErrors.piecesJustificatives ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.piecesJustificatives}
         />
       </div>
     </Form>

@@ -75,8 +75,8 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
               ))}
           </>
         }
-        state={validationErrors['referenceDossierCorrigee'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['referenceDossierCorrigee']}
+        state={validationErrors.referenceDossierCorrigee ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.referenceDossierCorrigee}
         nativeInputProps={{
           type: 'text',
           name: 'referenceDossierCorrigee',

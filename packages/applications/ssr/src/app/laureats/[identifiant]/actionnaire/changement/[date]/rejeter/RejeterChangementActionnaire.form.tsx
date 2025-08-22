@@ -53,8 +53,8 @@ export const RejeterChangementActionnaire = ({
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
+                state={validationErrors.reponseSignee ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.reponseSignee}
                 name="reponseSignee"
                 required
                 className="mb-4"

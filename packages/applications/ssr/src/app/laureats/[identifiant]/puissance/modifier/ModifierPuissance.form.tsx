@@ -60,8 +60,8 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
 
       <div className="flex flex-col gap-6">
         <Input
-          state={validationErrors['puissance'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['puissance']}
+          state={validationErrors.puissance ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.puissance}
           label={`Puissance (en ${unitéPuissance})`}
           nativeInputProps={{
             name: 'puissance',
@@ -80,8 +80,8 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement de puissance."
           nativeTextAreaProps={{ name: 'raison', required: false, 'aria-required': true }}
-          state={validationErrors['raison'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['raison']}
+          state={validationErrors.raison ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.raison}
         />
       </div>
     </Form>

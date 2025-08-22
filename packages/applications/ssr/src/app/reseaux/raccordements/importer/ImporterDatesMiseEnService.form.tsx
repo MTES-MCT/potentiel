@@ -79,8 +79,8 @@ export const ImporterDatesMiseEnServiceForm: FC<
         formats={['csv']}
         name="fichierDatesMiseEnService"
         required
-        state={validationErrors['fichierDatesMiseEnService'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['fichierDatesMiseEnService']}
+        state={validationErrors.fichierDatesMiseEnService ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.fichierDatesMiseEnService}
       />
     </Form>
   );

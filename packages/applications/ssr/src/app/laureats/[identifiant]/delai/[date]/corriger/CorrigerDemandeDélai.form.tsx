@@ -94,8 +94,8 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
             defaultValue: nombreDeMois,
             onChange: (e) => ajouterDélaiÀLaDateActuelle(Number(e.target.value)),
           }}
-          state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['nombreDeMois']}
+          state={validationErrors.nombreDeMois ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.nombreDeMois}
         />
 
         {peutDemanderUnDélai() && (
@@ -119,8 +119,8 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
           defaultValue: raison,
           'aria-required': true,
         }}
-        state={validationErrors['raison'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['raison']}
+        state={validationErrors.raison ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.raison}
       />
 
       <UploadNewOrModifyExistingDocument
@@ -129,8 +129,8 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
         documentKeys={[pièceJustificative]}
         formats={['pdf']}
         required
-        state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['pieceJustificative']}
+        state={validationErrors.pieceJustificative ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.pieceJustificative}
       />
     </Form>
   );

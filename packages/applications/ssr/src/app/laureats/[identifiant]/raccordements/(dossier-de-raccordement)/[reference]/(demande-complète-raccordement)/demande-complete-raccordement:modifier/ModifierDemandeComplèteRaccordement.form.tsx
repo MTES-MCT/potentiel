@@ -109,8 +109,8 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
               </>
             )
           }
-          state={validationErrors['referenceDossierRaccordement'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['referenceDossierRaccordement']}
+          state={validationErrors.referenceDossierRaccordement ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.referenceDossierRaccordement}
           nativeInputProps={{
             type: 'text',
             name: 'referenceDossierRaccordement',
@@ -136,15 +136,15 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         name="accuseReception"
         required
         formats={['pdf']}
-        state={validationErrors['accuseReception'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['accuseReception']}
+        state={validationErrors.accuseReception ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.accuseReception}
         documentKeys={accuséRéception ? [accuséRéception] : undefined}
       />
 
       <InputDate
         id="dateQualification"
-        state={validationErrors['dateQualification'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateQualification']}
+        state={validationErrors.dateQualification ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateQualification}
         label="Date de l'accusé de réception"
         name="dateQualification"
         max={now()}

@@ -27,7 +27,7 @@ if (!tagVersion) {
   console.log(`❓ Major & minor version are the same for branch & tag ?`);
   if (tagMajor === branchMajor && tagMinor === branchMinor) {
     console.log(`👍 Yes`);
-    const patch = `${parseInt(tagPatch) + 1}`;
+    const patch = `${parseInt(tagPatch, 10) + 1}`;
     writePatchVersion(patch);
     console.log(`✅ Patch version: ${patch}`);
   } else {

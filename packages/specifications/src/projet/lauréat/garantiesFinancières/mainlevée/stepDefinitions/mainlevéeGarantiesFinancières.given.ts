@@ -17,8 +17,8 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const motif = exemple['motif'];
-    const utilisateur = exemple['utilisateur'];
+    const motif = exemple.motif;
+    const utilisateur = exemple.utilisateur;
     const date = exemple['date demande'];
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

@@ -51,8 +51,8 @@ export const AccorderChangementPuissance = ({
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               <UploadNewOrModifyExistingDocument
                 label={`Réponse signée${estUneDecisionDEtat ? ' (optionnel)' : ''}`}
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
+                state={validationErrors.reponseSignee ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.reponseSignee}
                 name="reponseSignee"
                 required={estUneDecisionDEtat === false}
                 className="mb-4"
@@ -70,8 +70,8 @@ export const AccorderChangementPuissance = ({
                 name="estUneDecisionDEtat"
               />
               <Checkbox
-                state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
+                state={validationErrors.estUneDecisionDEtat ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.estUneDecisionDEtat}
                 options={[
                   {
                     label:

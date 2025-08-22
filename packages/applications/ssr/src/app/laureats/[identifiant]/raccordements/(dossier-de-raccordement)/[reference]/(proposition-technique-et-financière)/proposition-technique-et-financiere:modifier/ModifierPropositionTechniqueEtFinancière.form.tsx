@@ -75,8 +75,8 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
         max={now()}
         defaultValue={dateSignature}
         required
-        state={validationErrors['dateSignature'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateSignature']}
+        state={validationErrors.dateSignature ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateSignature}
       />
 
       <UploadNewOrModifyExistingDocument
@@ -84,8 +84,8 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
         name="propositionTechniqueEtFinanciereSignee"
         required
         formats={['pdf']}
-        state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
+        state={validationErrors.propositionTechniqueEtFinanciereSignee ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.propositionTechniqueEtFinanciereSignee}
         documentKeys={[propositionTechniqueEtFinancièreSignée]}
       />
     </Form>

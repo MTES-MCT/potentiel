@@ -59,8 +59,8 @@ export const SaisieNomStep: FC<SaisieNomProps> = ({
           onChange && onChange(value);
         },
       }}
-      state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
-      stateRelatedMessage={validationErrors['nomRepresentantLegal']}
+      state={validationErrors.nomRepresentantLegal ? 'error' : 'default'}
+      stateRelatedMessage={validationErrors.nomRepresentantLegal}
     />
   );
 };

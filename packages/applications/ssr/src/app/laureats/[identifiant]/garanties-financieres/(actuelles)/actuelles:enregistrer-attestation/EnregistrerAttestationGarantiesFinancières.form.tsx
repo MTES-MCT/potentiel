@@ -54,8 +54,8 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
         name="dateConstitution"
         max={now()}
         required
-        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateConstitution']}
+        state={validationErrors.dateConstitution ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.dateConstitution}
       />
 
       <UploadNewOrModifyExistingDocument
@@ -63,8 +63,8 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
         name="attestation"
         required
         formats={['pdf']}
-        state={validationErrors['attestation'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['attestation']}
+        state={validationErrors.attestation ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.attestation}
       />
     </Form>
   );

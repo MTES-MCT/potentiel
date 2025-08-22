@@ -22,7 +22,7 @@ Quand(
     try {
       await enregistrerChangementProducteur.call(
         this,
-        this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
+        this.candidatureWorld.importerCandidature.values.nomCandidatValue,
       );
     } catch (error) {
       this.error = error as Error;
@@ -51,7 +51,7 @@ Quand(
       await modifierProducteur.call(
         this,
         this.lauréatWorld.identifiantProjet,
-        this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
+        this.candidatureWorld.importerCandidature.values.nomCandidatValue,
       );
     } catch (error) {
       this.error = error as Error;

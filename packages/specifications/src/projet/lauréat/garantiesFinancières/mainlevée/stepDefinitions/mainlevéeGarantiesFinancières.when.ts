@@ -17,8 +17,8 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const motif = exemple['motif'];
-      const utilisateur = exemple['utilisateur'];
+      const motif = exemple.motif;
+      const utilisateur = exemple.utilisateur;
       const date = exemple['date demande'];
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
@@ -40,7 +40,7 @@ Quand(
 
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-      const utilisateur = annulationData['utilisateur'] || 'porteur@test.test';
+      const utilisateur = annulationData.utilisateur || 'porteur@test.test';
       const date = annulationData['date annulation'] || '2024-01-01';
 
       await mediator.send<GarantiesFinancières.AnnulerMainlevéeGarantiesFinancièresUseCase>({
@@ -63,8 +63,8 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
+      const utilisateur = exemple.utilisateur;
+      const date = exemple.date;
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
@@ -104,8 +104,8 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
+      const utilisateur = exemple.utilisateur;
+      const date = exemple.date;
       const documentContenu = exemple['contenu fichier réponse'];
       const documentFormat = exemple['format fichier réponse'];
 
@@ -157,8 +157,8 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
+      const utilisateur = exemple.utilisateur;
+      const date = exemple.date;
       const documentContenu = exemple['contenu fichier réponse'];
       const documentFormat = exemple['format fichier réponse'];
 

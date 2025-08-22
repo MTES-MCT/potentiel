@@ -96,8 +96,8 @@ export const AccorderDemandeDélai = ({
                     defaultValue: nombreDeMois,
                     onChange: (e) => ajouterDélaiÀLaDateActuelle(Number(e.target.value)),
                   }}
-                  state={validationErrors['nombreDeMois'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['nombreDeMois']}
+                  state={validationErrors.nombreDeMois ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors.nombreDeMois}
                 />
                 {laNouvelleDateEstValide() && (
                   <div>
@@ -109,8 +109,8 @@ export const AccorderDemandeDélai = ({
 
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
-                state={validationErrors['reponseSignee'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['reponseSignee']}
+                state={validationErrors.reponseSignee ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.reponseSignee}
                 name="reponseSignee"
                 required
                 className="mb-4"

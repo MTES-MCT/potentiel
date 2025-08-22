@@ -59,11 +59,11 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
     state.typeReprésentantLégal === 'inconnu';
 
   useEffect(() => {
-    if (validationErrors['typeRepresentantLegal']) {
+    if (validationErrors.typeRepresentantLegal) {
       setState((state) => ({ ...state, step: 1 }));
     }
 
-    if (validationErrors['nomRepresentantLegal'] || validationErrors['piecesJustificatives']) {
+    if (validationErrors.nomRepresentantLegal || validationErrors.piecesJustificatives) {
       setState((state) => ({ ...state, step: 2 }));
     }
   }, [validationErrors]);

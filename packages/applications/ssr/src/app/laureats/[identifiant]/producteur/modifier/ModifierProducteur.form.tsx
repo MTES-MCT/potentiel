@@ -54,8 +54,8 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
       />
 
       <Input
-        state={validationErrors['producteur'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['producteur']}
+        state={validationErrors.producteur ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors.producteur}
         label="Producteur"
         nativeInputProps={{
           name: 'producteur',

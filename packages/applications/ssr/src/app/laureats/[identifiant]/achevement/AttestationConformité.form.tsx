@@ -82,8 +82,8 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           documentKeys={donnéesActuelles && [donnéesActuelles.attestation]}
           label="Attestation de conformité et rapport associé"
           hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
-          state={validationErrors['attestation'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['attestation']}
+          state={validationErrors.attestation ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.attestation}
           formats={['pdf']}
         />
 
@@ -94,8 +94,8 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           documentKeys={donnéesActuelles && [donnéesActuelles.preuveTransmissionAuCocontractant]}
           label="Preuve de transmission au co-contractant"
           hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
-          state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['preuveTransmissionAuCocontractant']}
+          state={validationErrors.preuveTransmissionAuCocontractant ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.preuveTransmissionAuCocontractant}
         />
 
         <InputDate
@@ -104,16 +104,16 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           max={now()}
           required
           defaultValue={donnéesActuelles?.dateTransmissionAuCocontractant}
-          state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
+          state={validationErrors.dateTransmissionAuCocontractant ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors.dateTransmissionAuCocontractant}
         />
 
         {demanderMainlevée.visible && (
           <>
             <Checkbox
               id="demanderMainlevee"
-              state={validationErrors['demanderMainlevee'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['demanderMainlevee']}
+              state={validationErrors.demanderMainlevee ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors.demanderMainlevee}
               options={[
                 {
                   label: `Je souhaite demander une mainlevée de mes garanties financières`,

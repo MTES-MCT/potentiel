@@ -100,8 +100,8 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           </div>
         </FormRow>
         <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
-        {validationErrors['identifiantProjet'] && (
-          <FormAlertError description={validationErrors['identifiantProjet']} />
+        {validationErrors.identifiantProjet && (
+          <FormAlertError description={validationErrors.identifiantProjet} />
         )}
         <FormRow>
           <ProjectField

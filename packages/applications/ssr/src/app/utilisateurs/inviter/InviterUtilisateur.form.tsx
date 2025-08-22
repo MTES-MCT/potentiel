@@ -65,8 +65,8 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
               'aria-required': true,
             }}
             label="Courrier électronique de la personne"
-            state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
+            state={validationErrors.identifiantUtilisateurInvite ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors.identifiantUtilisateurInvite}
           />
 
           {match(role)
@@ -74,8 +74,8 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
               <>
                 <Input
                   label="Nom Complet"
-                  state={validationErrors['nomComplet'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['nomComplet']}
+                  state={validationErrors.nomComplet ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors.nomComplet}
                   nativeInputProps={{
                     name: 'nomComplet',
                     required: true,
@@ -84,8 +84,8 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
                 />
                 <Input
                   label="Fonction"
-                  state={validationErrors['fonction'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['fonction']}
+                  state={validationErrors.fonction ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors.fonction}
                   nativeInputProps={{
                     name: 'fonction',
                     required: true,
@@ -98,8 +98,8 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
               <Select
                 label="Région"
                 options={régions}
-                state={validationErrors['region'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['region']}
+                state={validationErrors.region ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.region}
                 nativeSelectProps={{
                   name: 'region',
                   required: true,
@@ -111,8 +111,8 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
               <Select
                 label="Gestionnaire Réseau"
                 options={gestionnairesRéseau}
-                state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
+                state={validationErrors.identifiantGestionnaireReseau ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors.identifiantGestionnaireReseau}
                 nativeSelectProps={{
                   name: 'identifiantGestionnaireReseau',
                   required: true,
