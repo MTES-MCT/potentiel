@@ -8,23 +8,6 @@ export const computeNombreDeDemandeParCategorie = async () => {
     insert
     into 
       domain_public_statistic.camembert_statistic
-    select
-      $1 as "type",
-      "type" as "category",
-      count(*) as "value"
-    from
-      "modificationRequests"
-    where "type" = 'delai'
-    group by "type"
-    `,
-    statisticType,
-  );
-
-  await executeQuery(
-    `
-    insert
-    into 
-      domain_public_statistic.camembert_statistic
     values
       (
         $1,
@@ -80,6 +63,14 @@ export const computeNombreDeDemandeParCategorie = async () => {
         (
           select count(*) from "event_store"."event_stream" 
           where type like 'ChangementFournisseurEnregistré-V%'
+        )
+      ),
+      (
+        $1,
+        'delai',
+        (
+          select count(*) from "event_store"."event_stream" 
+          where type like 'DélaiDemandé-V%'
         )
       )
     `,
