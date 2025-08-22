@@ -60,10 +60,11 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
   const changedValues = this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {});
 
   const dateDAutorisationDUrbanisme =
-    changedValues.dépôt.autorisationDUrbanisme.date ||
+    changedValues.dépôt.autorisationDUrbanisme.date ??
     this.candidatureWorld.importerCandidature.dépôtValue.autorisationDUrbanisme?.date;
+
   const numéroDAutorisationDUrbanisme =
-    changedValues.dépôt.autorisationDUrbanisme.numéro ||
+    changedValues.dépôt.autorisationDUrbanisme.numéro ??
     this.candidatureWorld.importerCandidature.dépôtValue.autorisationDUrbanisme?.numéro;
 
   const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
@@ -99,8 +100,6 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
       corrigéLe: DateTime.now().formatter(),
       corrigéPar: this.utilisateurWorld.validateurFixture.email,
     });
-
-  console.log('corriger dépôtValue, donnée envoyée au useCase', dépôtValue.autorisationDUrbanisme);
 
   try {
     await mediator.send<Candidature.CorrigerCandidatureUseCase>({
