@@ -1,7 +1,7 @@
 {
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "outDir": "dist",
     "rootDir": "src"
   },
