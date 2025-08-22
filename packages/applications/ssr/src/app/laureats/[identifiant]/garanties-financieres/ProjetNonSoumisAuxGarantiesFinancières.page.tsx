@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import CallOut from '@codegouvfr/react-dsfr/CallOut';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 

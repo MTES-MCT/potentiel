@@ -1,13 +1,13 @@
-import { describe, it, after, before, beforeEach } from 'node:test';
+import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { assert, expect, should } from 'chai';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { registerSubscriber } from './registerSubscriber';
-import { getSubscriber } from './getSubscriber';
-import { SubscriberConfiguration } from './subscriberConfiguration';
 import { WrongSubscriberNameError } from './checkSubscriberName';
+import { getSubscriber } from './getSubscriber';
+import { registerSubscriber } from './registerSubscriber';
+import type { SubscriberConfiguration } from './subscriberConfiguration';
 
 should();
 

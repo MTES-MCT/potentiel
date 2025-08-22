@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { StatutProjet } from '..';
+import type { StatutProjet } from '..';
 
 export type ProjetEntity = {
   appelOffre: string;

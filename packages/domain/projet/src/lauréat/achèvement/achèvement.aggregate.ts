@@ -1,26 +1,24 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Option } from '@potentiel-libraries/monads';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
-
+import type { LauréatAggregate } from '../lauréat.aggregate';
 import { DateAchèvementPrévisionnel } from '.';
-
+import type { AchèvementEvent } from './achèvement.event';
+import { TypeDocumentAttestationConformité } from './attestationConformité';
 import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
   DateDeTransmissionAuCoContractantFuturError,
 } from './attestationConformité/attestationConformité.error';
-import { TransmettreAttestationConformitéOptions } from './attestationConformité/transmettre/transmettreAttestationConformité.option';
-import { AttestationConformitéModifiéeEvent } from './attestationConformité/modifier/modifierAttestationConformité.event';
-import { ModifierAttestationConformitéOptions } from './attestationConformité/modifier/modifierAttestationConformité.option';
-import { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
-import { TypeDocumentAttestationConformité } from './attestationConformité';
-import { AchèvementEvent } from './achèvement.event';
-import { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
-import { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option';
+import type { AttestationConformitéModifiéeEvent } from './attestationConformité/modifier/modifierAttestationConformité.event';
+import type { ModifierAttestationConformitéOptions } from './attestationConformité/modifier/modifierAttestationConformité.option';
+import type { AttestationConformitéTransmiseEvent } from './attestationConformité/transmettre/transmettreAttestationConformité.event';
+import type { TransmettreAttestationConformitéOptions } from './attestationConformité/transmettre/transmettreAttestationConformité.option';
+import type { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
+import type { CalculerDateAchèvementPrévisionnelOptions } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.option';
 
 export class AchèvementAggregate extends AbstractAggregate<
   AchèvementEvent,

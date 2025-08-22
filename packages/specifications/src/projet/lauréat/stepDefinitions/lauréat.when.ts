@@ -1,9 +1,9 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import type { PotentielWorld } from '../../../potentiel.world';
 
 Quand(/un administrateur modifie le projet lauréat/, async function (this: PotentielWorld) {
   try {

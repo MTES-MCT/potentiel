@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../..';
+import type { IdentifiantProjet } from '../..';
 
 export type ModifierLauréatOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;

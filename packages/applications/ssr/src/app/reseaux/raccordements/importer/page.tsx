@@ -1,11 +1,9 @@
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { récupérerLesGestionnairesParUtilisateur } from '../_helpers/récupérerLesGestionnairesParUtilisateur';
-
 import { ImporterDatesMiseEnServicePage } from './ImporterDatesMiseEnService.page';
 
 export default async function Page() {

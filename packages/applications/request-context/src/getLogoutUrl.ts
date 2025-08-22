@@ -1,4 +1,4 @@
-import { EndSessionParameters } from 'openid-client';
+import type { EndSessionParameters } from 'openid-client';
 
 import { getOpenIdClient } from './openid';
 

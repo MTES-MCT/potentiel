@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../..';
-
-import { AnnulerAbandonCommand } from './annulerAbandon.command';
+import type { AnnulerAbandonCommand } from './annulerAbandon.command';
 
 export type AnnulerAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.AnnulerAbandon',

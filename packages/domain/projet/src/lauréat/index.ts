@@ -8,12 +8,12 @@ import {
   ConsulterLauréatReadModel,
 } from './consulter/consulterLauréat.query';
 import {
-  ListerHistoriqueProjetQuery,
-  ListerHistoriqueProjetReadModel,
-  HistoriqueListItemReadModels,
-  HistoriqueLauréatProjetListItemReadModel,
   HistoriqueAchèvementProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
+  HistoriqueLauréatProjetListItemReadModel,
+  HistoriqueListItemReadModels,
+  ListerHistoriqueProjetQuery,
+  ListerHistoriqueProjetReadModel,
 } from './historique/lister/listerHistoriqueProjet.query';
 import { ModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
 import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
@@ -46,31 +46,28 @@ export type LauréatUseCase =
   | ChoisirCahierDesChargesUseCase;
 export { NotifierLauréatUseCase, ModifierLauréatUseCase, ChoisirCahierDesChargesUseCase };
 
+// ValueType
+export * as Abandon from './abandon';
+export * as Achèvement from './achèvement';
+export * as Actionnaire from './actionnaire';
+export { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
+export * as Délai from './délai';
+export * as Fournisseur from './fournisseur';
+export * as GarantiesFinancières from './garanties-financières';
+// Entities
+export { LauréatEntity } from './lauréat.entity';
 // Events
 export { LauréatEvent } from './lauréat.event';
+// Register
+export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register';
+export { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
 export {
   LauréatNotifiéEvent,
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event';
-export { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
-export { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
-
-// Register
-export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register';
-
-// Entities
-export { LauréatEntity } from './lauréat.entity';
-
-// ValueType
-export * as Abandon from './abandon';
-export * as Actionnaire from './actionnaire';
-export * as Achèvement from './achèvement';
-export * as Délai from './délai';
-export * as GarantiesFinancières from './garanties-financières';
 export * as Producteur from './producteur';
 export * as Puissance from './puissance';
-export * as Fournisseur from './fournisseur';
-export * as ReprésentantLégal from './représentantLégal';
 export * as Raccordement from './raccordement';
+export * as ReprésentantLégal from './représentantLégal';
 export * as TâchePlanifiée from './tâche-planifiée';

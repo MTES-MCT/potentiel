@@ -3,10 +3,10 @@ import { isNotFoundError } from 'next/dist/client/components/not-found';
 // eslint-disable-next-line no-restricted-imports
 import { isRedirectError } from 'next/dist/client/components/redirect';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { DomainError } from '@potentiel-domain/core';
-import { NoAuthenticatedUserError } from '@potentiel-applications/request-context';
 import { AuthenticationError } from '@potentiel-applications/bootstrap';
+import { NoAuthenticatedUserError } from '@potentiel-applications/request-context';
+import { DomainError } from '@potentiel-domain/core';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export async function withErrorHandling<TResult>(
   action: () => Promise<TResult>,

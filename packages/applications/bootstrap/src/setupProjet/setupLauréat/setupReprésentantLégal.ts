@@ -1,12 +1,12 @@
+import { ReprésentantLégalNotification } from '@potentiel-applications/notifications';
 import {
-  HistoriqueProjector,
+  type HistoriqueProjector,
   ReprésentantLégalProjector,
 } from '@potentiel-applications/projectors';
-import { ReprésentantLégalNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
+import type { SetupProjet } from '../setup';
 
 export const setupReprésentantLégal: SetupProjet = async ({ sendEmail }) => {
   const représentantLégal = createSubscriptionSetup('représentant-légal');

@@ -1,10 +1,10 @@
 import {
   InvalidOperationError,
   OperationRejectedError,
-  PlainType,
-  ReadonlyValueType,
+  type PlainType,
+  type ReadonlyValueType,
 } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
 export const autoritésCompétentes = ['dreal', 'dgec'] as const;
 

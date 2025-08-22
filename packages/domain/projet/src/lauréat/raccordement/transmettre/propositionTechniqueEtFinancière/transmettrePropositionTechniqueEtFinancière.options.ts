@@ -1,6 +1,6 @@
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
 
-import { RéférenceDossierRaccordement } from '../..';
+import type { RéférenceDossierRaccordement } from '../..';
 
 export type TransmettrePropositionTechniqueEtFinancièreOptions = {
   dateSignature: DateTime.ValueType;

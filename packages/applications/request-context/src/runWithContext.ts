@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
 import { getUtilisateur } from './getUtilisateur';
 import { requestContextStorage } from './request-context';

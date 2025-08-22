@@ -1,11 +1,9 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients } from '../../../helpers';
-
-import { RegisterActionnaireNotificationDependencies } from '.';
-
+import type { RegisterActionnaireNotificationDependencies } from '.';
 import { actionnaireNotificationTemplateId } from './constant';
 
 type changementActionnaireDemandéNotificationsProps = {

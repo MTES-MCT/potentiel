@@ -1,16 +1,18 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
-import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './CorrigerCandidature.form';
+import {
+  CorrigerCandidatureForm,
+  type CorrigerCandidatureFormProps,
+} from './CorrigerCandidature.form';
 
 export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
   estNotifiée: boolean;

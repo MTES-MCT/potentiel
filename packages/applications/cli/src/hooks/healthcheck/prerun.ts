@@ -1,9 +1,8 @@
-import { Hook } from '@oclif/core';
+import type { Hook } from '@oclif/core';
 import z from 'zod';
 
 import { getHealthcheckClient } from '../../helpers/healthcheck';
-
-import { CommandWithHealthcheckClient } from './finally';
+import type { CommandWithHealthcheckClient } from './finally';
 
 const configSchema = z.object({
   SENTRY_CRONS: z.string(),
@@ -18,7 +17,7 @@ type CommandWithHealthCheckConfiguration = {
  * Before running the actual command, notify Sentry that the command started,
  * if `monitoringSlug` was specified.
  */
-const healthcheckPrerunHook: Hook.Prerun = async function ({ Command }) {
+const healthcheckPrerunHook: Hook.Prerun = async ({ Command }) => {
   const { success, data } = configSchema.safeParse(process.env);
 
   const command = Command as CommandWithHealthCheckConfiguration & CommandWithHealthcheckClient;

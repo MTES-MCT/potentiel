@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Icon, IconProps } from '../atoms/Icon';
+import { Icon, type IconProps } from '../atoms/Icon';
 
 export type ListLegendProps = {
   symbols: Array<SymbolProps>;

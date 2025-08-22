@@ -1,9 +1,8 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { getContext } from '@potentiel-applications/request-context';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
 import { HomePage } from './Home.page';
 
 export const metadata: Metadata = {

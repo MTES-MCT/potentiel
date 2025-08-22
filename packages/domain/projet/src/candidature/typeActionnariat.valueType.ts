@@ -1,4 +1,8 @@
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 export const ppe2Types = ['financement-collectif', 'gouvernance-partagée'] as const;
 export const cre4Types = ['financement-participatif', 'investissement-participatif'] as const;

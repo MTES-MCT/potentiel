@@ -1,12 +1,12 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { UtilisateurAggregate } from '../utilisateur.aggregate';
 import {
   DésactivationPropreCompteError,
   UtilisateurInconnuError,
   UtilisateurNonActifError,
 } from '../errors';
+import type { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type UtilisateurDésactivéEvent = DomainEvent<
   'UtilisateurDésactivé-V1',

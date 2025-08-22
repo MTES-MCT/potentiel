@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Accès } from '@potentiel-domain/projet';
+import type { Accès } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { EmailPayload, SendEmail } from '../../sendEmail';
-
+import type { EmailPayload, SendEmail } from '../../sendEmail';
 import { accèsProjetRetiréNotification } from './accèsProjetRetiré.notification';
 
 export type SubscriptionEvent = Accès.AccèsProjetRetiréEvent & Event;

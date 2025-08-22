@@ -1,14 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
-import { Email } from '@potentiel-domain/common';
+import type { Email } from '@potentiel-domain/common';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { Heading3 } from '@/components/atoms/headings';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
-import { FormattedDate } from '@/components//atoms/FormattedDate';
 import { CorrigerRéponseSignée } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/corrigerRéponseSignée/CorrigerRéponseSignée.form';
+import { FormattedDate } from '@/components//atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { Heading3 } from '@/components/atoms/headings';
+import { Timeline, type TimelineProps } from '@/components/organisms/Timeline';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   identifiantProjet: string;

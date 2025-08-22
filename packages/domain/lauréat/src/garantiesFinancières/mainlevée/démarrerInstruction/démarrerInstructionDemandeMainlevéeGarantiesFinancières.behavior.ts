@@ -1,9 +1,9 @@
-import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 import { StatutMainlevéeGarantiesFinancières } from '../..';
+import type { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
+import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;

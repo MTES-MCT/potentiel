@@ -1,6 +1,6 @@
 import test, { describe } from 'node:test';
 
-import { expect, assert } from 'chai';
+import { assert, expect } from 'chai';
 
 import { candidatureSchema } from './candidature.schema';
 

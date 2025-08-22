@@ -1,4 +1,4 @@
-import { Option } from '@potentiel-libraries/monads';
+import type { Option } from '@potentiel-libraries/monads';
 
 export type RécupererGRDParVillePort = (props: { codePostal: string; commune: string }) => Promise<
   Option.Type<{

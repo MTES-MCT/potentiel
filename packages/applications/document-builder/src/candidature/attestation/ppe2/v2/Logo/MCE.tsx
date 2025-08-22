@@ -1,5 +1,4 @@
 import { Image } from '@react-pdf/renderer';
-import React from 'react';
 
 export const LogoMCE = ({ imagesRootPath }: { imagesRootPath: string }) => (
   <Image

@@ -1,8 +1,8 @@
-import { Entity } from './entity';
-import { Joined, JoinOptions } from './joinOptions';
-import { OrderByOptions } from './orderByOptions';
-import { RangeOptions } from './rangeOptions';
-import { WhereOptions } from './whereOptions';
+import type { Entity } from './entity';
+import type { Joined, JoinOptions } from './joinOptions';
+import type { OrderByOptions } from './orderByOptions';
+import type { RangeOptions } from './rangeOptions';
+import type { WhereOptions } from './whereOptions';
 
 export type ListOptions<TEntity extends Entity, TJoin extends Entity | {} = {}> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;

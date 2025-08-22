@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { TypeDocumentActionnaire } from '../..';
 import { IdentifiantProjet } from '../../../..';
-
-import { RejeterChangementActionnaireCommand } from './rejeterChangementActionnaire.command';
+import { TypeDocumentActionnaire } from '../..';
+import type { RejeterChangementActionnaireCommand } from './rejeterChangementActionnaire.command';
 
 export type RejeterChangementActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',

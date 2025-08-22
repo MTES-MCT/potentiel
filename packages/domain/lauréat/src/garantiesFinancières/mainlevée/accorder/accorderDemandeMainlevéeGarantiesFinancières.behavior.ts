@@ -1,9 +1,9 @@
-import { DateTime, IdentifiantProjet, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DocumentProjet } from '@potentiel-domain/document';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '../..';
+import type { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 
 type Options = {

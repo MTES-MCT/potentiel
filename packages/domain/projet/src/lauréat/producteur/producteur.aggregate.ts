@@ -1,26 +1,24 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
 import { GarantiesFinancières } from '..';
-
+import type { LauréatAggregate } from '../lauréat.aggregate';
 import { TypeDocumentProducteur } from '.';
-
-import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
-import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
-import { ProducteurEvent } from './producteur.event';
-import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
-import { ModifierOptions } from './modifier/modifierProducteur.option';
-import { ImporterOptions } from './importer/importerProducteur.option';
-import { ProducteurImportéEvent } from './importer/importerProducteur.event';
+import type { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
+import type { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
+import type { ProducteurImportéEvent } from './importer/importerProducteur.event';
+import type { ImporterOptions } from './importer/importerProducteur.option';
+import type { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
+import type { ModifierOptions } from './modifier/modifierProducteur.option';
 import {
-  ProducteurIdentiqueError,
   AOEmpêcheChangementProducteurError,
   ProducteurDéjàTransmisError,
+  ProducteurIdentiqueError,
 } from './producteur.error';
+import type { ProducteurEvent } from './producteur.event';
 
 export class ProducteurAggregate extends AbstractAggregate<
   ProducteurEvent,

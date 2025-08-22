@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 // eslint-disable-next-line no-restricted-imports
 import {
   batimentPPE2,
   eolienPPE2,
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
-
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { makeCertificate } from './makeCertificate';
 
 const meta = {

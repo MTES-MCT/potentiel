@@ -2,38 +2,36 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
-
+import type { LauréatAggregate } from '../lauréat.aggregate';
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
-
-import { PuissanceImportéeEvent } from './importer/importerPuissance.event';
-import { ImporterOptions } from './importer/importerPuissance.options';
-import { PuissanceModifiéeEvent } from './modifier/modifierPuissance.event';
-import { ModifierOptions } from './modifier/modifierPuissance.options';
-import { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.event';
-import { DemanderOptions } from './changement/demander/demanderChangementPuissance.options';
-import { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.event';
-import { AnnulerOptions } from './changement/annuler/annulerChangementPuissance.options';
-import { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.event';
-import { SupprimerChangementPuissanceOptions } from './changement/supprimer/supprimerChangementPuissance.options';
-import { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.event';
-import { AccorderChangementPuissanceOptions } from './changement/accorder/accorderChangementPuissance.options';
-import { ChangementPuissanceEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementPuissance.event';
-import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options';
+import type { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.event';
+import type { AccorderChangementPuissanceOptions } from './changement/accorder/accorderChangementPuissance.options';
+import type { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.event';
+import type { AnnulerOptions } from './changement/annuler/annulerChangementPuissance.options';
+import type { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.event';
+import type { DemanderOptions } from './changement/demander/demanderChangementPuissance.options';
+import type { ChangementPuissanceEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementPuissance.event';
+import type { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options';
+import {
+  DemandeDeChangementInexistanteError,
+  DemandeDoitÊtreInstruiteParDGECError,
+  RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError,
+} from './changement/errors';
+import type { ChangementPuissanceRejetéEvent } from './changement/rejeter/rejeterChangementPuissance.event';
+import type { RejeterChangementPuissanceOptions } from './changement/rejeter/rejeterChangementPuissance.options';
+import type { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.event';
+import type { SupprimerChangementPuissanceOptions } from './changement/supprimer/supprimerChangementPuissance.options';
+import type { PuissanceImportéeEvent } from './importer/importerPuissance.event';
+import type { ImporterOptions } from './importer/importerPuissance.options';
+import type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.event';
+import type { ModifierOptions } from './modifier/modifierPuissance.options';
 import {
   DemandeDeChangementPuissanceEnCoursError,
   PuissanceDéjàImportéeError,
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
 } from './puissance.error';
-import { ChangementPuissanceRejetéEvent } from './changement/rejeter/rejeterChangementPuissance.event';
-import { RejeterChangementPuissanceOptions } from './changement/rejeter/rejeterChangementPuissance.options';
-import { PuissanceEvent } from './puissance.event';
-import {
-  DemandeDeChangementInexistanteError,
-  DemandeDoitÊtreInstruiteParDGECError,
-  RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError,
-} from './changement/errors';
+import type { PuissanceEvent } from './puissance.event';
 
 export class PuissanceAggregate extends AbstractAggregate<
   PuissanceEvent,

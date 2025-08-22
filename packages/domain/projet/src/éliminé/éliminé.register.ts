@@ -3,8 +3,8 @@ import { registerConsulterÉliminéQuery } from './consulter/consulterÉliminé.
 import { registerNotifierÉliminéCommand } from './notifier/notifierÉliminé.command';
 import { registerNotifierÉliminéUseCase } from './notifier/notifierÉliminé.usecase';
 import {
-  RecoursCommandDependencies,
-  RecoursQueryDependencies,
+  type RecoursCommandDependencies,
+  type RecoursQueryDependencies,
   registerRecoursQueries,
   registerRecoursUseCases,
 } from './recours/recours.register';

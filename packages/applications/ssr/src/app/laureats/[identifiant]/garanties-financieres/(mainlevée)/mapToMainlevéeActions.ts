@@ -1,7 +1,7 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { MainlevéeEnCoursProps } from './MainlevéeEnCours';
+import type { MainlevéeEnCoursProps } from './MainlevéeEnCours';
 
 type GetMainlevéeActions = {
   role: Role.ValueType;

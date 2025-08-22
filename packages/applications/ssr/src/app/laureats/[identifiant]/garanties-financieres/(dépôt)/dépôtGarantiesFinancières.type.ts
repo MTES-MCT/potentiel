@@ -1,6 +1,6 @@
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { CommonGarantiesFinancières } from '../garantiesFinancières.type';
+import type { CommonGarantiesFinancières } from '../garantiesFinancières.type';
 
 export type DépôtGarantiesFinancières = CommonGarantiesFinancières & {
   isActuelle: false;

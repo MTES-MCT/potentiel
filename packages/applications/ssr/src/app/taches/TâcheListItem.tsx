@@ -1,15 +1,15 @@
 import Link from 'next/link';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { Tâche } from '@potentiel-domain/tache';
 import { DateTime } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Tâche } from '@potentiel-domain/tache';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 export type TâcheListItemProps = PlainType<Tâche.ListerTâchesReadModel['items'][number]>;
 

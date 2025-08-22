@@ -1,13 +1,13 @@
 import zod from 'zod';
 
-import { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau as Gestionnaire } from '@potentiel-domain/reseau';
+import { get } from '@potentiel-libraries/http-client';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { get } from '@potentiel-libraries/http-client';
 
-import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
-import { normaliserCommune } from './helper/normaliserCommune';
+import { distributeurDEnergieParCommuneUrl, OreEndpoint } from './constant';
 import { isZNI } from './helper/isZNI';
+import { normaliserCommune } from './helper/normaliserCommune';
 
 type GetGRDByCityProps = {
   codePostal: string;

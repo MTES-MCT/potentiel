@@ -1,7 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { RecoursWord } from './recours/recours.world';
 import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
+import { RecoursWord } from './recours/recours.world';
 
 type ÉliminéFixture = {
   nom: string;

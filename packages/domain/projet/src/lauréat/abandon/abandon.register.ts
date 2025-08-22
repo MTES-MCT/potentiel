@@ -1,5 +1,4 @@
-import { GetProjetAggregateRoot } from '../..';
-
+import type { GetProjetAggregateRoot } from '../..';
 import { registerAccorderAbandonCommand } from './accorder/accorderAbandon.command';
 import { registerAccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command';
@@ -7,7 +6,7 @@ import { registerAnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase'
 import { registerConfirmerAbandonCommand } from './confirmer/confirmerAbandon.command';
 import { registerConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
-  ConsulterAbandonDependencies,
+  type ConsulterAbandonDependencies,
   registerConsulterAbandonQuery,
 } from './consulter/consulterAbandon.query';
 import { registerDemanderAbandonCommand } from './demander/demanderAbandon.command';
@@ -16,20 +15,20 @@ import { registerDemanderConfirmationAbandonCommand } from './demanderConfirmati
 import { registerDemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import { registerDemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidature/demanderPreuveRecandidature.command';
 import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase';
-import {
-  ListerHistoriqueAbandonProjetDependencies,
-  registerListerHistoriqueAbandonProjetQuery,
-} from './lister/listerHistoriqueAbandonProjet.query';
 import { registerPasserAbandonEnInstructionCommand } from './instruire/passerAbandonEnInstruction.command';
 import { registerPasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
 import {
-  ListerAbandonDependencies,
+  type ListerAbandonDependencies,
   registerListerAbandonQuery,
 } from './lister/listerAbandons.query';
 import {
-  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
+  type ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
 } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
+import {
+  type ListerHistoriqueAbandonProjetDependencies,
+  registerListerHistoriqueAbandonProjetQuery,
+} from './lister/listerHistoriqueAbandonProjet.query';
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.command';

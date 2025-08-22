@@ -1,5 +1,5 @@
 import { none } from './none';
-import { Option } from './option';
+import type { Option } from './option';
 import { isSome } from './some';
 
 type OnNone<TReturn> = () => TReturn;

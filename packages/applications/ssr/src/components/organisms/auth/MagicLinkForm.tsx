@@ -1,11 +1,11 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { signIn } from 'next-auth/react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
+import { signIn } from 'next-auth/react';
+import { type FC, useState } from 'react';
 
 type MagicLinkFormProps = {
   callbackUrl: string;

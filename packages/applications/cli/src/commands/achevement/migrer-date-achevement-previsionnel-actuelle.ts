@@ -1,9 +1,9 @@
 import { Command, Flags } from '@oclif/core';
-import z from 'zod';
 import { match } from 'ts-pattern';
+import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 

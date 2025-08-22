@@ -1,4 +1,4 @@
-import { Logger, forkLogger } from './logger';
+import { forkLogger, type Logger } from './logger';
 
 export const getLogger = (service?: string): Logger => {
   const logger = forkLogger(service);

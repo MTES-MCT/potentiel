@@ -1,12 +1,11 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { ImporterCandidaturesForm } from './ImporterCandidatures.form';
 
 export const ImporterCandidaturesPage: FC = () => (

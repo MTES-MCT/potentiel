@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
+import type { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 
 type Props = {
   identifiantProjet: DétailsGarantiesFinancièresPageProps['identifiantProjet'];

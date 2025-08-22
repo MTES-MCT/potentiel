@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { StatutChangementFournisseurBadge } from '../../[identifiant]/fournisseur/StatutChangementFournisseurBadge';
 
 export type ChangementFournisseurListItemProps = PlainType<

@@ -1,21 +1,20 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
-import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ModifierDemandeComplèteRaccordementFormKeys,
   modifierDemandeComplèteRaccordementAction,
-  ModifierDemandeComplèteRaccordementFormKeys,
 } from './modifierDemandeComplèteRaccordement.action';
 
 export type ModifierDemandeComplèteRaccordementFormProps = {

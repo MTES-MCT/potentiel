@@ -15,11 +15,10 @@ export type { ListerAppelOffreQuery, ConsulterAppelOffreQuery };
 // Read Models
 export type { ListerAppelOffreReadModel, ConsulterAppelOffreReadModel };
 
-// Register
-export * from './register';
-
 // Entity
 export * from './appelOffre.entity';
+// Register
+export * from './register';
 
 // ValueType
 export { RéférenceCahierDesCharges };

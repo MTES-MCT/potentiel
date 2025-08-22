@@ -1,9 +1,8 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
-import { CandidatureShape } from '@/utils/candidature';
-
+import type { CandidatureShape } from '@/utils/candidature';
 import {
-  DépartementRégion,
+  type DépartementRégion,
   getRégionAndDépartementFromCodePostal,
 } from './getRégionAndDépartementFromCodePostal';
 

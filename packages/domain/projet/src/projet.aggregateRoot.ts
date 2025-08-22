@@ -1,14 +1,13 @@
-import { Option } from '@potentiel-libraries/monads';
-import { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
 import {
   AppelOffre,
-  AppelOffreAggregate,
-  LoadAppelOffreAggregatePort,
+  type AppelOffreAggregate,
+  type LoadAppelOffreAggregatePort,
 } from '@potentiel-domain/appel-offre';
+import type { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
-import { CahierDesCharges, IdentifiantProjet, StatutProjet } from '.';
-
-import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
+import { CahierDesCharges, type IdentifiantProjet, StatutProjet } from '.';
+import { AccèsAggregate } from './accès/accès.aggregate';
 import {
   AppelOffreInexistantError,
   CahierDesChargesInexistantError,
@@ -17,7 +16,7 @@ import {
 } from './appelOffre.error';
 import { CandidatureAggregate } from './candidature/candidature.aggregate';
 import { LauréatAggregate } from './lauréat/lauréat.aggregate';
-import { AccèsAggregate } from './accès/accès.aggregate';
+import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregateV2;

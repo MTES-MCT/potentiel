@@ -1,18 +1,18 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { puissanceImportéeProjector } from './puissanceImportée.projector';
-import { puissanceRebuilTriggeredProjector } from './puissanceRebuildTrigerred.projector';
-import { puissanceModifiéeProjector } from './puissanceModifiée.projector';
-import { changementPuissanceDemandéProjector } from './changementPuissanceDemandé.projector';
-import { changementPuissanceAnnuléProjector } from './changementPuissanceAnnulé.projector';
-import { changementPuissanceSuppriméProjector } from './changementPuissanceSupprimé.projector';
 import { changementPuissanceAccordéProjector } from './changementPuissanceAccordé.projector';
+import { changementPuissanceAnnuléProjector } from './changementPuissanceAnnulé.projector';
+import { changementPuissanceDemandéProjector } from './changementPuissanceDemandé.projector';
 import { changementPuissanceEnregistréProjector } from './changementPuissanceEnregistré.projector';
 import { changementPuissanceRejetéProjector } from './changementPuissanceRejeté.projector';
+import { changementPuissanceSuppriméProjector } from './changementPuissanceSupprimé.projector';
+import { puissanceImportéeProjector } from './puissanceImportée.projector';
+import { puissanceModifiéeProjector } from './puissanceModifiée.projector';
+import { puissanceRebuilTriggeredProjector } from './puissanceRebuildTrigerred.projector';
 
 export type SubscriptionEvent = (Lauréat.Puissance.PuissanceEvent & Event) | RebuildTriggered;
 

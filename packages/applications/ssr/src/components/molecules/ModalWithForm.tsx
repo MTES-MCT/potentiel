@@ -3,9 +3,9 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
-import { Form, FormProps } from '../atoms/form/Form';
+import { Form, type FormProps } from '../atoms/form/Form';
 import { SubmitButton } from '../atoms/form/SubmitButton';
 
 export type ModalWithFormProps = {

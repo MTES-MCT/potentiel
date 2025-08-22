@@ -1,8 +1,8 @@
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useState } from 'react';
 
+import type { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
 type PuissanceALaPointeFieldProps = {
   candidature: boolean;

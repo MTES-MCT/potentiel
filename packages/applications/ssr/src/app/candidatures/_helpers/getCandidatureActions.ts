@@ -1,8 +1,8 @@
 import { match } from 'ts-pattern';
 
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Role } from '@potentiel-domain/utilisateur';
 
-import { DétailsCandidaturePageProps } from '@/app/candidatures/[identifiant]/DétailsCandidature.page';
+import type { DétailsCandidaturePageProps } from '@/app/candidatures/[identifiant]/DétailsCandidature.page';
 
 export const getCandidatureActions = (
   props: { estNotifiée: boolean; estLauréat: boolean; aUneAttestation: boolean },

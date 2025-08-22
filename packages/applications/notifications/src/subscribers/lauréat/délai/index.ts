@@ -1,20 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../helpers';
-import { getBaseUrl } from '../../../helpers';
-
+import { getBaseUrl, getLauréat } from '../../../helpers';
+import type { SendEmail } from '../../../sendEmail';
+import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnulée.notification';
+import { demandeDélaiCorrigéeNotification } from './demandeDélaiCorrigée.notification';
+import { demandeDélaiPasséeEnInstructionNotification } from './demandeDélaiPasséeEnInstruction.notification';
 import { demandeDélaiRejetéeNotification } from './demandeDélaiRejetée.notification';
 import { délaiDemandéNotification } from './délaiDemandé.notification';
-import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnulée.notification';
-import { demandeDélaiPasséeEnInstructionNotification } from './demandeDélaiPasséeEnInstruction.notification';
 import { demandeDélaiAccordéeNotification } from './démandeDélaiAccordée.notification';
-import { demandeDélaiCorrigéeNotification } from './demandeDélaiCorrigée.notification';
 
 export type SubscriptionEvent = Lauréat.Délai.DélaiEvent & Event;
 

@@ -1,10 +1,9 @@
 'use client';
 
-import React from 'react';
 import IframeResizer from '@iframe-resizer/react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 type StatistiquesPubliquesPageProps = {
   mainDashboardIframeUrl: string;

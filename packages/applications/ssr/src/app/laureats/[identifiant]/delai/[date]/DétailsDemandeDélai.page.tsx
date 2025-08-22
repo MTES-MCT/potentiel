@@ -1,26 +1,25 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
-import { DateTime, Email } from '@potentiel-domain/common';
-import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { mapToPlainObject, type PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ReadMore } from '@/components/atoms/ReadMore';
-
-import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/Timeline';
+import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { AccorderDemandeDélai } from './accorder/AccorderDemandeDélai';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
 import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
 import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
-import { AccorderDemandeDélai } from './accorder/AccorderDemandeDélai';
+import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 
 export type DemandeDélaiActions =
   | 'annuler'

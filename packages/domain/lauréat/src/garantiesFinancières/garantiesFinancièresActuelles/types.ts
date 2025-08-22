@@ -1,4 +1,4 @@
-import { StatutGarantiesFinancières } from '..';
+import type { StatutGarantiesFinancières } from '..';
 
 export type GarantiesFinancièresDetails = {
   statut: StatutGarantiesFinancières.RawType;

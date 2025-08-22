@@ -2,15 +2,15 @@ import { mediator } from 'mediateur';
 import { extension } from 'mime-types';
 import { notFound } from 'next/navigation';
 
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { Éliminé } from '@potentiel-domain/projet';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { apiAction } from '@/utils/apiAction';
 import { getProjet } from '@/app/_helpers';
+import { apiAction } from '@/utils/apiAction';
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet

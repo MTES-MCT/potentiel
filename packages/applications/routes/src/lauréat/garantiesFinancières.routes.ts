@@ -1,4 +1,4 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { encodeParameter } from '../encodeParameter';
 

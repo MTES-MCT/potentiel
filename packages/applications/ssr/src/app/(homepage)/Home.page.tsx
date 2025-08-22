@@ -1,4 +1,4 @@
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { Benefices } from './Benefices';
 import { Bienvenue } from './Bienvenue';

@@ -3,21 +3,21 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { match } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Éliminé } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
+import type { Éliminé } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
-  AvailableRecoursAction,
+  type AvailableRecoursAction,
   DétailsRecoursPage,
 } from '@/app/elimine/[identifiant]/recours/(détails)/DétailsRecours.page';
-import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
 import { getProjetÉliminé } from '@/app/projets/[identifiant]/_helpers/getÉliminé';
+import { decodeParameter } from '@/utils/decodeParameter';
+import { mapToRecoursTimelineItemProps } from '@/utils/historique/mapToProps/recours/mapToRecoursTimelineItemProps';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = IdentifiantParameter;
 

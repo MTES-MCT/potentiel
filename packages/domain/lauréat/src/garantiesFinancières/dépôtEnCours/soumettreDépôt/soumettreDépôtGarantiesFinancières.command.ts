@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature, GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import type { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { LoadAggregate } from '@potentiel-domain/core';
+import type { DocumentProjet } from '@potentiel-domain/document';
+import type { Candidature, GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import type { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 

@@ -1,12 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { Pagination } from '@/utils/pagination';
-
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import type { Pagination } from '@/utils/pagination';
 import { ChangementProducteurListItem } from './ChangementProducteurListItem';
 
 export type ChangementProducteurListPageProps = {

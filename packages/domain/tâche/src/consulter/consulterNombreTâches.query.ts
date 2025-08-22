@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Count, Where } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { type Count, Where } from '@potentiel-domain/entity';
+import type { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
-import { TâcheEntity } from '../tâche.entity';
+import type { TâcheEntity } from '../tâche.entity';
 
 export type ConsulterNombreTâchesReadModel = {
   nombreTâches: number;

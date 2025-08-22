@@ -1,8 +1,7 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
-
+import type { PotentielWorld } from '../../../potentiel.world';
 import { notifierLauréat } from './lauréat.given';
 
 EtantDonné(

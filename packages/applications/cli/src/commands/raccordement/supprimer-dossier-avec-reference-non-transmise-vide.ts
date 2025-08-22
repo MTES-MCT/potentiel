@@ -1,11 +1,11 @@
 import { Command } from '@oclif/core';
 import { mediator } from 'mediateur';
 
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { registerLauréatUseCases } from '@potentiel-domain/laureat';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { type Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 type Dossier = {
   key: string;

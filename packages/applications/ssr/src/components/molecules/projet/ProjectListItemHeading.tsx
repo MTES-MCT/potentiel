@@ -1,13 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, StatutProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Candidature, IdentifiantProjet, StatutProjet } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '../../atoms/FormattedDate';
 import { NotificationBadge } from '../candidature/NotificationBadge';
-
 import { StatutProjetBadge } from './StatutProjetBadge';
 
 export type ProjectListItemHeadingProps = {

@@ -1,5 +1,5 @@
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 
 export type RawType = DateTime.RawType;
 

@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbstractFixture, DeepPartial } from '../../../../../fixture';
+import { AbstractFixture, type DeepPartial } from '../../../../../fixture';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
-import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world';
+import type { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world';
 
 export interface SoumettreDépôtGarantiesFinancières {
   readonly type: string;

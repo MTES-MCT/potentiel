@@ -1,21 +1,19 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 import {
-  InformationDemandeComplèteRaccordementProps,
   InformationDemandeComplèteRaccordement,
+  type InformationDemandeComplèteRaccordementProps,
 } from '../[reference]/(demande-complète-raccordement)/InformationDemandeComplèteRaccordement';
 import { AucunDossierDeRaccordementAlert } from '../components/AucunDossierDeRaccordementAlert';
-
 import {
   TransmettreDemandeComplèteRaccordementForm,
-  TransmettreDemandeComplèteRaccordementFormProps,
+  type TransmettreDemandeComplèteRaccordementFormProps,
 } from './TransmettreDemandeComplèteRaccordement.form';
 
 export type TransmettreDemandeComplèteRaccordementPageProps = {

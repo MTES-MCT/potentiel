@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { LoadAggregateV2 } from '@potentiel-domain/core';
-import { Accès, GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type DateTime, Email, type IdentifiantProjet } from '@potentiel-domain/common';
+import type { LoadAggregateV2 } from '@potentiel-domain/core';
+import type { Accès, GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import type { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import * as IdentifiantPériode from '../identifiantPériode.valueType';
+import type * as IdentifiantPériode from '../identifiantPériode.valueType';
 import { PériodeAggregate } from '../période.aggregate';
 
 export type NotifierPériodeCommand = Message<

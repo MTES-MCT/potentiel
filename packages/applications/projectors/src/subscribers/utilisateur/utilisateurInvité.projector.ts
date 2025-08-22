@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { UtilisateurEntity, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import type { UtilisateurEntity, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvitéEvent) => {

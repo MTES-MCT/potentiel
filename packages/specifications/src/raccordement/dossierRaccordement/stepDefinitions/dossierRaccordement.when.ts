@@ -1,9 +1,9 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import type { PotentielWorld } from '../../../potentiel.world';
 
 Quand(
   `le porteur supprime le dossier de raccordement pour le projet lauréat`,

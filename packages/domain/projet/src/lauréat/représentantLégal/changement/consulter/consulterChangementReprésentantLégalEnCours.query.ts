@@ -1,17 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { ReprésentantLégal } from '../../..';
+import { IdentifiantProjet } from '../../../..';
+import type { ReprésentantLégal } from '../../..';
 import {
   StatutChangementReprésentantLégal,
   TypeDocumentChangementReprésentantLégal,
   TypeReprésentantLégal,
 } from '../..';
-import { IdentifiantProjet } from '../../../..';
 
 export type ConsulterChangementReprésentantLégalEnCoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

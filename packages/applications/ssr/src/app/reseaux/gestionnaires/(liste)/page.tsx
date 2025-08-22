@@ -1,15 +1,14 @@
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
-
 import {
+  type GestionnaireAvecNombreDeRaccordement,
   GestionnaireRéseauListPage,
-  GestionnaireAvecNombreDeRaccordement,
 } from './GestionnaireRéseauList.page';
 
 type PageProps = {

@@ -1,15 +1,16 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
-
-import { mapToPagination } from '@/utils/pagination';
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import { mapToPagination } from '@/utils/pagination';
+import {
   DossierRaccordementListItem,
-  DossierRaccordementListItemProps,
+  type DossierRaccordementListItemProps,
 } from './DossierRaccordementListItem';
 
 export type DossierRaccordementListPageProps = PlainType<{

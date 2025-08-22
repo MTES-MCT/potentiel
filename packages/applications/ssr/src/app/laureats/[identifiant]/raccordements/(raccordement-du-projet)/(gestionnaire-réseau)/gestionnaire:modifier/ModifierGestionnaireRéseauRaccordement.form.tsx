@@ -1,24 +1,22 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
-  GestionnaireRéseauSelectProps,
+  type GestionnaireRéseauSelectProps,
 } from '../GestionnaireRéseauSelect';
-
 import {
+  type ModifierGestionnaireRéseauRaccordementFormKeys,
   modifierGestionnaireRéseauRaccordementAction,
-  ModifierGestionnaireRéseauRaccordementFormKeys,
 } from './modifierGestionnaireRéseauRaccordement.action';
 
 export type ModifierGestionnaireRéseauRaccordementFormProps = {

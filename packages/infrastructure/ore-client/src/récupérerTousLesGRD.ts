@@ -6,7 +6,7 @@ import {
   OreEndpoint,
   référentielDistributeursDEnergieUrl,
 } from './constant';
-import { OreGestionnaire } from './type';
+import type { OreGestionnaire } from './type';
 
 type OreGestionnaireSlice = {
   gestionnaires: Array<OreGestionnaire>;

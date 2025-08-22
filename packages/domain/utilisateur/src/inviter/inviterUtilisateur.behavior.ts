@@ -1,18 +1,18 @@
 import { match } from 'ts-pattern';
 
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { UtilisateurAggregate } from '../utilisateur.aggregate';
 import { Role } from '..';
 import {
-  UtilisateurDéjàExistantError,
   FonctionManquanteError,
-  NomCompletManquantError,
-  RégionManquanteError,
   IdentifiantGestionnaireRéseauManquantError,
+  NomCompletManquantError,
   PorteurInvitéSansProjetError,
+  RégionManquanteError,
+  UtilisateurDéjàExistantError,
 } from '../errors';
+import type { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type UtilisateurInvitéEvent = DomainEvent<
   'UtilisateurInvité-V1',

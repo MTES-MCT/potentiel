@@ -1,16 +1,20 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import * as TypeTâche from './typeTâche.valueType';
 import {
-  TâcheRenouvelléeEvent,
-  TâcheAjoutéeEvent,
+  achever,
+  applyTâcheAchevée,
+  type TâcheAchevéeEvent,
+} from './achever/acheverTâche.behavior';
+import {
   ajouter,
-  applyTâcheRenouvellée,
   applyTâcheAjoutée,
-  TâcheRelancéeEvent,
+  applyTâcheRenouvellée,
+  type TâcheAjoutéeEvent,
+  type TâcheRelancéeEvent,
+  type TâcheRenouvelléeEvent,
 } from './ajouter/ajouterTâche.behavior';
-import { TâcheAchevéeEvent, applyTâcheAchevée, achever } from './achever/acheverTâche.behavior';
+import * as TypeTâche from './typeTâche.valueType';
 import { TâcheInconnueError } from './tâcheInconnue.error';
 
 export type TâcheEvent =

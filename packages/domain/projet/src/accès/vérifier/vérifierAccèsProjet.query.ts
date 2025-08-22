@@ -1,15 +1,15 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Find } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import type { Find } from '@potentiel-domain/entity';
+import type { UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
 
-import { LauréatEntity } from '../../lauréat';
-import { CandidatureEntity } from '../../candidature';
-import { AccèsEntity } from '../accès.entity';
-import { RaccordementEntity } from '../../lauréat/raccordement';
+import type { CandidatureEntity } from '../../candidature';
+import type { LauréatEntity } from '../../lauréat';
+import type { RaccordementEntity } from '../../lauréat/raccordement';
+import type { AccèsEntity } from '../accès.entity';
 
 export type VérifierAccèsProjetQuery = Message<
   'System.Projet.Accès.Query.VérifierAccèsProjet',

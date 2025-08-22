@@ -1,8 +1,8 @@
-import { HistoriqueProjector, PuissanceProjector } from '@potentiel-applications/projectors';
 import { PuissanceNotification } from '@potentiel-applications/notifications';
+import { type HistoriqueProjector, PuissanceProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
+import type { SetupProjet } from '../setup';
 
 export const setupPuissance: SetupProjet = async ({ sendEmail }) => {
   const puissance = createSubscriptionSetup('puissance');

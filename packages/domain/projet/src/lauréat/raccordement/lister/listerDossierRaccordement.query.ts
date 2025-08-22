@@ -1,20 +1,20 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
-import { LauréatEntity } from '../../lauréat.entity';
 import {
   Candidature,
-  GetProjetUtilisateurScope,
+  type GetProjetUtilisateurScope,
   IdentifiantProjet,
-  Lauréat,
+  type Lauréat,
   StatutProjet,
 } from '../../..';
+import type { LauréatEntity } from '../../lauréat.entity';
+import { type DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 
 type DossierRaccordement = {
   nomProjet: string;

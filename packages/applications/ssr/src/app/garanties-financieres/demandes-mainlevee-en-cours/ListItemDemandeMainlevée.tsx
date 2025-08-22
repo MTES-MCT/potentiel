@@ -1,16 +1,16 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/StatutMainlevéeBadge';
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
-import { ListItem } from '@/components/molecules/ListItem';
 import { convertMotifMainlevéeForView } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
+import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/StatutMainlevéeBadge';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 export type ListItemDemandeMainlevéeProps = {
   demandéLe: Iso8601DateTime;

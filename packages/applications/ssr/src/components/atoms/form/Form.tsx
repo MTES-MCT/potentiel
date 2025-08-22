@@ -1,16 +1,14 @@
 'use client';
 
-import { FC, FormHTMLAttributes, ReactNode, useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
+import { type FC, type FormHTMLAttributes, type ReactNode, useEffect, useState } from 'react';
+import { useFormState } from 'react-dom';
 
-import { formAction, ValidationErrors } from '@/utils/formAction';
-
+import type { formAction, ValidationErrors } from '@/utils/formAction';
 import { Heading2 } from '../headings';
-
 import { FormFeedback } from './FormFeedback';
-import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
+import { FormPendingModal, type FormPendingModalProps } from './FormPendingModal';
 
 export type FormProps = {
   id?: string;

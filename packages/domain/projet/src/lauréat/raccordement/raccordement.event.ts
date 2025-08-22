@@ -1,10 +1,9 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { IdentifiantProjet } from '../..';
-
-import { RéférenceDossierRaccordement } from '.';
+import type { IdentifiantProjet } from '../..';
+import type { RéférenceDossierRaccordement } from '.';
 
 export type GestionnaireRéseauAttribuéEvent = DomainEvent<
   'GestionnaireRéseauAttribué-V1',

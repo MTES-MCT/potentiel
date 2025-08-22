@@ -1,7 +1,11 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
-import { TypeTechnologie } from '.';
+import type { TypeTechnologie } from '.';
 
 export type RawType = AppelOffre.UnitéPuissance;
 export type ValueType = ReadonlyValueType<{

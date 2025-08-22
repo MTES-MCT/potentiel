@@ -1,11 +1,10 @@
-import { Heading2 } from '@/components/atoms/headings';
 import { CallOut } from '@/components/atoms/CallOut';
-
+import { Heading2 } from '@/components/atoms/headings';
 import {
   HistoriqueMainlevéeRejetée,
-  HistoriqueMainlevéeRejetéeProps,
+  type HistoriqueMainlevéeRejetéeProps,
 } from './(historique-main-levée-rejetée)/HistoriqueMainlevéeRejetée';
-import { MainlevéeEnCours, MainlevéeEnCoursProps } from './MainlevéeEnCours';
+import { MainlevéeEnCours, type MainlevéeEnCoursProps } from './MainlevéeEnCours';
 
 type Props = {
   mainlevéeEnCours?: MainlevéeEnCoursProps['mainlevéeEnCours'];

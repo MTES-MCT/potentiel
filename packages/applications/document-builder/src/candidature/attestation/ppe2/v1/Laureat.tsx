@@ -1,11 +1,10 @@
 import { Text, View } from '@react-pdf/renderer';
-import React from 'react';
 
-import { CahierDesCharges } from '@potentiel-domain/projet';
+import type { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { formatNumber } from '../../helpers';
-import { Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes';
+import { type Footnote, makeAddFootnote } from '../../helpers/makeAddFootnotes';
 
 type MakeLaureatProps = {
   project: AttestationPPE2Options;

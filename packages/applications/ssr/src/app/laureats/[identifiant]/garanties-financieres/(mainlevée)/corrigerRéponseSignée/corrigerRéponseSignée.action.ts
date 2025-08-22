@@ -1,13 +1,13 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import * as zod from 'zod';
 
-import { CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
+import type { CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
 
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
-import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
   documentCorrige: singleDocument({ acceptedFileTypes: ['application/pdf'] }),

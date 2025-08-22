@@ -45,18 +45,15 @@ export {
 export type ProducteurUseCase = EnregistrerChangementProducteurUseCase | ModifierProducteurUseCase;
 export { EnregistrerChangementProducteurUseCase, ModifierProducteurUseCase };
 
-// Event
-export { ProducteurEvent } from './producteur.event';
+export * from './changement/changementProducteur.entity';
 export { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
-export { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
 export { ProducteurImportéEvent } from './importer/importerProducteur.event';
-
-// Register
-export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register';
-
-// ValueTypes
-export * as TypeDocumentProducteur from './typeDocumentProducteur.valueType';
-
+export { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
 // Entities
 export * from './producteur.entity';
-export * from './changement/changementProducteur.entity';
+// Event
+export { ProducteurEvent } from './producteur.event';
+// Register
+export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register';
+// ValueTypes
+export * as TypeDocumentProducteur from './typeDocumentProducteur.valueType';

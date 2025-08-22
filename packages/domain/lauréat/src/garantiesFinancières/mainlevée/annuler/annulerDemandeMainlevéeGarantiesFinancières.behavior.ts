@@ -1,8 +1,8 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { InvalidOperationError } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
+import type { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;

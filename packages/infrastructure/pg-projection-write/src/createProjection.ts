@@ -1,6 +1,6 @@
-import { Entity } from '@potentiel-domain/entity';
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
+import type { Entity } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 const insertQuery = 'insert into domain_views.projection values($1, $2)';
 

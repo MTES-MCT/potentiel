@@ -1,17 +1,16 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { CallOut } from '@/components/atoms/CallOut';
-import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
-import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
-import { DépôtGarantiesFinancièresActions } from '../(dépôt)/DépôtGarantiesFinancièresActions';
-import { DépôtGarantiesFinancières } from '../(dépôt)/dépôtGarantiesFinancières.type';
+import { Heading2 } from '@/components/atoms/headings';
 import { GarantiesFinancièresActuellesActions } from '../(actuelles)/GarantiesFinancièresActuellesActions';
-import { GarantiesFinancièresActuelles } from '../(actuelles)/garantiesFinancièresActuelles.type';
+import type { GarantiesFinancièresActuelles } from '../(actuelles)/garantiesFinancièresActuelles.type';
+import { DépôtGarantiesFinancièresActions } from '../(dépôt)/DépôtGarantiesFinancièresActions';
+import type { DépôtGarantiesFinancières } from '../(dépôt)/dépôtGarantiesFinancières.type';
+import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 
 export type GarantiesFinancièresProps = {
   identifiantProjet: string;

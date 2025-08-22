@@ -1,11 +1,11 @@
-import { FC, useState } from 'react';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
+import { type FC, useState } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { ValidationErrors } from '@/utils/formAction';
+import type { ValidationErrors } from '@/utils/formAction';
 
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;

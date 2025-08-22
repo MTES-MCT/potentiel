@@ -1,15 +1,15 @@
-import { IWorldOptions, World } from '@cucumber/cucumber';
+import { type IWorldOptions, World } from '@cucumber/cucumber';
 
+import { CandidatureWorld } from './candidature/candidature.world';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world';
+import { NotificationWorld } from './notification/notification.world';
 import { LauréatWorld } from './projet/lauréat/lauréat.world';
 import { ÉliminéWorld } from './projet/éliminé/éliminé.world';
+import { PériodeWorld } from './période/période.world';
 import { RaccordementWorld } from './raccordement/raccordement.world';
 import { TâcheWorld } from './tâche/tâche.world';
-import { UtilisateurWorld } from './utilisateur/utilisateur.world';
 import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.world';
-import { NotificationWorld } from './notification/notification.world';
-import { CandidatureWorld } from './candidature/candidature.world';
-import { PériodeWorld } from './période/période.world';
+import { UtilisateurWorld } from './utilisateur/utilisateur.world';
 
 export class PotentielWorld extends World {
   #périodeWorld!: PériodeWorld;

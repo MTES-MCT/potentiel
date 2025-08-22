@@ -1,5 +1,5 @@
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 export type TypeSociété = 'constituée' | 'en cours de constitution' | 'non renseignée';
 

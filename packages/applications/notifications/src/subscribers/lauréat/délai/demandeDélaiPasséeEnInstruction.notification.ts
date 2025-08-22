@@ -1,11 +1,9 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
-
-import { RegisterDélaiNotificationDependencies } from '.';
-
+import type { RegisterDélaiNotificationDependencies } from '.';
 import { délaiNotificationTemplateId } from './constant';
 
 type demandeDélaiPasséeEnInstructionNotificationProps = {

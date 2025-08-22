@@ -1,9 +1,9 @@
-import { cache } from 'react';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
+import type { Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Éliminé } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const getProjetÉliminé = cache(async (identifiantProjet: string) => {

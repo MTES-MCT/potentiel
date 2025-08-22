@@ -1,9 +1,8 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { Email } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../../potentiel.world';
-
+import type { PotentielWorld } from '../../../potentiel.world';
 import {
   transmettreDemandeComplèteRaccordement,
   transmettreDemandeComplèteRaccordementSansAccuséRéception,

@@ -1,33 +1,32 @@
-import { GetProjetAggregateRoot } from '../..';
-
-import { registerAccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase';
-import { registerAccorderDemandeDélaiCommand } from './demande/accorder/accorderDemandeDélai.command';
+import type { GetProjetAggregateRoot } from '../..';
 import {
-  ConsulterDélaiDependencies,
+  type ConsulterDélaiDependencies,
   registerConsulterDélai,
 } from './consulter/consulterABénéficiéDuDélaiCDC2022.query';
+import { registerAccorderDemandeDélaiCommand } from './demande/accorder/accorderDemandeDélai.command';
+import { registerAccorderDemandeDélaiUseCase } from './demande/accorder/accorderDemandeDélai.usecase';
 import { registerAnnulerDemandeDélaiCommand } from './demande/annuler/annulerDemandeDélai.command';
 import { registerAnnulerDemandeDélaiUseCase } from './demande/annuler/annulerDemandeDélai.usecase';
 import {
-  ConsulterDemandeDélaiDependencies,
+  type ConsulterDemandeDélaiDependencies,
   registerConsulterDemandeDélaiQuery,
 } from './demande/consulter/consulterDemandeDélai.query';
+import { registerCorrigerDemandeDélaiCommand } from './demande/corriger/corrigerDemandeDélai.command';
+import { registerCorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
 import { registerDemanderDélaiDélaiCommand } from './demande/demander/demanderDélai.command';
 import { registerDemanderDélaiDélaiUseCase } from './demande/demander/demanderDélai.usecase';
-import { registerRejeterDemandeDélaiCommand } from './demande/rejeter/rejeterDemandeDélai.command';
-import { registerRejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
 import { registerPasserEnInstructionDemandeDélaiCommand } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.command';
 import { registerPasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase';
+import { registerRejeterDemandeDélaiCommand } from './demande/rejeter/rejeterDemandeDélai.command';
+import { registerRejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
 import {
-  ListerDemandeDélaiDependencies,
+  type ListerDemandeDélaiDependencies,
   registerListerDemandeDélaiQuery,
 } from './lister/listerDemandeDélai.query';
 import {
-  ListerHistoriqueDélaiProjetDependencies,
+  type ListerHistoriqueDélaiProjetDependencies,
   registerListerHistoriqueDélaiProjetQuery,
 } from './lister/listerHistoriqueDélaiProjet.query';
-import { registerCorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
-import { registerCorrigerDemandeDélaiCommand } from './demande/corriger/corrigerDemandeDélai.command';
 
 export type DélaiCommandDependencies = { getProjetAggregateRoot: GetProjetAggregateRoot };
 

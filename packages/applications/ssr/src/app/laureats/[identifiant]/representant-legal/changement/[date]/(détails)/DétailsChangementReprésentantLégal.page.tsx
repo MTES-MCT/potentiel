@@ -1,22 +1,21 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
-import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
 import { DétailsChangementReprésentantLégal } from './DétailsChangementReprésentantLégal';
+import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 
 export type AvailableChangementReprésentantLégalAction =
   | 'accorder'

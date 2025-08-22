@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import {
   CorrigerRéférenceDossierForm,
-  CorrigerRéférenceDossierFormProps,
+  type CorrigerRéférenceDossierFormProps,
 } from './CorrigerRéférenceDossier.form';
 
 export type CorrigerRéférenceDossierPageProps = CorrigerRéférenceDossierFormProps;

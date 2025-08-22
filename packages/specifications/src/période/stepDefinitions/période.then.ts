@@ -1,18 +1,17 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
+import waitForExpect from 'wait-for-expect';
 
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Période } from '@potentiel-domain/periode';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Accès, Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { Période } from '@potentiel-domain/periode';
+import type { Accès, Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
+import type { PotentielWorld } from '../../potentiel.world';
 
 Alors(
   `la période devrait être notifiée avec les lauréats et les éliminés`,

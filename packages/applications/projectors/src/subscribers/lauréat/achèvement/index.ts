@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { attestationConformitéTransmiseProjector } from './attestationConformité/attestationConformitéTransmise.projector';
-import { attestationConformitéModifiéeProjector } from './attestationConformité/attestationConformitéModifiée.projector';
 import { achèvementRebuildTriggered } from './achèvementRebuildTriggered.projector';
+import { attestationConformitéModifiéeProjector } from './attestationConformité/attestationConformitéModifiée.projector';
+import { attestationConformitéTransmiseProjector } from './attestationConformité/attestationConformitéTransmise.projector';
 import { dateAchèvementPrévisionnelCalculéeProjector } from './dateAchèvementPrévisionnelCalculéeProjector';
 
 export type SubscriptionEvent = (Lauréat.Achèvement.AchèvementEvent & Event) | RebuildTriggered;

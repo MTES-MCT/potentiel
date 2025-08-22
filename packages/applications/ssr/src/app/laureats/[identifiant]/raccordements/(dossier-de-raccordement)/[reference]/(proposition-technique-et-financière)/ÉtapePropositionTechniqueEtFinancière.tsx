@@ -1,16 +1,15 @@
 import Link from 'next/link';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Icon } from '@/components/atoms/Icon';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
+import { Icon } from '@/components/atoms/Icon';
 import { Etape, FormatFichierInvalide } from '../../components';
 
 export type ÉtapePropositionTechniqueEtFinancièreProps = {

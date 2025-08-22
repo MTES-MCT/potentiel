@@ -1,8 +1,8 @@
-import { HistoriqueProjector, DélaiProjector } from '@potentiel-applications/projectors';
 import { DélaiNotification } from '@potentiel-applications/notifications';
+import { DélaiProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
+import type { SetupProjet } from '../setup';
 
 export const setupDélai: SetupProjet = async ({ sendEmail }) => {
   const délai = createSubscriptionSetup('délai');

@@ -1,8 +1,8 @@
-import { HistoriqueProjector, RecoursProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification } from '@potentiel-applications/notifications';
+import { type HistoriqueProjector, RecoursProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
+import type { SetupProjet } from '../setup';
 
 export const setupRecours: SetupProjet = async ({ sendEmail }) => {
   const recours = createSubscriptionSetup('recours');

@@ -1,6 +1,5 @@
-import { Fixture } from '../../fixture';
-
-import { Utilisateur, AbstractUtilisateur } from './utilisateur';
+import type { Fixture } from '../../fixture';
+import { AbstractUtilisateur, type Utilisateur } from './utilisateur';
 
 interface Admin extends Utilisateur<'admin'> {}
 

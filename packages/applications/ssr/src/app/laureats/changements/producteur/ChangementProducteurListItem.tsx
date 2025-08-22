@@ -1,15 +1,13 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { StatutChangementProducteurBadge } from '../../[identifiant]/producteur/changement/StatutChangementProducteurBadge';
-
-import { ChangementProducteurListPageProps } from './ChangementProducteurList.page';
+import type { ChangementProducteurListPageProps } from './ChangementProducteurList.page';
 
 export type ChangementProducteurListItemProps =
   ChangementProducteurListPageProps['list']['items'][number];

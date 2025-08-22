@@ -1,11 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ImprimerPage } from '@/components/atoms/ImprimerPage';
+import { FiltersTagList, type FiltersTagListProps } from '@/components/molecules/FiltersTagList';
 import { ListFilters } from '@/components/molecules/ListFilters';
-import { FiltersTagListProps, FiltersTagList } from '@/components/molecules/FiltersTagList';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/Timeline';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 export type HistoriqueLauréatAction = 'imprimer';
 

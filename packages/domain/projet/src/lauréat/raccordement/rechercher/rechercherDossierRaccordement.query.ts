@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { List, Where } from '@potentiel-domain/entity';
+import { type List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { IdentifiantProjet, type Lauréat } from '../../..';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import { IdentifiantProjet, Lauréat } from '../../..';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;

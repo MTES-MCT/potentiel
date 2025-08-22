@@ -16,12 +16,11 @@ export {
   EnregistrerGarantiesFinancièresUseCase,
 };
 
-// Value types
-export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
-export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
-export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
-export * as GarantiesFinancières from './garantiesFinancières.valueType';
-export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
-
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
+export * as GarantiesFinancières from './garantiesFinancières.valueType';
+export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
+// Value types
+export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
+export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
+export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';

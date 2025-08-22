@@ -1,37 +1,36 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
-
-import {
-  ConsulterReprésentantLégalDependencies,
-  registerConsulterRepresentantLegalQuery,
-} from './consulter/consulterReprésentantLégal.query';
-import { registerModifierReprésentantLégalCommand } from './modifier/modifierReprésentantLégal.command';
-import { registerModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase';
-import { registerDemanderChangementReprésentantLégalUseCase } from './changement/demander/demanderChangementReprésentantLégal.usecase';
-import { registerDemanderChangementReprésentantLégalCommand } from './changement/demander/demanderChangementReprésentantLégal.command';
-import { registerConsulterChangementReprésentantLegalQuery } from './changement/consulter/consulterChangementReprésentantLégal.query';
-import {
-  ListerChangementReprésentantLégalDependencies,
-  registerListerChangementReprésentantLégalQuery,
-} from './changement/lister/listerChangementReprésentantLégal.query';
-import { registerAccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase';
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 import { registerAccorderChangementReprésentantLégalCommand } from './changement/accorder/accorderChangementReprésentantLégal.command';
-import { registerRejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase';
-import { registerRejeterChangementReprésentantLégalCommand } from './changement/rejeter/rejeterChangementReprésentantLégal.command';
+import { registerAccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase';
 import { registerAnnulerChangementReprésentantLégalCommand } from './changement/annuler/annulerChangementReprésentantLégal.command';
 import { registerAnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase';
-import {
-  SupprimerDocumentProjetSensibleCommandDependencies,
-  registerSupprimerDocumentProjetSensibleCommand,
-} from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
-import { registerCorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
-import { registerCorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
+import { registerConsulterChangementReprésentantLegalQuery } from './changement/consulter/consulterChangementReprésentantLégal.query';
 import { registerConsulterChangementReprésentantLegalEnCoursQuery } from './changement/consulter/consulterChangementReprésentantLégalEnCours.query';
-import {
-  ListerHistoriqueReprésentantLégalProjetDependencies,
-  registerListerHistoriqueReprésentantLégalProjetQuery,
-} from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query';
+import { registerCorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
+import { registerCorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
+import { registerDemanderChangementReprésentantLégalCommand } from './changement/demander/demanderChangementReprésentantLégal.command';
+import { registerDemanderChangementReprésentantLégalUseCase } from './changement/demander/demanderChangementReprésentantLégal.usecase';
 import { registerEnregistrerChangementReprésentantLégalCommand } from './changement/enregistrer/enregistrerChangementReprésentantLégal.command';
 import { registerEnregistrerChangementReprésentantLégalUseCase } from './changement/enregistrer/enregistrerChangementReprésentantLégal.usecase';
+import {
+  type ListerChangementReprésentantLégalDependencies,
+  registerListerChangementReprésentantLégalQuery,
+} from './changement/lister/listerChangementReprésentantLégal.query';
+import { registerRejeterChangementReprésentantLégalCommand } from './changement/rejeter/rejeterChangementReprésentantLégal.command';
+import { registerRejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase';
+import {
+  registerSupprimerDocumentProjetSensibleCommand,
+  type SupprimerDocumentProjetSensibleCommandDependencies,
+} from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import {
+  type ConsulterReprésentantLégalDependencies,
+  registerConsulterRepresentantLegalQuery,
+} from './consulter/consulterReprésentantLégal.query';
+import {
+  type ListerHistoriqueReprésentantLégalProjetDependencies,
+  registerListerHistoriqueReprésentantLégalProjetQuery,
+} from './listerHistorique/listerHistoriqueReprésentantLégalProjet.query';
+import { registerModifierReprésentantLégalCommand } from './modifier/modifierReprésentantLégal.command';
+import { registerModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
   ListerChangementReprésentantLégalDependencies &

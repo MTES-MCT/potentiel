@@ -1,6 +1,6 @@
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente } from '.';
+import type { AutoritéCompétente } from '.';
 
 export type AbandonEntity = Entity<
   'abandon',

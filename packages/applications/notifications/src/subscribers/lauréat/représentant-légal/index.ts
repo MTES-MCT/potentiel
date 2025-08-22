@@ -1,19 +1,18 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { getBaseUrl, getLauréat } from '../../../helpers';
-import { SendEmail } from '../../../sendEmail';
-
+import type { SendEmail } from '../../../sendEmail';
 import { changementReprésentantLégalAccordéNotification } from './changementReprésentantLégalAccordé.notification';
 import { changementReprésentantLégalAnnuléNotification } from './changementReprésentantLégalAnnulé.notification';
 import { changementReprésentantLégalCorrigéNotification } from './changementReprésentantLégalCorrigé.notification';
 import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
+import { changementReprésentantLégalEnregistréNotification } from './changementReprésentantLégalEnregistré.notification';
 import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
 import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
-import { changementReprésentantLégalEnregistréNotification } from './changementReprésentantLégalEnregistré.notification';
 
 export type SubscriptionEvent = Lauréat.ReprésentantLégal.ReprésentantLégalEvent & Event;
 

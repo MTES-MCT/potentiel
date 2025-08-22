@@ -4,7 +4,7 @@ import { Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { Fixture } from '../../../fixture';
+import type { Fixture } from '../../../fixture';
 
 interface InviterPorteur {
   readonly email: string;

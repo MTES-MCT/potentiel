@@ -1,7 +1,7 @@
 import format from 'pg-format';
 import { match } from 'ts-pattern';
 
-import {
+import type {
   Entity,
   EqualWhereCondition,
   JoinOptions,

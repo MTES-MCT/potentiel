@@ -1,15 +1,15 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime } from '@potentiel-domain/common';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
-import { RaccordementEntity } from '../raccordement.entity';
-import { Puissance } from '../..';
-import { Candidature, IdentifiantProjet, Lauréat, StatutProjet } from '../../..';
+import { Candidature, IdentifiantProjet, type Lauréat, StatutProjet } from '../../..';
+import type { Puissance } from '../..';
+import type { RaccordementEntity } from '../raccordement.entity';
 
 type DossierRaccordementManquant = {
   référenceDossier: Option.None;

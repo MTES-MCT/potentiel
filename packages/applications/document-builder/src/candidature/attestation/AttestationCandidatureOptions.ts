@@ -1,4 +1,4 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type Common = {
   appelOffre: AppelOffre.AppelOffreReadModel;

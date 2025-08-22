@@ -1,8 +1,7 @@
 import { ÉliminéProjector } from '@potentiel-applications/projectors';
 
-import { SetupProjet } from '../setup';
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
-
+import type { SetupProjet } from '../setup';
 import { setupRecours } from './setupRecours';
 
 export const setupÉliminé: SetupProjet = async (dependencies) => {

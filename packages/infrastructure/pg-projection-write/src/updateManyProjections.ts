@@ -1,8 +1,8 @@
+import type { Entity, WhereOptions } from '@potentiel-domain/entity';
 import { getWhereClause } from '@potentiel-infrastructure/pg-projection-read';
-import { Entity, WhereOptions } from '@potentiel-domain/entity';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getUpdateClause, DeepPartial } from './updateOneProjection';
+import { type DeepPartial, getUpdateClause } from './updateOneProjection';
 
 /** */
 export const updateManyProjections = async <TEntity extends Entity>(

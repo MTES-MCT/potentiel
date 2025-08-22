@@ -1,17 +1,16 @@
-import { before, describe, test } from 'node:test';
 import assert from 'node:assert';
+import { before, describe, test } from 'node:test';
 
-import { SendVerificationRequestParams } from 'next-auth/providers';
+import type { SendVerificationRequestParams } from 'next-auth/providers';
 
-import { SendEmail } from '@potentiel-applications/notifications';
+import type { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
+import type { GetUtilisateurFromEmail } from './getUtilisateur';
 import { buildSendVerificationRequest } from './sendVerificationRequest';
-import { GetUtilisateurFromEmail } from './getUtilisateur';
 
 type Utilisateur = PlainType<
   Utilisateur.ValueType & {

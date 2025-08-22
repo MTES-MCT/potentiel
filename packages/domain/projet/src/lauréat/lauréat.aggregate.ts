@@ -1,20 +1,19 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType, mapToPlainObject } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime } from '@potentiel-domain/common';
+import { AbstractAggregate, type AggregateType, mapToPlainObject } from '@potentiel-domain/core';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { Candidature } from '..';
-
-import { LauréatEvent } from './lauréat.event';
-import {
-  LauréatNotifiéEvent,
-  LauréatNotifiéV1Event,
-  NomEtLocalitéLauréatImportésEvent,
-} from './notifier/lauréatNotifié.event';
-import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
-import { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
+import type { ProjetAggregateRoot } from '../projet.aggregateRoot';
+import { AbandonAggregate } from './abandon/abandon.aggregate';
+import { AchèvementAggregate } from './achèvement/achèvement.aggregate';
+import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
+import type { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
+import type { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option';
+import { DélaiAggregate } from './délai/délai.aggregate';
+import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
+import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate';
 import {
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
@@ -26,20 +25,20 @@ import {
   ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
 } from './lauréat.error';
-import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
-import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option';
-import { AbandonAggregate } from './abandon/abandon.aggregate';
-import { AchèvementAggregate } from './achèvement/achèvement.aggregate';
+import type { LauréatEvent } from './lauréat.event';
+import type { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
+import type { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
+import type {
+  LauréatNotifiéEvent,
+  LauréatNotifiéV1Event,
+  NomEtLocalitéLauréatImportésEvent,
+} from './notifier/lauréatNotifié.event';
+import type { NotifierOptions } from './notifier/notifierLauréat.option';
 import { ProducteurAggregate } from './producteur/producteur.aggregate';
-import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate';
 import { PuissanceAggregate } from './puissance/puissance.aggregate';
-import { FournisseurAggregate } from './fournisseur/fournisseur.aggregate';
-import { ActionnaireAggregate } from './actionnaire/actionnaire.aggregate';
-import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
-import { DélaiAggregate } from './délai/délai.aggregate';
+import { ReprésentantLégalAggregate } from './représentantLégal/représentantLégal.aggregate';
 import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate';
-import { NotifierOptions } from './notifier/notifierLauréat.option';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,

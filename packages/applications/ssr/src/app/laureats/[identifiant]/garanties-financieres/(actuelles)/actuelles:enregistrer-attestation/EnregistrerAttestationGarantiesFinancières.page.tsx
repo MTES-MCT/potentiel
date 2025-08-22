@@ -1,13 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
+import { PageTemplate } from '@/components/templates/Page.template';
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
-
 import {
   EnregistrerAttestationGarantiesFinancièresForm,
-  EnregistrerAttestationGarantiesFinancièresFormProps,
+  type EnregistrerAttestationGarantiesFinancièresFormProps,
 } from './EnregistrerAttestationGarantiesFinancières.form';
 
 export type EnregistrerAttestationGarantiesFinancièresPageProps =

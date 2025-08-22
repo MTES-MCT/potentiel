@@ -1,8 +1,8 @@
 import { createServer } from 'http';
 import { parse } from 'url';
 
-import next from 'next';
 import * as Sentry from '@sentry/nextjs';
+import next from 'next';
 
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import { getContext, runWithContext } from '@potentiel-applications/request-context';

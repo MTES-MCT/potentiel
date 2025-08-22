@@ -1,8 +1,8 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Accès } from '@potentiel-domain/projet';
+import type { Accès } from '@potentiel-domain/projet';
 
 import { getBaseUrl, getCandidature } from '../../helpers';
-import { EmailPayload } from '../../sendEmail';
+import type { EmailPayload } from '../../sendEmail';
 
 export async function accèsProjetRetiréNotification({
   payload: { identifiantProjet, identifiantsUtilisateur, cause },

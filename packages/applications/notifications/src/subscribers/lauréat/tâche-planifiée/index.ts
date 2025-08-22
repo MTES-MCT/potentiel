@@ -1,13 +1,11 @@
-import { mediator, Message, MessageHandler } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { getBaseUrl, getLauréat } from '../../../helpers';
-import { SendEmail } from '../../../sendEmail';
-
+import type { SendEmail } from '../../../sendEmail';
 import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
 import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
 

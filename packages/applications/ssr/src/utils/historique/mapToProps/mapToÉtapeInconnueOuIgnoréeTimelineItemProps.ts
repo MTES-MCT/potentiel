@@ -1,8 +1,8 @@
-import { HistoryRecord } from '@potentiel-domain/entity';
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
+import type { HistoryRecord } from '@potentiel-domain/entity';
 
-import { TimelineItemProps, ETAPE_INCONNUE_TITLE } from '@/components/organisms/Timeline';
-import { IconProps } from '@/components/atoms/Icon';
+import type { IconProps } from '@/components/atoms/Icon';
+import { ETAPE_INCONNUE_TITLE, type TimelineItemProps } from '@/components/organisms/Timeline';
 
 export const mapToÉtapeInconnueOuIgnoréeTimelineItemProps = (
   record: HistoryRecord,

@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
-import { Dépôt, Instruction } from '..';
-import { IdentifiantProjet } from '../..';
+import type { IdentifiantProjet } from '../..';
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
+import type { Dépôt, Instruction } from '..';
 
 export type CorrigerCandidatureCommand = Message<
   'Candidature.Command.CorrigerCandidature',

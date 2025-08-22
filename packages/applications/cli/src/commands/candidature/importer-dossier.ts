@@ -2,8 +2,8 @@ import { Args, Command } from '@oclif/core';
 
 import { ProjetAggregateRoot, registerProjetUseCases } from '@potentiel-domain/projet';
 import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getDépôtCandidature } from '@potentiel-infrastructure/ds-api-client';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 
 export class ImporterDossierCandidatureCommand extends Command {
   static args = {

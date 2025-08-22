@@ -1,11 +1,11 @@
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type Candidature, type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture';
 import { EnregistrerChangementFournisseurFixture } from './fixtures/enregistrerChangementFournisseur.fixture';
+import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture';
 
 export class FournisseurWorld {
   constructor() {}

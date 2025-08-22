@@ -1,13 +1,12 @@
-import { mediator, MessageHandler, Message } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DossierProjet, type DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
 import { Role } from '@potentiel-domain/utilisateur';
-import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../../typeDocumentRaccordement.valueType';
-
-import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
+import type { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
 
 export type ModifierRéférenceDossierRaccordementUseCase = Message<
   'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',

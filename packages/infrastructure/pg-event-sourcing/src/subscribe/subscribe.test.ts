@@ -1,21 +1,20 @@
-import { describe, it, after, afterEach, before, beforeEach, mock } from 'node:test';
+import { after, afterEach, before, beforeEach, describe, it, mock } from 'node:test';
 
 import { expect, should } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
-import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
+import type { DomainEvent } from '@potentiel-domain/core';
 import { initLogger } from '@potentiel-libraries/monitoring';
-import { DomainEvent } from '@potentiel-domain/core';
+import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { Event } from '../event';
+import type { Event } from '../event';
 import { publish } from '../publish/publish';
-
+import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
+import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
+import { executeRebuild } from './rebuild/executeRebuild';
 import { executeSubscribersRetry, subscribe } from './subscribe';
 import { registerSubscriber } from './subscriber/registerSubscriber';
-import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
-import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
-import { executeRebuild } from './rebuild/executeRebuild';
-import { Unsubscribe } from './subscriber/subscriber';
+import type { Unsubscribe } from './subscriber/subscriber';
 
 should();
 

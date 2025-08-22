@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToMainlevéeGarantiesFinancièresDemandéeTimelineItemsProps = (
   modification: Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent,

@@ -1,12 +1,18 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
+import {
+  type Joined,
+  type List,
+  type ListOptions,
+  type RangeOptions,
+  Where,
+} from '@potentiel-domain/entity';
 
-import { AbandonEntity } from '../abandon.entity';
-import { LauréatEntity } from '../../lauréat.entity';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
-import { AutoritéCompétente, StatutAbandon, StatutPreuveRecandidature } from '..';
+import { type GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
+import type { LauréatEntity } from '../../lauréat.entity';
+import { type AutoritéCompétente, StatutAbandon, StatutPreuveRecandidature } from '..';
+import type { AbandonEntity } from '../abandon.entity';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

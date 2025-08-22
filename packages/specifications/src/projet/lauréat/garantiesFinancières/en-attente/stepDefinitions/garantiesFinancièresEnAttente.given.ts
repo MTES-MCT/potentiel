@@ -1,10 +1,10 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
+import type { PotentielWorld } from '../../../../../potentiel.world';
 
 EtantDonné(
   `des garanties financières en attente pour le projet lauréat`,

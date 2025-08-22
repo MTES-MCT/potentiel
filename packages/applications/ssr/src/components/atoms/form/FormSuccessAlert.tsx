@@ -1,7 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FC, useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 
 type Props = {
   message: string;

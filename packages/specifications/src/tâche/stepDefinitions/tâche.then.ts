@@ -1,12 +1,12 @@
 import { Then as Alors } from '@cucumber/cucumber';
+import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
 
-import { Tâche } from '@potentiel-domain/tache';
+import type { Tâche } from '@potentiel-domain/tache';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { RechercherTypeTâche } from '../tâche.world';
+import type { PotentielWorld } from '../../potentiel.world';
+import type { RechercherTypeTâche } from '../tâche.world';
 
 Alors(
   `une tâche indiquant de {string} est consultable dans la liste des tâches du porteur pour le projet`,

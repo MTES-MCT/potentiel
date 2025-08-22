@@ -1,6 +1,6 @@
 import { AggregateNotFoundError, InvalidOperationError } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '..';
+import type { IdentifiantProjet } from '..';
 
 export class AttestationNonGénéréeError extends InvalidOperationError {
   constructor() {

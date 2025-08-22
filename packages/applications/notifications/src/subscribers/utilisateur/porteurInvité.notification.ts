@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';
-import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
+import type { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 
 import { getBaseUrl, getCandidature } from '../../helpers';
 

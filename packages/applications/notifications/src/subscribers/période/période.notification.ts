@@ -1,15 +1,15 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Période } from '@potentiel-domain/periode';
-import { Candidature } from '@potentiel-domain/projet';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getBaseUrl } from '../../helpers';
-import { EmailPayload, SendEmail } from '../../sendEmail';
+import type { EmailPayload, SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Période.PériodeEvent & Event;
 
@@ -28,7 +28,7 @@ async function getEmailPayloads(
   );
 
   switch (event.type) {
-    case 'PériodeNotifiée-V1':
+    case 'PériodeNotifiée-V1': {
       const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: {
@@ -120,6 +120,7 @@ async function getEmailPayloads(
           },
         })),
       ];
+    }
   }
 }
 

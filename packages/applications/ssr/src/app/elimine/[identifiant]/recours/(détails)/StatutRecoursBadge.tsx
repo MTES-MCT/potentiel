@@ -1,7 +1,7 @@
-import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
-import { FC } from 'react';
+import Badge, { type BadgeProps } from '@codegouvfr/react-dsfr/Badge';
+import type { FC } from 'react';
 
-import { Éliminé } from '@potentiel-domain/projet';
+import type { Éliminé } from '@potentiel-domain/projet';
 
 export type StatutRecoursBadgeProps = {
   statut: Éliminé.Recours.StatutRecours.RawType;

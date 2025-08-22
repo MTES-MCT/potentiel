@@ -1,21 +1,20 @@
 import { EventEmitter } from 'events';
 
-import { Client } from 'pg';
+import type { Client } from 'pg';
 import format from 'pg-format';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { isEvent, Event } from '../event';
-
+import { type Event, isEvent } from '../event';
 import { acknowledge, acknowledgeError } from './acknowledgement/acknowledge';
-import { rebuild } from './rebuild/rebuild';
+import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error';
 import { NotificationPayloadNotAnEventError } from './errors/NotificationPayloadNotAnEvent.error';
 import { NotificationPayloadParseError } from './errors/NotificationPayloadParse.error';
 import { RebuildFailedError } from './errors/RebuildFailed.error';
-import { DomainEventHandlingFailedError } from './errors/DomainEventHandlingFailed.error';
 import { UnknownEventHandlingFailedError } from './errors/UnknownEventHandlingFailed.error';
-import { RebuildTriggered } from './rebuild/rebuildTriggered.event';
-import { Subscriber } from './subscriber/subscriber';
+import { rebuild } from './rebuild/rebuild';
+import type { RebuildTriggered } from './rebuild/rebuildTriggered.event';
+import type { Subscriber } from './subscriber/subscriber';
 
 type ChannelName = 'rebuild' | 'domain-event' | 'unknown-event';
 

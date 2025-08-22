@@ -1,6 +1,10 @@
 import { match } from 'ts-pattern';
 
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 import { DemandeDeChangementEnCoursError } from './errors';
 

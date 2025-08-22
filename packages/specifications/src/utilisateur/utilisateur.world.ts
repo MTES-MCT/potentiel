@@ -1,10 +1,10 @@
-import { PorteurFixture } from './fixtures/porteur.fixture';
-import { ValidateurFixture } from './fixtures/validateur.fixture';
-import { DREALFixture } from './fixtures/dreal.fixture';
 import { AdminFixture } from './fixtures/admin.fixture';
+import { DREALFixture } from './fixtures/dreal.fixture';
 import { GRDFixture } from './fixtures/grd.fixture';
 import { InviterUtilisateurFixture } from './fixtures/inviter/inviter.fixture';
+import { PorteurFixture } from './fixtures/porteur.fixture';
 import { RéclamerProjetFixture } from './fixtures/réclamer/réclamerProjet.fixture';
+import { ValidateurFixture } from './fixtures/validateur.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;

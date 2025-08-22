@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
 const statuts = ['abandonné', 'classé', 'éliminé', 'achevé'] as const;
 export type RawType = (typeof statuts)[number];

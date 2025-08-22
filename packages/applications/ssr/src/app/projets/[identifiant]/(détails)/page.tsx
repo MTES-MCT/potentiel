@@ -1,23 +1,26 @@
 import { mediator } from 'mediateur';
-import { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Accès, CahierDesCharges, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import {
+  type Accès,
+  CahierDesCharges,
+  IdentifiantProjet,
+  type Éliminé,
+} from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getProjet, getPériodeAppelOffres } from '@/app/_helpers';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getProjet, getPériodeAppelOffres } from '@/app/_helpers';
-
 import { getProjetÉliminé } from '../_helpers/getÉliminé';
-
 import {
-  DétailsProjetÉliminéActions,
+  type DétailsProjetÉliminéActions,
   DétailsProjetÉliminéPage,
-  DétailsProjetÉliminéPageProps,
+  type DétailsProjetÉliminéPageProps,
 } from './DétailsProjetÉliminé.page';
 
 type PageProps = IdentifiantParameter;

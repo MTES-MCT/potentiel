@@ -1,10 +1,9 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
-
-import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
+import type { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
 type GarantiesFinancièresRappelÉchéanceNotificationProps = {
   sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];

@@ -1,13 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente, ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
-import { LauréatEntity } from '../../../lauréat.entity';
+import { type Candidature, type GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import { UnitéPuissance } from '../../../../candidature';
+import type { LauréatEntity } from '../../../lauréat.entity';
+import {
+  type AutoritéCompétente,
+  type ChangementPuissanceEntity,
+  StatutChangementPuissance,
+} from '../..';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

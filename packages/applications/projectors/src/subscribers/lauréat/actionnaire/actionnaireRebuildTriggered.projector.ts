@@ -1,8 +1,8 @@
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Where } from '@potentiel-domain/entity';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { Where } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
 
 export const actionnaireRebuilTriggered = async ({ payload: { id } }: RebuildTriggered) => {
   await removeProjection<Lauréat.Actionnaire.ActionnaireEntity>(`actionnaire|${id}`);

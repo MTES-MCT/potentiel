@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import winston from 'winston';
 
 import { getLogger } from './getLogger';
-import { consoleTransport } from './winston/console.transport';
 import { initLogger, resetLogger } from './logger';
+import { consoleTransport } from './winston/console.transport';
 import { createLogger } from './winston/createLogger';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

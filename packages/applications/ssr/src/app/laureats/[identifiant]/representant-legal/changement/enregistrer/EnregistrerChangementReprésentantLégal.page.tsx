@@ -1,9 +1,8 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import { DemanderOuEnregistrerChangementReprésentantLégalForm } from '../components/DemanderOuEnregistrerChangementReprésentantLégal.form';
 
 export type EnregistrerChangementReprésentantLégalPageProps = {

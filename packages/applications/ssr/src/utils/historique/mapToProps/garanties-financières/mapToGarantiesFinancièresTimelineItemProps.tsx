@@ -1,14 +1,12 @@
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
-
+import type { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 import {
-  garantiesFinancièresActuelles,
   dépôtDeNouvellesGarantiesFinancières,
+  garantiesFinancièresActuelles,
   mainlevée,
 } from './events';
 

@@ -1,4 +1,4 @@
-import { EqualNullWhereCondition, WhereCondition } from '../whereOptions';
+import type { EqualNullWhereCondition, WhereCondition } from '../whereOptions';
 
 export const equalNull = <T>(): WhereCondition<T> => {
   return {

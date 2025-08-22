@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients } from '../../../helpers';
-
-import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
+import type { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
 type HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps = {
   sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];

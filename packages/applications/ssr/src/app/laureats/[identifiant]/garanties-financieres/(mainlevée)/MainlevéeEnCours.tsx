@@ -1,23 +1,22 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Email } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import type { Email } from '@potentiel-domain/common';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Heading3 } from '@/components/atoms/headings';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { CorrigerRéponseSignée } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/corrigerRéponseSignée/CorrigerRéponseSignée.form';
 import { RejeterDemandeMainlevéeForm } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/rejeter/RejeterDemandeMainlevée.form';
-
-import { MainlevéeEnCoursInstruction } from './MainlevéeEnCoursInstruction';
-import { StatutMainlevéeBadge } from './StatutMainlevéeBadge';
-import { AnnulerDemandeMainlevée } from './annuler/AnnulerDemandeMainlevée.form';
-import { PasserDemandeMainlevéeEnInstruction } from './passerEnInstruction/PasserDemandeMainlevéeEnInstruction.form';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { Heading3 } from '@/components/atoms/headings';
 import { AccorderDemandeMainlevée } from './accorder/AccorderDemandeMainlevée.form';
+import { AnnulerDemandeMainlevée } from './annuler/AnnulerDemandeMainlevée.form';
+import { MainlevéeEnCoursInstruction } from './MainlevéeEnCoursInstruction';
+import { PasserDemandeMainlevéeEnInstruction } from './passerEnInstruction/PasserDemandeMainlevéeEnInstruction.form';
+import { StatutMainlevéeBadge } from './StatutMainlevéeBadge';
 
 export type MainlevéeEnCoursProps = {
   identifiantProjet: string;

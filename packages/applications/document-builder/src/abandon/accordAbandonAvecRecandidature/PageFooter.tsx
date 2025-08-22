@@ -1,5 +1,4 @@
 import { Text, View } from '@react-pdf/renderer';
-import React from 'react';
 
 export const PageFooter = () => (
   <View style={{ fontSize: 7, position: 'absolute', bottom: 40, left: 55 }} fixed>

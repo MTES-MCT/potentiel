@@ -1,5 +1,5 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { PlainType } from '@potentiel-domain/core';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
 
 export type ValueType = Readonly<{
   évaluationCarboneInitiale: number;

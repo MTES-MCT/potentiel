@@ -2,10 +2,10 @@ import { join } from 'path';
 
 import { extension } from 'mime-types';
 
-import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { InvalidOperationError, type PlainType } from '@potentiel-domain/core';
 
-import { DossierProjet } from '.';
+import type { DossierProjet } from '.';
 
 type Extension = string;
 export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}` | ``;

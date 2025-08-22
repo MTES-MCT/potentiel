@@ -2,18 +2,16 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatSansAbandon } from '@/app/_helpers';
-
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import {
   ModifierPropositionTechniqueEtFinancièrePage,
-  ModifierPropositionTechniqueEtFinancièrePageProps,
+  type ModifierPropositionTechniqueEtFinancièrePageProps,
 } from './ModifierPropositionTechniqueEtFinancière.page';
 
 type PageProps = {

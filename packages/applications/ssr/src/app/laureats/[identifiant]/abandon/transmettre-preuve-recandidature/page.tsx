@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 
 type PageProps = IdentifiantParameter;
 

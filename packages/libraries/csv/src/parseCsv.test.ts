@@ -1,8 +1,8 @@
-import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
+import { test } from 'node:test';
 
-import { z } from 'zod';
 import { expect } from 'chai';
+import { z } from 'zod';
 
 import { parseCsv } from './parseCsv';
 

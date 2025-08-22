@@ -1,19 +1,20 @@
 import { Command } from '@oclif/core';
-import { CommandError } from '@oclif/core/interfaces';
+import type { CommandError } from '@oclif/core/interfaces';
 import { mediator } from 'mediateur';
 
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
+import { registerLauréatQueries } from '@potentiel-domain/laureat';
+import type { Lauréat } from '@potentiel-domain/projet';
+import { GestionnaireRéseau, registerRéseauQueries } from '@potentiel-domain/reseau';
+import {
+  type ListerUtilisateursQuery,
+  registerUtilisateurQueries,
+} from '@potentiel-domain/utilisateur';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { sendEmail } from '@potentiel-infrastructure/email';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { registerRéseauQueries } from '@potentiel-domain/reseau';
-import { registerLauréatQueries } from '@potentiel-domain/laureat';
-import { registerUtilisateurQueries } from '@potentiel-domain/utilisateur';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { DateTime } from '@potentiel-domain/common';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
 
 export class NotifierGestionnaireRéseau extends Command {
   static monitoringSlug = 'notification-grd';

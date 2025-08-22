@@ -1,10 +1,10 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
+import type { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 
 type Props = {
   actions: DétailsGarantiesFinancièresPageProps['infoBoxMainlevée']['actions'];

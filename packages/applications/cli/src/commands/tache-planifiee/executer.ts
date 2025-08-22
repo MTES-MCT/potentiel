@@ -1,23 +1,23 @@
-import { mediator } from 'mediateur';
 import { Command, Flags } from '@oclif/core';
+import { mediator } from 'mediateur';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import {
+  type Lauréat,
+  ProjetAggregateRoot,
+  registerProjetQueries,
+  registerProjetUseCases,
+} from '@potentiel-domain/projet';
+import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  Lauréat,
-  ProjetAggregateRoot,
-  registerProjetQueries,
-  registerProjetUseCases,
-} from '@potentiel-domain/projet';
-import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),

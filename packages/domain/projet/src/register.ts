@@ -1,24 +1,24 @@
 import {
-  AccèsCommandDependencies,
-  AccèsQueryDependencies,
+  type AccèsCommandDependencies,
+  type AccèsQueryDependencies,
   registerAccèsQueries,
   registerAccèsUseCases,
 } from './accès/accès.register';
 import {
-  CandiatureCommandDependencies,
-  CandidatureQueryDependencies,
+  type CandiatureCommandDependencies,
+  type CandidatureQueryDependencies,
   registerCandidatureQueries,
   registerCandidaturesUseCases,
 } from './candidature';
 import {
-  LauréatCommandDependencies,
-  LauréatQueryDependencies,
+  type LauréatCommandDependencies,
+  type LauréatQueryDependencies,
   registerLauréatQueries,
   registerLauréatUseCases,
 } from './lauréat/lauréat.register';
 import {
-  EliminéCommandDependencies,
-  EliminéQueryDependencies,
+  type EliminéCommandDependencies,
+  type EliminéQueryDependencies,
   registerEliminéQueries,
   registerEliminéUseCases,
 } from './éliminé/éliminé.register';

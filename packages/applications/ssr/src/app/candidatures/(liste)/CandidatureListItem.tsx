@@ -1,17 +1,16 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Email } from '@potentiel-domain/common';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
-
-import * as symbols from './candidatureListLegendSymbols';
 import {
   CandidatureListItemActions,
-  CandidatureListItemActionsProps,
+  type CandidatureListItemActionsProps,
 } from './CandidatureListItemActions';
+import * as symbols from './candidatureListLegendSymbols';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;

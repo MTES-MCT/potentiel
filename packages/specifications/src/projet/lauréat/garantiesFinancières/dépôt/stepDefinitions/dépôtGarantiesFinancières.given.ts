@@ -1,7 +1,6 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-
+import type { PotentielWorld } from '../../../../../potentiel.world';
 import { soumettreDépôt } from './dépôtGarantiesFinancières.when';
 
 EtantDonné(

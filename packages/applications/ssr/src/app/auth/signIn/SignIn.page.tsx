@@ -1,18 +1,18 @@
 'use client';
 
+import Button from '@codegouvfr/react-dsfr/Button';
+import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
+import Tile from '@codegouvfr/react-dsfr/Tile';
 import { redirect, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
-import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
-import Tile from '@codegouvfr/react-dsfr/Tile';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 type SignInPageProps = {
   providers: Array<string>;

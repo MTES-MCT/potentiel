@@ -1,10 +1,8 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerPorteursRecipients } from '../../../helpers';
-
-import { RegisterPuissanceNotificationDependencies } from '.';
-
+import type { RegisterPuissanceNotificationDependencies } from '.';
 import { puissanceNotificationTemplateId } from './constant';
 
 type PuissanceModifiéeNotificationProps = {

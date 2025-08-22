@@ -1,15 +1,15 @@
 import { Then as Alors } from '@cucumber/cucumber';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { assert, expect } from 'chai';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { type IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
+import type { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
   /le recours du projet éliminé devrait être(.*)demandé/,

@@ -1,17 +1,16 @@
-import { Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Then as Alors, type DataTable } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
-import { PotentielWorld } from '../../../../../potentiel.world';
-
+import type { PotentielWorld } from '../../../../../potentiel.world';
 import { defaultMainlevéeData } from './helper';
 
 Alors(

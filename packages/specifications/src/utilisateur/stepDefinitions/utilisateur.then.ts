@@ -1,16 +1,19 @@
-import { Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Then as Alors, type DataTable } from '@cucumber/cucumber';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { assert, expect } from 'chai';
 
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { ConsulterUtilisateurQuery, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
-import { Accès } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import type { Accès } from '@potentiel-domain/projet';
+import type {
+  ConsulterUtilisateurQuery,
+  TrouverUtilisateurQuery,
+} from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../potentiel.world';
 import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notification.then';
+import type { PotentielWorld } from '../../potentiel.world';
 
 Alors(
   "l'utilisateur invité a accès au projet {lauréat-éliminé}",

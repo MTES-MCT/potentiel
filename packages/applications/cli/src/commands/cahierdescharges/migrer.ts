@@ -1,10 +1,10 @@
 import { Command, Flags } from '@oclif/core';
 
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { DateTime, Email } from '@potentiel-domain/common';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 type CahierDesChargesChoisi = {
   identifiantProjet: string;

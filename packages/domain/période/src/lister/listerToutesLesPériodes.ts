@@ -1,9 +1,9 @@
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { IdentifiantPériode, PériodeEntity } from '../période';
-import { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
+import type { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
+import { IdentifiantPériode, type PériodeEntity } from '../période';
 
 export const listerToutesLesPériodes = async (
   list: List,

@@ -1,13 +1,13 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import type { LoadAggregate } from '@potentiel-domain/core';
 
-import { registerAjouterTâcheCommand } from './ajouter/ajouterTâche.command';
 import { registerAcheverTâcheCommand } from './achever/acheverTâche.command';
+import { registerAjouterTâcheCommand } from './ajouter/ajouterTâche.command';
 import {
-  ConsulterNombreTâchesQueryDependencies,
+  type ConsulterNombreTâchesQueryDependencies,
   registerConsulterNombreTâchesQuery,
 } from './consulter/consulterNombreTâches.query';
 import {
-  ListerTâchesQueryDependencies,
+  type ListerTâchesQueryDependencies,
   registerListerTâchesQuery,
 } from './lister/listerTâches.query';
 

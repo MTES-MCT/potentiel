@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { AbstractFixture, DeepPartial } from '../../fixture';
+import { AbstractFixture, type DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';
 
 interface ImporterCandidature {

@@ -1,8 +1,8 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { UtilisateurAggregate } from '../utilisateur.aggregate';
-import { UtilisateurInconnuError, UtilisateurDéjàActifError } from '../errors';
+import { UtilisateurDéjàActifError, UtilisateurInconnuError } from '../errors';
+import type { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type UtilisateurRéactivéEvent = DomainEvent<
   'UtilisateurRéactivé-V1',

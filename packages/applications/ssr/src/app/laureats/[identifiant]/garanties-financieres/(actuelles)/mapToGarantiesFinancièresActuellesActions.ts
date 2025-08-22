@@ -1,9 +1,9 @@
-import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { GarantiesFinancièresActuelles } from './garantiesFinancièresActuelles.type';
+import type { GarantiesFinancièresActuelles } from './garantiesFinancièresActuelles.type';
 
 type MapToGarantiesFinancièresActuellesActionsProps = {
   role: Role.ValueType;

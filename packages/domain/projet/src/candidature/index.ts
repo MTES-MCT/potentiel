@@ -70,23 +70,21 @@ export {
   DétailsFournisseursCandidatureImportésEvent,
 };
 
-// Register
-export * from './candidature.register';
-
 // Entities
 export * from './candidature.entity';
+// Register
+export * from './candidature.register';
+export * as Dépôt from './dépôt.valueType';
+export * as HistoriqueAbandon from './historiqueAbandon.valueType';
+export * as Instruction from './instruction.valueType';
+export * as Localité from './localité.valueType';
 export * from './projet.entity';
-
+export * as StatutCandidature from './statutCandidature.valueType';
+export * as TypeActionnariat from './typeActionnariat.valueType';
+export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
+export * as TypeInstallationsAgrivoltaiques from './typeInstallationsAgrivoltaiques.valueType';
 // ValueType
 export * as TypeTechnologie from './typeTechnologie.valueType';
-export * as TypeActionnariat from './typeActionnariat.valueType';
-export * as HistoriqueAbandon from './historiqueAbandon.valueType';
-export * as StatutCandidature from './statutCandidature.valueType';
-export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
-export * as Localité from './localité.valueType';
+export * as TypologieBâtiment from './typologieBâtiment.valueType';
 export * as UnitéPuissance from './unitéPuissance.valueType';
 export * as VolumeRéservé from './volumeRéservé.valueType';
-export * as TypeInstallationsAgrivoltaiques from './typeInstallationsAgrivoltaiques.valueType';
-export * as TypologieBâtiment from './typologieBâtiment.valueType';
-export * as Dépôt from './dépôt.valueType';
-export * as Instruction from './instruction.valueType';

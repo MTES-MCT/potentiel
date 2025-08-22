@@ -1,5 +1,4 @@
 import { Text } from '@react-pdf/renderer';
-import React from 'react';
 
 type ObjetProps = {
   text: string;

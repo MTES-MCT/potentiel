@@ -2,11 +2,11 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
 import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given';
+import type { PotentielWorld } from '../../../../../potentiel.world';
 import { notifierLauréat } from '../../../stepDefinitions/lauréat.given';
 
 EtantDonné(

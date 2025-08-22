@@ -1,19 +1,18 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import { useState } from 'react';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
-import { v4 as uuid } from 'uuid';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
+import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type TransmettrePreuveRecandidatureFormKeys,
   transmettrePreuveRecandidatureAction,
-  TransmettrePreuveRecandidatureFormKeys,
 } from './transmettrePreuveRecandidature.action';
 
 export type TransmettrePreuveRecandidatureFormProps = {

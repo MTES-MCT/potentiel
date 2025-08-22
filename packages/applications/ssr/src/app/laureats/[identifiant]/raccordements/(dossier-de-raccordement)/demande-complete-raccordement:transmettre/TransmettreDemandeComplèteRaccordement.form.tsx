@@ -1,30 +1,28 @@
 'use client';
 
-import { useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
 import Link from 'next/link';
+import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
 import { Icon } from '@/components/atoms/Icon';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   GestionnaireRéseauSelect,
-  GestionnaireRéseauSelectProps,
+  type GestionnaireRéseauSelectProps,
 } from '../../(raccordement-du-projet)/(gestionnaire-réseau)/GestionnaireRéseauSelect';
-
 import {
+  type TransmettreDemandeComplèteRaccordementFormKeys,
   transmettreDemandeComplèteRaccordementAction,
-  TransmettreDemandeComplèteRaccordementFormKeys,
 } from './transmettreDemandeComplèteRaccordement.action';
 
 export type TransmettreDemandeComplèteRaccordementFormProps = {

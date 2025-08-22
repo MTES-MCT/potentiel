@@ -1,11 +1,11 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
+import { DateTime, type IdentifiantProjet } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { RechercherStatutTâchePlanifiée, TypeTâchePlanifiée } from '../tâchePlanifiée.world';
+import type { PotentielWorld } from '../../potentiel.world';
+import type { RechercherStatutTâchePlanifiée, TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
 async function ajouterTâchePlanifiée(
   identifiantProjet: IdentifiantProjet.ValueType,

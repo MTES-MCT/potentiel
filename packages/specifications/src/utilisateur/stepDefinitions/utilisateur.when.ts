@@ -1,21 +1,21 @@
 import { When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import type { Accès } from '@potentiel-domain/projet';
 import {
-  InviterPorteurUseCase,
-  InviterUtilisateurUseCase,
+  type CréerPorteurUseCase,
+  type DésactiverUtilisateurUseCase,
+  type InviterPorteurUseCase,
+  type InviterUtilisateurUseCase,
   Role,
-  DésactiverUtilisateurUseCase,
-  RéactiverUtilisateurUseCase,
-  CréerPorteurUseCase,
+  type RéactiverUtilisateurUseCase,
 } from '@potentiel-domain/utilisateur';
-import { Accès } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
-import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture';
+import type { PotentielWorld } from '../../potentiel.world';
+import type { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
+import type { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture';
 
 Quand(
   /le porteur invite (un autre porteur|l'administrateur) sur le projet (lauréat|éliminé)/,

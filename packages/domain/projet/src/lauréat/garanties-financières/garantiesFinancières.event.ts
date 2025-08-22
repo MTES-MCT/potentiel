@@ -1,9 +1,11 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { Candidature, IdentifiantProjet } from '../..';
-
-import { MotifDemandeGarantiesFinancières, MotifDemandeMainlevéeGarantiesFinancières } from '.';
+import type { Candidature, IdentifiantProjet } from '../..';
+import type {
+  MotifDemandeGarantiesFinancières,
+  MotifDemandeMainlevéeGarantiesFinancières,
+} from '.';
 
 /**
  * @deprecated Utilisez DépôtGarantiesFinancièresEnCoursValidéEvent à la place.

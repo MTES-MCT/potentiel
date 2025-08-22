@@ -1,11 +1,11 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import type { PotentielWorld } from '../../../../potentiel.world';
 
 EtantDonné(
   'une attestation de conformité transmise pour le projet lauréat',

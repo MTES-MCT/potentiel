@@ -1,19 +1,16 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
-import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { CahierDesCharges, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { getCahierDesCharges } from '@/app/_helpers';
-
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
-
 import { DemanderChangementPuissancePage } from './DemanderChangementPuissance.page';
 
 export const metadata: Metadata = {

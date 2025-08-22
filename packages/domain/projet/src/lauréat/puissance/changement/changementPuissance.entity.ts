@@ -1,7 +1,7 @@
-import { DateTime } from '@potentiel-domain/common';
-import { Entity } from '@potentiel-domain/entity';
+import type { DateTime } from '@potentiel-domain/common';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente, StatutChangementPuissance } from '..';
+import type { AutoritéCompétente, StatutChangementPuissance } from '..';
 
 export type ChangementPuissanceEntity = Entity<
   'changement-puissance',

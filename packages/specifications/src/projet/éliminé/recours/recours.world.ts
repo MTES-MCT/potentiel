@@ -1,12 +1,12 @@
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Éliminé, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { type IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
 import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture';
 import { AnnulerRecoursFixture } from './fixtures/annulerRecours.fixture';
 import { DemanderRecoursFixture } from './fixtures/demanderRecours.fixture';
-import { RejeterRecoursFixture } from './fixtures/rejeterRecours.fixture';
 import { PasserRecoursEnInstructionFixture } from './fixtures/passerRecoursEnInstruction.fixture';
+import { RejeterRecoursFixture } from './fixtures/rejeterRecours.fixture';
 
 export class RecoursWord {
   #accorderRecoursFixture: AccorderRecoursFixture;

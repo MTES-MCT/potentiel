@@ -1,8 +1,8 @@
-import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
-import { FC } from 'react';
+import Badge, { type BadgeProps } from '@codegouvfr/react-dsfr/Badge';
+import type { FC } from 'react';
 import { match, P } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 export type StatutDemandeDélaiBadgeProps = {
   statut: Lauréat.Délai.StatutDemandeDélai.RawType;

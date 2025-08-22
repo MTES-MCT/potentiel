@@ -1,5 +1,5 @@
-import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import type { LoadAggregate } from '@potentiel-domain/core';
+import type { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registeAccorderDemandeMainlevéeGarantiesFinancièresCommand } from './accorder/accorderDemandeMainlevéeGarantiesFinancières.command';
 import { registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';

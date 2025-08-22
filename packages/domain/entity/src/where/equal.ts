@@ -1,4 +1,4 @@
-import { EqualWhereCondition, WhereCondition } from '../whereOptions';
+import type { EqualWhereCondition, WhereCondition } from '../whereOptions';
 
 export const equal = <T>(
   value: EqualWhereCondition<T>['value'] | undefined,

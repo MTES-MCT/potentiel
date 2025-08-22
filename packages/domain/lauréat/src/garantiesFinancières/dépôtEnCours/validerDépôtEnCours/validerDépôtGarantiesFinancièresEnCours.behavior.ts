@@ -1,11 +1,10 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { DateTime, type IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature, type Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 import { StatutGarantiesFinancières } from '../..';
+import type { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
+import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,5 +1,5 @@
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 const selectProjectQuery = `
   select 1

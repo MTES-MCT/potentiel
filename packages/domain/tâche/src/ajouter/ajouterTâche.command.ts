@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { LoadAggregate } from '@potentiel-domain/core';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
+import type * as Tâche from '../typeTâche.valueType';
 import { loadTâcheAggregateFactory } from '../tâche.aggregate';
-import * as Tâche from '../typeTâche.valueType';
 
 export type AjouterTâcheCommand = Message<
   'System.Tâche.Command.AjouterTâche',

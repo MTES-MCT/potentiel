@@ -2,12 +2,11 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role, type UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Role, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../potentiel.world';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
-
+import type { PotentielWorld } from '../../potentiel.world';
 import { désactiverUtilisateur, inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
 
 EtantDonné(

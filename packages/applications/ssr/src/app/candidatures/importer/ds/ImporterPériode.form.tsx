@@ -1,19 +1,18 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useSearchParams } from 'next/navigation';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Période } from '@potentiel-domain/periode';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Période } from '@potentiel-domain/periode';
 
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-
-import { importerPériodeAction, ImporterPériodeFormKeys } from './importerPériode.action';
+import type { ValidationErrors } from '@/utils/formAction';
+import { type ImporterPériodeFormKeys, importerPériodeAction } from './importerPériode.action';
 
 export type ImporterPériodeFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;

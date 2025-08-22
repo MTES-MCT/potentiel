@@ -1,4 +1,4 @@
-import { Tâche } from '@potentiel-domain/tache';
+import type { Tâche } from '@potentiel-domain/tache';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const tâcheRelancéeProjector = async ({

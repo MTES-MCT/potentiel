@@ -1,4 +1,4 @@
-import { SymbolProps } from '@/components/molecules/ListLegend';
+import type { SymbolProps } from '@/components/molecules/ListLegend';
 
 const localité: SymbolProps = {
   iconId: 'fr-icon-map-pin-2-line',

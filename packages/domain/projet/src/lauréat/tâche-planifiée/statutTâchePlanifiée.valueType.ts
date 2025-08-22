@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';
 
 export const statuts = ['annulé', 'en-attente-exécution', 'exécuté', 'inconnu'] as const;
 

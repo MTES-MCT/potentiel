@@ -3,15 +3,14 @@ import './global.css';
 import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
 import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
-import { Metadata } from 'next';
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import dynamicImport from 'next/dynamic';
+import Link from 'next/link';
 
 import { getContext } from '@potentiel-applications/request-context';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
-
 import { defaultColorScheme } from './defaultColorScheme';
 import Providers from './Providers';
 import { StartDsfr } from './StartDsfr';

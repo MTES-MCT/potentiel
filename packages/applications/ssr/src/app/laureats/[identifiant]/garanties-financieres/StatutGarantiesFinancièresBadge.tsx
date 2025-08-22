@@ -1,8 +1,8 @@
-import { AlertProps } from '@codegouvfr/react-dsfr/Alert';
+import type { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 const convertStatutGarantiesFinancièresToBadgeSeverity: Record<
   GarantiesFinancières.StatutGarantiesFinancières.RawType,

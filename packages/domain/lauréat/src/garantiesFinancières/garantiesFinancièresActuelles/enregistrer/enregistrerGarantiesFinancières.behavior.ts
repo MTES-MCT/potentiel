@@ -1,8 +1,8 @@
 import { DateTime } from '@potentiel-domain/common';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import { StatutGarantiesFinancières } from '../..';
-import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
+import type { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 
 export function applyEnregistrerGarantiesFinancières(
   this: GarantiesFinancièresAggregate,

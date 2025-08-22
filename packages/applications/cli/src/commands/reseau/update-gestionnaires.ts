@@ -1,9 +1,9 @@
-import { mediator } from 'mediateur';
 import { Command } from '@oclif/core';
+import { mediator } from 'mediateur';
 import z from 'zod';
 
 import {
-  GestionnaireRéseau,
+  type GestionnaireRéseau,
   registerRéseauQueries,
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
@@ -13,8 +13,8 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { addGRDs } from '../../helpers/réseau/addGRDs';
-import { updateGRDs } from '../../helpers/réseau/updateGRDs';
 import { mapToRéférencielGRD } from '../../helpers/réseau/référencielGRD';
+import { updateGRDs } from '../../helpers/réseau/updateGRDs';
 
 const envSchema = z.object({
   ORE_ENDPOINT: z.string().url(),

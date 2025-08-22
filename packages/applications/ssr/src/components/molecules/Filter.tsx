@@ -1,6 +1,7 @@
 'use client';
+
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 type FilterProps = {
   label: string;

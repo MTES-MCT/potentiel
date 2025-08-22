@@ -1,15 +1,15 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import type { PlainType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { Icon } from '@/components/atoms/Icon';
 import { CopyButton } from '@/components/molecules/CopyButton';
-import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import type { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
 
 type ModifierGestionnaireRéseauDuRaccordementProps = {
   gestionnaireRéseau: PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;

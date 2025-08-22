@@ -1,14 +1,13 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Éliminé } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Éliminé } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { StatutRecoursBadge } from '../elimine/[identifiant]/recours/(détails)/StatutRecoursBadge';
 
 export type RecoursListItemProps = PlainType<

@@ -1,9 +1,9 @@
-import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
 import { randomUUID } from 'node:crypto';
+import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 
-import { Entity, Where } from '@potentiel-domain/entity';
+import { type Entity, Where } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 

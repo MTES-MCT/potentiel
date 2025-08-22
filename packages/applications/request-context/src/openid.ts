@@ -1,6 +1,6 @@
-import { Issuer } from 'openid-client';
 import { createRemoteJWKSet } from 'jose';
 import { getServerSession } from 'next-auth';
+import { Issuer } from 'openid-client';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 

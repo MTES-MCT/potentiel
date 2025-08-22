@@ -1,10 +1,9 @@
+import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 
 import { LinkedValuesButton } from '../LinkedValuesButton';
-
-import { CandidatureFieldProps } from './CandidatureField';
+import type { CandidatureFieldProps } from './CandidatureField';
 
 export const CoefficientKField = ({
   candidature,

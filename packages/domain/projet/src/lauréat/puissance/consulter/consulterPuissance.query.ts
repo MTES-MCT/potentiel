@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Find, Joined } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Find, Joined } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PuissanceEntity } from '..';
 import { IdentifiantProjet } from '../../..';
-import { CandidatureEntity, UnitéPuissance } from '../../../candidature';
+import { type CandidatureEntity, UnitéPuissance } from '../../../candidature';
+import type { PuissanceEntity } from '..';
 
 export type ConsulterPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

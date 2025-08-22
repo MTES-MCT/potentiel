@@ -1,8 +1,8 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
-import { FC } from 'react';
 import { Pagination } from '@codegouvfr/react-dsfr/Pagination';
+import { usePathname, useSearchParams } from 'next/navigation';
+import type { FC } from 'react';
 
 type ListPaginationProps = {
   currentPage: number;

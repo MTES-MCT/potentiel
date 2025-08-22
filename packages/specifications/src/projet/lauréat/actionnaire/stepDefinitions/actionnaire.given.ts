@@ -1,7 +1,6 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-
+import type { PotentielWorld } from '../../../../potentiel.world';
 import {
   accorderChangementActionnaire,
   annulerChangementActionnaire,

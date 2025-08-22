@@ -1,21 +1,20 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { decodeParameter } from '@/utils/decodeParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
-import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
+import { decodeParameter } from '@/utils/decodeParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
-
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréat } from '../../../_helpers/getLauréat';
 
 type RouteProps = { params: { identifiant: string; date: string } };

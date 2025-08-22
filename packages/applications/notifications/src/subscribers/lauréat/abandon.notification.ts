@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getBaseUrl, getLauréat, listerPorteursRecipients } from '../../helpers';
-import { EmailPayload, SendEmail } from '../../sendEmail';
+import type { EmailPayload, SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
 

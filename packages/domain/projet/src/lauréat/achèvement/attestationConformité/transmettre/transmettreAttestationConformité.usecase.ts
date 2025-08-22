@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../../../..';
 import { TypeDocumentAttestationConformité } from '..';
-
-import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
+import type { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
 
 export type TransmettreAttestationConformitéUseCase = Message<
   'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',

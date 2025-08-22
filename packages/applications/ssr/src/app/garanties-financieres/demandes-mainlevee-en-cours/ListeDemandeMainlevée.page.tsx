@@ -1,10 +1,12 @@
-import { FC } from 'react';
-
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import type { FC } from 'react';
 
 import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import {
   ListItemDemandeMainlevée,
-  ListItemDemandeMainlevéeProps,
+  type ListItemDemandeMainlevéeProps,
 } from './ListItemDemandeMainlevée';
 
 export type ListeDemandeMainlevéeProps = {

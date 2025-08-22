@@ -1,17 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { délaiRebuilTriggeredProjector } from './délaiRebuildTrigerred.projector';
-import { délaiDemandéProjector } from './délaiDemandé.projector';
 import { demandeDélaiAnnuléeProjector } from './demandeDélaiAnnulée.projector';
-import { demandeDélaiRejetéeProjector } from './demandeDélaiRejetée.projector';
-import { demandeDélaiPasséeEnInstructionProjector } from './demandeDélaiPasséeEnInstruction.projector';
-import { délaiAccordéProjector } from './délaiAccordée.projector';
 import { demandeDélaiCorrigéeProjector } from './demandeDélaiCorrigée.projector';
+import { demandeDélaiPasséeEnInstructionProjector } from './demandeDélaiPasséeEnInstruction.projector';
+import { demandeDélaiRejetéeProjector } from './demandeDélaiRejetée.projector';
 import { demandeDélaiSuppriméeProjector } from './demandeDélaiSuppriméeProjector';
+import { délaiAccordéProjector } from './délaiAccordée.projector';
+import { délaiDemandéProjector } from './délaiDemandé.projector';
+import { délaiRebuilTriggeredProjector } from './délaiRebuildTrigerred.projector';
 
 export type SubscriptionEvent = (Lauréat.Délai.DélaiEvent & Event) | RebuildTriggered;
 

@@ -1,13 +1,12 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../../../potentiel.world';
-
+import type { PotentielWorld } from '../../../../potentiel.world';
 import {
+  accorderDemandeDélai,
   annulerDemandeDélai,
   demanderDélai,
-  rejeterDemandeDélai,
   passerDemanderDélaiEnInstruction,
-  accorderDemandeDélai,
+  rejeterDemandeDélai,
 } from './délai.when';
 
 EtantDonné(

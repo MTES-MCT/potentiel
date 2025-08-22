@@ -1,7 +1,7 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../..';
+import type { IdentifiantProjet } from '../../..';
 
 export type DateAchèvementPrévisionnelCalculéeEvent = DomainEvent<
   'DateAchèvementPrévisionnelCalculée-V1',

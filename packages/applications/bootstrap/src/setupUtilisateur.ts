@@ -1,13 +1,13 @@
 import { mediator } from 'mediateur';
 
+import { type SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
+import { UtilisateurProjector } from '@potentiel-applications/projectors';
 import {
   registerUtilisateurQueries,
   registerUtilisateurUseCases,
 } from '@potentiel-domain/utilisateur';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { UtilisateurProjector } from '@potentiel-applications/projectors';
-import { SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
 
 type SetupUtilisateurDependencies = {
   sendEmail: SendEmail;

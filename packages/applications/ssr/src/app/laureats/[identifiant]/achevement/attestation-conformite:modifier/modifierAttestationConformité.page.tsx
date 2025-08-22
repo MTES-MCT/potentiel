@@ -1,17 +1,15 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
-import { TitrePageAttestationConformité } from '../TitrePageAttestationConformité';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   AttestationConformitéForm,
   type AttestationConformitéFormProps,
 } from '../AttestationConformité.form';
 import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
-
+import { TitrePageAttestationConformité } from '../TitrePageAttestationConformité';
 import { modifierAttestationConformitéAction } from './modifierAttestationConformité.action';
 
 export type ModifierAttestationConformitéPageProps = {

@@ -1,40 +1,39 @@
 import { match, P } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantProjet } from '../..';
-import { LauréatAggregate } from '../lauréat.aggregate';
-
+import type { IdentifiantProjet } from '../..';
+import type { LauréatAggregate } from '../lauréat.aggregate';
 import {
-  AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
-  DateMiseEnServiceSuppriméeEvent,
-  DateMiseEnServiceTransmiseEvent,
-  DateMiseEnServiceTransmiseV1Event,
-  DemandeComplèteRaccordementModifiéeEvent,
-  DemandeComplèteRaccordementModifiéeEventV1,
-  DemandeComplèteRaccordementModifiéeEventV2,
-  DemandeComplèteRaccordementTransmiseEvent,
-  DemandeComplèteRaccordementTransmiseEventV1,
-  DemandeComplèteRaccordementTransmiseEventV2,
-  DossierDuRaccordementSuppriméEvent,
-  GestionnaireRéseauAttribuéEvent,
-  GestionnaireRéseauInconnuAttribuéEvent,
-  GestionnaireRéseauRaccordementModifiéEvent,
-  PropositionTechniqueEtFinancièreModifiéeEvent,
-  PropositionTechniqueEtFinancièreModifiéeEventV1,
-  PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
-  PropositionTechniqueEtFinancièreTransmiseEvent,
-  PropositionTechniqueEtFinancièreTransmiseEventV1,
-  RaccordementSuppriméEvent,
+  type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
+  type DateMiseEnServiceSuppriméeEvent,
+  type DateMiseEnServiceTransmiseEvent,
+  type DateMiseEnServiceTransmiseV1Event,
+  type DemandeComplèteRaccordementModifiéeEvent,
+  type DemandeComplèteRaccordementModifiéeEventV1,
+  type DemandeComplèteRaccordementModifiéeEventV2,
+  type DemandeComplèteRaccordementTransmiseEvent,
+  type DemandeComplèteRaccordementTransmiseEventV1,
+  type DemandeComplèteRaccordementTransmiseEventV2,
+  type DossierDuRaccordementSuppriméEvent,
+  type GestionnaireRéseauAttribuéEvent,
+  type GestionnaireRéseauInconnuAttribuéEvent,
+  type GestionnaireRéseauRaccordementModifiéEvent,
+  type PropositionTechniqueEtFinancièreModifiéeEvent,
+  type PropositionTechniqueEtFinancièreModifiéeEventV1,
+  type PropositionTechniqueEtFinancièreSignéeTransmiseEventV1,
+  type PropositionTechniqueEtFinancièreTransmiseEvent,
+  type PropositionTechniqueEtFinancièreTransmiseEventV1,
+  type RaccordementSuppriméEvent,
   RéférenceDossierRaccordement,
-  RéférenceDossierRacordementModifiéeEvent,
-  RéférenceDossierRacordementModifiéeEventV1,
+  type RéférenceDossierRacordementModifiéeEvent,
+  type RéférenceDossierRacordementModifiéeEventV1,
 } from '.';
-
+import type { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options';
 import {
   DateDansLeFuturError,
   DateIdentiqueDeMiseEnServiceDéjàTransmiseError,
@@ -44,23 +43,22 @@ import {
   DossierNonRéférencéPourLeRaccordementDuProjetError,
   DossierRaccordementPasEnServiceError,
   FormatRéférenceDossierRaccordementInvalideError,
+  GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauIdentiqueError,
   GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError,
-  GestionnaireRéseauDéjàExistantError,
   RéférenceDossierRaccordementDéjàExistantePourLeProjetError,
   RéférenceDossierRaccordementNonModifiableCarDossierAvecDateDeMiseEnServiceError,
   RéférencesDossierRaccordementIdentiquesError,
 } from './errors';
-import { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options';
-import { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options';
-import { TransmettreDateMiseEnServiceOptions } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.options';
-import { SupprimerDateMiseEnServiceOptions } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.options';
-import { ModifierRéférenceDossierRaccordementOptions } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.options';
-import { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseau.options';
-import { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options';
-import { AttribuerGestionnaireRéseauOptions } from './attribuer/attribuerGestionnaireRéseau.options';
-import { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options';
-import { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.options';
+import type { ModifierDemandeComplèteOptions } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.options';
+import type { ModifierGestionnaireRéseauOptions } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseau.options';
+import type { ModifierPropositionTechniqueEtFinancièreOptions } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.options';
+import type { ModifierRéférenceDossierRaccordementOptions } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.options';
+import type { SupprimerDateMiseEnServiceOptions } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.options';
+import type { SupprimerDossierDuRaccordementOptions } from './supprimer/dossier/supprimerDossierDuRaccordement.options';
+import type { TransmettreDateMiseEnServiceOptions } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.options';
+import type { TransmettreDemandeOptions } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.options';
+import type { TransmettrePropositionTechniqueEtFinancièreOptions } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.options';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1

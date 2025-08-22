@@ -1,10 +1,10 @@
 import { Période } from '@potentiel-domain/periode';
-import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
-  upsertProjection,
   updateOneProjection,
+  upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
 
 export const périodeNotifiéeProjector = async (event: Période.PériodeNotifiéeEvent) => {
   const identifiantPériode = event.payload.identifiantPériode;

@@ -1,10 +1,9 @@
 import { z } from 'zod';
 
-import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
-
 import {
   booleanSchema,
   dateSchema,

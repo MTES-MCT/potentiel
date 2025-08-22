@@ -1,11 +1,11 @@
-import { EmailUserConfig } from 'next-auth/providers/email';
+import type { EmailUserConfig } from 'next-auth/providers/email';
 
-import { SendEmail } from '@potentiel-applications/notifications';
-import { Option } from '@potentiel-libraries/monads';
+import type { SendEmail } from '@potentiel-applications/notifications';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
-import { GetUtilisateurFromEmail } from './getUtilisateur';
 import { canConnectWithProvider } from './canConnectWithProvider';
+import type { GetUtilisateurFromEmail } from './getUtilisateur';
 import { getBaseUrl } from './helper/getBaseUrl';
 
 type BuildSendVerificationRequest = (

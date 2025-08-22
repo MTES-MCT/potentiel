@@ -4,8 +4,7 @@ import Link from 'next/link';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
-import { ImporterPériodeForm, ImporterPériodeFormProps } from './ImporterPériode.form';
+import { ImporterPériodeForm, type ImporterPériodeFormProps } from './ImporterPériode.form';
 
 type ImporterPériodePageProps = {
   périodes: ImporterPériodeFormProps['périodes'];

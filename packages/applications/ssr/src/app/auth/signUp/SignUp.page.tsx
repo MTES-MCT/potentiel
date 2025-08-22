@@ -1,19 +1,19 @@
 'use client';
 
+import Alert from '@codegouvfr/react-dsfr/Alert';
+import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
+import Tile from '@codegouvfr/react-dsfr/Tile';
+import Link from 'next/link';
 import { redirect, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
-import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
-import Tile from '@codegouvfr/react-dsfr/Tile';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 type SignUpPageProps = {
   providers: Array<string>;

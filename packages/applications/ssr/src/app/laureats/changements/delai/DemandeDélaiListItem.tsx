@@ -1,15 +1,14 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { PlainType } from '@potentiel-domain/core';
+import { DateTime } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
-import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
+import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { StatutDemandeDélaiBadge } from '../../[identifiant]/delai/[date]/StatutDemandeDélaiBadge';
 
 export type DemandeDélaiListItemProps = PlainType<

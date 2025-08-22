@@ -2,25 +2,25 @@ import { z } from 'zod';
 
 import {
   actionnariatSchema,
+  choixCoefficientKSchema,
   dateEchéanceOuDéliberationGfSchema,
   emailContactSchema,
-  évaluationCarboneSimplifiéeSchema,
+  historiqueAbandonSchema,
   nomCandidatSchema,
   nomProjetSchema,
   nomReprésentantLégalSchema,
+  obligationDeSolarisationSchema,
   prixRéférenceSchema,
   puissanceALaPointeSchema,
+  puissanceDeSiteSchema,
   puissanceProductionAnnuelleSchema,
   sociétéMèreSchema,
   technologieSchema,
   typeGarantiesFinancieresSchema,
-  choixCoefficientKSchema,
-  historiqueAbandonSchema,
-  obligationDeSolarisationSchema,
+  typeInstallationsAgrivoltaiquesSchema,
   typologieDeBâtimentSchema,
   élémentsSousOmbrièreSchema,
-  typeInstallationsAgrivoltaiquesSchema,
-  puissanceDeSiteSchema,
+  évaluationCarboneSimplifiéeSchema,
 } from './candidatureFields.schema';
 import { localitéSchema } from './localité.schema';
 

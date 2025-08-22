@@ -1,15 +1,15 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Find } from '@potentiel-domain/entity';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import type { Find } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/projet';
+import type { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
 import { StatutGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
-import { GarantiesFinancièresDetails } from '../types';
+import type { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
+import type { GarantiesFinancièresDetails } from '../types';
 
 export type GarantiesFinancièresReadModel = {
   type: Candidature.TypeGarantiesFinancières.ValueType;

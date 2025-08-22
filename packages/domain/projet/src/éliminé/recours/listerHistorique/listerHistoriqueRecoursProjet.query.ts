@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
+import type { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { RecoursEvent } from '../recours.event';
+import type { RecoursEvent } from '../recours.event';
 
 export type HistoriqueRecoursProjetListItemReadModel = HistoryRecord<'recours', RecoursEvent>;
 

@@ -1,17 +1,16 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { z } from 'zod';
 import { match } from 'ts-pattern';
+import { z } from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-
-import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
+import { withUtilisateur } from '@/utils/withUtilisateur';
+import { AbandonListPage, type AbandonListPageProps } from './AbandonList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;

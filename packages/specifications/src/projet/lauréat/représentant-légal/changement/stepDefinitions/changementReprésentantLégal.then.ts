@@ -1,15 +1,15 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import waitForExpect from 'wait-for-expect';
-import { mediator } from 'mediateur';
 import { assert } from 'chai';
+import { mediator } from 'mediateur';
+import waitForExpect from 'wait-for-expect';
 
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
+import type { PotentielWorld } from '../../../../../potentiel.world';
 
 Alors(
   'le changement enregistré du représentant légal du projet lauréat devrait être consultable',

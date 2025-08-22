@@ -1,7 +1,7 @@
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 
+import type { DossierAccessor } from './graphql';
 import { reverseRecord } from './utils';
-import { DossierAccessor } from './graphql';
 
 class ValeurInconnuePourChampsSelectError extends Error {
   constructor(public nomDuChamp: string) {

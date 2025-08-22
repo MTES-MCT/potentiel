@@ -1,12 +1,12 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { match } from 'ts-pattern';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../../potentiel.world';
+import type { PotentielWorld } from '../../../potentiel.world';
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',

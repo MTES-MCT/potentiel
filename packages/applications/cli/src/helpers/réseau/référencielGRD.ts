@@ -1,6 +1,6 @@
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
 import { Option } from '@potentiel-libraries/monads';
-import { OreGestionnaire } from '@potentiel-infrastructure/ore-client';
 
 export type RéférencielGRD = {
   àAjouter: ReadonlyArray<OreGestionnaire>;

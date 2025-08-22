@@ -1,12 +1,11 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
-import { InviterUtilisateurUseCase, Role, Région } from '@potentiel-domain/utilisateur';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { type InviterUtilisateurUseCase, Role, Région } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { InviterUtilisateurPage } from './InviterUtilisateur.page';
 
 export const metadata: Metadata = {

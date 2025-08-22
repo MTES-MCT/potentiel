@@ -1,24 +1,24 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Find } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DocumentProjet } from '@potentiel-domain/document';
+import type { DocumentProjet } from '@potentiel-domain/document';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { LauréatEntity } from '../lauréat.entity';
-import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
-import { AbandonEntity } from '../abandon';
-import { Abandon } from '..';
+import { type Candidature, IdentifiantProjet, StatutProjet } from '../..';
 import {
-  CandidatureEntity,
+  type CandidatureEntity,
   Localité,
-  TypeTechnologie,
-  UnitéPuissance,
-  VolumeRéservé,
+  type TypeTechnologie,
+  type UnitéPuissance,
+  type VolumeRéservé,
 } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
-import { AttestationConformitéEntity } from '../achèvement/attestationConformité';
+import { Abandon } from '..';
+import type { AbandonEntity } from '../abandon';
+import type { AttestationConformitéEntity } from '../achèvement/attestationConformité';
+import type { LauréatEntity } from '../lauréat.entity';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

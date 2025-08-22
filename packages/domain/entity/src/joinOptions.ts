@@ -1,6 +1,6 @@
-import { Entity } from './entity';
-import { NestedKeys } from './nestedKeys';
-import { WhereOptions } from './whereOptions';
+import type { Entity } from './entity';
+import type { NestedKeys } from './nestedKeys';
+import type { WhereOptions } from './whereOptions';
 
 export type JoinOptions<TEntity extends Entity, TJoin extends Entity> = {
   entity: TJoin['type'];

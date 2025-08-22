@@ -1,16 +1,16 @@
-import { Then as Alors, DataTable } from '@cucumber/cucumber';
+import { Then as Alors, type DataTable } from '@cucumber/cucumber';
 import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
-import { PotentielWorld } from '../../../../../potentiel.world';
+import type { PotentielWorld } from '../../../../../potentiel.world';
 
 Alors(
   'les garanties financières actuelles devraient être consultables pour le projet lauréat',

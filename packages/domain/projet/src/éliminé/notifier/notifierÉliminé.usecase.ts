@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature } from '../..';
-
-import { NotifierÉliminéCommand } from './notifierÉliminé.command';
+import type { Candidature } from '../..';
+import type { NotifierÉliminéCommand } from './notifierÉliminé.command';
 
 export type NotifierÉliminéUseCase = Message<
   'Éliminé.UseCase.NotifierÉliminé',

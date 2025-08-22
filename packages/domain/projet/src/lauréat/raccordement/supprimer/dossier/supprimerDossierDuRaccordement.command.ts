@@ -1,7 +1,7 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import type * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
 
 export type SupprimerDossierDuRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',

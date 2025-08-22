@@ -1,4 +1,4 @@
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Neutre',

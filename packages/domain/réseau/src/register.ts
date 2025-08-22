@@ -1,6 +1,6 @@
 import {
-  GestionnaireRéseauCommandDependencies,
-  GestionnaireRéseauQueryDependencies,
+  type GestionnaireRéseauCommandDependencies,
+  type GestionnaireRéseauQueryDependencies,
   registerGestionnaireRéseauQueries,
   registerGestionnaireRéseauUseCases,
 } from './gestionnaire/gestionnaireRéseau.register';

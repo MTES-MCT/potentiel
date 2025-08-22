@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { getBaseUrl } from '../../helpers';
-import { SendEmail } from '../../sendEmail';
+import type { SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Candidature.CandidatureCorrigéeEvent & Event;
 

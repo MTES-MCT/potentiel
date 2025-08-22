@@ -1,16 +1,16 @@
-import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
-import { ListItem } from '@/components/molecules/ListItem';
-import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Icon } from '@/components/atoms/Icon';
+import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 
 export type DossierRaccordementListItemProps = PlainType<
   Lauréat.Raccordement.ListerDossierRaccordementReadModel['items'][number]

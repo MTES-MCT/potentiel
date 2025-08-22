@@ -1,21 +1,20 @@
-import { HistoriqueProjector, LauréatProjector } from '@potentiel-applications/projectors';
 import { LauréatNotification } from '@potentiel-applications/notifications';
+import { type HistoriqueProjector, LauréatProjector } from '@potentiel-applications/projectors';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
-
-import { setupPuissance } from './setupPuissance';
-import { setupProducteur } from './setupProducteur';
-import { setupFournisseur } from './setupFournisseur';
+import type { SetupProjet } from '../setup';
 import { setupAbandon } from './setupAbandon';
 import { setupAchèvement } from './setupAchèvement';
 import { setupActionnaire } from './setupActionnaire';
-import { setupReprésentantLégal } from './setupReprésentantLégal';
-import { setupRaccordement } from './setupRaccordement';
 import { setupDélai } from './setupDélai';
-import { setupTâchePlanifiée } from './setupTâchePlanifiée';
+import { setupFournisseur } from './setupFournisseur';
 import { setupGarantiesFinancières } from './setupGarantiesFinancière';
+import { setupProducteur } from './setupProducteur';
+import { setupPuissance } from './setupPuissance';
+import { setupRaccordement } from './setupRaccordement';
+import { setupReprésentantLégal } from './setupReprésentantLégal';
+import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();

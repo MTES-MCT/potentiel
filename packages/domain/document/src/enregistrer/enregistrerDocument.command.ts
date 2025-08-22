@@ -1,6 +1,6 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet } from '..';
+import type { DocumentProjet } from '..';
 
 export type EnregistrerDocumentProjetCommand = Message<
   'Document.Command.EnregistrerDocumentProjet',

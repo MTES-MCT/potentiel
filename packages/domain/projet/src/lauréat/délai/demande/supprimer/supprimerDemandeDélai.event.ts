@@ -1,7 +1,7 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../../..';
+import type { IdentifiantProjet } from '../../../..';
 
 export type DemandeDélaiSuppriméeEvent = DomainEvent<
   'DemandeDélaiSupprimée-V1',

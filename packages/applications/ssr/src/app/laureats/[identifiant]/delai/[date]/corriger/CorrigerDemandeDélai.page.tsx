@@ -1,16 +1,15 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { Heading1 } from '@/components/atoms/headings';
-import { PageTemplate } from '@/components/templates/Page.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
+import { Heading1 } from '@/components/atoms/headings';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   CorrigerDemandeDélaiForm,
-  CorrigerDemandeDélaiFormProps,
+  type CorrigerDemandeDélaiFormProps,
 } from './CorrigerDemandeDélai.form';
 
 export type CorrigerDemandeDélaiPageProps = CorrigerDemandeDélaiFormProps;

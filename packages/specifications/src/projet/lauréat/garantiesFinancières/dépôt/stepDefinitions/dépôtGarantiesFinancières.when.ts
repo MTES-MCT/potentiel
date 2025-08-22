@@ -1,12 +1,12 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../.././../potentiel.world';
-import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture';
-import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture';
+import type { PotentielWorld } from '../../../.././../potentiel.world';
+import type { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture';
+import type { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture';
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet {string} avec :',

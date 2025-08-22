@@ -1,12 +1,12 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { Accès } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Accès } from '@potentiel-domain/projet';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { apiAction } from '@/utils/apiAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type DocumentKeyParameter = {
   params: {

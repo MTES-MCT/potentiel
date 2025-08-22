@@ -1,11 +1,10 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import {
   ModifierGestionnaireRéseauForm,
-  ModifierGestionnaireRéseauFormProps,
+  type ModifierGestionnaireRéseauFormProps,
 } from './ModifierGestionnaireRéseau.form';
 
 export type ModifierGestionnaireRéseauPageProps = ModifierGestionnaireRéseauFormProps;

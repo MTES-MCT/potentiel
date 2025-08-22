@@ -1,23 +1,22 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { RedirectType, redirect } from 'next/navigation';
 import { z } from 'zod';
-import { redirect, RedirectType } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
-
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   ListDépôtsGarantiesFinancièresPage,
-  ListDépôtsGarantiesFinancièresProps,
+  type ListDépôtsGarantiesFinancièresProps,
 } from './ListerDépôtsEnCoursGarantiesFinancières.page';
 
 const searchParamsSchema = z.object({

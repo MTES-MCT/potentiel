@@ -1,6 +1,6 @@
-import { FrIconClassName, RiIconClassName } from '@codegouvfr/react-dsfr';
+import type { FrIconClassName, RiIconClassName } from '@codegouvfr/react-dsfr';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import type { FC } from 'react';
 
 export type LinkActionProps = {
   label: string;

@@ -1,17 +1,20 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
-
-import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
-import { FieldToExempleMapper, mapDateTime, mapToExemple } from '../../../../helpers/mapToExemple';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Candidature, type Lauréat } from '@potentiel-domain/projet';
 
 import {
+  type FieldToExempleMapper,
+  mapDateTime,
+  mapToExemple,
+} from '../../../../helpers/mapToExemple';
+import type { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
+import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture';
+import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture';
+import {
   EnregistrerGarantiesFinancièresFixture,
-  EnregistrerGarantiesFinancièresProps,
+  type EnregistrerGarantiesFinancièresProps,
 } from './fixtures/enregistrerGarantiesFinancières.fixture';
 import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture';
-import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture';
-import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture';
 import { ÉchoirGarantiesFinancièresFixture } from './fixtures/échoirGarantiesFinancières.fixture';
 
 export class GarantiesFinancièresActuellesWorld {

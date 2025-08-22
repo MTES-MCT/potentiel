@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { useFeatures } from '@/utils/feature-flag/FeatureFlagContext';
 

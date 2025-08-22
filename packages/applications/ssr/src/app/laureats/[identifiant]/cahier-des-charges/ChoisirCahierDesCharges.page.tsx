@@ -3,10 +3,9 @@ import Link from 'next/link';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import {
   ChoisirCahierDesChargesForm,
-  ChoisirCahierDesChargesFormProps,
+  type ChoisirCahierDesChargesFormProps,
 } from './ChoisirCahierDesCharges.form';
 
 export type ChoisirCahierDesChargesPageProps = ChoisirCahierDesChargesFormProps;

@@ -1,18 +1,20 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
-
-import { modifierPuissanceAction, ModifierPuissanceFormKeys } from './modifierPuissance.action';
+import type { ValidationErrors } from '@/utils/formAction';
+import {
+  type ModifierPuissanceFormKeys,
+  modifierPuissanceAction,
+} from './modifierPuissance.action';
 
 export type ModifierPuissanceFormProps = PlainType<
   Pick<

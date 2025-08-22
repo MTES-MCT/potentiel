@@ -1,12 +1,12 @@
+import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
+import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
+import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
+import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
 import {
   ListerTâchesPlanifiéesQuery,
   ListerTâchesPlanifiéesReadModel,
 } from './lister/listerTâchesPlanifiées.query';
-import { ExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
 import { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
-import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
-import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;
@@ -26,9 +26,7 @@ export {
 
 // Register
 export * from './register';
-
 // ValueTypes
 export * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
-
 // Entities
 export * from './tâchePlanifiée.entity';

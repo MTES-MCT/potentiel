@@ -1,15 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { useState } from 'react';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type CorrigerRéponseSignéeFormKeys,
   corrigerRéponseSignéeAction,
-  CorrigerRéponseSignéeFormKeys,
 } from './corrigerRéponseSignée.action';
 
 type CorrigerRéponseSignéeProps = {

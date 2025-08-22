@@ -1,6 +1,6 @@
-import { Aggregate, AggregateState } from './aggregate';
-import { AggregateId } from './aggregateId';
-import { DomainEvent } from './domainEvent';
+import type { Aggregate, AggregateState } from './aggregate';
+import type { AggregateId } from './aggregateId';
+import type { DomainEvent } from './domainEvent';
 
 export type GetDefaultAggregateState<
   TAggregate extends Aggregate<TDomainEvent>,

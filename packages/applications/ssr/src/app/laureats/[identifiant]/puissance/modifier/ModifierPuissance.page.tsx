@@ -1,12 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
-
-import { ModifierPuissanceForm, ModifierPuissanceFormProps } from './ModifierPuissance.form';
+import { ModifierPuissanceForm, type ModifierPuissanceFormProps } from './ModifierPuissance.form';
 
 export type ModifierPuissancePageProps = ModifierPuissanceFormProps;
 

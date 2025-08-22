@@ -1,4 +1,4 @@
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, type Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 export const getRégionUtilisateur = async ({ role, région }: Utilisateur.ValueType) => {

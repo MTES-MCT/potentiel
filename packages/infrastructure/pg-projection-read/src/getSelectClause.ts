@@ -1,4 +1,4 @@
-import { Entity, SelectOptions } from '@potentiel-domain/entity';
+import type { Entity, SelectOptions } from '@potentiel-domain/entity';
 
 export const getSelectClause = <TEntity extends Entity>({
   select,

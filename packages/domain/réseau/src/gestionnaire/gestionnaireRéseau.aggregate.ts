@@ -1,17 +1,17 @@
 import { match, Pattern } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { ExpressionRegulière } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
-import { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event';
-import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
-import { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event';
+import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.event';
+import type { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options';
+import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
-import { AjouterOptions } from './ajouter/ajouterGestionnaireRéseau.options';
-import { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
-import { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
+import * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
+import type { GestionnaireRéseauModifiéEvent } from './modifier/modifierGestionnaireRéseau.event';
+import type { ModifierOptions } from './modifier/modifierGestionnaireRéseau.options';
 
 export class GestionnaireRéseauAggregate extends AbstractAggregate<
   GestionnaireRéseauEvent,

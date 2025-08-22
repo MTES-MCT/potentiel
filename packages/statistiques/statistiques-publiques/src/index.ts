@@ -1,7 +1,7 @@
 import {
+  cleanCamembertStatistic,
   cleanCartoProjetStatistic,
   cleanScalarStatistic,
-  cleanCamembertStatistic,
   cleanUtilisateurStatistic,
 } from './_utils';
 import { computeEnsembleDesProjets } from './01-ensemble-des-projets';

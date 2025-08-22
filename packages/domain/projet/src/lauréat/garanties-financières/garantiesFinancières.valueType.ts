@@ -1,16 +1,15 @@
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import type { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { TypeGarantiesFinancières } from '../../candidature';
-
 import {
+  DateDélibérationDansLeFuturError,
   DateDélibérationNonAttendueError,
   DateDélibérationRequiseError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
-  DateDélibérationDansLeFuturError,
   TypeGarantiesFinancièresInconnu,
 } from './garantiesFinancières.error';
 

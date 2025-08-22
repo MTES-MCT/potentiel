@@ -1,9 +1,9 @@
 import { Command, Flags } from '@oclif/core';
 import { z } from 'zod';
 
-import { parseCsvFile, csvFlags } from '../../helpers/parse-file';
-import { makeReporter, reporterFlags } from '../../helpers/reporter';
+import { csvFlags, parseCsvFile } from '../../helpers/parse-file';
 import { renameFile } from '../../helpers/renameFile';
+import { makeReporter, reporterFlags } from '../../helpers/reporter';
 
 const schema = z.object({
   from: z.string(),

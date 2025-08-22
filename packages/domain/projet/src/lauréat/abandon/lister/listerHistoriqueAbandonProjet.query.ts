@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
+import type { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/entity';
 
-import { AbandonEvent } from '../abandon.event';
+import type { AbandonEvent } from '../abandon.event';
 
 export type HistoriqueAbandonProjetListItemReadModel = HistoryRecord<'abandon', AbandonEvent>;
 

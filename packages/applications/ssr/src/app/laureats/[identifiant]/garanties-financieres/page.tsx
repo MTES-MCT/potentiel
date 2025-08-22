@@ -1,32 +1,31 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
-import { Option } from '@potentiel-libraries/monads';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Accès, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
+import { type Accès, IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import { Role, type Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   getGarantiesFinancièresTypeLabel,
-  récupérerLauréat,
   getPériodeAppelOffres,
+  récupérerLauréat,
 } from '@/app/_helpers';
-
-import { mapToHistoriqueMainlevéeRejetéesActions } from './(mainlevée)/(historique-main-levée-rejetée)/mapToHistoriqueMainlevéeRejetéesActions';
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
+import { projetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { mapToGarantiesFinancièresActuellesActions } from './(actuelles)/mapToGarantiesFinancièresActuellesActions';
 import { mapToDépôtGarantiesFinancièresActions } from './(dépôt)/mapToDépôtGarantiesFinancièresActions';
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from './ProjetNonSoumisAuxGarantiesFinancières.page';
+import { mapToHistoriqueMainlevéeRejetéesActions } from './(mainlevée)/(historique-main-levée-rejetée)/mapToHistoriqueMainlevéeRejetéesActions';
+import { mapToMainlevéeActions } from './(mainlevée)/mapToMainlevéeActions';
 import {
   DétailsGarantiesFinancièresPage,
-  DétailsGarantiesFinancièresPageProps,
+  type DétailsGarantiesFinancièresPageProps,
 } from './DétailsGarantiesFinancières.page';
-import { projetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
-import { mapToMainlevéeActions } from './(mainlevée)/mapToMainlevéeActions';
+import { ProjetNonSoumisAuxGarantiesFinancièresPage } from './ProjetNonSoumisAuxGarantiesFinancières.page';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',

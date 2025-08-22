@@ -4,8 +4,8 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import * as IdentifiantPériode from './identifiantPériode.valueType';
-import { PériodeNotifiéeEvent } from './notifier/notifierPériode.event';
-import { NotifierPériodeOptions } from './notifier/notifierPériode.options';
+import type { PériodeNotifiéeEvent } from './notifier/notifierPériode.event';
+import type { NotifierPériodeOptions } from './notifier/notifierPériode.options';
 
 export type PériodeEvent = PériodeNotifiéeEvent;
 

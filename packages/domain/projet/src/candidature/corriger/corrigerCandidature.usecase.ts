@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { Dépôt, Instruction } from '..';
 import { IdentifiantProjet } from '../..';
-
-import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
+import { Dépôt, Instruction } from '..';
+import type { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',

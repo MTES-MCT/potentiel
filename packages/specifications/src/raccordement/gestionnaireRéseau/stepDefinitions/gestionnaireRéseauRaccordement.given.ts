@@ -1,14 +1,14 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
+import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
 
+import type { Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Tâche } from '@potentiel-domain/tache';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Tâche } from '@potentiel-domain/tache';
 
-import { PotentielWorld } from '../../../potentiel.world';
-import { RechercherTypeTâche } from '../../../tâche/tâche.world';
+import type { PotentielWorld } from '../../../potentiel.world';
+import type { RechercherTypeTâche } from '../../../tâche/tâche.world';
 
 EtantDonné(
   'le gestionnaire de réseau {string} attribué au raccordement du projet lauréat',

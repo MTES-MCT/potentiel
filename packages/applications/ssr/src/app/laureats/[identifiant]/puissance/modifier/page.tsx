@@ -1,14 +1,12 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
 import { getPuissanceInfos } from '../../_helpers/getLauréat';
-
 import { ModifierPuissancePage } from './ModifierPuissance.page';
 
 export const metadata: Metadata = {

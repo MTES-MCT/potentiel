@@ -1,15 +1,15 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Find } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DocumentProjet } from '@potentiel-domain/document';
+import type { DocumentProjet } from '@potentiel-domain/document';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { ÉliminéEntity } from '../éliminé.entity';
-import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
-import { CandidatureEntity, UnitéPuissance } from '../../candidature';
+import { type Candidature, IdentifiantProjet, StatutProjet } from '../..';
+import type { CandidatureEntity, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
+import type { ÉliminéEntity } from '../éliminé.entity';
 
 export type ConsulterÉliminéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

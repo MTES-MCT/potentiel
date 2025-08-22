@@ -1,13 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
+import { type CorrigerDocumentProjetCommand, DocumentProjet } from '@potentiel-domain/document';
 
-import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
 import { IdentifiantProjet } from '../../../..';
 import { TypeReprésentantLégal } from '../..';
-
-import { CorrigerChangementReprésentantLégalCommand } from './corrigerChangementReprésentantLégal.command';
+import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
+import type { CorrigerChangementReprésentantLégalCommand } from './corrigerChangementReprésentantLégal.command';
 
 export type CorrigerChangementReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',

@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { TypeReprésentantLégal } from '..';
+import type { TypeReprésentantLégal } from '..';
 
 export type ModifierOptions = {
   identifiantUtilisateur: Email.ValueType;

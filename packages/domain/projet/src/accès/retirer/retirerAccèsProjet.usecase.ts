@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { RetirerAccèsProjetCommand } from './retirerAccèsProjet.command';
+import type { RetirerAccèsProjetCommand } from './retirerAccèsProjet.command';
 
 export type RetirerAccèsProjetUseCase = Message<
   'Projet.Accès.UseCase.RetirerAccèsProjet',

@@ -1,17 +1,16 @@
-import { Metadata, ResolvingMetadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata, ResolvingMetadata } from 'next';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { DétailsCandidaturePage } from '@/app/candidatures/[identifiant]/DétailsCandidature.page';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/_helpers';
-
+import { DétailsCandidaturePage } from '@/app/candidatures/[identifiant]/DétailsCandidature.page';
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidatureActions } from '../_helpers/getCandidatureActions';
 
 type PageProps = IdentifiantParameter;

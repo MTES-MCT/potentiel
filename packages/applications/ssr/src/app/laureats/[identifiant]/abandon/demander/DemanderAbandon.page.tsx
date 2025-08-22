@@ -1,11 +1,10 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
+import type { FC } from 'react';
 
+import { Heading1 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading1 } from '@/components/atoms/headings';
-
-import { DemanderAbandonForm, DemanderAbandonFormProps } from './DemanderAbandon.form';
+import { DemanderAbandonForm, type DemanderAbandonFormProps } from './DemanderAbandon.form';
 
 export type DemanderAbandonPageProps = DemanderAbandonFormProps;
 

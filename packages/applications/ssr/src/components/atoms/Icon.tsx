@@ -1,6 +1,6 @@
-import { FrIconClassName, RiIconClassName, fr } from '@codegouvfr/react-dsfr';
+import { type FrIconClassName, fr, type RiIconClassName } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
-import { CSSProperties, FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 
 export type IconProps = {
   id: FrIconClassName | RiIconClassName;

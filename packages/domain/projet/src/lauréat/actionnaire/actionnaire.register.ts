@@ -1,7 +1,7 @@
-import { GetProjetAggregateRoot } from '../..';
-
+import type { GetProjetAggregateRoot } from '../..';
 import { registerAccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase';
 import { registerAccorderChangementActionnaireCommand } from './changement/accorder/accorderChangementActionnairet.command';
+import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command';
 import { registerAnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase';
 import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query';
 import { registerDemanderChangementActionnaireCommand } from './changement/demander/demanderChangementActionnaire.command';
@@ -9,23 +9,22 @@ import { registerDemanderChangementActionnaireUseCase } from './changement/deman
 import { registerEnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
 import { registerEnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import {
-  ListerChangementActionnaireDependencies,
+  type ListerChangementActionnaireDependencies,
   registerListerChangementActionnaireQuery,
 } from './changement/lister/listerChangementActionnaire.query';
 import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
 import { registerRejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
 import { registerSupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
 import {
-  ConsulterActionnaireDependencies,
+  type ConsulterActionnaireDependencies,
   registerConsulterActionnaireQuery,
 } from './consulter/consulterActionnaire.query';
 import {
-  ListerHistoriqueActionnaireProjetDependencies,
+  type ListerHistoriqueActionnaireProjetDependencies,
   registerListerHistoriqueActionnaireProjetQuery,
 } from './listerHistorique/listerHistoriqueActionnaireProjet.query';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
-import { registerAnnulerChangementActionnaireCommand } from './changement/annuler/annulerChangementActionnaire.command';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
   ListerChangementActionnaireDependencies &

@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { CandidatureListItemActionsProps } from '@/app/candidatures/(liste)/CandidatureListItemActions';
+import type { CandidatureListItemActionsProps } from '@/app/candidatures/(liste)/CandidatureListItemActions';
 
 type Props = {
   estNotifiée: boolean;

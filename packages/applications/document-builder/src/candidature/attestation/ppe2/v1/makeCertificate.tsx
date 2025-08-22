@@ -1,18 +1,17 @@
-import React from 'react';
+import type React from 'react';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges } from '@potentiel-domain/projet';
 
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { Certificate } from '../components/Certificate';
 import { Footnotes } from '../components/Footnotes';
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 import { Objet } from '../components/Objet';
 import { Signature } from '../components/Signature';
-
-import { Header } from './Header';
-import { buildLauréat } from './Laureat';
 import { buildElimine } from './Elimine';
+import { Header } from './Header';
 import { Introduction } from './Introduction';
+import { buildLauréat } from './Laureat';
 
 const makeCertificate = (
   project: AttestationPPE2Options,

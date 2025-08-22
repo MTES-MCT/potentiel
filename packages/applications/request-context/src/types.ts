@@ -1,5 +1,5 @@
-import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 // This is the content of the cookie stored by next-auth
 export interface PotentielJWT {

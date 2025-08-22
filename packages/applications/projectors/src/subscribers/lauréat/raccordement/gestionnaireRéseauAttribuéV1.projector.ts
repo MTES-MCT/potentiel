@@ -1,8 +1,8 @@
 import { Where } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import {
-  upsertProjection,
   updateManyProjections,
+  upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getRaccordement } from './_utils/getRaccordement';

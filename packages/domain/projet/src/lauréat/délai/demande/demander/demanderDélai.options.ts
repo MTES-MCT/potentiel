@@ -1,5 +1,5 @@
-import { Email, DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DocumentProjet } from '@potentiel-domain/document';
 
 export type DemanderDélaiOptions = {
   nombreDeMois: number;

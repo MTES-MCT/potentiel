@@ -1,5 +1,4 @@
-import { LauréatWorld } from '../lauréat.world';
-
+import type { LauréatWorld } from '../lauréat.world';
 import { GarantiesFinancièresActuellesWorld } from './actuelles/garantiesFinancièresActuelles.world';
 import { DépôtGarantiesFinancièresWorld } from './dépôt/dépôtGarantiesFinancières.world';
 

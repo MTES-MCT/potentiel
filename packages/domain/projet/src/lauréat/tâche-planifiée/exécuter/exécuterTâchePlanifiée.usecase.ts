@@ -1,8 +1,7 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '../../..';
-
-import { ExécuterTâchePlanifiéeCommand } from './exécuterTâchePlanifiée.command';
+import type { ExécuterTâchePlanifiéeCommand } from './exécuterTâchePlanifiée.command';
 
 export type ExécuterTâchePlanifiéeUseCase = Message<
   'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',

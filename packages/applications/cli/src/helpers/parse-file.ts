@@ -1,9 +1,9 @@
 import { readFile } from 'node:fs/promises';
 
-import { z } from 'zod';
 import { Flags } from '@oclif/core';
+import type { z } from 'zod';
 
-import { CsvValidationError, parseCsv, ParseOptions } from '@potentiel-libraries/csv';
+import { CsvValidationError, type ParseOptions, parseCsv } from '@potentiel-libraries/csv';
 
 export const csvFlags = {
   delimiter: Flags.string({

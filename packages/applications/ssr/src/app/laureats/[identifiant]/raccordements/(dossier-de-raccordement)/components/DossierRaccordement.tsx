@@ -1,27 +1,25 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
-import { supprimerDossierDuRaccordementAction } from '../supprimerDossierDuRaccordement.action';
-import {
-  ÉtapeDemandeComplèteRaccordement,
-  ÉtapeDemandeComplèteRaccordementProps,
-} from '../[reference]/(demande-complète-raccordement)/ÉtapeDemandeComplèteRaccordement';
 import {
   ÉtapeDateMiseEnService,
-  ÉtapeMiseEnServiceProps,
+  type ÉtapeMiseEnServiceProps,
 } from '../[reference]/(date-mise-en-service)/ÉtapeDateMiseEnService';
 import {
+  ÉtapeDemandeComplèteRaccordement,
+  type ÉtapeDemandeComplèteRaccordementProps,
+} from '../[reference]/(demande-complète-raccordement)/ÉtapeDemandeComplèteRaccordement';
+import {
   ÉtapePropositionTechniqueEtFinancière,
-  ÉtapePropositionTechniqueEtFinancièreProps,
+  type ÉtapePropositionTechniqueEtFinancièreProps,
 } from '../[reference]/(proposition-technique-et-financière)/ÉtapePropositionTechniqueEtFinancière';
-
+import { supprimerDossierDuRaccordementAction } from '../supprimerDossierDuRaccordement.action';
 import { Separateur } from './Separateur';
 
 export type DossierRaccordementProps = {

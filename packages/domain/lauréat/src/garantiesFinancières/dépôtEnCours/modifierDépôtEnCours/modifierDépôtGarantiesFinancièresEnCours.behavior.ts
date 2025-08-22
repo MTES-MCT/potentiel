@@ -1,12 +1,12 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { DateTime, type IdentifiantProjet } from '@potentiel-domain/common';
+import type { DocumentProjet } from '@potentiel-domain/document';
+import { Candidature, type Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
+import type { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 
 export type Options = {

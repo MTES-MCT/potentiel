@@ -1,5 +1,5 @@
+import type { Lauréat } from '@potentiel-domain/projet';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector';
 

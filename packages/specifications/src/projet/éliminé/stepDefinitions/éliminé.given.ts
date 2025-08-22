@@ -1,13 +1,13 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
-import { Accès, Éliminé } from '@potentiel-domain/projet';
+import type { Accès, Éliminé } from '@potentiel-domain/projet';
+import type { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
 import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
+import type { PotentielWorld } from '../../../potentiel.world';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });

@@ -1,4 +1,4 @@
-import { LikeWhereCondition, WhereCondition } from '../whereOptions';
+import type { LikeWhereCondition, WhereCondition } from '../whereOptions';
 
 export const startWith = (value: string | undefined): WhereCondition<string> | undefined => {
   if (value === undefined) {

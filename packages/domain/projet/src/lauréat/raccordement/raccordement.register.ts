@@ -1,40 +1,35 @@
-import { GetProjetAggregateRoot } from '../..';
-
+import type { GetProjetAggregateRoot } from '../..';
+import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command';
 import {
-  ListerHistoriqueRaccordementProjetDependencies,
-  registerListerHistoriqueRaccordementProjetQuery,
-} from './listerHistorique/listerHistoriqueRaccordementProjet.query';
-import {
-  ConsulterDossierRaccordementDependencies,
+  type ConsulterDossierRaccordementDependencies,
   registerConsulterDossierRaccordementQuery,
 } from './consulter/consulterDossierRaccordement.query';
 import {
-  ConsulterGestionnaireRéseauRaccordementDependencies,
+  type ConsulterGestionnaireRéseauRaccordementDependencies,
   registerConsulterGestionnaireRéseauRaccordementQuery,
 } from './consulter/consulterGestionnaireRéseauRaccordement.query';
 import {
-  ConsulterNombreDeRaccordementDependencies,
+  type ConsulterNombreDeRaccordementDependencies,
   registerConsulterNombreDeRaccordementQuery,
 } from './consulter/consulterNombreRaccordement';
 import {
-  ConsulterRaccordementDependencies,
+  type ConsulterRaccordementDependencies,
   registerConsulterRaccordementQuery,
 } from './consulter/consulterRaccordement.query';
 import {
-  ListerDossierRaccordementQueryDependencies,
+  type ListerDossierRaccordementQueryDependencies,
   registerListerDossierRaccordementQuery,
 } from './lister/listerDossierRaccordement.query';
 import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query';
 import { registerListerDossierRaccordementManquantsQuery } from './lister/listerDossierRaccordementManquants.query';
 import {
-  ListerRaccordementQueryDependencies,
+  type ListerRaccordementQueryDependencies,
   registerListerRaccordementQuery,
 } from './lister/listerRaccordement.query';
 import {
-  RechercherDossierRaccordementDependencies,
-  registerRechercherDossierRaccordementQuery,
-} from './rechercher/rechercherDossierRaccordement.query';
-import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command';
+  type ListerHistoriqueRaccordementProjetDependencies,
+  registerListerHistoriqueRaccordementProjetQuery,
+} from './listerHistorique/listerHistoriqueRaccordementProjet.query';
 import { registerModifierDemandeComplèteRaccordementCommand } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.command';
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase';
 import { registerModifierGestionnaireRéseauProjetCommand } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.command';
@@ -43,6 +38,10 @@ import { registerModifierPropositionTechniqueEtFinancièreCommand } from './modi
 import { registerModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.usecase';
 import { registerModifierRéférenceDossierRaccordementCommand } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.command';
 import { registerModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase';
+import {
+  type RechercherDossierRaccordementDependencies,
+  registerRechercherDossierRaccordementQuery,
+} from './rechercher/rechercherDossierRaccordement.query';
 import { registerSupprimerDateMiseEnServiceCommand } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.command';
 import { registerSupprimerDateMiseEnServiceUseCase } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.usecase';
 import { registerSupprimerDossierDuRaccordementCommand } from './supprimer/dossier/supprimerDossierDuRaccordement.command';

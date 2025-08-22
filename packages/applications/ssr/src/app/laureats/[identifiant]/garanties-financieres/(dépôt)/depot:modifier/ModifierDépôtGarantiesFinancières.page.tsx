@@ -1,15 +1,13 @@
-import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
 import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
 } from '../depot:soumettre/SoumettreDépôtGarantiesFinancières.form';
-
 import { modifierDépôtGarantiesFinancièresAction } from './modifierDépôtGarantiesFinancières.action';
 
 export type ModifierDépôtGarantiesFinancièresPageProps = Pick<

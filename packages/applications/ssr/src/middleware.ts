@@ -1,6 +1,6 @@
 import { chain } from './middlewares/chain';
-import { withNextAuth } from './middlewares/withNextAuth';
 import { withCSRF } from './middlewares/withCSRF';
+import { withNextAuth } from './middlewares/withNextAuth';
 
 export default chain([withNextAuth, withCSRF]);
 

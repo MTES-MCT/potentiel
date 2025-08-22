@@ -1,4 +1,4 @@
-import { MatchAnyWhereCondition, WhereCondition } from '../whereOptions';
+import type { MatchAnyWhereCondition, WhereCondition } from '../whereOptions';
 
 /** The value matches exactly one of the values in the array */
 export const matchAny = <T>(

@@ -1,15 +1,14 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot';
-
-import { ÉliminéEvent } from './éliminé.event';
-import { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event';
-import { NotifierÉliminéOptions } from './notifier/notifierÉliminé.option';
-import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options';
-import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
+import type { ProjetAggregateRoot } from '../projet.aggregateRoot';
+import type { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options';
+import type { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event';
+import type { NotifierÉliminéOptions } from './notifier/notifierÉliminé.option';
+import type { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
 import { RecoursAggregate } from './recours/recours.aggregate';
+import type { ÉliminéEvent } from './éliminé.event';
 
 export class ÉliminéAggregate extends AbstractAggregate<
   ÉliminéEvent,

@@ -1,19 +1,19 @@
 'use client';
-import { FC, useState } from 'react';
+
 import Button from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { now } from '@potentiel-libraries/iso8601-datetime';
 
-import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
+import { Form } from '@/components/atoms/form/Form';
+import { InputDate } from '@/components/atoms/form/InputDate';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type EnregistrerAttestationGarantiesFinancièresFormKeys,
   enregistrerAttestationGarantiesFinancièresAction,
-  EnregistrerAttestationGarantiesFinancièresFormKeys,
 } from './enregistrerAttestationGarantiesFinancières.action';
 
 export type EnregistrerAttestationGarantiesFinancièresFormProps = {

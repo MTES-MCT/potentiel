@@ -1,68 +1,67 @@
-import { GetProjetAggregateRoot } from '..';
-
-import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
-import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
+import type { GetProjetAggregateRoot } from '..';
 import {
-  ConsulterCahierDesChargesDependencies,
-  registerConsulterCahierDesChargesQuery,
-} from './cahierDesCharges/consulter/consulterCahierDesCharges.query';
-import {
-  ConsulterLauréatDependencies,
-  registerConsulterLauréatQuery,
-} from './consulter/consulterLauréat.query';
-import { registerModifierLauréatCommand } from './modifier/modifierLauréat.command';
-import { registerModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
-import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
-import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
-import { DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
-import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
-import { ProducteurQueryDependencies } from './producteur/producteur.register';
-import {
-  AchèvementQueryDependencies,
-  registerAchèvementQueries,
-  registerAchèvementUseCases,
-} from './achèvement/achèvement.register';
-import {
-  PuissanceQueryDependencies,
-  registerPuissanceQueries,
-  registerPuissanceUseCases,
-} from './puissance/puissance.register';
-import {
-  AbandonQueryDependencies,
+  type AbandonQueryDependencies,
   registerAbandonQueries,
   registerAbandonUseCases,
 } from './abandon/abandon.register';
 import {
-  FournisseurQueryDependencies,
+  type AchèvementQueryDependencies,
+  registerAchèvementQueries,
+  registerAchèvementUseCases,
+} from './achèvement/achèvement.register';
+import {
+  type ActionnaireQueryDependencies,
+  registerActionnaireQueries,
+  registerActionnaireUseCases,
+} from './actionnaire/actionnaire.register';
+import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
+import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
+import {
+  type ConsulterCahierDesChargesDependencies,
+  registerConsulterCahierDesChargesQuery,
+} from './cahierDesCharges/consulter/consulterCahierDesCharges.query';
+import {
+  type ConsulterLauréatDependencies,
+  registerConsulterLauréatQuery,
+} from './consulter/consulterLauréat.query';
+import { type DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
+import {
+  type FournisseurQueryDependencies,
   registerFournisseurQueries,
   registerFournisseurUseCases,
 } from './fournisseur/fournisseur.register';
 import {
-  ActionnaireQueryDependencies,
-  registerActionnaireQueries,
-  registerActionnaireUseCases,
-} from './actionnaire/actionnaire.register';
+  type GarantiesFinancièresQueryDependencies,
+  registerGarantiesFinancièresQueries,
+  registerGarantiesFinancièresUseCases,
+} from './garanties-financières/garantiesFinancières.register';
 import {
-  registerReprésentantLégalQueries,
-  registerReprésentantLégalUseCases,
-  ReprésentantLégalCommandDependencies,
-  ReprésentantLégalQueryDependencies,
-} from './représentantLégal/représentantLégal.register';
+  type ListerHistoriqueProjetDependencies,
+  registerListerHistoriqueProjetQuery,
+} from './historique/lister/listerHistoriqueProjet.query';
+import { registerModifierLauréatCommand } from './modifier/modifierLauréat.command';
+import { registerModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
+import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
+import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
+import { registerProducteurQueries, registerProducteurUseCases } from './producteur';
+import type { ProducteurQueryDependencies } from './producteur/producteur.register';
 import {
-  RaccordementQueryDependencies,
+  type PuissanceQueryDependencies,
+  registerPuissanceQueries,
+  registerPuissanceUseCases,
+} from './puissance/puissance.register';
+import {
+  type RaccordementQueryDependencies,
   registerRaccordementQueries,
   registerRaccordementUseCases,
 } from './raccordement/raccordement.register';
 import {
-  ListerHistoriqueProjetDependencies,
-  registerListerHistoriqueProjetQuery,
-} from './historique/lister/listerHistoriqueProjet.query';
+  type ReprésentantLégalCommandDependencies,
+  type ReprésentantLégalQueryDependencies,
+  registerReprésentantLégalQueries,
+  registerReprésentantLégalUseCases,
+} from './représentantLégal/représentantLégal.register';
 import { registerTâchePlanifiéeQuery, registerTâchePlanifiéeUseCases } from './tâche-planifiée';
-import {
-  GarantiesFinancièresQueryDependencies,
-  registerGarantiesFinancièresQueries,
-  registerGarantiesFinancièresUseCases,
-} from './garanties-financières/garantiesFinancières.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesDependencies &

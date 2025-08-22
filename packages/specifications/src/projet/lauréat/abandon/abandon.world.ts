@@ -1,17 +1,17 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderAbandonFixture } from './fixtures/accorderAbandon.fixture';
 import { AnnulerAbandonFixture } from './fixtures/annulerAbandon.fixture';
 import { ConfirmerAbandonFixture } from './fixtures/confirmerAbandon.fixture';
 import { DemanderAbandonFixture } from './fixtures/demanderAbandon.fixture';
 import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmationAbandon.fixture';
-import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
-import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
 import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture';
 import { PasserAbandonEnInstructionFixture } from './fixtures/passerAbandonEnInstruction.fixture';
+import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
+import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
 
 export class AbandonWord {
   #accorderAbandonFixture: AccorderAbandonFixture;

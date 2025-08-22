@@ -1,11 +1,10 @@
 import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { getLauréat, listerPorteursRecipients } from '../../../helpers';
-import { EmailPayload, SendEmail } from '../../../sendEmail';
-
+import type { EmailPayload, SendEmail } from '../../../sendEmail';
 import { lauréatNotificationTemplateId } from './constant';
 
 type CahierDesChargesChoisiNotificationProps = {

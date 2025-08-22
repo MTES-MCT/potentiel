@@ -1,28 +1,26 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
+import { type FC, useEffect, useState } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-import { Step, Steps } from '@/components/molecules/step/Steps';
-
+import { type Step, Steps } from '@/components/molecules/step/Steps';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
   SaisieNomStep,
   SaisiePièceJustificativeStep,
   SaisieTypeStep,
-  TypeSociété,
+  type TypeSociété,
   ValidationStep,
 } from '../../../_helpers/steps';
-
 import {
+  type CorrigerChangementReprésentantLégalFormKeys,
   corrigerChangementReprésentantLégalAction,
-  CorrigerChangementReprésentantLégalFormKeys,
 } from './corrigerChangementReprésentantLégal.action';
 
 export type CorrigerChangementReprésentantLégalFormProps = PlainType<{

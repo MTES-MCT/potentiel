@@ -1,7 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { IdentifiantProjet } from '../../..';
+import type { IdentifiantProjet } from '../../..';
 
 export type ProducteurImportéEvent = DomainEvent<
   'ProducteurImporté-V1',

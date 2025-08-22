@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import { useState } from 'react';
 
-import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { FormRow } from '@/components/atoms/form/FormRow';
-
-import { ModifierLauréatPageProps } from '../../ModifierLauréat.page';
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
+import { CommunePicker } from '@/components/molecules/CommunePicker';
+import type { FieldValidationErrors } from '../../ModifierLauréat.form';
+import type { ModifierLauréatPageProps } from '../../ModifierLauréat.page';
 import { LinkedValuesButton } from '../LinkedValuesButton';
-
 import { ProjectField } from './ProjectField';
 
 type LocalitéFieldProps = {

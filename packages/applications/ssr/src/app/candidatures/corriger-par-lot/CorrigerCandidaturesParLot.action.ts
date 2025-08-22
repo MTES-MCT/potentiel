@@ -1,20 +1,19 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import * as zod from 'zod';
 
-import { DomainError } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { parseCsv } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
+import { DomainError } from '@potentiel-domain/core';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { parseCsv } from '@potentiel-libraries/csv';
 
-import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { candidatureCsvSchema } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
-
+import { type ActionResult, type FormAction, type FormState, formAction } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { getLocalité } from '../_helpers';
 
 const schema = zod.object({

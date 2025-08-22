@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Find } from '@potentiel-domain/entity';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import type { Find } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/projet';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
-import { DépôtEnCoursGarantiesFinancièresEntity } from '../dépôtEnCoursGarantiesFinancières.entity';
 import { TypeDocumentGarantiesFinancières } from '../..';
+import type { DépôtEnCoursGarantiesFinancièresEntity } from '../dépôtEnCoursGarantiesFinancières.entity';
 
 export type ConsulterDépôtEnCoursGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

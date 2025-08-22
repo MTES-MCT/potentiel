@@ -1,7 +1,7 @@
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { PériodeEntity } from '../période';
 import { mapToReadModel } from '../consulter/consulterPériode.query';
+import type { PériodeEntity } from '../période';
 
 export const listerPériodesNotifiées = async (
   list: List,

@@ -1,8 +1,8 @@
 import { writeFile } from 'node:fs/promises';
 
+import { faker } from '@faker-js/faker';
 import { Parser } from '@json2csv/plainjs';
 import { Args, Command, Flags } from '@oclif/core';
-import { faker } from '@faker-js/faker';
 
 import { getDossiersDemarche } from '@potentiel-infrastructure/ds-api-client';
 

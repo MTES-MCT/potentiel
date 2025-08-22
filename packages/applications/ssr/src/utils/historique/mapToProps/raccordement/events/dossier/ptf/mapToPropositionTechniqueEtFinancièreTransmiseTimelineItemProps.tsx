@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = (
   readmodel: (

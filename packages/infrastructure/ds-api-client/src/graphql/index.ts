@@ -1,9 +1,9 @@
 import { GraphQLClient } from 'graphql-request';
 
-import { GetDossierQuery, getSdk } from './client';
+import { type GetDossierQuery, getSdk } from './client';
 
-export type * from './client';
 export * from './accessor';
+export type * from './client';
 export type TypeChamp = GetDossierQuery['dossier']['champs'][number]['__typename'];
 
 export const getDSApiClient = () => {

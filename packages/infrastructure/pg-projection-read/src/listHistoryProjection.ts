@@ -1,4 +1,8 @@
-import { HistoryRecord, ListHistoryOptions, ListHistoryResult } from '@potentiel-domain/entity';
+import type {
+  HistoryRecord,
+  ListHistoryOptions,
+  ListHistoryResult,
+} from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const countQuery =

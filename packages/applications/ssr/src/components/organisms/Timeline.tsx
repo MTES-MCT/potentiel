@@ -1,18 +1,18 @@
-import { FC, ReactNode } from 'react';
 import MuiTimeline from '@mui/lab/Timeline';
-import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
+import MuiTimelineItem from '@mui/lab/TimelineItem';
 import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import type { FC, ReactNode } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { Icon, IconProps } from '../atoms/Icon';
 import { FormattedDate } from '../atoms/FormattedDate';
+import { Icon, type IconProps } from '../atoms/Icon';
 
 export type TimelineProps = {
   items: Array<TimelineItemProps>;

@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type AnnulerChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',

@@ -1,7 +1,11 @@
-import { Aggregate, DomainEvent, LoadAggregate, LoadAggregateOption } from '@potentiel-domain/core';
+import type {
+  Aggregate,
+  DomainEvent,
+  LoadAggregate,
+  LoadAggregateOption,
+} from '@potentiel-domain/core';
 
 import { publish } from '../publish/publish';
-
 import { loadFromStream } from './loadFromStream';
 
 export const loadAggregate: LoadAggregate = async <

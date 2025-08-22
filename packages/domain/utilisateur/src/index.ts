@@ -1,28 +1,29 @@
 import {
   ConsulterUtilisateurQuery,
-  RécupérerUtilisateurPort,
   ConsulterUtilisateurReadModel,
+  RécupérerUtilisateurPort,
 } from './consulter/consulterUtilisateur.query';
+import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
+import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
+import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
+import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
+import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
+import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
+import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
+import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 import {
   ListerUtilisateursQuery,
   ListerUtilisateursReadModel,
 } from './lister/listerUtilisateurs.query';
-import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
-import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
-import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
-import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
-import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
-import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
-import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
-import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
-import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.behavior';
-import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
+import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
+import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
+
+export { AccèsFonctionnalitéRefuséError, UtilisateurInconnuError } from './errors';
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
-export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
-export { UtilisateurInconnuError, AccèsFonctionnalitéRefuséError } from './errors';
+export * as Utilisateur from './utilisateur.valueType';
 
 // Query
 export type UtilisateurQuery =
@@ -62,17 +63,17 @@ export {
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
 };
-export * from './utilisateur.event';
 
 // Register
 export * from './register';
+export * from './utilisateur.event';
 
 // Port
 export { RécupérerUtilisateurPort };
-export * from './utilisateur.port';
 
 // Entity
 export * from './utilisateur.entity';
+export * from './utilisateur.port';
 
 // readmodel
 export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel, ListerPorteursReadModel };

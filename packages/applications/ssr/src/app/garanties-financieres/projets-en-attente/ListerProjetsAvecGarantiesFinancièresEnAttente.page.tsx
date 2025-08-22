@@ -1,10 +1,12 @@
-import { FC } from 'react';
-
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import type { FC } from 'react';
 
 import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import {
   ListItemProjetAvecGarantiesFinancièresEnAttente,
-  ListItemProjetAvecGarantiesFinancièresEnAttenteProps,
+  type ListItemProjetAvecGarantiesFinancièresEnAttenteProps,
 } from './ListItemProjetAvecGarantiesFinancièresEnAttente';
 
 export type ListProjetsAvecGarantiesFinancièresEnAttenteProps = {

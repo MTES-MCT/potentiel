@@ -1,53 +1,53 @@
-import {
+import type {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
 } from './consulter/consulterDossierRaccordement.query';
-import {
+import type {
   ConsulterGestionnaireRéseauRaccordementQuery,
   ConsulterGestionnaireRéseauRaccordementReadModel,
 } from './consulter/consulterGestionnaireRéseauRaccordement.query';
-import {
+import type {
   ConsulterNombreDeRaccordementQuery,
   ConsulterNombreDeRaccordementReadModel,
 } from './consulter/consulterNombreRaccordement';
-import {
+import type {
   ConsulterRaccordementQuery,
   ConsulterRaccordementReadModel,
 } from './consulter/consulterRaccordement.query';
-import {
+import type {
   ListerDossierRaccordementQuery,
   ListerDossierRaccordementReadModel,
 } from './lister/listerDossierRaccordement.query';
-import {
+import type {
   ListerDossierRaccordementEnAttenteMiseEnServiceQuery,
   ListerDossierRaccordementEnAttenteMiseEnServiceReadModel,
 } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query';
-import {
+import type {
   ListerDossierRaccordementManquantsQuery,
   ListerDossierRaccordementManquantsReadModel,
 } from './lister/listerDossierRaccordementManquants.query';
-import {
+import type {
   ListerRaccordementQuery,
   ListerRaccordementReadModel,
 } from './lister/listerRaccordement.query';
-import {
+import type {
   HistoriqueRaccordementProjetListItemReadModel,
   ListerHistoriqueRaccordementProjetQuery,
   ListerHistoriqueRaccordementProjetReadModel,
 } from './listerHistorique/listerHistoriqueRaccordementProjet.query';
-import { ModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase';
-import { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase';
-import { ModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.usecase';
-import { ModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase';
-import {
+import type { ModifierDemandeComplèteRaccordementUseCase } from './modifier/demandeComplète/modifierDemandeComplèteRaccordement.usecase';
+import type { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/gestionnaireRéseauDuRaccordement/modifierGestionnaireRéseauRaccordement.usecase';
+import type { ModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/propositionTechniqueEtFinancière/modifierPropositiontechniqueEtFinancière.usecase';
+import type { ModifierRéférenceDossierRaccordementUseCase } from './modifier/référenceDossierRaccordement/modifierRéférenceDossierRaccordement.usecase';
+import type {
   RechercherDossierRaccordementQuery,
   RechercherDossierRaccordementReadModel,
 } from './rechercher/rechercherDossierRaccordement.query';
-import { SupprimerDateMiseEnServiceUseCase } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.usecase';
-import { SupprimerDossierDuRaccordementUseCase } from './supprimer/dossier/supprimerDossierDuRaccordement.usecase';
-import { TransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase';
-import { TransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase';
-import { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase';
+import type { SupprimerDateMiseEnServiceUseCase } from './supprimer/dateMiseEnService/supprimerDateMiseEnService.usecase';
+import type { SupprimerDossierDuRaccordementUseCase } from './supprimer/dossier/supprimerDossierDuRaccordement.usecase';
+import type { TransmettreDateMiseEnServiceUseCase } from './transmettre/dateMiseEnService/transmettreDateMiseEnService.usecase';
+import type { TransmettreDemandeComplèteRaccordementUseCase } from './transmettre/demandeComplèteDeRaccordement/transmettreDemandeComplèteRaccordement.usecase';
+import type { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/propositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.usecase';
 
 // Query
 export type RaccordementQuery =
@@ -114,15 +114,12 @@ export type {
   SupprimerDateMiseEnServiceUseCase,
 };
 
-// Events
-export * from './raccordement.event';
-
 // Entities
 export * from './raccordement.entity';
-
+// Events
+export * from './raccordement.event';
 // Value types
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
-export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType';
-
 // Saga
 export * as RaccordementSaga from './saga';
+export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType';

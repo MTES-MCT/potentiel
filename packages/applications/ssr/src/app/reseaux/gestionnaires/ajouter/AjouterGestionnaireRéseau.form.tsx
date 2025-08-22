@@ -1,14 +1,14 @@
 'use client';
+
 import { Input } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
-import { ValidationErrors } from '@/utils/formAction';
-
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type AjouterGestionnaireRéseauFormKeys,
   ajouterGestionnaireRéseauAction,
-  AjouterGestionnaireRéseauFormKeys,
 } from './ajouterGestionnaireRéseau.action';
 
 export const AjouterGestionnaireRéseauForm = () => {

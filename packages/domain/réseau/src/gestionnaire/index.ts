@@ -1,34 +1,34 @@
+import type {
+  GestionnaireRéseauAjoutéEvent,
+  GestionnaireRéseauAjoutéEventV1,
+} from './ajouter/ajouterGestionnaireRéseau.event';
 import type { AjouterGestionnaireRéseauUseCase } from './ajouter/ajouterGestionnaireRéseau.usecase';
 import type {
   ConsulterGestionnaireRéseauQuery,
   ConsulterGestionnaireRéseauReadModel,
 } from './consulter/consulterGestionnaireRéseau.query';
+import { GestionnaireRéseauAggregate } from './gestionnaireRéseau.aggregate';
+import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 import type {
+  GestionnaireRéseauListItemReadModel,
   ListerGestionnaireRéseauQuery,
   ListerGestionnaireRéseauReadModel,
-  GestionnaireRéseauListItemReadModel,
 } from './lister/listerGestionnaireRéseau.query';
-import type { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
-import type {
-  GestionnaireRéseauAjoutéEvent,
-  GestionnaireRéseauAjoutéEventV1,
-} from './ajouter/ajouterGestionnaireRéseau.event';
-import type { GestionnaireRéseauEvent } from './gestionnaireRéseau.event';
 import type {
   GestionnaireRéseauModifiéEvent,
   GestionnaireRéseauModifiéEventV1,
 } from './modifier/modifierGestionnaireRéseau.event';
-import { GestionnaireRéseauAggregate } from './gestionnaireRéseau.aggregate';
+import type { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
 
 // Query
 export type GestionnaireRéseauQuery =
   | ListerGestionnaireRéseauQuery
   | ConsulterGestionnaireRéseauQuery;
 
-export { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
+export type { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
 
 // ReadModel
-export {
+export type {
   ListerGestionnaireRéseauReadModel,
   GestionnaireRéseauListItemReadModel,
   ConsulterGestionnaireRéseauReadModel,
@@ -39,10 +39,10 @@ export type GestionnaireRéseauUseCase =
   | AjouterGestionnaireRéseauUseCase
   | ModifierGestionnaireRéseauUseCase;
 
-export { AjouterGestionnaireRéseauUseCase, ModifierGestionnaireRéseauUseCase };
+export type { AjouterGestionnaireRéseauUseCase, ModifierGestionnaireRéseauUseCase };
 
 // Event
-export {
+export type {
   GestionnaireRéseauAjoutéEventV1,
   GestionnaireRéseauAjoutéEvent,
   GestionnaireRéseauEvent,
@@ -50,11 +50,10 @@ export {
   GestionnaireRéseauModifiéEvent,
 };
 
-// ValueTypes
-export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
-
 // Entities
 export * from './gestionnaireRéseau.entity';
+// ValueTypes
+export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRéseau.valueType';
 
 // Aggregate
 export { GestionnaireRéseauAggregate };

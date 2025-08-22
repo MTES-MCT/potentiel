@@ -1,7 +1,7 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import { type NextFetchEvent, type NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-import { CustomMiddleware } from './middleware';
+import type { CustomMiddleware } from './middleware';
 
 export function withNextAuth(middleware: CustomMiddleware) {
   return async (request: NextRequest, event: NextFetchEvent) => {

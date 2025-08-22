@@ -1,8 +1,8 @@
-import { AchèvementProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { AttestationConformitéNotification } from '@potentiel-applications/notifications';
+import { AchèvementProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
+import type { SetupProjet } from '../setup';
 
 export const setupAchèvement: SetupProjet = async ({ sendEmail }) => {
   const achèvement = createSubscriptionSetup('achevement');

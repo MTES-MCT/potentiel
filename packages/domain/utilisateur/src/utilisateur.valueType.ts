@@ -1,6 +1,6 @@
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
+import type { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import type { Option } from '@potentiel-libraries/monads';
 
 import * as Role from './role.valueType';
 

@@ -1,10 +1,10 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-import { UtilisateurWorld } from '../../../../../utilisateur/utilisateur.world';
+import type { PotentielWorld } from '../../../../../potentiel.world';
+import type { UtilisateurWorld } from '../../../../../utilisateur/utilisateur.world';
 
 Quand(
   'le porteur demande le changement de puissance pour le projet {lauréat-éliminé} avec :',

@@ -1,6 +1,6 @@
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DépôtGarantiesFinancières } from './dépôtGarantiesFinancières.type';
+import type { DépôtGarantiesFinancières } from './dépôtGarantiesFinancières.type';
 
 export const mapToDépôtGarantiesFinancièresActions = (role: Role.ValueType) => {
   const actions: DépôtGarantiesFinancières['actions'] = [];

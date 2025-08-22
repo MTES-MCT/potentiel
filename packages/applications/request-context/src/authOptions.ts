@@ -1,22 +1,22 @@
-import { Pool } from 'pg';
-import { AuthOptions } from 'next-auth';
-import { Provider } from 'next-auth/providers';
-import KeycloakProvider from 'next-auth/providers/keycloak';
+import type { AuthOptions } from 'next-auth';
+import type { Provider } from 'next-auth/providers';
 import EmailProvider from 'next-auth/providers/email';
+import KeycloakProvider from 'next-auth/providers/keycloak';
+import { Pool } from 'pg';
 
-import { getConnectionString } from '@potentiel-libraries/pg-helpers';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
+import { sendEmail } from '@potentiel-infrastructure/email';
 import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { Option } from '@potentiel-libraries/monads';
-import { sendEmail } from '@potentiel-infrastructure/email';
+import { getLogger } from '@potentiel-libraries/monitoring';
+import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 
-import { getProviderConfiguration } from './getProviderConfiguration';
-import { refreshToken } from './refreshToken';
-import ProConnectProvider from './ProConnectProvider';
-import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 import { canConnectWithProvider } from './canConnectWithProvider';
+import { getProviderConfiguration } from './getProviderConfiguration';
+import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur';
+import ProConnectProvider from './ProConnectProvider';
+import { refreshToken } from './refreshToken';
 import { buildSendVerificationRequest } from './sendVerificationRequest';
 
 const OneHourInSeconds = 60 * 60;
@@ -151,20 +151,18 @@ export const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      {
-        if (session.user?.email) {
-          session.utilisateur = await getSessionUtilisateurFromEmail(
-            session.user.email,
-            token?.name ?? undefined,
-          );
-        }
-
-        if (token.provider) {
-          session.provider = token.provider;
-        }
-
-        return session;
+      if (session.user?.email) {
+        session.utilisateur = await getSessionUtilisateurFromEmail(
+          session.user.email,
+          token?.name ?? undefined,
+        );
       }
+
+      if (token.provider) {
+        session.provider = token.provider;
+      }
+
+      return session;
     },
   },
 };

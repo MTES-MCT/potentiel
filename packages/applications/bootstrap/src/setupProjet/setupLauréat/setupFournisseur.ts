@@ -1,8 +1,8 @@
-import { FournisseurProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { FournisseurNotification } from '@potentiel-applications/notifications';
+import { FournisseurProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
-import { SetupProjet } from '../setup';
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import type { SetupProjet } from '../setup';
 
 export const setupFournisseur: SetupProjet = async ({ sendEmail }) => {
   const fournisseur = createSubscriptionSetup('fournisseur');

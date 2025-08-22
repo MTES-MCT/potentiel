@@ -1,8 +1,8 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 
+import { FichierInexistant } from './fichierInexistant.error';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
-import { FichierInexistant } from './fichierInexistant.error';
 
 export const download = async (filePath: string) => {
   try {

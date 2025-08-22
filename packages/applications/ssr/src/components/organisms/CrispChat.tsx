@@ -1,6 +1,7 @@
 'use client';
-import { useEffect } from 'react';
+
 import { Crisp } from 'crisp-sdk-web';
+import { useEffect } from 'react';
 
 const CrispChat = ({ websiteId }: { websiteId: string }) => {
   useEffect(() => {

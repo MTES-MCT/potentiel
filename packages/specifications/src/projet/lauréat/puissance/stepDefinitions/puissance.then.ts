@@ -3,10 +3,9 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import type { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
   'la puissance du projet lauréat( ne) devrait( pas) être mise à jour',

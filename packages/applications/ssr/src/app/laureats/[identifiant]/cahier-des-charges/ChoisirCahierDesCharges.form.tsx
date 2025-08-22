@@ -1,23 +1,23 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
-import React, { useState } from 'react';
-import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Button from '@codegouvfr/react-dsfr/Button';
+import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
+import type React from 'react';
+import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
-
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ChoisirCahierDesChargesFormKeys,
   choisirCahierDesChargesAction,
-  ChoisirCahierDesChargesFormKeys,
 } from './choisirCahierDesCharges.action';
 
 export type ChoisirCahierDesChargesFormProps = {

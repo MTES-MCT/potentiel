@@ -4,7 +4,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
 import { supprimerDépôtGarantiesFinancièresAction } from './supprimerDépôtGarantiesFinancières.action';
 
 type SupprimerDépôtGarantiesFinancièresFormProps = {

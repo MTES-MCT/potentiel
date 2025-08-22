@@ -1,16 +1,15 @@
 // Third party
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
+import { IdentifiantProjet } from '../../..';
+import type { ArchiverÉliminéCommand } from '../../archiver/archiverÉliminé.command';
 // Package
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
-import { ArchiverÉliminéCommand } from '../../archiver/archiverÉliminé.command';
-import { IdentifiantProjet } from '../../..';
-
-import { AccorderRecoursCommand } from './accorderRecours.command';
+import type { AccorderRecoursCommand } from './accorderRecours.command';
 
 export type AccorderRecoursUseCase = Message<
   'Éliminé.Recours.UseCase.AccorderRecours',

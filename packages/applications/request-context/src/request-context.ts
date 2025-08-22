@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks';
 
-import { type Utilisateur } from '@potentiel-domain/utilisateur';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 export type RequestContext = {
   correlationId: string;

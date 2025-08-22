@@ -6,9 +6,7 @@ import { useState } from 'react';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
 import { convertStatutMainlevéeForView } from '../_helpers';
-
 import { passerDemandeMainlevéeEnInstructionAction } from './passerDemandeMainlevéeEnInstruction.action';
 
 type PasserDemandeMainlevéeEnInstructionProps = {

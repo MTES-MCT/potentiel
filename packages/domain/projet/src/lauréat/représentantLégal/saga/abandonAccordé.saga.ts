@@ -1,8 +1,8 @@
 import { mediator } from 'mediateur';
 
-import { SupprimerDocumentProjetSensibleCommand } from '../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
-import { Abandon } from '../..';
 import { IdentifiantProjet } from '../../..';
+import type { Abandon } from '../..';
+import type { SupprimerDocumentProjetSensibleCommand } from '../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 export const abandonAccordéSaga = async ({ payload }: Abandon.AbandonAccordéEvent) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);

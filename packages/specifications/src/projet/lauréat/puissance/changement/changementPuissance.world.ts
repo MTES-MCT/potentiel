@@ -1,11 +1,10 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
-import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
 import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture';
+import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
+import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
 import { EnregistrerChangementPuissanceFixture } from './fixture/enregistrerChangementPuissance.fixture';
 import { RejeterChangementPuissanceFixture } from './fixture/rejeterChangementPuissance.fixture';
 

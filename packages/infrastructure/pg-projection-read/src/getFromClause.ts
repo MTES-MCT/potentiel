@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import { Entity, JoinOptions } from '@potentiel-domain/entity';
+import type { Entity, JoinOptions } from '@potentiel-domain/entity';
 
 type GetFromClauseOptions<
   TEntity extends Entity,

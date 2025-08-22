@@ -1,13 +1,12 @@
-import { describe, it, after, before, beforeEach } from 'node:test';
+import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { expect, should } from 'chai';
 
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { publish } from '../../publish/publish';
 import { registerSubscriber } from '../subscriber/registerSubscriber';
-
 import { acknowledge, acknowledgeError } from './acknowledge';
 import { getPendingAcknowledgements } from './getPendingAcknowledgements';
 

@@ -1,12 +1,10 @@
 import { match, P } from 'ts-pattern';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { HistoryRecord } from '@potentiel-domain/entity';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
-
+import type { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
 import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
 

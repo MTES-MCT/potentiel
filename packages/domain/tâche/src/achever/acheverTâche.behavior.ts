@@ -1,12 +1,12 @@
 // Third party
 
+import { DateTime, type IdentifiantProjet } from '@potentiel-domain/common';
 // Workspaces
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-// Package
-import { TâcheAggregate } from '../tâche.aggregate';
 import * as TypeTâche from '../typeTâche.valueType';
+// Package
+import type { TâcheAggregate } from '../tâche.aggregate';
 
 export type TâcheAchevéeEvent = DomainEvent<
   'TâcheAchevée-V1',

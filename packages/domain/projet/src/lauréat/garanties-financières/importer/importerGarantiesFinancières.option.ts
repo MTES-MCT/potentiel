@@ -1,6 +1,6 @@
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
 
-import { GarantiesFinancières } from '..';
+import type { GarantiesFinancières } from '..';
 
 export type ImporterOptions = {
   garantiesFinancières?: GarantiesFinancières.ValueType;

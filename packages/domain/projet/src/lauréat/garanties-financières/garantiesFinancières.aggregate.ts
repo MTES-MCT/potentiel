@@ -1,37 +1,21 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import { TypeGarantiesFinancières } from '../../candidature';
-
+import type { LauréatAggregate } from '../lauréat.aggregate';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import {
-  GarantiesFinancières,
+  type GarantiesFinancières,
   MotifDemandeGarantiesFinancières,
   TypeTâchePlanifiéeGarantiesFinancières,
 } from '.';
-
-import {
-  AttestationGarantiesFinancièresEnregistréeEvent,
-  DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
-  DépôtGarantiesFinancièresEnCoursSuppriméEvent,
-  DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
-  DépôtGarantiesFinancièresEnCoursValidéEvent,
-  DépôtGarantiesFinancièresEnCoursValidéEventV1,
-  DépôtGarantiesFinancièresSoumisEvent,
-  GarantiesFinancièresDemandéesEvent,
-  GarantiesFinancièresEnregistréesEvent,
-  GarantiesFinancièresEvent,
-  GarantiesFinancièresModifiéesEvent,
-  GarantiesFinancièresÉchuesEvent,
-  HistoriqueGarantiesFinancièresEffacéEvent,
-  TypeGarantiesFinancièresImportéEvent,
-} from './garantiesFinancières.event';
-import { DemanderOptions } from './demander/demanderGarantiesFinancières.options';
-import { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
-import { ImporterOptions } from './importer/importerGarantiesFinancières.option';
+import type { EnregisterOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options';
+import type { EnregistrerAttestationOptions } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.options';
+import type { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
+import type { DemanderOptions } from './demander/demanderGarantiesFinancières.options';
+import type { EffacerHistoriqueOptions } from './effacer/efffacerHistoriqueGarantiesFinancières';
 import {
   AttestationDeConformitéError,
   AttestationGarantiesFinancièresDéjàExistante,
@@ -48,9 +32,23 @@ import {
   ProjetExemptDeGarantiesFinancièresError,
   TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
 } from './garantiesFinancières.error';
-import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
-import { EnregistrerAttestationOptions } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.options';
-import { EnregisterOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options';
+import type {
+  AttestationGarantiesFinancièresEnregistréeEvent,
+  DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  DépôtGarantiesFinancièresEnCoursSuppriméEvent,
+  DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
+  DépôtGarantiesFinancièresEnCoursValidéEvent,
+  DépôtGarantiesFinancièresEnCoursValidéEventV1,
+  DépôtGarantiesFinancièresSoumisEvent,
+  GarantiesFinancièresDemandéesEvent,
+  GarantiesFinancièresEnregistréesEvent,
+  GarantiesFinancièresEvent,
+  GarantiesFinancièresModifiéesEvent,
+  GarantiesFinancièresÉchuesEvent,
+  HistoriqueGarantiesFinancièresEffacéEvent,
+  TypeGarantiesFinancièresImportéEvent,
+} from './garantiesFinancières.event';
+import type { ImporterOptions } from './importer/importerGarantiesFinancières.option';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,

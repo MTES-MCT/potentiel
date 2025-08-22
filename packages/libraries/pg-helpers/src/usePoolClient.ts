@@ -1,4 +1,4 @@
-import { QueryResult, Pool, PoolClient } from 'pg';
+import { Pool, type PoolClient, type QueryResult } from 'pg';
 
 import { getConnectionString } from './getConnectionString';
 

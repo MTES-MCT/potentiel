@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { GarantiesFinancières } from '../..';
+import type { GarantiesFinancières } from '../..';
 
 export type EnregisterOptions = {
   garantiesFinancières: GarantiesFinancières.ValueType;

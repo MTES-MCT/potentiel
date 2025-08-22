@@ -1,10 +1,10 @@
 import { mediator } from 'mediateur';
 
+import { PériodeNotification, type SendEmail } from '@potentiel-applications/notifications';
 import { PériodeProjector } from '@potentiel-applications/projectors';
 import { Période } from '@potentiel-domain/periode';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { loadAggregateV2, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
 

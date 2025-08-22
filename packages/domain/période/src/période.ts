@@ -7,7 +7,7 @@ import type {
   ListerPériodesQuery,
   ListerPériodesReadModel,
 } from './lister/listerPériodes.query';
-import { PériodeNotifiéeEvent } from './notifier/notifierPériode.event';
+import type { PériodeNotifiéeEvent } from './notifier/notifierPériode.event';
 import type { NotifierPériodeUseCase } from './notifier/notifierPériode.usecase';
 
 // Query
@@ -25,11 +25,9 @@ export type { NotifierPériodeUseCase };
 export type PériodeEvent = PériodeNotifiéeEvent;
 export type { PériodeNotifiéeEvent };
 
-// Register
-export { registerPériodeQueries, registerPériodeUseCases } from './register';
-
-// Entity
-export * from './période.entity';
-
 // Value types
 export * as IdentifiantPériode from './identifiantPériode.valueType';
+// Entity
+export * from './période.entity';
+// Register
+export { registerPériodeQueries, registerPériodeUseCases } from './register';

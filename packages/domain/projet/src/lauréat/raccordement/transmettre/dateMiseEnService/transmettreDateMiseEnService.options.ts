@@ -1,6 +1,6 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { RéférenceDossierRaccordement } from '../..';
+import type { RéférenceDossierRaccordement } from '../..';
 
 export type TransmettreDateMiseEnServiceOptions = {
   dateMiseEnService: DateTime.ValueType;

@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 type GetFakeIdentifiantProjetProps = Partial<PlainType<IdentifiantProjet.ValueType>>;
 export const getFakeIdentifiantProjet = (props: GetFakeIdentifiantProjetProps = {}): string => {

@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import {
   formatDateForEmail,
@@ -12,7 +12,7 @@ import {
   listerDrealsRecipients,
   listerPorteursRecipients,
 } from '../../helpers';
-import { EmailPayload, SendEmail } from '../../sendEmail';
+import type { EmailPayload, SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 

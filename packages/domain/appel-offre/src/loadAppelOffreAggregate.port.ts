@@ -1,6 +1,6 @@
-import { Option } from '@potentiel-libraries/monads';
+import type { Option } from '@potentiel-libraries/monads';
 
-import { AppelOffreAggregate } from './appelOffre.aggregate';
+import type { AppelOffreAggregate } from './appelOffre.aggregate';
 
 /**
  * Type temporaire en attendant une vraie implémentation d'Appel d'offre sous la forme d'un agrégat

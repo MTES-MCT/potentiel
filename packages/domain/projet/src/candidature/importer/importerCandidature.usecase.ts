@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../..';
 import { Dépôt, Instruction } from '..';
-
-import { ImporterCandidatureCommand } from './importerCandidature.command';
+import type { ImporterCandidatureCommand } from './importerCandidature.command';
 
 export type ImporterCandidatureUseCase = Message<
   'Candidature.UseCase.ImporterCandidature',

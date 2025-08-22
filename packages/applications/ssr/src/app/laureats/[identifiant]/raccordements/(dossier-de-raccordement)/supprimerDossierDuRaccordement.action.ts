@@ -4,10 +4,10 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { type FormAction, type FormState, formAction } from '@/utils/formAction';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),

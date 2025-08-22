@@ -1,14 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
+import { assert } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { assert } from 'chai';
 
+import type { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
+import type { PotentielWorld } from '../../../potentiel.world';
 import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then';
 
 Alors(

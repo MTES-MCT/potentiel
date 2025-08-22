@@ -1,7 +1,7 @@
-import { Where, WhereOptions } from '@potentiel-domain/entity';
+import { Where, type WhereOptions } from '@potentiel-domain/entity';
 import {
   Role,
-  RécupérerIdentifiantsProjetParEmailPorteurPort,
+  type RécupérerIdentifiantsProjetParEmailPorteurPort,
 } from '@potentiel-domain/utilisateur';
 
 export type Utilisateur = {

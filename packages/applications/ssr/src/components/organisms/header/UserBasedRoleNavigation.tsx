@@ -1,10 +1,10 @@
-import { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+import type { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
+import type { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 import { match, P } from 'ts-pattern';
-import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 
-import { Routes } from '@potentiel-applications/routes';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
+import { Routes } from '@potentiel-applications/routes';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { NavLinks } from './NavLinks';
 

@@ -1,18 +1,16 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Accès } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { Accès } from '@potentiel-domain/projet';
 
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '../../utils/PageWithErrorHandling';
-import { withUtilisateur } from '../../utils/withUtilisateur';
 import { mapToRangeOptions } from '../../utils/pagination';
-
-import { RéclamerProjetsListItemProps } from './RéclamerProjetsListItem';
-import { RéclamerProjetsListPage } from './RéclamerProjetList.page';
+import { withUtilisateur } from '../../utils/withUtilisateur';
 import { chiffrerIdentifiantProjet, generateIV } from './_helpers/chiffrement';
+import { RéclamerProjetsListPage } from './RéclamerProjetList.page';
+import type { RéclamerProjetsListItemProps } from './RéclamerProjetsListItem';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'nomProjet';
 

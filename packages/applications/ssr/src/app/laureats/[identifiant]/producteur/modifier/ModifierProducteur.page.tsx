@@ -1,12 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
-
-import { ModifierProducteurForm, ModifierProducteurFormProps } from './ModifierProducteur.form';
+import {
+  ModifierProducteurForm,
+  type ModifierProducteurFormProps,
+} from './ModifierProducteur.form';
 
 export type ModifierProducteurPageProps = ModifierProducteurFormProps;
 

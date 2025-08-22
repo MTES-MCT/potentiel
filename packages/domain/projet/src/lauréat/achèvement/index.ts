@@ -1,4 +1,4 @@
-import {
+import type {
   ConsulterAchèvementQuery,
   ConsulterAchèvementReadModel,
 } from './consulter/consulterAchèvement.query';
@@ -13,13 +13,10 @@ export type { ConsulterAchèvementReadModel };
 
 // Entity
 export { AchèvementEntity } from './achèvement.entity';
-
-// ValueTypes
-export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType';
-
 // Event
 export * from './achèvement.event';
-export { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
-
 // Attestation de conformité
 export * as AttestationConformité from './attestationConformité';
+export { DateAchèvementPrévisionnelCalculéeEvent } from './calculerDateAchèvementPrévisionnel/calculerDateAchèvementPrévisionnel.event';
+// ValueTypes
+export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType';

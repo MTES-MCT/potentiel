@@ -1,8 +1,8 @@
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { createDossierAccessor, GetDossierQuery, getDSApiClient } from './graphql';
 import { mapApiResponseToDépôt } from './dépôt';
+import { createDossierAccessor, type GetDossierQuery, getDSApiClient } from './graphql';
 
 export type Dossier = Awaited<ReturnType<typeof getDépôtCandidature>>;
 

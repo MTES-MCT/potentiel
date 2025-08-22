@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 

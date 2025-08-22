@@ -1,27 +1,27 @@
-import { readdir, writeFile, readFile } from 'node:fs/promises';
-import { join, basename, extname } from 'path';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { basename, extname, join } from 'path';
 
-import { encode, decode } from 'iconv-lite';
 import chardet from 'chardet';
+import { decode, encode } from 'iconv-lite';
 import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Période } from '@potentiel-domain/periode';
+import { Candidature, type Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import {
   AppelOffreAdapter,
-  ProjetAdapter,
   DocumentAdapter,
+  ProjetAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { Candidature, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
-import { Période } from '@potentiel-domain/periode';
+import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Option } from '@potentiel-libraries/monads';
 
 export const dgecEmail = 'aopv.dgec@developpement-durable.gouv.fr';
 

@@ -1,14 +1,14 @@
 import { Command, Flags } from '@oclif/core';
 import { match } from 'ts-pattern';
 
-import { Accès } from '@potentiel-domain/projet';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
+import type { Accès } from '@potentiel-domain/projet';
+import type {
   AccèsProjetRetiréEvent,
   PorteurInvitéEvent,
   ProjetRéclaméEvent,
 } from '@potentiel-domain/utilisateur';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 export class Migrer extends Command {
   static flags = {

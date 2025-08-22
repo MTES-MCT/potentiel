@@ -1,11 +1,11 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { PotentielWorld } from '../../potentiel.world';
 import { fakeLocations } from '../../helpers/getFakeLocation';
+import type { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();

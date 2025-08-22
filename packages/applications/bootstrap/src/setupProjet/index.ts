@@ -1,24 +1,23 @@
-import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
+import { registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
+import {
+  DocumentAdapter,
+  DélaiAdapter,
+  getProjetUtilisateurScopeAdapter,
+  ProjetAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import {
   countProjection,
   findProjection,
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import {
-  ProjetAdapter,
-  DélaiAdapter,
-  getProjetUtilisateurScopeAdapter,
-  DocumentAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
 
 import { getProjetAggregateRootAdapter } from '../adapters/getProjetAggregateRoot.adapter';
-
-import { SetupProjet } from './setup';
-import { setupÉliminé } from './setupÉliminé';
-import { setupLauréat } from './setupLauréat';
-import { setupCandidature } from './setupCandidature';
+import type { SetupProjet } from './setup';
 import { setupAccès } from './setupAccès';
+import { setupCandidature } from './setupCandidature';
+import { setupLauréat } from './setupLauréat';
+import { setupÉliminé } from './setupÉliminé';
 
 export const setupProjet: SetupProjet = async (dependencies) => {
   registerProjetUseCases({

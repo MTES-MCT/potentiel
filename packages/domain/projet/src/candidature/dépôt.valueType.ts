@@ -1,14 +1,13 @@
-import { mapToPlainObject, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
-import { DateTime, Email } from '@potentiel-domain/common';
+import { type DateTime, Email } from '@potentiel-domain/common';
+import { mapToPlainObject, type PlainType, type ReadonlyValueType } from '@potentiel-domain/core';
 
-import { Fournisseur } from '../lauréat/fournisseur';
 import { GarantiesFinancières } from '../lauréat';
-
+import { Fournisseur } from '../lauréat/fournisseur';
 import {
   HistoriqueAbandon,
   Localité,
   TypeActionnariat,
-  TypeGarantiesFinancières,
+  type TypeGarantiesFinancières,
   TypeInstallationsAgrivoltaiques,
   TypeTechnologie,
   TypologieBâtiment,

@@ -1,22 +1,12 @@
 import { match } from 'ts-pattern';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { ProjetAggregateRoot } from '../projet.aggregateRoot';
-import { FournisseurImportéEvent } from '../lauréat/fournisseur';
-
+import type { FournisseurImportéEvent } from '../lauréat/fournisseur';
+import type { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { Dépôt, Instruction, VolumeRéservé } from '.';
-
-import { CandidatureEvent } from './candidature.event';
-import {
-  CandidatureImportéeEvent,
-  CandidatureImportéeEventV1,
-  DétailsFournisseursCandidatureImportésEvent,
-} from './importer/candidatureImportée.event';
-import { ImporterCandidatureOptions } from './importer/importerCandidature.options';
-import * as TypeTechnologie from './typeTechnologie.valueType';
 import {
   AttestationNonGénéréeError,
   CandidatureDéjàImportéeError,
@@ -36,16 +26,24 @@ import {
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
 } from './candidature.error';
-import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
-import {
+import type { CandidatureEvent } from './candidature.event';
+import type {
   CandidatureCorrigéeEvent,
   CandidatureCorrigéeEventV1,
 } from './corriger/candidatureCorrigée.event';
-import { NotifierOptions } from './notifier/notifierCandidature.options';
-import {
+import type { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
+import type {
+  CandidatureImportéeEvent,
+  CandidatureImportéeEventV1,
+  DétailsFournisseursCandidatureImportésEvent,
+} from './importer/candidatureImportée.event';
+import type { ImporterCandidatureOptions } from './importer/importerCandidature.options';
+import type {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
 } from './notifier/candidatureNotifiée.event';
+import type { NotifierOptions } from './notifier/notifierCandidature.options';
+import * as TypeTechnologie from './typeTechnologie.valueType';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 

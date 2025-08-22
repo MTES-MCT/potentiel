@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { tâchePlanifiéeRebuilTriggered } from './tâchePlanifiéeRebuildTriggered';
 import { tâchePlanifiéeAjoutéeProjector } from './tâchePlanifiéeAjoutée.projector';
-import { tâchePlanifiéeExecutéeProjector } from './tâchePlanifiéeExecutée.projector';
 import { tâchePlanifiéeAnnuléeProjector } from './tâchePlanifiéeAnnulée.projector';
+import { tâchePlanifiéeExecutéeProjector } from './tâchePlanifiéeExecutée.projector';
+import { tâchePlanifiéeRebuilTriggered } from './tâchePlanifiéeRebuildTriggered';
 
 export type SubscriptionEvent =
   | (Lauréat.TâchePlanifiée.TâchePlanifiéeEvent & Event)

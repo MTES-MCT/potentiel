@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Find } from '@potentiel-domain/entity';
-import { Option } from '@potentiel-libraries/monads';
+import type { Find } from '@potentiel-domain/entity';
+import type { Option } from '@potentiel-libraries/monads';
 
-import { AppelOffreReadModel, AppelOffreEntity } from '../appelOffre.entity';
+import type { AppelOffreEntity, AppelOffreReadModel } from '../appelOffre.entity';
 
 export type ConsulterAppelOffreReadModel = AppelOffreReadModel;
 

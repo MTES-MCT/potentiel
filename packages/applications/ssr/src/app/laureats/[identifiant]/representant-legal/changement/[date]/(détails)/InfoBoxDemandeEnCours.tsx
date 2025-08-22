@@ -1,6 +1,6 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
 type InfoBoxDemandeEnCourssProps = { lien: string };
 

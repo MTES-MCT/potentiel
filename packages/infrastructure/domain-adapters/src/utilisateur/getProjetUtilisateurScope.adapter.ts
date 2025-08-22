@@ -1,15 +1,15 @@
 import { match } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
-import {
-  GetProjetUtilisateurScope,
-  ProjetUtilisateurScope,
-  Accès,
-  IdentifiantProjet,
-} from '@potentiel-domain/projet';
-import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Where } from '@potentiel-domain/entity';
+import {
+  type Accès,
+  type GetProjetUtilisateurScope,
+  IdentifiantProjet,
+  type ProjetUtilisateurScope,
+} from '@potentiel-domain/projet';
+import type { UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Option } from '@potentiel-libraries/monads';
 
 export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async (email) => {
   const utilisateur = await findProjection<UtilisateurEntity>(`utilisateur|${email.formatter()}`);

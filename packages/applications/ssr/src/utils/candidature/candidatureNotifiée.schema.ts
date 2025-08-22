@@ -4,6 +4,7 @@ import {
   actionnariatSchema,
   adresse1Schema,
   adresse2Schema,
+  choixCoefficientKSchema,
   codePostalSchema,
   communeSchema,
   doitRegenererAttestationSchema,
@@ -15,14 +16,14 @@ import {
   noteTotaleSchema,
   prixRéférenceSchema,
   puissanceALaPointeSchema,
+  puissanceDeSiteSchema,
   puissanceProductionAnnuelleSchema,
   régionSchema,
   sociétéMèreSchema,
   technologieSchema,
   évaluationCarboneSimplifiéeSchema,
-  choixCoefficientKSchema,
-  puissanceDeSiteSchema,
 } from './candidatureFields.schema';
+
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
   adresse2: adresse2Schema,

@@ -1,7 +1,6 @@
 import { Text } from '@react-pdf/renderer';
-import React from 'react';
 
-import { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
+import type { AttestationPPE2Options } from '../../AttestationCandidatureOptions';
 
 type ElimineProps = {
   project: AttestationPPE2Options;

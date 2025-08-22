@@ -3,10 +3,10 @@ import { join } from 'path';
 
 import { expect } from 'chai';
 
-import { download } from './download';
-import { upload } from './upload';
 import { copyFolder } from './copyFolder';
+import { download } from './download';
 import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
+import { upload } from './upload';
 
 describe(`copy folder`, () => {
   const bucketName = 'potentiel';

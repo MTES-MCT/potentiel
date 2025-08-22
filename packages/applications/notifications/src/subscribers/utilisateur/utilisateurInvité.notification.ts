@@ -1,7 +1,7 @@
 import { match, P } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
-import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import type { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
 import { getBaseUrl } from '../../helpers';
 

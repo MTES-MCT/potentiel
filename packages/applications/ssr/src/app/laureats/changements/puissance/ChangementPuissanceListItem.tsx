@@ -1,17 +1,15 @@
-import { FC } from 'react';
 import Link from 'next/link';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
-import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
+import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { StatutChangementPuissanceBadge } from '../../[identifiant]/puissance/changement/[date]/StatutChangementPuissanceBadge';
-
-import { ChangementPuissanceListPageProps } from './ChangementPuissanceList.page';
+import type { ChangementPuissanceListPageProps } from './ChangementPuissanceList.page';
 
 export type ChangementPuissanceListItemProps =
   ChangementPuissanceListPageProps['list']['items'][number];

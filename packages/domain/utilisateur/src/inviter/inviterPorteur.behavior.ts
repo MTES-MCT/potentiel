@@ -1,9 +1,9 @@
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
-import { UtilisateurAggregate } from '../utilisateur.aggregate';
-import { UtilisateurNonPorteurError } from '../errors';
 import { Role } from '..';
+import { UtilisateurNonPorteurError } from '../errors';
+import type { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type PorteurInvitéEvent = DomainEvent<
   'PorteurInvité-V1',

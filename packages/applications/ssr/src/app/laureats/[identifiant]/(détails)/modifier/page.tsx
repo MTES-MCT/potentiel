@@ -1,17 +1,15 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import type { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
 
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { getCahierDesCharges, getCandidature } from '@/app/_helpers';
+import { decodeParameter } from '@/utils/decodeParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { decodeParameter } from '@/utils/decodeParameter';
-import { getCandidature, getCahierDesCharges } from '@/app/_helpers';
-
-import { GetLauréat, getLauréat } from '../../_helpers/getLauréat';
-
-import { ModifierLauréatPage, ModifierLauréatPageProps } from './ModifierLauréat.page';
+import { type GetLauréat, getLauréat } from '../../_helpers/getLauréat';
+import { ModifierLauréatPage, type ModifierLauréatPageProps } from './ModifierLauréat.page';
 
 export const metadata: Metadata = {
   title: 'Page de modification du projet lauréat - Potentiel',

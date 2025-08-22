@@ -1,12 +1,10 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { Recipient } from '../../../sendEmail';
 import { listerDrealsRecipients } from '../../../helpers';
-
-import { RegisterDélaiNotificationDependencies } from '.';
-
+import type { Recipient } from '../../../sendEmail';
+import type { RegisterDélaiNotificationDependencies } from '.';
 import { délaiNotificationTemplateId } from './constant';
 
 type DemandeDélaiCorrigéeNotificationProps = {

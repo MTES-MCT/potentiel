@@ -1,13 +1,16 @@
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { mapToExemple, FieldToExempleMapper, mapDateTime } from '../../../../helpers/mapToExemple';
-import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
-
+import {
+  type FieldToExempleMapper,
+  mapDateTime,
+  mapToExemple,
+} from '../../../../helpers/mapToExemple';
+import type { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
 import { ModifierDépôtGarantiesFinancièresFixture } from './fixtures/modifier.fixture';
 import {
   SoumettreDépôtGarantiesFinancièresFixture,
-  SoumettreDépôtGarantiesFinancièresProps,
+  type SoumettreDépôtGarantiesFinancièresProps,
 } from './fixtures/soumettre.fixture';
 import { ValiderDépôtGarantiesFinancièresFixture } from './fixtures/valider.fixture';
 

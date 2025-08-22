@@ -1,6 +1,6 @@
+import type { Email } from '@potentiel-domain/common';
+import type { Role } from '@potentiel-domain/utilisateur';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { Role } from '@potentiel-domain/utilisateur';
-import { Email } from '@potentiel-domain/common';
 
 type StatistiqueConnexion = {
   type: 'connexionUtilisateur';

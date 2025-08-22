@@ -1,12 +1,11 @@
-import { mediator, Message, MessageHandler } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../helpers';
-
+import type { SendEmail } from '../../../sendEmail';
 import { attestationConformitéTransmiseNotifications } from './attestationConformitéTransmise.notifications';
 
 export type SubscriptionEvent =

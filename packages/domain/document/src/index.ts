@@ -1,6 +1,6 @@
 import {
-  ConsulterDocumentProjetReadModel,
   ConsulterDocumentProjetQuery,
+  ConsulterDocumentProjetReadModel,
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query';
 import {
@@ -35,12 +35,11 @@ export {
   CorrigerDocumentProjetCommand,
 };
 
-// Register
-export * from './register';
-
 // ValueType
 export * as DocumentProjet from './documentProjet.valueType';
 export * as DossierProjet from './dossierProjet.valueType';
+// Register
+export * from './register';
 
 // Port
 export {

@@ -1,9 +1,9 @@
-import { CandidatureProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
-import { CandidatureNotification } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
+import { CandidatureNotification } from '@potentiel-applications/notifications';
+import { CandidatureProjector, type HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { createSubscriptionSetup } from './createSubscriptionSetup';
-import { SetupProjet } from './setup';
+import type { SetupProjet } from './setup';
 
 export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
   const candidature = createSubscriptionSetup('candidature');

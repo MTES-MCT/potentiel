@@ -1,12 +1,11 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Entity } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '..';
-import { Fournisseur } from '../lauréat/fournisseur';
-
-import {
+import type { IdentifiantProjet } from '..';
+import type { Fournisseur } from '../lauréat/fournisseur';
+import type {
   HistoriqueAbandon,
   Localité,
   StatutCandidature,

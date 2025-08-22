@@ -1,11 +1,10 @@
-import { GetProjetAggregateRoot } from '../..';
-
-import {
-  registerListerTâchesPlanifiéesQuery,
-  ListerTâchesPlanifiéesQueryDependencies,
-} from './lister/listerTâchesPlanifiées.query';
+import type { GetProjetAggregateRoot } from '../..';
 import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuterTâchePlanifiée.command';
 import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
+import {
+  type ListerTâchesPlanifiéesQueryDependencies,
+  registerListerTâchesPlanifiéesQuery,
+} from './lister/listerTâchesPlanifiées.query';
 
 export type TâchePlanifiéeQueryDependencies = ListerTâchesPlanifiéesQueryDependencies;
 

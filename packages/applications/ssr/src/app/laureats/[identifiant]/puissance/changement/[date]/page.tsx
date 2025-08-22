@@ -1,20 +1,18 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
+import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
-
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
-
-import { ChangementPuissanceActions, DétailsPuissancePage } from './DétailsPuissance.page';
+import { type ChangementPuissanceActions, DétailsPuissancePage } from './DétailsPuissance.page';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',

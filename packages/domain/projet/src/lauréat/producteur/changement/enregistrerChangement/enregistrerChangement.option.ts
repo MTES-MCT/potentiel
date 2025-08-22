@@ -1,7 +1,7 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DocumentProjet } from '@potentiel-domain/document';
 
-import { IdentifiantProjet } from '../../../..';
+import type { IdentifiantProjet } from '../../../..';
 
 export type EnregistrerChangementProducteurOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;

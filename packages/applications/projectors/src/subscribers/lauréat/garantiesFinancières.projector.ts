@@ -1,13 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Where } from '@potentiel-domain/entity';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
@@ -183,7 +183,7 @@ export const register = () => {
           break;
 
         case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
-        case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
+        case 'DépôtGarantiesFinancièresEnCoursValidé-V2': {
           const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
 
           if (!dépôtValidé) {
@@ -254,6 +254,7 @@ export const register = () => {
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
           );
           break;
+        }
 
         case 'DépôtGarantiesFinancièresEnCoursModifié-V1':
           await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
@@ -414,15 +415,16 @@ export const register = () => {
           );
           break;
 
-        case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1':
+        case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1': {
           const mainlevéeASupprimer = await getMainlevéeToUpsert(identifiantProjet);
 
           await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
             `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeASupprimer.demande.demandéeLe}`,
           );
           break;
+        }
 
-        case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
+        case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1': {
           const mainlevéeAInstruire = await getMainlevéeToUpsert(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -439,8 +441,9 @@ export const register = () => {
           );
 
           break;
+        }
 
-        case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
+        case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1': {
           const mainlevéeAAccorder = await getMainlevéeToUpsert(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -475,8 +478,9 @@ export const register = () => {
             },
           );
           break;
+        }
 
-        case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
+        case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1': {
           const mainlevéeARejeter = await getMainlevéeToUpsert(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -497,6 +501,7 @@ export const register = () => {
           );
 
           break;
+        }
 
         case 'GarantiesFinancièresÉchues-V1':
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(

@@ -1,51 +1,49 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';
+import { AbstractAggregate, type AggregateType } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
 
-import { IdentifiantProjet } from '../..';
-import { LauréatAggregate } from '../lauréat.aggregate';
-import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
-
+import type { IdentifiantProjet } from '../..';
+import type { LauréatAggregate } from '../lauréat.aggregate';
+import type { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import {
   TypeDocumentChangementReprésentantLégal,
   TypeReprésentantLégal,
   TypeTâchePlanifiéeChangementReprésentantLégal,
 } from '.';
-
+import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options';
+import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options';
+import {
+  ChangementDéjàAccordéError,
+  ChangementDéjàRejetéError,
+  DemandeChangementInexistanteError,
+} from './changement/changementReprésentantLégal.error';
+import type { CorrigerChangementOptions } from './changement/corriger/corrigerChangementReprésentantLégal.options';
+import type { DemanderChangementOptions } from './changement/demander/demanderChangementReprésentantLégal.options';
+import type { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options';
+import type { RejeterOptions } from './changement/rejeter/rejeterChangementReprésentantLégal.options';
 import * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType';
-import type {
-  ReprésentantLégalImportéEvent,
-  ReprésentantLégalModifiéEvent,
-  ChangementReprésentantLégalDemandéEvent,
-  ChangementReprésentantLégalCorrigéEvent,
-  ChangementReprésentantLégalAccordéEvent,
-  ChangementReprésentantLégalRejetéEvent,
-  ChangementReprésentantLégalAnnuléEvent,
-  ChangementReprésentantLégalSuppriméEvent,
-  ChangementReprésentantLégalEnregistréEvent,
-} from './représentantLégal.event';
+import type { SupprimerOptions } from './changement/supprimer/supprimerChangementReprésentantLégal.options';
 import type { ImporterOptions } from './importer/importerReprésentantLégal.options';
 import type { ModifierOptions } from './modifier/modifierReprésentantLégal.options';
-import type { DemanderChangementOptions } from './changement/demander/demanderChangementReprésentantLégal.options';
-import type { CorrigerChangementOptions } from './changement/corriger/corrigerChangementReprésentantLégal.options';
-import type { AccorderOptions } from './changement/accorder/accorderChangementReprésentantLégal.options';
-import type { RejeterOptions } from './changement/rejeter/rejeterChangementReprésentantLégal.options';
-import type { AnnulerOptions } from './changement/annuler/annulerChangementReprésentantLégal.options';
-import type { SupprimerOptions } from './changement/supprimer/supprimerChangementReprésentantLégal.options';
 import {
   DemandeDeChangementEnCoursError,
   ReprésentantLégalDéjàImportéError,
   ReprésentantLégalIdentiqueError,
   ReprésentantLégalTypeInconnuError,
 } from './représentantLégal.errors';
-import {
-  ChangementDéjàAccordéError,
-  ChangementDéjàRejetéError,
-  DemandeChangementInexistanteError,
-} from './changement/changementReprésentantLégal.error';
-import { EnregistrerChangementOptions } from './changement/enregistrer/enregistrerChangementReprésentantLégal.options';
+import type {
+  ChangementReprésentantLégalAccordéEvent,
+  ChangementReprésentantLégalAnnuléEvent,
+  ChangementReprésentantLégalCorrigéEvent,
+  ChangementReprésentantLégalDemandéEvent,
+  ChangementReprésentantLégalEnregistréEvent,
+  ChangementReprésentantLégalRejetéEvent,
+  ChangementReprésentantLégalSuppriméEvent,
+  ReprésentantLégalImportéEvent,
+  ReprésentantLégalModifiéEvent,
+} from './représentantLégal.event';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent

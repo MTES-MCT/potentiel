@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port';
 import { IdentifiantProjet } from '../..';
-import { AccèsEntity } from '../accès.entity';
-import { CandidatureEntity } from '../../candidature';
+import type { CandidatureEntity } from '../../candidature';
+import type { GetProjetUtilisateurScope } from '../../getScopeProjetUtilisateur.port';
+import type { AccèsEntity } from '../accès.entity';
 
 type AccèsListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

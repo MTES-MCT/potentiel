@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as RéférenceDossierRaccordement from '../../référenceDossierRaccordement.valueType';
-
-import { TransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService.command';
+import type { TransmettreDateMiseEnServiceCommand } from './transmettreDateMiseEnService.command';
 
 export type TransmettreDateMiseEnServiceUseCase = Message<
   'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',

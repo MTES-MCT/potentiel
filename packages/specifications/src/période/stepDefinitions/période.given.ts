@@ -1,11 +1,9 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given';
-
+import type { PotentielWorld } from '../../potentiel.world';
 import { notifierPériode } from './période.when';
 
 type Candidat = {
@@ -140,7 +138,7 @@ EtantDonné(
 );
 
 async function importerCandidatsPériode(this: PotentielWorld, candidats: Candidat[]) {
-  for (const { nomProjet, statut: statut, sociétéMère, ...identifiantProjet } of candidats) {
+  for (const { nomProjet, statut, sociétéMère, ...identifiantProjet } of candidats) {
     await importerCandidature.call(this, {
       nomProjet,
       statut,

@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
-import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
-import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
+import type { AcheverTâcheCommand } from '../achever/acheverTâche.command';
+import type { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
 import * as Tâche from '../typeTâche.valueType';
 import { TypeTâche } from '../tâche';
 

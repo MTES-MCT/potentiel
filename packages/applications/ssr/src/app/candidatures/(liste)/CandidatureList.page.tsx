@@ -1,14 +1,15 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
-
+import { CandidatureListItem, type CandidatureListItemProps } from './CandidatureListItem';
 import { candidatureListLegendSymbols } from './candidatureListLegendSymbols';
-import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
 
 export type CandidatureListPageProps = PlainType<
   Omit<Candidature.ListerCandidaturesReadModel, 'items'> & {

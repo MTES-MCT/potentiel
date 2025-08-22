@@ -2,10 +2,10 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
-import { Candidature, Lauréat, StatutProjet, Éliminé } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { DocumentProjet } from '@potentiel-domain/document';
+import type { Candidature, Lauréat, StatutProjet, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 export type GetProjetReadModel = {
   nomProjet: string;

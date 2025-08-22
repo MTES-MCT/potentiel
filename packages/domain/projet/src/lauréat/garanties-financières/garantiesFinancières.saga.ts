@@ -1,14 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-import { TâchePlanifiéeExecutéeEvent } from '../tâche-planifiée';
 import { IdentifiantProjet } from '../..';
-
+import type { TâchePlanifiéeExecutéeEvent } from '../tâche-planifiée';
 import { TypeTâchePlanifiéeGarantiesFinancières } from '.';
-
-import { ÉchoirGarantiesFinancièresCommand } from './actuelles/échoir/échoirGarantiesFinancières.command';
+import type { ÉchoirGarantiesFinancièresCommand } from './actuelles/échoir/échoirGarantiesFinancières.command';
 
 type Event = { version: number; created_at: string; stream_id: string };
 export type SubscriptionEvent = TâchePlanifiéeExecutéeEvent & Event;

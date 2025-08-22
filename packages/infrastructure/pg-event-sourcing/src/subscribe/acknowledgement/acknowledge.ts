@@ -1,6 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { Acknowledgement } from './acknowledgement';
+import type { Acknowledgement } from './acknowledgement';
 
 const deletePendingAcknowledgementQuery = `
   delete 

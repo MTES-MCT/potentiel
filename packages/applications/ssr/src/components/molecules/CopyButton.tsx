@@ -1,9 +1,9 @@
 'use client';
 
-import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
-import { ReactNode, useState } from 'react';
-import clsx from 'clsx';
+import Button, { type ButtonProps } from '@codegouvfr/react-dsfr/Button';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
+import clsx from 'clsx';
+import { type ReactNode, useState } from 'react';
 
 export type CopyButtonProps = {
   textToCopy: string;

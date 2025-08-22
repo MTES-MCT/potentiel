@@ -1,14 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
-import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
+import { PageTemplate } from '@/components/templates/Page.template';
 import {
   SoumettreDépôtGarantiesFinancièresForm,
   type SoumettreDépôtGarantiesFinancièresFormProps,
 } from '../../(dépôt)/depot:soumettre/SoumettreDépôtGarantiesFinancières.form';
-
+import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
 import { enregistrerGarantiesFinancièresAction } from './enregistrerGarantiesFinancières.action';
 
 export type EnregistrerGarantiesFinancièresPageProps = Pick<

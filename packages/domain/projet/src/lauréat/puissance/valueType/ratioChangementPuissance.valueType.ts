@@ -1,4 +1,4 @@
-import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
+import { InvalidOperationError, type PlainType } from '@potentiel-domain/core';
 
 import { VolumeRéservé } from '../../../candidature';
 

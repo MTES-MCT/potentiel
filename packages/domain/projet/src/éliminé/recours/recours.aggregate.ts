@@ -1,27 +1,26 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { ÉliminéAggregate } from '../éliminé.aggregate';
 import { GarantiesFinancières } from '../../lauréat';
-
-import { RecoursEvent } from './recours.event';
-import { AccorderOptions } from './accorder/recoursAccordé.options';
-import * as StatutRecours from './statutRecours.valueType';
-import { RecoursAccordéEvent } from './accorder/recoursAccordé.event';
-import { AnnulerOptions } from './annuler/annulerRecours.options';
-import { RecoursAnnuléEvent } from './annuler/annulerRecours.event';
-import { DemanderOptions } from './demander/demanderRecours.options';
-import { RecoursDemandéEvent } from './demander/demanderRecours.event';
-import { RejeterOptions } from './rejeter/rejeterRecours.options';
-import { RecoursRejetéEvent } from './rejeter/rejeterRecours.event';
-import { InstruireOptions } from './instruire/passerRecoursEnInstruction.options';
-import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event';
+import type { ÉliminéAggregate } from '../éliminé.aggregate';
+import type { RecoursAccordéEvent } from './accorder/recoursAccordé.event';
+import type { AccorderOptions } from './accorder/recoursAccordé.options';
+import type { RecoursAnnuléEvent } from './annuler/annulerRecours.event';
+import type { AnnulerOptions } from './annuler/annulerRecours.options';
+import type { RecoursDemandéEvent } from './demander/demanderRecours.event';
+import type { DemanderOptions } from './demander/demanderRecours.options';
+import type { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event';
+import type { InstruireOptions } from './instruire/passerRecoursEnInstruction.options';
 import {
   AucunRecoursEnCours,
   RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError,
 } from './recours.error';
+import type { RecoursEvent } from './recours.event';
+import type { RecoursRejetéEvent } from './rejeter/rejeterRecours.event';
+import type { RejeterOptions } from './rejeter/rejeterRecours.options';
+import * as StatutRecours from './statutRecours.valueType';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours', ÉliminéAggregate> {
   statut = StatutRecours.inconnu;

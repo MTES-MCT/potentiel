@@ -1,6 +1,6 @@
+import { type SendEmail, TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
 import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
-import { SendEmail, TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 

@@ -1,16 +1,16 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import { Candidature, type IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading2 } from '@/components/atoms/headings';
 import { CopyButton } from '@/components/molecules/CopyButton';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;

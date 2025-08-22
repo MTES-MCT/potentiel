@@ -1,20 +1,18 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Accès } from '@potentiel-domain/projet';
-import {
+import { type Accès, IdentifiantProjet } from '@potentiel-domain/projet';
+import type {
   ListerPorteursQuery,
   ListerPorteursReadModel,
   Utilisateur,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { PorteurListPage } from './PorteurList.page';
 
 type PageProps = IdentifiantParameter;

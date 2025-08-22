@@ -1,16 +1,16 @@
-import {
-  CandidatureNotifiéeEvent,
-  CandidatureNotifiéeEventV1,
-} from './notifier/candidatureNotifiée.event';
-import {
+import type {
   CandidatureCorrigéeEvent,
   CandidatureCorrigéeEventV1,
 } from './corriger/candidatureCorrigée.event';
-import {
+import type {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
   DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event';
+import type {
+  CandidatureNotifiéeEvent,
+  CandidatureNotifiéeEventV1,
+} from './notifier/candidatureNotifiée.event';
 
 export type CandidatureEvent =
   | CandidatureImportéeEvent

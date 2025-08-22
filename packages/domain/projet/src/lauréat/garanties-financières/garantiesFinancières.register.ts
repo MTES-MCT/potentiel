@@ -1,7 +1,7 @@
 import {
-  GarantiesFinancièresActuellesUseCasesDependencies,
+  type GarantiesFinancièresActuellesQueryDependencies,
+  type GarantiesFinancièresActuellesUseCasesDependencies,
   registerGarantiesFinancièresActuellesQueries,
-  GarantiesFinancièresActuellesQueryDependencies,
   registerGarantiesFinancièresActuellesUseCases,
 } from './actuelles/garantiesFinancièresActuelles.register';
 

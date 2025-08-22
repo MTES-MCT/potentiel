@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { TypeDocumentPuissance } from '../..';
-
-import { DemanderChangementCommand } from './demanderChangementPuissance.command';
+import type { DemanderChangementCommand } from './demanderChangementPuissance.command';
 
 export type DemanderChangementUseCase = Message<
   'Lauréat.Puissance.UseCase.DemanderChangement',

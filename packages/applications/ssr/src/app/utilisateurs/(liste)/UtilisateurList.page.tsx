@@ -1,11 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { LinkActionProps } from '@/components/atoms/LinkAction';
-
-import { UtilisateurListItem, UtilisateurListItemProps } from './UtilisateurListItem';
+import type { LinkActionProps } from '@/components/atoms/LinkAction';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import { UtilisateurListItem, type UtilisateurListItemProps } from './UtilisateurListItem';
 
 export type UtilisateurListPageProps = {
   list: {

@@ -1,41 +1,41 @@
 import { EventEmitter } from 'events';
 
-import { faker } from '@faker-js/faker';
-import {
-  Before,
-  setWorldConstructor,
-  BeforeStep,
-  After,
-  BeforeAll,
-  setDefaultTimeout,
-  AfterAll,
-  AfterStep,
-} from '@cucumber/cucumber';
-import { should } from 'chai';
-import { Message, MessageResult, clear } from 'mediateur';
 import {
   CreateBucketCommand,
   DeleteBucketCommand,
   DeleteObjectsCommand,
   ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
+import {
+  After,
+  AfterAll,
+  AfterStep,
+  Before,
+  BeforeAll,
+  BeforeStep,
+  setDefaultTimeout,
+  setWorldConstructor,
+} from '@cucumber/cucumber';
+import { faker } from '@faker-js/faker';
+import { should } from 'chai';
+import { clear, type Message, type MessageResult } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
-import { EmailPayload } from '@potentiel-applications/notifications';
+import type { EmailPayload } from '@potentiel-applications/notifications';
+import { getClient } from '@potentiel-libraries/file-storage';
 import { Option } from '@potentiel-libraries/monads';
 import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
+import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { PotentielWorld } from './potentiel.world';
-import { sleep } from './helpers/sleep';
+import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
+import { getFakeContent } from './helpers/getFakeContent';
 import { getFakeFormat } from './helpers/getFakeFormat';
 import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
-import { getFakeContent } from './helpers/getFakeContent';
-import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
+import { sleep } from './helpers/sleep';
 import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
-import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
+import { PotentielWorld } from './potentiel.world';
+import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
 
 should();
 setWorldConstructor(PotentielWorld);

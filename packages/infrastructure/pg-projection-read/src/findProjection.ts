@@ -1,13 +1,13 @@
 import format from 'pg-format';
 
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import type { Entity, FindOptions, Joined } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
-import { Entity, FindOptions, Joined } from '@potentiel-domain/entity';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { KeyValuePair } from './keyValuePair';
-import { getSelectClause } from './getSelectClause';
 import { getFromClause } from './getFromClause';
+import { getSelectClause } from './getSelectClause';
 import { getWhereClause } from './getWhereClause';
+import type { KeyValuePair } from './keyValuePair';
 import { mapResult } from './mapResult';
 
 export const findProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(

@@ -1,4 +1,4 @@
-import { Body } from './post';
+import type { Body } from './post';
 
 export class RequestError extends Error {
   constructor(

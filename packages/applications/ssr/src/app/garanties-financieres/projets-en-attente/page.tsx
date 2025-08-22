@@ -1,25 +1,24 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { z } from 'zod';
-import { redirect, RedirectType } from 'next/navigation';
+import { RedirectType, redirect } from 'next/navigation';
 import { match } from 'ts-pattern';
+import { z } from 'zod';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role } from '@potentiel-domain/utilisateur';
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime } from '@potentiel-domain/common';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
-  ListProjetsAvecGarantiesFinancièresEnAttenteProps,
+  type ListProjetsAvecGarantiesFinancièresEnAttenteProps,
 } from './ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 
 const searchParamsSchema = z.object({

@@ -1,7 +1,7 @@
-import { Lauréat } from '@potentiel-domain/projet';
-import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { DateTime } from '@potentiel-domain/common';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getDossierRaccordement } from '../_utils/getDossierRaccordement';
 import { upsertDossierRaccordement } from '../_utils/upsertDossierRaccordement';

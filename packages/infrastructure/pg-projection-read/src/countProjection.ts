@@ -1,10 +1,10 @@
 import format from 'pg-format';
 
-import { Entity, CountOption } from '@potentiel-domain/entity';
+import type { CountOption, Entity } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { getWhereClause } from './getWhereClause';
 import { getFromClause } from './getFromClause';
+import { getWhereClause } from './getWhereClause';
 
 export const countProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
   category: TEntity['type'],

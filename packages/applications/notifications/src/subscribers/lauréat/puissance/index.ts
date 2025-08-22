@@ -1,20 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../helpers';
-import { getBaseUrl } from '../../../helpers';
-
-import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
+import { getBaseUrl, getLauréat } from '../../../helpers';
+import type { SendEmail } from '../../../sendEmail';
 import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';
 import { changementPuissanceAnnuléNotification } from './changement/changementPuissanceAnnulé.notification';
-import { changementPuissanceRejetéNotification } from './changement/changementPuissanceRejeté.notification';
 import { changementPuissanceDemandéNotification } from './changement/changementPuissanceDemandé.notification';
 import { changementPuissanceEnregistréNotification } from './changement/changementPuissanceEnregistré.notification';
+import { changementPuissanceRejetéNotification } from './changement/changementPuissanceRejeté.notification';
+import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
 
 export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent & Event;
 

@@ -2,7 +2,7 @@ import { STATUS_CODES } from 'node:http';
 
 import {
   AggregateNotFoundError,
-  DomainError,
+  type DomainError,
   InvalidOperationError,
   OperationRejectedError,
 } from '@potentiel-domain/core';

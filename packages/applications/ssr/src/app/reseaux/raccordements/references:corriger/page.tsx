@@ -1,8 +1,7 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import { CorrigerRéférencesDossierPage } from './CorrigerRéférencesDossier.page';
 
 export default async function Page() {

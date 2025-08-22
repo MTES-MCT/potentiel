@@ -1,9 +1,9 @@
 import {
-  ConsulterAppelOffreDependencies,
+  type ConsulterAppelOffreDependencies,
   registerConsulterAppelOffreQuery,
 } from './consulter/consulterAppelOffre.query';
 import {
-  ListerAppelOffreDependencies,
+  type ListerAppelOffreDependencies,
   registerListerAppelOffreQuery,
 } from './lister/listerAppelOffre.query';
 

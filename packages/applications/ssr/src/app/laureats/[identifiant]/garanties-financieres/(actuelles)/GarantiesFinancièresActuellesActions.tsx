@@ -3,10 +3,9 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 
 import { DemanderMainlevéeForm } from '../(mainlevée)/demander/DemanderMainlevée.form';
-import { GarantiesFinancièresProps } from '../components/GarantiesFinancières';
-
+import type { GarantiesFinancièresProps } from '../components/GarantiesFinancières';
 import { InfoBoxDrealGarantiesFinancièreséÉchues } from './components/InfoBoxDrealGarantiesFinancièresÉchues';
-import { GarantiesFinancièresActuelles } from './garantiesFinancièresActuelles.type';
+import type { GarantiesFinancièresActuelles } from './garantiesFinancièresActuelles.type';
 
 type GarantiesFinancièresActuellesActionsProps = {
   actions: GarantiesFinancièresActuelles['actions'];

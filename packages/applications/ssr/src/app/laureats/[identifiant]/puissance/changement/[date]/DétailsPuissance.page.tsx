@@ -1,21 +1,19 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-
-import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { AccorderChangementPuissance } from './accorder/AccorderChangementPuissance.form';
 import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';
 import { DétailsChangementPuissance } from './DétailsChangementPuissance';
-import { AccorderChangementPuissance } from './accorder/AccorderChangementPuissance.form';
+import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { RejeterChangementPuissance } from './rejeter/RejeterChangementPuissance.form';
 
 export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder' | 'rejeter';

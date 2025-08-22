@@ -1,5 +1,5 @@
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
 export type ActionnaireModifiéEvent = DomainEvent<
   'ActionnaireModifié-V1',

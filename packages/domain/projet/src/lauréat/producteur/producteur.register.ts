@@ -1,21 +1,20 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
-
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 import {
-  ConsulterChangementProducteurDependencies,
+  type ConsulterChangementProducteurDependencies,
   registerConsulterChangementProducteurQuery,
 } from './changement/consulter/consulterChangementProducteur.query';
 import { registerEnregistrerChangementProducteurCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
 import { registerEnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import {
-  ListerChangementProducteurDependencies,
+  type ListerChangementProducteurDependencies,
   registerListerChangementProducteurQuery,
 } from './changement/lister/listerChangementProducteur.query';
 import {
-  ConsulterProducteurDependencies,
+  type ConsulterProducteurDependencies,
   registerConsulterProducteurQuery,
 } from './consulter/consulterProducteur.query';
 import {
-  ListerHistoriqueProducteurProjetDependencies,
+  type ListerHistoriqueProducteurProjetDependencies,
   registerListerHistoriqueProducteurProjetQuery,
 } from './listerHistorique/listerHistoriqueProducteurProjet.query';
 import { registerModifierProducteurCommand } from './modifier/modifierProducteur.command';

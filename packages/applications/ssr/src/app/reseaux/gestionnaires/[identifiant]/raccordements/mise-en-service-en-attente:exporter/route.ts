@@ -1,15 +1,15 @@
 import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Role, type Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { apiAction } from '@/utils/apiAction';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type ExporterRaccordementParameter = {
   params: {

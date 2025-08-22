@@ -1,7 +1,11 @@
 import { match } from 'ts-pattern';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 export const types = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
 export type RawType = (typeof types)[number];

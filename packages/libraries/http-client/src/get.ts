@@ -1,5 +1,5 @@
-import { retryPolicy, RetryPolicyOptions } from './retryPolicy';
 import { RequestError } from './requestError';
+import { type RetryPolicyOptions, retryPolicy } from './retryPolicy';
 
 type GetOptions = {
   url: URL;

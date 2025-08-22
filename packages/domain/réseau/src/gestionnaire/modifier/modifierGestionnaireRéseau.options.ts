@@ -1,5 +1,5 @@
-import { Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
+import type { Email, ExpressionRegulière } from '@potentiel-domain/common';
+import type { Option } from '@potentiel-libraries/monads';
 
 export type ModifierOptions = {
   raisonSociale: string;

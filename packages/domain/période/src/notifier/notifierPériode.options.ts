@@ -1,5 +1,5 @@
-import { DateTime, Email } from '@potentiel-domain/common';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 export type NotifierPériodeOptions = {
   notifiéeLe: DateTime.ValueType;

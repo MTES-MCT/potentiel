@@ -1,34 +1,34 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import type { PlainType } from '@potentiel-domain/core';
 import { CahierDesCharges } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 import { FormRow } from '@/components/atoms/form/FormRow';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Heading3 } from '@/components/atoms/headings';
-import {
+import type {
   ModifierCandidatureNotifiéeFormEntries,
   ModifierLauréatEtCandidatureNotifiéeFormEntries,
   ModifierLauréatKeys,
   ModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
-import { ValidationErrors } from '@/utils/formAction';
-import { FormAlertError } from '@/components/atoms/form/FormAlertError';
-
-import { modifierLauréatAction } from './modifierLauréat.action';
-import { ProjectField } from './components/fields/ProjectField';
-import { TechnologieField } from './components/fields/TechnologieField';
+import type { ValidationErrors } from '@/utils/formAction';
 import { ActionnariatField } from './components/fields/ActionnariatField';
-import { LocalitéField } from './components/fields/LocalitéField';
-import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
 import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/CandidatureField';
 import { CoefficientKField } from './components/fields/CoefficientKField';
+import { LocalitéField } from './components/fields/LocalitéField';
+import { ProjectField } from './components/fields/ProjectField';
+import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
+import { TechnologieField } from './components/fields/TechnologieField';
+import { modifierLauréatAction } from './modifierLauréat.action';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {

@@ -1,7 +1,7 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { CommonGarantiesFinancières } from '../garantiesFinancières.type';
+import type { CommonGarantiesFinancières } from '../garantiesFinancières.type';
 
 export type GarantiesFinancièresArchivées = CommonGarantiesFinancières & {
   statut: GarantiesFinancières.StatutGarantiesFinancières.RawType;

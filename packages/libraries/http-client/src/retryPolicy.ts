@@ -1,4 +1,4 @@
-import { retry, ExponentialBackoff, handleType } from 'cockatiel';
+import { ExponentialBackoff, handleType, retry } from 'cockatiel';
 
 import { RequestError } from './requestError';
 

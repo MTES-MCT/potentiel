@@ -1,17 +1,16 @@
 'use server';
 
-import { FC } from 'react';
 import { notFound } from 'next/navigation';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getProjet } from '@/app/_helpers';
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getProjet } from '@/app/_helpers';
-
 import { ProjetBannerTemplate } from './ProjetBanner.template';
 
 export type ProjetBannerProps = {

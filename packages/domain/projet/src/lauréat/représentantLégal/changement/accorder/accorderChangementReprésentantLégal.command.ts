@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
-import { TypeReprésentantLégal } from '../..';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import type { TypeReprésentantLégal } from '../..';
 
 export type AccorderChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',

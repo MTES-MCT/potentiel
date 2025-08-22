@@ -1,13 +1,15 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { Pagination } from '@/utils/pagination';
-
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
+import type { Pagination } from '@/utils/pagination';
 import {
   ChangementFournisseurListItem,
-  ChangementFournisseurListItemProps,
+  type ChangementFournisseurListItemProps,
 } from './ChangementFournisseurListItem';
 
 export type ChangementFournisseurListPageProps = {

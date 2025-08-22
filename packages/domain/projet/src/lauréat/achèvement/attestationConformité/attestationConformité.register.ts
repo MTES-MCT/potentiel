@@ -1,7 +1,6 @@
-import { GetProjetAggregateRoot } from '../../..';
-
+import type { GetProjetAggregateRoot } from '../../..';
 import {
-  ConsulterAttestationConformitéDependencies,
+  type ConsulterAttestationConformitéDependencies,
   registerConsulterAttestationConformitéQuery,
 } from './consulter/consulterAttestationConformité.query';
 import { registerModifierAttestationConformitéCommand } from './modifier/modifierAttestationConformité.command';

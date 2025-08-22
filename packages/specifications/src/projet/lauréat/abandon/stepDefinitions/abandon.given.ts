@@ -1,13 +1,13 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { PotentielWorld } from '../../../../potentiel.world';
 import { importerCandidature } from '../../../../candidature/stepDefinitions/candidature.given';
+import type { PotentielWorld } from '../../../../potentiel.world';
 import { notifierLauréat } from '../../stepDefinitions/lauréat.given';
 
 EtantDonné(

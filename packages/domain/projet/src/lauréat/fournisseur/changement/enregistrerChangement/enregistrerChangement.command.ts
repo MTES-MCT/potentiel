@@ -1,10 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { DocumentProjet } from '@potentiel-domain/document';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
-import { Fournisseur } from '../..';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import type { Fournisseur } from '../..';
 
 export type EnregistrerChangementFournisseurCommand = Message<
   'Lauréat.Fournisseur.Command.EnregistrerChangement',

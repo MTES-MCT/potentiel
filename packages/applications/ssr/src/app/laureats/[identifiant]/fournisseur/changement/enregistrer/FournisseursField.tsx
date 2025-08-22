@@ -1,16 +1,14 @@
-import { FC, useState } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import Button from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ValidationErrors } from '@/utils/formAction';
 import { PaysPicker } from '@/components/molecules/CountryPicker';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import { typeFournisseurLabel } from '../typeFournisseurLabel';
-
-import { EnregistrerChangementFournisseurFormProps } from './EnregistrerChangementFournisseur.form';
+import type { EnregistrerChangementFournisseurFormProps } from './EnregistrerChangementFournisseur.form';
 
 type FournisseursFieldProps = Pick<
   EnregistrerChangementFournisseurFormProps,

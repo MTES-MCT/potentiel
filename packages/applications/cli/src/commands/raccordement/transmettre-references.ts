@@ -1,13 +1,15 @@
 import { Args, Command } from '@oclif/core';
-import z from 'zod';
 import { mediator } from 'mediateur';
+import z from 'zod';
 
+import { DateTime, Email } from '@potentiel-domain/common';
 import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
 import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import { IdentifiantProjet, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { registerTâcheCommand } from '@potentiel-domain/tache';
 import {
   AppelOffreAdapter,
@@ -16,10 +18,8 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { parseCsvFile } from '../../helpers/parse-file';
 

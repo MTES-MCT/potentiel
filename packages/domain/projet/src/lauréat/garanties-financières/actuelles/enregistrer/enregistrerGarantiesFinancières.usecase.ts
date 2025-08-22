@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
-
-import { EnregistrerGarantiesFinancièresCommand } from './enregistrerGarantiesFinancières.command';
+import type { EnregistrerGarantiesFinancièresCommand } from './enregistrerGarantiesFinancières.command';
 
 export type EnregistrerGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',

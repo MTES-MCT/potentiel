@@ -1,8 +1,8 @@
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { IdentifiantPériode, PériodeEntity } from '../période';
-import { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
+import type { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
+import { IdentifiantPériode, type PériodeEntity } from '../période';
 
 export const listerPériodesNonNotifiées = async (
   list: List,

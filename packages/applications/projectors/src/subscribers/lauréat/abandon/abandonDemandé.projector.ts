@@ -1,9 +1,9 @@
 import { match } from 'ts-pattern';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
 export const abandonDemandéProjector = async (

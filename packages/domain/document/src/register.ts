@@ -1,17 +1,17 @@
 import {
-  ConsulterDocumentProjetDependencies,
+  type ConsulterDocumentProjetDependencies,
   registerConsulterDocumentProjetQuery,
 } from './consulter/consulterDocumentProjet.query';
 import {
-  CorrigerDocumentProjetDependencies,
+  type CorrigerDocumentProjetDependencies,
   registerCorrigerDocumentProjetCommand,
 } from './corriger/corrigerDocumentProjet.command';
 import {
-  DéplacerDossierProjetDependencies,
+  type DéplacerDossierProjetDependencies,
   registerDéplacerDocumentCommand,
 } from './déplacer/déplacerDocument.command';
 import {
-  EnregistrerDocumentProjetDependencies,
+  type EnregistrerDocumentProjetDependencies,
   registerEnregistrerDocumentCommand,
 } from './enregistrer/enregistrerDocument.command';
 

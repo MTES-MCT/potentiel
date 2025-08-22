@@ -2,8 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Stream } from 'stream';
 
-import { Command, Flags } from '@oclif/core';
 import type { Faker } from '@faker-js/faker';
+import { Command, Flags } from '@oclif/core';
 
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';

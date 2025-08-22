@@ -1,5 +1,5 @@
-import { IdentifiantProjet, Email, DateTime } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import type { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DomainEvent } from '@potentiel-domain/core';
 
 /**
  * @deprecated La gestion des accès des projets est dorénavant dans le package projet.

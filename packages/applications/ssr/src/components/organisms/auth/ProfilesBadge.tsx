@@ -1,5 +1,5 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 type ProfilesBadgeProps = {
   profiles: Record<string, boolean>;

@@ -1,5 +1,4 @@
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
 import SignInPage from './SignIn.page';
 
 export default function SignIn() {

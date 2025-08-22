@@ -1,4 +1,4 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { getRaccordement } from './getRaccordement';
 

@@ -1,7 +1,7 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { HistoriqueMainlevéeRejetéeProps } from './HistoriqueMainlevéeRejetée';
+import type { HistoriqueMainlevéeRejetéeProps } from './HistoriqueMainlevéeRejetée';
 
 type MapToHistoriqueMainlevéeRéjetéesActionsProps = {
   role: Role.ValueType;

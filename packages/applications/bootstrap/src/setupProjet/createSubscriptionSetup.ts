@@ -1,6 +1,10 @@
-import { Message, mediator } from 'mediateur';
+import { type Message, mediator } from 'mediateur';
 
-import { Event, Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  type Event,
+  type Subscriber,
+  subscribe,
+} from '@potentiel-infrastructure/pg-event-sourcing';
 
 export const createSubscriptionSetup = <TCategory extends string>(streamCategory: TCategory) => {
   const listeners: (() => Promise<void>)[] = [];

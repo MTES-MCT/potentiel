@@ -1,2 +1,2 @@
-export * from './register';
 export * as GarantiesFinancières from './garantiesFinancières';
+export * from './register';

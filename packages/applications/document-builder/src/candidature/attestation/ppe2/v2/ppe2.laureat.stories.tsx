@@ -10,8 +10,7 @@ import {
   solPPE2,
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 
-import { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';
-
+import type { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';
 import { makeCertificate } from './makeCertificate';
 
 const meta = {

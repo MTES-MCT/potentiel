@@ -1,8 +1,8 @@
-export { createProjection } from './createProjection';
 export { createHistoryProjection } from './createHistoryProjection';
-export { upsertProjection } from './upsertProjection';
-export { updateOneProjection } from './updateOneProjection';
-export { updateManyProjections } from './updateManyProjections';
+export { createProjection } from './createProjection';
+export { removeHistoryProjection } from './removeHistoryProjection';
 export { removeProjection } from './removeProjection';
 export { removeProjectionByCategory } from './removeProjectionByCategory';
-export { removeHistoryProjection } from './removeHistoryProjection';
+export { updateManyProjections } from './updateManyProjections';
+export { updateOneProjection } from './updateOneProjection';
+export { upsertProjection } from './upsertProjection';

@@ -1,13 +1,13 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Éliminé } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import type { Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { DemanderRecoursPage } from '@/app/elimine/[identifiant]/recours/demander/DemanderRecours.page';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export const metadata: Metadata = {

@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { List, Where } from '@potentiel-domain/entity';
+import { type List, Where } from '@potentiel-domain/entity';
 
-import { AppelOffreEntity } from '../appelOffre.entity';
+import type { AppelOffreEntity } from '../appelOffre.entity';
 
 export type AppelOffreListItemReadModel = AppelOffreEntity;
 

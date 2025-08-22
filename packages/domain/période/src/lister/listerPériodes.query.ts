@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions } from '@potentiel-domain/entity';
+import type { List, RangeOptions } from '@potentiel-domain/entity';
 
-import { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
-
-import { listerPériodesNotifiées } from './listerPériodesNotifiées';
+import type { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
 import { listerPériodesNonNotifiées } from './listerPériodesNonNotifiées';
+import { listerPériodesNotifiées } from './listerPériodesNotifiées';
 import { listerToutesLesPériodes } from './listerToutesLesPériodes';
 
 export type ListerPériodeItemReadModel = ConsulterPériodeReadModel;

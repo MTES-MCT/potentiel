@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-import { EmailPayload } from '@potentiel-applications/notifications';
+import type { EmailPayload } from '@potentiel-applications/notifications';
 import { Email } from '@potentiel-domain/common';
 
 export class NotificationWorld {

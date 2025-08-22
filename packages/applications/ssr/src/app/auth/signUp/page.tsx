@@ -1,5 +1,4 @@
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
 import SignUpPage from './SignUp.page';
 
 export default function SignUp() {

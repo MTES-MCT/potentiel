@@ -1,10 +1,10 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { RegisterPuissanceNotificationDependencies } from '..';
 import { listerDgecRecipients, listerDrealsRecipients } from '../../../../helpers';
-import { Recipient } from '../../../../sendEmail';
+import type { Recipient } from '../../../../sendEmail';
+import type { RegisterPuissanceNotificationDependencies } from '..';
 import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceDemandéNotificationProps = {

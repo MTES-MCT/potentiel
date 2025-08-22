@@ -1,28 +1,28 @@
-import {
-  Abandon,
-  Raccordement,
-  Achèvement,
-  ReprésentantLégal,
-  Actionnaire,
-  Lauréat,
-  Puissance,
-  CahierDesCharges,
-  Producteur,
-  Historique,
-  Fournisseur,
-  Délai,
-  GarantiesFinancières,
-} from './lauréat';
+import { Auth } from './auth';
 import { Candidature } from './candidature';
 import { Document } from './document';
-import { Gestionnaire } from './réseau';
+import {
+  Abandon,
+  Achèvement,
+  Actionnaire,
+  CahierDesCharges,
+  Délai,
+  Fournisseur,
+  GarantiesFinancières,
+  Historique,
+  Lauréat,
+  Producteur,
+  Puissance,
+  Raccordement,
+  ReprésentantLégal,
+} from './lauréat';
 import { Projet } from './projet';
-import { Recours } from './éliminé';
-import { Tache } from './tâche';
 import { Période } from './période';
-import { Auth } from './auth';
+import { Gestionnaire } from './réseau';
 import { StatistiquesPubliques } from './statistiques-publiques';
+import { Tache } from './tâche';
 import { Utilisateur } from './utilisateur';
+import { Recours } from './éliminé';
 
 export const Routes = {
   Abandon,

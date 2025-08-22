@@ -1,4 +1,4 @@
-import { GreaterOrEqualCondition, WhereCondition } from '../whereOptions';
+import type { GreaterOrEqualCondition, WhereCondition } from '../whereOptions';
 
 export const greaterOrEqual = <T>(
   value: GreaterOrEqualCondition<T>['value'] | undefined,

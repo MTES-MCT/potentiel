@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import type React from 'react';
+import type { FC } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
 import { CopyButton } from '../CopyButton';
 
 export type ProjetBannerProps = {

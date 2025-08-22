@@ -1,13 +1,12 @@
-import { describe, it, after, before, beforeEach } from 'node:test';
+import { after, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 import { v4 } from 'uuid';
 
-import { DomainEvent, AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, type DomainEvent } from '@potentiel-domain/core';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { publish } from '../publish/publish';
-
 import { loadAggregateV2 } from './loadAggregateV2';
 
 should();

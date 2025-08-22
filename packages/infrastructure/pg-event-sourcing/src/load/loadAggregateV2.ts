@@ -1,4 +1,4 @@
-import {
+import type {
   AbstractAggregate,
   AggregateId,
   DomainEvent,
@@ -7,7 +7,6 @@ import {
 } from '@potentiel-domain/core';
 
 import { publish } from '../publish/publish';
-
 import { loadFromStream } from './loadFromStream';
 
 export const loadAggregateV2: LoadAggregateV2 = async <

@@ -1,6 +1,6 @@
-import { Entity } from './entity';
-import { JoinOptions } from './joinOptions';
-import { WhereOptions } from './whereOptions';
+import type { Entity } from './entity';
+import type { JoinOptions } from './joinOptions';
+import type { WhereOptions } from './whereOptions';
 
 export type CountOption<TEntity extends Entity, TJoin extends Entity | {} = {}> = {
   where?: WhereOptions<Omit<TEntity, 'type'>>;

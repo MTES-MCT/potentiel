@@ -1,4 +1,4 @@
-import { mediator, Message, MessageHandler } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { StatistiquesAdapter } from '@potentiel-infrastructure/domain-adapters';
 

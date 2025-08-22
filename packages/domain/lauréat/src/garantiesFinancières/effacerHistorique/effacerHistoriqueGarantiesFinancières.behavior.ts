@@ -1,6 +1,6 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
-import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
+import type { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
 
 export function applyEffacerHistoriqueGarantiesFinancières(
   this: GarantiesFinancièresAggregate,

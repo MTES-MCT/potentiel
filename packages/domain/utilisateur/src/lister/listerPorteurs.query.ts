@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { UtilisateurEntity } from '../utilisateur.entity';
 import {
-  ConsulterUtilisateurReadModel,
+  type ConsulterUtilisateurReadModel,
   mapToReadModel,
 } from '../consulter/consulterUtilisateur.query';
+import type { UtilisateurEntity } from '../utilisateur.entity';
 
 export type ListerPorteursReadModel = {
   items: Array<ConsulterUtilisateurReadModel>;

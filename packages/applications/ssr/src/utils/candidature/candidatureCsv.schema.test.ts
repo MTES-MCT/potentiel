@@ -1,9 +1,9 @@
-import { test, describe } from 'node:test';
+import { describe, test } from 'node:test';
 
-import { expect, assert } from 'chai';
-import { SafeParseReturnType, SafeParseSuccess } from 'zod';
+import { assert, expect } from 'chai';
+import type { SafeParseReturnType, SafeParseSuccess } from 'zod';
 
-import { CandidatureCsvRowShape, candidatureCsvSchema } from '.';
+import { type CandidatureCsvRowShape, candidatureCsvSchema } from '.';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   "Appel d'offres": "appel d'offre",

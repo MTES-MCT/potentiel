@@ -1,11 +1,11 @@
 import {
-  AttestationConformitéCommandDependencies,
-  AttestationConformitéQueryDependencies,
+  type AttestationConformitéCommandDependencies,
+  type AttestationConformitéQueryDependencies,
   registerAttestationConformitéQueries,
   registerAttestationConformitéUseCases,
 } from './attestationConformité/attestationConformité.register';
 import {
-  ConsulterAchèvementDependencies,
+  type ConsulterAchèvementDependencies,
   registerConsulterAchèvementQuery,
 } from './consulter/consulterAchèvement.query';
 

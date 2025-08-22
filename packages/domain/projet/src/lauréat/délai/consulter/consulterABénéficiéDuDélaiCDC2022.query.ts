@@ -1,4 +1,4 @@
-import { mediator, Message, MessageHandler } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 export type ConsulterABénéficiéDuDélaiCDC2022Port = (identifiantProjet: string) => Promise<boolean>;
 

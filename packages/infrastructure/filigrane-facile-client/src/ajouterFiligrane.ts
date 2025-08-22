@@ -1,9 +1,10 @@
 import { Option } from '@potentiel-libraries/monads';
+
 // import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { startApplyingWatermarkOnFile } from './startApplyingWatermarkOnFile';
 import { getWatermarkedFile } from './getWatermarkedFile';
 import { isWatermarkedFileAvailable } from './isWatermarkedFileAvailable';
+import { startApplyingWatermarkOnFile } from './startApplyingWatermarkOnFile';
 
 export const ajouterFiligrane = async (
   document: Blob,

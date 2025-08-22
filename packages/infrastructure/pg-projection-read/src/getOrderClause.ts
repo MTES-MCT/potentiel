@@ -1,4 +1,4 @@
-import { Entity, OrderByOptions } from '@potentiel-domain/entity';
+import type { Entity, OrderByOptions } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 
 /**

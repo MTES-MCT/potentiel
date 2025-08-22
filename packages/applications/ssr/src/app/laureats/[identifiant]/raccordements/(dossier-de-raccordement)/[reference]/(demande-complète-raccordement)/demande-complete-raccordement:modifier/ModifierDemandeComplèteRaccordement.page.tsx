@@ -1,18 +1,16 @@
-import React, { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 import {
   InformationDemandeComplèteRaccordement,
-  InformationDemandeComplèteRaccordementProps,
+  type InformationDemandeComplèteRaccordementProps,
 } from '../InformationDemandeComplèteRaccordement';
-
 import {
   ModifierDemandeComplèteRaccordementForm,
-  ModifierDemandeComplèteRaccordementFormProps,
+  type ModifierDemandeComplèteRaccordementFormProps,
 } from './ModifierDemandeComplèteRaccordement.form';
 
 export type ModifierDemandeComplèteRaccordementPageProps =

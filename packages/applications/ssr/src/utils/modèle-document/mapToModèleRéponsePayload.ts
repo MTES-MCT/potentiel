@@ -1,13 +1,13 @@
 import {
   formatDateForDocument,
-  ModèleRéponseSignée,
+  type ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Candidature, Lauréat } from '@potentiel-domain/projet';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
-import { DateTime, Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
 
 import { formatBoolean } from './formatBoolean';
 import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';

@@ -1,27 +1,26 @@
-import { Metadata } from 'next';
 import { mediator } from 'mediateur';
+import type { Metadata } from 'next';
 import { z } from 'zod';
 
+import { mapToPlainObject } from '@potentiel-domain/core';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import {
-  ConsulterUtilisateurReadModel,
-  ListerUtilisateursQuery,
-  ListerUtilisateursReadModel,
+  type ConsulterUtilisateurReadModel,
+  type ListerUtilisateursQuery,
+  type ListerUtilisateursReadModel,
   Role,
   Région,
-  Utilisateur,
+  type Utilisateur,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { mapToPlainObject } from '@potentiel-domain/core';
 
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { listeDesRoles } from '@/utils/utilisateur/format-role';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { UtilisateurListPage, UtilisateurListPageProps } from './UtilisateurList.page';
-import { UtilisateurListItemProps } from './UtilisateurListItem';
+import { UtilisateurListPage, type UtilisateurListPageProps } from './UtilisateurList.page';
+import type { UtilisateurListItemProps } from './UtilisateurListItem';
 
 export const metadata: Metadata = {
   title: 'Utilisateurs - Potentiel',

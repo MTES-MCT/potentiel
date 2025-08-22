@@ -1,7 +1,7 @@
-import { DateTime } from '@potentiel-domain/common';
-import { Entity } from '@potentiel-domain/entity';
+import type { DateTime } from '@potentiel-domain/common';
+import type { Entity } from '@potentiel-domain/entity';
 
-import { Fournisseur } from '.';
+import type { Fournisseur } from '.';
 
 export type FournisseurEntity = Entity<
   'fournisseur',

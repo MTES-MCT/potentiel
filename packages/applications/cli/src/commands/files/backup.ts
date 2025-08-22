@@ -1,11 +1,12 @@
 import { S3 } from '@aws-sdk/client-s3';
 import { Upload } from '@aws-sdk/lib-storage';
 import { Command, Flags } from '@oclif/core';
-import { z } from 'zod';
-import { bulkhead } from 'cockatiel';
 import { action } from '@oclif/core/ux';
+import { bulkhead } from 'cockatiel';
+import { z } from 'zod';
 
-import { getLogger, Logger } from '@potentiel-libraries/monitoring';
+import { getLogger, type Logger } from '@potentiel-libraries/monitoring';
+
 const configSchema = z.object({
   // Source
   S3_BUCKET: z.string(),

@@ -1,20 +1,19 @@
-import { IdentifiantProjet, Lauréat, StatutProjet } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { IdentifiantProjet, type Lauréat, StatutProjet } from '@potentiel-domain/projet';
 
-import { CandidatureWorld } from '../../candidature/candidature.world';
-
+import type { CandidatureWorld } from '../../candidature/candidature.world';
 import { AbandonWord } from './abandon/abandon.world';
-import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
-import { ActionnaireWorld } from './actionnaire/actionnaire.world';
 import { AchèvementWorld } from './achèvement/achèvement.world';
+import { ActionnaireWorld } from './actionnaire/actionnaire.world';
+import { DélaiWorld } from './délai/délai.world';
+import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture';
 import { ModifierLauréatFixture } from './fixtures/modifierLauréat.fixture';
 import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
-import { PuissanceWorld } from './puissance/puissance.world';
-import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture';
-import { ProducteurWorld } from './producteur/producteur.world';
 import { FournisseurWorld } from './fournisseur/fournisseur.world';
-import { DélaiWorld } from './délai/délai.world';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
+import { ProducteurWorld } from './producteur/producteur.world';
+import { PuissanceWorld } from './puissance/puissance.world';
+import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 
 type LauréatFixture = {
   nom: string;

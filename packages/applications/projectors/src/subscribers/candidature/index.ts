@@ -1,16 +1,16 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { candidatureNotifiéeV2Projector } from './candidatureNotifiéeV2.projector';
 import { candidatureCorrigéeProjector } from './candidatureCorrigée.projector';
-import { candidatureNotifiéeV1Projector } from './candidatureNotifiéeV1.projector';
-import { candidatureRebuildTriggeredProjector } from './candidatureRebuildTriggered.projector';
+import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector';
 import { candidatureImportéeProjector } from './candidatureImportée.projector';
 import { candidatureImportéeV1Projector } from './candidatureImportéeV1.projector';
-import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector';
+import { candidatureNotifiéeV1Projector } from './candidatureNotifiéeV1.projector';
+import { candidatureNotifiéeV2Projector } from './candidatureNotifiéeV2.projector';
+import { candidatureRebuildTriggeredProjector } from './candidatureRebuildTriggered.projector';
 import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector';
 
 export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | RebuildTriggered;

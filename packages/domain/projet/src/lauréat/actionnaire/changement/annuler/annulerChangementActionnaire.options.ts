@@ -1,4 +1,4 @@
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
 export type AnnulerChangementOptions = {
   dateAnnulation: DateTime.ValueType;

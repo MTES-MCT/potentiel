@@ -1,24 +1,24 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import {
+import type {
   HistoryRecord,
   ListHistory,
   ListHistoryResult,
   RangeOptions,
 } from '@potentiel-domain/entity';
 
-import { HistoriqueRecoursProjetListItemReadModel } from '../../../éliminé/recours';
-import { HistoriqueAbandonProjetListItemReadModel } from '../../abandon';
-import { HistoriqueActionnaireProjetListItemReadModel } from '../../actionnaire';
-import { GarantiesFinancièresEvent } from '../../garanties-financières';
-import { LauréatEvent } from '../../lauréat.event';
-import { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
-import { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
-import { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
-import { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
-import { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
-import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
-import { AchèvementEvent } from '../../achèvement';
+import type { HistoriqueRecoursProjetListItemReadModel } from '../../../éliminé/recours';
+import type { HistoriqueAbandonProjetListItemReadModel } from '../../abandon';
+import type { AchèvementEvent } from '../../achèvement';
+import type { HistoriqueActionnaireProjetListItemReadModel } from '../../actionnaire';
+import type { HistoriqueDélaiProjetListItemReadModel } from '../../délai';
+import type { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur';
+import type { GarantiesFinancièresEvent } from '../../garanties-financières';
+import type { LauréatEvent } from '../../lauréat.event';
+import type { HistoriqueProducteurProjetListItemReadModel } from '../../producteur';
+import type { HistoriquePuissanceProjetListItemReadModel } from '../../puissance';
+import type { HistoriqueRaccordementProjetListItemReadModel } from '../../raccordement';
+import type { HistoriqueReprésentantLégalProjetListItemReadModel } from '../../représentantLégal';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<'lauréat', LauréatEvent>;
 

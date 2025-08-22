@@ -1,14 +1,13 @@
-import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
-
+import type { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
 import { registerAutoriserAccèsProjetCommand } from './autoriser/autoriserAccèsProjet.command';
 import { registerAutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase';
 import {
-  ConsulterAccèsDependencies,
+  type ConsulterAccèsDependencies,
   registerConsulterAccèsQuery,
 } from './consulter/consulterAccès.query';
-import { ListerAccèsDependencies, registerListerAccèsQuery } from './lister/listerAccès.query';
+import { type ListerAccèsDependencies, registerListerAccèsQuery } from './lister/listerAccès.query';
 import {
-  ListerProjetsÀRéclamerDependencies,
+  type ListerProjetsÀRéclamerDependencies,
   registerListerProjetsÀRéclamerQuery,
 } from './lister/listerProjetsÀRéclamer.query';
 import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
@@ -17,7 +16,7 @@ import { registerRéclamerAccèsProjetCommand } from './réclamer/réclamerAccè
 import { registerRéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase';
 import {
   registerVérifierAccèsProjetQuery,
-  VérifierAccèsProjetDependencies,
+  type VérifierAccèsProjetDependencies,
 } from './vérifier/vérifierAccèsProjet.query';
 
 export type AccèsCommandDependencies = {

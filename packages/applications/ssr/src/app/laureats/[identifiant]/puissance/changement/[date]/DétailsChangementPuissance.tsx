@@ -1,18 +1,17 @@
-import { FC } from 'react';
-import { match } from 'ts-pattern';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
+import type { FC } from 'react';
+import { match } from 'ts-pattern';
 
-import { DateTime, Email } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
-
-import { DétailsPuissancePageProps } from './DétailsPuissance.page';
+import type { DétailsPuissancePageProps } from './DétailsPuissance.page';
 import { StatutChangementPuissanceBadge } from './StatutChangementPuissanceBadge';
 
 export type DétailsChangementPuissanceProps = {

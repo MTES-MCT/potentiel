@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-restricted-imports
-import { NextMiddlewareResult } from 'next/dist/server/web/types';
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
+import type { NextMiddlewareResult } from 'next/dist/server/web/types';
+import type { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 
 export type CustomMiddleware = (
   request: NextRequest,

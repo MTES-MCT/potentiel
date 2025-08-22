@@ -1,11 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
-import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event';
-import { Candidature, IdentifiantProjet, RécupererGRDParVillePort } from '../../..';
-import { AttribuerGestionnaireRéseauCommand } from '../attribuer/attribuerGestionnaireRéseau.command';
+import { type Candidature, IdentifiantProjet, type RécupererGRDParVillePort } from '../../..';
+import type { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event';
+import type { AttribuerGestionnaireRéseauCommand } from '../attribuer/attribuerGestionnaireRéseau.command';
 
 type Event = { version: number; created_at: string; stream_id: string };
 export type SubscriptionEvent = LauréatNotifiéEvent & Event;
@@ -23,7 +23,7 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
     } = event;
 
     switch (event.type) {
-      case 'LauréatNotifié-V2':
+      case 'LauréatNotifié-V2': {
         const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
           type: 'Candidature.Query.ConsulterCandidature',
           data: {
@@ -50,6 +50,7 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
           },
         });
         break;
+      }
     }
   };
   mediator.register('System.Lauréat.Raccordement.Saga.Execute', handler);

@@ -1,4 +1,4 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export type DossierRaccordement = Omit<Lauréat.Raccordement.DossierRaccordementEntity, 'type'>;

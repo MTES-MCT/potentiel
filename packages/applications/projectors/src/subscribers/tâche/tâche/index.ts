@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { TâcheEvent } from '@potentiel-domain/tache';
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { TâcheEvent } from '@potentiel-domain/tache';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { tâcheAjoutéeProjector } from './tâcheAjoutée.projector';
-import { tâcheRenouvelléeProjector } from './tâcheRenouvellée.projector';
-import { tâcheRelancéeProjector } from './tâcheRelancée.projector';
 import { tâcheAchevéeProjector } from './tâcheAchevée.projector';
+import { tâcheAjoutéeProjector } from './tâcheAjoutée.projector';
 import { tâcheRebuilTriggered } from './tâcheRebuildTriggered.projector';
+import { tâcheRelancéeProjector } from './tâcheRelancée.projector';
+import { tâcheRenouvelléeProjector } from './tâcheRenouvellée.projector';
 
 export type SubscriptionEvent = (TâcheEvent & Event) | RebuildTriggered;
 

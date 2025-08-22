@@ -1,5 +1,5 @@
-import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
+import waitForExpect from 'wait-for-expect';
 
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 

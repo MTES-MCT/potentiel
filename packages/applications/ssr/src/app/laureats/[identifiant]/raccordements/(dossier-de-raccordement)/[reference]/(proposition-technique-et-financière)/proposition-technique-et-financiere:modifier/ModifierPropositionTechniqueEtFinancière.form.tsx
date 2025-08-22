@@ -1,20 +1,19 @@
 'use client';
 
-import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { ValidationErrors } from '@/utils/formAction';
-
+import type { ValidationErrors } from '@/utils/formAction';
 import {
+  type ModifierPropositionTechniqueEtFinancièreFormKeys,
   modifierPropositionTechniqueEtFinancièreAction,
-  ModifierPropositionTechniqueEtFinancièreFormKeys,
 } from './modifierPropositionTechniqueEtFinancière.action';
 
 export type ModifierPropositionTechniqueEtFinancièreFormProps = {

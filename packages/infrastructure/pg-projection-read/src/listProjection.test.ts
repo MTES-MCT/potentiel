@@ -3,9 +3,9 @@ import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 
-import { Entity, ListResult, RangeOptions, Where } from '@potentiel-domain/entity';
-import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
+import { type Entity, type ListResult, type RangeOptions, Where } from '@potentiel-domain/entity';
 import { flatten, unflatten } from '@potentiel-libraries/flat';
+import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import {
   NegativeEndPositionError,

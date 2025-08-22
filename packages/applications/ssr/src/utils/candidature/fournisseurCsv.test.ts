@@ -2,7 +2,7 @@ import test from 'node:test';
 
 import { expect } from 'chai';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 import { mapCsvRowToFournisseurs } from './fournisseurCsv';
 

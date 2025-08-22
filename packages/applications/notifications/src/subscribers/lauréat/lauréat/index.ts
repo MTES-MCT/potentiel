@@ -1,11 +1,10 @@
-import { mediator, Message, MessageHandler } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { SendEmail } from '../../../sendEmail';
-
+import type { SendEmail } from '../../../sendEmail';
 import { cahierDesChargesChoisiNotification } from './cahierDesChargesChoisi.notification';
 
 export type SubscriptionEvent = Lauréat.LauréatEvent & Event;

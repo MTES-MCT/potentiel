@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { jwtVerify } from 'jose';
-import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
+import type { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
 
 import { getJwks } from './openid';
 

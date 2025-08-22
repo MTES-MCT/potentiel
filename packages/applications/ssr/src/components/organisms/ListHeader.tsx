@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { ListFiltersProps } from '../molecules/ListFilters';
 import { FiltersTagList } from '../molecules/FiltersTagList';
+import type { ListFiltersProps } from '../molecules/ListFilters';
 
 export type ListHeaderProps = {
   filters: ListFiltersProps['filters'];

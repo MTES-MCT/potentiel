@@ -4,9 +4,9 @@ import { CopyObjectCommand } from '@aws-sdk/client-s3';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getClient } from './getClient';
-import { getBucketName } from './getBucketName';
 import { fileExists } from './fileExists';
+import { getBucketName } from './getBucketName';
+import { getClient } from './getClient';
 
 class CopyFailedError extends Error {
   constructor(message: string) {

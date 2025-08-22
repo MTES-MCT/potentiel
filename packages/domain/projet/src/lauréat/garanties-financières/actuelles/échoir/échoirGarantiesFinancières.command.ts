@@ -1,6 +1,6 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
+import type { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type ÉchoirGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',

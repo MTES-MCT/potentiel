@@ -1,32 +1,31 @@
 import { match } from 'ts-pattern';
 
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 
-import { Role } from '.';
-
+import type { Role } from '.';
 import {
-  PorteurInvitéEvent,
+  applyUtilisateurDésactivé,
+  désactiver,
+  type UtilisateurDésactivéEvent,
+} from './désactiver/désactiverUtilisateur.behavior';
+import { UtilisateurInconnuError } from './errors';
+import {
   applyPorteurInvité,
   inviterPorteur,
+  type PorteurInvitéEvent,
 } from './inviter/inviterPorteur.behavior';
 import {
   applyUtilisateurInvité,
   inviter,
-  UtilisateurInvitéEvent,
+  type UtilisateurInvitéEvent,
 } from './inviter/inviterUtilisateur.behavior';
 import {
-  applyUtilisateurDésactivé,
-  UtilisateurDésactivéEvent,
-  désactiver,
-} from './désactiver/désactiverUtilisateur.behavior';
-import {
   applyUtilisateurRéactivé,
-  UtilisateurRéactivéEvent,
   réactiver,
+  type UtilisateurRéactivéEvent,
 } from './réactiver/réactiverUtilisateur.behavior';
-import { UtilisateurInconnuError } from './errors';
-import { AccèsProjetRetiréEvent, ProjetRéclaméEvent } from './utilisateur.event';
+import type { AccèsProjetRetiréEvent, ProjetRéclaméEvent } from './utilisateur.event';
 
 export type UtilisateurEvent =
   | PorteurInvitéEvent

@@ -1,11 +1,11 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { assert } from 'chai';
+import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import type { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
   "un administrateur modifie l'évaluation carbone du projet",

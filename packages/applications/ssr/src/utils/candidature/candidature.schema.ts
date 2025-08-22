@@ -1,15 +1,17 @@
 import { z } from 'zod';
 
-import { conditionalRequiredError } from './schemaBase';
 import {
   actionnariatSchema,
   adresse1Schema,
   adresse2Schema,
+  choixCoefficientKSchema,
   codePostalSchema,
+  communeSchema,
   dateEchéanceOuDéliberationGfSchema,
   doitRegenererAttestationSchema,
+  départementSchema,
   emailContactSchema,
-  évaluationCarboneSimplifiéeSchema,
+  identifiantProjetSchema,
   motifEliminationSchema,
   nomCandidatSchema,
   nomProjetSchema,
@@ -17,18 +19,16 @@ import {
   noteTotaleSchema,
   prixRéférenceSchema,
   puissanceALaPointeSchema,
+  puissanceDeSiteSchema,
   puissanceProductionAnnuelleSchema,
+  régionSchema,
   sociétéMèreSchema,
   statutSchema,
   technologieSchema,
   typeGarantiesFinancieresSchema,
-  communeSchema,
-  départementSchema,
-  régionSchema,
-  choixCoefficientKSchema,
-  puissanceDeSiteSchema,
-  identifiantProjetSchema,
+  évaluationCarboneSimplifiéeSchema,
 } from './candidatureFields.schema';
+import { conditionalRequiredError } from './schemaBase';
 
 /**
  * Schema simplifié par rapport au CSV, pour utilisation dans des formulaires

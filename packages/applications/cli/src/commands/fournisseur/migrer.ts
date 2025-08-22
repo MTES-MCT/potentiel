@@ -1,15 +1,15 @@
 import { extname } from 'node:path';
 
 import { Command, Flags } from '@oclif/core';
-import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { contentType } from 'mime-types';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Candidature, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { type Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { copyFile, fileExists, upload } from '@potentiel-libraries/file-storage';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 type CandidatureEvents = {
   stream_id: string;

@@ -1,31 +1,31 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import type { LoadAggregate } from '@potentiel-domain/core';
 
 import {
-  ConsulterUtilisateurDependencies,
+  type ConsulterUtilisateurDependencies,
   registerConsulterUtilisateurQuery,
 } from './consulter/consulterUtilisateur.query';
+import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
+import { registerCréerPorteurUseCase } from './créer/créerPorteur.usecase';
+import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
+import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { registerInviterPorteurCommand } from './inviter/inviterPorteur.command';
 import { registerInviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
-import {
-  ListerUtilisateursDependencies,
-  registerListerUtilisateursQuery,
-} from './lister/listerUtilisateurs.query';
-import {
-  registerTrouverUtilisateurQuery,
-  TrouverUtilisateurDependencies,
-} from './trouver/trouverUtilisateur.query';
-import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
 import { registerInviterCommand } from './inviter/inviterUtilisateur.command';
-import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase';
-import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
-import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
-import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command';
+import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
 import {
-  ListerPorteursDependencies,
+  type ListerPorteursDependencies,
   registerListerPorteursQuery,
 } from './lister/listerPorteurs.query';
-import { registerCréerPorteurUseCase } from './créer/créerPorteur.usecase';
-import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
+import {
+  type ListerUtilisateursDependencies,
+  registerListerUtilisateursQuery,
+} from './lister/listerUtilisateurs.query';
+import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command';
+import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
+import {
+  registerTrouverUtilisateurQuery,
+  type TrouverUtilisateurDependencies,
+} from './trouver/trouverUtilisateur.query';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &

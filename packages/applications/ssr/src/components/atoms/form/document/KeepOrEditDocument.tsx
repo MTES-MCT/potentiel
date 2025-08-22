@@ -1,11 +1,11 @@
-import React, { FC, useState } from 'react';
-import Link from 'next/link';
-import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
+import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
+import Link from 'next/link';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { UploadDocument, UploadDocumentProps } from './UploadDocument';
+import { UploadDocument, type UploadDocumentProps } from './UploadDocument';
 
 export type KeepOrEditDocumentProps = UploadDocumentProps & { documentKeys: Array<string> };
 

@@ -1,9 +1,9 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Éliminé } from '@potentiel-domain/projet';
+import type { Éliminé } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../potentiel.world';
+import type { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
   `le porteur demande le recours pour le projet {lauréat-éliminé}`,

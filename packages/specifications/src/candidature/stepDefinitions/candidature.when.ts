@@ -1,12 +1,11 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { type Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../potentiel.world';
+import type { PotentielWorld } from '../../potentiel.world';
 import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given';
-
 import { importerCandidature } from './candidature.given';
 
 Quand(

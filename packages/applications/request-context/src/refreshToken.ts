@@ -1,4 +1,4 @@
-import { JWT } from 'next-auth/jwt';
+import type { JWT } from 'next-auth/jwt';
 
 import { InvalidOperationError } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel-libraries/monitoring';

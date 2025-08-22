@@ -1,34 +1,33 @@
-import { GetProjetAggregateRoot } from '../..';
-
-import {
-  ConsulterPuissanceDependencies,
-  registerConsulterPuissanceQuery,
-} from './consulter/consulterPuissance.query';
-import { registerModifierPuissanceCommand } from './modifier/modifierPuissance.command';
-import { registerModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
-import { registerDemanderChangementPuissanceCommand } from './changement/demander/demanderChangementPuissance.command';
-import { registerDemanderChangementPuissanceUseCase } from './changement/demander/demanderChangementPuissance.usecase';
-import {
-  ConsulterChangementPuissanceDependencies,
-  registerConsulterChangementPuissanceQuery,
-} from './changement/consulter/consulterChangementPuissance.query';
+import type { GetProjetAggregateRoot } from '../..';
+import { registerAccorderChangementPuissanceCommand } from './changement/accorder/accorderChangementPuissance.command';
+import { registerAccorderChangementPuissanceUseCase } from './changement/accorder/accorderChangementPuissance.usecase';
 import { registerAnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
 import { registerAnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
-import { registerSupprimerChangementPuissanceCommand } from './changement/supprimer/supprimerChangementPuissance.command';
-import { registerAccorderChangementPuissanceUseCase } from './changement/accorder/accorderChangementPuissance.usecase';
-import { registerAccorderChangementPuissanceCommand } from './changement/accorder/accorderChangementPuissance.command';
+import {
+  type ConsulterChangementPuissanceDependencies,
+  registerConsulterChangementPuissanceQuery,
+} from './changement/consulter/consulterChangementPuissance.query';
+import { registerDemanderChangementPuissanceCommand } from './changement/demander/demanderChangementPuissance.command';
+import { registerDemanderChangementPuissanceUseCase } from './changement/demander/demanderChangementPuissance.usecase';
 import { registerEnregistrerChangementPuissanceCommand } from './changement/enregistrerChangement/enregistrerChangementPuissance.command';
 import { registerEnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase';
-import { registerRejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase';
-import { registerRejeterChangementPuissanceCommand } from './changement/rejeter/rejeterChangementPuissance.command';
 import {
-  ListerChangementPuissanceDependencies,
+  type ListerChangementPuissanceDependencies,
   registerListerChangementPuissanceQuery,
 } from './changement/lister/listerChangementPuissance.query';
+import { registerRejeterChangementPuissanceCommand } from './changement/rejeter/rejeterChangementPuissance.command';
+import { registerRejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase';
+import { registerSupprimerChangementPuissanceCommand } from './changement/supprimer/supprimerChangementPuissance.command';
 import {
-  ListerHistoriquePuissanceProjetDependencies,
+  type ConsulterPuissanceDependencies,
+  registerConsulterPuissanceQuery,
+} from './consulter/consulterPuissance.query';
+import {
+  type ListerHistoriquePuissanceProjetDependencies,
   registerListerHistoriquePuissanceProjetQuery,
 } from './listerHistorique/listerHistoriquePuissanceProjet.query';
+import { registerModifierPuissanceCommand } from './modifier/modifierPuissance.command';
+import { registerModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies &
   ConsulterChangementPuissanceDependencies &

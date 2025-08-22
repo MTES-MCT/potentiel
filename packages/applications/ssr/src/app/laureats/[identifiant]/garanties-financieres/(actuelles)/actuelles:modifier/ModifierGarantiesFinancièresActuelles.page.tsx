@@ -1,13 +1,11 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
-
 import {
   ModifierGarantiesFinancièresActuellesForm,
-  ModifierGarantiesFinancièresActuellesFormProps,
+  type ModifierGarantiesFinancièresActuellesFormProps,
 } from './ModifierGarantiesFinancièresActuelles.form';
 
 export type ModifierGarantiesFinancièresActuellesPageProps =

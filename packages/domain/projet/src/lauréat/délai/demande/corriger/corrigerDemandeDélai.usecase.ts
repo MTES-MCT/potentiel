@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { DocumentProjet, CorrigerDocumentProjetCommand } from '@potentiel-domain/document';
+import { type CorrigerDocumentProjetCommand, DocumentProjet } from '@potentiel-domain/document';
 
-import * as TypeDocumentDemandeDélai from '../typeDocumentDemandeDélai.valueType';
 import { IdentifiantProjet } from '../../../..';
-
-import { CorrigerDemandeDélaiCommand } from './corrigerDemandeDélai.command';
+import * as TypeDocumentDemandeDélai from '../typeDocumentDemandeDélai.valueType';
+import type { CorrigerDemandeDélaiCommand } from './corrigerDemandeDélai.command';
 
 export type CorrigerDemandeDélaiUseCase = Message<
   'Lauréat.Délai.UseCase.CorrigerDemandeDélai',

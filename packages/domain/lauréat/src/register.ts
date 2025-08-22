@@ -1,6 +1,6 @@
 import {
-  GarantiesFinancièresCommandDependencies,
-  GarantiesFinancièresQueryDependencies,
+  type GarantiesFinancièresCommandDependencies,
+  type GarantiesFinancièresQueryDependencies,
   registerGarantiesFinancièresQueries,
   registerGarantiesFinancièresUseCases,
 } from './garantiesFinancières/garantiesFinancières.register';

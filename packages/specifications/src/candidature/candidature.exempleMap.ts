@@ -1,8 +1,8 @@
-import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { Candidature, type IdentifiantProjet } from '@potentiel-domain/projet';
 
 import {
-  FieldToExempleMapper,
+  type FieldToExempleMapper,
   mapBoolean,
   mapDateTime,
   mapNumber,

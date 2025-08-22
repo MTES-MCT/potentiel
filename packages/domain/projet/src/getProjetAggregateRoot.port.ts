@@ -1,6 +1,5 @@
-import { IdentifiantProjet } from '.';
-
-import { ProjetAggregateRoot } from './projet.aggregateRoot';
+import type { IdentifiantProjet } from '.';
+import type { ProjetAggregateRoot } from './projet.aggregateRoot';
 
 export type GetProjetAggregateRoot = (
   identifiant: IdentifiantProjet.ValueType,

@@ -3,8 +3,8 @@ import { before, beforeEach, describe, it } from 'node:test';
 import { expect } from 'chai';
 
 import { download } from './download';
+import { createOrRecreateBucket, setTestBucketEnvVariable } from './test-utils.integration';
 import { upload } from './upload';
-import { setTestBucketEnvVariable, createOrRecreateBucket } from './test-utils.integration';
 
 describe(`upload file`, () => {
   const bucketName = 'potentiel';

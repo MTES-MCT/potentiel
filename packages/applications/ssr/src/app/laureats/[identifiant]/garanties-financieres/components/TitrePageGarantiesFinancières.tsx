@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
 import { fr } from '@codegouvfr/react-dsfr';
+import type { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 

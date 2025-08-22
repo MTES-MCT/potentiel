@@ -1,9 +1,9 @@
-import { Message, mediator } from 'mediateur';
+import { type Message, mediator } from 'mediateur';
 
+import type { Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import type { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { PlainType } from '@potentiel-domain/core';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Email } from '@potentiel-domain/common';
 
 type AjouterStatistique = Message<
   'System.Statistiques.AjouterStatistique',

@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresCommand } from './démarrerInstructionDemandeMainlevéeGarantiesFinancières.command';
+import type { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresCommand } from './démarrerInstructionDemandeMainlevéeGarantiesFinancières.command';
 
 export type DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',

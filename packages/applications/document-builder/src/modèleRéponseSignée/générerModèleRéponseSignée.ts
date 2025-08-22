@@ -1,36 +1,38 @@
 import fs from 'fs';
 import path from 'path';
 
-import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
+import PizZip from 'pizzip';
 
 import { assets } from '../assets';
-
 import {
-  ModèleRéponseAbandon,
+  type ModèleRéponseAbandon,
   modèleRéponseAbandonFileName,
 } from './abandon/modèleRéponseSignéeAbandon';
 import {
-  ModèleRéponseRecours,
-  modèleRéponseRecoursFileName,
-} from './recours/modèleRéponseSignéeRecours';
-import {
-  ModèleRéponseMainlevée,
-  modèleRéponseMainlevéeFileName,
-} from './garantiesFinancières/modèleRéponseSignéeMainlevée';
-import {
-  ModèleMiseEnDemeure,
-  modèleRéponseMiseEnDemeureFileName,
-} from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure';
-import {
-  ModèleRéponseActionnaire,
+  type ModèleRéponseActionnaire,
   modèleRéponseActionnaireFileName,
 } from './actionnaire/modèleRéponseSignéeActionnaire';
 import {
-  ModèleRéponsePuissance,
+  type ModèleRéponseDélai,
+  modèleRéponseDélaiFileName,
+} from './délai/modèleRéponseSignéeDélai';
+import {
+  type ModèleRéponseMainlevée,
+  modèleRéponseMainlevéeFileName,
+} from './garantiesFinancières/modèleRéponseSignéeMainlevée';
+import {
+  type ModèleMiseEnDemeure,
+  modèleRéponseMiseEnDemeureFileName,
+} from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure';
+import {
+  type ModèleRéponsePuissance,
   modèleRéponsePuissanceFileName,
 } from './puissance/modèleRéponseSignéePuissance';
-import { ModèleRéponseDélai, modèleRéponseDélaiFileName } from './délai/modèleRéponseSignéeDélai';
+import {
+  type ModèleRéponseRecours,
+  modèleRéponseRecoursFileName,
+} from './recours/modèleRéponseSignéeRecours';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseAbandon

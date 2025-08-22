@@ -1,17 +1,16 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '../..';
-
+import type { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
+import type { AjouterOptions } from './ajouter/ajouterTâchePlanifiée.option';
+import type { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
+import type { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
 import * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
-import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
-import { AjouterOptions } from './ajouter/ajouterTâchePlanifiée.option';
-import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
-import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
-import { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
 import { TâcheAnnuléeError, TâcheDéjàExécutéeError } from './tâchePlanifiée.error';
+import type { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
 
 export class TâchePlanifiéeAggregate extends AbstractAggregate<
   TâchePlanifiéeEvent,

@@ -1,23 +1,22 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
-import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
 } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
-
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   ListeDemandeMainlevéePage,
-  ListeDemandeMainlevéeProps,
+  type ListeDemandeMainlevéeProps,
 } from './ListeDemandeMainlevée.page';
 
 type PageProps = {

@@ -1,13 +1,13 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { type IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
-import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
-import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture';
-import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture';
 import { AccorderDemandeDélaiFixture } from './fixtures/accorderDemandeDélai.fixture';
+import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
 import { CorrigerDemandeDélaiFixture } from './fixtures/corrigerDélai.fixture';
+import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
+import { PasserEnInstructionDemandeDélaiFixture } from './fixtures/passerEnInstructionDemandeDélai.fixture';
+import { RejeterDemandeDélaiFixture } from './fixtures/rejeterDemandeDélai.fixture';
 
 export class DélaiWorld {
   readonly #demanderDélaiFixture: DemanderDélaiFixture = new DemanderDélaiFixture();

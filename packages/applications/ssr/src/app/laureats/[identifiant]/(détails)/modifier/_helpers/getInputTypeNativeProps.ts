@@ -1,4 +1,4 @@
-import { InputProps } from '@codegouvfr/react-dsfr/Input';
+import type { InputProps } from '@codegouvfr/react-dsfr/Input';
 
 type GetAllInputNativeProps = (value: number | string) => InputProps['nativeInputProps'];
 

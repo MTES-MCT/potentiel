@@ -1,10 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
-
-import { AnnulerChangementReprésentantLégalCommand } from './annulerChangementReprésentantLégal.command';
+import type { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import type { AnnulerChangementReprésentantLégalCommand } from './annulerChangementReprésentantLégal.command';
 
 export type AnnulerChangementReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.AnnulerChangementReprésentantLégal',

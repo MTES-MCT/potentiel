@@ -20,17 +20,13 @@ export { ConsulterAttestationConformitéQuery };
 // ReadModel
 export { ConsulterAttestationConformitéReadModel };
 
-// Events
-export * from './attestationConformité.event';
-
-export { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
-export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
-
-// ValueTypes
-export * as TypeDocumentAttestationConformité from './typeDocumentAttestationConformité.valueType';
-
 // Entities
 export * from './attestationConformité.entity';
-
 // Errors
 export * from './attestationConformité.error';
+// Events
+export * from './attestationConformité.event';
+export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
+export { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.event';
+// ValueTypes
+export * as TypeDocumentAttestationConformité from './typeDocumentAttestationConformité.valueType';

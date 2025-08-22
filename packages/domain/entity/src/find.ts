@@ -1,8 +1,8 @@
-import { Option } from '@potentiel-libraries/monads';
+import type { Option } from '@potentiel-libraries/monads';
 
-import { Entity } from './entity';
-import { SelectOptions } from './selectOptions';
-import { Joined, JoinOptions } from './joinOptions';
+import type { Entity } from './entity';
+import type { Joined, JoinOptions } from './joinOptions';
+import type { SelectOptions } from './selectOptions';
 
 export type FindOptions<TEntity extends Entity, TJoin extends Entity | {} = {}> = {
   select?: SelectOptions<Omit<TEntity, 'type'>>;

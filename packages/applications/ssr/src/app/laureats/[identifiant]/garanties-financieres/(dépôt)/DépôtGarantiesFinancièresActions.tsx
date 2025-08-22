@@ -2,9 +2,8 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { GarantiesFinancièresProps } from '../components/GarantiesFinancières';
-
-import { DépôtGarantiesFinancières } from './dépôtGarantiesFinancières.type';
+import type { GarantiesFinancièresProps } from '../components/GarantiesFinancières';
+import type { DépôtGarantiesFinancières } from './dépôtGarantiesFinancières.type';
 import { SupprimerDépôtGarantiesFinancièresForm } from './supprimer/SupprimerDépôtGarantiesFinancières.form';
 import { ValiderDépôtGarantiesFinancièresForm } from './valider/validerDépôtGarantiesFinancières.form';
 

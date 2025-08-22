@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { Tâche } from '@potentiel-domain/tache';
+import type { Tâche } from '@potentiel-domain/tache';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';

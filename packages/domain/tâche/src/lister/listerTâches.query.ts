@@ -1,12 +1,12 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
-import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';
+import type { TâcheEntity } from '../tâche.entity';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;

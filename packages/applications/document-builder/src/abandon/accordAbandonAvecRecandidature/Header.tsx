@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
 import { Image, Text, View } from '@react-pdf/renderer';
 import { format } from 'date-fns';
+import type { FC } from 'react';
 
 type HeaderProps = {
   dateCourrier: string;

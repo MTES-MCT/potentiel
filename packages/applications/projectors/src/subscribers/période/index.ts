@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Période } from '@potentiel-domain/periode';
+import type { Période } from '@potentiel-domain/periode';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { périodeNotifiéeProjector } from './périodeNotifiée.projector';
 import { périodeRebuildTriggered } from './périodeRebuildTriggered.projector';

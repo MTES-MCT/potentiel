@@ -1,3 +1,3 @@
-import { NestedKeys } from './nestedKeys';
+import type { NestedKeys } from './nestedKeys';
 
 export type SelectOptions<T> = NestedKeys<T>[];

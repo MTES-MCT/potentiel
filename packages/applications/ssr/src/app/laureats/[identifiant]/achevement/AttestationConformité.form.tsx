@@ -1,27 +1,27 @@
 'use client';
-import { FC, useState } from 'react';
-import Link from 'next/link';
+
+import Alert from '@codegouvfr/react-dsfr/Alert';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
-import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
+import { type FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { type Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
-import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
-import {
-  transmettreAttestationConformitéAction,
-  TransmettreAttestationConformitéFormKeys,
-} from './attestation-conformite:transmettre/transmettreAttestationConformité.action';
-import {
-  modifierAttestationConformitéAction,
+import { Form } from '@/components/atoms/form/Form';
+import { InputDate } from '@/components/atoms/form/InputDate';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import type { ValidationErrors } from '@/utils/formAction';
+import type {
   ModifierAttestationConformitéFormKeys,
+  modifierAttestationConformitéAction,
 } from './attestation-conformite:modifier/modifierAttestationConformité.action';
+import type {
+  TransmettreAttestationConformitéFormKeys,
+  transmettreAttestationConformitéAction,
+} from './attestation-conformite:transmettre/transmettreAttestationConformité.action';
 
 type Action =
   | typeof transmettreAttestationConformitéAction

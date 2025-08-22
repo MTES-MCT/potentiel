@@ -1,5 +1,4 @@
-import { Éliminé } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 export const mapToRecoursAnnuléTimelineItemProps = (
   recoursAnnulé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],

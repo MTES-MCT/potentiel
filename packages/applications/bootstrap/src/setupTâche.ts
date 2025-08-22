@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
 
-import { Tâche, registerTâcheCommand, registerTâcheQuery } from '@potentiel-domain/tache';
-import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâcheProjector } from '@potentiel-applications/projectors';
+import { registerTâcheCommand, registerTâcheQuery, Tâche } from '@potentiel-domain/tache';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { type Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { countProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const setupTâche = async () => {

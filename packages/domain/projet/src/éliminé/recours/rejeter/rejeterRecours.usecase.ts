@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
-
-import { RejeterRecoursCommand } from './rejeterRecours.command';
+import type { RejeterRecoursCommand } from './rejeterRecours.command';
 
 export type RejeterRecoursUseCase = Message<
   'Éliminé.Recours.UseCase.RejeterRecours',

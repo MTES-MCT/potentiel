@@ -5,12 +5,11 @@ import { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { ValidationErrors } from '@/utils/formAction';
-
-import { rejeterRecoursAction, RejeterRecoursFormKeys } from './rejeterRecours.action';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import type { ValidationErrors } from '@/utils/formAction';
+import { type RejeterRecoursFormKeys, rejeterRecoursAction } from './rejeterRecours.action';
 
 type RejeterRecoursFormProps = {
   identifiantProjet: string;

@@ -1,18 +1,17 @@
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { mapToExemple } from '../helpers/mapToExemple';
-
-import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
-import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
 import {
   dépôtExempleMap,
   identifiantProjetExempleMap,
   instructionExempleMap,
   localitéExempleMap,
 } from './candidature.exempleMap';
+import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
+import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
 
 export class CandidatureWorld {
   #importerCandidature: ImporterCandidatureFixture;

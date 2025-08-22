@@ -1,13 +1,12 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, type Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { Timeline, type TimelineItemProps } from '@/components/organisms/Timeline';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-
 import { DétailsChangementProducteur } from './DétailsChangementProducteur';
 
 export type ChangementProducteurActions = 'enregistrer-changement';

@@ -2,10 +2,9 @@ import { mediator } from 'mediateur';
 import { z } from 'zod';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Période } from '@potentiel-domain/periode';
+import type { Période } from '@potentiel-domain/periode';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
 import { ImporterPériodePage } from './ImporterPériode.page';
 
 const paramsSchema = z.object({

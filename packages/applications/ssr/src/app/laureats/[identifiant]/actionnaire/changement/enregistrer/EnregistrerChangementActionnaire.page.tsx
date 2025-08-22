@@ -1,14 +1,13 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
-
 import {
   EnregistrerChangementActionnaireForm,
-  EnregistrerChangementActionnaireFormProps,
+  type EnregistrerChangementActionnaireFormProps,
 } from './EnregistrerChangementActionnaire.form';
 
 export type EnregistrerChangementActionnairePageProps = EnregistrerChangementActionnaireFormProps;

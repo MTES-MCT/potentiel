@@ -1,20 +1,23 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
+import { Candidature } from '@potentiel-domain/projet';
 import {
   IdentifiantUtilisateur,
-  RécupérerIdentifiantsProjetParEmailPorteurPort,
+  type RécupérerIdentifiantsProjetParEmailPorteurPort,
 } from '@potentiel-domain/utilisateur';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Candidature } from '@potentiel-domain/projet';
 
-import { DépôtEnCoursGarantiesFinancièresEntity, TypeDocumentGarantiesFinancières } from '../..';
 import {
-  Utilisateur,
   getRoleBasedWhereCondition,
+  type Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
-import { LauréatEntity } from '../../../lauréat.entity';
+import type { LauréatEntity } from '../../../lauréat.entity';
+import {
+  type DépôtEnCoursGarantiesFinancièresEntity,
+  TypeDocumentGarantiesFinancières,
+} from '../..';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

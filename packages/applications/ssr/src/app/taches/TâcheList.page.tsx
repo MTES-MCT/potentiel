@@ -1,11 +1,14 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Tâche } from '@potentiel-domain/tache';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { Tâche } from '@potentiel-domain/tache';
 
 import { TâcheListItem } from '@/app/taches/TâcheListItem';
-import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
+import {
+  ListPageTemplate,
+  type ListPageTemplateProps,
+} from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
 export type TâcheListPageProps = {

@@ -1,4 +1,4 @@
-import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
+import type { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
 
 export const mapToConsulterDocumentProjetReadModel = (
   blob: Blob,

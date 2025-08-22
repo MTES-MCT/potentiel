@@ -1,13 +1,12 @@
+import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Candidature } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel } from '@/app/_helpers';
-
+import type { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
 type ActionnariatFieldProps = {
   candidature: string;

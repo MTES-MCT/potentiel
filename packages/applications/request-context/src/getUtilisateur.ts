@@ -1,20 +1,20 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import { parse } from 'node:url';
 
-import { z } from 'zod';
-import { mediator } from 'mediateur';
 import { jwtVerify } from 'jose';
+import { mediator } from 'mediateur';
 import { getServerSession } from 'next-auth';
+import { z } from 'zod';
 
-import { Role, Utilisateur, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Email } from '@potentiel-domain/common';
-import { mapToPlainObject, OperationRejectedError, PlainType } from '@potentiel-domain/core';
+import { mapToPlainObject, OperationRejectedError, type PlainType } from '@potentiel-domain/core';
+import { Role, type TrouverUtilisateurQuery, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { authOptions } from './authOptions';
-import { getJwks } from './openid';
 import { getProviderAccountUrl } from './getProviderConfiguration';
+import { getJwks } from './openid';
 
 const parseRequest = (req: IncomingMessage) => {
   const { query } = parse(req.url!, true);

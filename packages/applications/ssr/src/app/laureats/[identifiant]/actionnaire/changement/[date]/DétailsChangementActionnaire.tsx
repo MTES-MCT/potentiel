@@ -1,18 +1,16 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { DateTime, Email } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime, Email } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
-
 import { StatutChangementActionnaireBadge } from '../../StatutChangementActionnaireBadge';
-
-import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
+import type { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 
 export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePageProps, 'demande'>;
 

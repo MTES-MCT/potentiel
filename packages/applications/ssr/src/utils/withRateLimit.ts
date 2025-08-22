@@ -1,5 +1,5 @@
-import { IRateLimiterOptions, RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { headers } from 'next/headers';
+import { type IRateLimiterOptions, RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 
 import { getContext } from '@potentiel-applications/request-context';
 import { getLogger } from '@potentiel-libraries/monitoring';

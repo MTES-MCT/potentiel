@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AbstractFixture } from '../../../fixture';
 

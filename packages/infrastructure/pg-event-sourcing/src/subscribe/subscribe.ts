@@ -1,16 +1,15 @@
+import { ExponentialBackoff, type FailureReason, handleAll, retry } from 'cockatiel';
 import { Client } from 'pg';
-import { retry, ExponentialBackoff, handleAll, FailureReason } from 'cockatiel';
 
-import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 
-import { Event } from '../event';
-
-import { registerSubscriber } from './subscriber/registerSubscriber';
-import { EventStreamEmitter } from './eventStreamEmitter';
-import { Subscriber, Unsubscribe } from './subscriber/subscriber';
+import type { Event } from '../event';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
+import { EventStreamEmitter } from './eventStreamEmitter';
 import { listSubscribers } from './subscriber/listSubscribers';
+import { registerSubscriber } from './subscriber/registerSubscriber';
+import type { Subscriber, Unsubscribe } from './subscriber/subscriber';
 
 let isReconnecting = false;
 let client: Client | undefined;

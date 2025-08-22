@@ -1,9 +1,9 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import type { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../..';
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
+import type { IdentifiantProjet } from '../../..';
+import type { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
 
 export type AnnulerRecoursCommand = Message<
   'Éliminé.Recours.Command.AnnulerRecours',

@@ -1,6 +1,6 @@
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
+import type { FieldValidationErrors } from '../../ModifierLauréat.form';
 
 type AttestationFieldProps = {
   validationErrors: FieldValidationErrors;

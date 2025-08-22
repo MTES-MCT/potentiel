@@ -1,6 +1,6 @@
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
 
-import { MotifDemandeGarantiesFinancières } from '..';
+import type { MotifDemandeGarantiesFinancières } from '..';
 
 export type DemanderOptions = {
   demandéLe: DateTime.ValueType;

@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Lauréat } from '@potentiel-domain/projet';
-import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
-import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
-import { lauréatModifiéProjector } from './lauréatModifié.projector';
-import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector';
 import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projector';
+import { lauréatModifiéProjector } from './lauréatModifié.projector';
+import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
+import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector';
+import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
 
 export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
 

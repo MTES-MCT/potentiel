@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { FC } from 'react';
+import type { FC } from 'react';
 
 export type InformationDemandeComplèteRaccordementProps = {
   delaiDemandeDeRaccordementEnMois: { texte: string; valeur: number };

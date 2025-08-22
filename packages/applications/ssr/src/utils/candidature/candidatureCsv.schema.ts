@@ -1,45 +1,45 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { conditionalRequiredError } from './schemaBase';
 import {
   adresse1CsvSchema,
   adresse2Schema,
   appelOffreSchema,
+  choixCoefficientKCsvSchema,
+  codePostalSchema,
   communeSchema,
+  dateEchéanceGfCsvSchema,
   emailContactSchema,
-  évaluationCarboneSimplifiéeCsvSchema,
   familleSchema,
+  financementCollectifCsvSchema,
+  gouvernancePartagéeCsvSchema,
+  historiqueAbandonCsvSchema,
+  installationsAgrivoltaiquesCsvSchema,
+  motifEliminationSchema,
   nomCandidatSchema,
   nomProjetSchema,
   nomReprésentantLégalSchema,
   noteTotaleSchema,
+  notifiedOnCsvSchema,
   numéroCRESchema,
+  obligationDeSolarisationCsvSchema,
   prixRéférenceSchema,
   puissanceALaPointeCsvSchema,
+  puissanceDeSiteSchema,
   puissanceProductionAnnuelleSchema,
   périodeSchema,
   sociétéMèreSchema,
   statutCsvSchema,
   technologieCsvSchema,
-  financementCollectifCsvSchema,
-  gouvernancePartagéeCsvSchema,
-  historiqueAbandonCsvSchema,
-  motifEliminationSchema,
-  typeGarantiesFinancieresCsvSchema,
-  dateEchéanceGfCsvSchema,
   territoireProjetSchema,
-  notifiedOnCsvSchema,
-  codePostalSchema,
-  choixCoefficientKCsvSchema,
-  installationsAgrivoltaiquesCsvSchema,
-  élémentsSousOmbrièreCsvSchema,
+  typeGarantiesFinancieresCsvSchema,
   typologieDeBâtimentCsvSchema,
-  obligationDeSolarisationCsvSchema,
-  puissanceDeSiteSchema,
+  élémentsSousOmbrièreCsvSchema,
+  évaluationCarboneSimplifiéeCsvSchema,
 } from './candidatureFields.schema';
+import { conditionalRequiredError } from './schemaBase';
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = [

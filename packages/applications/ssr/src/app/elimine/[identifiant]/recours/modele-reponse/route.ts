@@ -1,22 +1,22 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { IdentifiantProjet, type Éliminé } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getPériodeAppelOffres, getCandidature } from '@/app/_helpers';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { formatBoolean } from '@/utils/modèle-document/formatBoolean';
-import { mapCandidatureToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+import { mapCandidatureToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(() =>

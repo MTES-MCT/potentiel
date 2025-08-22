@@ -2,18 +2,17 @@ import path from 'node:path';
 
 import ReactPDF, { Font } from '@react-pdf/renderer';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { Candidature } from '@potentiel-domain/projet';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
 import { mapToReadableStream } from '../../mapToReadableStream';
-
-import { makeCertificate } from './makeCertificate';
+import type { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
+import { formatPotentielId } from './helpers/formatPotentielId';
 import { getDésignationCatégorie } from './helpers/getDésignationCatégorie';
 import { getFinancementEtTemplate } from './helpers/getFinancementEtTemplate';
-import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
-import { formatPotentielId } from './helpers/formatPotentielId';
+import { makeCertificate } from './makeCertificate';
 
 Font.register({
   family: 'Arimo',

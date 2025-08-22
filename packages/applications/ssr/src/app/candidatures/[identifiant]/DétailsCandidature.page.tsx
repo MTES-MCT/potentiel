@@ -1,25 +1,25 @@
-import React, { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type React from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import type { PlainType } from '@potentiel-domain/core';
+import { type Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Heading1, Heading2 } from '@/components/atoms/headings';
-import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
-import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
-import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
 import {
   getActionnariatTypeLabel,
   getGarantiesFinancièresTypeLabel,
   getTechnologieTypeLabel,
 } from '@/app/_helpers';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { Heading1, Heading2 } from '@/components/atoms/headings';
+import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
+import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
+import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 
 type AvailableActions = Record<

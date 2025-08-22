@@ -1,4 +1,4 @@
-import { Entity } from '@potentiel-domain/entity';
+import type { Entity } from '@potentiel-domain/entity';
 
 export type KeyValuePair<TEntity extends Entity<TType>, TType extends string = string> = {
   key: `${TType}#${string}`;

@@ -1,15 +1,15 @@
 import { mediator } from 'mediateur';
+import { type NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { NextRequest, NextResponse } from 'next/server';
 
+import type { RangeOptions } from '@potentiel-domain/entity';
+import type { Lauréat } from '@potentiel-domain/projet';
+import { Role, type Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { RangeOptions } from '@potentiel-domain/entity';
 
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { apiAction } from '@/utils/apiAction';
 import { mapToRangeOptions } from '@/utils/pagination';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const dynamic = 'force-dynamic';
 

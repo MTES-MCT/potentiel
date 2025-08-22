@@ -1,14 +1,14 @@
-import { Candidature } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import type { Candidature } from '@potentiel-domain/projet';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { GetDossierQuery, createDossierAccessor } from './graphql';
+import { createDossierAccessor, type GetDossierQuery } from './graphql';
 import {
-  getTypeGarantiesFinancières,
   getHistoriqueAbandon,
   getLocalité,
+  getTypeGarantiesFinancières,
   getTypologieBâtiment,
 } from './specialFields';
-import { DeepPartial } from './utils';
+import type { DeepPartial } from './utils';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',

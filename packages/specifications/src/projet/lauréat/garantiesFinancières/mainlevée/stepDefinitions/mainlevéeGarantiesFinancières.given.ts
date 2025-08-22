@@ -1,11 +1,10 @@
-import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { type DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import type { GarantiesFinancières } from '@potentiel-domain/laureat';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
-
+import type { PotentielWorld } from '../../../../../potentiel.world';
 import {
   setAccordMainlevéeData,
   setDemandeMainlevéeData,

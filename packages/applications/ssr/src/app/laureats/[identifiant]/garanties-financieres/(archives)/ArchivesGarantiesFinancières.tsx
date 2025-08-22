@@ -1,13 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
 
-import { Heading3, Heading4 } from '@/components/atoms/headings';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { Heading3, Heading4 } from '@/components/atoms/headings';
+import { Timeline, type TimelineProps } from '@/components/organisms/Timeline';
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
-
-import { GarantiesFinancièresArchivées } from './garantiesFInancières.type';
+import type { GarantiesFinancièresArchivées } from './garantiesFInancières.type';
 
 type ArchivesGarantiesFinancièresProps = {
   archives: Array<GarantiesFinancièresArchivées>;

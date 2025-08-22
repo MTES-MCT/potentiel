@@ -1,10 +1,10 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import type { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 
-import { PotentielWorld } from '../../potentiel.world';
+import type { PotentielWorld } from '../../potentiel.world';
 
 Quand(
   'le DGEC validateur ajoute un gestionnaire de réseau( avec le même code EIC)',

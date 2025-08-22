@@ -1,17 +1,15 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
-
 import {
   TransmettreDateMiseEnServiceForm,
-  TransmettreDateMiseEnServiceFormProps,
+  type TransmettreDateMiseEnServiceFormProps,
 } from './TransmettreDateMiseEnService.form';
 
 export type TransmettreDateMiseEnServicePageProps = {

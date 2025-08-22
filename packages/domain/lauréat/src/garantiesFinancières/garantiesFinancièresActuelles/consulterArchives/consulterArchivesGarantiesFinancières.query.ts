@@ -1,21 +1,21 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
+import type { Find } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
-import { GarantiesFinancièresReadModel } from '../consulter/consulterGarantiesFinancières.query';
-import {
-  ArchiveGarantiesFinancières,
-  ArchivesGarantiesFinancièresEntity,
-} from '../archivesGarantiesFinancières.entity';
 import {
   MotifArchivageGarantiesFinancières,
   StatutGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
 } from '../..';
+import type {
+  ArchiveGarantiesFinancières,
+  ArchivesGarantiesFinancièresEntity,
+} from '../archivesGarantiesFinancières.entity';
+import type { GarantiesFinancièresReadModel } from '../consulter/consulterGarantiesFinancières.query';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -1,20 +1,19 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-import { Lauréat } from '@potentiel-domain/projet';
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
+import { getCahierDesCharges } from '@/app/_helpers';
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCahierDesCharges } from '@/app/_helpers';
-import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+import type { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
-
+import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréat } from '../../../_helpers/getLauréat';
 
 export const GET = async (

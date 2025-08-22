@@ -1,14 +1,14 @@
 import { extname } from 'node:path';
 
-import { contentType } from 'mime-types';
 import { Command, Flags } from '@oclif/core';
+import { contentType } from 'mime-types';
 
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { copyFile } from '@potentiel-libraries/file-storage';
+import { type Candidature, Lauréat } from '@potentiel-domain/projet';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { copyFile } from '@potentiel-libraries/file-storage';
+import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 export class Migrer extends Command {
   static flags = {

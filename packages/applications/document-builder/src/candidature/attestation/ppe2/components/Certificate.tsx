@@ -1,5 +1,5 @@
 import { Document, Page, View } from '@react-pdf/renderer';
-import React from 'react';
+import type React from 'react';
 
 import { PageFooter } from './PageFooter';
 

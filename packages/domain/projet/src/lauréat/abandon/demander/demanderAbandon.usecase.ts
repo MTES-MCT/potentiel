@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { DocumentProjet, type EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { TypeDocumentAbandon } from '..';
 import { IdentifiantProjet } from '../../..';
-
-import { DemanderAbandonCommand } from './demanderAbandon.command';
+import { TypeDocumentAbandon } from '..';
+import type { DemanderAbandonCommand } from './demanderAbandon.command';
 
 export type DemanderAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.DemanderAbandon',

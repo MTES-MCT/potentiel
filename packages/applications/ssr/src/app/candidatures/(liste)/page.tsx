@@ -1,19 +1,17 @@
 import { mediator } from 'mediateur';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-import { Candidature } from '@potentiel-domain/projet';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
+import type { ListFilterItem } from '@/components/molecules/ListFilters';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
-import { ListFilterItem } from '@/components/molecules/ListFilters';
-
 import { getCandidatureListActions } from '../_helpers/getCandidatureListActions';
-
-import { CandidatureListItemProps } from './CandidatureListItem';
 import { CandidatureListPage } from './CandidatureList.page';
+import type { CandidatureListItemProps } from './CandidatureListItem';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
 

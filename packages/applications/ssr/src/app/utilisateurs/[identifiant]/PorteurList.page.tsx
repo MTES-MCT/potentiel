@@ -1,17 +1,15 @@
-import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import type { FC } from 'react';
 
-import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { PlainType } from '@potentiel-domain/core';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
+import type { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { InviterPorteurForm } from '../inviter/InviterPorteur.form';
-
 import { PorteurListItem } from './PorteurListItem';
 
 export type PorteurListPageProps = {

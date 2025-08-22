@@ -1,4 +1,4 @@
-import { ModèleRéponse } from '../modèleRéponseSignée';
+import type { ModèleRéponse } from '../modèleRéponseSignée';
 
 export const modèleRéponseDélaiFileName = 'délai-modèle-réponse.docx';
 

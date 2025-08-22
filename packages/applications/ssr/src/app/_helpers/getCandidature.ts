@@ -1,8 +1,8 @@
 import { mediator } from 'mediateur';
-import { cache } from 'react';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
-import { Candidature } from '@potentiel-domain/projet';
+import type { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 

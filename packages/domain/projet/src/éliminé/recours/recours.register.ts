@@ -1,27 +1,26 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
-
+import type { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 import { registerAccorderRecoursCommand } from './accorder/accorderRecours.command';
 import { registerAccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
 import { registerAnnulerRecoursCommand } from './annuler/annulerRecours.command';
 import { registerAnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
 import {
-  ConsulterRecoursDependencies,
+  type ConsulterRecoursDependencies,
   registerConsulterRecoursQuery,
 } from './consulter/consulterRecours.query';
 import { registerDemanderRecoursCommand } from './demander/demanderRecours.command';
 import { registerDemanderRecoursUseCase } from './demander/demanderRecours.usecase';
+import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command';
+import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import {
-  ListerRecoursDependencies,
+  type ListerRecoursDependencies,
   registerListerRecoursQuery,
 } from './lister/listerRecours.query';
 import {
-  ListerHistoriqueRecoursProjetDependencies,
+  type ListerHistoriqueRecoursProjetDependencies,
   registerListerHistoriqueRecoursProjetQuery,
 } from './listerHistorique/listerHistoriqueRecoursProjet.query';
 import { registerRejeterRecoursCommand } from './rejeter/rejeterRecours.command';
 import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
-import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase';
-import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command';
 
 export type RecoursQueryDependencies = ConsulterRecoursDependencies &
   ListerRecoursDependencies &

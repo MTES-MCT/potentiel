@@ -1,19 +1,18 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/document';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
+import type { Lauréat } from '@potentiel-domain/projet';
 
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-
-import { ListeFournisseurs } from '../ListeFournisseurs';
 import { StatutChangementFournisseurBadge } from '../../StatutChangementFournisseurBadge';
 import { AlerteChangementÉvaluationCarbone } from '../AlerteChangementÉvaluationCarbone';
+import { ListeFournisseurs } from '../ListeFournisseurs';
 
 export type DétailsChangementFournisseurProps = {
   changement: PlainType<Lauréat.Fournisseur.ConsulterChangementFournisseurReadModel['changement']>;

@@ -2,16 +2,11 @@ import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 
-import { LauréatAggregate } from '../lauréat.aggregate';
 import { Lauréat } from '../..';
-
-import { Fournisseur } from '.';
-
-import { FournisseurEvent } from './fournisseur.event';
-import { ImporterOptions } from './importer/importerFournisseur.option';
-import { FournisseurImportéEvent } from './importer/importerFournisseur.event';
-import { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options';
-import { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
+import type { LauréatAggregate } from '../lauréat.aggregate';
+import type { Fournisseur } from '.';
+import type { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
+import type { EnregistrerChangementFournisseurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
 import {
   ChangementFournisseurValeurIdentiqueError,
   FournisseursIdentiqueError,
@@ -19,8 +14,11 @@ import {
   ÉvaluationCarboneNombreError,
   ÉvaluationCarboneNégativeError,
 } from './fournisseur.error';
-import { EnregistrerChangementFournisseurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
-import { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
+import type { FournisseurEvent } from './fournisseur.event';
+import type { FournisseurImportéEvent } from './importer/importerFournisseur.event';
+import type { ImporterOptions } from './importer/importerFournisseur.option';
+import type { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
+import type { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options';
 
 export class FournisseurAggregate extends AbstractAggregate<
   FournisseurEvent,

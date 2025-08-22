@@ -1,5 +1,5 @@
-import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import type { DateTime } from '@potentiel-domain/common';
+import type { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToGestionnaireRéseauRaccordementModifiéTimelineItemProps = (
   modification: Lauréat.Raccordement.GestionnaireRéseauRaccordementModifiéEvent & {

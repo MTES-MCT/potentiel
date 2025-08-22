@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 import { AbstractFixture } from '../../../../fixture';
+import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
 interface AccorderChangementActionnaire {
   readonly réponseSignée: { format: string; content: ReadableStream };

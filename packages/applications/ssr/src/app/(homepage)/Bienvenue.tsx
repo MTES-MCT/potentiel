@@ -1,8 +1,8 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { match } from 'ts-pattern';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import type { Utilisateur } from '@potentiel-domain/utilisateur';
 
 type BienvenueProps = {
   utilisateur: Utilisateur.ValueType;

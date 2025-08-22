@@ -1,18 +1,17 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import { match } from 'ts-pattern';
 
-import { PlainType } from '@potentiel-domain/core';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
-import { StatutChangementReprésentantLégalBadge } from './StatutChangementReprésentantLégalBadge';
+import { Heading2 } from '@/components/atoms/headings';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
+import { StatutChangementReprésentantLégalBadge } from './StatutChangementReprésentantLégalBadge';
 
 type DétailsChangementReprésentantLégalProps =
   PlainType<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {

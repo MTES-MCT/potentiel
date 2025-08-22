@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { ModifierLauréatCommand } from './modifierLauréat.command';
+import type { ModifierLauréatCommand } from './modifierLauréat.command';
 
 export type ModifierLauréatUseCase = Message<
   'Lauréat.UseCase.ModifierLauréat',

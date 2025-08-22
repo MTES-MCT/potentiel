@@ -1,14 +1,12 @@
-import React, { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import type { FC } from 'react';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
+import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
-
 import {
   TransmettrePropositionTechniqueEtFinancièreForm,
-  TransmettrePropositionTechniqueEtFinancièreFormProps,
+  type TransmettrePropositionTechniqueEtFinancièreFormProps,
 } from './TransmettrePropositionTechniqueEtFinancière.form';
 
 export type TransmettrePropositionTechniqueEtFinancièrePageProps = {

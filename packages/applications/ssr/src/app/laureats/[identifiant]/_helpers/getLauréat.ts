@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
-import { cache } from 'react';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 
+import type { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 type Props = {

@@ -1,15 +1,21 @@
 import format from 'pg-format';
 
-import { Entity, Joined, ListOptions, ListResult, WhereCondition } from '@potentiel-domain/entity';
+import type {
+  Entity,
+  Joined,
+  ListOptions,
+  ListResult,
+  WhereCondition,
+} from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-import { KeyValuePair } from './keyValuePair';
-import { getWhereClause } from './getWhereClause';
+import { countProjection } from './countProjection';
+import { getFromClause } from './getFromClause';
 import { getOrderClause } from './getOrderClause';
 import { getRangeClause } from './getRangeClause';
-import { countProjection } from './countProjection';
 import { getSelectClause } from './getSelectClause';
-import { getFromClause } from './getFromClause';
+import { getWhereClause } from './getWhereClause';
+import type { KeyValuePair } from './keyValuePair';
 import { mapResult } from './mapResult';
 
 export const listProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(

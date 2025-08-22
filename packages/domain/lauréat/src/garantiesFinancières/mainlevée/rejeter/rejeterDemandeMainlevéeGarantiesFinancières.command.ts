@@ -1,8 +1,8 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
+import type { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import type { LoadAggregate } from '@potentiel-domain/core';
+import type { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 

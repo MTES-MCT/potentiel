@@ -1,11 +1,11 @@
-import { mediator } from 'mediateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import Badge from '@mui/material/Badge';
+import { mediator } from 'mediateur';
 
-import { Tâche } from '@potentiel-domain/tache';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
 import { getContext } from '@potentiel-applications/request-context';
+import { Routes } from '@potentiel-applications/routes';
+import type { Tâche } from '@potentiel-domain/tache';
+import { Role, type Utilisateur } from '@potentiel-domain/utilisateur';
 
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = getContext()?.utilisateur;

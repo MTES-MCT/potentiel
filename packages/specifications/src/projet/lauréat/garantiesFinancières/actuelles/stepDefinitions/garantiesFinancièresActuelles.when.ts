@@ -1,10 +1,9 @@
-import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { type DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { PotentielWorld } from '../../../../../potentiel.world';
-
+import type { PotentielWorld } from '../../../../../potentiel.world';
 import {
   enregistrerAttestation,
   enregistrerGarantiesFinancièresActuelles,

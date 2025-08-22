@@ -1,5 +1,5 @@
 import { Email } from '@potentiel-domain/common';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import type { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
 import { getProjetUtilisateurScopeAdapter } from './getProjetUtilisateurScope.adapter';
 

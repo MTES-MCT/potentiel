@@ -1,4 +1,8 @@
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import {
+  InvalidOperationError,
+  type PlainType,
+  type ReadonlyValueType,
+} from '@potentiel-domain/core';
 
 export const types = ['culture', 'jachère-plus-de-5-ans', 'élevage', 'serre'] as const;
 export type RawType = (typeof types)[number];

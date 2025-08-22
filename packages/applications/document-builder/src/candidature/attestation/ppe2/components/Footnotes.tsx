@@ -1,8 +1,6 @@
-import React from 'react';
 import { View } from '@react-pdf/renderer';
 
-import { Footnote as FootnoteType } from '../../helpers/makeAddFootnotes';
-
+import type { Footnote as FootnoteType } from '../../helpers/makeAddFootnotes';
 import { Footnote } from './Footnote';
 
 export const Footnotes = ({ footnotes }: { footnotes: FootnoteType[] }) => {

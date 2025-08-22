@@ -1,17 +1,17 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { type Joined, type List, type RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { CandidatureEntity } from '../candidature.entity';
-import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
+import { IdentifiantProjet } from '../..';
+import { Fournisseur } from '../../lauréat/fournisseur';
+import { type Dépôt, UnitéPuissance } from '..';
+import type { CandidatureEntity } from '../candidature.entity';
+import type { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import { IdentifiantProjet } from '../..';
-import { Dépôt, UnitéPuissance } from '..';
-import { Fournisseur } from '../../lauréat/fournisseur';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,7 +34,7 @@ export type CandidaturesListItemReadModel = {
   estNotifiée: boolean;
   attestation?: DocumentProjet.ValueType;
   /** @deprecated Existe uniquement pour les tests, à supprimer */
-  sociétéMère: String;
+  sociétéMère: string;
   /** @deprecated Existe uniquement pour les tests, à supprimer */
   fournisseurs: Dépôt.ValueType['fournisseurs'];
   unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];

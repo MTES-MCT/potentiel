@@ -1,18 +1,16 @@
 'use client';
 
-import { FC, useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Image from 'next/image';
+import { type FC, useState } from 'react';
 
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
-
 import { ModalWithForm } from '../../components/molecules/ModalWithForm';
-import { ValidationErrors } from '../../utils/formAction';
-
-import { réclamerProjetAction, RéclamerProjetsFormKeys } from './réclamerProjet.action';
+import type { ValidationErrors } from '../../utils/formAction';
+import { type RéclamerProjetsFormKeys, réclamerProjetAction } from './réclamerProjet.action';
 
 export type RéclamerProjetsListItemProps = {
   identifiantProjet: string;

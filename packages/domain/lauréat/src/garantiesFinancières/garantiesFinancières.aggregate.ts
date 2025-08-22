@@ -1,14 +1,17 @@
+import type { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import {
-  Aggregate,
+  type Aggregate,
   AggregateNotFoundError,
-  GetDefaultAggregateState,
-  LoadAggregate,
+  type GetDefaultAggregateState,
+  type LoadAggregate,
 } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '.';
-
+import type { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '.';
+import {
+  applyDépôtGarantiesFinancièresEnCoursModifié,
+  modifierDépôtGarantiesFinancièresEnCours,
+} from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import {
   applyDépôtGarantiesFinancièresSoumis,
   soumettreDépôt,
@@ -22,23 +25,24 @@ import {
   applyDépôtGarantiesFinancièresEnCoursValidéV1,
   validerDépôtEnCours,
 } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
-import {
-  applyDépôtGarantiesFinancièresEnCoursModifié,
-  modifierDépôtGarantiesFinancièresEnCours,
-} from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import { applyEffacerHistoriqueGarantiesFinancières } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
-import { applyTypeGarantiesFinancièresImporté } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
 import { applyEnregistrerGarantiesFinancières } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
-import { applyModifierGarantiesFinancières } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.behavior';
 import { applyEnregistrerAttestationGarantiesFinancières } from './garantiesFinancièresActuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.behavior';
+import { applyTypeGarantiesFinancièresImporté } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
+import { applyModifierGarantiesFinancières } from './garantiesFinancièresActuelles/modifier/modifierGarantiesFinancières.behavior';
+import { applyGarantiesFinancièresÉchues } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 import {
-  applyMainlevéeGarantiesFinancièresDemandée,
-  demanderMainlevée,
-} from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.behavior';
+  accorderDemandeMainlevéeGarantiesFinancières,
+  applyDemandeMainlevéeGarantiesFinancièresAccordée,
+} from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
 import {
   annulerDemandeMainlevée,
   applyDemandeMainlevéeGarantiesFinancièresAnnulée,
 } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.behavior';
+import {
+  applyMainlevéeGarantiesFinancièresDemandée,
+  demanderMainlevée,
+} from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.behavior';
 import {
   applyInstructionDemandeMainlevéeGarantiesFinancièresDémarrée,
   démarrerInstructionDemandeMainlevée,
@@ -47,11 +51,6 @@ import {
   applyDemandeMainlevéeGarantiesFinancièresRejetée,
   rejeterDemandeMainlevéeGarantiesFinancières,
 } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.behavior';
-import {
-  accorderDemandeMainlevéeGarantiesFinancières,
-  applyDemandeMainlevéeGarantiesFinancièresAccordée,
-} from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.behavior';
-import { applyGarantiesFinancièresÉchues } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
 
 export type GarantiesFinancièresEvent =
   | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent

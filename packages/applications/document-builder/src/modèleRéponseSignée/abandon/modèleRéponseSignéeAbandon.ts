@@ -1,4 +1,4 @@
-import { ModèleRéponse } from '../modèleRéponseSignée';
+import type { ModèleRéponse } from '../modèleRéponseSignée';
 
 export const modèleRéponseAbandonFileName = 'abandon-modèle-réponse.docx';
 

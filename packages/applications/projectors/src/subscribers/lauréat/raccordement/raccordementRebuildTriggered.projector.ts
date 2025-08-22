@@ -1,8 +1,8 @@
-import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
+import type { Lauréat } from '@potentiel-domain/projet';
+import type { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
 
 export const raccordementRebuildTriggeredProjector = async ({
   payload: { id },

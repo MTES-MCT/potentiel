@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
 export const getAppelOffre = async (identifiantAppelOffre: string) => {

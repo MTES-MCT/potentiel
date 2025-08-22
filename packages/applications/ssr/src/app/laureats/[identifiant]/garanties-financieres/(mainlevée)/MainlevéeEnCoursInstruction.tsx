@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { Email } from '@potentiel-domain/common';
+import type { Email } from '@potentiel-domain/common';
+import type { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 

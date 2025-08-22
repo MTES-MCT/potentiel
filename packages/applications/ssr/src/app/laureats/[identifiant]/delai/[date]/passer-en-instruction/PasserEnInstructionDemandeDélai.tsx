@@ -3,11 +3,10 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
+import type { DateTime } from '@potentiel-domain/common';
+import type { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
 import { passerEnInstructionDemandeDélaiAction } from './passerEnInstructionDemandeDélai.action';
 
 type PasserEnInstructionDemandeDélaiFormProps = {

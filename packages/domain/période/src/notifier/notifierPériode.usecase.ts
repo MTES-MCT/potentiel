@@ -1,11 +1,10 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
+import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
-
-import { NotifierPériodeCommand } from './notifierPériode.command';
+import type { NotifierPériodeCommand } from './notifierPériode.command';
 
 export type NotifierPériodeUseCase = Message<
   'Période.UseCase.NotifierPériode',

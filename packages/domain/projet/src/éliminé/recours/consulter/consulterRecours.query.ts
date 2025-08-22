@@ -1,14 +1,14 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { type Message, type MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Find } from '@potentiel-domain/entity';
+import type { Find } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import * as StatutRecours from '../statutRecours.valueType';
-import { RecoursEntity } from '../recours.entity';
-import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 import { IdentifiantProjet } from '../../..';
+import type { RecoursEntity } from '../recours.entity';
+import * as StatutRecours from '../statutRecours.valueType';
+import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
 
 export type ConsulterRecoursReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
