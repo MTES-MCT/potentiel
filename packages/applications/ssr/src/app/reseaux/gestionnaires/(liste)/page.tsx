@@ -20,7 +20,7 @@ type PageProps = {
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+    const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
     const raisonSocialeSearch = searchParams?.raisonSociale;
 
     const gestionnairesRéseau =

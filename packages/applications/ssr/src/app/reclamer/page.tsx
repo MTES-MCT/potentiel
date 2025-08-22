@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+      const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
       const appelOffre = searchParams?.appelOffre ?? undefined;
       const nomProjet = searchParams?.nomProjet ?? undefined;
       const période = searchParams?.periode ?? undefined;

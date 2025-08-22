@@ -31,7 +31,7 @@ export default async function Page({ searchParams }: PageProps) {
     const nomProjet = searchParams?.nomProjet;
     const statut = searchParams?.statut;
     const estNotifiée = searchParams?.notifie ? searchParams?.notifie === 'notifie' : undefined;
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+    const page = searchParams?.page ? parseInt(searchParams.page, 10) : 1;
 
     const candidaturesData = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',

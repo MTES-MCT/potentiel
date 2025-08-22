@@ -81,7 +81,7 @@ export const authOptions: AuthOptions = {
     // It is renewed on each page refresh, so this represents inactivity time.
     // Moreover, the user will not be disconnected after expiration (if their Keycloak session still exists),
     // but there will be a redirection to keycloak.
-    maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds)),
+    maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds), 10),
   },
   events: {
     signIn: async ({ account, user }) => {

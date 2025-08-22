@@ -332,10 +332,10 @@ export class Migrer extends Command {
           } else {
             const demandéPar = Email.inconnu.formatter();
             const ancienneDate = new Date(
-              Number.parseInt(demande.accord.ancienneDateLimiteAchevement),
+              Number.parseInt(demande.accord.ancienneDateLimiteAchevement, 10),
             );
             const nouvelleDate = new Date(
-              Number.parseInt(demande.accord.nouvelleDateLimiteAchevement),
+              Number.parseInt(demande.accord.nouvelleDateLimiteAchevement, 10),
             );
 
             const nombreDeMois =
@@ -571,7 +571,7 @@ const getDélaiDemandé = async (demande: DélaiDemandéSurPotentiel): Promise<n
   );
 
   if (achèvement.length > 0) {
-    const ancienneDate = new Date(Number.parseInt(achèvement[0].dateAchèvementPrévisionnel));
+    const ancienneDate = new Date(Number.parseInt(achèvement[0].dateAchèvementPrévisionnel, 10));
     const nouvelleDate = new Date(demande.dateAchèvementDemandée);
 
     const nombreDeMois =
