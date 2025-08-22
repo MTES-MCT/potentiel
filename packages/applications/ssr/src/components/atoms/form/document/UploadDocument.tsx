@@ -63,7 +63,9 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
     const fileNames = Object.values(files).map((file) => extractFileName(file.name));
 
     setDocumentFilenames(fileNames);
-    onChange && onChange(fileNames);
+    if (onChange) {
+      onChange(fileNames);
+    }
   };
 
   const handleFileRemove = (index: number) => {
@@ -83,7 +85,9 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
     const updatedFilenames = documentFilenames.filter((_, i) => i !== index);
 
     setDocumentFilenames(updatedFilenames);
-    onChange && onChange(updatedFilenames);
+    if (onChange) {
+      onChange(updatedFilenames);
+    }
   };
 
   const handleRemoveAllFiles = () => {
@@ -94,7 +98,9 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
     hiddenFileInput.current.files = new DataTransfer().files;
 
     setDocumentFilenames([]);
-    onChange && onChange([]);
+    if (onChange) {
+      onChange([]);
+    }
   };
 
   const [documentFilenames, setDocumentFilenames] = useState<Array<string>>([]);

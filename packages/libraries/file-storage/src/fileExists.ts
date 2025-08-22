@@ -7,7 +7,7 @@ export const fileExists = async (filePath: string) => {
   try {
     await getClient().send(new HeadObjectCommand({ Bucket: getBucketName(), Key: filePath }));
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

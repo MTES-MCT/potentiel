@@ -12,7 +12,7 @@ const isBucketExists = async (bucketName: string) => {
   try {
     await getClient().send(new HeadBucketCommand({ Bucket: bucketName }));
     return true;
-  } catch (err) {
+  } catch {
     return false;
   }
 };

@@ -5,6 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { getInfosAbandon } from './utils/getInfosAbandon';
 
 export const preuveCandidatureDemandéeProjector = async ({
+  type,
   payload: { identifiantProjet, demandéeLe },
 }: Lauréat.Abandon.PreuveRecandidatureDemandéeEvent) => {
   const abandonToUpsert = await getInfosAbandon(identifiantProjet);
@@ -32,6 +33,6 @@ export const preuveCandidatureDemandéeProjector = async ({
       },
     });
   } else {
-    getLogger().warn(`Pas de recandidature dans la demande d'abandon`, { event });
+    getLogger().warn(`Pas de recandidature dans la demande d'abandon`, { type, identifiantProjet });
   }
 };

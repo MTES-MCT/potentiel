@@ -34,7 +34,7 @@ export type CandidaturesListItemReadModel = {
   estNotifiée: boolean;
   attestation?: DocumentProjet.ValueType;
   /** @deprecated Existe uniquement pour les tests, à supprimer */
-  sociétéMère: String;
+  sociétéMère: string;
   /** @deprecated Existe uniquement pour les tests, à supprimer */
   fournisseurs: Dépôt.ValueType['fournisseurs'];
   unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];
