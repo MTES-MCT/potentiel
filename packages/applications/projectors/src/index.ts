@@ -1,6 +1,6 @@
 export { seedAppelOffre } from './subscribers/appel-offre/seed';
 export * as AbandonProjector from './subscribers/lauréat/abandon';
-export * as GestionnaireRéseauProjector from './subscribers/réseau/gestionnaireRéseau.projector';
+export * as GestionnaireRéseauProjector from './subscribers/réseau/gestionnaire-réseau';
 export * as RaccordementProjector from './subscribers/lauréat/raccordement';
 export * as TâcheProjector from './subscribers/tâche/tâche';
 export * as TâchePlanifiéeProjector from './subscribers/tâche/tâchePlanifiée';
