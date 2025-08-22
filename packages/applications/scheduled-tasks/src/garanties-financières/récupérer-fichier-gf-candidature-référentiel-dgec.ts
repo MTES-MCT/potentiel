@@ -295,9 +295,7 @@ void (async () => {
 
   console.log(`❌ Nombre de fichiers non compatibles : ${statistics.fichiersNonCompatibles.count}`);
   console.log(`❓ Nombre de projets inconnu dans potentiel : ${statistics.projetInconnu.count}`);
-  console.log(
-    `ℹ️ Nombre d'attestations déjà existantes : ${statistics.attestationExistante.count}`,
-  );
+  console.log(`ℹ️ Nombre d'attestations déjà existantes : ${statistics.attestationExistante.count}`);
 
   console.log(
     `📝 Nombre d'attestations ajoutées à des gfs existantes : ${statistics.attestationAjoutée.count}`,

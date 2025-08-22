@@ -34,14 +34,16 @@ export class RaccordementWorld {
       : undefined;
 
     const dossier = {
-      demandeComplèteRaccordement:
-        this.demandeComplèteDeRaccordement.mapToExpected(nouvelleRéférenceDossier),
+      demandeComplèteRaccordement: this.demandeComplèteDeRaccordement.mapToExpected(
+        nouvelleRéférenceDossier,
+      ),
       référence: Lauréat.Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
         this.référenceDossier,
       ),
       miseEnService: this.transmettreDateMiseEnServiceFixture.mapToExpected(),
-      propositionTechniqueEtFinancière:
-        this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier),
+      propositionTechniqueEtFinancière: this.propositionTechniqueEtFinancière.mapToExpected(
+        nouvelleRéférenceDossier,
+      ),
     };
 
     const identifiantGestionnaireRéseau =

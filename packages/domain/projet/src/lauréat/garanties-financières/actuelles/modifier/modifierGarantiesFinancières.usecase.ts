@@ -37,8 +37,9 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
     modifiéParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const garantiesFinancières =
-      GarantiesFinancières.convertirEnValueType(garantiesFinancièresValue);
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType(
+      garantiesFinancièresValue,
+    );
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const attestation = DocumentProjet.convertirEnValueType(

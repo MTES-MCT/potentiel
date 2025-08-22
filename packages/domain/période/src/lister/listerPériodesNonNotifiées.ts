@@ -30,14 +30,17 @@ export const listerPériodesNonNotifiées = async (
     },
   });
 
-  const all = appelOffres.items.reduce((acc, current) => {
-    const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => ({
-      identifiantPériode: IdentifiantPériode.convertirEnValueType(`${current.id}#${periode.id}`),
-      estNotifiée: false,
-    }));
+  const all = appelOffres.items.reduce(
+    (acc, current) => {
+      const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => ({
+        identifiantPériode: IdentifiantPériode.convertirEnValueType(`${current.id}#${periode.id}`),
+        estNotifiée: false,
+      }));
 
-    return [...acc, ...periodes];
-  }, [] as Array<ConsulterPériodeReadModel>);
+      return [...acc, ...periodes];
+    },
+    [] as Array<ConsulterPériodeReadModel>,
+  );
 
   const allWithoutNotifiées = all
     .filter(

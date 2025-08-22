@@ -32,37 +32,40 @@ export const listerToutesLesPériodes = async (
   });
 
   const all = appelOffres.items
-    .reduce((acc, current) => {
-      const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
-        const identifiantPériode = IdentifiantPériode.convertirEnValueType(
-          `${current.id}#${periode.id}`,
-        );
+    .reduce(
+      (acc, current) => {
+        const periodes: Array<ConsulterPériodeReadModel> = current.periodes.map((periode) => {
+          const identifiantPériode = IdentifiantPériode.convertirEnValueType(
+            `${current.id}#${periode.id}`,
+          );
 
-        const périodeNotifiée = notifiées.items.find(
-          (notifiée) => notifiée.identifiantPériode === identifiantPériode.formatter(),
-        );
+          const périodeNotifiée = notifiées.items.find(
+            (notifiée) => notifiée.identifiantPériode === identifiantPériode.formatter(),
+          );
 
-        if (périodeNotifiée?.estNotifiée) {
+          if (périodeNotifiée?.estNotifiée) {
+            return {
+              identifiantPériode,
+              estNotifiée: true,
+              notifiéeLe: périodeNotifiée.notifiéeLe
+                ? DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe)
+                : undefined,
+              notifiéePar: périodeNotifiée.notifiéePar
+                ? Email.convertirEnValueType(périodeNotifiée.notifiéePar)
+                : undefined,
+            };
+          }
+
           return {
             identifiantPériode,
-            estNotifiée: true,
-            notifiéeLe: périodeNotifiée.notifiéeLe
-              ? DateTime.convertirEnValueType(périodeNotifiée.notifiéeLe)
-              : undefined,
-            notifiéePar: périodeNotifiée.notifiéePar
-              ? Email.convertirEnValueType(périodeNotifiée.notifiéePar)
-              : undefined,
+            estNotifiée: false,
           };
-        }
+        });
 
-        return {
-          identifiantPériode,
-          estNotifiée: false,
-        };
-      });
-
-      return [...acc, ...periodes];
-    }, [] as Array<ConsulterPériodeReadModel>)
+        return [...acc, ...periodes];
+      },
+      [] as Array<ConsulterPériodeReadModel>,
+    )
     .sort((a, b) => a.identifiantPériode.appelOffre.localeCompare(b.identifiantPériode.appelOffre));
 
   return {

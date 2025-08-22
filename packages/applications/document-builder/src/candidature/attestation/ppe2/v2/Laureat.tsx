@@ -221,8 +221,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
                     textDecoration: 'underline',
                   }}
                 >
-                  Toute demande de modification substantielle de l’innovation sera notamment
-                  refusée{' '}
+                  Toute demande de modification substantielle de l’innovation sera notamment refusée{' '}
                 </Text>
               </>
             )}
