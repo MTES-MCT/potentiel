@@ -28,7 +28,9 @@ export const loadAggregate: LoadAggregate = async <
   } as TAggregate;
 
   if (!events.length) {
-    onNone && onNone();
+    if (onNone) {
+      onNone();
+    }
     return aggregate;
   }
 

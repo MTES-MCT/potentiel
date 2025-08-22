@@ -63,11 +63,12 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
       <>
         <SaisieTypeSociétéStep
           onChange={(typeSociété) => {
-            onChange &&
+            if (onChange) {
               onChange({
                 typeReprésentantLégal: state.typeReprésentantLégal,
                 typeSociété,
               });
+            }
             setState({ ...state, typeSociété });
           }}
         />
@@ -132,7 +133,9 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         typeReprésentantLégalActuel={state.typeReprésentantLégal}
         onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
           delete validationErrors.typeRepresentantLegal;
-          onChange && onChange({ typeReprésentantLégal, typeSociété: state.typeSociété });
+          if (onChange) {
+            onChange({ typeReprésentantLégal, typeSociété: state.typeSociété });
+          }
           setState((state) => ({ ...state, typeReprésentantLégal }));
         }}
       />

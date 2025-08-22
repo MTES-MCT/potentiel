@@ -142,7 +142,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
     };
   });
 
-export const modifierLauréatAction = formAction(action, modifierLauréatEtCandidatureSchéma);
+export const modifierLauréatAction = formAction(action, schema);
 
 const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
