@@ -51,10 +51,11 @@ const mapApiResponseToFichiers = ({ champs, demarche }: GetDossierQuery['dossier
 };
 
 const mapApiResponseToDétails = ({ champs }: GetDossierQuery['dossier']) => {
+  const logger = getLogger('ds-api-client');
   return champs.reduce(
     (prev, curr) => {
       if (prev[curr.label]) {
-        console.warn(`le champs ${curr.label} existe déjà`);
+        logger.warn(`le champs ${curr.label} existe déjà`);
         return prev;
       }
       if (!curr.stringValue) return prev;
