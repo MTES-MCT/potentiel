@@ -78,6 +78,6 @@ export const autorisationDUrbanismeExempleMap: FieldToExempleMapper<{
   numéro: string;
   date: DateTime.RawType;
 }> = {
-  date: [`date de l'autorisation d'urbanisme`, mapDateTime],
+  date: [`date d'obtention de l'autorisation d'urbanisme`, mapDateTime],
   numéro: [`numéro de l'autorisation d'urbanisme`],
 };
