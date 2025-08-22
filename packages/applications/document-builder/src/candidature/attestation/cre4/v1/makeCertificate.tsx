@@ -247,7 +247,7 @@ const Laureat = (project: AttestationCRE4Options) => {
   // We have to jugle a bit with String.fromCharCode to have the actual indices and not literaly &sup1; or other
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
   const footnotes = footNotes.map(({ footnote, indice }, index) => (
-    <Text key={'foot_note_' + index}>
+    <Text key={`foot_note_${index}`}>
       {String.fromCharCode(indice)} Paragraphe(s){' '}
       {footnote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
     </Text>
@@ -319,7 +319,7 @@ const Certificate = ({
             left: 63,
           }}
         >
-          <Image style={{ width: 165, height: 118 }} src={imagesRootPath + '/logo_MTE.png'} />
+          <Image style={{ width: 165, height: 118 }} src={`${imagesRootPath}/logo_MTE.png`} />
         </View>
         <View
           style={{

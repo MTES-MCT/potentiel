@@ -1,3 +1,4 @@
+import assert from 'node:assert';
 import { extname } from 'node:path';
 
 import { Command, Flags } from '@oclif/core';
