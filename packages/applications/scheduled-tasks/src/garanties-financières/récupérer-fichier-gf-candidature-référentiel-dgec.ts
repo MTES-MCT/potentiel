@@ -1,5 +1,5 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
-import { basename, extname, join } from 'path';
+import { basename, extname, join } from 'node:path';
 
 import chardet from 'chardet';
 import { decode, encode } from 'iconv-lite';

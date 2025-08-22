@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'node:path';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { InvalidOperationError, type ReadonlyValueType } from '@potentiel-domain/core';

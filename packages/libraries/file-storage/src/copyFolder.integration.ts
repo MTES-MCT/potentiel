@@ -1,5 +1,5 @@
+import { join } from 'node:path';
 import { before, beforeEach, describe, it } from 'node:test';
-import { join } from 'path';
 
 import { expect } from 'chai';
 

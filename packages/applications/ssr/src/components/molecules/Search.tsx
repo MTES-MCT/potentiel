@@ -1,5 +1,5 @@
 'use client';
-import assert from 'assert';
+import assert from 'node:assert';
 
 import SearchBar from '@codegouvfr/react-dsfr/SearchBar';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';

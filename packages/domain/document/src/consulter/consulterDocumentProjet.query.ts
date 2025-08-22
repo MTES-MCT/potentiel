@@ -1,4 +1,4 @@
-import { extname } from 'path';
+import { extname } from 'node:path';
 
 import { type Message, type MessageHandler, mediator } from 'mediateur';
 import { contentType } from 'mime-types';
