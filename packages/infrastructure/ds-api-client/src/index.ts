@@ -8,6 +8,8 @@ export type Dossier = Awaited<ReturnType<typeof getDépôtCandidature>>;
 
 export const getDépôtCandidature = async (dossierNumber: number) => {
   const sdk = getDSApiClient();
+  const logger = getLogger('ds-api-client');
+  logger.debug(`Lecture du dossier ${dossierNumber}`);
   try {
     const { dossier } = await sdk.GetDossier({ dossier: dossierNumber });
 
@@ -18,7 +20,7 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
       détails: mapApiResponseToDétails(dossier),
     };
   } catch (e) {
-    getLogger('ds-api-client').warn('Impossible de lire le dossier', {
+    logger.warn('Impossible de lire le dossier', {
       dossierNumber,
       error: e,
     });

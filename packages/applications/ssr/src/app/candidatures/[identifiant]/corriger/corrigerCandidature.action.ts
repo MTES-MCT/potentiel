@@ -47,7 +47,7 @@ const schema = zod.object({
   coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
   puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
 
-  statut: instructionSchema.shape.statut,
+  statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
   noteTotale: instructionSchema.shape.noteTotale,
 });
