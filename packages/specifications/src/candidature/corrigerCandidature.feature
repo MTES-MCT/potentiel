@@ -218,3 +218,13 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site | 100 |
         Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
+
+    Scénario: Impossible de corriger une candidature sans autorisation d'urbanisme si l'appel d'offre a ces champs requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
+            | date d'obtention de l'autorisation d'urbanisme | 10/08/2025               |
+        Quand le DGEC validateur corrige la candidature avec :
+            | numéro de l'autorisation d'urbanisme           |  |
+            | date d'obtention de l'autorisation d'urbanisme |  |
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cette appel d'offre"

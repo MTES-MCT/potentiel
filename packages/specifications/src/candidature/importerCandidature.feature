@@ -213,4 +213,4 @@ Fonctionnalité: Importer une candidature
             | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
             | numéro de l'autorisation d'urbanisme           |                          |
             | date d'obtention de l'autorisation d'urbanisme |                          |
-        Alors l'administrateur devrait être informé que "le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cette appel d'offre"
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cette appel d'offre"
