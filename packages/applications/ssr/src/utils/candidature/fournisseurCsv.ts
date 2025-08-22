@@ -77,7 +77,7 @@ export const mapCsvRowToFournisseurs = (
 
   // on construit l'objet complet en groupant par type et index
   // l'index n'est pas utilisé en tant que tel car des valeurs pourraient être omises
-  return Object.values(groupBy(fieldsArray, (item) => item.type + '-' + item.index))
+  return Object.values(Object.groupBy(fieldsArray, (item) => item.type + '-' + item.index))
     .filter((champsParTypeEtIndex) => !!champsParTypeEtIndex)
     .map((champsParTypeEtIndex) =>
       champsParTypeEtIndex.reduce(
@@ -95,18 +95,3 @@ export const mapCsvRowToFournisseurs = (
     )
     .filter((fournisseur) => fournisseur.typeFournisseur && fournisseur.nomDuFabricant);
 };
-
-/** @deprecated replace with Object.groupBy when available */
-const groupBy = <K extends PropertyKey, T>(
-  items: T[],
-  keySelector: (item: T, index: number) => K,
-): Partial<Record<K, T[]>> =>
-  items.reduce(
-    (result, item, index) => {
-      const key = keySelector(item, index);
-      result[key] ??= [];
-      result[key].push(item);
-      return result;
-    },
-    {} as Record<K, T[]>,
-  );
