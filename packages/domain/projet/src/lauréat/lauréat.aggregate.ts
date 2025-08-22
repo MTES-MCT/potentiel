@@ -45,7 +45,9 @@ export class LauréatAggregate extends AbstractAggregate<
   'lauréat',
   ProjetAggregateRoot
 > {
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: TODO ajouter vérification lors de la modification (POT-1856)
   #nomProjet?: string;
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: TODO ajouter vérification lors de la modification (POT-1856)
   #localité?: Candidature.Localité.ValueType;
   #référenceCahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType =
     AppelOffre.RéférenceCahierDesCharges.initial;

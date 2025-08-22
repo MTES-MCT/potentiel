@@ -1,6 +1,6 @@
+/** biome-ignore-all lint/style/noRestrictedImports: storybook */
 import type { Meta, StoryObj } from '@storybook/react';
 
-// eslint-disable-next-line no-restricted-imports
 import { eolien } from '@potentiel-domain/inmemory-referential/src/appelOffre/CRE4';
 
 import type { AttestationCRE4Options } from '../../AttestationCandidatureOptions';

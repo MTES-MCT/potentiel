@@ -1,8 +1,8 @@
 import i18next from 'i18next';
 import { revalidatePath } from 'next/cache';
-// eslint-disable-next-line no-restricted-imports
+// biome-ignore lint/style/noRestrictedImports: missing type in next exports, check again in Next 15
 import { isNotFoundError } from 'next/dist/client/components/not-found';
-// eslint-disable-next-line no-restricted-imports
+// biome-ignore lint/style/noRestrictedImports: missing type in next exports, check again in Next 15
 import { isRedirectError } from 'next/dist/client/components/redirect';
 import { redirect } from 'next/navigation';
 import * as zod from 'zod';

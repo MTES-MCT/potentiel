@@ -67,11 +67,11 @@ export const registerAccorderChangementPuissanceUseCase = () => {
       },
     });
 
-    if (réponseSignée) {
+    if (réponseSignée && réponseSignéeValue) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
-          content: réponseSignéeValue!.content,
+          content: réponseSignéeValue.content,
           documentProjet: réponseSignée,
         },
       });

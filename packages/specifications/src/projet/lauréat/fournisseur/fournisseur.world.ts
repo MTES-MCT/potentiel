@@ -1,3 +1,5 @@
+import assert from 'node:assert';
+
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -8,7 +10,6 @@ import { EnregistrerChangementFournisseurFixture } from './fixtures/enregistrerC
 import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture';
 
 export class FournisseurWorld {
-  constructor() {}
   readonly modifierÉvaluationCarbone = new ModifierÉvaluationCarboneFixture();
   readonly enregistrerChangementFournisseur = new EnregistrerChangementFournisseurFixture();
 
@@ -26,7 +27,9 @@ export class FournisseurWorld {
   ) {
     const appelOffres = appelsOffreData.find(
       (ao) => ao.id === candidature.identifiantProjet.appelOffre,
-    )!;
+    );
+    assert(appelOffres, "Appel d'offres non trouvé");
+
     const expected: Lauréat.Fournisseur.ConsulterFournisseurReadModel = {
       identifiantProjet,
       fournisseurs: this.enregistrerChangementFournisseur.aÉtéCréé

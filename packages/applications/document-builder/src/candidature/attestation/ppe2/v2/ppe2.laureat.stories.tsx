@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-// eslint-disable-next-line no-restricted-imports
 import {
   autoconsommationMetropolePPE2,
   batimentPPE2,
@@ -8,6 +7,7 @@ import {
   innovationPPE2,
   neutrePPE2,
   solPPE2,
+  // biome-ignore lint/style/noRestrictedImports: storybook
 } from '@potentiel-domain/inmemory-referential/src/appelOffre/PPE2';
 
 import type { AttestationPPE2V2Options } from '../../AttestationCandidatureOptions';

@@ -1,6 +1,6 @@
-// eslint-disable-next-line no-restricted-imports
+// biome-ignore lint/style/noRestrictedImports: missing type in next exports, check again in Next 15
 import { isNotFoundError } from 'next/dist/client/components/not-found';
-// eslint-disable-next-line no-restricted-imports
+// biome-ignore lint/style/noRestrictedImports: missing type in next exports, check again in Next 15
 import { isRedirectError } from 'next/dist/client/components/redirect';
 
 import { AuthenticationError } from '@potentiel-applications/bootstrap';

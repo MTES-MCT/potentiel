@@ -1,7 +1,7 @@
+/** biome-ignore-all lint/style/noRestrictedImports: storybook */
 import type { Meta, StoryObj } from '@storybook/react';
 
 import type { AppelOffre } from '@potentiel-domain/appel-offre';
-// eslint-disable-next-line no-restricted-imports
 import {
   batimentPPE2,
   eolienPPE2,
