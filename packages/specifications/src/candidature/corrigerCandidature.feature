@@ -49,6 +49,16 @@ Fonctionnalité: Corriger une candidature
             | puissance de site | 200 |
         Alors la candidature devrait être consultable
 
+    Scénario: Corriger une candidature avec une autorisation d'urbanisme pour un appel d'offre qui a ce champ requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           | ancien numéro            |
+            | date d'obtention de l'autorisation d'urbanisme | 01/01/2025               |
+        Quand le DGEC validateur corrige la candidature avec :
+            | numéro de l'autorisation d'urbanisme           | nouveau numéro |
+            | date d'obtention de l'autorisation d'urbanisme | 01/07/2025     |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
