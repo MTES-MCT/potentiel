@@ -82,14 +82,13 @@ export class ProducteurAggregate extends AbstractAggregate<
       retiréPar: identifiantUtilisateur,
       cause: 'changement-producteur',
     });
-    const aDesGarantiesFinancières =
-      this.lauréat.garantiesFinancières.aDesGarantiesFinancières ||
-      this.lauréat.garantiesFinancières.aUnDépôtEnCours;
+
     await this.lauréat.garantiesFinancières.effacerHistorique({
       effacéLe: dateChangement,
       effacéPar: identifiantUtilisateur,
     });
-    if (aDesGarantiesFinancières) {
+
+    if (this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
       await this.lauréat.projet.lauréat.garantiesFinancières.demander({
         demandéLe: dateChangement,
         motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
