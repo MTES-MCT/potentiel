@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { DateTime } from '@potentiel-domain/common';
 
 import { TâchePlanifiéeExecutéeEvent } from '../tâche-planifiée';
 import { IdentifiantProjet } from '../..';
@@ -21,7 +22,7 @@ export type Execute = Message<
 export const register = () => {
   const handler: MessageHandler<Execute> = async ({
     type,
-    payload: { typeTâchePlanifiée, identifiantProjet },
+    payload: { typeTâchePlanifiée, identifiantProjet, exécutéeLe },
   }) => {
     if (
       type !== 'TâchePlanifiéeExecutée-V1' ||
@@ -36,6 +37,7 @@ export const register = () => {
           type: 'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            échuLe: DateTime.convertirEnValueType(exécutéeLe),
           },
         }),
       )
