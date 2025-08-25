@@ -6,6 +6,7 @@ export type TypeTâchePlanifiée =
   | 'échoir les garanties financières'
   | 'rappel échéance garanties financières à un mois'
   | 'rappel échéance garanties financières à deux mois'
+  | 'rappel des garanties financières à transmettre'
   | 'gestion automatique de la demande de changement de représentant légal'
   | "rappel d'instruction de la demande de changement de représentant légal à deux mois"
   | 'supprimer automatiquement le document à trois mois';
@@ -27,6 +28,10 @@ export class TâchePlanifiéeWorld {
         () =>
           Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières
             .rappelÉchéanceDeuxMois,
+      )
+      .with(
+        'rappel des garanties financières à transmettre',
+        () => Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelEnAttente,
       )
       .with(
         'gestion automatique de la demande de changement de représentant légal',

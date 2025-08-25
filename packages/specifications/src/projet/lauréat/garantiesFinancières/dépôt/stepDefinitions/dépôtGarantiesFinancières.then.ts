@@ -49,16 +49,14 @@ Alors(
 );
 
 Alors(
-  'il ne devrait pas y avoir de dépôt de garanties financières pour le projet {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
+  'il ne devrait pas y avoir de dépôt de garanties financières pour le projet',
+  async function (this: PotentielWorld) {
     await waitForExpect(async () => {
       const détailDépôt =
         await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
           data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           },
         });
       expect(Option.isNone(détailDépôt)).to.be.true;

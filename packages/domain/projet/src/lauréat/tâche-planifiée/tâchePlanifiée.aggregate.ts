@@ -12,6 +12,7 @@ import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée
 import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlanifiée.event';
 import { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
 import { TâcheAnnuléeError, TâcheDéjàExécutéeError } from './tâchePlanifiée.error';
+import { ExécuterOptions } from './exécuter/exécuterTâchePlanifiée.options';
 
 export class TâchePlanifiéeAggregate extends AbstractAggregate<
   TâchePlanifiéeEvent,
@@ -58,7 +59,7 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
     }
   }
 
-  async exécuter() {
+  async exécuter({ exécutéeLe }: ExécuterOptions) {
     if (this.#statut.estAnnulé()) {
       throw new TâcheAnnuléeError();
     }
@@ -69,7 +70,7 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
       type: 'TâchePlanifiéeExecutée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        exécutéeLe: DateTime.now().formatter(),
+        exécutéeLe: exécutéeLe.formatter(),
         typeTâchePlanifiée: this.typeTâchePlanifiée,
       },
     };

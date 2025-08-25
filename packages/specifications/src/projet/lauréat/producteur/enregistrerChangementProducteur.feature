@@ -13,7 +13,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Et le changement enregistré du producteur du projet lauréat devrait être consultable
         Et le porteur ne doit plus avoir accès au projet lauréat
         Et le projet lauréat est consultable dans la liste des projets à réclamer
-        Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet
         Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :
             | raison          | changement de producteur |
@@ -27,6 +27,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                            |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/producteur/changement/.*                                                   |
+        Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
     Scénario: Enregistrer un changement de producteur d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :

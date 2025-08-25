@@ -1,5 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { assert } from 'chai';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -71,7 +72,7 @@ Quand(
 );
 
 Quand(
-  `un porteur enregistre les garanties financières actuelles pour le projet lauréat`,
+  `la DREAL enregistre les garanties financières actuelles pour le projet lauréat`,
   async function (this: PotentielWorld) {
     try {
       await enregistrerGarantiesFinancièresActuelles.call(
@@ -85,7 +86,7 @@ Quand(
   },
 );
 Quand(
-  `un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :`,
+  `la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
@@ -104,6 +105,11 @@ Quand(
 Quand(
   `un admin échoie les garanties financières actuelles pour le projet lauréat`,
   async function (this: PotentielWorld) {
+    const { garantiesFinancières } =
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer;
+
+    assert(garantiesFinancières.dateÉchéance, "Impossible d'échoir des GF sans date d'échéance");
+
     try {
       await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
@@ -111,6 +117,7 @@ Quand(
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           typeTâchePlanifiéeValue:
             Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+          exécutéeLeValue: garantiesFinancières.dateÉchéance,
         },
       });
     } catch (error) {

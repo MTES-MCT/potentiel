@@ -92,6 +92,7 @@ export class Executer extends Command {
             data: {
               identifiantProjetValue: identifiantProjet.formatter(),
               typeTâchePlanifiéeValue: typeTâchePlanifiée,
+              exécutéeLeValue: DateTime.now().formatter(),
             },
           });
         } catch (e) {
