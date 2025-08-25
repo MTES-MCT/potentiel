@@ -29,6 +29,7 @@ import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeF
 import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/CandidatureField';
 import { CoefficientKField } from './components/fields/CoefficientKField';
+import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
@@ -212,6 +213,25 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               validationErrors={validationErrors}
             />
           </FormRow>
+        )}
+
+        {champsSupplémentaires.autorisationDUrbanisme && (
+          <>
+            <FormRow>
+              <CandidatureField
+                candidature={candidature.numeroDAutorisationDUrbanisme ?? ''}
+                label="Numéro d'autorisation d'urbanisme"
+                name="numeroDAutorisationDUrbanisme"
+                validationErrors={validationErrors}
+              />
+            </FormRow>
+            <FormRow>
+              <DateDAutorisationDUrbanismeField
+                value={candidature.dateDAutorisationDUrbanisme ?? ''}
+                validationErrors={validationErrors}
+              />
+            </FormRow>
+          </>
         )}
 
         {champsSupplémentaires.coefficientKChoisi && (

@@ -183,6 +183,13 @@ const mapBodyToCandidatureUsecaseData = (
       actionnariat: data.actionnariat ?? previous.actionnariat?.formatter(),
       coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite ?? previous.puissanceDeSite,
+      autorisationDUrbanisme:
+        data.numeroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
+          ? {
+              numéro: data.numeroDAutorisationDUrbanisme,
+              date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
+            }
+          : undefined,
 
       // non-editable fields
       typeGarantiesFinancières: previous.garantiesFinancières?.type.type,
@@ -199,12 +206,6 @@ const mapBodyToCandidatureUsecaseData = (
       typeInstallationsAgrivoltaiques: previous.typeInstallationsAgrivoltaiques?.formatter(),
       typologieDeBâtiment: previous.typologieDeBâtiment?.formatter(),
       élémentsSousOmbrière: previous.élémentsSousOmbrière,
-      autorisationDUrbanisme: previous.autorisationDUrbanisme
-        ? {
-            date: previous.autorisationDUrbanisme.date.formatter(),
-            numéro: previous.autorisationDUrbanisme.numéro,
-          }
-        : undefined,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
