@@ -123,7 +123,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.territoireProjet === this.territoireProjet &&
       valueType.élémentsSousOmbrière === this.élémentsSousOmbrière &&
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
-      // TODO : refacto possible : créer un valueType pour autorisationDUrbanisme
       valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
       valueType.autorisationDUrbanisme?.date.date.getTime() ===
         this.autorisationDUrbanisme?.date.date.getTime() &&
