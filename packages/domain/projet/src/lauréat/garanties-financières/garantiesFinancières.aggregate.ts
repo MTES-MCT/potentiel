@@ -331,6 +331,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+
+    await this.demander({
+      demandéLe: now,
+      dateLimiteSoumission: now.ajouterNombreDeMois(2),
+      motif: MotifDemandeGarantiesFinancières.échéanceGarantiesFinancièresActuelles,
+    });
   }
 
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
