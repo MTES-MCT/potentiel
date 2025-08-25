@@ -179,23 +179,16 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
-    const aDesGarantiesFinancièresEnAttente = this.#dateLimiteSoumission && this.#motifDemande;
-
-    if (
-      this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières() ||
-      aDesGarantiesFinancièresEnAttente
-    ) {
-      const event: GarantiesFinancièresDemandéesEvent = {
-        type: 'GarantiesFinancièresDemandées-V1',
-        payload: {
-          identifiantProjet: this.identifiantProjet.formatter(),
-          dateLimiteSoumission: dateLimiteSoumission.formatter(),
-          demandéLe: demandéLe.formatter(),
-          motif: motif.motif,
-        },
-      };
-      await this.publish(event);
-    }
+    const event: GarantiesFinancièresDemandéesEvent = {
+      type: 'GarantiesFinancièresDemandées-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dateLimiteSoumission: dateLimiteSoumission.formatter(),
+        demandéLe: demandéLe.formatter(),
+        motif: motif.motif,
+      },
+    };
+    await this.publish(event);
   }
 
   // TODO cette fonction sera à déplacer dans supprimerDépôt

@@ -4,8 +4,7 @@
 Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Bâtiment |
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
