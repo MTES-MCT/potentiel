@@ -1,4 +1,6 @@
 # language: fr
+@recours
+@accorder-demande-recours
 Fonctionnalité: Accorder le recours d'un projet éliminé
 
     Contexte:

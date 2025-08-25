@@ -58,11 +58,13 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent, 'recours',
       importerGarantiesFinancières: false,
     });
 
-    await this.éliminé.projet.lauréat.garantiesFinancières.demander({
-      demandéLe: dateAccord,
-      motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
-      dateLimiteSoumission: dateAccord.ajouterNombreDeMois(2),
-    });
+    if (this.éliminé.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()) {
+      await this.éliminé.projet.lauréat.garantiesFinancières.demander({
+        demandéLe: dateAccord,
+        motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
+        dateLimiteSoumission: dateAccord.ajouterNombreDeMois(2),
+      });
+    }
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {

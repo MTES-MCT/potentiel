@@ -1,4 +1,6 @@
 # language: fr
+@recours
+@demander-recours
 Fonctionnalité: Demander le recours d'un projet éliminé
 
     Contexte:

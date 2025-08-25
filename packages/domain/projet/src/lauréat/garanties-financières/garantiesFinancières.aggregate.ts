@@ -51,6 +51,7 @@ import {
 import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
 import { EnregistrerAttestationOptions } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.options';
 import { EnregisterOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options';
+import { ÉchoirOptions } from './actuelles/échoir/échoirGarantiesFinancières.options';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -179,23 +180,16 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
-    const aDesGarantiesFinancièresEnAttente = this.#dateLimiteSoumission && this.#motifDemande;
-
-    if (
-      this.lauréat.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières() ||
-      aDesGarantiesFinancièresEnAttente
-    ) {
-      const event: GarantiesFinancièresDemandéesEvent = {
-        type: 'GarantiesFinancièresDemandées-V1',
-        payload: {
-          identifiantProjet: this.identifiantProjet.formatter(),
-          dateLimiteSoumission: dateLimiteSoumission.formatter(),
-          demandéLe: demandéLe.formatter(),
-          motif: motif.motif,
-        },
-      };
-      await this.publish(event);
-    }
+    const event: GarantiesFinancièresDemandéesEvent = {
+      type: 'GarantiesFinancièresDemandées-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dateLimiteSoumission: dateLimiteSoumission.formatter(),
+        demandéLe: demandéLe.formatter(),
+        motif: motif.motif,
+      },
+    };
+    await this.publish(event);
   }
 
   // TODO cette fonction sera à déplacer dans supprimerDépôt
@@ -297,15 +291,14 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.ajouterTâchesPlanifiées();
   }
 
-  async échoir() {
+  async échoir({ échuLe }: ÉchoirOptions) {
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
 
     if (!this.#dateÉchéance) {
       throw new GarantiesFinancièresSansÉchéanceError();
     }
 
-    const now = DateTime.now();
-    if (!now.estUltérieureÀ(this.#dateÉchéance)) {
+    if (échuLe.estAntérieurÀ(this.#dateÉchéance)) {
       throw new DateÉchéanceNonPasséeError();
     }
 
@@ -326,11 +319,17 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         dateÉchéance: this.#dateÉchéance.formatter(),
-        échuLe: now.formatter(),
+        échuLe: échuLe.formatter(),
       },
     };
 
     await this.publish(event);
+
+    await this.demander({
+      demandéLe: échuLe,
+      dateLimiteSoumission: échuLe.ajouterNombreDeMois(2),
+      motif: MotifDemandeGarantiesFinancières.échéanceGarantiesFinancièresActuelles,
+    });
   }
 
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {

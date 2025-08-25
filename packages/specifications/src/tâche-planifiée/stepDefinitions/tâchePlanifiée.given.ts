@@ -1,11 +1,12 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { match } from 'ts-pattern';
 
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { RechercherStatutTâchePlanifiée, TypeTâchePlanifiée } from '../tâchePlanifiée.world';
+import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
 async function ajouterTâchePlanifiée(
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -55,29 +56,26 @@ async function annulerTâche(
 }
 
 EtantDonné(
-  'une tâche {string} pour le projet lauréat avec :',
-  async function (
-    this: PotentielWorld,
-    statutTâche: RechercherStatutTâchePlanifiée,
-    dataTable: DataTable,
-  ) {
+  /une tâche planifiée (.*)pour le projet lauréat avec :/,
+  async function (this: PotentielWorld, statutTâche: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { identifiantProjet } = this.lauréatWorld;
     const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
       exemple['type'] as TypeTâchePlanifiée,
     ).type;
-    const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
+
     await ajouterTâchePlanifiée(
       identifiantProjet,
       typeTâche,
       new Date(exemple["date d'exécution"]),
     );
 
-    if (actualStatutTâche.estAnnulé()) {
-      await annulerTâche(identifiantProjet, typeTâche);
-    }
-    if (actualStatutTâche.estExécuté()) {
-      await exécuterTâche(identifiantProjet, typeTâche);
-    }
+    await match(statutTâche.trim())
+      .with('', () => Promise.resolve())
+      .with('annulée', () => annulerTâche(identifiantProjet, typeTâche))
+      .with('exécutée', () => exécuterTâche(identifiantProjet, typeTâche))
+      .otherwise(() => {
+        throw new Error('Statut inconnu');
+      });
   },
 );
