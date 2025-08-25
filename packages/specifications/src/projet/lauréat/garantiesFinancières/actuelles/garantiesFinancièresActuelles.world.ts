@@ -58,7 +58,6 @@ export class GarantiesFinancièresActuellesWorld {
     const { notifiéLe } = this.garantiesFinancièresWorld.lauréatWorld.notifierLauréatFixture;
 
     const { typeGarantiesFinancières, dateÉchéanceGf } = dépôtCandidature;
-
     const valeurImport = typeGarantiesFinancières
       ? ({
           type: Candidature.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières),

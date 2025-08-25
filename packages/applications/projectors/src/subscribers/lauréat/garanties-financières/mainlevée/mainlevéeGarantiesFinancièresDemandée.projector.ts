@@ -1,0 +1,24 @@
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+
+export const mainlevéeGarantiesFinancièresDemandéeProjector = async ({
+  payload: { identifiantProjet, demandéLe, demandéPar, motif },
+}: Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresDemandéeEvent) => {
+  await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    `mainlevee-garanties-financieres|${identifiantProjet}#${demandéLe}`,
+    {
+      identifiantProjet,
+      demande: {
+        demandéeLe: demandéLe,
+        demandéePar: demandéPar,
+      },
+      motif,
+      statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+      dernièreMiseÀJour: {
+        date: demandéLe,
+        par: demandéPar,
+      },
+    },
+  );
+};
