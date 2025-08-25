@@ -14,7 +14,7 @@ const schema = zod.object({
 });
 
 const action: FormAction<FormState, typeof schema> = async (
-  previousState,
+  _previousState,
   { identifiantProjet },
 ) => {
   return withUtilisateur(async (utilisateur) => {

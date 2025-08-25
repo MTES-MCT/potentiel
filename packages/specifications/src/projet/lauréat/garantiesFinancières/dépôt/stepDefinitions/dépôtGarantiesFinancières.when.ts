@@ -10,7 +10,7 @@ import type { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valid
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  async function (this: PotentielWorld, _nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
@@ -27,7 +27,7 @@ Quand(
 
 Quand(
   'le porteur modifie un dépôt de garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  async function (this: PotentielWorld, _nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {

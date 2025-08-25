@@ -5,7 +5,7 @@ import { soumettreDépôt } from './dépôtGarantiesFinancières.when';
 
 EtantDonné(
   'un dépôt de garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  async function (this: PotentielWorld, _nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     await soumettreDépôt.call(

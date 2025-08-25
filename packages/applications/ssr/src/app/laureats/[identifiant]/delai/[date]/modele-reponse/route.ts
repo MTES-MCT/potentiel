@@ -19,7 +19,7 @@ import { getLauréat } from '../../../_helpers/getLauréat';
 
 type RouteProps = { params: { identifiant: string; date: string } };
 
-export const GET = async (request: NextRequest, { params: { identifiant, date } }: RouteProps) =>
+export const GET = async (_request: NextRequest, { params: { identifiant, date } }: RouteProps) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
     const demandéLe = decodeParameter(date);
