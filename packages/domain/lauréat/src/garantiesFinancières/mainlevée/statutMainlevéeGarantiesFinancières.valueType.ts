@@ -1,11 +1,11 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const statuts = ['demandé', 'en-instruction', 'accordé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  statut: Type;
   estDemandé: () => boolean;
   estEnInstruction: () => boolean;
   estRejeté: () => boolean;
@@ -13,11 +13,13 @@ export type ValueType = ReadonlyValueType<{
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = <Type extends RawType = RawType>({
+  statut,
+}: PlainType<ValueType>): ValueType<Type> => {
+  estValide(statut);
   return {
     get statut() {
-      return value;
+      return statut as Type;
     },
     estDemandé() {
       return this.statut === 'demandé';
@@ -71,6 +73,11 @@ export const convertirEnValueType = (value: string): ValueType => {
   };
 };
 
+export const convertirEnValueType = <Type extends RawType = RawType>(statut: string): ValueType => {
+  estValide(statut);
+  return bind<Type>({ statut });
+};
+
 function estValide(value: string): asserts value is RawType {
   const isValid = statuts.includes(value as RawType);
 
@@ -79,10 +86,10 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const demandé = convertirEnValueType('demandé');
-export const enInstruction = convertirEnValueType('en-instruction');
-export const accordé = convertirEnValueType('accordé');
-export const rejeté = convertirEnValueType('rejeté');
+export const demandé = convertirEnValueType<'demandé'>('demandé');
+export const enInstruction = convertirEnValueType<'en-instruction'>('en-instruction');
+export const accordé = convertirEnValueType<'accordé'>('accordé');
+export const rejeté = convertirEnValueType<'rejeté'>('rejeté');
 
 class StatutMainlevéeInvalideError extends InvalidOperationError {
   constructor(value: string) {

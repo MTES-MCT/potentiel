@@ -1,6 +1,6 @@
 # language: fr
 @garanties-financières
-@garanties-financières-actuelles
+@modifier-garanties-financières-actuelles
 Fonctionnalité: Modifier des garanties financières actuelles
 
     Contexte:

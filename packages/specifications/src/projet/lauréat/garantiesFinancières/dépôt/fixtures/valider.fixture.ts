@@ -43,6 +43,7 @@ export class ValiderDépôtGarantiesFinancièresFixture extends AbstractFixture<
 
   mapToExpected() {
     if (!this.aÉtéCréé) return {};
+
     return {
       validéLe: DateTime.convertirEnValueType(this.validéLe),
       statut: GarantiesFinancières.StatutGarantiesFinancières.validé,

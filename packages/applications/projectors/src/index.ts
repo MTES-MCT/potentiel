@@ -4,7 +4,7 @@ export * as GestionnaireRéseauProjector from './subscribers/réseau/gestionnair
 export * as RaccordementProjector from './subscribers/lauréat/raccordement';
 export * as TâcheProjector from './subscribers/tâche/tâche';
 export * as TâchePlanifiéeProjector from './subscribers/tâche/tâchePlanifiée';
-export * as GarantiesFinancièreProjector from './subscribers/lauréat/garantiesFinancières.projector';
+export * as GarantiesFinancièreProjector from './subscribers/lauréat/garanties-financières';
 export * as RecoursProjector from './subscribers/éliminé/recours';
 export * as AchèvementProjector from './subscribers/lauréat/achèvement';
 export * as CandidatureProjector from './subscribers/candidature';
