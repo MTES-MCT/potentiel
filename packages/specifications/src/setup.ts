@@ -62,7 +62,9 @@ const bucketName = 'potentiel';
 
 let unsetup: (() => Promise<void>) | undefined;
 
-const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
+const disableNodeMaxListenerWarning = () => {
+  EventEmitter.defaultMaxListeners = Infinity;
+};
 
 BeforeStep(async ({ pickleStep }) => {
   // As read data are inconsistant, we wait 100ms before each step.

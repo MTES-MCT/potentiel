@@ -17,7 +17,7 @@ import { getProviderAccountUrl } from './getProviderConfiguration';
 import { getJwks } from './openid';
 
 const parseRequest = (req: IncomingMessage) => {
-  const { query } = parse(req.url!, true);
+  const { query } = parse(req.url ?? '', true);
   const cookieHeader = req.headers.cookie ?? '';
   const cookies: Record<string, string> = Object.fromEntries(
     cookieHeader.split(';').map((v) => v.trim().split('=').map(decodeURIComponent)),
@@ -99,10 +99,7 @@ export const getUtilisateurFromAccessToken = async (
     nom,
     identifiantUtilisateur: Email.convertirEnValueType(email),
     région: Option.none,
-    identifiantGestionnaireRéseau:
-      groupes?.[0] && groupeRegex.test(groupes[0])
-        ? groupes[0].match(groupeRegex)!.groups!.nom
-        : Option.none,
+    identifiantGestionnaireRéseau: groupes?.[0]?.match(groupeRegex)?.groups?.nom ?? Option.none,
   };
 };
 
