@@ -228,35 +228,43 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
     );
   })
   // Transforme les valeurs en index ("1,2,3") en des valeurs plus claires ("avec-date-échéance")
-  .transform((val) => {
-    return {
-      ...val,
-      typeGarantiesFinancières: val.typeGarantiesFinancières
-        ? typeGf[Number(val.typeGarantiesFinancières) - 1]
-        : undefined,
-      historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
-      technologie: technologie[val.technologie],
-      typologieDeBâtiment: val.typologieDeBâtiment
-        ? typologieDeBâtiment[val.typologieDeBâtiment]
-        : undefined,
-      typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
-        ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
-        : undefined,
-      dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime | undefined,
-      actionnariat: val.financementCollectif
-        ? Candidature.TypeActionnariat.financementCollectif.formatter()
-        : val.gouvernancePartagée
-          ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+  .transform(
+    ({
+      financementCollectif,
+      gouvernancePartagée,
+      numéroDAutorisationDUrbanisme,
+      dateDAutorisationDUrbanisme,
+      ...val
+    }) => {
+      return {
+        ...val,
+        typeGarantiesFinancières: val.typeGarantiesFinancières
+          ? typeGf[Number(val.typeGarantiesFinancières) - 1]
           : undefined,
-      autorisationDUrbanisme:
-        val.dateDAutorisationDUrbanisme && val.numéroDAutorisationDUrbanisme
-          ? {
-              date: val.dateDAutorisationDUrbanisme.toISOString() as Iso8601DateTime,
-              numéro: val.numéroDAutorisationDUrbanisme,
-            }
+        historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
+        technologie: technologie[val.technologie],
+        typologieDeBâtiment: val.typologieDeBâtiment
+          ? typologieDeBâtiment[val.typologieDeBâtiment]
           : undefined,
-    };
-  });
+        typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
+          ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
+          : undefined,
+        dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime | undefined,
+        actionnariat: financementCollectif
+          ? Candidature.TypeActionnariat.financementCollectif.formatter()
+          : gouvernancePartagée
+            ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+            : undefined,
+        autorisationDUrbanisme:
+          dateDAutorisationDUrbanisme && numéroDAutorisationDUrbanisme
+            ? {
+                date: dateDAutorisationDUrbanisme.toISOString() as Iso8601DateTime,
+                numéro: numéroDAutorisationDUrbanisme,
+              }
+            : undefined,
+      };
+    },
+  );
 
 export type CandidatureCsvRowShape = z.infer<typeof candidatureCsvRowSchema>;
 export type CandidatureShape = z.infer<typeof candidatureCsvSchema>;
