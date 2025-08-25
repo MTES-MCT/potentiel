@@ -377,6 +377,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappel1mois.annuler();
     await this.#tâchePlanifiéeRappel2mois.annuler();
+    await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
 
   apply(event: GarantiesFinancièresEvent): void {
