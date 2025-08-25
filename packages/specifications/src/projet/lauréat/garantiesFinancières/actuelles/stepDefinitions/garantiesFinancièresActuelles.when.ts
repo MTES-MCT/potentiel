@@ -72,7 +72,7 @@ Quand(
 );
 
 Quand(
-  `un porteur enregistre les garanties financières actuelles pour le projet lauréat`,
+  `la DREAL enregistre les garanties financières actuelles pour le projet lauréat`,
   async function (this: PotentielWorld) {
     try {
       await enregistrerGarantiesFinancièresActuelles.call(
@@ -86,7 +86,7 @@ Quand(
   },
 );
 Quand(
-  `un porteur enregistre les garanties financières actuelles pour le projet lauréat avec :`,
+  `la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 

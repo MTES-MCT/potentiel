@@ -8,7 +8,6 @@ Fonctionnalité: Demande des garanties financières
         Et la dreal "Dreal du sud" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
-    @select
     Scénario: Relancer tous les mois le PP et la DREAL avec des garanties financières en attente
         Etant donné une tâche planifiée pour le projet lauréat avec :
             | type             | rappel des garanties financières à transmettre |

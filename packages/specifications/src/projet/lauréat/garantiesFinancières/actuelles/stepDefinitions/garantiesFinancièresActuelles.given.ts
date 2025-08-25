@@ -138,7 +138,7 @@ export async function enregistrerGarantiesFinancièresActuelles(
 ) {
   const { garantiesFinancières, dateConstitution, attestation, enregistréLe, enregistréPar } =
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer.créer({
-      enregistréPar: this.utilisateurWorld.porteurFixture.email,
+      enregistréPar: this.utilisateurWorld.drealFixture.email,
       ...props,
     });
   await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
