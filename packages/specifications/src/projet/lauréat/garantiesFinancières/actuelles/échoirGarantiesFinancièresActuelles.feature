@@ -16,6 +16,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Alors les garanties financières actuelles du projet "Du boulodrome de Marseille" sont échues
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
+        Et une tâche indiquant de "transmettre les garanties financières" est consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
             | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet    | Du boulodrome de Marseille                                                                                                       |
