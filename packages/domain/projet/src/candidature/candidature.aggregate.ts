@@ -27,6 +27,7 @@ import {
   CandidatureNonTrouvéeError,
   ChoixCoefficientKNonAttenduError,
   ChoixCoefficientKRequisError,
+  DateAutorisationDUrbanismeError,
   FonctionManquanteError,
   NomManquantError,
   PuissanceDeSiteNonAttendueError,
@@ -342,6 +343,10 @@ export class CandidatureAggregate extends AbstractAggregate<
         !dépôt.autorisationDUrbanisme.numéro)
     ) {
       throw new AutorisationDUrbanismeRequiseError();
+    }
+
+    if (dépôt.autorisationDUrbanisme?.date.estDansLeFutur()) {
+      throw new DateAutorisationDUrbanismeError();
     }
   }
 

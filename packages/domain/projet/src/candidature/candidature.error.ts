@@ -116,3 +116,11 @@ export class AutorisationDUrbanismeRequiseError extends InvalidOperationError {
     );
   }
 }
+
+export class DateAutorisationDUrbanismeError extends InvalidOperationError {
+  constructor() {
+    super(
+      "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour",
+    );
+  }
+}
