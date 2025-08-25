@@ -4,26 +4,26 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
-export type ExécuterTâchePlanifiéeCommand = Message<
-  'System.TâchePlanifiée.Command.ExécuterTâchePlanifiée',
+export type AjouterTâchePlanifiéeCommand = Message<
+  'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     typeTâchePlanifiée: string;
-    exécutéeLe: DateTime.ValueType;
+    àExécuterLe: DateTime.ValueType;
   }
 >;
 
-export const registerExécuterTâchePlanifiéeCommand = (
+export const registerAjouterTâchePlanifiéeCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const handler: MessageHandler<ExécuterTâchePlanifiéeCommand> = async ({
+  const handler: MessageHandler<AjouterTâchePlanifiéeCommand> = async ({
     identifiantProjet,
     typeTâchePlanifiée,
-    exécutéeLe,
+    àExécuterLe,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
     const tâchePlanifiée = await projet.lauréat.loadTâchePlanifiée(typeTâchePlanifiée);
-    await tâchePlanifiée.exécuter({ exécutéeLe });
+    await tâchePlanifiée.ajouter({ àExécuterLe });
   };
-  mediator.register('System.TâchePlanifiée.Command.ExécuterTâchePlanifiée', handler);
+  mediator.register('System.TâchePlanifiée.Command.AjouterTâchePlanifiée', handler);
 };

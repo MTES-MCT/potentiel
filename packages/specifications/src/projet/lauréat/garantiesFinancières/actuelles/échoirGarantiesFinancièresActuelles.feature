@@ -25,6 +25,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet    | Du boulodrome de Marseille                                                                                                       |
             | date_echeance | 17/07/2024                                                                                                                       |
+        Et une tâche "rappel des garanties financières à transmettre" est planifiée à la date du "2024-08-17" pour le projet lauréat
 
     Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec garanties financières à échoir
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -76,9 +77,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si les garanties financières sont déjà échues
-        Etant donné des garanties financières actuelles échues pour le projet lauréat avec :
-            | type GF         | avec-date-échéance |
-            | date d'échéance | 2024-07-17         |
+        Etant donné des garanties financières actuelles échues le "2024-07-17" pour le projet lauréat
         Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |

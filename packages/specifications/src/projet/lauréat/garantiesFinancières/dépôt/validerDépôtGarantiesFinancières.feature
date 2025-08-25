@@ -30,9 +30,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | raison | modification des garanties financières |
 
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut échu
-        Etant donné des garanties financières actuelles échues pour le projet lauréat avec :
-            | type GF         | avec-date-échéance |
-            | date d'échéance | 2024-07-17         |
+        Etant donné des garanties financières actuelles échues le "2024-07-17" pour le projet lauréat
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet lauréat
         Et un historique des garanties financières devrait être consultable pour le projet lauréat avec :

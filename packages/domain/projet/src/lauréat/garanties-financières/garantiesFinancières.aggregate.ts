@@ -61,6 +61,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   #tâchePlanifiéeEchoir!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel1mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel2mois!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeRappelEnAttente!: AggregateType<TâchePlanifiéeAggregate>;
 
   #type!: TypeGarantiesFinancières.ValueType;
   #dateÉchéance: DateTime.ValueType | undefined;
@@ -76,6 +77,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     );
     this.#tâchePlanifiéeRappel2mois = await this.lauréat.loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
+    );
+    this.#tâchePlanifiéeRappelEnAttente = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeGarantiesFinancières.rappelEnAttente.type,
     );
   }
 
@@ -176,7 +180,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       },
     };
     await this.publish(event);
-    await this.ajouterTâchesPlanifiées();
+    await this.ajouterTâchesPlanifiéesÉchéance();
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
@@ -190,6 +194,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       },
     };
     await this.publish(event);
+
+    await this.#tâchePlanifiéeRappelEnAttente.ajouter({
+      àExécuterLe: demandéLe.ajouterNombreDeMois(1),
+    });
   }
 
   // TODO cette fonction sera à déplacer dans supprimerDépôt
@@ -202,7 +210,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       });
     }
     // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
-    await this.ajouterTâchesPlanifiées();
+    await this.ajouterTâchesPlanifiéesÉchéance();
   }
 
   async modifier({
@@ -231,7 +239,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.ajouterTâchesPlanifiées();
+    await this.ajouterTâchesPlanifiéesÉchéance();
+    // TODO await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
 
   async enregistrerAttestation({
@@ -288,7 +297,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.ajouterTâchesPlanifiées();
+    await this.ajouterTâchesPlanifiéesÉchéance();
+    await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
 
   async échoir({ échuLe }: ÉchoirOptions) {
@@ -347,7 +357,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  async ajouterTâchesPlanifiées() {
+  async ajouterTâchesPlanifiéesÉchéance() {
     if (this.#dateÉchéance && !this.lauréat.projet.statut.estAchevé()) {
       await this.#tâchePlanifiéeEchoir.ajouter({
         àExécuterLe: this.#dateÉchéance.ajouterNombreDeJours(1),
@@ -362,6 +372,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       });
     }
   }
+
   async annulerTâchesPlanififées() {
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappel1mois.annuler();

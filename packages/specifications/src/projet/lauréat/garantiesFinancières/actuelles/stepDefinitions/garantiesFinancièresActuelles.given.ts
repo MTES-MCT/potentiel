@@ -2,6 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture';
@@ -57,16 +58,18 @@ EtantDonné(
 );
 
 EtantDonné(
-  'des garanties financières actuelles échues pour le projet lauréat avec :',
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
+  'des garanties financières actuelles échues le {string} pour le projet lauréat',
+  async function (this: PotentielWorld, dateÉchéance: string) {
     const { identifiantProjet } = this.lauréatWorld;
+    const garantiesFinancières = {
+      type: 'avec-date-échéance',
+      dateÉchéance: new Date(dateÉchéance).toISOString() as Iso8601DateTime,
+    };
     try {
       await enregistrerGarantiesFinancièresActuelles.call(
         this,
         this.lauréatWorld.identifiantProjet,
-        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
+        { garantiesFinancières },
       );
     } catch (e) {
       if (
@@ -89,6 +92,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet.formatter(),
         typeTâchePlanifiéeValue:
           Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+        exécutéeLe: garantiesFinancières.dateÉchéance,
       },
     });
   },

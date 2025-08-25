@@ -9,6 +9,7 @@ import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
+import { garantiesFinancièresRappelEnAttenteNotification } from './garantiesFinancièresRappelEnAttente.notification';
 import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
 
 export type SubscriptionEvent = Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent & Event;
@@ -47,6 +48,14 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
             projet,
             baseUrl,
           }),
+      )
+      .with('garanties-financières.rappel-en-attente', () =>
+        garantiesFinancièresRappelEnAttenteNotification({
+          sendEmail,
+          identifiantProjet,
+          projet,
+          baseUrl,
+        }),
       )
       .with('représentant-légal.rappel-instruction-à-deux-mois', async () =>
         représentantLégalRappelInstructionÀDeuxMoisNotification({

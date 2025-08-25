@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 
 import { TâchePlanifiéeExecutéeEvent } from '../tâche-planifiée';
 import { IdentifiantProjet } from '../..';
+import { AjouterTâchePlanifiéeCommand } from '../tâche-planifiée/ajouter/ajouterTâchePlanifiée.command';
 
 import { TypeTâchePlanifiéeGarantiesFinancières } from '.';
 
@@ -26,7 +26,7 @@ export const register = () => {
   }) => {
     if (
       type !== 'TâchePlanifiéeExecutée-V1' ||
-      typeTâchePlanifiée !== TypeTâchePlanifiéeGarantiesFinancières.échoir.type
+      typeTâchePlanifiée.split('.')[0] !== 'garanties-financières'
     ) {
       return;
     }
@@ -41,11 +41,17 @@ export const register = () => {
           },
         }),
       )
-      .otherwise((typeTâchePlanifiée) => {
-        throw new InvalidOperationError("Le type de tâche planifiée n'existe pas", {
-          typeTâchePlanifiée,
-        });
-      });
+      .with(TypeTâchePlanifiéeGarantiesFinancières.rappelEnAttente.type, () =>
+        mediator.send<AjouterTâchePlanifiéeCommand>({
+          type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            typeTâchePlanifiée,
+            àExécuterLe: DateTime.convertirEnValueType(exécutéeLe).ajouterNombreDeMois(1),
+          },
+        }),
+      )
+      .otherwise(Promise.resolve);
   };
   mediator.register('System.Lauréat.GarantiesFinancières.Saga.Execute', handler);
 };

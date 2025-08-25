@@ -13,6 +13,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | date d'échéance | <date d'échéance> |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
         Et les garanties financières en attente du projet "Du boulodrome de Marseille" ne devraient plus être consultables
+        Et une tâche "rappel des garanties financières à transmettre" n'est plus planifiée pour le projet lauréat
 
         Exemples:
             | type GF                   | date d'échéance |
@@ -37,8 +38,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
     # Règles métier à confirmer
     @NotImplemented
     Scénario: Un porteur enregistre des garanties financières actuelles ayant initialement un statut échu
-        Etant donné des garanties financières actuelles échues pour le projet lauréat avec :
-            | date d'échéance | 2024-07-17 |
+        Etant donné des garanties financières actuelles échues le "2024-07-17" pour le projet lauréat
         Quand un porteur enregistre les garanties financières actuelles pour le projet lauréat
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
