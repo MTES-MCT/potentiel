@@ -113,7 +113,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
       ? candidature.dépôt.autorisationDUrbanisme.numéro
       : undefined,
     dateDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.date
-      ? candidature.dépôt.autorisationDUrbanisme.date.date
+      ? candidature.dépôt.autorisationDUrbanisme.date.formatter()
       : undefined,
   },
   estNotifiée: !!candidature.notification,
