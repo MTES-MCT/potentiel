@@ -240,6 +240,7 @@ const champsCandidature = [
    * puissance de site = P + Q
    */
   'puissanceDeSite',
+  'autorisationDUrbanisme',
 ] as const;
 export type ChampCandidature = (typeof champsCandidature)[number];
 

@@ -39,6 +39,8 @@ import {
   typologieDeBâtimentCsvSchema,
   obligationDeSolarisationCsvSchema,
   puissanceDeSiteSchema,
+  numéroDAutorisationDUrbanismeSchema,
+  dateDAutorisationDUrbanismeCsvSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -114,6 +116,8 @@ const colonnes = {
   typologieDeBâtiment: 'Typologie de bâtiment',
   obligationDeSolarisation: 'Obligation de solarisation',
   puissanceDeSite: 'Puissance de site',
+  dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
+  numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -150,6 +154,8 @@ const candidatureCsvRowSchema = z
     [colonnes.élémentsSousOmbrière]: élémentsSousOmbrièreCsvSchema,
     [colonnes.typologieDeBâtiment]: typologieDeBâtimentCsvSchema,
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
+    [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
+    [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
@@ -222,28 +228,43 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
     );
   })
   // Transforme les valeurs en index ("1,2,3") en des valeurs plus claires ("avec-date-échéance")
-  .transform((val) => {
-    return {
-      ...val,
-      typeGarantiesFinancières: val.typeGarantiesFinancières
-        ? typeGf[Number(val.typeGarantiesFinancières) - 1]
-        : undefined,
-      historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
-      technologie: technologie[val.technologie],
-      typologieDeBâtiment: val.typologieDeBâtiment
-        ? typologieDeBâtiment[val.typologieDeBâtiment]
-        : undefined,
-      typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
-        ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
-        : undefined,
-      dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime,
-      actionnariat: val.financementCollectif
-        ? Candidature.TypeActionnariat.financementCollectif.formatter()
-        : val.gouvernancePartagée
-          ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+  .transform(
+    ({
+      financementCollectif,
+      gouvernancePartagée,
+      numéroDAutorisationDUrbanisme,
+      dateDAutorisationDUrbanisme,
+      ...val
+    }) => {
+      return {
+        ...val,
+        typeGarantiesFinancières: val.typeGarantiesFinancières
+          ? typeGf[Number(val.typeGarantiesFinancières) - 1]
           : undefined,
-    };
-  });
+        historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
+        technologie: technologie[val.technologie],
+        typologieDeBâtiment: val.typologieDeBâtiment
+          ? typologieDeBâtiment[val.typologieDeBâtiment]
+          : undefined,
+        typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
+          ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
+          : undefined,
+        dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime | undefined,
+        actionnariat: financementCollectif
+          ? Candidature.TypeActionnariat.financementCollectif.formatter()
+          : gouvernancePartagée
+            ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+            : undefined,
+        autorisationDUrbanisme:
+          dateDAutorisationDUrbanisme && numéroDAutorisationDUrbanisme
+            ? {
+                date: dateDAutorisationDUrbanisme.toISOString() as Iso8601DateTime,
+                numéro: numéroDAutorisationDUrbanisme,
+              }
+            : undefined,
+      };
+    },
+  );
 
 export type CandidatureCsvRowShape = z.infer<typeof candidatureCsvRowSchema>;
 export type CandidatureShape = z.infer<typeof candidatureCsvSchema>;

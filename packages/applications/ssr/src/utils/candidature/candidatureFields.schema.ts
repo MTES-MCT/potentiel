@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 
 import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
 
@@ -9,11 +8,13 @@ import {
   booleanSchema,
   dateSchema,
   numberSchema,
+  optionalDateSchema,
   optionalEnum,
   optionalNumberSchema,
   optionalOuiNonSchema,
   optionalOuiNonVideSchema,
   optionalStringSchema,
+  optionalStringWithDefaultValueSchema,
   ouiNonSchema,
   requiredStringSchema,
   strictlyPositiveNumberSchema,
@@ -23,10 +24,10 @@ export const identifiantProjetSchema = requiredStringSchema;
 
 export const appelOffreSchema = requiredStringSchema;
 export const périodeSchema = requiredStringSchema;
-export const familleSchema = optionalStringSchema;
+export const familleSchema = optionalStringWithDefaultValueSchema;
 export const numéroCRESchema = requiredStringSchema;
 export const nomProjetSchema = requiredStringSchema;
-export const sociétéMèreSchema = optionalStringSchema;
+export const sociétéMèreSchema = optionalStringWithDefaultValueSchema;
 export const nomCandidatSchema = requiredStringSchema;
 export const puissanceProductionAnnuelleSchema = strictlyPositiveNumberSchema;
 export const prixRéférenceSchema = strictlyPositiveNumberSchema;
@@ -34,7 +35,7 @@ export const noteTotaleSchema = numberSchema;
 export const nomReprésentantLégalSchema = requiredStringSchema;
 export const emailContactSchema = requiredStringSchema.email();
 export const adresse1Schema = requiredStringSchema;
-export const adresse2Schema = optionalStringSchema;
+export const adresse2Schema = optionalStringWithDefaultValueSchema;
 
 const normalizeStringArray = (value: string) =>
   value
@@ -58,7 +59,7 @@ export const communeSchema = requiredStringSchema.transform(normalizeStringArray
 export const départementSchema = requiredStringSchema;
 export const régionSchema = requiredStringSchema;
 export const doitRegenererAttestationSchema = booleanSchema.optional();
-export const motifEliminationSchema = optionalStringSchema.transform((val) => val || undefined);
+export const motifEliminationSchema = optionalStringSchema;
 export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
@@ -73,17 +74,17 @@ export const typologieDeBâtimentSchema = optionalEnum(z.enum(Candidature.Typolo
 export const typeInstallationsAgrivoltaiquesSchema = optionalEnum(
   z.enum(Candidature.TypeInstallationsAgrivoltaiques.types),
 );
-export const dateEchéanceOuDéliberationGfSchema = z
-  .string()
-  .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
-  .optional();
-export const territoireProjetSchema = optionalStringSchema;
+export const dateEchéanceOuDéliberationGfSchema = optionalDateSchema;
+export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
 export const obligationDeSolarisationSchema = booleanSchema.optional();
 export const élémentsSousOmbrièreSchema = z.string().optional();
 
 export const puissanceDeSiteSchema = optionalNumberSchema;
+
+export const dateDAutorisationDUrbanismeSchema = optionalDateSchema;
+export const numéroDAutorisationDUrbanismeSchema = optionalStringSchema;
 
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
@@ -107,7 +108,7 @@ export const statutCsvSchema = z
   .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']))
   .transform((val) => statut[val]);
 
-export const adresse1CsvSchema = optionalStringSchema;
+export const adresse1CsvSchema = optionalStringWithDefaultValueSchema;
 export const dateEchéanceGfCsvSchema = dateSchema.optional();
 export const financementCollectifCsvSchema = ouiNonSchema;
 export const gouvernancePartagéeCsvSchema = ouiNonSchema;
@@ -132,3 +133,4 @@ export const typologieDeBâtimentCsvSchema = optionalEnum(
   ]),
 );
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
+export const dateDAutorisationDUrbanismeCsvSchema = dateSchema.optional();

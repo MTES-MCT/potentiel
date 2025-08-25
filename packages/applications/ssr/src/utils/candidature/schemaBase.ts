@@ -1,12 +1,15 @@
 import { z } from 'zod';
 
+import { DateTime } from '@potentiel-domain/common';
+
 export const requiredStringSchema = z.string().trim().min(1);
 
-export const optionalStringSchema = z
+export const optionalStringSchema = z.string().trim().optional();
+export const optionalStringWithDefaultValueSchema = z
   .string()
   .trim()
   .optional()
-  .transform((val) => val ?? '');
+  .transform((v) => v ?? '');
 
 export const _numberSchemaBase = z.union([
   z
@@ -34,6 +37,11 @@ export const optionalNumberSchema = _numberSchemaBase
       })
       .optional(),
   );
+
+export const optionalDateSchema = z
+  .string()
+  .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
+  .optional();
 
 export const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate

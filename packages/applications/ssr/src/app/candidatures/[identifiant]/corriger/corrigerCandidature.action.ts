@@ -46,6 +46,8 @@ const schema = zod.object({
   dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
   coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
   puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
+  dateDAutorisationDUrbanisme: dépôtSchema.shape.dateDAutorisationDUrbanisme,
+  numeroDAutorisationDUrbanisme: dépôtSchema.shape.numéroDAutorisationDUrbanisme,
 
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
@@ -119,6 +121,13 @@ const mapBodyToUseCaseData = (
         : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
+      autorisationDUrbanisme:
+        data.numeroDAutorisationDUrbanisme && data.dateDAutorisationDUrbanisme
+          ? {
+              numéro: data.numeroDAutorisationDUrbanisme,
+              date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
+            }
+          : undefined,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,
