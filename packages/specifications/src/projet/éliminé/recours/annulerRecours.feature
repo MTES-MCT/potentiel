@@ -1,4 +1,6 @@
 # language: fr
+@recours
+@annuler-demande-recours
 Fonctionnalité: Annuler le recours d'un projet éliminé
 
     Contexte:

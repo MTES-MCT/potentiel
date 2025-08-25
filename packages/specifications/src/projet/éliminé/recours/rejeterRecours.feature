@@ -1,4 +1,6 @@
 # language: fr
+@recours
+@rejeter-recours
 Fonctionnalité: Rejeter le recours d'un projet éliminé
 
     Contexte:

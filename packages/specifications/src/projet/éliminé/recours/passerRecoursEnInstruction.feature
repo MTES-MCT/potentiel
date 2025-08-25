@@ -1,4 +1,6 @@
 # language: fr
+@recours
+@passer-demande-recours-en-instruction
 Fonctionnalité: Passer le recours d'un projet éliminé en instruction
 
     Contexte:
