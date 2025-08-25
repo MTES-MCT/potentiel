@@ -10,14 +10,13 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
   const archives = await getArchivesGf(identifiantProjet);
   const actuelles = await getGfActuelles(identifiantProjet);
 
-  if (archives && actuelles) {
+  if (actuelles) {
     await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
       `archives-garanties-financieres|${identifiantProjet}`,
       {
-        ...archives,
         identifiantProjet,
         archives: [
-          ...archives.archives,
+          ...(archives?.archives ?? []),
           {
             ...actuelles.garantiesFinancières,
             dernièreMiseÀJour: {
