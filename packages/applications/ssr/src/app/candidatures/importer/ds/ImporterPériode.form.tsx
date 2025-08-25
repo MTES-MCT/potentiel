@@ -67,7 +67,7 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
           label="Période"
           options={
             périodes
-              .filter((période) => période.identifiantPériode.appelOffre == appelOffre)
+              .filter((période) => période.identifiantPériode.appelOffre === appelOffre)
               .map(({ identifiantPériode }) => ({
                 label: identifiantPériode.période,
                 value: identifiantPériode.période,
