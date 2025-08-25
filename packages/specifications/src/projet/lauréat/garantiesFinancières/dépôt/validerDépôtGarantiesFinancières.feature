@@ -14,7 +14,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | date d'échéance | <date d'échéance> |
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet lauréat
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet
 
         Exemples:
             | type GF                   | date d'échéance |

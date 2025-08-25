@@ -16,8 +16,8 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand le porteur supprime le dépôt de garanties financières du projet
+        Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet
         Et des garanties financières devraient être attendues pour le projet lauréat
 
         Exemples:
@@ -36,8 +36,8 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date de constitution | <date de constitution> |
             | date de soumission   | 2023-10-01             |
             | soumis par           | porteur@test.test      |
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand le porteur supprime le dépôt de garanties financières du projet
+        Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet
 
         Exemples:
             | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
@@ -51,7 +51,13 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand le porteur supprime le dépôt de garanties financières du projet
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-02" pour le projet "Du boulodrome de Marseille"
+
+    Scénario: Une tâche du type "rappel échéance garanties financières à deux mois" est planifiée quand le porteur supprime un dépôt et que le projet ne dispose pas de garanties financières actuelles
+        Etant donné des garanties financières en attente pour le projet lauréat
+        Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand le porteur supprime le dépôt de garanties financières du projet
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-02" pour le projet "Du boulodrome de Marseille"
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
@@ -60,16 +66,16 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date d'échéance    | 2024-10-01         |
             | date de validation | 2024-11-24         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand le porteur supprime le dépôt de garanties financières du projet
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
     Scénario: Une tâche du type "échoir les garanties financières" n'est pas planifiée quand le porteur supprime un dépôt et que le projet ne dispose pas de garanties financières actuelles avec date d'échéance
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand le porteur supprime le dépôt de garanties financières du projet
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
 
     Scénario: Impossible de supprimer des garanties financières en attente de validation s'il n'y a pas de dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
-        Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Quand le porteur supprime le dépôt de garanties financières du projet
         Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"

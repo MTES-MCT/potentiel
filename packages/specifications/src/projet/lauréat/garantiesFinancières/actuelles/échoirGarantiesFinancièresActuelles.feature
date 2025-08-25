@@ -47,6 +47,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet lauréat
+        Et une tâche "rappel des garanties financières à transmettre" n'est plus planifiée pour le projet lauréat
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si il n'y a pas de garanties financières actuelles pour ce projet

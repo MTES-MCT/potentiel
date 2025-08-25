@@ -6,7 +6,7 @@ Fonctionnalité: Achever une tâche
 
     Scénario: Une tâche est achevée lorsqu'un dépot de garanties financières est soumis pour un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
-        Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF              | consignation          |
             | format               | application/pdf       |
             | contenu fichier      | le contenu du fichier |

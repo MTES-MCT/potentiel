@@ -117,7 +117,7 @@ Quand(
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           typeTâchePlanifiéeValue:
             Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-          exécutéeLe: garantiesFinancières.dateÉchéance,
+          exécutéeLeValue: garantiesFinancières.dateÉchéance,
         },
       });
     } catch (error) {

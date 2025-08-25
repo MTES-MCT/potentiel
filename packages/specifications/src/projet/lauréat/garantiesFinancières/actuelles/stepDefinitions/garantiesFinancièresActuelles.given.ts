@@ -92,7 +92,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet.formatter(),
         typeTâchePlanifiéeValue:
           Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-        exécutéeLe: garantiesFinancières.dateÉchéance,
+        exécutéeLeValue: garantiesFinancières.dateÉchéance,
       },
     });
   },
