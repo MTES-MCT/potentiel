@@ -23,7 +23,7 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ImporterPériodeFormKeys>
   >({});
-  const appelOffres = groupBy(périodes, (p) => p.identifiantPériode.appelOffre);
+  const appelOffres = Object.groupBy(périodes, (p) => p.identifiantPériode.appelOffre);
 
   const [appelOffre, setAppelOffre] = useState(
     périodes.length === 1
@@ -110,18 +110,3 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
     </Form>
   );
 };
-
-/** @deprecated replace with Object.groupBy when available */
-const groupBy = <K extends PropertyKey, T>(
-  items: T[],
-  keySelector: (item: T, index: number) => K,
-): Partial<Record<K, T[]>> =>
-  items.reduce(
-    (result, item, index) => {
-      const key = keySelector(item, index);
-      result[key] ??= [];
-      result[key].push(item);
-      return result;
-    },
-    {} as Record<K, T[]>,
-  );

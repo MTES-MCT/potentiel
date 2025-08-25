@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "node --test"
+    "test": "tsx --test"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

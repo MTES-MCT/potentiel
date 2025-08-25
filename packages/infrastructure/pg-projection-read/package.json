@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "node --test"
+    "test": "tsx --test --test-concurrency 5"
   },
   "dependencies": {
     "@potentiel-domain/entity": "*",

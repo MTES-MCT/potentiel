@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "test": "node --import tsx --test **/*.test.ts",
-    "test:watch": "node --watch --import tsx --test **/*.test.ts"
+    "test": "tsx --test **/*.test.ts",
+    "test:watch": "tsx --test --watch **/*.test.ts"
   },
   "dependencies": {
     "@potentiel-applications/notifications": "*",

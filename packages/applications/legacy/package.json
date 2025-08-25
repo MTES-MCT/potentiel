@@ -6,7 +6,6 @@
   "scripts": {
     "type:check": "tsc --noEmit",
     "start": "node ./dist/src/index.js",
-    "start:dev": "concurrently \"ts-node-dev --transpile-only src/index.ts\" \"webpack --config=webpack.config.js --watch\" \"npm run build:css -- --watch\"",
     "build": "npm run build:front && npm run build:css && npm run build:back",
     "build:back": "npx --node-options=\"--max-old-space-size=8192\" tsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views && cp -R src/views/maintenance.html dist/src/views",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
@@ -76,7 +75,6 @@
     "path-browserify": "^1.0.1",
     "postcss-import": "^15.1.0",
     "tailwindcss": "^3.4.17",
-    "ts-node-dev": "^2.0.0",
     "webpack": "^5.99.5",
     "webpack-cli": "^4.10.0"
   }
