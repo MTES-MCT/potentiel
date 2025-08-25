@@ -43,7 +43,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
     return Option.match(dépôtGarantiesFinancières)
-      .some(() => <ProjetADéjàUnDépôtEnCoursPage identifiantProjet={identifiantProjetValue} />)
+      .some(() => (
+        <ProjetADéjàUnDépôtEnCoursPage
+          key={identifiantProjetValue}
+          identifiantProjet={identifiantProjetValue}
+        />
+      ))
       .none(() => (
         <SoumettreDépôtGarantiesFinancièresPage
           identifiantProjet={identifiantProjetValue}

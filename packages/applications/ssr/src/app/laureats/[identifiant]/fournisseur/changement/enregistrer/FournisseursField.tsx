@@ -39,7 +39,9 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
 
   return (
     <>
-      <label className="mb-1 fr-label">Fournisseurs</label>
+      <label className="mb-1 fr-label" htmlFor="fournisseur">
+        Fournisseurs
+      </label>
       <div className="flex flex-col gap-2 ">
         {fournisseurs.map(({ typeFournisseur, nomDuFabricant, lieuDeFabrication }, index) => {
           const typeFournisseurFieldKey = `fournisseurs.${index}.typeFournisseur`;
@@ -74,6 +76,7 @@ export const FournisseursField: FC<FournisseursFieldProps> = ({
                 }}
               />
               <Input
+                id="fournisseur"
                 label=""
                 state={validationErrors[nomDuFabricantFieldKey] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors[nomDuFabricantFieldKey]}

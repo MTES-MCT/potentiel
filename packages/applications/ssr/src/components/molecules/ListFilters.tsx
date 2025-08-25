@@ -47,7 +47,9 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
               const newSearchParams = new URLSearchParams(searchParams);
               if (value === '') {
                 newSearchParams.delete(searchParamKey);
-                affects?.forEach((affected) => newSearchParams.delete(affected));
+                affects?.forEach((affected) => {
+                  newSearchParams.delete(affected);
+                });
               } else {
                 const option = options.find((option) => option.value === value);
                 if (option) {

@@ -92,6 +92,7 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
             hintText: cdc.descriptions ? (
               <ul>
                 {cdc.descriptions.map((text, i) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: in this context, the array length cannot change
                   <li key={i}>{text}</li>
                 ))}
               </ul>

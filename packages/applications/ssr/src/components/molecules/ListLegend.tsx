@@ -12,7 +12,7 @@ export const ListLegend: FC<ListLegendProps> = ({ symbols }) => (
     <ul className="flex flex-col gap-2 mt-0">
       {symbols.map((symbol) => (
         <li key={symbol.iconId} className="text-sm">
-          <Symbol
+          <LegendSymbol
             iconId={symbol.iconId}
             description={symbol.description}
             iconColor={symbol.iconColor}
@@ -29,7 +29,7 @@ export type SymbolProps = {
   description: string;
 };
 
-const Symbol: FC<SymbolProps> = ({ iconId, iconColor: iconClassname = '', description }) => {
+const LegendSymbol: FC<SymbolProps> = ({ iconId, iconColor: iconClassname = '', description }) => {
   return (
     <>
       <Icon id={iconId} className={`mr-1 ${iconClassname ?? ''}`} size="sm" />

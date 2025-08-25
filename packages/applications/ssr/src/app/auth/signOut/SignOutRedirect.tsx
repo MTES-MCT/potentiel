@@ -18,7 +18,7 @@ export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
     if (status === 'authenticated') {
       setTimeout(() => signOut().then(() => router.push(callbackUrl ?? '/')), 1000);
     }
-  }, [status]);
+  }, [router, status, callbackUrl]);
 
   return null;
 };

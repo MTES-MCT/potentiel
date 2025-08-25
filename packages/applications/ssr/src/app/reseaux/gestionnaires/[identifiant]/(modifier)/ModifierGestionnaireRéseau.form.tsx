@@ -51,14 +51,13 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Modifier</SubmitButton>}
     >
-      <div className="mb-6">
-        <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>
-      </div>
+      <div className="mb-6">Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</div>
 
       <input
         type={'hidden'}
         value={identifiantGestionnaireReseauValue}
         name="identifiantGestionnaireReseau"
+        id="identifiantGestionnaireReseau"
       />
 
       <Input

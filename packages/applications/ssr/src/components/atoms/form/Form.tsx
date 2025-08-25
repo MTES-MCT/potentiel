@@ -63,7 +63,7 @@ export const Form: FC<FormProps> = ({
     if (onValidationError && state.status === 'validation-error') {
       onValidationError(state.errors);
     }
-  }, [state.status]);
+  }, [state.status, onValidationError, state]);
 
   return (
     // eslint-disable-next-line react/no-unknown-property

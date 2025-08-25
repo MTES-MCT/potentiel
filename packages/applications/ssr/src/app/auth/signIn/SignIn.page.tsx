@@ -49,7 +49,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
 
         break;
     }
-  }, [status, callbackUrl, data]);
+  }, [status, callbackUrl, data, onlyKeycloak, forceProConnect]);
 
   return (
     <PageTemplate>

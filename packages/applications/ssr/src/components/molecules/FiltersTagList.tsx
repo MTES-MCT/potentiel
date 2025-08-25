@@ -40,7 +40,9 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
       return urlSearchParams;
     }, new URLSearchParams());
     newSearchParams.delete(tagName);
-    affects.forEach((affected) => newSearchParams.delete(affected));
+    affects.forEach((affected) => {
+      newSearchParams.delete(affected);
+    });
     const url = `${pathname}${newSearchParams.size > 0 ? `?${newSearchParams.toString()}` : ''}`;
     router.push(url);
   };

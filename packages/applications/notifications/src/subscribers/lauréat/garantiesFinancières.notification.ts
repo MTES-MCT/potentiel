@@ -141,7 +141,6 @@ async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload
           régionProjet,
         }),
       ];
-      break;
 
     case 'GarantiesFinancièresModifiées-V1':
     case 'GarantiesFinancièresEnregistrées-V1':
