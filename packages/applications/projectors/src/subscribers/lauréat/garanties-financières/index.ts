@@ -13,7 +13,7 @@ import {
 import {
   garantiesFinancièresDemandéesProjector,
   typeGarantiesFinancièresImportéProjector,
-  attestationGarantiesFinancièresProjector,
+  attestationGarantiesFinancièresEnregistréeProjector,
   garantiesFinancièresEnregistréesProjector,
   garantiesFinancièresModifiéesProjector,
   garantiesFinancièresÉchuesProjector,
@@ -86,7 +86,7 @@ export const register = () => {
         {
           type: 'AttestationGarantiesFinancièresEnregistrée-V1',
         },
-        attestationGarantiesFinancièresProjector,
+        attestationGarantiesFinancièresEnregistréeProjector,
       )
       .with(
         {

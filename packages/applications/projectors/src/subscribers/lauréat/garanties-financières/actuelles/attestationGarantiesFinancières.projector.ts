@@ -5,7 +5,7 @@ import {
   updateOneProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
 
-export const attestationGarantiesFinancièresProjector = async ({
+export const attestationGarantiesFinancièresEnregistréeProjector = async ({
   payload: { identifiantProjet, attestation, dateConstitution, enregistréLe, enregistréPar },
 }: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent) => {
   await updateOneProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
