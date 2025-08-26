@@ -6,7 +6,7 @@ import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_hel
 
 import {
   booleanSchema,
-  dateSchema,
+  optionalCsvDateSchema,
   numberSchema,
   optionalDateSchema,
   optionalEnum,
@@ -109,7 +109,7 @@ export const statutCsvSchema = z
   .transform((val) => statut[val]);
 
 export const adresse1CsvSchema = optionalStringWithDefaultValueSchema;
-export const dateEchéanceGfCsvSchema = dateSchema.optional();
+export const dateEchéanceGfCsvSchema = optionalCsvDateSchema.optional();
 export const financementCollectifCsvSchema = ouiNonSchema;
 export const gouvernancePartagéeCsvSchema = ouiNonSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
@@ -133,4 +133,4 @@ export const typologieDeBâtimentCsvSchema = optionalEnum(
   ]),
 );
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
-export const dateDAutorisationDUrbanismeCsvSchema = dateSchema.optional();
+export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();
