@@ -338,9 +338,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (
       autorisationDUrbanisme === 'requis' &&
-      (dépôt.autorisationDUrbanisme === undefined ||
-        !dépôt.autorisationDUrbanisme.date ||
-        !dépôt.autorisationDUrbanisme.numéro)
+      (!dépôt.autorisationDUrbanisme?.date || !dépôt.autorisationDUrbanisme?.numéro)
     ) {
       throw new AutorisationDUrbanismeRequiseError();
     }

@@ -124,8 +124,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.élémentsSousOmbrière === this.élémentsSousOmbrière &&
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
       valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
-      valueType.autorisationDUrbanisme?.date.date.getTime() ===
-        this.autorisationDUrbanisme?.date.date.getTime() &&
+      areEqual(valueType.autorisationDUrbanisme?.date, this.autorisationDUrbanisme?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
       areEqual(valueType.historiqueAbandon, this.historiqueAbandon) &&
