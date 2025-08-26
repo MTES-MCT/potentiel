@@ -126,7 +126,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 {notification ? (
                   <>
                     <span>
-                      dépôt notifiée le:{' '}
+                      Candidature notifiée le:{' '}
                       <FormattedDate date={DateTime.bind(notification.notifiéeLe).formatter()} />
                     </span>
                     {notification.attestation && (
