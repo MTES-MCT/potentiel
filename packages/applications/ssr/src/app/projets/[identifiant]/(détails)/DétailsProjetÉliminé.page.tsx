@@ -3,7 +3,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -11,6 +11,7 @@ import { Heading2 } from '@/components/atoms/headings';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -42,6 +43,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
     prixReference,
     nomCandidat,
     nomReprésentantLégal,
+    autorisationDUrbanisme,
   },
   utilisateursAyantAccèsAuProjet,
   actions,
@@ -70,6 +72,26 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
                 <span className="font-bold">Nom du représentant légal : </span>{' '}
                 {nomReprésentantLégal}
               </li>
+              {autorisationDUrbanisme && (
+                <>
+                  <li>
+                    <span className="font-bold">Numéro de l'autorisation d'urbanisme : </span>{' '}
+                    {autorisationDUrbanisme.numéro}
+                  </li>
+                  <li>
+                    <span className="font-bold">
+                      Date d'obtention de l'autorisation d'urbanisme :{' '}
+                    </span>
+                    {
+                      <FormattedDate
+                        date={DateTime.convertirEnValueType(
+                          autorisationDUrbanisme.date.date,
+                        ).formatter()}
+                      />
+                    }
+                  </li>
+                </>
+              )}
               <li className="flex gap-2 items-center">
                 <span className="font-bold">Adresse email de candidature :</span>
                 <CopyButton textToCopy={Email.bind(emailContact).formatter()} />
