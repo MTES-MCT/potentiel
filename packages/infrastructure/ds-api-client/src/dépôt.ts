@@ -1,5 +1,4 @@
 import { Candidature } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { GetDossierQuery, createDossierAccessor } from './graphql';
 import {
@@ -7,6 +6,7 @@ import {
   getHistoriqueAbandon,
   getLocalité,
   getTypologieBâtiment,
+  getAutorisationDUrbanisme,
 } from './specialFields';
 import { DeepPartial } from './utils';
 
@@ -38,6 +38,14 @@ export const mapApiResponseToDépôt = ({
   demarche,
 }: GetDossierQuery['dossier']): DeepPartial<Candidature.Dépôt.RawType> => {
   const accessor = createDossierAccessor(champs, colonnes, demarche.revision.champDescriptors);
+  const accessorAutorisationDUrbanisme = createDossierAccessor(
+    champs,
+    {
+      numéro: "Numéro de l'autorisation",
+      date: "Date d'obtention",
+    } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
+    demarche.revision.champDescriptors,
+  );
   accessor.getStringValue('nomCandidat');
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
@@ -61,7 +69,7 @@ export const mapApiResponseToDépôt = ({
     typeGarantiesFinancières: typeGarantiesFinancieres,
     dateDélibérationGf:
       typeGarantiesFinancieres === 'exemption'
-        ? (accessor.getDateValue('dateDélibérationGf') as Iso8601DateTime)
+        ? accessor.getDateValue('dateDélibérationGf')
         : undefined,
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 
@@ -83,5 +91,10 @@ export const mapApiResponseToDépôt = ({
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
+    autorisationDUrbanisme: getAutorisationDUrbanisme({
+      accessor: accessorAutorisationDUrbanisme,
+      nomChampNuméro: 'numéro',
+      nomChampDate: 'date',
+    }),
   };
 };

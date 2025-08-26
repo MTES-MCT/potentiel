@@ -15,6 +15,8 @@ import {
   dépôtSchema,
   instructionSchema,
   doitRegenererAttestationSchema,
+  dateDAutorisationDUrbanismeSchema,
+  numéroDAutorisationDUrbanismeSchema,
 } from '@/utils/candidature';
 
 export type CorrigerCandidaturesState = FormState;
@@ -46,9 +48,8 @@ const schema = zod.object({
   dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
   coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
   puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
-  dateDAutorisationDUrbanisme: dépôtSchema.shape.dateDAutorisationDUrbanisme,
-  numeroDAutorisationDUrbanisme: dépôtSchema.shape.numéroDAutorisationDUrbanisme,
-
+  dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
+  numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
   noteTotale: instructionSchema.shape.noteTotale,

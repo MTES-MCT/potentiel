@@ -86,6 +86,21 @@ export const puissanceDeSiteSchema = optionalNumberSchema;
 export const dateDAutorisationDUrbanismeSchema = optionalDateSchema;
 export const numéroDAutorisationDUrbanismeSchema = optionalStringSchema;
 
+export const autorisationDUrbanismeSchema = z
+  .object({
+    date: dateDAutorisationDUrbanismeSchema,
+    numéro: numéroDAutorisationDUrbanismeSchema,
+  })
+  .optional()
+  .transform((val) =>
+    val?.date && val?.numéro
+      ? {
+          date: val.date,
+          numéro: val.numéro,
+        }
+      : undefined,
+  );
+
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
 export const évaluationCarboneSimplifiéeCsvSchema = z
