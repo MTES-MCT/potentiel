@@ -74,9 +74,8 @@ export class CandidatureWorld {
     }
 
     const expected: Candidature.ConsulterCandidatureReadModel = {
-      dépôt: {
-        ...Candidature.Dépôt.convertirEnValueType(dépôtValue),
-      },
+      dépôt: Candidature.Dépôt.convertirEnValueType(dépôtValue),
+
       instruction: Candidature.Instruction.convertirEnValueType(instructionValue),
       détailsImport: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
