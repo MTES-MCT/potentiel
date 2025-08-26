@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "pretest": "npm run build",
-    "test": "node --test"
+    "test": "tsx --test"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

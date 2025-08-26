@@ -1,4 +1,4 @@
-#!/usr/bin/env node_modules/.bin/ts-node
+#!/usr/bin/env -S npm exec --offline tsx
 
 (async () => {
   const oclif = await import('@oclif/core');

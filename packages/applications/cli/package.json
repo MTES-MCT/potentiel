@@ -41,6 +41,6 @@
     "@potentiel-config/tsconfig": "*",
     "@types/node": "^18.19.37",
     "oclif": "^4.20.4",
-    "ts-node": "^10.9.2"
+    "tsx": "^4.20.4"
   }
 }
