@@ -651,9 +651,6 @@ const deepEqualWithRichDiff = (actual: object, expected: object) => {
   try {
     expect(actual).to.deep.equal(expected);
   } catch (e) {
-    // Use 'jest-diff' for a clear diff output
-    // You need to install it: npm install jest-diff --save-dev
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const diff = diffJson(expected, actual);
 
     const formattedDiff = diff
