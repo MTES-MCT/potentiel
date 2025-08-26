@@ -3,6 +3,7 @@ Fonctionnalité: Achever une tâche
 
     Contexte:
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Une tâche est achevée lorsqu'un dépot de garanties financières est soumis pour un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
