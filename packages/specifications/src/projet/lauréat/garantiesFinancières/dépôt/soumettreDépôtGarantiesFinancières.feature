@@ -103,7 +103,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet"
 
-    Scénario: Soumettre de nouvelles garanties financière annule la relance de demande de Garanties Financières
+    Scénario: Soumettre un dépôt de garanties financière annule la relance de demande de Garanties Financières
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat
         Alors une tâche "rappel des garanties financières à transmettre" n'est plus planifiée pour le projet lauréat

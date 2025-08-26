@@ -7,7 +7,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    Plan du Scénario: Un porteur enregistre des garanties financières actuelles pour un projet ayant des garanties financières en attente
+    Plan du Scénario: La Dreal enregistre des garanties financières actuelles pour un projet ayant des garanties financières en attente
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | <type GF>         |
@@ -23,7 +23,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | six-mois-après-achèvement |                 |
             | garantie-bancaire         |                 |
 
-    Plan du Scénario: Un porteur enregistre des garanties financières actuelles
+    Plan du Scénario: La DREAL enregistre des garanties financières actuelles
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
@@ -38,7 +38,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
 
     # Règles métier à confirmer
     @NotImplemented
-    Scénario: Un porteur enregistre des garanties financières actuelles ayant initialement un statut échu
+    Scénario: La DREAL enregistre des garanties financières actuelles ayant initialement un statut échu
         Etant donné des garanties financières actuelles échues le "2024-07-17" pour le projet lauréat
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
@@ -68,7 +68,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | six-mois-après-achèvement |
             | garantie-bancaire         |
 
-    Scénario: Impossible d'enregister des garanties financières actuelles de type avec date d'échéance   si la date d'échéance est manquante
+    Scénario: Impossible d'enregister des garanties financières actuelles de type avec date d'échéance si la date d'échéance est manquante
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance |                    |
