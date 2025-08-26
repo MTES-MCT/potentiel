@@ -86,9 +86,11 @@ Pour installer et lancer le projet vous aurez besoin de :
 ## <a id="keycloak">Système d'authentification avec Keycloak
 
 </a> 
+Nous utilisons le service de Keycloak seulement en local.
+
 Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mis en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
 
-En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak).
+En local, lorsque la commande `npm run up` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak).
 
 > ⚠️ Si l'affichage ne prend pas en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes:
 >
@@ -103,10 +105,23 @@ Pour les environnements de production et de staging, Keycloak est hébergé sur 
 
 > ⚠️ Pour démarrer l'application vous aurez besoin de Docker 🐋
 
-1. Lancer l'application via le script npm **start:dev** :
+1. Lancer l'application via le script npm :
 
 ```bash
-npm run start:dev
+npm run dev
+```
+
+Pour accéder à toute l'application, y compris les quelques pages encore gérées dans l'application legacy :
+
+```bash
+npm run start:legacy
+```
+
+Pour compiler puis lancer l'application comme cela est fait en production :
+
+```bash
+npm run build
+npm run start
 ```
 
 2. Se rendre sur [localhost:3000](http://localhost:3000)
@@ -205,6 +220,18 @@ Utilisez ensuite le script npm **`specs:select`** :
 
 ```shell
 npm run specs:select
+```
+
+6. Lancer les tests sur un domaine en particulier (ex : candidature)
+
+```shell
+npm run specs -- -t @[tag-associé-au-domaine]
+```
+
+exemple :
+
+```shell
+npm run specs -- -t @candidature
 ```
 
 ## <a id="metabase">Metabase local</a>
