@@ -73,6 +73,13 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         },
       });
 
+      const options = categoriesDisponibles
+        .map((categorie) => ({
+          label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
+          value: categorie,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
+
       return (
         <HistoriqueLauréatPage
           identifiantProjet={identifiantProjet}
@@ -81,10 +88,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
             {
               label: 'Categorie',
               searchParamKey: 'categorie',
-              options: categoriesDisponibles.map((categorie) => ({
-                label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
-                value: categorie,
-              })),
+              options,
             },
           ]}
           historique={historique.items
