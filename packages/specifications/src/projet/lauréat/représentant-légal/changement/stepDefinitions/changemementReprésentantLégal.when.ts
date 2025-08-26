@@ -368,6 +368,7 @@ async function instruireAutomatiquementChangement(
       data: {
         identifiantProjetValue: identifiantProjet,
         typeTâchePlanifiéeValue: tâchePlanifiéeGestion.typeTâchePlanifiée,
+        exécutéeLeValue: DateTime.now().formatter(),
       },
     });
   } catch (error) {
@@ -394,6 +395,7 @@ async function relancerAutomatiquementDreal(this: PotentielWorld) {
       data: {
         identifiantProjetValue: identifiantProjet,
         typeTâchePlanifiéeValue: tâchePlanifiéeRelanceDreal.typeTâchePlanifiée,
+        exécutéeLeValue: DateTime.now().formatter(),
       },
     });
   } catch (error) {

@@ -14,6 +14,7 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Et les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
+        Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
     Scénario: Un DGEC validateur accorde le recours en instruction d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé

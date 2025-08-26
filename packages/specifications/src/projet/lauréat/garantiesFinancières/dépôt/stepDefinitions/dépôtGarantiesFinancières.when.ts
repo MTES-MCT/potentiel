@@ -9,8 +9,19 @@ import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettr
 import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture';
 
 Quand(
-  'un porteur soumet un dépôt de garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'un porteur soumet un dépôt de garanties financières pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await soumettreDépôt.call(this, this.lauréatWorld.identifiantProjet, {});
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
@@ -43,15 +54,13 @@ Quand(
 );
 
 Quand(
-  'le porteur supprime un dépôt de garanties financières pour le projet {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
+  'le porteur supprime le dépôt de garanties financières du projet',
+  async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
       await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           suppriméLeValue: new Date().toISOString(),
           suppriméParValue: 'porteur@test.test',
         },

@@ -4,15 +4,13 @@ const types = [
   'garanties-financières.échoir',
   'garanties-financières.rappel-échéance-un-mois',
   'garanties-financières.rappel-échéance-deux-mois',
+  'garanties-financières.rappel-en-attente',
 ] as const;
 
 export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
-  estÉchoir: () => boolean;
-  estRappelÉchéanceUnMois: () => boolean;
-  estRappelÉchéanceDeuxMois: () => boolean;
 }>;
 
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
@@ -20,15 +18,6 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
     type,
     estÉgaleÀ({ type }) {
       return this.type === type;
-    },
-    estÉchoir() {
-      return this.type === 'garanties-financières.échoir';
-    },
-    estRappelÉchéanceUnMois() {
-      return this.type === 'garanties-financières.rappel-échéance-un-mois';
-    },
-    estRappelÉchéanceDeuxMois() {
-      return this.type === 'garanties-financières.rappel-échéance-deux-mois';
     },
   };
 };
@@ -55,6 +44,7 @@ export const rappelÉchéanceUnMois = convertirEnValueType(
 export const rappelÉchéanceDeuxMois = convertirEnValueType(
   'garanties-financières.rappel-échéance-deux-mois',
 );
+export const rappelEnAttente = convertirEnValueType('garanties-financières.rappel-en-attente');
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {

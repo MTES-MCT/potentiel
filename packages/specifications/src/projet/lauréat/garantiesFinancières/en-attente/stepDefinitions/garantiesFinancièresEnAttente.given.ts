@@ -1,8 +1,9 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -12,17 +13,17 @@ EtantDonné(
     const { motif, dateLimiteSoumission, demandéLe } =
       this.lauréatWorld.garantiesFinancièresWorld.actuelles.demander.créer();
 
-    const event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent = {
-      type: 'GarantiesFinancièresDemandées-V1',
-      payload: {
-        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-        motif:
-          Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif)
-            .motif,
-        dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission).formatter(),
-        demandéLe: DateTime.convertirEnValueType(demandéLe).formatter(),
-      },
-    };
-    await publish(`garanties-financieres|${event.payload.identifiantProjet}`, event);
+    // on accède directement à l'aggregate root car il n'y a pas de commande pour Demander, qui réagit à d'autres actions
+    const projet = await ProjetAggregateRoot.get(this.lauréatWorld.identifiantProjet, {
+      loadAggregate: loadAggregateV2,
+      loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
+    });
+
+    await projet.lauréat.garantiesFinancières.demander({
+      demandéLe: DateTime.convertirEnValueType(demandéLe),
+      motif:
+        Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+      dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
+    });
   },
 );

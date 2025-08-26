@@ -6,6 +6,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges permettant la modification du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Plan du Scénario: Un admin modifie des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
@@ -27,7 +28,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
-        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet lauréat
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de garanties financières actuelles modifiées
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -36,12 +37,12 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-10-01         |
-        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
-        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet lauréat
 
     Plan du Scénario: Impossible de modifier des garanties financières actuelles si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type GF | type-inconnu |
+            | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
@@ -54,7 +55,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Scénario: Impossible de modifier des garanties financières actuelles si la date d'échéance est manquante
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type GF | type-inconnu |
+            | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance |                    |
@@ -62,7 +63,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Scénario: Impossible de modifier des garanties financières actuelles si la date de constitution est dans le futur
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type GF | type-inconnu |
+            | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | date de constitution | 2050-01-01 |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"

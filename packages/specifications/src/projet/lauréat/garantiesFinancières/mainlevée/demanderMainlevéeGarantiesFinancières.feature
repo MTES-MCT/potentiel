@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@mainlevée-garanties-financières
 Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Contexte:
@@ -91,9 +92,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"
 
     Scénario: Impossible de demander la mainlevée des garanties financières si le projet dispose de garanties financières échues
-        Etant donné des garanties financières actuelles échues pour le projet lauréat avec :
-            | date d'échéance | 2024-07-17         |
-            | type GF         | avec-date-échéance |
+        Etant donné des garanties financières actuelles échues le "2024-07-17" pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif        | projet-achevé     |

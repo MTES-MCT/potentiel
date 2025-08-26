@@ -2,6 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture';
@@ -10,76 +11,39 @@ EtantDonné(
   'des garanties financières actuelles pour le projet {string} avec :',
   async function (this: PotentielWorld, _: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
-
-    try {
-      await enregistrerGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
-      );
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        e.message === 'Il y a déjà des garanties financières pour ce projet'
-      ) {
-        await modifierGarantiesFinancièresActuelles.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-          this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
-        );
-      }
-    }
+    await enregistrerOuModifierSiExistantes.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
+    );
   },
 );
 
+// TODO à supprimer en faveur de "[...] pour le projet lauréat"
 EtantDonné(
   'des garanties financières actuelles pour le projet {string}',
   async function (this: PotentielWorld, _: string) {
-    try {
-      await enregistrerGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        {},
-      );
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        e.message === 'Il y a déjà des garanties financières pour ce projet'
-      ) {
-        await modifierGarantiesFinancièresActuelles.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-          {},
-        );
-      }
-    }
+    await enregistrerOuModifierSiExistantes.call(this, this.lauréatWorld.identifiantProjet, {});
   },
 );
 
 EtantDonné(
-  'des garanties financières actuelles échues pour le projet lauréat avec :',
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
+  'des garanties financières actuelles pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await enregistrerOuModifierSiExistantes.call(this, this.lauréatWorld.identifiantProjet, {});
+  },
+);
 
+EtantDonné(
+  'des garanties financières actuelles échues le {string} pour le projet lauréat',
+  async function (this: PotentielWorld, dateÉchéance: string) {
     const { identifiantProjet } = this.lauréatWorld;
-    try {
-      await enregistrerGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
-      );
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        e.message === 'Il y a déjà des garanties financières pour ce projet'
-      ) {
-        await modifierGarantiesFinancièresActuelles.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-          {},
-        );
-      }
-    }
+    const garantiesFinancières = {
+      type: 'avec-date-échéance' as const,
+      dateÉchéance: new Date(dateÉchéance).toISOString() as Iso8601DateTime,
+    };
+
+    await enregistrerOuModifierSiExistantes.call(this, identifiantProjet, { garantiesFinancières });
 
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.échoir.créer();
 
@@ -89,6 +53,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet.formatter(),
         typeTâchePlanifiéeValue:
           Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
+        exécutéeLeValue: garantiesFinancières.dateÉchéance,
       },
     });
   },
@@ -134,7 +99,7 @@ export async function enregistrerGarantiesFinancièresActuelles(
 ) {
   const { garantiesFinancières, dateConstitution, attestation, enregistréLe, enregistréPar } =
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer.créer({
-      enregistréPar: this.utilisateurWorld.porteurFixture.email,
+      enregistréPar: this.utilisateurWorld.drealFixture.email,
       ...props,
     });
   await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
@@ -171,4 +136,31 @@ export async function modifierGarantiesFinancièresActuelles(
       attestationValue: attestation,
     },
   });
+}
+
+async function enregistrerOuModifierSiExistantes(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  garantiesFinancières: Partial<EnregistrerGarantiesFinancièresProps>,
+) {
+  try {
+    await enregistrerGarantiesFinancièresActuelles.call(
+      this,
+      identifiantProjet,
+      garantiesFinancières,
+    );
+  } catch (e) {
+    if (
+      e instanceof Error &&
+      e.message === 'Il y a déjà des garanties financières pour ce projet'
+    ) {
+      await modifierGarantiesFinancièresActuelles.call(
+        this,
+        identifiantProjet,
+        garantiesFinancières,
+      );
+    } else {
+      throw e;
+    }
+  }
 }
