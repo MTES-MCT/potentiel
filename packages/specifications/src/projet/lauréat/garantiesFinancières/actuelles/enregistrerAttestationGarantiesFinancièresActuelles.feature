@@ -5,6 +5,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Lyon"
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un porteur enregistre l'attestation des garanties financières actuelles
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat
@@ -23,7 +24,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
 
     Scénario: Impossible d'enregistrer l'attestation des garanties financières si l'attestation est déjà présente
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Il y a déjà une attestation pour ces garanties financières"
 

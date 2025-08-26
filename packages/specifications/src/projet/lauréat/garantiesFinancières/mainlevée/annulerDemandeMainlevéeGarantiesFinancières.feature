@@ -1,10 +1,12 @@
 # language: fr
 @garanties-financières
+@mainlevée-garanties-financières
 Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges permettant la modification du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un porteur annule la demande de mainlevée des garanties financières
         Etant donné une attestation de conformité transmise pour le projet lauréat

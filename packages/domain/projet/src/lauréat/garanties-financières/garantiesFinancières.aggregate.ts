@@ -240,7 +240,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
     await this.publish(event);
     await this.ajouterTâchesPlanifiéesÉchéance();
-    // TODO await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
 
   async enregistrerAttestation({

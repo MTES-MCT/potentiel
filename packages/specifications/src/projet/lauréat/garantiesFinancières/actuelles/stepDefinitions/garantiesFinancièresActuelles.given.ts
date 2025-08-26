@@ -11,49 +11,26 @@ EtantDonné(
   'des garanties financières actuelles pour le projet {string} avec :',
   async function (this: PotentielWorld, _: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
+    await enregistrerOuModifierSiExistantes.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
+    );
+  },
+);
 
-    try {
-      await enregistrerGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
-      );
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        e.message === 'Il y a déjà des garanties financières pour ce projet'
-      ) {
-        await modifierGarantiesFinancièresActuelles.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-          this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
-        );
-      }
-    }
+// TODO à supprimer en faveur de "[...] pour le projet lauréat"
+EtantDonné(
+  'des garanties financières actuelles pour le projet {string}',
+  async function (this: PotentielWorld, _: string) {
+    await enregistrerOuModifierSiExistantes.call(this, this.lauréatWorld.identifiantProjet, {});
   },
 );
 
 EtantDonné(
-  'des garanties financières actuelles pour le projet {string}',
-  async function (this: PotentielWorld, _: string) {
-    try {
-      await enregistrerGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        {},
-      );
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        e.message === 'Il y a déjà des garanties financières pour ce projet'
-      ) {
-        await modifierGarantiesFinancièresActuelles.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-          {},
-        );
-      }
-    }
+  'des garanties financières actuelles pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await enregistrerOuModifierSiExistantes.call(this, this.lauréatWorld.identifiantProjet, {});
   },
 );
 
@@ -62,27 +39,11 @@ EtantDonné(
   async function (this: PotentielWorld, dateÉchéance: string) {
     const { identifiantProjet } = this.lauréatWorld;
     const garantiesFinancières = {
-      type: 'avec-date-échéance',
+      type: 'avec-date-échéance' as const,
       dateÉchéance: new Date(dateÉchéance).toISOString() as Iso8601DateTime,
     };
-    try {
-      await enregistrerGarantiesFinancièresActuelles.call(
-        this,
-        this.lauréatWorld.identifiantProjet,
-        { garantiesFinancières },
-      );
-    } catch (e) {
-      if (
-        e instanceof Error &&
-        e.message === 'Il y a déjà des garanties financières pour ce projet'
-      ) {
-        await modifierGarantiesFinancièresActuelles.call(
-          this,
-          this.lauréatWorld.identifiantProjet,
-          {},
-        );
-      }
-    }
+
+    await enregistrerOuModifierSiExistantes.call(this, identifiantProjet, { garantiesFinancières });
 
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.échoir.créer();
 
@@ -175,4 +136,31 @@ export async function modifierGarantiesFinancièresActuelles(
       attestationValue: attestation,
     },
   });
+}
+
+async function enregistrerOuModifierSiExistantes(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  garantiesFinancières: Partial<EnregistrerGarantiesFinancièresProps>,
+) {
+  try {
+    await enregistrerGarantiesFinancièresActuelles.call(
+      this,
+      identifiantProjet,
+      garantiesFinancières,
+    );
+  } catch (e) {
+    if (
+      e instanceof Error &&
+      e.message === 'Il y a déjà des garanties financières pour ce projet'
+    ) {
+      await modifierGarantiesFinancièresActuelles.call(
+        this,
+        identifiantProjet,
+        garantiesFinancières,
+      );
+    } else {
+      throw e;
+    }
+  }
 }

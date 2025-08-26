@@ -1,10 +1,12 @@
 # language: fr
 @garanties-financières
+@mainlevée-garanties-financières
 Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanties financières
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges permettant la modification du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Un utilisateur Dreal démarre l'instruction d'une demande de mainlevée pour un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"

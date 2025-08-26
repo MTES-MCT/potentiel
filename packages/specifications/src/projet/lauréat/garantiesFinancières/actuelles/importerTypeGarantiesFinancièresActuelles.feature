@@ -24,7 +24,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
         Quand le DGEC validateur notifie la candidature lauréate
-        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet lauréat
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées si un type de GF de type avec date d'échéance est importé lors d'une désignation
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -32,5 +32,5 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | type GF         | avec-date-échéance                |
             | date d'échéance | 2024-10-01                        |
         Quand le DGEC validateur notifie la candidature lauréate
-        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
-        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet lauréat

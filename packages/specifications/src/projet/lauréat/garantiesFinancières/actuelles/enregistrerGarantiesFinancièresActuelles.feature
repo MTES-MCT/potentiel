@@ -47,14 +47,14 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
-        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet lauréat
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de garanties financières enregistrées
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-10-01         |
-        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
-        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet lauréat
 
     Plan du Scénario: Impossible d'enregistrer des garanties financières actuelles avec date d'échéance si le type renseigné n'est pas compatible
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :

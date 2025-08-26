@@ -11,7 +11,7 @@ export type ExécuterTâchePlanifiéeUseCase = Message<
   {
     identifiantProjetValue: IdentifiantProjet.RawType;
     typeTâchePlanifiéeValue: string;
-    exécutéeLe: string;
+    exécutéeLeValue: string;
   }
 >;
 
@@ -19,7 +19,7 @@ export const registerExécuterTâchePlanifiéeUseCase = () => {
   const handler: MessageHandler<ExécuterTâchePlanifiéeUseCase> = async ({
     identifiantProjetValue,
     typeTâchePlanifiéeValue,
-    exécutéeLe,
+    exécutéeLeValue: exécutéeLe,
   }) => {
     await mediator.send<ExécuterTâchePlanifiéeCommand>({
       type: 'System.TâchePlanifiée.Command.ExécuterTâchePlanifiée',
