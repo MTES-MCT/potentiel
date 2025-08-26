@@ -27,6 +27,7 @@ import {
   getRaccordement,
   getActionnaire,
   getDateAchèvementPrévisionnel,
+  getAutorisationDUrbanisme,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -285,6 +286,7 @@ v1Router.get(
             rôle: user.role,
           }),
           délai,
+          autorisationDUrbanisme: await getAutorisationDUrbanisme(identifiantProjetValueType),
         }),
       );
     },

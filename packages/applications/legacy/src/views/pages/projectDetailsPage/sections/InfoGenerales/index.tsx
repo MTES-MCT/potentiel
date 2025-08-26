@@ -23,6 +23,7 @@ import { GetActionnaireForProjectPage } from '../../../../../controllers/project
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
+import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
 export type AttestationConformitéProps = {
   date: number;
@@ -44,6 +45,7 @@ export type InfoGeneralesProps = {
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
   attestationConformité?: AttestationConformitéProps;
+  autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme']
 };
 
 export const InfoGenerales = ({
@@ -73,6 +75,7 @@ export const InfoGenerales = ({
   coefficientKChoisi,
   estAchevé,
   attestationConformité,
+  autorisationDUrbanisme
 }: InfoGeneralesProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -130,6 +133,15 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </div>
       </div>
+      {autorisationDUrbanisme !== undefined && (
+        <div>
+          <Heading3 className="m-0">Autorisation d'urbanisme</Heading3>
+          <ul className="list-none m-0 pl-0">
+            <li>Numéro : {autorisationDUrbanisme.numéro}</li>
+            <li>Date d'obtention : {afficherDate(new Date(autorisationDUrbanisme.date.date))}</li>
+          </ul>
+        </div>
+      )}
       {actionnaire ? (
         <InfoActionnaire
           actionnaire={actionnaire}
