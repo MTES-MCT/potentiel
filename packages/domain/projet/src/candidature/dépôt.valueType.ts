@@ -179,16 +179,15 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     historiqueAbandon: HistoriqueAbandon.convertirEnValueType(raw.historiqueAbandon),
     technologie: TypeTechnologie.convertirEnValueType(raw.technologie),
     actionnariat: bindOptional(TypeActionnariat.convertirEnValueType, raw.actionnariat),
-    garantiesFinancières:
-      raw.typeGarantiesFinancières && raw.typeGarantiesFinancières !== 'type-inconnu'
-        ? mapToPlainObject(
-            GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-              type: raw.typeGarantiesFinancières,
-              dateDélibération: raw.dateDélibérationGf,
-              dateÉchéance: raw.dateÉchéanceGf,
-            }),
-          )
-        : undefined,
+    garantiesFinancières: raw.typeGarantiesFinancières
+      ? mapToPlainObject(
+          GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+            type: raw.typeGarantiesFinancières,
+            dateDélibération: raw.dateDélibérationGf,
+            dateÉchéance: raw.dateÉchéanceGf,
+          }),
+        )
+      : undefined,
     fournisseurs: raw.fournisseurs.map(Fournisseur.convertirEnValueType),
     typeInstallationsAgrivoltaiques: bindOptional(
       TypeInstallationsAgrivoltaiques.convertirEnValueType,
