@@ -7,10 +7,11 @@
     "build": "tsp compile ./src && tsc"
   },
   "devDependencies": {
-    "@typespec/compiler": "1.5.0",
-    "@typespec/http": "1.5.0",
-    "@typespec/openapi3": "1.5.0",
-    "@typespec/rest": "0.75.0"
+    "@typespec/compiler": "1.6.0",
+    "@typespec/http": "1.6.0",
+    "@typespec/http-server-js": "0.58.0-alpha.21",
+    "@typespec/openapi3": "1.6.0",
+    "@typespec/rest": "0.76.0"
   },
   "private": true
 }

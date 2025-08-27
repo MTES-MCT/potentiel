@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { RangeOptions } from '@potentiel-domain/entity';
+import { DossierRaccordementListResult } from '@potentiel-applications/api-documentation';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { apiAction } from '@/utils/apiAction';
@@ -15,31 +15,6 @@ const routeParamsSchema = z.object({
   page: z.coerce.number().int().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
 });
-
-type DossierRaccordementApiResponse = {
-  nomProjet: string;
-  identifiantProjet: string;
-  appelOffre: string;
-  periode: string;
-  famille: string;
-  numeroCRE: string;
-  commune: string;
-  codePostal: string;
-  referenceDossier: string;
-  statutDGEC: string;
-  puissance: string;
-  nomCandidat: string;
-  sociétéMère: string;
-  emailContact: string;
-  siteProduction: string;
-  dateNotification: string;
-};
-
-type ApiResponse = {
-  items: DossierRaccordementApiResponse[];
-  range: RangeOptions;
-  total: number;
-};
 
 export const GET = (request: NextRequest) =>
   apiAction(() =>
@@ -67,7 +42,7 @@ export const GET = (request: NextRequest) =>
 
 type MapToApiResponse = (
   dossiers: Lauréat.Raccordement.ListerDossierRaccordementReadModel,
-) => ApiResponse;
+) => DossierRaccordementListResult;
 
 const mapToApiResponse: MapToApiResponse = ({ items, range, total }) => ({
   total,

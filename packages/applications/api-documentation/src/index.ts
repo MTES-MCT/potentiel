@@ -7,3 +7,8 @@ export const getOpenApiSpecs = async () => {
   });
   return JSON.parse(openApiSpecs);
 };
+
+export {
+  ProjetEnAttenteAchevementListResult,
+  DossierRaccordementListResult,
+} from './generated/models/all';

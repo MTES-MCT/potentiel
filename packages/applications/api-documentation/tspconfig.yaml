@@ -2,6 +2,9 @@ output-dir: '{cwd}/dist'
 
 emit:
   - '@typespec/openapi3'
+  - '@typespec/http-server-js'
 options:
   '@typespec/openapi3':
     file-type: json
+  '@typespec/http-server-js':
+    emitter-output-dir: '{cwd}'
