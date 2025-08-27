@@ -112,7 +112,7 @@ export class TechnologieIndisponibleError extends InvalidOperationError {
 export class AutorisationDUrbanismeRequiseError extends InvalidOperationError {
   constructor() {
     super(
-      "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cette appel d'offre",
+      "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offre",
     );
   }
 }
