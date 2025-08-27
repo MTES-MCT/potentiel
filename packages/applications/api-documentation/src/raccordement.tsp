@@ -25,7 +25,7 @@ model DossierRaccordement {
   societeMère: string;
   emailContact: string;
 
-  /**  */
+  /** Adresse complète du site de production */
   siteProduction: string;
 
   /** La date où le projet a été notifié */
