@@ -67,6 +67,7 @@
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-storybook": "^0.8.0",
+    "gitmoji-cli": "^9.7.0",
     "globals": "^15.15.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
@@ -85,5 +86,13 @@
     "prettier-plugin-gherkin": "^2.4.1",
     "ts-pattern": "^5.7.0"
   },
-  "packageManager": "npm@10.7.0"
+  "packageManager": "npm@10.7.0",
+  "gitmoji": {
+    "autoAdd": false,
+    "emojiFormat": "emoji",
+    "scopePrompt": false,
+    "messagePrompt": false,
+    "capitalizeTitle": true,
+    "gitmojisUrl": "https://gitmoji.dev/api/gitmojis"
+  }
 }
