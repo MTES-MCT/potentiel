@@ -99,14 +99,6 @@ export default async function Page({ searchParams }: PageProps) {
         });
       }
       if (role === Role.dreal.nom) {
-        filters.push({
-          label: 'ZNI',
-          searchParamKey: 'zni',
-          options: [
-            { label: 'Oui', value: 'true' },
-            { label: 'Non', value: 'false' },
-          ],
-        });
         const régions =
           zni !== undefined
             ? Région.régions
@@ -123,6 +115,14 @@ export default async function Page({ searchParams }: PageProps) {
               value: nom,
             }))
             .sort((a, b) => a.label.localeCompare(b.label)),
+        });
+        filters.push({
+          label: 'ZNI',
+          searchParamKey: 'zni',
+          options: [
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ],
         });
       }
       filters.push({
