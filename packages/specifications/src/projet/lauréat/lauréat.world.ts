@@ -146,7 +146,13 @@ export class LauréatWorld {
 
   mapToExpected() {
     const {
-      dépôt: { emailContact, nomCandidat, prixReference, coefficientKChoisi },
+      dépôt: {
+        emailContact,
+        nomCandidat,
+        prixReference,
+        coefficientKChoisi,
+        autorisationDUrbanisme,
+      },
       technologie,
       unitéPuissance,
       volumeRéservé,
@@ -171,6 +177,7 @@ export class LauréatWorld {
         this.notifierLauréatFixture.notifiéLe,
         'application/pdf',
       ),
+      autorisationDUrbanisme,
     };
     return expected;
   }

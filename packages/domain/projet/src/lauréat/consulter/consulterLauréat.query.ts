@@ -31,6 +31,7 @@ export type ConsulterLauréatReadModel = {
   statut: StatutProjet.ValueType;
   volumeRéservé?: VolumeRéservé.ValueType;
   attestationDésignation?: DocumentProjet.ValueType;
+  autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
 } & Pick<
   Candidature.Dépôt.ValueType,
   // on ne sélectionne que des propriétés non modifiables de Candidature
@@ -135,4 +136,5 @@ const mapToReadModel: MapToReadModel = (
   prixReference: candidature.dépôt.prixReference,
   coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
   attestationDésignation: candidature.notification?.attestation,
+  autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme,
 });

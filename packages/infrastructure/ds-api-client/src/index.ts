@@ -58,6 +58,10 @@ const mapApiResponseToDétails = ({ champs }: GetDossierQuery['dossier']) => {
         logger.warn(`le champs ${curr.label} existe déjà`);
         return prev;
       }
+      if (curr.__typename === 'DateChamp') {
+        prev[curr.label] = curr.date;
+        return prev;
+      }
       if (!curr.stringValue) return prev;
       if (curr.label.startsWith('En cochant cette case')) return prev;
       prev[curr.label] = curr.stringValue ?? undefined;

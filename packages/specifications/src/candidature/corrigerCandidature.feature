@@ -49,6 +49,16 @@ Fonctionnalité: Corriger une candidature
             | puissance de site | 200 |
         Alors la candidature devrait être consultable
 
+    Scénario: Corriger une candidature avec une autorisation d'urbanisme pour un appel d'offre qui a ce champ requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           | ancien numéro            |
+            | date d'obtention de l'autorisation d'urbanisme | 01/01/2025               |
+        Quand le DGEC validateur corrige la candidature avec :
+            | numéro de l'autorisation d'urbanisme           | nouveau numéro |
+            | date d'obtention de l'autorisation d'urbanisme | 01/07/2025     |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
@@ -208,3 +218,23 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site | 100 |
         Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
+
+    Scénario: Impossible de corriger une candidature sans autorisation d'urbanisme si l'appel d'offre a ces champs requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
+            | date d'obtention de l'autorisation d'urbanisme | 10/08/2024               |
+        Quand le DGEC validateur corrige la candidature avec :
+            | numéro de l'autorisation d'urbanisme           |  |
+            | date d'obtention de l'autorisation d'urbanisme |  |
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offre"
+
+    Scénario: Impossible de corriger une candidature avec une date d'obtention de l'autorisation d'urbanisme dans le futur
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
+            | date d'obtention de l'autorisation d'urbanisme | 10/08/2024               |
+        Quand le DGEC validateur corrige la candidature avec :
+            | date d'obtention de l'autorisation d'urbanisme | 10/08/2070 |
+
+        Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"

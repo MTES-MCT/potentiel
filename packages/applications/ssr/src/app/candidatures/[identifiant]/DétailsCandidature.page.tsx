@@ -80,6 +80,21 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               <Field name="Société mère">
                 <span>{dépôt.sociétéMère}</span>
               </Field>
+              {dépôt.autorisationDUrbanisme !== undefined && (
+                <Field name="Autorisation d'urbanisme">
+                  <span>Numéro : {dépôt.autorisationDUrbanisme.numéro}</span>
+                  <span>
+                    Date d'obtention :{' '}
+                    {
+                      <FormattedDate
+                        date={DateTime.convertirEnValueType(
+                          dépôt.autorisationDUrbanisme.date.date,
+                        ).formatter()}
+                      />
+                    }
+                  </span>
+                </Field>
+              )}
               <Field name="Performances">
                 <span>Puissance installée : {dépôt.puissanceProductionAnnuelle} MW</span>
                 <span>Prix de référence : {dépôt.prixReference} €/MWh</span>
@@ -94,13 +109,13 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   </span>
                   {garantiesFinancières.estAvecDateÉchéance() && (
                     <span>
-                      Date d'échéance:{' '}
+                      Date d'échéance :{' '}
                       <FormattedDate date={garantiesFinancières.dateÉchéance.formatter()} />
                     </span>
                   )}
                   {garantiesFinancières.estExemption() && (
                     <span>
-                      Date de délibération:{' '}
+                      Date de délibération :{' '}
                       <FormattedDate date={garantiesFinancières.dateDélibération.formatter()} />
                     </span>
                   )}
@@ -126,7 +141,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 {notification ? (
                   <>
                     <span>
-                      Candidature notifiée le:{' '}
+                      Candidature notifiée le :{' '}
                       <FormattedDate date={DateTime.bind(notification.notifiéeLe).formatter()} />
                     </span>
                     {notification.attestation && (
@@ -137,7 +152,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                         )
                           ? 'régénérée'
                           : 'générée'}{' '}
-                        le:{' '}
+                        le :{' '}
                         <FormattedDate
                           date={DateTime.convertirEnValueType(
                             notification.attestation.dateCréation,

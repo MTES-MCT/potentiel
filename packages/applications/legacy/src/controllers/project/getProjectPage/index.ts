@@ -285,6 +285,7 @@ v1Router.get(
             rôle: user.role,
           }),
           délai,
+          autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
         }),
       );
     },

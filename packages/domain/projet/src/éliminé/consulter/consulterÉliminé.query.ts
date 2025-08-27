@@ -28,6 +28,7 @@ export type ConsulterÉliminéReadModel = {
   | 'prixReference'
   | 'nomReprésentantLégal'
   | 'sociétéMère'
+  | 'autorisationDUrbanisme'
 >;
 
 export type ConsulterÉliminéQuery = Message<
@@ -96,4 +97,10 @@ const mapToReadModel: MapToReadModel = (
   puissanceProductionAnnuelle: candidature.dépôt.puissanceProductionAnnuelle,
   unitéPuissance: candidature.unitéPuissance,
   attestationDésignation: candidature.notification?.attestation,
+  autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme
+    ? {
+        date: candidature.dépôt.autorisationDUrbanisme.date,
+        numéro: candidature.dépôt.autorisationDUrbanisme.numéro,
+      }
+    : undefined,
 });

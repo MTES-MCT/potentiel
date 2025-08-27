@@ -44,6 +44,13 @@ Fonctionnalité: Importer une candidature
             | puissance de site | 100                      |
         Alors la candidature devrait être consultable
 
+    Scénario: Importer une candidature avec une autorisation d'urbanisme pour un appel d'offre qui a ce champ requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           | 123                      |
+            | date d'obtention de l'autorisation d'urbanisme | 01/08/2025               |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible d'importer 2 fois la même candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
@@ -200,3 +207,17 @@ Fonctionnalité: Importer une candidature
             | appel d'offre     | PPE2 - Bâtiment |
             | puissance de site | 200             |
         Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offre qui a ces champs requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           |                          |
+            | date d'obtention de l'autorisation d'urbanisme |                          |
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature avec une date d'obtention de l'autorisation d'urbanisme dans le futur
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
+            | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
+            | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
+        Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"

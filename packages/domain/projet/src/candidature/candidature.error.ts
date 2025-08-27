@@ -108,3 +108,19 @@ export class TechnologieIndisponibleError extends InvalidOperationError {
     super("Cette technologie n'est pas disponible pour cet appel d'offre");
   }
 }
+
+export class AutorisationDUrbanismeRequiseError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offre",
+    );
+  }
+}
+
+export class DateAutorisationDUrbanismeError extends InvalidOperationError {
+  constructor() {
+    super(
+      "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour",
+    );
+  }
+}

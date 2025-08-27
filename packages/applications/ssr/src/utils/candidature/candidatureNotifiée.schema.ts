@@ -22,6 +22,8 @@ import {
   évaluationCarboneSimplifiéeSchema,
   choixCoefficientKSchema,
   puissanceDeSiteSchema,
+  dateDAutorisationDUrbanismeSchema,
+  numéroDAutorisationDUrbanismeSchema,
 } from './candidatureFields.schema';
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
@@ -47,6 +49,8 @@ export const candidatureNotifiéeSchema = z
     puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
     coefficientKChoisi: choixCoefficientKSchema,
     puissanceDeSite: puissanceDeSiteSchema,
+    dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
+    numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   })
   .merge(localitéSchema);
 

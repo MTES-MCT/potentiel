@@ -39,6 +39,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
+import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -69,6 +70,7 @@ type ProjectDetailsProps = {
       url: string;
     };
   };
+  autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme']
 };
 
 export const ProjectDetails = ({
@@ -91,6 +93,7 @@ export const ProjectDetails = ({
   emailContact,
   fournisseur,
   délai,
+  autorisationDUrbanisme
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -232,6 +235,7 @@ export const ProjectDetails = ({
               coefficientKChoisi={coefficientKChoisi}
               estAchevé={estAchevé}
               attestationConformité={attestationConformité}
+              autorisationDUrbanisme={autorisationDUrbanisme}
             />
             <Contact
               identifiantProjet={identifiantProjet}

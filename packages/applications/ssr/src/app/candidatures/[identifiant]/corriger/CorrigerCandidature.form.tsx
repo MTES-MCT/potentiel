@@ -431,6 +431,32 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           ]}
         />
       )}
+      {champsSupplémentaires.autorisationDUrbanisme && (
+        <>
+          <Input
+            state={validationErrors['numeroDAutorisationDUrbanisme'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['numeroDAutorisationDUrbanisme']}
+            label="Numéro d'autorisation d'urbanisme"
+            nativeInputProps={{
+              name: 'numeroDAutorisationDUrbanisme',
+              defaultValue: candidature.numeroDAutorisationDUrbanisme,
+              required: true,
+              'aria-required': true,
+            }}
+          />
+          <InputDate
+            name="dateDAutorisationDUrbanisme"
+            label="Date d'obtention de l'autorisation d'urbanisme"
+            required
+            defaultValue={
+              candidature.dateDAutorisationDUrbanisme &&
+              DateTime.convertirEnValueType(candidature.dateDAutorisationDUrbanisme).formatter()
+            }
+            state={validationErrors['dateDAutorisationDUrbanisme'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['dateDAutorisationDUrbanisme']}
+          />
+        </>
+      )}
 
       <RadioButtons
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}

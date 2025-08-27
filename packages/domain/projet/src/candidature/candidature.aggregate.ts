@@ -19,6 +19,7 @@ import { ImporterCandidatureOptions } from './importer/importerCandidature.optio
 import * as TypeTechnologie from './typeTechnologie.valueType';
 import {
   AttestationNonGénéréeError,
+  AutorisationDUrbanismeRequiseError,
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
@@ -26,6 +27,7 @@ import {
   CandidatureNonTrouvéeError,
   ChoixCoefficientKNonAttenduError,
   ChoixCoefficientKRequisError,
+  DateAutorisationDUrbanismeError,
   FonctionManquanteError,
   NomManquantError,
   PuissanceDeSiteNonAttendueError,
@@ -318,7 +320,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierChampSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
-    const { coefficientKChoisi, puissanceDeSite } =
+    const { coefficientKChoisi, puissanceDeSite, autorisationDUrbanisme } =
       this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
       throw new ChoixCoefficientKRequisError();
@@ -332,6 +334,17 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
     if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
       throw new PuissanceDeSiteNonAttendueError();
+    }
+
+    if (
+      autorisationDUrbanisme === 'requis' &&
+      (!dépôt.autorisationDUrbanisme?.date || !dépôt.autorisationDUrbanisme?.numéro)
+    ) {
+      throw new AutorisationDUrbanismeRequiseError();
+    }
+
+    if (dépôt.autorisationDUrbanisme?.date.estDansLeFutur()) {
+      throw new DateAutorisationDUrbanismeError();
     }
   }
 

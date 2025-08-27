@@ -1,12 +1,15 @@
 import { z } from 'zod';
 
+import { DateTime } from '@potentiel-domain/common';
+
 export const requiredStringSchema = z.string().trim().min(1);
 
-export const optionalStringSchema = z
+export const optionalStringSchema = z.string().trim().optional();
+export const optionalStringWithDefaultValueSchema = z
   .string()
   .trim()
   .optional()
-  .transform((val) => val ?? '');
+  .transform((v) => v ?? '');
 
 export const _numberSchemaBase = z.union([
   z
@@ -35,6 +38,24 @@ export const optionalNumberSchema = _numberSchemaBase
       .optional(),
   );
 
+export const optionalDateSchema = z
+  .string()
+  .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
+  .optional();
+
+export const optionalCsvDateSchema = z
+  .string()
+  .regex(/^\d{2}\/\d{2}\/\d{4}$/, {
+    message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
+  })
+  .or(z.literal(''))
+  .optional()
+  .transform((val) => {
+    if (!val) return undefined;
+    const [day, month, year] = val.split('/');
+    return new Date(`${year}-${month}-${day}`);
+  });
+
 export const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
   .pipe(z.number().gt(0, { message: 'Le champ doit être un nombre positif' }));
@@ -62,19 +83,6 @@ export const optionalOuiNonVideSchema = z
   .transform((val) => val ?? undefined)
   .optional()
   .transform((val) => (val === 'oui' ? true : val === 'non' ? false : undefined));
-
-export const dateSchema = z
-  .string()
-  .regex(/^\d{2}\/\d{2}\/\d{4}$/, {
-    message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
-  })
-  .or(z.literal(''))
-  .optional()
-  .transform((val) => {
-    if (!val) return undefined;
-    const [day, month, year] = val.split('/');
-    return new Date(`${year}-${month}-${day}`);
-  });
 
 export const booleanSchema = z.union([
   z.boolean(),

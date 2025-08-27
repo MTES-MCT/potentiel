@@ -4,6 +4,7 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { DateTime } from '@potentiel-domain/common';
 
 import { AbstractFixture, DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';
@@ -197,6 +198,9 @@ const créerDépôt = (
       },
     ],
     localité,
+    autorisationDUrbanisme: dépôt.autorisationDUrbanisme
+      ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisationDUrbanisme }
+      : undefined,
   };
 
   const référentielPériode = appelsOffreData

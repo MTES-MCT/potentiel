@@ -1,3 +1,5 @@
+import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+
 import {
   AddressFragmentFragment,
   ChampDescriptor,
@@ -13,7 +15,7 @@ export type DossierAccessor<
 > = {
   getStringValue: (nom: TKey) => string | undefined;
   getNumberValue: (nom: TKey) => number | undefined;
-  getDateValue: (nom: TKey) => string | undefined;
+  getDateValue: (nom: TKey) => Iso8601DateTime | undefined;
   getBooleanValue: (nom: TKey) => boolean | undefined;
   getUrlPièceJustificativeValue: (nom: TKey) => string | undefined;
   getAdresse: (nom: TKey) => AddressFragmentFragment | undefined;
@@ -71,7 +73,11 @@ export const createDossierAccessor = <
       return num ? Number(num) : undefined;
     },
 
-    getDateValue: (nom) => getChampValue(nom, ['DateChamp'])?.date ?? undefined,
+    getDateValue: (nom) => {
+      const date = getChampValue(nom, ['DateChamp'])?.date;
+
+      return date ? (new Date(date).toISOString() as Iso8601DateTime) : undefined;
+    },
 
     getBooleanValue: (nom) => {
       const val = getChampValue(nom, ['YesNoChamp', 'CheckboxChamp'])?.stringValue ?? undefined;
