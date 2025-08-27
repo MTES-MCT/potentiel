@@ -47,25 +47,7 @@ Pour installer et lancer le projet vous aurez besoin de :
    npm install
    ```
 
-4. Pour contribuer, installer le package **[gitmoji-cli](https://github.com/carloscuesta/gitmoji-cli)** :
-
-   ```bash
-   npm i -g gitmoji-cli
-   ```
-
-5. Installer le commit hook de Gitmoji :
-
-   ```bash
-   gitmoji -i
-   ```
-
-6. Configurer Gitmoji pour l'utilisation des Emojis (♻️) plutôt que des Emoji codes (`:recycle:`) :
-
-   ```bash
-   gitmoji -g
-   ```
-
-7. Configurer les variables d'environnement à la base des deux applications (ssr et legacy) :
+4. Configurer les variables d'environnement à la base des deux applications (ssr et legacy) :
 
    ```bash
    cd packages/applications/ssr
@@ -74,7 +56,7 @@ Pour installer et lancer le projet vous aurez besoin de :
    cp .env.template .env
    ```
 
-8. Synchroniser les submodules
+5. Synchroniser les submodules
 
    Il faut retourner à la racine du repo et exécuter :
 
