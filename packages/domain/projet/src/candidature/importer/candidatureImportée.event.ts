@@ -8,7 +8,7 @@ import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
-import { TypeInstallationsAgrivoltaiques, TypologieBâtiment } from '..';
+import { TypologieInstallation } from '..';
 
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -41,11 +41,9 @@ type CandidatureImportéeEventPayload = {
   territoireProjet: string;
   coefficientKChoisi?: boolean;
   puissanceDeSite?: number;
-  typeInstallationsAgrivoltaiques?: TypeInstallationsAgrivoltaiques.RawType;
-  élémentsSousOmbrière?: string;
-  typologieDeBâtiment?: TypologieBâtiment.RawType;
   obligationDeSolarisation?: boolean;
   fournisseurs: Array<Fournisseur.RawType>;
+  typologieInstallation: Array<TypologieInstallation.RawType>;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
 };
@@ -68,7 +66,7 @@ export type DétailsFournisseursCandidatureImportésEvent = DomainEvent<
  */
 export type CandidatureImportéeEventV1 = DomainEvent<
   'CandidatureImportée-V1',
-  Omit<CandidatureImportéeEventPayload, 'fournisseurs'>
+  Omit<CandidatureImportéeEventPayload, 'fournisseurs' | 'typologieInstallation'>
 >;
 
 export type CandidatureImportéeEvent = DomainEvent<

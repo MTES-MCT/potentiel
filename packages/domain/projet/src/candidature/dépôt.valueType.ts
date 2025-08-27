@@ -9,9 +9,8 @@ import {
   Localité,
   TypeActionnariat,
   TypeGarantiesFinancières,
-  TypeInstallationsAgrivoltaiques,
   TypeTechnologie,
-  TypologieBâtiment,
+  TypologieInstallation,
 } from '.';
 
 export type RawType = {
@@ -34,9 +33,7 @@ export type RawType = {
   dateDélibérationGf: DateTime.RawType | undefined;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.RawType>;
-  typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.RawType | undefined;
-  élémentsSousOmbrière: string | undefined;
-  typologieDeBâtiment: TypologieBâtiment.RawType | undefined;
+  typologieInstallation: Array<TypologieInstallation.RawType>;
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
@@ -60,9 +57,7 @@ export type ValueType = ReadonlyValueType<{
   garantiesFinancières?: GarantiesFinancières.GarantiesFinancières.ValueType;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.ValueType>;
-  typeInstallationsAgrivoltaiques: TypeInstallationsAgrivoltaiques.ValueType | undefined;
-  élémentsSousOmbrière: string | undefined;
-  typologieDeBâtiment: TypologieBâtiment.ValueType | undefined;
+  typologieInstallation: Array<TypologieInstallation.ValueType>;
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
@@ -82,7 +77,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   territoireProjet: plain.territoireProjet,
   coefficientKChoisi: plain.coefficientKChoisi,
   obligationDeSolarisation: plain.obligationDeSolarisation,
-  élémentsSousOmbrière: plain.élémentsSousOmbrière,
 
   emailContact: Email.bind(plain.emailContact),
   localité: Localité.bind(plain.localité),
@@ -93,11 +87,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   garantiesFinancières: plain.garantiesFinancières
     ? GarantiesFinancières.GarantiesFinancières.bind(plain.garantiesFinancières)
     : undefined,
-  typeInstallationsAgrivoltaiques: bindOptional(
-    TypeInstallationsAgrivoltaiques.bind,
-    plain.typeInstallationsAgrivoltaiques,
-  ),
-  typologieDeBâtiment: bindOptional(TypologieBâtiment.bind, plain.typologieDeBâtiment),
 
   fournisseurs: plain.fournisseurs.map(Fournisseur.bind),
   puissanceDeSite: plain.puissanceDeSite,
@@ -107,6 +96,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         numéro: plain.autorisationDUrbanisme.numéro,
       }
     : undefined,
+  typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
 
   estÉgaleÀ(valueType) {
     return (
@@ -121,7 +111,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.puissanceProductionAnnuelle === this.puissanceProductionAnnuelle &&
       valueType.sociétéMère === this.sociétéMère &&
       valueType.territoireProjet === this.territoireProjet &&
-      valueType.élémentsSousOmbrière === this.élémentsSousOmbrière &&
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
       valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
       areEqual(valueType.autorisationDUrbanisme?.date, this.autorisationDUrbanisme?.date) &&
@@ -131,9 +120,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.technologie, this.technologie) &&
       areEqual(valueType.actionnariat, this.actionnariat) &&
       areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
-      areEqual(valueType.typologieDeBâtiment, this.typologieDeBâtiment) &&
-      areEqual(valueType.typeInstallationsAgrivoltaiques, this.typeInstallationsAgrivoltaiques) &&
-      areEqualArrays(valueType.fournisseurs, this.fournisseurs)
+      areEqualArrays(valueType.fournisseurs, this.fournisseurs) &&
+      areEqualArrays(valueType.typologieInstallation, this.typologieInstallation)
     );
   },
   formatter() {
@@ -149,7 +137,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       territoireProjet: this.territoireProjet,
       coefficientKChoisi: this.coefficientKChoisi,
       puissanceDeSite: this.puissanceDeSite,
-      élémentsSousOmbrière: this.élémentsSousOmbrière,
       obligationDeSolarisation: this.obligationDeSolarisation,
       emailContact: this.emailContact.formatter(),
       localité: this.localité.formatter(),
@@ -164,8 +151,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         : undefined,
       typeGarantiesFinancières: this.garantiesFinancières?.type.formatter(),
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
-      typeInstallationsAgrivoltaiques: this.typeInstallationsAgrivoltaiques?.formatter(),
-      typologieDeBâtiment: this.typologieDeBâtiment?.formatter(),
+      typologieInstallation: this.typologieInstallation.map((typologieInstallation) =>
+        typologieInstallation.formatter(),
+      ),
       autorisationDUrbanisme: this.autorisationDUrbanisme
         ? {
             date: this.autorisationDUrbanisme.date.formatter(),
@@ -194,7 +182,6 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     sociétéMère: raw.sociétéMère,
     territoireProjet: raw.territoireProjet,
     coefficientKChoisi: raw.coefficientKChoisi,
-    élémentsSousOmbrière: raw.élémentsSousOmbrière,
     obligationDeSolarisation: raw.obligationDeSolarisation,
     emailContact: Email.convertirEnValueType(raw.emailContact),
     localité: Localité.bind(raw.localité),
@@ -212,13 +199,8 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           )
         : undefined,
     fournisseurs: raw.fournisseurs.map(Fournisseur.convertirEnValueType),
-    typeInstallationsAgrivoltaiques: bindOptional(
-      TypeInstallationsAgrivoltaiques.convertirEnValueType,
-      raw.typeInstallationsAgrivoltaiques,
-    ),
-    typologieDeBâtiment: bindOptional(
-      TypologieBâtiment.convertirEnValueType,
-      raw.typologieDeBâtiment,
+    typologieInstallation: raw.typologieInstallation.map(
+      TypologieInstallation.convertirEnValueType,
     ),
     puissanceDeSite: raw.puissanceDeSite,
     autorisationDUrbanisme: raw.autorisationDUrbanisme

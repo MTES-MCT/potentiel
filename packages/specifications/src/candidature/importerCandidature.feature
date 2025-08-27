@@ -29,13 +29,10 @@ Fonctionnalité: Importer une candidature
             | PPE2 - Petit PV Bâtiment | garantie-bancaire         |                 |                      |
             | PPE2 - Petit PV Bâtiment | exemption                 |                 | 02/11/2023           |
 
-    Scénario: Importer une candidature avec des champs optionnels
+    Scénario: Importer une candidature avec un champ optionnel "obligation de solarisation "
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut                       | classé  |
-            | installations agrivoltaïques | culture |
-            | éléments sous ombrière       | ...     |
-            | typologie de bâtiment        | neuf    |
-            | obligation de solarisation   | oui     |
+            | statut                     | classé |
+            | obligation de solarisation | oui    |
         Alors la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
@@ -221,3 +218,9 @@ Fonctionnalité: Importer une candidature
             | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
             | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
+
+    Scénario: Impossible d'importer une candidature avec une typologie d'installation invalide
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut                   | classé   |
+            | typologie d'installation | inconnue |
+        Alors l'administrateur devrait être informé que "La typologie de l'installation ne correspond à aucune valeur connue"

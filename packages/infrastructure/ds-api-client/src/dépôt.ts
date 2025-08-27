@@ -5,7 +5,6 @@ import {
   getTypeGarantiesFinancières,
   getHistoriqueAbandon,
   getLocalité,
-  getTypologieBâtiment,
   getAutorisationDUrbanisme,
 } from './specialFields';
 import { DeepPartial } from './utils';
@@ -29,8 +28,6 @@ const colonnes = {
   historiqueAbandon: 'Préciser le statut du projet',
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation (loi APER)`,
-  typologieDeBâtiment: 'Typologie secondaire du projet (Bâtiment)',
-  élémentsSousOmbrière: "Préciser les éléments sous l'ombrière",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 export const mapApiResponseToDépôt = ({
@@ -74,10 +71,6 @@ export const mapApiResponseToDépôt = ({
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
-    typologieDeBâtiment: getTypologieBâtiment(accessor, 'typologieDeBâtiment'),
-    // TODO typologieOmbrière
-    élémentsSousOmbrière: accessor.getStringValue('élémentsSousOmbrière'),
-    // TODO autorisation d'urbanisme
 
     // TODO quelle adresse choisir... site de production ?
     localité: getLocalité(accessor, 'localité'),
@@ -85,9 +78,10 @@ export const mapApiResponseToDépôt = ({
     // TODO ajouter
     coefficientKChoisi: undefined,
     // Non disponibles sur Démarches simplifiées
-    typeInstallationsAgrivoltaiques: undefined,
     actionnariat: undefined,
     fournisseurs: [],
+    // @TODO : Ajouter les typologie d'installation
+    typologieInstallation: [],
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',

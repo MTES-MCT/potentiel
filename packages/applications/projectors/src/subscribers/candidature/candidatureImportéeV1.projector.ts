@@ -6,7 +6,11 @@ import { mapToCandidatureToUpsert } from './candidatureImportée.projector';
 export const candidatureImportéeV1Projector = async ({
   payload,
 }: Candidature.CandidatureImportéeEventV1) => {
-  const candidatureToUpsert = mapToCandidatureToUpsert({ ...payload, fournisseurs: [] });
+  const candidatureToUpsert = mapToCandidatureToUpsert({
+    ...payload,
+    fournisseurs: [],
+    typologieInstallation: [],
+  });
 
   await upsertProjection<Candidature.CandidatureEntity>(
     `candidature|${payload.identifiantProjet}`,

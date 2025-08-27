@@ -450,7 +450,11 @@ export class CandidatureAggregate extends AbstractAggregate<
       | CandidatureImportéeEventV1['payload']
       | CandidatureCorrigéeEvent['payload'],
   ) {
-    this.#dépôt = Dépôt.convertirEnValueType({ ...payload, fournisseurs: [] });
+    this.#dépôt = Dépôt.convertirEnValueType({
+      fournisseurs: [],
+      typologieInstallation: [],
+      ...payload,
+    });
     this.#instruction = Instruction.convertirEnValueType(payload);
   }
 
