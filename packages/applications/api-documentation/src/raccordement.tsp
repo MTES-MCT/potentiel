@@ -1,0 +1,82 @@
+import "@typespec/http";
+import "./shared.tsp";
+
+using Http;
+namespace PotentielApi;
+
+/**
+ * Un dossier de raccordement représente un point d'injection d'un projet.
+ *
+ * _NB: un projet peut avoir plusieurs dossiers de raccordement._
+ */
+model DossierRaccordement {
+  nomProjet: string;
+  identifiantProjet: string;
+  appelOffre: string;
+  periode: string;
+  famille: string;
+  numeroCRE: string;
+  commune: string;
+  codePostal: string;
+  referenceDossier: string;
+  statutDGEC: string;
+  puissance: string;
+  nomCandidat: string;
+  societeMère: string;
+  emailContact: string;
+
+  /**  */
+  siteProduction: string;
+
+  /** La date où le projet a été notifié */
+  dateNotification: string;
+}
+
+model TransmettreDateMiseEnServiceBody {
+  dateMiseEnService: string;
+}
+
+model ModifierReferenceBody {
+  nouvelleReference: string;
+}
+
+@tag("Raccordement")
+interface Raccordement {
+  /**
+   * Récupère la liste des dossiers de raccordement.
+   */
+  @route("/reseaux/raccordements")
+  @get
+  lister(
+    @query
+    page?: uint16,
+
+    @doc("Ne lister que les dossier de raccordement avec, ou sans, date de mise en service.")
+    @query
+    avecDateMiseEnService?: boolean,
+  ): ListResult<DossierRaccordement> | Error;
+
+  /**
+   * Transmet la date de mise en service pour un dossier de raccordement.
+   *
+   * _NB: un projet peut avoir plusieurs dossiers de raccordement._
+   */
+  @route("/laureats/{identifiantProjet}/raccordements/{reference}/date-mise-en-service:transmettre")
+  @post
+  transmettreDateMiseEnService(
+    @path identifiantProjet: string,
+    @path reference: string,
+    @body body: TransmettreDateMiseEnServiceBody,
+  ): {} | Error;
+
+  /**
+   * Modifie la référence du dossier de raccordement
+   */
+  @route("/laureats/{identifiantProjet}/raccordements/{reference}/reference:modifier")
+  @post
+  modifierReference(
+    @path identifiantProjet: string,
+    @path reference: string,
+    @body body: TransmettreDateMiseEnServiceBody,
+  ): {} | Error;
+}
