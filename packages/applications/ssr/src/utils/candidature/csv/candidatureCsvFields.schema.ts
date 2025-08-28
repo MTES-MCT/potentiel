@@ -27,6 +27,7 @@ const statut = {
   classé: 'classé',
   retenu: 'classé',
 } satisfies Record<string, Candidature.StatutCandidature.RawType>;
+
 export const statutCsvSchema = z
   .string()
   .toLowerCase()

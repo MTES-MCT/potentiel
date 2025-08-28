@@ -66,16 +66,11 @@ export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
 export const historiqueAbandonSchema = z.enum(Candidature.HistoriqueAbandon.types);
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
-export const typologieDeBâtimentSchema = optionalEnum(z.enum(Candidature.TypologieBâtiment.types));
-export const typeInstallationsAgrivoltaiquesSchema = optionalEnum(
-  z.enum(Candidature.TypeInstallationsAgrivoltaiques.types),
-);
 export const dateEchéanceOuDéliberationGfSchema = optionalDateSchema;
 export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
 export const obligationDeSolarisationSchema = booleanSchema.optional();
-export const élémentsSousOmbrièreSchema = z.string().optional();
 
 export const puissanceDeSiteSchema = optionalNumberSchema;
 

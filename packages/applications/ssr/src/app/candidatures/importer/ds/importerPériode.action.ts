@@ -99,8 +99,17 @@ const action: FormAction<FormState, typeof schema> = async (
             numéroCRE: String(numeroDossierDS),
           }).formatter(),
           dépôtValue: {
+            actionnariat: undefined,
+            coefficientKChoisi: undefined,
+            obligationDeSolarisation: undefined,
+            territoireProjet: '',
             fournisseurs: [],
-
+            typologieInstallation: [],
+            typeGarantiesFinancières: undefined,
+            dateÉchéanceGf: undefined,
+            dateDélibérationGf: undefined,
+            puissanceDeSite: undefined,
+            autorisationDUrbanisme: undefined,
             ...dépôt,
           },
           détailsValue: {
