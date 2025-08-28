@@ -129,7 +129,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => true,
     }))
-
     .exhaustive();
 };
 

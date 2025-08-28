@@ -45,7 +45,6 @@ export type ValueType = ReadonlyValueType<{
   nomCandidat: string;
   emailContact: Email.ValueType;
   sociétéMère: string;
-
   puissanceProductionAnnuelle: number;
   nomReprésentantLégal: string;
   prixReference: number;
