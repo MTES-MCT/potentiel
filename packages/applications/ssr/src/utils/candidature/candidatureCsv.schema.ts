@@ -42,6 +42,7 @@ import {
   numéroDAutorisationDUrbanismeSchema,
   dateDAutorisationDUrbanismeCsvSchema,
 } from './candidatureFields.schema';
+import { mapCsvToTypologieInstallation } from './csv/mapCsvToTypologieInstallation';
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = [
@@ -63,20 +64,6 @@ const technologie = {
   PV: 'pv',
   'N/A': 'N/A',
 } satisfies Record<string, Candidature.TypeTechnologie.RawType>;
-
-const typeInstallationsAgrivoltaiques = {
-  culture: 'culture',
-  'jachère de plus de 5 ans': 'jachère-plus-de-5-ans',
-  élevage: 'élevage',
-  serre: 'serre',
-} satisfies Record<string, Candidature.TypeInstallationsAgrivoltaiques.RawType>;
-
-const typologieDeBâtiment = {
-  'bâtiment neuf': 'neuf',
-  'bâtiment existant avec rénovation de toiture': 'existant-avec-rénovation-de-toiture',
-  'bâtiment existant sans rénovation de toiture': 'existant-sans-rénovation-de-toiture',
-  mixte: 'mixte',
-} satisfies Record<string, Candidature.TypologieBâtiment.RawType>;
 
 // Les colonnes du fichier Csv
 const colonnes = {
@@ -234,6 +221,9 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       gouvernancePartagée,
       numéroDAutorisationDUrbanisme,
       dateDAutorisationDUrbanisme,
+      typologieDeBâtiment,
+      typeInstallationsAgrivoltaiques,
+      élémentsSousOmbrière,
       ...val
     }) => {
       return {
@@ -243,12 +233,6 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           : undefined,
         historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
         technologie: technologie[val.technologie],
-        typologieDeBâtiment: val.typologieDeBâtiment
-          ? typologieDeBâtiment[val.typologieDeBâtiment]
-          : undefined,
-        typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
-          ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
-          : undefined,
         dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime | undefined,
         actionnariat: financementCollectif
           ? Candidature.TypeActionnariat.financementCollectif.formatter()
@@ -262,6 +246,11 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 numéro: numéroDAutorisationDUrbanisme,
               }
             : undefined,
+        typologieInstallation: mapCsvToTypologieInstallation({
+          typologieDeBâtiment,
+          typeInstallationsAgrivoltaiques,
+          élémentsSousOmbrière,
+        }),
       };
     },
   );

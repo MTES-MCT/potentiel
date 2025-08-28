@@ -137,8 +137,13 @@ export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
 export const installationsAgrivoltaiquesCsvSchema = optionalEnum(
   z.enum(['culture', 'jachère de plus de 5 ans', 'élevage', 'serre']),
 );
+export type InstallationsAgrivoltaiquesCsvShape = z.infer<
+  typeof installationsAgrivoltaiquesCsvSchema
+>;
 
 export const élémentsSousOmbrièreCsvSchema = z.string().optional();
+export type ÉlémentsSousOmbrièreCsvShape = z.infer<typeof élémentsSousOmbrièreCsvSchema>;
+
 export const typologieDeBâtimentCsvSchema = optionalEnum(
   z.enum([
     'bâtiment neuf',
@@ -147,5 +152,7 @@ export const typologieDeBâtimentCsvSchema = optionalEnum(
     'mixte',
   ]),
 );
+export type TypologieBâtimentCsvShape = z.infer<typeof typologieDeBâtimentCsvSchema>;
+
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
 export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();
