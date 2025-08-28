@@ -11,12 +11,11 @@ import {
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
   DateDélibérationDansLeFuturError,
-  TypeGarantiesFinancièresInconnu,
 } from './garantiesFinancières.error';
 
 export type RawType =
   | {
-      type: 'consignation' | 'six-mois-après-achèvement' | 'garantie-bancaire';
+      type: 'type-inconnu' | 'consignation' | 'six-mois-après-achèvement' | 'garantie-bancaire';
     }
   | {
       type: 'avec-date-échéance';
@@ -26,6 +25,10 @@ export type RawType =
       type: 'exemption';
       dateDélibération: DateTime.RawType;
     };
+
+type InconnuValueType = {
+  type: TypeGarantiesFinancières.ValueType<'type-inconnu'>;
+};
 
 type ConsignationValueType = {
   type: TypeGarantiesFinancières.ValueType<'consignation'>;
@@ -55,6 +58,7 @@ export type ValueType<
     | (Type extends 'garantie-bancaire' ? GarantiesBancairesValueType : never)
     | (Type extends 'avec-date-échéance' ? AvecDateÉchéanceValueType : never)
     | (Type extends 'exemption' ? ExemptionValueType : never)
+    | (Type extends 'type-inconnu' ? InconnuValueType : never)
   ) & {
     formatter(): RawType;
     estAvecDateÉchéance(): this is ValueType<'avec-date-échéance'>;
@@ -65,6 +69,13 @@ export type ValueType<
 export const bind = (plain: PlainType<ValueType>): ValueType => {
   return match(plain)
     .returnType<ValueType>()
+    .with({ type: { type: 'type-inconnu' } }, () => ({
+      type: TypeGarantiesFinancières.typeInconnu,
+      estÉgaleÀ: (valueType) => valueType.type.type === 'type-inconnu',
+      formatter: () => ({ type: 'type-inconnu' }),
+      estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
+      estExemption: (): this is ValueType<'exemption'> => false,
+    }))
     .with({ type: { type: 'consignation' } }, () => ({
       type: TypeGarantiesFinancières.consignation,
       estÉgaleÀ: (valueType) => valueType.type.type === 'consignation',
@@ -142,6 +153,7 @@ export const convertirEnValueType = ({
 
   return match(typeGarantiesFinancières.type)
     .returnType<ValueType>()
+    .with('type-inconnu', (type) => bind({ type: { type } }))
     .with('consignation', (type) => bind({ type: { type } }))
     .with('garantie-bancaire', (type) => bind({ type: { type } }))
     .with('six-mois-après-achèvement', (type) => bind({ type: { type } }))
@@ -161,9 +173,6 @@ export const convertirEnValueType = ({
         },
       }),
     )
-    .with('type-inconnu', () => {
-      throw new TypeGarantiesFinancièresInconnu();
-    })
     .exhaustive();
 };
 

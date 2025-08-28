@@ -2,15 +2,17 @@ name: Pull Request workflow
 
 on:
   pull_request:
-    paths-ignore:
-      - 'README.md'
-      - '.storybook/**'
-      - '.vscode/**'
-      - 'scripts/**'
-      - 'docs/**'
-      - '.env.template'
-      - '.prettier**'
-      - 'LICENSE'
+    # NB: disabled because the checks are required and prevent merging.
+    # Pending on https://github.com/orgs/community/discussions/13690
+    # paths-ignore:
+    # - 'README.md'
+    # - '.storybook/**'
+    # - '.vscode/**'
+    # - 'scripts/**'
+    # - 'docs/**'
+    # - '.env.template'
+    # - '.prettier**'
+    # - 'LICENSE'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
