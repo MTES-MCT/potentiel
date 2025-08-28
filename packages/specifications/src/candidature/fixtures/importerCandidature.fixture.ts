@@ -179,9 +179,6 @@ const créerDépôt = (
     dateÉchéanceGf: undefined,
     dateDélibérationGf: undefined,
     coefficientKChoisi: undefined,
-    typeInstallationsAgrivoltaiques: undefined,
-    élémentsSousOmbrière: undefined,
-    typologieDeBâtiment: undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
       aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
@@ -190,6 +187,7 @@ const créerDépôt = (
 
     ...dépôt,
 
+    typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
     fournisseurs: [
       {
         typeFournisseur: 'cellules' as const,
