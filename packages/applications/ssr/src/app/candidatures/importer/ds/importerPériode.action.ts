@@ -16,7 +16,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
-import { statutCsvSchema } from '@/utils/candidature';
+import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
 
 import { getLocalité } from '../../_helpers';
 
@@ -99,19 +99,8 @@ const action: FormAction<FormState, typeof schema> = async (
             numéroCRE: String(numeroDossierDS),
           }).formatter(),
           dépôtValue: {
-            actionnariat: undefined,
-            coefficientKChoisi: undefined,
-            obligationDeSolarisation: undefined,
-            typeInstallationsAgrivoltaiques: undefined,
-            élémentsSousOmbrière: undefined,
-            typologieDeBâtiment: undefined,
-            territoireProjet: '',
             fournisseurs: [],
-            typeGarantiesFinancières: undefined,
-            dateÉchéanceGf: undefined,
-            dateDélibérationGf: undefined,
-            puissanceDeSite: undefined,
-            autorisationDUrbanisme: undefined,
+
             ...dépôt,
           },
           détailsValue: {

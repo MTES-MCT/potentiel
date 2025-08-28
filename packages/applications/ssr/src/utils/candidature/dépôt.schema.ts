@@ -48,6 +48,5 @@ export const dépôtSchema = z.object({
   élémentsSousOmbrière: élémentsSousOmbrièreSchema,
   puissanceDeSite: puissanceDeSiteSchema,
   autorisationDUrbanisme: autorisationDUrbanismeSchema,
-
   localité: localitéSchema,
 });

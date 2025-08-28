@@ -6,7 +6,7 @@ import {
   InstallationsAgrivoltaiquesCsvShape,
   TypologieBâtimentCsvShape,
   ÉlémentsSousOmbrièreCsvShape,
-} from '../candidatureFields.schema';
+} from './candidatureCsvFields.schema';
 
 type GetTypologieInstallation = (args: {
   typeInstallationsAgrivoltaiques: InstallationsAgrivoltaiquesCsvShape;

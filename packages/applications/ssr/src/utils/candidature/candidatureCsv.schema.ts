@@ -5,12 +5,10 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { conditionalRequiredError } from './schemaBase';
 import {
-  adresse1CsvSchema,
   adresse2Schema,
   appelOffreSchema,
   communeSchema,
   emailContactSchema,
-  évaluationCarboneSimplifiéeCsvSchema,
   familleSchema,
   nomCandidatSchema,
   nomProjetSchema,
@@ -18,31 +16,35 @@ import {
   noteTotaleSchema,
   numéroCRESchema,
   prixRéférenceSchema,
-  puissanceALaPointeCsvSchema,
   puissanceProductionAnnuelleSchema,
   périodeSchema,
   sociétéMèreSchema,
-  statutCsvSchema,
-  technologieCsvSchema,
+  motifEliminationSchema,
+  territoireProjetSchema,
+  codePostalSchema,
+  puissanceDeSiteSchema,
+  numéroDAutorisationDUrbanismeSchema,
+} from './candidatureFields.schema';
+import { mapCsvToTypologieInstallation } from './csv/mapCsvToTypologieInstallation';
+import {
+  adresse1CsvSchema,
+  choixCoefficientKCsvSchema,
+  dateDAutorisationDUrbanismeCsvSchema,
+  dateEchéanceGfCsvSchema,
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
   historiqueAbandonCsvSchema,
-  motifEliminationSchema,
-  typeGarantiesFinancieresCsvSchema,
-  dateEchéanceGfCsvSchema,
-  territoireProjetSchema,
-  notifiedOnCsvSchema,
-  codePostalSchema,
-  choixCoefficientKCsvSchema,
   installationsAgrivoltaiquesCsvSchema,
-  élémentsSousOmbrièreCsvSchema,
-  typologieDeBâtimentCsvSchema,
+  notifiedOnCsvSchema,
   obligationDeSolarisationCsvSchema,
-  puissanceDeSiteSchema,
-  numéroDAutorisationDUrbanismeSchema,
-  dateDAutorisationDUrbanismeCsvSchema,
-} from './candidatureFields.schema';
-import { mapCsvToTypologieInstallation } from './csv/mapCsvToTypologieInstallation';
+  puissanceALaPointeCsvSchema,
+  statutCsvSchema,
+  technologieCsvSchema,
+  typeGarantiesFinancieresCsvSchema,
+  typologieDeBâtimentCsvSchema,
+  élémentsSousOmbrièreCsvSchema,
+  évaluationCarboneSimplifiéeCsvSchema,
+} from './csv/candidatureCsvFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = [
