@@ -16,6 +16,7 @@ import {
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
   DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  DépôtGarantiesFinancièresEnCoursModifiéEvent,
   DépôtGarantiesFinancièresEnCoursSuppriméEvent,
   DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
   DépôtGarantiesFinancièresEnCoursValidéEvent,
@@ -96,9 +97,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.#aDesGarantiesFinancières;
   }
 
-  #aUnDépôtEnCours: boolean = false;
+  #dépôtEnCours: GarantiesFinancières.ValueType | undefined = undefined;
   get aUnDépôtEnCours() {
-    return this.#aUnDépôtEnCours;
+    return !!this.#dépôtEnCours;
   }
 
   #estLevé: boolean = false;
@@ -400,6 +401,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         this.applyDépôtGarantiesFinancièresSoumisV1.bind(this),
       )
       .with(
+        { type: 'DépôtGarantiesFinancièresEnCoursModifié-V1' },
+        this.applyDépôtGarantiesFinancièresEnCoursModifiéV1.bind(this),
+      )
+      .with(
         {
           type: 'HistoriqueGarantiesFinancièresEffacé-V1',
         },
@@ -465,26 +470,39 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   private applyDépôtGarantiesFinancièresEnCoursSuppriméV1(
     _: DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
   ) {
-    this.#aUnDépôtEnCours = false;
+    this.#dépôtEnCours = undefined;
   }
 
   private applyDépôtGarantiesFinancièresEnCoursSuppriméV2(
     _: DépôtGarantiesFinancièresEnCoursSuppriméEvent,
   ) {
-    this.#aUnDépôtEnCours = false;
+    this.#dépôtEnCours = undefined;
   }
 
-  private applyDépôtGarantiesFinancièresSoumisV1(_: DépôtGarantiesFinancièresSoumisEvent) {
-    this.#aUnDépôtEnCours = true;
+  private applyDépôtGarantiesFinancièresSoumisV1({
+    payload: { type, dateÉchéance },
+  }: DépôtGarantiesFinancièresSoumisEvent) {
+    this.#dépôtEnCours = GarantiesFinancières.convertirEnValueType({ type, dateÉchéance });
+  }
+
+  private applyDépôtGarantiesFinancièresEnCoursModifiéV1({
+    payload: { type, dateÉchéance },
+  }: DépôtGarantiesFinancièresEnCoursModifiéEvent) {
+    this.#dépôtEnCours = GarantiesFinancières.convertirEnValueType({ type, dateÉchéance });
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV1(
     _: DépôtGarantiesFinancièresEnCoursValidéEventV1,
   ) {
     this.#aDesGarantiesFinancières = true;
-    // l'évènement v1 ne contenait pas l'attestation, mais utilisait le dépôt en cours
     this.#aUneAttestation = true;
-    this.#aUnDépôtEnCours = false;
+    // l'évènement v1 ne contenait pas l'attestation, mais utilisait le dépôt en cours
+    if (this.#dépôtEnCours) {
+      this.#type = this.#dépôtEnCours?.type;
+      if (this.#dépôtEnCours.estAvecDateÉchéance())
+        this.#dateÉchéance = this.#dépôtEnCours.dateÉchéance;
+    }
+    this.#dépôtEnCours = undefined;
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV2({
@@ -492,7 +510,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }: DépôtGarantiesFinancièresEnCoursValidéEvent) {
     this.#aDesGarantiesFinancières = true;
     this.#aUneAttestation = true;
-    this.#aUnDépôtEnCours = false;
+    this.#dépôtEnCours = undefined;
     this.#type = TypeGarantiesFinancières.convertirEnValueType(type);
     this.#dateÉchéance = dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined;
   }
@@ -521,7 +539,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     _: HistoriqueGarantiesFinancièresEffacéEvent,
   ) {
     this.#aDesGarantiesFinancières = false;
-    this.#aUnDépôtEnCours = false;
+    this.#dépôtEnCours = undefined;
   }
 
   private applyTypeGarantiesFinancièresImportéV1({
