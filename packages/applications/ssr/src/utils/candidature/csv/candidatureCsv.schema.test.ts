@@ -4,7 +4,7 @@ import { expect, assert } from 'chai';
 import { SafeParseReturnType, SafeParseSuccess } from 'zod';
 import { diffJson } from 'diff';
 
-import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '.';
+import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '..';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   "Appel d'offres": "appel d'offre",

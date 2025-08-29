@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { conditionalRequiredError } from './schemaBase';
+import { conditionalRequiredError } from '../schemaBase';
 import {
   actionnariatSchema,
   adresse1Schema,
@@ -30,7 +30,7 @@ import {
   identifiantProjetSchema,
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
-} from './candidatureFields.schema';
+} from '../candidatureFields.schema';
 
 /**
  * Schema simplifié par rapport au CSV, pour utilisation dans des formulaires

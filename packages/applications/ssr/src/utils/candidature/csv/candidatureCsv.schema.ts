@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { Candidature } from '@potentiel-domain/projet';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { conditionalRequiredError } from './schemaBase';
+import { conditionalRequiredError } from '../schemaBase';
 import {
   adresse2Schema,
   appelOffreSchema,
@@ -24,8 +24,9 @@ import {
   codePostalSchema,
   puissanceDeSiteSchema,
   numéroDAutorisationDUrbanismeSchema,
-} from './candidatureFields.schema';
-import { mapCsvToTypologieInstallation } from './csv/mapCsvToTypologieInstallation';
+} from '../candidatureFields.schema';
+
+import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
 import {
   adresse1CsvSchema,
   choixCoefficientKCsvSchema,
@@ -44,7 +45,7 @@ import {
   typologieDeBâtimentCsvSchema,
   élémentsSousOmbrièreCsvSchema,
   évaluationCarboneSimplifiéeCsvSchema,
-} from './csv/candidatureCsvFields.schema';
+} from './candidatureCsvFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = [
