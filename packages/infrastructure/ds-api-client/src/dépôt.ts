@@ -6,6 +6,7 @@ import {
   getHistoriqueAbandon,
   getLocalité,
   getAutorisationDUrbanisme,
+  getTypologieInstallation,
 } from './specialFields';
 import { DeepPartial } from './utils';
 
@@ -41,6 +42,16 @@ export const mapApiResponseToDépôt = ({
       numéro: "Numéro de l'autorisation",
       date: "Date d'obtention",
     } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
+    demarche.revision.champDescriptors,
+  );
+  const accessorTypologieInstallation = createDossierAccessor(
+    champs,
+    {
+      typologieDeBâtiment: 'Typologie secondaire du projet (Bâtiment)',
+      typologieDombrière: 'Typologie secondaire du projet (Ombrière)',
+      élémentsSousOmbrière: "Préciser les éléments sous l'ombrière",
+      élémentsSousSerre: 'Préciser les éléments sous la serre',
+    },
     demarche.revision.champDescriptors,
   );
   accessor.getStringValue('nomCandidat');
@@ -80,8 +91,13 @@ export const mapApiResponseToDépôt = ({
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
     fournisseurs: [],
-    // @TODO : Ajouter les typologie d'installation
-    typologieInstallation: [],
+    typologieInstallation: getTypologieInstallation({
+      accessor: accessorTypologieInstallation,
+      nomChampTypologieBâtiment: 'typologieDeBâtiment',
+      nomChampTypologieOmbrière: 'typologieDombrière',
+      nomChampÉlémentsSousSerre: 'élémentsSousSerre',
+      nomChampÉlémentsSousOmbrière: 'typologieDeBâtiment',
+    }),
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
