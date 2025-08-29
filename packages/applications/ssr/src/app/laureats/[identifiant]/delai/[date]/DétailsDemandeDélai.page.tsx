@@ -150,20 +150,11 @@ const mapToActionComponents = ({
   dateAchèvementPrévisionnelActuelle,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
-    {actions.includes('annuler') && (
-      <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
-    )}
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
       <PasserEnInstructionDemandeDélai
         identifiantProjet={identifiantProjet.formatter()}
         dateDemande={dateDemande.formatter()}
         estUneReprise={actions.includes('reprendre-instruction')}
-      />
-    )}
-    {actions.includes('rejeter') && (
-      <RejeterDemandeDélai
-        identifiantProjet={identifiantProjet.formatter()}
-        dateDemande={dateDemande.formatter()}
       />
     )}
     {actions.includes('accorder') && (
@@ -174,6 +165,13 @@ const mapToActionComponents = ({
         dateAchèvementPrévisionnelActuelle={mapToPlainObject(dateAchèvementPrévisionnelActuelle)}
       />
     )}
+    {actions.includes('rejeter') && (
+      <RejeterDemandeDélai
+        identifiantProjet={identifiantProjet.formatter()}
+        dateDemande={dateDemande.formatter()}
+      />
+    )}
+
     {actions.includes('corriger') && (
       <Button
         linkProps={{
@@ -184,6 +182,9 @@ const mapToActionComponents = ({
       >
         Corriger
       </Button>
+    )}
+    {actions.includes('annuler') && (
+      <AnnulerDemandeDélai identifiantProjet={identifiantProjet.formatter()} />
     )}
   </ActionsList>
 );

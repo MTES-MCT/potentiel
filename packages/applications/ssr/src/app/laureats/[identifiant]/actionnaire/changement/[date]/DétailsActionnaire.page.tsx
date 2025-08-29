@@ -83,9 +83,7 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
     {actions.includes('rejeter') && (
       <RejeterChangementActionnaire identifiantProjet={identifiantProjet} />
     )}
-    {actions.includes('annuler') && (
-      <AnnulerChangementActionnaire identifiantProjet={identifiantProjet} />
-    )}
+
     {actions.includes('demander') && (
       <Button
         priority="secondary"
@@ -95,6 +93,10 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       >
         Faire une nouvelle demande de changement
       </Button>
+    )}
+
+    {actions.includes('annuler') && (
+      <AnnulerChangementActionnaire identifiantProjet={identifiantProjet} />
     )}
   </ActionsList>
 );

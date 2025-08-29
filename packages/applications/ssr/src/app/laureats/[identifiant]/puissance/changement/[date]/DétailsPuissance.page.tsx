@@ -85,9 +85,6 @@ type MapToActionsComponentsProps = {
 
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
-    {actions.includes('annuler') && (
-      <AnnulerChangementPuissance identifiantProjet={identifiantProjet} />
-    )}
     {actions.includes('accorder') && (
       <AccorderChangementPuissance identifiantProjet={identifiantProjet} />
     )}
@@ -103,6 +100,9 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       >
         Faire une nouvelle demande de changement
       </Button>
+    )}
+    {actions.includes('annuler') && (
+      <AnnulerChangementPuissance identifiantProjet={identifiantProjet} />
     )}
   </ActionsList>
 );

@@ -30,7 +30,11 @@ export const RejeterChangementPuissance = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
+      <Button
+        priority="secondary"
+        onClick={() => setIsOpen(true)}
+        className="block w-1/2 text-center"
+      >
         Rejeter
       </Button>
 

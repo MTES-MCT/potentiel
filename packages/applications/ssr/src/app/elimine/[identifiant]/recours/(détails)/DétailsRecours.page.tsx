@@ -93,14 +93,14 @@ type MapToActionsComponentsProps = {
 
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
-    {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
-    {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
-    {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
     {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
       <PasserRecoursEnInstruction
         identifiantProjet={identifiantProjet}
         estUneReprise={actions.includes('reprendre-instruction')}
       />
     )}
+    {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
+    {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
+    {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
   </ActionsList>
 );

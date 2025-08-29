@@ -31,7 +31,11 @@ export const AccorderChangementPuissance = ({
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)} className="block text-center">
+      <Button
+        priority="secondary"
+        onClick={() => setIsOpen(true)}
+        className="block w-1/2 text-center"
+      >
         Accorder
       </Button>
 
