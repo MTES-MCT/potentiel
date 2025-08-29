@@ -27,15 +27,6 @@ export const dépôtExempleMap: FieldToExempleMapper<
     mapValueType(Candidature.HistoriqueAbandon.convertirEnValueType),
   ],
   actionnariat: ['actionnariat', mapValueType(Candidature.TypeActionnariat.convertirEnValueType)],
-  // typeInstallationsAgrivoltaiques: [
-  //   'installations agrivoltaïques',
-  //   mapValueType(Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType),
-  // ],
-  // typologieDeBâtiment: [
-  //   'typologie de bâtiment',
-  //   mapValueType(Candidature.TypologieBâtiment.convertirEnValueType),
-  // ],
-  // élémentsSousOmbrière: ['éléments sous ombrière'],
   nomProjet: ['nom projet'],
   nomCandidat: ['nom candidat'],
   emailContact: ['email contact'],

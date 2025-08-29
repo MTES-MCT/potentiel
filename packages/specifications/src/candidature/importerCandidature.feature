@@ -218,9 +218,3 @@ Fonctionnalité: Importer une candidature
             | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
             | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
-
-    Scénario: Impossible d'importer une candidature avec une typologie d'installation invalide
-        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut                   | classé   |
-            | typologie d'installation | inconnue |
-        Alors l'administrateur devrait être informé que "La typologie de l'installation ne correspond à aucune valeur connue"
