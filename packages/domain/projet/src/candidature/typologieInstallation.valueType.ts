@@ -20,37 +20,41 @@ export const agrivoltaique = [
 
 export const typologies = [...bâtiment, ...ombrière, ...serre, ...agrivoltaique] as const;
 
-export type RawType = { typologie: (typeof typologies)[number]; détails?: string };
+type Typologie = (typeof typologies)[number];
+
+export type RawType = { typologie: Typologie; détails?: string };
 
 export type ValueType = ReadonlyValueType<{
-  type: RawType;
+  typologie: Typologie;
+  détails?: string;
   formatter(): RawType;
 }>;
 
-export const bind = ({ type }: PlainType<ValueType>): ValueType => {
-  estValide(type);
+export const bind = ({ typologie, détails }: PlainType<ValueType>): ValueType => {
+  estValide({ typologie, détails });
   return {
-    type,
+    typologie,
+    détails,
     formatter() {
-      return this.type;
+      return { typologie: this.typologie, détails: this.détails };
     },
-    estÉgaleÀ(type: ValueType) {
-      return this.type === type.type;
+    estÉgaleÀ({ typologie, détails }: ValueType) {
+      return this.typologie === typologie && this.détails === détails;
     },
   };
 };
 
-type TypeProps = {
+type ConvertirEnValueTypeProps = {
   typologie: string;
   détails?: string;
 };
 
-export const convertirEnValueType = (type: TypeProps) => {
-  estValide(type);
-  return bind({ type });
+export const convertirEnValueType = (props: ConvertirEnValueTypeProps) => {
+  estValide(props);
+  return bind(props);
 };
 
-function estValide(value: TypeProps): asserts value is RawType {
+function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
   const isValid = (typologies as readonly string[]).includes(value.typologie);
 
   if (!isValid) {

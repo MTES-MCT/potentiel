@@ -62,7 +62,6 @@ export type CandidatureEntity = Entity<
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
     coefficientKChoisi?: boolean;
-    élémentsSousOmbrière?: string;
     obligationDeSolarisation?: boolean;
     détailsMisÀJourLe: DateTime.RawType;
     fournisseurs: Array<Fournisseur.RawType>;
