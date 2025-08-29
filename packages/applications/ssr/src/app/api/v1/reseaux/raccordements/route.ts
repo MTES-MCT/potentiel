@@ -1,13 +1,12 @@
-import { mediator } from 'mediateur';
 import { z } from 'zod';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { DossierRaccordementListResult } from '@potentiel-applications/api-documentation';
-
-import { withUtilisateur } from '@/utils/withUtilisateur';
-import { apiAction } from '@/utils/apiAction';
-import { mapToRangeOptions } from '@/utils/pagination';
+import {
+  createPotentielApiRouter,
+  DossierRaccordement,
+  DossierRaccordementListResult,
+} from '@potentiel-applications/api-documentation';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,29 +15,52 @@ const routeParamsSchema = z.object({
   avecDateMiseEnService: z.stringbool().optional(),
 });
 
-export const GET = (request: NextRequest) =>
-  apiAction(() =>
-    withUtilisateur(async (utilisateur) => {
-      const { searchParams } = new URL(request.url);
-      const { avecDateMiseEnService, page } = routeParamsSchema.parse(
-        Object.fromEntries(searchParams.entries()),
-      );
-      const result = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
-        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
-        data: {
-          utilisateur: utilisateur.identifiantUtilisateur.email,
-          avecDateMiseEnService,
-          range: page
-            ? mapToRangeOptions({
-                currentPage: page,
-                itemsPerPage: 50,
-              })
-            : undefined,
-        },
-      });
-      return NextResponse.json(mapToApiResponse(result));
-    }),
-  );
+export const GET = (request: NextApiRequest, response: NextApiResponse) =>
+  // apiAction(() =>
+  // withUtilisateur(async (utilisateur) => {
+  {
+    const router = createPotentielApiRouter(
+      {
+        lister: async () => ({ message: '' }),
+        modifierReference: async () => ({ message: '' }),
+        transmettreDateMiseEnService: async () => ({ message: '' }),
+      },
+      {
+        listerEnAttente: async () => ({ message: '' }),
+        transmettreDateDAchevement: async () => ({ message: '' }),
+      },
+      {
+        confirmer: async () => ({ message: '' }),
+        listerEnAttenteConfirmation: async () => ({ message: '' }),
+      },
+      { get: async () => ({ message: '' }), getParReference: async () => ({ message: '' }) },
+    );
+    router.dispatch(request, response);
+  };
+// }),
+// );
+
+// const { searchParams } = new URL(request.url);
+// const { avecDateMiseEnService, page } = routeParamsSchema.parse(
+//   Object.fromEntries(searchParams.entries()),
+// );
+// const result = await mediator.send<Lauréat.Raccordement.ListerDossierRaccordementQuery>({
+//   type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
+//   data: {
+//     identifiantGestionnaireRéseau: récupérerIdentifiantGestionnaireUtilisateur(utilisateur),
+//     utilisateur: utilisateur.identifiantUtilisateur.email,
+//     avecDateMiseEnService,
+//     range: page
+//       ? mapToRangeOptions({
+//           currentPage: page,
+//           itemsPerPage: 50,
+//         })
+//       : undefined,
+//   },
+// });
+// return NextResponse.json(mapToApiResponse(result));
+//   }),
+// );
 
 type MapToApiResponse = (
   dossiers: Lauréat.Raccordement.ListerDossierRaccordementReadModel,
@@ -47,22 +69,14 @@ type MapToApiResponse = (
 const mapToApiResponse: MapToApiResponse = ({ items, range, total }) => ({
   total,
   range,
-  items: items.map((dossier) => ({
-    identifiantProjet: dossier.identifiantProjet.formatter(),
-    nomProjet: dossier.nomProjet,
-    appelOffre: dossier.appelOffre,
-    periode: dossier.période,
-    famille: dossier.famille,
-    numeroCRE: dossier.numéroCRE,
-    commune: dossier.commune,
-    codePostal: dossier.codePostal,
-    statutDGEC: dossier.statutDGEC,
-    referenceDossier: dossier.référenceDossier.formatter(),
-    puissance: dossier.puissance,
-    dateNotification: dossier.dateNotification,
-    emailContact: dossier.emailContact,
-    nomCandidat: dossier.nomCandidat,
-    siteProduction: dossier.siteProduction,
-    sociétéMère: dossier.sociétéMère,
-  })),
+  items: items.map((dossier) =>
+    DossierRaccordement.toJsonObject({
+      ...dossier,
+      identifiantProjet: dossier.identifiantProjet.formatter(),
+      periode: dossier.période,
+      numeroCre: dossier.numéroCRE,
+      statutDgec: dossier.statutDGEC,
+      referenceDossier: dossier.référenceDossier.formatter(),
+    }),
+  ),
 });

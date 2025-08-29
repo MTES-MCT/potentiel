@@ -15,14 +15,20 @@ model DossierRaccordement {
   appelOffre: string;
   periode: string;
   famille: string;
-  numeroCRE: string;
+
+  @encodedName("application/json", "numeroCRE")
+  numeroCre: string;
+
   commune: string;
   codePostal: string;
   referenceDossier: string;
-  statutDGEC: string;
+
+  @encodedName("application/json", "statutDGEC")
+  statutDgec: string;
+
   puissance: string;
   nomCandidat: string;
-  societeMère: string;
+  sociétéMère: string;
   emailContact: string;
 
   /** Adresse complète du site de production */
