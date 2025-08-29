@@ -21,8 +21,7 @@ export const DemandeImpossibleSiAbandonEnCoursInfoBox = ({
 export const DemandeImpossibleSiAchèvementInfoBox = () => (
   <InfoBox>
     <span>
-      Ce projet est achevé car vous avez transmis l'attestation de conformité au cocontractant, vous
-      ne pouvez donc plus faire de demande ou de déclaration sur Potentiel.
+      Ce projet est achevé car vous avez transmis l'attestation de conformité au cocontractant ; vous ne pouvez donc plus faire de demande ou déclaration de modification sur Potentiel. Il vous est toujours possible de mettre à jour les parties Garanties financières et Raccordement au réseau de votre projet.
     </span>
   </InfoBox>
 );
