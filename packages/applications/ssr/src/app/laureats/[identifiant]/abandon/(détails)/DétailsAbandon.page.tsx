@@ -132,6 +132,12 @@ const mapToActionComponents = ({
   projetsÀSélectionner,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
+    {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+      <PasserAbandonEnInstruction
+        identifiantProjet={identifiantProjet}
+        estUneReprise={actions.includes('reprendre-instruction')}
+      />
+    )}
     {actions.includes('demander-confirmation') && (
       <DemanderConfirmationAbandon identifiantProjet={identifiantProjet} />
     )}
@@ -143,19 +149,13 @@ const mapToActionComponents = ({
     )}
     {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
     {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
-    {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
-    {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
-      <PasserAbandonEnInstruction
-        identifiantProjet={identifiantProjet}
-        estUneReprise={actions.includes('reprendre-instruction')}
-      />
-    )}
     {actions.includes('transmettre-preuve-recandidature') && (
       <TransmettrePreuveRecandidature
         identifiantProjet={identifiantProjet}
         projetsÀSélectionner={projetsÀSélectionner}
       />
     )}
+    {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
   </ActionsList>
 );
 

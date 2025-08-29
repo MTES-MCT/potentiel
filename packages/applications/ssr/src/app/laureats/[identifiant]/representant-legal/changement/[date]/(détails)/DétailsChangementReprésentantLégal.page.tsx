@@ -93,6 +93,16 @@ const mapToActionComponents = ({
   dateDemande,
 }: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
+    {actions.includes('enregistrer-changement') && (
+      <Button
+        priority="secondary"
+        linkProps={{
+          href: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet),
+        }}
+      >
+        Faire une nouvelle déclaration de changement
+      </Button>
+    )}
     {actions.includes('accorder') && (
       <AccorderChangementReprésentantLégal
         identifiantProjet={identifiantProjet}
@@ -103,11 +113,10 @@ const mapToActionComponents = ({
     {actions.includes('rejeter') && (
       <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
     )}
-    {actions.includes('annuler') && (
-      <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
-    )}
+
     {actions.includes('corriger') && (
       <Button
+        priority="secondary"
         linkProps={{
           href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet, dateDemande),
           prefetch: false,
@@ -117,15 +126,9 @@ const mapToActionComponents = ({
         Corriger
       </Button>
     )}
-    {actions.includes('enregistrer-changement') && (
-      <Button
-        priority="secondary"
-        linkProps={{
-          href: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet),
-        }}
-      >
-        Faire une nouvelle déclaration de changement
-      </Button>
+
+    {actions.includes('annuler') && (
+      <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
     )}
   </ActionsList>
 );
