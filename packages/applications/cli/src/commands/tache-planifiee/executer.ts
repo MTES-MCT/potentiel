@@ -26,6 +26,7 @@ const envSchema = z.object({
 
 export class Executer extends Command {
   static monitoringSlug = 'potentiel-scheduler';
+  static description = 'Exécute les tâches planifiées du jour, ou de la date spécifiée';
 
   static flags = {
     date: Flags.string({

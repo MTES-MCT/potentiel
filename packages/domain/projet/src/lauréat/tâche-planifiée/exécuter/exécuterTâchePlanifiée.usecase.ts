@@ -9,7 +9,7 @@ import { ExécuterTâchePlanifiéeCommand } from './exécuterTâchePlanifiée.co
 export type ExécuterTâchePlanifiéeUseCase = Message<
   'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
   {
-    identifiantProjetValue: IdentifiantProjet.RawType;
+    identifiantProjetValue: string;
     typeTâchePlanifiéeValue: string;
     exécutéeLeValue: string;
   }
