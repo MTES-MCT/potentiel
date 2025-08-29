@@ -35,27 +35,13 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     delete actual.notification;
     actual.should.be.deep.equal(expected);
 
-    // mapToExpected utilise le ValueType Dépôt, donc une erreur dans ce valueType pourrait ne pas être détectée dans ce test.
-    // on compare donc aussi les valeurs des champs du dépôt
     const expectedDépôtValue = this.candidatureWorld.corrigerCandidature.aÉtéCréé
       ? this.candidatureWorld.corrigerCandidature.dépôtValue
       : this.candidatureWorld.importerCandidature.dépôtValue;
-    const rawResult = candidature.dépôt.formatter();
-    for (const [key, expectedValue] of Object.entries(expectedDépôtValue)) {
-      const actualValue = rawResult[key as keyof Candidature.Dépôt.RawType];
-      if (typeof expectedValue === 'string') {
-        assert(typeof actualValue === 'string');
-        expect(actualValue.toLowerCase()).to.eq(
-          expectedValue.toLowerCase(),
-          `La propriété ${key} n'a pas la bonne valeur`,
-        );
-      } else {
-        expect(actualValue).to.deep.eq(
-          expectedValue,
-          `La propriété ${key} n'a pas la bonne valeur`,
-        );
-      }
-    }
+
+    // mapToExpected utilise le ValueType Dépôt, donc une erreur dans ce valueType pourrait ne pas être détectée dans ce test.
+    // on compare donc aussi les valeurs des champs du dépôt
+    shallowCompareObject(expectedDépôtValue, candidature.dépôt.formatter());
 
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
@@ -148,4 +134,42 @@ export const vérifierAttestationDeDésignation = async (identifiantProjet: stri
       attestation.format.should.be.equal('application/pdf');
     }
   }, 1000);
+};
+
+// effectue une comparaison non stricte pour s'assurer que les propriétés de `expected` sont présentes dans `actual`, avec la bonne valeur
+const shallowCompareObject = (
+  expected: Record<string, unknown>,
+  actual: Record<string, unknown>,
+  path?: string,
+) => {
+  for (const [key, expectedValue] of Object.entries(expected)) {
+    const pathToProp = path ? `${path}${key}` : key;
+    const actualValue = actual[key];
+    if (typeof expectedValue === 'string') {
+      assert(typeof actualValue === 'string');
+      expect(actualValue.toLowerCase()).to.eq(
+        expectedValue.toLowerCase(),
+        `La propriété ${pathToProp} n'a pas la bonne valeur`,
+      );
+    } else if (typeof expectedValue === 'object') {
+      if (expectedValue) {
+        assert(typeof actualValue === 'object', `La propriété ${pathToProp} n'est pas un objet`);
+        shallowCompareObject(
+          expectedValue as Record<string, unknown>,
+          actualValue as Record<string, unknown>,
+          `${pathToProp}.`,
+        );
+      } else {
+        expect(actualValue).to.eq(
+          expectedValue,
+          `La propriété ${pathToProp} ne devrait pas être définie`,
+        );
+      }
+    } else {
+      expect(actualValue).to.eq(
+        expectedValue,
+        `La propriété ${pathToProp} n'a pas la bonne valeur`,
+      );
+    }
+  }
 };

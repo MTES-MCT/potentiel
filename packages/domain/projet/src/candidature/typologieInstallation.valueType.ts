@@ -36,11 +36,7 @@ export const bind = ({ typologie, détails }: PlainType<ValueType>): ValueType =
     typologie,
     détails,
     formatter() {
-      // TODO vérifier si on doit garde ca :)
-      if (this.détails) {
-        return { typologie: this.typologie, détails: this.détails };
-      }
-      return { typologie: this.typologie };
+      return { typologie: this.typologie, détails: this.détails };
     },
     estÉgaleÀ({ typologie, détails }: ValueType) {
       return this.typologie === typologie && this.détails === détails;
