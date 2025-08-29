@@ -134,10 +134,10 @@ const mapBodyToUseCaseData = (
       territoireProjet: previous.dépôt.territoireProjet,
       historiqueAbandon: previous.dépôt.historiqueAbandon.formatter(),
       fournisseurs: previous.dépôt.fournisseurs.map((fournisseur) => fournisseur.formatter()),
-      typeInstallationsAgrivoltaiques: previous.dépôt.typeInstallationsAgrivoltaiques?.formatter(),
-      élémentsSousOmbrière: previous.dépôt.élémentsSousOmbrière,
-      typologieDeBâtiment: previous.dépôt.typologieDeBâtiment?.formatter(),
       obligationDeSolarisation: previous.dépôt.obligationDeSolarisation,
+      typologieInstallation: previous.dépôt.typologieInstallation.map((installation) =>
+        installation.formatter(),
+      ),
     },
 
     détailsValue: undefined,

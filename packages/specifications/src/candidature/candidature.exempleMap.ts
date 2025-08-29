@@ -12,7 +12,10 @@ import {
 } from '../helpers/mapToExemple';
 
 export const dépôtExempleMap: FieldToExempleMapper<
-  Omit<Candidature.Dépôt.RawType, 'localité' | 'fournisseurs' | 'autorisationDUrbanisme'>
+  Omit<
+    Candidature.Dépôt.RawType,
+    'localité' | 'fournisseurs' | 'autorisationDUrbanisme' | 'typologieInstallation'
+  >
 > = {
   typeGarantiesFinancières: [
     'type GF',
@@ -24,21 +27,12 @@ export const dépôtExempleMap: FieldToExempleMapper<
     mapValueType(Candidature.HistoriqueAbandon.convertirEnValueType),
   ],
   actionnariat: ['actionnariat', mapValueType(Candidature.TypeActionnariat.convertirEnValueType)],
-  typeInstallationsAgrivoltaiques: [
-    'installations agrivoltaïques',
-    mapValueType(Candidature.TypeInstallationsAgrivoltaiques.convertirEnValueType),
-  ],
-  typologieDeBâtiment: [
-    'typologie de bâtiment',
-    mapValueType(Candidature.TypologieBâtiment.convertirEnValueType),
-  ],
   nomProjet: ['nom projet'],
   nomCandidat: ['nom candidat'],
   emailContact: ['email contact'],
   sociétéMère: ['société mère'],
   territoireProjet: ['territoire projet'],
   nomReprésentantLégal: ['nom représentant légal'],
-  élémentsSousOmbrière: ['éléments sous ombrière'],
   dateÉchéanceGf: ["date d'échéance", mapDateTime],
   dateDélibérationGf: ['date de délibération', mapDateTime],
   puissanceProductionAnnuelle: ['puissance production annuelle', mapNumber],

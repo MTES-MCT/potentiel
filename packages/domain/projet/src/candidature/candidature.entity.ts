@@ -12,9 +12,8 @@ import {
   StatutCandidature,
   TypeActionnariat,
   TypeGarantiesFinancières,
-  TypeInstallationsAgrivoltaiques,
   TypeTechnologie,
-  TypologieBâtiment,
+  TypologieInstallation,
 } from '.';
 
 type CandidatureNonNotifiée = {
@@ -63,11 +62,9 @@ export type CandidatureEntity = Entity<
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
     coefficientKChoisi?: boolean;
-    typeInstallationsAgrivoltaiques?: TypeInstallationsAgrivoltaiques.RawType;
-    élémentsSousOmbrière?: string;
-    typologieDeBâtiment?: TypologieBâtiment.RawType;
     obligationDeSolarisation?: boolean;
     détailsMisÀJourLe: DateTime.RawType;
     fournisseurs: Array<Fournisseur.RawType>;
+    typologieInstallation: Array<TypologieInstallation.RawType>;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

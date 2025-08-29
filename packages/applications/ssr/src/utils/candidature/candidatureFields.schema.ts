@@ -6,16 +6,12 @@ import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_hel
 
 import {
   booleanSchema,
-  optionalCsvDateSchema,
   numberSchema,
   optionalDateSchema,
   optionalEnum,
   optionalNumberSchema,
-  optionalOuiNonSchema,
-  optionalOuiNonVideSchema,
   optionalStringSchema,
   optionalStringWithDefaultValueSchema,
-  ouiNonSchema,
   requiredStringSchema,
   strictlyPositiveNumberSchema,
 } from './schemaBase';
@@ -70,16 +66,11 @@ export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
 export const historiqueAbandonSchema = z.enum(Candidature.HistoriqueAbandon.types);
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
-export const typologieDeBâtimentSchema = optionalEnum(z.enum(Candidature.TypologieBâtiment.types));
-export const typeInstallationsAgrivoltaiquesSchema = optionalEnum(
-  z.enum(Candidature.TypeInstallationsAgrivoltaiques.types),
-);
 export const dateEchéanceOuDéliberationGfSchema = optionalDateSchema;
 export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();
 export const obligationDeSolarisationSchema = booleanSchema.optional();
-export const élémentsSousOmbrièreSchema = z.string().optional();
 
 export const puissanceDeSiteSchema = optionalNumberSchema;
 
@@ -100,52 +91,3 @@ export const autorisationDUrbanismeSchema = z
         }
       : undefined,
   );
-
-// champs spécifiques au Csv
-export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
-export const évaluationCarboneSimplifiéeCsvSchema = z
-  .union([z.literal('N/A'), z.literal(''), strictlyPositiveNumberSchema])
-  .transform((val) => (val === 'N/A' || val === '' ? 0 : val));
-export const technologieCsvSchema = z
-  .union([z.enum(['N/A', 'Eolien', 'Hydraulique', 'PV']), z.literal('')])
-  .optional()
-  .transform((val) => val || 'N/A');
-
-const statut = {
-  éliminé: 'éliminé',
-  eliminé: 'éliminé',
-  classé: 'classé',
-  retenu: 'classé',
-} satisfies Record<string, Candidature.StatutCandidature.RawType>;
-export const statutCsvSchema = z
-  .string()
-  .toLowerCase()
-  .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']))
-  .transform((val) => statut[val]);
-
-export const adresse1CsvSchema = optionalStringWithDefaultValueSchema;
-export const dateEchéanceGfCsvSchema = optionalCsvDateSchema.optional();
-export const financementCollectifCsvSchema = ouiNonSchema;
-export const gouvernancePartagéeCsvSchema = ouiNonSchema;
-export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
-export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
-export const notifiedOnCsvSchema = z.undefined({
-  invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
-});
-export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
-
-export const installationsAgrivoltaiquesCsvSchema = optionalEnum(
-  z.enum(['culture', 'jachère de plus de 5 ans', 'élevage', 'serre']),
-);
-
-export const élémentsSousOmbrièreCsvSchema = z.string().optional();
-export const typologieDeBâtimentCsvSchema = optionalEnum(
-  z.enum([
-    'bâtiment neuf',
-    'bâtiment existant avec rénovation de toiture',
-    'bâtiment existant sans rénovation de toiture',
-    'mixte',
-  ]),
-);
-export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
-export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();

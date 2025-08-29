@@ -29,13 +29,10 @@ Fonctionnalité: Importer une candidature
             | PPE2 - Petit PV Bâtiment | garantie-bancaire         |                 |                      |
             | PPE2 - Petit PV Bâtiment | exemption                 |                 | 02/11/2023           |
 
-    Scénario: Importer une candidature avec des champs optionnels
+    Scénario: Importer une candidature avec un champ optionnel "obligation de solarisation "
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut                       | classé  |
-            | installations agrivoltaïques | culture |
-            | éléments sous ombrière       | ...     |
-            | typologie de bâtiment        | neuf    |
-            | obligation de solarisation   | oui     |
+            | statut                     | classé |
+            | obligation de solarisation | oui    |
         Alors la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis

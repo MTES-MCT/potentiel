@@ -4,7 +4,7 @@ import { expect, assert } from 'chai';
 import { SafeParseReturnType, SafeParseSuccess } from 'zod';
 import { diffJson } from 'diff';
 
-import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '.';
+import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '..';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   "Appel d'offres": "appel d'offre",
@@ -52,7 +52,7 @@ function assertNoError<TInput, TOutput>(
 }
 
 describe('Schema candidature', () => {
-  test('Cas nominal, éliminé', () => {
+  test('Cas nominal : éliminé', () => {
     const result = candidatureCsvSchema.safeParse({
       ...minimumValuesEliminé,
     });
@@ -84,18 +84,16 @@ describe('Schema candidature', () => {
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
-      typeInstallationsAgrivoltaiques: undefined,
-      élémentsSousOmbrière: undefined,
-      typologieDeBâtiment: undefined,
       obligationDeSolarisation: undefined,
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
+      typologieInstallation: [],
     };
     deepEqualWithRichDiff(result.data, expected);
   });
 
-  test('Cas nominal, classé', () => {
+  test('Cas nominal : classé', () => {
     const result = candidatureCsvSchema.safeParse(minimumValuesClassé);
     assertNoError(result);
     const expected: CandidatureShape = {
@@ -125,13 +123,11 @@ describe('Schema candidature', () => {
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
-      typeInstallationsAgrivoltaiques: undefined,
-      élémentsSousOmbrière: undefined,
-      typologieDeBâtiment: undefined,
       obligationDeSolarisation: undefined,
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
+      typologieInstallation: [],
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -142,7 +138,7 @@ describe('Schema candidature', () => {
       'Technologie\n(dispositif de production)': 'Eolien',
       'Engagement de fourniture de puissance à la pointe\n(AO ZNI)': 'Oui',
       'Installations agrivoltaïques': 'Jachère de plus de 5 ans',
-      'Eléments sous l’ombrière': '...',
+      'Eléments sous l’ombrière': `Ce qu'il y a sous l'ombrière`,
       'Typologie de bâtiment': 'Bâtiment existant avec rénovation de toiture',
       'Obligation de solarisation': 'Oui',
       "Date d'obtention de l'autorisation d'urbanisme": '21/08/2025',
@@ -176,13 +172,22 @@ describe('Schema candidature', () => {
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
-      typeInstallationsAgrivoltaiques: 'jachère-plus-de-5-ans',
-      élémentsSousOmbrière: '...',
-      typologieDeBâtiment: 'existant-avec-rénovation-de-toiture',
       obligationDeSolarisation: true,
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
+      typologieInstallation: [
+        {
+          typologie: 'agrivoltaique.jachère-plus-de-5-ans',
+        },
+        {
+          typologie: 'bâtiment.existant-avec-rénovation-de-toiture',
+        },
+        {
+          typologie: 'ombrière.autre',
+          détails: "Ce qu'il y a sous l'ombrière",
+        },
+      ],
     };
 
     deepEqualWithRichDiff(result.data, expected);

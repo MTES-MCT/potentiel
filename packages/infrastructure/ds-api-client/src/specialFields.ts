@@ -52,21 +52,6 @@ export const getHistoriqueAbandon = <
   nom: TName,
 ) => mapSelectToValueType(typeHistoriqueAbandonMap, accessor, nom) ?? 'première-candidature';
 
-const typologieBâtimentMap = reverseRecord({
-  neuf: `Bâtiment neuf`,
-  'existant-avec-rénovation-de-toiture': `Bâtiment existant avec rénovation de toiture`,
-  'existant-sans-rénovation-de-toiture': 'Bâtiment existant sans rénovation de toiture',
-  mixte: 'Bâtiment autre',
-} satisfies Partial<Record<Candidature.TypologieBâtiment.RawType, string>>);
-
-export const getTypologieBâtiment = <
-  T extends Record<string, string>,
-  TName extends string & keyof T,
->(
-  accessor: DossierAccessor<T>,
-  nom: TName,
-) => mapSelectToValueType(typologieBâtimentMap, accessor, nom);
-
 export const getLocalité = <T extends Record<string, string>, TName extends string & keyof T>(
   accessor: DossierAccessor<T>,
   nom: TName,

@@ -17,9 +17,6 @@ import {
   choixCoefficientKSchema,
   historiqueAbandonSchema,
   obligationDeSolarisationSchema,
-  typologieDeBâtimentSchema,
-  élémentsSousOmbrièreSchema,
-  typeInstallationsAgrivoltaiquesSchema,
   puissanceDeSiteSchema,
   autorisationDUrbanismeSchema,
 } from './candidatureFields.schema';
@@ -42,12 +39,8 @@ export const dépôtSchema = z.object({
   dateDélibérationGf: dateEchéanceOuDéliberationGfSchema,
   coefficientKChoisi: choixCoefficientKSchema,
   historiqueAbandon: historiqueAbandonSchema,
-  typeInstallationsAgrivoltaiques: typeInstallationsAgrivoltaiquesSchema,
-  typologieDeBâtiment: typologieDeBâtimentSchema,
   obligationDeSolarisation: obligationDeSolarisationSchema,
-  élémentsSousOmbrière: élémentsSousOmbrièreSchema,
   puissanceDeSite: puissanceDeSiteSchema,
   autorisationDUrbanisme: autorisationDUrbanismeSchema,
-
   localité: localitéSchema,
 });

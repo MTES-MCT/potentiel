@@ -12,7 +12,7 @@ import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAct
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { candidatureCsvSchema } from '@/utils/candidature';
-import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
+import { mapCsvRowToFournisseurs } from '@/utils/candidature/csv/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
 import { getLocalité } from '../_helpers';

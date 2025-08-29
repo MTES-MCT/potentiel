@@ -3,14 +3,12 @@ import { z } from 'zod';
 import { Candidature } from '@potentiel-domain/projet';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { conditionalRequiredError } from './schemaBase';
+import { conditionalRequiredError } from '../schemaBase';
 import {
-  adresse1CsvSchema,
   adresse2Schema,
   appelOffreSchema,
   communeSchema,
   emailContactSchema,
-  évaluationCarboneSimplifiéeCsvSchema,
   familleSchema,
   nomCandidatSchema,
   nomProjetSchema,
@@ -18,30 +16,36 @@ import {
   noteTotaleSchema,
   numéroCRESchema,
   prixRéférenceSchema,
-  puissanceALaPointeCsvSchema,
   puissanceProductionAnnuelleSchema,
   périodeSchema,
   sociétéMèreSchema,
-  statutCsvSchema,
-  technologieCsvSchema,
+  motifEliminationSchema,
+  territoireProjetSchema,
+  codePostalSchema,
+  puissanceDeSiteSchema,
+  numéroDAutorisationDUrbanismeSchema,
+} from '../candidatureFields.schema';
+
+import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
+import {
+  adresse1CsvSchema,
+  choixCoefficientKCsvSchema,
+  dateDAutorisationDUrbanismeCsvSchema,
+  dateEchéanceGfCsvSchema,
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
   historiqueAbandonCsvSchema,
-  motifEliminationSchema,
-  typeGarantiesFinancieresCsvSchema,
-  dateEchéanceGfCsvSchema,
-  territoireProjetSchema,
-  notifiedOnCsvSchema,
-  codePostalSchema,
-  choixCoefficientKCsvSchema,
   installationsAgrivoltaiquesCsvSchema,
-  élémentsSousOmbrièreCsvSchema,
-  typologieDeBâtimentCsvSchema,
+  notifiedOnCsvSchema,
   obligationDeSolarisationCsvSchema,
-  puissanceDeSiteSchema,
-  numéroDAutorisationDUrbanismeSchema,
-  dateDAutorisationDUrbanismeCsvSchema,
-} from './candidatureFields.schema';
+  puissanceALaPointeCsvSchema,
+  statutCsvSchema,
+  technologieCsvSchema,
+  typeGarantiesFinancieresCsvSchema,
+  typologieDeBâtimentCsvSchema,
+  élémentsSousOmbrièreCsvSchema,
+  évaluationCarboneSimplifiéeCsvSchema,
+} from './candidatureCsvFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = [
@@ -63,20 +67,6 @@ const technologie = {
   PV: 'pv',
   'N/A': 'N/A',
 } satisfies Record<string, Candidature.TypeTechnologie.RawType>;
-
-const typeInstallationsAgrivoltaiques = {
-  culture: 'culture',
-  'jachère de plus de 5 ans': 'jachère-plus-de-5-ans',
-  élevage: 'élevage',
-  serre: 'serre',
-} satisfies Record<string, Candidature.TypeInstallationsAgrivoltaiques.RawType>;
-
-const typologieDeBâtiment = {
-  'bâtiment neuf': 'neuf',
-  'bâtiment existant avec rénovation de toiture': 'existant-avec-rénovation-de-toiture',
-  'bâtiment existant sans rénovation de toiture': 'existant-sans-rénovation-de-toiture',
-  mixte: 'mixte',
-} satisfies Record<string, Candidature.TypologieBâtiment.RawType>;
 
 // Les colonnes du fichier Csv
 const colonnes = {
@@ -234,6 +224,9 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       gouvernancePartagée,
       numéroDAutorisationDUrbanisme,
       dateDAutorisationDUrbanisme,
+      typologieDeBâtiment,
+      typeInstallationsAgrivoltaiques,
+      élémentsSousOmbrière,
       ...val
     }) => {
       return {
@@ -243,12 +236,6 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           : undefined,
         historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
         technologie: technologie[val.technologie],
-        typologieDeBâtiment: val.typologieDeBâtiment
-          ? typologieDeBâtiment[val.typologieDeBâtiment]
-          : undefined,
-        typeInstallationsAgrivoltaiques: val.typeInstallationsAgrivoltaiques
-          ? typeInstallationsAgrivoltaiques[val.typeInstallationsAgrivoltaiques]
-          : undefined,
         dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime | undefined,
         actionnariat: financementCollectif
           ? Candidature.TypeActionnariat.financementCollectif.formatter()
@@ -262,6 +249,11 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 numéro: numéroDAutorisationDUrbanisme,
               }
             : undefined,
+        typologieInstallation: mapCsvToTypologieInstallation({
+          typologieDeBâtiment,
+          typeInstallationsAgrivoltaiques,
+          élémentsSousOmbrière,
+        }),
       };
     },
   );
