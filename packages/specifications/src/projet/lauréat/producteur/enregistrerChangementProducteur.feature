@@ -30,6 +30,14 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/producteur/changement/.*                                                   |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
+    Scénario: Enregistrer un changement de producteur d'un projet lauréat pour un projet avec GF avec date d'échéance
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre   | PPE2 - Bâtiment    |
+            | type GF         | avec-date-échéance |
+            | date d'échéance | 2024-01-01         |
+        Quand le porteur enregistre un changement de producteur pour le projet lauréat
+        Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+
     Scénario: Enregistrer un changement de producteur d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |

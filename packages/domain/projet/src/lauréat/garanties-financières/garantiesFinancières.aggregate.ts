@@ -355,6 +355,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
       await this.publish(event);
     }
+
+    await this.annulerTâchesPlanififées();
   }
 
   async ajouterTâchesPlanifiéesÉchéance() {
