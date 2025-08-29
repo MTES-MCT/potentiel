@@ -35,6 +35,28 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     delete actual.notification;
     actual.should.be.deep.equal(expected);
 
+    // mapToExpected utilise le ValueType Dépôt, donc une erreur dans ce valueType pourrait ne pas être détectée dans ce test.
+    // on compare donc aussi les valeurs des champs du dépôt
+    const expectedDépôtValue = this.candidatureWorld.corrigerCandidature.aÉtéCréé
+      ? this.candidatureWorld.corrigerCandidature.dépôtValue
+      : this.candidatureWorld.importerCandidature.dépôtValue;
+    const rawResult = candidature.dépôt.formatter();
+    for (const [key, expectedValue] of Object.entries(expectedDépôtValue)) {
+      const actualValue = rawResult[key as keyof Candidature.Dépôt.RawType];
+      if (typeof expectedValue === 'string') {
+        assert(typeof actualValue === 'string');
+        expect(actualValue.toLowerCase()).to.eq(
+          expectedValue.toLowerCase(),
+          `La propriété ${key} n'a pas la bonne valeur`,
+        );
+      } else {
+        expect(actualValue).to.deep.eq(
+          expectedValue,
+          `La propriété ${key} n'a pas la bonne valeur`,
+        );
+      }
+    }
+
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
