@@ -12,12 +12,15 @@
     - [Le seed automatique](#le-seed-automatique)
     - [Ajouter "à la main des projets dans Potentiel"](#ajouter-à-la-main-des-projets-dans-potentiel)
   - [Lancer les tests](#lancer-les-tests)
-    - [Specifications](#specifications)
+    - [Les tests de specifications (scénarios métiers)](#les-tests-de-specifications-scénarios-métiers)
+    - [Les tests unitaires](#les-tests-unitaires)
   - [Metabase local](#metabase-local)
-    - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
-    - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
+      - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
+      - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
   - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
   - [Lancer des commandes CLI](#lancer-des-commandes-cli)
+  - [Tâches récurrentes / CRON](#tâches-récurrentes--cron)
+    - [Monitoring des tâches récurrentes](#monitoring-des-tâches-récurrentes)
 
 ## <a id="mise-en-place-du-projet">Mise en place du projet</a>
 
@@ -157,63 +160,51 @@ Se rendre dans l'onglet Désignation >> Notifier les Candidats >> Notifier tous 
 
 ## <a id="lancer-les-tests">Lancer les tests</a>
 
-### <a id="specs">Specifications</a>
+Il existe plusieurs type de test dans le projet :
 
-Il existe deux types de test dans le projet, les tests dit **`legacy`** (couvrant l'ancien socle technique de manière disparate) et les tests dits de **`specification`** liés au nouveau socle mise en place en Behavior Driven Development.
+### <a id="specs">Les tests de specifications (scénarios métiers)</a>
 
-1. Pour lancer les tests **`legacy`**, vous pouvez utiliser le script npm **`test:legacy`** :
-
-   ```shell
-   npm run test:legacy
-   ```
-
-2. Lancer tous les tests **`legacy`**, en relançant à chaque changement
-
-```shell
-npm run test:legacy -- --watch
-```
-
-3. Lancer un seul test **`legacy`**, en relançant à chaque changement
-
-```shell
-npm run test:legacy -- --watch src/modules/AppelOffre.spec.ts
-```
-
-4. Pour lancer les tests de **`specifications`**, vous pouvez utiliser le script npm `specs` :
+1. Pour lancer touts les tests, vous pouvez utiliser le script npm `specs` :
    ```shell
    npm run specs
    ```
-5. Il est possible de lancer les tests de **`specifications`** uniquement sur certains scénarios. Pour ce faire, ajoutez un tag **`@select`** sur les scénarios que vous voulez lancer. Exemple :
+2. Il est possible de cibler des tests par domaine / fonctionnalité en rajoutant dans les fichiers `*.feature` des alias en haut de fichier (par exemple `@demander-délai`)
+
+```bash
+npm run specs -- -t @délai
+npm run specs -- -t @demander-délai
+```
+
+1. Il est possible de cibler des tests spécifique grâce au tag `@select`. Exemple :
 
 ```gherkin
 @select
 Scénario: Ajouter un gestionnaire de réseau
-   Quand un administrateur ajoute un gestionnaire de réseau
-      | Code EIC             | 17X0000009352859       |
-      | Raison sociale       | Arc Energies Maurienne |
-      | Format               | XXX                    |
-      | Légende              | Trois lettres          |
-      | Expression régulière | [a-zA-Z]{3}            |
-   Alors le gestionnaire de réseau "Arc Energies Maurienne" devrait être disponible dans le référenciel des gestionnaires de réseau
-   Et les détails du gestionnaire de réseau "Arc Energies Maurienne" devraient être consultables
 ```
 
-Utilisez ensuite le script npm **`specs:select`** :
+Utilisez ensuite le script `npm run specs:select`
 
 ```shell
 npm run specs:select
 ```
 
-6. Lancer les tests sur un domaine en particulier (ex : candidature)
+### <a id="unit">Les tests unitaires</a>
 
-```shell
-npm run specs -- -t @[tag-associé-au-domaine]
+1. Lancer tout les tests unitaires des packages librairies et applications
+
+```bash
+npm run test:apps
+npm run test:libraries
+
 ```
 
-exemple :
+2. Cibler un fichier de test unitaire spécifique
 
-```shell
-npm run specs -- -t @candidature
+Se rendre dans le répertoire où le test cible se situe et exécuter :
+
+```bash
+npx tsx --test path/to/file.test.ts
+
 ```
 
 ## <a id="metabase">Metabase local</a>
