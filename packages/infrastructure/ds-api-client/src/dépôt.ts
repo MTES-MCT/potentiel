@@ -8,6 +8,7 @@ import {
   getAutorisationDUrbanisme,
 } from './specialFields';
 import { DeepPartial } from './utils';
+import { getTypologieInstallation } from './getTypologieInstallation';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -43,6 +44,7 @@ export const mapApiResponseToDépôt = ({
     } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
     demarche.revision.champDescriptors,
   );
+
   accessor.getStringValue('nomCandidat');
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
@@ -72,7 +74,6 @@ export const mapApiResponseToDépôt = ({
 
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
 
-    // TODO quelle adresse choisir... site de production ?
     localité: getLocalité(accessor, 'localité'),
 
     // TODO ajouter
@@ -80,8 +81,7 @@ export const mapApiResponseToDépôt = ({
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
     fournisseurs: [],
-    // @TODO : Ajouter les typologie d'installation
-    typologieInstallation: [],
+    typologieInstallation: getTypologieInstallation(champs),
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
