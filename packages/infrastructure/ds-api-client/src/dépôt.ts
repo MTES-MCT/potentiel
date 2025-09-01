@@ -6,9 +6,9 @@ import {
   getHistoriqueAbandon,
   getLocalité,
   getAutorisationDUrbanisme,
-  getTypologieInstallation,
 } from './specialFields';
 import { DeepPartial } from './utils';
+import { getTypologieInstallation } from './getTypologieInstallation';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -44,16 +44,7 @@ export const mapApiResponseToDépôt = ({
     } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
     demarche.revision.champDescriptors,
   );
-  const accessorTypologieInstallation = createDossierAccessor(
-    champs,
-    {
-      typologieDeBâtiment: 'Typologie secondaire du projet (Bâtiment)',
-      typologieDombrière: 'Typologie secondaire du projet (Ombrière)',
-      élémentsSousOmbrière: "Préciser les éléments sous l'ombrière",
-      élémentsSousSerre: 'Préciser les éléments sous la serre',
-    },
-    demarche.revision.champDescriptors,
-  );
+
   accessor.getStringValue('nomCandidat');
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
@@ -83,7 +74,6 @@ export const mapApiResponseToDépôt = ({
 
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
 
-    // TODO quelle adresse choisir... site de production ?
     localité: getLocalité(accessor, 'localité'),
 
     // TODO ajouter
@@ -91,13 +81,7 @@ export const mapApiResponseToDépôt = ({
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
     fournisseurs: [],
-    typologieInstallation: getTypologieInstallation({
-      accessor: accessorTypologieInstallation,
-      nomChampTypologieBâtiment: 'typologieDeBâtiment',
-      nomChampTypologieOmbrière: 'typologieDombrière',
-      nomChampÉlémentsSousSerre: 'élémentsSousSerre',
-      nomChampÉlémentsSousOmbrière: 'typologieDeBâtiment',
-    }),
+    typologieInstallation: getTypologieInstallation(champs),
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
