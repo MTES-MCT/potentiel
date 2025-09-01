@@ -16,12 +16,16 @@ const getTypologieInstallation = (champs: Champs) => {
   const champTypologieBâtiment = champs.find(
     (champ) =>
       champ.__typename === 'TextChamp' &&
-      champ.label.trim().toLowerCase() === 'typologie secondaire du projet (bâtiment)',
+      (champ.label.trim().toLowerCase() === 'typologie secondaire du projet (bâtiment)' ||
+        champ.label.trim().toLowerCase() ===
+          'typologie secondaire du projet (projet mixte) - bâtiment'),
   );
   const champTypologieOmbrière = champs.find(
     (champ) =>
       champ.__typename === 'TextChamp' &&
-      champ.label.trim().toLowerCase() === 'typologie secondaire du projet (ombrière)',
+      (champ.label.trim().toLowerCase() === 'typologie secondaire du projet (ombrière)' ||
+        champ.label.trim().toLowerCase() ===
+          'typologie secondaire du projet (projet mixte) - ombrière'),
   );
   const champÉlémentsSousOmbrière = champs.find(
     (champ) =>
@@ -31,7 +35,8 @@ const getTypologieInstallation = (champs: Champs) => {
   const champÉlémentsSousSerre = champs.find(
     (champ) =>
       champ.__typename === 'TextChamp' &&
-      champ.label.trim().toLowerCase() === 'préciser les éléments sous la serre',
+      (champ.label.trim().toLowerCase() === 'préciser les éléments sous la serre' ||
+        champ.label.trim().toLowerCase() === 'typologie du projet (projet mixte) - serre'),
   );
 
   if (champTypologieBâtiment?.stringValue) {
@@ -227,4 +232,45 @@ describe(`Projet avec typologie "Serre"`, () => {
   });
 });
 
-describe(`Projet avec typologie "Mixte"`, () => {});
+describe(`Projet avec typologie "Mixte"`, () => {
+  test(`Doit récupérer la typologie d'installation pour un projet "mixte"`, () => {
+    const data: Champs = [
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: 'Typologie secondaire du projet (Projet mixte) - Ombrière',
+        stringValue: 'Ombrière autre',
+      },
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: "Préciser les éléments sous l'ombrière",
+        stringValue: 'les éléments...',
+      },
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: 'Typologie secondaire du projet (Projet mixte) - Bâtiment ',
+        stringValue: 'Bâtiment existant avec rénovation de toiture ',
+      },
+      {
+        ...baseChamp,
+        updatedAt: DateTime.now().formatter(),
+        __typename: 'TextChamp',
+        label: 'Typologie du projet (Projet mixte) - Serre ',
+        stringValue: 'éléments sous serre',
+      },
+    ];
+
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
+      {
+        typologie: 'bâtiment.existant-avec-rénovation-de-toiture',
+      },
+      { typologie: 'ombrière.autre', détails: 'les éléments...' },
+      { typologie: 'serre', détails: 'éléments sous serre' },
+    ];
+
+    expect(actual).to.deep.equal(expected);
+  });
+});
