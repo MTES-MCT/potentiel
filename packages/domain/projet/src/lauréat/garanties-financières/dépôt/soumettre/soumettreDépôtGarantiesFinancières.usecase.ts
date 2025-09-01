@@ -3,9 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
 
-import { TypeDocumentGarantiesFinancières } from '../..';
+import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 
 import { SoumettreDépôtGarantiesFinancièresCommand } from './soumettreDépôtGarantiesFinancières.command';
 
@@ -36,10 +35,12 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
     soumisParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const type = Candidature.TypeGarantiesFinancières.convertirEnValueType(typeValue);
-    const dateÉchéance = dateÉchéanceValue
-      ? DateTime.convertirEnValueType(dateÉchéanceValue)
-      : undefined;
+
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+      type: typeValue,
+      dateÉchéance: dateÉchéanceValue,
+    });
+
     const soumisLe = DateTime.convertirEnValueType(soumisLeValue);
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
     const soumisPar = IdentifiantUtilisateur.convertirEnValueType(soumisParValue);
@@ -67,8 +68,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
         identifiantProjet,
         soumisLe,
         soumisPar,
-        type,
-        dateÉchéance,
+        garantiesFinancières,
       },
     });
   };

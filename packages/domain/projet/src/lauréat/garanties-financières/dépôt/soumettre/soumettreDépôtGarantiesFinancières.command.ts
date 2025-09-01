@@ -2,18 +2,16 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature, GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
-import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
+import { GetProjetAggregateRoot } from '../../../../getProjetAggregateRoot.port';
+import { GarantiesFinancières } from '../..';
 
 export type SoumettreDépôtGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    type: Candidature.TypeGarantiesFinancières.ValueType;
-    dateÉchéance?: DateTime.ValueType;
+    garantiesFinancières: GarantiesFinancières.ValueType;
     attestation: DocumentProjet.ValueType;
     dateConstitution: DateTime.ValueType;
     soumisLe: DateTime.ValueType;
@@ -22,34 +20,25 @@ export type SoumettreDépôtGarantiesFinancièresCommand = Message<
 >;
 
 export const registerDépôtSoumettreGarantiesFinancièresCommand = (
-  loadAggregate: LoadAggregate,
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const handler: MessageHandler<SoumettreDépôtGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     attestation,
     dateConstitution,
     soumisLe,
-    type,
-    dateÉchéance,
+    garantiesFinancières,
     soumisPar,
   }) => {
-    const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await garantiesFinancières.soumettreDépôt({
-      identifiantProjet,
+    await projet.lauréat.garantiesFinancières.soumettreDépôt({
+      garantiesFinancières,
       attestation,
       dateConstitution,
       soumisLe,
-      type,
-      dateÉchéance,
       soumisPar,
     });
-    // Temporaire : le load doit être fait après pour que l'aggrégat soit à jour
-    const projet = await getProjetAggregateRoot(identifiantProjet);
-    // TODO move to Garanties Financière Aggregate
-    await projet.lauréat.garantiesFinancières.annulerTâchesPlanififées();
   };
   mediator.register(
     'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
