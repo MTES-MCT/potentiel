@@ -2,7 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../.././../potentiel.world';
 import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture';
@@ -91,7 +91,7 @@ export async function soumettreDépôt(
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.créer({
       ...props,
     });
-  await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
+  await mediator.send<Lauréat.GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),

@@ -9,10 +9,7 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '.';
 
-import {
-  applyDépôtGarantiesFinancièresSoumis,
-  soumettreDépôt,
-} from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
+import { applyDépôtGarantiesFinancièresSoumis } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import {
   applyDépôtGarantiesFinancièresEnCoursSupprimé,
   supprimerDépôtGarantiesFinancièresEnCours,
@@ -93,7 +90,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
-  readonly soumettreDépôt: typeof soumettreDépôt;
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
   readonly validerDépôtEnCours: typeof validerDépôtEnCours;
   readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
@@ -109,7 +105,7 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   GarantiesFinancièresEvent
 > = () => ({
   apply,
-  soumettreDépôt,
+
   supprimerDépôtGarantiesFinancièresEnCours,
   validerDépôtEnCours,
   modifierDépôtGarantiesFinancièresEnCours,

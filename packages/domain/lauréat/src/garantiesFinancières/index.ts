@@ -1,4 +1,3 @@
-import { SoumettreDépôtGarantiesFinancièresUseCase } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.usecase';
 import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
 import { ValiderDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.usecase';
 import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
@@ -74,7 +73,6 @@ export type {
 
 // UseCases
 export type GarantiesFinancièresUseCase =
-  | SoumettreDépôtGarantiesFinancièresUseCase
   | SupprimerGarantiesFinancièresÀTraiterUseCase
   | ValiderDépôtGarantiesFinancièresEnCoursUseCase
   | ModifierDépôtGarantiesFinancièresEnCoursUseCase
@@ -85,7 +83,6 @@ export type GarantiesFinancièresUseCase =
   | AccorderDemandeMainlevéeGarantiesFinancièresUseCase;
 
 export type {
-  SoumettreDépôtGarantiesFinancièresUseCase,
   SupprimerGarantiesFinancièresÀTraiterUseCase,
   ValiderDépôtGarantiesFinancièresEnCoursUseCase,
   ModifierDépôtGarantiesFinancièresEnCoursUseCase,
