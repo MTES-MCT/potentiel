@@ -21,6 +21,7 @@ import {
   autorisationDUrbanismeSchema,
 } from './candidatureFields.schema';
 import { localitéSchema } from './localité.schema';
+import { typologieInstallationSchema } from './typologieInstallation.schema';
 
 export const dépôtSchema = z.object({
   nomProjet: nomProjetSchema,
@@ -43,4 +44,5 @@ export const dépôtSchema = z.object({
   puissanceDeSite: puissanceDeSiteSchema,
   autorisationDUrbanisme: autorisationDUrbanismeSchema,
   localité: localitéSchema,
+  typologieInstallation: typologieInstallationSchema,
 });

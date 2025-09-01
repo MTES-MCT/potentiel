@@ -23,7 +23,7 @@ export const ImporterPériodePage = ({ périodes }: ImporterPériodePageProps) =
           description={
             <div className="flex flex-col gap-2">
               <p>
-                Pour ce type d'import, les candidatures providennent de{' '}
+                Pour ce type d'import, les candidatures proviennent de{' '}
                 <Link target="_blank" href="https://demarches.numerique.gouv.fr">
                   Démarches Simplifiées
                 </Link>

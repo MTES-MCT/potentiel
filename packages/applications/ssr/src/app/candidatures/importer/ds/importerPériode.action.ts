@@ -104,7 +104,6 @@ const action: FormAction<FormState, typeof schema> = async (
             obligationDeSolarisation: undefined,
             territoireProjet: '',
             fournisseurs: [],
-            typologieInstallation: [],
             typeGarantiesFinancières: undefined,
             dateÉchéanceGf: undefined,
             dateDélibérationGf: undefined,
