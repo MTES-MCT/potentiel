@@ -1,7 +1,9 @@
 import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
 
-import { registerDépôtSoumettreGarantiesFinancièresCommand } from './soumettre/soumettreDépôtGarantiesFinancières.command';
+import { registerSoumettreDépôtGarantiesFinancièresCommand } from './soumettre/soumettreDépôtGarantiesFinancières.command';
 import { registerSoumettreDépôtGarantiesFinancièresUseCase } from './soumettre/soumettreDépôtGarantiesFinancières.usecase';
+import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './valider/validerDépôtGarantiesFinancières.command';
+import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './valider/validerDépôtGarantiesFinancières.usecase';
 
 export type DépôtGarantiesFinancièresQueryDependencies = {};
 
@@ -12,8 +14,11 @@ export type DépôtGarantiesFinancièresUseCasesDependencies = {
 export const registerDépôtGarantiesFinancièresUseCases = ({
   getProjetAggregateRoot,
 }: DépôtGarantiesFinancièresUseCasesDependencies) => {
-  registerDépôtSoumettreGarantiesFinancièresCommand(getProjetAggregateRoot);
+  registerSoumettreDépôtGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerSoumettreDépôtGarantiesFinancièresUseCase();
+
+  registerValiderDépôtGarantiesFinancièresEnCoursCommand(getProjetAggregateRoot);
+  registerValiderDépôtGarantiesFinancièresEnCoursUseCase();
 };
 
 export const registerDépôtGarantiesFinancièresQueries = (

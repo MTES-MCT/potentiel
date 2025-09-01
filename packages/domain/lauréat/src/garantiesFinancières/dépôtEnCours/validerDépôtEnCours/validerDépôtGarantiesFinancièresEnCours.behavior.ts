@@ -1,50 +1,9 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError } from '../aucunDépôtEnCoursGarantiesFinancièresPourLeProjet.error';
 import { StatutGarantiesFinancières } from '../..';
-
-export type Options = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  validéLe: DateTime.ValueType;
-  validéPar: IdentifiantUtilisateur.ValueType;
-};
-
-export async function validerDépôtEnCours(
-  this: GarantiesFinancièresAggregate,
-  { validéLe, identifiantProjet, validéPar }: Options,
-) {
-  if (!this.dépôtsEnCours) {
-    throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
-  }
-
-  const {
-    dateConstitution,
-    type: { type },
-    attestation,
-    dateÉchéance,
-    soumisLe,
-  } = this.dépôtsEnCours;
-
-  const event: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent = {
-    type: 'DépôtGarantiesFinancièresEnCoursValidé-V2',
-    payload: {
-      identifiantProjet: identifiantProjet.formatter(),
-      dateConstitution: dateConstitution.formatter(),
-      type,
-      dateÉchéance: dateÉchéance?.formatter(),
-      soumisLe: soumisLe.formatter(),
-      attestation,
-      validéLe: validéLe.formatter(),
-      validéPar: validéPar.formatter(),
-    },
-  };
-
-  await this.publish(event);
-}
 
 export function applyDépôtGarantiesFinancièresEnCoursValidéV1(
   this: GarantiesFinancièresAggregate,

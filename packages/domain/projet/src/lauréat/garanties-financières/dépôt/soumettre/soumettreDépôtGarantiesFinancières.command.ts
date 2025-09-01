@@ -19,7 +19,7 @@ export type SoumettreDépôtGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerDépôtSoumettreGarantiesFinancièresCommand = (
+export const registerSoumettreDépôtGarantiesFinancièresCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const handler: MessageHandler<SoumettreDépôtGarantiesFinancièresCommand> = async ({
