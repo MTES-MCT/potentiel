@@ -35,6 +35,7 @@ import {
   DemandeImpossibleSiAbandonEnCoursInfoBox,
   DemandeImpossibleSiAchèvementInfoBox,
 } from './sections/DemandeImpossibleInfoBox';
+import { DemandeAbandonEnCoursInfoBox } from './sections/DemandeEnCoursInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
@@ -70,7 +71,7 @@ type ProjectDetailsProps = {
       url: string;
     };
   };
-  autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme']
+  autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
 };
 
 export const ProjectDetails = ({
@@ -93,7 +94,7 @@ export const ProjectDetails = ({
   emailContact,
   fournisseur,
   délai,
-  autorisationDUrbanisme
+  autorisationDUrbanisme,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -107,6 +108,14 @@ export const ProjectDetails = ({
 
   const abandonEnCoursOuAccordé = !!abandon && abandon.statut.statut !== 'rejeté';
   const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut.statut !== 'accordé';
+
+  const affichageInfobox = abandonEnCours ? (
+    user.role === 'porteur-projet' ? (
+      <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
+    ) : user.role === 'admin' || user.role === 'dreal' ? (
+      <DemandeAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
+    ) : undefined
+  ) : undefined;
 
   const étapes: EtapesProjetProps['étapes'] = [
     {
@@ -182,9 +191,7 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
-          {abandonEnCours && user.role === 'porteur-projet' && (
-            <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
-          )}
+          {affichageInfobox}
           {estAchevé && user.role === 'porteur-projet' && <DemandeImpossibleSiAchèvementInfoBox />}
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <AlertBox>
