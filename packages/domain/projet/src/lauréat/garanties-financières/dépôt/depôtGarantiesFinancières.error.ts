@@ -21,3 +21,9 @@ export class DemandeMainlevéeEnInstructionError extends InvalidOperationError {
     );
   }
 }
+
+export class AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError extends InvalidOperationError {
+  constructor() {
+    super(`Il n'y a aucun dépôt de garanties financières en cours pour ce projet`);
+  }
+}

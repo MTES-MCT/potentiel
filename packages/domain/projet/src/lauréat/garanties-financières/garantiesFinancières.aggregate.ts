@@ -40,10 +40,11 @@ import { EnregisterOptions } from './actuelles/enregistrer/enregisterGarantiesFi
 import { ÉchoirOptions } from './actuelles/échoir/échoirGarantiesFinancières.options';
 import { SoumettreDépôtOptions } from './dépôt/soumettre/soumettreDépôtGarantiesFinancières.options';
 import {
+  AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError,
   DemandeMainlevéeDemandéeError,
   DemandeMainlevéeEnInstructionError,
   DépôtGarantiesFinancièresDéjàSoumisError,
-} from './dépôt/depôt.error';
+} from './dépôt/depôtGarantiesFinancières.error';
 import {
   TypeGarantiesFinancièresImportéEvent,
   GarantiesFinancièresDemandéesEvent,
@@ -68,6 +69,7 @@ import {
   DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
   DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
 } from './mainlevée/mainlevéeGarantiesFinancières.event';
+import { ValiderDépôtOptions } from './dépôt/valider/validerDépôtGarantiesFinancières.option';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -112,7 +114,14 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return this.#aDesGarantiesFinancières;
   }
 
-  #dépôtEnCours: GarantiesFinancières.ValueType | undefined = undefined;
+  #dépôtEnCours:
+    | {
+        soumisLe: DateTime.ValueType;
+        dateConstitution: DateTime.ValueType;
+        attestation: { format: string };
+        garantiesFinancières: GarantiesFinancières.ValueType;
+      }
+    | undefined = undefined;
   get aUnDépôtEnCours() {
     return !!this.#dépôtEnCours;
   }
@@ -179,6 +188,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   private vérifierQueLesGarantiesFinancièresActuellesExistent() {
     if (!this.aDesGarantiesFinancières) {
       throw new AucunesGarantiesFinancièresActuellesError();
+    }
+  }
+
+  private vérifierQuUnDépôtEstEnCours() {
+    if (!this.#dépôtEnCours) {
+      throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
     }
   }
 
@@ -423,7 +438,28 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   // async modifierDépôt() {}
 
-  // async validerDépôt() {}
+  async validerDépôt({ validéLe, validéPar }: ValiderDépôtOptions) {
+    if (!this.#dépôtEnCours) {
+      throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
+    }
+    const { dateConstitution, attestation, garantiesFinancières, soumisLe } = this.#dépôtEnCours;
+
+    const event: DépôtGarantiesFinancièresEnCoursValidéEvent = {
+      type: 'DépôtGarantiesFinancièresEnCoursValidé-V2',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dateConstitution: dateConstitution.formatter(),
+        soumisLe: soumisLe.formatter(),
+        attestation,
+        validéLe: validéLe.formatter(),
+        validéPar: validéPar.formatter(),
+        ...garantiesFinancières.formatter(),
+      },
+    };
+
+    await this.publish(event);
+    await this.ajouterTâchesPlanifiéesÉchéance();
+  }
 
   // async supprimerDépôt() {}
 
@@ -543,15 +579,25 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private applyDépôtGarantiesFinancièresSoumisV1({
-    payload: { type, dateÉchéance },
+    payload: { type, dateÉchéance, attestation, dateConstitution, soumisLe },
   }: DépôtGarantiesFinancièresSoumisEvent) {
-    this.#dépôtEnCours = GarantiesFinancières.convertirEnValueType({ type, dateÉchéance });
+    this.#dépôtEnCours = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({ type, dateÉchéance }),
+      soumisLe: DateTime.convertirEnValueType(soumisLe),
+      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+      attestation: { format: attestation.format },
+    };
   }
 
   private applyDépôtGarantiesFinancièresEnCoursModifiéV1({
-    payload: { type, dateÉchéance },
+    payload: { type, dateÉchéance, attestation, dateConstitution, modifiéLe },
   }: DépôtGarantiesFinancièresEnCoursModifiéEvent) {
-    this.#dépôtEnCours = GarantiesFinancières.convertirEnValueType({ type, dateÉchéance });
+    this.#dépôtEnCours = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({ type, dateÉchéance }),
+      soumisLe: DateTime.convertirEnValueType(modifiéLe),
+      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+      attestation: { format: attestation.format },
+    };
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV1(
@@ -561,9 +607,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#aUneAttestation = true;
     // l'évènement v1 ne contenait pas l'attestation, mais utilisait le dépôt en cours
     if (this.#dépôtEnCours) {
-      this.#type = this.#dépôtEnCours?.type;
-      if (this.#dépôtEnCours.estAvecDateÉchéance())
-        this.#dateÉchéance = this.#dépôtEnCours.dateÉchéance;
+      this.#type = this.#dépôtEnCours.garantiesFinancières.type;
+      if (this.#dépôtEnCours.garantiesFinancières.estAvecDateÉchéance())
+        this.#dateÉchéance = this.#dépôtEnCours.garantiesFinancières.dateÉchéance;
     }
     this.#dépôtEnCours = undefined;
   }

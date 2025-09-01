@@ -17,7 +17,6 @@ import {
 import {
   applyDépôtGarantiesFinancièresEnCoursValidé,
   applyDépôtGarantiesFinancièresEnCoursValidéV1,
-  validerDépôtEnCours,
 } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
 import {
   applyDépôtGarantiesFinancièresEnCoursModifié,
@@ -91,7 +90,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
   readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
-  readonly validerDépôtEnCours: typeof validerDépôtEnCours;
   readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
   readonly demanderMainlevée: typeof demanderMainlevée;
   readonly annulerDemandeMainlevée: typeof annulerDemandeMainlevée;
@@ -107,7 +105,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   apply,
 
   supprimerDépôtGarantiesFinancièresEnCours,
-  validerDépôtEnCours,
   modifierDépôtGarantiesFinancièresEnCours,
 
   demanderMainlevée,

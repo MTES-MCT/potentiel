@@ -137,7 +137,7 @@ export async function validerDépôtEnCours(
     validéPar: this.utilisateurWorld.drealFixture.email,
     ...props,
   });
-  await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
+  await mediator.send<Lauréat.GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
