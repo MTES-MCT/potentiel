@@ -28,6 +28,11 @@ const getTypologieInstallation = (champs: Champs) => {
       champ.__typename === 'TextChamp' &&
       champ.label.trim().toLowerCase() === "préciser les éléments sous l'ombrière",
   );
+  const champÉlémentsSousSerre = champs.find(
+    (champ) =>
+      champ.__typename === 'TextChamp' &&
+      champ.label.trim().toLowerCase() === 'préciser les éléments sous la serre',
+  );
 
   if (champTypologieBâtiment?.stringValue) {
     const typologie = match(champTypologieBâtiment.stringValue.trim().toLowerCase())
@@ -65,6 +70,12 @@ const getTypologieInstallation = (champs: Champs) => {
     if (typologie) {
       typologieInstallation.push(typologie);
     }
+  }
+  if (champÉlémentsSousSerre?.stringValue) {
+    typologieInstallation.push({
+      typologie: 'serre',
+      détails: champÉlémentsSousSerre.stringValue.trim(),
+    });
   }
 
   return typologieInstallation;
@@ -196,6 +207,24 @@ describe(`Projet avec typologie "Ombrière"`, () => {
   });
 });
 
-describe(`Projet avec typologie "Serre"`, () => {});
+describe(`Projet avec typologie "Serre"`, () => {
+  test(`Doit récupérer la typologie d'installation pour un projet "serre"`, () => {
+    const data: Champs = [
+      {
+        ...baseChamp,
+        updatedAt: DateTime.now().formatter(),
+        __typename: 'TextChamp',
+        label: 'Préciser les éléments sous la serre',
+        stringValue: 'éléments sous serre',
+      },
+    ];
+
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
+      { typologie: 'serre', détails: 'éléments sous serre' },
+    ];
+    expect(actual).to.deep.equal(expected);
+  });
+});
 
 describe(`Projet avec typologie "Mixte"`, () => {});
