@@ -8,21 +8,18 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { Champs } from './graphql';
 
-// import { z } from 'zod';
-
-// import { Candidature } from '@potentiel-domain/projet';
-
 // import { getTypologieInstallation } from './specialFields';
 
 const getTypologieInstallation = (champs: Champs) => {
-  const typologieInstallation: Array<Candidature.TypologieInstallation.RawType> = [];
+  let typologieBâtiment: Candidature.TypologieInstallation.RawType | undefined = undefined;
+  let typologieOmbrière: Partial<Candidature.TypologieInstallation.RawType> | undefined = undefined;
 
   for (const champ of champs) {
     if (champ.__typename === 'TextChamp') {
       const label = champ.label.trim().toLowerCase();
 
       if (label === 'typologie secondaire du projet (bâtiment)') {
-        const typologie = match(champ.stringValue?.trim().toLowerCase())
+        typologieBâtiment = match(champ.stringValue?.trim().toLowerCase())
           .returnType<Candidature.TypologieInstallation.RawType | undefined>()
           .with('bâtiment neuf', () => ({
             typologie: 'bâtiment.neuf',
@@ -34,34 +31,52 @@ const getTypologieInstallation = (champs: Champs) => {
             typologie: 'bâtiment.existant-sans-rénovation-de-toiture',
           }))
           .otherwise(() => undefined);
-
-        if (typologie) {
-          typologieInstallation.push(typologie);
+      } else if (label === 'typologie secondaire du projet (ombrière)') {
+        const typologie = match(champ.stringValue?.trim().toLowerCase())
+          .returnType<Partial<Candidature.TypologieInstallation.RawType> | undefined>()
+          .with('ombrière sur parking', () => ({
+            typologie: 'ombrière.parking',
+          }))
+          .with('ombrière autre', () => ({
+            typologie: 'ombrière.autre',
+          }))
+          .with('ombrière mixte (sur parking et autre)', () => ({
+            typologie: 'ombrière.mixte',
+          }))
+          .otherwise(() => undefined);
+        if (!typologieOmbrière) {
+          typologieOmbrière = typologie;
+        } else if (typologie) {
+          typologieOmbrière.typologie = typologie.typologie;
+        }
+      } else if (label === "préciser les éléments sous l'ombrière") {
+        if (!typologieOmbrière) {
+          typologieOmbrière = {
+            détails: champ.stringValue?.trim(),
+          };
+        } else {
+          typologieOmbrière.détails = champ.stringValue?.trim();
         }
       }
     }
   }
+  return [typologieBâtiment, typologieOmbrière].filter(
+    (t): t is Candidature.TypologieInstallation.RawType => t !== undefined,
+  );
+};
 
-  return typologieInstallation;
+const baseChamp = {
+  id: '1',
+  champDescriptorId: 'TEST',
+  prefilled: false,
+  updatedAt: DateTime.now().formatter(),
 };
 
 describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment neuf`, () => {
     const data: Champs = [
       {
-        id: '1',
-        champDescriptorId: 'TEST',
-        prefilled: false,
-        updatedAt: DateTime.now().formatter(),
-        __typename: 'TextChamp',
-        label: 'Typologie principale du projet',
-        stringValue: 'Installation sur bâtiment',
-      },
-      {
-        id: '2',
-        champDescriptorId: 'TEST2',
-        prefilled: false,
-        updatedAt: DateTime.now().formatter(),
+        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Bâtiment neuf',
@@ -78,19 +93,7 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment existant avec rénovation de toiture`, () => {
     const data: Champs = [
       {
-        id: '1',
-        champDescriptorId: 'TEST',
-        prefilled: false,
-        updatedAt: DateTime.now().formatter(),
-        __typename: 'TextChamp',
-        label: 'Typologie principale du projet',
-        stringValue: 'Installation sur bâtiment',
-      },
-      {
-        id: '2',
-        champDescriptorId: 'TEST2',
-        prefilled: false,
-        updatedAt: DateTime.now().formatter(),
+        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Bâtiment existant avec rénovation de toiture',
@@ -107,19 +110,7 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
   test(`Doit récupérer la typologie d'installation bâtiment existant sans rénovation de toiture`, () => {
     const data: Champs = [
       {
-        id: '1',
-        champDescriptorId: 'TEST',
-        prefilled: false,
-        updatedAt: DateTime.now().formatter(),
-        __typename: 'TextChamp',
-        label: 'Typologie principale du projet',
-        stringValue: 'Installation sur bâtiment',
-      },
-      {
-        id: '2',
-        champDescriptorId: 'TEST2',
-        prefilled: false,
-        updatedAt: DateTime.now().formatter(),
+        ...baseChamp,
         __typename: 'TextChamp',
         label: 'Typologie secondaire du projet (Bâtiment)',
         stringValue: 'Bâtiment existant sans rénovation de toiture',
@@ -134,22 +125,71 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
   });
 });
 
-test(`Doit récupérer la typologie d'installation pour un projet "ombrière"`, () => {});
-test(`Doit récupérer la typologie d'installation pour un projet "serre"`, () => {});
-test(`Doit récupérer la typologie d'installation pour un projet "mixte"`, () => {});
+describe(`Projet avec typologie "Ombrière"`, () => {
+  test(`Doit récupérer la typologie d'installation pour un projet "ombrière sur parking"`, () => {
+    const data: Champs = [
+      {
+        ...baseChamp,
+        updatedAt: DateTime.now().formatter(),
+        __typename: 'TextChamp',
+        label: 'Typologie secondaire du projet (Ombrière)',
+        stringValue: 'Ombrière sur parking',
+      },
+    ];
 
-// test(`Étant donné un fichier séparé par des points-virgules
-//   Quand on parse le fichier en spécifiant le séparateur virgule
-//   Alors le fichier ne peut pas être parsé`, async () => {
-//   const readableStream = readFixture(`utf8.csv`);
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
+      { typologie: 'ombrière.parking' },
+    ];
+    expect(actual).to.deep.equal(expected);
+  });
 
-//   try {
-//     await parseCsv(readableStream, schema, { delimiter: ',' });
-//     expect.fail('did not throw');
-//   } catch (e) {
-//     expect(e).to.be.instanceOf(Error);
-//     expect((e as Error).message).to.match(/Erreur lors de la validation du fichier CSV/);
-//   }
-// });
+  test(`Doit récupérer la typologie d'installation pour un projet "ombrière autre"`, () => {
+    const data: Champs = [
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: 'Typologie secondaire du projet (Ombrière)',
+        stringValue: 'Ombrière autre',
+      },
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: "Préciser les éléments sous l'ombrière",
+        stringValue: 'les éléments...',
+      },
+    ];
 
-// const getTypologieInstallation = () => undefined;
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
+      { typologie: 'ombrière.autre', détails: 'les éléments...' },
+    ];
+    expect(actual).to.deep.equal(expected);
+  });
+
+  test(`Doit récupérer la typologie d'installation pour un projet "Ombrière mixte (sur parking et autre)"`, () => {
+    const data: Champs = [
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: 'Typologie secondaire du projet (Ombrière)',
+        stringValue: 'Ombrière mixte (sur parking et autre)',
+      },
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: "Préciser les éléments sous l'ombrière",
+        stringValue: 'les éléments...',
+      },
+    ];
+
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
+      { typologie: 'ombrière.mixte', détails: 'les éléments...' },
+    ];
+    expect(actual).to.deep.equal(expected);
+  });
+});
+
+describe(`Projet avec typologie "Serre"`, () => {});
+describe(`Projet avec typologie "Mixte"`, () => {});
