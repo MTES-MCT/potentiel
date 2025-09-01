@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { SupprimerDépôtGarantiesFinancièresEnCoursCommand } from './supprimerDépôtGarantiesFinancièresEnCours.command';
+import { SupprimerDépôtGarantiesFinancièresCommand } from './supprimerDépôtGarantiesFinancières.command';
 
-export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<
-  'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+export type SupprimerDépôtGarantiesFinancièresUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.SupprimerDépôtGarantiesFinancières',
   {
     identifiantProjetValue: string;
     suppriméLeValue: string;
@@ -14,8 +14,8 @@ export type SupprimerGarantiesFinancièresÀTraiterUseCase = Message<
   }
 >;
 
-export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
-  const runner: MessageHandler<SupprimerGarantiesFinancièresÀTraiterUseCase> = async ({
+export const registerSupprimerDépôtGarantiesFinancièresUseCase = () => {
+  const runner: MessageHandler<SupprimerDépôtGarantiesFinancièresUseCase> = async ({
     identifiantProjetValue,
     suppriméLeValue,
     suppriméParValue,
@@ -24,8 +24,8 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     const suppriméLe = DateTime.convertirEnValueType(suppriméLeValue);
     const suppriméPar = IdentifiantUtilisateur.convertirEnValueType(suppriméParValue);
 
-    await mediator.send<SupprimerDépôtGarantiesFinancièresEnCoursCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
+    await mediator.send<SupprimerDépôtGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancières',
       data: {
         identifiantProjet,
         suppriméLe,
@@ -34,7 +34,7 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
     });
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+    'Lauréat.GarantiesFinancières.UseCase.SupprimerDépôtGarantiesFinancières',
     runner,
   );
 };

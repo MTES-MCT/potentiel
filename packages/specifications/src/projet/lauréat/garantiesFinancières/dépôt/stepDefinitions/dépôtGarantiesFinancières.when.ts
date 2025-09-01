@@ -1,7 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../.././../potentiel.world';
@@ -57,8 +56,8 @@ Quand(
   'le porteur supprime le dépôt de garanties financières du projet',
   async function (this: PotentielWorld) {
     try {
-      await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+      await mediator.send<Lauréat.GarantiesFinancières.SupprimerDépôtGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerDépôtGarantiesFinancières',
         data: {
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           suppriméLeValue: new Date().toISOString(),

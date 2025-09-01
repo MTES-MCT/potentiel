@@ -27,7 +27,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Quand le porteur modifie un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner de date d'échéance pour ce type de garanties financières"
+        Alors l'utilisateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
         Exemples:
             | type GF                   | date d'échéance |
@@ -40,7 +40,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Quand le porteur modifie un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance |                    |
-        Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
+        Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
     Scénario: Impossible de modifier un dépôt de garanties financières si la date de constitution est dans le futur
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
