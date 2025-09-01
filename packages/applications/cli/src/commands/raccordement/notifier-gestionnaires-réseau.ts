@@ -1,19 +1,21 @@
 import { Command } from '@oclif/core';
-import { CommandError } from '@oclif/core/interfaces';
 import { mediator } from 'mediateur';
 
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  countProjection,
+  findProjection,
+  listHistoryProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projection-read';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { registerRéseauQueries } from '@potentiel-domain/reseau';
-import { registerLauréatQueries } from '@potentiel-domain/laureat';
 import { registerUtilisateurQueries } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { DateTime } from '@potentiel-domain/common';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, registerProjetQueries } from '@potentiel-domain/projet';
 
 export class NotifierGestionnaireRéseau extends Command {
   static monitoringSlug = 'notification-grd';
@@ -27,20 +29,26 @@ export class NotifierGestionnaireRéseau extends Command {
       find: findProjection,
     });
 
-    registerLauréatQueries({
-      find: findProjection,
+    registerProjetQueries({
       list: listProjection,
-      récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+      count: countProjection,
+      find: findProjection,
+      listHistory: listHistoryProjection,
+      récupérerProjetsEligiblesPreuveRecanditure: () => {
+        throw new Error('not implemented');
+      },
+      consulterABénéficiéDuDélaiCDC2022: () => {
+        throw new Error('not implemented');
+      },
+      getScopeProjetUtilisateur: () => {
+        throw new Error('not implemented');
+      },
     });
 
     registerUtilisateurQueries({
       find: findProjection,
       list: listProjection,
     });
-  }
-
-  protected async catch(err: CommandError) {
-    getLogger(NotifierGestionnaireRéseau.name).error(err);
   }
 
   async run() {
