@@ -7,6 +7,8 @@ import {
 import { registerExécuterTâchePlanifiéeCommand } from './exécuter/exécuterTâchePlanifiée.command';
 import { registerExécuterTâchePlanifiéeUseCase } from './exécuter/exécuterTâchePlanifiée.usecase';
 import { registerAjouterTâchePlanifiéeCommand } from './ajouter/ajouterTâchePlanifiée.command';
+import { registerAnnulerTâchePlanifiéeCommand } from './annuler/annulerTâchePlanifiée.command';
+import { registerAnnulerTâchePlanifiéeUseCase } from './annuler/annulerTâchePlanifiée.usecase';
 
 export type TâchePlanifiéeQueryDependencies = ListerTâchesPlanifiéesQueryDependencies;
 
@@ -23,6 +25,9 @@ export const registerTâchePlanifiéeUseCases = ({
 }: TâchePlanifiéeCommandDependencies) => {
   registerExécuterTâchePlanifiéeCommand(getProjetAggregateRoot);
   registerExécuterTâchePlanifiéeUseCase();
+
+  registerAnnulerTâchePlanifiéeCommand(getProjetAggregateRoot);
+  registerAnnulerTâchePlanifiéeUseCase();
 
   registerAjouterTâchePlanifiéeCommand(getProjetAggregateRoot);
 };

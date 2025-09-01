@@ -7,6 +7,7 @@ import { TâchePlanifiéeExecutéeEvent } from './exécuter/exécuterTâchePlani
 import { TâchePlanifiéeEvent } from './tâchePlanifiée.event';
 import { TâchePlanifiéeAjoutéeEvent } from './ajouter/ajouterTâchePlanifiée.event';
 import { TâchePlanifiéeAnnuléeEvent } from './annuler/annulerTâchePlanifiée.event';
+import { AnnulerTâchePlanifiéeUseCase } from './annuler/annulerTâchePlanifiée.usecase';
 
 // Query
 export type TâchePlanifiéeQuery = ListerTâchesPlanifiéesQuery;
@@ -15,7 +16,7 @@ export { ListerTâchesPlanifiéesQuery };
 // ReadModel
 export { ListerTâchesPlanifiéesReadModel };
 // UseCases
-export { ExécuterTâchePlanifiéeUseCase };
+export { ExécuterTâchePlanifiéeUseCase, AnnulerTâchePlanifiéeUseCase };
 // Event
 export {
   TâchePlanifiéeEvent,
