@@ -228,7 +228,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       },
     };
     await this.publish(event);
-    await this.ajouterTâchesPlanifiéesÉchéance();
+    await this.planifierÉchéance(importéLe);
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
@@ -274,7 +274,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.ajouterTâchesPlanifiéesÉchéance();
+    await this.planifierÉchéance(modifiéLe);
   }
 
   async enregistrerAttestation({
@@ -331,7 +331,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.ajouterTâchesPlanifiéesÉchéance();
+    await this.planifierÉchéance(enregistréLe);
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
 
@@ -484,7 +484,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.ajouterTâchesPlanifiéesÉchéance();
+    await this.planifierÉchéance(validéLe);
   }
 
   async supprimerDépôt({ suppriméLe, suppriméPar }: SupprimerDépôtOptions) {
@@ -514,23 +514,33 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       });
     }
     // Un dépôt de GF annule les tâches planifiées, donc on doit les recréer si le dépôt est supprimé.
-    await this.ajouterTâchesPlanifiéesÉchéance();
+    await this.planifierÉchéance(suppriméLe);
   }
 
   //#endregion Behavior Dépôt
-  async ajouterTâchesPlanifiéesÉchéance() {
-    if (this.dateÉchéance && !this.lauréat.projet.statut.estAchevé()) {
+  private async planifierÉchéance(échuLe: DateTime.ValueType) {
+    const garantiesFinancières = this.#actuelles?.garantiesFinancières;
+    if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.projet.statut.estAchevé()) {
+      return;
+    }
+
+    if (garantiesFinancières.dateÉchéance.estDansLeFutur()) {
       await this.#tâchePlanifiéeEchoir.ajouter({
-        àExécuterLe: this.dateÉchéance.ajouterNombreDeJours(1),
+        àExécuterLe: garantiesFinancières.dateÉchéance.ajouterNombreDeJours(1),
       });
 
       await this.#tâchePlanifiéeRappel1mois.ajouter({
-        àExécuterLe: this.dateÉchéance.retirerNombreDeMois(1),
+        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(1),
       });
 
       await this.#tâchePlanifiéeRappel2mois.ajouter({
-        àExécuterLe: this.dateÉchéance.retirerNombreDeMois(2),
+        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(2),
       });
+    } else if (!this.estÉchu) {
+      // TODO: Délai pour s'assurer que les projecteurs s'exécutent dans le bon ordre
+      // Idéalement les projecteurs devrait s'éxécuter dans l'ordre des versions du stream
+      await new Promise((r) => setTimeout(r, 100));
+      await this.échoir({ échuLe });
     }
   }
 
