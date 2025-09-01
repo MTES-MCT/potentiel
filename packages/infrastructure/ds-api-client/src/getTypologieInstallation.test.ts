@@ -1,90 +1,12 @@
 import { describe, test } from 'node:test';
 
 import { expect } from 'chai';
-import { match } from 'ts-pattern';
 
 import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { Champs } from './graphql';
-
-// import { getTypologieInstallation } from './specialFields';
-
-const getTypologieInstallation = (champs: Champs) => {
-  const typologieInstallation: Candidature.TypologieInstallation.RawType[] = [];
-
-  const champTypologieBâtiment = champs.find(
-    (champ) =>
-      champ.__typename === 'TextChamp' &&
-      (champ.label.trim().toLowerCase() === 'typologie secondaire du projet (bâtiment)' ||
-        champ.label.trim().toLowerCase() ===
-          'typologie secondaire du projet (projet mixte) - bâtiment'),
-  );
-  const champTypologieOmbrière = champs.find(
-    (champ) =>
-      champ.__typename === 'TextChamp' &&
-      (champ.label.trim().toLowerCase() === 'typologie secondaire du projet (ombrière)' ||
-        champ.label.trim().toLowerCase() ===
-          'typologie secondaire du projet (projet mixte) - ombrière'),
-  );
-  const champÉlémentsSousOmbrière = champs.find(
-    (champ) =>
-      champ.__typename === 'TextChamp' &&
-      champ.label.trim().toLowerCase() === "préciser les éléments sous l'ombrière",
-  );
-  const champÉlémentsSousSerre = champs.find(
-    (champ) =>
-      champ.__typename === 'TextChamp' &&
-      (champ.label.trim().toLowerCase() === 'préciser les éléments sous la serre' ||
-        champ.label.trim().toLowerCase() === 'typologie du projet (projet mixte) - serre'),
-  );
-
-  if (champTypologieBâtiment?.stringValue) {
-    const typologie = match(champTypologieBâtiment.stringValue.trim().toLowerCase())
-      .returnType<Candidature.TypologieInstallation.RawType | undefined>()
-      .with('bâtiment neuf', () => ({
-        typologie: 'bâtiment.neuf',
-      }))
-      .with('bâtiment existant avec rénovation de toiture', () => ({
-        typologie: 'bâtiment.existant-avec-rénovation-de-toiture',
-      }))
-      .with('bâtiment existant sans rénovation de toiture', () => ({
-        typologie: 'bâtiment.existant-sans-rénovation-de-toiture',
-      }))
-      .otherwise(() => undefined);
-    if (typologie) {
-      typologieInstallation.push(typologie);
-    }
-  }
-
-  if (champTypologieOmbrière?.stringValue) {
-    const typologie = match(champTypologieOmbrière.stringValue.trim().toLowerCase())
-      .returnType<Candidature.TypologieInstallation.RawType | undefined>()
-      .with('ombrière sur parking', () => ({
-        typologie: 'ombrière.parking',
-      }))
-      .with('ombrière autre', () => ({
-        typologie: 'ombrière.autre',
-        détails: champÉlémentsSousOmbrière?.stringValue?.trim(),
-      }))
-      .with('ombrière mixte (sur parking et autre)', () => ({
-        typologie: 'ombrière.mixte',
-        détails: champÉlémentsSousOmbrière?.stringValue?.trim(),
-      }))
-      .otherwise(() => undefined);
-    if (typologie) {
-      typologieInstallation.push(typologie);
-    }
-  }
-  if (champÉlémentsSousSerre?.stringValue) {
-    typologieInstallation.push({
-      typologie: 'serre',
-      détails: champÉlémentsSousSerre.stringValue.trim(),
-    });
-  }
-
-  return typologieInstallation;
-};
+import { getTypologieInstallation } from './getTypologieInstallation';
 
 const baseChamp = {
   id: '1',
