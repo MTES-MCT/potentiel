@@ -70,6 +70,7 @@ import {
   DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
 } from './mainlevée/mainlevéeGarantiesFinancières.event';
 import { ValiderDépôtOptions } from './dépôt/valider/validerDépôtGarantiesFinancières.option';
+import { ModifierDépôtOptions } from './dépôt/modifier/modifierDépôtGarantiesFinancières.option';
 
 export class GarantiesFinancièresAggregate extends AbstractAggregate<
   GarantiesFinancièresEvent,
@@ -436,7 +437,32 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.annulerTâchesPlanififées();
   }
 
-  // async modifierDépôt() {}
+  async modifierDépôt({
+    attestation,
+    dateConstitution,
+    modifiéLe,
+    garantiesFinancières,
+    modifiéPar,
+  }: ModifierDépôtOptions) {
+    this.vérifierQuUnDépôtEstEnCours();
+    if (dateConstitution.estDansLeFutur()) {
+      throw new DateConstitutionDansLeFuturError();
+    }
+
+    const event: DépôtGarantiesFinancièresEnCoursModifiéEvent = {
+      type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
+      payload: {
+        attestation: { format: attestation.format },
+        dateConstitution: dateConstitution.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+        ...garantiesFinancières.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
 
   async validerDépôt({ validéLe, validéPar }: ValiderDépôtOptions) {
     if (!this.#dépôtEnCours) {

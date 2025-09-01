@@ -114,18 +114,20 @@ export async function modifierDépôt(
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
       ...props,
     });
-  await mediator.send<GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>({
-    type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
-    data: {
-      identifiantProjetValue: identifiantProjet.formatter(),
-      typeValue: type,
-      dateConstitutionValue: new Date(dateConstitution).toISOString(),
-      modifiéLeValue: new Date(soumisLe).toISOString(),
-      modifiéParValue: soumisPar,
-      attestationValue: attestation,
-      dateÉchéanceValue: dateÉchéance,
+  await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
+    {
+      type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        typeValue: type,
+        dateConstitutionValue: new Date(dateConstitution).toISOString(),
+        modifiéLeValue: new Date(soumisLe).toISOString(),
+        modifiéParValue: soumisPar,
+        attestationValue: attestation,
+        dateÉchéanceValue: dateÉchéance,
+      },
     },
-  });
+  );
 }
 
 export async function validerDépôtEnCours(
