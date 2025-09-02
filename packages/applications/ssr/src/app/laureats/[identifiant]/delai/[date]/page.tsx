@@ -95,7 +95,7 @@ const mapToActions = ({
 }: MapToActionsProps) => {
   const actions: Array<DemandeDélaiActions> = [];
   const peutInstruire = autoritéCompétente
-    ? Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente).peutInstruire(role)
+    ? Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente).estCompétent(role)
     : false;
 
   return match(statut.statut)

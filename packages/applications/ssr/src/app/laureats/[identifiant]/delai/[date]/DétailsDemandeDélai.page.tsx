@@ -78,7 +78,9 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                   <StatutDemandeDélaiBadge statut={statut} />
                 </div>
                 <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Nombre de mois demandé(s) :</div>
+                  <div className="font-semibold whitespace-nowrap">
+                    Nombre de mois demandé{nombreDeMois > 1 ? 's' : ''} :
+                  </div>
                   <div>{nombreDeMois} mois</div>
                 </div>
                 {accord && (
