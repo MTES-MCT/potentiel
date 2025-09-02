@@ -44,7 +44,10 @@ export class CandidatureWorld {
       dépôt: {
         ...dépôt,
         localité,
-        autorisationDUrbanisme,
+        autorisationDUrbanisme:
+          autorisationDUrbanisme.date && autorisationDUrbanisme.numéro
+            ? autorisationDUrbanisme
+            : undefined,
       },
       instruction,
     };
