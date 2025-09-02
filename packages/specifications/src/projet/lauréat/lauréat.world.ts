@@ -1,3 +1,5 @@
+import { faker } from '@faker-js/faker';
+
 import { IdentifiantProjet, Lauréat, StatutProjet } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -141,7 +143,7 @@ export class LauréatWorld {
     this.#choisirCahierDesChargesFixture = new ChoisirCahierDesChargesFixture();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
-    this.#dateDésignation = new Date('2022-10-27').toISOString();
+    this.#dateDésignation = faker.date.recent().toISOString();
   }
 
   mapToExpected() {
