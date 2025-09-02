@@ -120,7 +120,7 @@ const mapToActions: MapToActions = ({
     if (role.aLaPermission('recours.consulter.détail')) {
       actions.push('consulter-demande-recours');
     }
-  } else if (role.aLaPermission('recours.demander') && !cahierDesChargesPermetDemandeRecours) {
+  } else if (role.aLaPermission('recours.demander') && cahierDesChargesPermetDemandeRecours) {
     actions.push('faire-demande-recours');
   }
 
