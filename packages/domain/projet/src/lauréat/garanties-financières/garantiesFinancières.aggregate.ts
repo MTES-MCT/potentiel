@@ -40,7 +40,7 @@ import { EnregisterOptions } from './actuelles/enregistrer/enregisterGarantiesFi
 import { ÉchoirOptions } from './actuelles/échoir/échoirGarantiesFinancières.options';
 import { SoumettreDépôtOptions } from './dépôt/soumettre/soumettreDépôtGarantiesFinancières.options';
 import {
-  AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError,
+  AucunDépôtDeGarantiesFinancièresEnCoursPourLeProjetError,
   DemandeMainlevéeDemandéeError,
   DemandeMainlevéeEnInstructionError,
   DépôtGarantiesFinancièresDéjàSoumisError,
@@ -207,7 +207,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   private vérifierQuUnDépôtEstEnCours() {
     if (!this.#dépôtEnCours) {
-      throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
+      throw new AucunDépôtDeGarantiesFinancièresEnCoursPourLeProjetError();
     }
   }
 
@@ -466,7 +466,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   async validerDépôt({ validéLe, validéPar }: ValiderDépôtOptions) {
     if (!this.#dépôtEnCours) {
-      throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
+      throw new AucunDépôtDeGarantiesFinancièresEnCoursPourLeProjetError();
     }
     const { dateConstitution, attestation, garantiesFinancières, soumisLe } = this.#dépôtEnCours;
 
@@ -488,9 +488,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   async supprimerDépôt({ suppriméLe, suppriméPar }: SupprimerDépôtOptions) {
-    if (!this.#dépôtEnCours) {
-      throw new AucunDépôtEnCoursGarantiesFinancièresPourLeProjetError();
-    }
+    this.vérifierQuUnDépôtEstEnCours();
 
     const event: DépôtGarantiesFinancièresEnCoursSuppriméEvent = {
       type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2',
