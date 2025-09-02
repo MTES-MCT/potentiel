@@ -1,4 +1,5 @@
 # language: fr
+@raccordement
 Fonctionnalité: Modifier une proposition technique et financière
 
     Contexte:

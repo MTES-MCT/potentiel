@@ -1,6 +1,8 @@
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { LauréatWorld } from '../projet/lauréat/lauréat.world';
+
 import { TransmettreDateMiseEnServiceFixture } from './dateDeMiseEnService/fixtures/transmettreDateDeMiseEnService.fixture';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture';
 import { DemandeComplèteRaccordementWorld } from './demandeComplèteDeRaccordement/demandeComplèteRaccordement.world';
@@ -12,7 +14,11 @@ export class RaccordementWorld {
 
   readonly demandeComplèteDeRaccordement = new DemandeComplèteRaccordementWorld();
   readonly propositionTechniqueEtFinancière = new PropositionTechniqueEtFinancièreWorld();
-  readonly transmettreDateMiseEnServiceFixture = new TransmettreDateMiseEnServiceFixture();
+  readonly transmettreDateMiseEnServiceFixture: TransmettreDateMiseEnServiceFixture;
+
+  constructor(public lauréatWorld: LauréatWorld) {
+    this.transmettreDateMiseEnServiceFixture = new TransmettreDateMiseEnServiceFixture(this);
+  }
 
   get référenceDossier() {
     return this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé

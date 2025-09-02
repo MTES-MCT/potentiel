@@ -1,4 +1,5 @@
 # language: fr
+@raccordement
 Fonctionnalité: Supprimer un dossier du raccordement d'un projet
 
     Contexte:

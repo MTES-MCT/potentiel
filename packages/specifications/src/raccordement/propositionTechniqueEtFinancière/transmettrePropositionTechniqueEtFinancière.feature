@@ -1,4 +1,5 @@
 # language: fr
+@raccordement
 Fonctionnalité: Transmettre une proposition technique et financière
 
     Contexte:

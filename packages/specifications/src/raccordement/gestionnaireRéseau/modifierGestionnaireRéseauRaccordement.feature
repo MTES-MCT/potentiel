@@ -1,4 +1,5 @@
 # language: fr
+@raccordement
 Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Contexte:

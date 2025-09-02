@@ -1,4 +1,5 @@
 # language: fr
+@raccordement
 Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un projet
 
     Contexte:
