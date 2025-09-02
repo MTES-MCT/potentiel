@@ -407,6 +407,19 @@ describe('Schema candidature', () => {
         path: ['Adresse électronique du contact'],
       });
     });
+
+    test('Date invalide', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesEliminé,
+        "Date d'échéance au format JJ/MM/AAAA": '00/01/2000',
+      });
+      assert(!result.success);
+      expect(result.error.errors[0]).to.deep.eq({
+        code: 'invalid_date',
+        message: 'La date a une valeur invalide',
+        path: ["Date d'échéance au format JJ/MM/AAAA"],
+      });
+    });
   });
 
   describe('Règles métier', () => {
@@ -627,6 +640,7 @@ describe('Schema candidature', () => {
         });
       });
     });
+
     describe('Adresse', () => {
       test('au minimum un champs doit être spécifié', () => {
         const result = candidatureCsvSchema.safeParse({
@@ -647,6 +661,17 @@ describe('Schema candidature', () => {
           'N°, voie, lieu-dit 2': 'adresse',
         });
         assertNoError(result);
+      });
+    });
+
+    describe('Date', () => {
+      test(`la date '00/01/1900' équivaut à vide`, () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesEliminé,
+          "Date d'échéance au format JJ/MM/AAAA": '00/01/1900',
+        });
+        assert(result.success);
+        expect(result.data.dateÉchéanceGf).to.be.undefined;
       });
     });
   });

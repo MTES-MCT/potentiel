@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { conditionalRequiredError } from '../schemaBase';
 import {
@@ -236,7 +235,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           : undefined,
         historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
         technologie: technologie[val.technologie],
-        dateÉchéanceGf: val.dateÉchéanceGf?.toISOString() as Iso8601DateTime | undefined,
+        dateÉchéanceGf: val.dateÉchéanceGf,
         actionnariat: financementCollectif
           ? Candidature.TypeActionnariat.financementCollectif.formatter()
           : gouvernancePartagée
@@ -245,7 +244,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
         autorisationDUrbanisme:
           dateDAutorisationDUrbanisme && numéroDAutorisationDUrbanisme
             ? {
-                date: dateDAutorisationDUrbanisme.toISOString() as Iso8601DateTime,
+                date: dateDAutorisationDUrbanisme,
                 numéro: numéroDAutorisationDUrbanisme,
               }
             : undefined,

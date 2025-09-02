@@ -31,11 +31,12 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
   let date: Date | undefined;
 
   if (typeof value === 'string') {
-    estValide(value);
+    estValideString(value);
     date = new Date(value);
   } else {
     date = value;
   }
+  estValideDate(date);
 
   return {
     date,
@@ -101,11 +102,17 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
 
 export const now = () => convertirEnValueType(new Date());
 
-function estValide(value: string): asserts value is RawType {
+function estValideString(value: string): asserts value is RawType {
   const isValid = regexDateISO8601.test(value);
 
   if (!isValid) {
     throw new DateTimeInvalideError(value);
+  }
+}
+
+function estValideDate(value: Date) {
+  if (isNaN(value.getTime())) {
+    throw new ValeurDateTimeInvalideError();
   }
 }
 
@@ -117,5 +124,11 @@ class DateTimeInvalideError extends InvalidOperationError {
         value,
       },
     );
+  }
+}
+
+class ValeurDateTimeInvalideError extends InvalidOperationError {
+  constructor() {
+    super(`La date a une valeur invalide`);
   }
 }

@@ -3,7 +3,6 @@ import { z } from 'zod';
 import { Candidature } from '@potentiel-domain/projet';
 
 import {
-  optionalCsvDateSchema,
   optionalEnum,
   optionalOuiNonSchema,
   optionalOuiNonVideSchema,
@@ -11,6 +10,8 @@ import {
   ouiNonSchema,
   strictlyPositiveNumberSchema,
 } from '../schemaBase';
+
+import { optionalCsvDateSchema } from './commonCsv.schema';
 
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
 export const évaluationCarboneSimplifiéeCsvSchema = z
