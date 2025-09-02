@@ -37,6 +37,7 @@ export type RawType = {
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
+  installeur: string | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -61,6 +62,7 @@ export type ValueType = ReadonlyValueType<{
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
+  installeur: string | undefined;
 
   formatter(): RawType;
 }>;
@@ -97,6 +99,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       }
     : undefined,
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
+  installeur: plain.installeur,
 
   estÉgaleÀ(valueType) {
     return (
@@ -113,6 +116,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.territoireProjet === this.territoireProjet &&
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
       valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
+      valueType.installeur === this.installeur &&
       areEqual(valueType.autorisationDUrbanisme?.date, this.autorisationDUrbanisme?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
@@ -160,6 +164,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
             numéro: this.autorisationDUrbanisme.numéro,
           }
         : undefined,
+      installeur: this.installeur,
     };
   },
 });
@@ -209,6 +214,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
             numéro: raw.autorisationDUrbanisme.numéro,
           })
         : undefined,
+    installeur: raw.installeur,
   });
 
 const bindOptional = <TValue, TValueType>(
