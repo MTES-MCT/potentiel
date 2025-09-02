@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../../..';
 
@@ -12,6 +13,7 @@ export type PasserEnInstructionDemandeDélaiUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     datePassageEnInstructionValue: string;
+    rôleUtilisateurValue: string;
   }
 >;
 
@@ -20,10 +22,12 @@ export const registerPasserEnInstructionDemandeDélaiUseCase = () => {
     identifiantProjetValue,
     identifiantUtilisateurValue,
     datePassageEnInstructionValue,
+    rôleUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const datePassageEnInstruction = DateTime.convertirEnValueType(datePassageEnInstructionValue);
+    const rôle = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<PasserEnInstructionDemandeDélaiCommand>({
       type: 'Lauréat.Délai.Command.PasserEnInstructionDemande',
@@ -31,6 +35,7 @@ export const registerPasserEnInstructionDemandeDélaiUseCase = () => {
         identifiantProjet,
         identifiantUtilisateur,
         datePassageEnInstruction,
+        rôleUtilisateur: rôle,
       },
     });
   };

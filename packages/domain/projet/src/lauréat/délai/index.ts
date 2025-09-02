@@ -81,6 +81,7 @@ export type { ConsulterABénéficiéDuDélaiCDC2022Port };
 // ValueTypes
 export * as StatutDemandeDélai from './demande/statutDemandeDélai.valueType';
 export * as TypeDocumentDemandeDélai from './demande/typeDocumentDemandeDélai.valueType';
+export * as AutoritéCompétente from './autoritéCompétente.valueType';
 
 // Entities
 export * from './demande/demandeDélai.entity';

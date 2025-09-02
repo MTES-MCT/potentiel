@@ -6,7 +6,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { Lauréat } from '../..';
 
-import { DemandeDélaiPasséeEnInstructionEvent, StatutDemandeDélai } from '.';
+import { AutoritéCompétente, DemandeDélaiPasséeEnInstructionEvent, StatutDemandeDélai } from '.';
 
 import { DélaiEvent } from './délai.event';
 import { DélaiDemandéEvent } from './demande/demander/demanderDélai.event';
@@ -37,6 +37,12 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
       passéEnInstructionPar: Email.ValueType;
     };
   };
+
+  get autoritéCompétente(): AutoritéCompétente.ValueType {
+    return AutoritéCompétente.convertirEnValueType(
+      this.lauréat.projet.cahierDesChargesActuel.getAutoritéCompétente('délai'),
+    );
+  }
 
   get lauréat() {
     return this.parent;
@@ -148,6 +154,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   async rejeterDemandeDélai({
     dateRejet,
     identifiantUtilisateur,
+    rôleUtilisateur,
     réponseSignée,
   }: RejeterDemandeDélaiOptions) {
     if (!this.#demande) {
@@ -155,6 +162,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
+    this.autoritéCompétente.vérifierQueLInstructionEstPossible(rôleUtilisateur);
 
     const event: DemandeDélaiRejetéeEvent = {
       type: 'DemandeDélaiRejetée-V1',
@@ -175,12 +183,14 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     identifiantUtilisateur,
     réponseSignée,
     nombreDeMois,
+    rôleUtilisateur,
   }: AccorderDemandeDélaiOptions) {
     if (!this.#demande) {
       throw new DemandeDeDélaiInexistanteError();
     }
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
+    this.autoritéCompétente.vérifierQueLInstructionEstPossible(rôleUtilisateur);
 
     const dateAchèvementPrévisionnelCalculée =
       await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
@@ -212,6 +222,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
   async passerEnInstructionDemandeDélai({
     identifiantUtilisateur,
     datePassageEnInstruction,
+    rôleUtilisateur,
   }: PasserEnInstructionDemandeDélaiOptions) {
     if (!this.#demande) {
       throw new DemandeDeDélaiInexistanteError();
@@ -220,6 +231,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutDemandeDélai.enInstruction,
     );
+    this.autoritéCompétente.vérifierQueLInstructionEstPossible(rôleUtilisateur);
 
     if (this.#demande.instruction?.passéEnInstructionPar.estÉgaleÀ(identifiantUtilisateur)) {
       throw new DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal();

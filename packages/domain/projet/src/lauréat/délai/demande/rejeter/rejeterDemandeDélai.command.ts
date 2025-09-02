@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
@@ -12,6 +13,7 @@ export type RejeterDemandeDélaiCommand = Message<
     dateRejet: DateTime.ValueType;
     identifiantUtilisateur: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
+    rôleUtilisateur: Role.ValueType;
   }
 >;
 
@@ -23,6 +25,7 @@ export const registerRejeterDemandeDélaiCommand = (
     dateRejet,
     identifiantUtilisateur,
     réponseSignée,
+    rôleUtilisateur,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
@@ -30,6 +33,7 @@ export const registerRejeterDemandeDélaiCommand = (
       dateRejet,
       identifiantUtilisateur,
       réponseSignée,
+      rôleUtilisateur,
     });
   };
   mediator.register('Lauréat.Délai.Command.RejeterDemandeDélai', handler);
