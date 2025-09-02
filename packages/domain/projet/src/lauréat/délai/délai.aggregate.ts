@@ -162,7 +162,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.rejeté);
-    this.autoritéCompétente.vérifierQueLInstructionEstPossible(rôleUtilisateur);
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     const event: DemandeDélaiRejetéeEvent = {
       type: 'DemandeDélaiRejetée-V1',
@@ -190,7 +190,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     }
 
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutDemandeDélai.accordé);
-    this.autoritéCompétente.vérifierQueLInstructionEstPossible(rôleUtilisateur);
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     const dateAchèvementPrévisionnelCalculée =
       await this.parent.achèvement.getDateAchèvementPrévisionnelCalculée({
@@ -231,7 +231,7 @@ export class DélaiAggregate extends AbstractAggregate<DélaiEvent, 'délai', La
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutDemandeDélai.enInstruction,
     );
-    this.autoritéCompétente.vérifierQueLInstructionEstPossible(rôleUtilisateur);
+    this.autoritéCompétente.peutInstruire(rôleUtilisateur);
 
     if (this.#demande.instruction?.passéEnInstructionPar.estÉgaleÀ(identifiantUtilisateur)) {
       throw new DemandeDélaiDéjàInstruiteParLeMêmeUtilisateurDreal();

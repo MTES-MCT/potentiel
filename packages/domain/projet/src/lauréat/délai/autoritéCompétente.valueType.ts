@@ -14,7 +14,7 @@ export type ValueType = ReadonlyValueType<{
   autoritéCompétente: RawType;
   formatter(): RawType;
   estCompétent(rôle: Role.ValueType): boolean;
-  vérifierQueLInstructionEstPossible(rôle: Role.ValueType): void;
+  peutInstruire(rôle: Role.ValueType): void;
 }>;
 
 export const bind = ({ autoritéCompétente }: PlainType<ValueType>): ValueType => {
@@ -38,7 +38,7 @@ export const bind = ({ autoritéCompétente }: PlainType<ValueType>): ValueType 
       }
       return false;
     },
-    vérifierQueLInstructionEstPossible(rôle) {
+    peutInstruire(rôle) {
       if (!this.estCompétent(rôle)) {
         throw new RôleNonAutoriséError();
       }

@@ -94,22 +94,23 @@ const mapToActions = ({
   autoritéCompétente,
 }: MapToActionsProps) => {
   const actions: Array<DemandeDélaiActions> = [];
-  const estAutoriséÀInstruire =
-    role.estDGEC() || (role.estDreal() && autoritéCompétente === 'dreal');
+  const peutInstruire = autoritéCompétente
+    ? Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente).peutInstruire(role)
+    : false;
 
   return match(statut.statut)
     .with('demandé', () => {
       if (role.aLaPermission('délai.annulerDemande')) {
         actions.push('annuler');
       }
-      if (role.aLaPermission('délai.passerEnInstructionDemande') && estAutoriséÀInstruire) {
+      if (role.aLaPermission('délai.passerEnInstructionDemande') && peutInstruire) {
         actions.push('passer-en-instruction');
       }
-      if (role.aLaPermission('délai.rejeterDemande') && estAutoriséÀInstruire) {
+      if (role.aLaPermission('délai.rejeterDemande') && peutInstruire) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande') && estAutoriséÀInstruire) {
+      if (role.aLaPermission('délai.accorderDemande') && peutInstruire) {
         actions.push('accorder');
       }
 
@@ -124,11 +125,11 @@ const mapToActions = ({
         return actions;
       }
 
-      if (role.aLaPermission('délai.rejeterDemande') && estAutoriséÀInstruire) {
+      if (role.aLaPermission('délai.rejeterDemande') && peutInstruire) {
         actions.push('rejeter');
       }
 
-      if (role.aLaPermission('délai.accorderDemande') && estAutoriséÀInstruire) {
+      if (role.aLaPermission('délai.accorderDemande') && peutInstruire) {
         actions.push('accorder');
       }
 
@@ -139,7 +140,7 @@ const mapToActions = ({
       if (
         !identifiantUtilisateur.estÉgaleÀ(instruction.passéeEnInstructionPar) &&
         role.aLaPermission('délai.reprendreInstructionDemande') &&
-        estAutoriséÀInstruire
+        peutInstruire
       ) {
         actions.push('reprendre-instruction');
       }
