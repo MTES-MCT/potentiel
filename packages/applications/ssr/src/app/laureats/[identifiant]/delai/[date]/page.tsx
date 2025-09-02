@@ -73,7 +73,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions({
             utilisateur,
             demandeDélai,
-            autoritéCompétente: règles.demande ? règles.autoritéCompétente : 'dgec',
+            autoritéCompétente: règles.demande ? règles.autoritéCompétente : undefined,
           })}
           historique={historique.items.map(mapToDélaiTimelineItemProps)}
         />
@@ -85,7 +85,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
   demandeDélai: Lauréat.Délai.ConsulterDemandeDélaiReadModel;
-  autoritéCompétente: AppelOffre.AutoritéCompétente;
+  autoritéCompétente?: AppelOffre.AutoritéCompétente;
 };
 
 const mapToActions = ({
@@ -94,8 +94,9 @@ const mapToActions = ({
   autoritéCompétente,
 }: MapToActionsProps) => {
   const actions: Array<DemandeDélaiActions> = [];
-  const estAutoritéCompétente =
-    Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente).estCompétent(role);
+  const estAutoritéCompétente = autoritéCompétente
+    ? Lauréat.Délai.AutoritéCompétente.convertirEnValueType(autoritéCompétente).estCompétent(role)
+    : false;
 
   return match(statut.statut)
     .with('demandé', () => {
