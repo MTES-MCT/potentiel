@@ -3,8 +3,8 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -32,21 +32,23 @@ export type ModifierDépôtGarantiesFinancièresFormKeys = keyof zod.infer<typeo
 
 const action: FormAction<FormState, typeof schema> = async (_, data) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
-      data: {
-        identifiantProjetValue: data.identifiantProjet,
-        typeValue: data.type,
-        dateÉchéanceValue:
-          data.type === 'avec-date-échéance'
-            ? new Date(data.dateEcheance).toISOString()
-            : undefined,
-        dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
-        attestationValue: data.attestation,
-        modifiéLeValue: new Date().toISOString(),
-        modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+    await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
+      {
+        type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
+        data: {
+          identifiantProjetValue: data.identifiantProjet,
+          typeValue: data.type,
+          dateÉchéanceValue:
+            data.type === 'avec-date-échéance'
+              ? new Date(data.dateEcheance).toISOString()
+              : undefined,
+          dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
+          attestationValue: data.attestation,
+          modifiéLeValue: new Date().toISOString(),
+          modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        },
       },
-    });
+    );
 
     return {
       status: 'success',

@@ -1,7 +1,11 @@
 import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
 
+import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifier/modifierDépôtGarantiesFinancières.command';
+import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifier/modifierDépôtGarantiesFinancières.usecase';
 import { registerSoumettreDépôtGarantiesFinancièresCommand } from './soumettre/soumettreDépôtGarantiesFinancières.command';
 import { registerSoumettreDépôtGarantiesFinancièresUseCase } from './soumettre/soumettreDépôtGarantiesFinancières.usecase';
+import { registerSupprimerDépôtGarantiesFinancièresCommand } from './supprimer/supprimerDépôtGarantiesFinancières.command';
+import { registerSupprimerDépôtGarantiesFinancièresUseCase } from './supprimer/supprimerDépôtGarantiesFinancières.usecase';
 import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './valider/validerDépôtGarantiesFinancières.command';
 import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './valider/validerDépôtGarantiesFinancières.usecase';
 
@@ -19,6 +23,12 @@ export const registerDépôtGarantiesFinancièresUseCases = ({
 
   registerValiderDépôtGarantiesFinancièresEnCoursCommand(getProjetAggregateRoot);
   registerValiderDépôtGarantiesFinancièresEnCoursUseCase();
+
+  registerModifierDépôtGarantiesFinancièresEnCoursCommand(getProjetAggregateRoot);
+  registerModifierDépôtGarantiesFinancièresEnCoursUseCase();
+
+  registerSupprimerDépôtGarantiesFinancièresCommand(getProjetAggregateRoot);
+  registerSupprimerDépôtGarantiesFinancièresUseCase();
 };
 
 export const registerDépôtGarantiesFinancièresQueries = (

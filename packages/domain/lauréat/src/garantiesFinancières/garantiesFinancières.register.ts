@@ -17,7 +17,6 @@ import {
 } from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
 import { registerListerMainlevéesQuery } from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 import { registerMainlevée } from './mainlevée/mainlevée.register';
-import { registerDépôt } from './dépôtEnCours/dépôt.register';
 import { registerConsulterArchivesGarantiesFinancièresQuery } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
@@ -33,7 +32,6 @@ export const registerGarantiesFinancièresUseCases = ({
   loadAggregate,
   getProjetAggregateRoot,
 }: GarantiesFinancièresCommandDependencies) => {
-  registerDépôt(loadAggregate, getProjetAggregateRoot);
   registerMainlevée(loadAggregate, getProjetAggregateRoot);
 };
 

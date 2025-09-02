@@ -3,8 +3,8 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -15,8 +15,8 @@ const schema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (_, props) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<GarantiesFinancières.GarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+    await mediator.send<Lauréat.GarantiesFinancières.SupprimerDépôtGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerDépôtGarantiesFinancières',
       data: {
         identifiantProjetValue: props.identifiantProjet,
         suppriméLeValue: new Date().toISOString(),

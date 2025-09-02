@@ -1,5 +1,3 @@
-import { SupprimerGarantiesFinancièresÀTraiterUseCase } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.usecase';
-import { ModifierDépôtGarantiesFinancièresEnCoursUseCase } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.usecase';
 import {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
@@ -72,8 +70,6 @@ export type {
 
 // UseCases
 export type GarantiesFinancièresUseCase =
-  | SupprimerGarantiesFinancièresÀTraiterUseCase
-  | ModifierDépôtGarantiesFinancièresEnCoursUseCase
   | DemanderMainlevéeGarantiesFinancièresUseCase
   | AnnulerMainlevéeGarantiesFinancièresUseCase
   | DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase
@@ -81,8 +77,6 @@ export type GarantiesFinancièresUseCase =
   | AccorderDemandeMainlevéeGarantiesFinancièresUseCase;
 
 export type {
-  SupprimerGarantiesFinancièresÀTraiterUseCase,
-  ModifierDépôtGarantiesFinancièresEnCoursUseCase,
   DemanderMainlevéeGarantiesFinancièresUseCase,
   AnnulerMainlevéeGarantiesFinancièresUseCase,
   DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
