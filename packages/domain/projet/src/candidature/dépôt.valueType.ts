@@ -202,12 +202,13 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       TypologieInstallation.convertirEnValueType,
     ),
     puissanceDeSite: raw.puissanceDeSite,
-    autorisationDUrbanisme: raw.autorisationDUrbanisme
-      ? mapToPlainObject({
-          date: DateTime.convertirEnValueType(raw.autorisationDUrbanisme.date),
-          numéro: raw.autorisationDUrbanisme.numéro,
-        })
-      : undefined,
+    autorisationDUrbanisme:
+      raw.autorisationDUrbanisme?.date && raw.autorisationDUrbanisme.numéro
+        ? mapToPlainObject({
+            date: DateTime.convertirEnValueType(raw.autorisationDUrbanisme.date),
+            numéro: raw.autorisationDUrbanisme.numéro,
+          })
+        : undefined,
   });
 
 const bindOptional = <TValue, TValueType>(
