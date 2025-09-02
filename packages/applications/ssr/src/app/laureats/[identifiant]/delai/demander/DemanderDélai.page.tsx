@@ -16,7 +16,7 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
   identifiantProjet,
   dateAchèvementPrévisionnelActuelle,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />} feature="délai">
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <Heading1>Demander un délai</Heading1>
     <Alert
       description={

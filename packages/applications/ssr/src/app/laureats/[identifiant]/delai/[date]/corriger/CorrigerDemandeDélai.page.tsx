@@ -23,7 +23,7 @@ export const CorrigerDemandeDélaiPage: FC<CorrigerDemandeDélaiPageProps> = ({
   pièceJustificative,
   raison,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />} feature="délai">
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <Heading1>Corriger la demande de délai</Heading1>
     <Alert
       description={
