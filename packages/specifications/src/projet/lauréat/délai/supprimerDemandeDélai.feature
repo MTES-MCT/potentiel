@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@supprimer-demande-délai
 Fonctionnalité: Supprimer la demande de délai
 
     Contexte:

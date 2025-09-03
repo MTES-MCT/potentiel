@@ -38,11 +38,14 @@ export const DétailsDemandeDélai: FC<DétailsDemandeDélaiProps> = ({ demande 
           réponseSignée={demande.rejet.réponseSignée}
         />
       )}
-      {demande.statut.statut === 'demandé' && (
+      {Lauréat.Délai.StatutDemandeDélai.convertirEnValueType(
+        demande.statut.statut,
+      ).estEnCours() && (
         <Demande
           demandéLe={demande.demandéLe}
           demandéPar={demande.demandéPar}
           nombreDeMois={demande.nombreDeMois}
+          statut={demande.statut}
         />
       )}
       <DemandeCommune
@@ -98,10 +101,10 @@ const DemandeCommune: FC<DemandeCommuneProps> = ({
 
 type DemandeProps = Pick<
   PlainType<Lauréat.Délai.ConsulterDemandeDélaiReadModel>,
-  'demandéLe' | 'demandéPar' | 'nombreDeMois'
+  'demandéLe' | 'demandéPar' | 'nombreDeMois' | 'statut'
 >;
 
-const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois }) => (
+const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois, statut }) => (
   <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Demandé le{' '}
@@ -116,7 +119,7 @@ const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois }) =>
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeDélaiBadge statut={Lauréat.Délai.StatutDemandeDélai.demandé.statut} />
+      <StatutDemandeDélaiBadge statut={statut.statut} />
     </div>
   </div>
 );
