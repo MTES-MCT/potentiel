@@ -1,20 +1,18 @@
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToLauréatNotifiéTimelineItemProps = (
-  modification: Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event,
-) => {
+export const mapToÉliminéNotifiéTimelineItemProps = (modification: Éliminé.ÉliminéNotifiéEvent) => {
   const { identifiantProjet, notifiéLe } = modification.payload;
 
   return {
     date: notifiéLe,
-    title: <div>Projet notifié lauréat</div>,
+    title: <div>Projet notifié éliminé</div>,
     content: (
       <DownloadDocument
         className="mb-0"
-        label="Télécharger l'attestation"
+        label="Télécharger l'avis de rejet"
         format="pdf"
         url={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
       />

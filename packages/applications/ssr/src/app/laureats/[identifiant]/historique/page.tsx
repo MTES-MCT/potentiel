@@ -23,6 +23,7 @@ import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/ma
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
+import { mapToÉliminéTimelineItemProps } from '@/utils/historique/mapToProps/éliminé';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
@@ -37,6 +38,7 @@ const categoriesDisponibles = [
   'fournisseur',
   'garanties-financieres',
   'lauréat',
+  'éliminé',
   'producteur',
   'puissance',
   'recours',
@@ -80,6 +82,13 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         }))
         .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
 
+      const historiqueFilteredAndSorted = historique.items
+        .filter((historique) => !historique.type.includes('Import'))
+        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+        .map((item) => mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter()))
+        .filter((item) => item !== undefined)
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
       return (
         <HistoriqueLauréatPage
           identifiantProjet={identifiantProjet}
@@ -91,12 +100,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
               options,
             },
           ]}
-          historique={historique.items
-            .filter((historique) => !historique.type.includes('Import'))
-            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-            .map((item) => mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter()))
-            .filter((item) => item !== undefined)
-            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())}
+          historique={historiqueFilteredAndSorted}
         />
       );
     }),
@@ -120,6 +124,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   achevement: 'ri-verified-badge-line',
   actionnaire: 'ri-draft-line',
   lauréat: 'ri-notification-3-line',
+  éliminé: 'ri-notification-3-line',
   producteur: 'ri-draft-line',
   puissance: 'ri-draft-line',
   raccordement: 'ri-plug-line',
@@ -139,6 +144,7 @@ const mapToTimelineItemProps = (
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
+    .with({ category: 'éliminé' }, mapToÉliminéTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
     .with({ category: 'producteur' }, mapToProducteurTimelineItemProps)
     .with({ category: 'puissance' }, (readmodel) =>

@@ -4,7 +4,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatEntity } from '../lauréat.entity';
 import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
@@ -30,7 +29,6 @@ export type ConsulterLauréatReadModel = {
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutProjet.ValueType;
   volumeRéservé?: VolumeRéservé.ValueType;
-  attestationDésignation?: DocumentProjet.ValueType;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
 } & Pick<
   Candidature.Dépôt.ValueType,
@@ -135,6 +133,5 @@ const mapToReadModel: MapToReadModel = (
   nomCandidat: candidature.dépôt.nomCandidat,
   prixReference: candidature.dépôt.prixReference,
   coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
-  attestationDésignation: candidature.notification?.attestation,
   autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme,
 });
