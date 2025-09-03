@@ -66,4 +66,20 @@ describe('DateTime', () => {
       expect(date.retirerNombreDeMois(1).formatter()).to.eq('2024-11-01T00:00:00.000Z');
     });
   });
+  describe('errors', () => {
+    it('throws on invalid input string', () => {
+      expect(() => DateTime.convertirEnValueType('abcd')).to.throw(
+        `La date ne correspond pas au format ISO8601 sans décalage UTC ('{YYYY}-{MM}-{SS}T{HH}:{mm}:{ss}.{ms}Z')`,
+      );
+    });
+    it('throws on invalid input Date', () => {
+      const date = new Date('1900-01-00'); // InvalidDate
+      expect(() => DateTime.convertirEnValueType(date)).to.throw('La date a une valeur invalide');
+    });
+    it('throws valid input string but invalid date value', () => {
+      expect(() => DateTime.convertirEnValueType('1900-01-00T00:00:00.000Z')).to.throw(
+        `La date a une valeur invalide`,
+      );
+    });
+  });
 });

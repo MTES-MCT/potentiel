@@ -43,19 +43,6 @@ export const optionalDateSchema = z
   .transform((val) => (val ? DateTime.convertirEnValueType(new Date(val)).formatter() : undefined))
   .optional();
 
-export const optionalCsvDateSchema = z
-  .string()
-  .regex(/^\d{2}\/\d{2}\/\d{4}$/, {
-    message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
-  })
-  .or(z.literal(''))
-  .optional()
-  .transform((val) => {
-    if (!val) return undefined;
-    const [day, month, year] = val.split('/');
-    return new Date(`${year}-${month}-${day}`);
-  });
-
 export const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
   .pipe(z.number().gt(0, { message: 'Le champ doit être un nombre positif' }));
