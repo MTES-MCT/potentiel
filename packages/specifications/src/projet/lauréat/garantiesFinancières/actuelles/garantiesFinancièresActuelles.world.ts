@@ -75,7 +75,7 @@ export class GarantiesFinancièresActuellesWorld {
     );
 
     const sontÉchues =
-      garantiesFinancières.dateÉchéance && !garantiesFinancières.dateÉchéance.estDansLeFutur();
+      garantiesFinancières.dateÉchéance && garantiesFinancières.dateÉchéance.estPassée();
 
     if (sontÉchues) {
       garantiesFinancières.statut = GarantiesFinancières.StatutGarantiesFinancières.échu;
