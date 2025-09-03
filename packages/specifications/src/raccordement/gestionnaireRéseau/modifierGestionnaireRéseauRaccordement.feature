@@ -1,5 +1,6 @@
 # language: fr
 @raccordement
+@modifier-grd-raccordement
 Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Contexte:

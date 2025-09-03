@@ -1,5 +1,6 @@
 # language: fr
 @raccordement
+@transmettre-dcr
 Fonctionnalité: Transmettre une demande complète de raccordement
 
     Contexte:

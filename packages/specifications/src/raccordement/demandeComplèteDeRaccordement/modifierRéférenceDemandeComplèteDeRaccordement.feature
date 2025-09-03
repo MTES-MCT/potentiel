@@ -1,5 +1,6 @@
 # language: fr
 @raccordement
+@modifier-référence-dcr
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
     Contexte:
