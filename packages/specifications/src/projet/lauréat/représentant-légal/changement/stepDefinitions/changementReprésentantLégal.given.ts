@@ -188,7 +188,6 @@ EtantDonné(
       },
     });
 
-    const dateDésignation = this.lauréatWorld.dateDésignation;
-    await notifierLauréat.call(this, dateDésignation);
+    await notifierLauréat.call(this);
   },
 );

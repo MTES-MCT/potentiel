@@ -40,9 +40,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, { nomProjet, statut: 'classé' });
 
-    const dateDésignation = this.lauréatWorld.dateDésignation;
-
-    await notifierLauréat.call(this, dateDésignation);
+    await notifierLauréat.call(this);
   },
 );
 

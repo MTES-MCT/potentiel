@@ -41,7 +41,10 @@ export class TransmettreDateMiseEnServiceFixture
   ): Readonly<TransmettreDateDeMiseEnService> {
     const fixture = {
       dateMiseEnService: faker.date
-        .between({ from: this.raccordementWorld.lauréatWorld.dateDésignation, to: new Date() })
+        .between({
+          from: this.raccordementWorld.lauréatWorld.notifierLauréatFixture.notifiéLe,
+          to: new Date(),
+        })
         .toISOString(),
       ...partialFixture,
     };
