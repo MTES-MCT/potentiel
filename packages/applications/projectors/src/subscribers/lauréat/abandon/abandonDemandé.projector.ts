@@ -1,9 +1,8 @@
 import { match } from 'ts-pattern';
+import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
 export const abandonDemandéProjector = async (
@@ -17,11 +16,15 @@ export const abandonDemandéProjector = async (
     .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
     .otherwise(() => false);
 
-  const appelOffre = await findProjection<AppelOffre.AppelOffreEntity>(
-    `appel-offre|${IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre}`,
-  );
-  if (Option.isNone(appelOffre)) {
-    throw new Error("Appel d'offre non trouvé");
+  const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+    type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+
+  if (Option.isNone(cahierDesCharges)) {
+    throw new Error('Cahier des charges non trouvé');
   }
 
   await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
@@ -32,10 +35,7 @@ export const abandonDemandéProjector = async (
       demandéPar: event.payload.demandéPar,
       raison: event.payload.raison,
       estUneRecandidature,
-      autoritéCompétente:
-        appelOffre.changement === 'indisponible' || !appelOffre.changement.abandon.demande
-          ? 'dgec'
-          : appelOffre.changement.abandon.autoritéCompétente,
+      autoritéCompétente: CahierDesCharges.bind(cahierDesCharges).getAutoritéCompétente('abandon'),
       recandidature: estUneRecandidature
         ? {
             statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,

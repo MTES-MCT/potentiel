@@ -12,15 +12,15 @@ import { DemanderDélaiUseCase } from './demande/demander/demanderDélai.usecase
 import { RejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDemandeDélai.usecase';
 import { PasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase';
 import {
-  ListerDemandeDélaiQuery,
-  ListerDemandeDélaiReadModel,
-} from './lister/listerDemandeDélai.query';
-import {
   HistoriqueDélaiProjetListItemReadModel,
   ListerHistoriqueDélaiProjetQuery,
   ListerHistoriqueDélaiProjetReadModel,
 } from './lister/listerHistoriqueDélaiProjet.query';
 import { CorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
+import {
+  ListerDemandeDélaiQuery,
+  ListerDemandeDélaiReadModel,
+} from './demande/lister/listerDemandeDélai.query';
 
 // Query
 export type DélaiQuery =
