@@ -8,11 +8,11 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/app/laureats/[identifiant]/garanties-financieres/typesGarantiesFinancièresPourFormulaire';
-import { récupérerLauréat } from '@/app/_helpers';
+import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 
 import { ProjetADéjàUnDépôtEnCoursPage } from './ProjetADéjàUnDépôtEnCours.page';
 import { SoumettreDépôtGarantiesFinancièresPage } from './SoumettreDépôtGarantiesFinancières.page';
@@ -28,6 +28,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     await récupérerLauréat(identifiantProjetValue);
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
     const soumisAuxGarantiesFinancières =
       await projetSoumisAuxGarantiesFinancières(identifiantProjet);
@@ -49,7 +50,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       .none(() => (
         <SoumettreDépôtGarantiesFinancièresPage
           identifiantProjet={identifiantProjetValue}
-          typesGarantiesFinancières={typesGarantiesFinancièresSansInconnuPourFormulaire}
+          typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
         />
       ));
   });

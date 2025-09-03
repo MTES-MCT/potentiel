@@ -5,16 +5,17 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/app/laureats/[identifiant]/garanties-financieres/typesGarantiesFinancièresPourFormulaire';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 
 import {
   ModifierDépôtGarantiesFinancièresPage,
@@ -31,6 +32,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     withUtilisateur(async (utilisateur) => {
       const identifiantProjetValue = decodeParameter(identifiant);
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
       const soumisAuxGarantiesFinancières =
         await projetSoumisAuxGarantiesFinancières(identifiantProjet);
@@ -51,7 +53,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      const props = mapToProps({ dépôt, utilisateur });
+      const props = mapToProps({ dépôt, utilisateur, cahierDesCharges });
 
       return (
         <ModifierDépôtGarantiesFinancièresPage
@@ -68,11 +70,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (params: {
   utilisateur: Utilisateur.ValueType;
   dépôt: GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel;
+  cahierDesCharges: CahierDesCharges.ValueType;
 }) => ModifierDépôtGarantiesFinancièresPageProps;
 
-const mapToProps: MapToProps = ({ utilisateur, dépôt }) => ({
+const mapToProps: MapToProps = ({ utilisateur, dépôt, cahierDesCharges }) => ({
   identifiantProjet: dépôt.identifiantProjet.formatter(),
-  typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
+  typesGarantiesFinancières: typesGarantiesFinancièresPourFormulaire(cahierDesCharges),
   dépôtEnCours: {
     typeGarantiesFinancières: dépôt.dépôt.type.type,
     dateÉchéance: dépôt.dépôt.dateÉchéance?.formatter(),

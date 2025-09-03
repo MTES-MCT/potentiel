@@ -4,15 +4,16 @@ import { notFound } from 'next/navigation';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { projetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
-import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/app/laureats/[identifiant]/garanties-financieres/typesGarantiesFinancièresPourFormulaire';
+import { getCahierDesCharges } from '@/app/_helpers';
 
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
+import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 
 import {
   ModifierGarantiesFinancièresActuellesPage,
@@ -29,6 +30,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjetValue = decodeParameter(identifiant);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
     const soumisAuxGarantiesFinancières =
       await projetSoumisAuxGarantiesFinancières(identifiantProjet);
 
@@ -48,7 +50,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const props = mapToProps(garantiesFinancières);
+    const props = mapToProps(garantiesFinancières, cahierDesCharges);
 
     return (
       <ModifierGarantiesFinancièresActuellesPage
@@ -62,21 +64,26 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (
   garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
+  cahierDesCharges: CahierDesCharges.ValueType,
 ) => ModifierGarantiesFinancièresActuellesPageProps;
-const mapToProps: MapToProps = ({
-  identifiantProjet,
-  garantiesFinancières: {
-    type,
-    dateÉchéance,
-    validéLe,
-    dernièreMiseÀJour,
-    dateConstitution,
-    attestation,
-    statut,
+
+const mapToProps: MapToProps = (
+  {
+    identifiantProjet,
+    garantiesFinancières: {
+      type,
+      dateÉchéance,
+      validéLe,
+      dernièreMiseÀJour,
+      dateConstitution,
+      attestation,
+      statut,
+    },
   },
-}) => ({
+  cahierDesCharges,
+) => ({
   identifiantProjet: identifiantProjet.formatter(),
-  typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
+  typesGarantiesFinancières: typesGarantiesFinancièresPourFormulaire(cahierDesCharges),
   actuelles: {
     type: type.type,
     statut: statut.statut,
