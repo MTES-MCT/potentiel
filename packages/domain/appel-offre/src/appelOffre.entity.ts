@@ -49,13 +49,11 @@ type Changement = {
   informationEnregistrée?: boolean;
   demande?: boolean;
 };
+
 type ChangementAvecAutoritéCompétente =
+  | { informationEnregistrée?: undefined; demande?: undefined }
   | {
-      informationEnregistrée?: boolean;
-      demande?: undefined;
-    }
-  | {
-      informationEnregistrée?: boolean;
+      informationEnregistrée?: undefined;
       demande: true;
       autoritéCompétente: AutoritéCompétente;
     };

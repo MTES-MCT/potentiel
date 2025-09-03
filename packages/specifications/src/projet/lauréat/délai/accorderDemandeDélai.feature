@@ -4,7 +4,8 @@
 Fonctionnalité: Accorder la demande de délai d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Bordeaux"
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
+            | appel d'offre | PPE2 - Eolien |
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
@@ -45,3 +46,10 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
         Etant donné une demande de délai rejetée pour le projet lauréat
         Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"
+
+    Scénario: Impossible d'accorder le délai d'un projet lauréat dont l'autorité compétente est la DGEC pour un utilisateur DREAL
+        Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
+            | appel d'offre | Eolien |
+        Et une demande de délai en cours pour le projet lauréat
+        Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
+        Alors l'utilisateur DREAL devrait être informé que "Vous n'avez pas le rôle requis pour instruire cette demande"

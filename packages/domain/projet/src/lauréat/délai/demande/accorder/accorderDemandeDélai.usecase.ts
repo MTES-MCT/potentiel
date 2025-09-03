@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentDemandeDélai } from '../..';
 import { IdentifiantProjet } from '../../../..';
@@ -16,6 +17,7 @@ export type AccorderDemandeDélaiUseCase = Message<
     nombreDeMois: number;
     identifiantUtilisateurValue: string;
     réponseSignéeValue: { content: ReadableStream; format: string };
+    rôleUtilisateurValue: string;
   }
 >;
 
@@ -26,6 +28,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
     nombreDeMois,
     identifiantUtilisateurValue,
     réponseSignéeValue: { format, content },
+    rôleUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
@@ -36,6 +39,7 @@ export const registerAccorderDemandeDélaiUseCase = () => {
       dateAccord.formatter(),
       format,
     );
+    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -44,7 +48,14 @@ export const registerAccorderDemandeDélaiUseCase = () => {
 
     await mediator.send<AccorderDemandeDélaiCommand>({
       type: 'Lauréat.Délai.Command.AccorderDemandeDélai',
-      data: { dateAccord, identifiantUtilisateur, identifiantProjet, réponseSignée, nombreDeMois },
+      data: {
+        dateAccord,
+        identifiantUtilisateur,
+        identifiantProjet,
+        réponseSignée,
+        nombreDeMois,
+        rôleUtilisateur,
+      },
     });
   };
   mediator.register('Lauréat.Délai.UseCase.AccorderDemandeDélai', runner);

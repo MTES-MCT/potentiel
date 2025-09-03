@@ -149,6 +149,7 @@ export async function passerDemanderDélaiEnInstruction(this: PotentielWorld, no
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: passéeEnInstructionPar,
         datePassageEnInstructionValue: passéeEnInstructionLe,
+        rôleUtilisateurValue: Role.dreal.nom,
       },
     });
   } catch (error) {
@@ -161,7 +162,9 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const { rejetéeLe, rejetéePar, réponseSignée } =
-      this.lauréatWorld.délaiWorld.rejeterDemandeDélaiFixture.créer();
+      this.lauréatWorld.délaiWorld.rejeterDemandeDélaiFixture.créer({
+        rejetéePar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
+      });
 
     await mediator.send<Lauréat.Délai.RejeterDemandeDélaiUseCase>({
       type: 'Lauréat.Délai.UseCase.RejeterDemandeDélai',
@@ -170,6 +173,7 @@ export async function rejeterDemandeDélai(this: PotentielWorld) {
         identifiantUtilisateurValue: rejetéePar,
         réponseSignéeValue: réponseSignée,
         identifiantProjetValue: identifiantProjet,
+        rôleUtilisateurValue: Role.dreal.nom,
       },
     });
   } catch (error) {
@@ -189,6 +193,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         dateAchèvementPrévisionnelActuelle:
           this.lauréatWorld.achèvementWorld.calculerDateAchèvementPrévisionnelFixture
             .dateAchèvementPrévisionnel,
+        accordéePar: this.utilisateurWorld.récupérerEmailSelonRôle(Role.dreal.nom),
       });
 
     await mediator.send<Lauréat.Délai.AccorderDemandeDélaiUseCase>({
@@ -199,6 +204,7 @@ export async function accorderDemandeDélai(this: PotentielWorld) {
         dateAccordValue: accordéeLe,
         nombreDeMois,
         réponseSignéeValue: réponseSignée,
+        rôleUtilisateurValue: Role.dreal.nom,
       },
     });
   } catch (error) {

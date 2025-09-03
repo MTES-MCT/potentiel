@@ -57,8 +57,7 @@ export const registerListerDemandeDélaiQuery = ({
     const identifiantProjets =
       scope.type === 'projet'
         ? identifiantProjet
-          ? // If filtering on identifiantProjet, check that the user can access it
-            scope.identifiantProjets.filter((id) => id === identifiantProjet)
+          ? scope.identifiantProjets.filter((id) => id === identifiantProjet)
           : scope.identifiantProjets
         : identifiantProjet
           ? [identifiantProjet]
