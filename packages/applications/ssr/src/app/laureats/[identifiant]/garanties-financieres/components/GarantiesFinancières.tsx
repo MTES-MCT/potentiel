@@ -133,7 +133,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
                   small
                   description={
                     <p>
-                      La date d'échéance de ces Garanties Financières étant passée, elles seront
+                      La date d'échéance de ces garanties financières étant passée, elles seront
                       automatiquement échues à leur validation.
                     </p>
                   }
