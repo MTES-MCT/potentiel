@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
@@ -50,6 +51,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
     statut: { statut },
     pièceJustificative,
     accord,
+    autoritéCompétente,
   },
   dateAchèvementPrévisionnelActuelle,
   actions,
@@ -94,6 +96,19 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
                         date={DateTime.bind(accord.dateAchèvementPrévisionnelCalculée).formatter()}
                       />
                     </div>{' '}
+                  </div>
+                )}
+                {autoritéCompétente && (
+                  <div className="flex gap-2">
+                    <div className="font-semibold whitespace-nowrap">
+                      Autorité compétente pour l'instruction :
+                    </div>
+                    <div>
+                      {match(autoritéCompétente.autoritéCompétente)
+                        .with('dreal', () => 'DREAL')
+                        .with('dgec', () => 'DGEC')
+                        .exhaustive()}
+                    </div>
                   </div>
                 )}
                 <div className="flex gap-2">
