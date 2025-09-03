@@ -1,27 +1,22 @@
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
-import { match } from 'ts-pattern';
 
-import { DateTime, Email } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-import { ReadMore } from '@/components/atoms/ReadMore';
 
-import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
 import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
 import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
 import { AccorderDemandeDélai } from './accorder/AccorderDemandeDélai';
+import { DétailsDemandeDélai } from './DétailsDemandeDélai';
 
 export type DemandeDélaiActions =
   | 'annuler'
@@ -43,16 +38,7 @@ export type DétailsDemandeDélaiPageProps = {
 
 export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
   identifiantProjet,
-  demande: {
-    demandéLe,
-    demandéPar,
-    nombreDeMois,
-    raison,
-    statut: { statut },
-    pièceJustificative,
-    accord,
-    autoritéCompétente,
-  },
+  demande,
   dateAchèvementPrévisionnelActuelle,
   actions,
   historique,
@@ -63,76 +49,13 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
       banner={<ProjetBanner identifiantProjet={identifiantProjetValueType.formatter()} />}
       leftColumn={{
         children: (
-          <>
-            <Heading2>Demande de délai</Heading2>
-            <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-4">
-                <div className="text-xs italic">
-                  Demandé le{' '}
-                  <FormattedDate
-                    className="font-semibold"
-                    date={DateTime.bind(demandéLe).formatter()}
-                  />{' '}
-                  par <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">Statut :</div>{' '}
-                  <StatutDemandeDélaiBadge statut={statut} />
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">
-                    Nombre de mois demandé{nombreDeMois > 1 ? 's' : ''} :
-                  </div>
-                  <div>{nombreDeMois} mois</div>
-                </div>
-                {accord && (
-                  <div className="flex gap-2">
-                    <div className="font-semibold whitespace-nowrap">
-                      Nombre de mois accordé(s) :
-                    </div>
-                    <div>
-                      {accord.nombreDeMois} mois pour une date d'achèvement prévisionnel au{' '}
-                      <FormattedDate
-                        date={DateTime.bind(accord.dateAchèvementPrévisionnelCalculée).formatter()}
-                      />
-                    </div>{' '}
-                  </div>
-                )}
-                {autoritéCompétente && (
-                  <div className="flex gap-2">
-                    <div className="font-semibold whitespace-nowrap">
-                      Autorité compétente pour l'instruction :
-                    </div>
-                    <div>
-                      {match(autoritéCompétente.autoritéCompétente)
-                        .with('dreal', () => 'DREAL')
-                        .with('dgec', () => 'DGEC')
-                        .exhaustive()}
-                    </div>
-                  </div>
-                )}
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-                  <ReadMore text={raison} />
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
-                  <DownloadDocument
-                    className="mb-0"
-                    label="Télécharger la pièce justificative"
-                    format={pièceJustificative.format}
-                    url={Routes.Document.télécharger(
-                      DocumentProjet.bind(pièceJustificative).formatter(),
-                    )}
-                  />
-                </div>
-              </div>
-              <div className="mb-4">
-                <Heading2>Historique</Heading2>
-                <Timeline items={historique} />
-              </div>
+          <div className="flex flex-col gap-8">
+            <DétailsDemandeDélai demande={demande} />
+            <div>
+              <Heading2>Historique</Heading2>
+              <Timeline items={historique} />
             </div>
-          </>
+          </div>
         ),
       }}
       rightColumn={{
@@ -140,8 +63,8 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
         children: mapToActionComponents({
           actions,
           identifiantProjet: identifiantProjetValueType,
-          dateDemande: DateTime.bind(demandéLe),
-          nombreDeMois,
+          dateDemande: DateTime.bind(demande.demandéLe),
+          nombreDeMois: demande.nombreDeMois,
           dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
             dateAchèvementPrévisionnelActuelle,
           ),
