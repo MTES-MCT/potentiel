@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@rejeter-demande-délai
 Fonctionnalité: Rejeter la demande de délai d'un projet lauréat
 
     Contexte:

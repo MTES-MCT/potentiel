@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@corriger-demande-délai
 Fonctionnalité: Corriger la demande de délai d'un projet lauréat
 
     Contexte:

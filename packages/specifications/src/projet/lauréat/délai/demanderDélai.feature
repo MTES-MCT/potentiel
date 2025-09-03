@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@demander-délai
 Fonctionnalité: Demander un délai pour un projet lauréat
 
     Contexte:

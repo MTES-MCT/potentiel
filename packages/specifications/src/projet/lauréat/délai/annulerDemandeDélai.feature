@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@annuler-demande-délai
 Fonctionnalité: Annuler la demande de délai d'un projet lauréat
 
     Contexte:

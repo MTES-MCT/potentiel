@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@passer-en-instruction-demande-délai
 Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
 
     Contexte:
