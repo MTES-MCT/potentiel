@@ -7,10 +7,10 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { projetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { EnregistrerGarantiesFinancièresPage } from '@/app/laureats/[identifiant]/garanties-financieres/(actuelles)/actuelles:enregistrer/EnregistrerGarantiesFinancières.page';
-import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/app/laureats/[identifiant]/garanties-financieres/typesGarantiesFinancièresPourFormulaire';
-import { récupérerLauréat } from '@/app/_helpers';
+import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
+import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 
 export const metadata: Metadata = {
   title: `Enregistrer des garanties financières actuelles - Potentiel`,
@@ -23,6 +23,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     await récupérerLauréat(identifiantProjetValue);
+    const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
     const soumisAuxGarantiesFinancières =
       await projetSoumisAuxGarantiesFinancières(identifiantProjet);
@@ -36,7 +37,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     return (
       <EnregistrerGarantiesFinancièresPage
         identifiantProjet={identifiantProjetValue}
-        typesGarantiesFinancières={typesGarantiesFinancièresSansInconnuPourFormulaire}
+        typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
       />
     );
   });
