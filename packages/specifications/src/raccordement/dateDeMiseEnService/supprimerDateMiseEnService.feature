@@ -1,6 +1,6 @@
 # language: fr
 @raccordement
-@supprimer-date-mes
+@date-mise-en-service
 Fonctionnalité: Supprimer le raccordement d'un projet
 
     Contexte:

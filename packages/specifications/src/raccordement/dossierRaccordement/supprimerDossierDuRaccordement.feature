@@ -1,6 +1,6 @@
 # language: fr
 @raccordement
-@supprimer-dossier-du-raccordement
+@dossier-raccordement
 Fonctionnalité: Supprimer un dossier du raccordement d'un projet
 
     Contexte:

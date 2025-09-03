@@ -1,6 +1,6 @@
 # language: fr
 @raccordement
-@attribuer-grd-raccordement
+@gestionnaire-réseau-raccordement
 Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un projet
 
     Contexte:

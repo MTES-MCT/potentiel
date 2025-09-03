@@ -1,6 +1,6 @@
 # language: fr
 @raccordement
-@transmettre-ptf
+@proposition-technique-financière
 Fonctionnalité: Transmettre une proposition technique et financière
 
     Contexte:

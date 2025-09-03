@@ -1,6 +1,6 @@
 # language: fr
 @raccordement
-@modifier-ptf
+@proposition-technique-financière
 Fonctionnalité: Modifier une proposition technique et financière
 
     Contexte:

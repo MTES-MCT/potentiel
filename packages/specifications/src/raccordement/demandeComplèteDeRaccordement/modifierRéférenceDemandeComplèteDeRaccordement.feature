@@ -1,6 +1,6 @@
 # language: fr
 @raccordement
-@modifier-référence-dcr
+@demande-complète-raccordement
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
     Contexte:
