@@ -331,8 +331,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-    await this.planifierÉchéance(enregistréLe);
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
+    await this.planifierÉchéance(enregistréLe);
   }
 
   async échoir({ échuLe }: ÉchoirOptions) {
