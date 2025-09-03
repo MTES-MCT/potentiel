@@ -92,3 +92,12 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières pour ce projet"
+
+    Scénario: Impossible d'enregistrer des garanties financières avec un type non disponible pour l'appel d'offre
+        Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
+            | appel d'offre | PPE2 - Innovation |
+            | type GF       |                   |
+        Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
+            | type GF              | exemption  |
+            | date de délibération | 2024-12-01 |
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"

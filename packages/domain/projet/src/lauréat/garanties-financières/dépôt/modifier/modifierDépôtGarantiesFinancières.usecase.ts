@@ -14,6 +14,7 @@ export type ModifierDépôtGarantiesFinancièresEnCoursUseCase = Message<
     identifiantProjetValue: string;
     typeValue: string;
     dateÉchéanceValue?: string;
+    dateDelibérationValue?: string;
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -31,6 +32,7 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
     identifiantProjetValue,
     typeValue,
     dateÉchéanceValue,
+    dateDelibérationValue,
     modifiéParValue,
     modifiéLeValue,
   }) => {
@@ -38,6 +40,7 @@ export const registerModifierDépôtGarantiesFinancièresEnCoursUseCase = () => 
     const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
       type: typeValue,
       dateÉchéance: dateÉchéanceValue,
+      dateDélibération: dateDelibérationValue,
     });
     const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
