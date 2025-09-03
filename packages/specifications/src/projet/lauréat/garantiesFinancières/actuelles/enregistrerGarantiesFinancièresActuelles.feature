@@ -42,6 +42,8 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | date d'échéance | 2024-12-02         |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
         Et les garanties financières actuelles du projet sont échues
+        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+            | motif | échéance-garanties-financières-actuelles |
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand des garanties financières sont enregisrées par l'administration
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :

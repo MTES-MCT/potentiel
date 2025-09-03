@@ -25,6 +25,8 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
         Quand le DGEC validateur notifie la candidature lauréate
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
         Et les garanties financières actuelles du projet sont échues
+        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+            | motif | échéance-garanties-financières-actuelles |
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :

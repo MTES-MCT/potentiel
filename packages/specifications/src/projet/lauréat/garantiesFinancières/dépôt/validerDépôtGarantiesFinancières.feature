@@ -55,6 +55,8 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Quand l'utilisateur dreal valide un dépôt de garanties financières pour le projet lauréat
         Alors les garanties financières actuelles du projet sont échues
         Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+        Et des garanties financières devraient être attendues pour le projet lauréat avec :
+            | motif | échéance-garanties-financières-actuelles |
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de dépôt validé
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
