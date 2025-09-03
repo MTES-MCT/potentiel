@@ -27,6 +27,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
         Et les garanties financières actuelles du projet sont échues
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
+        Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
