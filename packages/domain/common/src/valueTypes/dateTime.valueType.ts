@@ -8,6 +8,7 @@ export type RawType = Iso8601DateTime;
 
 export type ValueType = ReadonlyValueType<{
   date: Date;
+  estPassée(): boolean;
   estDansLeFutur(): boolean;
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
@@ -40,6 +41,9 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
 
   return {
     date,
+    estPassée() {
+      return this.date.getTime() < Date.now();
+    },
     estDansLeFutur() {
       return this.date.getTime() > Date.now();
     },

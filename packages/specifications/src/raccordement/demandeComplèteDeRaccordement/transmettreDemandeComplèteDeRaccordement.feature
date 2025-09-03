@@ -1,4 +1,6 @@
 # language: fr
+@raccordement
+@demande-complète-raccordement
 Fonctionnalité: Transmettre une demande complète de raccordement
 
     Contexte:

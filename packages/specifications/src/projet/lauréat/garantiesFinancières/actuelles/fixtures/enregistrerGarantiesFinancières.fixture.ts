@@ -87,7 +87,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       },
       garantiesFinancières: {
         type,
-        dateÉchéance: type === 'avec-date-échéance' ? faker.date.recent().toISOString() : undefined,
+        dateÉchéance: type === 'avec-date-échéance' ? faker.date.future().toISOString() : undefined,
         dateDélibération: type === 'exemption' ? faker.date.recent().toISOString() : undefined,
         ...partialData?.garantiesFinancières,
       },

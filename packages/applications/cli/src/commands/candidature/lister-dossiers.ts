@@ -2,7 +2,7 @@ import { writeFile } from 'node:fs/promises';
 
 import { Parser } from '@json2csv/plainjs';
 import { Args, Command, Flags } from '@oclif/core';
-import { faker } from '@faker-js/faker';
+import type { Faker } from '@faker-js/faker';
 
 import { getDossiersDemarche } from '@potentiel-infrastructure/ds-api-client';
 
@@ -16,6 +16,13 @@ export class ListerDossiersCandidatureCommand extends Command {
     }),
   };
 
+  #faker!: Faker;
+  protected async init() {
+    // Faker est importé dynamiquement car c'est une dev dependency, et n'est pas dispo en env de prod
+    const { fakerFR } = await import('@faker-js/faker');
+    this.#faker = fakerFR as unknown as Faker;
+  }
+
   async run() {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
@@ -24,13 +31,13 @@ export class ListerDossiersCandidatureCommand extends Command {
 
       if (flags.instruction) {
         const data = dossiers.map((numeroDossierDS) => {
-          const statut = faker.helpers.arrayElement(['retenu', 'éliminé']);
+          const statut = this.#faker.helpers.arrayElement(['retenu', 'éliminé']);
           return {
             numeroDossierDS,
             statut,
             motifElimination:
-              statut === 'éliminé' ? faker.lorem.words({ min: 8, max: 16 }) : undefined,
-            note: faker.number.int({ min: 10, max: 100 }).toString(),
+              statut === 'éliminé' ? this.#faker.lorem.words({ min: 8, max: 16 }) : undefined,
+            note: this.#faker.number.int({ min: 10, max: 100 }).toString(),
           };
         });
         const fields = ['numeroDossierDS', 'statut', 'motifElimination', 'note'];

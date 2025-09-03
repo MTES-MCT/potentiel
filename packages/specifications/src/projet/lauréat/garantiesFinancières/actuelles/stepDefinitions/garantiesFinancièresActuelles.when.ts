@@ -1,8 +1,4 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
-import { assert } from 'chai';
-
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -98,30 +94,6 @@ Quand(
       );
     } catch (e) {
       this.error = e as Error;
-    }
-  },
-);
-
-Quand(
-  `un admin échoie les garanties financières actuelles pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    const { garantiesFinancières } =
-      this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer;
-
-    assert(garantiesFinancières.dateÉchéance, "Impossible d'échoir des GF sans date d'échéance");
-
-    try {
-      await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
-        type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
-        data: {
-          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-          typeTâchePlanifiéeValue:
-            Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-          exécutéeLeValue: garantiesFinancières.dateÉchéance,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
     }
   },
 );

@@ -28,13 +28,14 @@ async function ajouterTâchePlanifiée(
 async function exécuterTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
   typeTâchePlanifiée: string,
+  exécutéeLe: Date,
 ) {
   const event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent = {
     type: 'TâchePlanifiéeExecutée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       typeTâchePlanifiée,
-      exécutéeLe: DateTime.now().formatter(),
+      exécutéeLe: DateTime.convertirEnValueType(exécutéeLe).formatter(),
     },
   };
   await publish(`tâche-planifiée|${typeTâchePlanifiée}#${event.payload.identifiantProjet}`, event);
@@ -70,10 +71,12 @@ EtantDonné(
       new Date(exemple["date d'exécution"]),
     );
 
+    const executéeLe = exemple['exécutée le'] ?? new Date();
+
     await match(statutTâche.trim())
       .with('', () => Promise.resolve())
       .with('annulée', () => annulerTâche(identifiantProjet, typeTâche))
-      .with('exécutée', () => exécuterTâche(identifiantProjet, typeTâche))
+      .with('exécutée', () => exécuterTâche(identifiantProjet, typeTâche, new Date(executéeLe)))
       .otherwise(() => {
         throw new Error('Statut inconnu');
       });

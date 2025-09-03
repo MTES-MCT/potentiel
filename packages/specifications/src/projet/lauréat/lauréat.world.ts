@@ -119,12 +119,6 @@ export class LauréatWorld {
     return this.#garantiesFinancièresWorld;
   }
 
-  #dateDésignation: string;
-
-  get dateDésignation() {
-    return this.#dateDésignation;
-  }
-
   constructor(public readonly candidatureWorld: CandidatureWorld) {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
@@ -141,7 +135,6 @@ export class LauréatWorld {
     this.#choisirCahierDesChargesFixture = new ChoisirCahierDesChargesFixture();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
-    this.#dateDésignation = new Date('2022-10-27').toISOString();
   }
 
   mapToExpected() {

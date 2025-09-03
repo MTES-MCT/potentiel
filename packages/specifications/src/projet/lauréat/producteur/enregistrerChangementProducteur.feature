@@ -34,7 +34,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre   | PPE2 - Bâtiment    |
             | type GF         | avec-date-échéance |
-            | date d'échéance | 2024-01-01         |
+            | date d'échéance | 2050-01-01         |
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
 

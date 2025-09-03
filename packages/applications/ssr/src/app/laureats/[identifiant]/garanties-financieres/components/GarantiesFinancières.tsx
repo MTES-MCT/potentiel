@@ -1,6 +1,8 @@
 import { FC } from 'react';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
 
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
@@ -123,10 +125,25 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               actions={garantiesFinancières.actions}
             />
           ) : (
-            <DépôtGarantiesFinancièresActions
-              identifiantProjet={identifiantProjet}
-              actions={garantiesFinancières.actions}
-            />
+            <div className="flex-col gap-2">
+              {garantiesFinancières.dateÉchéance &&
+              DateTime.convertirEnValueType(garantiesFinancières.dateÉchéance).estPassée() ? (
+                <Alert
+                  severity="info"
+                  small
+                  description={
+                    <p>
+                      La date d'échéance de ces garanties financières étant passée, elles seront
+                      automatiquement échues à leur validation.
+                    </p>
+                  }
+                />
+              ) : undefined}
+              <DépôtGarantiesFinancièresActions
+                identifiantProjet={identifiantProjet}
+                actions={garantiesFinancières.actions}
+              />
+            </div>
           )}
         </div>
       </>
