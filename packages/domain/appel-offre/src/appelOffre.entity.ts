@@ -50,44 +50,43 @@ type Changement = {
   demande?: boolean;
 };
 
-type ChangementAvecAutoritéCompétente =
-  | { informationEnregistrée?: undefined; demande?: undefined }
-  | {
-      informationEnregistrée?: undefined;
-      demande: true;
-      autoritéCompétente: AutoritéCompétente;
-    };
+type ChangementAvecAutoritéCompétente = {
+  informationEnregistrée?: undefined;
+  demande: true;
+  autoritéCompétente: AutoritéCompétente;
+};
 
-type ChangementActionnaire = Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
+type ChangementActionnaire = Changement & {
+  informationEnregistréeEstSoumiseÀConditions?: true;
+};
 
 type RatiosChangementPuissance =
   | { changementByTechnologie?: undefined; ratios: Ratios }
   | { changementByTechnologie: true; ratios: Record<Technologie, Ratios> };
 
-type ChangementPuissance =
-  | { demande?: undefined; informationEnregistrée?: undefined; paragrapheAlerte?: undefined }
-  | ({
-      demande: true;
-      informationEnregistrée?: boolean;
-      paragrapheAlerte?: string;
-    } & RatiosChangementPuissance);
+type ChangementPuissance = {
+  demande: true;
+  informationEnregistrée?: boolean;
+  paragrapheAlerte?: string;
+} & RatiosChangementPuissance;
 
 type ChangementReprésentantLégal =
   | {
-      informationEnregistrée?: undefined;
-      demande?: undefined;
-      instructionAutomatique?: undefined;
-    }
-  | {
       informationEnregistrée: true;
-      demande?: undefined;
-      instructionAutomatique?: undefined;
     }
   | {
       informationEnregistrée?: undefined;
       demande: true;
       instructionAutomatique: 'accord' | 'rejet';
     };
+
+export type ChangementKeys =
+  | keyof RatiosChangementPuissance
+  | keyof ChangementPuissance
+  | keyof ChangementReprésentantLégal
+  | keyof ChangementActionnaire
+  | keyof ChangementAvecAutoritéCompétente
+  | keyof Changement;
 
 export type RèglesDemandesChangement = {
   actionnaire: ChangementActionnaire;
