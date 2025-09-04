@@ -30,7 +30,7 @@ export type ConsulterLauréatReadModel = {
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutProjet.ValueType;
   volumeRéservé?: VolumeRéservé.ValueType;
-  /** Attention, ne pas utiliser en cas de recours accordé. */
+  /** non définie en cas de recours accordé */
   attestationDésignation?: DocumentProjet.ValueType;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
 } & Pick<
@@ -136,6 +136,8 @@ const mapToReadModel: MapToReadModel = (
   nomCandidat: candidature.dépôt.nomCandidat,
   prixReference: candidature.dépôt.prixReference,
   coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
-  attestationDésignation: candidature.notification?.attestation,
+  attestationDésignation: candidature.instruction.statut.estClassé()
+    ? candidature.notification?.attestation
+    : undefined,
   autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme,
 });

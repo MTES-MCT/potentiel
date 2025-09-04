@@ -1,6 +1,7 @@
 import { IdentifiantProjet, Lauréat, StatutProjet } from '@potentiel-domain/projet';
+import { DocumentProjet } from '@potentiel-domain/document';
 
-import { CandidatureWorld } from '../../candidature/candidature.world';
+import { PotentielWorld } from '../../potentiel.world';
 
 import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
@@ -42,6 +43,10 @@ export class LauréatWorld {
   #choisirCahierDesChargesFixture: ChoisirCahierDesChargesFixture;
   get choisirCahierDesChargesFixture() {
     return this.#choisirCahierDesChargesFixture;
+  }
+
+  get candidatureWorld() {
+    return this.potentielWorld.candidatureWorld;
   }
 
   /** @deprecated use `identifiantProjet` */
@@ -124,7 +129,7 @@ export class LauréatWorld {
     return this.#dateDésignation;
   }
 
-  constructor(public readonly candidatureWorld: CandidatureWorld) {
+  constructor(public readonly potentielWorld: PotentielWorld) {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
     this.#actionnaireWorld = new ActionnaireWorld();
@@ -155,7 +160,7 @@ export class LauréatWorld {
       technologie,
       unitéPuissance,
       volumeRéservé,
-    } = this.candidatureWorld.mapToExpected();
+    } = this.potentielWorld.candidatureWorld.mapToExpected();
     const expected: Lauréat.ConsulterLauréatReadModel = {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),
@@ -171,6 +176,15 @@ export class LauréatWorld {
         : StatutProjet.classé,
       volumeRéservé,
       autorisationDUrbanisme,
+      attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
+        .aÉtéCréé
+        ? undefined
+        : DocumentProjet.convertirEnValueType(
+            this.identifiantProjet.formatter(),
+            'attestation',
+            this.notifierLauréatFixture.notifiéLe,
+            'application/pdf',
+          ),
     };
     return expected;
   }
