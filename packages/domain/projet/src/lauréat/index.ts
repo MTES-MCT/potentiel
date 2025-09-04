@@ -74,3 +74,4 @@ export * as Fournisseur from './fournisseur';
 export * as ReprésentantLégal from './représentantLégal';
 export * as Raccordement from './raccordement';
 export * as TâchePlanifiée from './tâche-planifiée';
+export * as Installateur from './installateur';
