@@ -457,6 +457,17 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           />
         </>
       )}
+      {champsSupplémentaires.installateur && (
+        <Input
+          state={validationErrors['installateur'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['installateur']}
+          label="Installateur (optionnel)"
+          nativeInputProps={{
+            name: 'installateur',
+            defaultValue: candidature.installateur,
+          }}
+        />
+      )}
 
       <RadioButtons
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}

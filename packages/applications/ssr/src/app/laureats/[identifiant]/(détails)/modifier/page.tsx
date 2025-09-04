@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   description: 'Page de modification du projet lauréat',
 };
 
+// TODO: installateur
+
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async () => {

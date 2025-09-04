@@ -23,6 +23,7 @@ import {
   codePostalSchema,
   puissanceDeSiteSchema,
   numéroDAutorisationDUrbanismeSchema,
+  installateurSchema,
 } from '../candidatureFields.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -107,6 +108,7 @@ const colonnes = {
   puissanceDeSite: 'Puissance de site',
   dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
   numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
+  installateur: "Identité de l'installateur",
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -145,6 +147,7 @@ const candidatureCsvRowSchema = z
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
     [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
+    [colonnes.installeur]: installateurSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
@@ -248,6 +251,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 numéro: numéroDAutorisationDUrbanisme,
               }
             : undefined,
+        installateur: val.installateur,
         typologieInstallation: mapCsvToTypologieInstallation({
           typologieDeBâtiment,
           typeInstallationsAgrivoltaiques,

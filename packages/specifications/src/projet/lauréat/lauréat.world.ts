@@ -145,11 +145,13 @@ export class LauréatWorld {
         prixReference,
         coefficientKChoisi,
         autorisationDUrbanisme,
+        installateur,
       },
       technologie,
       unitéPuissance,
       volumeRéservé,
     } = this.candidatureWorld.mapToExpected();
+
     const expected: Lauréat.ConsulterLauréatReadModel = {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),
@@ -171,6 +173,7 @@ export class LauréatWorld {
         'application/pdf',
       ),
       autorisationDUrbanisme,
+      installateur,
     };
     return expected;
   }

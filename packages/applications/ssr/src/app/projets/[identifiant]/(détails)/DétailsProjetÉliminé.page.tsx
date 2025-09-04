@@ -13,6 +13,8 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
+// TODO: installateur pertinent ?
+
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
   éliminé: PlainType<

@@ -95,6 +95,11 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   </span>
                 </Field>
               )}
+              {dépôt.installateur !== undefined && (
+                <Field name="Installateur">
+                  <span>{dépôt.installateur}</span>
+                </Field>
+              )}
               <Field name="Performances">
                 <span>Puissance installée : {dépôt.puissanceProductionAnnuelle} MW</span>
                 <span>Prix de référence : {dépôt.prixReference} €/MWh</span>

@@ -91,3 +91,5 @@ export const autorisationDUrbanismeSchema = z
         }
       : undefined,
   );
+
+export const installateurSchema = optionalStringSchema;

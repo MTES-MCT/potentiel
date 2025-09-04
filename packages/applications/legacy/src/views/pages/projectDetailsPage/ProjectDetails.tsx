@@ -72,6 +72,7 @@ type ProjectDetailsProps = {
     };
   };
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
+  // TODO: installateur
 };
 
 export const ProjectDetails = ({

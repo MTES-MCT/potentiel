@@ -195,6 +195,7 @@ const mapBodyToCandidatureUsecaseData = (
                 ).formatter(),
             }
           : undefined,
+      installateur: data.installateur ?? previous.installateur,
 
       // non-editable fields
       typeGarantiesFinancières: previous.garantiesFinancières?.type.type,

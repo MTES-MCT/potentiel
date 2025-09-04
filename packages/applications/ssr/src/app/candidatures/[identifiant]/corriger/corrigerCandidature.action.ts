@@ -50,6 +50,7 @@ const schema = zod.object({
   puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
   dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
   numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+  installateur: dépôtSchema.shape.installateur,
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
   noteTotale: instructionSchema.shape.noteTotale,
@@ -129,6 +130,7 @@ const mapBodyToUseCaseData = (
               date: DateTime.convertirEnValueType(data.dateDAutorisationDUrbanisme).formatter(),
             }
           : undefined,
+      installateur: data.installateur,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,
