@@ -147,7 +147,7 @@ const candidatureCsvRowSchema = z
     [colonnes.obligationDeSolarisation]: obligationDeSolarisationCsvSchema,
     [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
-    [colonnes.installeur]: installateurSchema,
+    [colonnes.installateur]: installateurSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below

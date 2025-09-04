@@ -145,7 +145,6 @@ export class LauréatWorld {
         prixReference,
         coefficientKChoisi,
         autorisationDUrbanisme,
-        installateur,
       },
       technologie,
       unitéPuissance,
@@ -173,7 +172,6 @@ export class LauréatWorld {
         'application/pdf',
       ),
       autorisationDUrbanisme,
-      installateur,
     };
     return expected;
   }
