@@ -185,16 +185,21 @@ export class LauréatAggregate extends AbstractAggregate<
     );
   }
 
-  async notifier({ attestation: { format }, importerGarantiesFinancières }: NotifierOptions) {
+  async notifier({
+    attestation: { format },
+    importerGarantiesFinancières,
+    notifiéLe,
+    notifiéPar,
+  }: NotifierOptions) {
     this.vérifierQueLeLauréatPeutÊtreNotifié();
 
-    const { notifiéeLe, notifiéePar, nomProjet, localité } = this.projet.candidature;
+    const { nomProjet, localité } = this.projet.candidature;
     const event: LauréatNotifiéEvent = {
       type: 'LauréatNotifié-V2',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
-        notifiéLe: notifiéeLe.formatter(),
-        notifiéPar: notifiéePar.formatter(),
+        notifiéLe: notifiéLe.formatter(),
+        notifiéPar: notifiéPar.formatter(),
         attestation: {
           format,
         },
@@ -208,38 +213,38 @@ export class LauréatAggregate extends AbstractAggregate<
     if (importerGarantiesFinancières) {
       await this.garantiesFinancières.importer({
         garantiesFinancières: this.projet.candidature.garantiesFinancières,
-        importéLe: notifiéeLe,
+        importéLe: notifiéLe,
       });
     }
 
     await this.producteur.importer({
       identifiantProjet: this.projet.identifiantProjet,
-      dateImport: notifiéeLe,
-      identifiantUtilisateur: notifiéePar,
+      dateImport: notifiéLe,
+      identifiantUtilisateur: notifiéPar,
       producteur: this.projet.candidature.nomCandidat,
     });
 
     await this.puissance.importer({
-      importéeLe: notifiéeLe,
+      importéeLe: notifiéLe,
       puissance: this.projet.candidature.puissanceProductionAnnuelle,
     });
 
     await this.actionnaire.importer({
-      importéLe: notifiéeLe,
+      importéLe: notifiéLe,
       actionnaire: this.projet.candidature.sociétéMère,
     });
 
     await this.représentantLégal.importer({
-      importéLe: notifiéeLe,
+      importéLe: notifiéLe,
       nomReprésentantLégal: this.projet.candidature.nomReprésentantLégal,
-      importéPar: notifiéePar,
+      importéPar: notifiéPar,
     });
 
     await this.fournisseur.importer({
       évaluationCarboneSimplifiée: this.projet.candidature.evaluationCarboneSimplifiée,
       fournisseurs: this.projet.candidature.fournisseurs,
-      importéLe: notifiéeLe,
-      identifiantUtilisateur: notifiéePar,
+      importéLe: notifiéLe,
+      identifiantUtilisateur: notifiéPar,
     });
 
     await this.achèvement.calculerDateAchèvementPrévisionnel({ type: 'notification' });

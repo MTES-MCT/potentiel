@@ -114,6 +114,13 @@ Quand(
           identifiantUtilisateurValue: accordéePar,
         },
       });
+
+      this.lauréatWorld.notifierLauréatFixture.créer({
+        notifiéLe: accordéeLe,
+        notifiéPar: accordéePar,
+        localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
+        nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+      });
     } catch (error) {
       this.error = error as Error;
     }
