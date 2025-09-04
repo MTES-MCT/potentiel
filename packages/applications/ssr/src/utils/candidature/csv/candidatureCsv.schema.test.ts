@@ -88,6 +88,7 @@ describe('Schema candidature', () => {
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
+      installateur: undefined,
       typologieInstallation: [],
     };
     deepEqualWithRichDiff(result.data, expected);
@@ -127,6 +128,7 @@ describe('Schema candidature', () => {
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
+      installateur: undefined,
       typologieInstallation: [],
     };
     deepEqualWithRichDiff(result.data, expected);
@@ -691,6 +693,7 @@ const deepEqualWithRichDiff = (actual: object, expected: object) => {
         return color + part.value + '\x1b[0m';
       })
       .join('');
+
     console.log('Difference between actual and expected:\n', formattedDiff);
 
     const error = e as Record<string, unknown>;

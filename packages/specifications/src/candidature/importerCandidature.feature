@@ -35,10 +35,11 @@ Fonctionnalité: Importer une candidature
             | obligation de solarisation | oui    |
         Alors la candidature devrait être consultable
 
+    @select
     Scénario: Importer une candidature avec un champ optionnel "installateur"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut       | classé          |
-            | installateur | nomInstallateur |
+            | statut       | classé           |
+            | installateur | Installateur.Inc |
         Alors la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
