@@ -6,7 +6,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 
 export const mapToLauréatNotifiéTimelineItemProps = (
   modification: Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event,
-  _recoursAccordé: boolean,
+  recoursAccordé: boolean,
 ) => {
   const {
     identifiantProjet,
@@ -17,7 +17,7 @@ export const mapToLauréatNotifiéTimelineItemProps = (
   return {
     date: notifiéLe,
     title: <div>Projet notifié lauréat</div>,
-    content: (
+    content: recoursAccordé ? undefined : (
       <DownloadDocument
         className="mb-0"
         label="Télécharger l'attestation"

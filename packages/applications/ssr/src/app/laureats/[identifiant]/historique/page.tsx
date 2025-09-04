@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -75,6 +75,28 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         },
       });
 
+      const aUnRecoursAccordé = !!historique.items.find((item) => {
+        if (item.category !== 'recours') {
+          return false;
+        }
+
+        return match(item)
+          .returnType<boolean>()
+          .with({ type: 'RecoursAccordé-V1' }, () => true)
+          .with(
+            {
+              type: P.union(
+                'RecoursDemandé-V1',
+                'RecoursAnnulé-V1',
+                'RecoursPasséEnInstruction-V1',
+                'RecoursRejeté-V1',
+              ),
+            },
+            () => false,
+          )
+          .exhaustive();
+      });
+
       const options = categoriesDisponibles
         .map((categorie) => ({
           label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
@@ -85,7 +107,9 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
       const historiqueFilteredAndSorted = historique.items
         .filter((historique) => !historique.type.includes('Import'))
         .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-        .map((item) => mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter()))
+        .map((item) =>
+          mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter(), aUnRecoursAccordé),
+        )
         .filter((item) => item !== undefined)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
@@ -136,6 +160,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
 const mapToTimelineItemProps = (
   readmodel: Lauréat.HistoriqueListItemReadModels,
   unitéPuissance: string,
+  aUnRecoursAccordé: boolean,
 ) => {
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
@@ -143,7 +168,9 @@ const mapToTimelineItemProps = (
     .with({ category: 'recours' }, mapToRecoursTimelineItemProps)
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
-    .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
+    .with({ category: 'lauréat' }, (readmodel) =>
+      mapToLauréatTimelineItemProps(readmodel, aUnRecoursAccordé),
+    )
     .with({ category: 'éliminé' }, mapToÉliminéTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
     .with({ category: 'producteur' }, mapToProducteurTimelineItemProps)
