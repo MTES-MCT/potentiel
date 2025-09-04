@@ -30,7 +30,7 @@ export type ConsulterLauréatReadModel = {
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutProjet.ValueType;
   volumeRéservé?: VolumeRéservé.ValueType;
-  /** non définie en cas de recours accordé */
+  /** non définie en cas de recours accordé ou projet d'une période "legacy" */
   attestationDésignation?: DocumentProjet.ValueType;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
 } & Pick<
