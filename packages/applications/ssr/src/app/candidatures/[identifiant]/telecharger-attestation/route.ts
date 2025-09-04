@@ -5,12 +5,11 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { Éliminé } from '@potentiel-domain/projet';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { apiAction } from '@/utils/apiAction';
-import { getProjet } from '@/app/_helpers';
 
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
@@ -45,10 +44,27 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     });
   });
 
+/**
+ * Candidat lauréat : attestation de désignation
+ * Candidat éliminé avec recours accordé : courrier de réponse de l'accord du recours
+ * Candidat éliminé : avis de rejet
+ *
+ * Certains projets "legacy" n'ont pas d'attestation de désignation dans Potentiel.
+ */
 const getAttestation = async (identifiantProjet: string) => {
-  const { nomProjet, attestationDésignation, statut } = await getProjet(identifiantProjet);
-
-  if (statut.estÉliminé()) {
+  const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+    type: 'Lauréat.Query.ConsulterLauréat',
+    data: {
+      identifiantProjet,
+    },
+  });
+  if (Option.isSome(lauréat)) {
+    if (lauréat.attestationDésignation) {
+      return {
+        attestationDésignation: lauréat.attestationDésignation,
+        nomProjet: lauréat.nomProjet,
+      };
+    }
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
@@ -57,9 +73,27 @@ const getAttestation = async (identifiantProjet: string) => {
     });
 
     if (Option.isSome(recours) && recours.demande.accord) {
-      return { attestationDésignation: recours.demande.accord.réponseSignée, nomProjet };
+      return {
+        attestationDésignation: recours.demande.accord.réponseSignée,
+        nomProjet: lauréat.nomProjet,
+      };
     }
+    // Projet lauréat sans attestation (eg. projet d'un période "legacy")
+    return {};
   }
 
-  return { nomProjet, attestationDésignation };
+  const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
+    type: 'Éliminé.Query.ConsulterÉliminé',
+    data: {
+      identifiantProjet,
+    },
+  });
+  if (Option.isSome(éliminé)) {
+    return {
+      nomProjet: éliminé.nomProjet,
+      attestationDésignation: éliminé.attestationDésignation,
+    };
+  }
+
+  notFound();
 };

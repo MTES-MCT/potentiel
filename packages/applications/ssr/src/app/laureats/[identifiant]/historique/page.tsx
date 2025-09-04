@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -23,6 +23,7 @@ import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/ma
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
+import { mapToÉliminéTimelineItemProps } from '@/utils/historique/mapToProps/éliminé';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
@@ -37,6 +38,7 @@ const categoriesDisponibles = [
   'fournisseur',
   'garanties-financieres',
   'lauréat',
+  'éliminé',
   'producteur',
   'puissance',
   'recours',
@@ -73,12 +75,43 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         },
       });
 
+      const aUnRecoursAccordé = !!historique.items.find((item) => {
+        if (item.category !== 'recours') {
+          return false;
+        }
+
+        return match(item)
+          .returnType<boolean>()
+          .with({ type: 'RecoursAccordé-V1' }, () => true)
+          .with(
+            {
+              type: P.union(
+                'RecoursDemandé-V1',
+                'RecoursAnnulé-V1',
+                'RecoursPasséEnInstruction-V1',
+                'RecoursRejeté-V1',
+              ),
+            },
+            () => false,
+          )
+          .exhaustive();
+      });
+
       const options = categoriesDisponibles
         .map((categorie) => ({
           label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
           value: categorie,
         }))
         .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
+
+      const historiqueFilteredAndSorted = historique.items
+        .filter((historique) => !historique.type.includes('Import'))
+        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+        .map((item) =>
+          mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter(), aUnRecoursAccordé),
+        )
+        .filter((item) => item !== undefined)
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
       return (
         <HistoriqueLauréatPage
@@ -91,12 +124,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
               options,
             },
           ]}
-          historique={historique.items
-            .filter((historique) => !historique.type.includes('Import'))
-            .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-            .map((item) => mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter()))
-            .filter((item) => item !== undefined)
-            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())}
+          historique={historiqueFilteredAndSorted}
         />
       );
     }),
@@ -120,6 +148,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   achevement: 'ri-verified-badge-line',
   actionnaire: 'ri-draft-line',
   lauréat: 'ri-notification-3-line',
+  éliminé: 'ri-notification-3-line',
   producteur: 'ri-draft-line',
   puissance: 'ri-draft-line',
   raccordement: 'ri-plug-line',
@@ -131,6 +160,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
 const mapToTimelineItemProps = (
   readmodel: Lauréat.HistoriqueListItemReadModels,
   unitéPuissance: string,
+  aUnRecoursAccordé: boolean,
 ) => {
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
@@ -138,7 +168,10 @@ const mapToTimelineItemProps = (
     .with({ category: 'recours' }, mapToRecoursTimelineItemProps)
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
-    .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
+    .with({ category: 'lauréat' }, (readmodel) =>
+      mapToLauréatTimelineItemProps(readmodel, aUnRecoursAccordé),
+    )
+    .with({ category: 'éliminé' }, mapToÉliminéTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
     .with({ category: 'producteur' }, mapToProducteurTimelineItemProps)
     .with({ category: 'puissance' }, (readmodel) =>

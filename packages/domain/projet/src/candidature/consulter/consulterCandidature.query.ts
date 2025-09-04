@@ -24,6 +24,7 @@ export type ConsulterCandidatureReadModel = {
     notifiéeLe: DateTime.ValueType;
     notifiéePar: Email.ValueType;
     validateur: AppelOffre.Validateur;
+    /** Optionnel car les projets de périodes "legacy" n'ont pas d'attestation de désignation */
     attestation?: DocumentProjet.ValueType;
   };
 
