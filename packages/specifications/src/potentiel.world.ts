@@ -95,7 +95,7 @@ export class PotentielWorld extends World {
     this.#périodeWorld = new PériodeWorld();
     this.#candidatureWorld = new CandidatureWorld();
     this.#gestionnaireRéseauWorld = new GestionnaireRéseauWorld();
-    this.#lauréatWorld = new LauréatWorld(this.#candidatureWorld);
+    this.#lauréatWorld = new LauréatWorld(this);
     this.#éliminéWorld = new ÉliminéWorld();
     this.#raccordementWorld = new RaccordementWorld(this.#lauréatWorld);
     this.#tâcheWorld = new TâcheWorld();

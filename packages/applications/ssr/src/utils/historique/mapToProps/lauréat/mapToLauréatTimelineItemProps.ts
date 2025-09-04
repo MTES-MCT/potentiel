@@ -12,7 +12,10 @@ import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNo
 
 export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 
-export const mapToLauréatTimelineItemProps = (record: LauréatHistoryRecord) =>
+export const mapToLauréatTimelineItemProps = (
+  record: LauréatHistoryRecord,
+  aUnRecoursAccordé: boolean,
+) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(
@@ -25,7 +28,7 @@ export const mapToLauréatTimelineItemProps = (record: LauréatHistoryRecord) =>
       {
         type: P.union('LauréatNotifié-V1', 'LauréatNotifié-V2'),
       },
-      mapToLauréatNotifiéTimelineItemProps,
+      (event) => mapToLauréatNotifiéTimelineItemProps(event, aUnRecoursAccordé),
     )
     .with(
       {
