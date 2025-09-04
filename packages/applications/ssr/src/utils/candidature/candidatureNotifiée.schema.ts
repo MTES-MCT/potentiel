@@ -24,6 +24,7 @@ import {
   puissanceDeSiteSchema,
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
+  installateurSchema,
 } from './candidatureFields.schema';
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
@@ -51,6 +52,7 @@ export const candidatureNotifiéeSchema = z
     puissanceDeSite: puissanceDeSiteSchema,
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
+    installateur: installateurSchema,
   })
   .merge(localitéSchema);
 

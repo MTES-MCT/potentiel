@@ -143,6 +143,7 @@ describe('Schema candidature', () => {
       'Obligation de solarisation': 'Oui',
       "Date d'obtention de l'autorisation d'urbanisme": '21/08/2025',
       "Numéro de l'autorisation d'urbanisme": '123',
+      "Identité de l'installateur": 'Installateur Inc.',
     });
     assertNoError(result);
     const expected: CandidatureShape = {
@@ -176,6 +177,7 @@ describe('Schema candidature', () => {
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
+      installateur: 'Installateur Inc.',
       typologieInstallation: [
         {
           typologie: 'agrivoltaique.jachère-plus-de-5-ans',

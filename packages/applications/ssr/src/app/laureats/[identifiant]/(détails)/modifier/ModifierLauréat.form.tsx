@@ -31,6 +31,8 @@ import { CandidatureField } from './components/fields/CandidatureField';
 import { CoefficientKField } from './components/fields/CoefficientKField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
 
+// TODO: installateur
+
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
     currentValue: ModifierLauréatValueFormEntries[K];

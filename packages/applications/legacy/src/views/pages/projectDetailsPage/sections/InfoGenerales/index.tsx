@@ -45,7 +45,8 @@ export type InfoGeneralesProps = {
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
   attestationConformité?: AttestationConformitéProps;
-  autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme']
+  autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
+  // TODO: installateur
 };
 
 export const InfoGenerales = ({
