@@ -44,6 +44,13 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     });
   });
 
+/**
+ * Candidat lauréat : attestation de désignation
+ * Candidat éliminé avec recours accordé : courrier de réponse de l'accord du recours
+ * Candidat éliminé : avis de rejet
+ *
+ * Certains projets "legacy" n'ont pas d'attestation de désignation dans Potentiel.
+ */
 const getAttestation = async (identifiantProjet: string) => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
@@ -52,6 +59,12 @@ const getAttestation = async (identifiantProjet: string) => {
     },
   });
   if (Option.isSome(lauréat)) {
+    if (lauréat.attestationDésignation) {
+      return {
+        attestationDésignation: lauréat.attestationDésignation,
+        nomProjet: lauréat.nomProjet,
+      };
+    }
     const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
@@ -65,10 +78,8 @@ const getAttestation = async (identifiantProjet: string) => {
         nomProjet: lauréat.nomProjet,
       };
     }
-    return {
-      attestationDésignation: lauréat.attestationDésignation,
-      nomProjet: lauréat.nomProjet,
-    };
+    // Projet lauréat sans attestation (eg. projet d'un période "legacy")
+    return {};
   }
 
   const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({

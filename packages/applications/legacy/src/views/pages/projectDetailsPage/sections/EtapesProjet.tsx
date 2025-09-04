@@ -31,11 +31,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
 
             return match(étape)
               .with({ type: 'designation' }, ({ type, date }) => (
-                <ÉtapeTerminée
-                  key={`project-step-${type}`}
-                  titre="Notification des résultats"
-                  date={date}
-                >
+                <ÉtapeTerminée key={`project-step-${type}`} titre="Notification" date={date}>
                   {!isLegacy && (
                     <DownloadLink
                       fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
