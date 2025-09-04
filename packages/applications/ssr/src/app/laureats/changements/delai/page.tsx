@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
+import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -28,12 +29,14 @@ const paramsSchema = z.object({
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
   statut: z.enum(Lauréat.Délai.StatutDemandeDélai.statuts).optional(),
+  autoriteInstructrice: z.enum(Lauréat.Délai.AutoritéCompétente.autoritésCompétentes).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, statut, autoriteInstructrice } =
+        paramsSchema.parse(searchParams);
 
       const changements = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
         type: 'Lauréat.Délai.Query.ListerDemandeDélai',
@@ -46,6 +49,7 @@ export default async function Page({ searchParams }: PageProps) {
           statuts: statut ? [statut] : undefined,
           appelOffre,
           nomProjet,
+          autoriteInstructrice,
         },
       });
 
@@ -74,6 +78,20 @@ export default async function Page({ searchParams }: PageProps) {
             })),
         },
       ];
+
+      if (utilisateur.role.estDGEC() || utilisateur.role.estDreal()) {
+        filters.push({
+          label: 'Autorité instructrice',
+          searchParamKey: 'autoriteInstructrice',
+          options: Lauréat.Délai.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
+            label: match(autorité)
+              .with('dreal', () => 'DREAL')
+              .with('dgec', () => 'DGEC')
+              .exhaustive(),
+            value: autorité,
+          })),
+        });
+      }
 
       return <DemandeDélaiListPage list={mapToListProps(changements)} filters={filters} />;
     }),

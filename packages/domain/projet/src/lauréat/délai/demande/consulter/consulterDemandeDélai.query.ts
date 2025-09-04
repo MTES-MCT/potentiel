@@ -5,7 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { StatutDemandeDélai } from '../..';
+import { AutoritéCompétente, StatutDemandeDélai } from '../..';
 import { Délai } from '../../..';
 import { DemandeDélaiEntity } from '../demandeDélai.entity';
 import { IdentifiantProjet } from '../../../..';
@@ -22,6 +22,8 @@ export type ConsulterDemandeDélaiReadModel = {
   raison: string;
 
   pièceJustificative: DocumentProjet.ValueType;
+
+  autoritéCompétente?: AutoritéCompétente.ValueType;
 
   instruction?: {
     passéeEnInstructionLe: DateTime.ValueType;
@@ -86,6 +88,7 @@ const mapToReadModel: MapToReadModel = ({
     instruction,
     accord,
     rejet,
+    autoritéCompétente,
   },
 }) => {
   return {
@@ -100,6 +103,8 @@ const mapToReadModel: MapToReadModel = ({
     demandéLe: DateTime.convertirEnValueType(demandéLe),
     demandéPar: Email.convertirEnValueType(demandéPar),
 
+    autoritéCompétente:
+      autoritéCompétente && AutoritéCompétente.convertirEnValueType(autoritéCompétente),
     nombreDeMois,
     raison,
 
