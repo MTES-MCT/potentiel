@@ -26,7 +26,7 @@ export class ImporterDossierCandidatureCommand extends Command {
     const { args } = await this.parse(ImporterDossierCandidatureCommand);
     try {
       const dépôt = await getDépôtCandidature(args.numéroDossier);
-      console.log(dépôt);
+      console.log(JSON.stringify(dépôt, null, 2));
     } catch (e) {
       console.log(e);
     }

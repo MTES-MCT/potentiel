@@ -8,6 +8,7 @@ export type RawType = Iso8601DateTime;
 
 export type ValueType = ReadonlyValueType<{
   date: Date;
+  estPassée(): boolean;
   estDansLeFutur(): boolean;
   estAntérieurÀ(dateTime: ValueType): boolean;
   estUltérieureÀ(dateTime: ValueType): boolean;
@@ -31,14 +32,18 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
   let date: Date | undefined;
 
   if (typeof value === 'string') {
-    estValide(value);
+    estValideString(value);
     date = new Date(value);
   } else {
     date = value;
   }
+  estValideDate(date);
 
   return {
     date,
+    estPassée() {
+      return this.date.getTime() < Date.now();
+    },
     estDansLeFutur() {
       return this.date.getTime() > Date.now();
     },
@@ -101,11 +106,17 @@ export const convertirEnValueType = (value: Date | string): ValueType => {
 
 export const now = () => convertirEnValueType(new Date());
 
-function estValide(value: string): asserts value is RawType {
+function estValideString(value: string): asserts value is RawType {
   const isValid = regexDateISO8601.test(value);
 
   if (!isValid) {
     throw new DateTimeInvalideError(value);
+  }
+}
+
+function estValideDate(value: Date) {
+  if (isNaN(value.getTime())) {
+    throw new ValeurDateTimeInvalideError();
   }
 }
 
@@ -117,5 +128,11 @@ class DateTimeInvalideError extends InvalidOperationError {
         value,
       },
     );
+  }
+}
+
+class ValeurDateTimeInvalideError extends InvalidOperationError {
+  constructor() {
+    super(`La date a une valeur invalide`);
   }
 }

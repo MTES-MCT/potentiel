@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
@@ -10,6 +11,7 @@ export type PasserEnInstructionDemandeDélaiCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     datePassageEnInstruction: DateTime.ValueType;
+    rôleUtilisateur: Role.ValueType;
   }
 >;
 
@@ -20,12 +22,14 @@ export const registerPasserEnInstructionDemandeDélaiCommand = (
     identifiantProjet,
     identifiantUtilisateur,
     datePassageEnInstruction,
+    rôleUtilisateur,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.délai.passerEnInstructionDemandeDélai({
       identifiantUtilisateur,
       datePassageEnInstruction,
+      rôleUtilisateur,
     });
   };
   mediator.register('Lauréat.Délai.Command.PasserEnInstructionDemande', handler);

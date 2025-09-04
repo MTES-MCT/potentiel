@@ -12,8 +12,6 @@ EtantDonné(
 
     await importerCandidaturePériodeLegacy.call(this, nomProjet, 'classé', exemple);
 
-    const dateDésignation = this.lauréatWorld.dateDésignation;
-
-    await notifierLauréat.call(this, dateDésignation);
+    await notifierLauréat.call(this);
   },
 );

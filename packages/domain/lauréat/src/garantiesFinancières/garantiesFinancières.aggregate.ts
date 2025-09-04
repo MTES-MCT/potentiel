@@ -9,23 +9,13 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '.';
 
-import {
-  applyDépôtGarantiesFinancièresSoumis,
-  soumettreDépôt,
-} from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
-import {
-  applyDépôtGarantiesFinancièresEnCoursSupprimé,
-  supprimerDépôtGarantiesFinancièresEnCours,
-} from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
+import { applyDépôtGarantiesFinancièresSoumis } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
+import { applyDépôtGarantiesFinancièresEnCoursSupprimé } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
 import {
   applyDépôtGarantiesFinancièresEnCoursValidé,
   applyDépôtGarantiesFinancièresEnCoursValidéV1,
-  validerDépôtEnCours,
 } from './dépôtEnCours/validerDépôtEnCours/validerDépôtGarantiesFinancièresEnCours.behavior';
-import {
-  applyDépôtGarantiesFinancièresEnCoursModifié,
-  modifierDépôtGarantiesFinancièresEnCours,
-} from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
+import { applyDépôtGarantiesFinancièresEnCoursModifié } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import { applyEffacerHistoriqueGarantiesFinancières } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
 import { applyTypeGarantiesFinancièresImporté } from './garantiesFinancièresActuelles/importer/importerTypeGarantiesFinancières.behavior';
 import { applyEnregistrerGarantiesFinancières } from './garantiesFinancièresActuelles/enregistrer/enregistrerGarantiesFinancières.behavior';
@@ -93,10 +83,6 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
   };
-  readonly soumettreDépôt: typeof soumettreDépôt;
-  readonly supprimerDépôtGarantiesFinancièresEnCours: typeof supprimerDépôtGarantiesFinancièresEnCours;
-  readonly validerDépôtEnCours: typeof validerDépôtEnCours;
-  readonly modifierDépôtGarantiesFinancièresEnCours: typeof modifierDépôtGarantiesFinancièresEnCours;
   readonly demanderMainlevée: typeof demanderMainlevée;
   readonly annulerDemandeMainlevée: typeof annulerDemandeMainlevée;
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
@@ -109,10 +95,6 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   GarantiesFinancièresEvent
 > = () => ({
   apply,
-  soumettreDépôt,
-  supprimerDépôtGarantiesFinancièresEnCours,
-  validerDépôtEnCours,
-  modifierDépôtGarantiesFinancièresEnCours,
 
   demanderMainlevée,
   annulerDemandeMainlevée,

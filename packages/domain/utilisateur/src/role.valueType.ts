@@ -202,7 +202,7 @@ const référencielPermissions = {
       usecase: {
         soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
-          'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+          'Lauréat.GarantiesFinancières.UseCase.SupprimerDépôtGarantiesFinancières',
         valider: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
@@ -222,7 +222,7 @@ const référencielPermissions = {
       command: {
         soumettre: 'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
         supprimerGarantiesFinancièresÀTraiter:
-          'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancièresEnCours',
+          'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancières',
         valider: 'Lauréat.GarantiesFinancières.Command.ValiderDépôtGarantiesFinancièresEnCours',
         modifierGarantiesFinancièresÀTraiter:
           'Lauréat.GarantiesFinancières.Command.ModifierDépôtGarantiesFinancièresEnCours',

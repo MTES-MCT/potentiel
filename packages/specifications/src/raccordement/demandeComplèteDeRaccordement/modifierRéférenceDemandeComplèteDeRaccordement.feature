@@ -1,4 +1,6 @@
 # language: fr
+@raccordement
+@demande-complète-raccordement
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
     Contexte:

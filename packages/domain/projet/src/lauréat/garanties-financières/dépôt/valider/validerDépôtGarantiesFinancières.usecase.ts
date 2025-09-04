@@ -6,7 +6,7 @@ import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document
 
 import { TypeDocumentGarantiesFinancières } from '../..';
 
-import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancièresEnCours.command';
+import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancières.command';
 
 export type ValiderDépôtGarantiesFinancièresEnCoursUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',

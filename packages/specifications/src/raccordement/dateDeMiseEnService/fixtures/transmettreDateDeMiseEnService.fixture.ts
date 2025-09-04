@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import { DateTime } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../../fixture';
+import { RaccordementWorld } from '../../raccordement.world';
 
 interface TransmettreDateDeMiseEnService {
   dateMiseEnService: string;
@@ -28,6 +29,10 @@ export class TransmettreDateMiseEnServiceFixture
     return this.#identifiantProjet;
   }
 
+  constructor(private raccordementWorld: RaccordementWorld) {
+    super();
+  }
+
   créer(
     partialFixture: Partial<Readonly<TransmettreDateDeMiseEnService>> & {
       référenceDossier: string;
@@ -35,7 +40,12 @@ export class TransmettreDateMiseEnServiceFixture
     },
   ): Readonly<TransmettreDateDeMiseEnService> {
     const fixture = {
-      dateMiseEnService: faker.date.recent().toISOString(),
+      dateMiseEnService: faker.date
+        .between({
+          from: this.raccordementWorld.lauréatWorld.notifierLauréatFixture.notifiéLe,
+          to: new Date(),
+        })
+        .toISOString(),
       ...partialFixture,
     };
 

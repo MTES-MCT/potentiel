@@ -57,13 +57,13 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance |                    |
-        Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
+        Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
     Plan du Scénario: Impossible de soumettre un dépôt de garanties financières si la date d'échéance est non compatible avec le type
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF         | <type GF>  |
             | date d'échéance | 2028-01-01 |
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner de date d'échéance pour ce type de garanties financières"
+        Alors l'utilisateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
         Exemples:
             | type GF                   |

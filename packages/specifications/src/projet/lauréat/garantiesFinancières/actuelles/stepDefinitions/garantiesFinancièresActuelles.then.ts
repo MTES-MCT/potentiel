@@ -181,9 +181,9 @@ Alors(
 );
 
 Alors(
-  `les garanties financières actuelles du projet {string} sont échues`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `les garanties financières actuelles du projet sont échues`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
       const actualReadModel =

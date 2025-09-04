@@ -11,21 +11,21 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
     Scénario: Échoir les garanties financières actuelles d'un projet à J+1 après la date d'échéance
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
-            | date d'échéance | 2024-07-17         |
-        Quand un admin échoie les garanties financières actuelles pour le projet lauréat
-        Alors les garanties financières actuelles du projet "Du boulodrome de Marseille" sont échues
+            | date d'échéance | 2050-07-17         |
+        Quand on exécute la tâche planifiée "échoir les garanties financières" pour le projet lauréat à la date du "2050-07-18"
+        Alors les garanties financières actuelles du projet sont échues
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
         Et une tâche indiquant de "transmettre les garanties financières" est consultable dans la liste des tâches du porteur pour le projet
         Et un email a été envoyé au porteur avec :
             | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet    | Du boulodrome de Marseille                                                                                                       |
-            | date_echeance | 17/07/2024                                                                                                                       |
+            | date_echeance | 17/07/2050                                                                                                                       |
         Et un email a été envoyé à la dreal avec :
             | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet    | Du boulodrome de Marseille                                                                                                       |
-            | date_echeance | 17/07/2024                                                                                                                       |
-        Et une tâche "rappel des garanties financières à transmettre" est planifiée à la date du "2024-08-17" pour le projet lauréat
+            | date_echeance | 17/07/2050                                                                                                                       |
+        Et une tâche "rappel des garanties financières à transmettre" est planifiée à la date du "2050-08-18" pour le projet lauréat
 
     Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec garanties financières à échoir
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -40,7 +40,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
-            | date d'échéance | 2024-10-01         |
+            | date d'échéance | 2050-10-01         |
         Et une demande de mainlevée de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif | projet-abandonné |
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"

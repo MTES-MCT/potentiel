@@ -1,8 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../.././../potentiel.world';
 import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture';
@@ -57,8 +56,8 @@ Quand(
   'le porteur supprime le dépôt de garanties financières du projet',
   async function (this: PotentielWorld) {
     try {
-      await mediator.send<GarantiesFinancières.SupprimerGarantiesFinancièresÀTraiterUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerGarantiesFinancièresÀTraiter',
+      await mediator.send<Lauréat.GarantiesFinancières.SupprimerDépôtGarantiesFinancièresUseCase>({
+        type: 'Lauréat.GarantiesFinancières.UseCase.SupprimerDépôtGarantiesFinancières',
         data: {
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           suppriméLeValue: new Date().toISOString(),
@@ -91,7 +90,7 @@ export async function soumettreDépôt(
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.créer({
       ...props,
     });
-  await mediator.send<GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
+  await mediator.send<Lauréat.GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
@@ -114,18 +113,20 @@ export async function modifierDépôt(
     this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
       ...props,
     });
-  await mediator.send<GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>({
-    type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
-    data: {
-      identifiantProjetValue: identifiantProjet.formatter(),
-      typeValue: type,
-      dateConstitutionValue: new Date(dateConstitution).toISOString(),
-      modifiéLeValue: new Date(soumisLe).toISOString(),
-      modifiéParValue: soumisPar,
-      attestationValue: attestation,
-      dateÉchéanceValue: dateÉchéance,
+  await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
+    {
+      type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        typeValue: type,
+        dateConstitutionValue: new Date(dateConstitution).toISOString(),
+        modifiéLeValue: new Date(soumisLe).toISOString(),
+        modifiéParValue: soumisPar,
+        attestationValue: attestation,
+        dateÉchéanceValue: dateÉchéance,
+      },
     },
-  });
+  );
 }
 
 export async function validerDépôtEnCours(
@@ -137,7 +138,7 @@ export async function validerDépôtEnCours(
     validéPar: this.utilisateurWorld.drealFixture.email,
     ...props,
   });
-  await mediator.send<GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
+  await mediator.send<Lauréat.GarantiesFinancières.ValiderDépôtGarantiesFinancièresEnCoursUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.ValiderDépôtGarantiesFinancièresEnCours',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),

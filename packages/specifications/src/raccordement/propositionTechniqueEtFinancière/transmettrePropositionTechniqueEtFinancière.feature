@@ -1,4 +1,6 @@
 # language: fr
+@raccordement
+@proposition-technique-financière
 Fonctionnalité: Transmettre une proposition technique et financière
 
     Contexte:

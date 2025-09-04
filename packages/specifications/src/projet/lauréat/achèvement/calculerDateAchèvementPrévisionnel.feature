@@ -59,8 +59,9 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
 
     Scénario: Retirer le délai du CDC 2022 lorsqu'un projet lauréat passe d'un cahier des charges paru le 30/08/2022 à un CDC initial
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
-            | appel d'offre | PPE2 - Bâtiment |
-            | période       | 1               |
+            | appel d'offre     | PPE2 - Bâtiment |
+            | période           | 1               |
+            | date notification | 2019-10-30      |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
         Et une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service au "2023-06-10" pour le dossier de raccordement du projet lauréat
@@ -85,8 +86,9 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
     Scénario: Ne pas appliquer le délai du CDC 2022 lorsqu'un projet lauréat a une date de mise en service transmise en dehors de l'intervalle prévu par le CDC
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Bordeaux" avec :
-            | appel d'offre | PPE2 - Bâtiment |
-            | période       | 1               |
+            | appel d'offre     | PPE2 - Bâtiment |
+            | période           | 1               |
+            | date notification | 2019-10-30      |
         Et une date d'achèvement prévisionnel pour le projet lauréat au "2020-01-01"
         Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat

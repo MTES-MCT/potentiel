@@ -44,18 +44,6 @@ EtantDonné(
     };
 
     await enregistrerOuModifierSiExistantes.call(this, identifiantProjet, { garantiesFinancières });
-
-    this.lauréatWorld.garantiesFinancièresWorld.actuelles.échoir.créer();
-
-    await mediator.send<Lauréat.TâchePlanifiée.ExécuterTâchePlanifiéeUseCase>({
-      type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        typeTâchePlanifiéeValue:
-          Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-        exécutéeLeValue: garantiesFinancières.dateÉchéance,
-      },
-    });
   },
 );
 
