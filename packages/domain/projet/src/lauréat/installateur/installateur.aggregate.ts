@@ -20,12 +20,11 @@ export class InstallateurAggregate extends AbstractAggregate<
     return this.parent;
   }
 
-  async importer({
-    identifiantProjet,
-    installateur,
-    dateImport,
-    identifiantUtilisateur,
-  }: ImporterOptions) {
+  private get identifiantProjet() {
+    return this.lauréat.projet.identifiantProjet;
+  }
+
+  async importer({ installateur, importéLe, importéPar }: ImporterOptions) {
     if (this.installateur) {
       throw new InstallateurDéjàTransmisError();
     }
@@ -33,10 +32,10 @@ export class InstallateurAggregate extends AbstractAggregate<
     const event: InstallateurImportéEvent = {
       type: 'InstallateurImporté-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
         installateur,
-        importéLe: dateImport.formatter(),
-        importéPar: identifiantUtilisateur.formatter(),
+        importéLe: importéLe.formatter(),
+        importéPar: importéPar.formatter(),
       },
     };
 
