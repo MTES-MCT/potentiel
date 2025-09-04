@@ -173,6 +173,10 @@ export class CandidatureAggregate extends AbstractAggregate<
     return this.dépôt.fournisseurs;
   }
 
+  get installateur() {
+    return this.dépôt.installateur;
+  }
+
   async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();

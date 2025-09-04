@@ -40,6 +40,7 @@ import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
 import { DélaiAggregate } from './délai/délai.aggregate';
 import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
+import { InstallateurAggregate } from './installateur/installateur.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -113,6 +114,11 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#délai;
   }
 
+  #installateur!: AggregateType<InstallateurAggregate>;
+  get installateur() {
+    return this.#installateur;
+  }
+
   #raccordement!: AggregateType<RaccordementAggregate>;
   get raccordement() {
     return this.#raccordement;
@@ -175,6 +181,11 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#délai = await this.loadAggregate(
       DélaiAggregate,
       `délai|${this.projet.identifiantProjet.formatter()}`,
+    );
+
+    this.#installateur = await this.loadAggregate(
+      InstallateurAggregate,
+      `installateur|${this.projet.identifiantProjet.formatter()}`,
     );
   }
 
@@ -246,6 +257,14 @@ export class LauréatAggregate extends AbstractAggregate<
       importéLe: notifiéLe,
       identifiantUtilisateur: notifiéPar,
     });
+
+    if (this.projet.candidature.installateur) {
+      await this.installateur.importer({
+        installateur: this.projet.candidature.installateur,
+        importéLe: notifiéeLe,
+        importéPar: notifiéePar,
+      });
+    }
 
     await this.achèvement.calculerDateAchèvementPrévisionnel({ type: 'notification' });
   }

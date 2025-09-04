@@ -47,6 +47,10 @@ export class ProducteurAggregate extends AbstractAggregate<
     return this.parent;
   }
 
+  private get identifiantProjet() {
+    return this.lauréat.projet.identifiantProjet;
+  }
+
   async enregistrerChangement({
     identifiantProjet,
     producteur,
@@ -122,12 +126,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async importer({
-    identifiantProjet,
-    producteur,
-    dateImport,
-    identifiantUtilisateur,
-  }: ImporterOptions) {
+  async importer({ producteur, dateImport, identifiantUtilisateur }: ImporterOptions) {
     if (this.producteur) {
       throw new ProducteurDéjàTransmisError();
     }
@@ -135,7 +134,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     const event: ProducteurImportéEvent = {
       type: 'ProducteurImporté-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
         producteur,
         importéLe: dateImport.formatter(),
         importéPar: identifiantUtilisateur.formatter(),
