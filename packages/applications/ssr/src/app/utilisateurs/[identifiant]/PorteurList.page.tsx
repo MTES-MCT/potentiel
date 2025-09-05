@@ -10,8 +10,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
-import { InviterPorteurForm } from '../inviter/InviterPorteur.form';
-
+import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';
 import { PorteurListItem } from './PorteurListItem';
 
 export type PorteurListPageProps = {
