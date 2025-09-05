@@ -53,3 +53,12 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Quand le porteur modifie un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Il n'y a aucun dépôt de garanties financières en cours pour ce projet"
+
+    Scénario: Impossible de modifier un dépôt de garanties financières avec un type non disponible pour l'appel d'offre
+        Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Sol   |
+            | type GF       | consignation |
+        Quand le porteur modifie un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | type GF              | exemption  |
+            | date de délibération | 2025-01-01 |
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"

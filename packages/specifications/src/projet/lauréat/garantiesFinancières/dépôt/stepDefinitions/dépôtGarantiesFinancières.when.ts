@@ -86,10 +86,17 @@ export async function soumettreDépôt(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
 ) {
-  const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
-    this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.créer({
-      ...props,
-    });
+  const {
+    attestation,
+    dateConstitution,
+    soumisLe,
+    soumisPar,
+    type,
+    dateÉchéance,
+    dateDélibération,
+  } = this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.créer({
+    ...props,
+  });
   await mediator.send<Lauréat.GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     data: {
@@ -100,6 +107,7 @@ export async function soumettreDépôt(
       soumisParValue: soumisPar,
       typeValue: type,
       dateÉchéanceValue: dateÉchéance,
+      dateDélibérationValue: dateDélibération,
     },
   });
 }
@@ -109,10 +117,15 @@ export async function modifierDépôt(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
 ) {
-  const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
-    this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer({
-      ...props,
-    });
+  const {
+    attestation,
+    dateConstitution,
+    soumisLe,
+    soumisPar,
+    type,
+    dateÉchéance,
+    dateDélibération,
+  } = this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer(props);
   await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
     {
       type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
@@ -124,6 +137,7 @@ export async function modifierDépôt(
         modifiéParValue: soumisPar,
         attestationValue: attestation,
         dateÉchéanceValue: dateÉchéance,
+        dateDelibérationValue: dateDélibération,
       },
     },
   );

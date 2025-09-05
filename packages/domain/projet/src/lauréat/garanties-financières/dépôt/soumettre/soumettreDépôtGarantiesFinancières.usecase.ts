@@ -14,6 +14,7 @@ export type SoumettreDépôtGarantiesFinancièresUseCase = Message<
     identifiantProjetValue: string;
     typeValue: string;
     dateÉchéanceValue?: string;
+    dateDélibérationValue?: string;
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -32,6 +33,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
     soumisLeValue,
     typeValue,
     dateÉchéanceValue,
+    dateDélibérationValue,
     soumisParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -39,6 +41,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
     const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
       type: typeValue,
       dateÉchéance: dateÉchéanceValue,
+      dateDélibération: dateDélibérationValue,
     });
 
     const soumisLe = DateTime.convertirEnValueType(soumisLeValue);
