@@ -21,7 +21,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | avec-date-échéance        | 2027-12-01      |
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
-            | garantie-bancaire         |                 |
 
     Plan du Scénario: La DREAL enregistre des garanties financières actuelles
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
@@ -34,7 +33,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | avec-date-échéance        | 2027-12-01      |
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
-            | garantie-bancaire         |                 |
 
     Scénario: La DREAL enregistre des garanties financières actuelles ayant initialement un statut échu
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
@@ -69,7 +67,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | type GF                   |
             | consignation              |
             | six-mois-après-achèvement |
-            | garantie-bancaire         |
 
     Scénario: Impossible d'enregister des garanties financières actuelles de type avec date d'échéance si la date d'échéance est manquante
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
@@ -83,6 +80,9 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible d'enregister des garanties financières actuelles avec un type exemption
+        Etant donné le projet éliminé "Du Boulodrome de Toulouse" avec :
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+        Et un recours accordé pour le projet éliminé
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF              | exemption  |
             | date de délibération | 2020-01-01 |
@@ -94,10 +94,9 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières pour ce projet"
 
     Scénario: Impossible d'enregistrer des garanties financières avec un type non disponible pour l'appel d'offre
-        Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
-            | appel d'offre | PPE2 - Innovation |
-            | type GF       |                   |
+        Etant donné le projet éliminé "Du Boulodrome de Toulouse" avec :
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+        Et un recours accordé pour le projet éliminé
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
-            | type GF              | exemption  |
-            | date de délibération | 2024-12-01 |
+            | type GF | six-mois-après-achèvement |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
