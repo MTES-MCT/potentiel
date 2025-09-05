@@ -2,6 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -24,10 +25,12 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
-        data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
-      });
+      await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
+          data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
+        },
+      );
     } catch (error) {
       this.error = error as Error;
     }

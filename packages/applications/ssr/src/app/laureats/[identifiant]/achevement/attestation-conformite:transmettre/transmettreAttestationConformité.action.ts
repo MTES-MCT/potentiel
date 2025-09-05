@@ -4,7 +4,6 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -52,15 +51,17 @@ const action: FormAction<FormState, typeof schema> = async (
     );
 
     if (demanderMainlevee === 'true') {
-      await mediator.send<GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          motifValue: 'projet-achevé',
-          demandéLeValue: DateTime.now().formatter(),
-          demandéParValue: utilisateur.identifiantUtilisateur.formatter(),
+      await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            motifValue: 'projet-achevé',
+            demandéLeValue: DateTime.now().formatter(),
+            demandéParValue: utilisateur.identifiantUtilisateur.formatter(),
+          },
         },
-      });
+      );
     }
 
     const raccordement = await mediator.send<Lauréat.Raccordement.ConsulterRaccordementQuery>({

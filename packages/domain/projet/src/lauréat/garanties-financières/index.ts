@@ -1,6 +1,7 @@
 // Use Cases
 export * from './dépôt/dépôtGarantiesFinancières.usecases';
 export * from './actuelles/garantiesFinancièresActuelles.usecases';
+export * from './mainlevée/mainlevéeGarantiesFinancières.usecases';
 
 // Events
 export * from './garantiesFinancières.event';

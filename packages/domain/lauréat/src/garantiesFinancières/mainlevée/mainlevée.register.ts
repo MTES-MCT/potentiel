@@ -5,8 +5,6 @@ import { registeAccorderDemandeMainlevéeGarantiesFinancièresCommand } from './
 import { registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
 import { registerAnnulerMainlevéeGarantiesFinancièresCommand } from './annuler/annulerDemandeMainlevéeGarantiesFinancières.command';
 import { registerAnnulerMainlevéeGarantiesFinancièresUseCase } from './annuler/annulerDemandeMainlevéeGarantiesFinancières.usecase';
-import { registerDemanderMainlevéeGarantiesFinancièresCommand } from './demander/demanderMainlevéeGarantiesFinancières.command';
-import { registerDemanderMainlevéeGarantiesFinancièresUseCase } from './demander/demanderMainlevéeGarantiesFinancières.usecase';
 import { registerDémarrerInstructionDemandeMainlevéeGarantiesFinancières } from './démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.command';
 import { registerDémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } from './démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.usecase';
 import { registeRejeterDemandeMainlevéeGarantiesFinancièresCommand } from './rejeter/rejeterDemandeMainlevéeGarantiesFinancières.command';
@@ -17,14 +15,12 @@ export const registerMainlevée = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   // commands
-  registerDemanderMainlevéeGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
   registerAnnulerMainlevéeGarantiesFinancièresCommand(loadAggregate);
   registerDémarrerInstructionDemandeMainlevéeGarantiesFinancières(loadAggregate);
   registeRejeterDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate);
   registeAccorderDemandeMainlevéeGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
 
   // usecases
-  registerDemanderMainlevéeGarantiesFinancièresUseCase();
   registerAnnulerMainlevéeGarantiesFinancièresUseCase();
   registerDémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase();
   registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase();
