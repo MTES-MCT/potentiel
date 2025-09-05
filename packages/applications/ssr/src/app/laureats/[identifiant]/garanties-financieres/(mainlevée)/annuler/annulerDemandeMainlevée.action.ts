@@ -3,9 +3,9 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -19,8 +19,8 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<GarantiesFinancières.AnnulerMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Annuler',
+    await mediator.send<Lauréat.GarantiesFinancières.AnnulerMainlevéeGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',
       data: {
         identifiantProjetValue: identifiantProjet,
         annuléLeValue: DateTime.now().formatter(),

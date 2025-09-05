@@ -47,14 +47,16 @@ Quand(
       const utilisateur = annulationData['utilisateur'] || 'porteur@test.test';
       const date = annulationData['date annulation'] || '2024-01-01';
 
-      await mediator.send<GarantiesFinancières.AnnulerMainlevéeGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Annuler',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          annuléLeValue: new Date(date).toISOString(),
-          annuléParValue: utilisateur,
+      await mediator.send<Lauréat.GarantiesFinancières.AnnulerMainlevéeGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            annuléLeValue: new Date(date).toISOString(),
+            annuléParValue: utilisateur,
+          },
         },
-      });
+      );
     } catch (error) {
       this.error = error as Error;
     }

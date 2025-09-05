@@ -1,6 +1,5 @@
 # language: fr
 @garanties-financières
-@select
 Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Contexte:

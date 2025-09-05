@@ -210,7 +210,7 @@ const référencielPermissions = {
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         demanderMainlevée: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Annuler',
+        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',
         démarrerInstructionMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
         accorderDemandeMainlevée:
@@ -230,7 +230,7 @@ const référencielPermissions = {
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
         demanderMainlevée: 'Lauréat.GarantiesFinancières.Command.DemanderMainlevée',
-        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Command.Annuler',
+        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Command.AnnulerMainlevée',
         démarrerInstructionMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.Command.DémarrerInstruction',
         accorderDemandeMainlevée:

@@ -19,7 +19,6 @@ import {
   ConsulterDépôtEnCoursGarantiesFinancièresQuery,
   ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
 } from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
-import { AnnulerMainlevéeGarantiesFinancièresUseCase } from './mainlevée/annuler/annulerDemandeMainlevéeGarantiesFinancières.usecase';
 import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/démarrerInstruction/démarrerInstructionDemandeMainlevéeGarantiesFinancières.usecase';
 import { RejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
 import { AccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
@@ -69,13 +68,11 @@ export type {
 
 // UseCases
 export type GarantiesFinancièresUseCase =
-  | AnnulerMainlevéeGarantiesFinancièresUseCase
   | DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase
   | RejeterDemandeMainlevéeGarantiesFinancièresUseCase
   | AccorderDemandeMainlevéeGarantiesFinancièresUseCase;
 
 export type {
-  AnnulerMainlevéeGarantiesFinancièresUseCase,
   DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase,
   RejeterDemandeMainlevéeGarantiesFinancièresUseCase,
   AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
