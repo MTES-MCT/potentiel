@@ -4,6 +4,7 @@ import { InvalidOperationError, PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { TypeActionnariat } from './candidature';
+import { ChangementKeys } from '@potentiel-domain/appel-offre/src/appelOffre.entity';
 
 export type ValueType = {
   appelOffre: PlainType<AppelOffre.AppelOffreReadModel>;
@@ -35,7 +36,11 @@ export type ValueType = {
   doitChoisirUnCahierDesChargesModificatif(): boolean;
   getRèglesChangements<TDomain extends keyof AppelOffre.RèglesDemandesChangement>(
     domaine: TDomain,
-  ): AppelOffre.RèglesDemandesChangement[TDomain];
+  ):
+    | AppelOffre.RèglesDemandesChangement[TDomain]
+    | {
+        [K in ChangementKeys]: undefined;
+      };
   getAutoritéCompétente(domain: 'abandon' | 'délai'): AppelOffre.AutoritéCompétente;
   getChampsSupplémentaires(): AppelOffre.ChampsSupplémentairesCandidature;
   getTypesActionnariat(): TypeActionnariat.RawType[];
@@ -55,27 +60,31 @@ export const bind = ({
   technologie,
 
   getRèglesChangements(domaine) {
-    const changementIndisponible: AppelOffre.RèglesDemandesChangement = {
-      abandon: {},
-      achèvement: {},
-      actionnaire: {},
-      délai: {},
-      fournisseur: {},
-      producteur: {},
-      puissance: {},
-      recours: {},
-      représentantLégal: {},
+    const changementIndisponible = {
+      demande: undefined,
+      autoritéCompétente: undefined,
+      informationEnregistrée: undefined,
+      changementByTechnologie: undefined,
+      informationEnregistréeEstSoumiseÀConditions: undefined,
+      instructionAutomatique: undefined,
+      paragrapheAlerte: undefined,
+      ratios: undefined,
     };
 
+    if (
+      this.appelOffre.changement === 'indisponible' ||
+      this.période.changement === 'indisponible'
+    ) {
+      return changementIndisponible;
+    }
     const règlesChangement = {
-      ...(this.appelOffre.changement === 'indisponible'
-        ? changementIndisponible
-        : this.appelOffre.changement),
-      ...(this.période.changement === 'indisponible'
-        ? changementIndisponible
-        : this.période.changement),
+      // potentiellement une bonne idée
+      ...changementIndisponible,
+      ...this.appelOffre.changement,
+      ...this.période.changement,
       ...this.cahierDesChargesModificatif?.changement,
     };
+
     return règlesChangement[domaine];
   },
 
@@ -89,6 +98,7 @@ export const bind = ({
 
   changementEstDisponible(typeChangement, domaine) {
     const règlesChangement = this.getRèglesChangements(domaine);
+
     const règleTypeChangement = match(typeChangement)
       .with('demande', () => règlesChangement.demande)
       .with('information-enregistrée', () => règlesChangement.informationEnregistrée)
