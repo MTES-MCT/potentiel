@@ -76,9 +76,15 @@ export class GarantiesFinancièresDéjàEnregistréesError extends InvalidOperat
   }
 }
 
-export class AttestationGarantiesFinancièresDéjàExistante extends InvalidOperationError {
+export class AttestationGarantiesFinancièresDéjàExistanteError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà une attestation pour ces garanties financières`);
+  }
+}
+
+export class AttestationGarantiesFinancièresManquanteError extends InvalidOperationError {
+  constructor() {
+    super(`L'attestation de constitution pour ces garanties financières est manquante`);
   }
 }
 

@@ -20,7 +20,8 @@ import { EffacerHistoriqueOptions } from './actuelles//effacer/efffacerHistoriqu
 import { ImporterOptions } from './actuelles//importer/importerGarantiesFinancières.option';
 import {
   AttestationDeConformitéError,
-  AttestationGarantiesFinancièresDéjàExistante,
+  AttestationGarantiesFinancièresDéjàExistanteError,
+  AttestationGarantiesFinancièresManquanteError,
   AucunesGarantiesFinancièresActuellesError,
   ChoixExemptionImpossibleError,
   DateConstitutionDansLeFuturError,
@@ -72,6 +73,17 @@ import {
 import { ValiderDépôtOptions } from './dépôt/valider/validerDépôtGarantiesFinancières.option';
 import { ModifierDépôtOptions } from './dépôt/modifier/modifierDépôtGarantiesFinancières.option';
 import { SupprimerDépôtOptions } from './dépôt/supprimer/supprimerDépôtGarantiesFinancières.option';
+import { DemanderMainlevéeOptions } from './mainlevée/demander/demanderMainlevéeGarantiesFinancières.options';
+import {
+  DépôtDeGarantiesFinancièresÀSupprimerError,
+  MainlevéeDéjàAccordéeError,
+  MainlevéeDéjàEnInstructionError,
+  MainlevéeDéjàRejetéeError,
+  MainlevéeNonTrouvéeError,
+  ProjetNonAbandonnéError,
+  ProjetNonAchevéError,
+} from './mainlevée/mainlevéeGarantiesFinancières.error';
+import { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeGarantiesFinancières.options';
 
 type GarantiesFinancièresActuelles = {
   dateConstitution?: DateTime.ValueType;
@@ -121,12 +133,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   get identifiantProjet() {
     return this.lauréat.projet.identifiantProjet;
   }
-
-  #actuelles: GarantiesFinancièresActuelles | undefined = undefined;
-  get aDesGarantiesFinancières() {
-    return !!this.#actuelles;
-  }
-
   get type() {
     return this.#actuelles?.garantiesFinancières.type;
   }
@@ -139,6 +145,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   #dépôtEnCours: DépôtGarantiesFinancières | undefined = undefined;
   get aUnDépôtEnCours() {
     return !!this.#dépôtEnCours;
+  }
+
+  #actuelles: GarantiesFinancièresActuelles | undefined = undefined;
+  get aDesGarantiesFinancières() {
+    return !!this.#actuelles;
   }
 
   #statutMainlevée: StatutMainlevéeGarantiesFinancières.ValueType | undefined = undefined;
@@ -285,7 +296,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }: EnregistrerAttestationOptions) {
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
     if (this.aUneAttestation) {
-      throw new AttestationGarantiesFinancièresDéjàExistante();
+      throw new AttestationGarantiesFinancièresDéjàExistanteError();
     }
     this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
 
@@ -518,6 +529,81 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   //#endregion Behavior Dépôt
+
+  //#region Behavior Mainlevée
+
+  async demanderMainlevée({ motif, demandéLe, demandéPar }: DemanderMainlevéeOptions) {
+    if (motif.estProjetAbandonné() && !this.lauréat.abandon.statut.estAccordé()) {
+      throw new ProjetNonAbandonnéError();
+    }
+
+    if (motif.estProjetAchevé() && !this.lauréat.achèvement.estAchevé) {
+      throw new ProjetNonAchevéError();
+    }
+
+    this.vérifierQueLesGarantiesFinancièresActuellesExistent();
+
+    if (this.#estÉchu) {
+      throw new GarantiesFinancièresDéjàÉchuesError();
+    }
+
+    this.#statutMainlevée?.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutMainlevéeGarantiesFinancières.demandé,
+    );
+
+    if (this.#actuelles) {
+      if (!this.#actuelles.attestation?.format) {
+        throw new AttestationGarantiesFinancièresManquanteError();
+      }
+    }
+
+    if (this.aUnDépôtEnCours) {
+      throw new DépôtDeGarantiesFinancièresÀSupprimerError();
+    }
+
+    const event: MainlevéeGarantiesFinancièresDemandéeEvent = {
+      type: 'MainlevéeGarantiesFinancièresDemandée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        motif: motif.motif,
+        demandéLe: demandéLe.formatter(),
+        demandéPar: demandéPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async annulerMainlevée({ annuléLe, annuléPar }: AnnulerMainlevéeOption) {
+    if (!this.#statutMainlevée) {
+      throw new MainlevéeNonTrouvéeError();
+    }
+
+    if (this.#statutMainlevée.estAccordé()) {
+      throw new MainlevéeDéjàAccordéeError();
+    }
+
+    if (this.#statutMainlevée.estRejeté()) {
+      throw new MainlevéeDéjàRejetéeError();
+    }
+    if (this.#statutMainlevée.estEnInstruction()) {
+      throw new MainlevéeDéjàEnInstructionError();
+    }
+
+    const event: DemandeMainlevéeGarantiesFinancièresAnnuléeEvent = {
+      type: 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        annuléLe: annuléLe.formatter(),
+        annuléPar: annuléPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  //#endregion Behavior Mainlevée
+
   private async planifierÉchéance(échuLe: DateTime.ValueType) {
     const garantiesFinancières = this.#actuelles?.garantiesFinancières;
     if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.projet.statut.estAchevé()) {
@@ -753,22 +839,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   //#region Apply Mainlevée
 
-  private applyDemandeMainlevéeGarantiesFinancièresAccordéeV1(
-    _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
-  ) {
-    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
-  }
-
   private applyMainlevéeGarantiesFinancièresDemandéeV1(
     _: MainlevéeGarantiesFinancièresDemandéeEvent,
   ) {
     this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.demandé;
-  }
-
-  private applyInstructionDemandeMainlevéeGarantiesFinancièresDémarréeV1(
-    _: InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
-  ) {
-    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.enInstruction;
   }
 
   private applyDemandeMainlevéeGarantiesFinancièresAnnuléeV1(
@@ -777,10 +851,22 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.#statutMainlevée = undefined;
   }
 
+  private applyInstructionDemandeMainlevéeGarantiesFinancièresDémarréeV1(
+    _: InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
+  ) {
+    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.enInstruction;
+  }
+
   private applyDemandeMainlevéeGarantiesFinancièresRejetéeV1(
     _: DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
   ) {
     this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.rejeté;
+  }
+
+  private applyDemandeMainlevéeGarantiesFinancièresAccordéeV1(
+    _: DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+  ) {
+    this.#statutMainlevée = StatutMainlevéeGarantiesFinancières.accordé;
   }
 
   //#endregion Apply Mainlevée

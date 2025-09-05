@@ -1,12 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
 
-import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
+import { GetProjetAggregateRoot } from '../../../..';
 
 export type AnnulerMainlevéeGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Mainlevée.Command.Annuler',
+  'Lauréat.GarantiesFinancières.Command.AnnulerMainlevée',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     annuléLe: DateTime.ValueType;
@@ -15,21 +14,19 @@ export type AnnulerMainlevéeGarantiesFinancièresCommand = Message<
 >;
 
 export const registerAnnulerMainlevéeGarantiesFinancièresCommand = (
-  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const handler: MessageHandler<AnnulerMainlevéeGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     annuléLe,
     annuléPar,
   }) => {
-    const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await garantiesFinancières.annulerDemandeMainlevée({
-      identifiantProjet,
+    await projet.lauréat.garantiesFinancières.annulerMainlevée({
       annuléLe,
       annuléPar,
     });
   };
-  mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Command.Annuler', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Command.AnnulerMainlevée', handler);
 };
