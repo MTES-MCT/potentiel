@@ -154,6 +154,7 @@ export class LauréatWorld {
       unitéPuissance,
       volumeRéservé,
     } = this.potentielWorld.candidatureWorld.mapToExpected();
+
     const expected: Lauréat.ConsulterLauréatReadModel = {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),

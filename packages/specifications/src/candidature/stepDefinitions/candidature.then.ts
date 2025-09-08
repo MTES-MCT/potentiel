@@ -43,16 +43,16 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
     // on compare donc aussi les valeurs des champs du dépôt
     shallowCompareObject(expectedDépôtValue, candidature.dépôt.formatter());
 
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+    const détailsImport = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
         documentKey: candidature.détailsImport.formatter(),
       },
     });
 
-    assert(Option.isSome(result), `Détails d'import non trouvé`);
+    assert(Option.isSome(détailsImport), `Détails d'import non trouvé`);
 
-    const actualContent = await convertReadableStreamToString(result.content);
+    const actualContent = await convertReadableStreamToString(détailsImport.content);
     expect(actualContent).to.equal(JSON.stringify(expectedDétails));
   });
 });
