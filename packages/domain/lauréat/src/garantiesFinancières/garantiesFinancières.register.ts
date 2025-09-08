@@ -1,5 +1,4 @@
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
   ConsulterGarantiesFinancièresDependencies,
@@ -16,7 +15,6 @@ import {
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery,
 } from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
 import { registerListerMainlevéesQuery } from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
-import { registerMainlevée } from './mainlevée/mainlevée.register';
 import { registerConsulterArchivesGarantiesFinancièresQuery } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
@@ -25,14 +23,6 @@ export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinanciè
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
-  getProjetAggregateRoot: GetProjetAggregateRoot;
-};
-
-export const registerGarantiesFinancièresUseCases = ({
-  loadAggregate,
-  getProjetAggregateRoot,
-}: GarantiesFinancièresCommandDependencies) => {
-  registerMainlevée(loadAggregate, getProjetAggregateRoot);
 };
 
 export const registerGarantiesFinancièresQueries = (

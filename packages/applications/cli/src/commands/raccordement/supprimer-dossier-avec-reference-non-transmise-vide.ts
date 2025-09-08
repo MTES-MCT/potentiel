@@ -2,10 +2,7 @@ import { Command } from '@oclif/core';
 import { mediator } from 'mediateur';
 
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { registerLauréatUseCases } from '@potentiel-domain/laureat';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 type Dossier = {
   key: string;
@@ -26,17 +23,6 @@ select * from domain_views.projection
 export class SupprimerDossierAvecReferenceNonTransmiseVide extends Command {
   static override description =
     "Supprimer les dossiers de raccordement qui ont comme référence 'Référence non transmise' et qui sont vide";
-
-  async init() {
-    registerLauréatUseCases({
-      loadAggregate,
-      getProjetAggregateRoot: (identifiantProjet) =>
-        ProjetAggregateRoot.get(identifiantProjet, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        }),
-    });
-  }
 
   async run() {
     const dossiers = await executeSelect<Dossier>(query);

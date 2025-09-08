@@ -1,7 +1,6 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -43,9 +42,9 @@ EtantDonné(
 
     await waitForSagasNotificationsAndProjectionsToFinish();
 
-    await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
+    await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
       {
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+        type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
         data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
       },
     );
@@ -62,8 +61,8 @@ EtantDonné(
       data: setDemandeMainlevéeData({ identifiantProjet }),
     });
 
-    await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+    await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
       data: setAccordMainlevéeData({ identifiantProjet }),
     });
   },
@@ -79,8 +78,8 @@ EtantDonné(
       data: setDemandeMainlevéeData({ identifiantProjet }),
     });
 
-    await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
+    await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
       data: setRejetMainlevéeData({ identifiantProjet }),
     });
   },

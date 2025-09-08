@@ -84,6 +84,9 @@ import {
   ProjetNonAchevéError,
 } from './mainlevée/mainlevéeGarantiesFinancières.error';
 import { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeGarantiesFinancières.options';
+import { DémarrerInstructionMainlevéeOptions } from './mainlevée/démarrerInstruction/démarrerInstructionMainlevée.options';
+import { AccorderMainlevéeOptions } from './mainlevée/accorder/accorderMainlevéeGarantiesFinancières.options';
+import { RejeterMainlevéeOptions } from './mainlevée/rejeter/rejeterMainlevéeGarantiesFinancières.options';
 
 type GarantiesFinancièresActuelles = {
   dateConstitution?: DateTime.ValueType;
@@ -595,6 +598,83 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         annuléLe: annuléLe.formatter(),
         annuléPar: annuléPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async démarrerInstructionMainlevée({
+    démarréLe,
+    démarréPar,
+  }: DémarrerInstructionMainlevéeOptions) {
+    if (!this.#statutMainlevée) {
+      throw new MainlevéeNonTrouvéeError();
+    }
+
+    this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutMainlevéeGarantiesFinancières.enInstruction,
+    );
+
+    const event: InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent = {
+      type: 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        démarréLe: démarréLe.formatter(),
+        démarréPar: démarréPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async accorderMainlevée({
+    accordéLe,
+    accordéPar,
+    réponseSignée: { format },
+  }: AccorderMainlevéeOptions) {
+    if (!this.#statutMainlevée) {
+      throw new MainlevéeNonTrouvéeError();
+    }
+    this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutMainlevéeGarantiesFinancières.accordé,
+    );
+
+    const event: DemandeMainlevéeGarantiesFinancièresAccordéeEvent = {
+      type: 'DemandeMainlevéeGarantiesFinancièresAccordée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        accordéLe: accordéLe.formatter(),
+        accordéPar: accordéPar.formatter(),
+        réponseSignée: {
+          format,
+        },
+      },
+    };
+
+    await this.publish(event);
+
+    await this.annulerTâchesPlanififées();
+  }
+
+  async rejeterMainlevée({ rejetéLe, rejetéPar, réponseSignée }: RejeterMainlevéeOptions) {
+    if (!this.#statutMainlevée) {
+      throw new MainlevéeNonTrouvéeError();
+    }
+
+    this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutMainlevéeGarantiesFinancières.rejeté,
+    );
+
+    const event: DemandeMainlevéeGarantiesFinancièresRejetéeEvent = {
+      type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        rejetéLe: rejetéLe.formatter(),
+        rejetéPar: rejetéPar.formatter(),
+        réponseSignée: {
+          format: réponseSignée.format,
+        },
       },
     };
 

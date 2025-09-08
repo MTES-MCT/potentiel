@@ -1,7 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -74,9 +73,9 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
           data: setInstructionDemandeMainlevéeData({ identifiantProjet, utilisateur, date }),
         },
       );
@@ -92,9 +91,9 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
           data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
         },
       );
@@ -117,9 +116,9 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+          type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
           data: setAccordMainlevéeData({
             identifiantProjet,
             utilisateur,
@@ -141,9 +140,9 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+          type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
           data: setAccordMainlevéeData({
             identifiantProjet,
           }),
@@ -168,16 +167,18 @@ Quand(
       const documentContenu = exemple['contenu fichier réponse'];
       const documentFormat = exemple['format fichier réponse'];
 
-      await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
-        data: setRejetMainlevéeData({
-          identifiantProjet,
-          utilisateur,
-          date,
-          documentFormat,
-          documentContenu,
-        }),
-      });
+      await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
+          data: setRejetMainlevéeData({
+            identifiantProjet,
+            utilisateur,
+            date,
+            documentFormat,
+            documentContenu,
+          }),
+        },
+      );
     } catch (error) {
       this.error = error as Error;
     }
@@ -190,10 +191,12 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
-        data: setRejetMainlevéeData({ identifiantProjet }),
-      });
+      await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>(
+        {
+          type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
+          data: setRejetMainlevéeData({ identifiantProjet }),
+        },
+      );
     } catch (error) {
       this.error = error as Error;
     }

@@ -3,15 +3,11 @@ import { Command } from '@oclif/core';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
-import {
-  AppelOffreAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { registerLauréatQueries } from '@potentiel-domain/laureat';
+import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
@@ -25,15 +21,6 @@ export class Relancer extends Command {
       find: findProjection,
       list: listProjection,
       récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-    });
-
-    registerLauréatUseCases({
-      loadAggregate,
-      getProjetAggregateRoot: (identifiantProjet) =>
-        ProjetAggregateRoot.get(identifiantProjet, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        }),
     });
   }
 

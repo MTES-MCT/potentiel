@@ -212,7 +212,7 @@ const référencielPermissions = {
         demanderMainlevée: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
         annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',
         démarrerInstructionMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+          'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
         accorderDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
         rejeterDemandeMainlevée:
@@ -232,7 +232,7 @@ const référencielPermissions = {
         demanderMainlevée: 'Lauréat.GarantiesFinancières.Command.DemanderMainlevée',
         annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Command.AnnulerMainlevée',
         démarrerInstructionMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.Command.DémarrerInstruction',
+          'Lauréat.GarantiesFinancières.Command.DémarrerInstructionMainlevée',
         accorderDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
         rejeterDemandeMainlevée:

@@ -1,14 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { TypeDocumentRéponseDemandeMainlevée } from '../..';
+import { IdentifiantProjet } from '../../../..';
+import { TypeDocumentRéponseMainlevée } from '../..';
 
-import { AccorderDemandeMainlevéeGarantiesFinancièresCommand } from './accorderDemandeMainlevéeGarantiesFinancières.command';
+import { AccorderMainlevéeGarantiesFinancièresCommand } from './accorderMainlevéeGarantiesFinancières.command';
 
-export type AccorderDemandeMainlevéeGarantiesFinancièresUseCase = Message<
-  'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+export type AccorderMainlevéeGarantiesFinancièresUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
   {
     identifiantProjetValue: string;
     accordéLeValue: string;
@@ -20,8 +21,8 @@ export type AccorderDemandeMainlevéeGarantiesFinancièresUseCase = Message<
   }
 >;
 
-export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<AccorderDemandeMainlevéeGarantiesFinancièresUseCase> = async ({
+export const registerAccorderMainlevéeGarantiesFinancièresUseCase = () => {
+  const runner: MessageHandler<AccorderMainlevéeGarantiesFinancièresUseCase> = async ({
     identifiantProjetValue,
     accordéLeValue,
     accordéParValue,
@@ -32,7 +33,7 @@ export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () 
     const accordéPar = Email.convertirEnValueType(accordéParValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+      TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
       accordéLe.formatter(),
       format,
     );
@@ -45,8 +46,8 @@ export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () 
       },
     });
 
-    await mediator.send<AccorderDemandeMainlevéeGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
+    await mediator.send<AccorderMainlevéeGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.AccorderMainlevée',
       data: {
         accordéLe,
         accordéPar,
@@ -55,8 +56,5 @@ export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () 
       },
     });
   };
-  mediator.register(
-    'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
-    runner,
-  );
+  mediator.register('Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée', runner);
 };
