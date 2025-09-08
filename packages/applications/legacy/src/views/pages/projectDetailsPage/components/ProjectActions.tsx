@@ -166,6 +166,7 @@ const PorteurProjetActions = ({
                 {!estAchevé && getProjectStatus(project) === 'lauréat' && (
                   <DropdownMenuSecondaryButton.DropdownItem
                     href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}
+                    disabled={demandesDisabled}
                   >
                     <span>Transmettre l'attestation de conformité</span>
                   </DropdownMenuSecondaryButton.DropdownItem>
