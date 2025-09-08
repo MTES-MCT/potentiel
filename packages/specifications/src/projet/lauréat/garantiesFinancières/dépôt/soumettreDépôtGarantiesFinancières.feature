@@ -79,6 +79,15 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"
 
+    Scénario: Impossible de soumettre un type de garantie financière non disponible pour l'appel d'offre
+        Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
+            | appel d'offre | PPE2 - Sol   |
+            | type GF       | consignation |
+        Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
+            | type GF              | exemption  |
+            | date de délibération | 2025-01-01 |
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée a été demandée
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"

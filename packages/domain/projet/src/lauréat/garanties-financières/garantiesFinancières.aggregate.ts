@@ -325,6 +325,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       throw new GarantiesFinancièresDéjàEnregistréesError();
     }
     this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
+    this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
     if (garantiesFinancières.estExemption()) {
       throw new ChoixExemptionImpossibleError();
     }
@@ -417,9 +418,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     if (this.#dépôtEnCours) {
       throw new DépôtGarantiesFinancièresDéjàSoumisError();
     }
-    if (dateConstitution.estDansLeFutur()) {
-      throw new DateConstitutionDansLeFuturError();
-    }
+    this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
+    this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
     if (this.#statutMainlevée?.estDemandé()) {
       throw new DemandeMainlevéeDemandéeError();
@@ -456,9 +456,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     modifiéPar,
   }: ModifierDépôtOptions) {
     this.vérifierQuUnDépôtEstEnCours();
-    if (dateConstitution.estDansLeFutur()) {
-      throw new DateConstitutionDansLeFuturError();
-    }
+    this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
+    this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
     const event: DépôtGarantiesFinancièresEnCoursModifiéEvent = {
       type: 'DépôtGarantiesFinancièresEnCoursModifié-V1',
