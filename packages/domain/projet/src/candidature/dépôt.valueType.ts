@@ -38,6 +38,7 @@ export type RawType = {
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
+  installationAvecDispositifDeStockage: boolean | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -63,6 +64,7 @@ export type ValueType = ReadonlyValueType<{
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
+  installationAvecDispositifDeStockage: boolean | undefined;
 
   formatter(): RawType;
 }>;
@@ -100,6 +102,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
     : undefined,
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
   installateur: plain.installateur,
+  installationAvecDispositifDeStockage: plain.installationAvecDispositifDeStockage,
 
   estÉgaleÀ(valueType) {
     return (
@@ -117,6 +120,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
       valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
       valueType.installateur === this.installateur &&
+      valueType.installationAvecDispositifDeStockage ===
+        this.installationAvecDispositifDeStockage &&
       areEqual(valueType.autorisationDUrbanisme?.date, this.autorisationDUrbanisme?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
@@ -165,6 +170,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
           }
         : undefined,
       installateur: this.installateur,
+      installationAvecDispositifDeStockage: this.installationAvecDispositifDeStockage,
     };
   },
 });
@@ -215,6 +221,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           })
         : undefined,
     installateur: raw.installateur,
+    installationAvecDispositifDeStockage: raw.installationAvecDispositifDeStockage,
   });
 
 const bindOptional = <TValue, TValueType>(

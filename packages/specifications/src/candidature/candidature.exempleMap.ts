@@ -43,6 +43,10 @@ export const dépôtExempleMap: FieldToExempleMapper<
   coefficientKChoisi: ['coefficient K choisi', mapOptionalBoolean],
   puissanceDeSite: ['puissance de site', mapNumber],
   installateur: ['installateur'],
+  installationAvecDispositifDeStockage: [
+    'installation avec dispositif de stockage',
+    mapOptionalBoolean,
+  ],
 };
 
 export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction.RawType> = {

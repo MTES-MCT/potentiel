@@ -90,6 +90,7 @@ describe('Schema candidature', () => {
       autorisationDUrbanisme: undefined,
       installateur: undefined,
       typologieInstallation: [],
+      installationAvecDispositifDeStockage: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -130,6 +131,7 @@ describe('Schema candidature', () => {
       autorisationDUrbanisme: undefined,
       installateur: undefined,
       typologieInstallation: [],
+      installationAvecDispositifDeStockage: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -180,6 +182,7 @@ describe('Schema candidature', () => {
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
       installateur: 'Installateur Inc.',
+      installationAvecDispositifDeStockage: undefined,
       typologieInstallation: [
         {
           typologie: 'agrivoltaique.jachère-plus-de-5-ans',
