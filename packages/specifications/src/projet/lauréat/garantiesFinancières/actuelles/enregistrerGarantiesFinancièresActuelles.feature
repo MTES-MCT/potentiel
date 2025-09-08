@@ -13,7 +13,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et les garanties financières en attente du projet "Du boulodrome de Marseille" ne devraient plus être consultables
+        Et les garanties financières en attente du projet ne devraient plus être consultables
         Et une tâche "rappel des garanties financières à transmettre" n'est plus planifiée pour le projet lauréat
 
         Exemples:

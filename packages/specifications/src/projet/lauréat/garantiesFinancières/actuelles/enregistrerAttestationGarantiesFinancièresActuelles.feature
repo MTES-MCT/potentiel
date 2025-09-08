@@ -15,7 +15,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et les garanties financières en attente du projet "Du boulodrome de Lyon" ne devraient plus être consultables
+        Et les garanties financières en attente du projet ne devraient plus être consultables
 
     Scénario: Impossible d'enregistrer l'attestation des garanties financières si la date de constitution est dans le futur
         Quand un porteur enregistre l'attestation des garanties financières actuelles pour le projet lauréat avec :
