@@ -1,5 +1,6 @@
 # language: fr
 @garanties-financières
+@mainlevée-garanties-financières
 Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Contexte:
