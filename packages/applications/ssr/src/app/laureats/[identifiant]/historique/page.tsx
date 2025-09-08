@@ -5,6 +5,7 @@ import { match, P } from 'ts-pattern';
 
 import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
+import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -105,7 +106,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         .sort((a, b) => a.label.localeCompare(b.label, 'fr'));
 
       const historiqueFilteredAndSorted = historique.items
-        .filter((historique) => !historique.type.includes('Import'))
+        .filter(filtrerImportsEtRecoursLegacy)
         .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
         .map((item) =>
           mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter(), aUnRecoursAccordé),
@@ -155,6 +156,43 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   recours: 'ri-scales-3-line',
   délai: 'ri-time-line',
   fournisseur: 'ri-draft-line',
+};
+
+const filtrerImportsEtRecoursLegacy = (
+  event: Lauréat.HistoriqueListItemReadModels,
+  _: number,
+  historique: Readonly<Lauréat.HistoriqueListItemReadModels[]>,
+) => {
+  if (event.type?.includes('Import')) {
+    return false;
+  }
+  // dans de rares cas de projets désignés hors Potentiel,
+  // on a pas l'information de la date de notification du projetÉliminé
+  // on préfère alors ne pas l'information fausse de la notification de l'éliminé
+  if (event.category === 'éliminé' && event.type === 'ÉliminéNotifié-V1') {
+    const lauréatNotifié = historique.find(isLauréatNotifié);
+    if (lauréatNotifié && lauréatNotifié.payload.notifiéLe === event.payload.notifiéLe) {
+      return false;
+    }
+  }
+  return true;
+};
+const isLauréatNotifié = (
+  item: Lauréat.HistoriqueListItemReadModels,
+): item is HistoryRecord<
+  'lauréat',
+  Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event
+> => {
+  if (item.category !== 'lauréat') {
+    return false;
+  }
+  return match(item)
+    .with({ type: 'LauréatNotifié-V1' }, () => true)
+    .with({ type: 'LauréatNotifié-V2' }, () => true)
+    .with({ type: 'CahierDesChargesChoisi-V1' }, () => false)
+    .with({ type: 'LauréatModifié-V1' }, () => false)
+    .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, () => false)
+    .exhaustive();
 };
 
 const mapToTimelineItemProps = (
