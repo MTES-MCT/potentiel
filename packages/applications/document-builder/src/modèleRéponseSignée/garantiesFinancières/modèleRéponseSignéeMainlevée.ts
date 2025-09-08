@@ -11,6 +11,7 @@ export type ModèleRéponseMainlevée = {
 
     titrePeriode: string;
     titreAppelOffre: string;
+    cahierDesChargesReference: string;
 
     nomProjet: string;
     nomRepresentantLegal: string;

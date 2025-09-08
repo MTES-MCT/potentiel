@@ -92,6 +92,7 @@ export const GET = async (
         logo,
         data: {
           ...data,
+          cahierDesChargesReference: période.cahierDesCharges.référence,
           contactDreal: utilisateur.identifiantUtilisateur.email,
 
           dateCourrier: formatDateForDocument(DateTime.now().date),

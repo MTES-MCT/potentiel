@@ -65,6 +65,7 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
         logo,
         data: {
           ...data,
+          cahierDesChargesReference: période.cahierDesCharges.référence,
           dateMiseEnDemeure: formatDateForDocument(DateTime.now().date),
           contactDreal: utilisateur.identifiantUtilisateur.email,
           referenceProjet: data.refPotentiel,
