@@ -16,7 +16,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
     Scénario: Notifier un candidat éliminé
         Etant donné la candidature éliminée "Du boulodrome de Marseille"
         Quand le DGEC validateur notifie la candidature éliminée
-        Alors le projet lauréat devrait être consultable
+        Alors le projet éliminé devrait être consultable
 
     Scénario: Impossible de notifier une candidature déjà notifiée
         Etant donné la candidature lauréate notifiée "Boulodrome de Lyon"

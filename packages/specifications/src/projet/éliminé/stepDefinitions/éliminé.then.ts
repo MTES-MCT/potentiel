@@ -8,7 +8,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
-Alors('le projet lauréat devrait être consultable', async function (this: PotentielWorld) {
+Alors('le projet éliminé devrait être consultable', async function (this: PotentielWorld) {
   await waitForExpect(async () => {
     const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
       type: 'Éliminé.Query.ConsulterÉliminé',

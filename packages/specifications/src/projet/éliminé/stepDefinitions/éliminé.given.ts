@@ -58,6 +58,11 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
 
+  this.éliminéWorld.notifierEliminéFixture.créer({
+    notifiéPar: this.utilisateurWorld.validateurFixture.email,
+    ...(dateDésignation ? { notifiéLe: dateDésignation } : {}),
+  });
+
   this.éliminéWorld.identifiantProjet = identifiantProjetValue;
 
   this.éliminéWorld.éliminéFixtures.set(candidature.values.nomProjetValue, {

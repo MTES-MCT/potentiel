@@ -1,4 +1,7 @@
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, StatutProjet, Éliminé } from '@potentiel-domain/projet';
+import { DocumentProjet } from '@potentiel-domain/document';
+
+import { PotentielWorld } from '../../potentiel.world';
 
 import { RecoursWord } from './recours/recours.world';
 import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
@@ -34,6 +37,10 @@ export class ÉliminéWorld {
     return this.#recoursWorld;
   }
 
+  get candidatureWorld() {
+    return this.potentielWorld.candidatureWorld;
+  }
+
   #notifierEliminéFixture: NotifierÉliminéFixture;
   get notifierEliminéFixture() {
     return this.#notifierEliminéFixture;
@@ -60,7 +67,7 @@ export class ÉliminéWorld {
     return this.#dateDésignation;
   }
 
-  constructor() {
+  constructor(public readonly potentielWorld: PotentielWorld) {
     this.#recoursWorld = new RecoursWord();
     this.#notifierEliminéFixture = new NotifierÉliminéFixture();
     this.#nomProjet = 'Du boulodrome de Marseille';
@@ -69,13 +76,44 @@ export class ÉliminéWorld {
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#2##23`);
   }
 
-  // statut: StatutProjet.ValueType;
-  // attestationDésignation?: DocumentProjet.ValueType;
-  // unitéPuissance: UnitéPuissance.ValueType;
-
   mapToExpected() {
+    const {
+      dépôt: {
+        nomProjet,
+        emailContact,
+        nomCandidat,
+        autorisationDUrbanisme,
+        localité,
+        puissanceProductionAnnuelle,
+        prixReference,
+        nomReprésentantLégal,
+        sociétéMère,
+      },
+      unitéPuissance,
+    } = this.potentielWorld.candidatureWorld.mapToExpected();
+
     const expected: Éliminé.ConsulterÉliminéReadModel = {
       identifiantProjet: this.identifiantProjet,
+      statut: StatutProjet.éliminé,
+      emailContact,
+      localité,
+      nomCandidat,
+      unitéPuissance,
+      sociétéMère,
+      nomReprésentantLégal,
+      autorisationDUrbanisme,
+      prixReference,
+      nomProjet,
+      puissanceProductionAnnuelle,
+      attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
+        .aÉtéCréé
+        ? undefined
+        : DocumentProjet.convertirEnValueType(
+            this.identifiantProjet.formatter(),
+            'attestation',
+            this.notifierEliminéFixture.notifiéLe,
+            'application/pdf',
+          ),
       ...this.notifierEliminéFixture.mapToExpected(),
     };
 
