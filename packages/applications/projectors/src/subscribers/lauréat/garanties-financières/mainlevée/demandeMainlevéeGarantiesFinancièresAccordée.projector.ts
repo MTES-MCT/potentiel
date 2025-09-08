@@ -21,7 +21,7 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     }
   }
 
-  await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAAccorder.demande.demandéeLe}`,
     {
       ...mainlevéeAAccorder,

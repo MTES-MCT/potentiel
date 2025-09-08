@@ -1,11 +1,11 @@
 import { Where } from '@potentiel-domain/entity';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const getMainlevéeGf = async (identifiantProjet: IdentifiantProjet.RawType) => {
   const mainlevéeEnCoursArray = (
-    await listProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    await listProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
       `mainlevee-garanties-financieres`,
       {
         where: {

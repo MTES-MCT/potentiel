@@ -17,10 +17,9 @@ import {
   registerMainlevéeGarantiesFinancièresUseCases,
 } from './mainlevée/mainlevéeGarantiesFinancières.register';
 
-export type GarantiesFinancièresQueryDependencies =
-  | GarantiesFinancièresActuellesQueryDependencies
-  | DépôtGarantiesFinancièresQueryDependencies
-  | MainlevéeGarantiesFinancièresQueryDependencies;
+export type GarantiesFinancièresQueryDependencies = GarantiesFinancièresActuellesQueryDependencies &
+  DépôtGarantiesFinancièresQueryDependencies &
+  MainlevéeGarantiesFinancièresQueryDependencies;
 
 export type GarantiesFinancièresUseCasesDependencies =
   | GarantiesFinancièresActuellesUseCasesDependencies

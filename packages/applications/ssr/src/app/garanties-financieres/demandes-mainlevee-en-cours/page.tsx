@@ -40,7 +40,7 @@ export default async function Page({ searchParams }: PageProps) {
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
       const demandeMainlevéeDesGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             utilisateur: {
@@ -123,7 +123,7 @@ const mapToListProps = ({
   range,
   total,
   isDreal,
-}: GarantiesFinancières.ListerMainlevéesReadModel & {
+}: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel & {
   isDreal: boolean;
 }): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(

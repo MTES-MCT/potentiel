@@ -90,12 +90,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         );
 
-      const mainlevéesList = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const mainlevéesList =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
@@ -158,9 +159,9 @@ type MapToProps = (params: {
   garantiesFinancièresActuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
-  mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
+  mainlevée: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'];
   appelOffres: AppelOffre.AppelOffreReadModel;
-  historiqueMainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
+  historiqueMainlevée: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'];
   estAbandonné: boolean;
   archivesGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;

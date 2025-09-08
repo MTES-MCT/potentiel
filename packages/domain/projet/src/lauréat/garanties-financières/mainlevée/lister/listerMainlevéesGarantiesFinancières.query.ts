@@ -2,25 +2,26 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
 
+import { IdentifiantProjet } from '../../../..';
 import {
   MainlevéeGarantiesFinancièresEntity,
+  MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
-  TypeDocumentRéponseDemandeMainlevée,
+  TypeDocumentRéponseMainlevée,
 } from '../..';
 import {
   getRoleBasedWhereCondition,
   Utilisateur,
-} from '../../../_utils/getRoleBasedWhereCondition';
-import { LauréatEntity } from '../../../lauréat.entity';
+} from '../../../_helpers/getRoleBasedWhereCondition';
+import { LauréatEntity } from '../../..';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
-  motif: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType;
+  motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
   appelOffre: string;
   nomProjet: string;
   demande: { demandéeLe: DateTime.ValueType; demandéePar: Email.ValueType };
@@ -55,7 +56,7 @@ export type ListerMainlevéesQuery = Message<
   {
     range?: RangeOptions;
     appelOffre?: string;
-    motif?: Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.RawType;
+    motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
     statut?: StatutMainlevéeGarantiesFinancières.RawType;
     estEnCours?: boolean;
   } & (
@@ -140,10 +141,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
   appelOffre: mainlevée.lauréat.appelOffre,
   nomProjet: mainlevée.lauréat.nomProjet,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
-  motif:
-    Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
-      mainlevée.motif,
-    ),
+  motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {
     demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
     demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
@@ -160,7 +158,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
         accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
         courrierAccord: DocumentProjet.convertirEnValueType(
           IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet).formatter(),
-          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+          TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
           mainlevée.accord.accordéeLe,
           mainlevée.accord.courrierAccord.format,
         ),
@@ -172,7 +170,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
         rejetéPar: Email.convertirEnValueType(mainlevée.rejet.rejetéPar),
         courrierRejet: DocumentProjet.convertirEnValueType(
           mainlevée.identifiantProjet,
-          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
+          TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeRejetéeValueType.formatter(),
           mainlevée.rejet.rejetéLe,
           mainlevée.rejet.courrierRejet.format,
         ),

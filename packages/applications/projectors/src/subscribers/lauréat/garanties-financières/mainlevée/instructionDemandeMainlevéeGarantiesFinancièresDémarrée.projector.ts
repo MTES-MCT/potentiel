@@ -9,7 +9,7 @@ export const instructionDemandeMainlevéeGarantiesFinancièresDémarréeProjecto
 }: Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent) => {
   const mainlevéeAInstruire = await getMainlevéeGf(identifiantProjet);
 
-  await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAInstruire.demande.demandéeLe}`,
     {
       ...mainlevéeAInstruire,

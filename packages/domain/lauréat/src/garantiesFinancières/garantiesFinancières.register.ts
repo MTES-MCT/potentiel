@@ -1,17 +1,17 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery } from './projetEnAttenteDeGarantiesFinancières/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
+import {
+  ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies,
+  registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
+} from './projetEnAttenteDeGarantiesFinancières/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
 import {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteDependencies,
   registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
 } from './projetEnAttenteDeGarantiesFinancières/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
-import {
-  ListerMainlevéesQueryDependencies,
-  registerListerMainlevéesQuery,
-} from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies =
-  ConsulterProjetAvecGarantiesFinancièresEnAttenteDependencies & ListerMainlevéesQueryDependencies;
+  ConsulterProjetAvecGarantiesFinancièresEnAttenteDependencies &
+    ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -22,5 +22,4 @@ export const registerGarantiesFinancièresQueries = (
 ) => {
   registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
-  registerListerMainlevéesQuery(dependencies);
 };

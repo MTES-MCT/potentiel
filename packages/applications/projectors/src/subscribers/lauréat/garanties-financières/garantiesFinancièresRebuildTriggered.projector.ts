@@ -22,13 +22,14 @@ export const garantiesFinancièresRebuildTriggeredProjector = async ({
     `archives-garanties-financieres|${id}`,
   );
 
-  const mainlevée = await listProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-    `mainlevee-garanties-financieres`,
-    { where: { identifiantProjet: Where.equal(id) } },
-  );
+  const mainlevée =
+    await listProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+      `mainlevee-garanties-financieres`,
+      { where: { identifiantProjet: Where.equal(id) } },
+    );
 
   for (const détailsMainlevée of mainlevée.items) {
-    await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    await removeProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
       `mainlevee-garanties-financieres|${id}#${détailsMainlevée.demande.demandéeLe}`,
     );
   }

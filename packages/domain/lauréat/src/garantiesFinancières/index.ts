@@ -6,30 +6,21 @@ import {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
 } from './projetEnAttenteDeGarantiesFinancières/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
-import {
-  ListerMainlevéeItemReadModel,
-  ListerMainlevéesQuery,
-  ListerMainlevéesReadModel,
-} from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 
 // Query
 export type GarantiesFinancièresQuery =
   | ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery
-  | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
-  | ListerMainlevéesQuery;
+  | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery;
 
 export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
-  ListerMainlevéesQuery,
 };
 
 // ReadModel
 export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
-  ListerMainlevéesReadModel,
-  ListerMainlevéeItemReadModel,
 };
 
 // UseCases
@@ -49,7 +40,6 @@ export * as TypeDocumentRéponseDemandeMainlevée from './mainlevée/typeDocumen
 
 // Entities
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
-export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 
 // utils
 export * from './_utils/appelOffreSoumisAuxGarantiesFinancières';

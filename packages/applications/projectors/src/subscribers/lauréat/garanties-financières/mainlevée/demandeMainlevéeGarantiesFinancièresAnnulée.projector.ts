@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -9,7 +8,7 @@ export const demandeMainlevéeGarantiesFinancièresAnnuléeProjector = async ({
 }: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAnnuléeEvent) => {
   const mainlevéeASupprimer = await getMainlevéeGf(identifiantProjet);
 
-  await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeASupprimer.demande.demandéeLe}`,
   );
 };

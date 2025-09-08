@@ -1,8 +1,9 @@
-import { Find } from '@potentiel-domain/entity';
+import { GetProjetAggregateRoot } from '../../..';
 
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
-
-import { registerConsulterDépôtGarantiesFinancièresQuery } from './consulter/consulterDépôtGarantiesFinancières.query';
+import {
+  ConsulterDépôtGarantiesFinancièresDependencies,
+  registerConsulterDépôtGarantiesFinancièresQuery,
+} from './consulter/consulterDépôtGarantiesFinancières.query';
 import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifier/modifierDépôtGarantiesFinancières.command';
 import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifier/modifierDépôtGarantiesFinancières.usecase';
 import { registerSoumettreDépôtGarantiesFinancièresCommand } from './soumettre/soumettreDépôtGarantiesFinancières.command';
@@ -11,10 +12,13 @@ import { registerSupprimerDépôtGarantiesFinancièresCommand } from './supprime
 import { registerSupprimerDépôtGarantiesFinancièresUseCase } from './supprimer/supprimerDépôtGarantiesFinancières.usecase';
 import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './valider/validerDépôtGarantiesFinancières.command';
 import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './valider/validerDépôtGarantiesFinancières.usecase';
+import {
+  ListerDépôtsGarantiesFinancièresDependencies,
+  registerListerDépôtsGarantiesFinancièresQuery,
+} from './lister/listerDépôtGarantiesFinancières.query';
 
-export type DépôtGarantiesFinancièresQueryDependencies = {
-  find: Find;
-};
+export type DépôtGarantiesFinancièresQueryDependencies =
+  ConsulterDépôtGarantiesFinancièresDependencies & ListerDépôtsGarantiesFinancièresDependencies;
 
 export type DépôtGarantiesFinancièresUseCasesDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -40,4 +44,5 @@ export const registerDépôtGarantiesFinancièresQueries = (
   dependencies: DépôtGarantiesFinancièresQueryDependencies,
 ) => {
   registerConsulterDépôtGarantiesFinancièresQuery(dependencies);
+  registerListerDépôtsGarantiesFinancièresQuery(dependencies);
 };

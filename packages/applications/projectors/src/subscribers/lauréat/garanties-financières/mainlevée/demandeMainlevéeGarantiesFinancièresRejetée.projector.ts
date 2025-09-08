@@ -9,7 +9,7 @@ export const demandeMainlevéeGarantiesFinancièresRejetéeProjector = async ({
 }: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent) => {
   const mainlevéeARejeter = await getMainlevéeGf(identifiantProjet);
 
-  await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeARejeter.demande.demandéeLe}`,
     {
       ...mainlevéeARejeter,

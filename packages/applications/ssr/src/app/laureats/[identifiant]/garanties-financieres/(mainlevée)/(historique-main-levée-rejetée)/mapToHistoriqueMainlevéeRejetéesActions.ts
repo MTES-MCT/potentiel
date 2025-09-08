@@ -1,12 +1,12 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { HistoriqueMainlevéeRejetéeProps } from './HistoriqueMainlevéeRejetée';
 
 type MapToHistoriqueMainlevéeRéjetéesActionsProps = {
   role: Role.ValueType;
-  mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
-  historiqueMainlevéeRejetée?: GarantiesFinancières.ListerMainlevéesReadModel['items'];
+  mainlevée?: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'][number];
+  historiqueMainlevéeRejetée?: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'];
 };
 export const mapToHistoriqueMainlevéeRejetéesActions = ({
   role,

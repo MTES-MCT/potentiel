@@ -6,11 +6,13 @@ export * from './mainlevée/mainlevéeGarantiesFinancières.usecases';
 // Queries
 export * from './dépôt/dépôtGarantiesFinancières.queries';
 export * from './actuelles/garantiesFinancièresActuelles.queries';
+export * from './mainlevée/mainlevéeGarantiesFinancières.queries';
 
 // Entities
 export * from './dépôt/dépôtGarantiesFinancières.entity';
 export * from './actuelles/garantiesFinancièresActuelles.entity';
 export * from './actuelles/archives/archivesGarantiesFinancières.entity';
+export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 
 // Events
 export * from './garantiesFinancières.event';
