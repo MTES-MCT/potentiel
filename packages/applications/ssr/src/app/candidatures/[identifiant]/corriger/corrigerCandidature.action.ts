@@ -140,6 +140,8 @@ const mapBodyToUseCaseData = (
       typologieInstallation: previous.dépôt.typologieInstallation.map((installation) =>
         installation.formatter(),
       ),
+      //@TODO : le champ suivant installationAvecDispositifDeStockage sera rendu éditable dans un second temps
+      installationAvecDispositifDeStockage: previous.dépôt.installationAvecDispositifDeStockage,
     },
 
     détailsValue: undefined,

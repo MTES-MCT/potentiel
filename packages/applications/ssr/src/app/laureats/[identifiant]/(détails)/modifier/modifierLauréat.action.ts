@@ -222,6 +222,8 @@ const mapBodyToCandidatureUsecaseData = (
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       obligationDeSolarisation: previous.obligationDeSolarisation,
       typologieInstallation: previous.typologieInstallation.map((t) => t.formatter()),
+      //@TODO : installationAvecDispositifDeStockage sera rendu éditable dans un second temps
+      installationAvecDispositifDeStockage: previous.installationAvecDispositifDeStockage,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
