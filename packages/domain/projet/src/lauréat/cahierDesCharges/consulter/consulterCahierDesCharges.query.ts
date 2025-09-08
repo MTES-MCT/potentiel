@@ -44,6 +44,7 @@ export const registerConsulterCahierDesChargesQuery = ({
         },
       },
     );
+
     const appelOffres = await find<AppelOffre.AppelOffreEntity>(
       `appel-offre|${identifiantProjet.appelOffre}`,
     );

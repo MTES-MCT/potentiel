@@ -1,9 +1,9 @@
 import { match } from 'ts-pattern';
-import { mediator } from 'mediateur';
 
-import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { Option } from '@potentiel-libraries/monads';
+
+import { getCahierDesCharges } from '../utils/getCahierDesCharges';
 
 export const abandonDemandéProjector = async (
   event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
@@ -16,15 +16,12 @@ export const abandonDemandéProjector = async (
     .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
     .otherwise(() => false);
 
-  const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
-    type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-    },
-  });
+  const cahierDesCharges = await getCahierDesCharges(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  );
 
-  if (Option.isNone(cahierDesCharges)) {
-    throw new Error('Cahier des charges non trouvé');
+  if (!cahierDesCharges) {
+    throw new Error(`Le cahier des charges du projet ${identifiantProjet} est introuvable.`);
   }
 
   await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
@@ -35,7 +32,7 @@ export const abandonDemandéProjector = async (
       demandéPar: event.payload.demandéPar,
       raison: event.payload.raison,
       estUneRecandidature,
-      autoritéCompétente: CahierDesCharges.bind(cahierDesCharges).getAutoritéCompétente('abandon'),
+      autoritéCompétente: cahierDesCharges.getAutoritéCompétente('abandon'),
       recandidature: estUneRecandidature
         ? {
             statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,
