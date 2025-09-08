@@ -74,9 +74,9 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
           data: setInstructionDemandeMainlevéeData({ identifiantProjet, utilisateur, date }),
         },
       );
@@ -92,9 +92,9 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
           data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
         },
       );

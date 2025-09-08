@@ -4,6 +4,8 @@ import { registerAnnulerMainlevéeGarantiesFinancièresCommand } from './annuler
 import { registerAnnulerMainlevéeGarantiesFinancièresUseCase } from './annuler/annulerMainlevéeGarantiesFinancières.usecase';
 import { registerDemanderMainlevéeGarantiesFinancièresCommand } from './demander/demanderMainlevéeGarantiesFinancières.command';
 import { registerDemanderMainlevéeGarantiesFinancièresUseCase } from './demander/demanderMainlevéeGarantiesFinancières.usecase';
+import { registerDémarrerInstructionMainlevéeGarantiesFinancièresCommand } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.command';
+import { registerDémarrerInstructionMainlevéeGarantiesFinancièresUseCase } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.usecase';
 
 export type MainlevéeGarantiesFinancièresQueryDependencies = {};
 
@@ -16,9 +18,11 @@ export const registerMainlevéeGarantiesFinancièresUseCases = ({
 }: MainlevéeGarantiesFinancièresUseCasesDependencies) => {
   registerDemanderMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerAnnulerMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
+  registerDémarrerInstructionMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
 
   registerDemanderMainlevéeGarantiesFinancièresUseCase();
   registerAnnulerMainlevéeGarantiesFinancièresUseCase();
+  registerDémarrerInstructionMainlevéeGarantiesFinancièresUseCase();
 };
 
 export const registerMainlevéeGarantiesFinancièresQueries = (

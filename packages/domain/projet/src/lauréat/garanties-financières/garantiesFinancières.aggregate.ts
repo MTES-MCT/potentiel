@@ -84,6 +84,7 @@ import {
   ProjetNonAchevéError,
 } from './mainlevée/mainlevéeGarantiesFinancières.error';
 import { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeGarantiesFinancières.options';
+import { DémarrerInstructionMainlevéeOptions } from './mainlevée/démarrerInstruction/démarrerInstructionMainlevée.options';
 
 type GarantiesFinancièresActuelles = {
   dateConstitution?: DateTime.ValueType;
@@ -596,6 +597,30 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         annuléLe: annuléLe.formatter(),
         annuléPar: annuléPar.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async démarrerInstructionMainlevée({
+    démarréLe,
+    démarréPar,
+  }: DémarrerInstructionMainlevéeOptions) {
+    if (!this.#statutMainlevée) {
+      throw new MainlevéeNonTrouvéeError();
+    }
+
+    this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutMainlevéeGarantiesFinancières.enInstruction,
+    );
+
+    const event: InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent = {
+      type: 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        démarréLe: démarréLe.formatter(),
+        démarréPar: démarréPar.formatter(),
       },
     };
 

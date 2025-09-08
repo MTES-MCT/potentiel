@@ -43,9 +43,9 @@ EtantDonné(
 
     await waitForSagasNotificationsAndProjectionsToFinish();
 
-    await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
+    await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
       {
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.DémarrerInstruction',
+        type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
         data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
       },
     );
