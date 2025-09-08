@@ -1,5 +1,12 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
+import {
+  MainlevéeDéjàDemandéeError,
+  MainlevéeDéjàAccordéeError,
+  MainlevéeDéjàEnInstructionError,
+  DernièreDemandeMainlevéeRejetéeEtAucuneEnCours,
+} from './mainlevéeGarantiesFinancières.error';
+
 export const statuts = ['demandé', 'en-instruction', 'accordé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];
@@ -42,19 +49,19 @@ export const bind = <Type extends RawType = RawType>({
           throw new MainlevéeDéjàDemandéeError();
         }
         if (this.estAccordé()) {
-          throw new DemandeMainlevéeDéjàAccordéeError();
+          throw new MainlevéeDéjàAccordéeError();
         }
         if (this.estEnInstruction()) {
-          throw new DemandeMainlevéeDéjàEnInstructionError();
+          throw new MainlevéeDéjàEnInstructionError();
         }
       }
 
       if (nouveauStatut.estEnInstruction()) {
         if (this.estEnInstruction()) {
-          throw new DemandeMainlevéeDéjàEnInstructionError();
+          throw new MainlevéeDéjàEnInstructionError();
         }
         if (this.estAccordé()) {
-          throw new DemandeMainlevéeDéjàAccordéeError();
+          throw new MainlevéeDéjàAccordéeError();
         }
         if (this.estRejeté()) {
           throw new DernièreDemandeMainlevéeRejetéeEtAucuneEnCours();
@@ -63,7 +70,7 @@ export const bind = <Type extends RawType = RawType>({
 
       if (nouveauStatut.estRejeté() || nouveauStatut.estAccordé()) {
         if (this.estAccordé()) {
-          throw new DemandeMainlevéeDéjàAccordéeError();
+          throw new MainlevéeDéjàAccordéeError();
         }
         if (this.estRejeté()) {
           throw new DernièreDemandeMainlevéeRejetéeEtAucuneEnCours();
@@ -96,29 +103,5 @@ class StatutMainlevéeInvalideError extends InvalidOperationError {
     super(`Le statut ne correspond à aucune valeur connue`, {
       value,
     });
-  }
-}
-
-class MainlevéeDéjàDemandéeError extends InvalidOperationError {
-  constructor() {
-    super(`Il y a déjà une demande de mainlevée en cours pour ce projet`);
-  }
-}
-
-class DemandeMainlevéeDéjàEnInstructionError extends InvalidOperationError {
-  constructor() {
-    super(`Il y a déjà une demande de mainlevée en instruction pour ce projet`);
-  }
-}
-
-class DemandeMainlevéeDéjàAccordéeError extends InvalidOperationError {
-  constructor() {
-    super(`Il y a déjà une demande de mainlevée accordée pour ce projet`);
-  }
-}
-
-class DernièreDemandeMainlevéeRejetéeEtAucuneEnCours extends InvalidOperationError {
-  constructor() {
-    super(`La dernière demande de mainlevée pour ce projet a été rejetée, aucune n'est en cours`);
   }
 }

@@ -10,6 +10,10 @@ import {
   registerDépôtGarantiesFinancièresQueries,
   registerDépôtGarantiesFinancièresUseCases,
 } from './dépôt/dépôtGarantiesFinancières.register';
+import {
+  registerMainlevéeGarantiesFinancièresQueries,
+  registerMainlevéeGarantiesFinancièresUseCases,
+} from './mainlevée/mainlevéeGarantiesFinancières.register';
 
 export type GarantiesFinancièresQueryDependencies =
   | GarantiesFinancièresActuellesQueryDependencies
@@ -24,6 +28,7 @@ export const registerGarantiesFinancièresUseCases = (
 ) => {
   registerGarantiesFinancièresActuellesUseCases(dependencies);
   registerDépôtGarantiesFinancièresUseCases(dependencies);
+  registerMainlevéeGarantiesFinancièresUseCases(dependencies);
 };
 
 export const registerGarantiesFinancièresQueries = (
@@ -31,4 +36,5 @@ export const registerGarantiesFinancièresQueries = (
 ) => {
   registerGarantiesFinancièresActuellesQueries(dependencies);
   registerDépôtGarantiesFinancièresQueries(dependencies);
+  registerMainlevéeGarantiesFinancièresQueries(dependencies);
 };
