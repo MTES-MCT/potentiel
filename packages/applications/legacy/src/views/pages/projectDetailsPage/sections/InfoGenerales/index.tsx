@@ -46,7 +46,6 @@ export type InfoGeneralesProps = {
   estAchevé: boolean;
   attestationConformité?: AttestationConformitéProps;
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
-  // TODO: installateur
 };
 
 export const InfoGenerales = ({
@@ -76,7 +75,7 @@ export const InfoGenerales = ({
   coefficientKChoisi,
   estAchevé,
   attestationConformité,
-  autorisationDUrbanisme
+  autorisationDUrbanisme,
 }: InfoGeneralesProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,

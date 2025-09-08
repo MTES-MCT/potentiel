@@ -261,8 +261,8 @@ export class LauréatAggregate extends AbstractAggregate<
     if (this.projet.candidature.installateur) {
       await this.installateur.importer({
         installateur: this.projet.candidature.installateur,
-        importéLe: notifiéeLe,
-        importéPar: notifiéePar,
+        importéLe: notifiéLe,
+        importéPar: notifiéPar,
       });
     }
 
