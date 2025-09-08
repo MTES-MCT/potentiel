@@ -1,4 +1,4 @@
-import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getCahierDesCharges } from '../utils/getCahierDesCharges';
@@ -33,7 +33,9 @@ export const délaiDemandéProjector = async ({
       pièceJustificative: {
         format,
       },
-      autoritéCompétente: CahierDesCharges.bind(cahierDesCharges).getAutoritéCompétente('délai'),
+      autoritéCompétente:
+        cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
+        Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI,
     },
   );
 };

@@ -77,7 +77,7 @@ export class DélaiWorld {
       ),
       autoritéCompétente: Lauréat.Délai.AutoritéCompétente.convertirEnValueType(
         ao!.changement === 'indisponible' || !ao?.changement.délai.demande
-          ? 'dgec'
+          ? Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI
           : ao.changement.délai.autoritéCompétente,
       ),
       instruction: this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé
