@@ -19,7 +19,6 @@ import {
   ConsulterDépôtEnCoursGarantiesFinancièresQuery,
   ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
 } from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
-import { RejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
 import {
   ListerMainlevéeItemReadModel,
   ListerMainlevéesQuery,
@@ -65,9 +64,6 @@ export type {
 };
 
 // UseCases
-export type GarantiesFinancièresUseCase = RejeterDemandeMainlevéeGarantiesFinancièresUseCase;
-
-export type { RejeterDemandeMainlevéeGarantiesFinancièresUseCase };
 
 // Event
 
@@ -75,10 +71,7 @@ export type { RejeterDemandeMainlevéeGarantiesFinancièresUseCase };
 export type { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';
 
 // Register
-export {
-  registerGarantiesFinancièresQueries,
-  registerGarantiesFinancièresUseCases,
-} from './garantiesFinancières.register';
+export { registerGarantiesFinancièresQueries } from './garantiesFinancières.register';
 
 // ValueTypes
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';

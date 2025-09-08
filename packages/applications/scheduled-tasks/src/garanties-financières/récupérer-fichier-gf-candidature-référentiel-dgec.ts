@@ -9,18 +9,16 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
 import {
-  AppelOffreAdapter,
   ProjetAdapter,
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { Candidature, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
 
 export const dgecEmail = 'aopv.dgec@developpement-durable.gouv.fr';
@@ -49,15 +47,6 @@ Candidature.registerCandidatureQueries({
   list: listProjection,
   récupérerProjetsEligiblesPreuveRecanditure:
     ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
-});
-
-GarantiesFinancières.registerGarantiesFinancièresUseCases({
-  loadAggregate,
-  getProjetAggregateRoot: (identifiantProjet) =>
-    ProjetAggregateRoot.get(identifiantProjet, {
-      loadAggregate: loadAggregateV2,
-      loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-    }),
 });
 
 GarantiesFinancières.registerGarantiesFinancièresQueries({

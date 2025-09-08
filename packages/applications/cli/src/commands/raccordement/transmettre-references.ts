@@ -6,15 +6,14 @@ import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
-import { IdentifiantProjet, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { registerLauréatQueries } from '@potentiel-domain/laureat';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { registerTâcheCommand } from '@potentiel-domain/tache';
 import {
-  AppelOffreAdapter,
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -61,14 +60,6 @@ export default class TransmettreRéférences extends Command {
       find: findProjection,
       list: listProjection,
       récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-    });
-    registerLauréatUseCases({
-      loadAggregate,
-      getProjetAggregateRoot: (identifiantProjet) =>
-        ProjetAggregateRoot.get(identifiantProjet, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        }),
     });
     registerTâcheCommand({
       loadAggregate,

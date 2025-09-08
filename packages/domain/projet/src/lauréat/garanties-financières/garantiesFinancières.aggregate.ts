@@ -86,6 +86,7 @@ import {
 import { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeGarantiesFinancières.options';
 import { DémarrerInstructionMainlevéeOptions } from './mainlevée/démarrerInstruction/démarrerInstructionMainlevée.options';
 import { AccorderMainlevéeOptions } from './mainlevée/accorder/accorderMainlevéeGarantiesFinancières.options';
+import { RejeterMainlevéeOptions } from './mainlevée/rejeter/rejeterMainlevéeGarantiesFinancières.options';
 
 type GarantiesFinancièresActuelles = {
   dateConstitution?: DateTime.ValueType;
@@ -648,6 +649,30 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         accordéPar: accordéPar.formatter(),
         réponseSignée: {
           format,
+        },
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async rejeterMainlevée({ rejetéLe, rejetéPar, réponseSignée }: RejeterMainlevéeOptions) {
+    if (!this.#statutMainlevée) {
+      throw new MainlevéeNonTrouvéeError();
+    }
+
+    this.#statutMainlevée.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutMainlevéeGarantiesFinancières.rejeté,
+    );
+
+    const event: DemandeMainlevéeGarantiesFinancièresRejetéeEvent = {
+      type: 'DemandeMainlevéeGarantiesFinancièresRejetée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        rejetéLe: rejetéLe.formatter(),
+        rejetéPar: rejetéPar.formatter(),
+        réponseSignée: {
+          format: réponseSignée.format,
         },
       },
     };

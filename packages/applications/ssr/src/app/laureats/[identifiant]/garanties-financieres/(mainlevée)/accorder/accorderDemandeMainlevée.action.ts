@@ -3,8 +3,8 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -22,8 +22,8 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, reponseSignee },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+    await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
       data: {
         identifiantProjetValue: identifiantProjet,
         accordéLeValue: new Date().toISOString(),

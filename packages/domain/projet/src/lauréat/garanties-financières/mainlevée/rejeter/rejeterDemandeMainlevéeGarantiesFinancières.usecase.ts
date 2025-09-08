@@ -1,14 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { TypeDocumentRéponseDemandeMainlevée } from '../..';
+import { IdentifiantProjet } from '../../../..';
+import { TypeDocumentRéponseMainlevée } from '../..';
 
-import { RejeterDemandeMainlevéeGarantiesFinancièresCommand } from './rejeterDemandeMainlevéeGarantiesFinancières.command';
+import { RejeterMainlevéeGarantiesFinancièresCommand } from './rejeterMainlevéeGarantiesFinancières.command';
 
-export type RejeterDemandeMainlevéeGarantiesFinancièresUseCase = Message<
-  'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
+export type RejeterMainlevéeGarantiesFinancièresUseCase = Message<
+  'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
   {
     identifiantProjetValue: string;
     rejetéLeValue: string;
@@ -20,8 +21,8 @@ export type RejeterDemandeMainlevéeGarantiesFinancièresUseCase = Message<
   }
 >;
 
-export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () => {
-  const runner: MessageHandler<RejeterDemandeMainlevéeGarantiesFinancièresUseCase> = async ({
+export const registerRejeterMainlevéeGarantiesFinancièresUseCase = () => {
+  const runner: MessageHandler<RejeterMainlevéeGarantiesFinancièresUseCase> = async ({
     identifiantProjetValue,
     rejetéLeValue,
     rejetéParValue,
@@ -32,7 +33,7 @@ export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () =
     const rejetéPar = Email.convertirEnValueType(rejetéParValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
+      TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeRejetéeValueType.formatter(),
       rejetéLe.formatter(),
       format,
     );
@@ -45,8 +46,8 @@ export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () =
       },
     });
 
-    await mediator.send<RejeterDemandeMainlevéeGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.Command.RejeterDemandeMainlevée',
+    await mediator.send<RejeterMainlevéeGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.RejeterMainlevée',
       data: {
         rejetéLe,
         rejetéPar,
@@ -55,8 +56,5 @@ export const registerRejeterDemandeMainlevéeGarantiesFinancièresUseCase = () =
       },
     });
   };
-  mediator.register(
-    'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
-    runner,
-  );
+  mediator.register('Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée', runner);
 };

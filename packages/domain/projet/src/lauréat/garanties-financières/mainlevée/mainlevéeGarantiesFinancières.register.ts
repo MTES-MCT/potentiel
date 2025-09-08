@@ -8,6 +8,8 @@ import { registerDemanderMainlevéeGarantiesFinancièresCommand } from './demand
 import { registerDemanderMainlevéeGarantiesFinancièresUseCase } from './demander/demanderMainlevéeGarantiesFinancières.usecase';
 import { registerDémarrerInstructionMainlevéeGarantiesFinancièresCommand } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.command';
 import { registerDémarrerInstructionMainlevéeGarantiesFinancièresUseCase } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.usecase';
+import { registerRejeterMainlevéeGarantiesFinancièresUseCase } from './rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
+import { registerRejeterMainlevéeGarantiesFinancièresCommand } from './rejeter/rejeterMainlevéeGarantiesFinancières.command';
 
 export type MainlevéeGarantiesFinancièresQueryDependencies = {};
 
@@ -22,11 +24,13 @@ export const registerMainlevéeGarantiesFinancièresUseCases = ({
   registerAnnulerMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerDémarrerInstructionMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerAccorderMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
+  registerRejeterMainlevéeGarantiesFinancièresCommand(getProjetAggregateRoot);
 
   registerDemanderMainlevéeGarantiesFinancièresUseCase();
   registerAnnulerMainlevéeGarantiesFinancièresUseCase();
   registerDémarrerInstructionMainlevéeGarantiesFinancièresUseCase();
   registerAccorderMainlevéeGarantiesFinancièresUseCase();
+  registerRejeterMainlevéeGarantiesFinancièresUseCase();
 };
 
 export const registerMainlevéeGarantiesFinancièresQueries = (

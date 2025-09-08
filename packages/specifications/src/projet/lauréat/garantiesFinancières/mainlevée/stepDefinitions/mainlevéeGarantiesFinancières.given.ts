@@ -1,7 +1,6 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -79,8 +78,8 @@ EtantDonné(
       data: setDemandeMainlevéeData({ identifiantProjet }),
     });
 
-    await mediator.send<GarantiesFinancières.RejeterDemandeMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
+    await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
       data: setRejetMainlevéeData({ identifiantProjet }),
     });
   },
