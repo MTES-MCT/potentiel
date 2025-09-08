@@ -1,10 +1,10 @@
 # language: fr
 @délai
-@annuler-demande-délai
 Fonctionnalité: Annuler la demande de délai d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Eolien |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 

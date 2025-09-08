@@ -7,6 +7,7 @@ import {
 import { Role } from '@potentiel-domain/utilisateur';
 
 export const autoritésCompétentes = ['dreal', 'dgec'] as const;
+export const DEFAULT_AUTORITE_COMPETENTE_DELAI: RawType = 'dgec';
 
 export type RawType = (typeof autoritésCompétentes)[number];
 

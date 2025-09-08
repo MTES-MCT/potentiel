@@ -1,6 +1,5 @@
 # language: fr
 @délai
-@accorder-demande-délai
 Fonctionnalité: Accorder la demande de délai d'un projet lauréat
 
     Contexte:

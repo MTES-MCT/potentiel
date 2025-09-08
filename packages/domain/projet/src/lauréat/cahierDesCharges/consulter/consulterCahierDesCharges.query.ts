@@ -44,6 +44,7 @@ export const registerConsulterCahierDesChargesQuery = ({
         },
       },
     );
+
     const appelOffres = await find<AppelOffre.AppelOffreEntity>(
       `appel-offre|${identifiantProjet.appelOffre}`,
     );
@@ -54,6 +55,7 @@ export const registerConsulterCahierDesChargesQuery = ({
     const période = appelOffres.periodes.find(
       (periode) => periode.id === identifiantProjet.période,
     );
+
     if (!période) {
       return Option.none;
     }

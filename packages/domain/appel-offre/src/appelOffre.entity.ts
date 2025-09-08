@@ -51,7 +51,11 @@ type Changement = {
 };
 
 type ChangementAvecAutoritéCompétente =
-  | { informationEnregistrée?: undefined; demande?: undefined }
+  | {
+      informationEnregistrée?: undefined;
+      demande?: undefined;
+      autoritéCompétente?: undefined;
+    }
   | {
       informationEnregistrée?: undefined;
       demande: true;

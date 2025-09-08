@@ -19,15 +19,15 @@ import { registerRejeterDemandeDélaiUseCase } from './demande/rejeter/rejeterDe
 import { registerPasserEnInstructionDemandeDélaiCommand } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.command';
 import { registerPasserEnInstructionDemandeDélaiUseCase } from './demande/passer-en-instruction/passerEnInstructionDemandeDélai.usecase';
 import {
-  ListerDemandeDélaiDependencies,
-  registerListerDemandeDélaiQuery,
-} from './lister/listerDemandeDélai.query';
-import {
   ListerHistoriqueDélaiProjetDependencies,
   registerListerHistoriqueDélaiProjetQuery,
 } from './lister/listerHistoriqueDélaiProjet.query';
 import { registerCorrigerDemandeDélaiUseCase } from './demande/corriger/corrigerDemandeDélai.usecase';
 import { registerCorrigerDemandeDélaiCommand } from './demande/corriger/corrigerDemandeDélai.command';
+import {
+  ListerDemandeDélaiDependencies,
+  registerListerDemandeDélaiQuery,
+} from './demande/lister/listerDemandeDélai.query';
 
 export type DélaiCommandDependencies = { getProjetAggregateRoot: GetProjetAggregateRoot };
 

@@ -2,9 +2,8 @@ import { match } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Option } from '@potentiel-libraries/monads';
+
+import { getCahierDesCharges } from '../utils/getCahierDesCharges';
 
 export const abandonDemandéProjector = async (
   event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
@@ -17,11 +16,12 @@ export const abandonDemandéProjector = async (
     .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
     .otherwise(() => false);
 
-  const appelOffre = await findProjection<AppelOffre.AppelOffreEntity>(
-    `appel-offre|${IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre}`,
+  const cahierDesCharges = await getCahierDesCharges(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet),
   );
-  if (Option.isNone(appelOffre)) {
-    throw new Error("Appel d'offre non trouvé");
+
+  if (!cahierDesCharges) {
+    throw new Error(`Le cahier des charges du projet ${identifiantProjet} est introuvable.`);
   }
 
   await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
@@ -33,9 +33,8 @@ export const abandonDemandéProjector = async (
       raison: event.payload.raison,
       estUneRecandidature,
       autoritéCompétente:
-        appelOffre.changement === 'indisponible' || !appelOffre.changement.abandon.demande
-          ? 'dgec'
-          : appelOffre.changement.abandon.autoritéCompétente,
+        cahierDesCharges.getRèglesChangements('abandon').autoritéCompétente ??
+        Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON,
       recandidature: estUneRecandidature
         ? {
             statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,

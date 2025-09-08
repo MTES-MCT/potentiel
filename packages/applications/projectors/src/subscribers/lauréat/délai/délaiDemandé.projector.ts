@@ -1,5 +1,7 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+
+import { getCahierDesCharges } from '../utils/getCahierDesCharges';
 
 export const délaiDemandéProjector = async ({
   payload: {
@@ -11,6 +13,14 @@ export const délaiDemandéProjector = async ({
     pièceJustificative: { format },
   },
 }: Lauréat.Délai.DélaiDemandéEvent) => {
+  const cahierDesCharges = await getCahierDesCharges(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  );
+
+  if (!cahierDesCharges) {
+    throw new Error(`Le cahier des charges du projet ${identifiantProjet} est introuvable.`);
+  }
+
   await upsertProjection<Lauréat.Délai.DemandeDélaiEntity>(
     `demande-délai|${identifiantProjet}#${demandéLe}`,
     {
@@ -23,6 +33,9 @@ export const délaiDemandéProjector = async ({
       pièceJustificative: {
         format,
       },
+      autoritéCompétente:
+        cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
+        Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI,
     },
   );
 };

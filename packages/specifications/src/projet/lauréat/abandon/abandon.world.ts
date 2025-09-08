@@ -118,7 +118,7 @@ export class AbandonWord {
           : undefined,
         autoritéCompétente: Lauréat.Abandon.AutoritéCompétente.convertirEnValueType(
           ao!.changement === 'indisponible' || !ao?.changement.abandon.demande
-            ? 'dgec'
+            ? Lauréat.Abandon.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_ABANDON
             : ao.changement.abandon.autoritéCompétente,
         ),
       },

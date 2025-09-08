@@ -1,11 +1,13 @@
 import { Entity } from '@potentiel-domain/entity';
 
+import { AutoritéCompétente, StatutDemandeDélai } from '..';
+
 export type DemandeDélaiEntity = Entity<
   'demande-délai',
   {
     identifiantProjet: string;
 
-    statut: string;
+    statut: StatutDemandeDélai.RawType;
     nombreDeMois: number;
     raison: string;
     demandéLe: string;
@@ -13,6 +15,7 @@ export type DemandeDélaiEntity = Entity<
     pièceJustificative: {
       format: string;
     };
+    autoritéCompétente?: AutoritéCompétente.RawType;
 
     correction?: {
       corrigéeLe: string;

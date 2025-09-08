@@ -3,9 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { LauréatEntity } from '../../lauréat.entity';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
-import { DemandeDélaiEntity, StatutDemandeDélai } from '..';
+import { LauréatEntity } from '../../../lauréat.entity';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
+import { AutoritéCompétente, StatutDemandeDélai } from '../..';
+import { DemandeDélaiEntity } from '../demandeDélai.entity';
 
 type DemandeDélaiItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -30,6 +31,7 @@ export type ListerDemandeDélaiQuery = Message<
     identifiantProjet?: IdentifiantProjet.RawType;
     appelOffre?: string;
     nomProjet?: string;
+    autoriteInstructrice?: AutoritéCompétente.RawType;
     range: RangeOptions;
   },
   ListerDemandeDélaiReadModel
@@ -51,6 +53,7 @@ export const registerListerDemandeDélaiQuery = ({
     utilisateur,
     range,
     identifiantProjet,
+    autoriteInstructrice,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -82,6 +85,7 @@ export const registerListerDemandeDélaiQuery = ({
       where: {
         identifiantProjet: Where.matchAny(identifiantProjets),
         statut: Where.matchAny(statuts),
+        autoritéCompétente: Where.equal(autoriteInstructrice),
       },
     });
 

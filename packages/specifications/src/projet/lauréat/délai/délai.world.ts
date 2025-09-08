@@ -1,6 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { DemanderDélaiFixture } from './fixtures/demanderDélai.fixture';
 import { AnnulerDemandeDélaiFixture } from './fixtures/annulerDemandeDélai.fixture';
@@ -59,6 +60,8 @@ export class DélaiWorld {
       throw new Error(`Aucune demande de délai n'a été créée dans DélaiWorld`);
     }
 
+    const ao = appelsOffreData.find((x) => x.id === identifiantProjet.appelOffre);
+
     const expected: Lauréat.Délai.ConsulterDemandeDélaiReadModel = {
       statut,
       identifiantProjet,
@@ -72,7 +75,11 @@ export class DélaiWorld {
         this.#demanderDélaiFixture.demandéLe,
         this.#demanderDélaiFixture.pièceJustificative.format,
       ),
-
+      autoritéCompétente: Lauréat.Délai.AutoritéCompétente.convertirEnValueType(
+        ao!.changement === 'indisponible' || !ao?.changement.délai.demande
+          ? Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI
+          : ao.changement.délai.autoritéCompétente,
+      ),
       instruction: this.#passerEnInstructionDemandeDélaiFixture.aÉtéCréé
         ? {
             passéeEnInstructionLe: DateTime.convertirEnValueType(
