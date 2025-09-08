@@ -43,6 +43,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
+    cahierDesCharges.vérifierQueLeChangementEstPossible('information-enregistrée', 'puissance');
+
     return (
       <DemanderChangementPuissancePage
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
