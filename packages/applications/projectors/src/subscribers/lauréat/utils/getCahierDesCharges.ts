@@ -6,7 +6,10 @@ import { Option } from '@potentiel-libraries/monads';
 export const getCahierDesCharges = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<CahierDesCharges.ValueType | undefined> => {
-  const lauréat = await findProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {});
+  const lauréat = await findProjection<Lauréat.LauréatEntity>(
+    `lauréat|${identifiantProjet.formatter()}`,
+    {},
+  );
 
   const appelOffres = await findProjection<AppelOffre.AppelOffreEntity>(
     `appel-offre|${identifiantProjet.appelOffre}`,
