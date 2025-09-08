@@ -44,9 +44,9 @@ Alors(
 );
 
 Alors(
-  `les garanties financières en attente du projet {string} ne devraient plus être consultables`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `les garanties financières en attente du projet ne devraient plus être consultables`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const result =
         await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(

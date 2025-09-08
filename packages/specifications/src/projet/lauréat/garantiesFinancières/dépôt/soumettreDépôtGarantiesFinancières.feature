@@ -14,6 +14,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
+        Et les garanties financières en attente du projet ne devraient plus être consultables
 
         Exemples:
             | type GF                   | date d'échéance |
