@@ -9,6 +9,7 @@ export type ModèleMiseEnDemeure = {
     contactDreal: string;
     referenceProjet: string;
     titreAppelOffre: string;
+    cahierDesChargesReference: string;
     dateLancementAppelOffre: string;
     nomProjet: string;
     adresseCompleteProjet: string;

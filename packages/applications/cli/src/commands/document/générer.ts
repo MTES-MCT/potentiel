@@ -153,6 +153,7 @@ function getData(
           dateAbandonAccordé: '',
           estAccordée: true,
           dateMainlevée: '',
+          cahierDesChargesReference: '',
         },
       };
     case 'mise-en-demeure':
@@ -172,6 +173,7 @@ function getData(
           garantieFinanciereEnMois: '',
           dateFinGarantieFinanciere: '',
           dateLimiteDepotGF: '',
+          cahierDesChargesReference: '',
         },
       };
     case 'actionnaire':
