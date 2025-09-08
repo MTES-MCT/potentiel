@@ -4,18 +4,19 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
+import { Candidature, IdentifiantProjet, Lauréat } from '../../../../..';
 import {
-  ArchiveGarantiesFinancières,
-  ArchivesGarantiesFinancièresEntity,
-} from '../archivesGarantiesFinancières.entity';
-import { MotifArchivageGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
+  ConsulterGarantiesFinancièresReadModel,
+  MotifArchivageGarantiesFinancières,
+  TypeDocumentGarantiesFinancières,
+} from '../../..';
+import { ArchivesGarantiesFinancièresEntity } from '../archivesGarantiesFinancières.entity';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   archives: Array<
-    Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'] & {
+    ConsulterGarantiesFinancièresReadModel['garantiesFinancières'] & {
       motif: MotifArchivageGarantiesFinancières.ValueType;
     }
   >;
@@ -62,7 +63,7 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
 };
 
 type MapToReadModel = {
-  archives: ReadonlyArray<ArchiveGarantiesFinancières>;
+  archives: ReadonlyArray<ArchivesGarantiesFinancièresEntity['archives'][number]>;
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 };
 
@@ -80,7 +81,7 @@ const mapToReadModel = ({
 
 const mapToArchiveGarantiesFinancièresReadModel = (
   identifiantProjetValueType: IdentifiantProjet.ValueType,
-  garantiesFinancières: ArchiveGarantiesFinancières,
+  garantiesFinancières: ArchivesGarantiesFinancièresEntity['archives'][number],
 ) => ({
   motif: MotifArchivageGarantiesFinancières.convertirEnValueType(garantiesFinancières.motif),
   statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.convertirEnValueType(

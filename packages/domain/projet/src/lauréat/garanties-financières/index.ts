@@ -10,6 +10,7 @@ export * from './actuelles/garantiesFinancièresActuelles.queries';
 // Entities
 export * from './dépôt/dépôtGarantiesFinancières.entity';
 export * from './actuelles/garantiesFinancièresActuelles.entity';
+export * from './actuelles/archives/archivesGarantiesFinancières.entity';
 
 // Events
 export * from './garantiesFinancières.event';
@@ -24,6 +25,8 @@ export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valu
 export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
 export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
+
+export * as MotifArchivageGarantiesFinancières from './actuelles/archives/motifArchivageGarantiesFinancières.valueType';
 
 /**
  * TODO : remove when fully migrated

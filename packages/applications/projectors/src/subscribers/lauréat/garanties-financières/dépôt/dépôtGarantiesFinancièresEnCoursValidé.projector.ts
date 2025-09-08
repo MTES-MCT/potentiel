@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -28,7 +27,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
   const gfActuelles = await getGfActuelles(identifiantProjet);
 
   if (gfActuelles) {
-    const motif: GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
+    const motif: Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity['archives'][number]['motif'] =
       gfActuelles.garantiesFinancières.statut === 'échu'
         ? 'renouvellement des garanties financières échues'
         : 'modification des garanties financières';
@@ -44,7 +43,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
       motif,
     };
 
-    await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+    await upsertProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
       `archives-garanties-financieres|${identifiantProjet}`,
       {
         identifiantProjet,
