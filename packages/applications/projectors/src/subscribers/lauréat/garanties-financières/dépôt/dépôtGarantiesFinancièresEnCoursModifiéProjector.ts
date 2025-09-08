@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -26,7 +25,7 @@ export const dépôtGarantiesFinancièresEnCoursModifiéProjector = async ({
     return;
   }
 
-  await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,

@@ -4,9 +4,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
@@ -53,8 +52,8 @@ Alors(
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
       const détailDépôt =
-        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
           data: {
             identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           },
@@ -62,8 +61,8 @@ Alors(
       expect(Option.isNone(détailDépôt)).to.be.true;
 
       const listeDépôts =
-        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+        await mediator.send<Lauréat.GarantiesFinancières.ListerDépôtsGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
           data: {
             utilisateur: {
               rôle: 'admin',
@@ -81,8 +80,8 @@ const getDépôtEnCoursGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ) => {
   const actualReadModel =
-    await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-      type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+    await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
       },

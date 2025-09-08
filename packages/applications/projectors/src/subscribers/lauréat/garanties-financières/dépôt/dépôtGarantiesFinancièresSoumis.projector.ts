@@ -13,7 +13,7 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
     soumisPar,
   },
 }: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent) => {
-  await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,

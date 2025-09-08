@@ -1,5 +1,6 @@
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { mapToExemple, FieldToExempleMapper, mapDateTime } from '../../../../helpers/mapToExemple';
 import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
@@ -37,7 +38,7 @@ export class DépôtGarantiesFinancièresWorld {
 
   mapToExpected() {
     const dépôt: Partial<
-      GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel['dépôt']
+      Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel['dépôt']
     > = {
       ...this.soumettre.mapToExpected(),
       ...this.modifier.mapToExpected(),

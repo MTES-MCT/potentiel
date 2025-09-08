@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-export type DépôtEnCoursGarantiesFinancièresEntity = Entity<
+export type DépôtGarantiesFinancièresEntity = Entity<
   'depot-en-cours-garanties-financieres',
   {
     identifiantProjet: string;

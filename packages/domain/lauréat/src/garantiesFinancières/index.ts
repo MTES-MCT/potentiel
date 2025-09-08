@@ -1,8 +1,4 @@
 import {
-  ListerDépôtsEnCoursGarantiesFinancièresQuery,
-  ListerDépôtsEnCoursGarantiesFinancièresReadModel,
-} from './dépôtEnCours/lister/listerDépôtsEnCoursGarantiesFinancières.query';
-import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
   GarantiesFinancièresReadModel,
@@ -15,10 +11,6 @@ import {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
 } from './projetEnAttenteDeGarantiesFinancières/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
-import {
-  ConsulterDépôtEnCoursGarantiesFinancièresQuery,
-  ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
-} from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
 import {
   ListerMainlevéeItemReadModel,
   ListerMainlevéesQuery,
@@ -33,19 +25,14 @@ import {
 export type GarantiesFinancièresQuery =
   | ConsulterGarantiesFinancièresQuery
   | ConsulterArchivesGarantiesFinancièresQuery
-  | ConsulterDépôtEnCoursGarantiesFinancièresQuery
   | ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery
-  | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
-  | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerMainlevéesQuery;
 
 export type {
   ConsulterGarantiesFinancièresQuery,
   ConsulterArchivesGarantiesFinancièresQuery,
-  ConsulterDépôtEnCoursGarantiesFinancièresQuery,
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
-  ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
   ListerMainlevéesQuery,
 };
@@ -55,9 +42,7 @@ export type {
   GarantiesFinancièresReadModel,
   ConsulterGarantiesFinancièresReadModel,
   ConsulterArchivesGarantiesFinancièresReadModel,
-  ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
-  ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   ListerMainlevéesReadModel,
   ListerMainlevéeItemReadModel,
@@ -83,7 +68,6 @@ export * as MotifArchivageGarantiesFinancières from './garantiesFinancièresAct
 // Entities
 export * from './garantiesFinancièresActuelles/garantiesFinancièresActuelles.entity';
 export * from './garantiesFinancièresActuelles/archivesGarantiesFinancières.entity';
-export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 

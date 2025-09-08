@@ -34,7 +34,7 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
     `garanties-financieres|${identifiantProjet}`,
   );
 
-  await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
   );
 };

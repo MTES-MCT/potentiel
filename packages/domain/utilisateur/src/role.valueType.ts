@@ -189,10 +189,9 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         consulterArchivesGarantiesFinancières:
           'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-        consulterDépôtEnCoursGarantiesFinancières:
-          'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
-        listerDépôtsEnCours:
-          'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+        consulterDépôtGarantiesFinancières:
+          'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
+        listerDépôts: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
         listerProjetsAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
@@ -726,7 +725,7 @@ const policies = {
       consulter: [
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.lauréat.garantiesFinancières.query
-          .consulterDépôtEnCoursGarantiesFinancières,
+          .consulterDépôtGarantiesFinancières,
       ],
       soumettre: [
         référencielPermissions.candidature.query.consulterProjet,
@@ -755,7 +754,7 @@ const policies = {
         référencielPermissions.document.command.enregister,
       ],
       lister: [
-        référencielPermissions.lauréat.garantiesFinancières.query.listerDépôtsEnCours,
+        référencielPermissions.lauréat.garantiesFinancières.query.listerDépôts,
         référencielPermissions.appelOffre.query.lister,
       ],
     },

@@ -3,6 +3,12 @@ export * from './dépôt/dépôtGarantiesFinancières.usecases';
 export * from './actuelles/garantiesFinancièresActuelles.usecases';
 export * from './mainlevée/mainlevéeGarantiesFinancières.usecases';
 
+// Queries
+export * from './dépôt/dépôtGarantiesFinancières.queries';
+
+// Entities
+export * from './dépôt/dépôtGarantiesFinancières.entity';
+
 // Events
 export * from './garantiesFinancières.event';
 

@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -43,8 +43,8 @@ export const getGarantiesFinancières = async (
       });
 
     const dépôtEnCoursGarantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 

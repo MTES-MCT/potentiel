@@ -71,7 +71,7 @@ export type ListerMainlevéesQuery = Message<
   ListerMainlevéesReadModel
 >;
 
-type ListerMainlevéesQueryDependencies = {
+export type ListerMainlevéesQueryDependencies = {
   list: List;
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
 };

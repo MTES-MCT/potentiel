@@ -1,22 +1,20 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import {
-  IdentifiantUtilisateur,
-  RécupérerIdentifiantsProjetParEmailPorteurPort,
-} from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Candidature } from '@potentiel-domain/projet';
 
-import { DépôtEnCoursGarantiesFinancièresEntity, TypeDocumentGarantiesFinancières } from '../..';
-import {
-  Utilisateur,
-  getRoleBasedWhereCondition,
-} from '../../../_utils/getRoleBasedWhereCondition';
 import { LauréatEntity } from '../../../lauréat.entity';
+import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity';
+import { Candidature, IdentifiantProjet } from '../../../..';
+import { TypeDocumentGarantiesFinancières } from '../..';
+import {
+  getRoleBasedWhereCondition,
+  Utilisateur,
+} from '../../../_helpers/getRoleBasedWhereCondition';
 
-type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
+type DépôtGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   dépôt: {
@@ -27,38 +25,38 @@ type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
     soumisLe: DateTime.ValueType;
     dernièreMiseÀJour: {
       date: DateTime.ValueType;
-      par: IdentifiantUtilisateur.ValueType;
+      par: Email.ValueType;
     };
   };
 };
 
-export type ListerDépôtsEnCoursGarantiesFinancièresReadModel = {
-  items: ReadonlyArray<DépôtEnCoursGarantiesFinancièresListItemReadModel>;
+export type ListerDépôtsGarantiesFinancièresReadModel = {
+  items: ReadonlyArray<DépôtGarantiesFinancièresListItemReadModel>;
   range: RangeOptions;
   total: number;
 };
 
-export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+export type ListerDépôtsGarantiesFinancièresQuery = Message<
+  'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
   {
     appelOffre?: string;
     cycle?: string;
     utilisateur: Utilisateur;
     range?: RangeOptions;
   },
-  ListerDépôtsEnCoursGarantiesFinancièresReadModel
+  ListerDépôtsGarantiesFinancièresReadModel
 >;
 
-export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
+export type ListerDépôtsGarantiesFinancièresDependencies = {
   list: List;
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
 };
 
-export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
+export const registerListerDépôtsGarantiesFinancièresQuery = ({
   list,
   récupérerIdentifiantsProjetParEmailPorteur,
-}: ListerDépôtsEnCoursGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ListerDépôtsEnCoursGarantiesFinancièresQuery> = async ({
+}: ListerDépôtsGarantiesFinancièresDependencies) => {
+  const handler: MessageHandler<ListerDépôtsGarantiesFinancièresQuery> = async ({
     appelOffre,
     utilisateur,
     range,
@@ -72,7 +70,7 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       items,
       range: { startPosition, endPosition },
       total,
-    } = await list<DépôtEnCoursGarantiesFinancièresEntity, LauréatEntity>(
+    } = await list<DépôtGarantiesFinancièresEntity, LauréatEntity>(
       'depot-en-cours-garanties-financieres',
       {
         orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
@@ -104,18 +102,15 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
     };
   };
 
-  mediator.register(
-    'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
-    handler,
-  );
+  mediator.register('Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières', handler);
 };
 
 const mapToReadModel = ({
   lauréat: { nomProjet },
   identifiantProjet,
   dépôt,
-}: DépôtEnCoursGarantiesFinancièresEntity &
-  Joined<LauréatEntity>): DépôtEnCoursGarantiesFinancièresListItemReadModel => ({
+}: DépôtGarantiesFinancièresEntity &
+  Joined<LauréatEntity>): DépôtGarantiesFinancièresListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   dépôt: {
@@ -133,7 +128,7 @@ const mapToReadModel = ({
     soumisLe: DateTime.convertirEnValueType(dépôt.soumisLe),
     dernièreMiseÀJour: {
       date: DateTime.convertirEnValueType(dépôt.dernièreMiseÀJour.date),
-      par: IdentifiantUtilisateur.convertirEnValueType(dépôt.dernièreMiseÀJour.par),
+      par: Email.convertirEnValueType(dépôt.dernièreMiseÀJour.par),
     },
   },
 });

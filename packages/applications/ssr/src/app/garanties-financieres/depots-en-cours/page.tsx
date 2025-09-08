@@ -4,9 +4,9 @@ import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -45,8 +45,8 @@ export default async function Page({ searchParams }: PageProps) {
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
       const dépôtsEnCoursGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsEnCoursGarantiesFinancières',
+        await mediator.send<Lauréat.GarantiesFinancières.ListerDépôtsGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
           data: {
             utilisateur: {
               régionDreal,
@@ -110,7 +110,7 @@ const mapToListProps = ({
   items,
   range,
   total,
-}: GarantiesFinancières.ListerDépôtsEnCoursGarantiesFinancièresReadModel): ListDépôtsGarantiesFinancièresProps['list'] => {
+}: Lauréat.GarantiesFinancières.ListerDépôtsGarantiesFinancièresReadModel): ListDépôtsGarantiesFinancièresProps['list'] => {
   const mappedItems = items.map(
     ({ identifiantProjet, nomProjet, dépôt: { type, dateÉchéance, dernièreMiseÀJour } }) => ({
       identifiantProjet: identifiantProjet.formatter(),

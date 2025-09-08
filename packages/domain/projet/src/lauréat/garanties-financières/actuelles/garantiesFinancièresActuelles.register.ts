@@ -1,3 +1,5 @@
+import { Find } from '@potentiel-domain/entity';
+
 import { GetProjetAggregateRoot } from '../../..';
 
 import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command';
@@ -8,7 +10,9 @@ import { registerModifierGarantiesFinancièresCommand } from './modifier/modifie
 import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { registerÉchoirGarantiesFinancièresCommand } from './échoir/échoirGarantiesFinancières.command';
 
-export type GarantiesFinancièresActuellesQueryDependencies = {};
+export type GarantiesFinancièresActuellesQueryDependencies = {
+  find: Find;
+};
 
 export type GarantiesFinancièresActuellesUseCasesDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;

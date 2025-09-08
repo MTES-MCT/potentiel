@@ -4,22 +4,16 @@ import {
   ConsulterGarantiesFinancièresDependencies,
   registerConsulterGarantiesFinancièresQuery,
 } from './garantiesFinancièresActuelles/consulter/consulterGarantiesFinancières.query';
-import {
-  ListerDépôtsEnCoursGarantiesFinancièresDependencies,
-  registerListerDépôtsEnCoursGarantiesFinancièresQuery,
-} from './dépôtEnCours/lister/listerDépôtsEnCoursGarantiesFinancières.query';
 import { registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery } from './projetEnAttenteDeGarantiesFinancières/lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
 import { registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery } from './projetEnAttenteDeGarantiesFinancières/consulter/consulterProjetAvecGarantiesFinancièresEnAttente.query';
 import {
-  ConsulterDépôtEnCoursGarantiesFinancièresDependencies,
-  registerConsulterDépôtEnCoursGarantiesFinancièresQuery,
-} from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
-import { registerListerMainlevéesQuery } from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
+  ListerMainlevéesQueryDependencies,
+  registerListerMainlevéesQuery,
+} from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 import { registerConsulterArchivesGarantiesFinancièresQuery } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
-  ListerDépôtsEnCoursGarantiesFinancièresDependencies &
-  ConsulterDépôtEnCoursGarantiesFinancièresDependencies;
+  ListerMainlevéesQueryDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -31,8 +25,6 @@ export const registerGarantiesFinancièresQueries = (
   registerConsulterGarantiesFinancièresQuery(dependencies);
   registerConsulterArchivesGarantiesFinancièresQuery(dependencies);
   registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery(dependencies);
-  registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
-  registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
   registerListerMainlevéesQuery(dependencies);
 };

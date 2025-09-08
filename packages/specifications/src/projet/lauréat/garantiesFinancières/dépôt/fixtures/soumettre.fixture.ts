@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -104,7 +103,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     return fixture;
   }
   mapToExpected():
-    | GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel['dépôt']
+    | Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel['dépôt']
     | undefined {
     if (!this.aÉtéCréé) return undefined;
     const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({

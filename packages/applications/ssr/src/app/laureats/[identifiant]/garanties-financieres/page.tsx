@@ -75,8 +75,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         : Option.none;
 
       const dépôtEnCoursGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
@@ -154,7 +154,7 @@ type MapToProps = (params: {
   contactPorteurs: string[];
   utilisateur: Utilisateur.ValueType;
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
-  dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
+  dépôtEnCoursGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
   mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
   appelOffres: AppelOffre.AppelOffreReadModel;

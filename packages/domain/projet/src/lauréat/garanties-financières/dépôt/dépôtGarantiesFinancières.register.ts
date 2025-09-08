@@ -1,5 +1,8 @@
+import { Find } from '@potentiel-domain/entity';
+
 import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
 
+import { registerConsulterDépôtGarantiesFinancièresQuery } from './consulter/consulterDépôtGarantiesFinancières.query';
 import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifier/modifierDépôtGarantiesFinancières.command';
 import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifier/modifierDépôtGarantiesFinancières.usecase';
 import { registerSoumettreDépôtGarantiesFinancièresCommand } from './soumettre/soumettreDépôtGarantiesFinancières.command';
@@ -9,7 +12,9 @@ import { registerSupprimerDépôtGarantiesFinancièresUseCase } from './supprime
 import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './valider/validerDépôtGarantiesFinancières.command';
 import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './valider/validerDépôtGarantiesFinancières.usecase';
 
-export type DépôtGarantiesFinancièresQueryDependencies = {};
+export type DépôtGarantiesFinancièresQueryDependencies = {
+  find: Find;
+};
 
 export type DépôtGarantiesFinancièresUseCasesDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -32,5 +37,7 @@ export const registerDépôtGarantiesFinancièresUseCases = ({
 };
 
 export const registerDépôtGarantiesFinancièresQueries = (
-  _: DépôtGarantiesFinancièresQueryDependencies,
-) => {};
+  dependencies: DépôtGarantiesFinancièresQueryDependencies,
+) => {
+  registerConsulterDépôtGarantiesFinancièresQuery(dependencies);
+};

@@ -1,16 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
 
-import { DépôtEnCoursGarantiesFinancièresEntity } from '../dépôtEnCoursGarantiesFinancières.entity';
 import { TypeDocumentGarantiesFinancières } from '../..';
+import { Candidature, IdentifiantProjet } from '../../../..';
+import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity';
 
-export type ConsulterDépôtEnCoursGarantiesFinancièresReadModel = {
+export type ConsulterDépôtGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.ValueType;
@@ -20,32 +19,32 @@ export type ConsulterDépôtEnCoursGarantiesFinancièresReadModel = {
     soumisLe: DateTime.ValueType;
     dernièreMiseÀJour: {
       date: DateTime.ValueType;
-      par: IdentifiantUtilisateur.ValueType;
+      par: Email.ValueType;
     };
   };
 };
 
-export type ConsulterDépôtEnCoursGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+export type ConsulterDépôtGarantiesFinancièresQuery = Message<
+  'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
   {
     identifiantProjetValue: string;
   },
-  Option.Type<ConsulterDépôtEnCoursGarantiesFinancièresReadModel>
+  Option.Type<ConsulterDépôtGarantiesFinancièresReadModel>
 >;
 
-export type ConsulterDépôtEnCoursGarantiesFinancièresDependencies = {
+export type ConsulterDépôtGarantiesFinancièresDependencies = {
   find: Find;
 };
 
-export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
+export const registerConsulterDépôtGarantiesFinancièresQuery = ({
   find,
-}: ConsulterDépôtEnCoursGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ConsulterDépôtEnCoursGarantiesFinancièresQuery> = async ({
+}: ConsulterDépôtGarantiesFinancièresDependencies) => {
+  const handler: MessageHandler<ConsulterDépôtGarantiesFinancièresQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<DépôtEnCoursGarantiesFinancièresEntity>(
+    const result = await find<DépôtGarantiesFinancièresEntity>(
       `depot-en-cours-garanties-financieres|${identifiantProjet.formatter()}`,
     );
 
@@ -56,7 +55,7 @@ export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
     return mapToReadModel({ ...result, identifiantProjetValueType: identifiantProjet });
   };
   mediator.register(
-    'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+    'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
     handler,
   );
 };
@@ -64,9 +63,9 @@ export const registerConsulterDépôtEnCoursGarantiesFinancièresQuery = ({
 const mapToReadModel = ({
   dépôt: { type, attestation, dateConstitution, dateÉchéance, soumisLe, dernièreMiseÀJour },
   identifiantProjetValueType,
-}: DépôtEnCoursGarantiesFinancièresEntity & {
+}: DépôtGarantiesFinancièresEntity & {
   identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterDépôtEnCoursGarantiesFinancièresReadModel => ({
+}): ConsulterDépôtGarantiesFinancièresReadModel => ({
   identifiantProjet: identifiantProjetValueType,
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
@@ -83,7 +82,7 @@ const mapToReadModel = ({
     ),
     dernièreMiseÀJour: {
       date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-      par: IdentifiantUtilisateur.convertirEnValueType(dernièreMiseÀJour.par),
+      par: Email.convertirEnValueType(dernièreMiseÀJour.par),
     },
   },
 });
