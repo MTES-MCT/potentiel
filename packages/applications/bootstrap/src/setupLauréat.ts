@@ -4,8 +4,6 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
 
-import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
-
 type SetupLauréatDependencies = {
   sendEmail: SendEmail;
 };
@@ -13,7 +11,6 @@ type SetupLauréatDependencies = {
 export const setupLauréat = async (_: SetupLauréatDependencies) => {
   registerLauréatUseCases({
     loadAggregate,
-    getProjetAggregateRoot: getProjetAggregateRootAdapter,
   });
 
   registerLauréatQueries({

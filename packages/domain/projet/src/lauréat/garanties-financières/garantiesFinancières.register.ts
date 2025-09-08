@@ -11,17 +11,21 @@ import {
   registerDépôtGarantiesFinancièresUseCases,
 } from './dépôt/dépôtGarantiesFinancières.register';
 import {
+  MainlevéeGarantiesFinancièresQueryDependencies,
+  MainlevéeGarantiesFinancièresUseCasesDependencies,
   registerMainlevéeGarantiesFinancièresQueries,
   registerMainlevéeGarantiesFinancièresUseCases,
 } from './mainlevée/mainlevéeGarantiesFinancières.register';
 
 export type GarantiesFinancièresQueryDependencies =
   | GarantiesFinancièresActuellesQueryDependencies
-  | DépôtGarantiesFinancièresQueryDependencies;
+  | DépôtGarantiesFinancièresQueryDependencies
+  | MainlevéeGarantiesFinancièresQueryDependencies;
 
 export type GarantiesFinancièresUseCasesDependencies =
   | GarantiesFinancièresActuellesUseCasesDependencies
-  | DépôtGarantiesFinancièresUseCasesDependencies;
+  | DépôtGarantiesFinancièresUseCasesDependencies
+  | MainlevéeGarantiesFinancièresUseCasesDependencies;
 
 export const registerGarantiesFinancièresUseCases = (
   dependencies: GarantiesFinancièresUseCasesDependencies,

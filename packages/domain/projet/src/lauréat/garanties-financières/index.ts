@@ -7,12 +7,14 @@ export * from './mainlevée/mainlevéeGarantiesFinancières.usecases';
 export * from './garantiesFinancières.event';
 
 // Value types
+export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
+export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
+export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
+
 export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
-export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
-export * as GarantiesFinancières from './garantiesFinancières.valueType';
-export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
+export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
 
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';

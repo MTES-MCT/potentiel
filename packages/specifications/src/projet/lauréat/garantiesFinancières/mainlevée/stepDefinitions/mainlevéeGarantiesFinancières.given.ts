@@ -62,8 +62,8 @@ EtantDonné(
       data: setDemandeMainlevéeData({ identifiantProjet }),
     });
 
-    await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+    await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
       data: setAccordMainlevéeData({ identifiantProjet }),
     });
   },

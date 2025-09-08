@@ -1,5 +1,4 @@
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
   ConsulterGarantiesFinancièresDependencies,
@@ -25,14 +24,12 @@ export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinanciè
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
-  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
 export const registerGarantiesFinancièresUseCases = ({
   loadAggregate,
-  getProjetAggregateRoot,
 }: GarantiesFinancièresCommandDependencies) => {
-  registerMainlevée(loadAggregate, getProjetAggregateRoot);
+  registerMainlevée(loadAggregate);
 };
 
 export const registerGarantiesFinancièresQueries = (

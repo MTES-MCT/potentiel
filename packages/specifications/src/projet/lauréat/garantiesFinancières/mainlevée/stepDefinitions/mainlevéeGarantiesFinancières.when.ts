@@ -117,9 +117,9 @@ Quand(
 
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+          type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
           data: setAccordMainlevéeData({
             identifiantProjet,
             utilisateur,
@@ -141,9 +141,9 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      await mediator.send<GarantiesFinancières.AccorderDemandeMainlevéeGarantiesFinancièresUseCase>(
+      await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
         {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
+          type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
           data: setAccordMainlevéeData({
             identifiantProjet,
           }),
