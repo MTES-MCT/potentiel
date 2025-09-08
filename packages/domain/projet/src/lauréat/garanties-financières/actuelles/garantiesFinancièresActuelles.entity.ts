@@ -1,12 +1,12 @@
 import { Entity } from '@potentiel-domain/entity';
 
-import { GarantiesFinancièresDetails } from './types';
+import { GarantiesFinancièresDétails } from './garantiesFinancièresDétails.type';
 
 export type GarantiesFinancièresEntity = Entity<
   'garanties-financieres',
   {
     identifiantProjet: string;
 
-    garantiesFinancières: GarantiesFinancièresDetails;
+    garantiesFinancières: GarantiesFinancièresDétails;
   }
 >;

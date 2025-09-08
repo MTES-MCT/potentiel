@@ -13,7 +13,7 @@ export const garantiesFinancièresModifiéesProjector = async ({
     modifiéPar,
   },
 }: Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent) => {
-  await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,

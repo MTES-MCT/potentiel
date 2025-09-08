@@ -52,12 +52,12 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
       },
     );
 
-    await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet}`,
       {
         ...gfActuelles,
         garantiesFinancières: {
-          statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
+          statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
           type: dépôtExistant.dépôt.type,
           ...(dépôtExistant.dépôt.dateÉchéance && {
             dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
@@ -74,7 +74,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
       },
     );
   } else {
-    await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet}`,
       {
         identifiantProjet,

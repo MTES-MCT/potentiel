@@ -1,26 +1,21 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { GarantiesFinancièresReadModel } from '../consulter/consulterGarantiesFinancières.query';
 import {
   ArchiveGarantiesFinancières,
   ArchivesGarantiesFinancièresEntity,
 } from '../archivesGarantiesFinancières.entity';
-import {
-  MotifArchivageGarantiesFinancières,
-  StatutGarantiesFinancières,
-  TypeDocumentGarantiesFinancières,
-} from '../..';
+import { MotifArchivageGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   archives: Array<
-    GarantiesFinancièresReadModel & {
+    Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'] & {
       motif: MotifArchivageGarantiesFinancières.ValueType;
     }
   >;
@@ -88,7 +83,9 @@ const mapToArchiveGarantiesFinancièresReadModel = (
   garantiesFinancières: ArchiveGarantiesFinancières,
 ) => ({
   motif: MotifArchivageGarantiesFinancières.convertirEnValueType(garantiesFinancières.motif),
-  statut: StatutGarantiesFinancières.convertirEnValueType(garantiesFinancières.statut),
+  statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.convertirEnValueType(
+    garantiesFinancières.statut,
+  ),
   type: Candidature.TypeGarantiesFinancières.convertirEnValueType(garantiesFinancières.type),
   ...(garantiesFinancières.dateÉchéance && {
     dateÉchéance: DateTime.convertirEnValueType(garantiesFinancières.dateÉchéance),

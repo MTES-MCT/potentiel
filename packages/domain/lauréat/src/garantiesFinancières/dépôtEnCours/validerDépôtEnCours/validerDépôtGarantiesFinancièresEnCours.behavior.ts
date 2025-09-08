@@ -3,7 +3,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { StatutGarantiesFinancières } from '../..';
 
 export function applyDépôtGarantiesFinancièresEnCoursValidéV1(
   this: GarantiesFinancièresAggregate,
@@ -14,7 +13,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidéV1(
   const dépôtValidé = this.dépôtsEnCours;
 
   this.actuelles = {
-    statut: StatutGarantiesFinancières.validé,
+    statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
     type: dépôtValidé ? dépôtValidé.type : Candidature.TypeGarantiesFinancières.typeInconnu,
     dateÉchéance: dépôtValidé && dépôtValidé.dateÉchéance,
     dateConstitution: dépôtValidé && dépôtValidé.dateConstitution,
@@ -32,7 +31,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
   }: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
 ) {
   this.actuelles = {
-    statut: StatutGarantiesFinancières.validé,
+    statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined,
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),

@@ -2,7 +2,6 @@ import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 
-import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 
 export function applyModifierGarantiesFinancières(
@@ -12,7 +11,7 @@ export function applyModifierGarantiesFinancières(
   }: Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent,
 ) {
   this.actuelles = {
-    statut: StatutGarantiesFinancières.validé,
+    statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
     ...this.actuelles,
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),

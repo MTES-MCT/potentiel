@@ -5,7 +5,7 @@ import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg
 export const typeGarantiesFinancièresImportéProjector = async ({
   payload: { identifiantProjet, importéLe, type, dateÉchéance },
 }: Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent) => {
-  await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,

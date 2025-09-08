@@ -55,7 +55,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       const garantiesFinancièresActuelles =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
@@ -153,7 +153,7 @@ type MapToProps = (params: {
   identifiantProjet: string;
   contactPorteurs: string[];
   utilisateur: Utilisateur.ValueType;
-  garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  garantiesFinancièresActuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
   mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
@@ -337,7 +337,7 @@ const mapToProps: MapToProps = ({
 };
 
 type MapGarantiesFinancièrestoProps = {
-  garantiesFinancières: GarantiesFinancières.GarantiesFinancièresReadModel;
+  garantiesFinancières: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
 };
 
 const mapGarantiesFinancièrestoProps = ({

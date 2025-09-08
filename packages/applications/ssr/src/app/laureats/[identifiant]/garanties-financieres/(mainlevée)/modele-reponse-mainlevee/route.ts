@@ -36,12 +36,13 @@ export const GET = async (
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
 
-      const gf = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue,
-        },
-      });
+      const gf =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue,
+          },
+        });
 
       const mainlevéeEnCours = (
         await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({

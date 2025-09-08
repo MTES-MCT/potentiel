@@ -37,7 +37,7 @@ export const getGarantiesFinancières = async (
     }
 
     const garantiesFinancièresActuelles =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });

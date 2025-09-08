@@ -1,6 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 
 export function applyGarantiesFinancièresÉchues(
@@ -8,6 +7,6 @@ export function applyGarantiesFinancièresÉchues(
   _: Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent,
 ) {
   if (this.actuelles) {
-    this.actuelles.statut = StatutGarantiesFinancières.échu;
+    this.actuelles.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
   }
 }

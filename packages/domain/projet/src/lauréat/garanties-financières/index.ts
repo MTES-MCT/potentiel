@@ -5,9 +5,11 @@ export * from './mainlevée/mainlevéeGarantiesFinancières.usecases';
 
 // Queries
 export * from './dépôt/dépôtGarantiesFinancières.queries';
+export * from './actuelles/garantiesFinancièresActuelles.queries';
 
 // Entities
 export * from './dépôt/dépôtGarantiesFinancières.entity';
+export * from './actuelles/garantiesFinancièresActuelles.entity';
 
 // Events
 export * from './garantiesFinancières.event';
@@ -17,10 +19,16 @@ export * as GarantiesFinancières from './garantiesFinancières.valueType';
 export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
+export * as StatutGarantiesFinancières from './statutGarantiesFinancières.valueType';
 
 export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
 export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRéponseDemandeMainlevée.valueType';
+
+/**
+ * TODO : remove when fully migrated
+ */
+export { GarantiesFinancièresDétails } from './actuelles/garantiesFinancièresDétails.type';
 
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';

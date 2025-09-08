@@ -182,12 +182,13 @@ void (async () => {
         continue;
       }
 
-      const gf = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+      const gf =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
       const filePath = join(directoryPath, file.name);
       const fileBuffer = await readFile(filePath);

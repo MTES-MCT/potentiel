@@ -7,7 +7,7 @@ import { GarantiesFinancièresActuelles } from './garantiesFinancièresActuelles
 
 type MapToGarantiesFinancièresActuellesActionsProps = {
   role: Role.ValueType;
-  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
+  garantiesFinancières: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
   dépôt: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
   achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;

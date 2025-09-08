@@ -1,17 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
 import { StatutGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
-import { GarantiesFinancièresDetails } from '../types';
+import { Candidature, IdentifiantProjet } from '../../../..';
+import { GarantiesFinancièresDétails } from '../garantiesFinancièresDétails.type';
 
-export type GarantiesFinancièresReadModel = {
+type GarantiesFinancièresReadModel = {
   type: Candidature.TypeGarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
   dateÉchéance?: DateTime.ValueType;
@@ -21,7 +20,7 @@ export type GarantiesFinancièresReadModel = {
   validéLe?: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
-    par?: IdentifiantUtilisateur.ValueType;
+    par?: Email.ValueType;
   };
 };
 
@@ -70,7 +69,7 @@ const mapToReadModel = ({
   garantiesFinancières,
   identifiantProjetValueType,
 }: {
-  garantiesFinancières: GarantiesFinancièresDetails;
+  garantiesFinancières: GarantiesFinancièresDétails;
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 }): ConsulterGarantiesFinancièresReadModel => ({
   identifiantProjet: identifiantProjetValueType,
@@ -93,7 +92,7 @@ export const mapGarantiesFinancièresToReadModel = ({
   },
   identifiantProjetValueType,
 }: {
-  garantiesFinancières: GarantiesFinancièresDetails;
+  garantiesFinancières: GarantiesFinancièresDétails;
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 }) => ({
   statut: StatutGarantiesFinancières.convertirEnValueType(statut),

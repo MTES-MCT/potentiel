@@ -3,7 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '../..';
+import { StatutMainlevéeGarantiesFinancières } from '../..';
 import { DemandeMainlevéeNonTrouvéeError } from '../demandeMainlevéeNonTrouvée.error';
 
 type Options = {
@@ -50,6 +50,6 @@ export function applyDemandeMainlevéeGarantiesFinancièresAccordée(
     this.demandeMainlevéeEnCours = { statut: StatutMainlevéeGarantiesFinancières.accordé };
   }
   if (this.actuelles) {
-    this.actuelles.statut = StatutGarantiesFinancières.levé;
+    this.actuelles.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.levé;
   }
 }

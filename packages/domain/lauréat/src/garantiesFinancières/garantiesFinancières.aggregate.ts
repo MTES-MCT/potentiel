@@ -7,7 +7,7 @@ import {
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { StatutGarantiesFinancières, StatutMainlevéeGarantiesFinancières } from '.';
+import { StatutMainlevéeGarantiesFinancières } from '.';
 
 import { applyDépôtGarantiesFinancièresSoumis } from './dépôtEnCours/soumettreDépôt/soumettreDépôtGarantiesFinancières.behavior';
 import { applyDépôtGarantiesFinancièresEnCoursSupprimé } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
@@ -65,7 +65,7 @@ export type GarantiesFinancièresEvent =
 
 export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEvent> & {
   actuelles?: {
-    statut: StatutGarantiesFinancières.ValueType;
+    statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.ValueType;
     type: Candidature.TypeGarantiesFinancières.ValueType;
     dateÉchéance?: DateTime.ValueType;
     dateConstitution?: DateTime.ValueType;

@@ -38,7 +38,7 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     },
   );
 
-  await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
       ...gfActuelles,

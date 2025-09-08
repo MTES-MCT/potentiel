@@ -8,7 +8,7 @@ import { removeProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const garantiesFinancièresRebuildTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
-  await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${id}`,
   );
   await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(

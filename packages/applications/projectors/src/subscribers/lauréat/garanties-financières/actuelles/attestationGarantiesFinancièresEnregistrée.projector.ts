@@ -5,7 +5,7 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 export const attestationGarantiesFinancièresEnregistréeProjector = async ({
   payload: { identifiantProjet, attestation, dateConstitution, enregistréLe, enregistréPar },
 }: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent) => {
-  await updateOneProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await updateOneProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
       garantiesFinancières: {
