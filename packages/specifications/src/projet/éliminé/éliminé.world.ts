@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 
 import { RecoursWord } from './recours/recours.world';
 import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
@@ -67,5 +67,18 @@ export class ÉliminéWorld {
     this.#dateDésignation = new Date('2022-10-27').toISOString();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#2##23`);
+  }
+
+  // statut: StatutProjet.ValueType;
+  // attestationDésignation?: DocumentProjet.ValueType;
+  // unitéPuissance: UnitéPuissance.ValueType;
+
+  mapToExpected() {
+    const expected: Éliminé.ConsulterÉliminéReadModel = {
+      identifiantProjet: this.identifiantProjet,
+      ...this.notifierEliminéFixture.mapToExpected(),
+    };
+
+    return expected;
   }
 }

@@ -6,6 +6,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { notifierLauréat } from '../../projet/lauréat/stepDefinitions/lauréat.given';
+import { notifierÉliminé } from '../../projet/éliminé/stepDefinitions/éliminé.given';
 
 import { importerCandidature } from './candidature.given';
 
@@ -43,6 +44,11 @@ Quand(
 Quand('le DGEC validateur notifie la candidature lauréate', async function (this: PotentielWorld) {
   const dateDésignation = DateTime.now().formatter();
   await notifierLauréat.call(this, dateDésignation);
+});
+
+Quand('le DGEC validateur notifie la candidature éliminée', async function (this: PotentielWorld) {
+  const dateDésignation = DateTime.now().formatter();
+  await notifierÉliminé.call(this, dateDésignation);
 });
 
 Quand(

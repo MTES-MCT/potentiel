@@ -97,10 +97,13 @@ EtantDonné(
 
 export async function notifierLauréat(this: PotentielWorld, dateDésignation?: string) {
   const candidature = this.candidatureWorld.importerCandidature;
+
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
     candidature.identifiantProjet,
   );
+
   this.lauréatWorld.identifiantProjet = identifiantProjetValue;
+
   const { nomProjet, notifiéLe } = this.lauréatWorld.notifierLauréatFixture.créer({
     nomProjet: candidature.values.nomProjetValue,
     localité: candidature.values.localitéValue,
@@ -120,44 +123,46 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
     période: identifiantProjetValue.période,
   });
 
-  const data = {
-    identifiantProjetValue: identifiantProjetValue.formatter(),
-    notifiéLeValue: notifiéLe,
-    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
-    attestationValue: {
-      format: `application/pdf`,
-    },
-    validateurValue: {
-      fonction: this.utilisateurWorld.validateurFixture.fonction,
-      nomComplet: this.utilisateurWorld.validateurFixture.nom,
-    },
-  };
+  try {
+    await mediator.send<Lauréat.NotifierLauréatUseCase>({
+      type: 'Lauréat.UseCase.NotifierLauréat',
+      data: {
+        identifiantProjetValue: identifiantProjetValue.formatter(),
+        notifiéLeValue: notifiéLe,
+        notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+        attestationValue: {
+          format: `application/pdf`,
+        },
+        validateurValue: {
+          fonction: this.utilisateurWorld.validateurFixture.fonction,
+          nomComplet: this.utilisateurWorld.validateurFixture.nom,
+        },
+      },
+    });
 
-  await mediator.send<Lauréat.NotifierLauréatUseCase>({
-    type: 'Lauréat.UseCase.NotifierLauréat',
-    data,
-  });
+    // L'invitation du porteur est normalement faite lors de la notification de la période
+    // Ce cas n'est utile que pour les tests
+    await mediator.send<InviterPorteurUseCase>({
+      type: 'Utilisateur.UseCase.InviterPorteur',
+      data: {
+        identifiantUtilisateurValue: candidature.values.emailContactValue,
+        identifiantsProjetValues: [identifiantProjetValue.formatter()],
+        invitéLeValue: notifiéLe,
+        invitéParValue: Email.system().formatter(),
+      },
+    });
 
-  // L'invitation du porteur est normalement faite lors de la notification de la période
-  // Ce cas n'est utile que pour les tests
-  await mediator.send<InviterPorteurUseCase>({
-    type: 'Utilisateur.UseCase.InviterPorteur',
-    data: {
-      identifiantUtilisateurValue: candidature.values.emailContactValue,
-      identifiantsProjetValues: [identifiantProjetValue.formatter()],
-      invitéLeValue: notifiéLe,
-      invitéParValue: Email.system().formatter(),
-    },
-  });
-
-  await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
-    type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
-    data: {
-      identifiantProjetValue: identifiantProjetValue.formatter(),
-      identifiantUtilisateurValue: candidature.values.emailContactValue,
-      autoriséLeValue: notifiéLe,
-      autoriséParValue: Email.system().formatter(),
-      raison: 'notification',
-    },
-  });
+    await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+      data: {
+        identifiantProjetValue: identifiantProjetValue.formatter(),
+        identifiantUtilisateurValue: candidature.values.emailContactValue,
+        autoriséLeValue: notifiéLe,
+        autoriséParValue: Email.system().formatter(),
+        raison: 'notification',
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
 }
