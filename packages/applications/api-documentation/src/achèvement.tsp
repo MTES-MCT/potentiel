@@ -15,9 +15,16 @@ model ProjetEnAttenteAchevement {
   prix: string;
   dateDCR: string;
   attestationConformiteUrl: url;
+  dateDésignation: string;
+  choixCoefficientK: boolean;
 }
 
 model TransmettreDateAchevementBody {
+  dateAchevement: string;
+}
+
+model TransmettreDateAchevementEnMasseBody {
+  identifiantProjet: string;
   dateAchevement: string;
 }
 
@@ -38,13 +45,24 @@ interface AchevementV1 {
   /**
    * Transmettre la date d'achèvement d'un projet
    *
-   * _NB: A terme, ce endpoint sera retiré_ et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_
+   * _NB: A terme, ce endpoint sera retiré et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_
    */
   @route("/laureats/{identifiantProjet}/achevement/date-achevement:transmettre")
   @post
   transmettreDateDAchevement(
     @path identifiantProjet: string,
     @body body: TransmettreDateAchevementBody,
+  ): {} | Error;
+
+  /**
+   * Transmettre les dates d'achèvement de plusieurs projets
+   *
+   * _NB: A terme, ce endpoint sera retiré et remplacé par /laureats/{identifiantProjet}/achevement/confirmer_
+   */
+  @route("/achevements")
+  @post
+  transmettreDateDAchevementEnMasse(
+    @body body: Array<TransmettreDateAchevementEnMasseBody>,
   ): {} | Error;
 }
 
@@ -53,6 +71,7 @@ interface AchevementV1 {
 interface AchevementV2 {
   /**
    * Liste les projets pour lesquels une attestation a été transmise, mais non encore confirmée.
+   * _NB: Dans un premier temps, ce endpoint n'est pas disponible. A terme, il remplacera /laureats/{identifiantProjet}/achevement/date-achevement:transmettre_
    */
   @route("/achevements/en-attente-confirmation")
   @get
