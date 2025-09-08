@@ -31,9 +31,6 @@ export const registerAccorderMainlevéeGarantiesFinancièresCommand = (
       accordéPar,
       réponseSignée,
     });
-
-    // TODO move to Garanties Financière Aggregate
-    await projet.lauréat.garantiesFinancières.annulerTâchesPlanififées();
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.AccorderMainlevée', handler);
 };
