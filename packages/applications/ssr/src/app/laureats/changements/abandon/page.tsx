@@ -116,10 +116,7 @@ export default async function Page({ searchParams }: PageProps) {
               value: statut,
             })),
         },
-      ];
-
-      if (utilisateur.role.estDGEC() || utilisateur.role.estDreal()) {
-        filters.push({
+        {
           label: 'Autorité instructrice',
           searchParamKey: 'autorite',
           options: Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
@@ -129,8 +126,8 @@ export default async function Page({ searchParams }: PageProps) {
               .exhaustive(),
             value: autorité,
           })),
-        });
-      }
+        },
+      ];
 
       return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
     }),

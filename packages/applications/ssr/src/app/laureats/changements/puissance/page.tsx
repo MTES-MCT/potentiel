@@ -80,10 +80,7 @@ export default async function Page({ searchParams }: PageProps) {
               value: statut,
             })),
         },
-      ];
-
-      if (utilisateur.role.estDGEC() || utilisateur.role.estDreal()) {
-        filters.push({
+        {
           label: 'Autorité instructrice',
           searchParamKey: 'autoriteInstructrice',
           options: Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
@@ -93,8 +90,8 @@ export default async function Page({ searchParams }: PageProps) {
               .exhaustive(),
             value: autorité,
           })),
-        });
-      }
+        },
+      ];
 
       return <ChangementPuissanceListPage list={mapToListProps(changements)} filters={filters} />;
     }),
