@@ -10,6 +10,7 @@ import {
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
   DocumentAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
 import { getProjetAggregateRootAdapter } from '../adapters/getProjetAggregateRoot.adapter';
@@ -35,6 +36,7 @@ export const setupProjet: SetupProjet = async (dependencies) => {
     récupérerProjetsEligiblesPreuveRecanditure:
       ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     consulterABénéficiéDuDélaiCDC2022: DélaiAdapter.consulterABénéficiéDuDélaiCDC2022Adapter,
+    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   });
 
   const unsetupÉliminé = await setupÉliminé(dependencies);

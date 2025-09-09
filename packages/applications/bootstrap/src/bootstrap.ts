@@ -6,7 +6,6 @@ import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
-import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
@@ -55,8 +54,6 @@ export const bootstrap = async ({
     setupDocumentProjet();
     const unsetupPériode = await setupPériode(allDependencies);
 
-    const unsetupTâche = await setupTâche();
-
     const unsetupProjet = await setupProjet(allDependencies);
     const unsetupGestionnaireRéseau = await setupRéseau();
 
@@ -66,7 +63,6 @@ export const bootstrap = async ({
       await unsetupHistorique();
       await unsetupProjet();
       await unsetupGestionnaireRéseau();
-      await unsetupTâche();
       await unsetupPériode();
       await unsetupUtilisateur();
       unsubscribe = undefined;

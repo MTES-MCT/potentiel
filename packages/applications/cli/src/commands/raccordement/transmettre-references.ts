@@ -6,10 +6,9 @@ import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { registerTâcheCommand } from '@potentiel-domain/tache';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { IdentifiantProjet, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
@@ -51,8 +50,12 @@ export default class TransmettreRéférences extends Command {
     registerDocumentProjetQueries({
       récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
     });
-    registerTâcheCommand({
-      loadAggregate,
+    Lauréat.Tâche.registerTâcheUseCases({
+      getProjetAggregateRoot: (identifiant) =>
+        ProjetAggregateRoot.get(identifiant, {
+          loadAggregate: loadAggregateV2,
+          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
+        }),
     });
   }
 

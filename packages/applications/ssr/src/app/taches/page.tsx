@@ -4,9 +4,9 @@ import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Tâche } from '@potentiel-domain/tache';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -52,7 +52,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         data: { cycle },
       });
 
-      const tâches = await mediator.send<Tâche.ListerTâchesQuery>({
+      const tâches = await mediator.send<Lauréat.Tâche.ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
           range: mapToRangeOptions({

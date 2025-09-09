@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
-import { Tâche } from '@potentiel-domain/tache';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâche } from '../tâche.world';
@@ -14,7 +14,7 @@ Alors(
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
 
     await waitForExpect(async () => {
-      const tâches = await mediator.send<Tâche.ListerTâchesQuery>({
+      const tâches = await mediator.send<Lauréat.Tâche.ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
           email: this.utilisateurWorld.porteurFixture.email,
@@ -33,7 +33,7 @@ Alors(
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
 
     await waitForExpect(async () => {
-      const tâches = await mediator.send<Tâche.ListerTâchesQuery>({
+      const tâches = await mediator.send<Lauréat.Tâche.ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
           email: this.utilisateurWorld.porteurFixture.email,
@@ -53,7 +53,7 @@ Alors(
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
     await waitForExpect(async () => {
-      const tâches = await mediator.send<Tâche.ListerTâchesQuery>({
+      const tâches = await mediator.send<Lauréat.Tâche.ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
           email: this.utilisateurWorld.porteurFixture.email,

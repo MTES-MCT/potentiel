@@ -10,6 +10,10 @@ import {
 } from './consulter/consulterNombreTâche.query';
 import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâche.query';
 
+// TODO : Ajouter un usecase
+// Command
+export { AcheverTâcheCommand } from './achever/acheverTâche.command';
+
 // Query
 export type TâcheQuery = ConsulterNombreTâchesQuery & ListerTâchesQuery;
 export type { ConsulterNombreTâchesQuery, ListerTâchesQuery };

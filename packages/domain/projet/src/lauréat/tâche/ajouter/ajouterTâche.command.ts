@@ -1,9 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-
 import * as Tâche from '../typeTâche.valueType';
-import { GetProjetAggregateRoot } from '../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type AjouterTâcheCommand = Message<
   'System.Tâche.Command.AjouterTâche',

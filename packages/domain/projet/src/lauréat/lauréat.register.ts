@@ -65,6 +65,7 @@ import {
 } from './garanties-financières/garantiesFinancières.register';
 import { registerInstallateurQueries } from './installateur';
 import { InstallateurQueryDependencies } from './installateur/installateur.register';
+import { registerTâcheQuery, registerTâcheUseCases, TâcheQueryDependencies } from './tâche';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesDependencies &
@@ -80,7 +81,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   GarantiesFinancièresQueryDependencies &
   ListerHistoriqueProjetDependencies &
   AchèvementQueryDependencies &
-  InstallateurQueryDependencies;
+  InstallateurQueryDependencies &
+  TâcheQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -107,6 +109,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerDélaiUseCases(dependencies);
   registerTâchePlanifiéeUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
+  registerTâcheUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -126,4 +129,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerGarantiesFinancièresQueries(dependencies);
   registerListerHistoriqueProjetQuery(dependencies);
   registerInstallateurQueries(dependencies);
+  registerTâcheQuery(dependencies);
 };

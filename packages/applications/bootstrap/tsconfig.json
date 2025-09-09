@@ -12,9 +12,6 @@
       "path": "../../domain/réseau"
     },
     {
-      "path": "../../domain/tâche"
-    },
-    {
       "path": "../../domain/document"
     },
     {
