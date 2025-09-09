@@ -136,7 +136,7 @@ export class LauréatWorld {
     this.#actionnaireWorld = new ActionnaireWorld();
     this.#puissanceWorld = new PuissanceWorld();
     this.#producteurWorld = new ProducteurWorld();
-    this.#installateurWorld = new InstallateurWorld();
+    this.#installateurWorld = new InstallateurWorld(this);
     this.#achèvementWorld = new AchèvementWorld();
     this.#fournisseurWorld = new FournisseurWorld();
     this.#délaiWorld = new DélaiWorld();

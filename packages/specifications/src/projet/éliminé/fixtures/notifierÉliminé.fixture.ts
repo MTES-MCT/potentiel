@@ -43,7 +43,7 @@ export class NotifierÉliminéFixture
 
   mapToExpected() {
     if (!this.aÉtéCréé) {
-      throw new Error("La fixture notifier éliminée n'a pas été créee");
+      throw new Error("La fixture notifier éliminé n'a pas été créee");
     }
     return {
       notifiéLe: DateTime.convertirEnValueType(this.notifiéLe),

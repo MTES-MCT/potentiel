@@ -43,7 +43,11 @@ Quand(
 
 Quand('le DGEC validateur notifie la candidature lauréate', async function (this: PotentielWorld) {
   const dateDésignation = DateTime.now().formatter();
-  await notifierLauréat.call(this, dateDésignation);
+  try {
+    await notifierLauréat.call(this, dateDésignation);
+  } catch (error) {
+    this.error = error as Error;
+  }
 });
 
 Quand('le DGEC validateur notifie la candidature éliminée', async function (this: PotentielWorld) {

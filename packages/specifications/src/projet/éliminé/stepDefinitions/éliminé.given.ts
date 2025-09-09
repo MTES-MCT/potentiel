@@ -11,10 +11,7 @@ import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefi
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
-
-  const dateDésignation = this.éliminéWorld.dateDésignation;
-
-  await notifierÉliminé.call(this, dateDésignation);
+  await notifierÉliminé.call(this);
 });
 
 EtantDonné(
@@ -30,7 +27,7 @@ EtantDonné(
 
     const dateDésignation = exemple['date notification']
       ? new Date(exemple['date notification']).toISOString()
-      : this.éliminéWorld.dateDésignation;
+      : undefined;
 
     await notifierÉliminé.call(this, dateDésignation);
   },
@@ -43,12 +40,10 @@ EtantDonné(
 
     await importerCandidaturePériodeLegacy.call(this, nomProjet, 'éliminé', exemple);
 
-    const dateDésignation = this.éliminéWorld.dateDésignation;
-
-    await notifierÉliminé.call(this, dateDésignation);
+    await notifierÉliminé.call(this);
   },
 );
-export async function notifierÉliminé(this: PotentielWorld, dateDésignation: string) {
+export async function notifierÉliminé(this: PotentielWorld, dateDésignation?: string) {
   const candidature = this.candidatureWorld.importerCandidature;
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
     candidature.identifiantProjet,
@@ -58,7 +53,7 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
 
-  this.éliminéWorld.notifierEliminéFixture.créer({
+  const { notifiéPar, notifiéLe } = this.éliminéWorld.notifierEliminéFixture.créer({
     notifiéPar: this.utilisateurWorld.validateurFixture.email,
     ...(dateDésignation ? { notifiéLe: dateDésignation } : {}),
   });
@@ -68,13 +63,12 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
   this.éliminéWorld.éliminéFixtures.set(candidature.values.nomProjetValue, {
     nom: candidature.values.nomProjetValue,
     identifiantProjet: identifiantProjetValue,
-    dateDésignation,
   });
 
   const data = {
     identifiantProjetValue: identifiantProjetValue.formatter(),
-    notifiéLeValue: dateDésignation,
-    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+    notifiéLeValue: notifiéLe,
+    notifiéParValue: notifiéPar,
     attestationValue: {
       format: `application/pdf`,
     },
@@ -96,7 +90,7 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
     data: {
       identifiantUtilisateurValue: candidature.values.emailContactValue,
       identifiantsProjetValues: [identifiantProjetValue.formatter()],
-      invitéLeValue: dateDésignation,
+      invitéLeValue: notifiéLe,
       invitéParValue: Email.system().formatter(),
     },
   });
@@ -106,7 +100,7 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
     data: {
       identifiantProjetValue: identifiantProjetValue.formatter(),
       identifiantUtilisateurValue: candidature.values.emailContactValue,
-      autoriséLeValue: dateDésignation,
+      autoriséLeValue: notifiéLe,
       autoriséParValue: Email.system().formatter(),
       raison: 'notification',
     },
