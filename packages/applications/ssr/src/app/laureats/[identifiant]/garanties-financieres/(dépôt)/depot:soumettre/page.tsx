@@ -2,8 +2,7 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -40,8 +39,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     const dépôtGarantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjetValue },
       });
 

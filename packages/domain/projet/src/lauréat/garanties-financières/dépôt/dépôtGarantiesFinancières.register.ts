@@ -1,5 +1,9 @@
-import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
+import { GetProjetAggregateRoot } from '../../..';
 
+import {
+  ConsulterDépôtGarantiesFinancièresDependencies,
+  registerConsulterDépôtGarantiesFinancièresQuery,
+} from './consulter/consulterDépôtGarantiesFinancières.query';
 import { registerModifierDépôtGarantiesFinancièresEnCoursCommand } from './modifier/modifierDépôtGarantiesFinancières.command';
 import { registerModifierDépôtGarantiesFinancièresEnCoursUseCase } from './modifier/modifierDépôtGarantiesFinancières.usecase';
 import { registerSoumettreDépôtGarantiesFinancièresCommand } from './soumettre/soumettreDépôtGarantiesFinancières.command';
@@ -8,8 +12,13 @@ import { registerSupprimerDépôtGarantiesFinancièresCommand } from './supprime
 import { registerSupprimerDépôtGarantiesFinancièresUseCase } from './supprimer/supprimerDépôtGarantiesFinancières.usecase';
 import { registerValiderDépôtGarantiesFinancièresEnCoursCommand } from './valider/validerDépôtGarantiesFinancières.command';
 import { registerValiderDépôtGarantiesFinancièresEnCoursUseCase } from './valider/validerDépôtGarantiesFinancières.usecase';
+import {
+  ListerDépôtsGarantiesFinancièresDependencies,
+  registerListerDépôtsGarantiesFinancièresQuery,
+} from './lister/listerDépôtGarantiesFinancières.query';
 
-export type DépôtGarantiesFinancièresQueryDependencies = {};
+export type DépôtGarantiesFinancièresQueryDependencies =
+  ConsulterDépôtGarantiesFinancièresDependencies & ListerDépôtsGarantiesFinancièresDependencies;
 
 export type DépôtGarantiesFinancièresUseCasesDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -32,5 +41,8 @@ export const registerDépôtGarantiesFinancièresUseCases = ({
 };
 
 export const registerDépôtGarantiesFinancièresQueries = (
-  _: DépôtGarantiesFinancièresQueryDependencies,
-) => {};
+  dependencies: DépôtGarantiesFinancièresQueryDependencies,
+) => {
+  registerConsulterDépôtGarantiesFinancièresQuery(dependencies);
+  registerListerDépôtsGarantiesFinancièresQuery(dependencies);
+};

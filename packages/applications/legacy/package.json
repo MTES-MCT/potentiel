@@ -23,7 +23,6 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/inmemory-referential": "*",
-    "@potentiel-domain/laureat": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-libraries/monads": "*",

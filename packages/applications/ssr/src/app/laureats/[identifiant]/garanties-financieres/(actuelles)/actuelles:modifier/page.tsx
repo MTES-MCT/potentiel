@@ -2,9 +2,8 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { CahierDesCharges, IdentifiantProjet } from '@potentiel-domain/projet';
+import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -41,7 +40,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     const garantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjetValue },
       });
@@ -63,7 +62,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 type MapToProps = (
-  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
+  garantiesFinancières: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
   cahierDesCharges: CahierDesCharges.ValueType,
 ) => ModifierGarantiesFinancièresActuellesPageProps;
 

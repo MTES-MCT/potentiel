@@ -10,8 +10,12 @@ import { registerDémarrerInstructionMainlevéeGarantiesFinancièresCommand } fr
 import { registerDémarrerInstructionMainlevéeGarantiesFinancièresUseCase } from './démarrerInstruction/démarrerInstructionMainlevéeGarantiesFinancières.usecase';
 import { registerRejeterMainlevéeGarantiesFinancièresUseCase } from './rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
 import { registerRejeterMainlevéeGarantiesFinancièresCommand } from './rejeter/rejeterMainlevéeGarantiesFinancières.command';
+import {
+  ListerMainlevéesQueryDependencies,
+  registerListerMainlevéesQuery,
+} from './lister/listerMainlevéesGarantiesFinancières.query';
 
-export type MainlevéeGarantiesFinancièresQueryDependencies = {};
+export type MainlevéeGarantiesFinancièresQueryDependencies = ListerMainlevéesQueryDependencies;
 
 export type MainlevéeGarantiesFinancièresUseCasesDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -34,5 +38,7 @@ export const registerMainlevéeGarantiesFinancièresUseCases = ({
 };
 
 export const registerMainlevéeGarantiesFinancièresQueries = (
-  _: MainlevéeGarantiesFinancièresQueryDependencies,
-) => {};
+  dependencies: MainlevéeGarantiesFinancièresQueryDependencies,
+) => {
+  registerListerMainlevéesQuery(dependencies);
+};

@@ -1,6 +1,5 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { getArchivesGf, getGfActuelles } from './_utils';
 
@@ -11,7 +10,7 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
   const actuelles = await getGfActuelles(identifiantProjet);
 
   if (actuelles) {
-    await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+    await upsertProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
       `archives-garanties-financieres|${identifiantProjet}`,
       {
         identifiantProjet,
@@ -30,11 +29,11 @@ export const historiqueGarantiesFinancièresEffacéProjector = async ({
     );
   }
 
-  await removeProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
   );
 
-  await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
   );
 };

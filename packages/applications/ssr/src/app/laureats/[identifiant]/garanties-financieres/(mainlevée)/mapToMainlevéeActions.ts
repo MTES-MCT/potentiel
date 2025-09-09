@@ -1,11 +1,11 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { MainlevéeEnCoursProps } from './MainlevéeEnCours';
 
 type GetMainlevéeActions = {
   role: Role.ValueType;
-  mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
+  mainlevée?: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'][number];
 };
 
 export const mapToMainlevéeActions = ({ role, mainlevée }: GetMainlevéeActions) => {

@@ -1,5 +1,4 @@
 import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -7,9 +6,9 @@ import { GarantiesFinancièresActuelles } from './garantiesFinancièresActuelles
 
 type MapToGarantiesFinancièresActuellesActionsProps = {
   role: Role.ValueType;
-  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
-  dépôt: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
-  mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
+  garantiesFinancières: Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel;
+  dépôt: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
+  mainlevée?: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'][number];
   achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
   estAbandonné: boolean;
 };

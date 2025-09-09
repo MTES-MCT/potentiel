@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -21,11 +20,11 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     }
   }
 
-  await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAAccorder.demande.demandéeLe}`,
     {
       ...mainlevéeAAccorder,
-      statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
       accord: {
         accordéeLe: accordéLe,
         accordéePar: accordéPar,
@@ -38,7 +37,7 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     },
   );
 
-  await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
       ...gfActuelles,

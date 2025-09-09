@@ -1,5 +1,4 @@
 import { Lauréat } from '@potentiel-domain/projet';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -17,7 +16,7 @@ export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsPr
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    GarantiesFinancières.TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+    Lauréat.GarantiesFinancières.TypeDocumentRéponseMainlevée.courrierRéponseMainlevéeAccordéeValueType.formatter(),
     accordéLe,
     format,
   ).formatter();

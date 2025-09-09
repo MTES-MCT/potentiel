@@ -1,9 +1,8 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -27,7 +26,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
     const garantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -51,7 +50,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
 type MapToProps = (params: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  garantiesFinancières: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  garantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 }) => TransmettreAttestationConformitéPageProps;
 
 const mapToProps: MapToProps = ({ identifiantProjet, garantiesFinancières }) => {

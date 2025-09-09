@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -28,7 +27,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
   const gfActuelles = await getGfActuelles(identifiantProjet);
 
   if (gfActuelles) {
-    const motif: GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
+    const motif: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
       gfActuelles.garantiesFinancières.statut === 'échu'
         ? 'renouvellement des garanties financières échues'
         : 'modification des garanties financières';
@@ -44,7 +43,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
       motif,
     };
 
-    await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
+    await upsertProjection<Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
       `archives-garanties-financieres|${identifiantProjet}`,
       {
         identifiantProjet,
@@ -52,12 +51,12 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
       },
     );
 
-    await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet}`,
       {
         ...gfActuelles,
         garantiesFinancières: {
-          statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
+          statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
           type: dépôtExistant.dépôt.type,
           ...(dépôtExistant.dépôt.dateÉchéance && {
             dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
@@ -74,7 +73,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
       },
     );
   } else {
-    await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+    await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
       `garanties-financieres|${identifiantProjet}`,
       {
         identifiantProjet,
@@ -97,7 +96,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
     );
   }
 
-  await removeProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${identifiantProjet}`,
   );
 };

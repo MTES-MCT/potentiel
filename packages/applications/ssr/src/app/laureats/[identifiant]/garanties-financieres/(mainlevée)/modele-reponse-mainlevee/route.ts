@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import {
@@ -36,15 +35,16 @@ export const GET = async (
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
 
-      const gf = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: {
-          identifiantProjetValue,
-        },
-      });
+      const gf =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue,
+          },
+        });
 
       const mainlevéeEnCours = (
-        await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             identifiantProjet: identifiantProjet.formatter(),

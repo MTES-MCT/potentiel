@@ -30,6 +30,7 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
           utilisateursAyantAccès: Where.contain(utilisateur.identifiantUtilisateur),
         },
       });
+
       return {
         type: 'projet',
         identifiantProjets: items.map(({ identifiantProjet }) =>

@@ -2,14 +2,12 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
@@ -37,17 +35,11 @@ export default async function Page({ searchParams }: PageProps) {
       const motif = searchParams?.motif;
       const statut = searchParams?.statut;
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
       const demandeMainlevéeDesGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
-            utilisateur: {
-              régionDreal,
-              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-              rôle: utilisateur.role.nom,
-            },
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
             ...(appelOffre && { appelOffre }),
             ...(motif && {
               motif:
@@ -57,7 +49,7 @@ export default async function Page({ searchParams }: PageProps) {
             }),
             ...(statut && {
               statut:
-                GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+                Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
                   statut,
                 ).statut,
             }),
@@ -80,7 +72,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Statut de mainlevée`,
           searchParamKey: 'statut',
-          options: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.map(
+          options: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.map(
             (statut) => ({
               label: convertStatutMainlevéeForView(statut),
               value: statut,
@@ -123,7 +115,7 @@ const mapToListProps = ({
   range,
   total,
   isDreal,
-}: GarantiesFinancières.ListerMainlevéesReadModel & {
+}: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel & {
   isDreal: boolean;
 }): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(
@@ -137,7 +129,7 @@ const mapToListProps = ({
       appelOffre,
       peutInstruireMainlevée:
         isDreal &&
-        !GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+        !Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
           statut.statut,
         ).estRejeté(),
     }),

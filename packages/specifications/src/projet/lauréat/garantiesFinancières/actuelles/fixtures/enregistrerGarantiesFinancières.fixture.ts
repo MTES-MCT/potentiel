@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -108,8 +107,8 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
       this.garantiesFinancières,
     );
-    const readModel: GarantiesFinancières.GarantiesFinancièresReadModel = {
-      statut: GarantiesFinancières.StatutGarantiesFinancières.validé,
+    const readModel: Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel = {
+      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
       type: gf.type,
       dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
       dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),

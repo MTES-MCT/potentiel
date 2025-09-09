@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Accès, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -55,7 +54,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       const garantiesFinancièresActuelles =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
@@ -68,15 +67,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       // les archives ne sont visibles que pour les DREAL et DGEC
       // on limite donc la query à ces utilisateurs pour gagner en perf
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
-        ? await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-            data: { identifiantProjetValue: identifiantProjet.formatter() },
-          })
+        ? await mediator.send<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>(
+            {
+              type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+              data: { identifiantProjetValue: identifiantProjet.formatter() },
+            },
+          )
         : Option.none;
 
       const dépôtEnCoursGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
@@ -88,12 +89,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         );
 
-      const mainlevéesList = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const mainlevéesList =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
@@ -116,10 +118,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         appelOffres,
         mainlevée: mainlevéesList.items.filter(
           (item) =>
-            !item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
+            !item.statut.estÉgaleÀ(
+              Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté,
+            ),
         ),
         historiqueMainlevée: mainlevéesList.items.filter((item) =>
-          item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
+          item.statut.estÉgaleÀ(
+            Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté,
+          ),
         ),
         estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
         contactPorteurs: Option.match(accèsProjet)
@@ -153,14 +159,14 @@ type MapToProps = (params: {
   identifiantProjet: string;
   contactPorteurs: string[];
   utilisateur: Utilisateur.ValueType;
-  garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
-  dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
+  garantiesFinancièresActuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  dépôtEnCoursGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
-  mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
+  mainlevée: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'];
   appelOffres: AppelOffre.AppelOffreReadModel;
-  historiqueMainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
+  historiqueMainlevée: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'];
   estAbandonné: boolean;
-  archivesGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
+  archivesGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
 const mapToProps: MapToProps = ({
@@ -337,7 +343,7 @@ const mapToProps: MapToProps = ({
 };
 
 type MapGarantiesFinancièrestoProps = {
-  garantiesFinancières: GarantiesFinancières.GarantiesFinancièresReadModel;
+  garantiesFinancières: Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel;
 };
 
 const mapGarantiesFinancièrestoProps = ({

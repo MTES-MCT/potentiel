@@ -1,9 +1,9 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
+  statut?: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
 };
 
 export const dépôt = {

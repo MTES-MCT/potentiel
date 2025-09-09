@@ -6,15 +6,10 @@ import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import { registerLauréatQueries } from '@potentiel-domain/laureat';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { registerTâcheCommand } from '@potentiel-domain/tache';
-import {
-  DocumentAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
@@ -55,11 +50,6 @@ export default class TransmettreRéférences extends Command {
     });
     registerDocumentProjetQueries({
       récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
-    });
-    registerLauréatQueries({
-      find: findProjection,
-      list: listProjection,
-      récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     });
     registerTâcheCommand({
       loadAggregate,

@@ -1,3 +1,5 @@
+import { Find } from '@potentiel-domain/entity';
+
 import { GetProjetAggregateRoot } from '../../..';
 
 import { registerEnregistrerGarantiesFinancièresCommand } from './enregistrer/enregistrerGarantiesFinancières.command';
@@ -7,8 +9,12 @@ import { registerEnregistrerAttestationGarantiesFinancièresUseCase } from './en
 import { registerModifierGarantiesFinancièresCommand } from './modifier/modifierGarantiesFinancières.command';
 import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { registerÉchoirGarantiesFinancièresCommand } from './échoir/échoirGarantiesFinancières.command';
+import { registerConsulterGarantiesFinancièresQuery } from './consulter/consulterGarantiesFinancières.query';
+import { registerConsulterArchivesGarantiesFinancièresQuery } from './archives/consulter/consulterArchivesGarantiesFinancières.query';
 
-export type GarantiesFinancièresActuellesQueryDependencies = {};
+export type GarantiesFinancièresActuellesQueryDependencies = {
+  find: Find;
+};
 
 export type GarantiesFinancièresActuellesUseCasesDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -30,5 +36,8 @@ export const registerGarantiesFinancièresActuellesUseCases = ({
 };
 
 export const registerGarantiesFinancièresActuellesQueries = (
-  _: GarantiesFinancièresActuellesQueryDependencies,
-) => {};
+  dependencies: GarantiesFinancièresActuellesQueryDependencies,
+) => {
+  registerConsulterGarantiesFinancièresQuery(dependencies);
+  registerConsulterArchivesGarantiesFinancièresQuery(dependencies);
+};

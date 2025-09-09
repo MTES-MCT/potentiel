@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -44,7 +43,7 @@ export class GarantiesFinancièresActuellesWorld {
       ...otherProps,
     };
   }
-  mapToExpected(): GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
     const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
       .filter((action) => action.aÉtéCréé)
@@ -59,12 +58,12 @@ export class GarantiesFinancièresActuellesWorld {
       ? ({
           type: Candidature.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières),
           dateÉchéance: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
-          statut: GarantiesFinancières.StatutGarantiesFinancières.validé,
+          statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
           dernièreMiseÀJour: {
             date: DateTime.convertirEnValueType(notifiéLe),
           },
-        } satisfies GarantiesFinancières.GarantiesFinancièresReadModel)
-      : ({} as GarantiesFinancières.GarantiesFinancièresReadModel);
+        } satisfies Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel)
+      : ({} as Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel);
 
     const garantiesFinancières = actions.reduce(
       (prev, curr) => ({
@@ -78,7 +77,7 @@ export class GarantiesFinancièresActuellesWorld {
       garantiesFinancières.dateÉchéance && garantiesFinancières.dateÉchéance.estPassée();
 
     if (sontÉchues) {
-      garantiesFinancières.statut = GarantiesFinancières.StatutGarantiesFinancières.échu;
+      garantiesFinancières.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
     }
     return {
       identifiantProjet,

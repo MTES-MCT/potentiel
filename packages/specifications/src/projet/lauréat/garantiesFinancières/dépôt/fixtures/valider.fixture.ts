@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world';
@@ -46,7 +46,7 @@ export class ValiderDépôtGarantiesFinancièresFixture extends AbstractFixture<
 
     return {
       validéLe: DateTime.convertirEnValueType(this.validéLe),
-      statut: GarantiesFinancières.StatutGarantiesFinancières.validé,
+      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
       dernièreMiseÀJour: {
         date: DateTime.convertirEnValueType(this.validéLe),
         par: Email.convertirEnValueType(this.validéPar),

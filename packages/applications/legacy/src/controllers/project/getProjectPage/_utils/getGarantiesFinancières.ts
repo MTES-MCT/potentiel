@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -16,12 +15,10 @@ const getMotifGfEnAttente = async (
   }
 
   const gfEnAttente =
-    await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-      {
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      },
-    );
+    await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
 
   return Option.isSome(gfEnAttente) ? gfEnAttente.motif.motif : undefined;
 };
@@ -37,14 +34,14 @@ export const getGarantiesFinancières = async (
     }
 
     const garantiesFinancièresActuelles =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
     const dépôtEnCoursGarantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 

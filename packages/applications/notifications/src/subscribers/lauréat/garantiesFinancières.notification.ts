@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import {
@@ -14,7 +13,7 @@ import {
 } from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
-export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
+export type SubscriptionEvent = Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
 export type Execute = Message<
   'System.Notification.Lauréat.GarantiesFinancières',

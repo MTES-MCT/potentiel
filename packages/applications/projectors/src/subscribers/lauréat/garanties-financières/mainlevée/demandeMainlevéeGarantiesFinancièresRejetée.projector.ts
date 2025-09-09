@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -9,11 +8,11 @@ export const demandeMainlevéeGarantiesFinancièresRejetéeProjector = async ({
 }: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent) => {
   const mainlevéeARejeter = await getMainlevéeGf(identifiantProjet);
 
-  await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeARejeter.demande.demandéeLe}`,
     {
       ...mainlevéeARejeter,
-      statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
       rejet: {
         rejetéLe,
         rejetéPar,

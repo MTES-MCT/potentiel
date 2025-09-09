@@ -3,7 +3,6 @@ import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -26,13 +25,14 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
-        },
-      });
+      const actualReadModel =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+          },
+        });
 
       expect(actualReadModel.items).to.be.length(1);
 
@@ -64,13 +64,14 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          estEnCours: true,
-        },
-      });
+      const actualReadModel =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            estEnCours: true,
+          },
+        });
 
       expect(actualReadModel.items).to.be.length(0);
     });
@@ -93,13 +94,15 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
-        },
-      });
+      const actualReadModel =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            statut:
+              Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
+          },
+        });
 
       expect(actualReadModel.items).to.be.length(1);
 
@@ -143,13 +146,14 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
-        },
-      });
+      const actualReadModel =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
+          },
+        });
 
       expect(actualReadModel.items).to.be.length(1);
 
@@ -190,7 +194,7 @@ Alors(
         }
 
         const actualGarantiesFinancières =
-          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
             type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
             data: {
               identifiantProjetValue: identifiantProjet.formatter(),
@@ -223,13 +227,14 @@ Alors(
     const motif = exemple['motif'];
 
     await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
-        },
-      });
+      const actualReadModel =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+          },
+        });
 
       expect(actualReadModel.items).to.be.length(1);
 

@@ -3,8 +3,7 @@ import Link from 'next/link';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { StatutMainlevéeBadge } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/StatutMainlevéeBadge';
@@ -15,7 +14,7 @@ import { convertMotifMainlevéeForView } from '@/app/laureats/[identifiant]/gara
 export type ListItemDemandeMainlevéeProps = {
   demandéLe: Iso8601DateTime;
   identifiantProjet: string;
-  statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
+  statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType;
   misÀJourLe: Iso8601DateTime;
   motif: string;
   nomProjet: string;

@@ -4,9 +4,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
@@ -78,7 +77,7 @@ Alors(
 
     await waitForExpect(async () => {
       const garantiesFinancièresActuelles =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
@@ -112,12 +111,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualArchivesGarantiesFinancièresReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>(
+          {
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
           },
-        });
+        );
 
       assert(Option.isSome(actualArchivesGarantiesFinancièresReadModel));
 
@@ -151,7 +152,9 @@ Alors(
 
       expect(
         actualArchivesGarantiesFinancièresReadModel.archives[0].motif.estÉgaleÀ(
-          GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(raisonValue),
+          Lauréat.GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(
+            raisonValue,
+          ),
         ),
       ).to.be.true;
 
@@ -187,7 +190,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
@@ -203,7 +206,7 @@ Alors(
 
 const getGarantiesFinancières = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   const actualReadModel =
-    await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+    await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
       type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),

@@ -1,13 +1,12 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -100,7 +99,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           renvoiSoumisAuxGarantiesFinancieres:
             appelOffres.garantiesFinancières.renvoiSoumisAuxGarantiesFinancieres ?? '',
           soumisGF: formatBoolean(
-            GarantiesFinancières.appelOffreSoumisAuxGarantiesFinancières({
+            Lauréat.GarantiesFinancières.appelOffreSoumisAuxGarantiesFinancières({
               appelOffre: appelOffres,
               période: identifiantProjet.appelOffre,
             }),

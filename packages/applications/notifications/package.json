@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
-    "@potentiel-domain/laureat": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/utilisateur": "*",

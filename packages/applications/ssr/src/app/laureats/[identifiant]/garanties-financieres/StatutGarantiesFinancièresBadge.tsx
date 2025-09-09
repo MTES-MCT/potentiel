@@ -2,10 +2,10 @@ import { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 const convertStatutGarantiesFinancièresToBadgeSeverity: Record<
-  GarantiesFinancières.StatutGarantiesFinancières.RawType,
+  Lauréat.GarantiesFinancières.StatutGarantiesFinancières.RawType,
   AlertProps.Severity
 > = {
   validé: 'success',
@@ -14,7 +14,7 @@ const convertStatutGarantiesFinancièresToBadgeSeverity: Record<
 };
 
 export const StatutGarantiesFinancièresBadge: FC<{
-  statut: GarantiesFinancières.StatutGarantiesFinancières.RawType;
+  statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.RawType;
 }> = ({ statut }) => (
   <Badge small noIcon severity={convertStatutGarantiesFinancièresToBadgeSeverity[statut]}>
     {statut.toLocaleUpperCase()}

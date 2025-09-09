@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -13,7 +12,7 @@ export const garantiesFinancièresEnregistréesProjector = async ({
     enregistréPar,
   },
 }: Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent) => {
-  await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
+  await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
     {
       identifiantProjet,
@@ -31,7 +30,7 @@ export const garantiesFinancièresEnregistréesProjector = async ({
     },
   );
 
-  await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
     `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
   );
 };

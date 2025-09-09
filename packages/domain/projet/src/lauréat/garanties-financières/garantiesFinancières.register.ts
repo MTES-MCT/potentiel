@@ -10,6 +10,7 @@ import {
   registerDépôtGarantiesFinancièresQueries,
   registerDépôtGarantiesFinancièresUseCases,
 } from './dépôt/dépôtGarantiesFinancières.register';
+import { registerGarantiesFinancièresEnAttenteQueries } from './en-attente/garantiesFinancièresEnAttente.register';
 import {
   MainlevéeGarantiesFinancièresQueryDependencies,
   MainlevéeGarantiesFinancièresUseCasesDependencies,
@@ -17,10 +18,9 @@ import {
   registerMainlevéeGarantiesFinancièresUseCases,
 } from './mainlevée/mainlevéeGarantiesFinancières.register';
 
-export type GarantiesFinancièresQueryDependencies =
-  | GarantiesFinancièresActuellesQueryDependencies
-  | DépôtGarantiesFinancièresQueryDependencies
-  | MainlevéeGarantiesFinancièresQueryDependencies;
+export type GarantiesFinancièresQueryDependencies = GarantiesFinancièresActuellesQueryDependencies &
+  DépôtGarantiesFinancièresQueryDependencies &
+  MainlevéeGarantiesFinancièresQueryDependencies;
 
 export type GarantiesFinancièresUseCasesDependencies =
   | GarantiesFinancièresActuellesUseCasesDependencies
@@ -41,4 +41,5 @@ export const registerGarantiesFinancièresQueries = (
   registerGarantiesFinancièresActuellesQueries(dependencies);
   registerDépôtGarantiesFinancièresQueries(dependencies);
   registerMainlevéeGarantiesFinancièresQueries(dependencies);
+  registerGarantiesFinancièresEnAttenteQueries(dependencies);
 };
