@@ -18,6 +18,7 @@ import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 import { setupGarantiesFinancières } from './setupGarantiesFinancière';
 import { setupInstallateur } from './setupInstallateur';
 import { setupTâche } from './setupTâche';
+import { setupInstallationAvecDispositifDeStockage } from './setupInstallationAvecDispositifDeStockage';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();
@@ -80,6 +81,8 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupTâchePlanifiée = await setupTâchePlanifiée(dependencies);
   const unsetupTâche = await setupTâche();
   const unsetupInstallateur = await setupInstallateur(dependencies);
+  const unsetupInstallationAvecDispositifDeStockage =
+    await setupInstallationAvecDispositifDeStockage(dependencies);
 
   return async () => {
     await lauréat.clearSubscriptions();
@@ -97,5 +100,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupTâchePlanifiée();
     await unsetupTâche();
     await unsetupInstallateur();
+    await unsetupInstallationAvecDispositifDeStockage();
   };
 };
