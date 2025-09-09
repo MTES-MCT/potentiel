@@ -2,10 +2,19 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
+import { ModifierInstallationAvecDispositifDeStockageFixture } from '../fixture/modifierInstallationAvecDispositifDeStockage.fixture';
 import { LauréatWorld } from '../../lauréat.world';
 
 export class InstallationAvecDispositifDeStockageWorld {
-  constructor(public readonly lauréatWorld: LauréatWorld) {}
+  #modifierInstallationAvecDispositifDeStockageFixture: ModifierInstallationAvecDispositifDeStockageFixture;
+  get modifierInstallationAvecDispositifDeStockageFixture() {
+    return this.#modifierInstallationAvecDispositifDeStockageFixture;
+  }
+
+  constructor(public readonly lauréatWorld: LauréatWorld) {
+    this.#modifierInstallationAvecDispositifDeStockageFixture =
+      new ModifierInstallationAvecDispositifDeStockageFixture();
+  }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     const installationAvecDispositifDeStockageÀLaCandidature =
@@ -22,6 +31,10 @@ export class InstallationAvecDispositifDeStockageWorld {
         installationAvecDispositifDeStockage: installationAvecDispositifDeStockageÀLaCandidature,
       };
 
+    if (this.#modifierInstallationAvecDispositifDeStockageFixture.aÉtéCréé) {
+      expected.installationAvecDispositifDeStockage =
+        this.#modifierInstallationAvecDispositifDeStockageFixture.installationAvecDispositifDeStockage;
+    }
     return expected;
   }
 }
