@@ -6,11 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture';
 
-import {
-  setAccordMainlevéeData,
-  setInstructionDemandeMainlevéeData,
-  setRejetMainlevéeData,
-} from './helper';
+import { setAccordMainlevéeData, setRejetMainlevéeData } from './helper';
 
 Quand(
   'le porteur demande la mainlevée des garanties financières',
@@ -66,40 +62,10 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières avec :`,
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
-
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-          data: setInstructionDemandeMainlevéeData({ identifiantProjet, utilisateur, date }),
-        },
-      );
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières`,
   async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-          data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
-        },
-      );
+      await démarrerInstructionMainlevée.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -232,4 +198,22 @@ export async function demanderMainlevée(
       demandéParValue: demandéPar,
     },
   });
+}
+
+export async function démarrerInstructionMainlevée(this: PotentielWorld) {
+  const { identifiantProjet } = this.lauréatWorld;
+
+  const { démarréeLe, démarréePar } =
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.passerEnInstruction.créer();
+
+  await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
+    {
+      type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        démarréLeValue: démarréeLe,
+        démarréParValue: démarréePar,
+      },
+    },
+  );
 }

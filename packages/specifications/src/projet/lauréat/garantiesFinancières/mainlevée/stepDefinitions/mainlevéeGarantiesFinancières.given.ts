@@ -6,12 +6,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
+import { setAccordMainlevéeData, setRejetMainlevéeData } from './helper';
 import {
-  setAccordMainlevéeData,
-  setInstructionDemandeMainlevéeData,
-  setRejetMainlevéeData,
-} from './helper';
-import { demanderMainlevée } from './mainlevéeGarantiesFinancières.when';
+  demanderMainlevée,
+  démarrerInstructionMainlevée,
+} from './mainlevéeGarantiesFinancières.when';
 
 EtantDonné(
   'une demande de mainlevée de garanties financières',
@@ -35,17 +34,9 @@ EtantDonné(
 EtantDonné(
   'une demande de mainlevée de garanties financières en instruction',
   async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
     await demanderMainlevée.call(this, {});
     await waitForSagasNotificationsAndProjectionsToFinish();
-
-    await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
-      {
-        type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-        data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
-      },
-    );
+    await démarrerInstructionMainlevée.call(this);
   },
 );
 

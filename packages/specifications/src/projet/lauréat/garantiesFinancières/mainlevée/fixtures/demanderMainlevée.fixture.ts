@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture';
 
@@ -41,5 +42,28 @@ export class DemanderMainlevéeFixture extends AbstractFixture<DemanderMainlevé
     this.#demandéPar = fixture.demandéPar;
     this.aÉtéCréé = true;
     return fixture;
+  }
+
+  mapToExpected() {
+    if (!this.aÉtéCréé) {
+      throw new Error(`Le fixture n'a pas été créée`);
+    }
+    const demandéeLe = DateTime.convertirEnValueType(this.demandéLe);
+    const demandéePar = Email.convertirEnValueType(this.demandéPar);
+    return {
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé,
+      demande: {
+        demandéeLe,
+        demandéePar,
+      },
+      motif:
+        Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+          this.motif,
+        ),
+      dernièreMiseÀJour: {
+        date: demandéeLe,
+        par: demandéePar,
+      },
+    };
   }
 }
