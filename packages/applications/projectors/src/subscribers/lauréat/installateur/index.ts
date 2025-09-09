@@ -6,6 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { installateurImportéProjector } from './installateurImporté.projector';
 import { installateurRebuilTriggeredProjector } from './installateurRebuildTrigerred.projector';
+import { installateurModifiéProjector } from './installateurModifié.projector';
 
 export type SubscriptionEvent = (Lauréat.Installateur.InstallateurEvent | RebuildTriggered) & Event;
 
@@ -16,6 +17,7 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, installateurRebuilTriggeredProjector)
       .with({ type: 'InstallateurImporté-V1' }, installateurImportéProjector)
+      .with({ type: 'InstallateurModifié-V1' }, installateurModifiéProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Installateur', handler);

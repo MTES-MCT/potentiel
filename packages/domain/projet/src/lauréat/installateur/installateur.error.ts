@@ -5,3 +5,9 @@ export class InstallateurDéjàTransmisError extends InvalidOperationError {
     super("L'installateur a déjà été transmis");
   }
 }
+
+export class InstallateurIdentiqueError extends InvalidOperationError {
+  constructor() {
+    super('Le nouvel installateur est identique à celui associé au projet');
+  }
+}
