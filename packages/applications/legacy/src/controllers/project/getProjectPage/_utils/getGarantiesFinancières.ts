@@ -16,12 +16,10 @@ const getMotifGfEnAttente = async (
   }
 
   const gfEnAttente =
-    await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-      {
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      },
-    );
+    await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
 
   return Option.isSome(gfEnAttente) ? gfEnAttente.motif.motif : undefined;
 };

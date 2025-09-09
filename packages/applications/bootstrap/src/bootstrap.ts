@@ -4,7 +4,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
-import { setupLauréat } from './setupLauréat';
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
@@ -59,7 +58,6 @@ export const bootstrap = async ({
     const unsetupTâche = await setupTâche();
 
     const unsetupProjet = await setupProjet(allDependencies);
-    const unsetupLauréat = await setupLauréat(allDependencies);
     const unsetupGestionnaireRéseau = await setupRéseau();
 
     getLogger().info('Application bootstrapped');
@@ -67,7 +65,6 @@ export const bootstrap = async ({
     unsubscribe = async () => {
       await unsetupHistorique();
       await unsetupProjet();
-      await unsetupLauréat();
       await unsetupGestionnaireRéseau();
       await unsetupTâche();
       await unsetupPériode();

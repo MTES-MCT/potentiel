@@ -5,7 +5,6 @@ import { redirect, RedirectType } from 'next/navigation';
 import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
@@ -48,22 +47,20 @@ export default async function Page({ searchParams }: PageProps) {
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
       const projetsAvecGarantiesFinancièresEnAttente =
-        await mediator.send<GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
-            data: {
-              utilisateur: {
-                régionDreal,
-                identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-                rôle: utilisateur.role.nom,
-              },
-              appelOffre,
-              motif,
-              cycle,
-              range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
+        await mediator.send<Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
+          data: {
+            utilisateur: {
+              régionDreal,
+              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+              rôle: utilisateur.role.nom,
             },
+            appelOffre,
+            motif,
+            cycle,
+            range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
           },
-        );
+        });
 
       const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
@@ -124,7 +121,7 @@ const mapToListProps = (
     items,
     range,
     total,
-  }: GarantiesFinancières.ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
+  }: Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteReadModel,
   role: Role.ValueType,
 ): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
   const mappedItems = items.map(

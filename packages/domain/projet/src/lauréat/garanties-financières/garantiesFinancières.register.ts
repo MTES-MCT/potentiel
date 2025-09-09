@@ -10,6 +10,7 @@ import {
   registerDépôtGarantiesFinancièresQueries,
   registerDépôtGarantiesFinancièresUseCases,
 } from './dépôt/dépôtGarantiesFinancières.register';
+import { registerGarantiesFinancièresEnAttenteQueries } from './en-attente/garantiesFinancièresEnAttente.register';
 import {
   MainlevéeGarantiesFinancièresQueryDependencies,
   MainlevéeGarantiesFinancièresUseCasesDependencies,
@@ -40,4 +41,5 @@ export const registerGarantiesFinancièresQueries = (
   registerGarantiesFinancièresActuellesQueries(dependencies);
   registerDépôtGarantiesFinancièresQueries(dependencies);
   registerMainlevéeGarantiesFinancièresQueries(dependencies);
+  registerGarantiesFinancièresEnAttenteQueries(dependencies);
 };

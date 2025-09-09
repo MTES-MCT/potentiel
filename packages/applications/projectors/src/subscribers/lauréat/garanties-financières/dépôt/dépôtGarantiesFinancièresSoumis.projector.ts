@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -30,7 +29,7 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
       },
     },
   );
-  await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
     `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
   );
 };

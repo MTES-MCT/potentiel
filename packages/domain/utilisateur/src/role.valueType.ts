@@ -193,9 +193,9 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
         listerDépôts: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
         listerProjetsAvecGarantiesFinancièresEnAttente:
-          'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
+          'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
-          'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+          'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
       },
       usecase: {

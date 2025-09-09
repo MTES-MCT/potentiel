@@ -7,12 +7,14 @@ export * from './mainlevée/mainlevéeGarantiesFinancières.usecases';
 export * from './dépôt/dépôtGarantiesFinancières.queries';
 export * from './actuelles/garantiesFinancièresActuelles.queries';
 export * from './mainlevée/mainlevéeGarantiesFinancières.queries';
+export * from './en-attente/garantiesFinancièresEnAttente.queries';
 
 // Entities
 export * from './dépôt/dépôtGarantiesFinancières.entity';
 export * from './actuelles/garantiesFinancièresActuelles.entity';
 export * from './actuelles/archives/archivesGarantiesFinancières.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
+export * from './en-attente/garantiesFinancièresEnAttente.entity';
 
 // Events
 export * from './garantiesFinancières.event';

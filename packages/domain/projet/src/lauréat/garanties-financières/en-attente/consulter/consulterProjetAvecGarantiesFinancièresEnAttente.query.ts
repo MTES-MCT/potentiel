@@ -1,50 +1,50 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjetAvecGarantiesFinancièresEnAttenteEntity } from '../..';
 import { LauréatEntity } from '../../../lauréat.entity';
+import { IdentifiantProjet } from '../../../..';
+import { GarantiesFinancièresEnAttenteEntity, MotifDemandeGarantiesFinancières } from '../..';
 
-export type ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel = {
+export type ConsulterGarantiesFinancièresEnAttenteReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   régionProjet: string;
   appelOffre: string;
   période: string;
   famille?: string;
-  motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
+  motif: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
   };
 };
 
-export type ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+export type ConsulterGarantiesFinancièresEnAttenteQuery = Message<
+  'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
   {
     identifiantProjetValue: string;
   },
-  Option.Type<ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel>
+  Option.Type<ConsulterGarantiesFinancièresEnAttenteReadModel>
 >;
 
-export type ConsulterProjetAvecGarantiesFinancièresEnAttenteDependencies = {
+export type ConsulterGarantiesFinancièresEnAttenteDependencies = {
   find: Find;
 };
 
-export const registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = ({
+export const registerConsulterGarantiesFinancièresEnAttenteQuery = ({
   find,
-}: ConsulterProjetAvecGarantiesFinancièresEnAttenteDependencies) => {
-  const handler: MessageHandler<ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery> = async ({
+}: ConsulterGarantiesFinancièresEnAttenteDependencies) => {
+  const handler: MessageHandler<ConsulterGarantiesFinancièresEnAttenteQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const lauréat = await find<LauréatEntity>(`lauréat|${identifiantProjet.formatter()}`);
 
-    const result = await find<ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+    const result = await find<GarantiesFinancièresEnAttenteEntity>(
       `projet-avec-garanties-financieres-en-attente|${identifiantProjet.formatter()}`,
     );
 
@@ -52,7 +52,7 @@ export const registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = ({
   };
 
   mediator.register(
-    'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+    'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
     handler,
   );
 };
@@ -63,9 +63,9 @@ const mapToReadModel = (
     motif,
     dateLimiteSoumission,
     dernièreMiseÀJour,
-  }: ProjetAvecGarantiesFinancièresEnAttenteEntity,
+  }: GarantiesFinancièresEnAttenteEntity,
   lauréat: Option.Type<LauréatEntity>,
-): ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel => {
+): ConsulterGarantiesFinancièresEnAttenteReadModel => {
   const { appelOffre, période, famille } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   return {
@@ -75,8 +75,7 @@ const mapToReadModel = (
     appelOffre,
     période,
     famille,
-    motif:
-      Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+    motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
     dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
     dernièreMiseÀJour: {
       date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),

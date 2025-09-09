@@ -7,17 +7,12 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import {
-  ProjetAdapter,
-  DocumentAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { ProjetAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
 
@@ -47,12 +42,6 @@ Candidature.registerCandidatureQueries({
   list: listProjection,
   récupérerProjetsEligiblesPreuveRecanditure:
     ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
-});
-
-GarantiesFinancières.registerGarantiesFinancièresQueries({
-  find: findProjection,
-  list: listProjection,
-  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
 });
 
 registerDocumentProjetCommand({

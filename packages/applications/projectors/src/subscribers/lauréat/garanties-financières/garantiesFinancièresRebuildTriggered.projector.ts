@@ -1,5 +1,4 @@
 import { Where } from '@potentiel-domain/entity';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -14,7 +13,7 @@ export const garantiesFinancièresRebuildTriggeredProjector = async ({
   await removeProjection<Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEntity>(
     `depot-en-cours-garanties-financieres|${id}`,
   );
-  await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+  await removeProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteEntity>(
     `projet-avec-garanties-financieres-en-attente|${id}`,
   );
 

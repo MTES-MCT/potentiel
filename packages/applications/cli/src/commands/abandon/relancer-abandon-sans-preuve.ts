@@ -3,9 +3,6 @@ import { Command } from '@oclif/core';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { registerLauréatQueries } from '@potentiel-domain/laureat';
-import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -15,14 +12,6 @@ const envSchema = z.object({
 });
 export class Relancer extends Command {
   static monitoringSlug = 'relance-abandon-sans-preuve';
-
-  async init() {
-    registerLauréatQueries({
-      find: findProjection,
-      list: listProjection,
-      récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-    });
-  }
 
   async run() {
     const { APPLICATION_STAGE } = envSchema.parse(process.env);

@@ -1,35 +1,35 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjetAvecGarantiesFinancièresEnAttenteEntity } from '../..';
-import {
-  Utilisateur,
-  getRoleBasedWhereCondition,
-} from '../../../_utils/getRoleBasedWhereCondition';
+import { GarantiesFinancièresEnAttenteEntity, MotifDemandeGarantiesFinancières } from '../..';
 import { LauréatEntity } from '../../../lauréat.entity';
+import { IdentifiantProjet } from '../../../..';
+import {
+  getRoleBasedWhereCondition,
+  Utilisateur,
+} from '../../../_helpers/getRoleBasedWhereCondition';
 
-type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
+type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
+  motif: MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
   };
 };
 
-export type ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel = {
-  items: ReadonlyArray<ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel>;
+export type ListerGarantiesFinancièresEnAttenteReadModel = {
+  items: ReadonlyArray<GarantiesFinancièresEnAttenteListItemReadModel>;
   range: RangeOptions;
   total: number;
 };
 
-export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
+export type ListerGarantiesFinancièresEnAttenteQuery = Message<
+  'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
   {
     appelOffre?: string;
     motif?: string;
@@ -37,19 +37,19 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
     utilisateur: Utilisateur;
     range?: RangeOptions;
   },
-  ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel
+  ListerGarantiesFinancièresEnAttenteReadModel
 >;
 
-export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
+export type ListerGarantiesFinancièresEnAttenteDependencies = {
   list: List;
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
 };
 
-export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
+export const registerListerGarantiesFinancièresEnAttenteQuery = ({
   list,
   récupérerIdentifiantsProjetParEmailPorteur,
-}: ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies) => {
-  const handler: MessageHandler<ListerProjetsAvecGarantiesFinancièresEnAttenteQuery> = async ({
+}: ListerGarantiesFinancièresEnAttenteDependencies) => {
+  const handler: MessageHandler<ListerGarantiesFinancièresEnAttenteQuery> = async ({
     appelOffre,
     motif,
     utilisateur,
@@ -64,7 +64,7 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<ProjetAvecGarantiesFinancièresEnAttenteEntity, LauréatEntity>(
+    } = await list<GarantiesFinancièresEnAttenteEntity, LauréatEntity>(
       'projet-avec-garanties-financieres-en-attente',
       {
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
@@ -100,7 +100,7 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
   };
 
   mediator.register(
-    'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
+    'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
     handler,
   );
 };
@@ -111,11 +111,11 @@ const mapToReadModel = ({
   motif,
   dateLimiteSoumission,
   dernièreMiseÀJour: { date },
-}: ProjetAvecGarantiesFinancièresEnAttenteEntity &
-  Joined<LauréatEntity>): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
+}: GarantiesFinancièresEnAttenteEntity &
+  Joined<LauréatEntity>): GarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),

@@ -1,14 +1,13 @@
 import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import {
   ModèleRéponseSignée,
   formatDateForDocument,
 } from '@potentiel-applications/document-builder';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -34,9 +33,9 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
       );
 
       const projetAvecGarantiesFinancièresEnAttente =
-        await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresEnAttenteQuery>(
           {
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
             data: { identifiantProjetValue },
           },
         );
