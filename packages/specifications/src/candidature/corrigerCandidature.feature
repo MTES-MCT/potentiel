@@ -67,6 +67,14 @@ Fonctionnalité: Corriger une candidature
             | installateur | Installateur.Senior.Inc |
         Alors la candidature devrait être consultable
 
+    Scénario: Corriger une candidature avec une information relative au couplage de l'installation avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre                            | PPE2 - Petit PV Bâtiment |
+            | installation avec dispositif de stockage | oui                      |
+        Quand le DGEC validateur corrige la candidature avec :
+            | installation avec dispositif de stockage | non |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
@@ -249,5 +257,12 @@ Fonctionnalité: Corriger une candidature
             | date d'obtention de l'autorisation d'urbanisme | 10/08/2024               |
         Quand le DGEC validateur corrige la candidature avec :
             | date d'obtention de l'autorisation d'urbanisme | 10/08/2070 |
-
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
+
+    Scénario: Impossible de corriger une candidature sans information relative au couplage de l'installation avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre                            | PPE2 - Petit PV Bâtiment |
+            | installation avec dispositif de stockage | oui                      |
+        Quand le DGEC validateur corrige la candidature avec :
+            | installation avec dispositif de stockage |  |
+        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offre"
