@@ -16,6 +16,7 @@ import { FournisseurWorld } from './fournisseur/fournisseur.world';
 import { DélaiWorld } from './délai/délai.world';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
 import { InstallateurWorld } from './installateur/installateur.world';
+import { InstallationAvecDispositifDeStockageWorld } from './installationAvecDispositifDeStockage/stepDefinitions/installationAvecDispositifDeStockage.world';
 
 type LauréatFixture = {
   nom: string;
@@ -130,6 +131,12 @@ export class LauréatWorld {
     return this.#garantiesFinancièresWorld;
   }
 
+  #installationAvecDispositifDeStockageWorld!: InstallationAvecDispositifDeStockageWorld;
+
+  get installationAvecDispositifDeStockageWorld() {
+    return this.#installationAvecDispositifDeStockageWorld;
+  }
+
   constructor(public readonly potentielWorld: PotentielWorld) {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
@@ -141,6 +148,9 @@ export class LauréatWorld {
     this.#fournisseurWorld = new FournisseurWorld();
     this.#délaiWorld = new DélaiWorld();
     this.#garantiesFinancièresWorld = new GarantiesFinancièresWorld(this);
+    this.#installationAvecDispositifDeStockageWorld = new InstallationAvecDispositifDeStockageWorld(
+      this,
+    );
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
     this.#modifierLauréatFixture = new ModifierLauréatFixture();
