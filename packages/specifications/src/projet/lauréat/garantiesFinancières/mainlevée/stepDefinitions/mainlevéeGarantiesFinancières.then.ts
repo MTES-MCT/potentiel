@@ -3,7 +3,6 @@ import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -31,7 +30,7 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
           },
         });
 
@@ -100,7 +99,8 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
+            statut:
+              Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
           },
         });
 
@@ -151,7 +151,7 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
           },
         });
 
@@ -232,7 +232,7 @@ Alors(
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
           },
         });
 

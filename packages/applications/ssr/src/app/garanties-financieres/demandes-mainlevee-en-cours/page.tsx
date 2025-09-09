@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -57,7 +56,7 @@ export default async function Page({ searchParams }: PageProps) {
             }),
             ...(statut && {
               statut:
-                GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+                Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
                   statut,
                 ).statut,
             }),
@@ -80,7 +79,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: `Statut de mainlevée`,
           searchParamKey: 'statut',
-          options: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.map(
+          options: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.map(
             (statut) => ({
               label: convertStatutMainlevéeForView(statut),
               value: statut,
@@ -137,7 +136,7 @@ const mapToListProps = ({
       appelOffre,
       peutInstruireMainlevée:
         isDreal &&
-        !GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+        !Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
           statut.statut,
         ).estRejeté(),
     }),

@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -13,7 +12,7 @@ export const demandeMainlevéeGarantiesFinancièresRejetéeProjector = async ({
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeARejeter.demande.demandéeLe}`,
     {
       ...mainlevéeARejeter,
-      statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
       rejet: {
         rejetéLe,
         rejetéPar,

@@ -15,9 +15,6 @@
       "path": "../../domain/common"
     },
     {
-      "path": "../../domain/lauréat"
-    },
-    {
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {

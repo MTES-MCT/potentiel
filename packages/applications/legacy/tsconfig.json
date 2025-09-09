@@ -45,9 +45,6 @@
       "path": "../../domain/common"
     },
     {
-      "path": "../../domain/lauréat"
-    },
-    {
       "path": "../../domain/réseau"
     }
   ]

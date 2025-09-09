@@ -1,5 +1,4 @@
 import { Where } from '@potentiel-domain/entity';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
@@ -11,7 +10,7 @@ export const getMainlevéeGf = async (identifiantProjet: IdentifiantProjet.RawTy
         where: {
           identifiantProjet: Where.equal(identifiantProjet),
           statut: Where.notEqual(
-            GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+            Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
           ),
         },
       },

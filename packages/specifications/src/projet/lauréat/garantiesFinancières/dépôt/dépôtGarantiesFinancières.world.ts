@@ -1,5 +1,4 @@
 import { DocumentProjet } from '@potentiel-domain/document';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { mapToExemple, FieldToExempleMapper, mapDateTime } from '../../../../helpers/mapToExemple';
@@ -49,7 +48,7 @@ export class DépôtGarantiesFinancièresWorld {
       dépôt.attestation = DocumentProjet.bind({
         ...dépôt.attestation,
         typeDocument:
-          GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+          Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
       });
     }
 

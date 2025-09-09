@@ -3,7 +3,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { useState } from 'react';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -44,7 +44,8 @@ export const PasserDemandeMainlevéeEnInstruction = ({
               <span className="italic">
                 Cela passera son statut en "
                 {convertStatutMainlevéeForView(
-                  GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
+                  Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction
+                    .statut,
                 )}
                 " ?
               </span>

@@ -1,7 +1,7 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const statutMainlevéeLabels: Record<
-  GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType,
+  Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.RawType,
   string
 > = {
   demandé: 'Demandé',
@@ -12,6 +12,8 @@ export const statutMainlevéeLabels: Record<
 
 export const convertStatutMainlevéeForView = (statut: string) => {
   const statutRawType =
-    GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut).statut;
+    Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+      statut,
+    ).statut;
   return statutMainlevéeLabels[statutRawType];
 };

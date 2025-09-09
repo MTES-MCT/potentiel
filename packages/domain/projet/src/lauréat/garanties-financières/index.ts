@@ -39,3 +39,6 @@ export { GarantiesFinancièresDétails } from './actuelles/garantiesFinancières
 
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
+
+// Helpers
+export * from './_helpers/appelOffreSoumisAuxGarantiesFinancières';

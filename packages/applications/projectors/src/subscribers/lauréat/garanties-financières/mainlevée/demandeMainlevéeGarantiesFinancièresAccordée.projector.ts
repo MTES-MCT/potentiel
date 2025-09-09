@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -25,7 +24,7 @@ export const demandeMainlevéeGarantiesFinancièresAccordéeProjector = async ({
     `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAAccorder.demande.demandéeLe}`,
     {
       ...mainlevéeAAccorder,
-      statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
       accord: {
         accordéeLe: accordéLe,
         accordéePar: accordéPar,

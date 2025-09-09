@@ -1,6 +1,5 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';

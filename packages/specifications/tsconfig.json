@@ -9,9 +9,6 @@
       "path": "../domain/core"
     },
     {
-      "path": "../domain/lauréat"
-    },
-    {
       "path": "../domain/tâche"
     },
     {

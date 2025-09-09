@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Accès, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -119,10 +118,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         appelOffres,
         mainlevée: mainlevéesList.items.filter(
           (item) =>
-            !item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
+            !item.statut.estÉgaleÀ(
+              Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté,
+            ),
         ),
         historiqueMainlevée: mainlevéesList.items.filter((item) =>
-          item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
+          item.statut.estÉgaleÀ(
+            Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté,
+          ),
         ),
         estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
         contactPorteurs: Option.match(accèsProjet)

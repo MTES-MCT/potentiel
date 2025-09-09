@@ -10,7 +10,6 @@
   "dependencies": {
     "@potentiel-domain/document": "*",
     "@potentiel-domain/inmemory-referential": "*",
-    "@potentiel-domain/laureat": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",

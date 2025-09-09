@@ -1,4 +1,3 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -14,7 +13,7 @@ export const mainlevéeGarantiesFinancièresDemandéeProjector = async ({
         demandéePar: demandéPar,
       },
       motif,
-      statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+      statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
       dernièreMiseÀJour: {
         date: demandéLe,
         par: demandéPar,
