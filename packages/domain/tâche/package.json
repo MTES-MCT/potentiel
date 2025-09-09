@@ -11,6 +11,7 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-libraries/monads": "*"
