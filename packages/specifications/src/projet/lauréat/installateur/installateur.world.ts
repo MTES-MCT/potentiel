@@ -2,10 +2,19 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { LauréatWorld } from '../../lauréat.world';
+import { LauréatWorld } from '../lauréat.world';
+
+import { ModifierInstallateurFixture } from './fixture/modifierInstallateur.fixture';
 
 export class InstallateurWorld {
-  constructor(public readonly lauréatWorld: LauréatWorld) {}
+  #modifierInstallateurFixture: ModifierInstallateurFixture;
+  get modifierInstallateurFixture() {
+    return this.#modifierInstallateurFixture;
+  }
+
+  constructor(public readonly lauréatWorld: LauréatWorld) {
+    this.#modifierInstallateurFixture = new ModifierInstallateurFixture();
+  }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     const installateurALaCandidature =

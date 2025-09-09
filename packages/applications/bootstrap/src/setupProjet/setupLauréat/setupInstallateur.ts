@@ -12,7 +12,7 @@ export const setupInstallateur: SetupProjet = async () => {
     InstallateurProjector.Execute
   >({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'InstallateurImporté-V1'],
+    eventType: ['RebuildTriggered', 'InstallateurImporté-V1', 'InstallateurModifié-V1'],
     messageType: 'System.Projector.Lauréat.Installateur',
   });
 

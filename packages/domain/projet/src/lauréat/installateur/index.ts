@@ -2,6 +2,7 @@ import {
   ConsulterInstallateurQuery,
   ConsulterInstallateurReadModel,
 } from './consulter/consulterInstallateur.query';
+import { ModifierInstallateurUseCase } from './modifier/modifierInstallateur.usecase';
 
 // Query
 export type InstallateurQuery = ConsulterInstallateurQuery;
@@ -10,6 +11,10 @@ export { ConsulterInstallateurQuery };
 
 // ReadModel
 export { ConsulterInstallateurReadModel };
+
+// UseCase
+export type InstallateurUseCase = ModifierInstallateurUseCase;
+export { ModifierInstallateurUseCase } from './modifier/modifierInstallateur.usecase';
 
 // Event
 export { InstallateurEvent } from './installateur.event';
