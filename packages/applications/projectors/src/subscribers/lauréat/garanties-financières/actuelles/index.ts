@@ -1,4 +1,4 @@
-export * from './attestationGarantiesFinancières.projector';
+export * from './attestationGarantiesFinancièresEnregistrée.projector';
 export * from './garantiesFinancièresDemandées.projector';
 export * from './garantiesFinancièresEnregistrées.projector';
 export * from './garantiesFinancièresModifiées.projector';
