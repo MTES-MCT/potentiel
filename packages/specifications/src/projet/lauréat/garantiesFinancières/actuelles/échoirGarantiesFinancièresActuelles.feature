@@ -41,9 +41,9 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-10-01         |
-        Et une demande de mainlevée de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+        Et une demande de mainlevée de garanties financières avec :
             | motif | projet-abandonné |
-        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"
+        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet lauréat
@@ -89,7 +89,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
-        Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
+        Et un dépôt de garanties financières
         Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |

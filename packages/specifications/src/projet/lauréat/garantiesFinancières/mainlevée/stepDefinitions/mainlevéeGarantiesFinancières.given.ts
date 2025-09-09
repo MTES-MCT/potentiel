@@ -14,14 +14,14 @@ import {
 } from './helper';
 
 EtantDonné(
-  'une demande de mainlevée de garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'une demande de mainlevée de garanties financières avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     const motif = exemple['motif'];
     const utilisateur = exemple['utilisateur'];
     const date = exemple['date demande'];
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
@@ -31,9 +31,9 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de mainlevée de garanties financières en instruction pour le projet {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  'une demande de mainlevée de garanties financières en instruction',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
@@ -52,9 +52,9 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de mainlevée de garanties financières accordée pour le projet {string} achevé',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  'une demande de mainlevée de garanties financières accordée',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
@@ -69,9 +69,9 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de mainlevée de garanties financières rejetée pour le projet {string} achevé',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  'une demande de mainlevée de garanties financières rejetée',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',

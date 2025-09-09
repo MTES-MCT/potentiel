@@ -47,30 +47,6 @@ Alors(
 );
 
 Alors(
-  'les garanties financières actuelles devraient être consultables pour le projet {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-    const { values } = this.candidatureWorld.importerCandidature;
-
-    await waitForExpect(async () => {
-      if (values.typeGarantiesFinancièresValue) {
-        const actualReadModel = await getGarantiesFinancières(identifiantProjet);
-        assert(actualReadModel.garantiesFinancières);
-        expect(actualReadModel.garantiesFinancières.type.type).to.deep.equal(
-          values.typeGarantiesFinancièresValue,
-        );
-
-        if (values.dateÉchéanceGfValue) {
-          expect(actualReadModel.garantiesFinancières.dateÉchéance?.date).to.deep.equal(
-            new Date(values.dateÉchéanceGfValue),
-          );
-        }
-      }
-    });
-  },
-);
-
-Alors(
   `les garanties financières actuelles ne devraient pas être consultables pour le projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;

@@ -72,7 +72,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | six-mois-après-achèvement |
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si un dépôt a déjà été soumis
-        Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné un dépôt de garanties financières avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2027-12-01         |
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
@@ -91,7 +91,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée a été demandée
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une demande de mainlevée de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+        Et une demande de mainlevée de garanties financières avec :
             | motif | projet-achevé |
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF | consignation |
@@ -100,7 +100,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée est en instruction
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une demande de mainlevée de garanties financières en instruction pour le projet "Du boulodrome de Marseille"
+        Et une demande de mainlevée de garanties financières en instruction
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction"
@@ -108,7 +108,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Impossible de soumettre un dépôt de garanties financières si les garanties financières du projet sont levées
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
+        Et une demande de mainlevée de garanties financières accordée
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet"

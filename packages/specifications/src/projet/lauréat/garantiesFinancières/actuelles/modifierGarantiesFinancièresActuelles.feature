@@ -76,7 +76,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
     Scénario: Impossible de modifier des garanties financières actuelles si les garanties financières du projet sont levées
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
+        Et une demande de mainlevée de garanties financières accordée
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet"
