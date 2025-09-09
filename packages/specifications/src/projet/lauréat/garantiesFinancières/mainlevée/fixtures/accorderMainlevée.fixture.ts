@@ -40,10 +40,7 @@ export class AccorderMainlevéeFixture
     const fixture: AccorderMainlevée = {
       accordéLe: faker.date.soon().toISOString(),
       accordéPar: faker.internet.email(),
-      courrierAccord: {
-        format: 'application/pdf',
-        content: faker.word.words(),
-      },
+      courrierAccord: faker.potentiel.document(),
       ...partialData,
     };
 

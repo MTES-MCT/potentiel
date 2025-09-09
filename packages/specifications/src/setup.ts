@@ -32,7 +32,7 @@ import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
 import { getFakeFormat } from './helpers/getFakeFormat';
 import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
-import { getFakeContent } from './helpers/getFakeContent';
+import { getFakeContent, getFakeDocument } from './helpers/getFakeContent';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
 import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
 import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
@@ -48,6 +48,7 @@ declare module '@faker-js/faker' {
       identifiantProjet: typeof getFakeIdentifiantProjet;
       fileFormat: () => string;
       fileContent: () => ReadableStream;
+      document: () => { format: string; content: string };
     };
   }
 }
@@ -56,6 +57,7 @@ faker.potentiel = {
   fileFormat: getFakeFormat,
   identifiantProjet: getFakeIdentifiantProjet,
   fileContent: getFakeContent,
+  document: getFakeDocument,
 };
 
 const bucketName = 'potentiel';

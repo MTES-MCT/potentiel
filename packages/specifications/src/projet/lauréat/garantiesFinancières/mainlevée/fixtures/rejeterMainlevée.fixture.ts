@@ -36,10 +36,7 @@ export class RejeterMainlevéeFixture
     const fixture: RejeterMainlevée = {
       rejetéeLe: faker.date.soon().toISOString(),
       rejetéePar: faker.internet.email(),
-      courrierRejet: {
-        format: 'application/pdf',
-        content: faker.word.words(),
-      },
+      courrierRejet: faker.potentiel.document(),
       ...partialData,
     };
 

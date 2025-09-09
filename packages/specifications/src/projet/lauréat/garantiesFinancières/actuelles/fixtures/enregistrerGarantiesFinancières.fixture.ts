@@ -69,16 +69,12 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
         'six-mois-après-achèvement',
       ]);
 
-    const content = faker.word.words();
     const fixture: EnregistrerGarantiesFinancières = {
       dateConstitution: faker.date.recent().toISOString(),
       enregistréLe: new Date().toISOString(),
       enregistréPar: faker.internet.email(),
       ...partialData,
-      attestation: {
-        format: faker.potentiel.fileFormat(),
-        content,
-      },
+      attestation: faker.potentiel.document(),
       garantiesFinancières: {
         type,
         dateÉchéance: type === 'avec-date-échéance' ? faker.date.future().toISOString() : undefined,
@@ -86,7 +82,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
         ...partialData?.garantiesFinancières,
       },
     };
-    this.#content = content;
+    this.#content = fixture.attestation.content;
     this.#format = fixture.attestation.format;
     this.#garantiesFinancières = fixture.garantiesFinancières;
     this.#dateConstitution = fixture.dateConstitution;
