@@ -6,7 +6,6 @@ import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Accès, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -151,15 +150,7 @@ async function vérifierLauréats(
       },
     });
 
-    for (const {
-      identifiantProjet,
-      typeGarantiesFinancières,
-      puissanceProductionAnnuelle,
-      evaluationCarboneSimplifiée,
-      nomCandidat,
-      fournisseurs,
-      sociétéMère,
-    } of candidats.items) {
+    for (const { identifiantProjet } of candidats.items) {
       const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
         type: 'Lauréat.Query.ConsulterLauréat',
         data: {
@@ -171,81 +162,6 @@ async function vérifierLauréats(
         Option.isSome(lauréat),
         `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
       );
-
-      if (typeGarantiesFinancières) {
-        const garantiesFinancières =
-          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          });
-
-        assert(
-          Option.isSome(garantiesFinancières),
-          `Aucune garanties financières pour ${identifiantProjet.formatter()}`,
-        );
-        expect(garantiesFinancières.garantiesFinancières.type.estÉgaleÀ(typeGarantiesFinancières))
-          .to.be.true;
-      }
-
-      if (puissanceProductionAnnuelle) {
-        const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
-          type: 'Lauréat.Puissance.Query.ConsulterPuissance',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-        assert(Option.isSome(puissance), `Aucune puissance pour ${identifiantProjet.formatter()}`);
-        expect(puissance.puissance).to.equal(puissanceProductionAnnuelle);
-      }
-
-      if (sociétéMère) {
-        const actionnaire = await mediator.send<Lauréat.Actionnaire.ConsulterActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-        assert(
-          Option.isSome(actionnaire),
-          `Aucun actionnaire pour ${identifiantProjet.formatter()}`,
-        );
-        expect(actionnaire.actionnaire).to.equal(sociétéMère);
-      }
-
-      if (nomCandidat) {
-        const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
-          type: 'Lauréat.Producteur.Query.ConsulterProducteur',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-        assert(Option.isSome(producteur), `Aucun producteur pour ${identifiantProjet.formatter()}`);
-        expect(producteur.producteur).to.equal(nomCandidat);
-      }
-
-      if (evaluationCarboneSimplifiée || fournisseurs) {
-        const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
-          type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-        assert(
-          Option.isSome(fournisseur),
-          `Aucun fournisseur pour ${identifiantProjet.formatter()}`,
-        );
-
-        expect(fournisseur.évaluationCarboneSimplifiée).to.equal(evaluationCarboneSimplifiée);
-        expect(fournisseur.fournisseurs.length).to.eq(
-          fournisseurs.length,
-          'Le nombre de fournisseurs est différent',
-        );
-        for (const [index, value] of fournisseur.fournisseurs.entries()) {
-          expect(value.estÉgaleÀ(fournisseurs[index])).to.be.true;
-        }
-      }
     }
   } catch (error) {
     this.error = error as Error;

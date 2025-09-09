@@ -39,7 +39,6 @@ EtantDonné(
   'la candidature lauréate notifiée {string}',
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, { nomProjet, statut: 'classé' });
-
     await notifierLauréat.call(this);
   },
 );
@@ -48,10 +47,7 @@ EtantDonné(
   'la candidature éliminée notifiée {string}',
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
-
-    const dateDésignation = this.éliminéWorld.dateDésignation;
-
-    await notifierÉliminé.call(this, dateDésignation);
+    await notifierÉliminé.call(this);
   },
 );
 

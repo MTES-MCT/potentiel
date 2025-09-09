@@ -67,6 +67,7 @@ async function créerAccordRecours(this: PotentielWorld) {
     localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
     nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
   });
+
   this.lauréatWorld.identifiantProjet = this.éliminéWorld.identifiantProjet;
 
   await mediator.send<Éliminé.Recours.RecoursUseCase>({

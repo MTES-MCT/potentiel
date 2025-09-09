@@ -1,4 +1,7 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, StatutProjet, Éliminé } from '@potentiel-domain/projet';
+import { DocumentProjet } from '@potentiel-domain/document';
+
+import { PotentielWorld } from '../../potentiel.world';
 
 import { RecoursWord } from './recours/recours.world';
 import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
@@ -6,7 +9,6 @@ import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
 type ÉliminéFixture = {
   nom: string;
   identifiantProjet: IdentifiantProjet.ValueType;
-  dateDésignation: string;
 };
 
 export class ÉliminéWorld {
@@ -34,6 +36,10 @@ export class ÉliminéWorld {
     return this.#recoursWorld;
   }
 
+  get candidatureWorld() {
+    return this.potentielWorld.candidatureWorld;
+  }
+
   #notifierEliminéFixture: NotifierÉliminéFixture;
   get notifierEliminéFixture() {
     return this.#notifierEliminéFixture;
@@ -54,18 +60,55 @@ export class ÉliminéWorld {
     return this.#nomProjet;
   }
 
-  #dateDésignation: string;
-
-  get dateDésignation() {
-    return this.#dateDésignation;
-  }
-
-  constructor() {
+  constructor(public readonly potentielWorld: PotentielWorld) {
     this.#recoursWorld = new RecoursWord();
     this.#notifierEliminéFixture = new NotifierÉliminéFixture();
     this.#nomProjet = 'Du boulodrome de Marseille';
-    this.#dateDésignation = new Date('2022-10-27').toISOString();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#2##23`);
+  }
+
+  mapToExpected() {
+    const {
+      dépôt: {
+        nomProjet,
+        emailContact,
+        nomCandidat,
+        autorisationDUrbanisme,
+        localité,
+        puissanceProductionAnnuelle,
+        prixReference,
+        nomReprésentantLégal,
+        sociétéMère,
+      },
+      unitéPuissance,
+    } = this.potentielWorld.candidatureWorld.mapToExpected();
+
+    const expected: Éliminé.ConsulterÉliminéReadModel = {
+      identifiantProjet: this.identifiantProjet,
+      statut: StatutProjet.éliminé,
+      emailContact,
+      localité,
+      nomCandidat,
+      unitéPuissance,
+      sociétéMère,
+      nomReprésentantLégal,
+      autorisationDUrbanisme,
+      prixReference,
+      nomProjet,
+      puissanceProductionAnnuelle,
+      attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
+        .aÉtéCréé
+        ? undefined
+        : DocumentProjet.convertirEnValueType(
+            this.identifiantProjet.formatter(),
+            'attestation',
+            this.notifierEliminéFixture.notifiéLe,
+            'application/pdf',
+          ),
+      ...this.notifierEliminéFixture.mapToExpected(),
+    };
+
+    return expected;
   }
 }

@@ -97,10 +97,13 @@ EtantDonné(
 
 export async function notifierLauréat(this: PotentielWorld, dateDésignation?: string) {
   const candidature = this.candidatureWorld.importerCandidature;
+
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
     candidature.identifiantProjet,
   );
+
   this.lauréatWorld.identifiantProjet = identifiantProjetValue;
+
   const { nomProjet, notifiéLe } = this.lauréatWorld.notifierLauréatFixture.créer({
     nomProjet: candidature.values.nomProjetValue,
     localité: candidature.values.localitéValue,
@@ -120,22 +123,20 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
     période: identifiantProjetValue.période,
   });
 
-  const data = {
-    identifiantProjetValue: identifiantProjetValue.formatter(),
-    notifiéLeValue: notifiéLe,
-    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
-    attestationValue: {
-      format: `application/pdf`,
-    },
-    validateurValue: {
-      fonction: this.utilisateurWorld.validateurFixture.fonction,
-      nomComplet: this.utilisateurWorld.validateurFixture.nom,
-    },
-  };
-
   await mediator.send<Lauréat.NotifierLauréatUseCase>({
     type: 'Lauréat.UseCase.NotifierLauréat',
-    data,
+    data: {
+      identifiantProjetValue: identifiantProjetValue.formatter(),
+      notifiéLeValue: notifiéLe,
+      notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+      attestationValue: {
+        format: `application/pdf`,
+      },
+      validateurValue: {
+        fonction: this.utilisateurWorld.validateurFixture.fonction,
+        nomComplet: this.utilisateurWorld.validateurFixture.nom,
+      },
+    },
   });
 
   // L'invitation du porteur est normalement faite lors de la notification de la période
