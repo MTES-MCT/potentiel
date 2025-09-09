@@ -1,16 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 
 import { GarantiesFinancièresEnAttenteEntity, MotifDemandeGarantiesFinancières } from '../..';
 import { LauréatEntity } from '../../../lauréat.entity';
-import { IdentifiantProjet } from '../../../..';
-import {
-  getRoleBasedWhereCondition,
-  Utilisateur,
-} from '../../../_helpers/getRoleBasedWhereCondition';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 
 type GarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,7 +29,7 @@ export type ListerGarantiesFinancièresEnAttenteQuery = Message<
     appelOffre?: string;
     motif?: string;
     cycle?: string;
-    utilisateur: Utilisateur;
+    identifiantUtilisateur: string;
     range?: RangeOptions;
   },
   ListerGarantiesFinancièresEnAttenteReadModel
@@ -42,24 +37,24 @@ export type ListerGarantiesFinancièresEnAttenteQuery = Message<
 
 export type ListerGarantiesFinancièresEnAttenteDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerGarantiesFinancièresEnAttenteQuery = ({
   list,
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
 }: ListerGarantiesFinancièresEnAttenteDependencies) => {
   const handler: MessageHandler<ListerGarantiesFinancièresEnAttenteQuery> = async ({
     appelOffre,
     motif,
-    utilisateur,
+    identifiantUtilisateur,
     range,
     cycle,
   }) => {
-    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
-      utilisateur,
-      récupérerIdentifiantsProjetParEmailPorteur,
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(identifiantUtilisateur),
     );
+
     const {
       items,
       range: { endPosition, startPosition },
@@ -70,7 +65,8 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
-          identifiantProjet,
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           motif: Where.equal(motif),
         },
         join: {
@@ -84,9 +80,7 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
                   ? Where.contain('PPE2')
                   : Where.notContains('PPE2')
                 : undefined,
-            localité: {
-              région: régionProjet,
-            },
+            localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
           },
         },
       },

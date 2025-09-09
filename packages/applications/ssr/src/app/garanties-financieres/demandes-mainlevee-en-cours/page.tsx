@@ -8,7 +8,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
@@ -36,17 +35,11 @@ export default async function Page({ searchParams }: PageProps) {
       const motif = searchParams?.motif;
       const statut = searchParams?.statut;
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
       const demandeMainlevéeDesGarantiesFinancières =
         await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
-            utilisateur: {
-              régionDreal,
-              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-              rôle: utilisateur.role.nom,
-            },
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
             ...(appelOffre && { appelOffre }),
             ...(motif && {
               motif:

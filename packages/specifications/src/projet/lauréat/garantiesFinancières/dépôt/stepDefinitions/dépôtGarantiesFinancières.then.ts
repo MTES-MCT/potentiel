@@ -64,10 +64,7 @@ Alors(
         await mediator.send<Lauréat.GarantiesFinancières.ListerDépôtsGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
           data: {
-            utilisateur: {
-              rôle: 'admin',
-              identifiantUtilisateur: 'admin@test.test',
-            },
+            identifiantUtilisateur: 'admin@test.test',
           },
         });
 

@@ -43,9 +43,6 @@ export class NotifierGestionnaireRéseau extends Command {
       getScopeProjetUtilisateur: () => {
         throw new Error('not implemented');
       },
-      récupérerIdentifiantsProjetParEmailPorteur: () => {
-        throw new Error('not implemented');
-      },
     });
 
     registerUtilisateurQueries({

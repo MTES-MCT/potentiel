@@ -1,21 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { IdentifiantProjet } from '../../../..';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseMainlevée,
 } from '../..';
-import {
-  getRoleBasedWhereCondition,
-  Utilisateur,
-} from '../../../_helpers/getRoleBasedWhereCondition';
 import { LauréatEntity } from '../../..';
 
 export type ListerMainlevéeItemReadModel = {
@@ -61,11 +56,11 @@ export type ListerMainlevéesQuery = Message<
     estEnCours?: boolean;
   } & (
     | {
-        utilisateur?: Utilisateur;
+        identifiantUtilisateur?: string;
         identifiantProjet: IdentifiantProjet.RawType;
       }
     | {
-        utilisateur: Utilisateur;
+        identifiantUtilisateur: string;
         identifiantProjet?: IdentifiantProjet.RawType;
       }
   ),
@@ -74,12 +69,12 @@ export type ListerMainlevéesQuery = Message<
 
 export type ListerMainlevéesQueryDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerMainlevéesQuery = ({
   list,
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
 }: ListerMainlevéesQueryDependencies) => {
   const handler: MessageHandler<ListerMainlevéesQuery> = async ({
     range,
@@ -88,11 +83,14 @@ export const registerListerMainlevéesQuery = ({
     motif,
     statut,
     estEnCours,
-    utilisateur,
+    identifiantUtilisateur,
   }) => {
-    const roleBasedCondition = utilisateur
-      ? await getRoleBasedWhereCondition(utilisateur, récupérerIdentifiantsProjetParEmailPorteur)
-      : {};
+    const scope = identifiantUtilisateur
+      ? await getScopeProjetUtilisateur(Email.convertirEnValueType(identifiantUtilisateur))
+      : {
+          type: 'projet' as const,
+          identifiantProjets: identifiantProjet ? [identifiantProjet] : [],
+        };
 
     const {
       items,
@@ -103,9 +101,8 @@ export const registerListerMainlevéesQuery = ({
       {
         range,
         where: {
-          identifiantProjet: identifiantProjet
-            ? Where.equal(identifiantProjet)
-            : roleBasedCondition.identifiantProjet,
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           motif: Where.equal(motif),
           statut: estEnCours
             ? Where.notEqual(StatutMainlevéeGarantiesFinancières.rejeté.statut)
@@ -116,7 +113,7 @@ export const registerListerMainlevéesQuery = ({
           on: 'identifiantProjet',
           where: {
             appelOffre: Where.equal(appelOffre),
-            localité: { région: roleBasedCondition.régionProjet },
+            localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
           },
         },
       },

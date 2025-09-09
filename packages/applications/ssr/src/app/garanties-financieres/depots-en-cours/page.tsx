@@ -11,7 +11,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
 
@@ -42,17 +41,11 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, appelOffre, cycle } = searchParamsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
       const dépôtsEnCoursGarantiesFinancières =
         await mediator.send<Lauréat.GarantiesFinancières.ListerDépôtsGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
           data: {
-            utilisateur: {
-              régionDreal,
-              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-              rôle: utilisateur.role.nom,
-            },
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
             ...(appelOffre && { appelOffre }),
             cycle,
             range: mapToRangeOptions({

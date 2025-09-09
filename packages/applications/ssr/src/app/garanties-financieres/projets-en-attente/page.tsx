@@ -13,7 +13,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import {
@@ -44,17 +43,11 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, appelOffre, cycle, motif } = searchParamsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
       const projetsAvecGarantiesFinancièresEnAttente =
         await mediator.send<Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
           data: {
-            utilisateur: {
-              régionDreal,
-              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-              rôle: utilisateur.role.nom,
-            },
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
             appelOffre,
             motif,
             cycle,
