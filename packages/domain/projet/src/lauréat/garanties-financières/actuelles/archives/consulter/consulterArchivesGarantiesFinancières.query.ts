@@ -11,7 +11,10 @@ import {
   MotifArchivageGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
 } from '../../..';
-import { ArchivesGarantiesFinancièresEntity } from '../archivesGarantiesFinancières.entity';
+import {
+  ArchiveGarantiesFinancières,
+  ArchivesGarantiesFinancièresEntity,
+} from '../archivesGarantiesFinancières.entity';
 
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -63,7 +66,7 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
 };
 
 type MapToReadModel = {
-  archives: ReadonlyArray<ArchivesGarantiesFinancièresEntity['archives'][number]>;
+  archives: ReadonlyArray<ArchiveGarantiesFinancières>;
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 };
 
@@ -81,7 +84,7 @@ const mapToReadModel = ({
 
 const mapToArchiveGarantiesFinancièresReadModel = (
   identifiantProjetValueType: IdentifiantProjet.ValueType,
-  garantiesFinancières: ArchivesGarantiesFinancièresEntity['archives'][number],
+  garantiesFinancières: ArchiveGarantiesFinancières,
 ) => ({
   motif: MotifArchivageGarantiesFinancières.convertirEnValueType(garantiesFinancières.motif),
   statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.convertirEnValueType(

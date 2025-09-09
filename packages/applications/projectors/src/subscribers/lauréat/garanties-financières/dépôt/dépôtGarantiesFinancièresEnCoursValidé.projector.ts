@@ -27,7 +27,7 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
   const gfActuelles = await getGfActuelles(identifiantProjet);
 
   if (gfActuelles) {
-    const motif: Lauréat.GarantiesFinancières.ArchivesGarantiesFinancièresEntity['archives'][number]['motif'] =
+    const motif: Lauréat.GarantiesFinancières.ArchiveGarantiesFinancières['motif'] =
       gfActuelles.garantiesFinancières.statut === 'échu'
         ? 'renouvellement des garanties financières échues'
         : 'modification des garanties financières';

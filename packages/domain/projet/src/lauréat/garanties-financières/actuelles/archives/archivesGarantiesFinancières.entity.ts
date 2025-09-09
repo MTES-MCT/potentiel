@@ -2,7 +2,7 @@ import { Entity } from '@potentiel-domain/entity';
 
 import { GarantiesFinancièresDétails } from '../garantiesFinancièresActuelles.entity';
 
-type ArchiveGarantiesFinancières = GarantiesFinancièresDétails & {
+export type ArchiveGarantiesFinancières = GarantiesFinancièresDétails & {
   motif:
     | 'changement de producteur'
     | 'renouvellement des garanties financières échues'
