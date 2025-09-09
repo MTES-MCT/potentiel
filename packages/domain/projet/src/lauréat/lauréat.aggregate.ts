@@ -42,6 +42,7 @@ import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.
 import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallateurAggregate } from './installateur/installateur.aggregate';
+import { InstallationAvecDispositifDeStockageAggregate } from './installationAvecDispositifDeStockage/installationAvecDispositifDeStockage.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -130,6 +131,11 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#garantiesFinancières;
   }
 
+  #installationAvecDispositifDeStockage!: AggregateType<InstallationAvecDispositifDeStockageAggregate>;
+  get installationAvecDispositifDeStockage() {
+    return this.#installationAvecDispositifDeStockage;
+  }
+
   async init() {
     this.#abandon = await this.loadAggregate(
       AbandonAggregate,
@@ -189,6 +195,11 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#installateur = await this.loadAggregate(
       InstallateurAggregate,
       `installateur|${this.projet.identifiantProjet.formatter()}`,
+    );
+
+    this.#installationAvecDispositifDeStockage = await this.loadAggregate(
+      InstallationAvecDispositifDeStockageAggregate,
+      `installation-avec-dispositif-de-stockage|${this.projet.identifiantProjet.formatter()}`,
     );
   }
 
@@ -272,6 +283,15 @@ export class LauréatAggregate extends AbstractAggregate<
     if (this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined) {
       await this.installateur.importer({
         installateur: this.projet.candidature.installateur ?? '',
+        importéLe: notifiéLe,
+        importéPar: notifiéPar,
+      });
+    }
+
+    if (this.projet.candidature.dépôt.installationAvecDispositifDeStockage) {
+      await this.installationAvecDispositifDeStockage.importer({
+        installationAvecDispositifDeStockage:
+          this.projet.candidature.dépôt.installationAvecDispositifDeStockage,
         importéLe: notifiéLe,
         importéPar: notifiéPar,
       });

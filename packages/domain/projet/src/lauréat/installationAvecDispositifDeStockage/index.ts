@@ -10,6 +10,8 @@ export { ConsulterInstallationAvecDispositifDeStockageQuery };
 export { ConsulterInstallationAvecDispositifDeStockageReadModel };
 
 // Event
+export { InstallationAvecDispositifDeStockageEvent } from './installationAvecDispositifDeStockage.event';
+export { InstallationAvecDispositifDeStockageImportéEvent } from './importer/importerInstallationAvecDispositifDeStockage.event';
 
 // Register
 export { registerInstallationAvecDispositifDeStockageQueries } from './installationAvecDispositifDeStockage.register';
