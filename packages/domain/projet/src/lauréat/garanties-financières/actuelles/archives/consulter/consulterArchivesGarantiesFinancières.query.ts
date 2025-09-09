@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Candidature, IdentifiantProjet, Lauréat } from '../../../../..';
 import {
-  ConsulterGarantiesFinancièresReadModel,
+  DétailsGarantiesFinancièresReadModel,
   MotifArchivageGarantiesFinancières,
   TypeDocumentGarantiesFinancières,
 } from '../../..';
@@ -16,7 +16,7 @@ import { ArchivesGarantiesFinancièresEntity } from '../archivesGarantiesFinanci
 export type ConsulterArchivesGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   archives: Array<
-    ConsulterGarantiesFinancièresReadModel['garantiesFinancières'] & {
+    DétailsGarantiesFinancièresReadModel & {
       motif: MotifArchivageGarantiesFinancières.ValueType;
     }
   >;

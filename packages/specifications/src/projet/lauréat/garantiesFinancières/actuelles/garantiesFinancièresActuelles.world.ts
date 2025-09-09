@@ -62,8 +62,8 @@ export class GarantiesFinancièresActuellesWorld {
           dernièreMiseÀJour: {
             date: DateTime.convertirEnValueType(notifiéLe),
           },
-        } satisfies Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'])
-      : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières']);
+        } satisfies Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel)
+      : ({} as Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel);
 
     const garantiesFinancières = actions.reduce(
       (prev, curr) => ({

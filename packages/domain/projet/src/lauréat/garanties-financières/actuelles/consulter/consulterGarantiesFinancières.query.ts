@@ -5,12 +5,14 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
-import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
+import {
+  GarantiesFinancièresDétails,
+  GarantiesFinancièresEntity,
+} from '../garantiesFinancièresActuelles.entity';
 import { StatutGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 import { Candidature, IdentifiantProjet } from '../../../..';
-import { GarantiesFinancièresDétails } from '../garantiesFinancièresDétails.type';
 
-type GarantiesFinancièresReadModel = {
+export type DétailsGarantiesFinancièresReadModel = {
   type: Candidature.TypeGarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
   dateÉchéance?: DateTime.ValueType;
@@ -26,7 +28,7 @@ type GarantiesFinancièresReadModel = {
 
 export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  garantiesFinancières: GarantiesFinancièresReadModel;
+  garantiesFinancières: DétailsGarantiesFinancièresReadModel;
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<

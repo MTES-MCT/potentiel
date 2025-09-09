@@ -32,11 +32,6 @@ export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRépon
 
 export * as MotifArchivageGarantiesFinancières from './actuelles/archives/motifArchivageGarantiesFinancières.valueType';
 
-/**
- * TODO : remove when fully migrated
- */
-export { GarantiesFinancièresDétails } from './actuelles/garantiesFinancièresDétails.type';
-
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
 

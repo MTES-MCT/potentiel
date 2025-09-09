@@ -2,7 +2,7 @@ import { Entity } from '@potentiel-domain/entity';
 
 import { StatutGarantiesFinancières } from '..';
 
-type GarantiesFinancièresDétails = {
+export type GarantiesFinancièresDétails = {
   statut: StatutGarantiesFinancières.RawType;
   type: string;
   dateÉchéance?: string;

@@ -343,7 +343,7 @@ const mapToProps: MapToProps = ({
 };
 
 type MapGarantiesFinancièrestoProps = {
-  garantiesFinancières: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
+  garantiesFinancières: Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel;
 };
 
 const mapGarantiesFinancièrestoProps = ({

@@ -107,23 +107,22 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
       this.garantiesFinancières,
     );
-    const readModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'] =
-      {
-        statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
-        type: gf.type,
-        dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
-        dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
-        attestation: DocumentProjet.convertirEnValueType(
-          this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
-          Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
-          this.dateConstitution,
-          this.attestation.format,
-        ),
-        dernièreMiseÀJour: {
-          date: DateTime.convertirEnValueType(this.enregistréLe),
-          par: Email.convertirEnValueType(this.enregistréPar),
-        },
-      };
+    const readModel: Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel = {
+      statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
+      type: gf.type,
+      dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
+      dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
+      attestation: DocumentProjet.convertirEnValueType(
+        this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
+        Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
+        this.dateConstitution,
+        this.attestation.format,
+      ),
+      dernièreMiseÀJour: {
+        date: DateTime.convertirEnValueType(this.enregistréLe),
+        par: Email.convertirEnValueType(this.enregistréPar),
+      },
+    };
     return readModel;
   }
 }

@@ -5,6 +5,7 @@ import {
 import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
+  DétailsGarantiesFinancièresReadModel,
 } from './consulter/consulterGarantiesFinancières.query';
 
 export type GarantiesFinancièresActuellesQuery =
@@ -17,4 +18,8 @@ export type GarantiesFinancièresActuellesReadModel =
   | ConsulterGarantiesFinancièresReadModel
   | ConsulterArchivesGarantiesFinancièresReadModel;
 
-export { ConsulterGarantiesFinancièresReadModel, ConsulterArchivesGarantiesFinancièresReadModel };
+export {
+  ConsulterGarantiesFinancièresReadModel,
+  ConsulterArchivesGarantiesFinancièresReadModel,
+  DétailsGarantiesFinancièresReadModel,
+};
