@@ -19,7 +19,7 @@ type ProjectFieldProps<T> = {
   nativeInputProps?: InputProps['nativeInputProps'];
 };
 
-export const ProjectField = <T extends string | number>({
+export const ProjectField = <T extends string | number | undefined>({
   candidature,
   lauréat,
   label,

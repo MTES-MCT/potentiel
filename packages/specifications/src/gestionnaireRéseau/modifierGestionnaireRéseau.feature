@@ -1,6 +1,5 @@
 # language: fr
 @gestionnaire-réseau
-@modifier-gestionnaire-réseau
 Fonctionnalité: Modifier un gestionnaire de réseau
 
     Scénario: Modifier un gestionnaire de réseau

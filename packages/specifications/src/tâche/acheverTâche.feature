@@ -1,4 +1,5 @@
 # language: fr
+@tâche
 Fonctionnalité: Achever une tâche
 
     Contexte:

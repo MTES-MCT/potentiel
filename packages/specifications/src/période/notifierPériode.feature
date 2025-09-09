@@ -1,4 +1,5 @@
 # language: fr
+@période
 Fonctionnalité: Notifier une période d'un appel d'offres
 
     Scénario: Notifier les candidats d'une période d'un appel d'offres

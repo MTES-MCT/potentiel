@@ -1,6 +1,5 @@
 # language: fr
 @achèvement
-@attestation-conformité
 Fonctionnalité: Modifier une attestation de conformité
 
     Contexte:

@@ -1,5 +1,5 @@
 # language: fr
-@tâche-planifée
+@tâche-planifiée
 Fonctionnalité: Exécuter une tâche planifiée
 
     Contexte:

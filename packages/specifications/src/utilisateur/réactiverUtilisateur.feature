@@ -1,4 +1,5 @@
 # language: fr
+@utilisateur
 Fonctionnalité: Réactiver un utilisateur
 
     Contexte:

@@ -110,6 +110,18 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
+      if (laureat.installateur) {
+        await mediator.send<Lauréat.Installateur.ModifierInstallateurUseCase>({
+          type: 'Lauréat.Installateur.UseCase.ModifierInstallateur',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            installateurValue: laureat.installateur,
+            dateModificationValue: new Date().toISOString(),
+            identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+          },
+        });
+      }
+
       const lauréatAEtéModifié =
         laureat.adresse1 != undefined ||
         laureat.adresse2 != undefined ||

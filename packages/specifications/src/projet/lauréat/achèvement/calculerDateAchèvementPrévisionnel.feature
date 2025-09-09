@@ -1,6 +1,5 @@
 # language: fr
 @achèvement
-@calculer-date-achèvement-prévisionnel
 Fonctionnalité: Calculer la date d'achèvement prévisionnel
 
     Plan du scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat est notifié

@@ -1,4 +1,5 @@
 # language: fr
+@puissance
 Fonctionnalité: Modifier la puissance d'un projet lauréat
 
     Contexte:

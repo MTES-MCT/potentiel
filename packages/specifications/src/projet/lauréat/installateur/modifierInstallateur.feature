@@ -1,5 +1,6 @@
 # language: fr
 @installateur
+@select
 Fonctionnalité: Modifier l'installateur d'un projet lauréat
 
     Contexte:

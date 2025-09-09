@@ -1,5 +1,5 @@
-# TODO move to GF
 # language: fr
+@tâche
 Fonctionnalité: Ajouter une tâche
 
     Contexte:

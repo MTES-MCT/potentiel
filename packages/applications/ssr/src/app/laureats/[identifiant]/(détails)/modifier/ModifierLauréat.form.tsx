@@ -234,6 +234,18 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           </>
         )}
 
+        {champsSupplémentaires.installateur && (
+          <FormRow>
+            <ProjectField
+              candidature={candidature.installateur}
+              lauréat={lauréat.installateur.currentValue}
+              label="Installateur"
+              name="installateur"
+              validationErrors={validationErrors}
+            />
+          </FormRow>
+        )}
+
         {champsSupplémentaires.coefficientKChoisi && (
           <FormRow>
             <CoefficientKField
