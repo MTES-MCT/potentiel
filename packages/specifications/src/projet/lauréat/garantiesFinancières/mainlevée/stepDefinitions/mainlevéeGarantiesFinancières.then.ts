@@ -7,6 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -14,14 +15,8 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { defaultMainlevéeData } from './helper';
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable avec :`,
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    const motif = exemple['motif'] || defaultMainlevéeData.demande.motif;
-    const utilisateur = exemple['utilisateur'] || defaultMainlevéeData.demande.utilisateur;
-    const dateDemande = exemple['date demande'] || defaultMainlevéeData.demande.date;
-
+  `une demande de mainlevée de garanties financières devrait être consultable`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
@@ -34,26 +29,16 @@ Alors(
           },
         });
 
+      const expected = mapToPlainObject(
+        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected().items[0],
+      );
+      const actual = mapToPlainObject(actualReadModel.items[0]);
+
       expect(actualReadModel.items).to.be.length(1);
-
-      if (actualReadModel.items.length) {
-        const mainlevée = actualReadModel.items[0];
-
-        expect(
-          mainlevée.motif.estÉgaleÀ(
-            Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
-              motif,
-            ),
-          ),
-        ).to.be.true;
-
-        expect(mainlevée.demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(utilisateur))).to
-          .be.true;
-
-        expect(mainlevée.demande.demandéeLe.date).to.deep.equal(new Date(dateDemande));
-
-        expect(mainlevée.statut.estDemandé()).to.be.true;
-      }
+      expect(actual).to.deep.equal(
+        expected,
+        'Le modèle retourné ne correspond pas au modèle attendu',
+      );
     });
   },
 );

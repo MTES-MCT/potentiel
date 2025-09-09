@@ -170,6 +170,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     return !!this.#actuelles?.attestation;
   }
 
+  //#region Utilitaires
   vérifierSiLesGarantiesFinancièresSontValides(
     garantiesFinancières: GarantiesFinancières.ValueType | undefined,
   ) {
@@ -201,7 +202,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierQueLesGarantiesFinancièresSontModifiables() {
+  private vérifierQueLeProjetNEstPasExempt() {
     if (this.type?.estExemption()) {
       throw new ProjetExemptDeGarantiesFinancièresError();
     }
@@ -224,6 +225,40 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       throw new AucunDépôtDeGarantiesFinancièresEnCoursPourLeProjetError();
     }
   }
+
+  private async planifierÉchéance(échuLe: DateTime.ValueType) {
+    const garantiesFinancières = this.#actuelles?.garantiesFinancières;
+    if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.projet.statut.estAchevé()) {
+      return;
+    }
+
+    if (garantiesFinancières.dateÉchéance.estDansLeFutur()) {
+      await this.#tâchePlanifiéeEchoir.ajouter({
+        àExécuterLe: garantiesFinancières.dateÉchéance.ajouterNombreDeJours(1),
+      });
+
+      await this.#tâchePlanifiéeRappel1mois.ajouter({
+        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(1),
+      });
+
+      await this.#tâchePlanifiéeRappel2mois.ajouter({
+        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(2),
+      });
+    } else if (!this.estÉchu) {
+      // TODO: Délai pour s'assurer que les projecteurs s'exécutent dans le bon ordre
+      // Idéalement les projecteurs devrait s'éxécuter dans l'ordre des versions du stream
+      await new Promise((r) => setTimeout(r, 100));
+      await this.échoir({ échuLe });
+    }
+  }
+
+  async annulerTâchesPlanififées() {
+    await this.#tâchePlanifiéeEchoir.annuler();
+    await this.#tâchePlanifiéeRappel1mois.annuler();
+    await this.#tâchePlanifiéeRappel2mois.annuler();
+    await this.#tâchePlanifiéeRappelEnAttente.annuler();
+  }
+  //#endregion Utilitaires
 
   //#region Behavior Actuelles
 
@@ -270,7 +305,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     modifiéPar,
   }: ModifierActuellesOptions) {
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
-    this.vérifierQueLesGarantiesFinancièresSontModifiables();
     this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
     this.vérifierSiLesGarantiesFinancièresSontLevées();
@@ -423,6 +457,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
     this.vérifierQueLaDateDeConstitutionEstValide(dateConstitution);
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
+    this.vérifierQueLeProjetNEstPasExempt();
 
     if (this.#statutMainlevée?.estDemandé()) {
       throw new DemandeMainlevéeDemandéeError();
@@ -544,6 +579,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
 
     this.vérifierQueLesGarantiesFinancièresActuellesExistent();
+    this.vérifierQueLeProjetNEstPasExempt();
 
     if (this.#estÉchu) {
       throw new GarantiesFinancièresDéjàÉchuesError();
@@ -682,39 +718,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   //#endregion Behavior Mainlevée
-
-  private async planifierÉchéance(échuLe: DateTime.ValueType) {
-    const garantiesFinancières = this.#actuelles?.garantiesFinancières;
-    if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.projet.statut.estAchevé()) {
-      return;
-    }
-
-    if (garantiesFinancières.dateÉchéance.estDansLeFutur()) {
-      await this.#tâchePlanifiéeEchoir.ajouter({
-        àExécuterLe: garantiesFinancières.dateÉchéance.ajouterNombreDeJours(1),
-      });
-
-      await this.#tâchePlanifiéeRappel1mois.ajouter({
-        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(1),
-      });
-
-      await this.#tâchePlanifiéeRappel2mois.ajouter({
-        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(2),
-      });
-    } else if (!this.estÉchu) {
-      // TODO: Délai pour s'assurer que les projecteurs s'exécutent dans le bon ordre
-      // Idéalement les projecteurs devrait s'éxécuter dans l'ordre des versions du stream
-      await new Promise((r) => setTimeout(r, 100));
-      await this.échoir({ échuLe });
-    }
-  }
-
-  async annulerTâchesPlanififées() {
-    await this.#tâchePlanifiéeEchoir.annuler();
-    await this.#tâchePlanifiéeRappel1mois.annuler();
-    await this.#tâchePlanifiéeRappel2mois.annuler();
-    await this.#tâchePlanifiéeRappelEnAttente.annuler();
-  }
 
   apply(event: GarantiesFinancièresEvent): void {
     match(event)

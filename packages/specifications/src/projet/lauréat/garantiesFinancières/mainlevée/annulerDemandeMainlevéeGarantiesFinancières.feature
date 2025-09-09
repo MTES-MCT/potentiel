@@ -11,10 +11,8 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
     Scénario: Un porteur annule la demande de mainlevée des garanties financières
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
-        Et une demande de mainlevée de garanties financières avec :
-            | motif        | projet-achevé     |
-            | utilisateur  | porteur@test.test |
-            | date demande | 2014-05-28        |
+        Et une demande de mainlevée de garanties financières
+
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |
             | date annulation | 2014-05-28        |

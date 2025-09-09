@@ -41,8 +41,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-10-01         |
-        Et une demande de mainlevée de garanties financières avec :
-            | motif | projet-abandonné |
+        Et une demande de mainlevée de garanties financières
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat

@@ -130,8 +130,6 @@ export class ChoixExemptionImpossibleError extends InvalidOperationError {
 
 export class ProjetExemptDeGarantiesFinancièresError extends InvalidOperationError {
   constructor() {
-    super(
-      `Vous ne pouvez pas déposer ou modifier des garanties financières car ce projet en est exempt`,
-    );
+    super(`Le projet est exempt de garanties financières`);
   }
 }

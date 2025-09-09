@@ -8,25 +8,27 @@ import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../../../
 
 import {
   setAccordMainlevéeData,
-  setDemandeMainlevéeData,
   setInstructionDemandeMainlevéeData,
   setRejetMainlevéeData,
 } from './helper';
+import { demanderMainlevée } from './mainlevéeGarantiesFinancières.when';
+
+EtantDonné(
+  'une demande de mainlevée de garanties financières',
+  async function (this: PotentielWorld) {
+    await demanderMainlevée.call(this);
+  },
+);
 
 EtantDonné(
   'une demande de mainlevée de garanties financières avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const motif = exemple['motif'];
-    const utilisateur = exemple['utilisateur'];
-    const date = exemple['date demande'];
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
-    });
+    await demanderMainlevée.call(
+      this,
+      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExemple(exemple),
+    );
   },
 );
 
@@ -35,11 +37,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ identifiantProjet }),
-    });
-
+    await demanderMainlevée.call(this, {});
     await waitForSagasNotificationsAndProjectionsToFinish();
 
     await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
@@ -56,10 +54,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ identifiantProjet }),
-    });
+    await demanderMainlevée.call(this, {});
 
     await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
@@ -73,10 +68,7 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ identifiantProjet }),
-    });
+    await demanderMainlevée.call(this, {});
 
     await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',

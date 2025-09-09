@@ -17,24 +17,6 @@ export const defaultMainlevéeData = {
   },
 };
 
-type SetDemandeMainlevéeDataProps = Partial<(typeof defaultMainlevéeData)['demande']> & {
-  identifiantProjet: IdentifiantProjet.ValueType;
-};
-
-export const setDemandeMainlevéeData = ({
-  motif,
-  utilisateur,
-  date,
-  identifiantProjet,
-}: SetDemandeMainlevéeDataProps) => {
-  return {
-    identifiantProjetValue: identifiantProjet.formatter(),
-    motifValue: motif || defaultMainlevéeData.demande.motif,
-    demandéLeValue: new Date(date || defaultMainlevéeData.demande.date).toISOString(),
-    demandéParValue: utilisateur || defaultMainlevéeData.demande.utilisateur,
-  };
-};
-
 type SetInstructionDemandeMainlevéeDataProps = Partial<
   (typeof defaultMainlevéeData)['instruction']
 > & {

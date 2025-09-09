@@ -4,13 +4,24 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture';
 
 import {
   setAccordMainlevéeData,
-  setDemandeMainlevéeData,
   setInstructionDemandeMainlevéeData,
   setRejetMainlevéeData,
 } from './helper';
+
+Quand(
+  'le porteur demande la mainlevée des garanties financières',
+  async function (this: PotentielWorld) {
+    try {
+      await demanderMainlevée.call(this);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
 
 Quand(
   'le porteur demande la mainlevée des garanties financières avec :',
@@ -18,17 +29,9 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const motif = exemple['motif'];
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date demande'];
-
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-          data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
-        },
+      await demanderMainlevée.call(
+        this,
+        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExemple(exemple),
       );
     } catch (error) {
       this.error = error as Error;
@@ -202,3 +205,31 @@ Quand(
     }
   },
 );
+
+export async function demanderMainlevée(
+  this: PotentielWorld,
+  props: CréerDemanderMainlevéeFixtureProps = {},
+) {
+  const { identifiantProjet } = this.lauréatWorld;
+
+  const { projetAbandonné, projetAchevé } =
+    Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières;
+  const aTransmisAttestationConformité =
+    this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé;
+
+  const { demandéLe, motif, demandéPar } =
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.demander.créer({
+      motif: aTransmisAttestationConformité ? projetAchevé.motif : projetAbandonné.motif,
+      ...props,
+    });
+
+  await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
+    type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      motifValue: motif,
+      demandéLeValue: demandéLe,
+      demandéParValue: demandéPar,
+    },
+  });
+}
