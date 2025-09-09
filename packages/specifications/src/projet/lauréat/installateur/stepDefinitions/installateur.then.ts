@@ -22,10 +22,7 @@ Alors(
 
       const actual = mapToPlainObject(installateur);
       const expected = mapToPlainObject(
-        this.lauréatWorld.installateurWorld.mapToExpected(
-          identifiantProjet,
-          this.candidatureWorld.importerCandidature.dépôtValue.installateur,
-        ),
+        this.lauréatWorld.installateurWorld.mapToExpected(identifiantProjet),
       );
 
       actual.should.be.deep.equal(expected);
