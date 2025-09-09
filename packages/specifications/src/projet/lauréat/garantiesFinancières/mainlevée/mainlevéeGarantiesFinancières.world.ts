@@ -9,16 +9,19 @@ import {
 } from './fixtures/demanderMainlevée.fixture';
 import { PasserMainlevéeEnInstructionFixture } from './fixtures/passerMainlevéeEnInstruction.fixture';
 import { AccorderMainlevéeFixture } from './fixtures/accorderMainlevée.fixture';
+import { RejeterMainlevéeFixture } from './fixtures/rejeterMainlevée.fixture';
 
 export class MainlevéeGarantiesFinancièresWorld {
   readonly demander: DemanderMainlevéeFixture;
   readonly passerEnInstruction: PasserMainlevéeEnInstructionFixture;
   readonly accorder: AccorderMainlevéeFixture;
+  readonly rejeter: RejeterMainlevéeFixture;
 
   constructor(public readonly garantiesFinancièresWorld: GarantiesFinancièresWorld) {
     this.demander = new DemanderMainlevéeFixture();
     this.passerEnInstruction = new PasserMainlevéeEnInstructionFixture();
     this.accorder = new AccorderMainlevéeFixture();
+    this.rejeter = new RejeterMainlevéeFixture();
   }
 
   mapToExpected(): Lauréat.GarantiesFinancières.ListerMainlevéesReadModel {
@@ -31,7 +34,7 @@ export class MainlevéeGarantiesFinancièresWorld {
       ...this.demander.mapToExpected(),
       ...this.passerEnInstruction.mapToExpected(),
       ...this.accorder.mapToExpected(identifiantProjet),
-      rejet: undefined,
+      ...this.rejeter.mapToExpected(identifiantProjet),
     };
 
     return {

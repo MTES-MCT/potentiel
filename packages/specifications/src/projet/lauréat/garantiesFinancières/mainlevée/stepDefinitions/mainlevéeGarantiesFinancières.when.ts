@@ -6,8 +6,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture';
 
-import { setRejetMainlevéeData } from './helper';
-
 Quand(
   'le porteur demande la mainlevée des garanties financières',
   async function (this: PotentielWorld) {
@@ -84,48 +82,10 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières avec :`,
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
-      const documentContenu = exemple['contenu fichier réponse'];
-      const documentFormat = exemple['format fichier réponse'];
-
-      await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
-          data: setRejetMainlevéeData({
-            identifiantProjet,
-            utilisateur,
-            date,
-            documentFormat,
-            documentContenu,
-          }),
-        },
-      );
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières`,
+  `un utilisateur Dreal rejette la demande de mainlevée des garanties financières`,
   async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
-          data: setRejetMainlevéeData({ identifiantProjet }),
-        },
-      );
+      await rejeterMainlevée.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -193,6 +153,22 @@ export async function accorderMainlevée(this: PotentielWorld) {
         format: courrierAccord.format,
         content: courrierAccord.content,
       },
+    },
+  });
+}
+
+export async function rejeterMainlevée(this: PotentielWorld) {
+  const { identifiantProjet } = this.lauréatWorld;
+
+  const { courrierRejet, rejetéeLe, rejetéePar } =
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.rejeter.créer();
+  await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>({
+    type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      rejetéLeValue: rejetéeLe,
+      rejetéParValue: rejetéePar,
+      réponseSignéeValue: courrierRejet,
     },
   });
 }

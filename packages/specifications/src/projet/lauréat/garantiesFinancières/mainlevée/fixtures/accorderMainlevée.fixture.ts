@@ -29,6 +29,7 @@ export class AccorderMainlevéeFixture
 
   #format!: string;
   #content!: string;
+
   get courrierAccord(): AccorderMainlevée['courrierAccord'] {
     return {
       format: this.#format,
@@ -43,7 +44,7 @@ export class AccorderMainlevéeFixture
       accordéPar: faker.internet.email(),
       courrierAccord: {
         format: 'application/pdf',
-        content: content as unknown as ReadableStream,
+        content: convertStringToReadableStream(content),
       },
       ...partialData,
     };
