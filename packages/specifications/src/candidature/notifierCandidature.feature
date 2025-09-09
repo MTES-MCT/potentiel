@@ -36,13 +36,13 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le DGEC validateur devrait être informé que "La candidature est déjà notifiée"
 
-    Scénario: Impossible de notifier une période sans fonction pour le validateur
+    Scénario: Impossible de notifier une candidature sans fonction pour le validateur
         Etant donné le DGEC Validateur sans fonction
         Et la candidature lauréate "Du boulodrome de Marseille"
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le DGEC validateur devrait être informé que "La fonction de l'utilisateur doit être précisée pour cette opération"
 
-    Scénario: Impossible de notifier une période sans nom pour le validateur
+    Scénario: Impossible de notifier une candidature sans nom pour le validateur
         Etant donné le DGEC Validateur sans nom
         Et la candidature lauréate "Du boulodrome de Paris"
         Quand le DGEC validateur notifie la candidature lauréate
