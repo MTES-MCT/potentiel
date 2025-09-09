@@ -13,36 +13,16 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-abandonné |
-        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières avec :
-            | utilisateur             | dreal@test.test    |
-            | date                    | 2024-05-30         |
-            | contenu fichier réponse | contenu du fichier |
-            | format fichier réponse  | application/pdf    |
-        Alors une demande de mainlevée de garanties financières accordée devrait être consultable avec :
-            | accordé le              | 2024-05-30         |
-            | accordé par             | dreal@test.test    |
-            | mise à jour le          | 2024-05-30         |
-            | mise à jour par         | dreal@test.test    |
-            | format fichier réponse  | application/pdf    |
-            | contenu fichier réponse | contenu du fichier |
+        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
+        Alors une demande de mainlevée de garanties financières devrait être consultable
 
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-achevé |
-        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières avec :
-            | utilisateur             | dreal@test.test    |
-            | date                    | 2024-05-30         |
-            | contenu fichier réponse | contenu du fichier |
-            | format fichier réponse  | application/pdf    |
-        Alors une demande de mainlevée de garanties financières accordée devrait être consultable avec :
-            | accordé le              | 2024-05-30         |
-            | accordé par             | dreal@test.test    |
-            | mise à jour le          | 2024-05-30         |
-            | mise à jour par         | dreal@test.test    |
-            | format fichier réponse  | application/pdf    |
-            | contenu fichier réponse | contenu du fichier |
+        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
+        Alors une demande de mainlevée de garanties financières devrait être consultable
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné une attestation de conformité transmise pour le projet lauréat

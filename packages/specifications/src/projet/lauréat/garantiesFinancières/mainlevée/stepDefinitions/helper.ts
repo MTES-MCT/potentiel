@@ -40,27 +40,3 @@ export const setRejetMainlevéeData = ({
     },
   };
 };
-
-type SetAccordMainlevéeDataProps = Partial<(typeof defaultMainlevéeData)['rejetOuAccord']> & {
-  identifiantProjet: IdentifiantProjet.ValueType;
-};
-
-export const setAccordMainlevéeData = ({
-  date,
-  utilisateur,
-  documentFormat,
-  documentContenu,
-  identifiantProjet,
-}: SetAccordMainlevéeDataProps) => {
-  return {
-    identifiantProjetValue: identifiantProjet.formatter(),
-    accordéLeValue: new Date(date || defaultMainlevéeData.rejetOuAccord.date).toISOString(),
-    accordéParValue: utilisateur || defaultMainlevéeData.rejetOuAccord.utilisateur,
-    réponseSignéeValue: {
-      format: documentFormat || defaultMainlevéeData.rejetOuAccord.documentFormat,
-      content: convertStringToReadableStream(
-        documentContenu || defaultMainlevéeData.rejetOuAccord.documentContenu,
-      ),
-    },
-  };
-};
