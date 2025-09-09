@@ -8,22 +8,14 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture';
 
 EtantDonné(
-  'des garanties financières actuelles pour le projet {string} avec :',
-  async function (this: PotentielWorld, _: string, dataTable: DataTable) {
+  'des garanties financières actuelles pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     await enregistrerOuModifierSiExistantes.call(
       this,
       this.lauréatWorld.identifiantProjet,
       this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapExempleToFixtureValues(exemple),
     );
-  },
-);
-
-// TODO à supprimer en faveur de "[...] pour le projet lauréat"
-EtantDonné(
-  'des garanties financières actuelles pour le projet {string}',
-  async function (this: PotentielWorld, _: string) {
-    await enregistrerOuModifierSiExistantes.call(this, this.lauréatWorld.identifiantProjet, {});
   },
 );
 

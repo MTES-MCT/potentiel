@@ -10,7 +10,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Scénario: Un porteur annule la demande de mainlevée des garanties financières
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières avec :
             | motif        | projet-achevé     |
             | utilisateur  | porteur@test.test |
@@ -22,7 +22,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée n'existe pas
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |
             | date annulation | 2014-05-28        |
@@ -30,7 +30,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est rejetée
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières rejetée
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |
@@ -39,7 +39,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est accordée
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |
@@ -48,7 +48,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible d'annuler une demande de mainlevée des garanties financières si la demande de mainlevée des garanties financières est en instruction
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Et une demande de mainlevée de garanties financières en instruction
         Quand le porteur annule la demande de mainlevée des garanties financières avec :
             | utilisateur     | porteur@test.test |

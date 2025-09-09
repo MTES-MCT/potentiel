@@ -89,7 +89,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "Impossible d'enregistrer ou de modifier une exemption de garanties financières"
 
     Scénario: Impossible d'enregister des garanties financières s'il y a déjà des garanties financières actuelles
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières pour ce projet"
 

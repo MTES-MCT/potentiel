@@ -10,7 +10,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Un porteur demande la mainlevée des garanties financières de son projet abandonné
         Etant donnée un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif        | projet-abandonné  |
             | utilisateur  | porteur@test.test |
@@ -23,7 +23,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Un porteur demande la mainlevée des garanties financières de son projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières actuelles pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif        | projet-achevé     |
             | utilisateur  | porteur@test.test |
@@ -35,13 +35,13 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | statut       | demandé           |
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet n'est pas abandonné
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif | projet-abandonné |
         Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas en statut abandonné"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet n'est pas achevé
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car le projet n'est pas achevé (attestation de conformité non transmise au co-contractant et dans Potentiel)"
@@ -60,14 +60,14 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet s'il y a un dépôt de garanties financières pour le projet
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Et un dépôt de garanties financières
         Quand le porteur demande la mainlevée des garanties financières avec :
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Vous avez de nouvelles garanties financières à traiter pour ce projet. Pour demander la levée des garanties financières déjà validées vous devez d'abord annuler le dernier dépôt en attente de validation."
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières avec :
             | motif | projet-achevé |
@@ -76,7 +76,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée en cours pour ce projet"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée en cours d'instruction
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières en instruction
         Quand le porteur demande la mainlevée des garanties financières avec :
@@ -84,7 +84,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée en instruction pour ce projet"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée accordée
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée
         Quand le porteur demande la mainlevée des garanties financières avec :

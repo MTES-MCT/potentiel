@@ -9,7 +9,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Et un cahier des charges permettant la modification du projet
 
     Scénario: Échoir les garanties financières actuelles d'un projet à J+1 après la date d'échéance
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-07-17         |
         Quand on exécute la tâche planifiée "échoir les garanties financières" pour le projet lauréat à la date du "2050-07-18"
@@ -28,7 +28,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Et une tâche "rappel des garanties financières à transmettre" est planifiée à la date du "2050-08-18" pour le projet lauréat
 
     Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec garanties financières à échoir
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et une demande d'abandon en cours pour le projet lauréat
@@ -38,7 +38,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     Scénario: Un DGEC validateur accorde la demande de mainlevée d'un projet lauréat avec garanties financières à échoir
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-10-01         |
         Et une demande de mainlevée de garanties financières avec :
@@ -58,7 +58,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si la date d'échéance est dans le futur
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
@@ -68,7 +68,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si la vérification est le jour de la date d'échéance
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Quand un admin échoie les garanties financières actuelles pour le projet lauréat avec :
@@ -97,7 +97,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si le projet a transmis l'attestation de conformité
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et une attestation de conformité transmise pour le projet lauréat

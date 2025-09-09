@@ -47,7 +47,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-12-01         |
             | date de validation | 2024-11-24         |
@@ -62,7 +62,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Alors une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-10-01         |
             | date de validation | 2024-11-24         |

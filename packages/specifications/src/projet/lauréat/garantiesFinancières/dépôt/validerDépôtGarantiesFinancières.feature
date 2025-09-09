@@ -23,7 +23,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
             | six-mois-après-achèvement |                 |
 
     Scénario: Valider un dépôt de garanties financières pour un projet ayant déjà des garanties financières actuelles avec un statut validé
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet lauréat
         Et un dépôt de garanties financières
         Quand l'utilisateur dreal valide le dépôt de garanties financières
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
