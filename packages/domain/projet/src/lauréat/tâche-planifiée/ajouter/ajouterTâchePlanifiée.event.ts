@@ -1,5 +1,7 @@
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
+
+import { IdentifiantProjet } from '../../..';
 
 export type TâchePlanifiéeAjoutéeEvent = DomainEvent<
   'TâchePlanifiéeAjoutée-V1',

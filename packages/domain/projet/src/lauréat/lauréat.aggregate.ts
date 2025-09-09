@@ -39,6 +39,7 @@ import { ReprésentantLégalAggregate } from './représentantLégal/représentan
 import { RaccordementAggregate } from './raccordement/raccordement.aggregate';
 import { DélaiAggregate } from './délai/délai.aggregate';
 import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate';
+import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallateurAggregate } from './installateur/installateur.aggregate';
 
@@ -193,6 +194,13 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.loadAggregate(
       TâchePlanifiéeAggregate,
       `tâche-planifiée|${typeTâchePlanifiée}#${this.projet.identifiantProjet.formatter()}`,
+    );
+  }
+
+  async loadTâche(typeTâche: string) {
+    return this.loadAggregate(
+      TâcheAggregate,
+      `tâche|${typeTâche}#${this.projet.identifiantProjet.formatter()}`,
     );
   }
 
