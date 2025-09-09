@@ -238,17 +238,8 @@ Fonctionnalité: Importer une candidature
             | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
 
-    # @TODO
-    @NotImplemented
-    Scénario: Impossible d'importer une candidature sans dispositif de stockage pour un appel d'offre qui a ce champ requis
+    Scénario: Impossible d'importer une candidature sans information relative au couplage avec un dispositif de stockage pour un appel d'offre qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre          | PPE2 - Petit PV Bâtiment |
             | dispositif de stockage |                          |
-        Alors l'administrateur devrait être informé que "Le dispositif de stockage est requis pour cet appel d'offre"
-
-    @NotImplemented
-    Scénario: Impossible d'importer une candidature avec une valeur invalide pour le dispositif de stockage pour un appel d'offre qui a ce champ requis
-        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offre          | PPE2 - Petit PV Bâtiment |
-            | dispositif de stockage | peut-être                |
-        Alors l'administrateur devrait être informé que 'Le champ dispositif de stockage accepte les valeurs "oui" ou "non"'
+        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offre"

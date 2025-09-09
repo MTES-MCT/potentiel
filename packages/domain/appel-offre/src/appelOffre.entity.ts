@@ -244,6 +244,7 @@ const champsCandidature = [
   'puissanceDeSite',
   'autorisationDUrbanisme',
   'installateur',
+  'installationAvecDispositifDeStockage',
 ] as const;
 export type ChampCandidature = (typeof champsCandidature)[number];
 
