@@ -21,7 +21,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
             | appel d'offre | Eolien |
         Et la dreal "DREAL" associée à la région du projet
-        Et un dépôt de garanties financières pour le projet "Du boulodrome de Bordeaux"
+        Et un dépôt de garanties financières
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
         Et un email a été envoyé à la dreal avec :

@@ -13,8 +13,8 @@ import {
 } from './helper';
 
 Quand(
-  'le porteur demande la mainlevée des garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'le porteur demande la mainlevée des garanties financières avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
@@ -22,7 +22,7 @@ Quand(
       const utilisateur = exemple['utilisateur'];
       const date = exemple['date demande'];
 
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
 
       await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
         {
@@ -37,12 +37,12 @@ Quand(
 );
 
 Quand(
-  'le porteur annule la demande de mainlevée des garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'le porteur annule la demande de mainlevée des garanties financières avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const annulationData = dataTable.rowsHash();
 
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
       const utilisateur = annulationData['utilisateur'] || 'porteur@test.test';
       const date = annulationData['date annulation'] || '2024-01-01';
 
@@ -63,15 +63,15 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
       const utilisateur = exemple['utilisateur'];
       const date = exemple['date'];
 
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
 
       await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
         {
@@ -86,10 +86,10 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières du projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières`,
+  async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
 
       await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
         {
@@ -104,8 +104,8 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `un utilisateur Dreal accorde la demande de mainlevée des garanties financières avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
@@ -114,7 +114,7 @@ Quand(
       const documentContenu = exemple['contenu fichier réponse'];
       const documentFormat = exemple['format fichier réponse'];
 
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
 
       await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
         {
@@ -135,10 +135,10 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `un utilisateur Dreal accorde la demande de mainlevée des garanties financières`,
+  async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
 
       await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
         {
@@ -155,12 +155,12 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
 
       const utilisateur = exemple['utilisateur'];
       const date = exemple['date'];
@@ -186,10 +186,10 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières du projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières`,
+  async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } = this.lauréatWorld;
 
       await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>(
         {

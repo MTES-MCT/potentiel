@@ -82,7 +82,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | appel d'offre | Eolien |
             | période       | 6      |
             | actionnariat  |        |
-        Et un dépôt de garanties financières pour le projet "Du bouchon de Lyon"
+        Et un dépôt de garanties financières
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "L'instruction de la demande de changement est obligatoire dans ces conditions"
 
@@ -93,7 +93,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | actionnariat  |        |
             | type GF       |        |
         Et une demande de changement d'actionnaire en cours pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du bouchon de Nîmes"
+        Et des garanties financières actuelles pour le projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Une demande de changement est déjà en cours"
 

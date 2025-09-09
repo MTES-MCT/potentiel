@@ -7,7 +7,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
         Et la dreal "Dreal du sud" associée à la région du projet
-        Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+        Et un dépôt de garanties financières avec :
             | type GF | consignation |
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour

@@ -14,15 +14,15 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { defaultMainlevéeData } from './helper';
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `une demande de mainlevée de garanties financières devrait être consultable avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     const motif = exemple['motif'] || defaultMainlevéeData.demande.motif;
     const utilisateur = exemple['utilisateur'] || defaultMainlevéeData.demande.utilisateur;
     const dateDemande = exemple['date demande'] || defaultMainlevéeData.demande.date;
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
       const actualReadModel =
@@ -59,9 +59,9 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières ne devrait plus être consultable pour le projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `une demande de mainlevée de garanties financières ne devrait plus être consultable`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
       const actualReadModel =
@@ -79,8 +79,8 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières en instruction devrait être consultable pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `une demande de mainlevée de garanties financières en instruction devrait être consultable avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     const instructionDémarréeLe =
@@ -91,7 +91,7 @@ Alors(
     const dernièreMiseÀJourPar =
       exemple['mise à jour par'] || defaultMainlevéeData.instruction.utilisateur;
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
       const actualReadModel =
@@ -132,8 +132,8 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières accordée devrait être consultable pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `une demande de mainlevée de garanties financières accordée devrait être consultable avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     const accordéLe = exemple['accordé le'];
@@ -143,7 +143,7 @@ Alors(
     const format = exemple['format fichier réponse'];
     const content = exemple['contenu fichier réponse'];
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
       const actualReadModel =
@@ -212,11 +212,11 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     const rejetéLe = exemple['rejeté le'];
     const rejetéPar = exemple['rejeté par'];

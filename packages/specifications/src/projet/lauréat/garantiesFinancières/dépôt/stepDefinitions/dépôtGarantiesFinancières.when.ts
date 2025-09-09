@@ -36,8 +36,8 @@ Quand(
 );
 
 Quand(
-  'le porteur modifie un dépôt de garanties financières pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'le porteur modifie le dépôt de garanties financières avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
     try {
@@ -71,7 +71,7 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur dreal valide un dépôt de garanties financières pour le projet lauréat`,
+  `l'utilisateur dreal valide le dépôt de garanties financières`,
   async function (this: PotentielWorld) {
     try {
       await validerDépôtEnCours.call(this, this.lauréatWorld.identifiantProjet, {});

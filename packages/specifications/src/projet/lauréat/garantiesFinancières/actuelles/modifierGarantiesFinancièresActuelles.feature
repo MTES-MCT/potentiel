@@ -21,7 +21,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | six-mois-après-achèvement |                 |
 
     Scénario: Une tâche du type "échoir les garanties financières" est replanifiée quand la date d'échéance des garanties financières est modifiée
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-12-01         |
             | date de validation | 2024-11-24         |
@@ -31,7 +31,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2050-12-03" pour le projet lauréat
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de garanties financières actuelles modifiées
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-08-01         |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
@@ -41,7 +41,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
 
     Plan du Scénario: Impossible de modifier des garanties financières actuelles si le type renseigné n'est pas compatible avec une date d'échéance
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | <type GF>         |
@@ -54,7 +54,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | six-mois-après-achèvement | 2027-12-01      |
 
     Scénario: Impossible de modifier des garanties financières actuelles si la date d'échéance est manquante
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF         | avec-date-échéance |
@@ -62,7 +62,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
     Scénario: Impossible de modifier des garanties financières actuelles si la date de constitution est dans le futur
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | date de constitution | 2050-01-01 |
@@ -75,14 +75,14 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Scénario: Impossible de modifier des garanties financières actuelles si les garanties financières du projet sont levées
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
+        Et des garanties financières actuelles pour le projet lauréat
+        Et une demande de mainlevée de garanties financières accordée
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet"
 
     Scénario: Une tâche du type "échoir les garanties financières" n'est pas ajoutée si une attestation de conformité est déjà transmise
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-12-01         |
             | date de validation | 2024-11-24         |
@@ -102,7 +102,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car ce projet en est exempt"
 
     Scénario: Impossible de modifier des garanties financières actuelles avec un type non disponible pour l'appel d'offre
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | appel d'offre | PPE2 - Sol |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF              | exemption  |
