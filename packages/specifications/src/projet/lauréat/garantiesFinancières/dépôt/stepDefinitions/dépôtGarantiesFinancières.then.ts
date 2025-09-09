@@ -1,15 +1,14 @@
 import { Then as Alors } from '@cucumber/cucumber';
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { expectFileContent } from '../../../../../helpers/expectFileContent';
 
 Alors(
   'le dépôt de garanties financières devrait être consultable pour le projet lauréat',
@@ -28,20 +27,10 @@ Alors(
       actual.should.be.deep.equal(expected);
 
       if (actualReadModel.dépôt.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualReadModel.dépôt.attestation.formatter(),
-          },
-        });
-
-        assert(Option.isSome(file), `Attestation non trouvée !`);
-        const expectedAttestation =
-          this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapToAttestation();
-
-        expect(actualReadModel.dépôt.attestation.format).to.be.equal(expectedAttestation.format);
-        const actualContent = await convertReadableStreamToString(file.content);
-        expect(actualContent).to.equal(expectedAttestation.content);
+        await expectFileContent(
+          actualReadModel.dépôt.attestation,
+          this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapToAttestation(),
+        );
       }
     });
   },

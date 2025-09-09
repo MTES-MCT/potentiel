@@ -89,6 +89,8 @@ export class GarantiesFinancièresActuellesWorld {
       .filter((action) => action.aÉtéCréé)
       .sort((a, b) => a.enregistréLe.localeCompare(b.enregistréLe))
       .pop();
-    return { content: lastAction?.content, format: lastAction?.attestation.format };
+    if (lastAction) {
+      return lastAction.attestation;
+    }
   }
 }

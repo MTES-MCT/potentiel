@@ -6,6 +6,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { EnregistrerGarantiesFinancièresProps } from '../fixtures/enregistrerGarantiesFinancières.fixture';
+import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable';
 
 EtantDonné(
   'des garanties financières actuelles pour le projet lauréat avec :',
@@ -66,7 +67,7 @@ export async function enregistrerAttestation(
         enregistréLeValue: enregistréLe,
         enregistréParValue: enregistréPar,
         dateConstitutionValue: dateConstitution,
-        attestationValue: attestation,
+        attestationValue: convertFixtureFileToReadableStream(attestation),
       },
     },
   );
@@ -90,7 +91,7 @@ export async function enregistrerGarantiesFinancièresActuelles(
       enregistréParValue: enregistréPar,
       garantiesFinancièresValue: garantiesFinancières,
       dateConstitutionValue: dateConstitution,
-      attestationValue: attestation,
+      attestationValue: convertFixtureFileToReadableStream(attestation),
     },
   });
 }
@@ -113,7 +114,7 @@ export async function modifierGarantiesFinancièresActuelles(
       modifiéParValue: enregistréPar,
       garantiesFinancièresValue: garantiesFinancières,
       dateConstitutionValue: dateConstitution,
-      attestationValue: attestation,
+      attestationValue: convertFixtureFileToReadableStream(attestation),
     },
   });
 }

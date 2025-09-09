@@ -5,12 +5,11 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { AbstractFixture } from '../../../../../fixture';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
 interface RejeterMainlevée {
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
-  readonly courrierRejet: { format: string; content: ReadableStream };
+  readonly courrierRejet: { format: string; content: string };
 }
 
 export class RejeterMainlevéeFixture
@@ -30,17 +29,16 @@ export class RejeterMainlevéeFixture
   #format!: string;
   #content!: string;
   get courrierRejet() {
-    return { format: this.#format, content: convertStringToReadableStream(this.#content) };
+    return { format: this.#format, content: this.#content };
   }
 
   créer(partialData?: Partial<Readonly<RejeterMainlevée>>): Readonly<RejeterMainlevée> {
-    const content = faker.word.words();
     const fixture: RejeterMainlevée = {
       rejetéeLe: faker.date.soon().toISOString(),
       rejetéePar: faker.internet.email(),
       courrierRejet: {
         format: 'application/pdf',
-        content: convertStringToReadableStream(content),
+        content: faker.word.words(),
       },
       ...partialData,
     };
@@ -48,7 +46,7 @@ export class RejeterMainlevéeFixture
     this.#rejetéeLe = fixture.rejetéeLe;
     this.#rejetéePar = fixture.rejetéePar;
     this.#format = fixture.courrierRejet.format;
-    this.#content = content;
+    this.#content = fixture.courrierRejet.content;
     this.aÉtéCréé = true;
     return fixture;
   }

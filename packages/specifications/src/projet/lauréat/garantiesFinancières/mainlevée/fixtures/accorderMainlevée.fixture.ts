@@ -5,12 +5,11 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { AbstractFixture } from '../../../../../fixture';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
 interface AccorderMainlevée {
   readonly accordéLe: string;
   readonly accordéPar: string;
-  readonly courrierAccord: { format: string; content: ReadableStream };
+  readonly courrierAccord: { format: string; content: string };
 }
 
 export class AccorderMainlevéeFixture
@@ -33,18 +32,17 @@ export class AccorderMainlevéeFixture
   get courrierAccord(): AccorderMainlevée['courrierAccord'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
   créer(partialData?: Partial<Readonly<AccorderMainlevée>>): Readonly<AccorderMainlevée> {
-    const content = faker.word.words();
     const fixture: AccorderMainlevée = {
       accordéLe: faker.date.soon().toISOString(),
       accordéPar: faker.internet.email(),
       courrierAccord: {
         format: 'application/pdf',
-        content: convertStringToReadableStream(content),
+        content: faker.word.words(),
       },
       ...partialData,
     };
@@ -52,7 +50,7 @@ export class AccorderMainlevéeFixture
     this.#accordéLe = fixture.accordéLe;
     this.#accordéPar = fixture.accordéPar;
     this.#format = fixture.courrierAccord.format;
-    this.#content = content;
+    this.#content = fixture.courrierAccord.content;
 
     this.aÉtéCréé = true;
     return fixture;

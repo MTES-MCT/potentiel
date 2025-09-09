@@ -5,6 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture';
+import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable';
 
 Quand(
   'le porteur demande la mainlevée des garanties financières',
@@ -149,10 +150,7 @@ export async function accorderMainlevée(this: PotentielWorld) {
       identifiantProjetValue: identifiantProjet.formatter(),
       accordéLeValue: accordéLe,
       accordéParValue: accordéPar,
-      réponseSignéeValue: {
-        format: courrierAccord.format,
-        content: courrierAccord.content,
-      },
+      réponseSignéeValue: convertFixtureFileToReadableStream(courrierAccord),
     },
   });
 }
@@ -168,7 +166,7 @@ export async function rejeterMainlevée(this: PotentielWorld) {
       identifiantProjetValue: identifiantProjet.formatter(),
       rejetéLeValue: rejetéeLe,
       rejetéParValue: rejetéePar,
-      réponseSignéeValue: courrierRejet,
+      réponseSignéeValue: convertFixtureFileToReadableStream(courrierRejet),
     },
   });
 }

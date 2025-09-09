@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world';
 
 export interface SoumettreDépôtGarantiesFinancières {
@@ -15,7 +14,7 @@ export interface SoumettreDépôtGarantiesFinancières {
   readonly dateDélibération: string | undefined;
   readonly soumisLe: string;
   readonly soumisPar: string;
-  readonly attestation: { format: string; content: ReadableStream };
+  readonly attestation: { format: string; content: string };
 }
 
 export type SoumettreDépôtGarantiesFinancièresProps =
@@ -50,14 +49,10 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
   #format!: string;
   #content!: string;
 
-  get content() {
-    return this.#content;
-  }
-
   get attestation(): SoumettreDépôtGarantiesFinancières['attestation'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -87,7 +82,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       ...partialData,
       attestation: {
         format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
+        content,
       },
     };
     this.#type = fixture.type;
