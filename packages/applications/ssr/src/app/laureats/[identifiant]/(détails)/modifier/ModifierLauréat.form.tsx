@@ -239,7 +239,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             <ProjectField
               candidature={candidature.installateur}
               lauréat={lauréat.installateur.currentValue}
-              label="Installateur"
+              label="Installateur (optionnel)"
               name="installateur"
               validationErrors={validationErrors}
             />

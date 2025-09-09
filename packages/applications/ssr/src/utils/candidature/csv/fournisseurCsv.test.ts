@@ -22,6 +22,7 @@ test('convertir la liste de fournisseur depuis le CSV', () => {
     },
     { typeFournisseur: 'module-ou-films', nomDuFabricant: 'module 1', lieuDeFabrication: 'Canada' },
   ];
+
   const fournisseurs = mapCsvRowToFournisseurs({
     'Nom du fabricant (Cellules) 1': 'AAA',
     'Nom du fabricant \n(Plaquettes de silicium (wafers)) 1': 'silicium 1',

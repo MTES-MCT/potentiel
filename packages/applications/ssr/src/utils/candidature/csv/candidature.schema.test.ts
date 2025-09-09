@@ -63,6 +63,34 @@ describe('candidatureSchema', () => {
     });
   });
 
+  test('Cas nominal, avec des champs spécifiques, classé', () => {
+    const dateDAutorisationDUrbanisme = '12/12/2022';
+    const result = candidatureSchema.safeParse({
+      ...minimumValues,
+      installateur: 'Installateur.Inc',
+      coefficientKChoisi: 'true',
+      dateDAutorisationDUrbanisme,
+      numeroDAutorisationDUrbanisme: '666',
+      obligationDeSolarisationSchema: 'true',
+      puissanceDeSite: '200',
+    });
+    assert(result.success);
+    expect(result.data).to.deep.equal({
+      ...minimumValues,
+      puissanceProductionAnnuelle: 100,
+      prixReference: 50,
+      noteTotale: 80,
+      puissanceALaPointe: true,
+      evaluationCarboneSimplifiee: 10,
+      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf).toISOString(),
+      coefficientKChoisi: true,
+      puissanceDeSite: 200,
+      dateDAutorisationDUrbanisme: new Date(dateDAutorisationDUrbanisme).toISOString(),
+      numeroDAutorisationDUrbanisme: '666',
+      installateur: 'Installateur.Inc',
+    });
+  });
+
   test("motifs d'élimination requis si candidature éliminée", () => {
     const result = candidatureSchema.safeParse({
       ...minimumValues,
