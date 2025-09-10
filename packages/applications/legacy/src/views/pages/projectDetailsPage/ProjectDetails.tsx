@@ -58,6 +58,7 @@ type ProjectDetailsProps = {
   actionnaire?: InfoGeneralesProps['actionnaire'];
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
+  installateur?: InfoGeneralesProps['installateur'];
   attestationConformité?: AttestationConformitéProps;
   dateAchèvementPrévisionnel: number;
   estAchevé: boolean;
@@ -95,6 +96,7 @@ export const ProjectDetails = ({
   fournisseur,
   délai,
   autorisationDUrbanisme,
+  installateur,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -243,6 +245,7 @@ export const ProjectDetails = ({
               estAchevé={estAchevé}
               attestationConformité={attestationConformité}
               autorisationDUrbanisme={autorisationDUrbanisme}
+              installateur={installateur}
             />
             <Contact
               identifiantProjet={identifiantProjet}

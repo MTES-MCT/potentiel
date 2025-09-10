@@ -12,6 +12,7 @@ import {
   Fournisseur,
   Délai,
   GarantiesFinancières,
+  Installateur,
 } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
@@ -48,4 +49,5 @@ export const Routes = {
   Fournisseur,
   Délai,
   GarantiesFinancières,
+  Installateur,
 };

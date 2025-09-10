@@ -21,6 +21,9 @@ import {
   GetActionnaireForProjectPage,
   GetReprésentantLégalForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
+import { GetDélaiForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getDélai';
+import { GetInstallateurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getInstallateur';
+import { GetFournisseurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getFournisseur';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
@@ -28,6 +31,9 @@ type EnregistrerUneModificationProps = {
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
   représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
+  délaiAffichage?: GetDélaiForProjectPage['affichage'];
+  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
+  installateurAffichage?: GetInstallateurForProjectPage['affichage'];
 };
 
 const EnregistrerUneModification = ({
@@ -36,6 +42,9 @@ const EnregistrerUneModification = ({
   puissanceAffichage,
   actionnaireAffichage,
   représentantLégalAffichage,
+  délaiAffichage,
+  fournisseurAffichage,
+  installateurAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -57,6 +66,21 @@ const EnregistrerUneModification = ({
       {!!représentantLégalAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={représentantLégalAffichage.url}>
           <span>{représentantLégalAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!délaiAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={délaiAffichage.url}>
+          <span>{délaiAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!fournisseurAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={fournisseurAffichage.url}>
+          <span>{fournisseurAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!installateurAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={installateurAffichage.url}>
+          <span>{installateurAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
     </DropdownMenuSecondaryButton>
@@ -199,6 +223,9 @@ type AdminActionsProps = {
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
   représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
+  délaiAffichage?: GetDélaiForProjectPage['affichage'];
+  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
+  installateurAffichage?: GetInstallateurForProjectPage['affichage'];
 };
 
 const AdminActions = ({
@@ -208,6 +235,9 @@ const AdminActions = ({
   puissanceAffichage,
   actionnaireAffichage,
   représentantLégalAffichage,
+  délaiAffichage,
+  fournisseurAffichage,
+  installateurAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -218,6 +248,9 @@ const AdminActions = ({
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
+          délaiAffichage={délaiAffichage}
+          fournisseurAffichage={fournisseurAffichage}
+          installateurAffichage={installateurAffichage}
         />
       )}
       {notifiedOn && isClasse ? (

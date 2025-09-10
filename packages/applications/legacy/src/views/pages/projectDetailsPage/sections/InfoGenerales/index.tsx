@@ -17,10 +17,12 @@ import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { InfoActionnaire } from './InfoActionnaire';
+import { InfoInstallateur } from './InfoInstallateur';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
+import { GetInstallateurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getInstallateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
 import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
@@ -41,6 +43,7 @@ export type InfoGeneralesProps = {
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   actionnaire?: GetActionnaireForProjectPage;
   puissance?: GetPuissanceForProjectPage;
+  installateur?: GetInstallateurForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
@@ -76,6 +79,7 @@ export const InfoGenerales = ({
   estAchevé,
   attestationConformité,
   autorisationDUrbanisme,
+  installateur,
 }: InfoGeneralesProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -133,7 +137,7 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </div>
       </div>
-      {autorisationDUrbanisme !== undefined && (
+      {autorisationDUrbanisme !== undefined ? (
         <div>
           <Heading3 className="m-0">Autorisation d'urbanisme</Heading3>
           <ul className="list-none m-0 pl-0">
@@ -141,7 +145,8 @@ export const InfoGenerales = ({
             <li>Date d'obtention : {afficherDate(new Date(autorisationDUrbanisme.date.date))}</li>
           </ul>
         </div>
-      )}
+      ) : null}
+      {installateur ? <InfoInstallateur installateur={installateur} /> : null}
       {actionnaire ? (
         <InfoActionnaire
           actionnaire={actionnaire}
