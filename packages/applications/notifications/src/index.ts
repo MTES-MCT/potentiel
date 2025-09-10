@@ -17,6 +17,7 @@ export * as ProducteurNotification from './subscribers/lauréat/producteur';
 export * as FournisseurNotification from './subscribers/lauréat/fournisseur';
 export * as DélaiNotification from './subscribers/lauréat/délai';
 export * as InstallateurNotification from './subscribers/lauréat/installateur';
+export * as InstallationAvecDispositifDeStockageNotifications from './subscribers/lauréat/installationAvecDispositifDeStockage';
 
 // Éliminé
 export * as RecoursNotification from './subscribers/éliminé/recours.notification';

@@ -1,9 +1,10 @@
 import { InstallationAvecDispositifDeStockageProjector } from '@potentiel-applications/projectors';
+import { InstallationAvecDispositifDeStockageNotifications } from '@potentiel-applications/notifications';
 
 import { SetupProjet } from '../setup';
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 
-export const setupInstallationAvecDispositifDeStockage: SetupProjet = async () => {
+export const setupInstallationAvecDispositifDeStockage: SetupProjet = async ({ sendEmail }) => {
   const installationAvecDispositifDeStockage = createSubscriptionSetup(
     'installation-avec-dispositif-de-stockage',
   );
@@ -21,6 +22,17 @@ export const setupInstallationAvecDispositifDeStockage: SetupProjet = async () =
       'InstallationAvecDispositifDeStockageModifié-V1',
     ],
     messageType: 'System.Projector.Lauréat.InstallationAvecDispositifDeStockage',
+  });
+
+  InstallationAvecDispositifDeStockageNotifications.register({ sendEmail });
+
+  await installationAvecDispositifDeStockage.setupSubscription<
+    InstallationAvecDispositifDeStockageNotifications.SubscriptionEvent,
+    InstallationAvecDispositifDeStockageNotifications.Execute
+  >({
+    name: 'notifications',
+    eventType: ['InstallationAvecDispositifDeStockageModifié-V1'],
+    messageType: 'System.Notification.Lauréat.InstallationAvecDispositifDeStockage',
   });
 
   return installationAvecDispositifDeStockage.clearSubscriptions;
