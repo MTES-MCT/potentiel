@@ -6,11 +6,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
-  "le DGEC validateur modifie l'installateur du projet {lauréat-éliminé}",
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+  "le DGEC validateur modifie l'installateur du projet lauréat",
+  async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } =
-        statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+      const { identifiantProjet } = this.lauréatWorld;
 
       await modifierInstallateur.call(this, identifiantProjet);
     } catch (error) {

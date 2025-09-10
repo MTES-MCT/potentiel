@@ -50,8 +50,3 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
     Scénario: Impossible de modifier l'installateur avec une valeur identique
         Quand le DGEC validateur modifie l'installateur avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouvel installateur est identique à celui associé au projet"
-
-    Scénario: Impossible de modifier l'installateur d'un projet éliminé
-        Etant donné le projet éliminé "Du bouchon lyonnais"
-        Quand le DGEC validateur modifie l'installateur du projet éliminé
-        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"

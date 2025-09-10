@@ -43,7 +43,7 @@ export const getInstallateur = async ({
           affichage: {
             url: Routes.Installateur.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
-            labelActions: 'Modifier le installateur',
+            labelActions: "Modifier l'installateur",
           },
         };
       }

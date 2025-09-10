@@ -44,12 +44,7 @@ export class InstallateurAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async modifier({
-    identifiantProjet,
-    installateur,
-    dateModification,
-    identifiantUtilisateur,
-  }: ModifierOptions) {
+  async modifier({ installateur, dateModification, identifiantUtilisateur }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
     if (this.installateur === installateur) {
@@ -59,7 +54,7 @@ export class InstallateurAggregate extends AbstractAggregate<
     const event: InstallateurModifiéEvent = {
       type: 'InstallateurModifié-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
         installateur,
         modifiéLe: dateModification.formatter(),
         modifiéPar: identifiantUtilisateur.formatter(),

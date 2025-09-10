@@ -22,17 +22,15 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, installateur },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    if (installateur) {
-      await mediator.send<Lauréat.Installateur.ModifierInstallateurUseCase>({
-        type: 'Lauréat.Installateur.UseCase.ModifierInstallateur',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-          dateModificationValue: new Date().toISOString(),
-          installateurValue: installateur,
-        },
-      });
-    }
+    await mediator.send<Lauréat.Installateur.ModifierInstallateurUseCase>({
+      type: 'Lauréat.Installateur.UseCase.ModifierInstallateur',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        dateModificationValue: new Date().toISOString(),
+        installateurValue: installateur ?? '',
+      },
+    });
 
     return {
       status: 'success',
