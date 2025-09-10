@@ -9,6 +9,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers/vérifierQueLeCahierDesChargesPermetUnChangement';
 
 import { EnregistrerChangementProducteurPage } from './EnregistrerChangementProducteur.page';
 
@@ -31,6 +32,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     if (Option.isNone(producteurActuel)) {
       return notFound();
     }
+
+    await vérifierQueLeCahierDesChargesPermetUnChangement(
+      producteurActuel.identifiantProjet,
+      'information-enregistrée',
+      'producteur',
+    );
 
     return (
       <EnregistrerChangementProducteurPage

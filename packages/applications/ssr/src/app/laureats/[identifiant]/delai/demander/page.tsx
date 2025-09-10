@@ -44,6 +44,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
+    await vérifierQueLeCahierDesChargesPermetUnChangement(
+      lauréat.identifiantProjet,
+      'demande',
+      'délai',
+    );
+
     return (
       <DemanderDélaiPage
         identifiantProjet={identifiantProjet}

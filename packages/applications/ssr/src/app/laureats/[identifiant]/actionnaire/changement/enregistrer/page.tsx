@@ -10,6 +10,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 
 import { EnregistrerChangementActionnairePage } from './EnregistrerChangementActionnaire.page';
 
@@ -32,6 +33,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     if (Option.isNone(actionnaireActuel)) {
       return notFound();
     }
+
+    await vérifierQueLeCahierDesChargesPermetUnChangement(
+      actionnaireActuel.identifiantProjet,
+      'information-enregistrée',
+      'actionnaire',
+    );
 
     return (
       <EnregistrerChangementActionnairePage

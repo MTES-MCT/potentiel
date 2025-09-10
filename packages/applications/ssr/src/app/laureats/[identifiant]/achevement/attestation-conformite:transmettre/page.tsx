@@ -7,7 +7,10 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import {
+  récupérerLauréatNonAbandonné,
+  vérifierQueLeCahierDesChargesPermetUnChangement,
+} from '@/app/_helpers';
 
 import {
   TransmettreAttestationConformitéPage,
@@ -24,6 +27,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
 
     const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
+
+    await vérifierQueLeCahierDesChargesPermetUnChangement(
+      projet.identifiantProjet,
+      'information-enregistrée',
+      'achèvement',
+    );
 
     const garantiesFinancières =
       await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
