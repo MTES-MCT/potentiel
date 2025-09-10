@@ -16,7 +16,6 @@ import {
 import { TâcheAchevéeEvent } from './achever/acheverTâche.event';
 
 export class TâcheAggregate extends AbstractAggregate<TâcheEvent, 'tâche', LauréatAggregate> {
-  #typeTâche: TypeTâche.ValueType = TypeTâche.inconnue;
   #achevée: boolean = false;
 
   get lauréat() {
@@ -27,50 +26,51 @@ export class TâcheAggregate extends AbstractAggregate<TâcheEvent, 'tâche', La
     return this.lauréat.projet.identifiantProjet;
   }
 
-  get typeTâchePlanifiée() {
-    return this.aggregateId.slice(this.aggregateId.indexOf('|') + 1, this.aggregateId.indexOf('#'));
+  get typeTâche() {
+    return TypeTâche.convertirEnValueType(
+      this.aggregateId.slice(this.aggregateId.indexOf('|') + 1, this.aggregateId.indexOf('#')),
+    );
   }
 
   async ajouter() {
-    const event: TâcheAjoutéeEvent | TâcheRelancéeEvent | TâcheRenouvelléeEvent =
-      this.#typeTâche.estÉgaleÀ(TypeTâche.inconnue)
+    const event: TâcheAjoutéeEvent | TâcheRelancéeEvent | TâcheRenouvelléeEvent = !this.exists
+      ? {
+          type: 'TâcheAjoutée-V1',
+          payload: {
+            ajoutéeLe: DateTime.now().formatter(),
+            identifiantProjet: this.identifiantProjet.formatter(),
+            typeTâche: this.typeTâche.type,
+          },
+        }
+      : this.#achevée
         ? {
-            type: 'TâcheAjoutée-V1',
+            type: 'TâcheRenouvellée-V1',
             payload: {
               ajoutéeLe: DateTime.now().formatter(),
               identifiantProjet: this.identifiantProjet.formatter(),
-              typeTâche: this.#typeTâche.type,
+              typeTâche: this.typeTâche.type,
             },
           }
-        : this.#achevée
-          ? {
-              type: 'TâcheRenouvellée-V1',
-              payload: {
-                ajoutéeLe: DateTime.now().formatter(),
-                identifiantProjet: this.identifiantProjet.formatter(),
-                typeTâche: this.#typeTâche.type,
-              },
-            }
-          : {
-              type: 'TâcheRelancée-V1',
-              payload: {
-                relancéeLe: DateTime.now().formatter(),
-                identifiantProjet: this.identifiantProjet.formatter(),
-                typeTâche: this.#typeTâche.type,
-              },
-            };
+        : {
+            type: 'TâcheRelancée-V1',
+            payload: {
+              relancéeLe: DateTime.now().formatter(),
+              identifiantProjet: this.identifiantProjet.formatter(),
+              typeTâche: this.typeTâche.type,
+            },
+          };
 
     await this.publish(event);
   }
 
   async achever() {
-    if (!this.#typeTâche.estÉgaleÀ(TypeTâche.inconnue) && !this.#achevée) {
+    if (this.exists && !this.#achevée) {
       const event: TâcheAchevéeEvent = {
         type: 'TâcheAchevée-V1',
         payload: {
           achevéeLe: DateTime.now().formatter(),
           identifiantProjet: this.identifiantProjet.formatter(),
-          typeTâche: this.#typeTâche.type,
+          typeTâche: this.typeTâche.type,
         },
       };
 
@@ -87,9 +87,7 @@ export class TâcheAggregate extends AbstractAggregate<TâcheEvent, 'tâche', La
       .exhaustive();
   }
 
-  applyTâcheAjoutée({ payload: { typeTâche } }: TâcheAjoutéeEvent) {
-    this.#typeTâche = TypeTâche.convertirEnValueType(typeTâche);
-  }
+  applyTâcheAjoutée(_: TâcheAjoutéeEvent) {}
 
   applyTâcheRelancée(_: TâcheRelancéeEvent) {
     this.#achevée = false;
