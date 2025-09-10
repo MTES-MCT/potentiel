@@ -165,6 +165,7 @@ export const bind = ({
     return { dispositions, référenceParagraphe };
   },
   getChampsSupplémentaires() {
+    console.log(this.appelOffre);
     return {
       ...this.appelOffre.champsSupplémentaires,
       ...this.période.champsSupplémentaires,

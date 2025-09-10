@@ -41,7 +41,7 @@ Fonctionnalité: Corriger une candidature
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
         Et l'attestation de désignation de la candidature devrait être consultable
 
-    Scénario: Corriger une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
+    Scénario: Corriger la puissance de site d'une candidature pour un appel d'offre qui a ce champ
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre     | PPE2 - Petit PV Bâtiment |
             | puissance de site | 100                      |
@@ -49,7 +49,7 @@ Fonctionnalité: Corriger une candidature
             | puissance de site | 200 |
         Alors la candidature devrait être consultable
 
-    Scénario: Corriger une candidature avec une autorisation d'urbanisme pour un appel d'offre qui a ce champ requis
+    Scénario: Corriger l'autorisation d'urbanisme d'une candidature pour un appel d'offre qui a ce champ
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
             | numéro de l'autorisation d'urbanisme           | ancien numéro            |
@@ -57,6 +57,14 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | numéro de l'autorisation d'urbanisme           | nouveau numéro |
             | date d'obtention de l'autorisation d'urbanisme | 01/07/2025     |
+        Alors la candidature devrait être consultable
+
+    Scénario: Corriger l'installateur d'une candidature pour un appel d'offre qui a ce champ
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | installateur  | Installateur.Junior.Inc  |
+        Quand le DGEC validateur corrige la candidature avec :
+            | installateur | Installateur.Senior.Inc |
         Alors la candidature devrait être consultable
 
     Scénario: Impossible de régénérer l'attestation d'une candidature non notifiée
@@ -218,6 +226,11 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site | 100 |
         Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
+
+    Scénario: Impossible de corriger une candidature avec un installateur si l'appel d'offre ne le propose pas
+        Quand le DGEC validateur corrige la candidature avec :
+            | installateur | Installateur.Inc |
+        Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offre"
 
     Scénario: Impossible de corriger une candidature sans autorisation d'urbanisme si l'appel d'offre a ces champs requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
