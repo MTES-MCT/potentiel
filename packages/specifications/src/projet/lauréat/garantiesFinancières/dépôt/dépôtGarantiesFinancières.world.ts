@@ -63,8 +63,8 @@ export class DépôtGarantiesFinancièresWorld {
 
   mapToAttestation() {
     if (this.modifier.aÉtéCréé) {
-      return { content: this.modifier.content, format: this.modifier.attestation.format };
+      return this.modifier.attestation;
     }
-    return { content: this.soumettre.content, format: this.soumettre.attestation.format };
+    return this.soumettre.attestation;
   }
 }

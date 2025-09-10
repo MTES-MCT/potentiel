@@ -3,13 +3,12 @@ import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { expectFileContent } from '../../../../../helpers/expectFileContent';
 
 Alors(
   'les garanties financières actuelles devraient être consultables pour le projet lauréat',
@@ -26,21 +25,10 @@ Alors(
       actual.should.be.deep.equal(expected);
 
       if (actualReadModel.garantiesFinancières.attestation) {
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualReadModel.garantiesFinancières.attestation.formatter(),
-          },
-        });
-
-        assert(Option.isSome(file), `Attestation non trouvée !`);
-        const expectedAttestation = this.lauréatWorld.garantiesFinancièresWorld.mapToAttestation();
-
-        expect(actualReadModel.garantiesFinancières.attestation.format).to.be.equal(
-          expectedAttestation.format,
+        await expectFileContent(
+          actualReadModel.garantiesFinancières.attestation,
+          this.lauréatWorld.garantiesFinancièresWorld.mapToAttestation(),
         );
-        const actualContent = await convertReadableStreamToString(file.content);
-        expect(actualContent).to.equal(expectedAttestation.content);
       }
     });
   },
@@ -80,10 +68,9 @@ Alors(
     const validéLeValue = garantiesFinancières.validéLe?.formatter();
     const statutValue = garantiesFinancières.statut.statut;
 
-    const { format, content } =
-      this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
-
     const raisonValue = exemple['raison'];
+    const expectedAttestation =
+      this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
 
     await waitForExpect(async () => {
       const actualArchivesGarantiesFinancièresReadModel =
@@ -134,27 +121,9 @@ Alors(
         ),
       ).to.be.true;
 
-      if (format && content) {
-        expect(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation).not.to.be
-          .undefined;
-        assert(actualArchivesGarantiesFinancièresReadModel.archives[0].attestation);
+      const actualAttestation = actualArchivesGarantiesFinancièresReadModel.archives[0].attestation;
 
-        const file = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey:
-              actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.formatter(),
-          },
-        });
-
-        assert(Option.isSome(file), `Attestation non trouvée !`);
-
-        expect(
-          actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.format,
-        ).to.be.equal(format);
-        const actualContent = await convertReadableStreamToString(file.content);
-        actualContent.should.be.equal(content);
-      }
+      await expectFileContent(actualAttestation ?? Option.none, expectedAttestation);
     });
   },
 );

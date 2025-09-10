@@ -6,6 +6,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../.././../potentiel.world';
 import { SoumettreDépôtGarantiesFinancièresProps } from '../fixtures/soumettre.fixture';
 import { ValiderDépôtGarantiesFinancièresProps } from '../fixtures/valider.fixture';
+import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable';
 
 Quand(
   'un porteur soumet un dépôt de garanties financières pour le projet lauréat',
@@ -101,7 +102,7 @@ export async function soumettreDépôt(
     type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
-      attestationValue: attestation,
+      attestationValue: convertFixtureFileToReadableStream(attestation),
       dateConstitutionValue: dateConstitution,
       soumisLeValue: soumisLe,
       soumisParValue: soumisPar,
@@ -135,7 +136,7 @@ export async function modifierDépôt(
         dateConstitutionValue: new Date(dateConstitution).toISOString(),
         modifiéLeValue: new Date(soumisLe).toISOString(),
         modifiéParValue: soumisPar,
-        attestationValue: attestation,
+        attestationValue: convertFixtureFileToReadableStream(attestation),
         dateÉchéanceValue: dateÉchéance,
         dateDelibérationValue: dateDélibération,
       },

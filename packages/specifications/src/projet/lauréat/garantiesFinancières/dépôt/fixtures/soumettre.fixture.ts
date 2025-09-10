@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 import { DépôtGarantiesFinancièresWorld } from '../dépôtGarantiesFinancières.world';
 
 export interface SoumettreDépôtGarantiesFinancières {
@@ -15,7 +14,7 @@ export interface SoumettreDépôtGarantiesFinancières {
   readonly dateDélibération: string | undefined;
   readonly soumisLe: string;
   readonly soumisPar: string;
-  readonly attestation: { format: string; content: ReadableStream };
+  readonly attestation: { format: string; content: string };
 }
 
 export type SoumettreDépôtGarantiesFinancièresProps =
@@ -50,14 +49,10 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
   #format!: string;
   #content!: string;
 
-  get content() {
-    return this.#content;
-  }
-
   get attestation(): SoumettreDépôtGarantiesFinancières['attestation'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -75,7 +70,6 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
         'avec-date-échéance',
         'six-mois-après-achèvement',
       ]);
-    const content = faker.word.words();
 
     const fixture: SoumettreDépôtGarantiesFinancières = {
       type,
@@ -85,10 +79,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       soumisPar: faker.internet.email(),
       dateConstitution: faker.date.recent().toISOString(),
       ...partialData,
-      attestation: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      attestation: faker.potentiel.document(),
     };
     this.#type = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
@@ -96,7 +87,7 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     this.#dateDélibération = fixture.dateDélibération;
     this.#soumisLe = fixture.soumisLe;
     this.#soumisPar = fixture.soumisPar;
-    this.#content = content;
+    this.#content = fixture.attestation.content;
     this.#format = fixture.attestation.format;
 
     this.aÉtéCréé = true;

@@ -91,8 +91,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée a été demandée
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
-        Et une demande de mainlevée de garanties financières avec :
-            | motif | projet-achevé |
+        Et une demande de mainlevée de garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de mainlevée de garanties financières en cours"
@@ -117,3 +116,12 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat
         Alors une tâche "rappel des garanties financières à transmettre" n'est plus planifiée pour le projet lauréat
+
+    Scénario: Impossible de soumettre un dépôt de garanties financières si le projet est exempt de garanties financières
+        Etant donné le projet lauréat "Du Boulodrome de Tourcoing" avec :
+            | appel d'offre        | PPE2 - Petit PV Bâtiment |
+            | type GF              | exemption                |
+            | date de délibération | 2025-01-01               |
+        Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
+            | type GF | consignation |
+        Alors l'utilisateur devrait être informé que "Le projet est exempt de garanties financières"

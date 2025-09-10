@@ -1,86 +1,53 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { mediator } from 'mediateur';
-
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
 import {
-  setAccordMainlevéeData,
-  setDemandeMainlevéeData,
-  setInstructionDemandeMainlevéeData,
-  setRejetMainlevéeData,
-} from './helper';
+  accorderMainlevée,
+  demanderMainlevée,
+  démarrerInstructionMainlevée,
+  rejeterMainlevée,
+} from './mainlevéeGarantiesFinancières.when';
+
+EtantDonné(
+  'une demande de mainlevée de garanties financières',
+  async function (this: PotentielWorld) {
+    await demanderMainlevée.call(this);
+  },
+);
 
 EtantDonné(
   'une demande de mainlevée de garanties financières avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const motif = exemple['motif'];
-    const utilisateur = exemple['utilisateur'];
-    const date = exemple['date demande'];
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
-    });
+    await demanderMainlevée.call(
+      this,
+      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExemple(exemple),
+    );
   },
 );
 
 EtantDonné(
   'une demande de mainlevée de garanties financières en instruction',
   async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ identifiantProjet }),
-    });
-
-    await waitForSagasNotificationsAndProjectionsToFinish();
-
-    await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
-      {
-        type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-        data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
-      },
-    );
+    await demanderMainlevée.call(this);
+    await démarrerInstructionMainlevée.call(this);
   },
 );
 
 EtantDonné(
   'une demande de mainlevée de garanties financières accordée',
   async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ identifiantProjet }),
-    });
-
-    await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
-      data: setAccordMainlevéeData({ identifiantProjet }),
-    });
+    await demanderMainlevée.call(this);
+    await accorderMainlevée.call(this);
   },
 );
 
 EtantDonné(
   'une demande de mainlevée de garanties financières rejetée',
   async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-      data: setDemandeMainlevéeData({ identifiantProjet }),
-    });
-
-    await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
-      data: setRejetMainlevéeData({ identifiantProjet }),
-    });
+    await demanderMainlevée.call(this);
+    await rejeterMainlevée.call(this);
   },
 );

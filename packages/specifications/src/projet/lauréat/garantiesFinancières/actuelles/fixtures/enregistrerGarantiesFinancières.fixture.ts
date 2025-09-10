@@ -5,7 +5,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { AbstractFixture, DeepPartial } from '../../../../../fixture';
-import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world';
 
 export interface EnregistrerGarantiesFinancières {
@@ -15,7 +14,7 @@ export interface EnregistrerGarantiesFinancières {
     dateDélibération?: string;
   };
   readonly dateConstitution: string;
-  readonly attestation: { format: string; content: ReadableStream };
+  readonly attestation: { format: string; content: string };
   readonly enregistréLe: string;
   readonly enregistréPar: string;
 }
@@ -46,14 +45,10 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
   #format!: string;
   #content!: string;
 
-  get content() {
-    return this.#content;
-  }
-
   get attestation(): EnregistrerGarantiesFinancières['attestation'] {
     return {
       format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      content: this.#content,
     };
   }
 
@@ -74,16 +69,12 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
         'six-mois-après-achèvement',
       ]);
 
-    const content = faker.word.words();
     const fixture: EnregistrerGarantiesFinancières = {
       dateConstitution: faker.date.recent().toISOString(),
       enregistréLe: new Date().toISOString(),
       enregistréPar: faker.internet.email(),
       ...partialData,
-      attestation: {
-        format: faker.potentiel.fileFormat(),
-        content: convertStringToReadableStream(content),
-      },
+      attestation: faker.potentiel.document(),
       garantiesFinancières: {
         type,
         dateÉchéance: type === 'avec-date-échéance' ? faker.date.future().toISOString() : undefined,
@@ -91,7 +82,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
         ...partialData?.garantiesFinancières,
       },
     };
-    this.#content = content;
+    this.#content = fixture.attestation.content;
     this.#format = fixture.attestation.format;
     this.#garantiesFinancières = fixture.garantiesFinancières;
     this.#dateConstitution = fixture.dateConstitution;

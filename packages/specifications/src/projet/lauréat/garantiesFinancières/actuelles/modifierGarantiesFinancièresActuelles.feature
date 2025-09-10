@@ -1,6 +1,6 @@
 # language: fr
 @garanties-financières
-@modifier-garanties-financières-actuelles
+@garanties-financières-actuelles
 Fonctionnalité: Modifier des garanties financières actuelles
 
     Contexte:
@@ -39,6 +39,15 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | date d'échéance | 2050-10-01         |
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
+
+    Scénario: Un admin modifie des garanties financières actuelles pour un projet qui en est exempté
+        Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
+            | appel d'offre        | PPE2 - Petit PV Bâtiment |
+            | type GF              | exemption                |
+            | date de délibération | 2025-01-01               |
+        Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
+            | type GF | consignation |
+        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
     Plan du Scénario: Impossible de modifier des garanties financières actuelles si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
@@ -91,15 +100,6 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-12-02         |
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
-
-    Scénario: Impossible de modifier des garanties financières actuelles si le projet en est exempt
-        Etant donné le projet lauréat "Du boulodrome de Toulouse" avec :
-            | appel d'offre        | PPE2 - Petit PV Bâtiment |
-            | type GF              | exemption                |
-            | date de délibération | 2023-01-02               |
-        Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
-            | type GF | consignation |
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car ce projet en est exempt"
 
     Scénario: Impossible de modifier des garanties financières actuelles avec un type non disponible pour l'appel d'offre
         Etant donné des garanties financières actuelles pour le projet lauréat avec :

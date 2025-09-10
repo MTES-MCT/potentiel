@@ -4,13 +4,19 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { CréerDemanderMainlevéeFixtureProps } from '../fixtures/demanderMainlevée.fixture';
+import { convertFixtureFileToReadableStream } from '../../../../../helpers/convertFixtureFileToReadable';
 
-import {
-  setAccordMainlevéeData,
-  setDemandeMainlevéeData,
-  setInstructionDemandeMainlevéeData,
-  setRejetMainlevéeData,
-} from './helper';
+Quand(
+  'le porteur demande la mainlevée des garanties financières',
+  async function (this: PotentielWorld) {
+    try {
+      await demanderMainlevée.call(this);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
 
 Quand(
   'le porteur demande la mainlevée des garanties financières avec :',
@@ -18,17 +24,9 @@ Quand(
     const exemple = dataTable.rowsHash();
 
     try {
-      const motif = exemple['motif'];
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date demande'];
-
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-          data: setDemandeMainlevéeData({ motif, utilisateur, date, identifiantProjet }),
-        },
+      await demanderMainlevée.call(
+        this,
+        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExemple(exemple),
       );
     } catch (error) {
       this.error = error as Error;
@@ -63,71 +61,10 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières avec :`,
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
-
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-          data: setInstructionDemandeMainlevéeData({ identifiantProjet, utilisateur, date }),
-        },
-      );
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   `un utilisateur Dreal démarre l'instruction de la demande de mainlevée des garanties financières`,
   async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-          data: setInstructionDemandeMainlevéeData({ identifiantProjet }),
-        },
-      );
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `un utilisateur Dreal accorde la demande de mainlevée des garanties financières avec :`,
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
-      const documentContenu = exemple['contenu fichier réponse'];
-      const documentFormat = exemple['format fichier réponse'];
-
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
-          data: setAccordMainlevéeData({
-            identifiantProjet,
-            utilisateur,
-            date,
-            documentFormat,
-            documentContenu,
-          }),
-        },
-      );
+      await démarrerInstructionMainlevée.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -138,16 +75,7 @@ Quand(
   `un utilisateur Dreal accorde la demande de mainlevée des garanties financières`,
   async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
-          data: setAccordMainlevéeData({
-            identifiantProjet,
-          }),
-        },
-      );
+      await accorderMainlevée.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -155,50 +83,90 @@ Quand(
 );
 
 Quand(
-  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières avec :`,
-  async function (this: PotentielWorld, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    try {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const utilisateur = exemple['utilisateur'];
-      const date = exemple['date'];
-      const documentContenu = exemple['contenu fichier réponse'];
-      const documentFormat = exemple['format fichier réponse'];
-
-      await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
-          data: setRejetMainlevéeData({
-            identifiantProjet,
-            utilisateur,
-            date,
-            documentFormat,
-            documentContenu,
-          }),
-        },
-      );
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  `un utilisateur Dreal rejette une demande de mainlevée des garanties financières`,
+  `un utilisateur Dreal rejette la demande de mainlevée des garanties financières`,
   async function (this: PotentielWorld) {
     try {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>(
-        {
-          type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
-          data: setRejetMainlevéeData({ identifiantProjet }),
-        },
-      );
+      await rejeterMainlevée.call(this);
     } catch (error) {
       this.error = error as Error;
     }
   },
 );
+
+export async function demanderMainlevée(
+  this: PotentielWorld,
+  props: CréerDemanderMainlevéeFixtureProps = {},
+) {
+  const { identifiantProjet } = this.lauréatWorld;
+
+  const { projetAbandonné, projetAchevé } =
+    Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières;
+  const aTransmisAttestationConformité =
+    this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé;
+
+  const { demandéLe, motif, demandéPar } =
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.demander.créer({
+      motif: aTransmisAttestationConformité ? projetAchevé.motif : projetAbandonné.motif,
+      ...props,
+    });
+
+  await mediator.send<Lauréat.GarantiesFinancières.DemanderMainlevéeGarantiesFinancièresUseCase>({
+    type: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      motifValue: motif,
+      demandéLeValue: demandéLe,
+      demandéParValue: demandéPar,
+    },
+  });
+}
+
+export async function démarrerInstructionMainlevée(this: PotentielWorld) {
+  const { identifiantProjet } = this.lauréatWorld;
+
+  const { démarréeLe, démarréePar } =
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.passerEnInstruction.créer();
+
+  await mediator.send<Lauréat.GarantiesFinancières.DémarrerInstructionMainlevéeGarantiesFinancièresUseCase>(
+    {
+      type: 'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        démarréLeValue: démarréeLe,
+        démarréParValue: démarréePar,
+      },
+    },
+  );
+}
+
+export async function accorderMainlevée(this: PotentielWorld) {
+  const { identifiantProjet } = this.lauréatWorld;
+  const { accordéLe, accordéPar, courrierAccord } =
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.créer();
+
+  await mediator.send<Lauréat.GarantiesFinancières.AccorderMainlevéeGarantiesFinancièresUseCase>({
+    type: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      accordéLeValue: accordéLe,
+      accordéParValue: accordéPar,
+      réponseSignéeValue: convertFixtureFileToReadableStream(courrierAccord),
+    },
+  });
+}
+
+export async function rejeterMainlevée(this: PotentielWorld) {
+  const { identifiantProjet } = this.lauréatWorld;
+
+  const { courrierRejet, rejetéeLe, rejetéePar } =
+    this.lauréatWorld.garantiesFinancièresWorld.mainlevée.rejeter.créer();
+  await mediator.send<Lauréat.GarantiesFinancières.RejeterMainlevéeGarantiesFinancièresUseCase>({
+    type: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      rejetéLeValue: rejetéeLe,
+      rejetéParValue: rejetéePar,
+      réponseSignéeValue: convertFixtureFileToReadableStream(courrierRejet),
+    },
+  });
+}
