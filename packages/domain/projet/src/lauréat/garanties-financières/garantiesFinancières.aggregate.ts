@@ -6,6 +6,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 import { TypeGarantiesFinancières } from '../../candidature';
+import { TâcheAggregate } from '../tâche/tâche.aggregate';
+import { TypeTâche } from '../tâche';
 
 import {
   GarantiesFinancières,
@@ -106,10 +108,14 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   'garanties-financieres',
   LauréatAggregate
 > {
+  // Tâches planifiées
   #tâchePlanifiéeEchoir!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel1mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel2mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappelEnAttente!: AggregateType<TâchePlanifiéeAggregate>;
+
+  // Tâches porteur
+  #tâcheDemanderGarantiesFinancières!: AggregateType<TâcheAggregate>;
 
   #motifDemande: MotifDemandeGarantiesFinancières.ValueType | undefined;
   #dateLimiteSoumission: DateTime.ValueType | undefined;
@@ -126,6 +132,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     );
     this.#tâchePlanifiéeRappelEnAttente = await this.lauréat.loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.rappelEnAttente.type,
+    );
+
+    this.#tâcheDemanderGarantiesFinancières = await this.lauréat.loadTâche(
+      TypeTâche.garantiesFinancièresDemander.type,
     );
   }
 
@@ -389,6 +399,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       dateLimiteSoumission: échuLe.ajouterNombreDeMois(2),
       motif: MotifDemandeGarantiesFinancières.échéanceGarantiesFinancièresActuelles,
     });
+
+    await this.#tâcheDemanderGarantiesFinancières.ajouter();
   }
 
   async effacerHistorique({ effacéLe, effacéPar }: EffacerHistoriqueOptions) {
