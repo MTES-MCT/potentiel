@@ -4,18 +4,14 @@ import {
   TâcheRenouvelléeEvent,
   TâcheRelancéeEvent,
 } from './ajouter/ajouterTâche.event';
-import {
-  ConsulterNombreTâchesQuery,
-  ConsulterNombreTâchesReadModel,
-} from './consulter/consulterNombreTâche.query';
 import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâche.query';
 
 // Query
-export type TâcheQuery = ConsulterNombreTâchesQuery & ListerTâchesQuery;
-export type { ConsulterNombreTâchesQuery, ListerTâchesQuery };
+export type TâcheQuery = ListerTâchesQuery;
+export type { ListerTâchesQuery };
 
 // ReadModel
-export type { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
+export type { ListerTâchesReadModel };
 
 // Event
 export * from './tâche.event';

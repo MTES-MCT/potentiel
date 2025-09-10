@@ -10,12 +10,12 @@ export const dynamic = 'force-dynamic';
 export const GET = () =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
-      const result = await mediator.send<Lauréat.Tâche.ConsulterNombreTâchesQuery>({
-        type: 'Tâche.Query.ConsulterNombreTâches',
+      const result = await mediator.send<Lauréat.Tâche.ListerTâchesQuery>({
+        type: 'Tâche.Query.ListerTâches',
         data: {
           email: utilisateur.identifiantUtilisateur.email,
         },
       });
-      return Response.json(result);
+      return Response.json(result.total);
     }),
   );

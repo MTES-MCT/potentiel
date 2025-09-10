@@ -79,14 +79,14 @@ export async function UserHeaderQuickAccessItem() {
 
 async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType) {
   if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-    const { nombreTâches } = await mediator.send<Lauréat.Tâche.ConsulterNombreTâchesQuery>({
-      type: 'Tâche.Query.ConsulterNombreTâches',
+    const { total } = await mediator.send<Lauréat.Tâche.ListerTâchesQuery>({
+      type: 'Tâche.Query.ListerTâches',
       data: {
         email: utilisateur.identifiantUtilisateur.email,
       },
     });
 
-    if (nombreTâches === 0) {
+    if (total === 0) {
       return (
         <HeaderQuickAccessItem
           quickAccessItem={{
@@ -102,7 +102,7 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType
     }
 
     return (
-      <Badge badgeContent={nombreTâches} max={99} color="primary" overlap="circular">
+      <Badge badgeContent={total} max={99} color="primary" overlap="circular">
         <HeaderQuickAccessItem
           quickAccessItem={{
             iconId: 'fr-icon-list-ordered',
