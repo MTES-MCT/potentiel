@@ -1,15 +1,14 @@
 import { FC } from 'react';
 
-import { Tâche } from '@potentiel-domain/tache';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { TâcheListItem } from '@/app/taches/TâcheListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
 
 export type TâcheListPageProps = {
-  list: PlainType<Tâche.ListerTâchesReadModel>;
+  list: PlainType<Lauréat.Tâche.ListerTâchesReadModel>;
   filters: ListPageTemplateProps<typeof TâcheListItem>['filters'];
 };
 

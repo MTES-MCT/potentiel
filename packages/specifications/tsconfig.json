@@ -9,9 +9,6 @@
       "path": "../domain/core"
     },
     {
-      "path": "../domain/tâche"
-    },
-    {
       "path": "../domain/utilisateur"
     },
     {

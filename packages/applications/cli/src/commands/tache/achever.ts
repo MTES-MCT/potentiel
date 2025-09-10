@@ -1,33 +1,27 @@
-import { Command, Flags, getLogger } from '@oclif/core';
-import { mediator } from 'mediateur';
+import { Command, Flags } from '@oclif/core';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { registerTâcheCommand, Tâche } from '@potentiel-domain/tache';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { IdentifiantProjet, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export class AcheverTâche extends Command {
   static flags = {
     projet: Flags.string({ char: 'p', description: 'identifiant du projet', required: true }),
     type: Flags.string({ char: 't', description: 'type de tâche', required: true }),
   };
-  async init() {
-    registerTâcheCommand({ loadAggregate });
-  }
 
   async run() {
     const { flags } = await this.parse(AcheverTâche);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(flags.projet);
-    const typeTâche = Tâche.TypeTâche.convertirEnValueType(flags.type);
-    await mediator.send<Tâche.AcheverTâcheCommand>({
-      type: 'System.Tâche.Command.AcheverTâche',
-      data: {
-        identifiantProjet,
-        typeTâche,
-      },
+    const typeTâche = Lauréat.Tâche.TypeTâche.convertirEnValueType(flags.type);
+
+    const projet = await ProjetAggregateRoot.get(identifiantProjet, {
+      loadAggregate: loadAggregateV2,
+      loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
     });
-    getLogger().info('Tâche achevée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      typeTâche: typeTâche.type,
-    });
+
+    const tâche = await projet.lauréat.loadTâche(typeTâche.type);
+
+    await tâche.achever();
   }
 }

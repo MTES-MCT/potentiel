@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { Tâche } from '@potentiel-domain/tache';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export type RechercherTypeTâche =
   | 'transmettre la preuve de recandidature'
@@ -11,28 +11,29 @@ export type RechercherTypeTâche =
   | "renseigner l'accusé de réception de la demande complète de raccordement";
 
 export class TâcheWorld {
-  rechercherTypeTâche(value: RechercherTypeTâche): Tâche.TypeTâche.ValueType {
+  rechercherTypeTâche(value: RechercherTypeTâche): Lauréat.Tâche.TypeTâche.ValueType {
     return match(value)
       .with(
         'transmettre la preuve de recandidature',
-        () => Tâche.TypeTâche.abandonTransmettrePreuveRecandidature,
+        () => Lauréat.Tâche.TypeTâche.abandonTransmettrePreuveRecandidature,
       )
-      .with('confirmer un abandon', () => Tâche.TypeTâche.abandonConfirmer)
+      .with('confirmer un abandon', () => Lauréat.Tâche.TypeTâche.abandonConfirmer)
       .with(
         'transmettre les garanties financières',
-        () => Tâche.TypeTâche.garantiesFinancièresDemander,
+        () => Lauréat.Tâche.TypeTâche.garantiesFinancièresDemander,
       )
       .with(
         'mettre à jour le gestionnaire de réseau',
-        () => Tâche.TypeTâche.raccordementGestionnaireRéseauInconnuAttribué,
+        () => Lauréat.Tâche.TypeTâche.raccordementGestionnaireRéseauInconnuAttribué,
       )
       .with(
         'transmettre une référence de raccordement',
-        () => Tâche.TypeTâche.raccordementRéférenceNonTransmise,
+        () => Lauréat.Tâche.TypeTâche.raccordementRéférenceNonTransmise,
       )
       .with(
         "renseigner l'accusé de réception de la demande complète de raccordement",
-        () => Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+        () =>
+          Lauréat.Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
       )
       .exhaustive();
   }

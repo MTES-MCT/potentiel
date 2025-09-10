@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
+import { LauréatEntity } from '../..';
 
 type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -35,13 +35,13 @@ export type ListerTâchesQuery = Message<
 >;
 
 export type ListerTâchesQueryDependencies = {
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
   list: List;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerTâchesQuery = ({
   list,
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
 }: ListerTâchesQueryDependencies) => {
   const handler: MessageHandler<ListerTâchesQuery> = async ({
     email,
@@ -51,15 +51,26 @@ export const registerListerTâchesQuery = ({
     cycle,
     nomProjet,
   }) => {
-    const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
+
+    if (scope.type !== 'projet') {
+      return {
+        items: [],
+        range: {
+          startPosition: 0,
+          endPosition: 0,
+        },
+        total: 0,
+      };
+    }
 
     const {
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<TâcheEntity, Lauréat.LauréatEntity>('tâche', {
+    } = await list<TâcheEntity, LauréatEntity>('tâche', {
       where: {
-        identifiantProjet: Where.matchAny(identifiants),
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,
@@ -96,11 +107,9 @@ const mapToReadModel = ({
   misÀJourLe,
   typeTâche,
   lauréat: { nomProjet },
-}: TâcheEntity & Joined<Lauréat.LauréatEntity>): TâcheListItem => {
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-    typeTâche: TypeTâche.convertirEnValueType(typeTâche),
-    nomProjet,
-  };
-};
+}: TâcheEntity & Joined<LauréatEntity>): TâcheListItem => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+  typeTâche: TypeTâche.convertirEnValueType(typeTâche),
+  nomProjet,
+});

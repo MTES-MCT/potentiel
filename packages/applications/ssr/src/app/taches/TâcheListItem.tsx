@@ -4,14 +4,13 @@ import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { Tâche } from '@potentiel-domain/tache';
 import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-export type TâcheListItemProps = PlainType<Tâche.ListerTâchesReadModel['items'][number]>;
+export type TâcheListItemProps = PlainType<Lauréat.Tâche.ListerTâchesReadModel['items'][number]>;
 
 export const TâcheListItem: FC<TâcheListItemProps> = ({
   identifiantProjet,
@@ -48,7 +47,7 @@ const getDescriptionTâche = (
   identifiantProjet: TâcheListItemProps['identifiantProjet'],
   nomProjet: string,
 ) => {
-  const type = Tâche.TypeTâche.bind(typeTâche).type;
+  const type = Lauréat.Tâche.TypeTâche.bind(typeTâche).type;
   const identifiant = IdentifiantProjet.bind(identifiantProjet).formatter();
 
   return match(type)
