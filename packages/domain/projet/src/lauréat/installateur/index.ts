@@ -23,7 +23,7 @@ export { InstallateurImportéEvent } from './importer/importerInstallateur.event
 export { InstallateurModifiéEvent } from './modifier/modifierInstallateur.event';
 
 // Register
-export { registerInstallateurQueries } from './installateur.register';
+export { registerInstallateurQueries, registerInstallateurUseCases } from './installateur.register';
 
 // Entities
 export * from './installateur.entity';

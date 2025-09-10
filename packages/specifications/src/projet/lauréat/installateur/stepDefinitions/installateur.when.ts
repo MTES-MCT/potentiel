@@ -26,7 +26,7 @@ Quand(
       await modifierInstallateur.call(
         this,
         this.lauréatWorld.identifiantProjet,
-        this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
+        this.candidatureWorld.importerCandidature.dépôtValue.installateur,
       );
     } catch (error) {
       this.error = error as Error;

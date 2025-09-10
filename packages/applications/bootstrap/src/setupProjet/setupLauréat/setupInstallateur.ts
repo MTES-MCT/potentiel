@@ -1,4 +1,6 @@
 import { InstallateurProjector } from '@potentiel-applications/projectors';
+import { InstallateurNotification } from '@potentiel-applications/notifications';
+import { sendEmail } from '@potentiel-infrastructure/email';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
@@ -7,6 +9,7 @@ export const setupInstallateur: SetupProjet = async () => {
   const installateur = createSubscriptionSetup('installateur');
 
   InstallateurProjector.register();
+
   await installateur.setupSubscription<
     InstallateurProjector.SubscriptionEvent,
     InstallateurProjector.Execute
@@ -14,6 +17,16 @@ export const setupInstallateur: SetupProjet = async () => {
     name: 'projector',
     eventType: ['RebuildTriggered', 'InstallateurImporté-V1', 'InstallateurModifié-V1'],
     messageType: 'System.Projector.Lauréat.Installateur',
+  });
+
+  InstallateurNotification.register({ sendEmail });
+  await installateur.setupSubscription<
+    InstallateurNotification.SubscriptionEvent,
+    InstallateurNotification.Execute
+  >({
+    name: 'notifications',
+    eventType: ['InstallateurModifié-V1'],
+    messageType: 'System.Notification.Lauréat.Installateur',
   });
 
   return installateur.clearSubscriptions;

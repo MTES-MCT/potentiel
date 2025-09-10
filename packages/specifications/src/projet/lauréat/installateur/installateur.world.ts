@@ -26,7 +26,9 @@ export class InstallateurWorld {
 
     const expected: Lauréat.Installateur.ConsulterInstallateurReadModel = {
       identifiantProjet,
-      installateur: installateurALaCandidature,
+      installateur: this.#modifierInstallateurFixture.aÉtéCréé
+        ? this.#modifierInstallateurFixture.installateur
+        : installateurALaCandidature,
     };
 
     return expected;
