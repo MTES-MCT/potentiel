@@ -1,9 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Count, Where } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { Email } from '@potentiel-domain/common';
 
 import { TâcheEntity } from '../tâche.entity';
+import { GetProjetUtilisateurScope } from '../../..';
 
 export type ConsulterNombreTâchesReadModel = {
   nombreTâches: number;
@@ -18,26 +19,30 @@ export type ConsulterNombreTâchesQuery = Message<
 >;
 
 export type ConsulterNombreTâchesQueryDependencies = {
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
   count: Count;
 };
 
 export const registerConsulterNombreTâchesQuery = ({
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
   count,
 }: ConsulterNombreTâchesQueryDependencies) => {
   const handler: MessageHandler<ConsulterNombreTâchesQuery> = async ({ email }) => {
-    const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
-    const nombreTâches = await count<TâcheEntity>('tâche', {
-      where: {
-        identifiantProjet: Where.matchAny(identifiants),
-      },
-    });
+    if (scope.type === 'projet') {
+      const nombreTâches = await count<TâcheEntity>('tâche', {
+        where: {
+          identifiantProjet: Where.matchAny(scope.identifiantProjets),
+        },
+      });
 
-    return {
-      nombreTâches,
-    };
+      return {
+        nombreTâches,
+      };
+    }
+
+    return { nombreTâches: 0 };
   };
   mediator.register('Tâche.Query.ConsulterNombreTâches', handler);
 };

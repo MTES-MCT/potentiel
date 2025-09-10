@@ -1,12 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
 
 import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';
-import { IdentifiantProjet } from '../../..';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity } from '../..';
 
 type TâcheListItem = {
@@ -36,13 +35,13 @@ export type ListerTâchesQuery = Message<
 >;
 
 export type ListerTâchesQueryDependencies = {
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
   list: List;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerTâchesQuery = ({
   list,
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
 }: ListerTâchesQueryDependencies) => {
   const handler: MessageHandler<ListerTâchesQuery> = async ({
     email,
@@ -52,7 +51,7 @@ export const registerListerTâchesQuery = ({
     cycle,
     nomProjet,
   }) => {
-    const identifiants = await récupérerIdentifiantsProjetParEmailPorteur(email);
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
     const {
       items,
@@ -60,7 +59,8 @@ export const registerListerTâchesQuery = ({
       total,
     } = await list<TâcheEntity, LauréatEntity>('tâche', {
       where: {
-        identifiantProjet: Where.matchAny(identifiants),
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,
@@ -76,6 +76,7 @@ export const registerListerTâchesQuery = ({
               : Where.notContains('PPE2')
             : Where.equal(appelOffre),
           nomProjet: Where.contain(nomProjet),
+          localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
         },
       },
     });

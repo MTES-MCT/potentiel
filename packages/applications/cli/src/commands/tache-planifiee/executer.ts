@@ -50,9 +50,6 @@ export class Executer extends Command {
       récupérerProjetsEligiblesPreuveRecanditure: () => {
         throw new Error('notImplemented');
       },
-      récupérerIdentifiantsProjetParEmailPorteur: () => {
-        throw new Error('notImplemented');
-      },
     });
     registerProjetUseCases({
       getProjetAggregateRoot: (identifiantProjet) =>
