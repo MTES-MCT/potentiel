@@ -1,6 +1,5 @@
 # language: fr
 @installateur
-@select
 Fonctionnalité: Modifier l'installateur d'un projet lauréat
 
     Contexte:
@@ -14,9 +13,9 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
         Quand le DGEC validateur modifie l'installateur du projet lauréat
         Alors l'installateur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de l'installateur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                   |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                        |
+            | nom_projet | Du boulodrome de Marseille                            |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html |
+
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Modification de l'installateur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                   |
@@ -49,8 +48,6 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                        |
 
     Scénario: Impossible de modifier l'installateur avec une valeur identique
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et la dreal "Dreal du sud" associée à la région du projet
         Quand le DGEC validateur modifie l'installateur avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouvel installateur est identique à celui associé au projet"
 

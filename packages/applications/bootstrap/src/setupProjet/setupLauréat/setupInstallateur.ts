@@ -1,11 +1,10 @@
 import { InstallateurProjector } from '@potentiel-applications/projectors';
 import { InstallateurNotification } from '@potentiel-applications/notifications';
-import { sendEmail } from '@potentiel-infrastructure/email';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
-export const setupInstallateur: SetupProjet = async () => {
+export const setupInstallateur: SetupProjet = async ({ sendEmail }) => {
   const installateur = createSubscriptionSetup('installateur');
 
   InstallateurProjector.register();
