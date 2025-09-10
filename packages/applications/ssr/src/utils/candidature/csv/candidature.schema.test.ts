@@ -73,7 +73,6 @@ describe('candidatureSchema', () => {
       coefficientKChoisi: 'true',
       dateDAutorisationDUrbanisme,
       numeroDAutorisationDUrbanisme: '666',
-      // obligationDeSolarisation: 'true',
       puissanceDeSite: '200',
     });
     assert(result.success);
@@ -81,7 +80,6 @@ describe('candidatureSchema', () => {
       ...expectedMinimumValues,
       installateur: 'Installateur.Inc',
       coefficientKChoisi: true,
-      // obligationDeSolarisation: true,
       puissanceDeSite: 200,
       dateDAutorisationDUrbanisme: new Date(dateDAutorisationDUrbanisme).toISOString(),
       numeroDAutorisationDUrbanisme: '666',

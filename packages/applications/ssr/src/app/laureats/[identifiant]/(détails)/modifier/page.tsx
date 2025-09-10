@@ -23,6 +23,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     withUtilisateur(async () => {
       const identifiantProjet = decodeParameter(identifiant);
       const candidature = await getCandidature(identifiantProjet);
+
       const lauréat = await getLauréat({ identifiantProjet });
       const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet);
 
@@ -70,6 +71,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     puissanceDeSite: candidature.dépôt.puissanceDeSite,
     numeroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro,
     dateDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.date.formatter(),
+    installateur: candidature.dépôt.installateur,
   },
   lauréat: {
     actionnaire: {
