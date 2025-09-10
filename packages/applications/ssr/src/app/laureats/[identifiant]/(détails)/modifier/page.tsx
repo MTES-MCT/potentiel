@@ -120,6 +120,12 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
       currentValue: lauréat.fournisseur.évaluationCarboneSimplifiée,
       estEnCoursDeModification: false,
     },
+    installateur: lauréat.installateur
+      ? {
+          currentValue: lauréat.installateur.installateur,
+          estEnCoursDeModification: false,
+        }
+      : undefined,
   },
   projet: {
     nomProjet: candidature.dépôt.nomProjet,
