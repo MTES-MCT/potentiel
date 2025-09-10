@@ -27,7 +27,7 @@ export class ModifierInstallationAvecDispositifDeStockageFixture
     partialFixture?: Partial<Readonly<ModifierInstallationAvecDispositifDeStockage>>,
   ): Readonly<ModifierInstallationAvecDispositifDeStockage> {
     const fixture = {
-      installationAvecDispositifDeStockage: true,
+      installationAvecDispositifDeStockage: faker.datatype.boolean(),
       dateModification: faker.date.recent().toISOString(),
       ...partialFixture,
     };

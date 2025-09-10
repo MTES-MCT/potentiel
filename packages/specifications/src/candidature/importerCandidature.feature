@@ -240,6 +240,6 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Impossible d'importer une candidature sans information relative au couplage avec un dispositif de stockage pour un appel d'offre qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offre          | PPE2 - Petit PV Bâtiment |
-            | dispositif de stockage |                          |
+            | appel d'offre                            | PPE2 - Petit PV Bâtiment |
+            | installation avec dispositif de stockage |                          |
         Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offre"
