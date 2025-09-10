@@ -7,7 +7,10 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 import { ImporterInstallationAvecDispositifDeStockageOptions } from './importer/importerInstallationAvecDispositifDeStockage.option';
 import { InstallationAvecDispositifDeStockageImportéEvent } from './importer/importerInstallationAvecDispositifDeStockage.event';
 import { InstallationAvecDispositifDeStockageEvent } from './installationAvecDispositifDeStockage.event';
-import { InstallationAvecDispositifDeStockageDéjàTransmisError } from './installationAvecDispositifDeStockage.error';
+import {
+  InstallationAvecDispositifDeStockageDéjàTransmisError,
+  InstallationAvecDispositifDeStockageInchangéError,
+} from './installationAvecDispositifDeStockage.error';
 import { ModifierInstallationAvecDispositifDeStockageOptions } from './modifier/modifierInstallationAvecDispositifDeStockage.options';
 import { InstallationAvecDispositifDeStockageModifiéEvent } from './modifier/modifierInstallationAvecDispositifDeStockage.event';
 
@@ -53,6 +56,10 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
     modifiéLe,
     modifiéPar,
   }: ModifierInstallationAvecDispositifDeStockageOptions) {
+    if (installationAvecDispositifDeStockage === this.installationAvecDispositifDeStockage) {
+      throw new InstallationAvecDispositifDeStockageInchangéError();
+    }
+
     const event: InstallationAvecDispositifDeStockageModifiéEvent = {
       type: 'InstallationAvecDispositifDeStockageModifié-V1',
       payload: {
