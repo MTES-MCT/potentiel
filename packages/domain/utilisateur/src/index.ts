@@ -69,7 +69,6 @@ export * from './register';
 
 // Port
 export { RécupérerUtilisateurPort };
-export * from './utilisateur.port';
 
 // Entity
 export * from './utilisateur.entity';
