@@ -82,7 +82,7 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
       )
       .exhaustive();
   }
-  //@TODO : utiliser le même apply pour les 2 ?
+
   private applyInstallationAvecDispositifDeStockageImportéV1({
     payload: { installationAvecDispositifDeStockage },
   }: InstallationAvecDispositifDeStockageEvent) {

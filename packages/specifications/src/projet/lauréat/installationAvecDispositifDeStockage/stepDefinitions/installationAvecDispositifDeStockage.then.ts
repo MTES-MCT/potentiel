@@ -8,7 +8,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
-  "l'information concernant l'installation avec dispositif de stockage du projet lauréat devrait être mise à jour",
+  "l'information concernant le couplage de l'installation avec un dispositif de stockage pour le  projet lauréat devrait être mise à jour",
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;

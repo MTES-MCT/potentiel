@@ -10,4 +10,4 @@ Fonctionnalité: Modifier l'information relative au couplage de l'installation a
         Quand un admin modifie l'information concernant l'installation avec dispositif de stockage du projet lauréat avec :
             | appel d'offre                            | PPE2 - Eolien |
             | installation avec dispositif de stockage | non           |
-        Alors l'information concernant l'installation avec dispositif de stockage du projet lauréat devrait être mise à jour
+        Alors l'information concernant le couplage de l'installation avec un dispositif de stockage pour le  projet lauréat devrait être mise à jour
