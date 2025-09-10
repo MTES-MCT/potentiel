@@ -65,7 +65,7 @@ import {
 } from './garanties-financières/garantiesFinancières.register';
 import { registerInstallateurQueries } from './installateur';
 import { InstallateurQueryDependencies } from './installateur/installateur.register';
-import { registerTâcheQuery, registerTâcheUseCases, TâcheQueryDependencies } from './tâche';
+import { registerTâcheQuery, TâcheQueryDependencies } from './tâche';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesDependencies &
@@ -109,7 +109,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerDélaiUseCases(dependencies);
   registerTâchePlanifiéeUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
-  registerTâcheUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {

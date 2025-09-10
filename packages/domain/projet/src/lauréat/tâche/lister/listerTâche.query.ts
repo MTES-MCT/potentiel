@@ -53,14 +53,24 @@ export const registerListerTâchesQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(email));
 
+    if (scope.type !== 'projet') {
+      return {
+        items: [],
+        range: {
+          startPosition: 0,
+          endPosition: 0,
+        },
+        total: 0,
+      };
+    }
+
     const {
       items,
       range: { endPosition, startPosition },
       total,
     } = await list<TâcheEntity, LauréatEntity>('tâche', {
       where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        identifiantProjet: Where.matchAny(scope.identifiantProjets),
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,
@@ -76,7 +86,6 @@ export const registerListerTâchesQuery = ({
               : Where.notContains('PPE2')
             : Where.equal(appelOffre),
           nomProjet: Where.contain(nomProjet),
-          localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
         },
       },
     });
@@ -98,11 +107,9 @@ const mapToReadModel = ({
   misÀJourLe,
   typeTâche,
   lauréat: { nomProjet },
-}: TâcheEntity & Joined<LauréatEntity>): TâcheListItem => {
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-    typeTâche: TypeTâche.convertirEnValueType(typeTâche),
-    nomProjet,
-  };
-};
+}: TâcheEntity & Joined<LauréatEntity>): TâcheListItem => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+  typeTâche: TypeTâche.convertirEnValueType(typeTâche),
+  nomProjet,
+});

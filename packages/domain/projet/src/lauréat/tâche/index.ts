@@ -10,9 +10,6 @@ import {
 } from './consulter/consulterNombreTâche.query';
 import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâche.query';
 
-// la commande est exceptionnellement exportée pour utilisation dans la CLI, mais ne doit en aucun cas être utilisée directement. Utiliser l'aggrégat Tâche.
-export { AcheverTâcheCommand } from './achever/acheverTâche.command';
-
 // Query
 export type TâcheQuery = ConsulterNombreTâchesQuery & ListerTâchesQuery;
 export type { ConsulterNombreTâchesQuery, ListerTâchesQuery };
