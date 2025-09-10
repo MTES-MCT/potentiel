@@ -136,6 +136,8 @@ export class LauréatAggregate extends AbstractAggregate<
       `abandon|${this.projet.identifiantProjet.formatter()}`,
     );
 
+    await this.abandon.init();
+
     this.#achèvement = await this.loadAggregate(
       AchèvementAggregate,
       `achevement|${this.projet.identifiantProjet.formatter()}`,

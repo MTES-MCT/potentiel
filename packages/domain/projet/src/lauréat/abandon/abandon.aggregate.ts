@@ -1,10 +1,12 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { IdentifiantProjet, Lauréat } from '../..';
+import { TâcheAggregate } from '../tâche/tâche.aggregate';
+import { TypeTâche } from '../tâche';
 
 import {
   AbandonConfirméEvent,
@@ -55,6 +57,16 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       instruitPar: Email.ValueType;
     };
   };
+
+  #tâcheConfirmerAbandon!: AggregateType<TâcheAggregate>;
+  #tâcheTransmettrePreuveRecandidature!: AggregateType<TâcheAggregate>;
+
+  async init() {
+    this.#tâcheConfirmerAbandon = await this.lauréat.loadTâche(TypeTâche.abandonConfirmer.type);
+    this.#tâcheTransmettrePreuveRecandidature = await this.lauréat.loadTâche(
+      TypeTâche.abandonTransmettrePreuveRecandidature.type,
+    );
+  }
 
   get autoritéCompétente(): AutoritéCompétente.ValueType {
     return AutoritéCompétente.convertirEnValueType(
@@ -168,7 +180,9 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
       },
     };
 
-    return this.publish(event);
+    await this.publish(event);
+
+    await this.#tâcheTransmettrePreuveRecandidature.ajouter();
   }
 
   async transmettrePreuveRecandidature({
@@ -221,6 +235,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+
+    await this.#tâcheTransmettrePreuveRecandidature.achever();
   }
 
   async demanderConfirmation({
@@ -247,6 +263,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+
+    await this.#tâcheConfirmerAbandon.ajouter();
   }
 
   async confirmer({ dateConfirmation, identifiantUtilisateur }: ConfirmerOptions) {
@@ -264,6 +282,8 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+
+    await this.#tâcheConfirmerAbandon.achever();
   }
 
   async passerEnInstruction({
@@ -424,6 +444,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     }
   }
   private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) {}
+
   private applyPreuveRecandidatureTransmiseV1({
     payload: { preuveRecandidature },
   }: PreuveRecandidatureTransmiseEvent) {
@@ -432,9 +453,11 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
         IdentifiantProjet.convertirEnValueType(preuveRecandidature);
     }
   }
+
   private applyConfirmationAbandonDemandéeV1(_: ConfirmationAbandonDemandéeEvent) {
     this.#statut = StatutAbandon.confirmationDemandée;
   }
+
   private applyAbandonConfirméEventV1(_: AbandonConfirméEvent) {
     this.#statut = StatutAbandon.confirmé;
   }
