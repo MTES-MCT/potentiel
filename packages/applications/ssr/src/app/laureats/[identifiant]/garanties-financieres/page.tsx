@@ -19,13 +19,14 @@ import {
 import { mapToHistoriqueMainlevéeRejetéesActions } from './(mainlevée)/(historique-main-levée-rejetée)/mapToHistoriqueMainlevéeRejetéesActions';
 import { mapToGarantiesFinancièresActuellesActions } from './(actuelles)/mapToGarantiesFinancièresActuellesActions';
 import { mapToDépôtGarantiesFinancièresActions } from './(dépôt)/mapToDépôtGarantiesFinancièresActions';
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from './ProjetNonSoumisAuxGarantiesFinancières.page';
 import {
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,
 } from './DétailsGarantiesFinancières.page';
-import { projetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { mapToMainlevéeActions } from './(mainlevée)/mapToMainlevéeActions';
+import { vérifierProjetNonExemptDeGarantiesFinancières } from './_helpers/vérifierProjetNonExemptDeGarantiesFinancières';
+import { récuperérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -42,27 +43,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       await récupérerLauréat(identifiantProjet.formatter());
 
       const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
-      const soumisAuxGarantiesFinancières =
-        await projetSoumisAuxGarantiesFinancières(identifiantProjet);
-
-      if (!soumisAuxGarantiesFinancières) {
-        return (
-          <ProjetNonSoumisAuxGarantiesFinancièresPage
-            identifiantProjet={identifiantProjet.formatter()}
-          />
-        );
-      }
+      await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
+      await vérifierProjetNonExemptDeGarantiesFinancières(identifiantProjet);
 
       const garantiesFinancièresActuelles =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        });
+        await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
-      const peutAccéderAuxArchivesDesGfs =
-        utilisateur.role.estÉgaleÀ(Role.admin) ||
-        utilisateur.role.estÉgaleÀ(Role.dreal) ||
-        utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
+      const peutAccéderAuxArchivesDesGfs = utilisateur.role.aLaPermission(
+        'garantiesFinancières.archives.consulter',
+      );
 
       // les archives ne sont visibles que pour les DREAL et DGEC
       // on limite donc la query à ces utilisateurs pour gagner en perf

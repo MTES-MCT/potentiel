@@ -18,6 +18,7 @@ import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentH
 import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 
 import { getLauréat } from '../../../_helpers/getLauréat';
+import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
 export const GET = async (
   request: NextRequest,
@@ -35,13 +36,7 @@ export const GET = async (
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
 
-      const gf =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue,
-          },
-        });
+      const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
       const mainlevéeEnCours = (
         await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({

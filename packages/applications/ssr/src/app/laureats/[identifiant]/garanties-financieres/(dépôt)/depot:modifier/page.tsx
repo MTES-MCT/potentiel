@@ -12,8 +12,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCahierDesCharges } from '@/app/_helpers';
 
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
-import { projetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 
 import {
@@ -33,14 +32,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
       const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
-      const soumisAuxGarantiesFinancières =
-        await projetSoumisAuxGarantiesFinancières(identifiantProjet);
-
-      if (!soumisAuxGarantiesFinancières) {
-        return (
-          <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
-        );
-      }
+      await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
       const dépôt =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({

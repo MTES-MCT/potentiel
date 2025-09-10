@@ -9,9 +9,9 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
-import { projetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '../../_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
+import { vérifierProjetNonExemptDeGarantiesFinancières } from '../../_helpers/vérifierProjetNonExemptDeGarantiesFinancières';
 
 import { ProjetADéjàUnDépôtEnCoursPage } from './ProjetADéjàUnDépôtEnCours.page';
 import { SoumettreDépôtGarantiesFinancièresPage } from './SoumettreDépôtGarantiesFinancières.page';
@@ -29,14 +29,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     await récupérerLauréat(identifiantProjetValue);
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
-    const soumisAuxGarantiesFinancières =
-      await projetSoumisAuxGarantiesFinancières(identifiantProjet);
-
-    if (!soumisAuxGarantiesFinancières) {
-      return (
-        <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
-      );
-    }
+    await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
+    await vérifierProjetNonExemptDeGarantiesFinancières(identifiantProjet);
 
     const dépôtGarantiesFinancières =
       await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
