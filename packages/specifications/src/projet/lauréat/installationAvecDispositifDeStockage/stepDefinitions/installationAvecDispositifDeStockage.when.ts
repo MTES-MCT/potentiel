@@ -1,4 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
+import { mediator } from 'mediateur';
+
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -37,12 +40,23 @@ async function modifierInstallationAvecDispositifDeStockage(
         ? false
         : undefined;
 
-  // get fixture
-  const { installationAvecDispositifDeStockage: installationAvecDispositifDeStockageFixture } =
+  const {
+    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageFixture,
+    dateModification,
+  } =
     this.lauréatWorld.installationAvecDispositifDeStockageWorld.modifierInstallationAvecDispositifDeStockageFixture.créer(
       { installationAvecDispositifDeStockage },
     );
 
-  console.log('fixture', identifiantProjet, installationAvecDispositifDeStockageFixture);
-  // call useCase
+  await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
+    {
+      type: 'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        installationAvecDispositifDeStockageValue: installationAvecDispositifDeStockageFixture,
+        modifiéLeValue: dateModification,
+        modifiéParValue: modifiéPar,
+      },
+    },
+  );
 }

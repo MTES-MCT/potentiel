@@ -1,15 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-export const installationAvecDispositifDeStockageImportéProjector = async ({
-  payload: { identifiantProjet, installationAvecDispositifDeStockage, importéLe },
-}: Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageImportéEvent) => {
+export const installationAvecDispositifDeStockageModifiéProjector = async ({
+  payload: { identifiantProjet, installationAvecDispositifDeStockage, modifiéLe },
+}: Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageModifiéEvent) => {
   await upsertProjection<Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageEntity>(
     `installation-avec-dispositif-de-stockage|${identifiantProjet}`,
     {
       identifiantProjet,
       installationAvecDispositifDeStockage,
-      misÀJourLe: importéLe,
+      misÀJourLe: modifiéLe,
     },
   );
 };

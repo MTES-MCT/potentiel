@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../fixture';
 
 export interface ModifierInstallationAvecDispositifDeStockage {
-  readonly installationAvecDispositifDeStockage?: boolean;
+  readonly installationAvecDispositifDeStockage: boolean;
   readonly dateModification: string;
 }
 

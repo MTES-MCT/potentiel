@@ -6,6 +6,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { installationAvecDispositifDeStockageImportéProjector } from './installationAvecDispositifDeStockageImporté.projector';
 import { installationAvecDispositifDeStockageRebuilTriggeredProjector } from './installationAvecDispositifDeStockageRebuildTrigerred.projector';
+import { installationAvecDispositifDeStockageModifiéProjector } from './installationAvecDispositifDeStockageModifié.projector';
 
 export type SubscriptionEvent = (
   | Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageEvent
@@ -28,6 +29,10 @@ export const register = () => {
       .with(
         { type: 'InstallationAvecDispositifDeStockageImporté-V1' },
         installationAvecDispositifDeStockageImportéProjector,
+      )
+      .with(
+        { type: 'InstallationAvecDispositifDeStockageModifié-V1' },
+        installationAvecDispositifDeStockageModifiéProjector,
       )
       .exhaustive();
 

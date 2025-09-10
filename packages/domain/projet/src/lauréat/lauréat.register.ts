@@ -70,6 +70,7 @@ import { registerInstallateurUseCases } from './installateur/installateur.regist
 import {
   InstallationAvecDispositifDeStockageQueryDependencies,
   registerInstallationAvecDispositifDeStockageQueries,
+  registerInstallationAvecDispositifDeStockageUseCase,
 } from './installationAvecDispositifDeStockage/installationAvecDispositifDeStockage.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
@@ -116,6 +117,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerTâchePlanifiéeUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerInstallateurUseCases(dependencies);
+  registerInstallationAvecDispositifDeStockageUseCase(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
