@@ -270,6 +270,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeRappelEnAttente.ajouter({
       àExécuterLe: demandéLe.ajouterNombreDeMois(1),
     });
+
+    await this.#tâcheDemanderGarantiesFinancières.ajouter();
   }
 
   async modifier({
@@ -358,6 +360,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
     await this.planifierÉchéance(enregistréLe);
+
+    await this.#tâcheDemanderGarantiesFinancières.achever();
   }
 
   async échoir({ échuLe }: ÉchoirOptions) {
@@ -461,6 +465,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
 
     await this.annulerTâchesPlanififées();
+
+    await this.#tâcheDemanderGarantiesFinancières.achever();
   }
 
   async modifierDépôt({
