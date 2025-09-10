@@ -26,7 +26,6 @@ import { GetInstallateurForProjectPage } from '../../../../controllers/project/g
 import { GetFournisseurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getFournisseur';
 
 type EnregistrerUneModificationProps = {
-  projectId: ProjectDataForProjectPage['id'];
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
@@ -37,7 +36,6 @@ type EnregistrerUneModificationProps = {
 };
 
 const EnregistrerUneModification = ({
-  projectId,
   producteurAffichage,
   puissanceAffichage,
   actionnaireAffichage,
@@ -229,7 +227,7 @@ type AdminActionsProps = {
 };
 
 const AdminActions = ({
-  project: { id, notifiedOn, isLegacy, isClasse },
+  project: { notifiedOn, isLegacy, isClasse },
   identifiantProjet,
   producteurAffichage,
   puissanceAffichage,
@@ -243,7 +241,6 @@ const AdminActions = ({
     <div className="flex flex-col md:flex-row gap-2">
       {isClasse && (
         <EnregistrerUneModification
-          projectId={id}
           producteurAffichage={producteurAffichage}
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
@@ -299,8 +296,9 @@ type DrealActionsProps = {
   actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
   représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
 };
+
 const DrealActions = ({
-  project: { id, isClasse },
+  project: { isClasse },
   représentantLégalAffichage,
   puissanceAffichage,
   actionnaireAffichage,
@@ -310,7 +308,6 @@ const DrealActions = ({
     <div className="flex flex-col md:flex-row gap-2">
       {isClasse && (
         <EnregistrerUneModification
-          projectId={id}
           producteurAffichage={producteurAffichage}
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
@@ -340,6 +337,7 @@ export const ProjectActions = ({
   producteurAffichage,
   fournisseurAffichage,
   délaiAffichage,
+  installateurAffichage,
   features,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
@@ -359,6 +357,9 @@ export const ProjectActions = ({
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
+          délaiAffichage={délaiAffichage}
+          fournisseurAffichage={fournisseurAffichage}
+          installateurAffichage={installateurAffichage}
         />
       )}
       {userIs(['porteur-projet'])(user) && (

@@ -11,6 +11,7 @@ import {
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
 import { GetFournisseurForProjectPage } from 'src/controllers/project/getProjectPage/_utils/getFournisseur';
+import { GetInstallateurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getInstallateur';
 
 export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
@@ -24,6 +25,7 @@ export type ProjectHeaderProps = {
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
+  installateurAffichage?: GetInstallateurForProjectPage['affichage'];
   délaiAffichage?: {
     label?: string;
     labelActions: string;
@@ -44,6 +46,7 @@ export const ProjectHeader = ({
   actionnaireAffichage,
   producteurAffichage,
   fournisseurAffichage,
+  installateurAffichage,
   délaiAffichage,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
@@ -82,6 +85,7 @@ export const ProjectHeader = ({
         producteurAffichage={producteurAffichage}
         fournisseurAffichage={fournisseurAffichage}
         délaiAffichage={délaiAffichage}
+        installateurAffichage={installateurAffichage}
         features={user.features}
       />
     </div>

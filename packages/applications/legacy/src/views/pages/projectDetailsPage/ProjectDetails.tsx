@@ -185,6 +185,7 @@ export const ProjectDetails = ({
         producteurAffichage={producteur?.affichage}
         fournisseurAffichage={fournisseur?.affichage}
         délaiAffichage={délai.affichage}
+        installateurAffichage={installateur?.affichage}
         features={user.features}
       />
       <div className="print:hidden">
