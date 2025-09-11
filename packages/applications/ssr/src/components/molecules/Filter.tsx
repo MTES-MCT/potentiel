@@ -9,6 +9,7 @@ type FilterProps = {
   onValueSelected?: (value: string | undefined) => void;
   disabled?: boolean;
 };
+
 export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onValueSelected }) => (
   <SelectNext
     label={label}
