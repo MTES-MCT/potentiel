@@ -55,6 +55,12 @@ Fonctionnalité: Importer une candidature
             | date d'obtention de l'autorisation d'urbanisme | 01/08/2025               |
         Alors la candidature devrait être consultable
 
+    Scénario: Importer une candidature avec une information sur le couplage avec un dispositif de stockage pour un appel d'offre qui a ce champ requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre                            | PPE2 - Petit PV Bâtiment |
+            | installation avec dispositif de stockage | oui                      |
+        Alors la candidature devrait être consultable
+
     Scénario: Impossible d'importer 2 fois la même candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
@@ -231,3 +237,15 @@ Fonctionnalité: Importer une candidature
             | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
             | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
+
+    Scénario: Impossible d'importer une candidature sans information relative au couplage avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre                            | PPE2 - Petit PV Bâtiment |
+            | installation avec dispositif de stockage |                          |
+        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offres"
+
+    Scénario: Impossible d'importer une candidature avec une information relative au couplage avec un dispositif de stockage si l'appel d'offres ne le propose pas
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre                            | PPE2 - Bâtiment |
+            | installation avec dispositif de stockage | non             |
+        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage n'est pas attendue pour cet appel d'offres"

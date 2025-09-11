@@ -15,8 +15,9 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
 
     Scénario: Notifier un candidat lauréat avec des champs spécifiques
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | installateur  | Installeur.INC           |
+            | appel d'offre                            | PPE2 - Petit PV Bâtiment |
+            | installateur                             | Installeur.INC           |
+            | installation avec dispositif de stockage | oui                      |
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet lauréat devrait être consultable
         Et le producteur du projet lauréat devrait être mis à jour
@@ -25,6 +26,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le fournisseur devrait être mis à jour
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et l'installateur du projet lauréat devrait être mis à jour
+        Et l'information concernant le couplage de l'installation avec un dispositif de stockage pour le  projet lauréat devrait être mise à jour
 
     Scénario: Notifier un candidat éliminé
         Etant donné la candidature éliminée "Du boulodrome de Marseille"

@@ -184,7 +184,10 @@ const créerDépôt = (
       aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
         ? faker.number.int({ min: 1 })
         : undefined,
-
+    installationAvecDispositifDeStockage:
+      aoData?.champsSupplémentaires?.installationAvecDispositifDeStockage === 'requis'
+        ? faker.datatype.boolean()
+        : undefined,
     ...dépôt,
 
     typologieInstallation: [{ typologie: 'bâtiment.neuf' }],

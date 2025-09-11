@@ -29,6 +29,8 @@ const colonnes = {
   historiqueAbandon: 'Préciser le statut du projet',
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation (loi APER)`,
+  installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+  installateur: "Identité de l'installateur",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 export const mapApiResponseToDépôt = ({
@@ -75,6 +77,11 @@ export const mapApiResponseToDépôt = ({
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
 
     localité: getLocalité(accessor, 'localité'),
+
+    installationAvecDispositifDeStockage: accessor.getBooleanValue(
+      'installationAvecDispositifDeStockage',
+    ),
+    installateur: accessor.getStringValue('installateur'),
 
     // TODO ajouter
     coefficientKChoisi: undefined,

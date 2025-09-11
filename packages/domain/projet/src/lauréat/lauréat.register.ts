@@ -67,6 +67,11 @@ import { registerInstallateurQueries } from './installateur';
 import { InstallateurQueryDependencies } from './installateur/installateur.register';
 import { registerTâcheQuery, TâcheQueryDependencies } from './tâche';
 import { registerInstallateurUseCases } from './installateur/installateur.register';
+import {
+  InstallationAvecDispositifDeStockageQueryDependencies,
+  registerInstallationAvecDispositifDeStockageQueries,
+  registerInstallationAvecDispositifDeStockageUseCase,
+} from './installationAvecDispositifDeStockage/installationAvecDispositifDeStockage.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesDependencies &
@@ -83,7 +88,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerHistoriqueProjetDependencies &
   AchèvementQueryDependencies &
   InstallateurQueryDependencies &
-  TâcheQueryDependencies;
+  TâcheQueryDependencies &
+  InstallationAvecDispositifDeStockageQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -111,6 +117,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerTâchePlanifiéeUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerInstallateurUseCases(dependencies);
+  registerInstallationAvecDispositifDeStockageUseCase(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -131,4 +138,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerListerHistoriqueProjetQuery(dependencies);
   registerInstallateurQueries(dependencies);
   registerTâcheQuery(dependencies);
+  registerInstallationAvecDispositifDeStockageQueries(dependencies);
 };

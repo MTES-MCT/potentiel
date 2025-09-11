@@ -35,6 +35,7 @@ import {
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
   historiqueAbandonCsvSchema,
+  installationAvecDispositifDeStockageCsvSchema,
   installationsAgrivoltaiquesCsvSchema,
   notifiedOnCsvSchema,
   obligationDeSolarisationCsvSchema,
@@ -109,6 +110,7 @@ const colonnes = {
   dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
   numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
   installateur: "Identité de l'installateur",
+  installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -148,6 +150,7 @@ const candidatureCsvRowSchema = z
     [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     [colonnes.installateur]: installateurSchema,
+    [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
