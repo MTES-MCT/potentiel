@@ -6,8 +6,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
-  `un admin modifie l'information concernant l'installation avec dispositif de stockage du projet {lauréat-éliminé} avec :`,
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', dataTable: DataTable) {
+  `un admin modifie l'information concernant l'installation avec dispositif de stockage du projet lauréat avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const installationAvecDispositifDeStockage =
       exemple['installation avec dispositif de stockage'];
@@ -16,7 +16,6 @@ Quand(
       await modifierInstallationAvecDispositifDeStockage.call(
         this,
         this.utilisateurWorld.adminFixture.email,
-        statutProjet,
         installationAvecDispositifDeStockage,
       );
     } catch (error) {
@@ -28,10 +27,9 @@ Quand(
 async function modifierInstallationAvecDispositifDeStockage(
   this: PotentielWorld,
   modifiéPar: string,
-  statutProjet?: 'lauréat' | 'éliminé',
   installationAvecDispositifDeStockageExample?: string,
 ) {
-  const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+  const { identifiantProjet } = this.lauréatWorld;
 
   const installationAvecDispositifDeStockage =
     installationAvecDispositifDeStockageExample === 'oui'
