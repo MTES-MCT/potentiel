@@ -9,7 +9,8 @@ export const mapToChangementPuissanceAnnuléTimelineItemProps = (
     date: annuléLe,
     title: (
       <div>
-        Changement de puissance annulé par {<span className="font-semibold">{annuléPar}</span>}
+        Demande de changement de puissance annulée par{' '}
+        {<span className="font-semibold">{annuléPar}</span>}
       </div>
     ),
   };
