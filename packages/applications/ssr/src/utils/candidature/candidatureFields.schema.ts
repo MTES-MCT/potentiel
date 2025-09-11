@@ -93,3 +93,4 @@ export const autorisationDUrbanismeSchema = z
   );
 
 export const installateurSchema = optionalStringSchema;
+export const installationAvecDispositifDeStockageSchema = booleanSchema.optional();
