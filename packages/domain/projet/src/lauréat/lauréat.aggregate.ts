@@ -288,7 +288,7 @@ export class LauréatAggregate extends AbstractAggregate<
       });
     }
 
-    if (this.projet.candidature.dépôt.installationAvecDispositifDeStockage) {
+    if (this.projet.candidature.dépôt.installationAvecDispositifDeStockage !== undefined) {
       await this.installationAvecDispositifDeStockage.importer({
         installationAvecDispositifDeStockage:
           this.projet.candidature.dépôt.installationAvecDispositifDeStockage,

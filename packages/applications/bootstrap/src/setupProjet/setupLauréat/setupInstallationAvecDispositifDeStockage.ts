@@ -18,8 +18,8 @@ export const setupInstallationAvecDispositifDeStockage: SetupProjet = async ({ s
     name: 'projector',
     eventType: [
       'RebuildTriggered',
-      'InstallationAvecDispositifDeStockageImporté-V1',
-      'InstallationAvecDispositifDeStockageModifié-V1',
+      'InstallationAvecDispositifDeStockageImportée-V1',
+      'InstallationAvecDispositifDeStockageModifiée-V1',
     ],
     messageType: 'System.Projector.Lauréat.InstallationAvecDispositifDeStockage',
   });
@@ -31,7 +31,7 @@ export const setupInstallationAvecDispositifDeStockage: SetupProjet = async ({ s
     InstallationAvecDispositifDeStockageNotifications.Execute
   >({
     name: 'notifications',
-    eventType: ['InstallationAvecDispositifDeStockageModifié-V1'],
+    eventType: ['InstallationAvecDispositifDeStockageModifiée-V1'],
     messageType: 'System.Notification.Lauréat.InstallationAvecDispositifDeStockage',
   });
 

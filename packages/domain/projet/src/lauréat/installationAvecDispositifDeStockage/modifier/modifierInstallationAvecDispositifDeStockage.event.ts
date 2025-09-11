@@ -3,8 +3,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '../../..';
 
-export type InstallationAvecDispositifDeStockageModifiéEvent = DomainEvent<
-  'InstallationAvecDispositifDeStockageModifié-V1',
+export type InstallationAvecDispositifDeStockageModifiéeEvent = DomainEvent<
+  'InstallationAvecDispositifDeStockageModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     installationAvecDispositifDeStockage: boolean;

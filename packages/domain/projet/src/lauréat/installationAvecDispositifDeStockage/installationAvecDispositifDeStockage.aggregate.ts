@@ -5,14 +5,14 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { LauréatAggregate } from '../lauréat.aggregate';
 
 import { ImporterInstallationAvecDispositifDeStockageOptions } from './importer/importerInstallationAvecDispositifDeStockage.option';
-import { InstallationAvecDispositifDeStockageImportéEvent } from './importer/importerInstallationAvecDispositifDeStockage.event';
+import { InstallationAvecDispositifDeStockageImportéeEvent } from './importer/importerInstallationAvecDispositifDeStockage.event';
 import { InstallationAvecDispositifDeStockageEvent } from './installationAvecDispositifDeStockage.event';
 import {
-  InstallationAvecDispositifDeStockageDéjàTransmisError,
+  InstallationAvecDispositifDeStockageDéjàTransmiseError,
   InstallationAvecDispositifDeStockageIdentiqueError,
 } from './installationAvecDispositifDeStockage.error';
 import { ModifierInstallationAvecDispositifDeStockageOptions } from './modifier/modifierInstallationAvecDispositifDeStockage.options';
-import { InstallationAvecDispositifDeStockageModifiéEvent } from './modifier/modifierInstallationAvecDispositifDeStockage.event';
+import { InstallationAvecDispositifDeStockageModifiéeEvent } from './modifier/modifierInstallationAvecDispositifDeStockage.event';
 
 export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggregate<
   InstallationAvecDispositifDeStockageEvent,
@@ -35,11 +35,11 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
     importéePar,
   }: ImporterInstallationAvecDispositifDeStockageOptions) {
     if (this.installationAvecDispositifDeStockage) {
-      throw new InstallationAvecDispositifDeStockageDéjàTransmisError();
+      throw new InstallationAvecDispositifDeStockageDéjàTransmiseError();
     }
 
-    const event: InstallationAvecDispositifDeStockageImportéEvent = {
-      type: 'InstallationAvecDispositifDeStockageImporté-V1',
+    const event: InstallationAvecDispositifDeStockageImportéeEvent = {
+      type: 'InstallationAvecDispositifDeStockageImportée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installationAvecDispositifDeStockage,
@@ -60,8 +60,8 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
       throw new InstallationAvecDispositifDeStockageIdentiqueError();
     }
 
-    const event: InstallationAvecDispositifDeStockageModifiéEvent = {
-      type: 'InstallationAvecDispositifDeStockageModifié-V1',
+    const event: InstallationAvecDispositifDeStockageModifiéeEvent = {
+      type: 'InstallationAvecDispositifDeStockageModifiée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installationAvecDispositifDeStockage,
@@ -77,26 +77,26 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
     match(event)
       .with(
         {
-          type: 'InstallationAvecDispositifDeStockageImporté-V1',
+          type: 'InstallationAvecDispositifDeStockageImportée-V1',
         },
-        (event) => this.applyInstallationAvecDispositifDeStockageImportéV1(event),
+        (event) => this.applyInstallationAvecDispositifDeStockageImportéeV1(event),
       )
       .with(
         {
-          type: 'InstallationAvecDispositifDeStockageModifié-V1',
+          type: 'InstallationAvecDispositifDeStockageModifiée-V1',
         },
-        (event) => this.applyInstallationAvecDispositifDeStockageModifiéV1(event),
+        (event) => this.applyInstallationAvecDispositifDeStockageModifiéeV1(event),
       )
       .exhaustive();
   }
 
-  private applyInstallationAvecDispositifDeStockageImportéV1({
+  private applyInstallationAvecDispositifDeStockageImportéeV1({
     payload: { installationAvecDispositifDeStockage },
   }: InstallationAvecDispositifDeStockageEvent) {
     this.installationAvecDispositifDeStockage = installationAvecDispositifDeStockage;
   }
 
-  private applyInstallationAvecDispositifDeStockageModifiéV1({
+  private applyInstallationAvecDispositifDeStockageModifiéeV1({
     payload: { installationAvecDispositifDeStockage },
   }: InstallationAvecDispositifDeStockageEvent) {
     this.installationAvecDispositifDeStockage = installationAvecDispositifDeStockage;

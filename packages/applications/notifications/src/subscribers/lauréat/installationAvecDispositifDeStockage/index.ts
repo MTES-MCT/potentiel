@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -7,7 +7,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { installationAvecDispositifDeStockageModifiéNotifications } from './installationAvecDispositifDeStockageModifié.notifications';
+import { installationAvecDispositifDeStockageModifiéeNotifications } from './installationAvecDispositifDeStockageModifiée.notifications';
 
 export type SubscriptionEvent =
   Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageEvent & Event;
@@ -31,8 +31,8 @@ export const register = ({
     const projet = await getLauréat(identifiantProjet.formatter());
 
     return match(event)
-      .with({ type: 'InstallationAvecDispositifDeStockageModifié-V1' }, async (event) =>
-        installationAvecDispositifDeStockageModifiéNotifications({
+      .with({ type: 'InstallationAvecDispositifDeStockageModifiée-V1' }, async (event) =>
+        installationAvecDispositifDeStockageModifiéeNotifications({
           sendEmail,
           event,
           projet,
@@ -40,7 +40,7 @@ export const register = ({
       )
       .with(
         {
-          type: P.union('InstallationAvecDispositifDeStockageImporté-V1'),
+          type: 'InstallationAvecDispositifDeStockageImportée-V1',
         },
         () => Promise.resolve(),
       )

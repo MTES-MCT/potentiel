@@ -3,8 +3,8 @@ import { DomainEvent } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '../../..';
 
-export type InstallationAvecDispositifDeStockageImportéEvent = DomainEvent<
-  'InstallationAvecDispositifDeStockageImporté-V1',
+export type InstallationAvecDispositifDeStockageImportéeEvent = DomainEvent<
+  'InstallationAvecDispositifDeStockageImportée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     installationAvecDispositifDeStockage: boolean;

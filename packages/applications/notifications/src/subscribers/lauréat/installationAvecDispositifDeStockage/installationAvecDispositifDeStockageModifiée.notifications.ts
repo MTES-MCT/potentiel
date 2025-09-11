@@ -7,9 +7,9 @@ import { RegisterInstallationAvecDispositifDeStockageNotificationDependencies } 
 
 import { installationAvecDispositifDeStockageNotificationTemplateId } from './constant';
 
-type installationAvecDispositifDeStockageModifiéNotificationsProps = {
+type installationAvecDispositifDeStockageModifiéeNotificationsProps = {
   sendEmail: RegisterInstallationAvecDispositifDeStockageNotificationDependencies['sendEmail'];
-  event: Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageModifiéEvent;
+  event: Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageModifiéeEvent;
   projet: {
     nom: string;
     région: string;
@@ -18,11 +18,11 @@ type installationAvecDispositifDeStockageModifiéNotificationsProps = {
   };
 };
 
-export const installationAvecDispositifDeStockageModifiéNotifications = async ({
+export const installationAvecDispositifDeStockageModifiéeNotifications = async ({
   sendEmail,
   event,
   projet,
-}: installationAvecDispositifDeStockageModifiéNotificationsProps) => {
+}: installationAvecDispositifDeStockageModifiéeNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);

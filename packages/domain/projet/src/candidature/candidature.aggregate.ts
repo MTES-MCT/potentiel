@@ -31,6 +31,7 @@ import {
   FonctionManquanteError,
   InstallateurNonAttenduError,
   InstallateurRequisError,
+  InstallationAvecDispositifDeStockageNonAttendueError,
   InstallationAvecDispositifDeStockageRequisError,
   NomManquantError,
   PuissanceDeSiteNonAttendueError,
@@ -374,6 +375,13 @@ export class CandidatureAggregate extends AbstractAggregate<
       dépôt.installationAvecDispositifDeStockage === undefined
     ) {
       throw new InstallationAvecDispositifDeStockageRequisError();
+    }
+
+    if (
+      !installationAvecDispositifDeStockage &&
+      dépôt.installationAvecDispositifDeStockage !== undefined
+    ) {
+      throw new InstallationAvecDispositifDeStockageNonAttendueError();
     }
   }
 

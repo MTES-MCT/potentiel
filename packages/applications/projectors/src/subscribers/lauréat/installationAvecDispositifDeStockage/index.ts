@@ -4,9 +4,9 @@ import { match } from 'ts-pattern';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { installationAvecDispositifDeStockageImportéProjector } from './installationAvecDispositifDeStockageImporté.projector';
+import { installationAvecDispositifDeStockageImportéeProjector } from './installationAvecDispositifDeStockageImportée.projector';
 import { installationAvecDispositifDeStockageRebuilTriggeredProjector } from './installationAvecDispositifDeStockageRebuildTrigerred.projector';
-import { installationAvecDispositifDeStockageModifiéProjector } from './installationAvecDispositifDeStockageModifié.projector';
+import { installationAvecDispositifDeStockageModifiéeProjector } from './installationAvecDispositifDeStockageModifiée.projector';
 
 export type SubscriptionEvent = (
   | Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageEvent
@@ -27,12 +27,12 @@ export const register = () => {
         installationAvecDispositifDeStockageRebuilTriggeredProjector,
       )
       .with(
-        { type: 'InstallationAvecDispositifDeStockageImporté-V1' },
-        installationAvecDispositifDeStockageImportéProjector,
+        { type: 'InstallationAvecDispositifDeStockageImportée-V1' },
+        installationAvecDispositifDeStockageImportéeProjector,
       )
       .with(
-        { type: 'InstallationAvecDispositifDeStockageModifié-V1' },
-        installationAvecDispositifDeStockageModifiéProjector,
+        { type: 'InstallationAvecDispositifDeStockageModifiée-V1' },
+        installationAvecDispositifDeStockageModifiéeProjector,
       )
       .exhaustive();
 
