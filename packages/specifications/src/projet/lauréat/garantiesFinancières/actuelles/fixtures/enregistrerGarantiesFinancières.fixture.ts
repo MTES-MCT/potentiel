@@ -10,8 +10,8 @@ import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresAct
 export interface EnregistrerGarantiesFinancières {
   readonly garantiesFinancières: {
     type: string;
-    dateÉchéance?: string;
-    dateDélibération?: string;
+    dateÉchéance: string | undefined;
+    dateDélibération: string | undefined;
   };
   readonly dateConstitution: string;
   readonly attestation: { format: string; content: string };

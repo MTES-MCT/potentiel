@@ -23,6 +23,7 @@ export type DépôtGarantiesFinancièresEnCoursValidéEvent = DomainEvent<
 
     type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
+    dateDélibération?: DateTime.RawType;
     dateConstitution: DateTime.RawType;
     soumisLe: DateTime.RawType;
     attestation?: { format: string };
@@ -38,6 +39,7 @@ export type DépôtGarantiesFinancièresEnCoursModifiéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
+    dateDélibération?: DateTime.RawType;
     attestation: { format: string };
     dateConstitution: DateTime.RawType;
     modifiéLe: DateTime.RawType;
@@ -51,6 +53,7 @@ export type DépôtGarantiesFinancièresSoumisEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
+    dateDélibération?: DateTime.RawType;
     attestation: { format: string };
     dateConstitution: DateTime.RawType;
     soumisLe: DateTime.RawType;
@@ -77,6 +80,7 @@ export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
     garantiesFinancièresActuelles?: {
       type: Candidature.TypeGarantiesFinancières.RawType;
       dateÉchéance?: DateTime.RawType;
+      dateDélibération?: DateTime.RawType;
       dateConstitution?: DateTime.RawType;
       attestation?: { format: string };
     };

@@ -106,9 +106,11 @@ export async function soumettreDépôt(
       dateConstitutionValue: dateConstitution,
       soumisLeValue: soumisLe,
       soumisParValue: soumisPar,
-      typeValue: type,
-      dateÉchéanceValue: dateÉchéance,
-      dateDélibérationValue: dateDélibération,
+      garantiesFinancièresValue: {
+        type,
+        dateÉchéance,
+        dateDélibération,
+      },
     },
   });
 }
@@ -132,13 +134,16 @@ export async function modifierDépôt(
       type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        typeValue: type,
+
         dateConstitutionValue: new Date(dateConstitution).toISOString(),
         modifiéLeValue: new Date(soumisLe).toISOString(),
         modifiéParValue: soumisPar,
         attestationValue: convertFixtureFileToReadableStream(attestation),
-        dateÉchéanceValue: dateÉchéance,
-        dateDelibérationValue: dateDélibération,
+        garantiesFinancièresValue: {
+          type,
+          dateÉchéance,
+          dateDélibération,
+        },
       },
     },
   );

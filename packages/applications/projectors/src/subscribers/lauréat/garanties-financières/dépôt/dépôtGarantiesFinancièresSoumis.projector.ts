@@ -6,6 +6,7 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
     identifiantProjet,
     type,
     dateÉchéance,
+    dateDélibération,
     dateConstitution,
     attestation,
     soumisLe,
@@ -19,6 +20,7 @@ export const dépôtGarantiesFinancièresSoumisProjector = async ({
       dépôt: {
         type,
         dateÉchéance,
+        dateDélibération,
         dateConstitution,
         attestation,
         soumisLe,
