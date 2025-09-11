@@ -110,7 +110,6 @@ const colonnes = {
   dateDAutorisationDUrbanisme: "Date d'obtention de l'autorisation d'urbanisme",
   numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
   installateur: "Identité de l'installateur",
-  //@TODO: intitulé du champ ci-dessous à confirmer
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
 } as const;
 

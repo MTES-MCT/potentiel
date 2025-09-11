@@ -9,8 +9,8 @@ export type ModifierInstallationAvecDispositifDeStockageCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     installationAvecDispositifDeStockage: boolean;
-    modifiéLe: DateTime.ValueType;
-    modifiéPar: Email.ValueType;
+    modifiéeLe: DateTime.ValueType;
+    modifiéePar: Email.ValueType;
   }
 >;
 

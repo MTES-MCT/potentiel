@@ -8,7 +8,7 @@ export type InstallationAvecDispositifDeStockageModifiéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     installationAvecDispositifDeStockage: boolean;
-    modifiéLe: DateTime.RawType;
-    modifiéPar: Email.RawType;
+    modifiéeLe: DateTime.RawType;
+    modifiéePar: Email.RawType;
   }
 >;

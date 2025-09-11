@@ -8,7 +8,7 @@ export class InstallationAvecDispositifDeStockageDéjàTransmisError extends Inv
   }
 }
 
-export class InstallationAvecDispositifDeStockageInchangéError extends InvalidOperationError {
+export class InstallationAvecDispositifDeStockageIdentiqueError extends InvalidOperationError {
   constructor() {
     super(
       'Pour enregistrer une modification vous devez renseigner une valeur différente de la valeur actuelle',

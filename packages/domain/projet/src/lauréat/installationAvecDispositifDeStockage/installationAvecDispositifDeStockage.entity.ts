@@ -6,6 +6,6 @@ export type InstallationAvecDispositifDeStockageEntity = Entity<
   {
     identifiantProjet: string;
     installationAvecDispositifDeStockage: boolean;
-    misÀJourLe: DateTime.RawType;
+    miseÀJourLe: DateTime.RawType;
   }
 >;

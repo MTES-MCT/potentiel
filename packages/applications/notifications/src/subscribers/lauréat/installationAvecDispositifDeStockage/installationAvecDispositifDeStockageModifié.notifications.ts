@@ -36,13 +36,9 @@ export const installationAvecDispositifDeStockageModifiéNotifications = async (
     return;
   }
 
-  //@TODO : supprimer console.log !
-  console.log('NOTIFICATION', dreals.length, porteurs.length);
-  //
-
   await sendEmail({
     templateId: installationAvecDispositifDeStockageNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification de l'information concernant le couplage avec un dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Modification du couplage avec un dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
       nom_projet: projet.nom,
@@ -53,7 +49,7 @@ export const installationAvecDispositifDeStockageModifiéNotifications = async (
 
   await sendEmail({
     templateId: installationAvecDispositifDeStockageNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification de l'information concernant le couplage avec un dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Modification du couplage avec un dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,

@@ -11,24 +11,24 @@ export type ModifierInstallationAvecDispositifDeStockageUseCase = Message<
   {
     identifiantProjetValue: string;
     installationAvecDispositifDeStockageValue: boolean;
-    modifiéLeValue: string;
-    modifiéParValue: string;
+    modifiéeLeValue: string;
+    modifiéeParValue: string;
   }
 >;
 
 export const registerModifierInstallationAvecDispositifDeStockageUseCase = () => {
   const handler: MessageHandler<ModifierInstallationAvecDispositifDeStockageUseCase> = async ({
     identifiantProjetValue,
-    modifiéLeValue,
-    modifiéParValue,
+    modifiéeLeValue,
+    modifiéeParValue,
     installationAvecDispositifDeStockageValue,
   }) => {
     await mediator.send<ModifierInstallationAvecDispositifDeStockageCommand>({
       type: 'Lauréat.InstallationAvecDispositifDeStockage.Command.ModifierInstallationAvecDispositifDeStockage',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
-        modifiéPar: Email.convertirEnValueType(modifiéParValue),
+        modifiéeLe: DateTime.convertirEnValueType(modifiéeLeValue),
+        modifiéePar: Email.convertirEnValueType(modifiéeParValue),
         installationAvecDispositifDeStockage: installationAvecDispositifDeStockageValue,
       },
     });

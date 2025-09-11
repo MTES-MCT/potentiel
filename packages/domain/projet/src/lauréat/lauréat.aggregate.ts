@@ -292,8 +292,8 @@ export class LauréatAggregate extends AbstractAggregate<
       await this.installationAvecDispositifDeStockage.importer({
         installationAvecDispositifDeStockage:
           this.projet.candidature.dépôt.installationAvecDispositifDeStockage,
-        importéLe: notifiéLe,
-        importéPar: notifiéPar,
+        importéeLe: notifiéLe,
+        importéePar: notifiéPar,
       });
     }
 

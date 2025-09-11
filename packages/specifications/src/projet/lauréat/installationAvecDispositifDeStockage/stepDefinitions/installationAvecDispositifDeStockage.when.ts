@@ -54,8 +54,8 @@ async function modifierInstallationAvecDispositifDeStockage(
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         installationAvecDispositifDeStockageValue: installationAvecDispositifDeStockageFixture,
-        modifiéLeValue: dateModification,
-        modifiéParValue: modifiéPar,
+        modifiéeLeValue: dateModification,
+        modifiéeParValue: modifiéPar,
       },
     },
   );

@@ -9,7 +9,7 @@ import { InstallationAvecDispositifDeStockageImportéEvent } from './importer/im
 import { InstallationAvecDispositifDeStockageEvent } from './installationAvecDispositifDeStockage.event';
 import {
   InstallationAvecDispositifDeStockageDéjàTransmisError,
-  InstallationAvecDispositifDeStockageInchangéError,
+  InstallationAvecDispositifDeStockageIdentiqueError,
 } from './installationAvecDispositifDeStockage.error';
 import { ModifierInstallationAvecDispositifDeStockageOptions } from './modifier/modifierInstallationAvecDispositifDeStockage.options';
 import { InstallationAvecDispositifDeStockageModifiéEvent } from './modifier/modifierInstallationAvecDispositifDeStockage.event';
@@ -31,8 +31,8 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
 
   async importer({
     installationAvecDispositifDeStockage,
-    importéLe,
-    importéPar,
+    importéeLe,
+    importéePar,
   }: ImporterInstallationAvecDispositifDeStockageOptions) {
     if (this.installationAvecDispositifDeStockage) {
       throw new InstallationAvecDispositifDeStockageDéjàTransmisError();
@@ -43,8 +43,8 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installationAvecDispositifDeStockage,
-        importéLe: importéLe.formatter(),
-        importéPar: importéPar.formatter(),
+        importéeLe: importéeLe.formatter(),
+        importéePar: importéePar.formatter(),
       },
     };
 
@@ -53,11 +53,11 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
 
   async modifier({
     installationAvecDispositifDeStockage,
-    modifiéLe,
-    modifiéPar,
+    modifiéeLe,
+    modifiéePar,
   }: ModifierInstallationAvecDispositifDeStockageOptions) {
     if (installationAvecDispositifDeStockage === this.installationAvecDispositifDeStockage) {
-      throw new InstallationAvecDispositifDeStockageInchangéError();
+      throw new InstallationAvecDispositifDeStockageIdentiqueError();
     }
 
     const event: InstallationAvecDispositifDeStockageModifiéEvent = {
@@ -65,8 +65,8 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installationAvecDispositifDeStockage,
-        modifiéLe: modifiéLe.formatter(),
-        modifiéPar: modifiéPar.formatter(),
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
       },
     };
 
