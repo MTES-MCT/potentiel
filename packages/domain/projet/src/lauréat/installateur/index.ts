@@ -2,15 +2,20 @@ import {
   ConsulterInstallateurQuery,
   ConsulterInstallateurReadModel,
 } from './consulter/consulterInstallateur.query';
+import {
+  HistoriqueInstallateurProjetListItemReadModel,
+  ListerHistoriqueInstallateurProjetQuery,
+} from './listerHistorique/listerHistoriqueInstallateurProjet.query';
 import { ModifierInstallateurUseCase } from './modifier/modifierInstallateur.usecase';
 
 // Query
-export type InstallateurQuery = ConsulterInstallateurQuery;
-
-export { ConsulterInstallateurQuery };
+export type InstallateurQuery =
+  | ConsulterInstallateurQuery
+  | ListerHistoriqueInstallateurProjetQuery;
+export { ConsulterInstallateurQuery, ListerHistoriqueInstallateurProjetQuery };
 
 // ReadModel
-export { ConsulterInstallateurReadModel };
+export { ConsulterInstallateurReadModel, HistoriqueInstallateurProjetListItemReadModel };
 
 // UseCase
 export type InstallateurUseCase = ModifierInstallateurUseCase;

@@ -28,6 +28,7 @@ import { mapToÉliminéTimelineItemProps } from '@/utils/historique/mapToProps/�
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
+import { mapToInstallateurTimelineItemProps } from '../../../../utils/historique/mapToProps/installateur/mapToInstallateurTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
@@ -45,6 +46,7 @@ const categoriesDisponibles = [
   'recours',
   'représentant-légal',
   'raccordement',
+  'installateur',
 ] as const;
 
 type PageProps = IdentifiantParameter & {
@@ -120,7 +122,7 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           actions={mapToActions(utilisateur.role)}
           filters={[
             {
-              label: 'Categorie',
+              label: 'Catégorie',
               searchParamKey: 'categorie',
               options,
             },
@@ -156,6 +158,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   recours: 'ri-scales-3-line',
   délai: 'ri-time-line',
   fournisseur: 'ri-draft-line',
+  installateur: 'ri-shake-hands-line',
 };
 
 const filtrerImportsEtRecoursLegacy = (
@@ -219,6 +222,7 @@ const mapToTimelineItemProps = (
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
     .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
     .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
+    .with({ category: 'installateur' }, mapToInstallateurTimelineItemProps)
     .exhaustive(() => undefined);
   if (props) {
     return {
