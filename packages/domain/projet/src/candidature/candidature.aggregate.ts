@@ -29,6 +29,8 @@ import {
   ChoixCoefficientKRequisError,
   DateAutorisationDUrbanismeError,
   FonctionManquanteError,
+  InstallateurNonAttenduError,
+  InstallateurRequisError,
   NomManquantError,
   PuissanceDeSiteNonAttendueError,
   PuissanceDeSiteRequiseError,
@@ -324,8 +326,9 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   private vérifierChampSupplémentaires({ dépôt }: CandidatureBehaviorOptions) {
-    const { coefficientKChoisi, puissanceDeSite, autorisationDUrbanisme } =
+    const { coefficientKChoisi, puissanceDeSite, autorisationDUrbanisme, installateur } =
       this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
+
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
       throw new ChoixCoefficientKRequisError();
     }
@@ -336,8 +339,17 @@ export class CandidatureAggregate extends AbstractAggregate<
     if (puissanceDeSite === 'requis' && dépôt.puissanceDeSite === undefined) {
       throw new PuissanceDeSiteRequiseError();
     }
+
     if (!puissanceDeSite && dépôt.puissanceDeSite !== undefined) {
       throw new PuissanceDeSiteNonAttendueError();
+    }
+
+    if (installateur === 'requis' && dépôt.installateur === undefined) {
+      throw new InstallateurRequisError();
+    }
+
+    if (!installateur && dépôt.installateur !== undefined) {
+      throw new InstallateurNonAttenduError();
     }
 
     if (

@@ -37,8 +37,9 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Importer une candidature avec un champ optionnel "installateur"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut       | classé           |
-            | installateur | Installateur.Inc |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | installateur  | Installateur.Inc         |
+            | statut        | classé                   |
         Alors la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
@@ -210,6 +211,12 @@ Fonctionnalité: Importer une candidature
             | appel d'offre     | PPE2 - Bâtiment |
             | puissance de site | 200             |
         Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature avec l'installateur si l'appel d'offre ne le propose pas
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Bâtiment  |
+            | installateur  | Installateur.Inc |
+        Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offre"
 
     Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offre qui a ces champs requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :

@@ -67,9 +67,13 @@ const lauréatSchema = z
     evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
   })
   .merge(localitéSchema);
-const partialLauréatSchema = lauréatSchema.partial();
+const lauréatChampsSupplémentairesSchema = z.object({
+  installateur: installateurSchema,
+});
+const partialLauréatSchema = lauréatSchema.merge(lauréatChampsSupplémentairesSchema).partial();
 
 const identifiantProjetSchema = z.string().min(1);
+
 export const modifierLauréatEtCandidatureSchéma = z
   .object({
     identifiantProjet: identifiantProjetSchema,
@@ -101,8 +105,13 @@ export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
   typeof partialCandidatureNotifiéeSchema
 >;
 export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
+export type ModifierLauréatChampsSupplémentairesValueFormEntries = z.infer<
+  typeof lauréatChampsSupplémentairesSchema
+>;
 export type PartialModifierLauréatValueFormEntries = z.infer<typeof partialLauréatSchema>;
 export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
+export type ModifierChampsSupplémentairesLauréatKeys =
+  keyof ModifierLauréatChampsSupplémentairesValueFormEntries;
 export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
   z.infer<typeof modifierLauréatEtCandidatureSchéma>
 >;

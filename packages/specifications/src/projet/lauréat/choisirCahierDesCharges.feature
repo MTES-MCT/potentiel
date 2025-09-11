@@ -1,5 +1,4 @@
 # language: fr
-@lauréat
 @cahier-des-charges
 Fonctionnalité: Choisir un cahier des charges
 

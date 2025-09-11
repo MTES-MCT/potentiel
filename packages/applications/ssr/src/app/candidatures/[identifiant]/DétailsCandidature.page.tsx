@@ -97,7 +97,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               )}
               {dépôt.installateur !== undefined && (
                 <Field name="Installateur">
-                  <span>{dépôt.installateur}</span>
+                  <span>{dépôt.installateur || 'Non renseigné'}</span>
                 </Field>
               )}
               <Field name="Performances">

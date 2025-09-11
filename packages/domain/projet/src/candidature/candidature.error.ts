@@ -97,6 +97,18 @@ export class PuissanceDeSiteNonAttendueError extends InvalidOperationError {
   }
 }
 
+export class InstallateurRequisError extends InvalidOperationError {
+  constructor() {
+    super(`L'installateur est requis pour cet appel d'offre`);
+  }
+}
+
+export class InstallateurNonAttenduError extends InvalidOperationError {
+  constructor() {
+    super(`L'installateur ne peut être renseigné pour cet appel d'offre`);
+  }
+}
+
 export class TechnologieRequiseError extends InvalidOperationError {
   constructor() {
     super("Une technologie est requise pour cet appel d'offre");

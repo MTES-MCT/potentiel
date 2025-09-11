@@ -38,6 +38,7 @@ import { mediator } from 'mediateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { getDélai } from './_utils/getDélai';
+import { getInstallateur } from './_utils/getInstallateur';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -286,6 +287,10 @@ v1Router.get(
           }),
           délai,
           autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
+          installateur: await getInstallateur({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: user.role,
+          }),
         }),
       );
     },

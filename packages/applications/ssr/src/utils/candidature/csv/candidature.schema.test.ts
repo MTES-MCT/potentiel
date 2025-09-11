@@ -28,19 +28,21 @@ const minimumValues = {
   dateEcheanceGf: '01/01/2025',
 };
 
+const expectedMinimumValues = {
+  ...minimumValues,
+  puissanceProductionAnnuelle: 100,
+  prixReference: 50,
+  noteTotale: 80,
+  puissanceALaPointe: true,
+  evaluationCarboneSimplifiee: 10,
+  dateEcheanceGf: new Date(minimumValues.dateEcheanceGf).toISOString(),
+};
+
 describe('candidatureSchema', () => {
   test('Cas nominal, classé', () => {
     const result = candidatureSchema.safeParse(minimumValues);
     assert(result.success);
-    expect(result.data).to.deep.equal({
-      ...minimumValues,
-      puissanceProductionAnnuelle: 100,
-      prixReference: 50,
-      noteTotale: 80,
-      puissanceALaPointe: true,
-      evaluationCarboneSimplifiee: 10,
-      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf).toISOString(),
-    });
+    expect(result.data).to.deep.equal(expectedMinimumValues);
   });
 
   test('Cas nominal, éliminé', () => {
@@ -60,6 +62,27 @@ describe('candidatureSchema', () => {
       evaluationCarboneSimplifiee: 10,
       motifElimination: 'Motif',
       dateEcheanceGf: new Date(minimumValues.dateEcheanceGf).toISOString(),
+    });
+  });
+
+  test('Cas nominal, avec des champs spécifiques, classé', () => {
+    const dateDAutorisationDUrbanisme = '12/12/2022';
+    const result = candidatureSchema.safeParse({
+      ...minimumValues,
+      installateur: 'Installateur.Inc',
+      coefficientKChoisi: 'true',
+      dateDAutorisationDUrbanisme,
+      numeroDAutorisationDUrbanisme: '666',
+      puissanceDeSite: '200',
+    });
+    assert(result.success);
+    expect(result.data).to.deep.equal({
+      ...expectedMinimumValues,
+      installateur: 'Installateur.Inc',
+      coefficientKChoisi: true,
+      puissanceDeSite: 200,
+      dateDAutorisationDUrbanisme: new Date(dateDAutorisationDUrbanisme).toISOString(),
+      numeroDAutorisationDUrbanisme: '666',
     });
   });
 

@@ -1,6 +1,8 @@
 import { InputProps } from '@codegouvfr/react-dsfr/Input';
 
-type GetAllInputNativeProps = (value: number | string) => InputProps['nativeInputProps'];
+type GetAllInputNativeProps = (
+  value: number | string | undefined,
+) => InputProps['nativeInputProps'];
 
 export const getInputTypeNativeProps: GetAllInputNativeProps = (value) =>
   typeof value === 'number'

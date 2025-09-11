@@ -1,4 +1,5 @@
 # language: fr
+@utilisateur
 Fonctionnalité: Désactiver un utilisateur
 
     Contexte:

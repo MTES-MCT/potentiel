@@ -1,6 +1,5 @@
 # language: fr
 @gestionnaire-réseau
-@ajouter-gestionnaire-réseau
 Fonctionnalité: Ajouter un gestionnaire de réseau
 
     Scénario: Ajouter un gestionnaire de réseau

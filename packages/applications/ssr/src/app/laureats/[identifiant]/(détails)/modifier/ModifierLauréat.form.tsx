@@ -13,6 +13,8 @@ import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
 import {
   ModifierCandidatureNotifiéeFormEntries,
+  ModifierChampsSupplémentairesLauréatKeys,
+  ModifierLauréatChampsSupplémentairesValueFormEntries,
   ModifierLauréatEtCandidatureNotifiéeFormEntries,
   ModifierLauréatKeys,
   ModifierLauréatValueFormEntries,
@@ -36,6 +38,13 @@ type ModifierLauréatFormEntries = {
     currentValue: ModifierLauréatValueFormEntries[K];
     estEnCoursDeModification: boolean;
   };
+} & {
+  [K in ModifierChampsSupplémentairesLauréatKeys]:
+    | {
+        currentValue: ModifierLauréatChampsSupplémentairesValueFormEntries[K];
+        estEnCoursDeModification: boolean;
+      }
+    | undefined;
 };
 
 export type ModifierLauréatFormProps = {
@@ -232,6 +241,18 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               />
             </FormRow>
           </>
+        )}
+
+        {champsSupplémentaires.installateur && lauréat.installateur && (
+          <FormRow>
+            <ProjectField
+              candidature={candidature.installateur}
+              lauréat={lauréat.installateur.currentValue}
+              label="Installateur (optionnel)"
+              name="installateur"
+              validationErrors={validationErrors}
+            />
+          </FormRow>
         )}
 
         {champsSupplémentaires.coefficientKChoisi && (

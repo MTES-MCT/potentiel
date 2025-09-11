@@ -1,4 +1,5 @@
 # language: fr
+@utilisateur
 Fonctionnalité: Réclamer un projet en tant que porteur
 
     Plan du scénario: Réclamer un projet avec le même email que celui de la candidature

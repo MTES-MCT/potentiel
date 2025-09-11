@@ -101,12 +101,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     }
   }
 
-  async modifier({
-    identifiantProjet,
-    producteur,
-    dateModification,
-    identifiantUtilisateur,
-  }: ModifierOptions) {
+  async modifier({ producteur, dateModification, identifiantUtilisateur }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
     if (this.producteur === producteur) {
@@ -116,7 +111,7 @@ export class ProducteurAggregate extends AbstractAggregate<
     const event: ProducteurModifiéEvent = {
       type: 'ProducteurModifié-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
         producteur,
         modifiéLe: dateModification.formatter(),
         modifiéPar: identifiantUtilisateur.formatter(),

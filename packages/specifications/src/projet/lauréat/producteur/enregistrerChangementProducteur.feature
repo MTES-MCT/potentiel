@@ -1,6 +1,5 @@
 # language: fr
 @producteur
-@enregister-changement-producteur
 Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
 
     Scénario: Enregistrer un changement de producteur d'un projet lauréat

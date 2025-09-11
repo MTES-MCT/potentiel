@@ -358,6 +358,17 @@ const référencielPermissions = {
         enregistrerChangement: 'Lauréat.Producteur.Command.EnregistrerChangement',
       },
     },
+    installateur: {
+      query: {
+        consulter: 'Lauréat.Installateur.Query.ConsulterInstallateur',
+      },
+      usecase: {
+        modifier: 'Lauréat.Installateur.UseCase.ModifierInstallateur',
+      },
+      command: {
+        modifier: 'Lauréat.Installateur.Command.ModifierInstallateur',
+      },
+    },
     fournisseur: {
       query: {
         consulter: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
@@ -949,6 +960,17 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.query.listerChangement,
     ],
   },
+  installateur: {
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.installateur.query.consulter,
+    ],
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.installateur.usecase.modifier,
+      référencielPermissions.lauréat.installateur.command.modifier,
+    ],
+  },
   historique: {
     lister: [
       référencielPermissions.historique.query.lister,
@@ -1358,6 +1380,9 @@ const pageProjetPolicies: Policy[] = [
   // Fournisseur
   'fournisseur.consulter',
 
+  // Installateur
+  'installateur.consulter',
+
   // Accès
   'accès.consulter',
 
@@ -1494,6 +1519,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'délai.reprendreInstructionDemande',
   'délai.rejeterDemande',
   'délai.accorderDemande',
+
+  // installateur
+  'installateur.consulter',
+  'installateur.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [

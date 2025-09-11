@@ -11,3 +11,4 @@ export * as Historique from './historique.routes';
 export * as Fournisseur from './fournisseur.routes';
 export * as Délai from './délai.routes';
 export * as GarantiesFinancières from './garantiesFinancières.routes';
+export * as Installateur from './installateur.routes';

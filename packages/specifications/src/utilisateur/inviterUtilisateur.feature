@@ -1,4 +1,5 @@
 # language: fr
+@utilisateur
 Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
     Contexte:
