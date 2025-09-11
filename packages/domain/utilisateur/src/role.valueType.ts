@@ -210,13 +210,11 @@ const référencielPermissions = {
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         demanderMainlevée: 'Lauréat.GarantiesFinancières.UseCase.DemanderMainlevée',
-        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',
+        annulerMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AnnulerMainlevée',
         démarrerInstructionMainlevée:
           'Lauréat.GarantiesFinancières.UseCase.DémarrerInstructionMainlevée',
-        accorderDemandeMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
-        rejeterDemandeMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
+        accorderMainlevée: 'Lauréat.GarantiesFinancières.UseCase.AccorderMainlevée',
+        rejeterMainlevée: 'Lauréat.GarantiesFinancières.UseCase.RejeterMainlevée',
         renouveler: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
       },
       command: {
@@ -230,13 +228,11 @@ const référencielPermissions = {
         enregistrerAttestation: 'Lauréat.GarantiesFinancières.Command.EnregistrerAttestation',
         enregistrer: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
         demanderMainlevée: 'Lauréat.GarantiesFinancières.Command.DemanderMainlevée',
-        annulerDemandeMainlevée: 'Lauréat.GarantiesFinancières.Command.AnnulerMainlevée',
+        annulerMainlevée: 'Lauréat.GarantiesFinancières.Command.AnnulerMainlevée',
         démarrerInstructionMainlevée:
           'Lauréat.GarantiesFinancières.Command.DémarrerInstructionMainlevée',
-        accorderDemandeMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.Command.AccorderDemandeMainlevée',
-        rejeterDemandeMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.Command.RejeterDemandeMainlevée',
+        accorderMainlevée: 'Lauréat.GarantiesFinancières.Command.AccorderMainlevée',
+        rejeterMainlevée: 'Lauréat.GarantiesFinancières.Command.RejeterMainlevée',
       },
     },
     achèvement: {
@@ -796,22 +792,22 @@ const policies = {
       ],
       lister: [référencielPermissions.lauréat.garantiesFinancières.query.listerMainlevée],
       annuler: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerDemandeMainlevée,
-        référencielPermissions.lauréat.garantiesFinancières.command.annulerDemandeMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.annulerMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.annulerMainlevée,
       ],
       démarrerInstruction: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.démarrerInstructionMainlevée,
         référencielPermissions.lauréat.garantiesFinancières.command.démarrerInstructionMainlevée,
       ],
       accorder: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.accorderDemandeMainlevée,
-        référencielPermissions.lauréat.garantiesFinancières.command.accorderDemandeMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.accorderMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.accorderMainlevée,
         référencielPermissions.document.command.enregister,
         référencielPermissions.document.command.corriger,
       ],
       rejeter: [
-        référencielPermissions.lauréat.garantiesFinancières.usecase.rejeterDemandeMainlevée,
-        référencielPermissions.lauréat.garantiesFinancières.command.rejeterDemandeMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.usecase.rejeterMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.command.rejeterMainlevée,
         référencielPermissions.document.command.enregister,
       ],
     },
