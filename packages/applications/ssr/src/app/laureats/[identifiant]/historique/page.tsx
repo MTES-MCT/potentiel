@@ -144,21 +144,23 @@ const mapToActions = (rôle: Role.ValueType) => {
   return actions;
 };
 
+const DEMANDE_GENERIQUE_ICONE = 'ri-draft-line';
+
 const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconProps['id']> = {
   'garanties-financieres': 'ri-bank-line',
-  'représentant-légal': 'ri-user-star-line',
-  abandon: 'ri-draft-line',
+  'représentant-légal': DEMANDE_GENERIQUE_ICONE,
+  abandon: 'ri-logout-box-line',
   achevement: 'ri-verified-badge-line',
-  actionnaire: 'ri-percent-line',
+  actionnaire: DEMANDE_GENERIQUE_ICONE,
   lauréat: 'ri-notification-3-line',
   éliminé: 'ri-notification-3-line',
-  producteur: 'ri-building-3-line',
+  producteur: DEMANDE_GENERIQUE_ICONE,
   puissance: 'ri-flashlight-line',
   raccordement: 'ri-plug-line',
   recours: 'ri-scales-3-line',
   délai: 'ri-time-line',
-  fournisseur: 'ri-truck-line',
-  installateur: 'ri-shake-hands-line',
+  fournisseur: DEMANDE_GENERIQUE_ICONE,
+  installateur: DEMANDE_GENERIQUE_ICONE,
 };
 
 const filtrerImportsEtRecoursLegacy = (
