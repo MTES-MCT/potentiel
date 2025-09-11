@@ -76,22 +76,16 @@ Alors(
       this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToAttestation();
 
     await waitForExpect(async () => {
-      const actualArchivesGarantiesFinancièresReadModel =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
+      const archives =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
           },
-        );
+        });
 
-      assert(Option.isSome(actualArchivesGarantiesFinancièresReadModel));
-
-      const {
-        archives: [actualArchive],
-      } = actualArchivesGarantiesFinancièresReadModel;
-      expect(actualArchivesGarantiesFinancièresReadModel.archives).to.have.length(1);
+      expect(archives).to.have.length(1);
+      const actualArchive = archives[0];
 
       const actualGf = mapToPlainObject(actualArchive.garantiesFinancières);
       expect(actualGf).to.deep.equal(mapToPlainObject(expectedGf));

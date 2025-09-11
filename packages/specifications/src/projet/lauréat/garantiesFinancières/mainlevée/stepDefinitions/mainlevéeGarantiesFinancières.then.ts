@@ -64,31 +64,33 @@ Alors(
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées`,
   async function (this: PotentielWorld) {
-    assert(false, 'A REVOIR !');
-    // const { identifiantProjet } = this.lauréatWorld;
-    // await waitForExpect(async () => {
-    //   const actualReadModelList =
-    //     await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-    //       type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-    //       data: {
-    //         identifiantProjet: identifiantProjet.formatter(),
-    //         statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
-    //       },
-    //     });
-    //   expect(actualReadModelList.items).to.be.length(1);
-    //   const actualReadModel = actualReadModelList.items[0];
-    //   const actual = mapToPlainObject(actualReadModel);
-    //   const expected = mapToPlainObject(
-    //     this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected().items[0],
-    //   );
+    const { identifiantProjet } = this.lauréatWorld;
+    await waitForExpect(async () => {
+      const actualReadModelList =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+          },
+        });
+      expect(actualReadModelList.items).to.be.length(1);
+      const actualReadModel = actualReadModelList.items[0];
+      const actual = mapToPlainObject(actualReadModel);
+      const expected = mapToPlainObject({
+        ...this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected(),
+        nomProjet: this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+        appelOffre: identifiantProjet.appelOffre,
+      });
 
-    //   expect(actual).to.deep.equal(expected);
+      expect(actual).to.deep.equal(expected);
 
-    //   assert(actualReadModel.rejet);
-    //   await expectFileContent(
-    //     actualReadModel.rejet.courrierRejet,
-    //     this.lauréatWorld.garantiesFinancièresWorld.mainlevée.rejeter.courrierRejet,
-    //   );
-    // });
+      assert(actualReadModel.rejet);
+      await expectFileContent(
+        actualReadModel.rejet.courrierRejet,
+        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.rejeter.courrierRejet,
+      );
+    });
   },
 );
