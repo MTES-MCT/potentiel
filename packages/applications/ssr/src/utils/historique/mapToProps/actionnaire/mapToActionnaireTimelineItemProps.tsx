@@ -4,8 +4,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 import {
   mapToActionnaireImportéTimelineItemProps,
   mapToActionnaireModifiéTimelineItemProps,
@@ -15,6 +13,7 @@ import {
   mapToChangementActionnaireRejetéTimelineItemProps,
   mapToChangementActionnaireAnnuléTimelineItemProps,
 } from './events';
+import { mapToChangementActionnaireSuppriméTimelineItemProps } from './events/mapToChangementActionnaireSuppriméTimelineItemProps';
 
 export const mapToActionnaireTimelineItemProps = (
   readmodel: Lauréat.Actionnaire.HistoriqueActionnaireProjetListItemReadModel,
@@ -67,6 +66,6 @@ export const mapToActionnaireTimelineItemProps = (
       {
         type: 'ChangementActionnaireSupprimé-V1',
       },
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      mapToChangementActionnaireSuppriméTimelineItemProps,
     )
     .exhaustive();

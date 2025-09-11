@@ -166,6 +166,8 @@ const filtrerImportsEtRecoursLegacy = (
   _: number,
   historique: Readonly<Lauréat.HistoriqueListItemReadModels[]>,
 ) => {
+  // on ne veut pas afficher dans l'historique complet les événements d'import de chaque domaine
+  // qui arrive en rebond de la désignation
   if (event.type?.includes('Import')) {
     return false;
   }
@@ -180,6 +182,7 @@ const filtrerImportsEtRecoursLegacy = (
   }
   return true;
 };
+
 const isLauréatNotifié = (
   item: Lauréat.HistoriqueListItemReadModels,
 ): item is HistoryRecord<

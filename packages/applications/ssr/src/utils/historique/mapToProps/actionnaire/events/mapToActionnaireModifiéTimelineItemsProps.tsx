@@ -1,14 +1,9 @@
-import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
 export const mapToActionnaireModifiéTimelineItemProps = (
-  modification: Lauréat.Actionnaire.ActionnaireModifiéEvent,
+  record: Lauréat.Actionnaire.ActionnaireModifiéEvent,
 ) => {
-  const { modifiéLe, modifiéPar, identifiantProjet, pièceJustificative, actionnaire } =
-    modification.payload;
+  const { modifiéLe, modifiéPar, actionnaire } = record.payload;
 
   return {
     date: modifiéLe,
@@ -18,21 +13,6 @@ export const mapToActionnaireModifiéTimelineItemProps = (
         <div>
           Nouvel actionnaire : <span className="font-semibold">{actionnaire}</span>
         </div>
-        {pièceJustificative && (
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format="pdf"
-            url={Routes.Document.télécharger(
-              DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                Lauréat.Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
-                modifiéLe,
-                pièceJustificative.format,
-              ).formatter(),
-            )}
-          />
-        )}
       </div>
     ),
   };
