@@ -37,8 +37,9 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Importer une candidature avec un champ optionnel "installateur"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut       | classé           |
-            | installateur | Installateur.Inc |
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | installateur  | Installateur.Inc         |
+            | statut        | classé                   |
         Alors la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
