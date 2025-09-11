@@ -24,6 +24,11 @@ const schema = zod.discriminatedUnion('type', [
   }),
   zod.object({
     ...commonSchema,
+    type: zod.literal('exemption'),
+    dateDeliberation: zod.string().min(1, { message: 'Champ obligatoire' }),
+  }),
+  zod.object({
+    ...commonSchema,
     type: zod.enum(['six-mois-après-achèvement', 'consignation']),
   }),
 ]);

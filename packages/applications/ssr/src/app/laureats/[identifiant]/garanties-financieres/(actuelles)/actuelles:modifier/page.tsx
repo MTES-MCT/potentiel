@@ -17,6 +17,7 @@ import {
   ModifierGarantiesFinancièresActuellesPage,
   ModifierGarantiesFinancièresActuellesPageProps,
 } from './ModifierGarantiesFinancièresActuelles.page';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 export const metadata: Metadata = {
   title: 'Modifier les garanties financières actuelles - Potentiel',
@@ -41,7 +42,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     return (
       <ModifierGarantiesFinancièresActuellesPage
-        identifiantProjet={identifiantProjetValue}
         typesGarantiesFinancières={props.typesGarantiesFinancières}
         actuelles={props.actuelles}
       />
@@ -54,33 +54,7 @@ type MapToProps = (
   cahierDesCharges: CahierDesCharges.ValueType,
 ) => ModifierGarantiesFinancièresActuellesPageProps;
 
-const mapToProps: MapToProps = (
-  {
-    identifiantProjet,
-    garantiesFinancières: {
-      type,
-      dateÉchéance,
-      validéLe,
-      dernièreMiseÀJour,
-      dateConstitution,
-      attestation,
-      statut,
-    },
-  },
-  cahierDesCharges,
-) => ({
-  identifiantProjet: identifiantProjet.formatter(),
+const mapToProps: MapToProps = (garantiesFinancières, cahierDesCharges) => ({
   typesGarantiesFinancières: typesGarantiesFinancièresPourFormulaire(cahierDesCharges),
-  actuelles: {
-    type: type.type,
-    statut: statut.statut,
-    dateÉchéance: dateÉchéance?.formatter(),
-    dateConstitution: dateConstitution?.formatter(),
-    validéLe: validéLe?.formatter(),
-    attestation: attestation?.formatter(),
-    dernièreMiseÀJour: {
-      date: dernièreMiseÀJour.date.formatter(),
-      par: dernièreMiseÀJour.par?.formatter(),
-    },
-  },
+  actuelles: mapToPlainObject(garantiesFinancières),
 });

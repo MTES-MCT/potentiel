@@ -5,22 +5,19 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
-import { TypeDocumentGarantiesFinancières } from '../..';
-import { Candidature, IdentifiantProjet } from '../../../..';
+import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
+import { IdentifiantProjet } from '../../../..';
 import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinancières.entity';
 
 export type ConsulterDépôtGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  dépôt: {
-    type: Candidature.TypeGarantiesFinancières.ValueType;
-    dateÉchéance?: DateTime.ValueType;
-    attestation: DocumentProjet.ValueType;
-    dateConstitution: DateTime.ValueType;
-    soumisLe: DateTime.ValueType;
-    dernièreMiseÀJour: {
-      date: DateTime.ValueType;
-      par: Email.ValueType;
-    };
+  garantiesFinancières: GarantiesFinancières.ValueType;
+  attestation: DocumentProjet.ValueType;
+  dateConstitution: DateTime.ValueType;
+  soumisLe: DateTime.ValueType;
+  dernièreMiseÀJour: {
+    date: DateTime.ValueType;
+    par: Email.ValueType;
   };
 };
 
@@ -61,28 +58,35 @@ export const registerConsulterDépôtGarantiesFinancièresQuery = ({
 };
 
 const mapToReadModel = ({
-  dépôt: { type, attestation, dateConstitution, dateÉchéance, soumisLe, dernièreMiseÀJour },
+  dépôt: {
+    type,
+    attestation,
+    dateConstitution,
+    dateÉchéance,
+    dateDélibération,
+    soumisLe,
+    dernièreMiseÀJour,
+  },
   identifiantProjetValueType,
 }: DépôtGarantiesFinancièresEntity & {
   identifiantProjetValueType: IdentifiantProjet.ValueType;
 }): ConsulterDépôtGarantiesFinancièresReadModel => ({
   identifiantProjet: identifiantProjetValueType,
-  dépôt: {
-    type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
-    ...(dateÉchéance && {
-      dateÉchéance: DateTime.convertirEnValueType(dateÉchéance),
-    }),
-    dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-    soumisLe: DateTime.convertirEnValueType(soumisLe),
-    attestation: DocumentProjet.convertirEnValueType(
-      identifiantProjetValueType.formatter(),
-      TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
-      DateTime.convertirEnValueType(dateConstitution).formatter(),
-      attestation.format,
-    ),
-    dernièreMiseÀJour: {
-      date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-      par: Email.convertirEnValueType(dernièreMiseÀJour.par),
-    },
+  garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+    type,
+    dateDélibération,
+    dateÉchéance,
+  }),
+  dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+  soumisLe: DateTime.convertirEnValueType(soumisLe),
+  attestation: DocumentProjet.convertirEnValueType(
+    identifiantProjetValueType.formatter(),
+    TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
+    DateTime.convertirEnValueType(dateConstitution).formatter(),
+    attestation.format,
+  ),
+  dernièreMiseÀJour: {
+    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+    par: Email.convertirEnValueType(dernièreMiseÀJour.par),
   },
 });

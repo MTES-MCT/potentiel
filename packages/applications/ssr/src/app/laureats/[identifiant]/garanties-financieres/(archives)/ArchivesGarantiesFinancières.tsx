@@ -7,10 +7,8 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 
-import { GarantiesFinancièresArchivées } from './garantiesFInancières.type';
-
 type ArchivesGarantiesFinancièresProps = {
-  archives: Array<GarantiesFinancièresArchivées>;
+  archives: Array<any>;
 };
 
 export const ArchivesGarantiesFinancières = ({ archives }: ArchivesGarantiesFinancièresProps) => {

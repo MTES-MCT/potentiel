@@ -53,17 +53,8 @@ export type ListerMainlevéesQuery = Message<
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
     statut?: StatutMainlevéeGarantiesFinancières.RawType;
-    estEnCours?: boolean;
-  } & (
-    | {
-        identifiantUtilisateur?: string;
-        identifiantProjet: IdentifiantProjet.RawType;
-      }
-    | {
-        identifiantUtilisateur: string;
-        identifiantProjet?: IdentifiantProjet.RawType;
-      }
-  ),
+    identifiantUtilisateur: string;
+  },
   ListerMainlevéesReadModel
 >;
 
@@ -78,20 +69,14 @@ export const registerListerMainlevéesQuery = ({
 }: ListerMainlevéesQueryDependencies) => {
   const handler: MessageHandler<ListerMainlevéesQuery> = async ({
     range,
-    identifiantProjet,
     appelOffre,
     motif,
     statut,
-    estEnCours,
     identifiantUtilisateur,
   }) => {
-    const scope = identifiantUtilisateur
-      ? await getScopeProjetUtilisateur(Email.convertirEnValueType(identifiantUtilisateur))
-      : {
-          type: 'projet' as const,
-          identifiantProjets: identifiantProjet ? [identifiantProjet] : [],
-        };
-
+    const scope = await getScopeProjetUtilisateur(
+      Email.convertirEnValueType(identifiantUtilisateur),
+    );
     const {
       items,
       range: { endPosition, startPosition },
@@ -104,9 +89,7 @@ export const registerListerMainlevéesQuery = ({
           identifiantProjet:
             scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           motif: Where.equal(motif),
-          statut: estEnCours
-            ? Where.notEqual(StatutMainlevéeGarantiesFinancières.rejeté.statut)
-            : Where.equal(statut),
+          statut: Where.equal(statut),
         },
         join: {
           entity: 'lauréat',

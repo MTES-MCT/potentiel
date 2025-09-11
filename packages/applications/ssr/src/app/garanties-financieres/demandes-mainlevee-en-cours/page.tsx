@@ -40,19 +40,18 @@ export default async function Page({ searchParams }: PageProps) {
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            ...(appelOffre && { appelOffre }),
-            ...(motif && {
-              motif:
-                Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+            appelOffre,
+
+            motif: motif
+              ? Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
                   motif,
-                ).motif,
-            }),
-            ...(statut && {
-              statut:
-                Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+                ).motif
+              : undefined,
+            statut: statut
+              ? Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
                   statut,
-                ).statut,
-            }),
+                ).statut
+              : undefined,
             range: mapToRangeOptions({
               currentPage: page,
               itemsPerPage: 10,

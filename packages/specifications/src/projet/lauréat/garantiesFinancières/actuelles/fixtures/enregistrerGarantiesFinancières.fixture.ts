@@ -98,10 +98,12 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
       this.garantiesFinancières,
     );
-    const readModel: Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel = {
+    const readModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel = {
+      identifiantProjet:
+        this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
+          .identifiantProjet,
       statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
-      type: gf.type,
-      dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
+      garantiesFinancières: gf,
       dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
       attestation: DocumentProjet.convertirEnValueType(
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),

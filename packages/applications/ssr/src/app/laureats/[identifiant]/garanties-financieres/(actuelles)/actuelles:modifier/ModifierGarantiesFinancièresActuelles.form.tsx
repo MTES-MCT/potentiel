@@ -12,7 +12,6 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { GarantiesFinancièresActuelles } from '../garantiesFinancièresActuelles.type';
 import {
   TypeGarantiesFinancièresSelect,
   TypeGarantiesFinancièresSelectProps,
@@ -22,16 +21,20 @@ import {
   modifierGarantiesFinancièresActuellesAction,
   ModifierGarantiesFinancièresFormKeys,
 } from './modifierGarantiesFinancièresActuelles.action';
+import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet } from '@potentiel-domain/document';
+import { DateTime } from '@potentiel-domain/common';
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {
-  identifiantProjet: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-  actuelles: Omit<GarantiesFinancièresActuelles, 'actions' | 'isActuelle'>;
+  actuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 };
 
 export const ModifierGarantiesFinancièresActuellesForm: FC<
   ModifierGarantiesFinancièresActuellesFormProps
-> = ({ typesGarantiesFinancières, actuelles, identifiantProjet }) => {
+> = ({ typesGarantiesFinancières, actuelles }) => {
+  const identifiantProjet = IdentifiantProjet.bind(actuelles.identifiantProjet).formatter();
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierGarantiesFinancièresFormKeys>
   >({});
@@ -63,17 +66,17 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         name="type"
         validationErrors={validationErrors}
         typesGarantiesFinancières={typesGarantiesFinancières}
-        typeGarantiesFinancièresActuel={
-          actuelles.type as TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
-        }
-        dateÉchéanceActuelle={actuelles.dateÉchéance}
+        garantiesFinancièresActuelles={actuelles.garantiesFinancières}
       />
-
       <InputDate
         label="Date de constitution"
         name="dateConstitution"
         max={now()}
-        defaultValue={actuelles.dateConstitution}
+        defaultValue={
+          actuelles.dateConstitution
+            ? DateTime.bind(actuelles.dateConstitution).formatter()
+            : undefined
+        }
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
@@ -86,7 +89,9 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
-        documentKeys={actuelles.attestation ? [actuelles.attestation] : []}
+        documentKeys={
+          actuelles.attestation ? [DocumentProjet.bind(actuelles.attestation).formatter()] : []
+        }
       />
     </Form>
   );

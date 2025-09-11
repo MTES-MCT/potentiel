@@ -14,6 +14,7 @@ import {
   ListerMainlevéesQueryDependencies,
   registerListerMainlevéesQuery,
 } from './lister/listerMainlevéesGarantiesFinancières.query';
+import { registerConsulterMainlevéeEnCoursQuery } from './consulter/consulterMainlevéeEnCours.query';
 
 export type MainlevéeGarantiesFinancièresQueryDependencies = ListerMainlevéesQueryDependencies;
 
@@ -41,4 +42,5 @@ export const registerMainlevéeGarantiesFinancièresQueries = (
   dependencies: MainlevéeGarantiesFinancièresQueryDependencies,
 ) => {
   registerListerMainlevéesQuery(dependencies);
+  registerConsulterMainlevéeEnCoursQuery(dependencies);
 };

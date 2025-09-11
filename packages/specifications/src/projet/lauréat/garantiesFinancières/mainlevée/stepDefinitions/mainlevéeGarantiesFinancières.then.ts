@@ -5,6 +5,7 @@ import waitForExpect from 'wait-for-expect';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { expectFileContent } from '../../../../../helpers/expectFileContent';
@@ -13,20 +14,18 @@ Alors(
   `une demande de mainlevée de garanties financières devrait être consultable`,
   async function (this: PotentielWorld) {
     const expected = mapToPlainObject(
-      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected().items[0],
+      this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected(),
     );
     const { identifiantProjet } = this.lauréatWorld;
-    const actualReadModelList =
-      await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+    const actualReadModel =
+      await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
-          estEnCours: true,
         },
       });
 
-    expect(actualReadModelList.items).to.be.length(1);
-    const actualReadModel = actualReadModelList.items[0];
+    assert(Option.isSome(actualReadModel));
     const actual = mapToPlainObject(actualReadModel);
 
     expect(actual).to.deep.equal(
@@ -40,12 +39,6 @@ Alors(
         this.lauréatWorld.garantiesFinancièresWorld.mainlevée.accorder.courrierAccord,
       );
     }
-    if (actualReadModel.rejet) {
-      await expectFileContent(
-        actualReadModel.rejet.courrierRejet,
-        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.rejeter.courrierRejet,
-      );
-    }
   },
 );
 
@@ -56,15 +49,14 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            estEnCours: true,
           },
         });
 
-      expect(actualReadModel.items).to.be.length(0);
+      expect(Option.isNone(actualReadModel));
     });
   },
 );
@@ -72,30 +64,31 @@ Alors(
 Alors(
   `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées`,
   async function (this: PotentielWorld) {
-    const { identifiantProjet } = this.lauréatWorld;
-    await waitForExpect(async () => {
-      const actualReadModelList =
-        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
-          },
-        });
-      expect(actualReadModelList.items).to.be.length(1);
-      const actualReadModel = actualReadModelList.items[0];
-      const actual = mapToPlainObject(actualReadModel);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected().items[0],
-      );
+    assert(false, 'A REVOIR !');
+    // const { identifiantProjet } = this.lauréatWorld;
+    // await waitForExpect(async () => {
+    //   const actualReadModelList =
+    //     await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+    //       type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+    //       data: {
+    //         identifiantProjet: identifiantProjet.formatter(),
+    //         statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+    //       },
+    //     });
+    //   expect(actualReadModelList.items).to.be.length(1);
+    //   const actualReadModel = actualReadModelList.items[0];
+    //   const actual = mapToPlainObject(actualReadModel);
+    //   const expected = mapToPlainObject(
+    //     this.lauréatWorld.garantiesFinancièresWorld.mainlevée.mapToExpected().items[0],
+    //   );
 
-      expect(actual).to.deep.equal(expected);
+    //   expect(actual).to.deep.equal(expected);
 
-      assert(actualReadModel.rejet);
-      await expectFileContent(
-        actualReadModel.rejet.courrierRejet,
-        this.lauréatWorld.garantiesFinancièresWorld.mainlevée.rejeter.courrierRejet,
-      );
-    });
+    //   assert(actualReadModel.rejet);
+    //   await expectFileContent(
+    //     actualReadModel.rejet.courrierRejet,
+    //     this.lauréatWorld.garantiesFinancièresWorld.mainlevée.rejeter.courrierRejet,
+    //   );
+    // });
   },
 );

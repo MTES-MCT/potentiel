@@ -38,15 +38,13 @@ export const GET = async (
 
       const gf = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
-      const mainlevéeEnCours = (
-        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+      const mainlevéeEnCours =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            estEnCours: true,
           },
-        })
-      ).items[0];
+        });
 
       const achèvement =
         await mediator.send<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéQuery>(
@@ -96,20 +94,24 @@ export const GET = async (
           emailProjet: data.email,
 
           dateConstitutionGarantiesFinancières: formatDateForDocument(
-            Option.isSome(gf) ? gf.garantiesFinancières.dateConstitution?.date : undefined,
+            Option.isSome(gf) ? gf.dateConstitution?.date : undefined,
           ),
-          estMotifAchèvement: mainlevéeEnCours ? mainlevéeEnCours.motif.estProjetAchevé() : false,
+          estMotifAchèvement: Option.match(mainlevéeEnCours)
+            .some(({ motif }) => motif.estProjetAchevé())
+            .none(() => false),
           dateTransmissionAuCocontractant: formatDateForDocument(
             Option.isSome(achèvement) ? achèvement.dateTransmissionAuCocontractant.date : undefined,
           ),
-          estMotifAbandon: mainlevéeEnCours ? mainlevéeEnCours.motif.estProjetAbandonné() : false,
+          estMotifAbandon: Option.match(mainlevéeEnCours)
+            .some(({ motif }) => motif.estProjetAbandonné())
+            .none(() => false),
           dateAbandonAccordé: formatDateForDocument(
             Option.isSome(abandon) ? abandon.demande.accord?.accordéLe.date : undefined,
           ),
           estAccordée,
-          dateMainlevée: formatDateForDocument(
-            mainlevéeEnCours ? mainlevéeEnCours.demande.demandéeLe.date : undefined,
-          ),
+          dateMainlevée: Option.match(mainlevéeEnCours)
+            .some(({ demande }) => formatDateForDocument(demande.demandéeLe.date))
+            .none(() => formatDateForDocument(undefined)),
         },
       });
 

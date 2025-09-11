@@ -9,19 +9,25 @@ import {
   ModifierGarantiesFinancièresActuellesForm,
   ModifierGarantiesFinancièresActuellesFormProps,
 } from './ModifierGarantiesFinancièresActuelles.form';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 export type ModifierGarantiesFinancièresActuellesPageProps =
   ModifierGarantiesFinancièresActuellesFormProps;
 
 export const ModifierGarantiesFinancièresActuellesPage: FC<
   ModifierGarantiesFinancièresActuellesPageProps
-> = (props) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={props.identifiantProjet} />}>
+> = ({ actuelles, typesGarantiesFinancières }) => (
+  <PageTemplate
+    banner={
+      <ProjetBanner
+        identifiantProjet={IdentifiantProjet.bind(actuelles.identifiantProjet).formatter()}
+      />
+    }
+  >
     <TitrePageGarantiesFinancières title="Modifier les garanties financières actuelles" />
     <ModifierGarantiesFinancièresActuellesForm
-      identifiantProjet={props.identifiantProjet}
-      typesGarantiesFinancières={props.typesGarantiesFinancières}
-      actuelles={props.actuelles}
+      typesGarantiesFinancières={typesGarantiesFinancières}
+      actuelles={actuelles}
     />
   </PageTemplate>
 );

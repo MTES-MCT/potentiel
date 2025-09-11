@@ -13,8 +13,8 @@ import { vérifierProjetSoumisAuxGarantiesFinancières } from '../../_helpers/v�
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
 import { vérifierProjetNonExemptDeGarantiesFinancières } from '../../_helpers/vérifierProjetNonExemptDeGarantiesFinancières';
 
-import { ProjetADéjàUnDépôtEnCoursPage } from './ProjetADéjàUnDépôtEnCours.page';
 import { SoumettreDépôtGarantiesFinancièresPage } from './SoumettreDépôtGarantiesFinancières.page';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 export const metadata: Metadata = {
   title: 'Soumettre des garanties financières - Potentiel',
@@ -38,13 +38,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjetValue: identifiantProjetValue },
       });
 
-    return Option.match(dépôtGarantiesFinancières)
-      .some(() => <ProjetADéjàUnDépôtEnCoursPage identifiantProjet={identifiantProjetValue} />)
-      .none(() => (
-        <SoumettreDépôtGarantiesFinancièresPage
-          identifiantProjet={identifiantProjetValue}
-          typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
-        />
-      ));
+    if (Option.isSome(dépôtGarantiesFinancières)) {
+      throw new InvalidOperationError('Le projet a déjà un dépôt en attente de validation');
+    }
+
+    return (
+      <SoumettreDépôtGarantiesFinancièresPage
+        identifiantProjet={identifiantProjetValue}
+        typesGarantiesFinancières={typesGarantiesFinancièresPourFormulaire(cahierDesCharges)}
+      />
+    );
   });
 }

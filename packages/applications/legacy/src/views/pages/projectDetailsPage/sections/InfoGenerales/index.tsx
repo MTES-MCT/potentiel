@@ -205,6 +205,7 @@ export type GarantiesFinancièresProjetProps = {
       type?: Candidature.TypeGarantiesFinancières.RawType;
       dateConstitution?: string;
       dateÉchéance?: string;
+      attestation?: DocumentProjet.RawType;
     };
     dépôtÀTraiter?: {
       type?: Candidature.TypeGarantiesFinancières.RawType;
@@ -228,6 +229,20 @@ const GarantiesFinancièresProjet = ({
   const motifDemandeGarantiesFinancières =
     garantiesFinancières.motifGfEnAttente &&
     getMotifGFEnAttente(garantiesFinancières.motifGfEnAttente);
+
+  if (garantiesFinancières.actuelles?.type === 'exemption') {
+    return (
+      <div className="flex flex-col gap-0">
+        <Heading3 className="m-0">Garanties financières</Heading3>
+        Le projet bénéficie d'une exemption de garanties financières
+        {garantiesFinancières.actuelles.attestation ? (
+          <Link href={Routes.Document.télécharger(garantiesFinancières.actuelles.attestation)}>
+            pièce justificative
+          </Link>
+        ) : null}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-0">

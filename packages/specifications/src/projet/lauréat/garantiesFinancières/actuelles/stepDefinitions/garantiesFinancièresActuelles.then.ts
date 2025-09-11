@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -13,8 +13,17 @@ import { expectFileContent } from '../../../../../helpers/expectFileContent';
 Alors(
   'les garanties financières actuelles devraient être consultables pour le projet lauréat',
   async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
-      const actualReadModel = await getGarantiesFinancières(this.lauréatWorld.identifiantProjet);
+      const actualReadModel =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      assert(Option.isSome(actualReadModel), 'Pas de garanties financières actuelles trouvées');
 
       const actual = mapToPlainObject(actualReadModel);
 
@@ -24,9 +33,9 @@ Alors(
 
       actual.should.be.deep.equal(expected);
 
-      if (actualReadModel.garantiesFinancières.attestation) {
+      if (actualReadModel.attestation) {
         await expectFileContent(
-          actualReadModel.garantiesFinancières.attestation,
+          actualReadModel.attestation,
           this.lauréatWorld.garantiesFinancièresWorld.mapToAttestation(),
         );
       }
@@ -59,14 +68,8 @@ Alors(
 
     const { identifiantProjet } = this.lauréatWorld;
 
-    const { garantiesFinancières } =
+    const { garantiesFinancières: expectedGf } =
       this.lauréatWorld.garantiesFinancièresWorld.actuelles.mapToExpected();
-
-    const typeValue = garantiesFinancières.type.formatter();
-    const dateÉchéanceValue = garantiesFinancières.dateÉchéance?.formatter();
-    const dateConstitutionValue = garantiesFinancières.dateConstitution?.formatter();
-    const validéLeValue = garantiesFinancières.validéLe?.formatter();
-    const statutValue = garantiesFinancières.statut.statut;
 
     const raisonValue = exemple['raison'];
     const expectedAttestation =
@@ -85,45 +88,23 @@ Alors(
 
       assert(Option.isSome(actualArchivesGarantiesFinancièresReadModel));
 
-      actualArchivesGarantiesFinancièresReadModel.archives.should.length(1);
+      const {
+        archives: [actualArchive],
+      } = actualArchivesGarantiesFinancièresReadModel;
+      expect(actualArchivesGarantiesFinancièresReadModel.archives).to.have.length(1);
 
-      expect(actualArchivesGarantiesFinancièresReadModel.archives[0].type.type).to.deep.equal(
-        typeValue,
-      );
+      const actualGf = mapToPlainObject(actualArchive.garantiesFinancières);
+      expect(actualGf).to.deep.equal(mapToPlainObject(expectedGf));
 
-      if (dateÉchéanceValue) {
-        expect(
-          actualArchivesGarantiesFinancièresReadModel.archives[0].dateÉchéance?.date,
-        ).to.deep.equal(new Date(dateÉchéanceValue));
-      }
-
-      if (dateConstitutionValue) {
-        expect(
-          actualArchivesGarantiesFinancièresReadModel.archives[0].dateConstitution?.date,
-        ).to.deep.equal(new Date(dateConstitutionValue));
-      }
-
-      if (validéLeValue) {
-        expect(
-          actualArchivesGarantiesFinancièresReadModel.archives[0].validéLe?.date,
-        ).to.deep.equal(new Date(validéLeValue));
-      }
-
-      expect(actualArchivesGarantiesFinancièresReadModel.archives[0].statut.statut).to.be.equal(
-        statutValue,
-      );
-
-      expect(
-        actualArchivesGarantiesFinancièresReadModel.archives[0].motif.estÉgaleÀ(
-          Lauréat.GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(
-            raisonValue,
-          ),
+      const actualMotif = mapToPlainObject(actualArchive.motif);
+      const expectedMotif = mapToPlainObject(
+        Lauréat.GarantiesFinancières.MotifArchivageGarantiesFinancières.convertirEnValueType(
+          raisonValue,
         ),
-      ).to.be.true;
+      );
+      expect(actualMotif).to.deep.eq(expectedMotif);
 
-      const actualAttestation = actualArchivesGarantiesFinancièresReadModel.archives[0].attestation;
-
-      await expectFileContent(actualAttestation ?? Option.none, expectedAttestation);
+      await expectFileContent(actualArchive.attestation ?? Option.none, expectedAttestation);
     });
   },
 );
@@ -144,25 +125,7 @@ Alors(
 
       expect(Option.isSome(actualReadModel)).to.be.true;
       assert(Option.isSome(actualReadModel));
-      expect(actualReadModel.garantiesFinancières.statut.estÉchu()).to.be.true;
+      expect(actualReadModel.statut.estÉchu()).to.be.true;
     });
   },
 );
-
-const getGarantiesFinancières = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  const actualReadModel =
-    await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
-
-  if (Option.isNone(actualReadModel)) {
-    throw new Error(
-      `Le read model des garanties financières du projet ${identifiantProjet.formatter()} n'existe pas`,
-    );
-  }
-
-  return actualReadModel;
-};

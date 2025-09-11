@@ -2,19 +2,18 @@ import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
+import { PlainType } from '@potentiel-domain/core';
+import { InputDate } from '@/components/atoms/form/InputDate';
 
 export type TypeGarantiesFinancièresSelectProps = {
   id: string;
   name: string;
   label?: string;
-  disabled?: true;
   validationErrors: ValidationErrors;
-  typeGarantiesFinancièresActuel?: Candidature.TypeGarantiesFinancières.RawType;
-  dateÉchéanceActuelle?: Iso8601DateTime;
+  garantiesFinancièresActuelles?: PlainType<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>;
   typesGarantiesFinancières: Array<{
     label: string;
     value: Candidature.TypeGarantiesFinancières.RawType;
@@ -25,15 +24,16 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
   id,
   name,
   label = 'Type des garanties financières',
-  disabled,
   validationErrors,
-  typeGarantiesFinancièresActuel,
+  garantiesFinancièresActuelles,
   typesGarantiesFinancières,
-  dateÉchéanceActuelle,
 }) => {
+  const gfActuelles = garantiesFinancièresActuelles
+    ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(garantiesFinancièresActuelles)
+    : undefined;
   const [typeSélectionné, setTypeSélectionné] = useState<
-    TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel']
-  >(typeGarantiesFinancièresActuel);
+    Candidature.TypeGarantiesFinancières.RawType | undefined
+  >(gfActuelles?.type.type);
 
   return (
     <>
@@ -51,24 +51,30 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
         options={typesGarantiesFinancières}
         state={validationErrors['type'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['type']}
-        disabled={disabled}
       />
 
-      {disabled && <input type="hidden" name={name} value={typeGarantiesFinancièresActuel} />}
-
       {typeSélectionné === 'avec-date-échéance' && (
-        <Input
+        <InputDate
           label="Date d'échéance"
-          nativeInputProps={{
-            type: 'date',
-            name: 'dateEcheance',
-            required: true,
-            'aria-required': true,
-            defaultValue: dateÉchéanceActuelle,
-          }}
+          name="dateEcheance"
+          required
+          defaultValue={
+            gfActuelles?.estAvecDateÉchéance() ? gfActuelles.dateÉchéance.formatter() : undefined
+          }
           state={validationErrors['dateEcheance'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['dateEcheance']}
-          disabled={disabled}
+        />
+      )}
+      {typeSélectionné === 'exemption' && (
+        <InputDate
+          label="Date de délibération"
+          name="dateDeliberation"
+          required
+          defaultValue={
+            gfActuelles?.estExemption() ? gfActuelles.dateDélibération.formatter() : undefined
+          }
+          state={validationErrors['dateEcheance'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['dateEcheance']}
         />
       )}
     </>

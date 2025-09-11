@@ -36,13 +36,12 @@ export class DépôtGarantiesFinancièresWorld {
   }
 
   mapToExpected() {
-    const dépôt: Partial<
-      Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel['dépôt']
-    > = {
-      ...this.soumettre.mapToExpected(),
-      ...this.modifier.mapToExpected(),
-      ...this.valider.mapToExpected(),
-    };
+    const dépôt: Partial<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel> =
+      {
+        ...this.soumettre.mapToExpected(),
+        ...this.modifier.mapToExpected(),
+        ...this.valider.mapToExpected(),
+      };
 
     if (this.valider.aÉtéCréé && dépôt.attestation) {
       dépôt.attestation = DocumentProjet.bind({
@@ -54,10 +53,8 @@ export class DépôtGarantiesFinancièresWorld {
 
     return {
       identifiantProjet: this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet,
-      dépôt: {
-        ...dépôt,
-        soumisLe: this.soumettre?.mapToExpected()?.soumisLe,
-      },
+      ...dépôt,
+      soumisLe: this.soumettre?.mapToExpected()?.soumisLe,
     };
   }
 

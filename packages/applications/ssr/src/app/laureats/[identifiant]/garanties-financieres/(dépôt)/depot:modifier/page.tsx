@@ -19,6 +19,7 @@ import {
   ModifierDépôtGarantiesFinancièresPage,
   ModifierDépôtGarantiesFinancièresPageProps,
 } from './ModifierDépôtGarantiesFinancières.page';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',
@@ -50,7 +51,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         <ModifierDépôtGarantiesFinancièresPage
           identifiantProjet={identifiantProjetValue}
           typesGarantiesFinancières={props.typesGarantiesFinancières}
-          dépôtEnCours={props.dépôtEnCours}
+          dépôt={props.dépôt}
           showWarning={props.showWarning}
         />
       );
@@ -67,11 +68,6 @@ type MapToProps = (params: {
 const mapToProps: MapToProps = ({ utilisateur, dépôt, cahierDesCharges }) => ({
   identifiantProjet: dépôt.identifiantProjet.formatter(),
   typesGarantiesFinancières: typesGarantiesFinancièresPourFormulaire(cahierDesCharges),
-  dépôtEnCours: {
-    typeGarantiesFinancières: dépôt.dépôt.type.type,
-    dateÉchéance: dépôt.dépôt.dateÉchéance?.formatter(),
-    dateConstitution: dépôt.dépôt.dateConstitution.formatter(),
-    attestation: dépôt.dépôt.attestation.formatter(),
-  },
+  dépôt: mapToPlainObject(dépôt),
   showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
 });

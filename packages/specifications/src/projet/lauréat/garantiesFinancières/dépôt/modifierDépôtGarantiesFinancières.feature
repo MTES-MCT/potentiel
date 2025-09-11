@@ -6,6 +6,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
 
+    @select
     Plan du Scénario: Un porteur modifie un dépôt de garanties financières
         Etant donné un dépôt de garanties financières avec :
             | type GF         | <type GF>         |

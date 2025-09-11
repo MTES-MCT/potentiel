@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 
 type Props = {
-  actions: DétailsGarantiesFinancièresPageProps['infoBoxMainlevée']['actions'];
+  actions: DétailsGarantiesFinancièresPageProps['actions'];
   identifiantProjet: string;
 };
 
@@ -33,7 +33,7 @@ export const InfoBoxMainlevée: FC<Props> = ({ actions, identifiantProjet }: Pro
             (abandon accordé par la DGEC).
           </li>
         </ul>
-        {actions === 'transmettre-attestation-conformité' && (
+        {actions.includes('transmettre-attestation-conformité') && (
           <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
             Transmettre l'attestation de conformité
           </Link>
