@@ -1,23 +1,25 @@
 import { FC } from 'react';
 
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
+import { Role } from '@potentiel-domain/utilisateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+
 import { PageTemplate } from '@/components/templates/Page.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { GarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/components/GarantiesFinancières';
+import { Heading2 } from '@/components/atoms/headings';
 
 import { InfoBoxMainlevée } from './(mainlevée)/InfoBoxMainlevée';
 import { GarantiesFinancièresManquantes } from './components/GarantiesFinancièresManquantes';
 import { TitrePageGarantiesFinancières } from './components/TitrePageGarantiesFinancières';
 import { MainlevéeEnCours } from './(mainlevée)/MainlevéeEnCours';
 import { InfoBoxSoumettreDépôtGarantiesFinancières } from './(dépôt)/depot:soumettre/InfoBoxSoumettreDépôtGarantiesFinancières';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Heading2 } from '@/components/atoms/headings';
 import { StatutGarantiesFinancièresBadge } from './StatutGarantiesFinancièresBadge';
 import { GarantiesFinancièresActuellesActions } from './(actuelles)/GarantiesFinancièresActuellesActions';
 import { DépôtGarantiesFinancièresActions } from './(dépôt)/DépôtGarantiesFinancièresActions';
 import { SectionGarantiesFinancières } from './SectionGarantiesFinancières';
-import { Role } from '@potentiel-domain/utilisateur';
 
 const actions = [
   'garantiesFinancières.actuelles.enregistrer',
@@ -28,6 +30,7 @@ const actions = [
   'garantiesFinancières.mainlevée.démarrerInstruction',
   'garantiesFinancières.mainlevée.accorder',
   'garantiesFinancières.mainlevée.rejeter',
+  'garantiesFinancières.mainlevée.corrigerRéponseSignée',
   'garantiesFinancières.dépôt.soumettre',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.valider',
@@ -53,8 +56,9 @@ export type DétailsGarantiesFinancièresPageProps = {
   // historiqueMainlevée: Option.Type<
   //   PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>
   // >;
+  appelOffres: PlainType<AppelOffre.AppelOffreReadModel>;
   actions: ActionGarantiesFinancières[];
-  infos: ('demande-mainlevée' | 'échues' | 'date-échéance-dépôt-passée')[];
+  infos: ('conditions-demande-mainlevée' | 'échues' | 'date-échéance-dépôt-passée')[];
 };
 
 export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancièresPageProps> = ({
@@ -65,6 +69,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   infos,
   mainlevée,
   // historiqueMainlevée,
+  appelOffres,
   contactPorteurs,
   motifMainlevée,
   // archivesGarantiesFinancières,
@@ -77,7 +82,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <SectionGarantiesFinancières
             content={
               <GarantiesFinancières
-                title="Garanties Financières actuelles"
+                title="Garanties financières actuelles"
                 garantiesFinancières={actuelles}
                 attestation={actuelles.attestation}
                 statutBadge={<StatutGarantiesFinancièresBadge statut={actuelles.statut.statut} />}
@@ -99,7 +104,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
           <SectionGarantiesFinancières
             content={
               <GarantiesFinancières
-                title="Garanties Financières à traiter"
+                title="Garanties financières à traiter"
                 garantiesFinancières={dépôtEnCours}
                 attestation={dépôtEnCours.attestation}
                 actions={actions}
@@ -118,11 +123,16 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
 
       {Option.isSome(mainlevée) && (
         <SectionGarantiesFinancières
+          colorVariant={mainlevée.statut.statut === 'accordé' ? 'success' : 'info'}
           content={
             <div className="flex flex-col">
               <Heading2>Demande de mainlevée en cours</Heading2>
               <div className="flex">
-                <MainlevéeEnCours mainlevée={mainlevée} actions={actions} urlAppelOffre={'TODO'} />
+                <MainlevéeEnCours
+                  mainlevée={mainlevée}
+                  actions={actions}
+                  urlAppelOffre={appelOffres.cahiersDesChargesUrl}
+                />
               </div>
             </div>
           }
@@ -138,7 +148,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <ArchivesGarantiesFinancières archives={archivesGarantiesFinancières} />
       )} */}
 
-      {infos.includes('demande-mainlevée') && (
+      {infos.includes('conditions-demande-mainlevée') && (
         <InfoBoxMainlevée identifiantProjet={identifiantProjet} actions={actions} />
       )}
 

@@ -824,6 +824,7 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.rejeterMainlevée,
         référencielPermissions.document.command.enregister,
       ],
+      corrigerRéponseSignée: [],
     },
     enAttente: {
       lister: [
@@ -1631,6 +1632,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.rejeter',
+  'garantiesFinancières.mainlevée.corrigerRéponseSignée',
 
   // Attestation conformité
   'achèvement.attestationConformité.transmettre',

@@ -1,13 +1,13 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-
-import { DemanderMainlevéeForm } from '../(mainlevée)/demander/DemanderMainlevée.form';
-
-import { InfoBoxDrealGarantiesFinancièreséÉchues } from './components/InfoBoxDrealGarantiesFinancièresÉchues';
-import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+
+import { CopyButton } from '@/components/molecules/CopyButton';
+
+import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
+import { DemanderMainlevéeForm } from '../(mainlevée)/demander/DemanderMainlevée.form';
 
 type GarantiesFinancièresActuellesActionsProps = {
   actions: DétailsGarantiesFinancièresPageProps['actions'];
@@ -26,10 +26,15 @@ export const GarantiesFinancièresActuellesActions = ({
 }: GarantiesFinancièresActuellesActionsProps) => (
   <div className="flex flex-col md:flex-row gap-4">
     <div className="flex flex-col gap-4">
-      {infos.includes('échues') && contactPorteurs && contactPorteurs.length && (
-        <InfoBoxDrealGarantiesFinancièreséÉchues contactPorteurs={contactPorteurs} />
+      {infos.includes('échues') && (
+        <p>
+          La date d'échéance de ces garanties financières est dépassée. Vous pouvez contacter le ou
+          les porteurs dont voici la ou les adresses emails :
+          <br />
+          <CopyButton textToCopy={contactPorteurs.join(',')} />
+        </p>
       )}
-      <>
+      <div className="flex flex-col gap-1">
         {actions.includes('garantiesFinancières.actuelles.modifier') && (
           <Button
             linkProps={{
@@ -40,22 +45,18 @@ export const GarantiesFinancièresActuellesActions = ({
           </Button>
         )}
         {actions.includes('garantiesFinancières.actuelles.enregistrerAttestation') && (
-          <div className="flex flex-col gap-1">
-            <Button
-              linkProps={{
-                href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(
-                  identifiantProjet,
-                ),
-              }}
-            >
-              Enregistrer l'attestation de constitution
-            </Button>
-          </div>
+          <Button
+            linkProps={{
+              href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(identifiantProjet),
+            }}
+          >
+            Enregistrer l'attestation de constitution
+          </Button>
         )}
         {actions.includes('garantiesFinancières.mainlevée.demander') && motif && (
           <DemanderMainlevéeForm identifiantProjet={identifiantProjet} motif={motif.motif} />
         )}
-      </>
+      </div>
     </div>
   </div>
 );

@@ -4,6 +4,8 @@ import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Accès, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -19,8 +21,6 @@ import {
 import { vérifierProjetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { vérifierProjetNonExemptDeGarantiesFinancières } from './_helpers/vérifierProjetNonExemptDeGarantiesFinancières';
 import { récuperérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { match } from 'ts-pattern';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -100,6 +100,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         mainlevée,
         utilisateur,
         accès: accèsProjet,
+        appelOffres,
       };
       const { infos, actions } = mapToActionsAndInfos(data);
       const props = mapToProps(data);
@@ -114,6 +115,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           mainlevée={props.mainlevée}
           // historiqueMainlevée={mapToPlainObject(historiqueMainlevée)}
           motifMainlevée={props.motifMainlevée}
+          appelOffres={props.appelOffres}
           actions={actions}
           infos={infos}
         />
@@ -130,6 +132,7 @@ type Props = {
   mainlevée: Option.Type<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
   accès: Option.Type<Accès.ConsulterAccèsReadModel>;
   utilisateur: Utilisateur.ValueType;
+  appelOffres: AppelOffre.AppelOffreReadModel;
 };
 
 const mapToActionsAndInfos = ({
@@ -150,62 +153,74 @@ const mapToActionsAndInfos = ({
   const estAchevéOuAbandonné = estAchevé || estAbandonné;
   const aUnDépôtEnCours = Option.isSome(dépôtEnCours);
 
-  if (Option.isNone(actuelles)) {
-    actions.push('garantiesFinancières.actuelles.enregistrer');
+  if (Option.isSome(mainlevée)) {
+    if (mainlevée.statut.estAccordé() || mainlevée.statut.estRejeté()) {
+      actions.push('garantiesFinancières.mainlevée.corrigerRéponseSignée');
+    } else {
+      if (mainlevée.statut.estDemandé()) {
+        actions.push('garantiesFinancières.mainlevée.annuler');
+        actions.push('garantiesFinancières.mainlevée.démarrerInstruction');
+      }
+      actions.push('garantiesFinancières.mainlevée.accorder');
+      actions.push('garantiesFinancières.mainlevée.rejeter');
+
+      actions.push('garantiesFinancières.actuelles.modifier');
+    }
   } else {
-    actions.push('garantiesFinancières.actuelles.modifier');
-    if (!actuelles.attestation) {
-      actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
+    if (Option.isNone(actuelles)) {
+      actions.push('garantiesFinancières.actuelles.enregistrer');
+    } else {
+      if (!actuelles.attestation) {
+        actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
+      }
+
+      if (actuelles.statut.estÉchu()) {
+        if (utilisateur.role.estDreal()) {
+          infos.push('échues');
+        }
+      } else if (Option.isNone(mainlevée)) {
+        if (estAchevéOuAbandonné && !aUnDépôtEnCours && !!actuelles.attestation) {
+          actions.push('garantiesFinancières.mainlevée.demander');
+        } else if (utilisateur.role.aLaPermission('garantiesFinancières.mainlevée.demander')) {
+          infos.push('conditions-demande-mainlevée');
+        }
+        if (!estAbandonné) {
+          actions.push('achèvement.attestationConformité.transmettre');
+        }
+      }
+
+      actions.push('garantiesFinancières.actuelles.modifier');
     }
 
-    if (actuelles.statut.estÉchu()) {
-      if (utilisateur.role.estDreal()) {
-        infos.push('échues');
+    if (Option.isSome(dépôtEnCours)) {
+      actions.push('garantiesFinancières.dépôt.modifier');
+      actions.push('garantiesFinancières.dépôt.valider');
+      actions.push('garantiesFinancières.dépôt.supprimer');
+      if (
+        dépôtEnCours.garantiesFinancières.estAvecDateÉchéance() &&
+        dépôtEnCours.garantiesFinancières.dateÉchéance.estPassée() &&
+        !estAchevéOuAbandonné
+      ) {
+        infos.push('date-échéance-dépôt-passée');
       }
     } else if (Option.isNone(mainlevée)) {
-      if (estAchevéOuAbandonné && !aUnDépôtEnCours) {
-        actions.push('garantiesFinancières.mainlevée.demander');
-      }
-      if (!estAchevéOuAbandonné) {
-        infos.push('demande-mainlevée');
-      }
-      if (!estAbandonné) {
-        actions.push('achèvement.attestationConformité.transmettre');
-      }
+      actions.push('garantiesFinancières.dépôt.soumettre');
     }
   }
 
-  if (Option.isSome(dépôtEnCours)) {
-    actions.push('garantiesFinancières.dépôt.modifier');
-    actions.push('garantiesFinancières.dépôt.valider');
-    actions.push('garantiesFinancières.dépôt.supprimer');
-    if (
-      dépôtEnCours.garantiesFinancières.estAvecDateÉchéance() &&
-      dépôtEnCours.garantiesFinancières.dateÉchéance.estPassée() &&
-      !estAchevéOuAbandonné
-    ) {
-      infos.push('date-échéance-dépôt-passée');
-    }
-  } else if (Option.isNone(mainlevée)) {
-    actions.push('garantiesFinancières.dépôt.soumettre');
-  }
-
-  if (Option.isSome(mainlevée)) {
-    if (mainlevée.statut.estDemandé()) {
-      actions.push('garantiesFinancières.mainlevée.annuler');
-      actions.push('garantiesFinancières.mainlevée.démarrerInstruction');
-    }
-
-    actions.push('garantiesFinancières.mainlevée.accorder');
-    actions.push('garantiesFinancières.mainlevée.rejeter');
-  }
-
-  // ETQ dreal si historique mainlevée rejetée modifier-courrier-réponse-mainlevée-gf
+  // TODO ETQ dreal si historique mainlevée rejetée modifier-courrier-réponse-mainlevée-gf
 
   return { actions: actions.filter((action) => utilisateur.role.aLaPermission(action)), infos };
 };
 
-const mapToProps = ({ actuelles, dépôtEnCours, mainlevée, achèvement, accès }: Props) => {
+const mapToProps = ({
+  actuelles,
+  dépôtEnCours,
+  mainlevée,
+  achèvement,
+  accès,
+  appelOffres,
+}: Props) => {
   return {
     actuelles: mapToPlainObject(actuelles),
     dépôtEnCours: mapToPlainObject(dépôtEnCours),
@@ -216,5 +231,6 @@ const mapToProps = ({ actuelles, dépôtEnCours, mainlevée, achèvement, accès
     contactPorteurs: Option.match(accès)
       .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.map((porteur) => porteur.email))
       .none(() => []),
+    appelOffres: mapToPlainObject(appelOffres),
   } satisfies Partial<DétailsGarantiesFinancièresPageProps>;
 };
