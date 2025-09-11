@@ -187,8 +187,8 @@ const référencielPermissions = {
       query: {
         consulterGarantiesFinancièresActuelles:
           'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        consulterArchivesGarantiesFinancières:
-          'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+        listerArchivesGarantiesFinancières:
+          'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
         consulterDépôtGarantiesFinancières:
           'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
         listerDépôts: 'Lauréat.GarantiesFinancières.Query.ListerDépôtsGarantiesFinancières',
@@ -196,8 +196,8 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ListerGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancièresEnAttente',
-        listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        consulterMainevéeEnCours: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
+        listerMainlevée: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
+        consulterMainlevéeEnCours: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
       },
       usecase: {
         soumettre: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
@@ -767,9 +767,9 @@ const policies = {
       ],
     },
     archives: {
-      consulter: [
+      lister: [
         référencielPermissions.lauréat.garantiesFinancières.query
-          .consulterArchivesGarantiesFinancières,
+          .listerArchivesGarantiesFinancières,
       ],
     },
     actuelles: {
@@ -803,7 +803,7 @@ const policies = {
       ],
       lister: [référencielPermissions.lauréat.garantiesFinancières.query.listerMainlevée],
       consulter: [
-        référencielPermissions.lauréat.garantiesFinancières.query.consulterMainevéeEnCours,
+        référencielPermissions.lauréat.garantiesFinancières.query.consulterMainlevéeEnCours,
       ],
       annuler: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.annulerMainlevée,
@@ -1433,7 +1433,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'raccordement.listerDossierRaccordement',
 
   // Garanties financières
-  'garantiesFinancières.archives.consulter',
+  'garantiesFinancières.archives.lister',
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.valider',
@@ -1615,7 +1615,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'raccordement.gestionnaire.modifier',
 
   // Garanties financières
-  'garantiesFinancières.archives.consulter',
+  'garantiesFinancières.archives.lister',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',

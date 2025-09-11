@@ -14,32 +14,30 @@ import {
 } from '../archivesGarantiesFinancières.entity';
 import { mapToReadModel as mapToConsulterReadModel } from '../../consulter/consulterGarantiesFinancières.query';
 
-export type ConsulterArchivesGarantiesFinancièresListItemReadModel =
+export type ArchiveGarantiesFinancièresListItemReadModel =
   ConsulterGarantiesFinancièresReadModel & {
     motif: MotifArchivageGarantiesFinancières.ValueType;
   };
 
-export type ConsulterArchivesGarantiesFinancièresReadModel = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  archives: Array<ConsulterArchivesGarantiesFinancièresListItemReadModel>;
-};
+export type ListerArchivesGarantiesFinancièresReadModel =
+  Array<ArchiveGarantiesFinancièresListItemReadModel>;
 
-export type ConsulterArchivesGarantiesFinancièresQuery = Message<
-  'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+export type ListerArchivesGarantiesFinancièresQuery = Message<
+  'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
   {
     identifiantProjetValue: string;
   },
-  Option.Type<ConsulterArchivesGarantiesFinancièresReadModel>
+  ListerArchivesGarantiesFinancièresReadModel
 >;
 
-export type ConsulterArchivesGarantiesFinancièresDependencies = {
+export type ListerArchivesGarantiesFinancièresDependencies = {
   find: Find;
 };
 
-export const registerConsulterArchivesGarantiesFinancièresQuery = ({
+export const registerListerArchivesGarantiesFinancièresQuery = ({
   find,
-}: ConsulterArchivesGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ConsulterArchivesGarantiesFinancièresQuery> = async ({
+}: ListerArchivesGarantiesFinancièresDependencies) => {
+  const handler: MessageHandler<ListerArchivesGarantiesFinancièresQuery> = async ({
     identifiantProjetValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -49,7 +47,7 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
     );
 
     if (Option.isNone(result)) {
-      return Option.none;
+      return [];
     }
 
     return mapToReadModel({
@@ -59,7 +57,7 @@ export const registerConsulterArchivesGarantiesFinancièresQuery = ({
   };
 
   mediator.register(
-    'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+    'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
     handler,
   );
 };
@@ -72,9 +70,8 @@ type MapToReadModel = {
 const mapToReadModel = ({
   archives,
   identifiantProjet,
-}: MapToReadModel): ConsulterArchivesGarantiesFinancièresReadModel => ({
-  identifiantProjet,
-  archives: archives
+}: MapToReadModel): ListerArchivesGarantiesFinancièresReadModel =>
+  archives
     .map((archiveGf) => {
       const readModel = mapToConsulterReadModel({
         garantiesFinancières: archiveGf,
@@ -85,5 +82,4 @@ const mapToReadModel = ({
         motif: MotifArchivageGarantiesFinancières.convertirEnValueType(archiveGf.motif),
       };
     })
-    .sort((a, b) => (a.dernièreMiseÀJour.date.estAntérieurÀ(b.dernièreMiseÀJour.date) ? 1 : -1)),
-});
+    .sort((a, b) => (a.dernièreMiseÀJour.date.estAntérieurÀ(b.dernièreMiseÀJour.date) ? 1 : -1));

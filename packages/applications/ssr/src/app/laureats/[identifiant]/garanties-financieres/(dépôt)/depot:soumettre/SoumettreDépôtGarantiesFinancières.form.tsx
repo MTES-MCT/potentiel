@@ -4,7 +4,10 @@ import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -29,10 +32,6 @@ import {
   soumettreDépôtGarantiesFinancièresAction,
   SoumettreDépôtGarantiesFinancièresFormKeys,
 } from './soumettreDépôtGarantiesFinancières.action';
-import { PlainType } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 type Action =
   | typeof soumettreDépôtGarantiesFinancièresAction
@@ -91,10 +90,8 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
       <InputDate
         label="Date de constitution"
         name="dateConstitution"
-        max={now()}
-        defaultValue={
-          dépôt?.dateConstitution ? DateTime.bind(dépôt.dateConstitution).formatter() : undefined
-        }
+        max={DateTime.now().formatter()}
+        defaultValue={dépôt?.dateConstitution.date}
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}

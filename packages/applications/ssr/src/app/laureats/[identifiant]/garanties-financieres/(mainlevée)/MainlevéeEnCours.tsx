@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
@@ -38,19 +37,13 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
     </div>
     <div className="text-xs italic">
       Dernière mise à jour le{' '}
-      <FormattedDate
-        className="font-semibold"
-        date={DateTime.bind(dernièreMiseÀJour.date).formatter()}
-      />
+      <FormattedDate className="font-semibold" date={dernièreMiseÀJour.date.date} />
     </div>
     <div className="mt-5 mb-5 gap-2 text-base">
       <div>
         Mainlevée demandée le :{' '}
-        <FormattedDate
-          className="font-semibold"
-          date={DateTime.bind(demande.demandéeLe).formatter()}
-        />{' '}
-        par <span className="font-semibold">{demande.demandéePar.email}</span>
+        <FormattedDate className="font-semibold" date={demande.demandéeLe.date} /> par{' '}
+        <span className="font-semibold">{demande.demandéePar.email}</span>
       </div>
       <div>
         Motif :{' '}
@@ -61,22 +54,16 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
       {instruction && (
         <div>
           Instruction démarrée le :{' '}
-          <FormattedDate
-            className="font-semibold"
-            date={DateTime.bind(instruction.démarréeLe).formatter()}
-          />{' '}
-          par <span className="font-semibold">{instruction.démarréePar.email}</span>
+          <FormattedDate className="font-semibold" date={instruction.démarréeLe.date} /> par{' '}
+          <span className="font-semibold">{instruction.démarréePar.email}</span>
         </div>
       )}
       {accord && (
         <div>
           <div>
             Mainlevée accordée le :{' '}
-            <FormattedDate
-              className="font-semibold"
-              date={DateTime.bind(accord.accordéeLe).formatter()}
-            />{' '}
-            par <span className="font-semibold">{accord.accordéePar.email}</span>
+            <FormattedDate className="font-semibold" date={accord.accordéeLe.date} /> par{' '}
+            <span className="font-semibold">{accord.accordéePar.email}</span>
           </div>
           <div className="flex flex-col gap-1 justify-center">
             <DownloadDocument

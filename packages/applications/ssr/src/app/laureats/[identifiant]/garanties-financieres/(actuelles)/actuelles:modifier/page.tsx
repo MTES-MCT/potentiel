@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -17,7 +18,6 @@ import {
   ModifierGarantiesFinancièresActuellesPage,
   ModifierGarantiesFinancièresActuellesPageProps,
 } from './ModifierGarantiesFinancièresActuelles.page';
-import { mapToPlainObject } from '@potentiel-domain/core';
 
 export const metadata: Metadata = {
   title: 'Modifier les garanties financières actuelles - Potentiel',

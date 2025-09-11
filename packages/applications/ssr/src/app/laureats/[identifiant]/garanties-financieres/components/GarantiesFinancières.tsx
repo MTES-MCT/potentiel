@@ -1,17 +1,16 @@
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-
-import { Lauréat } from '@potentiel-domain/projet';
-import { PlainType } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
+
+import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 
 type GarantiesFinancièresProps = {
   title: string;
@@ -49,10 +48,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
         </div>
         <div className="text-xs italic">
           Dernière mise à jour le{' '}
-          <FormattedDate
-            className="font-semibold"
-            date={DateTime.bind(dernièreMiseÀJour.date).formatter()}
-          />
+          <FormattedDate className="font-semibold" date={dernièreMiseÀJour.date.date} />
           {dernièreMiseÀJour.par && (
             <>
               {' '}
@@ -97,23 +93,18 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
         {dateConstitution && (
           <div>
             Date de constitution :{' '}
-            <FormattedDate
-              className="font-semibold"
-              date={DateTime.bind(dateConstitution).formatter()}
-            />
+            <FormattedDate className="font-semibold" date={dateConstitution.date} />
           </div>
         )}
 
         {validéLe && (
           <div>
-            Validé le :{' '}
-            <FormattedDate className="font-semibold" date={DateTime.bind(validéLe).formatter()} />
+            Validé le : <FormattedDate className="font-semibold" date={validéLe.date} />
           </div>
         )}
         {soumisLe && (
           <div>
-            Soumis le :{' '}
-            <FormattedDate className="font-semibold" date={DateTime.bind(soumisLe).formatter()} />
+            Soumis le : <FormattedDate className="font-semibold" date={soumisLe.date} />
           </div>
         )}
         <div>

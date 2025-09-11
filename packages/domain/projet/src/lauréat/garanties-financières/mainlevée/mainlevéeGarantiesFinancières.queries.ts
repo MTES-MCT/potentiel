@@ -5,6 +5,7 @@ import {
 import {
   ListerMainlevéesQuery,
   ListerMainlevéesReadModel,
+  ListerMainlevéeItemReadModel,
 } from './lister/listerMainlevéesGarantiesFinancières.query';
 
 export type MainlevéeGarantiesFinancièresQuery =
@@ -15,6 +16,11 @@ export { ListerMainlevéesQuery, ConsulterMainlevéeEnCoursQuery };
 
 export type MainlevéeGarantiesFinancièresReadModel =
   | ListerMainlevéesReadModel
+  | ListerMainlevéeItemReadModel
   | ConsulterMainlevéeEnCoursReadModel;
 
-export { ListerMainlevéesReadModel, ConsulterMainlevéeEnCoursReadModel };
+export {
+  ListerMainlevéesReadModel,
+  ListerMainlevéeItemReadModel,
+  ConsulterMainlevéeEnCoursReadModel,
+};

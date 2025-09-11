@@ -1,7 +1,8 @@
 import {
-  ConsulterArchivesGarantiesFinancièresQuery,
-  ConsulterArchivesGarantiesFinancièresReadModel,
-} from './archives/consulter/consulterArchivesGarantiesFinancières.query';
+  ArchiveGarantiesFinancièresListItemReadModel,
+  ListerArchivesGarantiesFinancièresQuery,
+  ListerArchivesGarantiesFinancièresReadModel,
+} from './archives/lister/listerArchivesGarantiesFinancières.query';
 import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
@@ -9,12 +10,17 @@ import {
 
 export type GarantiesFinancièresActuellesQuery =
   | ConsulterGarantiesFinancièresQuery
-  | ConsulterArchivesGarantiesFinancièresQuery;
+  | ListerArchivesGarantiesFinancièresQuery;
 
-export { ConsulterGarantiesFinancièresQuery, ConsulterArchivesGarantiesFinancièresQuery };
+export { ConsulterGarantiesFinancièresQuery, ListerArchivesGarantiesFinancièresQuery };
 
 export type GarantiesFinancièresActuellesReadModel =
   | ConsulterGarantiesFinancièresReadModel
-  | ConsulterArchivesGarantiesFinancièresReadModel;
+  | ListerArchivesGarantiesFinancièresReadModel
+  | ArchiveGarantiesFinancièresListItemReadModel;
 
-export { ConsulterGarantiesFinancièresReadModel, ConsulterArchivesGarantiesFinancièresReadModel };
+export {
+  ConsulterGarantiesFinancièresReadModel,
+  ListerArchivesGarantiesFinancièresReadModel,
+  ArchiveGarantiesFinancièresListItemReadModel,
+};

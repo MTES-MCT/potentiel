@@ -5,6 +5,9 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { now } from '@potentiel-libraries/iso8601-datetime';
+import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -21,10 +24,6 @@ import {
   modifierGarantiesFinancièresActuellesAction,
   ModifierGarantiesFinancièresFormKeys,
 } from './modifierGarantiesFinancièresActuelles.action';
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { DateTime } from '@potentiel-domain/common';
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
@@ -72,11 +71,7 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         label="Date de constitution"
         name="dateConstitution"
         max={now()}
-        defaultValue={
-          actuelles.dateConstitution
-            ? DateTime.bind(actuelles.dateConstitution).formatter()
-            : undefined
-        }
+        defaultValue={actuelles.dateConstitution?.date}
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}

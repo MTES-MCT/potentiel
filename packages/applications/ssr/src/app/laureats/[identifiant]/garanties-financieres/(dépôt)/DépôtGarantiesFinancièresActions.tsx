@@ -1,11 +1,12 @@
 import Button from '@codegouvfr/react-dsfr/Button';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
+
 import { SupprimerDépôtGarantiesFinancièresForm } from './supprimer/SupprimerDépôtGarantiesFinancières.form';
 import { ValiderDépôtGarantiesFinancièresForm } from './valider/validerDépôtGarantiesFinancières.form';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 
 type DépôtGarantiesFinancièresActionsProps = {
   actions: DétailsGarantiesFinancièresPageProps['actions'];

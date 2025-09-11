@@ -47,8 +47,9 @@ export type ListerMainlevéesReadModel = Readonly<{
 }>;
 
 export type ListerMainlevéesQuery = Message<
-  'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+  'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
   {
+    identifiantProjet?: IdentifiantProjet.RawType;
     range?: RangeOptions;
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
@@ -73,10 +74,11 @@ export const registerListerMainlevéesQuery = ({
     motif,
     statut,
     identifiantUtilisateur,
+    identifiantProjet,
   }) => {
-    const scope = await getScopeProjetUtilisateur(
-      Email.convertirEnValueType(identifiantUtilisateur),
-    );
+    const scope = identifiantProjet
+      ? { type: 'projet' as const, identifiantProjets: [identifiantProjet] }
+      : await getScopeProjetUtilisateur(Email.convertirEnValueType(identifiantUtilisateur));
     const {
       items,
       range: { endPosition, startPosition },
@@ -111,7 +113,7 @@ export const registerListerMainlevéesQuery = ({
       total,
     };
   };
-  mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Lister', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Query.ListerMainlevées', handler);
 };
 
 const listerMainlevéeGarantiesFinancièresMapToReadModel = (

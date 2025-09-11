@@ -40,25 +40,23 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
       await vérifierProjetNonExemptDeGarantiesFinancières(identifiantProjet);
 
-      const garantiesFinancièresActuelles =
-        await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+      const actuelles = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
-      // const peutAccéderAuxArchivesDesGfs = utilisateur.role.aLaPermission(
-      //   'garantiesFinancières.archives.consulter',
-      // );
+      const peutAccéderAuxArchivesDesGfs = utilisateur.role.aLaPermission(
+        'garantiesFinancières.archives.lister',
+      );
 
-      // // les archives ne sont visibles que pour les DREAL et DGEC
-      // // on limite donc la query à ces utilisateurs pour gagner en perf
-      // const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
-      //   ? await mediator.send<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>(
-      //       {
-      //         type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-      //         data: { identifiantProjetValue: identifiantProjet.formatter() },
-      //       },
-      //     )
-      //   : Option.none;
+      // les archives ne sont visibles que pour les DREAL et DGEC
+      const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
+        ? await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>(
+            {
+              type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
+              data: { identifiantProjetValue: identifiantProjet.formatter() },
+            },
+          )
+        : [];
 
-      const dépôtEnCoursGarantiesFinancières =
+      const dépôtEnCours =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
@@ -79,8 +77,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
+      const mainlevéesRejetées =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+          },
+        });
 
-      const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
+      const accès = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
@@ -95,12 +102,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const data = {
         achèvement,
         abandon,
-        actuelles: garantiesFinancièresActuelles,
-        dépôtEnCours: dépôtEnCoursGarantiesFinancières,
+        actuelles,
+        dépôtEnCours,
         mainlevée,
         utilisateur,
-        accès: accèsProjet,
+        accès,
         appelOffres,
+        mainlevéesRejetées,
+        archivesGarantiesFinancières,
       };
       const { infos, actions } = mapToActionsAndInfos(data);
       const props = mapToProps(data);
@@ -111,9 +120,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           contactPorteurs={props.contactPorteurs}
           actuelles={props.actuelles}
           dépôtEnCours={props.dépôtEnCours}
-          // archivesGarantiesFinancières={props.archivesGarantiesFinancières}
+          archivesGarantiesFinancières={props.archivesGarantiesFinancières}
           mainlevée={props.mainlevée}
-          // historiqueMainlevée={mapToPlainObject(historiqueMainlevée)}
+          mainlevéesRejetées={props.mainlevéesRejetées}
           motifMainlevée={props.motifMainlevée}
           appelOffres={props.appelOffres}
           actions={actions}
@@ -130,6 +139,8 @@ type Props = {
   actuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCours: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
   mainlevée: Option.Type<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
+  mainlevéesRejetées: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel;
+  archivesGarantiesFinancières: Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel;
   accès: Option.Type<Accès.ConsulterAccèsReadModel>;
   utilisateur: Utilisateur.ValueType;
   appelOffres: AppelOffre.AppelOffreReadModel;
@@ -141,6 +152,7 @@ const mapToActionsAndInfos = ({
   utilisateur,
   actuelles,
   dépôtEnCours,
+  mainlevéesRejetées,
   mainlevée,
 }: Props): Pick<DétailsGarantiesFinancièresPageProps, 'actions' | 'infos'> => {
   const actions: ActionGarantiesFinancières[] = [];
@@ -208,6 +220,10 @@ const mapToActionsAndInfos = ({
     }
   }
 
+  if (mainlevéesRejetées.total > 0) {
+    actions.push('garantiesFinancières.mainlevée.corrigerRéponseSignée');
+  }
+
   // TODO ETQ dreal si historique mainlevée rejetée modifier-courrier-réponse-mainlevée-gf
 
   return { actions: actions.filter((action) => utilisateur.role.aLaPermission(action)), infos };
@@ -217,6 +233,8 @@ const mapToProps = ({
   actuelles,
   dépôtEnCours,
   mainlevée,
+  mainlevéesRejetées,
+  archivesGarantiesFinancières,
   achèvement,
   accès,
   appelOffres,
@@ -225,6 +243,8 @@ const mapToProps = ({
     actuelles: mapToPlainObject(actuelles),
     dépôtEnCours: mapToPlainObject(dépôtEnCours),
     mainlevée: mapToPlainObject(mainlevée),
+    mainlevéesRejetées: mainlevéesRejetées.items.map(mapToPlainObject),
+    archivesGarantiesFinancières: archivesGarantiesFinancières.map(mapToPlainObject),
     motifMainlevée: Option.isSome(achèvement)
       ? Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAchevé
       : Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAbandonné,

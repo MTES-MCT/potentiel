@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -19,7 +20,6 @@ import {
   ModifierDépôtGarantiesFinancièresPage,
   ModifierDépôtGarantiesFinancièresPageProps,
 } from './ModifierDépôtGarantiesFinancières.page';
-import { mapToPlainObject } from '@potentiel-domain/core';
 
 export const metadata: Metadata = {
   title: 'Modifier dépôt des garanties financières en cours - Potentiel',

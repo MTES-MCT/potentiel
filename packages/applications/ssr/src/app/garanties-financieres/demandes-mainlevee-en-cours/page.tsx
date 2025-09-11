@@ -37,7 +37,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       const demandeMainlevéeDesGarantiesFinancières =
         await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          type: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
           data: {
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
             appelOffre,

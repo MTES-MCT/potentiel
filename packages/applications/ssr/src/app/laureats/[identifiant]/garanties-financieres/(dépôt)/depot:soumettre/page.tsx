@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -14,7 +15,6 @@ import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFi
 import { vérifierProjetNonExemptDeGarantiesFinancières } from '../../_helpers/vérifierProjetNonExemptDeGarantiesFinancières';
 
 import { SoumettreDépôtGarantiesFinancièresPage } from './SoumettreDépôtGarantiesFinancières.page';
-import { InvalidOperationError } from '@potentiel-domain/core';
 
 export const metadata: Metadata = {
   title: 'Soumettre des garanties financières - Potentiel',

@@ -1,11 +1,10 @@
 import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { ValidationErrors } from '@/utils/formAction';
-import { PlainType } from '@potentiel-domain/core';
 import { InputDate } from '@/components/atoms/form/InputDate';
 
 export type TypeGarantiesFinancièresSelectProps = {

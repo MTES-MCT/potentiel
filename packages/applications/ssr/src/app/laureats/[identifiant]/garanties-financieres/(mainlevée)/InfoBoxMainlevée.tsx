@@ -33,7 +33,7 @@ export const InfoBoxMainlevée: FC<Props> = ({ actions, identifiantProjet }: Pro
             (abandon accordé par la DGEC).
           </li>
         </ul>
-        {actions.includes('transmettre-attestation-conformité') && (
+        {actions.includes('achèvement.attestationConformité.transmettre') && (
           <Link href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}>
             Transmettre l'attestation de conformité
           </Link>
