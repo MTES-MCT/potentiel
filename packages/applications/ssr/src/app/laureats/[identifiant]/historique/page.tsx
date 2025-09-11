@@ -146,18 +146,18 @@ const mapToActions = (rôle: Role.ValueType) => {
 
 const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconProps['id']> = {
   'garanties-financieres': 'ri-bank-line',
-  'représentant-légal': 'ri-draft-line',
+  'représentant-légal': 'ri-user-star-line',
   abandon: 'ri-draft-line',
   achevement: 'ri-verified-badge-line',
-  actionnaire: 'ri-draft-line',
+  actionnaire: 'ri-percent-line',
   lauréat: 'ri-notification-3-line',
   éliminé: 'ri-notification-3-line',
-  producteur: 'ri-draft-line',
-  puissance: 'ri-draft-line',
+  producteur: 'ri-building-3-line',
+  puissance: 'ri-flashlight-line',
   raccordement: 'ri-plug-line',
   recours: 'ri-scales-3-line',
   délai: 'ri-time-line',
-  fournisseur: 'ri-draft-line',
+  fournisseur: 'ri-truck-line',
   installateur: 'ri-shake-hands-line',
 };
 
