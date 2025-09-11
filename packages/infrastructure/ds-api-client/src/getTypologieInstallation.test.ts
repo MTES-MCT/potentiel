@@ -33,6 +33,23 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
     expect(actual).to.deep.equal(expected);
   });
 
+  test(`Doit récupérer la typologie d'installation bâtiment stabulation`, () => {
+    const data: Champs = [
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: 'Typologie secondaire du projet (Bâtiment)',
+        stringValue: 'Stabulation visant à loger du bétail ',
+      },
+    ];
+
+    const actual = getTypologieInstallation(data);
+    const expected: Candidature.Dépôt.RawType['typologieInstallation'] = [
+      { typologie: 'bâtiment.stabulation' },
+    ];
+    expect(actual).to.deep.equal(expected);
+  });
+
   test(`Doit récupérer la typologie d'installation bâtiment existant avec rénovation de toiture`, () => {
     const data: Champs = [
       {
@@ -63,6 +80,29 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
     const actual = getTypologieInstallation(data);
     const expected: Candidature.Dépôt.RawType['typologieInstallation'] = [
       { typologie: 'bâtiment.existant-sans-rénovation-de-toiture' },
+    ];
+    expect(actual).to.deep.equal(expected);
+  });
+
+  test(`Doit récupérer la typologie d'installation bâtiment serre`, () => {
+    const data: Champs = [
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: 'Typologie secondaire du projet (Bâtiment)',
+        stringValue: 'Serre agricole ',
+      },
+      {
+        ...baseChamp,
+        __typename: 'TextChamp',
+        label: 'Préciser les éléments sous la serre',
+        stringValue: 'les éléments...',
+      },
+    ];
+
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
+      { typologie: 'bâtiment.serre', détails: 'les éléments...' },
     ];
     expect(actual).to.deep.equal(expected);
   });
@@ -134,33 +174,13 @@ describe(`Projet avec typologie "Ombrière"`, () => {
   });
 });
 
-describe(`Projet avec typologie "Serre"`, () => {
-  test(`Doit récupérer la typologie d'installation pour un projet "serre"`, () => {
-    const data: Champs = [
-      {
-        ...baseChamp,
-        updatedAt: DateTime.now().formatter(),
-        __typename: 'TextChamp',
-        label: 'Préciser les éléments sous la serre',
-        stringValue: 'éléments sous serre',
-      },
-    ];
-
-    const actual = getTypologieInstallation(data);
-    const expected: Array<Candidature.TypologieInstallation.RawType> = [
-      { typologie: 'serre', détails: 'éléments sous serre' },
-    ];
-    expect(actual).to.deep.equal(expected);
-  });
-});
-
 describe(`Projet avec typologie "Mixte"`, () => {
   test(`Doit récupérer la typologie d'installation pour un projet "mixte"`, () => {
     const data: Champs = [
       {
         ...baseChamp,
         __typename: 'TextChamp',
-        label: 'Typologie secondaire du projet (Projet mixte) - Ombrière',
+        label: 'Typologie secondaire du projet (Ombrière)',
         stringValue: 'Ombrière autre',
       },
       {
@@ -172,25 +192,21 @@ describe(`Projet avec typologie "Mixte"`, () => {
       {
         ...baseChamp,
         __typename: 'TextChamp',
-        label: 'Typologie secondaire du projet (Projet mixte) - Bâtiment ',
-        stringValue: 'Bâtiment existant avec rénovation de toiture ',
+        label: 'Typologie secondaire du projet (Bâtiment)',
+        stringValue: 'Serre agricole',
       },
       {
         ...baseChamp,
-        updatedAt: DateTime.now().formatter(),
         __typename: 'TextChamp',
-        label: 'Typologie du projet (Projet mixte) - Serre ',
+        label: 'Préciser les éléments sous la serre',
         stringValue: 'éléments sous serre',
       },
     ];
 
     const actual = getTypologieInstallation(data);
     const expected: Array<Candidature.TypologieInstallation.RawType> = [
-      {
-        typologie: 'bâtiment.existant-avec-rénovation-de-toiture',
-      },
+      { typologie: 'bâtiment.serre', détails: 'éléments sous serre' },
       { typologie: 'ombrière.autre', détails: 'les éléments...' },
-      { typologie: 'serre', détails: 'éléments sous serre' },
     ];
 
     expect(actual).to.deep.equal(expected);
