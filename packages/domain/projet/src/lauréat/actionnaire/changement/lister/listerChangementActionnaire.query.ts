@@ -26,7 +26,7 @@ export type ListerChangementActionnaireQuery = Message<
   'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
   {
     utilisateur: Email.RawType;
-    statut?: StatutChangementActionnaire.RawType;
+    statut?: Array<StatutChangementActionnaire.RawType>;
     appelOffre?: string;
     nomProjet?: string;
     range: RangeOptions;
@@ -76,7 +76,7 @@ export const registerListerChangementActionnaireQuery = ({
           identifiantProjet:
             scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           demande: {
-            statut: statut ? Where.equal(statut) : Where.notEqualNull(),
+            statut: Where.matchAny(statut),
           },
         },
       },

@@ -10,6 +10,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { transformToOptionalStringArray } from '@/app/_helpers/transformToOptionalStringArray';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
 
@@ -30,10 +31,7 @@ const paramsSchema = z.object({
     .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined)),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.preprocess(
-    (value) => (Array.isArray(value) ? value : value ? [value] : []),
-    z.array(z.string()).optional(),
-  ),
+  statut: transformToOptionalStringArray,
   preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
   autorite: z.enum(Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes).optional(),
 });

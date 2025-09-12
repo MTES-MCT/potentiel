@@ -11,6 +11,8 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
+import { transformToOptionalStringArray } from '../_helpers/transformToOptionalStringArray';
+
 import { RecoursListPage } from './RecoursList.page';
 
 type PageProps = {
@@ -26,10 +28,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.preprocess(
-    (value) => (Array.isArray(value) ? value : value ? [value] : []),
-    z.array(z.string()).optional(),
-  ),
+  statut: transformToOptionalStringArray,
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;

@@ -35,7 +35,9 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
       >
         Représentant légal
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
+      <DropdownMenu.DropdownItem
+        href={Routes.Actionnaire.changement.lister({ statut: ['demandé'] })}
+      >
         Actionnaire
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
