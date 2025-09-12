@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { ChangementReprésentantLégalEntity, StatutChangementReprésentantLégal } from '../..';
 import { LauréatEntity } from '../../../lauréat.entity';
-import { GetProjetUtilisateurScope } from '../../../..';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 
 type ChangementReprésentantLégalItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -25,7 +25,7 @@ export type ListerChangementReprésentantLégalQuery = Message<
   'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
   {
     utilisateur: Email.RawType;
-    statut?: StatutChangementReprésentantLégal.RawType;
+    statut?: Array<StatutChangementReprésentantLégal.RawType>;
     appelOffre?: string;
     nomProjet?: string;
     range?: RangeOptions;
@@ -62,7 +62,7 @@ export const registerListerChangementReprésentantLégalQuery = ({
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         demande: {
-          statut: Where.equal(statut),
+          statut: Where.matchAny(statut),
         },
       },
       join: {

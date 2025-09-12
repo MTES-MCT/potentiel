@@ -31,7 +31,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
         Recours
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+        href={Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] })}
       >
         Représentant légal
       </DropdownMenu.DropdownItem>

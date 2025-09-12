@@ -31,7 +31,7 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
         Recours
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+        href={Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] })}
       >
         Représentant légal
       </DropdownMenu.DropdownItem>

@@ -39,7 +39,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Représentant légal',
       linkProps: {
-        href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+        href: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
       },
     },
     {
@@ -318,7 +318,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
           {
             text: 'Représentant légal',
             linkProps: {
-              href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+              href: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
             },
           },
           {

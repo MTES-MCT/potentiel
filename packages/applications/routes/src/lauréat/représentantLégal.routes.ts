@@ -3,7 +3,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
+  statut?: Array<Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType>;
 };
 
 export const modifier = (identifiantProjet: string) =>
@@ -18,11 +18,13 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/enregistrer`,
   corriger: (identifiantProjet: string, demandéLe: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/${demandéLe}/corriger`,
-  lister: (filters: ListerFilters = {}) => {
+  lister: (filters: ListerFilters) => {
     const searchParams = new URLSearchParams();
 
-    if (filters?.statut) {
-      searchParams.set('statut', filters.statut);
+    if (filters?.statut?.length) {
+      filters.statut.forEach((s) => {
+        searchParams.append('statut', s);
+      });
     }
 
     return `/laureats/changements/representant-legal${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
