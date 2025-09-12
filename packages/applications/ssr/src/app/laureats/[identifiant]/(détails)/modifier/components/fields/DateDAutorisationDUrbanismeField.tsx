@@ -26,7 +26,7 @@ export const DateDAutorisationDUrbanismeField = ({
           name="candidature.dateDAutorisationDUrbanisme"
           type="hidden"
           value={candidatureValue}
-          disabled={candidatureValue === value}
+          disabled={new Date(candidatureValue).getTime() === new Date(value).getTime()}
         />
         <Input
           className="w-full"
