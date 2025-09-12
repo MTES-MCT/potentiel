@@ -195,18 +195,14 @@ const mapBodyToCandidatureUsecaseData = (
       actionnariat: data.actionnariat ?? previous.actionnariat?.formatter(),
       coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite ?? previous.puissanceDeSite,
-      autorisationDUrbanisme:
-        (data.numeroDAutorisationDUrbanisme || data.dateDAutorisationDUrbanisme) &&
-        previous.autorisationDUrbanisme
-          ? {
-              numéro: data.numeroDAutorisationDUrbanisme ?? previous.autorisationDUrbanisme.numéro,
-              date:
-                data.dateDAutorisationDUrbanisme ??
-                DateTime.convertirEnValueType(
-                  previous.autorisationDUrbanisme.date.date,
-                ).formatter(),
-            }
-          : undefined,
+      autorisationDUrbanisme: previous.autorisationDUrbanisme
+        ? {
+            numéro: data.numeroDAutorisationDUrbanisme ?? previous.autorisationDUrbanisme.numéro,
+            date:
+              data.dateDAutorisationDUrbanisme ??
+              DateTime.convertirEnValueType(previous.autorisationDUrbanisme.date.date).formatter(),
+          }
+        : undefined,
       installateur: data.installateur ?? previous.installateur,
 
       // non-editable fields
