@@ -53,7 +53,6 @@ const typeGf = [
   Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type,
   Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
   Candidature.TypeGarantiesFinancières.consignation.type,
-  Candidature.TypeGarantiesFinancières.exemption.type,
 ] satisfies Array<Candidature.TypeGarantiesFinancières.RawType>;
 
 const historiqueAbandon = [
