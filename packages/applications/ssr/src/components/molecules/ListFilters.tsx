@@ -1,12 +1,15 @@
 'use client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 import { FC } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Filter } from './Filter';
+import { FilterMultipleChoices } from './FilterMultipleChoices';
 
 export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
   searchParamKey: TSearchParamKey;
+  multiple?: true;
   options: Array<{
     label: string;
     value: string;
@@ -30,12 +33,33 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <div className="flex flex-col gap">
-      {filters.map(({ label, searchParamKey, options, affects }) => {
+      {filters.map(({ label, searchParamKey, options, affects, multiple }) => {
         const disabled = filters.some(
           (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
         );
 
-        return (
+        return multiple ? (
+          <FilterMultipleChoices
+            disabled={disabled}
+            key={`filter-${searchParamKey}`}
+            label={label}
+            options={options}
+            activeFilters={searchParams.getAll(searchParamKey)}
+            onValueSelected={(value) => {
+              const newSearchParams = new URLSearchParams(searchParams);
+              newSearchParams.delete(searchParamKey);
+
+              if (value.length === 0) {
+                affects?.forEach((affected) => newSearchParams.delete(affected));
+              } else {
+                value.forEach((v) => {
+                  newSearchParams.append(searchParamKey, v);
+                });
+              }
+              router.push(buildUrl(pathname, newSearchParams));
+            }}
+          />
+        ) : (
           <Filter
             disabled={disabled}
             key={`filter-${searchParamKey}`}

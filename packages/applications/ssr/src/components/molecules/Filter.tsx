@@ -1,10 +1,10 @@
 'use client';
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
+import SelectNext, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 import { FC } from 'react';
 
 type FilterProps = {
   label: string;
-  options: Array<{ label: string; value: string }>;
+  options: SelectProps.Option[];
   value: string;
   onValueSelected?: (value: string | undefined) => void;
   disabled?: boolean;

@@ -3,14 +3,16 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Lauréat.Abandon.StatutAbandon.RawType;
+  statut?: Array<Lauréat.Abandon.StatutAbandon.RawType>;
 };
 
 export const lister = (filters: ListerFilters = {}) => {
   const searchParams = new URLSearchParams();
 
-  if (filters?.statut) {
-    searchParams.set('statut', filters.statut);
+  if (filters?.statut?.length) {
+    filters.statut.forEach((s) => {
+      searchParams.append('statut', s);
+    });
   }
 
   return `/laureats/changements/abandon${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

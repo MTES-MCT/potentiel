@@ -23,7 +23,9 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Abandon',
       linkProps: {
-        href: Routes.Abandon.lister({ statut: 'demandé' }),
+        href: Routes.Abandon.lister({
+          statut: ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée'],
+        }),
       },
     },
     {
