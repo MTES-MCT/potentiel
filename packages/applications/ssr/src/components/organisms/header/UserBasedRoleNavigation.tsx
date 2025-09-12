@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
 
 import { NavLinks } from './NavLinks';
@@ -23,25 +23,29 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Abandon',
       linkProps: {
-        href: Routes.Abandon.lister({ statut: 'demandé' }),
+        href: Routes.Abandon.lister({
+          statut: utilisateur.role.estÉgaleÀ(Role.porteur)
+            ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
+            : ['demandé', 'en-instruction', 'confirmé'],
+        }),
       },
     },
     {
       text: 'Recours',
       linkProps: {
-        href: Routes.Recours.lister({ statut: 'demandé' }),
+        href: Routes.Recours.lister({ statut: ['demandé', 'en-instruction'] }),
       },
     },
     {
       text: 'Représentant légal',
       linkProps: {
-        href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+        href: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
       },
     },
     {
       text: 'Actionnaire',
       linkProps: {
-        href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+        href: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
       },
     },
 
@@ -49,7 +53,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       text: 'Puissance',
       linkProps: {
         href: Routes.Puissance.changement.lister({
-          statut: 'demandé',
+          statut: ['demandé'],
           autoriteInstructrice: utilisateur.role.estDGEC()
             ? 'dgec-admin'
             : utilisateur.role.estDreal()
@@ -73,7 +77,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Délai',
       linkProps: {
-        href: Routes.Délai.lister,
+        href: Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] }),
       },
     },
   ];
@@ -314,20 +318,20 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
           {
             text: 'Représentant légal',
             linkProps: {
-              href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+              href: Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] }),
             },
           },
           {
             text: 'Actionnaire(s)',
             linkProps: {
-              href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+              href: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
             },
           },
           {
             text: 'Puissance',
             linkProps: {
               href: Routes.Puissance.changement.lister({
-                statut: 'demandé',
+                statut: ['demandé'],
               }),
             },
           },

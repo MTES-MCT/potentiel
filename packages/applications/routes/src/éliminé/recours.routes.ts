@@ -3,14 +3,16 @@ import type { Éliminé } from '@potentiel-domain/projet';
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Éliminé.Recours.StatutRecours.RawType;
+  statut?: Array<Éliminé.Recours.StatutRecours.RawType>;
 };
 
 export const lister = (filters: ListerFilters = {}) => {
   const searchParams = new URLSearchParams();
 
-  if (filters?.statut) {
-    searchParams.set('statut', filters.statut);
+  if (filters?.statut?.length) {
+    filters.statut.forEach((s) => {
+      searchParams.append('statut', s);
+    });
   }
 
   return `/recours${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

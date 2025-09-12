@@ -28,7 +28,7 @@ export type ListerAbandonsQuery = Message<
   {
     utilisateur: Email.RawType;
     recandidature?: boolean;
-    statut?: StatutAbandon.RawType;
+    statut?: Array<StatutAbandon.RawType>;
     appelOffre?: string;
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     nomProjet?: string;
@@ -67,7 +67,7 @@ export const registerListerAbandonQuery = ({
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        statut: Where.equal(statut),
+        statut: Where.matchAny(statut),
         demande: {
           estUneRecandidature: Where.equal(recandidature),
           recandidature: {

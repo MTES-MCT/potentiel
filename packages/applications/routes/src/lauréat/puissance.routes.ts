@@ -3,7 +3,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Lauréat.Puissance.StatutChangementPuissance.RawType;
+  statut?: Array<Lauréat.Puissance.StatutChangementPuissance.RawType>;
   autoriteInstructrice?: Lauréat.Puissance.AutoritéCompétente.RawType;
 };
 
@@ -24,8 +24,10 @@ export const changement = {
   lister: (filters: ListerFilters = {}) => {
     const searchParams = new URLSearchParams();
 
-    if (filters?.statut) {
-      searchParams.set('statut', filters.statut);
+    if (filters?.statut?.length) {
+      filters.statut.forEach((s) => {
+        searchParams.append('statut', s);
+      });
     }
 
     if (filters?.autoriteInstructrice) {
