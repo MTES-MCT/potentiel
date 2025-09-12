@@ -20,7 +20,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
-          statut: ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée'],
+          statut: ['demandé', 'en-instruction', 'confirmé'],
         })}
       >
         Abandon
