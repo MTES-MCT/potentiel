@@ -144,21 +144,23 @@ const mapToActions = (rôle: Role.ValueType) => {
   return actions;
 };
 
+const DEMANDE_GENERIQUE_ICONE = 'ri-draft-line';
+
 const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconProps['id']> = {
   'garanties-financieres': 'ri-bank-line',
-  'représentant-légal': 'ri-draft-line',
-  abandon: 'ri-draft-line',
+  'représentant-légal': DEMANDE_GENERIQUE_ICONE,
+  abandon: 'ri-logout-box-line',
   achevement: 'ri-verified-badge-line',
-  actionnaire: 'ri-draft-line',
+  actionnaire: DEMANDE_GENERIQUE_ICONE,
   lauréat: 'ri-notification-3-line',
   éliminé: 'ri-notification-3-line',
-  producteur: 'ri-draft-line',
-  puissance: 'ri-draft-line',
+  producteur: DEMANDE_GENERIQUE_ICONE,
+  puissance: 'ri-flashlight-line',
   raccordement: 'ri-plug-line',
   recours: 'ri-scales-3-line',
   délai: 'ri-time-line',
-  fournisseur: 'ri-draft-line',
-  installateur: 'ri-shake-hands-line',
+  fournisseur: DEMANDE_GENERIQUE_ICONE,
+  installateur: DEMANDE_GENERIQUE_ICONE,
 };
 
 const filtrerImportsEtRecoursLegacy = (
@@ -166,6 +168,8 @@ const filtrerImportsEtRecoursLegacy = (
   _: number,
   historique: Readonly<Lauréat.HistoriqueListItemReadModels[]>,
 ) => {
+  // on ne veut pas afficher dans l'historique complet les événements d'import de chaque domaine
+  // qui arrive en rebond de la désignation
   if (event.type?.includes('Import')) {
     return false;
   }
@@ -180,6 +184,7 @@ const filtrerImportsEtRecoursLegacy = (
   }
   return true;
 };
+
 const isLauréatNotifié = (
   item: Lauréat.HistoriqueListItemReadModels,
 ): item is HistoryRecord<

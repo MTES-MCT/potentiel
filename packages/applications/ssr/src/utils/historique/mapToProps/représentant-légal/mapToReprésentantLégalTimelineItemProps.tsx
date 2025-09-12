@@ -4,8 +4,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 import {
   mapToReprésentantLégalImportéTimelineItemProps,
   mapToReprésentantLégalModifiéTimelineItemProps,
@@ -16,6 +14,7 @@ import {
   mapToChangementReprésentantLégalAnnuléTimelineItemProps,
   mapToChangementReprésentantLégalEnregistréTimelineItemProps,
 } from './events';
+import { mapToChangementReprésentantLégalSuppriméTimelineItemProps } from './events/mapToChangementReprésentantLégalSuppriméTimelineItemProps';
 
 export const mapToReprésentantLégalTimelineItemProps = (
   readmodel: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
@@ -74,6 +73,6 @@ export const mapToReprésentantLégalTimelineItemProps = (
       {
         type: 'ChangementReprésentantLégalSupprimé-V1',
       },
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      mapToChangementReprésentantLégalSuppriméTimelineItemProps,
     )
     .exhaustive();
