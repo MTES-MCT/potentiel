@@ -6,6 +6,7 @@ export type GarantiesFinancièresDétails = {
   statut: StatutGarantiesFinancières.RawType;
   type: string;
   dateÉchéance?: string;
+  dateDélibération?: string;
   attestation?: { format: string };
   dateConstitution?: string;
   soumisLe?: string;

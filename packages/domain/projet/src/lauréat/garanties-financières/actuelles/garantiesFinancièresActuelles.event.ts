@@ -10,6 +10,7 @@ export type GarantiesFinancièresEnregistréesEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
+    dateDélibération?: DateTime.RawType;
     attestation: { format: string };
     dateConstitution: DateTime.RawType;
     enregistréLe: DateTime.RawType;
@@ -23,6 +24,7 @@ export type GarantiesFinancièresModifiéesEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
+    dateDélibération?: DateTime.RawType;
     attestation: { format: string };
     dateConstitution: DateTime.RawType;
     modifiéLe: DateTime.RawType;

@@ -16,11 +16,7 @@ export class GarantiesFinancièresWorld {
 
   mapToExpected() {
     if (this.dépôt.valider.aÉtéCréé) {
-      const { dépôt, identifiantProjet } = this.dépôt.mapToExpected();
-      return {
-        identifiantProjet,
-        garantiesFinancières: dépôt,
-      };
+      return this.dépôt.mapToExpected();
     }
     return this.actuelles.mapToExpected();
   }

@@ -24,23 +24,14 @@ export class MainlevéeGarantiesFinancièresWorld {
     this.rejeter = new RejeterMainlevéeFixture();
   }
 
-  mapToExpected(): Lauréat.GarantiesFinancières.ListerMainlevéesReadModel {
+  mapToExpected(): Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel {
     const { identifiantProjet } = this.garantiesFinancièresWorld.lauréatWorld;
-    const { nomProjet } = this.garantiesFinancièresWorld.lauréatWorld.mapToExpected();
-    const mainlevée: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'][number] = {
+    return {
       identifiantProjet,
-      nomProjet,
-      appelOffre: identifiantProjet.appelOffre,
       ...this.demander.mapToExpected(),
       ...this.passerEnInstruction.mapToExpected(),
       ...this.accorder.mapToExpected(identifiantProjet),
       ...this.rejeter.mapToExpected(identifiantProjet),
-    };
-
-    return {
-      items: [mainlevée],
-      range: { startPosition: 0, endPosition: 1 },
-      total: 1,
     };
   }
 

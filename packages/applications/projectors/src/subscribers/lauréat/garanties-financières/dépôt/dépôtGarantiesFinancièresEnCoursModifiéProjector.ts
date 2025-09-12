@@ -9,6 +9,7 @@ export const dépôtGarantiesFinancièresEnCoursModifiéProjector = async ({
     identifiantProjet,
     type,
     dateÉchéance,
+    dateDélibération,
     dateConstitution,
     attestation,
     modifiéLe,
@@ -35,6 +36,7 @@ export const dépôtGarantiesFinancièresEnCoursModifiéProjector = async ({
         dateConstitution,
         attestation,
         dateÉchéance,
+        dateDélibération,
         dernièreMiseÀJour: {
           date: modifiéLe,
           par: modifiéPar,

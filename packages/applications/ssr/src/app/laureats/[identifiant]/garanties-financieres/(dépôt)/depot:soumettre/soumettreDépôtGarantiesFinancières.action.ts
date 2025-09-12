@@ -10,22 +10,15 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
-const commonSchema = {
-  identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
-  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
-};
-const schema = zod.discriminatedUnion('type', [
+import { addGarantiesFinancièresToSchema } from '../../_helpers/addGarantiesFinancièresToSchema';
+
+const schema = addGarantiesFinancièresToSchema(
   zod.object({
-    ...commonSchema,
-    type: zod.literal('avec-date-échéance'),
-    dateEcheance: zod.string().min(1, { message: 'Champ obligatoire' }),
+    identifiantProjet: zod.string().min(1),
+    dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
+    attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   }),
-  zod.object({
-    ...commonSchema,
-    type: zod.enum(['six-mois-après-achèvement', 'consignation']),
-  }),
-]);
+);
 
 export type SoumettreDépôtGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
 
@@ -35,13 +28,15 @@ const action: FormAction<FormState, typeof schema> = async (_, props) =>
       type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
       data: {
         identifiantProjetValue: props.identifiantProjet,
-        typeValue: props.type,
+        garantiesFinancièresValue: {
+          type: props.type,
+          dateÉchéance: props.type === 'avec-date-échéance' ? props.dateEcheance : undefined,
+          dateDélibération: props.type === 'exemption' ? props.dateDeliberation : undefined,
+        },
         dateConstitutionValue: new Date(props.dateConstitution).toISOString(),
         soumisLeValue: new Date().toISOString(),
         soumisParValue: utilisateur.identifiantUtilisateur.formatter(),
-        ...(props.type === 'avec-date-échéance' && {
-          dateÉchéanceValue: new Date(props.dateEcheance).toISOString(),
-        }),
+
         attestationValue: props.attestation,
       },
     });

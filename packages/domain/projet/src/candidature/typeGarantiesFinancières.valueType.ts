@@ -18,6 +18,7 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   estAvecDateÉchéance: () => boolean;
   estSixMoisAprèsAchèvement: () => boolean;
   estExemption: () => boolean;
+  estInconnu: () => boolean;
   formatter(): Type;
 }>;
 
@@ -46,6 +47,9 @@ export const bind = <Type extends RawType = RawType>({
     },
     estExemption() {
       return this.type === 'exemption';
+    },
+    estInconnu() {
+      return this.type === 'type-inconnu';
     },
     formatter() {
       return this.type;

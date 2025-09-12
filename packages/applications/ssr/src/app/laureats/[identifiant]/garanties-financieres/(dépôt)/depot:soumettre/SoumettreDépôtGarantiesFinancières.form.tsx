@@ -4,7 +4,10 @@ import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -40,23 +43,12 @@ export type SoumettreDépôtGarantiesFinancièresFormProps = {
   action: Action;
   submitButtonLabel: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
-  defaultValues?: {
-    typeGarantiesFinancières?: TypeGarantiesFinancièresSelectProps['typeGarantiesFinancièresActuel'];
-    dateÉchéance?: Iso8601DateTime;
-    dateConstitution?: Iso8601DateTime;
-    attestation?: string;
-  };
+  dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
 };
 
 export const SoumettreDépôtGarantiesFinancièresForm: FC<
   SoumettreDépôtGarantiesFinancièresFormProps
-> = ({
-  identifiantProjet,
-  action,
-  submitButtonLabel,
-  typesGarantiesFinancières,
-  defaultValues,
-}) => {
+> = ({ identifiantProjet, action, submitButtonLabel, typesGarantiesFinancières, dépôt }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
       | ModifierDépôtGarantiesFinancièresFormKeys
@@ -91,16 +83,15 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
         id="type"
         name="type"
         typesGarantiesFinancières={typesGarantiesFinancières}
-        dateÉchéanceActuelle={defaultValues?.dateÉchéance}
-        typeGarantiesFinancièresActuel={defaultValues?.typeGarantiesFinancières}
+        garantiesFinancièresActuelles={dépôt?.garantiesFinancières}
         validationErrors={validationErrors}
       />
 
       <InputDate
         label="Date de constitution"
         name="dateConstitution"
-        max={now()}
-        defaultValue={defaultValues?.dateConstitution}
+        max={DateTime.now().formatter()}
+        defaultValue={dépôt?.dateConstitution.date}
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
@@ -113,7 +104,9 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
         formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
-        documentKeys={defaultValues?.attestation ? [defaultValues.attestation] : undefined}
+        documentKeys={
+          dépôt?.attestation ? [DocumentProjet.bind(dépôt.attestation).formatter()] : undefined
+        }
       />
     </Form>
   );

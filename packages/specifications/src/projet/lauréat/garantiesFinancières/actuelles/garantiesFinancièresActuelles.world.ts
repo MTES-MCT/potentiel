@@ -1,4 +1,4 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { GarantiesFinancièresWorld } from '../garantiesFinancières.world';
@@ -53,19 +53,24 @@ export class GarantiesFinancièresActuellesWorld {
       this.garantiesFinancièresWorld.lauréatWorld.candidatureWorld.importerCandidature;
     const { notifiéLe } = this.garantiesFinancièresWorld.lauréatWorld.notifierLauréatFixture;
 
-    const { typeGarantiesFinancières, dateÉchéanceGf } = dépôtCandidature;
+    const { typeGarantiesFinancières, dateÉchéanceGf, dateDélibérationGf } = dépôtCandidature;
     const valeurImport = typeGarantiesFinancières
       ? ({
-          type: Candidature.TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières),
-          dateÉchéance: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
+          garantiesFinancières:
+            Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+              type: typeGarantiesFinancières,
+              dateDélibération: dateDélibérationGf,
+              dateÉchéance: dateÉchéanceGf,
+            }),
           statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
           dernièreMiseÀJour: {
             date: DateTime.convertirEnValueType(notifiéLe),
           },
-        } satisfies Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel)
-      : ({} as Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel);
+          identifiantProjet,
+        } satisfies Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel)
+      : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
 
-    const garantiesFinancières = actions.reduce(
+    const readModel = actions.reduce(
       (prev, curr) => ({
         ...prev,
         ...curr.mapToExpected(),
@@ -74,15 +79,13 @@ export class GarantiesFinancièresActuellesWorld {
     );
 
     const sontÉchues =
-      garantiesFinancières.dateÉchéance && garantiesFinancières.dateÉchéance.estPassée();
+      readModel.garantiesFinancières.estAvecDateÉchéance() &&
+      readModel.garantiesFinancières.dateÉchéance.estPassée();
 
     if (sontÉchues) {
-      garantiesFinancières.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
+      readModel.statut = Lauréat.GarantiesFinancières.StatutGarantiesFinancières.échu;
     }
-    return {
-      identifiantProjet,
-      garantiesFinancières,
-    };
+    return readModel;
   }
   mapToAttestation() {
     const lastAction = [this.enregistrer, this.modifier, this.enregistrerAttestation]

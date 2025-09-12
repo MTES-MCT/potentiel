@@ -49,23 +49,15 @@ export const getGarantiesFinancières = async (
 
     const actuelles = Option.isSome(garantiesFinancièresActuelles)
       ? {
-          type: garantiesFinancièresActuelles.garantiesFinancières.type.type,
-          dateÉchéance:
-            garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance &&
-            garantiesFinancièresActuelles.garantiesFinancières.dateÉchéance.formatter(),
-          dateConstitution:
-            garantiesFinancièresActuelles.garantiesFinancières.dateConstitution &&
-            garantiesFinancièresActuelles.garantiesFinancières.dateConstitution.formatter(),
+          ...garantiesFinancièresActuelles.garantiesFinancières.formatter(),
+          attestation: garantiesFinancièresActuelles.attestation?.formatter(),
         }
       : undefined;
 
     const dépôtÀTraiter = Option.isSome(dépôtEnCoursGarantiesFinancières)
       ? {
-          type: dépôtEnCoursGarantiesFinancières.dépôt.type.type,
-          dateÉchéance:
-            dépôtEnCoursGarantiesFinancières.dépôt.dateÉchéance &&
-            dépôtEnCoursGarantiesFinancières.dépôt.dateÉchéance.formatter(),
-          dateConstitution: dépôtEnCoursGarantiesFinancières.dépôt.dateConstitution.formatter(),
+          ...dépôtEnCoursGarantiesFinancières.garantiesFinancières.formatter(),
+          dateConstitution: dépôtEnCoursGarantiesFinancières.dateConstitution.formatter(),
         }
       : undefined;
 

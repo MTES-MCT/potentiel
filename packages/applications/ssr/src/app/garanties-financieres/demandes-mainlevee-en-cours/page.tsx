@@ -37,22 +37,21 @@ export default async function Page({ searchParams }: PageProps) {
 
       const demandeMainlevéeDesGarantiesFinancières =
         await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+          type: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
           data: {
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            ...(appelOffre && { appelOffre }),
-            ...(motif && {
-              motif:
-                Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+            appelOffre,
+
+            motif: motif
+              ? Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
                   motif,
-                ).motif,
-            }),
-            ...(statut && {
-              statut:
-                Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+                ).motif
+              : undefined,
+            statut: statut
+              ? Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
                   statut,
-                ).statut,
-            }),
+                ).statut
+              : undefined,
             range: mapToRangeOptions({
               currentPage: page,
               itemsPerPage: 10,

@@ -6,6 +6,7 @@ export const garantiesFinancièresEnregistréesProjector = async ({
     identifiantProjet,
     type,
     dateÉchéance,
+    dateDélibération,
     attestation,
     dateConstitution,
     enregistréLe,
@@ -20,6 +21,7 @@ export const garantiesFinancièresEnregistréesProjector = async ({
         statut: 'validé',
         type,
         dateÉchéance,
+        dateDélibération,
         dateConstitution,
         attestation,
         dernièreMiseÀJour: {

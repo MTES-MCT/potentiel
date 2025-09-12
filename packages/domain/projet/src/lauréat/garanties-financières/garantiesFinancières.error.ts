@@ -122,12 +122,6 @@ export class AttestationDeConformitéError extends InvalidOperationError {
   }
 }
 
-export class ChoixExemptionImpossibleError extends InvalidOperationError {
-  constructor() {
-    super(`Impossible d'enregistrer ou de modifier une exemption de garanties financières`);
-  }
-}
-
 export class ProjetExemptDeGarantiesFinancièresError extends InvalidOperationError {
   constructor() {
     super(`Le projet est exempt de garanties financières`);

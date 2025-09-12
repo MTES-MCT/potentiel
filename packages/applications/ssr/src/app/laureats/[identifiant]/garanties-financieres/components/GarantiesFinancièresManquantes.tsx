@@ -6,16 +6,16 @@ import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFina
 
 type Props = {
   identifiantProjet: DétailsGarantiesFinancièresPageProps['identifiantProjet'];
-  action: DétailsGarantiesFinancièresPageProps['action'];
+  actions: DétailsGarantiesFinancièresPageProps['actions'];
 };
 
 export const GarantiesFinancièresManquantes: React.FC<Props> = ({
   identifiantProjet,
-  action,
+  actions,
 }: Props) => (
   <p className="p-3">
     Aucunes garanties financières pour ce projet.
-    {action === 'soumettre' && (
+    {actions.includes('garantiesFinancières.dépôt.soumettre') && (
       <>
         {' '}
         Vous pouvez en{' '}
@@ -28,7 +28,7 @@ export const GarantiesFinancièresManquantes: React.FC<Props> = ({
         qui seront validées par l'autorité compétente
       </>
     )}
-    {action === 'enregistrer' && (
+    {actions.includes('garantiesFinancières.actuelles.enregistrer') && (
       <>
         {' '}
         Vous pouvez enregistrer des garanties financières en{' '}

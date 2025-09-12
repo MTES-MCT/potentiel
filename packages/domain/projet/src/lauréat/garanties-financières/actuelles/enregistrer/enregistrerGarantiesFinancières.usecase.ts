@@ -13,8 +13,8 @@ export type EnregistrerGarantiesFinancièresUseCase = Message<
     identifiantProjetValue: string;
     garantiesFinancièresValue: {
       type: string;
-      dateÉchéance?: string;
-      dateDélibération?: string;
+      dateÉchéance: string | undefined;
+      dateDélibération: string | undefined;
     };
     attestationValue: {
       content: ReadableStream;

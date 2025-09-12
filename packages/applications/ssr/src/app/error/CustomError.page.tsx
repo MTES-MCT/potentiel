@@ -5,6 +5,7 @@ import { fr } from '@codegouvfr/react-dsfr';
 import { Heading1 } from '@/components/atoms/headings';
 
 import { DefaultError } from './DefaultError';
+import { ErrorRedirectionLink } from './ErrorRedirectionLink';
 
 export type ErrorType =
   | 'NotFoundError'
@@ -39,13 +40,7 @@ export const CustomErrorPage: FC<CustomErrorProps> = ({ type, statusCode, messag
           <Heading1>{title}</Heading1>
           <p className={fr.cx('fr-text--sm', 'fr-mb-3w')}>Erreur {statusCode}</p>
           {description}
-          <ul className={fr.cx('fr-btns-group', 'fr-btns-group--inline-md')}>
-            <li>
-              <a className={fr.cx('fr-btn')} href="/">
-                Page d'accueil
-              </a>
-            </li>
-          </ul>
+          <ErrorRedirectionLink />
         </div>
         <div
           className={fr.cx(

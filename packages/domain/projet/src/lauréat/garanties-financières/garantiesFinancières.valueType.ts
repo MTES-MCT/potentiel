@@ -134,8 +134,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
 
 type ConvertirEnValueTypeProps = {
   type: string;
-  dateÉchéance?: string;
-  dateDélibération?: string;
+  dateÉchéance: string | undefined;
+  dateDélibération: string | undefined;
 };
 
 export const convertirEnValueType = ({

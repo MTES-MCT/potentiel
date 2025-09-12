@@ -1,16 +1,17 @@
 import { Metadata } from 'next';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { projetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { EnregistrerGarantiesFinancièresPage } from '@/app/laureats/[identifiant]/garanties-financieres/(actuelles)/actuelles:enregistrer/EnregistrerGarantiesFinancières.page';
 import { getCahierDesCharges, récupérerLauréat } from '@/app/_helpers';
 
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
+import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
 export const metadata: Metadata = {
   title: `Enregistrer des garanties financières actuelles - Potentiel`,
@@ -25,13 +26,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     await récupérerLauréat(identifiantProjetValue);
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
-    const soumisAuxGarantiesFinancières =
-      await projetSoumisAuxGarantiesFinancières(identifiantProjet);
+    await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    if (!soumisAuxGarantiesFinancières) {
-      return (
-        <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
-      );
+    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
+    if (Option.isSome(garantiesFinancières)) {
+      throw new Error('Le projet possède déjà des garanties financières.');
     }
 
     return (

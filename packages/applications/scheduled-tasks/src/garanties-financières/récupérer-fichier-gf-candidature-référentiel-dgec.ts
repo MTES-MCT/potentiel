@@ -190,14 +190,14 @@ void (async () => {
       const enregistréParValue = Email.convertirEnValueType(dgecEmail).formatter();
 
       if (Option.isSome(gf)) {
-        if (gf.garantiesFinancières.attestation) {
+        if (gf.attestation) {
           statistics.attestationExistante.count++;
           statistics.attestationExistante.content.push(identifiantProjet.formatter());
           continue;
         }
 
         const dateConstitutionValue = DateTime.convertirEnValueType(
-          gf.garantiesFinancières.dateConstitution?.formatter() ?? DateTime.now().formatter(),
+          gf.dateConstitution?.formatter() ?? DateTime.now().formatter(),
         ).formatter();
 
         await mediator.send<Lauréat.GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>(
@@ -246,6 +246,8 @@ void (async () => {
           identifiantProjetValue: identifiantProjet.formatter(),
           garantiesFinancièresValue: {
             type: Candidature.TypeGarantiesFinancières.typeInconnu.type,
+            dateDélibération: undefined,
+            dateÉchéance: undefined,
           },
           dateConstitutionValue: période.notifiéeLe.formatter(),
           attestationValue: {

@@ -10,23 +10,15 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
 
-const commonSchema = {
-  identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
-  attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
-};
+import { addGarantiesFinancièresToSchema } from '../../_helpers/addGarantiesFinancièresToSchema';
 
-const schema = zod.discriminatedUnion('type', [
+const schema = addGarantiesFinancièresToSchema(
   zod.object({
-    ...commonSchema,
-    type: zod.literal('avec-date-échéance'),
-    dateEcheance: zod.string().min(1, { message: 'Champ obligatoire' }),
+    identifiantProjet: zod.string().min(1),
+    dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
+    attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
   }),
-  zod.object({
-    ...commonSchema,
-    type: zod.enum(['six-mois-après-achèvement', 'consignation']),
-  }),
-]);
+);
 
 export type ModifierDépôtGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
 
@@ -37,11 +29,11 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
         type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
         data: {
           identifiantProjetValue: data.identifiantProjet,
-          typeValue: data.type,
-          dateÉchéanceValue:
-            data.type === 'avec-date-échéance'
-              ? new Date(data.dateEcheance).toISOString()
-              : undefined,
+          garantiesFinancièresValue: {
+            type: data.type,
+            dateÉchéance: data.type === 'avec-date-échéance' ? data.dateEcheance : undefined,
+            dateDélibération: data.type === 'exemption' ? data.dateDeliberation : undefined,
+          },
           dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
           attestationValue: data.attestation,
           modifiéLeValue: new Date().toISOString(),
