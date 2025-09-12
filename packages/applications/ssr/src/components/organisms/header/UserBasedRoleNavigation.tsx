@@ -33,7 +33,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Recours',
       linkProps: {
-        href: Routes.Recours.lister({ statut: 'demandé' }),
+        href: Routes.Recours.lister({ statut: ['demandé', 'en-instruction'] }),
       },
     },
     {

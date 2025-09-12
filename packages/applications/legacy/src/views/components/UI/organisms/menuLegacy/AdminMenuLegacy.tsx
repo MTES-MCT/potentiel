@@ -25,7 +25,9 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
       >
         Abandon
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
+      <DropdownMenu.DropdownItem
+        href={Routes.Recours.lister({ statut: ['demandé', 'en-instruction'] })}
+      >
         Recours
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
