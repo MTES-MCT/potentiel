@@ -77,7 +77,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Délai',
       linkProps: {
-        href: Routes.Délai.lister,
+        href: Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] }),
       },
     },
   ];

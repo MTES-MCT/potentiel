@@ -36,7 +36,11 @@ export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLe
       <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
         Fournisseur
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })}
+      >
+        Délai
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
 );
