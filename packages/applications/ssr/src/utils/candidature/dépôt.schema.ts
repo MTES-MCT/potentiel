@@ -20,6 +20,7 @@ import {
   puissanceDeSiteSchema,
   autorisationDUrbanismeSchema,
   installateurSchema,
+  installationAvecDispositifDeStockageSchema,
 } from './candidatureFields.schema';
 import { localitéSchema } from './localité.schema';
 import { typologieInstallationSchema } from './typologieInstallation.schema';
@@ -47,4 +48,5 @@ export const dépôtSchema = z.object({
   installateur: installateurSchema,
   localité: localitéSchema,
   typologieInstallation: typologieInstallationSchema,
+  installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
 });

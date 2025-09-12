@@ -20,6 +20,7 @@ export type GetLauréat = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   installateur?: Lauréat.Installateur.ConsulterInstallateurReadModel;
+  installationAvecDispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
@@ -30,6 +31,8 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   const producteurInfos = await getProducteurInfos({ identifiantProjet });
   const fournisseurInfos = await getFournisseurInfos({ identifiantProjet });
   const installateurInfos = await getInstallateurInfos({ identifiantProjet });
+  const installationAvecDispositifDeStockageInfo =
+    await getInstallationAvecDispositifDeStockageInfos({ identifiantProjet });
 
   return {
     actionnaire: actionnaireInfos,
@@ -38,6 +41,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
     installateur: installateurInfos,
+    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageInfo,
     lauréat,
   };
 });
@@ -180,4 +184,45 @@ export const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return installateur;
+};
+
+export const getInstallationAvecDispositifDeStockageInfos = async ({
+  identifiantProjet,
+}: Props) => {
+  const logger = getLogger('getInstallationAvecDispositifDeStockageInfos');
+
+  const cahierDesCharges = await getCahierDesCharges(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  );
+
+  const champsSupplémentaires = CahierDesCharges.bind(cahierDesCharges).getChampsSupplémentaires();
+
+  if (!champsSupplémentaires.installationAvecDispositifDeStockage) {
+    logger.info(
+      `Le cahier des charges du projet lauréat ne prévoit pas de champ concernant le couplage de l'installation à un dispositif de stockage`,
+      {
+        identifiantProjet,
+      },
+    );
+    return undefined;
+  }
+
+  const installationAvecDispositifDeStockage =
+    await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
+      {
+        type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
+        data: {
+          identifiantProjet,
+        },
+      },
+    );
+
+  if (Option.isNone(installationAvecDispositifDeStockage)) {
+    logger.warn(`installationAvecDispositifDeStockage non trouvé pour le projet lauréat`, {
+      identifiantProjet,
+    });
+    return notFound();
+  }
+
+  return installationAvecDispositifDeStockage;
 };

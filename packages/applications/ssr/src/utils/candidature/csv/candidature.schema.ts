@@ -31,6 +31,7 @@ import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
+  installationAvecDispositifDeStockageSchema,
 } from '../candidatureFields.schema';
 
 /**
@@ -69,6 +70,7 @@ export const candidatureSchema = z
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: installateurSchema,
+    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {

@@ -468,6 +468,24 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           }}
         />
       )}
+      {champsSupplémentaires.installationAvecDispositifDeStockage && (
+        <Select
+          state={validationErrors['installationAvecDispositifDeStockage'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['installationAvecDispositifDeStockage']}
+          id="installationAvecDispositifDeStockage"
+          label={'Installation avec dispositif de stockage'}
+          nativeSelectProps={{
+            name: 'installationAvecDispositifDeStockage',
+            defaultValue: candidature.installationAvecDispositifDeStockage ? 'true' : 'false',
+            required: true,
+            'aria-required': true,
+          }}
+          options={[
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ]}
+        />
+      )}
 
       <RadioButtons
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}

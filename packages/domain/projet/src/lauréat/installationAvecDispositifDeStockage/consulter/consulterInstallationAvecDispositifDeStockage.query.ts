@@ -12,7 +12,7 @@ export type ConsulterInstallationAvecDispositifDeStockageReadModel = {
 };
 
 export type ConsulterInstallationAvecDispositifDeStockageQuery = Message<
-  'Lauréat.InstallationAvecDispositifDeStockage.Query.Consulter',
+  'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
   {
     identifiantProjet: string;
   },
@@ -38,7 +38,10 @@ export const registerConsulterInstallationAvecDispositifDeStockageQuery = ({
 
     return Option.match(installationAvecDispositifDeStockage).some(mapToReadModel).none();
   };
-  mediator.register('Lauréat.InstallationAvecDispositifDeStockage.Query.Consulter', handler);
+  mediator.register(
+    'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
+    handler,
+  );
 };
 
 export const mapToReadModel = ({
