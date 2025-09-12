@@ -30,7 +30,10 @@ const paramsSchema = z.object({
     .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined)),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Lauréat.Abandon.StatutAbandon.statuts).optional(),
+  statut: z.preprocess(
+    (value) => (Array.isArray(value) ? value : value ? [value] : []),
+    z.array(z.string()).optional(),
+  ),
   preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
   autorite: z.enum(Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes).optional(),
 });
@@ -58,9 +61,11 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
             itemsPerPage: 10,
           }),
-          recandidature,
-          statut,
-          appelOffre,
+          recandidature: recandidature,
+          statut: statut?.length
+            ? statut.map((s) => Lauréat.Abandon.StatutAbandon.convertirEnValueType(s).statut)
+            : undefined,
+          appelOffre: appelOffre,
           preuveRecandidatureStatut,
           nomProjet,
           autoritéCompétente: autorite,
@@ -79,13 +84,16 @@ export default async function Page({ searchParams }: PageProps) {
           options: appelOffres.items.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
+            selected: true,
           })),
         },
         {
           label: 'Statut',
+          multiple: true,
           searchParamKey: 'statut',
           options: Lauréat.Abandon.StatutAbandon.statuts
             .filter((s) => s !== 'inconnu' && s !== 'annulé')
+            .sort((a, b) => a.localeCompare(b))
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
               value: statut,
