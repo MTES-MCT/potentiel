@@ -27,7 +27,7 @@ export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLe
       >
         Actionnaire
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: ['demandé'] })}>
         Puissance
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
