@@ -96,7 +96,6 @@ export default async function Page({ searchParams }: PageProps) {
           options: appelOffres.items.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
-            selected: true,
           })),
         },
 

@@ -9,6 +9,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import { RecoursListPage } from './RecoursList.page';
 
@@ -25,8 +26,13 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Éliminé.Recours.StatutRecours.statuts).optional(),
+  statut: z.preprocess(
+    (value) => (Array.isArray(value) ? value : value ? [value] : []),
+    z.array(z.string()).optional(),
+  ),
 });
+
+type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -41,7 +47,9 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
             itemsPerPage: 10,
           }),
-          statut,
+          statut: statut?.length
+            ? statut.map((s) => Éliminé.Recours.StatutRecours.convertirEnValueType(s).value)
+            : undefined,
           appelOffre,
           nomProjet,
         },
@@ -52,7 +60,18 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const filters = [
+      const filters: ListFilterItem<SearchParams>[] = [
+        {
+          label: 'Statut',
+          searchParamKey: 'statut',
+          multiple: true,
+          options: Éliminé.Recours.StatutRecours.statuts
+            .filter((statut) => statut !== 'inconnu' && statut !== 'annulé')
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
+        },
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
@@ -60,16 +79,6 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
-        },
-        {
-          label: 'Statut',
-          searchParamKey: 'statut',
-          options: Éliminé.Recours.StatutRecours.statuts
-            .filter((statut) => statut !== 'inconnu' && statut !== 'annulé')
-            .map((statut) => ({
-              label: statut.replace('-', ' ').toLocaleLowerCase(),
-              value: statut,
-            })),
         },
       ];
 
