@@ -10,6 +10,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
+import { transformToOptionalStringArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import {
   ChangementPuissanceListPage,
@@ -32,8 +34,10 @@ const paramsSchema = z.object({
   autoriteInstructrice: z
     .enum(Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes)
     .optional(),
-  statut: z.enum(Lauréat.Puissance.StatutChangementPuissance.statuts).optional(),
+  statut: transformToOptionalStringArray,
 });
+
+type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -49,7 +53,11 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
             itemsPerPage: 10,
           }),
-          statut,
+          statut: statut?.length
+            ? statut.map(
+                (s) => Lauréat.Puissance.StatutChangementPuissance.convertirEnValueType(s).statut,
+              )
+            : undefined,
           appelOffre,
           nomProjet,
           autoriteInstructrice,
@@ -61,7 +69,19 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const filters = [
+      const filters: ListFilterItem<SearchParams>[] = [
+        {
+          label: 'Statut',
+          searchParamKey: 'statut',
+          multiple: true,
+          options: Lauréat.Puissance.StatutChangementPuissance.statuts
+            .filter((s) => s !== 'annulé')
+            .sort((a, b) => a.localeCompare(b))
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
+        },
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
@@ -69,16 +89,6 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
-        },
-        {
-          label: 'Statut',
-          searchParamKey: 'statut',
-          options: Lauréat.Puissance.StatutChangementPuissance.statuts
-            .filter((s) => s !== 'annulé')
-            .map((statut) => ({
-              label: statut.replace('-', ' ').toLocaleLowerCase(),
-              value: statut,
-            })),
         },
         {
           label: 'Autorité instructrice',

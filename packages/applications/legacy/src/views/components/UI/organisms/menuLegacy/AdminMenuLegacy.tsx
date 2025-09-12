@@ -42,7 +42,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={Routes.Puissance.changement.lister({
-          statut: 'demandé',
+          statut: ['demandé'],
           autoriteInstructrice: 'dgec-admin',
         })}
       >
