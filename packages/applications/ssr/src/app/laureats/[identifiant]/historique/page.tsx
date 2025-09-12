@@ -25,6 +25,7 @@ import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/p
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 import { mapToÉliminéTimelineItemProps } from '@/utils/historique/mapToProps/éliminé';
+import { mapToInstallationAvecDispositifDeStockageProps } from '@/utils/historique/mapToProps/installationAvecDispositifDeStockage/mapToInstallationAvecDispositifDeStockageTimelineItemProps';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
@@ -47,6 +48,7 @@ const categoriesDisponibles = [
   'représentant-légal',
   'raccordement',
   'installateur',
+  'installation-avec-dispositif-de-stockage',
 ] as const;
 
 type PageProps = IdentifiantParameter & {
@@ -161,6 +163,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   délai: 'ri-time-line',
   fournisseur: DEMANDE_GENERIQUE_ICONE,
   installateur: DEMANDE_GENERIQUE_ICONE,
+  'installation-avec-dispositif-de-stockage': 'ri-battery-2-charge-line',
 };
 
 const filtrerImportsEtRecoursLegacy = (
@@ -228,6 +231,12 @@ const mapToTimelineItemProps = (
     .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
     .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
     .with({ category: 'installateur' }, mapToInstallateurTimelineItemProps)
+    .with(
+      {
+        category: 'installation-avec-dispositif-de-stockage',
+      },
+      mapToInstallationAvecDispositifDeStockageProps,
+    )
     .exhaustive(() => undefined);
   if (props) {
     return {
