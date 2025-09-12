@@ -48,7 +48,11 @@ export const CreMenuLegacy = ({ currentPage }: CreMenuLegacyProps) => (
       <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
         Fournisseur
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })}
+      >
+        Délai
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
     <Header.MenuItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
