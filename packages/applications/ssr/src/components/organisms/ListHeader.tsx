@@ -8,11 +8,9 @@ export type ListHeaderProps = {
   totalCount: number;
 };
 
-export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
-  return (
-    <>
-      <FiltersTagList filters={filters} />
-      <p className="md:ml-auto my-2 font-semibold">Total : {totalCount}</p>
-    </>
-  );
-};
+export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => (
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <FiltersTagList filters={filters} />
+    <p className="mb-2 font-semibold text-nowrap">Total : {totalCount}</p>
+  </div>
+);
