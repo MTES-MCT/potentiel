@@ -45,7 +45,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Actionnaire',
       linkProps: {
-        href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+        href: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
       },
     },
 
@@ -324,7 +324,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
           {
             text: 'Actionnaire(s)',
             linkProps: {
-              href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+              href: Routes.Actionnaire.changement.lister({ statut: ['demandé'] }),
             },
           },
           {
