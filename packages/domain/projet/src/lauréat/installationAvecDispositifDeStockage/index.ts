@@ -2,15 +2,29 @@ import {
   ConsulterInstallationAvecDispositifDeStockageQuery,
   ConsulterInstallationAvecDispositifDeStockageReadModel,
 } from './consulter/consulterInstallationAvecDispositifDeStockage.query';
+import {
+  HistoriqueInstallationAvecDispositifDeStockageProjetListItemReadModel,
+  ListerHistoriqueInstallationAvecDispositifDeStockageProjetQuery,
+} from './listerHistorique/ListerHistoriqueInstallationAvecDispositifDeStockageProjet.query';
 
 // UseCase
 export { ModifierInstallationAvecDispositifDeStockageUseCase } from './modifier/modifierInstallationAvecDispositifDeStockage.usecase';
 
 // Query
-export { ConsulterInstallationAvecDispositifDeStockageQuery };
+export type InstallationAvecDispositifDeStockageQuery =
+  | ConsulterInstallationAvecDispositifDeStockageQuery
+  | ListerHistoriqueInstallationAvecDispositifDeStockageProjetQuery;
+
+export {
+  ConsulterInstallationAvecDispositifDeStockageQuery,
+  ListerHistoriqueInstallationAvecDispositifDeStockageProjetQuery,
+};
 
 // ReadModel
-export { ConsulterInstallationAvecDispositifDeStockageReadModel };
+export {
+  ConsulterInstallationAvecDispositifDeStockageReadModel,
+  HistoriqueInstallationAvecDispositifDeStockageProjetListItemReadModel,
+};
 
 // Event
 export { InstallationAvecDispositifDeStockageEvent } from './installationAvecDispositifDeStockage.event';
