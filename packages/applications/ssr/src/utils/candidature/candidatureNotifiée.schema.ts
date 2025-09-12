@@ -25,6 +25,7 @@ import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
+  installationAvecDispositifDeStockageSchema,
 } from './candidatureFields.schema';
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
@@ -53,6 +54,7 @@ export const candidatureNotifiéeSchema = z
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: installateurSchema,
+    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
   })
   .merge(localitéSchema);
 
@@ -69,6 +71,7 @@ const lauréatSchema = z
   .merge(localitéSchema);
 const lauréatChampsSupplémentairesSchema = z.object({
   installateur: installateurSchema,
+  installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
 });
 const partialLauréatSchema = lauréatSchema.merge(lauréatChampsSupplémentairesSchema).partial();
 
