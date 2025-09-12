@@ -16,7 +16,7 @@ Alors(
       const installationAvecDispositifDeStockage =
         await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
           {
-            type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.Consulter',
+            type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
             data: {
               identifiantProjet: identifiantProjet.formatter(),
             },

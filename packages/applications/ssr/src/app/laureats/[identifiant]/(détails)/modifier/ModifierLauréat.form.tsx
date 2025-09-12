@@ -32,6 +32,7 @@ import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/CandidatureField';
 import { CoefficientKField } from './components/fields/CoefficientKField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
+import { InstallationAvecDispositifDeStockageField } from './components/fields/InstallationAvecDispositifDeStockageField';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
@@ -250,6 +251,16 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               lauréat={lauréat.installateur.currentValue}
               label="Installateur (optionnel)"
               name="installateur"
+              validationErrors={validationErrors}
+            />
+          </FormRow>
+        )}
+
+        {champsSupplémentaires.installationAvecDispositifDeStockage && (
+          <FormRow>
+            <InstallationAvecDispositifDeStockageField
+              candidature={candidature.installationAvecDispositifDeStockage ?? false}
+              lauréat={lauréat.installationAvecDispositifDeStockage?.currentValue ?? false}
               validationErrors={validationErrors}
             />
           </FormRow>

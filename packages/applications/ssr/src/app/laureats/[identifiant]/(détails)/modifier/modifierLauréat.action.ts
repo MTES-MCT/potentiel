@@ -121,6 +121,20 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
           },
         });
       }
+      if (laureat.installationAvecDispositifDeStockage !== undefined) {
+        await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
+          {
+            type: 'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              installationAvecDispositifDeStockageValue:
+                laureat.installationAvecDispositifDeStockage,
+              modifiéeLeValue: new Date().toISOString(),
+              modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
+            },
+          },
+        );
+      }
 
       const lauréatAEtéModifié =
         laureat.adresse1 != undefined ||
@@ -204,6 +218,8 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       installateur: data.installateur ?? previous.installateur,
+      installationAvecDispositifDeStockage:
+        data.installationAvecDispositifDeStockage ?? previous.installationAvecDispositifDeStockage,
 
       // non-editable fields
       typeGarantiesFinancières: previous.garantiesFinancières?.type.type,
@@ -218,8 +234,6 @@ const mapBodyToCandidatureUsecaseData = (
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       obligationDeSolarisation: previous.obligationDeSolarisation,
       typologieInstallation: previous.typologieInstallation.map((t) => t.formatter()),
-      //@TODO : installationAvecDispositifDeStockage sera rendu éditable dans un second temps
-      installationAvecDispositifDeStockage: previous.installationAvecDispositifDeStockage,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
