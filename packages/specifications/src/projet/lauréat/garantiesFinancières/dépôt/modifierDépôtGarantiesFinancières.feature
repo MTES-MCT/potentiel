@@ -6,7 +6,6 @@ Fonctionnalité: Modifier un dépôt de garanties financières
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
 
-    @select
     Plan du Scénario: Un porteur modifie un dépôt de garanties financières
         Etant donné un dépôt de garanties financières avec :
             | type GF         | <type GF actuel>           |
@@ -25,7 +24,6 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | six-mois-après-achèvement |                          | consignation              |                          |
             | six-mois-après-achèvement |                          | avec-date-échéance        | 2027-12-01               |
 
-    @select
     Scénario: Un porteur modifie un dépôt de garanties financières avec un type exemption
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Petit PV Bâtiment |

@@ -57,7 +57,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
 
-    @select
     Scénario: Enregister des garanties financières actuelles avec un type exemption
         Etant donné le projet éliminé "Du Boulodrome de Toulouse" avec :
             | appel d'offre | PPE2 - Petit PV Bâtiment |

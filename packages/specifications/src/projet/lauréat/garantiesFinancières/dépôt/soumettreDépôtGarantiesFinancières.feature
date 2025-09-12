@@ -22,7 +22,6 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
 
-    @select
     Scénario: Un porteur soumet un dépôt de garanties financières avec un type exemption
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Petit PV Bâtiment |

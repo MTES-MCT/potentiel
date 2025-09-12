@@ -49,7 +49,6 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF | consignation |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
-    @select
     Scénario: Un admin modifie des garanties financières actuelles avec le type exemption
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
             | appel d'offre | PPE2 - Petit PV Bâtiment |
