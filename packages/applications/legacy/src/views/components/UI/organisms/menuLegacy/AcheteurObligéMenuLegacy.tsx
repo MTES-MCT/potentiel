@@ -18,7 +18,7 @@ export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLe
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+        href={Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] })}
       >
         Représentant légal
       </DropdownMenu.DropdownItem>

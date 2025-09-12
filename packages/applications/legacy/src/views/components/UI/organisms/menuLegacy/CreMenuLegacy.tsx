@@ -30,7 +30,7 @@ export const CreMenuLegacy = ({ currentPage }: CreMenuLegacyProps) => (
         Recours
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+        href={Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] })}
       >
         Représentant légal
       </DropdownMenu.DropdownItem>
