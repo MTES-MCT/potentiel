@@ -15,6 +15,10 @@ export const expectFileContent = async (
     return;
   }
   assert(Option.isSome(actual), `Un document était attendu !`);
+  expect(actual.format).to.be.equal(
+    expected.format,
+    'Le format de la clé du document est incorrect',
+  );
 
   const result = await mediator.send<ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
@@ -24,7 +28,13 @@ export const expectFileContent = async (
   });
 
   assert(Option.isSome(result), `Pièce justificative non trouvée !`);
-  expect(result.format).to.be.equal(expected.format, 'Le format du document est incorrect');
+
+  // cas particulier, car `contentType(extension('application/x-msdownload'))` retourne 'application/x-msdos-program'
+  const expectedFormat =
+    expected.format === 'application/x-msdownload'
+      ? 'application/x-msdos-program'
+      : expected.format;
+  expect(result.format).to.be.equal(expectedFormat, 'Le format du document réel est incorrect');
 
   const actualContent = await convertReadableStreamToString(result.content);
 
