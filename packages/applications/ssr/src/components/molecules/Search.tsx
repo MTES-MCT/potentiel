@@ -33,7 +33,7 @@ export const Search = ({ params, label }: SearchProps) => {
       onButtonClick={() => updateSearch(search)}
       label={label}
       allowEmptySearch
-      className="mb-4"
+      className="w-full"
       renderInput={({ className, id, placeholder, type }) => (
         <input
           ref={setInputElement}

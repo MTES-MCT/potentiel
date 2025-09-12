@@ -79,15 +79,6 @@ export default async function Page({ searchParams }: PageProps) {
 
       const filters: ListFilterItem<SearchParams>[] = [
         {
-          label: `Appel d'offres`,
-          searchParamKey: 'appelOffre',
-          options: appelOffres.items.map((appelOffre) => ({
-            label: appelOffre.id,
-            value: appelOffre.id,
-            selected: true,
-          })),
-        },
-        {
           label: 'Statut',
           multiple: true,
           searchParamKey: 'statut',
@@ -99,6 +90,16 @@ export default async function Page({ searchParams }: PageProps) {
               value: statut,
             })),
         },
+        {
+          label: `Appel d'offres`,
+          searchParamKey: 'appelOffre',
+          options: appelOffres.items.map((appelOffre) => ({
+            label: appelOffre.id,
+            value: appelOffre.id,
+            selected: true,
+          })),
+        },
+
         {
           label: 'Recandidature',
           searchParamKey: 'recandidature',
