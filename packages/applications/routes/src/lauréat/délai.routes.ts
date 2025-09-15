@@ -3,6 +3,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
+import { applyStatutFilter } from './_helpers/applyStatutFilter';
+
 type ListerFilters = {
   statut?: Array<Lauréat.Délai.StatutDemandeDélai.RawType>;
 };
@@ -20,9 +22,7 @@ export const lister = (filters: ListerFilters) => {
   const searchParams = new URLSearchParams();
 
   if (filters?.statut?.length) {
-    filters.statut.forEach((s) => {
-      searchParams.append('statut', s);
-    });
+    applyStatutFilter<Lauréat.Délai.StatutDemandeDélai.RawType>(searchParams, filters.statut);
   }
 
   return `/laureats/changements/delai${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

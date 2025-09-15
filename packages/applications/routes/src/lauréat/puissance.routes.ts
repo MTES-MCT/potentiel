@@ -2,6 +2,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
+import { applyStatutFilter } from './_helpers/applyStatutFilter';
+
 type ListerFilters = {
   statut?: Array<Lauréat.Puissance.StatutChangementPuissance.RawType>;
   autoriteInstructrice?: Lauréat.Puissance.AutoritéCompétente.RawType;
@@ -25,9 +27,10 @@ export const changement = {
     const searchParams = new URLSearchParams();
 
     if (filters?.statut?.length) {
-      filters.statut.forEach((s) => {
-        searchParams.append('statut', s);
-      });
+      applyStatutFilter<Lauréat.Puissance.StatutChangementPuissance.RawType>(
+        searchParams,
+        filters.statut,
+      );
     }
 
     if (filters?.autoriteInstructrice) {

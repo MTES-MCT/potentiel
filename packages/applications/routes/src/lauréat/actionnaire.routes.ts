@@ -2,6 +2,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
+import { applyStatutFilter } from './_helpers/applyStatutFilter';
+
 type ListerFilters = {
   statut?: Array<Lauréat.Actionnaire.StatutChangementActionnaire.RawType>;
 };
@@ -24,9 +26,10 @@ export const changement = {
     const searchParams = new URLSearchParams();
 
     if (filters?.statut?.length) {
-      filters.statut.forEach((s) => {
-        searchParams.append('statut', s);
-      });
+      applyStatutFilter<Lauréat.Actionnaire.StatutChangementActionnaire.RawType>(
+        searchParams,
+        filters.statut,
+      );
     }
 
     return `/laureats/changements/actionnaire${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

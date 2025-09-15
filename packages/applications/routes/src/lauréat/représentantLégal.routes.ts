@@ -2,6 +2,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
+import { applyStatutFilter } from './_helpers/applyStatutFilter';
+
 type ListerFilters = {
   statut?: Array<Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType>;
 };
@@ -22,9 +24,10 @@ export const changement = {
     const searchParams = new URLSearchParams();
 
     if (filters?.statut?.length) {
-      filters.statut.forEach((s) => {
-        searchParams.append('statut', s);
-      });
+      applyStatutFilter<Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType>(
+        searchParams,
+        filters.statut,
+      );
     }
 
     return `/laureats/changements/representant-legal${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
