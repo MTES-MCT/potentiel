@@ -31,8 +31,12 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
           identifiantProjetValue: data.identifiantProjet,
           garantiesFinancièresValue: {
             type: data.type,
-            dateÉchéance: data.type === 'avec-date-échéance' ? data.dateEcheance : undefined,
-            dateDélibération: data.type === 'exemption' ? data.dateDeliberation : undefined,
+            dateÉchéance:
+              data.type === 'avec-date-échéance'
+                ? new Date(data.dateEcheance).toISOString()
+                : undefined,
+            dateDélibération:
+              data.type === 'exemption' ? new Date(data.dateDeliberation).toISOString() : undefined,
           },
           dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
           attestationValue: data.attestation,

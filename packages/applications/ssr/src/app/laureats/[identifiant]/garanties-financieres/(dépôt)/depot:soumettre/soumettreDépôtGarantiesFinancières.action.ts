@@ -30,8 +30,12 @@ const action: FormAction<FormState, typeof schema> = async (_, props) =>
         identifiantProjetValue: props.identifiantProjet,
         garantiesFinancièresValue: {
           type: props.type,
-          dateÉchéance: props.type === 'avec-date-échéance' ? props.dateEcheance : undefined,
-          dateDélibération: props.type === 'exemption' ? props.dateDeliberation : undefined,
+          dateÉchéance:
+            props.type === 'avec-date-échéance'
+              ? new Date(props.dateEcheance).toISOString()
+              : undefined,
+          dateDélibération:
+            props.type === 'exemption' ? new Date(props.dateDeliberation).toISOString() : undefined,
         },
         dateConstitutionValue: new Date(props.dateConstitution).toISOString(),
         soumisLeValue: new Date().toISOString(),
