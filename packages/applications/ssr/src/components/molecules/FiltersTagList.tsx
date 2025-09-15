@@ -24,14 +24,14 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
       return tagFilters;
     }
 
-    currentValues.forEach((value) => {
+    for (const value of currentValues) {
       tagFilters.push({
         searchParamKey,
         label: `${label} : ${options.find((x) => x.value === value)?.label}`,
         value,
         affects,
       });
-    });
+    }
 
     return tagFilters;
   }, [] as TagFilter[]);
@@ -46,9 +46,13 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
       newSearchParams.delete(tagName);
 
       if (newTagValues.length === 0) {
-        affects.forEach((affected) => newSearchParams.delete(affected));
+        for (const affected of affects) {
+          newSearchParams.delete(affected);
+        }
       } else {
-        newTagValues.forEach((value) => newSearchParams.append(tagName, value));
+        for (const value of newTagValues) {
+          newSearchParams.append(tagName, value);
+        }
       }
 
       const url = `${pathname}?${newSearchParams.toString()}`;

@@ -37,6 +37,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
         const disabled = filters.some(
           (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
         );
+        const activeFilters = searchParams.getAll(searchParamKey);
 
         return multiple ? (
           <FilterMultipleChoices
@@ -44,19 +45,22 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             key={`filter-${searchParamKey}`}
             label={label}
             options={options}
-            activeFilters={searchParams.getAll(searchParamKey)}
+            activeFilters={activeFilters}
             onValueSelected={(value) => {
               const newSearchParams = new URLSearchParams(searchParams);
               newSearchParams.delete(searchParamKey);
 
               if (value.length === 0) {
-                affects?.forEach((affected) => newSearchParams.delete(affected));
+                for (const affected of affects ?? []) {
+                  newSearchParams.delete(affected);
+                }
               } else {
-                value.forEach((v) => {
+                for (const v of value) {
                   newSearchParams.append(searchParamKey, v);
-                });
+                }
               }
-              router.push(buildUrl(pathname, newSearchParams));
+
+              return router.push(buildUrl(pathname, newSearchParams));
             }}
           />
         ) : (
@@ -70,7 +74,10 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
               const newSearchParams = new URLSearchParams(searchParams);
               if (value === '') {
                 newSearchParams.delete(searchParamKey);
-                affects?.forEach((affected) => newSearchParams.delete(affected));
+
+                for (const affected of affects ?? []) {
+                  newSearchParams.delete(affected);
+                }
               } else {
                 const option = options.find((option) => option.value === value);
                 if (option) {
