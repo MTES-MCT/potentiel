@@ -71,6 +71,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
           {mapToActionComponents({
             actions,
             identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+            dateDemande: demande.demandéeLe.date,
           })}
         </>
       ),
@@ -80,16 +81,24 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
 
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementPuissanceActions>;
+  dateDemande: DétailsPuissancePageProps['demande']['demandéeLe']['date'];
   identifiantProjet: string;
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
+const mapToActionComponents = ({
+  actions,
+  identifiantProjet,
+  dateDemande,
+}: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {actions.includes('accorder') && (
-      <AccorderChangementPuissance identifiantProjet={identifiantProjet} />
+      <AccorderChangementPuissance
+        identifiantProjet={identifiantProjet}
+        dateDemande={dateDemande}
+      />
     )}
     {actions.includes('rejeter') && (
-      <RejeterChangementPuissance identifiantProjet={identifiantProjet} />
+      <RejeterChangementPuissance identifiantProjet={identifiantProjet} dateDemande={dateDemande} />
     )}
     {actions.includes('demander') && (
       <Button
