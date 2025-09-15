@@ -12,6 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateDemande: zod.string().min(1),
   typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
     invalid_type_error: 'Ce type de représentant légal est invalide',
     required_error: 'Champ obligatoire',
@@ -23,7 +24,7 @@ export type AccorderChangementReprésentantLégalFormKeys = keyof zod.infer<type
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal },
+  { identifiantProjet, dateDemande, nomRepresentantLegal, typeRepresentantLegal },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ReprésentantLégal.ReprésentantLégalUseCase>({
@@ -41,7 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: Routes.ReprésentantLégal.changement.détails(identifiantProjet, dateDemande),
         message: 'Le changement de représentant légal a bien été pris en compte',
       },
     };

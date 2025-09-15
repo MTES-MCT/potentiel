@@ -108,10 +108,14 @@ const mapToActionComponents = ({
         identifiantProjet={identifiantProjet}
         typeReprésentantLégal={typeReprésentantLégal}
         nomReprésentantLégal={nomReprésentantLégal}
+        dateDemande={dateDemande}
       />
     )}
     {actions.includes('rejeter') && (
-      <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+      <RejeterChangementReprésentantLégal
+        identifiantProjet={identifiantProjet}
+        dateDemande={dateDemande}
+      />
     )}
 
     {actions.includes('corriger') && (
