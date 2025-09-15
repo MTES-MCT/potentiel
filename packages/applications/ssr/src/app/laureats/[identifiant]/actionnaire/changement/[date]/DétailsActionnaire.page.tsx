@@ -63,6 +63,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
           {mapToActionComponents({
             actions,
             identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+            dateDemande: demande.demandéeLe.date,
           })}
         </>
       ),
@@ -73,15 +74,26 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementActionnaireActions>;
   identifiantProjet: string;
+  dateDemande: DétailsActionnairePageProps['demande']['demandéeLe']['date'];
 };
 
-const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) => (
+const mapToActionComponents = ({
+  actions,
+  identifiantProjet,
+  dateDemande,
+}: MapToActionsComponentsProps) => (
   <ActionsList actionsListLength={actions.length}>
     {actions.includes('accorder') && (
-      <AccorderChangementActionnaire identifiantProjet={identifiantProjet} />
+      <AccorderChangementActionnaire
+        identifiantProjet={identifiantProjet}
+        dateDemande={dateDemande}
+      />
     )}
     {actions.includes('rejeter') && (
-      <RejeterChangementActionnaire identifiantProjet={identifiantProjet} />
+      <RejeterChangementActionnaire
+        identifiantProjet={identifiantProjet}
+        dateDemande={dateDemande}
+      />
     )}
 
     {actions.includes('demander') && (

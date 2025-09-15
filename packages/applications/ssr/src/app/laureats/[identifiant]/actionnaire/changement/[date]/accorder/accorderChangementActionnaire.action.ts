@@ -13,6 +13,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateDemande: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
@@ -20,7 +21,7 @@ export type AccorderChangementActionnaireFormKeys = keyof zod.infer<typeof schem
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee },
+  { identifiantProjet, dateDemande, reponseSignee },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Actionnaire.AccorderChangementActionnaireUseCase>({
@@ -36,7 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: Routes.Actionnaire.changement.détails(identifiantProjet, dateDemande),
         message: "Le changement d'actionnaire(s) a été pris en compte",
       },
     };
