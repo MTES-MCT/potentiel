@@ -90,17 +90,26 @@ export const InfoGenerales = ({
 
   const formattedIdentifiantProjet = identifiantProjet.formatter();
 
+  const peutModifierActuelles =
+    !!garantiesFinancières?.actuelles &&
+    garantiesFinancières.actuelles.type !== 'exemption' &&
+    role.aLaPermission('garantiesFinancières.actuelles.modifier');
+  const peutModifierDépôt =
+    garantiesFinancières?.actuelles?.type !== 'exemption' &&
+    role.aLaPermission('garantiesFinancières.dépôt.modifier');
+  const peutDemanderMainlevée =
+    !!garantiesFinancières?.actuelles &&
+    garantiesFinancières.actuelles.type !== 'exemption' &&
+    role.aLaPermission('garantiesFinancières.mainlevée.demander');
+
   return (
     <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-4 flex-col">
       {garantiesFinancières && isClasse && (
         <GarantiesFinancièresProjet
           garantiesFinancières={garantiesFinancières}
           identifiantProjet={identifiantProjet}
-          peutModifier={
-            role.aLaPermission('garantiesFinancières.actuelles.modifier') ||
-            role.aLaPermission('garantiesFinancières.dépôt.modifier')
-          }
-          peutLever={role.aLaPermission('garantiesFinancières.mainlevée.demander')}
+          peutModifier={peutModifierActuelles || peutModifierDépôt}
+          peutLever={peutDemanderMainlevée}
           estAchevé={estAchevé}
         />
       )}
@@ -230,20 +239,6 @@ const GarantiesFinancièresProjet = ({
     garantiesFinancières.motifGfEnAttente &&
     getMotifGFEnAttente(garantiesFinancières.motifGfEnAttente);
 
-  if (garantiesFinancières.actuelles?.type === 'exemption') {
-    return (
-      <div className="flex flex-col gap-0">
-        <Heading3 className="m-0">Garanties financières</Heading3>
-        Le projet bénéficie d'une exemption de garanties financières
-        {garantiesFinancières.actuelles.attestation ? (
-          <Link href={Routes.Document.télécharger(garantiesFinancières.actuelles.attestation)}>
-            pièce justificative
-          </Link>
-        ) : null}
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Garanties financières</Heading3>
@@ -254,40 +249,43 @@ const GarantiesFinancièresProjet = ({
         </AlertMessage>
       )}
 
-      {garantiesFinancières.actuelles && (
-        <div>
-          <span>
-            Le projet dispose actuellement de garanties financières validées
-            {garantiesFinancières.actuelles.dateConstitution && (
-              <span>
-                , constituées le{' '}
-                {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
-              </span>
-            )}
-            {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
-              <span className="font-semibold">
-                , {getGFLabel(garantiesFinancières.actuelles.type)}
-              </span>
-            )}
-            {garantiesFinancières.actuelles.dateÉchéance &&
-              garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
+      {garantiesFinancières.actuelles &&
+        (garantiesFinancières.actuelles.type === 'exemption' ? (
+          <div>Le projet bénéficie d'une exemption de garanties financières.</div>
+        ) : (
+          <div>
+            <span>
+              Le projet dispose actuellement de garanties financières validées
+              {garantiesFinancières.actuelles.dateConstitution && (
                 <span>
-                  {' '}
-                  au {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}
+                  , constituées le{' '}
+                  {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
                 </span>
               )}
-            .
-          </span>
-          {!garantiesFinancières.actuelles?.dateConstitution && (
-            <AlertMessage>
-              L'attestation de constitution des garanties financières reste à transmettre.
-            </AlertMessage>
-          )}
-          {garantiesFinancières.actuelles.type === 'type-inconnu' && (
-            <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
-          )}
-        </div>
-      )}
+              {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
+                <span className="font-semibold">
+                  , {getGFLabel(garantiesFinancières.actuelles.type)}
+                </span>
+              )}
+              {garantiesFinancières.actuelles.dateÉchéance &&
+                garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
+                  <span>
+                    {' '}
+                    au {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}
+                  </span>
+                )}
+              .
+            </span>
+            {!garantiesFinancières.actuelles?.dateConstitution && (
+              <AlertMessage>
+                L'attestation de constitution des garanties financières reste à transmettre.
+              </AlertMessage>
+            )}
+            {garantiesFinancières.actuelles.type === 'type-inconnu' && (
+              <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
+            )}
+          </div>
+        ))}
 
       {garantiesFinancières.dépôtÀTraiter && (
         <AlertMessage>

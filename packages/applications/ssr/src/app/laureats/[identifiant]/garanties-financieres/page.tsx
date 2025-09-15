@@ -19,7 +19,6 @@ import {
   DétailsGarantiesFinancièresPageProps,
 } from './DétailsGarantiesFinancières.page';
 import { vérifierProjetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
-import { vérifierProjetNonExemptDeGarantiesFinancières } from './_helpers/vérifierProjetNonExemptDeGarantiesFinancières';
 import { récuperérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
 
 export const metadata: Metadata = {
@@ -38,7 +37,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
       await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
-      await vérifierProjetNonExemptDeGarantiesFinancières(identifiantProjet);
 
       const actuelles = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
@@ -215,7 +213,10 @@ const mapToActionsAndInfos = ({
       ) {
         infos.push('date-échéance-dépôt-passée');
       }
-    } else if (Option.isNone(mainlevée)) {
+    } else if (
+      Option.isNone(mainlevée) &&
+      (Option.isNone(actuelles) || !actuelles.garantiesFinancières.estExemption())
+    ) {
       actions.push('garantiesFinancières.dépôt.soumettre');
     }
   }
