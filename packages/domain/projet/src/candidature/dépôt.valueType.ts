@@ -101,7 +101,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       }
     : undefined,
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
-  installateur: plain.installateur,
+  installateur: bindOptional(String, plain.installateur),
   installationAvecDispositifDeStockage: plain.installationAvecDispositifDeStockage,
 
   estÉgaleÀ(valueType) {
@@ -220,7 +220,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
             numéro: raw.autorisationDUrbanisme.numéro,
           })
         : undefined,
-    installateur: raw.installateur,
+    installateur: bindOptional(String, raw.installateur),
     installationAvecDispositifDeStockage: raw.installationAvecDispositifDeStockage,
   });
 

@@ -339,6 +339,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
       throw new ChoixCoefficientKRequisError();
     }
+
     if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
       throw new ChoixCoefficientKNonAttenduError();
     }
@@ -351,7 +352,8 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new PuissanceDeSiteNonAttendueError();
     }
 
-    if (installateur === 'requis' && dépôt.installateur === undefined) {
+    // dans le cas de installateur, on veut également exclure les strings vides
+    if (installateur === 'requis' && !dépôt.installateur) {
       throw new InstallateurRequisError();
     }
 

@@ -282,6 +282,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
     // champs supplémentaires, dont l'import dépend de l'appel d'offre
     if (this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined) {
+      // on importe toujours l'installateur si possible, même sous forme de string vide
       await this.installateur.importer({
         installateur: this.projet.candidature.installateur ?? '',
         importéLe: notifiéLe,
