@@ -9,13 +9,17 @@ import {
   GarantiesFinancièresDétails,
   GarantiesFinancièresEntity,
 } from '../garantiesFinancièresActuelles.entity';
-import { StatutGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
-import { Candidature, IdentifiantProjet } from '../../../..';
+import {
+  GarantiesFinancières,
+  StatutGarantiesFinancières,
+  TypeDocumentGarantiesFinancières,
+} from '../..';
+import { IdentifiantProjet } from '../../../..';
 
-export type DétailsGarantiesFinancièresReadModel = {
-  type: Candidature.TypeGarantiesFinancières.ValueType;
+export type ConsulterGarantiesFinancièresReadModel = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  garantiesFinancières: GarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
-  dateÉchéance?: DateTime.ValueType;
   attestation?: DocumentProjet.ValueType;
   dateConstitution?: DateTime.ValueType;
   soumisLe?: DateTime.ValueType;
@@ -24,11 +28,6 @@ export type DétailsGarantiesFinancièresReadModel = {
     date: DateTime.ValueType;
     par?: Email.ValueType;
   };
-};
-
-export type ConsulterGarantiesFinancièresReadModel = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  garantiesFinancières: DétailsGarantiesFinancièresReadModel;
 };
 
 export type ConsulterGarantiesFinancièresQuery = Message<
@@ -61,46 +60,37 @@ export const registerConsulterGarantiesFinancièresQuery = ({
 
     return mapToReadModel({
       garantiesFinancières: result.garantiesFinancières,
-      identifiantProjetValueType: identifiantProjet,
+      identifiantProjet,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières', handler);
 };
 
-const mapToReadModel = ({
-  garantiesFinancières,
-  identifiantProjetValueType,
-}: {
+type MapToReadModelProps = {
   garantiesFinancières: GarantiesFinancièresDétails;
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}): ConsulterGarantiesFinancièresReadModel => ({
-  identifiantProjet: identifiantProjetValueType,
-  garantiesFinancières: mapGarantiesFinancièresToReadModel({
-    garantiesFinancières,
-    identifiantProjetValueType,
-  }),
-});
+  identifiantProjet: IdentifiantProjet.ValueType;
+};
 
-export const mapGarantiesFinancièresToReadModel = ({
+export const mapToReadModel = ({
   garantiesFinancières: {
+    dernièreMiseÀJour,
     statut,
     type,
-    attestation,
-    dateConstitution,
     dateÉchéance,
+    dateDélibération,
+    dateConstitution,
     soumisLe,
     validéLe,
-    dernièreMiseÀJour,
+    attestation,
   },
-  identifiantProjetValueType,
-}: {
-  garantiesFinancières: GarantiesFinancièresDétails;
-  identifiantProjetValueType: IdentifiantProjet.ValueType;
-}) => ({
+  identifiantProjet,
+}: MapToReadModelProps): ConsulterGarantiesFinancièresReadModel => ({
+  identifiantProjet,
   statut: StatutGarantiesFinancières.convertirEnValueType(statut),
-  type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
-  ...(dateÉchéance && {
-    dateÉchéance: DateTime.convertirEnValueType(dateÉchéance),
+  garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+    type,
+    dateÉchéance,
+    dateDélibération,
   }),
   dateConstitution: dateConstitution ? DateTime.convertirEnValueType(dateConstitution) : undefined,
   soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
@@ -108,7 +98,7 @@ export const mapGarantiesFinancièresToReadModel = ({
   attestation:
     dateConstitution && attestation
       ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValueType.formatter(),
+          identifiantProjet.formatter(),
           TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
           DateTime.convertirEnValueType(dateConstitution).formatter(),
           attestation.format,

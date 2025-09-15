@@ -61,6 +61,9 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
           ...(dépôtExistant.dépôt.dateÉchéance && {
             dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
           }),
+          ...(dépôtExistant.dépôt.dateDélibération && {
+            dateDélibération: dépôtExistant.dépôt.dateDélibération,
+          }),
           attestation: dépôtExistant.dépôt.attestation,
           dateConstitution: dépôtExistant.dépôt.dateConstitution,
           validéLe,
@@ -82,6 +85,9 @@ export const dépôtGarantiesFinancièresEnCoursValidéProjector = async ({
           type: dépôtExistant.dépôt.type,
           ...(dépôtExistant.dépôt.dateÉchéance && {
             dateÉchéance: dépôtExistant.dépôt.dateÉchéance,
+          }),
+          ...(dépôtExistant.dépôt.dateDélibération && {
+            dateDélibération: dépôtExistant.dépôt.dateDélibération,
           }),
           attestation: dépôtExistant.dépôt.attestation,
           dateConstitution: dépôtExistant.dépôt.dateConstitution,

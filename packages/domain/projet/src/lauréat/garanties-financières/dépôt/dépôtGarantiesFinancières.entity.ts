@@ -8,6 +8,7 @@ export type DépôtGarantiesFinancièresEntity = Entity<
     dépôt: {
       type: string;
       dateÉchéance?: string;
+      dateDélibération?: string;
       dateConstitution: string;
       attestation: { format: string };
       soumisLe: string;

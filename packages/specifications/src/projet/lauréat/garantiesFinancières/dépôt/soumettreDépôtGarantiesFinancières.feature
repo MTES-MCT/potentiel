@@ -22,6 +22,15 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
 
+    Scénario: Un porteur soumet un dépôt de garanties financières avec un type exemption
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+        Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
+            | type GF              | exemption  |
+            | date de délibération | 2020-01-01 |
+        Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
+        Et les garanties financières en attente du projet ne devraient plus être consultables
+
     Scénario: Une tâche du type "échoir les garanties financières" est annulée quand une dépôt de garanties financiéres est soumis
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |

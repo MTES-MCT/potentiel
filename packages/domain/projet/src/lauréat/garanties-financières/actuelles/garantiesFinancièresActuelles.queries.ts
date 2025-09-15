@@ -1,25 +1,26 @@
 import {
-  ConsulterArchivesGarantiesFinancièresQuery,
-  ConsulterArchivesGarantiesFinancièresReadModel,
-} from './archives/consulter/consulterArchivesGarantiesFinancières.query';
+  ArchiveGarantiesFinancièresListItemReadModel,
+  ListerArchivesGarantiesFinancièresQuery,
+  ListerArchivesGarantiesFinancièresReadModel,
+} from './archives/lister/listerArchivesGarantiesFinancières.query';
 import {
   ConsulterGarantiesFinancièresQuery,
   ConsulterGarantiesFinancièresReadModel,
-  DétailsGarantiesFinancièresReadModel,
 } from './consulter/consulterGarantiesFinancières.query';
 
 export type GarantiesFinancièresActuellesQuery =
   | ConsulterGarantiesFinancièresQuery
-  | ConsulterArchivesGarantiesFinancièresQuery;
+  | ListerArchivesGarantiesFinancièresQuery;
 
-export { ConsulterGarantiesFinancièresQuery, ConsulterArchivesGarantiesFinancièresQuery };
+export { ConsulterGarantiesFinancièresQuery, ListerArchivesGarantiesFinancièresQuery };
 
 export type GarantiesFinancièresActuellesReadModel =
   | ConsulterGarantiesFinancièresReadModel
-  | ConsulterArchivesGarantiesFinancièresReadModel;
+  | ListerArchivesGarantiesFinancièresReadModel
+  | ArchiveGarantiesFinancièresListItemReadModel;
 
 export {
   ConsulterGarantiesFinancièresReadModel,
-  ConsulterArchivesGarantiesFinancièresReadModel,
-  DétailsGarantiesFinancièresReadModel,
+  ListerArchivesGarantiesFinancièresReadModel,
+  ArchiveGarantiesFinancièresListItemReadModel,
 };

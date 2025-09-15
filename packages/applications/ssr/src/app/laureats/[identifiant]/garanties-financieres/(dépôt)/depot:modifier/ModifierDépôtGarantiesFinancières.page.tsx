@@ -16,13 +16,13 @@ export type ModifierDépôtGarantiesFinancièresPageProps = Pick<
   SoumettreDépôtGarantiesFinancièresFormProps,
   'identifiantProjet' | 'typesGarantiesFinancières'
 > & {
-  dépôtEnCours: SoumettreDépôtGarantiesFinancièresFormProps['defaultValues'];
+  dépôt: SoumettreDépôtGarantiesFinancièresFormProps['dépôt'];
   showWarning?: true;
 };
 
 export const ModifierDépôtGarantiesFinancièresPage: FC<
   ModifierDépôtGarantiesFinancièresPageProps
-> = ({ identifiantProjet, typesGarantiesFinancières, dépôtEnCours, showWarning }) => (
+> = ({ identifiantProjet, typesGarantiesFinancières, dépôt, showWarning }) => (
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
     heading={
@@ -36,7 +36,7 @@ export const ModifierDépôtGarantiesFinancièresPage: FC<
             action={modifierDépôtGarantiesFinancièresAction}
             submitButtonLabel="Modifier"
             typesGarantiesFinancières={typesGarantiesFinancières}
-            defaultValues={dépôtEnCours}
+            dépôt={dépôt}
           />
         </>
       ),

@@ -1,5 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { EnregistrerGarantiesFinancièresFixture } from './enregistrerGarantiesFinancières.fixture';
 
@@ -12,12 +11,11 @@ export class EnregistrerAttestationGarantiesFinancièresFixture extends Enregist
         .candidatureWorld.importerCandidature.dépôtValue;
     return {
       ...expected,
-      type: Candidature.TypeGarantiesFinancières.convertirEnValueType(
-        dépôtCandidature.typeGarantiesFinancières!,
-      ),
-      dateÉchéance: dépôtCandidature.dateÉchéanceGf
-        ? DateTime.convertirEnValueType(dépôtCandidature.dateÉchéanceGf)
-        : undefined,
+      garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+        type: dépôtCandidature.typeGarantiesFinancières!,
+        dateÉchéance: dépôtCandidature.dateÉchéanceGf,
+        dateDélibération: dépôtCandidature.dateDélibérationGf,
+      }),
     };
   }
 }

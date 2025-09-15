@@ -1,18 +1,18 @@
 import { Metadata } from 'next';
-import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { projetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { getCahierDesCharges } from '@/app/_helpers';
 
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '../../ProjetNonSoumisAuxGarantiesFinancières.page';
 import { typesGarantiesFinancièresPourFormulaire } from '../../typesGarantiesFinancièresPourFormulaire';
+import { récuperérerGarantiesFinancièresActuelles } from '../../_helpers/récupérerGarantiesFinancièresActuelles';
 
 import {
   ModifierGarantiesFinancièresActuellesPage,
@@ -30,20 +30,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
-    const soumisAuxGarantiesFinancières =
-      await projetSoumisAuxGarantiesFinancières(identifiantProjet);
+    await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-    if (!soumisAuxGarantiesFinancières) {
-      return (
-        <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
-      );
-    }
-
-    const garantiesFinancières =
-      await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjetValue },
-      });
+    const garantiesFinancières = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
     if (Option.isNone(garantiesFinancières)) {
       return notFound();
@@ -53,7 +42,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     return (
       <ModifierGarantiesFinancièresActuellesPage
-        identifiantProjet={identifiantProjetValue}
         typesGarantiesFinancières={props.typesGarantiesFinancières}
         actuelles={props.actuelles}
       />
@@ -66,33 +54,7 @@ type MapToProps = (
   cahierDesCharges: CahierDesCharges.ValueType,
 ) => ModifierGarantiesFinancièresActuellesPageProps;
 
-const mapToProps: MapToProps = (
-  {
-    identifiantProjet,
-    garantiesFinancières: {
-      type,
-      dateÉchéance,
-      validéLe,
-      dernièreMiseÀJour,
-      dateConstitution,
-      attestation,
-      statut,
-    },
-  },
-  cahierDesCharges,
-) => ({
-  identifiantProjet: identifiantProjet.formatter(),
+const mapToProps: MapToProps = (garantiesFinancières, cahierDesCharges) => ({
   typesGarantiesFinancières: typesGarantiesFinancièresPourFormulaire(cahierDesCharges),
-  actuelles: {
-    type: type.type,
-    statut: statut.statut,
-    dateÉchéance: dateÉchéance?.formatter(),
-    dateConstitution: dateConstitution?.formatter(),
-    validéLe: validéLe?.formatter(),
-    attestation: attestation?.formatter(),
-    dernièreMiseÀJour: {
-      date: dernièreMiseÀJour.date.formatter(),
-      par: dernièreMiseÀJour.par?.formatter(),
-    },
-  },
+  actuelles: mapToPlainObject(garantiesFinancières),
 });

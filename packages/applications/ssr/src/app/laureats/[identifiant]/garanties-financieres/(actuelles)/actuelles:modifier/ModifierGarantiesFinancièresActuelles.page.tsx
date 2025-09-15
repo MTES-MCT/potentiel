@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 
@@ -15,13 +17,18 @@ export type ModifierGarantiesFinancièresActuellesPageProps =
 
 export const ModifierGarantiesFinancièresActuellesPage: FC<
   ModifierGarantiesFinancièresActuellesPageProps
-> = (props) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={props.identifiantProjet} />}>
+> = ({ actuelles, typesGarantiesFinancières }) => (
+  <PageTemplate
+    banner={
+      <ProjetBanner
+        identifiantProjet={IdentifiantProjet.bind(actuelles.identifiantProjet).formatter()}
+      />
+    }
+  >
     <TitrePageGarantiesFinancières title="Modifier les garanties financières actuelles" />
     <ModifierGarantiesFinancièresActuellesForm
-      identifiantProjet={props.identifiantProjet}
-      typesGarantiesFinancières={props.typesGarantiesFinancières}
-      actuelles={props.actuelles}
+      typesGarantiesFinancières={typesGarantiesFinancières}
+      actuelles={actuelles}
     />
   </PageTemplate>
 );

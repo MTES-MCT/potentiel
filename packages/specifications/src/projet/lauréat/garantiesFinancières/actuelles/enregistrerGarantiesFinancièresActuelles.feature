@@ -57,6 +57,15 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
 
+    Scénario: Enregister des garanties financières actuelles avec un type exemption
+        Etant donné le projet éliminé "Du Boulodrome de Toulouse" avec :
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+        Et un recours accordé pour le projet éliminé
+        Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
+            | type GF              | exemption  |
+            | date de délibération | 2020-01-01 |
+        Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
+
     Plan du Scénario: Impossible d'enregistrer des garanties financières actuelles avec date d'échéance si le type renseigné n'est pas compatible
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF         | <type GF>  |
@@ -78,15 +87,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | date de constitution | 2050-01-01 |
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
-
-    Scénario: Impossible d'enregister des garanties financières actuelles avec un type exemption
-        Etant donné le projet éliminé "Du Boulodrome de Toulouse" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-        Et un recours accordé pour le projet éliminé
-        Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
-            | type GF              | exemption  |
-            | date de délibération | 2020-01-01 |
-        Alors l'utilisateur devrait être informé que "Impossible d'enregistrer ou de modifier une exemption de garanties financières"
 
     Scénario: Impossible d'enregister des garanties financières s'il y a déjà des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet lauréat

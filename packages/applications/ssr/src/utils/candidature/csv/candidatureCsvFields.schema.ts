@@ -40,6 +40,7 @@ export const dateEchéanceGfCsvSchema = optionalCsvDateSchema.optional();
 export const financementCollectifCsvSchema = ouiNonSchema;
 export const gouvernancePartagéeCsvSchema = ouiNonSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
+
 export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
 export const notifiedOnCsvSchema = z.undefined({
   invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',

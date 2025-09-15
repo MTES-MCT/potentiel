@@ -8,18 +8,32 @@ Fonctionnalité: Modifier un dépôt de garanties financières
 
     Plan du Scénario: Un porteur modifie un dépôt de garanties financières
         Etant donné un dépôt de garanties financières avec :
-            | type GF         | <type GF>         |
-            | date d'échéance | <date d'échéance> |
+            | type GF         | <type GF actuel>           |
+            | date d'échéance | <date d'échéance actuelle> |
         Quand le porteur modifie le dépôt de garanties financières avec :
-            | type GF         | consignation |
-            | date d'échéance |              |
+            | type GF         | <nouveau type GF>          |
+            | date d'échéance | <nouvelle date d'échéance> |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
 
         Exemples:
-            | type GF                   | date d'échéance |
-            | avec-date-échéance        | 2027-12-01      |
-            | consignation              |                 |
-            | six-mois-après-achèvement |                 |
+            | type GF actuel            | date d'échéance actuelle | nouveau type GF           | nouvelle date d'échéance |
+            | avec-date-échéance        | 2027-12-01               | consignation              |                          |
+            | avec-date-échéance        | 2027-12-01               | six-mois-après-achèvement |                          |
+            | consignation              |                          | avec-date-échéance        | 2027-12-01               |
+            | consignation              |                          | six-mois-après-achèvement |                          |
+            | six-mois-après-achèvement |                          | consignation              |                          |
+            | six-mois-après-achèvement |                          | avec-date-échéance        | 2027-12-01               |
+
+    Scénario: Un porteur modifie un dépôt de garanties financières avec un type exemption
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Petit PV Bâtiment |
+        Et un dépôt de garanties financières avec :
+            | type GF | consignation |
+        Quand le porteur modifie le dépôt de garanties financières avec :
+            | type GF              | exemption  |
+            | date de délibération | 2020-01-01 |
+        Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
+        Et les garanties financières en attente du projet ne devraient plus être consultables
 
     Plan du Scénario: Impossible de modifier un dépôt de garanties financières si le type renseigné n'est pas compatible avec une date d'échéance
         Etant donné un dépôt de garanties financières avec :

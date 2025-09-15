@@ -44,8 +44,8 @@ const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
 
-export const estUnLegacyIdentifiantProjet = (value: string): value is IdentifiantProjet.RawType => {
-  const [appelOffre, période, famille, numéroCRE] = value.split('#');
+export const estUnIdentifiantProjet = (value: string): value is IdentifiantProjet.RawType => {
+  const [appelOffre, période, famille, numéroCRE] = decodeURIComponent(value).split('#');
 
   return (
     typeof appelOffre === 'string' &&
@@ -55,8 +55,10 @@ export const estUnLegacyIdentifiantProjet = (value: string): value is Identifian
   );
 };
 
-const getLegacyIdentifiantProjet = async (identifiantProjet: IdentifiantProjet.RawType) => {
-  const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+const getIdentifiantProjet = async (identifiantProjet: IdentifiantProjet.RawType) => {
+  const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(
+    decodeURIComponent(identifiantProjet),
+  );
   const projetLegacy = await Project.findOne({
     where: {
       appelOffreId: identifiantProjetValueType.appelOffre,
@@ -95,8 +97,8 @@ v1Router.get(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      if (estUnLegacyIdentifiantProjet(projectId)) {
-        const legacyId = await getLegacyIdentifiantProjet(projectId);
+      if (estUnIdentifiantProjet(projectId)) {
+        const legacyId = await getIdentifiantProjet(projectId);
 
         if (!legacyId) {
           return notFoundResponse({ request, response, ressourceTitle: 'Projet' });

@@ -11,7 +11,7 @@ export type PlainType<T> =
               : T[K] extends Record<string, unknown>
                 ? PlainType<T[K]>
                 : T[K] extends Date
-                  ? string
+                  ? `${number}-${number}-${number}T${number}:${number}:${number}.${number}Z`
                   : PlainType<T[K]>;
         };
 

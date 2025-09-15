@@ -2,30 +2,24 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Accès, Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  getGarantiesFinancièresTypeLabel,
-  récupérerLauréat,
-  getPériodeAppelOffres,
-} from '@/app/_helpers';
+import { récupérerLauréat, getPériodeAppelOffres } from '@/app/_helpers';
 
-import { mapToHistoriqueMainlevéeRejetéesActions } from './(mainlevée)/(historique-main-levée-rejetée)/mapToHistoriqueMainlevéeRejetéesActions';
-import { mapToGarantiesFinancièresActuellesActions } from './(actuelles)/mapToGarantiesFinancièresActuellesActions';
-import { mapToDépôtGarantiesFinancièresActions } from './(dépôt)/mapToDépôtGarantiesFinancièresActions';
-import { ProjetNonSoumisAuxGarantiesFinancièresPage } from './ProjetNonSoumisAuxGarantiesFinancières.page';
 import {
+  ActionGarantiesFinancières,
   DétailsGarantiesFinancièresPage,
   DétailsGarantiesFinancièresPageProps,
 } from './DétailsGarantiesFinancières.page';
-import { projetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
-import { mapToMainlevéeActions } from './(mainlevée)/mapToMainlevéeActions';
+import { vérifierProjetSoumisAuxGarantiesFinancières } from './_helpers/vérifierAppelOffreSoumisAuxGarantiesFinancières';
+import { récuperérerGarantiesFinancièresActuelles } from './_helpers/récupérerGarantiesFinancièresActuelles';
 
 export const metadata: Metadata = {
   title: 'Détail des garanties financières - Potentiel',
@@ -42,40 +36,25 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       await récupérerLauréat(identifiantProjet.formatter());
 
       const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
-      const soumisAuxGarantiesFinancières =
-        await projetSoumisAuxGarantiesFinancières(identifiantProjet);
+      await vérifierProjetSoumisAuxGarantiesFinancières(identifiantProjet);
 
-      if (!soumisAuxGarantiesFinancières) {
-        return (
-          <ProjetNonSoumisAuxGarantiesFinancièresPage
-            identifiantProjet={identifiantProjet.formatter()}
-          />
-        );
-      }
+      const actuelles = await récuperérerGarantiesFinancièresActuelles(identifiantProjet);
 
-      const garantiesFinancièresActuelles =
-        await mediator.send<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        });
-
-      const peutAccéderAuxArchivesDesGfs =
-        utilisateur.role.estÉgaleÀ(Role.admin) ||
-        utilisateur.role.estÉgaleÀ(Role.dreal) ||
-        utilisateur.role.estÉgaleÀ(Role.dgecValidateur);
+      const peutAccéderAuxArchivesDesGfs = utilisateur.role.aLaPermission(
+        'garantiesFinancières.archives.lister',
+      );
 
       // les archives ne sont visibles que pour les DREAL et DGEC
-      // on limite donc la query à ces utilisateurs pour gagner en perf
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
-        ? await mediator.send<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>(
+        ? await mediator.send<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresQuery>(
             {
-              type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
+              type: 'Lauréat.GarantiesFinancières.Query.ListerArchivesGarantiesFinancières',
               data: { identifiantProjetValue: identifiantProjet.formatter() },
             },
           )
-        : Option.none;
+        : [];
 
-      const dépôtEnCoursGarantiesFinancières =
+      const dépôtEnCours =
         await mediator.send<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
@@ -89,15 +68,24 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         );
 
-      const mainlevéesList =
-        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+      const mainlevée =
+        await mediator.send<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterMainlevéeEnCours',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
+      const mainlevéesRejetées =
+        await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ListerMainlevées',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+          },
+        });
 
-      const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
+      const accès = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
@@ -109,32 +97,20 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-      const props = mapToProps({
-        identifiantProjet: identifiantProjet.formatter(),
-        utilisateur,
-        garantiesFinancièresActuelles,
-        dépôtEnCoursGarantiesFinancières,
+      const data = {
         achèvement,
+        abandon,
+        actuelles,
+        dépôtEnCours,
+        mainlevée,
+        utilisateur,
+        accès,
         appelOffres,
-        mainlevée: mainlevéesList.items.filter(
-          (item) =>
-            !item.statut.estÉgaleÀ(
-              Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté,
-            ),
-        ),
-        historiqueMainlevée: mainlevéesList.items.filter((item) =>
-          item.statut.estÉgaleÀ(
-            Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté,
-          ),
-        ),
-        estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
-        contactPorteurs: Option.match(accèsProjet)
-          .some(({ utilisateursAyantAccès }) =>
-            utilisateursAyantAccès.map((porteur) => porteur.email),
-          )
-          .none(() => []),
+        mainlevéesRejetées,
         archivesGarantiesFinancières,
-      });
+      };
+      const { infos, actions } = mapToActionsAndInfos(data);
+      const props = mapToProps(data);
 
       return (
         <DétailsGarantiesFinancièresPage
@@ -143,221 +119,139 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           actuelles={props.actuelles}
           dépôtEnCours={props.dépôtEnCours}
           archivesGarantiesFinancières={props.archivesGarantiesFinancières}
-          dateLimiteSoummission={props.dateLimiteSoummission}
           mainlevée={props.mainlevée}
-          historiqueMainlevée={props.historiqueMainlevée}
-          infoBoxMainlevée={props.infoBoxMainlevée}
-          infoBoxGarantiesFinancières={props.infoBoxGarantiesFinancières}
-          action={props.action}
+          mainlevéesRejetées={props.mainlevéesRejetées}
+          motifMainlevée={props.motifMainlevée}
+          appelOffres={props.appelOffres}
+          actions={actions}
+          infos={infos}
         />
       );
     }),
   );
 }
 
-type MapToProps = (params: {
-  identifiantProjet: string;
-  contactPorteurs: string[];
-  utilisateur: Utilisateur.ValueType;
-  garantiesFinancièresActuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
-  dépôtEnCoursGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
+type Props = {
   achèvement: Option.Type<Lauréat.Achèvement.AttestationConformité.ConsulterAttestationConformitéReadModel>;
-  mainlevée: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'];
+  abandon: Option.Type<Lauréat.Abandon.ConsulterAbandonReadModel>;
+  actuelles: Option.Type<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+  dépôtEnCours: Option.Type<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
+  mainlevée: Option.Type<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
+  mainlevéesRejetées: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel;
+  archivesGarantiesFinancières: Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel;
+  accès: Option.Type<Accès.ConsulterAccèsReadModel>;
+  utilisateur: Utilisateur.ValueType;
   appelOffres: AppelOffre.AppelOffreReadModel;
-  historiqueMainlevée: Lauréat.GarantiesFinancières.ListerMainlevéesReadModel['items'];
-  estAbandonné: boolean;
-  archivesGarantiesFinancières: Option.Type<Lauréat.GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
-}) => DétailsGarantiesFinancièresPageProps;
+};
 
-const mapToProps: MapToProps = ({
-  identifiantProjet,
-  contactPorteurs,
-  utilisateur,
-  garantiesFinancièresActuelles,
-  dépôtEnCoursGarantiesFinancières,
+const mapToActionsAndInfos = ({
+  abandon,
   achèvement,
+  utilisateur,
+  actuelles,
+  dépôtEnCours,
+  mainlevéesRejetées,
   mainlevée,
-  appelOffres,
-  historiqueMainlevée,
-  estAbandonné,
-  archivesGarantiesFinancières,
-}) => {
-  const archives = Option.isSome(archivesGarantiesFinancières)
-    ? archivesGarantiesFinancières.archives.map((garantiesFinancières) => ({
-        ...mapGarantiesFinancièrestoProps({
-          garantiesFinancières,
-        }),
-        motif: garantiesFinancières.motif.motif,
-      }))
-    : undefined;
+}: Props): Pick<DétailsGarantiesFinancièresPageProps, 'actions' | 'infos'> => {
+  const actions: ActionGarantiesFinancières[] = [];
+  const infos: DétailsGarantiesFinancièresPageProps['infos'] = [];
 
-  const gfActuellesExistante = Option.isSome(garantiesFinancièresActuelles)
-    ? garantiesFinancièresActuelles
-    : undefined;
+  const estAbandonné = Option.match(abandon)
+    .some((abandon) => abandon.statut.estAccordé())
+    .none(() => false);
+  const estAchevé = Option.isSome(achèvement);
+  const estAchevéOuAbandonné = estAchevé || estAbandonné;
+  const aUnDépôtEnCours = Option.isSome(dépôtEnCours);
 
-  const dépôtExistant = Option.isSome(dépôtEnCoursGarantiesFinancières)
-    ? dépôtEnCoursGarantiesFinancières
-    : undefined;
+  if (Option.isSome(mainlevée)) {
+    if (mainlevée.statut.estAccordé() || mainlevée.statut.estRejeté()) {
+      actions.push('garantiesFinancières.mainlevée.corrigerRéponseSignée');
+    } else {
+      if (mainlevée.statut.estDemandé()) {
+        actions.push('garantiesFinancières.mainlevée.annuler');
+        actions.push('garantiesFinancières.mainlevée.démarrerInstruction');
+      }
+      actions.push('garantiesFinancières.mainlevée.accorder');
+      actions.push('garantiesFinancières.mainlevée.rejeter');
 
-  const mainlevéeEnCours = mainlevée.length ? mainlevée[0] : undefined;
+      actions.push('garantiesFinancières.actuelles.modifier');
+    }
+  } else {
+    if (Option.isNone(actuelles)) {
+      actions.push('garantiesFinancières.actuelles.enregistrer');
+    } else {
+      if (!actuelles.attestation) {
+        actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
+      }
 
-  const historiqueMainlevéeExistant = historiqueMainlevée.length ? historiqueMainlevée : undefined;
+      if (actuelles.statut.estÉchu()) {
+        if (utilisateur.role.estDreal()) {
+          infos.push('échues');
+        }
+      } else if (Option.isNone(mainlevée)) {
+        if (estAchevéOuAbandonné && !aUnDépôtEnCours && !!actuelles.attestation) {
+          actions.push('garantiesFinancières.mainlevée.demander');
+        } else if (utilisateur.role.aLaPermission('garantiesFinancières.mainlevée.demander')) {
+          infos.push('conditions-demande-mainlevée');
+        }
+        if (!estAbandonné && !!actuelles.attestation) {
+          actions.push('achèvement.attestationConformité.transmettre');
+        }
+      }
 
-  const achèvementExistant = Option.isSome(achèvement) ? achèvement : undefined;
+      actions.push('garantiesFinancières.actuelles.modifier');
+    }
 
-  if (!gfActuellesExistante && !dépôtExistant) {
-    return {
-      identifiantProjet,
-      action: utilisateur.role.estÉgaleÀ(Role.porteur)
-        ? 'soumettre'
-        : utilisateur.role.estÉgaleÀ(Role.admin) ||
-            utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-            utilisateur.role.estÉgaleÀ(Role.dreal)
-          ? 'enregistrer'
-          : undefined,
-      infoBoxMainlevée: {
-        afficher: utilisateur.role.estÉgaleÀ(Role.porteur) && Option.isNone(mainlevée),
-      },
-      infoBoxGarantiesFinancières: {
-        afficher: false,
-      },
-      archivesGarantiesFinancières: archives,
-    };
+    if (Option.isSome(dépôtEnCours)) {
+      actions.push('garantiesFinancières.dépôt.modifier');
+      actions.push('garantiesFinancières.dépôt.valider');
+      actions.push('garantiesFinancières.dépôt.supprimer');
+      if (
+        dépôtEnCours.garantiesFinancières.estAvecDateÉchéance() &&
+        dépôtEnCours.garantiesFinancières.dateÉchéance.estPassée() &&
+        !estAchevéOuAbandonné
+      ) {
+        infos.push('date-échéance-dépôt-passée');
+      }
+    } else if (
+      Option.isNone(mainlevée) &&
+      (Option.isNone(actuelles) || !actuelles.garantiesFinancières.estExemption())
+    ) {
+      actions.push('garantiesFinancières.dépôt.soumettre');
+    }
   }
 
-  const actions = {
-    dépôt: mapToDépôtGarantiesFinancièresActions(utilisateur.role),
-    garantiesFinancièresActuelles: gfActuellesExistante
-      ? mapToGarantiesFinancièresActuellesActions({
-          role: utilisateur.role,
-          garantiesFinancières: gfActuellesExistante.garantiesFinancières,
-          dépôt: dépôtEnCoursGarantiesFinancières,
-          achèvement,
-          mainlevée: mainlevéeEnCours,
-          estAbandonné,
-        })
-      : [],
-    mainlevée: mapToMainlevéeActions({ role: utilisateur.role, mainlevée: mainlevéeEnCours }),
-    historiqueMainlevée: mapToHistoriqueMainlevéeRejetéesActions({
-      role: utilisateur.role,
-      mainlevée: mainlevéeEnCours,
-      historiqueMainlevéeRejetée: historiqueMainlevéeExistant,
-    }),
-  };
+  if (mainlevéesRejetées.total > 0) {
+    actions.push('garantiesFinancières.mainlevée.corrigerRéponseSignée');
+  }
 
+  // TODO ETQ dreal si historique mainlevée rejetée modifier-courrier-réponse-mainlevée-gf
+
+  return { actions: actions.filter((action) => utilisateur.role.aLaPermission(action)), infos };
+};
+
+const mapToProps = ({
+  actuelles,
+  dépôtEnCours,
+  mainlevée,
+  mainlevéesRejetées,
+  archivesGarantiesFinancières,
+  achèvement,
+  accès,
+  appelOffres,
+}: Props) => {
   return {
-    identifiantProjet,
-    contactPorteurs,
-    actuelles: gfActuellesExistante
-      ? {
-          ...mapGarantiesFinancièrestoProps({
-            garantiesFinancières: gfActuellesExistante.garantiesFinancières,
-          }),
-          actions: actions.garantiesFinancièresActuelles,
-          isActuelle: true,
-        }
-      : undefined,
-    archivesGarantiesFinancières: archives,
-    dépôtEnCours: dépôtExistant
-      ? {
-          type: getGarantiesFinancièresTypeLabel(dépôtExistant.dépôt.type.type),
-          dateÉchéance: dépôtExistant.dépôt.dateÉchéance?.formatter(),
-          dateConstitution: dépôtExistant.dépôt.dateConstitution.formatter(),
-          soumisLe: dépôtExistant.dépôt.soumisLe.formatter(),
-          dernièreMiseÀJour: {
-            date: dépôtExistant.dépôt.dernièreMiseÀJour.date.formatter(),
-            par: dépôtExistant.dépôt.dernièreMiseÀJour.par.formatter(),
-          },
-          attestation: dépôtExistant.dépôt.attestation.formatter(),
-          actions: actions.dépôt,
-          isActuelle: false,
-        }
-      : undefined,
-    action:
-      !dépôtExistant && !mainlevéeEnCours && utilisateur.role.estÉgaleÀ(Role.porteur)
-        ? 'soumettre'
-        : undefined,
-    infoBoxGarantiesFinancières: {
-      afficher: Boolean(
-        !mainlevéeEnCours && utilisateur.role.estÉgaleÀ(Role.porteur) && gfActuellesExistante,
-      ),
-    },
-    mainlevée: mainlevéeEnCours
-      ? {
-          motif: mainlevéeEnCours.motif.motif,
-          statut: mainlevéeEnCours.statut.statut,
-          demande: {
-            date: mainlevéeEnCours.demande.demandéeLe.formatter(),
-            par: mainlevéeEnCours.demande.demandéePar.formatter(),
-          },
-          ...(mainlevéeEnCours.instruction && {
-            instruction: {
-              date: mainlevéeEnCours.instruction?.démarréeLe.formatter(),
-              par: mainlevéeEnCours.instruction?.démarréePar.formatter(),
-            },
-          }),
-          ...(mainlevéeEnCours.accord && {
-            accord: {
-              date: mainlevéeEnCours.accord?.accordéeLe.formatter(),
-              par: mainlevéeEnCours.accord?.accordéePar.formatter(),
-              courrierAccord: mainlevéeEnCours.accord?.courrierAccord.formatter(),
-            },
-          }),
-          dernièreMiseÀJour: {
-            date: mainlevéeEnCours.dernièreMiseÀJour.date.formatter(),
-            par: mainlevéeEnCours.dernièreMiseÀJour.par.formatter(),
-          },
-          actions: actions.mainlevée,
-          urlAppelOffre: appelOffres.cahiersDesChargesUrl,
-        }
-      : undefined,
-    historiqueMainlevée: historiqueMainlevéeExistant
-      ? {
-          historique: historiqueMainlevéeExistant.map((mainlevée) => ({
-            motif: mainlevée.motif.motif,
-            demande: {
-              date: mainlevée.demande.demandéeLe.formatter(),
-              par: mainlevée.demande.demandéePar.formatter(),
-            },
-            rejet: {
-              date: mainlevée.rejet!.rejetéLe.formatter(),
-              par: mainlevée.rejet!.rejetéPar.formatter(),
-              courrierRejet: mainlevée.rejet!.courrierRejet.formatter(),
-            },
-          })),
-          actions: actions.historiqueMainlevée,
-        }
-      : undefined,
-    infoBoxMainlevée: {
-      afficher: Boolean(
-        utilisateur.role.estÉgaleÀ(Role.porteur) &&
-          !mainlevéeEnCours &&
-          !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
-      ),
-      actions:
-        !estAbandonné && !achèvementExistant?.attestation
-          ? 'transmettre-attestation-conformité'
-          : undefined,
-    },
-  };
+    actuelles: mapToPlainObject(actuelles),
+    dépôtEnCours: mapToPlainObject(dépôtEnCours),
+    mainlevée: mapToPlainObject(mainlevée),
+    mainlevéesRejetées: mainlevéesRejetées.items.map(mapToPlainObject),
+    archivesGarantiesFinancières: archivesGarantiesFinancières.map(mapToPlainObject),
+    motifMainlevée: Option.isSome(achèvement)
+      ? Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAchevé
+      : Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.projetAbandonné,
+    contactPorteurs: Option.match(accès)
+      .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.map((porteur) => porteur.email))
+      .none(() => []),
+    appelOffres: mapToPlainObject(appelOffres),
+  } satisfies Partial<DétailsGarantiesFinancièresPageProps>;
 };
-
-type MapGarantiesFinancièrestoProps = {
-  garantiesFinancières: Lauréat.GarantiesFinancières.DétailsGarantiesFinancièresReadModel;
-};
-
-const mapGarantiesFinancièrestoProps = ({
-  garantiesFinancières,
-}: MapGarantiesFinancièrestoProps) => ({
-  type: getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type),
-  statut: garantiesFinancières.statut.statut,
-  dateÉchéance: garantiesFinancières.dateÉchéance?.formatter(),
-  dateConstitution: garantiesFinancières.dateConstitution?.formatter(),
-  soumisLe: garantiesFinancières.soumisLe?.formatter(),
-  validéLe: garantiesFinancières.validéLe?.formatter(),
-  attestation: garantiesFinancières.attestation?.formatter(),
-  dernièreMiseÀJour: {
-    date: garantiesFinancières.dernièreMiseÀJour.date.formatter(),
-    par: garantiesFinancières.dernièreMiseÀJour.par?.formatter(),
-  },
-});

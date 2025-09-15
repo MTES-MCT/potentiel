@@ -94,16 +94,20 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     return fixture;
   }
   mapToExpected():
-    | Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel['dépôt']
+    | Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel
     | undefined {
     if (!this.aÉtéCréé) return undefined;
-    const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
-      type: this.type,
-      dateÉchéance: this.dateÉchéance,
-    });
+    const garantiesFinancières =
+      Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+        type: this.type,
+        dateÉchéance: this.dateÉchéance,
+        dateDélibération: this.dateDélibération,
+      });
     return {
-      type: gf.type,
-      dateÉchéance: gf.estAvecDateÉchéance() ? gf.dateÉchéance : undefined,
+      identifiantProjet:
+        this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld
+          .identifiantProjet,
+      garantiesFinancières,
       dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
       soumisLe: DateTime.convertirEnValueType(this.soumisLe),
       attestation: DocumentProjet.convertirEnValueType(
