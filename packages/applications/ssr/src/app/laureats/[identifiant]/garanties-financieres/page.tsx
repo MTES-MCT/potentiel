@@ -194,7 +194,7 @@ const mapToActionsAndInfos = ({
         } else if (utilisateur.role.aLaPermission('garantiesFinancières.mainlevée.demander')) {
           infos.push('conditions-demande-mainlevée');
         }
-        if (!estAbandonné) {
+        if (!estAbandonné && !!actuelles.attestation) {
           actions.push('achèvement.attestationConformité.transmettre');
         }
       }
