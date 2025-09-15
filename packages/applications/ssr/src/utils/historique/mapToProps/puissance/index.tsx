@@ -4,8 +4,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 import { mapToChangementPuissanceDemandéTimelineItemProps } from './events/mapToChangementPuissanceDemandéTimelineItemProps';
 import { mapToPuissanceImportéeTimelineItemsProps } from './events/mapToPuissanceImportéeTimelineItemsProps';
 import { mapToPuissanceModifiéeTimelineItemsProps } from './events/mapToPuissanceModifiéeTimelineItemsProps';
@@ -13,6 +11,7 @@ import { mapToChangementPuissanceAnnuléTimelineItemProps } from './events/mapTo
 import { mapToChangementPuissanceEnregistréTimelineItemProps } from './events/mapToChangementPuissanceEnregistréTimelineItemProps';
 import { mapToChangementPuissanceAccordéTimelineItemProps } from './events/mapToChangementPuissanceAccordéTimelineItemProps';
 import { mapToChangementPuissanceRejetéTimelineItemProps } from './events/mapToChangementPuissanceRejetéTimelineItemProps';
+import { mapToChangementPuissanceSuppriméTimelineItemProps } from './events/mapToChangementPuissanceSuppriméTimelineItemProps';
 
 export const mapToPuissanceTimelineItemProps = (
   record: Lauréat.Puissance.HistoriquePuissanceProjetListItemReadModel,
@@ -53,5 +52,8 @@ export const mapToPuissanceTimelineItemProps = (
       },
       (record) => mapToChangementPuissanceRejetéTimelineItemProps(record),
     )
-    .with({ type: 'ChangementPuissanceSupprimé-V1' }, mapToÉtapeInconnueOuIgnoréeTimelineItemProps)
+    .with(
+      { type: 'ChangementPuissanceSupprimé-V1' },
+      mapToChangementPuissanceSuppriméTimelineItemProps,
+    )
     .exhaustive();
