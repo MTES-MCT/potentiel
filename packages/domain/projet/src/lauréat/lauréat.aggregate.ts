@@ -44,6 +44,7 @@ import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallateurAggregate } from './installateur/installateur.aggregate';
 import { InstallationAvecDispositifDeStockageAggregate } from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.aggregate';
+import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -135,6 +136,11 @@ export class LauréatAggregate extends AbstractAggregate<
   #installationAvecDispositifDeStockage!: AggregateType<InstallationAvecDispositifDeStockageAggregate>;
   get installationAvecDispositifDeStockage() {
     return this.#installationAvecDispositifDeStockage;
+  }
+
+  #natureDeLExploitation!: AggregateType<NatureDeLExploitationAggregate>;
+  get natureDeLExploitation() {
+    return this.#natureDeLExploitation;
   }
 
   async init() {

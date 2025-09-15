@@ -47,6 +47,10 @@ export const dépôtExempleMap: FieldToExempleMapper<
     'installation avec dispositif de stockage',
     mapOptionalBoolean,
   ],
+  natureDeLExploitation: [
+    'natureDeLExploitation',
+    mapValueType(Candidature.TypeDeNatureDeLExploitation.convertirEnValueType),
+  ],
 };
 
 export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction.RawType> = {

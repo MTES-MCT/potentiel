@@ -77,3 +77,4 @@ export * as TâchePlanifiée from './tâche-planifiée';
 export * as Tâche from './tâche';
 export * as Installateur from './installateur';
 export * as InstallationAvecDispositifDeStockage from './installation-avec-dispositif-de-stockage';
+export * as NatureDeLExploitation from './nature-de-l-exploitation';

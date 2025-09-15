@@ -72,6 +72,11 @@ import {
   registerInstallationAvecDispositifDeStockageQueries,
   registerInstallationAvecDispositifDeStockageUseCase,
 } from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.register';
+import {
+  NatureDeLExploitationQueryDependencies,
+  registerNatureDeLExploitationQueries,
+  registerNatureDeLExploitationUseCases,
+} from './nature-de-l-exploitation/natureDeLExploitation.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesDependencies &
@@ -89,7 +94,8 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   AchèvementQueryDependencies &
   InstallateurQueryDependencies &
   TâcheQueryDependencies &
-  InstallationAvecDispositifDeStockageQueryDependencies;
+  InstallationAvecDispositifDeStockageQueryDependencies &
+  NatureDeLExploitationQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -118,6 +124,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerGarantiesFinancièresUseCases(dependencies);
   registerInstallateurUseCases(dependencies);
   registerInstallationAvecDispositifDeStockageUseCase(dependencies);
+  registerNatureDeLExploitationUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -139,4 +146,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerInstallateurQueries(dependencies);
   registerTâcheQuery(dependencies);
   registerInstallationAvecDispositifDeStockageQueries(dependencies);
+  registerNatureDeLExploitationQueries(dependencies);
 };

@@ -103,6 +103,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
   installateur: plain.installateur,
   installationAvecDispositifDeStockage: plain.installationAvecDispositifDeStockage,
+  natureExploitation: plain.natureExploitation
 
   estÉgaleÀ(valueType) {
     return (
