@@ -16,7 +16,7 @@ export const mapToinstallationAvecDispositifDeStockageModifiéeTimelineItemsProp
     content: (
       <div className="flex flex-col gap-2">
         <div>
-          Nouvelle valeur pour installation avec dispositif de stockage :{' '}
+          L'installation est couplée à un dispositif de stockage :{' '}
           <span className="font-semibold">
             {installationAvecDispositifDeStockage ? 'oui' : 'non'}
           </span>

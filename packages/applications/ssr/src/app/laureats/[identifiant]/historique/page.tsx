@@ -163,7 +163,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   délai: 'ri-time-line',
   fournisseur: DEMANDE_GENERIQUE_ICONE,
   installateur: DEMANDE_GENERIQUE_ICONE,
-  'installation-avec-dispositif-de-stockage': 'ri-battery-2-charge-line',
+  'installation-avec-dispositif-de-stockage': DEMANDE_GENERIQUE_ICONE,
 };
 
 const filtrerImportsEtRecoursLegacy = (

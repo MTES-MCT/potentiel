@@ -260,7 +260,6 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           typeInstallationsAgrivoltaiques,
           élémentsSousOmbrière,
         }),
-        installationAvecDispositifDeStockage: val.installationAvecDispositifDeStockage,
       };
     },
   );
