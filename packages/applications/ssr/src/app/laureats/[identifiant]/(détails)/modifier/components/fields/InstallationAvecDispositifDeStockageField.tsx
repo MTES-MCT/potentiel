@@ -48,11 +48,14 @@ export const InstallationAvecDispositifDeStockageField = ({
           }
           stateRelatedMessage={validationErrors[`candidature.installationAvecDispositifDeStockage`]}
           nativeSelectProps={{
-            defaultValue: candidatureValue ? 'true' : 'false',
+            value: candidatureValue ? 'true' : 'false',
             required: true,
             'aria-required': true,
             onChange: (ev) => {
               setCandidatureValue(ev.target.value === 'true');
+              if (linked) {
+                setLauréatValue(ev.target.value === 'true');
+              }
             },
           }}
           options={[
@@ -61,7 +64,7 @@ export const InstallationAvecDispositifDeStockageField = ({
           ]}
         />
       </div>
-      <div className="flex-[2] flex px-2 mt-6">
+      <div className="flex-[2] flex px-2 ">
         <input
           name={`laureat.installationAvecDispositifDeStockage`}
           type="hidden"
@@ -69,7 +72,8 @@ export const InstallationAvecDispositifDeStockageField = ({
           disabled={lauréatValue === lauréat}
         />
         <Select
-          className="w-full"
+          className="w-full "
+          style={{ marginBottom: 0 }}
           label=""
           disabled={estEnCoursDeModification || linked}
           state={
@@ -77,16 +81,11 @@ export const InstallationAvecDispositifDeStockageField = ({
           }
           stateRelatedMessage={validationErrors[`laureat.installationAvecDispositifDeStockage`]}
           nativeSelectProps={{
-            defaultValue: lauréatValue ? 'true' : 'false',
+            value: lauréatValue ? 'true' : 'false',
             required: true,
             'aria-required': true,
             onChange: (ev) => {
               setLauréatValue(ev.target.value === 'true');
-            },
-            style: {
-              boxShadow: 'inset 0 -2px 0 0 #000091',
-              border: 'none',
-              backgroundClip: 'padding-box',
             },
           }}
           options={[
