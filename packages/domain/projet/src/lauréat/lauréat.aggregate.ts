@@ -19,6 +19,7 @@ import {
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
   LauréatDéjàNotifiéError,
+  LauréatNonModifiéError,
   LauréatNonNotifiéError,
   LauréatNonTrouvéError,
   ProjetAbandonnéError,
@@ -305,9 +306,12 @@ export class LauréatAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
     nomProjet,
-    localité: { adresse1, adresse2, codePostal, commune, département, région },
+    localité,
   }: ModifierLauréatOptions) {
     this.vérifierQueLeLauréatExiste();
+    if (this.#nomProjet === nomProjet && this.#localité?.estÉgaleÀ(localité)) {
+      throw new LauréatNonModifiéError();
+    }
     const event: LauréatModifiéEvent = {
       type: 'LauréatModifié-V1',
       payload: {
@@ -315,14 +319,7 @@ export class LauréatAggregate extends AbstractAggregate<
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
         nomProjet,
-        localité: {
-          adresse1,
-          adresse2,
-          codePostal,
-          commune,
-          département,
-          région,
-        },
+        localité: localité.formatter(),
       },
     };
 

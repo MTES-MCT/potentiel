@@ -24,6 +24,12 @@ export class CahierDesChargesNonModifiéError extends InvalidOperationError {
   }
 }
 
+export class LauréatNonModifiéError extends InvalidOperationError {
+  constructor() {
+    super("Les informations du projet n'ont pas été modifiées");
+  }
+}
+
 export class CahierDesChargesIndisponibleError extends InvalidOperationError {
   constructor() {
     super("Ce cahier des charges n'est pas disponible pour cette période");

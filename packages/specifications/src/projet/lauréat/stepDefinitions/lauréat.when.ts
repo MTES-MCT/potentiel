@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
-Quand(/un administrateur modifie le projet lauréat/, async function (this: PotentielWorld) {
+Quand('un administrateur modifie le projet lauréat', async function (this: PotentielWorld) {
   try {
     const { modifiéLe, modifiéPar, nomProjet, localité } =
       this.lauréatWorld.modifierLauréatFixture.créer({
@@ -26,6 +26,33 @@ Quand(/un administrateur modifie le projet lauréat/, async function (this: Pote
     this.error = e as Error;
   }
 });
+
+Quand(
+  'un administrateur modifie le projet lauréat sans modification',
+  async function (this: PotentielWorld) {
+    try {
+      const { modifiéLe, modifiéPar, nomProjet, localité } =
+        this.lauréatWorld.modifierLauréatFixture.créer({
+          localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
+          nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+          modifiéPar: this.utilisateurWorld.adminFixture.email,
+        });
+
+      await mediator.send<Lauréat.ModifierLauréatUseCase>({
+        type: 'Lauréat.UseCase.ModifierLauréat',
+        data: {
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          modifiéParValue: modifiéPar,
+          modifiéLeValue: modifiéLe,
+          nomProjetValue: nomProjet,
+          localitéValue: localité,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
 
 Quand(
   'le porteur choisit le cahier des charges {string}',

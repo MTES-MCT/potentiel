@@ -3,6 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
+import { Localité } from '../../candidature';
 
 export type ModifierLauréatCommand = Message<
   'Lauréat.Command.ModifierLauréat',
@@ -11,14 +12,7 @@ export type ModifierLauréatCommand = Message<
     modifiéLe: DateTime.ValueType;
     modifiéPar: Email.ValueType;
     nomProjet: string;
-    localité: {
-      adresse1: string;
-      adresse2: string;
-      codePostal: string;
-      commune: string;
-      région: string;
-      département: string;
-    };
+    localité: Localité.ValueType;
   }
 >;
 

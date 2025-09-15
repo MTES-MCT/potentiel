@@ -2,6 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
+import { Localité } from '../../candidature';
+
 import { ModifierLauréatCommand } from './modifierLauréat.command';
 
 export type ModifierLauréatUseCase = Message<
@@ -11,14 +13,7 @@ export type ModifierLauréatUseCase = Message<
     modifiéLeValue: string;
     modifiéParValue: string;
     nomProjetValue: string;
-    localitéValue: {
-      adresse1: string;
-      adresse2: string;
-      codePostal: string;
-      commune: string;
-      département: string;
-      région: string;
-    };
+    localitéValue: Localité.RawType;
   }
 >;
 
@@ -37,7 +32,7 @@ export const registerModifierLauréatUseCase = () => {
         nomProjet: nomProjetValue,
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
-        localité: localitéValue,
+        localité: Localité.bind(localitéValue),
       },
     });
   };
