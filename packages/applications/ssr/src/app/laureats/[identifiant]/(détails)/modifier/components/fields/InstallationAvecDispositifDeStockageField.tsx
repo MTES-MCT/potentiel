@@ -89,8 +89,8 @@ export const InstallationAvecDispositifDeStockageField = ({
             },
           }}
           options={[
-            { label: 'avec', value: 'true' },
-            { label: 'sans', value: 'false' },
+            { label: 'Avec', value: 'true' },
+            { label: 'Sans', value: 'false' },
           ]}
         />
         <LinkedValuesButton

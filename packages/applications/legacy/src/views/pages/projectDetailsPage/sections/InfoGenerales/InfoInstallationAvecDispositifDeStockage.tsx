@@ -14,7 +14,7 @@ export const InfoInstallationAvecDispositifDeStockage = ({
   return (
     <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Dispositif de stockage</Heading3>
-      <span>{value === true ? 'avec' : value === false ? 'sans' : 'Non renseigné'}</span>
+      <span>{value === true ? 'Avec' : value === false ? 'Sans' : 'Non renseigné'}</span>
       {installationAvecDispositifDeStockage.affichage && (
         <Link
           href={installationAvecDispositifDeStockage.affichage.url}
