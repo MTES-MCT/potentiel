@@ -356,7 +356,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new InstallateurRequisError();
     }
 
-    if (!installateur && dépôt.installateur !== undefined) {
+    if (!installateur && !!dépôt.installateur) {
       throw new InstallateurNonAttenduError();
     }
 
