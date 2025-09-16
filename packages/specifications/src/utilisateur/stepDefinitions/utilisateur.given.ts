@@ -121,6 +121,7 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const admin = this.utilisateurWorld.adminFixture.créer({
     email: process.env.DGEC_EMAIL,
   });
+  const cre = this.utilisateurWorld.creFixture.créer();
 
   await inviterUtilisateur.call(this, {
     rôle: validateur.role,
@@ -129,4 +130,5 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
     nomComplet: validateur.nom,
   });
   await inviterUtilisateur.call(this, { rôle: admin.role, email: admin.email });
+  await inviterUtilisateur.call(this, { rôle: cre.role, email: cre.email });
 }

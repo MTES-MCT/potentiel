@@ -15,6 +15,9 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
+        Et un email a été envoyé à la cre avec :
+            | sujet      | Potentiel - Un recours a été accepté pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                        |
 
     Scénario: Un DGEC validateur accorde le recours en instruction d'un projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé

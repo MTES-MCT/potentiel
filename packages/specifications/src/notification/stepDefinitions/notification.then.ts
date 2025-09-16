@@ -14,7 +14,6 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
   await waitForExpect(async () => {
     const exemple = data.rowsHash();
     const notification = this.notificationWorld.récupérerNotification(email, exemple.sujet);
-
     for (const [key, value] of Object.entries(exemple)) {
       if (key === 'sujet') {
         expect(notification.messageSubject).to.match(new RegExp(value));
@@ -88,5 +87,12 @@ Alors(
     }
 
     await vérifierEmailEnvoyé.call(this, ao.dossierSuiviPar, data);
+  },
+);
+
+Alors(
+  'un email a été envoyé à la cre avec :',
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.creFixture.email, data);
   },
 );
