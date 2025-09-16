@@ -181,7 +181,6 @@ export const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
 export const getInstallationAvecDispositifDeStockageInfos = async ({
   identifiantProjet,
 }: Props) => {
-  const logger = getLogger('getInstallationAvecDispositifDeStockageInfos');
   const installationAvecDispositifDeStockage =
     await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
       {
@@ -193,9 +192,6 @@ export const getInstallationAvecDispositifDeStockageInfos = async ({
     );
 
   if (Option.isNone(installationAvecDispositifDeStockage)) {
-    logger.warn(`installationAvecDispositifDeStockage non trouvé pour le projet lauréat`, {
-      identifiantProjet,
-    });
     return notFound();
   }
 
