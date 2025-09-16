@@ -473,16 +473,16 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           state={validationErrors['installationAvecDispositifDeStockage'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['installationAvecDispositifDeStockage']}
           id="installationAvecDispositifDeStockage"
-          label={'Installation avec dispositif de stockage'}
+          label={'Dispositif de stockage'}
           nativeSelectProps={{
             name: 'installationAvecDispositifDeStockage',
-            defaultValue: candidature.installationAvecDispositifDeStockage ? 'true' : 'false',
+            value: candidature.installationAvecDispositifDeStockage ? 'true' : 'false',
             required: true,
             'aria-required': true,
           }}
           options={[
-            { label: 'Oui', value: 'true' },
-            { label: 'Non', value: 'false' },
+            { label: 'avec', value: 'true' },
+            { label: 'sans', value: 'false' },
           ]}
         />
       )}

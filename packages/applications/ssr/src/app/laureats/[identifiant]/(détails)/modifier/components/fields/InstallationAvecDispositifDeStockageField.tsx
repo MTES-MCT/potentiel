@@ -30,7 +30,7 @@ export const InstallationAvecDispositifDeStockageField = ({
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">Installation avec dispositif de stockage</div>
+      <div className="flex-1 font-semibold">Dispositif de stockage</div>
       <div className="flex-[2] flex px-2">
         <input
           name={`candidature.installationAvecDispositifDeStockage`}
@@ -59,8 +59,8 @@ export const InstallationAvecDispositifDeStockageField = ({
             },
           }}
           options={[
-            { label: 'Oui', value: 'true' },
-            { label: 'Non', value: 'false' },
+            { label: 'avec', value: 'true' },
+            { label: 'sans', value: 'false' },
           ]}
         />
       </div>
@@ -89,8 +89,8 @@ export const InstallationAvecDispositifDeStockageField = ({
             },
           }}
           options={[
-            { label: 'Oui', value: 'true' },
-            { label: 'Non', value: 'false' },
+            { label: 'avec', value: 'true' },
+            { label: 'sans', value: 'false' },
           ]}
         />
         <LinkedValuesButton

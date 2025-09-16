@@ -57,7 +57,7 @@ export const ModifierInstallationAvecDispositifDeStockageForm: FC<
       <Select
         state={validationErrors['installationAvecDispositifDeStockage'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['installationAvecDispositifDeStockage']}
-        label="Installation couplée à un dispositif de stockage"
+        label="Dispositif de stockage"
         nativeSelectProps={{
           name: 'installationAvecDispositifDeStockage',
           defaultValue: installationAvecDispositifDeStockage ? 'true' : 'false',
@@ -65,8 +65,8 @@ export const ModifierInstallationAvecDispositifDeStockageForm: FC<
           'aria-required': true,
         }}
         options={[
-          { label: 'Oui', value: 'true' },
-          { label: 'Non', value: 'false' },
+          { label: 'avec', value: 'true' },
+          { label: 'sans', value: 'false' },
         ]}
       />
     </Form>

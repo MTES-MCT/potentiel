@@ -52,7 +52,7 @@ export const getInstallationAvecDispositifDeStockage = async ({
               identifiantProjet.formatter(),
             ),
             label: 'Modifier',
-            labelActions: "Modifier l'installation avec dispositif de stockage",
+            labelActions: 'Modifier dispositif de stockage',
           },
         };
       }
