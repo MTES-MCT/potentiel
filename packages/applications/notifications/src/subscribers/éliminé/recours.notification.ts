@@ -69,7 +69,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       },
     });
 
-    if (event.type === 'RecoursAccordé-V1') {
+    if (event.type === 'RecoursAccordé-V1' || event.type === 'RecoursRejeté-V1') {
       const utilisateursCre = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
@@ -84,7 +84,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       if (recipients.length > 0) {
         await sendEmail({
           templateId: templateId.recoursAccordéCRE,
-          messageSubject: `Potentiel - Un recours a été accepté pour le projet ${nomProjet} (${appelOffre} période ${période})`,
+          messageSubject: `Potentiel - Demande de recours ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
           recipients,
           variables: {
             nom_projet: nomProjet,
