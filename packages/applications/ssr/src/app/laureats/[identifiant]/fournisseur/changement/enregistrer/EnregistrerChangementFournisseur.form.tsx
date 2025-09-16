@@ -72,17 +72,20 @@ export const EnregistrerChangementFournisseurForm: FC<
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <Input
-            state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}
+            state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'info'}
+            stateRelatedMessage={
+              validationErrors['evaluationCarboneSimplifiee'] ?? (
+                <>Valeur actuelle : {évaluationCarboneSimplifiée} kg eq CO2/kWc</>
+              )
+            }
             label="Évaluation carbone simplifiée"
             hintText="kg eq CO2/kWc"
-            className="md:max-w-64"
+            className="md:max-w-72"
             classes={{
               nativeInputOrTextArea: 'invalid:text-theme-error',
             }}
             nativeInputProps={{
               name: 'evaluationCarboneSimplifiee',
-              value: évaluationCarboneSimplifiée,
               type: 'number',
               inputMode: 'decimal',
               step: 0.01,
