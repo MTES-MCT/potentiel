@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Filter } from './Filter';
-import MultipleSelect from './MultipleSelect';
+import { MultipleSelect } from './MultipleSelect';
 
 export type ListFilterItem<TSearchParamKey = string> = {
   label: string;

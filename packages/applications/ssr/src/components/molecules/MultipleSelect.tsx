@@ -2,7 +2,7 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Option = {
   value: string;
@@ -12,10 +12,10 @@ type Option = {
 export type MultipleSelectProps = MultipleSelectPopoverProps & {
   id?: string;
   label: string;
-  options: Option[];
+  options: Array<Option>;
 };
 
-const MultipleSelect: React.FC<MultipleSelectProps> = ({
+export const MultipleSelect: React.FC<MultipleSelectProps> = ({
   id,
   label,
   options,
@@ -30,11 +30,12 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
 
   // Close when clicking outside
   useEffect(() => {
-    function onClickOutside(e: MouseEvent) {
+    const onClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
-    }
+    };
+
     if (open) {
       document.addEventListener('mousedown', onClickOutside);
     } else {
@@ -57,7 +58,9 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
         aria-expanded={open}
       >
         {selected.length > 0
-          ? `${selected.length} options sélectionnée(s)`
+          ? selected.length === 1
+            ? `${selected.length} option sélectionnée`
+            : `${selected.length} options sélectionnées`
           : 'Sélectionner une option'}
       </div>
       {open && (
@@ -74,11 +77,11 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
 };
 
 type MultipleSelectPopoverProps = {
-  options: Option[];
+  options: Array<Option>;
   selected: string[];
-  onChange?: (selected: string[]) => void;
-  noSearch?: boolean;
-  noSelectAll?: boolean;
+  onChange: (selected: Array<string>) => void;
+  noSearch?: true;
+  noSelectAll?: true;
 };
 
 const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
@@ -88,31 +91,32 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
   noSearch,
   noSelectAll,
 }) => {
-  const [filterText, setFilterText] = useState('');
+  const [filterText, setFilterText] = useState<string>('');
   const visibleOptions = filterText
-    ? options.filter((opt) => opt.label.toLowerCase().includes(filterText.toLowerCase()))
+    ? options.filter((o) => o.label.toLowerCase().includes(filterText.toLowerCase()))
     : options;
 
-  const someVisibleSelected = visibleOptions.some((opt) => selected.includes(opt.value));
+  const someVisibleSelected = visibleOptions.some((o) => selected.includes(o.value));
 
   const toggleOption = (value: string) => {
     if (selected.includes(value)) {
-      onChange?.(selected.filter((v) => v !== value));
-    } else {
-      onChange?.([...selected, value]);
+      const newSelected = selected.filter((v) => v !== value);
+      onChange(newSelected);
+      return;
     }
+
+    onChange([...selected, value]);
   };
 
   const toggleSelectAllVisible = () => {
     if (someVisibleSelected) {
-      // Deselect all visible
-      const newSelected = selected.filter((v) => !visibleOptions.some((opt) => opt.value === v));
-      onChange?.(newSelected);
-    } else {
-      // Add all visible
-      const toAdd = visibleOptions.map((opt) => opt.value).filter((v) => !selected.includes(v));
-      onChange?.([...selected, ...toAdd]);
+      const newSelected = selected.filter((v) => !visibleOptions.some((o) => o.value === v));
+      onChange(newSelected);
+      return;
     }
+
+    const toAdd = visibleOptions.map((o) => o.value).filter((v) => !selected.includes(v));
+    onChange([...selected, ...toAdd]);
   };
 
   return (
@@ -132,7 +136,7 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
         </div>
       )}
       {!noSearch && (
-        <div className=" fr-p-1">
+        <div className="fr-p-1">
           <Input
             nativeInputProps={{
               type: 'search',
@@ -145,24 +149,25 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
         </div>
       )}
       <ul className="flex flex-col gap-2 m-0 max-h-[430px] overflow-y-auto">
-        {visibleOptions.length === 0 && <li className="">Aucun résultat</li>}
-        {visibleOptions.map((opt) => (
-          <li key={opt.value} className="fr-checkbox-group fr-checkbox-group--sm">
-            <input
-              id={`checkbox-${opt.value}`}
-              type="checkbox"
-              aria-describedby={`checkbox-messages-${opt.value}`}
-              checked={selected.includes(opt.value)}
-              onChange={() => toggleOption(opt.value)}
-            />
-            <label className="fr-label" htmlFor={`checkbox-${opt.value}`}>
-              {opt.label}
-            </label>
-          </li>
-        ))}
+        {visibleOptions.length === 0 ? (
+          <li className="">Aucun résultat</li>
+        ) : (
+          visibleOptions.map((o) => (
+            <li key={o.value} className="fr-checkbox-group fr-checkbox-group--sm">
+              <input
+                id={`checkbox-${o.value}`}
+                type="checkbox"
+                aria-describedby={`checkbox-messages-${o.value}`}
+                checked={selected.includes(o.value)}
+                onChange={() => toggleOption(o.value)}
+              />
+              <label className="fr-label" htmlFor={`checkbox-${o.value}`}>
+                {o.label}
+              </label>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
 };
-
-export default MultipleSelect;
