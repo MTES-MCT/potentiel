@@ -42,7 +42,7 @@ import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.
 import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallateurAggregate } from './installateur/installateur.aggregate';
-import { InstallationAvecDispositifDeStockageAggregate } from './installationAvecDispositifDeStockage/installationAvecDispositifDeStockage.aggregate';
+import { InstallationAvecDispositifDeStockageAggregate } from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,

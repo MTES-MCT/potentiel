@@ -21,7 +21,7 @@ import { HistoriqueFournisseurProjetListItemReadModel } from '../../fournisseur'
 import { AchèvementEvent } from '../../achèvement';
 import { ÉliminéEvent } from '../../../éliminé';
 import { HistoriqueInstallateurProjetListItemReadModel } from '../../installateur/listerHistorique/listerHistoriqueInstallateurProjet.query';
-import { HistoriqueInstallationAvecDispositifDeStockageProjetListItemReadModel } from '../../installationAvecDispositifDeStockage/listerHistorique/ListerHistoriqueInstallationAvecDispositifDeStockageProjet.query';
+import { HistoriqueInstallationAvecDispositifDeStockageProjetListItemReadModel } from '../../installation-avec-dispositif-de-stockage/listerHistorique/ListerHistoriqueInstallationAvecDispositifDeStockageProjet.query';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<'lauréat', LauréatEvent>;
 export type HistoriqueÉliminéProjetListItemReadModel = HistoryRecord<'éliminé', ÉliminéEvent>;

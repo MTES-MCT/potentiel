@@ -71,7 +71,7 @@ import {
   InstallationAvecDispositifDeStockageQueryDependencies,
   registerInstallationAvecDispositifDeStockageQueries,
   registerInstallationAvecDispositifDeStockageUseCase,
-} from './installationAvecDispositifDeStockage/installationAvecDispositifDeStockage.register';
+} from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesDependencies &

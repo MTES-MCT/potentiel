@@ -25,7 +25,7 @@ import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/p
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 import { mapToÉliminéTimelineItemProps } from '@/utils/historique/mapToProps/éliminé';
-import { mapToInstallationAvecDispositifDeStockageProps } from '@/utils/historique/mapToProps/installationAvecDispositifDeStockage/mapToInstallationAvecDispositifDeStockageTimelineItemProps';
+import { mapToInstallationAvecDispositifDeStockageProps } from '@/utils/historique/mapToProps/installation-avec-dispositif-de-stockage/mapToInstallationAvecDispositifDeStockageTimelineItemProps';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
