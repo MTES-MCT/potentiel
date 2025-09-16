@@ -16,7 +16,7 @@ export class InstallateurAggregate extends AbstractAggregate<
   'installateur',
   LauréatAggregate
 > {
-  installateur!: string;
+  installateur!: string | undefined;
 
   get lauréat() {
     return this.parent;

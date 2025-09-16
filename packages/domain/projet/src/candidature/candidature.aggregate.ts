@@ -339,6 +339,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
       throw new ChoixCoefficientKRequisError();
     }
+
     if (!coefficientKChoisi && dépôt.coefficientKChoisi !== undefined) {
       throw new ChoixCoefficientKNonAttenduError();
     }
@@ -355,7 +356,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new InstallateurRequisError();
     }
 
-    if (!installateur && dépôt.installateur !== undefined) {
+    if (!installateur && !!dépôt.installateur) {
       throw new InstallateurNonAttenduError();
     }
 

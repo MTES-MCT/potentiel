@@ -243,6 +243,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
+    // Garanties Financières
     if (importerGarantiesFinancières) {
       await this.garantiesFinancières.importer({
         garantiesFinancières: this.projet.candidature.garantiesFinancières,
@@ -250,6 +251,7 @@ export class LauréatAggregate extends AbstractAggregate<
       });
     }
 
+    // Champs soumis à demande
     await this.producteur.importer({
       identifiantProjet: this.projet.identifiantProjet,
       dateImport: notifiéLe,
@@ -280,7 +282,7 @@ export class LauréatAggregate extends AbstractAggregate<
       identifiantUtilisateur: notifiéPar,
     });
 
-    // champs supplémentaires, dont l'import dépend de l'appel d'offre
+    // Champs supplémentaires, dont l'import dépend de l'appel d'offre
     if (this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined) {
       await this.installateur.importer({
         installateur: this.projet.candidature.installateur ?? '',
