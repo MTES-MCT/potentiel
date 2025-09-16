@@ -297,10 +297,25 @@ export class LauréatAggregate extends AbstractAggregate<
       });
     }
 
-    if (this.projet.candidature.dépôt.installationAvecDispositifDeStockage !== undefined) {
+    if (
+      this.projet.appelOffre.champsSupplémentaires?.installationAvecDispositifDeStockage !==
+        undefined &&
+      this.projet.candidature.dépôt.installationAvecDispositifDeStockage !== undefined
+    ) {
       await this.installationAvecDispositifDeStockage.importer({
         installationAvecDispositifDeStockage:
           this.projet.candidature.dépôt.installationAvecDispositifDeStockage,
+        importéeLe: notifiéLe,
+        importéePar: notifiéPar,
+      });
+    }
+
+    if (
+      this.projet.appelOffre.champsSupplémentaires?.natureDeLExploitation &&
+      this.projet.candidature.natureDeLExploitation
+    ) {
+      await this.natureDeLExploitation.importer({
+        natureDeLExploitation: this.projet.candidature.natureDeLExploitation.formatter(),
         importéeLe: notifiéLe,
         importéePar: notifiéPar,
       });

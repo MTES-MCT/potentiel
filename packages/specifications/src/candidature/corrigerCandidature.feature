@@ -1,5 +1,6 @@
 # language: fr
 @candidature
+@select
 Fonctionnalité: Corriger une candidature
 
     Contexte:
@@ -65,6 +66,14 @@ Fonctionnalité: Corriger une candidature
             | installateur  | Installateur.Junior.Inc  |
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Installateur.Senior.Inc |
+        Alors la candidature devrait être consultable
+
+    Scénario: Corriger la nature de l'exploitation d'une candidature pour un appel d'offre qui a ce champ
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre            | PPE2 - Petit PV Bâtiment         |
+            | nature de l'exploitation | vente-avec-injection-en-totalité |
+        Quand le DGEC validateur corrige la candidature avec :
+            | nature de l'exploitation | vente-avec-injection-du-surplus |
         Alors la candidature devrait être consultable
 
     Scénario: Corriger une candidature avec une information relative au couplage de l'installation avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
@@ -239,6 +248,11 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Installateur.Inc |
         Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offre"
+
+    Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offre ne le propose pas
+        Quand le DGEC validateur corrige la candidature avec :
+            | nature de l'exploitation | vente-avec-injection-en-totalité |
+        Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offre"
 
     Scénario: Impossible de corriger une candidature sans autorisation d'urbanisme si l'appel d'offre a ces champs requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :

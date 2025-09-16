@@ -1,5 +1,6 @@
 # language: fr
 @candidature
+@select
 Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notification d'une période
 
     Scénario: Notifier un candidat lauréat
@@ -13,7 +14,6 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
 
-    # viovio
     Scénario: Notifier un candidat lauréat avec des champs spécifiques
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre                            | PPE2 - Petit PV Bâtiment         |
@@ -29,6 +29,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et l'installateur du projet lauréat devrait être mis à jour
         Et l'information concernant le couplage de l'installation avec un dispositif de stockage pour le  projet lauréat devrait être mise à jour
+        Et la nature de l'exploitation du projet lauréat devrait être mise à jour
 
     Scénario: Notifier un candidat éliminé
         Etant donné la candidature éliminée "Du boulodrome de Marseille"

@@ -183,6 +183,10 @@ export class CandidatureAggregate extends AbstractAggregate<
     return this.dépôt.installateur;
   }
 
+  get natureDeLExploitation() {
+    return this.dépôt.natureDeLExploitation;
+  }
+
   async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierSiLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();
