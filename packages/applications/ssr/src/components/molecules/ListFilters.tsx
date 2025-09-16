@@ -26,10 +26,61 @@ export type ListFiltersProps = {
   filters: Array<ListFilterItem>;
 };
 
+type HandleOnChangeProps = {
+  value?: Array<string> | string;
+  searchParamKey: ListFilterItem['searchParamKey'];
+  affects?: ListFilterItem['affects'];
+  options: ListFilterItem['options'];
+};
+
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const handleOnChange = ({ value, searchParamKey, affects, options }: HandleOnChangeProps) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    newSearchParams.delete(searchParamKey);
+
+    // Cas undefined
+    if (!value) {
+      for (const affected of affects ?? []) {
+        newSearchParams.delete(affected);
+      }
+
+      return router.push(buildUrl(pathname, newSearchParams));
+    }
+
+    // Cas Array
+    if (Array.isArray(value)) {
+      if (value.length === 0) {
+        for (const affected of affects ?? []) {
+          newSearchParams.delete(affected);
+        }
+      } else {
+        for (const v of value) {
+          newSearchParams.append(searchParamKey, v);
+        }
+      }
+
+      return router.push(buildUrl(pathname, newSearchParams));
+    }
+
+    // Cas string
+    if (value === '') {
+      for (const affected of affects ?? []) {
+        newSearchParams.delete(affected);
+      }
+    } else {
+      const option = options.find((option) => option.value === value);
+      if (option) {
+        newSearchParams.set(searchParamKey, option.value);
+      }
+    }
+
+    return router.push(buildUrl(pathname, newSearchParams));
+  };
 
   return (
     <div className="flex flex-col">
@@ -46,22 +97,14 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             label={label}
             options={options}
             selected={activeFilters}
-            onChange={(value) => {
-              const newSearchParams = new URLSearchParams(searchParams);
-              newSearchParams.delete(searchParamKey);
-
-              if (value.length === 0) {
-                for (const affected of affects ?? []) {
-                  newSearchParams.delete(affected);
-                }
-              } else {
-                for (const v of value) {
-                  newSearchParams.append(searchParamKey, v);
-                }
-              }
-
-              return router.push(buildUrl(pathname, newSearchParams));
-            }}
+            onChange={(value) =>
+              handleOnChange({
+                value,
+                searchParamKey,
+                affects,
+                options,
+              })
+            }
           />
         ) : (
           <Filter
@@ -70,22 +113,14 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             label={label}
             options={options}
             value={searchParams.get(searchParamKey) ?? ''}
-            onValueSelected={(value) => {
-              const newSearchParams = new URLSearchParams(searchParams);
-              if (value === '') {
-                newSearchParams.delete(searchParamKey);
-
-                for (const affected of affects ?? []) {
-                  newSearchParams.delete(affected);
-                }
-              } else {
-                const option = options.find((option) => option.value === value);
-                if (option) {
-                  newSearchParams.set(searchParamKey, option.value);
-                }
-              }
-              router.push(buildUrl(pathname, newSearchParams));
-            }}
+            onChange={(value) =>
+              handleOnChange({
+                value,
+                searchParamKey,
+                affects,
+                options,
+              })
+            }
           />
         );
       })}

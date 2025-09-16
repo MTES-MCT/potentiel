@@ -54,8 +54,6 @@ export const registerListerRecoursQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    console.log('STATUT', statut);
-
     const recours = await list<RecoursEntity, Candidature.CandidatureEntity>('recours', {
       orderBy: { misÀJourLe: 'descending' },
       range,
