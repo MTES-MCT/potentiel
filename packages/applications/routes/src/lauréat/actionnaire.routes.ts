@@ -25,12 +25,10 @@ export const changement = {
   lister: (filters: ListerFilters) => {
     const searchParams = new URLSearchParams();
 
-    if (filters?.statut?.length) {
-      applyStatutFilter<Lauréat.Actionnaire.StatutChangementActionnaire.RawType>(
-        searchParams,
-        filters.statut,
-      );
-    }
+    applyStatutFilter<Lauréat.Actionnaire.StatutChangementActionnaire.RawType>(
+      searchParams,
+      filters.statut ?? [],
+    );
 
     return `/laureats/changements/actionnaire${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
   },

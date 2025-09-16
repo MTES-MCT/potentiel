@@ -23,12 +23,10 @@ export const changement = {
   lister: (filters: ListerFilters) => {
     const searchParams = new URLSearchParams();
 
-    if (filters?.statut?.length) {
-      applyStatutFilter<Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType>(
-        searchParams,
-        filters.statut,
-      );
-    }
+    applyStatutFilter<Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType>(
+      searchParams,
+      filters.statut,
+    );
 
     return `/laureats/changements/representant-legal${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
   },

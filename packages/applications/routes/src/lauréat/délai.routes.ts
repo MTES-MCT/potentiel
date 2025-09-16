@@ -21,9 +21,7 @@ export const corriger = (identifiantProjet: string, date: DateTime.RawType) =>
 export const lister = (filters: ListerFilters) => {
   const searchParams = new URLSearchParams();
 
-  if (filters?.statut?.length) {
-    applyStatutFilter<Lauréat.Délai.StatutDemandeDélai.RawType>(searchParams, filters.statut);
-  }
+  applyStatutFilter<Lauréat.Délai.StatutDemandeDélai.RawType>(searchParams, filters.statut);
 
   return `/laureats/changements/delai${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };

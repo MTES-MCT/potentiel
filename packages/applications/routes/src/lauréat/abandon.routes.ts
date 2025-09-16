@@ -11,9 +11,7 @@ type ListerFilters = {
 export const lister = (filters: ListerFilters = {}) => {
   const searchParams = new URLSearchParams();
 
-  if (filters?.statut?.length) {
-    applyStatutFilter<Lauréat.Abandon.StatutAbandon.RawType>(searchParams, filters.statut);
-  }
+  applyStatutFilter<Lauréat.Abandon.StatutAbandon.RawType>(searchParams, filters.statut);
 
   return `/laureats/changements/abandon${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };

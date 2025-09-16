@@ -26,12 +26,10 @@ export const changement = {
   lister: (filters: ListerFilters = {}) => {
     const searchParams = new URLSearchParams();
 
-    if (filters?.statut?.length) {
-      applyStatutFilter<Lauréat.Puissance.StatutChangementPuissance.RawType>(
-        searchParams,
-        filters.statut,
-      );
-    }
+    applyStatutFilter<Lauréat.Puissance.StatutChangementPuissance.RawType>(
+      searchParams,
+      filters.statut,
+    );
 
     if (filters?.autoriteInstructrice) {
       searchParams.set('autoriteInstructrice', filters.autoriteInstructrice);
