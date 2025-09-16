@@ -27,10 +27,9 @@ export type ListFiltersProps = {
 };
 
 type HandleOnChangeProps = {
-  value?: Array<string> | string;
+  value: Array<string>;
   searchParamKey: ListFilterItem['searchParamKey'];
   affects?: ListFilterItem['affects'];
-  options: ListFilterItem['options'];
 };
 
 export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
@@ -38,44 +37,18 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const handleOnChange = ({ value, searchParamKey, affects, options }: HandleOnChangeProps) => {
+  const handleOnChange = ({ value, searchParamKey, affects }: HandleOnChangeProps) => {
     const newSearchParams = new URLSearchParams(searchParams);
 
     newSearchParams.delete(searchParamKey);
 
-    // Cas undefined
-    if (!value) {
-      for (const affected of affects ?? []) {
-        newSearchParams.delete(affected);
-      }
-
-      return router.push(buildUrl(pathname, newSearchParams));
-    }
-
-    // Cas Array
-    if (Array.isArray(value)) {
-      if (value.length === 0) {
-        for (const affected of affects ?? []) {
-          newSearchParams.delete(affected);
-        }
-      } else {
-        for (const v of value) {
-          newSearchParams.append(searchParamKey, v);
-        }
-      }
-
-      return router.push(buildUrl(pathname, newSearchParams));
-    }
-
-    // Cas string
-    if (value === '') {
+    if (value.length === 0) {
       for (const affected of affects ?? []) {
         newSearchParams.delete(affected);
       }
     } else {
-      const option = options.find((option) => option.value === value);
-      if (option) {
-        newSearchParams.set(searchParamKey, option.value);
+      for (const v of value) {
+        newSearchParams.append(searchParamKey, v);
       }
     }
 
@@ -99,10 +72,9 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             selected={activeFilters}
             onChange={(value) =>
               handleOnChange({
-                value,
+                value: value.length > 0 ? value : [],
                 searchParamKey,
                 affects,
-                options,
               })
             }
           />
@@ -115,10 +87,9 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             value={searchParams.get(searchParamKey) ?? ''}
             onChange={(value) =>
               handleOnChange({
-                value,
+                value: value ? [value] : [],
                 searchParamKey,
                 affects,
-                options,
               })
             }
           />
