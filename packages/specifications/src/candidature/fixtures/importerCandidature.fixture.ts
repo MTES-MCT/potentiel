@@ -188,9 +188,10 @@ const créerDépôt = (
       aoData?.champsSupplémentaires?.installationAvecDispositifDeStockage === 'requis'
         ? faker.datatype.boolean()
         : undefined,
-    ...dépôt,
-
-    typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
+    natureDeLExploitation:
+      aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis'
+        ? faker.helpers.arrayElement(Candidature.TypeDeNatureDeLExploitation.types)
+        : undefined,
     fournisseurs: [
       {
         typeFournisseur: 'cellules' as const,
@@ -198,12 +199,13 @@ const créerDépôt = (
         lieuDeFabrication: faker.location.country(),
       },
     ],
+    installateur: undefined,
+    ...dépôt,
     localité,
     autorisationDUrbanisme: dépôt.autorisationDUrbanisme
       ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisationDUrbanisme }
       : undefined,
-    installateur: dépôt.installateur ?? undefined,
-    natureDeLExploitation: dépôt.natureDeLExploitation ?? undefined,
+    typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
   };
 
   const référentielPériode = appelsOffreData

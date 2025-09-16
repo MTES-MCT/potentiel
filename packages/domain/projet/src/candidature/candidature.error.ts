@@ -109,13 +109,13 @@ export class InstallateurNonAttenduError extends InvalidOperationError {
   }
 }
 
-export class NatureDeLExploitationRequisError extends InvalidOperationError {
+export class NatureDeLExploitationRequiseError extends InvalidOperationError {
   constructor() {
     super(`La nature de l'exploitation est requise pour cet appel d'offre`);
   }
 }
 
-export class NatureDeLExploitationNonAttenduError extends InvalidOperationError {
+export class NatureDeLExploitationNonAttendueError extends InvalidOperationError {
   constructor() {
     super(`La nature de l'exploitation ne peut être renseignée pour cet appel d'offre`);
   }

@@ -33,6 +33,8 @@ import {
   InstallateurRequisError,
   InstallationAvecDispositifDeStockageNonAttendueError,
   InstallationAvecDispositifDeStockageRequisError,
+  NatureDeLExploitationNonAttendueError,
+  NatureDeLExploitationRequiseError,
   NomManquantError,
   PuissanceDeSiteNonAttendueError,
   PuissanceDeSiteRequiseError,
@@ -362,11 +364,11 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
-      throw new InstallateurRequisError();
+      throw new NatureDeLExploitationRequiseError();
     }
 
     if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
-      throw new InstallateurNonAttenduError();
+      throw new NatureDeLExploitationNonAttendueError();
     }
 
     if (

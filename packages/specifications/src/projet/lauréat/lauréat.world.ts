@@ -17,6 +17,7 @@ import { DélaiWorld } from './délai/délai.world';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
 import { InstallateurWorld } from './installateur/installateur.world';
 import { InstallationAvecDispositifDeStockageWorld } from './installation-avec-dispositif-de-stockage/stepDefinitions/installationAvecDispositifDeStockage.world';
+import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
 
 type LauréatFixture = {
   nom: string;
@@ -137,6 +138,12 @@ export class LauréatWorld {
     return this.#installationAvecDispositifDeStockageWorld;
   }
 
+  #natureDeLExploitationWorld!: NatureDeLExploitationWorld;
+
+  get natureDeLExploitationWorld() {
+    return this.#natureDeLExploitationWorld;
+  }
+
   constructor(public readonly potentielWorld: PotentielWorld) {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
@@ -151,6 +158,7 @@ export class LauréatWorld {
     this.#installationAvecDispositifDeStockageWorld = new InstallationAvecDispositifDeStockageWorld(
       this,
     );
+    this.#natureDeLExploitationWorld = new NatureDeLExploitationWorld(this);
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
     this.#modifierLauréatFixture = new ModifierLauréatFixture();
