@@ -1,5 +1,6 @@
 # language: fr
 @candidature
+@select
 Fonctionnalité: Importer une candidature
 
     Plan du scénario: Importer une candidature
@@ -40,6 +41,13 @@ Fonctionnalité: Importer une candidature
             | appel d'offre | PPE2 - Petit PV Bâtiment |
             | installateur  | Installateur.Inc         |
             | statut        | classé                   |
+        Alors la candidature devrait être consultable
+
+    Scénario: Importer une candidature avec un champ requis "nature de l'exploitation"
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre            | PPE2 - Petit PV Bâtiment         |
+            | nature de l'exploitation | vente-avec-injection-en-totalité |
+            | statut                   | classé                           |
         Alors la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
@@ -223,6 +231,18 @@ Fonctionnalité: Importer une candidature
             | appel d'offre | PPE2 - Bâtiment  |
             | installateur  | Installateur.Inc |
         Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature avec la nature de l'exploitation si l'appel d'offre ne le propose pas
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre            | PPE2 - Bâtiment                 |
+            | nature de l'exploitation | vente-avec-injection-du-surplus |
+        Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offre"
+
+    Scénario: Impossible d'importer une candidature sans la nature de l'exploitation si l'appel d'offre la requiert
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | appel d'offre            | PPE2 - Petit PV Bâtiment |
+            | nature de l'exploitation |                          |
+        Alors l'administrateur devrait être informé que "La nature de l'exploitation est requise pour cet appel d'offre"
 
     Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offre qui a ces champs requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :

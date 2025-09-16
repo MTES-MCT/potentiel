@@ -203,6 +203,7 @@ const créerDépôt = (
       ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisationDUrbanisme }
       : undefined,
     installateur: dépôt.installateur ?? undefined,
+    natureDeLExploitation: dépôt.natureDeLExploitation ?? undefined,
   };
 
   const référentielPériode = appelsOffreData

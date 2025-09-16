@@ -8,6 +8,7 @@ import {
   HistoriqueAbandon,
   Localité,
   TypeActionnariat,
+  TypeDeNatureDeLExploitation,
   TypeGarantiesFinancières,
   TypeTechnologie,
   TypologieInstallation,
@@ -39,6 +40,7 @@ export type RawType = {
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage: boolean | undefined;
+  natureDeLExploitation: TypeDeNatureDeLExploitation.RawType | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -65,6 +67,7 @@ export type ValueType = ReadonlyValueType<{
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage: boolean | undefined;
+  natureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
 
   formatter(): RawType;
 }>;
@@ -103,7 +106,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
   installateur: plain.installateur,
   installationAvecDispositifDeStockage: plain.installationAvecDispositifDeStockage,
-  natureExploitation: plain.natureExploitation
+  natureDeLExploitation: bindOptional(
+    TypeDeNatureDeLExploitation.bind,
+    plain.natureDeLExploitation,
+  ),
 
   estÉgaleÀ(valueType) {
     return (
@@ -131,7 +137,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.actionnariat, this.actionnariat) &&
       areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
       areEqualArrays(valueType.fournisseurs, this.fournisseurs) &&
-      areEqualArrays(valueType.typologieInstallation, this.typologieInstallation)
+      areEqualArrays(valueType.typologieInstallation, this.typologieInstallation) &&
+      areEqual(valueType.natureDeLExploitation, this.natureDeLExploitation)
     );
   },
   formatter() {
@@ -172,6 +179,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         : undefined,
       installateur: this.installateur,
       installationAvecDispositifDeStockage: this.installationAvecDispositifDeStockage,
+      natureDeLExploitation: this.natureDeLExploitation?.formatter(),
     };
   },
 });
@@ -223,6 +231,10 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
         : undefined,
     installateur: raw.installateur,
     installationAvecDispositifDeStockage: raw.installationAvecDispositifDeStockage,
+    natureDeLExploitation: bindOptional(
+      TypeDeNatureDeLExploitation.convertirEnValueType,
+      raw.natureDeLExploitation,
+    ),
   });
 
 const bindOptional = <TValue, TValueType>(

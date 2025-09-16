@@ -334,6 +334,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       autorisationDUrbanisme,
       installateur,
       installationAvecDispositifDeStockage,
+      natureDeLExploitation,
     } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
@@ -357,6 +358,14 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     if (!installateur && !!dépôt.installateur) {
+      throw new InstallateurNonAttenduError();
+    }
+
+    if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
+      throw new InstallateurRequisError();
+    }
+
+    if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
       throw new InstallateurNonAttenduError();
     }
 

@@ -24,6 +24,7 @@ import {
   puissanceDeSiteSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
+  natureDeLExploitationSchema,
 } from '../candidatureFields.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -111,6 +112,7 @@ const colonnes = {
   numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
   installateur: "Identité de l'installateur",
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+  natureDeLExploitation: "Nature de l'exploitation",
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -151,6 +153,7 @@ const candidatureCsvRowSchema = z
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     [colonnes.installateur]: installateurSchema,
     [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
+    [colonnes.natureDeLExploitation]: natureDeLExploitationSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below

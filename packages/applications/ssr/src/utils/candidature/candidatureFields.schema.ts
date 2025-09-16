@@ -94,3 +94,6 @@ export const autorisationDUrbanismeSchema = z
 
 export const installateurSchema = optionalStringSchema;
 export const installationAvecDispositifDeStockageSchema = booleanSchema.optional();
+export const natureDeLExploitationSchema = optionalEnum(
+  z.enum(Candidature.TypeDeNatureDeLExploitation.types),
+);

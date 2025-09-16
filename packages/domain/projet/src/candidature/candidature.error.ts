@@ -109,6 +109,18 @@ export class InstallateurNonAttenduError extends InvalidOperationError {
   }
 }
 
+export class NatureDeLExploitationRequisError extends InvalidOperationError {
+  constructor() {
+    super(`La nature de l'exploitation est requise pour cet appel d'offre`);
+  }
+}
+
+export class NatureDeLExploitationNonAttenduError extends InvalidOperationError {
+  constructor() {
+    super(`La nature de l'exploitation ne peut être renseignée pour cet appel d'offre`);
+  }
+}
+
 export class TechnologieRequiseError extends InvalidOperationError {
   constructor() {
     super("Une technologie est requise pour cet appel d'offre");

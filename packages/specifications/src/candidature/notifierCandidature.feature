@@ -13,11 +13,13 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
 
+    # viovio
     Scénario: Notifier un candidat lauréat avec des champs spécifiques
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offre                            | PPE2 - Petit PV Bâtiment |
-            | installateur                             | Installeur.INC           |
-            | installation avec dispositif de stockage | oui                      |
+            | appel d'offre                            | PPE2 - Petit PV Bâtiment         |
+            | installateur                             | Installeur.INC                   |
+            | installation avec dispositif de stockage | oui                              |
+            | nature de l'exploitation                 | vente-avec-injection-en-totalité |
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet lauréat devrait être consultable
         Et le producteur du projet lauréat devrait être mis à jour

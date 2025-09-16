@@ -111,6 +111,7 @@ const action: FormAction<FormState, typeof schema> = async (
             autorisationDUrbanisme: undefined,
             installateur: undefined,
             installationAvecDispositifDeStockage: undefined,
+            natureDeLExploitation: undefined,
             ...dépôt,
           },
           détailsValue: {

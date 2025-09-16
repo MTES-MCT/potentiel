@@ -48,7 +48,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     mapOptionalBoolean,
   ],
   natureDeLExploitation: [
-    'natureDeLExploitation',
+    "nature de l'exploitation",
     mapValueType(Candidature.TypeDeNatureDeLExploitation.convertirEnValueType),
   ],
 };
