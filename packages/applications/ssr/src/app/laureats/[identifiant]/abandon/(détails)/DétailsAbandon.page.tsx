@@ -96,7 +96,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
                 {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
               </div>
               <div className="flex gap-2">
-                <div className="whitespace-nowrap font-semibold">Explications :</div>
+                <div className="whitespace-nowrap font-semibold">Raison :</div>
                 <blockquote>"{abandon.demande.raison}"</blockquote>
               </div>
             </div>
