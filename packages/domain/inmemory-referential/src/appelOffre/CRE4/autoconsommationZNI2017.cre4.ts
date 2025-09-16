@@ -29,9 +29,6 @@ const changementsCDCModifié = {
   recours: {
     demande: true,
   },
-  achèvement: {
-    informationEnregistrée: true,
-  },
   abandon: {
     demande: true,
     autoritéCompétente: 'dgec',

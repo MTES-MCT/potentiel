@@ -101,7 +101,6 @@ export type RèglesDemandesChangement = {
   puissance: ChangementPuissance;
   représentantLégal: ChangementReprésentantLégal;
   recours: Changement;
-  achèvement: Changement;
   abandon: ChangementAvecAutoritéCompétente;
 };
 
