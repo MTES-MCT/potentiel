@@ -352,8 +352,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new PuissanceDeSiteNonAttendueError();
     }
 
-    // dans le cas de installateur, on veut également exclure les strings vides
-    if (installateur === 'requis' && !dépôt.installateur) {
+    if (installateur === 'requis' && dépôt.installateur === undefined) {
       throw new InstallateurRequisError();
     }
 

@@ -92,4 +92,6 @@ export const autorisationDUrbanismeSchema = z
       : undefined,
   );
 
-export const installateurSchema = optionalStringSchema;
+export const installateurSchema = optionalStringSchema.transform((val) =>
+  val === '' ? undefined : val,
+);
