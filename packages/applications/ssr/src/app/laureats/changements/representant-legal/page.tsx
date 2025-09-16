@@ -10,7 +10,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
-import { transformToOptionalStringArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 
 import {
   ChangementReprésentantLégalListPage,
@@ -30,7 +30,9 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: transformToOptionalStringArray,
+  statut: transformToOptionalEnumArray(
+    z.enum(Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.statuts),
+  ),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;

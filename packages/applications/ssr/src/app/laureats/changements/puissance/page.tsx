@@ -10,7 +10,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { transformToOptionalStringArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import {
@@ -34,7 +34,7 @@ const paramsSchema = z.object({
   autoriteInstructrice: z
     .enum(Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes)
     .optional(),
-  statut: transformToOptionalStringArray,
+  statut: transformToOptionalEnumArray(z.enum(Lauréat.Puissance.StatutChangementPuissance.statuts)),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;

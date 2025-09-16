@@ -14,7 +14,7 @@ import {
   DemandeDélaiListPage,
   DemandeDélaiListPageProps,
 } from '@/app/laureats/changements/delai/DemandeDélaiList.page';
-import { transformToOptionalStringArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type PageProps = {
@@ -30,7 +30,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: transformToOptionalStringArray,
+  statut: transformToOptionalEnumArray(z.enum(Lauréat.Délai.StatutDemandeDélai.statuts)),
   autoriteInstructrice: z.enum(Lauréat.Délai.AutoritéCompétente.autoritésCompétentes).optional(),
 });
 

@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
-import { transformToOptionalStringArray } from '../_helpers/transformToOptionalStringArray';
+import { transformToOptionalEnumArray } from '../_helpers/transformToOptionalStringArray';
 
 import { RecoursListPage } from './RecoursList.page';
 
@@ -28,7 +28,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: transformToOptionalStringArray,
+  statut: transformToOptionalEnumArray(z.enum(Éliminé.Recours.StatutRecours.statuts)),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
