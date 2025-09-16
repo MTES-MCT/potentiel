@@ -43,15 +43,11 @@ export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
       const newTagValues = existingTagValues.filter((v) => v !== value);
 
       const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.delete(tagName);
+      newSearchParams.delete(tagName, value);
 
       if (newTagValues.length === 0) {
         for (const affected of affects) {
           newSearchParams.delete(affected);
-        }
-      } else {
-        for (const value of newTagValues) {
-          newSearchParams.append(tagName, value);
         }
       }
 
