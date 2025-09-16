@@ -38,5 +38,5 @@ export const registerConsulterInstallateurQuery = ({ find }: ConsulterInstallate
 
 export const mapToReadModel = ({ identifiantProjet, installateur }: InstallateurEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  installateur: installateur ?? '',
+  installateur,
 });

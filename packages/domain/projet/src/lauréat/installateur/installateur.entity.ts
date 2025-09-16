@@ -5,7 +5,7 @@ export type InstallateurEntity = Entity<
   'installateur',
   {
     identifiantProjet: string;
-    installateur: string | undefined;
+    installateur: string;
     misÀJourLe: DateTime.RawType;
   }
 >;

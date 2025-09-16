@@ -8,7 +8,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 
 export type GetInstallateurForProjectPage = {
-  installateur: string | undefined;
+  installateur: string;
   affichage?: {
     labelActions?: string;
     label: string;
