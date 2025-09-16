@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Filter } from './Filter';
-import { FilterMultipleChoices } from './FilterMultipleChoices';
+import MultipleSelect from './MultipleSelect';
 
 export type ListFilterItem<TSearchParamKey = string> = {
   label: string;
@@ -32,7 +32,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col gap">
+    <div className="flex flex-col">
       {filters.map(({ label, searchParamKey, options, affects, multiple }) => {
         const disabled = filters.some(
           (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
@@ -40,13 +40,13 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
         const activeFilters = searchParams.getAll(searchParamKey);
 
         return multiple ? (
-          <FilterMultipleChoices
-            disabled={disabled}
-            key={`filter-${searchParamKey}`}
+          <MultipleSelect
+            noSearch
+            noSelectAll
             label={label}
             options={options}
-            activeFilters={activeFilters}
-            onValueSelected={(value) => {
+            selected={activeFilters}
+            onChange={(value) => {
               const newSearchParams = new URLSearchParams(searchParams);
               newSearchParams.delete(searchParamKey);
 

@@ -46,7 +46,7 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
   }, [open]);
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative mb-6">
       <label htmlFor={id} className="fr-label ">
         {label}
       </label>
@@ -144,10 +144,10 @@ const MultipleSelectPopover: React.FC<MultipleSelectPopoverProps> = ({
           />
         </div>
       )}
-      <ul className="flex flex-col gap-2 p-0 m-0" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+      <ul className="flex flex-col gap-2 m-0 max-h-[430px] overflow-y-auto">
         {visibleOptions.length === 0 && <li className="">Aucun résultat</li>}
         {visibleOptions.map((opt) => (
-          <li key={opt.value} className="fr-checkbox-group">
+          <li key={opt.value} className="fr-checkbox-group fr-checkbox-group--sm">
             <input
               id={`checkbox-${opt.value}`}
               type="checkbox"
