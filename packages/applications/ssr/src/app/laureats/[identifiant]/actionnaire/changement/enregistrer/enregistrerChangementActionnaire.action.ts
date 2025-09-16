@@ -24,6 +24,8 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, actionnaire, raison, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    const dateChangement = new Date().toISOString();
+
     await mediator.send<Lauréat.Actionnaire.ActionnaireUseCase>({
       type: 'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
       data: {
@@ -31,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         raisonValue: raison,
         actionnaireValue: actionnaire,
-        dateChangementValue: new Date().toISOString(),
+        dateChangementValue: dateChangement,
         pièceJustificativeValue: piecesJustificatives,
       },
     });
@@ -39,7 +41,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: Routes.Actionnaire.changement.détails(identifiantProjet, dateChangement),
         message: "Le changement d'actionnaire(s) a été pris en compte",
       },
     };
