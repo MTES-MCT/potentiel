@@ -55,6 +55,7 @@ export const ModifierInstallationAvecDispositifDeStockageForm: FC<
       />
 
       <Select
+        className="w-fit"
         state={validationErrors['installationAvecDispositifDeStockage'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['installationAvecDispositifDeStockage']}
         label="Dispositif de stockage"
