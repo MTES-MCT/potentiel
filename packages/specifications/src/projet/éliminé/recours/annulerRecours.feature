@@ -4,7 +4,7 @@ Fonctionnalité: Annuler le recours d'un projet éliminé
 
     Contexte:
         Etant donné le projet éliminé legacy "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Neutre |
+            | appel d'offres | PPE2 - Neutre |
 
     Scénario: Un porteur annule le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé

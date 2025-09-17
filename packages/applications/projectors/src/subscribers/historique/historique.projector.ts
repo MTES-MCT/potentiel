@@ -15,6 +15,7 @@ export type SubscriptionEvent =
   | (Lauréat.Puissance.PuissanceEvent & Event)
   | (Lauréat.Producteur.ProducteurEvent & Event)
   | (Lauréat.Installateur.InstallateurEvent & Event)
+  | (Lauréat.NatureDeLExploitation.NatureDeLExploitationEvent & Event)
   | (Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event)
   | (Lauréat.GarantiesFinancières.GarantiesFinancièresEvent & Event)
   | (Lauréat.Raccordement.RaccordementEvent & Event)

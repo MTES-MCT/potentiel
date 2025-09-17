@@ -15,7 +15,7 @@ export class ProducteurIdentiqueError extends InvalidOperationError {
 export class AOEmpêcheChangementProducteurError extends InvalidOperationError {
   constructor() {
     super(
-      "L'appel d'offre du projet empêche un changement de producteur avant l'achèvement du projet",
+      "L'appel d'offres du projet empêche un changement de producteur avant l'achèvement du projet",
     );
   }
 }

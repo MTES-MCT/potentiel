@@ -44,6 +44,7 @@ import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallateurAggregate } from './installateur/installateur.aggregate';
 import { InstallationAvecDispositifDeStockageAggregate } from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.aggregate';
+import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -137,6 +138,11 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#installationAvecDispositifDeStockage;
   }
 
+  #natureDeLExploitation!: AggregateType<NatureDeLExploitationAggregate>;
+  get natureDeLExploitation() {
+    return this.#natureDeLExploitation;
+  }
+
   async init() {
     this.#abandon = await this.loadAggregate(
       AbandonAggregate,
@@ -201,6 +207,11 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#installationAvecDispositifDeStockage = await this.loadAggregate(
       InstallationAvecDispositifDeStockageAggregate,
       `installation-avec-dispositif-de-stockage|${this.projet.identifiantProjet.formatter()}`,
+    );
+
+    this.#natureDeLExploitation = await this.loadAggregate(
+      NatureDeLExploitationAggregate,
+      `nature-de-l-exploitation|${this.projet.identifiantProjet.formatter()}`,
     );
   }
 
@@ -291,10 +302,25 @@ export class LauréatAggregate extends AbstractAggregate<
       });
     }
 
-    if (this.projet.candidature.dépôt.installationAvecDispositifDeStockage !== undefined) {
+    if (
+      this.projet.appelOffre.champsSupplémentaires?.installationAvecDispositifDeStockage !==
+        undefined &&
+      this.projet.candidature.dépôt.installationAvecDispositifDeStockage !== undefined
+    ) {
       await this.installationAvecDispositifDeStockage.importer({
         installationAvecDispositifDeStockage:
           this.projet.candidature.dépôt.installationAvecDispositifDeStockage,
+        importéeLe: notifiéLe,
+        importéePar: notifiéPar,
+      });
+    }
+
+    if (
+      this.projet.appelOffre.champsSupplémentaires?.natureDeLExploitation &&
+      this.projet.candidature.natureDeLExploitation
+    ) {
+      await this.natureDeLExploitation.importer({
+        natureDeLExploitation: this.projet.candidature.natureDeLExploitation,
         importéeLe: notifiéLe,
         importéePar: notifiéPar,
       });

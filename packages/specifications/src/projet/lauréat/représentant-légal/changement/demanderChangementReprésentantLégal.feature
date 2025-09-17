@@ -47,20 +47,20 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
 
     Scénario: Impossible de demander un changement de représentant légal si le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
-            | appel d'offre | CRE4 - Sol |
-            | période       | 1          |
+            | appel d'offres | CRE4 - Sol |
+            | période        | 1          |
         Quand le porteur demande le changement de représentant pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
     Scénario: Impossible de demander un changement de représentant légal si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur demande le changement de représentant pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
     # Tâches planifiées
     Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un accord automatique
-        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec accord automatique du changement de représentant légal
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offres avec accord automatique du changement de représentant légal
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système relance automatiquement la dreal pour faire l'accord de la demande de changement de représentant légal pour le projet lauréat
@@ -71,7 +71,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.*                                                                               |
 
     Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un rejet automatique
-        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec rejet automatique du changement de représentant légal
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offres avec rejet automatique du changement de représentant légal
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système relance automatiquement la dreal pour faire le rejet de la demande de changement de représentant légal pour le projet lauréat

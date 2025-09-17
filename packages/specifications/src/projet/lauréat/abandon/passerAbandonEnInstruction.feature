@@ -18,8 +18,8 @@ Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
 
     Scénario: Une dreal peut passer un abandon en instruction si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL passe en instruction l'abandon pour le projet lauréat
@@ -27,8 +27,8 @@ Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
 
     Scénario: La DGEC peut passer un abandon en instruction si l'autorité compétente est la DREAL
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur passe en instruction l'abandon pour le projet lauréat
@@ -65,8 +65,8 @@ Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
 
     Scénario: Impossible pour une dreal de passer un abandon en instruction si l'autorité compétente est la DGEC
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Eolien |
-            | période       | 8             |
+            | appel d'offres | PPE2 - Eolien |
+            | période        | 8             |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL passe en instruction l'abandon pour le projet lauréat

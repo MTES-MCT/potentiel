@@ -26,7 +26,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
 
     Scénario: Un porteur modifie un dépôt de garanties financières avec un type exemption
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et un dépôt de garanties financières avec :
             | type GF | consignation |
         Quand le porteur modifie le dépôt de garanties financières avec :
@@ -70,9 +70,9 @@ Fonctionnalité: Modifier un dépôt de garanties financières
 
     Scénario: Impossible de modifier un dépôt de garanties financières avec un type non disponible pour l'appel d'offre
         Etant donné un dépôt de garanties financières avec :
-            | appel d'offre | PPE2 - Sol   |
-            | type GF       | consignation |
+            | appel d'offres | PPE2 - Sol   |
+            | type GF        | consignation |
         Quand le porteur modifie le dépôt de garanties financières avec :
             | type GF              | exemption  |
             | date de délibération | 2025-01-01 |
-        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"

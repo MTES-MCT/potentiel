@@ -4,8 +4,8 @@ Fonctionnalité: Enregistrer un changement de représentant légal
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
@@ -21,7 +21,7 @@ Fonctionnalité: Enregistrer un changement de représentant légal
 
     Scénario: Impossible d'enregistrer un changement de représentant légal si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Bâtiment |
+            | appel d'offres | PPE2 - Bâtiment |
         Quand le porteur enregistre un changement de représentant légal
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
@@ -52,8 +52,8 @@ Fonctionnalité: Enregistrer un changement de représentant légal
 
     Scénario: Le document sensible est automatiquement supprimé 3 mois après la déclaration de changement de représentant légal
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et un cahier des charges permettant la modification du projet
         Et un changement de représentant légal enregistré pour le projet lauréat
         Quand on exécute la tâche planifiée "supprimer automatiquement le document à trois mois" pour le projet lauréat
@@ -62,8 +62,8 @@ Fonctionnalité: Enregistrer un changement de représentant légal
 
     Scénario: Le document sensible est automatiquement supprimé et une tâche planifiée est créée lorsqu'un nouveau changement de représentant légal est déclaré
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et un cahier des charges permettant la modification du projet
         Et un changement de représentant légal enregistré pour le projet lauréat le "2024-09-24"
         Quand le porteur enregistre un changement de représentant légal le "2024-10-24"

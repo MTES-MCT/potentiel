@@ -4,7 +4,7 @@ Fonctionnalité: Passer le recours d'un projet éliminé en instruction
 
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - ZNI |
+            | appel d'offres | PPE2 - ZNI |
 
     Scénario: Un administrateur passe le recours d'un projet éliminé en instruction
         Etant donné une demande de recours en cours pour le projet éliminé

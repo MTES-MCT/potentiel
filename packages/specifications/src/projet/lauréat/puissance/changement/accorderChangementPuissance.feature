@@ -4,8 +4,8 @@ Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Eolien |
-            | période       | 1             |
+            | appel d'offres | PPE2 - Eolien |
+            | période        | 1             |
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: la DREAL associée au projet accorde une demande de changement de puissance à la baisse d'un projet lauréat

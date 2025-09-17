@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -188,9 +188,12 @@ const créerDépôt = (
       aoData?.champsSupplémentaires?.installationAvecDispositifDeStockage === 'requis'
         ? faker.datatype.boolean()
         : undefined,
-    ...dépôt,
-
-    typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
+    natureDeLExploitation:
+      aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis'
+        ? faker.helpers.arrayElement(
+            Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
+          )
+        : undefined,
     fournisseurs: [
       {
         typeFournisseur: 'cellules' as const,
@@ -198,11 +201,13 @@ const créerDépôt = (
         lieuDeFabrication: faker.location.country(),
       },
     ],
+    installateur: undefined,
+    ...dépôt,
     localité,
     autorisationDUrbanisme: dépôt.autorisationDUrbanisme
       ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisationDUrbanisme }
       : undefined,
-    installateur: dépôt.installateur ?? undefined,
+    typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
   };
 
   const référentielPériode = appelsOffreData

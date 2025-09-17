@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
 
@@ -94,3 +94,6 @@ export const autorisationDUrbanismeSchema = z
 
 export const installateurSchema = optionalStringSchema;
 export const installationAvecDispositifDeStockageSchema = booleanSchema.optional();
+export const natureDeLExploitationSchema = optionalEnum(
+  z.enum(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types),
+);

@@ -1,5 +1,5 @@
 import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import {
@@ -47,6 +47,10 @@ export const dépôtExempleMap: FieldToExempleMapper<
     'installation avec dispositif de stockage',
     mapOptionalBoolean,
   ],
+  natureDeLExploitation: [
+    "nature de l'exploitation",
+    mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
+  ],
 };
 
 export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction.RawType> = {
@@ -58,7 +62,7 @@ export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction
 export const identifiantProjetExempleMap: FieldToExempleMapper<
   PlainType<IdentifiantProjet.ValueType>
 > = {
-  appelOffre: ["appel d'offre"],
+  appelOffre: ["appel d'offres"],
   période: ['période'],
   famille: ['famille'],
   numéroCRE: ['numéro CRE'],

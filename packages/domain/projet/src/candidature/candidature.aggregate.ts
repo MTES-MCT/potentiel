@@ -33,6 +33,8 @@ import {
   InstallateurRequisError,
   InstallationAvecDispositifDeStockageNonAttendueError,
   InstallationAvecDispositifDeStockageRequisError,
+  NatureDeLExploitationNonAttendueError,
+  NatureDeLExploitationRequiseError,
   NomManquantError,
   PuissanceDeSiteNonAttendueError,
   PuissanceDeSiteRequiseError,
@@ -179,6 +181,10 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   get installateur() {
     return this.dépôt.installateur;
+  }
+
+  get natureDeLExploitation() {
+    return this.dépôt.natureDeLExploitation;
   }
 
   async importer(candidature: ImporterCandidatureOptions) {
@@ -334,6 +340,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       autorisationDUrbanisme,
       installateur,
       installationAvecDispositifDeStockage,
+      natureDeLExploitation,
     } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
     if (coefficientKChoisi === 'requis' && dépôt.coefficientKChoisi === undefined) {
@@ -358,6 +365,14 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (!installateur && !!dépôt.installateur) {
       throw new InstallateurNonAttenduError();
+    }
+
+    if (natureDeLExploitation === 'requis' && dépôt.natureDeLExploitation === undefined) {
+      throw new NatureDeLExploitationRequiseError();
+    }
+
+    if (!natureDeLExploitation && !!dépôt.natureDeLExploitation) {
+      throw new NatureDeLExploitationNonAttendueError();
     }
 
     if (

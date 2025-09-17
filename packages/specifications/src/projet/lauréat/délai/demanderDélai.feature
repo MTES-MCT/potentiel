@@ -4,7 +4,7 @@ Fonctionnalité: Demander un délai pour un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Eolien |
+            | appel d'offres | PPE2 - Eolien |
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
@@ -33,7 +33,7 @@ Fonctionnalité: Demander un délai pour un projet lauréat
 
     Scénario: Impossible de demander un délai pour un projet dont le cahier des charges ne le permet pas
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
-            | appel d'offre | CRE4 - Sol |
-            | période       | 10         |
+            | appel d'offres | CRE4 - Sol |
+            | période        | 10         |
         Quand le porteur demande un délai pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

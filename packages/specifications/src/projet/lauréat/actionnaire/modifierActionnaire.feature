@@ -71,9 +71,9 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
 
     Scénario: Impossible de modifier l'actionnaire d'un projet lauréat alors qu'un changement d'actionnaire est en cours
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | Eolien                      |
-            | période       | 6                           |
-            | actionnariat  | investissement-participatif |
+            | appel d'offres | Eolien                      |
+            | période        | 6                           |
+            | actionnariat   | investissement-participatif |
         Et une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"

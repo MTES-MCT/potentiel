@@ -4,9 +4,9 @@ Fonctionnalité: Supprimer la demande de changement d'actionnaire
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | Eolien                      |
-            | période       | 6                           |
-            | actionnariat  | investissement-participatif |
+            | appel d'offres | Eolien                      |
+            | période        | 6                           |
+            | actionnariat   | investissement-participatif |
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 

@@ -42,7 +42,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Scénario: Un admin modifie des garanties financières actuelles pour un projet qui en est exempté
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
-            | appel d'offre        | PPE2 - Petit PV Bâtiment |
+            | appel d'offres       | PPE2 - Petit PV Bâtiment |
             | type GF              | exemption                |
             | date de délibération | 2025-01-01               |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
@@ -51,8 +51,8 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Scénario: Un admin modifie des garanties financières actuelles avec le type exemption
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | type GF       | consignation             |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | type GF        | consignation             |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF              | exemption  |
             | date de délibération | 2025-01-01 |
@@ -112,8 +112,8 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Scénario: Impossible de modifier des garanties financières actuelles avec un type non disponible pour l'appel d'offre
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
-            | appel d'offre | PPE2 - Sol |
+            | appel d'offres | PPE2 - Sol |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF              | exemption  |
             | date de délibération | 2025-01-01 |
-        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"

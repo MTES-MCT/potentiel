@@ -52,6 +52,7 @@ const schema = zod.object({
   numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   installateur: dépôtSchema.shape.installateur,
   installationAvecDispositifDeStockage: dépôtSchema.shape.installationAvecDispositifDeStockage,
+  natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
   noteTotale: instructionSchema.shape.noteTotale,
@@ -131,6 +132,7 @@ const mapBodyToUseCaseData = (
           : undefined,
       installateur: data.installateur,
       installationAvecDispositifDeStockage: data.installationAvecDispositifDeStockage,
+      natureDeLExploitation: data.natureDeLExploitation,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,

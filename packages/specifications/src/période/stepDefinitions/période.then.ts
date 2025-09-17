@@ -135,7 +135,7 @@ async function vérifierLauréats(
 
     période.should.not.be.equal(
       Option.none,
-      `La période ${identifiantPériode.période} notifiée pour l'appel d'offre ${identifiantPériode.appelOffre}`,
+      `La période ${identifiantPériode.période} notifiée pour l'appel d'offres ${identifiantPériode.appelOffre}`,
     );
 
     assert(Option.isSome(période));
@@ -181,7 +181,7 @@ async function vérifierÉliminés(
 
   période.should.not.be.equal(
     Option.none,
-    `La période ${identifiantPériode.période} notifiée pour l'appel d'offre ${identifiantPériode.appelOffre}`,
+    `La période ${identifiantPériode.période} notifiée pour l'appel d'offres ${identifiantPériode.appelOffre}`,
   );
 
   assert(Option.isSome(période));

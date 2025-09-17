@@ -18,8 +18,8 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 
     Scénario: Une dreal peut rejeter l'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL rejette l'abandon pour le projet lauréat
@@ -27,8 +27,8 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 
     Scénario: La DGEC peut rejeter l'abandon si l'autorité compétente est la DREAL
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur rejette l'abandon pour le projet lauréat
@@ -44,9 +44,9 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
         Alors l'administrateur devrait être informé que "Aucun abandon n'est en cours"
 
     Scénario: Impossible pour une dreal de rejeter l'abandon si l'autorité compétente est la DGEC
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Eolien |
-            | période       | 8             |
+        Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
+            | appel d'offres | PPE2 - Eolien |
+            | période        | 8             |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL rejette l'abandon pour le projet lauréat

@@ -234,6 +234,10 @@ const mapBodyToCandidatureUsecaseData = (
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       obligationDeSolarisation: previous.obligationDeSolarisation,
       typologieInstallation: previous.typologieInstallation.map((t) => t.formatter()),
+      //TODO: : nature sera rendu éditable dans un second temps
+      natureDeLExploitation: previous.natureDeLExploitation
+        ? previous.natureDeLExploitation.formatter()
+        : undefined,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
