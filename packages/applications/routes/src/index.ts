@@ -14,6 +14,7 @@ import {
   GarantiesFinancières,
   Installateur,
   InstallationAvecDispositifDeStockage,
+  NatureDeLExploitation,
 } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
@@ -52,4 +53,5 @@ export const Routes = {
   GarantiesFinancières,
   Installateur,
   InstallationAvecDispositifDeStockage,
+  NatureDeLExploitation,
 };

@@ -366,6 +366,17 @@ const référencielPermissions = {
         modifier: 'Lauréat.Installateur.Command.ModifierInstallateur',
       },
     },
+    natureDeLExploitation: {
+      query: {
+        consulter: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
+      },
+      usecase: {
+        modifier: 'Lauréat.NatureDeLExploitation.UseCase.ModifierNatureDeLExploitation',
+      },
+      command: {
+        modifier: 'Lauréat.NatureDeLExploitation.Command.ModifierNatureDeLExploitation',
+      },
+    },
     fournisseur: {
       query: {
         consulter: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
@@ -986,6 +997,17 @@ const policies = {
       référencielPermissions.lauréat.installateur.command.modifier,
     ],
   },
+  natureDeLExploitation: {
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.natureDeLExploitation.query.consulter,
+    ],
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.natureDeLExploitation.usecase.modifier,
+      référencielPermissions.lauréat.natureDeLExploitation.command.modifier,
+    ],
+  },
   historique: {
     lister: [
       référencielPermissions.historique.query.lister,
@@ -1410,6 +1432,9 @@ const pageProjetPolicies: Policy[] = [
   // Installation avec dispositif de stockage
   'installationAvecDispositifDeStockage.consulter',
 
+  // Nature de l'exploitation
+  'natureDeLExploitation.consulter',
+
   // Accès
   'accès.consulter',
 
@@ -1555,6 +1580,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Installation avec dispositif de stockage
   'installationAvecDispositifDeStockage.consulter',
   'installationAvecDispositifDeStockage.modifier',
+
+  // Nature de l'exploitation
+  'natureDeLExploitation.consulter',
+  'natureDeLExploitation.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
