@@ -79,8 +79,13 @@ import {
   registerNatureDeLExploitationQueries,
   registerNatureDeLExploitationUseCases,
 } from './nature-de-l-exploitation/natureDeLExploitation.register';
+import {
+  ListerLauréatDependencies,
+  registerListerLauréatQuery,
+} from './lister/listerLauréat.query';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
+  ListerLauréatDependencies &
   ConsulterCahierDesChargesDependencies &
   DélaiQueryDependencies &
   ProducteurQueryDependencies &
@@ -133,6 +138,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
   registerConsulterLauréatQuery(dependencies);
+  registerListerLauréatQuery(dependencies);
   registerConsulterCahierDesChargesQuery(dependencies);
 
   registerDélaiQueries(dependencies);

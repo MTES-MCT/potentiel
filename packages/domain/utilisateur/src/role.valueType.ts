@@ -453,7 +453,7 @@ const référencielPermissions = {
       modifierSiteDeProduction: 'Lauréat.Command.ModifierSiteDeProduction',
       modifierNomProjet: 'Lauréat.Command.ModifierNomProjet',
     },
-    query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
+    query: { consulter: 'Lauréat.Query.ConsulterLauréat', lister: 'Lauréat.Query.ListerLauréat' },
   },
   éliminé: {
     query: { consulter: 'Éliminé.Query.ConsulterÉliminé' },
@@ -1249,6 +1249,7 @@ const policies = {
   },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
+    lister: [référencielPermissions.lauréat.query.lister],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
@@ -1410,6 +1411,8 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'lauréat.consulter',
   'éliminé.consulter',
   'abandon.consulter.détail',
+
+  'lauréat.lister',
 ];
 
 // En attendant d'avoir des gateways qui groupent les query
