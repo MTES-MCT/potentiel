@@ -4,9 +4,9 @@ Fonctionnalité: Annuler la demande changement de l'actionnaire d'un projet laur
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | Eolien                      |
-            | période       | 6                           |
-            | actionnariat  | investissement-participatif |
+            | appel d'offres | Eolien                      |
+            | période        | 6                           |
+            | actionnariat   | investissement-participatif |
         Et un cahier des charges permettant la modification du projet
         Et la dreal "DREAL" associée à la région du projet
 

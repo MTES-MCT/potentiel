@@ -4,8 +4,8 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
 
     Contexte:
         Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
-            | appel d'offre | Eolien |
-            | type GF       |        |
+            | appel d'offres | Eolien |
+            | type GF        |        |
         Et la dreal "DREAL" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
@@ -19,7 +19,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
 
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat legacy (CRE4 Eolien) avec un dépot de garanties financières en cours
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
-            | appel d'offre | Eolien |
+            | appel d'offres | Eolien |
         Et la dreal "DREAL" associée à la région du projet
         Et un dépôt de garanties financières
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
@@ -31,8 +31,8 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
 
     Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien ayant comme actionnariat "financement-participatif"
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
-            | appel d'offre | Eolien                   |
-            | actionnariat  | financement-participatif |
+            | appel d'offres | Eolien                   |
+            | actionnariat   | financement-participatif |
         Et la dreal "DREAL" associée à la région du projet
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
@@ -43,8 +43,8 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
 
     Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien ayant comme actionnariat "investissement-participatif"
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
-            | appel d'offre | Eolien                      |
-            | actionnariat  | investissement-participatif |
+            | appel d'offres | Eolien                      |
+            | actionnariat   | investissement-participatif |
         Et la dreal "DREAL" associée à la région du projet
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
@@ -84,8 +84,8 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
 
     Scénario: Impossible de demander le changement d'actionnaire d'un projet lauréat ayant un cahier des charges qui ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
-            | appel d'offre | CRE4 - Sol |
-            | période       | 1          |
-            | type GF       |            |
+            | appel d'offres | CRE4 - Sol |
+            | période        | 1          |
+            | type GF        |            |
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

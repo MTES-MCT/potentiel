@@ -5,7 +5,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
 
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offre   | <AO>              |
+            | appel d'offres  | <AO>              |
             | type GF         | <type GF>         |
             | date d'échéance | <date d'échéance> |
         Quand le DGEC validateur notifie la candidature lauréate
@@ -31,7 +31,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offre   | PPE2 - ZNI         |
+            | appel d'offres  | PPE2 - ZNI         |
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-12-02         |
         Quand le DGEC validateur notifie la candidature lauréate
@@ -39,7 +39,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées si un type de GF de type avec date d'échéance est importé lors d'une désignation
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offre   | PPE2 - Autoconsommation métropole |
+            | appel d'offres  | PPE2 - Autoconsommation métropole |
             | type GF         | avec-date-échéance                |
             | date d'échéance | 2050-10-01                        |
         Quand le DGEC validateur notifie la candidature lauréate

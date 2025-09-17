@@ -4,7 +4,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Bâtiment |
+            | appel d'offres | PPE2 - Bâtiment |
         Et la dreal "DREAL" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
@@ -27,8 +27,8 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Scénario: Impossible d'enregistrer un changement d'actionnaire si l'AO ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Lyon" avec :
-            | appel d'offre | PPE2 - Petit PV Bâtiment |
-            | période       | 1                        |
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
@@ -54,44 +54,44 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet "Eolien" si l'actionnariat est 'investissement-participatif'
         Etant donné le projet lauréat "Du bouchon de Lyon le retour" avec :
-            | appel d'offre | Eolien                      |
-            | période       | 6                           |
-            | actionnariat  | investissement-participatif |
+            | appel d'offres | Eolien                      |
+            | période        | 6                           |
+            | actionnariat   | investissement-participatif |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "L'instruction de la demande de changement est obligatoire dans ces conditions"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement d'actionnaire d'un projet "Eolien" si l'actionnariat est 'financement-participatif'
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
-            | appel d'offre | Eolien                   |
-            | période       | 6                        |
-            | actionnariat  | financement-participatif |
+            | appel d'offres | Eolien                   |
+            | période        | 6                        |
+            | actionnariat   | financement-participatif |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "L'instruction de la demande de changement est obligatoire dans ces conditions"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement d'actionnaire d'un projet "Eolien" si il n'y a pas de GFs en cours
         Etant donné le projet lauréat legacy "Du bouchon de Lyon" avec :
-            | appel d'offre | Eolien |
-            | période       | 5      |
-            | actionnariat  |        |
-            | type GF       |        |
+            | appel d'offres | Eolien |
+            | période        | 5      |
+            | actionnariat   |        |
+            | type GF        |        |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "L'instruction de la demande de changement est obligatoire dans ces conditions"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement d'actionnaire d'un projet "Eolien" si il y a un dépot de GFs en cours
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
-            | appel d'offre | Eolien |
-            | période       | 6      |
-            | actionnariat  |        |
+            | appel d'offres | Eolien |
+            | période        | 6      |
+            | actionnariat   |        |
         Et un dépôt de garanties financières
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "L'instruction de la demande de changement est obligatoire dans ces conditions"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement d'actionnaire d'un projet "Eolien" si il y a déjà une demande en cours
         Etant donné le projet lauréat legacy "Du bouchon de Nîmes" avec :
-            | appel d'offre | Eolien |
-            | période       | 5      |
-            | actionnariat  |        |
-            | type GF       |        |
+            | appel d'offres | Eolien |
+            | période        | 5      |
+            | actionnariat   |        |
+            | type GF        |        |
         Et une demande de changement d'actionnaire en cours pour le projet lauréat
         Et des garanties financières actuelles pour le projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
@@ -99,7 +99,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
 
     Scénario: Impossible d'enregistrer le changement d'actionnaire d'un projet lauréat ayant un cahier des charges qui ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
-            | appel d'offre | CRE4 - Sol |
-            | période       | 1          |
+            | appel d'offres | CRE4 - Sol |
+            | période        | 1          |
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

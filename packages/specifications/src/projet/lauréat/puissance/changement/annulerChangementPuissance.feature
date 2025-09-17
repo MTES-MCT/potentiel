@@ -4,8 +4,8 @@ Fonctionnalité: Annuler la demande de changement de puissance d'un projet laur�
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Eolien |
-            | période       | 1             |
+            | appel d'offres | PPE2 - Eolien |
+            | période        | 1             |
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Annuler la demande de changement de puissance à la baisse d'un projet lauréat

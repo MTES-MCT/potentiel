@@ -62,7 +62,7 @@ export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction
 export const identifiantProjetExempleMap: FieldToExempleMapper<
   PlainType<IdentifiantProjet.ValueType>
 > = {
-  appelOffre: ["appel d'offre"],
+  appelOffre: ["appel d'offres"],
   période: ['période'],
   famille: ['famille'],
   numéroCRE: ['numéro CRE'],

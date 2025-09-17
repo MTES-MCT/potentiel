@@ -4,8 +4,8 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Bâtiment |
-            | période       | 1               |
+            | appel d'offres | PPE2 - Bâtiment |
+            | période        | 1               |
         Et la dreal "Dreal du sud" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
@@ -47,10 +47,10 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                               |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                    |
 
-    Scénario: Modifier le producteur d'un projet lauréat dont l'appel d'offre empêche un changement avant l'achèvement du projet
+    Scénario: Modifier le producteur d'un projet lauréat dont l'appel d'offres empêche un changement avant l'achèvement du projet
         Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
-            | appel d'offre | Eolien |
-            | période       | 1      |
+            | appel d'offres | Eolien |
+            | période        | 1      |
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
@@ -65,8 +65,8 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
 
     Scénario: Impossible de modifier le producteur avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Bâtiment |
-            | période       | 1               |
+            | appel d'offres | PPE2 - Bâtiment |
+            | période        | 1               |
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le DGEC validateur modifie le producteur avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouveau producteur est identique à celui associé au projet"

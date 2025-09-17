@@ -4,7 +4,7 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
 
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Sol |
+            | appel d'offres | PPE2 - Sol |
 
     Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé

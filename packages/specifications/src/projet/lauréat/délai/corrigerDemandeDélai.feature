@@ -4,7 +4,7 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offre | PPE2 - Eolien |
+            | appel d'offres | PPE2 - Eolien |
         Et la dreal "Dreal du sud-est" associée à la région du projet
         Et un cahier des charges permettant la modification du projet
 
