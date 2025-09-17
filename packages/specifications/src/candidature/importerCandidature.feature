@@ -86,7 +86,7 @@ Fonctionnalité: Importer une candidature
             | statut        | classé     |
             | appel d'offre | inexistant |
             | période       | 1          |
-        Alors l'administrateur devrait être informé que "L'appel d'offre spécifié n'existe pas"
+        Alors l'administrateur devrait être informé que "L'appel d'offres spécifié n'existe pas"
 
     Scénario: Impossible d'importer une candidature avec une période d'AO inexistante
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
