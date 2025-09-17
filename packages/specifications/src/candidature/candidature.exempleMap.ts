@@ -1,5 +1,5 @@
 import { PlainType } from '@potentiel-domain/core';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import {
@@ -49,7 +49,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
   ],
   natureDeLExploitation: [
     "nature de l'exploitation",
-    mapValueType(Candidature.TypeDeNatureDeLExploitation.convertirEnValueType),
+    mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
   ],
 };
 

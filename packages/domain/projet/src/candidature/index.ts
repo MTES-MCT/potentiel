@@ -89,4 +89,3 @@ export * as VolumeRéservé from './volumeRéservé.valueType';
 export * as Dépôt from './dépôt.valueType';
 export * as Instruction from './instruction.valueType';
 export * as TypologieInstallation from './typologieInstallation.valueType';
-export * as TypeDeNatureDeLExploitation from './typeDeNatureDeLExploitation.valueType';

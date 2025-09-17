@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -190,7 +190,9 @@ const créerDépôt = (
         : undefined,
     natureDeLExploitation:
       aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis'
-        ? faker.helpers.arrayElement(Candidature.TypeDeNatureDeLExploitation.types)
+        ? faker.helpers.arrayElement(
+            Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
+          )
         : undefined,
     fournisseurs: [
       {

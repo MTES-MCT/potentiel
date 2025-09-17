@@ -3,12 +3,12 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { Fournisseur } from '../lauréat/fournisseur';
 import { GarantiesFinancières } from '../lauréat';
+import { Lauréat } from '..';
 
 import {
   HistoriqueAbandon,
   Localité,
   TypeActionnariat,
-  TypeDeNatureDeLExploitation,
   TypeGarantiesFinancières,
   TypeTechnologie,
   TypologieInstallation,
@@ -40,7 +40,9 @@ export type RawType = {
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage: boolean | undefined;
-  natureDeLExploitation: TypeDeNatureDeLExploitation.RawType | undefined;
+  natureDeLExploitation:
+    | Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType
+    | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -67,7 +69,9 @@ export type ValueType = ReadonlyValueType<{
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage: boolean | undefined;
-  natureDeLExploitation: TypeDeNatureDeLExploitation.ValueType | undefined;
+  natureDeLExploitation:
+    | Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.ValueType
+    | undefined;
 
   formatter(): RawType;
 }>;
@@ -107,7 +111,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   installateur: plain.installateur,
   installationAvecDispositifDeStockage: plain.installationAvecDispositifDeStockage,
   natureDeLExploitation: bindOptional(
-    TypeDeNatureDeLExploitation.bind,
+    Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.bind,
     plain.natureDeLExploitation,
   ),
 
@@ -232,7 +236,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     installateur: raw.installateur,
     installationAvecDispositifDeStockage: raw.installationAvecDispositifDeStockage,
     natureDeLExploitation: bindOptional(
-      TypeDeNatureDeLExploitation.convertirEnValueType,
+      Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType,
       raw.natureDeLExploitation,
     ),
   });
