@@ -70,7 +70,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
         <Input
           label="Durée du délai"
           hintText="Veuillez saisir une durée de délai en mois, avec au minimum 1 mois"
-          className="w-full md:w-1/2"
+          className="w-full md:w-3/4"
           nativeInputProps={{
             min: '1',
             name: 'nombreDeMois',
@@ -97,7 +97,7 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
         textArea
         label="Raison"
         id="raison"
-        className="w-full md:w-1/2"
+        className="w-full md:w-3/4"
         hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant
                 conduit à cette demande de délai."
         nativeTextAreaProps={{
