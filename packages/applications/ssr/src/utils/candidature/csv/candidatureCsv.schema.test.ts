@@ -151,7 +151,7 @@ describe('Schema candidature', () => {
       "Numéro de l'autorisation d'urbanisme": '123',
       "Identité de l'installateur": 'Installateur Inc.',
       'Installation couplée à un dispositif de stockage': 'oui',
-      'Nature de l’exploitation': 'vente-avec-injection-du-surplus',
+      "Nature de l'exploitation": 'vente-avec-injection-du-surplus',
     });
     assertNoError(result);
     const expected: CandidatureShape = {
