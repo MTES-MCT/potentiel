@@ -15,19 +15,28 @@ import {
   HistoriqueAchèvementProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
 } from './historique/lister/listerHistoriqueProjet.query';
+import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query';
 import { ModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
 import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 
 // Query
 export type LauréatQuery =
   | ConsulterLauréatQuery
+  | ListerLauréatQuery
   | ConsulterCahierDesChargesQuery
   | ListerHistoriqueProjetQuery;
-export { ConsulterLauréatQuery, ConsulterCahierDesChargesQuery, ListerHistoriqueProjetQuery };
+
+export {
+  ConsulterLauréatQuery,
+  ListerLauréatQuery,
+  ConsulterCahierDesChargesQuery,
+  ListerHistoriqueProjetQuery,
+};
 
 // ReadModel
 export {
   ConsulterLauréatReadModel,
+  ListerLauréatReadModel,
   ConsulterCahierDesChargesReadModel,
   ListerHistoriqueProjetReadModel,
   HistoriqueListItemReadModels,
@@ -62,7 +71,7 @@ export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.re
 // Entities
 export { LauréatEntity } from './lauréat.entity';
 
-// ValueType
+// Subdomains
 export * as Abandon from './abandon';
 export * as Actionnaire from './actionnaire';
 export * as Achèvement from './achèvement';
