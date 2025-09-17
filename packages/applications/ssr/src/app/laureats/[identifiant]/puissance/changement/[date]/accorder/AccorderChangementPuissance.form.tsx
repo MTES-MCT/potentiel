@@ -18,10 +18,12 @@ import {
 
 type AccorderChangementPuissanceFormProps = {
   identifiantProjet: string;
+  dateDemande: string;
 };
 
 export const AccorderChangementPuissance = ({
   identifiantProjet,
+  dateDemande,
 }: AccorderChangementPuissanceFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<AccorderChangementPuissanceFormKeys>
@@ -54,6 +56,7 @@ export const AccorderChangementPuissance = ({
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir accorder ce changement de puissance ?</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
               <UploadNewOrModifyExistingDocument
                 label={`Réponse signée${estUneDecisionDEtat ? ' (optionnel)' : ''}`}
                 state={validationErrors['reponseSignee'] ? 'error' : 'default'}

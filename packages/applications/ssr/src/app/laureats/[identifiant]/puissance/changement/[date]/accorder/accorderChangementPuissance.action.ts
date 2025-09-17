@@ -19,11 +19,13 @@ const schema = zod.union([
       optional: true,
     }),
     estUneDecisionDEtat: zod.literal('true'),
+    dateDemande: zod.string().min(1),
   }),
   zod.object({
     identifiantProjet: zod.string().min(1),
     reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
     estUneDecisionDEtat: zod.literal('false'),
+    dateDemande: zod.string().min(1),
   }),
 ]);
 
@@ -31,7 +33,7 @@ export type AccorderChangementPuissanceFormKeys = keyof zod.infer<typeof schema>
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, estUneDecisionDEtat },
+  { identifiantProjet, reponseSignee, estUneDecisionDEtat, dateDemande },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Puissance.AccorderChangementPuissanceUseCase>({
@@ -56,7 +58,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: Routes.Puissance.changement.détails(identifiantProjet, dateDemande),
         message: 'Le changement de puissance a été pris en compte',
       },
     };

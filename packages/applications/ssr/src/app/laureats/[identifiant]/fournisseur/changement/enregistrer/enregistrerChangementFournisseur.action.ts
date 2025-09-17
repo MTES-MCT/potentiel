@@ -123,8 +123,8 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
-        message: 'Votre changement de fournisseur a bien été enregistré.',
+        url: Routes.Fournisseur.changement.détails(identifiantProjet, date),
+        message: 'Votre changement de fournisseur a bien été pris en compte',
       },
     };
   });
