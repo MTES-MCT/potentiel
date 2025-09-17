@@ -5,6 +5,7 @@ import { AdminFixture } from './fixtures/admin.fixture';
 import { GRDFixture } from './fixtures/grd.fixture';
 import { InviterUtilisateurFixture } from './fixtures/inviter/inviter.fixture';
 import { RéclamerProjetFixture } from './fixtures/réclamer/réclamerProjet.fixture';
+import { CREFixture } from './fixtures/cre.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;
@@ -36,6 +37,12 @@ export class UtilisateurWorld {
     return this.#adminFixture;
   }
 
+  #creFixture: CREFixture;
+
+  get creFixture() {
+    return this.#creFixture;
+  }
+
   #inviterUtilisateur: InviterUtilisateurFixture;
 
   get inviterUtilisateur() {
@@ -54,6 +61,7 @@ export class UtilisateurWorld {
     this.#drealFixture = new DREALFixture('dreal');
     this.#grdFixture = new GRDFixture('grd');
     this.#adminFixture = new AdminFixture('admin');
+    this.#creFixture = new CREFixture('cre');
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
     this.#réclamerProjet = new RéclamerProjetFixture();
   }
@@ -71,6 +79,8 @@ export class UtilisateurWorld {
         return this.adminFixture.email;
       case 'validateur':
         return this.validateurFixture.email;
+      case 'cre':
+        return this.creFixture.email;
       default:
         throw new Error(`La fixture ${role} n'a pas été créée`);
     }
