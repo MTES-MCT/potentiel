@@ -12,6 +12,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le fournisseur devrait être mis à jour
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Notifier un candidat lauréat avec des champs spécifiques
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -29,11 +30,13 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et l'installateur du projet lauréat devrait être mis à jour
         Et l'information concernant le couplage de l'installation avec un dispositif de stockage pour le projet lauréat devrait être mise à jour
         Et la nature de l'exploitation du projet lauréat devrait être mise à jour
+        Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Notifier un candidat éliminé
         Etant donné la candidature éliminée "Du boulodrome de Marseille"
         Quand le DGEC validateur notifie la candidature éliminée
         Alors le projet éliminé devrait être consultable
+        Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Impossible de notifier une candidature déjà notifiée
         Etant donné la candidature lauréate notifiée "Boulodrome de Lyon"

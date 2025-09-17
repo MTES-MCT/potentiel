@@ -17,9 +17,10 @@ export async function notifierPériode(this: PotentielWorld) {
   try {
     const identifiantPériode = this.périodeWorld.identifiantPériode.formatter();
 
-    const { lauréats, éliminés } = this.périodeWorld.notifierPériodeFixture.créer({
-      notifiéePar: this.utilisateurWorld.validateurFixture.email,
-    });
+    const { lauréats, éliminés, notifiéeLe, notifiéePar } =
+      this.périodeWorld.notifierPériodeFixture.créer({
+        notifiéePar: this.utilisateurWorld.validateurFixture.email,
+      });
 
     this.utilisateurWorld.porteurFixture.créer({
       email: this.candidatureWorld.importerCandidature.values.emailContactValue,
@@ -29,10 +30,8 @@ export async function notifierPériode(this: PotentielWorld) {
       type: 'Période.UseCase.NotifierPériode',
       data: {
         identifiantPériodeValue: identifiantPériode,
-        notifiéeLeValue: DateTime.convertirEnValueType(
-          this.périodeWorld.notifierPériodeFixture.notifiéeLe,
-        ).formatter(),
-        notifiéeParValue: this.périodeWorld.notifierPériodeFixture.notifiéePar,
+        notifiéeLeValue: DateTime.convertirEnValueType(notifiéeLe).formatter(),
+        notifiéeParValue: notifiéePar,
         validateurValue: {
           fonction: this.utilisateurWorld.validateurFixture.fonction,
           nomComplet: this.utilisateurWorld.validateurFixture.nom,
