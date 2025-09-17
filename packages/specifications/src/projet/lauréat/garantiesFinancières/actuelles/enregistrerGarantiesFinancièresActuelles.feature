@@ -99,4 +99,4 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
         Et un recours accordé pour le projet éliminé
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
             | type GF | six-mois-après-achèvement |
-        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"

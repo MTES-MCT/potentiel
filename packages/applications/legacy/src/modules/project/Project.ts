@@ -11,10 +11,10 @@ import { ProjectAppelOffre, User, CahierDesChargesRéférenceParsed } from '../.
 import { isNotifiedPeriode } from '../../entities/periode';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '../projectAppelOffre';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { add, isSameDay, sub } from 'date-fns';
+import { add, sub } from 'date-fns';
 import remove from 'lodash/remove';
 import sanitize from 'sanitize-filename';
-import { BuildProjectIdentifier, DésignationCatégorie, Fournisseur } from '.';
+import { BuildProjectIdentifier, DésignationCatégorie } from '.';
 import { shallowDelta } from '../../helpers/shallowDelta';
 import {
   EntityNotFoundError,
@@ -461,11 +461,11 @@ export const makeProject = (args: {
       const { appelOffreId, periodeId } = { ...props.data, ...newProps };
 
       if (!appelOffreId || !periodeId) {
-        errorsInFields.appelOffre = "Ce projet n'est associé à aucun appel d'offre";
+        errorsInFields.appelOffre = "Ce projet n'est associé à aucun appel d'offres";
       } else {
         if (!getProjectAppelOffre({ appelOffreId, periodeId, familleId: newProps.familleId })) {
           // Can't find family in appelOffre
-          errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre";
+          errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offres";
         }
       }
     }

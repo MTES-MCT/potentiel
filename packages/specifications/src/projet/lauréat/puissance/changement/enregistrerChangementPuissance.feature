@@ -74,7 +74,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Et un cahier des charges permettant la modification du projet
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors le porteur devrait être informé que "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offre"
+        Alors le porteur devrait être informé que "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offres"
 
         Exemples:
             | Appel d'offre | Période | Ratio |
@@ -88,7 +88,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Et un cahier des charges permettant la modification du projet
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors le porteur devrait être informé que "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offre"
+        Alors le porteur devrait être informé que "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offres"
 
         Exemples:
             | Appel d'offre | Période | Ratio |
@@ -102,7 +102,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | famille       | 1                 |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | nouvelle puissance | 3.1 |
-        Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offre"
+        Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offres"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :

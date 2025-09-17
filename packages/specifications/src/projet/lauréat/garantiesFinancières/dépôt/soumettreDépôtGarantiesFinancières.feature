@@ -95,7 +95,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF              | exemption  |
             | date de délibération | 2025-01-01 |
-        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée a été demandée
         Etant donné une attestation de conformité transmise pour le projet lauréat

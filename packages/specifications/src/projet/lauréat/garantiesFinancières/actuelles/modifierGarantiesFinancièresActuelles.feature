@@ -116,4 +116,4 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF              | exemption  |
             | date de délibération | 2025-01-01 |
-        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"

@@ -67,7 +67,7 @@ export const bind = ({
 class PuissanceDépassePuissanceMaxAO extends InvalidOperationError {
   constructor() {
     super(
-      "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offre",
+      "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offres",
     );
   }
 }
@@ -75,7 +75,7 @@ class PuissanceDépassePuissanceMaxAO extends InvalidOperationError {
 class PuissanceEnDeçaPuissanceMinAO extends InvalidOperationError {
   constructor() {
     super(
-      "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offre",
+      "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offres",
     );
   }
 }
@@ -83,7 +83,7 @@ class PuissanceEnDeçaPuissanceMinAO extends InvalidOperationError {
 class PuissanceDépassePuissanceMaxFamille extends InvalidOperationError {
   constructor() {
     super(
-      "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offre",
+      "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offres",
     );
   }
 }

@@ -75,4 +75,4 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Quand le porteur modifie le dépôt de garanties financières avec :
             | type GF              | exemption  |
             | date de délibération | 2025-01-01 |
-        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
