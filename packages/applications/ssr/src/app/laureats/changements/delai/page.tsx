@@ -14,6 +14,8 @@ import {
   DemandeDélaiListPage,
   DemandeDélaiListPageProps,
 } from '@/app/laureats/changements/delai/DemandeDélaiList.page';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -28,9 +30,11 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Lauréat.Délai.StatutDemandeDélai.statuts).optional(),
+  statut: transformToOptionalEnumArray(z.enum(Lauréat.Délai.StatutDemandeDélai.statuts)),
   autoriteInstructrice: z.enum(Lauréat.Délai.AutoritéCompétente.autoritésCompétentes).optional(),
 });
+
+type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -46,7 +50,9 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
             itemsPerPage: 10,
           }),
-          statuts: statut ? [statut] : undefined,
+          statuts: statut?.length
+            ? statut.map((s) => Lauréat.Délai.StatutDemandeDélai.convertirEnValueType(s).statut)
+            : undefined,
           appelOffre,
           nomProjet,
           autoriteInstructrice,
@@ -58,7 +64,19 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const filters = [
+      const filters: ListFilterItem<SearchParams>[] = [
+        {
+          label: 'Statut',
+          searchParamKey: 'statut',
+          multiple: true,
+          options: Lauréat.Délai.StatutDemandeDélai.statuts
+            .filter((s) => s !== 'annulé')
+            .sort((a, b) => a.localeCompare(b))
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
+        },
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
@@ -67,16 +85,7 @@ export default async function Page({ searchParams }: PageProps) {
             value: appelOffre.id,
           })),
         },
-        {
-          label: 'Statut',
-          searchParamKey: 'statut',
-          options: Lauréat.Délai.StatutDemandeDélai.statuts
-            .filter((s) => s !== 'annulé')
-            .map((statut) => ({
-              label: statut.replace('-', ' ').toLocaleLowerCase(),
-              value: statut,
-            })),
-        },
+
         {
           label: 'Autorité instructrice',
           searchParamKey: 'autoriteInstructrice',

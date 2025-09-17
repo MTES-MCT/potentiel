@@ -1,16 +1,16 @@
 'use client';
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
+import SelectNext, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 import { FC } from 'react';
 
 type FilterProps = {
   label: string;
-  options: Array<{ label: string; value: string }>;
+  options: SelectProps.Option[];
   value: string;
-  onValueSelected?: (value: string | undefined) => void;
+  onChange?: (value: string | undefined) => void;
   disabled?: boolean;
 };
 
-export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onValueSelected }) => (
+export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onChange }) => (
   <SelectNext
     label={label}
     placeholder={`Filtrer par ${label.toLocaleLowerCase()}`}
@@ -18,8 +18,8 @@ export const Filter: FC<FilterProps> = ({ label, options, value, disabled, onVal
       value,
       onChange: (e) => {
         const value = e.currentTarget.value;
-        if (onValueSelected) {
-          onValueSelected(value);
+        if (onChange) {
+          onChange(value);
         }
       },
     }}

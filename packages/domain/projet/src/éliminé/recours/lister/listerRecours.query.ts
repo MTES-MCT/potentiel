@@ -28,7 +28,7 @@ export type ListerRecoursQuery = Message<
   'Éliminé.Recours.Query.ListerRecours',
   {
     utilisateur: Email.RawType;
-    statut?: StatutRecours.RawType;
+    statut?: Array<StatutRecours.RawType>;
     appelOffre?: string;
     nomProjet?: string;
     range?: RangeOptions;
@@ -60,7 +60,7 @@ export const registerListerRecoursQuery = ({
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        statut: Where.equal(statut),
+        statut: Where.matchAny(statut),
       },
       join: {
         entity: 'candidature',

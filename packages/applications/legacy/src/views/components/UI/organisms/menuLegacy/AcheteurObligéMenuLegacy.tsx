@@ -18,14 +18,16 @@ export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLe
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
-        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+        href={Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] })}
       >
         Représentant légal
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
+      <DropdownMenu.DropdownItem
+        href={Routes.Actionnaire.changement.lister({ statut: ['demandé'] })}
+      >
         Actionnaire
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: ['demandé'] })}>
         Puissance
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
@@ -34,7 +36,11 @@ export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLe
       <DropdownMenu.DropdownItem href={Routes.Fournisseur.changement.lister}>
         Fournisseur
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Délai.lister}>Délai</DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })}
+      >
+        Délai
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
 );

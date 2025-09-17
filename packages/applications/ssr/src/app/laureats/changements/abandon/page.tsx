@@ -10,6 +10,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 
 import { AbandonListPage, AbandonListPageProps } from './AbandonList.page';
 
@@ -30,7 +31,7 @@ const paramsSchema = z.object({
     .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined)),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Lauréat.Abandon.StatutAbandon.statuts).optional(),
+  statut: transformToOptionalEnumArray(z.enum(Lauréat.Abandon.StatutAbandon.statuts)),
   preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
   autorite: z.enum(Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes).optional(),
 });
@@ -58,9 +59,11 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
             itemsPerPage: 10,
           }),
-          recandidature,
-          statut,
-          appelOffre,
+          recandidature: recandidature,
+          statut: statut?.length
+            ? statut.map((s) => Lauréat.Abandon.StatutAbandon.convertirEnValueType(s).statut)
+            : undefined,
+          appelOffre: appelOffre,
           preuveRecandidatureStatut,
           nomProjet,
           autoritéCompétente: autorite,
@@ -74,6 +77,18 @@ export default async function Page({ searchParams }: PageProps) {
 
       const filters: ListFilterItem<SearchParams>[] = [
         {
+          label: 'Statut',
+          multiple: true,
+          searchParamKey: 'statut',
+          options: Lauréat.Abandon.StatutAbandon.statuts
+            .filter((s) => s !== 'inconnu' && s !== 'annulé')
+            .sort((a, b) => a.localeCompare(b))
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
+        },
+        {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
           options: appelOffres.items.map((appelOffre) => ({
@@ -81,16 +96,7 @@ export default async function Page({ searchParams }: PageProps) {
             value: appelOffre.id,
           })),
         },
-        {
-          label: 'Statut',
-          searchParamKey: 'statut',
-          options: Lauréat.Abandon.StatutAbandon.statuts
-            .filter((s) => s !== 'inconnu' && s !== 'annulé')
-            .map((statut) => ({
-              label: statut.replace('-', ' ').toLocaleLowerCase(),
-              value: statut,
-            })),
-        },
+
         {
           label: 'Recandidature',
           searchParamKey: 'recandidature',

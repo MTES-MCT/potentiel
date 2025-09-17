@@ -2,8 +2,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
+import { applyStatutFilter } from './_helpers/applyStatutFilter';
+
 type ListerFilters = {
-  statut?: Lauréat.Actionnaire.StatutChangementActionnaire.RawType;
+  statut?: Array<Lauréat.Actionnaire.StatutChangementActionnaire.RawType>;
 };
 
 export const modifier = (identifiantProjet: string) =>
@@ -20,12 +22,13 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/modele-reponse?estAccordé=true`,
   téléchargerModèleRéponseRejeté: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/modele-reponse?estAccordé=false`,
-  lister: (filters: ListerFilters = {}) => {
+  lister: (filters: ListerFilters) => {
     const searchParams = new URLSearchParams();
 
-    if (filters?.statut) {
-      searchParams.set('statut', filters.statut);
-    }
+    applyStatutFilter<Lauréat.Actionnaire.StatutChangementActionnaire.RawType>(
+      searchParams,
+      filters.statut ?? [],
+    );
 
     return `/laureats/changements/actionnaire${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
   },

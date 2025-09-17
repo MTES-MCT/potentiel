@@ -10,51 +10,62 @@ export type FiltersTagListProps = {
   filters: ListFiltersProps['filters'];
 };
 
-type TagFilter = { label: string; searchParamKey: string; affects?: string[] };
+type TagFilter = { searchParamKey: string; label: string; value: string; affects?: string[] };
 
 export const FiltersTagList: FC<FiltersTagListProps> = ({ filters }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const tagFilters = filters.reduce((allFilters, { searchParamKey, label, options, affects }) => {
-    const currentFilterValue = searchParams.get(searchParamKey);
-    if (!currentFilterValue) {
-      return allFilters;
+  const tagFilters = filters.reduce((tagFilters, { searchParamKey, label, options, affects }) => {
+    const currentValues = searchParams.getAll(searchParamKey);
+
+    if (currentValues.length === 0) {
+      return tagFilters;
     }
-    return [
-      ...allFilters,
-      {
-        label: `${label} : ${options.find((x) => x.value === currentFilterValue)?.label}`,
+
+    for (const value of currentValues) {
+      tagFilters.push({
         searchParamKey,
+        label: `${label} : ${options.find((x) => x.value === value)?.label}`,
+        value,
         affects,
-      },
-    ];
+      });
+    }
+
+    return tagFilters;
   }, [] as TagFilter[]);
 
-  const onClick = (tagName: string, affects: string[]) => {
-    const newSearchParams = tagFilters.reduce((urlSearchParams, { searchParamKey }) => {
-      if (searchParams.has(searchParamKey)) {
-        urlSearchParams.set(searchParamKey, searchParams.get(searchParamKey) ?? '');
+  const onClick = (tagName: string, value: string, affects: string[]) => {
+    const existingTagValues = searchParams.getAll(tagName);
+
+    if (existingTagValues.length > 0) {
+      const newTagValues = existingTagValues.filter((v) => v !== value);
+
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete(tagName, value);
+
+      if (newTagValues.length === 0) {
+        for (const affected of affects) {
+          newSearchParams.delete(affected);
+        }
       }
-      return urlSearchParams;
-    }, new URLSearchParams());
-    newSearchParams.delete(tagName);
-    affects.forEach((affected) => newSearchParams.delete(affected));
-    const url = `${pathname}${newSearchParams.size > 0 ? `?${newSearchParams.toString()}` : ''}`;
-    router.push(url);
+
+      const url = `${pathname}?${newSearchParams.toString()}`;
+      return router.push(url);
+    }
   };
 
   return (
     <>
       {tagFilters?.length > 0 && (
-        <ul className="flex flex-row gap-1">
-          {tagFilters.map(({ label, searchParamKey, affects }) => (
-            <li key={`tagFilter-${searchParamKey}`}>
+        <ul className="flex flex-row flex-wrap gap-1">
+          {tagFilters.map(({ searchParamKey, label, value, affects }) => (
+            <li key={`tagFilter-${searchParamKey}-${value}`}>
               <Tag
                 dismissible
                 nativeButtonProps={{
-                  onClick: () => onClick(searchParamKey, affects ?? []),
+                  onClick: () => onClick(searchParamKey, value, affects ?? []),
                 }}
               >
                 {label}
