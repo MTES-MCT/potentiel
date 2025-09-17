@@ -43,7 +43,7 @@ Fonctionnalité: Transmettre une attestation de conformité
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet lauréat
 
-    Scénario: le porteur transmet une attestation de conformité pour un appel d'offre le cahier des charges ne le permet pas
+    Scénario: le porteur transmet une attestation de conformité pour un appel d'offres le cahier des charges ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | CRE4 - Sol |
             | période       | 7          |

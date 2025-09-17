@@ -42,7 +42,7 @@ Fonctionnalité: Choisir un cahier des charges
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors l'utilisateur devrait être informé que "Ce cahier des charges n'est pas disponible pour cette période"
 
-    Scénario: Impossible de revenir au cahier des charges initial après avoir choisi un cahier des charges modifié si l'appel d'offre ne le permet pas
+    Scénario: Impossible de revenir au cahier des charges initial après avoir choisi un cahier des charges modifié si l'appel d'offres ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | CRE4 - Bâtiment |
             | période       | 13              |

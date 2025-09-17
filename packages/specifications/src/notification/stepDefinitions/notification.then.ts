@@ -83,7 +83,7 @@ Alors(
     });
 
     if (Option.isNone(ao)) {
-      throw new Error("L'appel d'offre n'existe pas");
+      throw new Error("L'appel d'offres n'existe pas");
     }
 
     await vérifierEmailEnvoyé.call(this, ao.dossierSuiviPar, data);

@@ -41,7 +41,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
             | la DREAL associée au projet |
 
     Scénario: Accord automatique de la demande de changement de représentant légal d'un projet lauréat
-        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec accord automatique du changement de représentant légal
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offres avec accord automatique du changement de représentant légal
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système accorde automatiquement la demande de changement de représentant légal pour le projet lauréat

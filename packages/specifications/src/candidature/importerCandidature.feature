@@ -49,20 +49,20 @@ Fonctionnalité: Importer une candidature
             | statut                   | classé                           |
         Alors la candidature devrait être consultable
 
-    Scénario: Importer une candidature avec une puissance de site pour un appel d'offre qui a ce champ requis
+    Scénario: Importer une candidature avec une puissance de site pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre     | PPE2 - Petit PV Bâtiment |
             | puissance de site | 100                      |
         Alors la candidature devrait être consultable
 
-    Scénario: Importer une candidature avec une autorisation d'urbanisme pour un appel d'offre qui a ce champ requis
+    Scénario: Importer une candidature avec une autorisation d'urbanisme pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
             | numéro de l'autorisation d'urbanisme           | 123                      |
             | date d'obtention de l'autorisation d'urbanisme | 01/08/2025               |
         Alors la candidature devrait être consultable
 
-    Scénario: Importer une candidature avec une information sur le couplage avec un dispositif de stockage pour un appel d'offre qui a ce champ requis
+    Scénario: Importer une candidature avec une information sur le couplage avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre                            | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
@@ -93,13 +93,13 @@ Fonctionnalité: Importer une candidature
             | statut        | classé          |
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 812             |
-        Alors l'administrateur devrait être informé que "La période d'appel d'offre spécifiée n'existe pas"
+        Alors l'administrateur devrait être informé que "La période spécifiée de l'appel d'offres n'existe pas"
 
     Scénario: Impossible d'importer une candidature avec une famille d'AO inexistante
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut  | classé |
             | famille | 812    |
-        Alors l'administrateur devrait être informé que "La famille de période d'appel d'offre spécifiée n'existe pas"
+        Alors l'administrateur devrait être informé que "La famille spécifiée de la période de l'appel d'offres n'existe pas"
 
     Scénario: Impossible d'importer une candidature sans GF, pour un AO soumis aux GF
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -108,7 +108,7 @@ Fonctionnalité: Importer une candidature
             | période       | 1               |
             | famille       |                 |
             | type GF       |                 |
-        Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
+        Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offres ou famille"
 
     Scénario: Impossible d'importer une candidature classée avec des GF "avec date d'échéance" si la date d'échéance est manquante
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
@@ -213,37 +213,37 @@ Fonctionnalité: Importer une candidature
             | type GF       | garantie-bancaire |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature sans puissance de site pour un appel d'offre qui a ce champ requis
+    Scénario: Impossible d'importer une candidature sans puissance de site pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre     | PPE2 - Petit PV Bâtiment |
             | puissance de site |                          |
         Alors l'administrateur devrait être informé que "La puissance de site est requise pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature avec une puissance de site si l'appel d'offre ne le propose pas
+    Scénario: Impossible d'importer une candidature avec une puissance de site si l'appel d'offres ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre     | PPE2 - Bâtiment |
             | puissance de site | 200             |
         Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature avec l'installateur si l'appel d'offre ne le propose pas
+    Scénario: Impossible d'importer une candidature avec l'installateur si l'appel d'offres ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment  |
             | installateur  | Installateur.Inc |
         Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature avec la nature de l'exploitation si l'appel d'offre ne le propose pas
+    Scénario: Impossible d'importer une candidature avec la nature de l'exploitation si l'appel d'offres ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre            | PPE2 - Bâtiment                 |
             | nature de l'exploitation | vente-avec-injection-du-surplus |
         Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature sans la nature de l'exploitation si l'appel d'offre la requiert
+    Scénario: Impossible d'importer une candidature sans la nature de l'exploitation si l'appel d'offres la requiert
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre            | PPE2 - Petit PV Bâtiment |
             | nature de l'exploitation |                          |
         Alors l'administrateur devrait être informé que "La nature de l'exploitation est requise pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offre qui a ces champs requis
+    Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offres qui a ces champs requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
             | numéro de l'autorisation d'urbanisme           |                          |

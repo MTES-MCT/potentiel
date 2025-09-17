@@ -166,7 +166,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  "le projet lauréat {string} sur une période d'appel d'offre avec {accord-rejet} automatique du changement de représentant légal",
+  "le projet lauréat {string} sur une période d'appel d'offres avec {accord-rejet} automatique du changement de représentant légal",
   async function (this: PotentielWorld, nomProjet: string, action: 'accord' | 'rejet') {
     const { appelOffre, période } = match(action)
       .with('accord', () => ({

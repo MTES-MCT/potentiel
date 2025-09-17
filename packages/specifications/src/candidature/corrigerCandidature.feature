@@ -49,7 +49,7 @@ Fonctionnalité: Corriger une candidature
             | puissance de site | 200 |
         Alors la candidature devrait être consultable
 
-    Scénario: Corriger l'autorisation d'urbanisme d'une candidature pour un appel d'offre qui a ce champ
+    Scénario: Corriger l'autorisation d'urbanisme d'une candidature pour un appel d'offres qui a ce champ
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
             | numéro de l'autorisation d'urbanisme           | ancien numéro            |
@@ -59,7 +59,7 @@ Fonctionnalité: Corriger une candidature
             | date d'obtention de l'autorisation d'urbanisme | 01/07/2025     |
         Alors la candidature devrait être consultable
 
-    Scénario: Corriger l'installateur d'une candidature pour un appel d'offre qui a ce champ
+    Scénario: Corriger l'installateur d'une candidature pour un appel d'offres qui a ce champ
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Petit PV Bâtiment |
             | installateur  | Installateur.Junior.Inc  |
@@ -67,7 +67,7 @@ Fonctionnalité: Corriger une candidature
             | installateur | Installateur.Senior.Inc |
         Alors la candidature devrait être consultable
 
-    Scénario: Corriger la nature de l'exploitation d'une candidature pour un appel d'offre qui a ce champ
+    Scénario: Corriger la nature de l'exploitation d'une candidature pour un appel d'offres qui a ce champ
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre            | PPE2 - Petit PV Bâtiment         |
             | nature de l'exploitation | vente-avec-injection-en-totalité |
@@ -97,12 +97,12 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de changer la période d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | période | x |
-        Alors l'administrateur devrait être informé que "La période d'appel d'offre spécifiée n'existe pas"
+        Alors l'administrateur devrait être informé que "La période spécifiée de l'appel d'offres n'existe pas"
 
     Scénario: Impossible de corriger une candidature avec une famille d'AO inexistante
         Quand le DGEC validateur corrige la candidature avec :
             | famille | x |
-        Alors l'administrateur devrait être informé que "La famille de période d'appel d'offre spécifiée n'existe pas"
+        Alors l'administrateur devrait être informé que "La famille spécifiée de la période de l'appel d'offres n'existe pas"
 
     Scénario: Impossible de changer le numéro CRE d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
@@ -116,7 +116,7 @@ Fonctionnalité: Corriger une candidature
             | famille       |                 |
         Quand le DGEC validateur corrige la candidature avec :
             | type GF |  |
-        Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
+        Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offres ou famille"
 
     Scénario: Impossible de corriger une candidature classée avec des GF "avec date d'échéance" si la date d'échéance est manquante
         Quand le DGEC validateur corrige la candidature avec :
@@ -230,7 +230,7 @@ Fonctionnalité: Corriger une candidature
             | type GF | garantie-bancaire |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
-    Scénario: Impossible de corriger une candidature sans puissance de site pour un appel d'offre qui a ce champ requis
+    Scénario: Impossible de corriger une candidature sans puissance de site pour un appel d'offres qui a ce champ requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre     | PPE2 - Petit PV Bâtiment |
             | puissance de site | 100                      |

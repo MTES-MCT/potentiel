@@ -48,7 +48,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
 
     # Cette règle ne concerne que Eolien et PV Eolien, et le cas ne s'est pas encore présenté, il a donc été décidé de ne pas l'implémenter pour le moment
     @NotImplemented
-    Scénario: Enregistrer un changement de producteur d'un projet lauréat après l'achèvement du projet, si l'appel d'offre empêche un changement avant l'achèvement du projet
+    Scénario: Enregistrer un changement de producteur d'un projet lauréat après l'achèvement du projet, si l'appel d'offres empêche un changement avant l'achèvement du projet
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
             | appel d'offre | Eolien |
             | période       | 1      |
@@ -60,12 +60,12 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         # à challenger, le projet étant achevé il ne devrait sûrement pas apparaitre dans la list des projets à réclamer...
         Et le projet lauréat est consultable dans la liste des projets à réclamer
 
-    Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat si l'appel d'offre empêche un changement avant l'achèvement du projet
+    Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat si l'appel d'offres empêche un changement avant l'achèvement du projet
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
             | appel d'offre | Eolien |
             | période       | 1      |
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur devrait être informé que "L'appel d'offre du projet empêche un changement de producteur avant l'achèvement du projet"
+        Alors le porteur devrait être informé que "L'appel d'offres du projet empêche un changement de producteur avant l'achèvement du projet"
 
     Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat avec un producteur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

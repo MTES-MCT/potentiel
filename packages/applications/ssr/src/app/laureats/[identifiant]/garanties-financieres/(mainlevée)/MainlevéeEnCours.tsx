@@ -120,7 +120,7 @@ const Actions: FC<ActionsProps> = ({ identifiantProjet, actions, urlAppelOffre }
             )}
           </div>
           <p className="italic mt-4">
-            Vous pouvez consulter le cahier des charges de l'appel d'offre du projet sur{' '}
+            Vous pouvez consulter le cahier des charges de l'appel d'offres du projet sur{' '}
             <Link href={urlAppelOffre} target="_blank">
               cette page de la CRE
             </Link>

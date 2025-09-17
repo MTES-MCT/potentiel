@@ -26,7 +26,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
             | la DREAL associée au projet |
 
     Scénario: Rejet automatique de la demande de changement de représentant légal d'un projet lauréat
-        Etant donné le projet lauréat "Du boulodrome de Besançon" sur une période d'appel d'offre avec rejet automatique du changement de représentant légal
+        Etant donné le projet lauréat "Du boulodrome de Besançon" sur une période d'appel d'offres avec rejet automatique du changement de représentant légal
         Et la dreal "Dreal du nord-est" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système rejette automatiquement la demande de changement de représentant légal pour le projet lauréat
