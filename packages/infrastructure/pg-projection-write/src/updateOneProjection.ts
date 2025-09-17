@@ -52,7 +52,7 @@ export const getUpdateClause = <TProjection extends Entity>(
         ? toJsonbString(value)
         : value,
   );
-  return [`update domain_views.projection p1 set value=${jsonb_set}`, values];
+  return [`update domain_views.projection p set value=${jsonb_set}`, values];
 };
 
 const toJsonbString = (value: string) => {

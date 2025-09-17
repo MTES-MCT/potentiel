@@ -2,26 +2,26 @@ import format from 'pg-format';
 
 import { Entity, JoinOptions } from '@potentiel-domain/entity';
 
-type GetFromClauseOptions<
-  TEntity extends Entity,
-  TJoin extends Entity | {} = {},
-> = TJoin extends Entity ? { join: JoinOptions<TEntity, TJoin> } : { join?: undefined };
+type GetFromClauseParams = {
+  joins: Array<JoinOptions<Entity, Entity>>;
+};
 
-export const getFromClause = <TEntity extends Entity, TJoin extends Entity | {} = {}>({
-  join,
-}: GetFromClauseOptions<TEntity, TJoin>): string => {
-  const baseClause = 'from domain_views.projection p1';
+export const getFromClause = ({ joins }: GetFromClauseParams): string => {
+  const baseClause = 'from domain_views.projection p';
 
-  if (join) {
+  if (joins.length === 0) return baseClause;
+
+  return joins.reduce((clause, join) => {
     const joinClause = getJoinClause(join);
-    return `${baseClause} ${joinClause}`;
-  }
-  return baseClause;
+    return `${clause} ${joinClause}`;
+  }, baseClause);
 };
 
 const getJoinClause = <TEntity extends Entity>(join: JoinOptions<TEntity, Entity>) =>
   format(
-    `inner join domain_views.projection p2 on p2.key=format('%s|%%%%s', p1.value->>%L)`,
-    join.entity,
+    `inner join domain_views.projection as %I on %I.key=format('%s|%%%%s', p.value->>%L)`,
+    join.entity, // as "entityName"
+    join.entity, // on "entityName".key=...
+    join.entity, // format('%s|...', 'entityName')
     join.on,
   );

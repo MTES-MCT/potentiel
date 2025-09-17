@@ -13,6 +13,6 @@ export const getOrderClause = <TEntity extends Entity>(
   );
 
   return `order by ${Object.entries(flattenOrderBy)
-    .map(([key, value]) => `p1.value->>'${key}' ${value === 'ascending' ? 'ASC' : 'DESC'}`)
+    .map(([key, value]) => `p.value->>'${key}' ${value === 'ascending' ? 'ASC' : 'DESC'}`)
     .join(', ')}`;
 };
