@@ -1,6 +1,5 @@
 # language: fr
 @candidature
-@select
 Fonctionnalité: Corriger une candidature
 
     Contexte:

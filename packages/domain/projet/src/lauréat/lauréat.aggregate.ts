@@ -208,6 +208,11 @@ export class LauréatAggregate extends AbstractAggregate<
       InstallationAvecDispositifDeStockageAggregate,
       `installation-avec-dispositif-de-stockage|${this.projet.identifiantProjet.formatter()}`,
     );
+
+    this.#natureDeLExploitation = await this.loadAggregate(
+      NatureDeLExploitationAggregate,
+      `nature-de-l-exploitation|${this.projet.identifiantProjet.formatter()}`,
+    );
   }
 
   async loadTâchePlanifiée(typeTâchePlanifiée: string) {
