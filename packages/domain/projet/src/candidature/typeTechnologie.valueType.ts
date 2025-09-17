@@ -76,6 +76,6 @@ class TypeTechnologieInvalideError extends InvalidOperationError {
 
 class TypeTechnologieNonDéterminéError extends InvalidOperationError {
   constructor() {
-    super(`Le type de la technologie ne peut être déterminé pour cet appel d'offre`);
+    super(`Le type de la technologie ne peut être déterminé pour cet appel d'offres`);
   }
 }

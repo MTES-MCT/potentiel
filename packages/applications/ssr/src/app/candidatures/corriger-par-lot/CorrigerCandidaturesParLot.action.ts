@@ -53,7 +53,6 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
             dépôtValue: {
               ...line,
               dateDélibérationGf: undefined, // non supporté dans le CSV
-              natureDeLExploitation: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
               localité: getLocalité(line),
             },

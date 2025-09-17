@@ -91,6 +91,7 @@ describe('Schema candidature', () => {
       installateur: undefined,
       typologieInstallation: [],
       installationAvecDispositifDeStockage: undefined,
+      natureDeLExploitation: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -132,6 +133,7 @@ describe('Schema candidature', () => {
       installateur: undefined,
       typologieInstallation: [],
       installationAvecDispositifDeStockage: undefined,
+      natureDeLExploitation: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -149,6 +151,7 @@ describe('Schema candidature', () => {
       "Numéro de l'autorisation d'urbanisme": '123',
       "Identité de l'installateur": 'Installateur Inc.',
       'Installation couplée à un dispositif de stockage': 'oui',
+      'Nature de l’exploitation': 'vente-avec-injection-du-surplus',
     });
     assertNoError(result);
     const expected: CandidatureShape = {
@@ -184,6 +187,7 @@ describe('Schema candidature', () => {
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
       installateur: 'Installateur Inc.',
       installationAvecDispositifDeStockage: true,
+      natureDeLExploitation: 'vente-avec-injection-du-surplus',
       typologieInstallation: [
         {
           typologie: 'agrivoltaique.jachère-plus-de-5-ans',
@@ -197,7 +201,6 @@ describe('Schema candidature', () => {
         },
       ],
     };
-
     deepEqualWithRichDiff(result.data, expected);
   });
 

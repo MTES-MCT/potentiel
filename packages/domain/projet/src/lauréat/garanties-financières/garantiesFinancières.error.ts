@@ -46,7 +46,7 @@ export class DateDélibérationNonAttendueError extends InvalidOperationError {
 
 export class TypeGarantiesFinancièresNonDisponiblePourAppelOffreError extends InvalidOperationError {
   constructor() {
-    super(`Ce type de garanties financières n'est pas disponible pour cet appel d'offre`);
+    super(`Ce type de garanties financières n'est pas disponible pour cet appel d'offres`);
   }
 }
 

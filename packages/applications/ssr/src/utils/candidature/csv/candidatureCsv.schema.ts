@@ -258,6 +258,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
               }
             : undefined,
         installateur: val.installateur,
+        natureDeLExploitation: val.natureDeLExploitation,
         typologieInstallation: mapCsvToTypologieInstallation({
           typologieDeBâtiment,
           typeInstallationsAgrivoltaiques,

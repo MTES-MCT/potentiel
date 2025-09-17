@@ -75,6 +75,7 @@ describe('candidatureSchema', () => {
       numeroDAutorisationDUrbanisme: '666',
       puissanceDeSite: '200',
       installationAvecDispositifDeStockage: 'true',
+      natureDeLExploitation: 'vente-avec-injection-du-surplus',
     });
     assert(result.success);
     expect(result.data).to.deep.equal({
@@ -85,6 +86,7 @@ describe('candidatureSchema', () => {
       dateDAutorisationDUrbanisme: new Date(dateDAutorisationDUrbanisme).toISOString(),
       numeroDAutorisationDUrbanisme: '666',
       installationAvecDispositifDeStockage: true,
+      natureDeLExploitation: 'vente-avec-injection-du-surplus',
     });
   });
 

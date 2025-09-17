@@ -87,56 +87,56 @@ export class ChoixCoefficientKNonAttenduError extends InvalidOperationError {
 
 export class PuissanceDeSiteRequiseError extends InvalidOperationError {
   constructor() {
-    super(`La puissance de site est requise pour cet appel d'offre`);
+    super(`La puissance de site est requise pour cet appel d'offres`);
   }
 }
 
 export class PuissanceDeSiteNonAttendueError extends InvalidOperationError {
   constructor() {
-    super(`La puissance de site ne peut être renseignée pour cet appel d'offre`);
+    super(`La puissance de site ne peut être renseignée pour cet appel d'offres`);
   }
 }
 
 export class InstallateurRequisError extends InvalidOperationError {
   constructor() {
-    super(`L'installateur est requis pour cet appel d'offre`);
+    super(`L'installateur est requis pour cet appel d'offres`);
   }
 }
 
 export class InstallateurNonAttenduError extends InvalidOperationError {
   constructor() {
-    super(`L'installateur ne peut être renseigné pour cet appel d'offre`);
+    super(`L'installateur ne peut être renseigné pour cet appel d'offres`);
   }
 }
 
 export class NatureDeLExploitationRequiseError extends InvalidOperationError {
   constructor() {
-    super(`La nature de l'exploitation est requise pour cet appel d'offre`);
+    super(`La nature de l'exploitation est requise pour cet appel d'offres`);
   }
 }
 
 export class NatureDeLExploitationNonAttendueError extends InvalidOperationError {
   constructor() {
-    super(`La nature de l'exploitation ne peut être renseignée pour cet appel d'offre`);
+    super(`La nature de l'exploitation ne peut être renseignée pour cet appel d'offres`);
   }
 }
 
 export class TechnologieRequiseError extends InvalidOperationError {
   constructor() {
-    super("Une technologie est requise pour cet appel d'offre");
+    super("Une technologie est requise pour cet appel d'offres");
   }
 }
 
 export class TechnologieIndisponibleError extends InvalidOperationError {
   constructor() {
-    super("Cette technologie n'est pas disponible pour cet appel d'offre");
+    super("Cette technologie n'est pas disponible pour cet appel d'offres");
   }
 }
 
 export class AutorisationDUrbanismeRequiseError extends InvalidOperationError {
   constructor() {
     super(
-      "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offre",
+      "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offres",
     );
   }
 }

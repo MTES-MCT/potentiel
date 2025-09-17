@@ -4,6 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Fournisseur } from '../lauréat/fournisseur';
 import { GarantiesFinancières } from '../lauréat';
 import { Lauréat } from '..';
+import { TypeDeNatureDeLExploitation } from '../lauréat/nature-de-l-exploitation';
 
 import {
   HistoriqueAbandon,
@@ -40,9 +41,7 @@ export type RawType = {
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
   installationAvecDispositifDeStockage: boolean | undefined;
-  natureDeLExploitation:
-    | Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType
-    | undefined;
+  natureDeLExploitation: TypeDeNatureDeLExploitation.RawType | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{

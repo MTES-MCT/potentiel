@@ -92,7 +92,7 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de changer l'AO d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | appel d'offre | x |
-        Alors l'administrateur devrait être informé que "L'appel d'offre spécifié n'existe pas"
+        Alors l'administrateur devrait être informé que "l'appel d'offres spécifié n'existe pas"
 
     Scénario: Impossible de changer la période d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
@@ -196,7 +196,7 @@ Fonctionnalité: Corriger une candidature
             | technologie   | N/A             |
         Quand le DGEC validateur corrige la candidature avec :
             | technologie | <Technologie> |
-        Alors l'administrateur devrait être informé que "Cette technologie n'est pas disponible pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "Cette technologie n'est pas disponible pour cet appel d'offres"
 
         Exemples:
             | Appel d'offre   | Technologie |
@@ -210,7 +210,7 @@ Fonctionnalité: Corriger une candidature
             | technologie   | pv            |
         Quand le DGEC validateur corrige la candidature avec :
             | technologie | N/A |
-        Alors l'administrateur devrait être informé que "Une technologie est requise pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "Une technologie est requise pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature sans choix du coefficient K si la période le propose
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -228,7 +228,7 @@ Fonctionnalité: Corriger une candidature
             | appel d'offre | PPE2 - Bâtiment |
         Quand le DGEC validateur corrige la candidature avec :
             | type GF | garantie-bancaire |
-        Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature sans puissance de site pour un appel d'offre qui a ce champ requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
@@ -236,24 +236,24 @@ Fonctionnalité: Corriger une candidature
             | puissance de site | 100                      |
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site |  |
-        Alors l'administrateur devrait être informé que "La puissance de site est requise pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "La puissance de site est requise pour cet appel d'offres"
 
-    Scénario: Impossible de corriger une candidature avec une puissance de site si l'appel d'offre ne le propose pas
+    Scénario: Impossible de corriger une candidature avec une puissance de site si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | puissance de site | 100 |
-        Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"
 
-    Scénario: Impossible de corriger une candidature avec un installateur si l'appel d'offre ne le propose pas
+    Scénario: Impossible de corriger une candidature avec un installateur si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | installateur | Installateur.Inc |
-        Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offres"
 
-    Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offre ne le propose pas
+    Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | nature de l'exploitation | vente-avec-injection-en-totalité |
-        Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offres"
 
-    Scénario: Impossible de corriger une candidature sans autorisation d'urbanisme si l'appel d'offre a ces champs requis
+    Scénario: Impossible de corriger une candidature sans autorisation d'urbanisme si l'appel d'offres a ces champs requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre                                  | PPE2 - Petit PV Bâtiment |
             | numéro de l'autorisation d'urbanisme           | numéro d'autorisation    |
@@ -261,7 +261,7 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | numéro de l'autorisation d'urbanisme           |  |
             | date d'obtention de l'autorisation d'urbanisme |  |
-        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offre"
+        Alors l'administrateur devrait être informé que "Le numéro et la date d'obtention de l'autorisation d'urbanisme sont requis pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature avec une date d'obtention de l'autorisation d'urbanisme dans le futur
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
