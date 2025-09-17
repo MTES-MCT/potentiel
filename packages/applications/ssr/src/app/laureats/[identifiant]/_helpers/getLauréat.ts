@@ -3,7 +3,7 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { CahierDesCharges, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getCahierDesCharges } from '../../../_helpers';
@@ -20,16 +20,27 @@ export type GetLauréat = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   installateur?: Lauréat.Installateur.ConsulterInstallateurReadModel;
+  installationAvecDispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
+  const cahierDesCharges = await getCahierDesCharges(
+    IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  );
+  const champsSupplémentaires = cahierDesCharges.getChampsSupplémentaires();
+
   const lauréat = await getLauréatInfos({ identifiantProjet });
   const actionnaireInfos = await getActionnaireInfos({ identifiantProjet });
   const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet });
   const puissanceInfos = await getPuissanceInfos({ identifiantProjet });
   const producteurInfos = await getProducteurInfos({ identifiantProjet });
   const fournisseurInfos = await getFournisseurInfos({ identifiantProjet });
-  const installateurInfos = await getInstallateurInfos({ identifiantProjet });
+
+  const installateurInfos =
+    champsSupplémentaires.installateur && (await getInstallateurInfos({ identifiantProjet }));
+  const installationAvecDispositifDeStockageInfo =
+    champsSupplémentaires.installationAvecDispositifDeStockage &&
+    (await getInstallationAvecDispositifDeStockageInfos({ identifiantProjet }));
 
   return {
     actionnaire: actionnaireInfos,
@@ -38,6 +49,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
     installateur: installateurInfos,
+    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageInfo,
     lauréat,
   };
 });
@@ -152,21 +164,6 @@ export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
 };
 
 export const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
-  const logger = getLogger('getInstallateurInfos');
-
-  const cahierDesCharges = await getCahierDesCharges(
-    IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  );
-
-  const champsSupplémentaires = CahierDesCharges.bind(cahierDesCharges).getChampsSupplémentaires();
-
-  if (!champsSupplémentaires.installateur) {
-    logger.info(`Le cahier des charges du projet lauréat ne prévoit pas de champ installateur`, {
-      identifiantProjet,
-    });
-    return undefined;
-  }
-
   const installateur = await mediator.send<Lauréat.Installateur.ConsulterInstallateurQuery>({
     type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
     data: {
@@ -175,9 +172,28 @@ export const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
   });
 
   if (Option.isNone(installateur)) {
-    logger.warn(`Installateur non trouvé pour le projet lauréat`, { identifiantProjet });
-    return notFound();
+    return;
   }
 
   return installateur;
+};
+
+export const getInstallationAvecDispositifDeStockageInfos = async ({
+  identifiantProjet,
+}: Props) => {
+  const installationAvecDispositifDeStockage =
+    await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
+      {
+        type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
+        data: {
+          identifiantProjet,
+        },
+      },
+    );
+
+  if (Option.isNone(installationAvecDispositifDeStockage)) {
+    return notFound();
+  }
+
+  return installationAvecDispositifDeStockage;
 };

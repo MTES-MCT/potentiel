@@ -19,6 +19,7 @@ import { GetProducteurForProjectPage } from '../../../../controllers/project/get
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import {
   GetActionnaireForProjectPage,
+  GetInstallationAvecDispositifDeStockageForProjectPage,
   GetReprésentantLégalForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
 import { GetDélaiForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getDélai';
@@ -33,6 +34,7 @@ type EnregistrerUneModificationProps = {
   délaiAffichage?: GetDélaiForProjectPage['affichage'];
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
   installateurAffichage?: GetInstallateurForProjectPage['affichage'];
+  installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
 };
 
 const EnregistrerUneModification = ({
@@ -43,6 +45,7 @@ const EnregistrerUneModification = ({
   délaiAffichage,
   fournisseurAffichage,
   installateurAffichage,
+  installationAvecDispositifDeStockageAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -79,6 +82,13 @@ const EnregistrerUneModification = ({
       {!!installateurAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={installateurAffichage.url}>
           <span>{installateurAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!installationAvecDispositifDeStockageAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem
+          href={installationAvecDispositifDeStockageAffichage.url}
+        >
+          <span>{installationAvecDispositifDeStockageAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
     </DropdownMenuSecondaryButton>
@@ -224,6 +234,7 @@ type AdminActionsProps = {
   délaiAffichage?: GetDélaiForProjectPage['affichage'];
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
   installateurAffichage?: GetInstallateurForProjectPage['affichage'];
+  installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
 };
 
 const AdminActions = ({
@@ -236,6 +247,7 @@ const AdminActions = ({
   délaiAffichage,
   fournisseurAffichage,
   installateurAffichage,
+  installationAvecDispositifDeStockageAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -248,6 +260,9 @@ const AdminActions = ({
           délaiAffichage={délaiAffichage}
           fournisseurAffichage={fournisseurAffichage}
           installateurAffichage={installateurAffichage}
+          installationAvecDispositifDeStockageAffichage={
+            installationAvecDispositifDeStockageAffichage
+          }
         />
       )}
       {notifiedOn && isClasse ? (
@@ -339,6 +354,7 @@ export const ProjectActions = ({
   délaiAffichage,
   installateurAffichage,
   features,
+  installationAvecDispositifDeStockageAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -360,6 +376,9 @@ export const ProjectActions = ({
           délaiAffichage={délaiAffichage}
           fournisseurAffichage={fournisseurAffichage}
           installateurAffichage={installateurAffichage}
+          installationAvecDispositifDeStockageAffichage={
+            installationAvecDispositifDeStockageAffichage
+          }
         />
       )}
       {userIs(['porteur-projet'])(user) && (

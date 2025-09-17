@@ -16,7 +16,7 @@ import { FournisseurWorld } from './fournisseur/fournisseur.world';
 import { DélaiWorld } from './délai/délai.world';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
 import { InstallateurWorld } from './installateur/installateur.world';
-import { InstallationAvecDispositifDeStockageWorld } from './installationAvecDispositifDeStockage/stepDefinitions/installationAvecDispositifDeStockage.world';
+import { InstallationAvecDispositifDeStockageWorld } from './installation-avec-dispositif-de-stockage/stepDefinitions/installationAvecDispositifDeStockage.world';
 
 type LauréatFixture = {
   nom: string;

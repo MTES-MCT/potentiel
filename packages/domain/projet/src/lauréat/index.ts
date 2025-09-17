@@ -76,4 +76,4 @@ export * as Raccordement from './raccordement';
 export * as TâchePlanifiée from './tâche-planifiée';
 export * as Tâche from './tâche';
 export * as Installateur from './installateur';
-export * as InstallationAvecDispositifDeStockage from './installationAvecDispositifDeStockage';
+export * as InstallationAvecDispositifDeStockage from './installation-avec-dispositif-de-stockage';

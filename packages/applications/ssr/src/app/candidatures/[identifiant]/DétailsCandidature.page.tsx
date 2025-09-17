@@ -100,6 +100,11 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>{dépôt.installateur || 'Non renseigné'}</span>
                 </Field>
               )}
+              {dépôt.installationAvecDispositifDeStockage !== undefined && (
+                <Field name="Dispositif de stockage">
+                  <span>{dépôt.installationAvecDispositifDeStockage ? 'avec' : 'sans'}</span>
+                </Field>
+              )}
               <Field name="Performances">
                 <span>Puissance installée : {dépôt.puissanceProductionAnnuelle} MW</span>
                 <span>Prix de référence : {dépôt.prixReference} €/MWh</span>

@@ -27,6 +27,7 @@ import {
   getRaccordement,
   getActionnaire,
   getDateAchèvementPrévisionnel,
+  getInstallationAvecDispositifDeStockage,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -248,6 +249,11 @@ v1Router.get(
         rôle: user.role,
       });
 
+      const installationAvecDispositifDeStockage = await getInstallationAvecDispositifDeStockage({
+        identifiantProjet: identifiantProjetValueType,
+        rôle: user.role,
+      });
+
       return response.send(
         ProjectDetailsPage({
           request,
@@ -293,6 +299,7 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
+          installationAvecDispositifDeStockage,
         }),
       );
     },

@@ -1,4 +1,7 @@
-import { InstallationAvecDispositifDeStockageProjector } from '@potentiel-applications/projectors';
+import {
+  HistoriqueProjector,
+  InstallationAvecDispositifDeStockageProjector,
+} from '@potentiel-applications/projectors';
 import { InstallationAvecDispositifDeStockageNotifications } from '@potentiel-applications/notifications';
 
 import { SetupProjet } from '../setup';
@@ -33,6 +36,15 @@ export const setupInstallationAvecDispositifDeStockage: SetupProjet = async ({ s
     name: 'notifications',
     eventType: ['InstallationAvecDispositifDeStockageModifiée-V1'],
     messageType: 'System.Notification.Lauréat.InstallationAvecDispositifDeStockage',
+  });
+
+  await installationAvecDispositifDeStockage.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
   });
 
   return installationAvecDispositifDeStockage.clearSubscriptions;

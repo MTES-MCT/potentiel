@@ -20,7 +20,11 @@ import { InfoActionnaire } from './InfoActionnaire';
 import { InfoInstallateur } from './InfoInstallateur';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';
-import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
+import { InfoInstallationAvecDispositifDeStockage } from './InfoInstallationAvecDispositifDeStockage';
+import {
+  GetActionnaireForProjectPage,
+  GetInstallationAvecDispositifDeStockageForProjectPage,
+} from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetInstallateurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getInstallateur';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -49,6 +53,7 @@ export type InfoGeneralesProps = {
   estAchevé: boolean;
   attestationConformité?: AttestationConformitéProps;
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
+  installationAvecDispositifDeStockage?: GetInstallationAvecDispositifDeStockageForProjectPage;
 };
 
 export const InfoGenerales = ({
@@ -80,6 +85,7 @@ export const InfoGenerales = ({
   attestationConformité,
   autorisationDUrbanisme,
   installateur,
+  installationAvecDispositifDeStockage,
 }: InfoGeneralesProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -156,6 +162,11 @@ export const InfoGenerales = ({
         </div>
       ) : null}
       {installateur ? <InfoInstallateur installateur={installateur} /> : null}
+      {installationAvecDispositifDeStockage !== undefined ? (
+        <InfoInstallationAvecDispositifDeStockage
+          installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
+        />
+      ) : null}
       {actionnaire ? (
         <InfoActionnaire
           actionnaire={actionnaire}

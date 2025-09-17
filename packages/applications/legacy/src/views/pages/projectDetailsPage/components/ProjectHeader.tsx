@@ -6,11 +6,12 @@ import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 import {
   GetActionnaireAffichageForProjectPage,
+  GetInstallationAvecDispositifDeStockageForProjectPage,
   GetReprésentantLégalForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
-import { GetFournisseurForProjectPage } from 'src/controllers/project/getProjectPage/_utils/getFournisseur';
+import { GetFournisseurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getFournisseur';
 import { GetInstallateurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getInstallateur';
 
 export type ProjectHeaderProps = {
@@ -26,6 +27,7 @@ export type ProjectHeaderProps = {
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
   installateurAffichage?: GetInstallateurForProjectPage['affichage'];
+  installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
   délaiAffichage?: {
     label?: string;
     labelActions: string;
@@ -48,6 +50,7 @@ export const ProjectHeader = ({
   fournisseurAffichage,
   installateurAffichage,
   délaiAffichage,
+  installationAvecDispositifDeStockageAffichage,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -87,6 +90,9 @@ export const ProjectHeader = ({
         délaiAffichage={délaiAffichage}
         installateurAffichage={installateurAffichage}
         features={user.features}
+        installationAvecDispositifDeStockageAffichage={
+          installationAvecDispositifDeStockageAffichage
+        }
       />
     </div>
   </div>
