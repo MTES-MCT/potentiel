@@ -66,9 +66,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     recours: {
       demande: true,
     },
-    achèvement: {
-      informationEnregistrée: true,
-    },
     abandon: {
       demande: true,
       autoritéCompétente: 'dgec',

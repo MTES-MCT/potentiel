@@ -31,9 +31,6 @@ const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
   recours: {
     demande: true,
   },
-  achèvement: {
-    informationEnregistrée: true,
-  },
   abandon: {
     demande: true,
     autoritéCompétente: 'dgec',

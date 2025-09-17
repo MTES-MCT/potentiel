@@ -36,9 +36,6 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
     recours: {
       demande: true,
     },
-    achèvement: {
-      informationEnregistrée: true,
-    },
     abandon: {
       demande: true,
       autoritéCompétente: 'dreal',

@@ -40,9 +40,6 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
     recours: {
       demande: true,
     },
-    achèvement: {
-      informationEnregistrée: true,
-    },
     abandon: {
       demande: true,
       autoritéCompétente: 'dgec',
