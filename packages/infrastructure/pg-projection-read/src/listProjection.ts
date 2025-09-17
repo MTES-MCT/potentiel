@@ -2,7 +2,6 @@ import format from 'pg-format';
 
 import {
   Entity,
-  Joined,
   JoinOptions,
   ListOptions,
   ListResult,
@@ -21,11 +20,10 @@ import { mapResult } from './mapResult';
 
 export const listProjection = async <
   TEntity extends Entity,
-  TJoin extends Entity | {} = {},
-  TJoin2 extends Entity | {} = {},
+  TJoin extends Entity | Entity[] | {} = {},
 >(
   category: TEntity['type'],
-  options?: ListOptions<TEntity, TJoin, TJoin2>,
+  options?: ListOptions<TEntity, TJoin>,
 ): Promise<ListResult<TEntity, TJoin>> => {
   const { orderBy, range, where, join } = options ?? {};
   const joins = (Array.isArray(join) ? join : join ? [join] : []) as JoinOptions[];
@@ -44,18 +42,12 @@ export const listProjection = async <
   );
 
   const result = await executeSelect<
-    KeyValuePair<TEntity> & { join_values: { category: string; value: unknown }[] }
+    KeyValuePair<TEntity> & { join_values?: { category: string; value: unknown }[] }
   >(select, ...whereValues);
 
-  // TODO simplify ?
-  const total = join
-    ? await countProjection<TEntity, Entity>(category, {
-        where,
-        join: Array.isArray(join) ? join[0] : join,
-      })
-    : await countProjection<TEntity>(category, { where });
+  const total = await countProjection<TEntity, Entity[]>(category, { where, join: joins });
 
-  const items = result.map((item) => mapResult(item)) as (TEntity & Joined<TJoin & TJoin2>)[];
+  const items = result.map(mapResult<TEntity, TJoin>);
 
   return {
     total,

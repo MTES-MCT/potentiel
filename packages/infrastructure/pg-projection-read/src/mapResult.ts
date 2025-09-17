@@ -3,7 +3,7 @@ import { unflatten } from '@potentiel-libraries/flat';
 
 import { KeyValuePair } from './keyValuePair';
 
-export const mapResult = <TEntity extends Entity, TJoin extends Entity | {} = {}>({
+export const mapResult = <TEntity extends Entity, TJoin extends Entity | {}>({
   key,
   value,
   join_values,

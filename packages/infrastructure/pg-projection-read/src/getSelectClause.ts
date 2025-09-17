@@ -13,9 +13,7 @@ export const getSelectClause = <TEntity extends Entity>({
     return addProjection('SELECT p.key, p.value', joinCategories);
   }
 
-  const selectValues = select
-    .map((field) => format(`'%L', p.value->>'%L'`, field, field))
-    .join(', ');
+  const selectValues = select.map((field) => format('%L, p.value->>%L', field, field)).join(', ');
 
   return addProjection(
     `SELECT p.key, jsonb_build_object(${selectValues}) as value`,

@@ -16,14 +16,14 @@ type Condition = { name: string; value?: unknown; operator: WhereOperator };
 type GetWhereClauseOptions = {
   key: EqualWhereCondition<string> | LikeWhereCondition;
   where?: WhereOptions<Omit<Entity, 'type'>>;
-  joins: JoinOptions[];
+  joins?: JoinOptions[];
 };
 
 /** Returns the whole where clause (including key, filters, and join), and parameters */
 export const getWhereClause = ({
   key,
   where,
-  joins,
+  joins = [],
 }: GetWhereClauseOptions): [clause: string, values: Array<unknown>] => {
   const baseWhereClause = key.operator === 'like' ? `where p.key LIKE $1` : `where p.key = $1`;
 

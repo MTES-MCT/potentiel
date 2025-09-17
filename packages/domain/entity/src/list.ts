@@ -1,38 +1,22 @@
 import { Entity } from './entity';
-import { Joined, JoinOptions } from './joinOptions';
+import { Joined, JoinOptionsParams } from './joinOptions';
 import { OrderByOptions } from './orderByOptions';
 import { RangeOptions } from './rangeOptions';
 import { WhereOptions } from './whereOptions';
 
-export type ListOptions<
-  TEntity extends Entity,
-  TJoin extends Entity | {} = {},
-  TJoin2 extends Entity | {} = {},
-> = {
+export type ListOptions<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
   orderBy?: OrderByOptions<Omit<TEntity, 'type'>>;
   range?: RangeOptions;
   where?: WhereOptions<Omit<TEntity, 'type'>>;
-} & (TJoin extends Entity
-  ? TJoin2 extends Entity
-    ? { join: [JoinOptions<TEntity, TJoin>, JoinOptions<TEntity, TJoin2>] }
-    : { join: JoinOptions<TEntity, TJoin> }
-  : { join?: undefined });
+} & JoinOptionsParams<TEntity, TJoin>;
 
-export type ListResult<
-  TEntity extends Entity,
-  TJoin extends Entity | {} = {},
-  TJoin2 extends Entity | {} = {},
-> = {
+export type ListResult<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
   total: number;
-  items: ReadonlyArray<TEntity & Joined<TJoin> & Joined<TJoin2>>;
+  items: ReadonlyArray<TEntity & Joined<TJoin>>;
   range: RangeOptions;
 };
 
-export type List = <
-  TEntity extends Entity,
-  TJoin extends Entity | {} = {},
-  TJoin2 extends Entity | {} = {},
->(
+export type List = <TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}>(
   category: TEntity['type'],
-  options?: ListOptions<TEntity, TJoin, TJoin2>,
-) => Promise<ListResult<TEntity, TJoin, TJoin2>>;
+  options?: ListOptions<TEntity, TJoin>,
+) => Promise<ListResult<TEntity, TJoin>>;

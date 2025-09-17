@@ -666,7 +666,7 @@ describe('listProjection', () => {
     });
   });
 
-  describe.only('multiple join', () => {
+  describe('multiple join', () => {
     it('should find projections with multiple joined projection', async () => {
       const expected = mapToListResultItems([fakeData1[0]]);
       const expectedItems = expected.items.map((item) => ({
@@ -675,7 +675,7 @@ describe('listProjection', () => {
         [category3]: fakeData3,
       }));
 
-      const actual = await listProjection<FakeProjection1, FakeProjection2, FakeProjection3>(
+      const actual = await listProjection<FakeProjection1, [FakeProjection2, FakeProjection3]>(
         category1,
         {
           join: [
@@ -697,7 +697,7 @@ describe('listProjection', () => {
         [category2]: fakeData2,
         [category3]: fakeData3,
       }));
-      const actual = await listProjection<FakeProjection1, FakeProjection2, FakeProjection3>(
+      const actual = await listProjection<FakeProjection1, [FakeProjection2, FakeProjection3]>(
         category1,
         {
           join: [
@@ -713,7 +713,7 @@ describe('listProjection', () => {
     });
 
     it('should find projections with multiple joined projection where clause not matching results', async () => {
-      const actual = await listProjection<FakeProjection1, FakeProjection2, FakeProjection3>(
+      const actual = await listProjection<FakeProjection1, [FakeProjection2, FakeProjection3]>(
         category1,
         {
           join: [

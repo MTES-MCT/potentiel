@@ -1,7 +1,7 @@
 import { after, before, beforeEach, afterEach, describe, it } from 'node:test';
 import { randomUUID } from 'node:crypto';
 
-import { should } from 'chai';
+import { expect, should } from 'chai';
 
 import { Entity, Where } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
@@ -189,5 +189,16 @@ describe('countProjection', () => {
     const expected = fakeData.filter(({ data }) => !valuesArray.includes(data.name)).length;
 
     actual.should.be.deep.equal(expected);
+  });
+
+  it('should count projections based on joined value', async () => {
+    const actual = await countProjection<FakeProjection, FakeProjection>(category, {
+      join: {
+        entity: category,
+        on: 'data.name', // wrong join on purpose so it returns no result
+      },
+    });
+
+    expect(actual).to.eq(0);
   });
 });

@@ -1,12 +1,12 @@
 import { Entity } from './entity';
-import { JoinOptions } from './joinOptions';
+import { JoinOptionsParams } from './joinOptions';
 import { WhereOptions } from './whereOptions';
 
-export type CountOption<TEntity extends Entity, TJoin extends Entity | {} = {}> = {
+export type CountOption<TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}> = {
   where?: WhereOptions<Omit<TEntity, 'type'>>;
-} & (TJoin extends Entity ? { join: JoinOptions<TEntity, TJoin> } : { join?: undefined });
+} & JoinOptionsParams<TEntity, TJoin>;
 
-export type Count = <TEntity extends Entity, TJoin extends Entity | {} = {}>(
+export type Count = <TEntity extends Entity, TJoin extends Entity | Entity[] | {} = {}>(
   category: TEntity['type'],
   options?: CountOption<TEntity, TJoin>,
 ) => Promise<number>;

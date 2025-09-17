@@ -6,7 +6,10 @@ import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { getWhereClause } from './getWhereClause';
 import { getFromClause } from './getFromClause';
 
-export const countProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
+export const countProjection = async <
+  TEntity extends Entity,
+  TJoin extends Entity | Entity[] | {} = {},
+>(
   category: TEntity['type'],
   options?: CountOption<TEntity, TJoin>,
 ): Promise<number> => {
