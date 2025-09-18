@@ -13,24 +13,23 @@ import { flatten } from '@potentiel-libraries/flat';
 
 type Condition = { name: string; value?: unknown; operator: WhereOperator };
 
-type GetWhereClauseOptions<TEntity extends Entity, TJoin extends Entity | {} = {}> = {
+type GetWhereClauseOptions = {
   key: EqualWhereCondition<string> | LikeWhereCondition;
-  where?: WhereOptions<Omit<TEntity, 'type'>>;
-} & (TJoin extends Entity ? { join: JoinOptions<TEntity, TJoin> } : { join?: undefined });
+  where?: WhereOptions<Omit<Entity, 'type'>>;
+  joins?: JoinOptions[];
+};
 
 /** Returns the whole where clause (including key, filters, and join), and parameters */
-export const getWhereClause = <TEntity extends Entity, TJoin extends Entity | {} = {}>({
+export const getWhereClause = ({
   key,
   where,
-  join,
-}: GetWhereClauseOptions<TEntity, TJoin>): [clause: string, values: Array<unknown>] => {
-  const baseWhereClause = key.operator === 'like' ? `where p1.key LIKE $1` : `where p1.key = $1`;
+  joins = [],
+}: GetWhereClauseOptions): [clause: string, values: Array<unknown>] => {
+  const baseWhereClause = key.operator === 'like' ? `where p.key LIKE $1` : `where p.key = $1`;
 
-  const [whereClause, whereValues] = where ? buildWhereClause(where, 'p1') : ['', []];
+  const [whereClause, whereValues] = where ? buildWhereClause(where, 'p') : ['', []];
 
-  const [joinWhereClause, joinWhereValues] = join?.where
-    ? buildWhereClause(join.where, 'p2', whereValues.length)
-    : ['', []];
+  const [joinWhereClause, joinWhereValues] = buildJoinWhereClause(joins, whereValues.length);
   const completeWhereClause = `${baseWhereClause} ${whereClause} ${joinWhereClause}`;
 
   return [completeWhereClause, [key.value, ...whereValues, ...joinWhereValues]];
@@ -43,8 +42,8 @@ export const getWhereClause = <TEntity extends Entity, TJoin extends Entity | {}
   @param projection can be used to differentiate which projection to filter
   @param startIndex can be used to shift the index of variables, if multiple where clause are combined
 */
-const buildWhereClause = <TEntity extends Entity>(
-  where: WhereOptions<Omit<TEntity, 'type'>>,
+const buildWhereClause = (
+  where: WhereOptions<Omit<Entity, 'type'>>,
   projection: string,
   startIndex = 0,
 ): [clause: string, values: Array<unknown>] => {
@@ -55,7 +54,7 @@ const buildWhereClause = <TEntity extends Entity>(
       const [newSql, newIndex] = mapOperatorToSqlCondition(operator, prevIndex, projection);
       // format the query to safely pass the parameter name (%L)
       const formattedNewSql = format(newSql, name);
-      return [prevSql.concat(' and ', formattedNewSql), newIndex] as [string, number];
+      return [prevSql.concat(' AND ', formattedNewSql), newIndex] as [string, number];
     },
     // we offset by 2 the index of the sql variable to account for:
     // - the index starting at 1 and not 0
@@ -63,6 +62,28 @@ const buildWhereClause = <TEntity extends Entity>(
     ['', 2 + startIndex] as [string, number],
   );
   return [sqlClause, conditions.map(({ value }) => value).filter((value) => value !== undefined)];
+};
+
+const buildJoinWhereClause = (
+  joins: JoinOptions[],
+  startIndex: number,
+): [clause: string, values: Array<unknown>] => {
+  const withWhere = joins.filter((join) => join.where);
+  if (withWhere.length === 0) {
+    return ['', []];
+  }
+  const xx = withWhere.map((join, i) =>
+    buildWhereClause(join.where ?? '__NO_WHERE__', join.entity, startIndex + i),
+  );
+
+  const whereClauses = xx
+    .map(([clause]) => clause)
+    .filter((clause) => clause !== '')
+    .join(' AND ');
+
+  const whereValues = xx.map(([, values]) => values).flat();
+
+  return [whereClauses, whereValues];
 };
 
 // The input is a record like {'data.name.operator': 'equal', 'data.name.value': 'foo'}

@@ -1,6 +1,12 @@
 import format from 'pg-format';
 
-import { Entity, Joined, ListOptions, ListResult, WhereCondition } from '@potentiel-domain/entity';
+import {
+  Entity,
+  JoinOptions,
+  ListOptions,
+  ListResult,
+  WhereCondition,
+} from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { KeyValuePair } from './keyValuePair';
@@ -12,36 +18,36 @@ import { getSelectClause } from './getSelectClause';
 import { getFromClause } from './getFromClause';
 import { mapResult } from './mapResult';
 
-export const listProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
+export const listProjection = async <
+  TEntity extends Entity,
+  TJoin extends Entity | Entity[] | {} = {},
+>(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
 ): Promise<ListResult<TEntity, TJoin>> => {
   const { orderBy, range, where, join } = options ?? {};
-  const selectClause = getSelectClause({ join: !!join });
-  const fromClause = join ? getFromClause({ join }) : getFromClause({});
+  const joins = (Array.isArray(join) ? join : join ? [join] : []) as JoinOptions[];
+  const selectClause = getSelectClause({
+    joinCategories: joins.map((j) => j.entity),
+  });
+
+  const fromClause = getFromClause({ joins });
   const orderByClause = orderBy ? getOrderClause(orderBy) : '';
   const rangeClause = range ? getRangeClause(range) : '';
   const key: WhereCondition = { operator: 'like', value: `${category}|%` };
-  const [whereClause, whereValues] = join
-    ? getWhereClause({ key, where, join })
-    : getWhereClause({ key, where });
+  const [whereClause, whereValues] = getWhereClause({ key, where, joins });
 
   const select = format(
     `${selectClause} ${fromClause} ${whereClause} ${orderByClause} ${rangeClause}`,
   );
 
-  const result = await executeSelect<KeyValuePair<TEntity> & { join_value?: string }>(
-    select,
-    ...whereValues,
-  );
+  const result = await executeSelect<
+    KeyValuePair<TEntity> & { join_values?: { category: string; value: unknown }[] }
+  >(select, ...whereValues);
 
-  const total = join
-    ? await countProjection<TEntity, Entity>(category, { where, join })
-    : await countProjection<TEntity>(category, { where });
+  const total = await countProjection<TEntity, Entity[]>(category, { where, join: joins });
 
-  const items = result.map((item) =>
-    join ? mapResult(item, { join }) : mapResult(item, {}),
-  ) as (TEntity & Joined<TJoin>)[];
+  const items = result.map(mapResult<TEntity, TJoin>);
 
   return {
     total,

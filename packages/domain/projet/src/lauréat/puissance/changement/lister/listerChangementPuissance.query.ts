@@ -5,9 +5,9 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AutoritéCompétente, ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import { LauréatEntity } from '../../../lauréat.entity';
-import { UnitéPuissance } from '../../../../candidature';
+import { CandidatureEntity, UnitéPuissance } from '../../../../candidature';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -56,24 +56,37 @@ export const registerListerChangementPuissanceQuery = ({
     range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
-    const demandes = await list<ChangementPuissanceEntity, LauréatEntity>('changement-puissance', {
+    const demandes = await list<
+      ChangementPuissanceEntity,
+      [LauréatEntity, CandidatureEntity, AppelOffre.AppelOffreEntity]
+    >('changement-puissance', {
       range,
       orderBy: {
         demande: {
           demandéeLe: 'descending',
         },
       },
-      join: {
-        entity: 'lauréat',
-        on: 'identifiantProjet',
-        where: {
-          appelOffre: Where.equal(appelOffre),
-          nomProjet: Where.contain(nomProjet),
-          localité: {
-            région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+      join: [
+        {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: Where.equal(appelOffre),
+            nomProjet: Where.contain(nomProjet),
+            localité: {
+              région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+            },
           },
         },
-      },
+        {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'appel-offre',
+          on: 'appelOffres',
+        },
+      ],
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
@@ -83,51 +96,37 @@ export const registerListerChangementPuissanceQuery = ({
         },
       },
     });
-    const candidatures = await list<Candidature.CandidatureEntity, AppelOffre.AppelOffreEntity>(
-      `candidature`,
-      {
-        where: {
-          identifiantProjet: Where.matchAny(
-            demandes.items.map((demande) => demande.identifiantProjet as IdentifiantProjet.RawType),
-          ),
-        },
-        join: {
-          entity: 'appel-offre',
-          on: 'appelOffre',
-        },
-      },
-    );
-
     return {
       ...demandes,
-      items: demandes.items.map((item) => mapToReadModel(item, candidatures.items)),
+      items: demandes.items.map(mapToReadModel),
     };
   };
 
   mediator.register('Lauréat.Puissance.Query.ListerChangementPuissance', handler);
 };
 
-const mapToReadModel = (
-  entity: ChangementPuissanceEntity & Joined<LauréatEntity>,
-  candidatures: ReadonlyArray<Candidature.CandidatureEntity & Joined<AppelOffre.AppelOffreEntity>>,
-): ChangementPuissanceItemReadModel => {
+const mapToReadModel = ({
+  'appel-offre': appelOffres,
+  candidature,
+  lauréat,
+  ...entity
+}: ChangementPuissanceEntity &
+  Joined<
+    [LauréatEntity, CandidatureEntity, AppelOffre.AppelOffreEntity]
+  >): ChangementPuissanceItemReadModel => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(entity.identifiantProjet);
-  const candidature = candidatures.find(
-    (c) => c.identifiantProjet === identifiantProjet.formatter(),
-  );
+
   return {
-    nomProjet: entity.lauréat.nomProjet,
+    nomProjet: lauréat.nomProjet,
     statut: StatutChangementPuissance.convertirEnValueType(entity.demande.statut),
     misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
     identifiantProjet,
     demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
     nouvellePuissance: entity.demande.nouvellePuissance,
-    unitéPuissance: candidature
-      ? UnitéPuissance.déterminer({
-          appelOffres: candidature['appel-offre'],
-          période: identifiantProjet.période,
-          technologie: candidature.technologie,
-        }).formatter()
-      : 'N/A',
+    unitéPuissance: UnitéPuissance.déterminer({
+      appelOffres,
+      période: identifiantProjet.période,
+      technologie: candidature.technologie,
+    }).formatter(),
   };
 };
