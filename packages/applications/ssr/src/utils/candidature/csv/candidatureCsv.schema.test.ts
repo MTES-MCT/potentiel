@@ -628,7 +628,7 @@ describe('Schema candidature CSV', () => {
         });
       });
 
-      test.only("n'accepte pas un code postal vide", () => {
+      test("n'accepte pas un code postal vide", () => {
         const result = candidatureCsvSchema.safeParse({
           ...minimumValuesClassé,
           CP: '',
