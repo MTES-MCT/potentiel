@@ -70,3 +70,4 @@ export type TypologieBâtimentCsvShape = z.infer<typeof typologieDeBâtimentCsvS
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
 export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();
 export const installationAvecDispositifDeStockageCsvSchema = optionalOuiNonVideSchema;
+export const natureDeLExploitationCsvSchema = optionalEnum(z.enum(['1', '2']));
