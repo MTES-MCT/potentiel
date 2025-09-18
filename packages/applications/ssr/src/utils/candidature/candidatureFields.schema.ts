@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
-
-import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
+import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
 
 import {
   booleanSchema,
@@ -46,7 +45,7 @@ export const codePostalSchema = requiredStringSchema
       val
         .split('/')
         .map((str) => str.trim())
-        .every(getRégionAndDépartementFromCodePostal),
+        .every(récupérerDépartementRégionParCodePostal),
     'Le code postal ne correspond à aucune région / département',
   )
   .transform(normalizeStringArray);

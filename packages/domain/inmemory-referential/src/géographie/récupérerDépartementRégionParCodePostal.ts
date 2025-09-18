@@ -2,12 +2,18 @@ export type DépartementRégion = {
   région: string;
   département: string;
 };
+export type DépartementRégionCP = DépartementRégion & {
+  codePostal: string;
+};
 
-export const getRégionAndDépartementFromCodePostal = (
+export const récupérerDépartementRégionParCodePostal = (
   codePostal: string,
-): DépartementRégion | undefined => {
+): DépartementRégionCP | undefined => {
   if (codePostal.length > 5) {
     return undefined;
+  }
+  if (codePostal.length < 5) {
+    codePostal = codePostal.padStart(5, '0');
   }
 
   const régionDépartement =
@@ -19,6 +25,7 @@ export const getRégionAndDépartementFromCodePostal = (
     ? {
         région: régionDépartement.région,
         département: régionDépartement.département,
+        codePostal,
       }
     : undefined;
 };
