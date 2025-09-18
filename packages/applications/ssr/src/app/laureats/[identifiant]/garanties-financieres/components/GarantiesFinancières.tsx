@@ -107,7 +107,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               format="pdf"
               label={
                 gf.estExemption()
-                  ? "Télécharger l'attestation de délibération"
+                  ? 'Télécharger la délibération approuvant le projet objet de l’offre'
                   : "Télécharger l'attestation de constitution"
               }
               url={Routes.Document.télécharger(DocumentProjet.bind(attestation).formatter())}
