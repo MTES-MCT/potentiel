@@ -40,15 +40,16 @@ const normalizeStringArray = (value: string) =>
     .join(' / ');
 
 export const codePostalSchema = requiredStringSchema
-  .refine(
-    (val) =>
-      val
-        .split('/')
-        .map((str) => str.trim())
-        .every(récupérerDépartementRégionParCodePostal),
-    'Le code postal ne correspond à aucune région / département',
-  )
-  .transform(normalizeStringArray);
+  .transform((val) => val.split('/').map((str) => str.trim().padStart(5, '0')))
+  .pipe(
+    z
+      .array(z.string())
+      .min(1, { message: 'Le code postal est requis' })
+      .refine(
+        (val) => val.every(récupérerDépartementRégionParCodePostal),
+        'Le code postal ne correspond à aucune région / département',
+      ),
+  );
 
 export const communeSchema = requiredStringSchema.transform(normalizeStringArray);
 export const départementSchema = requiredStringSchema;

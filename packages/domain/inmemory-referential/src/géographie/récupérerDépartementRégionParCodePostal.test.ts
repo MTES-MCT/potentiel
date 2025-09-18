@@ -61,9 +61,8 @@ describe('récupérerDépartementRégionParCodePostal', () => {
     });
   });
 
-  test('codePostal qui commence par un 0, retiré par MS Excel', () => {
-    const { département, région } = récupérerDépartementRégionParCodePostal('8230') ?? {};
-    expect(département).to.equal('Ardennes');
-    expect(région).to.equal('Grand Est');
+  test('erreur si le CP ne fait pas 5 caractères', () => {
+    const résultat = récupérerDépartementRégionParCodePostal('8230');
+    expect(résultat).to.be.undefined;
   });
 });

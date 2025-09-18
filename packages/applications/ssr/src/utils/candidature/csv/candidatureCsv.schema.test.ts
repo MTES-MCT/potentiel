@@ -51,7 +51,7 @@ function assertNoError<TInput, TOutput>(
   assert(result.success);
 }
 
-describe('Schema candidature', () => {
+describe('Schema candidature CSV', () => {
   test('Cas nominal : éliminé', () => {
     const result = candidatureCsvSchema.safeParse({
       ...minimumValuesEliminé,
@@ -628,7 +628,7 @@ describe('Schema candidature', () => {
         });
       });
 
-      test("n'accepte pas un code postal vide", () => {
+      test.only("n'accepte pas un code postal vide", () => {
         const result = candidatureCsvSchema.safeParse({
           ...minimumValuesClassé,
           CP: '',
@@ -644,7 +644,16 @@ describe('Schema candidature', () => {
           path: ['CP'],
           message: 'String must contain at least 1 character(s)',
         });
-        expect(result.error.errors[1]).to.deep.eq({
+      });
+
+      test("n'accepte pas un code postal invalide", () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesClassé,
+          CP: '99999',
+        });
+
+        assert(!result.success, 'should be error');
+        expect(result.error.errors[0]).to.deep.eq({
           code: 'custom',
           path: ['CP'],
           message: 'Le code postal ne correspond à aucune région / département',
@@ -684,6 +693,26 @@ describe('Schema candidature', () => {
         assert(result.success);
         expect(result.data.dateÉchéanceGf).to.be.undefined;
       });
+    });
+  });
+
+  describe('Code Postaux', () => {
+    test("plusieurs codes postaux séparés par des '/' sont acceptés", () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesClassé,
+        CP: ' 33100 / 75001 /  13001 ',
+      });
+      assert(result.success);
+      expect(result.data.codePostaux).to.deep.equal(['33100', '75001', '13001']);
+    });
+
+    test('si le CP fait moins de 5 caractères, il est complété par des 0 à gauche (transformation MS Excel)', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesClassé,
+        CP: '3340',
+      });
+      assert(result.success);
+      expect(result.data.codePostaux).to.deep.equal(['03340']);
     });
   });
 });

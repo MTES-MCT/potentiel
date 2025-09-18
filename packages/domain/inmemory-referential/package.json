@@ -5,7 +5,8 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsx --test **/*.test.ts"
   },
   "dependencies": {
     "@potentiel-domain/appel-offre": "*"

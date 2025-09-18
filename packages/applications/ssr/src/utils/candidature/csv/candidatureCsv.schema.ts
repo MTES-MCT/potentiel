@@ -132,9 +132,7 @@ const candidatureCsvRowSchema = z
     [colonnes.emailContact]: emailContactSchema,
     [colonnes.adresse1]: adresse1CsvSchema,
     [colonnes.adresse2]: adresse2Schema, // see refine below
-    [colonnes.codePostaux]: codePostalSchema.transform((val) =>
-      val.split('/').map((str) => str.trim()),
-    ),
+    [colonnes.codePostaux]: codePostalSchema,
     [colonnes.commune]: communeSchema,
     [colonnes.statut]: statutCsvSchema,
     [colonnes.puissanceALaPointe]: puissanceALaPointeCsvSchema,
