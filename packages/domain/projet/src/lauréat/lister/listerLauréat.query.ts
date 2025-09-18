@@ -1,28 +1,32 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
-import { Localité } from '../../candidature';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
+import { CandidatureEntity, Localité, UnitéPuissance } from '../../candidature';
+import { PuissanceEntity } from '../puissance';
+import { ProducteurEntity } from '../producteur';
+import { ReprésentantLégalEntity } from '../représentantLégal';
+import { Producteur, Puissance, ReprésentantLégal } from '..';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   localité: Localité.ValueType;
-
-  //////////// TODO
-  // faire un multi join sur les champs suivants :
-
-  producteur: string; // ConsulterProducteurReadModel
-  représentantLégal: { nom: string; email: string }; // ConsulterReprésentantLégalReadModel
+  producteur: Producteur.ConsulterProducteurReadModel['producteur'];
+  représentantLégal: {
+    nom: ReprésentantLégal.ConsulterReprésentantLégalReadModel['nomReprésentantLégal'];
+    email: string; // TODO ???? Ajouter email utilisateur dans la query
+  };
   puissance: {
-    unité: string;
-    valeur: number;
-  }; // ConsulterPuissanceReadModel
-  prixReference: number; // ConsulterCandidatureReadModel
-  evaluationCarboneSimplifiée: number; // ConsulterCandidatureReadModel
+    unité: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+    valeur: Puissance.ConsulterPuissanceReadModel['puissance'];
+  };
+  prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
+  evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
 };
 
 export type ListerLauréatReadModel = {
@@ -59,7 +63,16 @@ export const registerListerLauréatQuery = ({
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const lauréats = await list<LauréatEntity>('lauréat', {
+    const lauréats = await list<
+      LauréatEntity,
+      [
+        PuissanceEntity,
+        ProducteurEntity,
+        ReprésentantLégalEntity,
+        CandidatureEntity,
+        AppelOffre.AppelOffreEntity,
+      ]
+    >('lauréat', {
       range,
       orderBy: {
         nomProjet: 'ascending',
@@ -71,6 +84,28 @@ export const registerListerLauréatQuery = ({
         appelOffre: Where.equal(appelOffre),
         localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
       },
+      join: [
+        {
+          entity: 'puissance',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'producteur',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'représentant-légal',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'appel-offre',
+          on: 'appelOffre',
+        },
+      ],
     });
 
     return {
@@ -86,16 +121,37 @@ const mapToReadModel = ({
   nomProjet,
   identifiantProjet,
   localité,
-}: LauréatEntity): LauréatListItemReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet,
-  localité: Localité.bind(localité),
-  producteur: 'Producteur WIP',
-  représentantLégal: { nom: 'Représentant légal WIP', email: 'representant.legal@wip.com' },
-  puissance: {
-    unité: 'MWc',
-    valeur: 100,
-  },
-  prixReference: 10000,
-  evaluationCarboneSimplifiée: 200,
-});
+  'représentant-légal': représentantLégal,
+  producteur,
+  puissance,
+  candidature,
+  'appel-offre': appelOffres,
+}: LauréatEntity &
+  Joined<
+    [
+      PuissanceEntity,
+      ProducteurEntity,
+      ReprésentantLégalEntity,
+      CandidatureEntity,
+      AppelOffre.AppelOffreEntity,
+    ]
+  >): LauréatListItemReadModel => {
+  const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  return {
+    identifiantProjet: identifiantProjetValueType,
+    nomProjet,
+    localité: Localité.bind(localité),
+    producteur: producteur.nom,
+    représentantLégal: { nom: représentantLégal.nomReprésentantLégal, email: '?????' },
+    puissance: {
+      unité: UnitéPuissance.déterminer({
+        appelOffres,
+        période: identifiantProjetValueType.période,
+        technologie: candidature.technologie,
+      }).formatter(),
+      valeur: puissance.puissance,
+    },
+    prixReference: candidature.prixReference,
+    evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
+  };
+};
