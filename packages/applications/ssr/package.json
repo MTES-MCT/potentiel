@@ -7,8 +7,8 @@
     "build": "next build",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "predev": "react-dsfr update-icons",
-    "prebuild": "react-dsfr update-icons",
+    "predev": "react-dsfr update-icons --silent",
+    "prebuild": "react-dsfr update-icons --silent",
     "test": "glob -c \"tsx --test\" \"src/**/*.test.ts\""
   },
   "dependencies": {
