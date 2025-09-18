@@ -9,10 +9,6 @@ export const addGarantiesFinancièresToSchema = <T extends zod.ZodRawShape>(
       dateEcheance: zod.string().min(1),
     }),
     baseSchema.extend({
-      type: zod.literal('exemption'),
-      dateDeliberation: zod.string().min(1),
-    }),
-    baseSchema.extend({
-      type: zod.enum(['six-mois-après-achèvement', 'consignation']),
+      type: zod.enum(['six-mois-après-achèvement', 'consignation', 'exemption']),
     }),
   ]);

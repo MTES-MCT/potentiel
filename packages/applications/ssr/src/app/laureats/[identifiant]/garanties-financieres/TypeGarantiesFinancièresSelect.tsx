@@ -4,11 +4,13 @@ import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
-export type TypeGarantiesFinancièresSelectProps = {
+export type GarantiesFinancièresFormInputsProps = {
   id: string;
   name: string;
   label?: string;
@@ -22,7 +24,7 @@ export type TypeGarantiesFinancièresSelectProps = {
   }>;
 };
 
-export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelectProps> = ({
+export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputsProps> = ({
   id,
   name,
   label = 'Type des garanties financières',
@@ -76,6 +78,22 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
+      />
+
+      <UploadNewOrModifyExistingDocument
+        label={
+          typeSélectionné === 'exemption'
+            ? 'Délibération approuvant le projet objet de l’offre'
+            : 'Attestation de constitution'
+        }
+        name="attestation"
+        required
+        formats={['pdf']}
+        state={validationErrors['attestation'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['attestation']}
+        documentKeys={
+          actuelles?.attestation ? [DocumentProjet.bind(actuelles.attestation).formatter()] : []
+        }
       />
     </>
   );
