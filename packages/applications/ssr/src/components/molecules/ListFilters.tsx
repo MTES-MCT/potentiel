@@ -47,6 +47,8 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
         newSearchParams.delete(affected);
       }
     } else {
+      newSearchParams.delete('page');
+
       for (const v of value) {
         newSearchParams.append(searchParamKey, v);
       }
