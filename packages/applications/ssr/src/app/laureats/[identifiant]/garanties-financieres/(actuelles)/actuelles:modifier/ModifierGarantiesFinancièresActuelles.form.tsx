@@ -5,15 +5,13 @@ import { FC, useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  TypeGarantiesFinancièresSelect,
-  TypeGarantiesFinancièresSelectProps,
+  GarantiesFinancièresFormInputs,
+  GarantiesFinancièresFormInputsProps,
 } from '../../TypeGarantiesFinancièresSelect';
 
 import {
@@ -22,7 +20,7 @@ import {
 } from './modifierGarantiesFinancièresActuelles.action';
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {
-  typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
+  typesGarantiesFinancières: GarantiesFinancièresFormInputsProps['typesGarantiesFinancières'];
   actuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 };
 
@@ -48,24 +46,12 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
 
-      <TypeGarantiesFinancièresSelect
+      <GarantiesFinancièresFormInputs
         id="type"
         name="type"
         validationErrors={validationErrors}
         typesGarantiesFinancières={typesGarantiesFinancières}
         actuelles={actuelles}
-      />
-
-      <UploadNewOrModifyExistingDocument
-        label="Attestation de constitution"
-        name="attestation"
-        required
-        formats={['pdf']}
-        state={validationErrors['attestation'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['attestation']}
-        documentKeys={
-          actuelles.attestation ? [DocumentProjet.bind(actuelles.attestation).formatter()] : []
-        }
       />
     </Form>
   );
