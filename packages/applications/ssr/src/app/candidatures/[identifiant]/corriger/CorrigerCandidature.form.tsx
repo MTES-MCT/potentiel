@@ -393,7 +393,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           )}
           {typeGf === 'exemption' && (
             <InputDate
-              name="dateDeliberationGf"
+              name="dateConstitutionGf"
               label="Date de délibération de l'exemption de Garanties Financières"
               required
               defaultValue={

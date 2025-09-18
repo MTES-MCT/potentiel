@@ -15,7 +15,6 @@ export type ModifierDépôtGarantiesFinancièresEnCoursUseCase = Message<
     garantiesFinancièresValue: {
       type: string;
       dateÉchéance: string | undefined;
-      dateDélibération: string | undefined;
     };
     attestationValue: {
       content: ReadableStream;

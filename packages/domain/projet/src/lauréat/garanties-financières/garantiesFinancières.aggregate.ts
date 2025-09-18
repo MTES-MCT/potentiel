@@ -825,13 +825,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private applyDépôtGarantiesFinancièresSoumisV1({
-    payload: { type, dateÉchéance, dateDélibération, attestation, dateConstitution, soumisLe },
+    payload: { type, dateÉchéance, attestation, dateConstitution, soumisLe },
   }: DépôtGarantiesFinancièresSoumisEvent) {
     this.#dépôtEnCours = {
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateDélibération,
       }),
       soumisLe: DateTime.convertirEnValueType(soumisLe),
       dateConstitution: DateTime.convertirEnValueType(dateConstitution),
@@ -840,13 +839,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private applyDépôtGarantiesFinancièresEnCoursModifiéV1({
-    payload: { type, dateÉchéance, dateDélibération, attestation, dateConstitution, modifiéLe },
+    payload: { type, dateÉchéance, attestation, dateConstitution, modifiéLe },
   }: DépôtGarantiesFinancièresEnCoursModifiéEvent) {
     this.#dépôtEnCours = {
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateDélibération,
       }),
       soumisLe: DateTime.convertirEnValueType(modifiéLe),
       dateConstitution: DateTime.convertirEnValueType(dateConstitution),
@@ -863,14 +861,13 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private applyDépôtGarantiesFinancièresEnCoursValidéV2({
-    payload: { dateÉchéance, dateDélibération, type, attestation },
+    payload: { dateÉchéance, type, attestation },
   }: DépôtGarantiesFinancièresEnCoursValidéEvent) {
     this.#dépôtEnCours = undefined;
     this.#actuelles = {
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateDélibération,
       }),
       attestation,
     };
@@ -881,7 +878,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   //#region Apply Actuelles
 
   private applyGarantiesFinancièresEnregistréesV1({
-    payload: { dateÉchéance, dateDélibération, type, attestation, dateConstitution },
+    payload: { dateÉchéance, type, attestation, dateConstitution },
   }: GarantiesFinancièresEnregistréesEvent) {
     this.#actuelles = {
       attestation,
@@ -889,13 +886,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateDélibération,
       }),
     };
   }
 
   private applyGarantiesFinancièresModifiéesV1({
-    payload: { type, dateÉchéance, dateDélibération, attestation, dateConstitution },
+    payload: { type, dateÉchéance, attestation, dateConstitution },
   }: GarantiesFinancièresModifiéesEvent) {
     this.#actuelles = {
       attestation,
@@ -903,7 +899,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateDélibération,
       }),
     };
   }
@@ -916,13 +911,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private applyTypeGarantiesFinancièresImportéV1({
-    payload: { type, dateÉchéance, dateDélibération },
+    payload: { type, dateÉchéance },
   }: TypeGarantiesFinancièresImportéEvent) {
     this.#actuelles = {
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
-        dateDélibération,
       }),
     };
   }
