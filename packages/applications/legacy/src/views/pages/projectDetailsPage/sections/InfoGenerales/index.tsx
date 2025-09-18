@@ -1,13 +1,6 @@
 import React, { ComponentProps } from 'react';
 import { ProjectDataForProjectPage } from '../../../../../modules/project';
-import {
-  BuildingIcon,
-  DownloadLink,
-  Heading3,
-  Link,
-  Section,
-  WarningIcon,
-} from '../../../../components';
+import { BuildingIcon, Heading3, Link, Section, WarningIcon } from '../../../../components';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../../helpers/dataToValueTypes';
 import { afficherDate } from '../../../../helpers';
 import { Routes } from '@potentiel-applications/routes';
@@ -21,23 +14,18 @@ import { InfoInstallateur } from './InfoInstallateur';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';
 import { InfoInstallationAvecDispositifDeStockage } from './InfoInstallationAvecDispositifDeStockage';
+import { InfoNatureDeLExploitation } from './InfoNatureDeLExploitation';
+import { InfoAttestationConformité } from './InfoAttestationConformité';
 import {
   GetActionnaireForProjectPage,
+  GetAttestationDeConformitéForProjectPage,
   GetInstallationAvecDispositifDeStockageForProjectPage,
 } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
-import { GetInstallateurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getInstallateur';
+import { GetInstallateurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
-import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
-
-export type AttestationConformitéProps = {
-  date: number;
-  attestation: DocumentProjet.RawType;
-  preuveTransmissionAuCocontractant: DocumentProjet.RawType;
-  identifiantProjet: IdentifiantProjet.RawType;
-  permissionModifier: boolean;
-};
+import { GetNatureDeLExploitationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -51,9 +39,10 @@ export type InfoGeneralesProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
-  attestationConformité?: AttestationConformitéProps;
-  autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
+  attestationConformité?: GetAttestationDeConformitéForProjectPage;
+  autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
   installationAvecDispositifDeStockage?: GetInstallationAvecDispositifDeStockageForProjectPage;
+  natureDeLExploitation?: GetNatureDeLExploitationForProjectPage;
 };
 
 export const InfoGenerales = ({
@@ -86,6 +75,7 @@ export const InfoGenerales = ({
   autorisationDUrbanisme,
   installateur,
   installationAvecDispositifDeStockage,
+  natureDeLExploitation,
 }: InfoGeneralesProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -167,6 +157,9 @@ export const InfoGenerales = ({
           installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
         />
       ) : null}
+      {natureDeLExploitation !== undefined ? (
+        <InfoNatureDeLExploitation natureDeLExploitation={natureDeLExploitation} />
+      ) : null}
       {actionnaire ? (
         <InfoActionnaire
           actionnaire={actionnaire}
@@ -187,32 +180,11 @@ export const InfoGenerales = ({
         </div>
       )}
       {attestationConformité && (
-        <div className="flex flex-col">
-          <Heading3 className="m-0">Achèvement</Heading3>
-          <DownloadLink
-            fileUrl={Routes.Document.télécharger(attestationConformité.attestation)}
-            className="m-0"
-          >
-            Télécharger l'attestation de conformité
-          </DownloadLink>
-          <DownloadLink
-            fileUrl={Routes.Document.télécharger(
-              attestationConformité.preuveTransmissionAuCocontractant,
-            )}
-            className="m-0"
-          >
-            Télécharger la preuve de transmission au cocontractant
-          </DownloadLink>
-          {role.aLaPermission('achèvement.attestationConformité.modifier') && (
-            <Link
-              href={Routes.Achèvement.modifierAttestationConformité(identifiantProjet.formatter())}
-              aria-label="Modifier les informations d'achèvement du projet"
-              className="mt-1"
-            >
-              Modifier
-            </Link>
-          )}
-        </div>
+        <InfoAttestationConformité
+          attestationConformité={attestationConformité}
+          role={role}
+          identifiantProjet={identifiantProjet}
+        />
       )}
     </Section>
   );

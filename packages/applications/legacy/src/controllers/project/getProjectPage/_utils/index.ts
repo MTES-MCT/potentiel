@@ -8,3 +8,7 @@ export * from './getActionnaire';
 export * from './getRecours';
 export * from './getRaccordement';
 export * from './getInstallationAvecDispositifDeStockage';
+export * from './getProducteur';
+export * from './getFournisseur';
+export * from './getInstallateur';
+export * from './getNatureDeLExploitation';

@@ -5,11 +5,20 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Role } from '@potentiel-domain/utilisateur';
+import { DocumentProjet } from '@potentiel-domain/document';
+
+export type GetAttestationDeConformitéForProjectPage = {
+  date: number;
+  attestation: DocumentProjet.RawType;
+  preuveTransmissionAuCocontractant: DocumentProjet.RawType;
+  identifiantProjet: IdentifiantProjet.RawType;
+  permissionModifier: boolean;
+};
 
 export const getAttestationDeConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   rôle: string,
-) => {
+): Promise<GetAttestationDeConformitéForProjectPage | undefined> => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
@@ -23,7 +32,6 @@ export const getAttestationDeConformité = async (
 
     return Option.isSome(attestationConformité)
       ? {
-          type: 'achevement-reel',
           date: new Date(
             attestationConformité.preuveTransmissionAuCocontractant.dateCréation,
           ).getTime(),
@@ -43,6 +51,7 @@ export const getAttestationDeConformité = async (
         identifiantProjet: identifiantProjet.formatter(),
       },
     );
+
     return undefined;
   }
 };

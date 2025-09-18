@@ -24,7 +24,6 @@ import {
   GarantiesFinancièresProjetProps,
   EtapesProjetProps,
   MaterielsEtTechnologiesProps,
-  AttestationConformitéProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
@@ -59,7 +58,7 @@ type ProjectDetailsProps = {
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
   installateur?: InfoGeneralesProps['installateur'];
-  attestationConformité?: AttestationConformitéProps;
+  attestationConformité?: InfoGeneralesProps['attestationConformité'];
   dateAchèvementPrévisionnel: number;
   estAchevé: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
