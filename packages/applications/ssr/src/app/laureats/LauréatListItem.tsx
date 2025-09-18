@@ -7,6 +7,7 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
+import { CopyButton } from '@/components/molecules/CopyButton';
 
 export type LauréatListItemProps = {
   identifiantProjet: string;
@@ -46,8 +47,8 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
       </Link>
     }
   >
-    <div className="flex flex-col md:flex-row gap-8 items-center">
-      <div className="flex flex-col gap-2 text-xs">
+    <div className="flex flex-col gap-6 mb-4 text-xs md:mb-8 md:flex-row md:justify-between md:items-start  ">
+      <div className="flex flex-col gap-2 ">
         <div className="flex items-center">
           <Icon
             id="ri-map-pin-line"
@@ -55,7 +56,7 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
             title="Localité du projet"
             size="xs"
           />
-          {localité.commune}, {localité.département}, {localité.région}
+          {localité.commune}, {localité.région}
         </div>
         <div className="flex items-center">
           <Icon
@@ -66,34 +67,32 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
           />
           {producteur}
         </div>
-        <div className="flex items-center">
+        <div className="flex items-start">
           <Icon id="ri-user-line" className="mr-2 shrink-0" title="Représentant légal" size="xs" />
           <div className="flex flex-col">
-            {représentantLégal.nom} ({représentantLégal.email})
+            <span>{représentantLégal.nom}</span> <CopyButton textToCopy={représentantLégal.email} />
           </div>
         </div>
       </div>
-      <div className="flex flex-row gap-10 md:gap-16">
-        <div className="flex flex-col gap-2 items-center">
-          <Icon
-            id="ri-flashlight-fill"
-            className="mr-2 shrink-0"
-            title="Représentant légal"
-            size="md"
-          />
+      <div className="flex flex-col gap-2 items-start md:flex-row  md:gap-16">
+        <div className="flex fled-row gap-2 md:flex-col md:items-center">
+          <Icon id="ri-flashlight-fill" className="shrink-0" title="Représentant légal" />
           {puissance}
         </div>
-        <div className="flex flex-col gap-2 items-center">
+        <div className="flex fled-row gap-2 md:flex-col md:items-center">
           <Icon
             id="ri-money-euro-circle-line"
-            className="mr-2 shrink-0"
+            className="shrink-0 fr-icon--xs md:fr-icon--md"
             title="Prix de référence"
-            size="md"
           />
           {prixReference}
         </div>
-        <div className="flex flex-col gap-2 items-center">
-          <Icon id="ri-cloud-fill" className="mr-2 shrink-0" title="Prix de référence" size="md" />
+        <div className="flex fled-row gap-2 md:flex-col md:items-center">
+          <Icon
+            id="ri-cloud-fill"
+            className="shrink-0 fr-icon--xs md:fr-icon--md"
+            title="Prix de référence"
+          />
           {evaluationCarboneSimplifiée}
         </div>
       </div>
