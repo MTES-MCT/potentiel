@@ -6,11 +6,8 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { TypeGarantiesFinancières } from '../../candidature';
 
 import {
-  DateDélibérationNonAttendueError,
-  DateDélibérationRequiseError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
-  DateDélibérationDansLeFuturError,
 } from './garantiesFinancières.error';
 
 export type RawType =
@@ -23,7 +20,6 @@ export type RawType =
     }
   | {
       type: 'exemption';
-      dateDélibération: DateTime.RawType;
     };
 
 type InconnuValueType = {
@@ -46,7 +42,6 @@ type AvecDateÉchéanceValueType = {
 };
 type ExemptionValueType = {
   type: TypeGarantiesFinancières.ValueType<'exemption'>;
-  dateDélibération: DateTime.ValueType;
 };
 
 export type ValueType<
@@ -113,19 +108,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => true,
       estExemption: (): this is ValueType<'exemption'> => false,
     }))
-    .with({ type: { type: 'exemption' } }, ({ dateDélibération }) => ({
+    .with({ type: { type: 'exemption' } }, () => ({
       type: TypeGarantiesFinancières.exemption,
-      dateDélibération: vérifierDateDélibération(dateDélibération?.date),
-      estÉgaleÀ(valueType: ValueType) {
-        const raw = valueType.formatter();
-        return raw.type === 'exemption' && raw.dateDélibération === dateDélibération.date;
-      },
-      formatter() {
-        return {
-          type: 'exemption',
-          dateDélibération: vérifierDateDélibération(dateDélibération?.date).formatter(),
-        };
-      },
+      estÉgaleÀ: (valueType) => valueType.type.type === 'exemption',
+      formatter: () => ({ type: 'exemption' }),
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => true,
     }))
@@ -135,20 +121,12 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
 type ConvertirEnValueTypeProps = {
   type: string;
   dateÉchéance: string | undefined;
-  dateDélibération: string | undefined;
 };
 
-export const convertirEnValueType = ({
-  type,
-  dateDélibération,
-  dateÉchéance,
-}: ConvertirEnValueTypeProps) => {
+export const convertirEnValueType = ({ type, dateÉchéance }: ConvertirEnValueTypeProps) => {
   const typeGarantiesFinancières = TypeGarantiesFinancières.convertirEnValueType(type);
   if (dateÉchéance && !typeGarantiesFinancières.estAvecDateÉchéance()) {
     throw new DateÉchéanceNonAttendueError();
-  }
-  if (dateDélibération && !typeGarantiesFinancières.estExemption()) {
-    throw new DateDélibérationNonAttendueError();
   }
 
   return match(typeGarantiesFinancières.type)
@@ -165,14 +143,8 @@ export const convertirEnValueType = ({
         },
       }),
     )
-    .with('exemption', (type) =>
-      bind({
-        type: { type },
-        dateDélibération: {
-          date: vérifierDateDélibération(dateDélibération).formatter(),
-        },
-      }),
-    )
+    .with('exemption', (type) => bind({ type: { type } }))
+
     .exhaustive();
 };
 
@@ -181,15 +153,4 @@ const vérifierDateÉchéance = (date: string | undefined) => {
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
   return DateTime.convertirEnValueType(date);
-};
-
-const vérifierDateDélibération = (dateStr: string | undefined) => {
-  if (!dateStr) {
-    throw new DateDélibérationRequiseError();
-  }
-  const date = DateTime.convertirEnValueType(dateStr);
-  if (date.estDansLeFutur()) {
-    throw new DateDélibérationDansLeFuturError();
-  }
-  return date;
 };

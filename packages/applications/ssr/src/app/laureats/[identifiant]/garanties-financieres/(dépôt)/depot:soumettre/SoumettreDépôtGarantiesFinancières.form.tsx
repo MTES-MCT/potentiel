@@ -5,11 +5,9 @@ import { FC, useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
-import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -73,18 +71,8 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
         id="type"
         name="type"
         typesGarantiesFinancières={typesGarantiesFinancières}
-        garantiesFinancièresActuelles={dépôt?.garantiesFinancières}
+        actuelles={dépôt}
         validationErrors={validationErrors}
-      />
-
-      <InputDate
-        label="Date de constitution"
-        name="dateConstitution"
-        max={DateTime.now().formatter()}
-        defaultValue={dépôt?.dateConstitution.date}
-        required
-        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateConstitution']}
       />
 
       <UploadNewOrModifyExistingDocument

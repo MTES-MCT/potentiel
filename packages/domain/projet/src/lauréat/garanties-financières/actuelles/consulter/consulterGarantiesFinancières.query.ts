@@ -77,7 +77,6 @@ export const mapToReadModel = ({
     statut,
     type,
     dateÉchéance,
-    dateDélibération,
     dateConstitution,
     soumisLe,
     validéLe,
@@ -90,7 +89,6 @@ export const mapToReadModel = ({
   garantiesFinancières: GarantiesFinancières.convertirEnValueType({
     type,
     dateÉchéance,
-    dateDélibération,
   }),
   dateConstitution: dateConstitution ? DateTime.convertirEnValueType(dateConstitution) : undefined,
   soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,

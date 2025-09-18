@@ -246,7 +246,6 @@ void (async () => {
           identifiantProjetValue: identifiantProjet.formatter(),
           garantiesFinancièresValue: {
             type: Candidature.TypeGarantiesFinancières.typeInconnu.type,
-            dateDélibération: undefined,
             dateÉchéance: undefined,
           },
           dateConstitutionValue: période.notifiéeLe.formatter(),
