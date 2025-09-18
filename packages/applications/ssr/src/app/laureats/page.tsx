@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { Lauréat } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
+  appelOffre: z.string().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -30,13 +32,14 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre } = paramsSchema.parse(searchParams);
 
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({
         type: 'Lauréat.Query.ListerLauréat',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
           nomProjet,
+          appelOffre,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -44,7 +47,21 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-      const filters: ListFilterItem<SearchParams>[] = [];
+      const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
+        type: 'AppelOffre.Query.ListerAppelOffre',
+        data: {},
+      });
+
+      const filters: ListFilterItem<SearchParams>[] = [
+        {
+          label: `Appel d'offres`,
+          searchParamKey: 'appelOffre',
+          options: appelOffres.items.map((appelOffre) => ({
+            label: appelOffre.id,
+            value: appelOffre.id,
+          })),
+        },
+      ];
 
       return <LauréatListPage list={mapToListProps(lauréats)} filters={filters} />;
     }),
