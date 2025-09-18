@@ -20,9 +20,7 @@ export const Search = ({ params, label }: SearchProps) => {
   const updateSearch = (search: string) => {
     const newSearchParams = new URLSearchParams(searchParams);
     if (search) {
-      if (newSearchParams.has('page') && newSearchParams.get('page') !== '1') {
-        newSearchParams.set('page', '1');
-      }
+      newSearchParams.delete('page');
 
       newSearchParams.set(params, search);
     } else {
