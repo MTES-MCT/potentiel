@@ -37,6 +37,7 @@ export type ListerLauréatQuery = Message<
     utilisateur: Email.RawType;
     range: RangeOptions;
     nomProjet?: string;
+    appelOffre?: string;
   },
   ListerLauréatReadModel
 >;
@@ -50,7 +51,12 @@ export const registerListerLauréatQuery = ({
   list,
   getScopeProjetUtilisateur,
 }: ListerLauréatDependencies) => {
-  const handler: MessageHandler<ListerLauréatQuery> = async ({ utilisateur, nomProjet, range }) => {
+  const handler: MessageHandler<ListerLauréatQuery> = async ({
+    utilisateur,
+    nomProjet,
+    appelOffre,
+    range,
+  }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     const lauréats = await list<LauréatEntity>('lauréat', {
@@ -62,6 +68,7 @@ export const registerListerLauréatQuery = ({
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         nomProjet: Where.contain(nomProjet),
+        appelOffre: Where.equal(appelOffre),
         localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
       },
     });
