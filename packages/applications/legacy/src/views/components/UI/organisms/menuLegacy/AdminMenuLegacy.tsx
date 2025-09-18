@@ -21,6 +21,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
           statut: ['demandé', 'en-instruction', 'confirmé'],
+          autorite: 'dgec',
         })}
       >
         Abandon

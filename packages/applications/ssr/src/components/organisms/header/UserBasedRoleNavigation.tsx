@@ -27,6 +27,11 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
           statut: utilisateur.role.estÉgaleÀ(Role.porteur)
             ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
             : ['demandé', 'en-instruction', 'confirmé'],
+          autorite: utilisateur.role.estDGEC()
+            ? 'dgec'
+            : utilisateur.role.estDreal()
+              ? 'dreal'
+              : undefined,
         }),
       },
     },

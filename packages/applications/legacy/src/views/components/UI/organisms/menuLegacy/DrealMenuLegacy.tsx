@@ -21,6 +21,7 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
           statut: ['demandé', 'en-instruction', 'confirmé'],
+          autorite: 'dreal',
         })}
       >
         Abandon
