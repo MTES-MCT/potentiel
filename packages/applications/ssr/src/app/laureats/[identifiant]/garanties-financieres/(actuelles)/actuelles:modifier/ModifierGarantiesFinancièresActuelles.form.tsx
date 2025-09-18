@@ -3,13 +3,11 @@
 import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { now } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
-import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -55,16 +53,7 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         name="type"
         validationErrors={validationErrors}
         typesGarantiesFinancières={typesGarantiesFinancières}
-        garantiesFinancièresActuelles={actuelles.garantiesFinancières}
-      />
-      <InputDate
-        label="Date de constitution"
-        name="dateConstitution"
-        max={now()}
-        defaultValue={actuelles.dateConstitution?.date}
-        required
-        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateConstitution']}
+        actuelles={actuelles}
       />
 
       <UploadNewOrModifyExistingDocument

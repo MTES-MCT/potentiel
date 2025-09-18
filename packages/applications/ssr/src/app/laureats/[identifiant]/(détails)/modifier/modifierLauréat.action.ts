@@ -261,7 +261,7 @@ const mapBodyToCandidatureUsecaseData = (
         ? previous.garantiesFinancières.dateÉchéance?.formatter()
         : undefined,
       dateDélibérationGf: previous.garantiesFinancières?.estExemption()
-        ? previous.garantiesFinancières.dateDélibération.formatter()
+        ? previous.dateDélibérationGf?.formatter()
         : undefined,
       territoireProjet: previous.territoireProjet,
       historiqueAbandon: previous.historiqueAbandon.formatter(),

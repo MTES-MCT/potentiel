@@ -30,8 +30,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
         Et un dépôt de garanties financières avec :
             | type GF | consignation |
         Quand le porteur modifie le dépôt de garanties financières avec :
-            | type GF              | exemption  |
-            | date de délibération | 2020-01-01 |
+            | type GF | exemption |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
         Et les garanties financières en attente du projet ne devraient plus être consultables
 
@@ -73,6 +72,5 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | appel d'offres | PPE2 - Sol   |
             | type GF        | consignation |
         Quand le porteur modifie le dépôt de garanties financières avec :
-            | type GF              | exemption  |
-            | date de délibération | 2025-01-01 |
+            | type GF | exemption |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"

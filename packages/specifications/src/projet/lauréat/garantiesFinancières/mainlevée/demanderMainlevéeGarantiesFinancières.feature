@@ -100,14 +100,3 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières
         Alors le porteur devrait être informé que "L'attestation de constitution pour ces garanties financières est manquante"
-
-    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet exempté de garanties financières
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offres       | PPE2 - Petit PV Bâtiment |
-            | type GF              | exemption                |
-            | date de délibération | 2025-01-01               |
-        Et un cahier des charges permettant la modification du projet
-        Et un abandon accordé pour le projet lauréat "Du boulodrome de Lyon"
-        Quand le porteur demande la mainlevée des garanties financières avec :
-            | motif | projet-abandonné |
-        Alors le porteur devrait être informé que "Le projet est exempt de garanties financières"
