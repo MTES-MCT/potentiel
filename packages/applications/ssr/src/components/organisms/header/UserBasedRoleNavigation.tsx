@@ -77,7 +77,14 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Délai',
       linkProps: {
-        href: Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] }),
+        href: Routes.Délai.lister({
+          statut: ['demandé', 'en-instruction'],
+          autoriteInstructrice: utilisateur.role.estDGEC()
+            ? 'dgec'
+            : utilisateur.role.estDreal()
+              ? 'dreal'
+              : undefined,
+        }),
       },
     },
   ];

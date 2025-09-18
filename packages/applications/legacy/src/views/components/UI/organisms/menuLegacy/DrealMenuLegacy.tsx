@@ -55,7 +55,10 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
         Fournisseur
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })}
+        href={Routes.Délai.lister({
+          statut: ['demandé', 'en-instruction'],
+          autoriteInstructrice: 'dreal',
+        })}
       >
         Délai
       </DropdownMenu.DropdownItem>

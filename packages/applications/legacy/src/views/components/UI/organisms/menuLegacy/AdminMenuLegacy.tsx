@@ -55,7 +55,10 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
         Fournisseur
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })}
+        href={Routes.Délai.lister({
+          statut: ['demandé', 'en-instruction'],
+          autoriteInstructrice: 'dgec',
+        })}
       >
         Délai
       </DropdownMenu.DropdownItem>
