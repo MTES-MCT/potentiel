@@ -12,6 +12,8 @@ import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
+import { InfoBoxDemandeDélai } from '../InfoBoxDemandeDélai';
+
 import { AnnulerDemandeDélai } from './annuler/AnnulerDemandeDélai';
 import { PasserEnInstructionDemandeDélai } from './passer-en-instruction/PasserEnInstructionDemandeDélai';
 import { RejeterDemandeDélai } from './rejeter/RejeterDemandeDélai';
@@ -60,15 +62,21 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
       }}
       rightColumn={{
         className: 'flex flex-col gap-8',
-        children: mapToActionComponents({
-          actions,
-          identifiantProjet: identifiantProjetValueType,
-          dateDemande: DateTime.bind(demande.demandéLe),
-          nombreDeMois: demande.nombreDeMois,
-          dateAchèvementPrévisionnelActuelle: Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
-            dateAchèvementPrévisionnelActuelle,
-          ),
-        }),
+        children: (
+          <>
+            {mapToActionComponents({
+              actions,
+              identifiantProjet: identifiantProjetValueType,
+              dateDemande: DateTime.bind(demande.demandéLe),
+              nombreDeMois: demande.nombreDeMois,
+              dateAchèvementPrévisionnelActuelle:
+                Lauréat.Achèvement.DateAchèvementPrévisionnel.bind(
+                  dateAchèvementPrévisionnelActuelle,
+                ),
+            })}
+            <InfoBoxDemandeDélai />
+          </>
+        ),
       }}
     />
   );
