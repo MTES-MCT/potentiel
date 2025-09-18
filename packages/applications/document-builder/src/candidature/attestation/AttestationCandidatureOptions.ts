@@ -23,6 +23,7 @@ export type Common = {
   technologie: AppelOffre.Technologie;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
   coefficientKChoisi: boolean | undefined;
+  autorisationDUrbanisme: { date: Date; numéro: string } | undefined;
 
   unitePuissance: AppelOffre.UnitéPuissance;
 };
