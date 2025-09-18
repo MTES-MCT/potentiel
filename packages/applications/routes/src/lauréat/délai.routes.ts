@@ -7,6 +7,7 @@ import { applyStatutFilter } from './_helpers/applyStatutFilter';
 
 type ListerFilters = {
   statut?: Array<Lauréat.Délai.StatutDemandeDélai.RawType>;
+  autoriteInstructrice?: Lauréat.Délai.AutoritéCompétente.RawType;
 };
 
 export const demander = (identifiantProjet: string) =>
@@ -22,6 +23,10 @@ export const lister = (filters: ListerFilters) => {
   const searchParams = new URLSearchParams();
 
   applyStatutFilter<Lauréat.Délai.StatutDemandeDélai.RawType>(searchParams, filters.statut);
+
+  if (filters?.autoriteInstructrice) {
+    searchParams.set('autoriteInstructrice', filters.autoriteInstructrice);
+  }
 
   return `/laureats/changements/delai${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 };
