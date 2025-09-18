@@ -5,15 +5,13 @@ import { FC, useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  TypeGarantiesFinancièresSelect,
-  TypeGarantiesFinancièresSelectProps,
+  GarantiesFinancièresFormInputs,
+  GarantiesFinancièresFormInputsProps,
 } from '../../TypeGarantiesFinancièresSelect';
 import {
   enregistrerGarantiesFinancièresAction,
@@ -38,7 +36,7 @@ export type SoumettreDépôtGarantiesFinancièresFormProps = {
   identifiantProjet: string;
   action: Action;
   submitLabel: string;
-  typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
+  typesGarantiesFinancières: GarantiesFinancièresFormInputsProps['typesGarantiesFinancières'];
   dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
 };
 
@@ -67,24 +65,12 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
-      <TypeGarantiesFinancièresSelect
+      <GarantiesFinancièresFormInputs
         id="type"
         name="type"
         typesGarantiesFinancières={typesGarantiesFinancières}
         actuelles={dépôt}
         validationErrors={validationErrors}
-      />
-
-      <UploadNewOrModifyExistingDocument
-        label="Attestation de constitution"
-        name="attestation"
-        required
-        formats={['pdf']}
-        state={validationErrors['attestation'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['attestation']}
-        documentKeys={
-          dépôt?.attestation ? [DocumentProjet.bind(dépôt.attestation).formatter()] : undefined
-        }
       />
     </Form>
   );
