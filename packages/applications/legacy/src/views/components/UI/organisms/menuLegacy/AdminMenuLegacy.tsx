@@ -21,6 +21,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
           statut: ['demandé', 'en-instruction', 'confirmé'],
+          autorite: 'dgec',
         })}
       >
         Abandon
@@ -55,7 +56,10 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
         Fournisseur
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
-        href={Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })}
+        href={Routes.Délai.lister({
+          statut: ['demandé', 'en-instruction'],
+          autoriteInstructrice: 'dgec',
+        })}
       >
         Délai
       </DropdownMenu.DropdownItem>
