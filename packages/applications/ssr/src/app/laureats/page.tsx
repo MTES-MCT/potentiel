@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
+  nomProjet: z.string().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -29,12 +30,13 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page } = paramsSchema.parse(searchParams);
+      const { page, nomProjet } = paramsSchema.parse(searchParams);
 
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({
         type: 'Lauréat.Query.ListerLauréat',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
+          nomProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,

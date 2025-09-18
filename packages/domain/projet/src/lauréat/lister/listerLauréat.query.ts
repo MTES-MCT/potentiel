@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../lauréat.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
@@ -36,6 +36,7 @@ export type ListerLauréatQuery = Message<
   {
     utilisateur: Email.RawType;
     range: RangeOptions;
+    nomProjet?: string;
   },
   ListerLauréatReadModel
 >;
@@ -49,10 +50,10 @@ export const registerListerLauréatQuery = ({
   list,
   getScopeProjetUtilisateur,
 }: ListerLauréatDependencies) => {
-  const handler: MessageHandler<ListerLauréatQuery> = async ({ utilisateur, range }) => {
+  const handler: MessageHandler<ListerLauréatQuery> = async ({ utilisateur, nomProjet, range }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
-    const options: ListOptions<LauréatEntity> = {
+    const lauréats = await list<LauréatEntity>('lauréat', {
       range,
       orderBy: {
         nomProjet: 'ascending',
@@ -60,11 +61,10 @@ export const registerListerLauréatQuery = ({
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+        nomProjet: Where.contain(nomProjet),
         localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
       },
-    };
-
-    const lauréats = await list<LauréatEntity>('lauréat', options);
+    });
 
     return {
       ...lauréats,
@@ -80,8 +80,8 @@ const mapToReadModel = ({
   identifiantProjet,
   localité,
 }: LauréatEntity): LauréatListItemReadModel => ({
-  nomProjet,
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  nomProjet,
   localité: Localité.bind(localité),
   producteur: 'Producteur WIP',
   représentantLégal: { nom: 'Représentant légal WIP', email: 'representant.legal@wip.com' },
