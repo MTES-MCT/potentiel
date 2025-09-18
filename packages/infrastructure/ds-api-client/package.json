@@ -15,12 +15,13 @@
     "@graphql-codegen/add": "^5.0.3",
     "@graphql-codegen/cli": "^5.0.5",
     "@graphql-codegen/typescript-graphql-request": "^6.2.0",
-    "@potentiel-domain/projet": "*",
-    "@potentiel-config/tsconfig": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*"
+    "@potentiel-config/tsconfig": "*"
   },
   "dependencies": {
-    "graphql-request": "^7.1.2"
+    "@potentiel-domain/projet": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "graphql-request": "^7.1.2",
+    "graphql-tag": "^2.12.6"
   }
 }
