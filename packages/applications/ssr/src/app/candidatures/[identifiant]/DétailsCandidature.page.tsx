@@ -21,6 +21,7 @@ import {
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
+import { getNatureDeLExploitationTypeLabel } from '../../_helpers/getNatureDeLExploitationTypeLabel';
 
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',
@@ -78,7 +79,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                 </span>
               </Field>
               <Field name="Société mère">
-                <span>{dépôt.sociétéMère}</span>
+                <span>{dépôt.sociétéMère || 'Non renseignée'}</span>
               </Field>
               {dépôt.autorisationDUrbanisme !== undefined && (
                 <Field name="Autorisation d'urbanisme">
@@ -100,9 +101,14 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>{dépôt.installateur || 'Non renseigné'}</span>
                 </Field>
               )}
+              {dépôt.natureDeLExploitation && (
+                <Field name="Nature de l'exploitation">
+                  <span>{getNatureDeLExploitationTypeLabel(dépôt.natureDeLExploitation.type)}</span>
+                </Field>
+              )}
               {dépôt.installationAvecDispositifDeStockage !== undefined && (
                 <Field name="Dispositif de stockage">
-                  <span>{dépôt.installationAvecDispositifDeStockage ? 'avec' : 'sans'}</span>
+                  <span>{dépôt.installationAvecDispositifDeStockage ? 'Avec' : 'Sans'}</span>
                 </Field>
               )}
               <Field name="Performances">

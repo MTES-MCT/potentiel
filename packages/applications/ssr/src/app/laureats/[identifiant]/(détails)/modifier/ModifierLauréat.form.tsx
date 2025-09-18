@@ -33,6 +33,7 @@ import { CandidatureField } from './components/fields/CandidatureField';
 import { CoefficientKField } from './components/fields/CoefficientKField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
 import { InstallationAvecDispositifDeStockageField } from './components/fields/InstallationAvecDispositifDeStockageField';
+import { NatureDeLExploitationField } from './components/fields/NatureDExploitationField';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
@@ -178,8 +179,8 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         <FormRow>
           <TechnologieField
             candidature={candidature.technologie}
-            name="technologie"
             label="Technologie"
+            name="technologie"
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -208,8 +209,8 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           <FormRow>
             <PuissanceALaPointeField
               candidature={candidature.puissanceALaPointe}
-              name="puissanceALaPointe"
               label="Engagement de puissance à la pointe"
+              name="puissanceALaPointe"
               validationErrors={validationErrors}
             />
           </FormRow>
@@ -224,7 +225,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-
         {champsSupplémentaires.autorisationDUrbanisme && (
           <>
             <FormRow>
@@ -243,7 +243,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             </FormRow>
           </>
         )}
-
         {champsSupplémentaires.installateur && lauréat.installateur && (
           <FormRow>
             <ProjectField
@@ -255,7 +254,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-
         {champsSupplémentaires.installationAvecDispositifDeStockage && (
           <FormRow>
             <InstallationAvecDispositifDeStockageField
@@ -265,7 +263,15 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-
+        {champsSupplémentaires.natureDeLExploitation && (
+          <FormRow>
+            <NatureDeLExploitationField
+              candidature={candidature.natureDeLExploitation}
+              lauréat={lauréat.natureDeLExploitation?.currentValue}
+              validationErrors={validationErrors}
+            />
+          </FormRow>
+        )}
         {champsSupplémentaires.coefficientKChoisi && (
           <FormRow>
             <CoefficientKField
