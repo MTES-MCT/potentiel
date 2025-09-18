@@ -84,15 +84,9 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
             <FormattedDate className="font-semibold" date={gf.dateÉchéance.formatter()} />
           </div>
         )}
-        {gf.estExemption() && (
-          <div>
-            Date de délibération :{' '}
-            <FormattedDate className="font-semibold" date={gf.dateDélibération.formatter()} />
-          </div>
-        )}
         {dateConstitution && (
           <div>
-            Date de constitution :{' '}
+            Date de {gf.estExemption() ? `délibération` : `constitution`} :{' '}
             <FormattedDate className="font-semibold" date={dateConstitution.date} />
           </div>
         )}

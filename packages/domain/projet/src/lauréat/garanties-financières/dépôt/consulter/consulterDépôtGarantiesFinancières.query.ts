@@ -58,15 +58,7 @@ export const registerConsulterDépôtGarantiesFinancièresQuery = ({
 };
 
 const mapToReadModel = ({
-  dépôt: {
-    type,
-    attestation,
-    dateConstitution,
-    dateÉchéance,
-    dateDélibération,
-    soumisLe,
-    dernièreMiseÀJour,
-  },
+  dépôt: { type, attestation, dateConstitution, dateÉchéance, soumisLe, dernièreMiseÀJour },
   identifiantProjetValueType,
 }: DépôtGarantiesFinancièresEntity & {
   identifiantProjetValueType: IdentifiantProjet.ValueType;
@@ -74,7 +66,6 @@ const mapToReadModel = ({
   identifiantProjet: identifiantProjetValueType,
   garantiesFinancières: GarantiesFinancières.convertirEnValueType({
     type,
-    dateDélibération,
     dateÉchéance,
   }),
   dateConstitution: DateTime.convertirEnValueType(dateConstitution),

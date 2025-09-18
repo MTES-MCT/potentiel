@@ -60,6 +60,7 @@ export type ValueType = ReadonlyValueType<{
   technologie: TypeTechnologie.ValueType;
   actionnariat: TypeActionnariat.ValueType | undefined;
   garantiesFinancières?: GarantiesFinancières.GarantiesFinancières.ValueType;
+  dateDélibérationGf: DateTime.ValueType | undefined;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.ValueType>;
   typologieInstallation: Array<TypologieInstallation.ValueType>;
@@ -97,7 +98,9 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   garantiesFinancières: plain.garantiesFinancières
     ? GarantiesFinancières.GarantiesFinancières.bind(plain.garantiesFinancières)
     : undefined,
-
+  dateDélibérationGf: plain.dateDélibérationGf
+    ? DateTime.bind(plain.dateDélibérationGf)
+    : undefined,
   fournisseurs: plain.fournisseurs.map(Fournisseur.bind),
   puissanceDeSite: plain.puissanceDeSite,
   autorisationDUrbanisme: plain.autorisationDUrbanisme
@@ -166,9 +169,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       dateÉchéanceGf: this.garantiesFinancières?.estAvecDateÉchéance()
         ? this.garantiesFinancières.dateÉchéance.formatter()
         : undefined,
-      dateDélibérationGf: this.garantiesFinancières?.estExemption()
-        ? this.garantiesFinancières.dateDélibération.formatter()
-        : undefined,
+      dateDélibérationGf: this.dateDélibérationGf?.formatter(),
       typeGarantiesFinancières: this.garantiesFinancières?.type.formatter(),
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       typologieInstallation: this.typologieInstallation.map((typologieInstallation) =>
@@ -215,10 +216,12 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       ? mapToPlainObject(
           GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
             type: raw.typeGarantiesFinancières,
-            dateDélibération: raw.dateDélibérationGf,
             dateÉchéance: raw.dateÉchéanceGf,
           }),
         )
+      : undefined,
+    dateDélibérationGf: raw.dateDélibérationGf
+      ? mapToPlainObject(DateTime.convertirEnValueType(raw.dateDélibérationGf))
       : undefined,
     fournisseurs: raw.fournisseurs.map(Fournisseur.convertirEnValueType),
     typologieInstallation: raw.typologieInstallation.map(

@@ -62,8 +62,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et un recours accordé pour le projet éliminé
         Quand la DREAL enregistre les garanties financières actuelles pour le projet lauréat avec :
-            | type GF              | exemption  |
-            | date de délibération | 2020-01-01 |
+            | type GF | exemption |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
     Plan du Scénario: Impossible d'enregistrer des garanties financières actuelles avec date d'échéance si le type renseigné n'est pas compatible
