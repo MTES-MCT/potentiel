@@ -34,8 +34,6 @@ const action: FormAction<FormState, typeof schema> = async (_, data) =>
             data.type === 'avec-date-échéance'
               ? new Date(data.dateEcheance).toISOString()
               : undefined,
-          dateDélibération:
-            data.type === 'exemption' ? new Date(data.dateDeliberation).toISOString() : undefined,
         },
         dateConstitutionValue: new Date(data.dateConstitution).toISOString(),
         attestationValue: data.attestation,

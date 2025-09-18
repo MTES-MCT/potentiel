@@ -31,7 +31,6 @@ export class GarantiesFinancièresActuellesWorld {
     > = {
       type: ['type GF'],
       dateÉchéance: ["date d'échéance", mapDateTime],
-      dateDélibération: ['date de délibération', mapDateTime],
     };
 
     const otherProps = mapToExemple(exemple, {
@@ -53,13 +52,12 @@ export class GarantiesFinancièresActuellesWorld {
       this.garantiesFinancièresWorld.lauréatWorld.candidatureWorld.importerCandidature;
     const { notifiéLe } = this.garantiesFinancièresWorld.lauréatWorld.notifierLauréatFixture;
 
-    const { typeGarantiesFinancières, dateÉchéanceGf, dateDélibérationGf } = dépôtCandidature;
+    const { typeGarantiesFinancières, dateÉchéanceGf } = dépôtCandidature;
     const valeurImport = typeGarantiesFinancières
       ? ({
           garantiesFinancières:
             Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
               type: typeGarantiesFinancières,
-              dateDélibération: dateDélibérationGf,
               dateÉchéance: dateÉchéanceGf,
             }),
           statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,

@@ -129,10 +129,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       <FormattedDate date={garantiesFinancières.dateÉchéance.formatter()} />
                     </span>
                   )}
-                  {garantiesFinancières.estExemption() && (
+                  {dépôt.dateDélibérationGf && (
                     <span>
-                      Date de délibération :{' '}
-                      <FormattedDate date={garantiesFinancières.dateDélibération.formatter()} />
+                      Date de délibération : <FormattedDate date={dépôt.dateDélibérationGf.date} />
                     </span>
                   )}
                 </Field>
