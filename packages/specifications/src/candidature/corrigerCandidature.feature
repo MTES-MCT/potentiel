@@ -31,6 +31,7 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et le porteur a été prévenu que son attestation a été modifiée
         Et l'attestation de désignation de la candidature devrait être consultable
+        Et l'attestation de désignation de la candidature devrait être régénérée
 
     Scénario: Corriger une candidature notifiée sans régénérer l'attestation
         Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
@@ -40,6 +41,7 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
         Et l'attestation de désignation de la candidature devrait être consultable
+        Et l'attestation de désignation de la candidature ne devrait pas être régénérée
 
     Scénario: Corriger la puissance de site d'une candidature pour un appel d'offres qui a ce champ
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :

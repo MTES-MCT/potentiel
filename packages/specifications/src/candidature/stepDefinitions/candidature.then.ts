@@ -104,12 +104,40 @@ Alors(
   "l'attestation de désignation de la candidature devrait être consultable",
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.candidatureWorld.importerCandidature;
-    await vérifierAttestationDeDésignation(identifiantProjet);
+
+    await waitForExpect(async () => {
+      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+      assert(Option.isSome(candidature), 'Candidature non trouvée');
+
+      expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
+
+      if (candidature.notification?.attestation) {
+        const attestation = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: candidature.notification.attestation.formatter(),
+          },
+        });
+        assert(Option.isSome(attestation), 'Attestation non trouvée');
+
+        expect(await convertReadableStreamToString(attestation.content)).to.have.length.gt(1);
+        attestation.format.should.be.equal('application/pdf');
+      }
+    }, 1000);
   },
 );
 
-export const vérifierAttestationDeDésignation = async (identifiantProjet: string) => {
-  await waitForExpect(async () => {
+Alors(
+  "l'attestation de désignation de la candidature devrait être régénérée",
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
       data: {
@@ -119,22 +147,40 @@ export const vérifierAttestationDeDésignation = async (identifiantProjet: stri
 
     assert(Option.isSome(candidature), 'Candidature non trouvée');
 
-    expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
+    const { notifiéLe } =
+      this.candidatureWorld.importerCandidature.instructionValue.statut === 'classé'
+        ? this.lauréatWorld.notifierLauréatFixture
+        : this.éliminéWorld.notifierEliminéFixture;
 
-    if (candidature.notification?.attestation) {
-      const attestation = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: candidature.notification.attestation.formatter(),
-        },
-      });
-      assert(Option.isSome(attestation), 'Attestation non trouvée');
+    assert(candidature.notification?.attestation, "La candidature n'a pas d'attestation");
+    expect(new Date(candidature.notification.attestation.dateCréation)).to.be.greaterThan(
+      new Date(notifiéLe),
+    );
+  },
+);
 
-      expect(await convertReadableStreamToString(attestation.content)).to.have.length.gt(1);
-      attestation.format.should.be.equal('application/pdf');
-    }
-  }, 1000);
-};
+Alors(
+  "l'attestation de désignation de la candidature ne devrait pas être régénérée",
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    assert(Option.isSome(candidature), 'Candidature non trouvée');
+
+    const { notifiéLe } =
+      this.candidatureWorld.importerCandidature.instructionValue.statut === 'classé'
+        ? this.lauréatWorld.notifierLauréatFixture
+        : this.éliminéWorld.notifierEliminéFixture;
+
+    expect(candidature.notification?.attestation?.dateCréation).to.eq(notifiéLe);
+  },
+);
 
 // effectue une comparaison non stricte pour s'assurer que les propriétés de `expected` sont présentes dans `actual`, avec la bonne valeur
 const shallowCompareObject = (

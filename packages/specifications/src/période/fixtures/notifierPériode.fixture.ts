@@ -69,18 +69,16 @@ export class NotifierPériodeFixture
   créer(partialFixture?: Partial<NotifierPériode>): NotifierPériode {
     const fixture: NotifierPériode = {
       estNotifiée: true,
-      notifiéeLe: faker.date.soon().toISOString(),
-      notifiéePar: faker.internet.email(),
+      notifiéeLe: this.#notifiéeLe ?? faker.date.soon().toISOString(),
+      notifiéePar: this.#notifiéePar ?? faker.internet.email(),
       lauréats: this.candidatsÀNotifier?.lauréats ?? [],
       éliminés: this.candidatsÀNotifier?.éliminés ?? [],
       candidatsÀNotifier: { lauréats: [], éliminés: [] },
       ...partialFixture,
     };
 
-    if (!this.aÉtéCréé) {
-      this.#notifiéeLe = fixture.notifiéeLe;
-      this.#notifiéePar = fixture.notifiéePar;
-    }
+    this.#notifiéeLe = fixture.notifiéeLe;
+    this.#notifiéePar = fixture.notifiéePar;
     this.#lauréats = fixture.lauréats;
     this.#éliminés = fixture.éliminés;
 
