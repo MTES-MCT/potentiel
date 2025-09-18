@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import {
   updateOneProjection,
   upsertProjection,
@@ -23,6 +23,7 @@ export const changementPuissanceEnregistréProjector = async ({
     `changement-puissance|${identifiantProjet}#${enregistréLe}`,
     {
       identifiantProjet,
+      appelOffres: IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre,
       demande: {
         nouvellePuissance: puissance,
         statut: Lauréat.Puissance.StatutChangementPuissance.informationEnregistrée.statut,

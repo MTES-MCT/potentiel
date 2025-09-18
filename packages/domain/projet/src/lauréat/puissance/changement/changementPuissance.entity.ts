@@ -7,6 +7,7 @@ export type ChangementPuissanceEntity = Entity<
   'changement-puissance',
   {
     identifiantProjet: string;
+    appelOffres: string;
 
     demande: {
       demandéePar: string;

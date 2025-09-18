@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const puissanceImportéeProjector = async ({
@@ -8,5 +8,6 @@ export const puissanceImportéeProjector = async ({
     identifiantProjet,
     puissance,
     miseÀJourLe: importéeLe,
+    appelOffres: IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre,
   });
 };
