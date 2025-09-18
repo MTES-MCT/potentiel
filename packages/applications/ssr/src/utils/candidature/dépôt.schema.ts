@@ -21,7 +21,7 @@ import {
   autorisationDUrbanismeSchema,
   installateurSchema,
   installationAvecDispositifDeStockageSchema,
-  natureDeLExploitationSchema,
+  natureDeLExploitationOptionalSchema,
 } from './candidatureFields.schema';
 import { localitéSchema } from './localité.schema';
 import { typologieInstallationSchema } from './typologieInstallation.schema';
@@ -50,5 +50,5 @@ export const dépôtSchema = z.object({
   localité: localitéSchema,
   typologieInstallation: typologieInstallationSchema,
   installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
-  natureDeLExploitation: natureDeLExploitationSchema,
+  natureDeLExploitation: natureDeLExploitationOptionalSchema,
 });

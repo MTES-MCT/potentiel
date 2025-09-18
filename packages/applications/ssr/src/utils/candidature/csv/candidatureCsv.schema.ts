@@ -24,7 +24,7 @@ import {
   puissanceDeSiteSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
-  natureDeLExploitationSchema,
+  natureDeLExploitationOptionalSchema,
 } from '../candidatureFields.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -153,7 +153,7 @@ const candidatureCsvRowSchema = z
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     [colonnes.installateur]: installateurSchema,
     [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
-    [colonnes.natureDeLExploitation]: natureDeLExploitationSchema,
+    [colonnes.natureDeLExploitation]: natureDeLExploitationOptionalSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
