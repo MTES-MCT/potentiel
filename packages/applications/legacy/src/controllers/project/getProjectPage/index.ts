@@ -271,6 +271,7 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             demandeNécessiteInstruction: demandeNécessiteInstructionPourActionnaire,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('actionnaire'),
           }),
           puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
@@ -292,6 +293,7 @@ v1Router.get(
           fournisseur: await getFournisseur({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('fournisseur'),
           }),
           délai,
           autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
