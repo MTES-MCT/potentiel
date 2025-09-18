@@ -38,9 +38,9 @@ export const EnregistrerChangementFournisseurForm: FC<
     ValidationErrors<EnregistrerChangementFournisseurFormKeys>
   >({});
 
-  const [évaluationCarboneSimplifiée, setÉvaluationCarboneSimplifiée] = useState(
-    évaluationCarboneSimplifiéeActuelle,
-  );
+  const [évaluationCarboneSimplifiée, setÉvaluationCarboneSimplifiée] = useState<
+    number | undefined
+  >();
 
   return (
     <Form
@@ -75,7 +75,7 @@ export const EnregistrerChangementFournisseurForm: FC<
             state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'info'}
             stateRelatedMessage={
               validationErrors['evaluationCarboneSimplifiee'] ?? (
-                <>Valeur actuelle : {évaluationCarboneSimplifiée} kg eq CO2/kWc</>
+                <>Valeur actuelle : {évaluationCarboneSimplifiéeActuelle} kg eq CO2/kWc</>
               )
             }
             label="Évaluation carbone simplifiée"
@@ -97,11 +97,13 @@ export const EnregistrerChangementFournisseurForm: FC<
           />
         </div>
 
-        <AlerteChangementÉvaluationCarbone
-          nouvelleÉvaluationCarbone={évaluationCarboneSimplifiée}
-          évaluationCarboneInitiale={évaluationCarboneSimplifiéeInitiale}
-          technologie={technologie}
-        />
+        {évaluationCarboneSimplifiée && (
+          <AlerteChangementÉvaluationCarbone
+            nouvelleÉvaluationCarbone={évaluationCarboneSimplifiée}
+            évaluationCarboneInitiale={évaluationCarboneSimplifiéeInitiale}
+            technologie={technologie}
+          />
+        )}
 
         <FournisseursField
           fournisseurs={fournisseurs}

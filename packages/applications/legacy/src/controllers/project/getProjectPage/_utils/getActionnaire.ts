@@ -7,6 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type GetActionnaireAffichageForProjectPage = {
   label: string;
@@ -22,12 +23,14 @@ type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
   demandeNécessiteInstruction: boolean;
+  règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['actionnaire'];
 };
 
 export const getActionnaire = async ({
   identifiantProjet,
   rôle,
   demandeNécessiteInstruction,
+  règlesChangementPourAppelOffres,
 }: Props): Promise<GetActionnaireForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -67,14 +70,16 @@ export const getActionnaire = async ({
         role.aLaPermission('actionnaire.demanderChangement') &&
         !aUnAbandonEnCours &&
         !estAbandonné &&
-        !estAchevé;
+        !estAchevé &&
+        règlesChangementPourAppelOffres.demande;
 
       const peutEnregistrerChangement =
         !demandeNécessiteInstruction &&
         role.aLaPermission('actionnaire.enregistrerChangement') &&
         !aUnAbandonEnCours &&
         !estAbandonné &&
-        !estAchevé;
+        !estAchevé &&
+        règlesChangementPourAppelOffres.informationEnregistrée;
 
       if (peutModifier) {
         return {
