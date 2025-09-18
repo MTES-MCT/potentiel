@@ -21,6 +21,7 @@ export type GetLauréat = {
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   installateur?: Lauréat.Installateur.ConsulterInstallateurReadModel;
   installationAvecDispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
+  natureDeLExploitation?: Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationReadModel;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
@@ -36,11 +37,15 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   const producteurInfos = await getProducteurInfos({ identifiantProjet });
   const fournisseurInfos = await getFournisseurInfos({ identifiantProjet });
 
+  // champs supplémentaires
   const installateurInfos =
     champsSupplémentaires.installateur && (await getInstallateurInfos({ identifiantProjet }));
   const installationAvecDispositifDeStockageInfo =
     champsSupplémentaires.installationAvecDispositifDeStockage &&
     (await getInstallationAvecDispositifDeStockageInfos({ identifiantProjet }));
+  const natureDeLExploitationInfo =
+    champsSupplémentaires.natureDeLExploitation &&
+    (await getNatureDeLExploitationInfos({ identifiantProjet }));
 
   return {
     actionnaire: actionnaireInfos,
@@ -50,6 +55,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     fournisseur: fournisseurInfos,
     installateur: installateurInfos,
     installationAvecDispositifDeStockage: installationAvecDispositifDeStockageInfo,
+    natureDeLExploitation: natureDeLExploitationInfo,
     lauréat,
   };
 });
@@ -163,7 +169,7 @@ export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
   return fournisseur;
 };
 
-export const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
+const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
   const installateur = await mediator.send<Lauréat.Installateur.ConsulterInstallateurQuery>({
     type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
     data: {
@@ -178,9 +184,7 @@ export const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
   return installateur;
 };
 
-export const getInstallationAvecDispositifDeStockageInfos = async ({
-  identifiantProjet,
-}: Props) => {
+const getInstallationAvecDispositifDeStockageInfos = async ({ identifiantProjet }: Props) => {
   const installationAvecDispositifDeStockage =
     await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
       {
@@ -196,4 +200,20 @@ export const getInstallationAvecDispositifDeStockageInfos = async ({
   }
 
   return installationAvecDispositifDeStockage;
+};
+
+const getNatureDeLExploitationInfos = async ({ identifiantProjet }: Props) => {
+  const natureDeLExploitation =
+    await mediator.send<Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationQuery>({
+      type: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+  if (Option.isNone(natureDeLExploitation)) {
+    return notFound();
+  }
+
+  return natureDeLExploitation;
 };

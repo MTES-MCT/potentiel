@@ -26,6 +26,7 @@ import {
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
   installationAvecDispositifDeStockageSchema,
+  natureDeLExploitationOptionalSchema,
 } from './candidatureFields.schema';
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
@@ -55,6 +56,7 @@ export const candidatureNotifiéeSchema = z
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: installateurSchema,
     installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
+    natureDeLExploitation: natureDeLExploitationOptionalSchema,
   })
   .merge(localitéSchema);
 
@@ -69,10 +71,13 @@ const lauréatSchema = z
     evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
   })
   .merge(localitéSchema);
+
 const lauréatChampsSupplémentairesSchema = z.object({
   installateur: installateurSchema,
   installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
+  natureDeLExploitation: natureDeLExploitationOptionalSchema,
 });
+
 const partialLauréatSchema = lauréatSchema.merge(lauréatChampsSupplémentairesSchema).partial();
 
 const identifiantProjetSchema = z.string().min(1);
