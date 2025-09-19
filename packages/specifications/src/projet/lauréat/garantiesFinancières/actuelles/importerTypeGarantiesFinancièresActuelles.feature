@@ -3,20 +3,23 @@
 @garanties-financières-actuelles
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet lors de la notification
 
+    @select
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offres  | <AO>              |
-            | type GF         | <type GF>         |
-            | date d'échéance | <date d'échéance> |
+            | appel d'offres       | <AO>                   |
+            | type GF              | <type GF>              |
+            | date d'échéance      | <date d'échéance>      |
+            | date de délibération | <date de délibération> |
         Quand le DGEC validateur notifie la candidature lauréate
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
         Exemples:
-            | type GF                   | AO                       | date d'échéance |
-            | avec-date-échéance        | PPE2 - Sol               | 2027-12-01      |
-            | six-mois-après-achèvement | PPE2 - Eolien            |                 |
-            | consignation              | CRE4 - ZNI               |                 |
-            | garantie-bancaire         | PPE2 - Petit PV Bâtiment |                 |
+            | type GF                   | AO                       | date d'échéance | date de délibération |
+            | avec-date-échéance        | PPE2 - Sol               | 2027-12-01      |                      |
+            | six-mois-après-achèvement | PPE2 - Eolien            |                 |                      |
+            | consignation              | CRE4 - ZNI               |                 |                      |
+            | garantie-bancaire         | PPE2 - Petit PV Bâtiment |                 |                      |
+            | exemption                 | PPE2 - Petit PV Bâtiment |                 | 2024-12-01           |
 
     Scénario: Un admin importe des garanties financières actuelles ayant initialement un statut échu
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
