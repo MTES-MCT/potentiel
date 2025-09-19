@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
-
-import { getRégionAndDépartementFromCodePostal } from '@/app/candidatures/_helpers';
+import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
 
 import {
   booleanSchema,
@@ -14,6 +13,7 @@ import {
   optionalStringWithDefaultValueSchema,
   requiredStringSchema,
   strictlyPositiveNumberSchema,
+  stringToArray,
 } from './schemaBase';
 
 export const identifiantProjetSchema = requiredStringSchema;
@@ -33,25 +33,19 @@ export const emailContactSchema = requiredStringSchema.email();
 export const adresse1Schema = requiredStringSchema;
 export const adresse2Schema = optionalStringWithDefaultValueSchema;
 
-const normalizeStringArray = (value: string) =>
-  value
-    .split('/')
-    .map((str) => str.trim())
-    .filter((str) => !!str)
-    .join(' / ');
-
+// On accepte de multiples code postaux séparés par /
 export const codePostalSchema = requiredStringSchema
+  .transform((val) => stringToArray(val, '/'))
+  .refine((val) => val.length > 0, 'Le code postal est requis')
   .refine(
-    (val) =>
-      val
-        .split('/')
-        .map((str) => str.trim())
-        .every(getRégionAndDépartementFromCodePostal),
+    (val) => val.every(récupérerDépartementRégionParCodePostal),
     'Le code postal ne correspond à aucune région / département',
   )
-  .transform(normalizeStringArray);
+  .transform((val) => val.join(' / '));
 
-export const communeSchema = requiredStringSchema.transform(normalizeStringArray);
+export const communeSchema = requiredStringSchema.transform((val) =>
+  stringToArray(val, '/').join(' / '),
+);
 export const départementSchema = requiredStringSchema;
 export const régionSchema = requiredStringSchema;
 export const doitRegenererAttestationSchema = booleanSchema.optional();

@@ -155,7 +155,7 @@ describe('findProjection', () => {
     actual.should.deep.equal(expected);
   });
 
-  it.only('should return the joined projection when a multiple joins options are provided', async () => {
+  it('should return the joined projection when a multiple joins options are provided', async () => {
     const id: `${string}|${string}` = `${category1}|${fakeData1.data.value}`;
 
     const actual = await findProjection<FakeProjection1, [FakeProjection2, FakeProjection3]>(id, {

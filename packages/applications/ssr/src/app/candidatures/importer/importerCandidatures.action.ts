@@ -17,8 +17,6 @@ import { candidatureCsvSchema } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/csv/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
-import { getLocalité } from '../_helpers';
-
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 });
@@ -56,7 +54,6 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
               ...line,
               dateDélibérationGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
-              localité: getLocalité(line),
             },
             instructionValue: line,
             détailsValue: rawLine,

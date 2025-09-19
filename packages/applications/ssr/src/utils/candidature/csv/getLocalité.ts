@@ -1,19 +1,17 @@
 import { Candidature } from '@potentiel-domain/projet';
-
-import { CandidatureShape } from '@/utils/candidature';
-
 import {
   DépartementRégion,
-  getRégionAndDépartementFromCodePostal,
-} from './getRégionAndDépartementFromCodePostal';
+  récupérerDépartementRégionParCodePostal,
+} from '@potentiel-domain/inmemory-referential';
 
 type GetLocalité = (
-  args: Pick<CandidatureShape, 'codePostaux' | 'adresse1' | 'adresse2' | 'commune'>,
+  args: Record<'codePostal' | 'adresse1' | 'adresse2' | 'commune', string>,
 ) => Candidature.Localité.RawType;
 
-export const getLocalité: GetLocalité = ({ codePostaux, adresse1, adresse2, commune }) => {
+export const getLocalité: GetLocalité = ({ codePostal, adresse1, adresse2, commune }) => {
+  const codePostaux = codePostal.split('/').map((str) => str.trim());
   const départementsRégions = codePostaux
-    .map(getRégionAndDépartementFromCodePostal)
+    .map(récupérerDépartementRégionParCodePostal)
     .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
   const departements = Array.from(new Set(départementsRégions.map((x) => x.département)));
   const régions = Array.from(new Set(départementsRégions.map((x) => x.région)));

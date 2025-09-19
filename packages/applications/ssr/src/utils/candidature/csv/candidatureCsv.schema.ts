@@ -20,7 +20,6 @@ import {
   sociétéMèreSchema,
   motifEliminationSchema,
   territoireProjetSchema,
-  codePostalSchema,
   puissanceDeSiteSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
@@ -31,6 +30,7 @@ import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
 import {
   adresse1CsvSchema,
   choixCoefficientKCsvSchema,
+  codePostalCsvSchema,
   dateDAutorisationDUrbanismeCsvSchema,
   dateEchéanceGfCsvSchema,
   financementCollectifCsvSchema,
@@ -48,6 +48,7 @@ import {
   élémentsSousOmbrièreCsvSchema,
   évaluationCarboneSimplifiéeCsvSchema,
 } from './candidatureCsvFields.schema';
+import { getLocalité } from './getLocalité';
 
 // Order matters! the CSV uses "1"/"2"/"3"
 const typeGf = [
@@ -86,7 +87,7 @@ const colonnes = {
   emailContact: 'Adresse électronique du contact',
   adresse1: 'N°, voie, lieu-dit 1',
   adresse2: 'N°, voie, lieu-dit 2',
-  codePostaux: 'CP',
+  codePostal: 'CP',
   commune: 'Commune',
   statut: 'Classé ?',
   motifÉlimination: "Motif d'élimination",
@@ -132,9 +133,7 @@ const candidatureCsvRowSchema = z
     [colonnes.emailContact]: emailContactSchema,
     [colonnes.adresse1]: adresse1CsvSchema,
     [colonnes.adresse2]: adresse2Schema, // see refine below
-    [colonnes.codePostaux]: codePostalSchema.transform((val) =>
-      val.split('/').map((str) => str.trim()),
-    ),
+    [colonnes.codePostal]: codePostalCsvSchema,
     [colonnes.commune]: communeSchema,
     [colonnes.statut]: statutCsvSchema,
     [colonnes.puissanceALaPointe]: puissanceALaPointeCsvSchema,
@@ -235,6 +234,10 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       typologieDeBâtiment,
       typeInstallationsAgrivoltaiques,
       élémentsSousOmbrière,
+      codePostal,
+      adresse1,
+      adresse2,
+      commune,
       ...val
     }) => {
       return {
@@ -263,6 +266,12 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           typologieDeBâtiment,
           typeInstallationsAgrivoltaiques,
           élémentsSousOmbrière,
+        }),
+        localité: getLocalité({
+          adresse1,
+          adresse2,
+          codePostal,
+          commune,
         }),
       };
     },

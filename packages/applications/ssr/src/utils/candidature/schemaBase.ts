@@ -112,3 +112,9 @@ export const conditionalRequiredError = (
   path: [field],
   message: `"${field}" est requis lorsque "${referenceField}" a la valeur "${expectedValue}"`,
 });
+
+export const stringToArray = (value: string, separator: string) =>
+  value
+    .split(separator)
+    .map((str) => str.trim())
+    .filter(Boolean);
