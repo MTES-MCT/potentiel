@@ -73,7 +73,10 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
           )}
           {!attestation && (
             <span className="font-semibold italic">
-              Attestation de constitution des garanties financières manquante
+              {gf.estExemption()
+                ? 'Délibération approuvant le projet objet de l’offre'
+                : 'Attestation de constitution des garanties financières'}{' '}
+              manquante
             </span>
           )}
         </div>
