@@ -42,8 +42,9 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Scénario: Un admin modifie des garanties financières actuelles pour un projet qui en est exempté
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
-            | type GF        | exemption                |
+            | appel d'offres       | PPE2 - Petit PV Bâtiment |
+            | type GF              | exemption                |
+            | date de délibération | 2025-01-01               |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF | consignation |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
@@ -53,7 +54,8 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | appel d'offres | PPE2 - Petit PV Bâtiment |
             | type GF        | consignation             |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
-            | type GF | exemption |
+            | type GF              | exemption  |
+            | date de constitution | 2024-01-01 |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
     Plan du Scénario: Impossible de modifier des garanties financières actuelles si le type renseigné n'est pas compatible avec une date d'échéance
