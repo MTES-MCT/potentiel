@@ -44,7 +44,6 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
         const rawLine = removeEmptyValues(
           rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {},
         );
-        console.log(line.localité, rawLine.CP);
         await mediator.send<Candidature.CorrigerCandidatureUseCase>({
           type: 'Candidature.UseCase.CorrigerCandidature',
           data: {
