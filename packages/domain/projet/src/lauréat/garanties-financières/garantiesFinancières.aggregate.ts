@@ -26,6 +26,9 @@ import {
   AttestationGarantiesFinancièresManquanteError,
   AucunesGarantiesFinancièresActuellesError,
   DateConstitutionDansLeFuturError,
+  DateDélibérationDansLeFuturError,
+  DateDélibérationNonAttendueError,
+  DateDélibérationRequiseError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
   GarantiesFinancièresDéjàEnregistréesError,
@@ -187,6 +190,21 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     this.vérifierSiLeTypeEstDisponiblePourAppelOffre(garantiesFinancières?.type);
   }
 
+  vérifierSiDateDeDélibérationRequiseEtValide(
+    date: DateTime.ValueType | undefined,
+    type: TypeGarantiesFinancières.ValueType | undefined,
+  ) {
+    if (type?.estExemption() && !date) {
+      throw new DateDélibérationRequiseError();
+    }
+    if (date && date.estDansLeFutur()) {
+      throw new DateDélibérationDansLeFuturError();
+    }
+    if (!type?.estExemption() && date) {
+      throw new DateDélibérationNonAttendueError();
+    }
+  }
+
   private vérifierQueLaDateDeConstitutionEstValide(dateConstitution: DateTime.ValueType) {
     if (dateConstitution.estDansLeFutur()) {
       throw new DateConstitutionDansLeFuturError();
@@ -276,6 +294,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       return;
     }
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
+
+    this.vérifierSiDateDeDélibérationRequiseEtValide(dateDeDélibération, garantiesFinancières.type);
 
     const event: TypeGarantiesFinancièresImportéEvent = {
       type: 'TypeGarantiesFinancièresImporté-V1',
