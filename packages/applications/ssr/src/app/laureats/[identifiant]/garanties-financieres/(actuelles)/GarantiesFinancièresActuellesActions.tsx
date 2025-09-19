@@ -15,6 +15,7 @@ type GarantiesFinancièresActuellesActionsProps = {
   identifiantProjet: string;
   contactPorteurs: string[];
   motif?: PlainType<Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.ValueType>;
+  typeGfActuelles?: PlainType<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>;
 };
 
 export const GarantiesFinancièresActuellesActions = ({
@@ -23,6 +24,7 @@ export const GarantiesFinancièresActuellesActions = ({
   infos,
   contactPorteurs,
   motif,
+  typeGfActuelles,
 }: GarantiesFinancièresActuellesActionsProps) => (
   <div className="flex flex-col md:flex-row gap-4">
     <div className="flex flex-col gap-4">
@@ -50,7 +52,10 @@ export const GarantiesFinancièresActuellesActions = ({
               href: Routes.GarantiesFinancières.actuelles.enregistrerAttestation(identifiantProjet),
             }}
           >
-            Enregistrer l'attestation de constitution
+            Enregistrer{' '}
+            {typeGfActuelles?.type.type === 'exemption'
+              ? 'la délibération approuvant le projet objet de l’offre'
+              : "l'attestation de constitution"}
           </Button>
         )}
         {actions.includes('garantiesFinancières.mainlevée.demander') && motif && (
