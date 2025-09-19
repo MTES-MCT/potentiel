@@ -142,6 +142,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.technologie, this.technologie) &&
       areEqual(valueType.actionnariat, this.actionnariat) &&
       areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
+      areEqual(valueType.dateDélibérationGf, this.dateDélibérationGf) &&
       areEqualArrays(valueType.fournisseurs, this.fournisseurs) &&
       areEqualArrays(valueType.typologieInstallation, this.typologieInstallation) &&
       areEqual(valueType.natureDeLExploitation, this.natureDeLExploitation)
