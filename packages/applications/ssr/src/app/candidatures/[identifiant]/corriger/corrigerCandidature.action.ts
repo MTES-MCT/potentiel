@@ -119,7 +119,9 @@ const mapBodyToUseCaseData = (
       dateÉchéanceGf: data.dateEcheanceGf
         ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
         : undefined,
-      dateDélibérationGf: data.dateDeliberationGf,
+      dateDélibérationGf: data.dateDeliberationGf
+        ? DateTime.convertirEnValueType(data.dateDeliberationGf).formatter()
+        : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
       autorisationDUrbanisme:
