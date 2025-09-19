@@ -80,7 +80,6 @@ export type DépôtGarantiesFinancièresEnCoursSuppriméEvent = DomainEvent<
     garantiesFinancièresActuelles?: {
       type: Candidature.TypeGarantiesFinancières.RawType;
       dateÉchéance?: DateTime.RawType;
-      dateDélibération?: DateTime.RawType;
       dateConstitution?: DateTime.RawType;
       attestation?: { format: string };
     };

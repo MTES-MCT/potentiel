@@ -12,7 +12,7 @@ export const typeGarantiesFinancièresImportéProjector = async ({
         type,
         statut: 'validé',
         dateÉchéance,
-        dateDélibération,
+        dateConstitution: dateDélibération,
         dernièreMiseÀJour: {
           date: importéLe,
         },

@@ -11,7 +11,6 @@ export interface SoumettreDépôtGarantiesFinancières {
   readonly type: string;
   readonly dateConstitution: string;
   readonly dateÉchéance: string | undefined;
-  readonly dateDélibération: string | undefined;
   readonly soumisLe: string;
   readonly soumisPar: string;
   readonly attestation: { format: string; content: string };
@@ -32,10 +31,6 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
   #dateÉchéance?: string;
   get dateÉchéance() {
     return this.#dateÉchéance;
-  }
-  #dateDélibération?: string;
-  get dateDélibération() {
-    return this.#dateDélibération;
   }
   #soumisLe!: string;
   get soumisLe() {
@@ -74,7 +69,6 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     const fixture: SoumettreDépôtGarantiesFinancières = {
       type,
       dateÉchéance: type === 'avec-date-échéance' ? faker.date.future().toISOString() : undefined,
-      dateDélibération: type === 'exemption' ? faker.date.past().toISOString() : undefined,
       soumisLe: new Date().toISOString(),
       soumisPar: faker.internet.email(),
       dateConstitution: faker.date.recent().toISOString(),
@@ -84,7 +78,6 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
     this.#type = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
     this.#dateÉchéance = fixture.dateÉchéance;
-    this.#dateDélibération = fixture.dateDélibération;
     this.#soumisLe = fixture.soumisLe;
     this.#soumisPar = fixture.soumisPar;
     this.#content = fixture.attestation.content;
@@ -101,7 +94,6 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
         type: this.type,
         dateÉchéance: this.dateÉchéance,
-        dateDélibération: this.dateDélibération,
       });
     return {
       identifiantProjet:

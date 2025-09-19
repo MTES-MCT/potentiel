@@ -73,7 +73,10 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
           )}
           {!attestation && (
             <span className="font-semibold italic">
-              Attestation de constitution des garanties financières manquante
+              {gf.estExemption()
+                ? 'Délibération approuvant le projet objet de l’offre'
+                : 'Attestation de constitution des garanties financières'}{' '}
+              manquante
             </span>
           )}
         </div>
@@ -84,15 +87,9 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
             <FormattedDate className="font-semibold" date={gf.dateÉchéance.formatter()} />
           </div>
         )}
-        {gf.estExemption() && (
-          <div>
-            Date de délibération :{' '}
-            <FormattedDate className="font-semibold" date={gf.dateDélibération.formatter()} />
-          </div>
-        )}
         {dateConstitution && (
           <div>
-            Date de constitution :{' '}
+            Date de {gf.estExemption() ? `délibération` : `constitution`} :{' '}
             <FormattedDate className="font-semibold" date={dateConstitution.date} />
           </div>
         )}
@@ -113,7 +110,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               format="pdf"
               label={
                 gf.estExemption()
-                  ? "Télécharger l'attestation de délibération"
+                  ? 'Télécharger la délibération approuvant le projet objet de l’offre'
                   : "Télécharger l'attestation de constitution"
               }
               url={Routes.Document.télécharger(DocumentProjet.bind(attestation).formatter())}
