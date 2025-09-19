@@ -271,7 +271,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   //#region Behavior Actuelles
 
-  async importer({ importéLe, garantiesFinancières }: ImporterOptions) {
+  async importer({ importéLe, garantiesFinancières, dateDeDélibération }: ImporterOptions) {
     if (!garantiesFinancières) {
       return;
     }
@@ -282,6 +282,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         importéLe: importéLe.formatter(),
+        dateDélibération: garantiesFinancières?.estExemption()
+          ? dateDeDélibération?.formatter()
+          : undefined,
         ...garantiesFinancières.formatter(),
       },
     };
@@ -911,13 +914,16 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   private applyTypeGarantiesFinancièresImportéV1({
-    payload: { type, dateÉchéance },
+    payload: { type, dateÉchéance, dateDélibération },
   }: TypeGarantiesFinancièresImportéEvent) {
     this.#actuelles = {
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
         dateÉchéance,
       }),
+      dateConstitution: dateDélibération
+        ? DateTime.convertirEnValueType(dateDélibération)
+        : undefined,
     };
   }
 

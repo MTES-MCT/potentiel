@@ -276,6 +276,7 @@ export class LauréatAggregate extends AbstractAggregate<
     if (importerGarantiesFinancières) {
       await this.garantiesFinancières.importer({
         garantiesFinancières: this.projet.candidature.garantiesFinancières,
+        dateDeDélibération: this.projet.candidature.dépôt.dateDélibérationGf,
         importéLe: notifiéLe,
       });
     }

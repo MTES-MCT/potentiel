@@ -52,7 +52,7 @@ export class GarantiesFinancièresActuellesWorld {
       this.garantiesFinancièresWorld.lauréatWorld.candidatureWorld.importerCandidature;
     const { notifiéLe } = this.garantiesFinancièresWorld.lauréatWorld.notifierLauréatFixture;
 
-    const { typeGarantiesFinancières, dateÉchéanceGf } = dépôtCandidature;
+    const { typeGarantiesFinancières, dateÉchéanceGf, dateDélibérationGf } = dépôtCandidature;
     const valeurImport = typeGarantiesFinancières
       ? ({
           garantiesFinancières:
@@ -65,6 +65,9 @@ export class GarantiesFinancièresActuellesWorld {
             date: DateTime.convertirEnValueType(notifiéLe),
           },
           identifiantProjet,
+          dateConstitution: dateDélibérationGf
+            ? DateTime.convertirEnValueType(dateDélibérationGf)
+            : undefined,
         } satisfies Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel)
       : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
 
