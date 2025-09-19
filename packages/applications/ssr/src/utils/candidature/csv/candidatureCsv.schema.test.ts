@@ -18,7 +18,7 @@ const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   'Nom et prénom du représentant légal': 'valentin cognito',
   'Adresse électronique du contact': 'porteur@test.com',
   'N°, voie, lieu-dit 1': 'adresse ',
-  CP: '12345',
+  CP: '13000',
   Commune: 'MARSEILLE',
   'Gouvernance partagée (Oui/Non)': 'Oui',
   'Financement collectif (Oui/Non)': 'Non',
@@ -70,10 +70,14 @@ describe('Schema candidature CSV', () => {
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
-      adresse1: 'adresse',
-      adresse2: '',
-      codePostaux: ['12345'],
-      commune: 'MARSEILLE',
+      localité: {
+        adresse1: 'adresse',
+        adresse2: '',
+        codePostal: '13000',
+        commune: 'MARSEILLE',
+        département: 'Bouches-du-Rhône',
+        région: "Provence-Alpes-Côte d'Azur",
+      },
       statut: 'éliminé',
       motifÉlimination: 'motif',
       puissanceALaPointe: false,
@@ -112,10 +116,14 @@ describe('Schema candidature CSV', () => {
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
-      adresse1: 'adresse',
-      adresse2: '',
-      codePostaux: ['12345'],
-      commune: 'MARSEILLE',
+      localité: {
+        adresse1: 'adresse',
+        adresse2: '',
+        codePostal: '13000',
+        commune: 'MARSEILLE',
+        département: 'Bouches-du-Rhône',
+        région: "Provence-Alpes-Côte d'Azur",
+      },
       statut: 'classé',
       motifÉlimination: undefined,
       puissanceALaPointe: false,
@@ -167,10 +175,14 @@ describe('Schema candidature CSV', () => {
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
-      adresse1: 'adresse',
-      adresse2: '',
-      codePostaux: ['12345'],
-      commune: 'MARSEILLE',
+      localité: {
+        adresse1: 'adresse',
+        adresse2: '',
+        codePostal: '13000',
+        commune: 'MARSEILLE',
+        département: 'Bouches-du-Rhône',
+        région: "Provence-Alpes-Côte d'Azur",
+      },
       statut: 'classé',
       motifÉlimination: undefined,
       puissanceALaPointe: true,
@@ -636,17 +648,13 @@ describe('Schema candidature CSV', () => {
 
         assert(!result.success, 'should be error');
         expect(result.error.errors[0]).to.deep.eq({
-          code: 'too_small',
-          minimum: 1,
-          type: 'string',
-          inclusive: true,
-          exact: false,
+          code: 'custom',
           path: ['CP'],
-          message: 'String must contain at least 1 character(s)',
+          message: 'Le code postal est requis',
         });
       });
 
-      test("n'accepte pas un code postal invalide", () => {
+      test("n'accepte pas un code postal inexistant", () => {
         const result = candidatureCsvSchema.safeParse({
           ...minimumValuesClassé,
           CP: '99999',
@@ -703,7 +711,7 @@ describe('Schema candidature CSV', () => {
         CP: ' 33100 / 75001 /  13001 ',
       });
       assert(result.success);
-      expect(result.data.codePostaux).to.deep.equal(['33100', '75001', '13001']);
+      expect(result.data.localité.codePostal).to.deep.equal('33100 / 75001 / 13001');
     });
 
     test('si le CP fait moins de 5 caractères, il est complété par des 0 à gauche (transformation MS Excel)', () => {
@@ -712,7 +720,7 @@ describe('Schema candidature CSV', () => {
         CP: '3340',
       });
       assert(result.success);
-      expect(result.data.codePostaux).to.deep.equal(['03340']);
+      expect(result.data.localité.codePostal).to.deep.equal('03340');
     });
   });
 });

@@ -18,8 +18,6 @@ import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
 
-import { getLocalité } from '../../_helpers';
-
 const schema = zod.object({
   appelOffre: zod.string(),
   periode: zod.string(),
@@ -76,15 +74,7 @@ const action: FormAction<FormState, typeof schema> = async (
         }
 
         key += ` - ${dossier.dépôt.nomProjet}`;
-        const dépôt = dépôtSchema.parse({
-          ...dossier.dépôt,
-          localité: getLocalité({
-            adresse1: dossier.dépôt.localité?.adresse1 ?? '',
-            adresse2: dossier.dépôt.localité?.adresse2 ?? '',
-            codePostaux: [dossier.dépôt.localité?.codePostal ?? ''],
-            commune: dossier.dépôt.localité?.commune ?? '',
-          }),
-        });
+        const dépôt = dépôtSchema.parse(dossier.dépôt);
         const instruction = instructionSchema.parse({
           statut,
           noteTotale: note,

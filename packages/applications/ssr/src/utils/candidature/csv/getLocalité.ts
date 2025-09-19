@@ -4,13 +4,12 @@ import {
   récupérerDépartementRégionParCodePostal,
 } from '@potentiel-domain/inmemory-referential';
 
-import { CandidatureShape } from '@/utils/candidature';
-
 type GetLocalité = (
-  args: Pick<CandidatureShape, 'codePostaux' | 'adresse1' | 'adresse2' | 'commune'>,
+  args: Record<'codePostal' | 'adresse1' | 'adresse2' | 'commune', string>,
 ) => Candidature.Localité.RawType;
 
-export const getLocalité: GetLocalité = ({ codePostaux, adresse1, adresse2, commune }) => {
+export const getLocalité: GetLocalité = ({ codePostal, adresse1, adresse2, commune }) => {
+  const codePostaux = codePostal.split('/').map((str) => str.trim());
   const départementsRégions = codePostaux
     .map(récupérerDépartementRégionParCodePostal)
     .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);

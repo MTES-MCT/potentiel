@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
+import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/inmemory-referential';
 
 import {
   optionalEnum,
@@ -9,6 +10,7 @@ import {
   optionalStringWithDefaultValueSchema,
   ouiNonSchema,
   strictlyPositiveNumberSchema,
+  stringToArray,
 } from '../schemaBase';
 
 import { optionalCsvDateSchema } from './commonCsv.schema';
@@ -70,3 +72,16 @@ export type TypologieBâtimentCsvShape = z.infer<typeof typologieDeBâtimentCsvS
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
 export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();
 export const installationAvecDispositifDeStockageCsvSchema = optionalOuiNonVideSchema;
+
+// On accepte :
+// - de multiples code postaux séparés par /
+// - un code postal unique à 4 chiffres, qui sera complété par un 0 devant (car excel retire les 0 du début)
+export const codePostalCsvSchema = z
+  .string()
+  .transform((val) => stringToArray(val, '/').map((val) => val.padStart(5, '0')))
+  .refine((val) => val.length > 0, 'Le code postal est requis')
+  .refine(
+    (val) => !val || val.every(récupérerDépartementRégionParCodePostal),
+    'Le code postal ne correspond à aucune région / département',
+  )
+  .transform((val) => val.join(' / '));

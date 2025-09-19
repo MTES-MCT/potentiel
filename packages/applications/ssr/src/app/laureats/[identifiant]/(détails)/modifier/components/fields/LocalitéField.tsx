@@ -111,8 +111,8 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
               },
               required: true,
               'aria-required': true,
-              minLength: 5,
-              maxLength: 5,
+              // minLength: 5,
+              // maxLength: 5,
             }}
           />
         </div>
