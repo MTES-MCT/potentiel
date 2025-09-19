@@ -188,7 +188,7 @@ const mapToActionsAndInfos = ({
         if (utilisateur.role.estDreal()) {
           infos.push('échues');
         }
-      } else if (Option.isNone(mainlevée)) {
+      } else if (Option.isNone(mainlevée) && !actuelles.garantiesFinancières.estExemption()) {
         if (estAchevéOuAbandonné && !aUnDépôtEnCours && !!actuelles.attestation) {
           actions.push('garantiesFinancières.mainlevée.demander');
         } else if (utilisateur.role.aLaPermission('garantiesFinancières.mainlevée.demander')) {
