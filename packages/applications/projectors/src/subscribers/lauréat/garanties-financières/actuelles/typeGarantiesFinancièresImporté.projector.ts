@@ -2,7 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const typeGarantiesFinancièresImportéProjector = async ({
-  payload: { identifiantProjet, importéLe, type, dateÉchéance },
+  payload: { identifiantProjet, importéLe, type, dateÉchéance, dateDélibération },
 }: Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent) => {
   await upsertProjection<Lauréat.GarantiesFinancières.GarantiesFinancièresEntity>(
     `garanties-financieres|${identifiantProjet}`,
@@ -12,6 +12,7 @@ export const typeGarantiesFinancièresImportéProjector = async ({
         type,
         statut: 'validé',
         dateÉchéance,
+        dateConstitution: dateDélibération,
         dernièreMiseÀJour: {
           date: importéLe,
         },

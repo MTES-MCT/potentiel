@@ -5,4 +5,5 @@ import { GarantiesFinancières } from '../..';
 export type ImporterOptions = {
   garantiesFinancières?: GarantiesFinancières.ValueType;
   importéLe: DateTime.ValueType;
+  dateDeDélibération?: DateTime.ValueType;
 };
