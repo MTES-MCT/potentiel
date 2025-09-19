@@ -3,7 +3,6 @@
 @garanties-financières-actuelles
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet lors de la notification
 
-    @select
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres       | <AO>                   |
