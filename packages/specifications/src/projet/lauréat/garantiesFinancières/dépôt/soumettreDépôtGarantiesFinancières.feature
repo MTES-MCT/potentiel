@@ -126,8 +126,9 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si le projet est exempt de garanties financières
         Etant donné le projet lauréat "Du Boulodrome de Tourcoing" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
-            | type GF        | exemption                |
+            | appel d'offres       | PPE2 - Petit PV Bâtiment |
+            | type GF              | exemption                |
+            | date de délibération | 2025-01-01               |
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Le projet est exempt de garanties financières"
