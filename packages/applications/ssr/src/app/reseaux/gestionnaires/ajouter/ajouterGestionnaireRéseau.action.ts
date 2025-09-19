@@ -13,7 +13,7 @@ const schema = zod.object({
   identifiantGestionnaireReseau: zod
     .string()
     .min(1, { message: 'Code EIC ou gestionnaire réseau à préciser' }),
-  raisonSociale: zod.string().min(1, { message: 'Champ obligatoire' }),
+  raisonSociale: zod.string(),
   expressionReguliere: zod.string().transform(toUndefinedIfEmpty).optional(),
   format: zod.string().transform(toUndefinedIfEmpty).optional(),
   legende: zod.string().transform(toUndefinedIfEmpty).optional(),

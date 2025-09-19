@@ -11,11 +11,8 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  identifiantUtilisateurReactive: zod.string().min(1, { message: 'Champ obligatoire' }),
-  actif: zod
-    .enum(['', 'true', 'false'])
-    .optional()
-    .transform((actif) => (actif === 'true' ? true : actif === 'false' ? false : undefined)),
+  identifiantUtilisateurReactive: zod.string(),
+  actif: zod.stringbool().optional(),
 });
 
 export type RéactiverUtilisateurFormKeys = keyof zod.infer<typeof schema>;

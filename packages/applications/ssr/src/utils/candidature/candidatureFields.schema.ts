@@ -29,7 +29,7 @@ export const puissanceProductionAnnuelleSchema = strictlyPositiveNumberSchema;
 export const prixRéférenceSchema = strictlyPositiveNumberSchema;
 export const noteTotaleSchema = numberSchema;
 export const nomReprésentantLégalSchema = requiredStringSchema;
-export const emailContactSchema = requiredStringSchema.email();
+export const emailContactSchema = requiredStringSchema.pipe(z.email());
 export const adresse1Schema = requiredStringSchema;
 export const adresse2Schema = optionalStringWithDefaultValueSchema;
 

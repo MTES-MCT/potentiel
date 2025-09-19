@@ -8,11 +8,10 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { booleanSchema } from '@/utils/candidature/schemaBase';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  installationAvecDispositifDeStockage: booleanSchema,
+  installationAvecDispositifDeStockage: zod.stringbool(),
 });
 
 export type ModifierInstallationAvecDispositifDeStockageFormKeys = keyof zod.infer<typeof schema>;

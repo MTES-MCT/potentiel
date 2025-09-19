@@ -15,7 +15,7 @@ import { addGarantiesFinancièresToSchema } from '../../_helpers/addGarantiesFin
 const schema = addGarantiesFinancièresToSchema(
   zod.object({
     identifiantProjet: zod.string().min(1),
-    dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
+    dateConstitution: zod.string(),
     attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   }),
 );

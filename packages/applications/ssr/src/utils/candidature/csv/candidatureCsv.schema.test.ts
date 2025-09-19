@@ -1,10 +1,11 @@
 import { test, describe } from 'node:test';
 
 import { expect, assert } from 'chai';
-import { SafeParseReturnType, SafeParseSuccess } from 'zod';
-import { diffJson } from 'diff';
 
+import '../../zod/setupLocale';
 import { CandidatureCsvRowShape, candidatureCsvSchema, CandidatureShape } from '..';
+
+import { assertError, assertNoError, deepEqualWithRichDiff } from './_test-shared';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   "Appel d'offres": "appel d'offre",
@@ -41,15 +42,6 @@ const minimumValuesClassé: typeof minimumValues = {
     '2',
   "Date d'échéance au format JJ/MM/AAAA": '01/12/2024',
 };
-
-function assertNoError<TInput, TOutput>(
-  result: SafeParseReturnType<TInput, TOutput>,
-): asserts result is SafeParseSuccess<TOutput> {
-  if (!result.success) {
-    expect(result.error).to.be.undefined;
-  }
-  assert(result.success);
-}
 
 describe('Schema candidature CSV', () => {
   test('Cas nominal : éliminé', () => {
@@ -219,46 +211,21 @@ describe('Schema candidature CSV', () => {
   describe('Erreurs courantes', () => {
     test('chaîne de caractères obligatoire sans valeur', () => {
       const result = candidatureCsvSchema.safeParse({});
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'invalid_type',
-        expected: 'string',
-        received: 'undefined',
-        path: ["Appel d'offres"],
-        message: 'Required',
-      });
+      assertError(result, ["Appel d'offres"], 'Le champ est requis');
     });
 
     test('chaîne de caractères obligatoire avec valeur vide', () => {
       const result = candidatureCsvSchema.safeParse({
         "Appel d'offres": '',
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'too_small',
-        minimum: 1,
-        type: 'string',
-        inclusive: true,
-        exact: false,
-        path: ["Appel d'offres"],
-        message: 'String must contain at least 1 character(s)',
-      });
+      assertError(result, ["Appel d'offres"], 'Le champ est requis');
     });
 
     test('chaîne de caractères obligatoire avec espaces', () => {
       const result = candidatureCsvSchema.safeParse({
         "Appel d'offres": ' ',
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'too_small',
-        minimum: 1,
-        type: 'string',
-        inclusive: true,
-        exact: false,
-        path: ["Appel d'offres"],
-        message: 'String must contain at least 1 character(s)',
-      });
+      assertError(result, ["Appel d'offres"], 'Le champ est requis');
     });
 
     test('nombre avec caractères', () => {
@@ -266,14 +233,11 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         puissance_production_annuelle: 'abcd',
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'invalid_type',
-        expected: 'number',
-        received: 'nan',
-        path: ['puissance_production_annuelle'],
-        message: 'Expected number, received nan',
-      });
+      assertError(
+        result,
+        ['puissance_production_annuelle'],
+        'Le champ doit être un nombre positif',
+      );
     });
 
     test('nombre strictement positif optionnel vide', () => {
@@ -290,15 +254,11 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         puissance_production_annuelle: '',
       });
-
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'invalid_type',
-        expected: 'number',
-        received: 'undefined',
-        path: ['puissance_production_annuelle'],
-        message: 'Required',
-      });
+      assertError(
+        result,
+        ['puissance_production_annuelle'],
+        'Le champ doit être un nombre positif',
+      );
     });
 
     test('nombre strictement positif vaut 0', () => {
@@ -306,16 +266,11 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         puissance_production_annuelle: 0,
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'too_small',
-        minimum: 0,
-        type: 'number',
-        inclusive: false,
-        exact: false,
-        message: 'Le champ doit être un nombre positif',
-        path: ['puissance_production_annuelle'],
-      });
+      assertError(
+        result,
+        ['puissance_production_annuelle'],
+        'Le champ doit être un nombre positif',
+      );
     });
 
     test('nombre strictement positif avec valeur négative', () => {
@@ -323,16 +278,11 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         puissance_production_annuelle: 0,
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'too_small',
-        minimum: 0,
-        type: 'number',
-        inclusive: false,
-        exact: false,
-        message: 'Le champ doit être un nombre positif',
-        path: ['puissance_production_annuelle'],
-      });
+      assertError(
+        result,
+        ['puissance_production_annuelle'],
+        'Le champ doit être un nombre positif',
+      );
     });
 
     test('oui/non valeur manquante', () => {
@@ -341,13 +291,11 @@ describe('Schema candidature CSV', () => {
         'Gouvernance partagée (Oui/Non)': '',
       });
       assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        received: '',
-        code: 'invalid_enum_value',
-        options: ['oui', 'non'],
-        path: ['Gouvernance partagée (Oui/Non)'],
-        message: "Invalid enum value. Expected 'oui' | 'non', received ''",
-      });
+      assertError(
+        result,
+        ['Gouvernance partagée (Oui/Non)'],
+        'Option invalide : une valeur parmi "oui"|"non" attendue',
+      );
     });
 
     test('oui/non avec valeur invalide', () => {
@@ -355,14 +303,11 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         'Gouvernance partagée (Oui/Non)': 'peut-être',
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        received: 'peut-être',
-        code: 'invalid_enum_value',
-        options: ['oui', 'non'],
-        path: ['Gouvernance partagée (Oui/Non)'],
-        message: "Invalid enum value. Expected 'oui' | 'non', received 'peut-être'",
-      });
+      assertError(
+        result,
+        ['Gouvernance partagée (Oui/Non)'],
+        'Option invalide : une valeur parmi "oui"|"non" attendue',
+      );
     });
 
     test('oui/non/undefined avec valeur', () => {
@@ -386,15 +331,11 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         'Classé ?': 'wrong',
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        received: 'wrong',
-        code: 'invalid_enum_value',
-        options: ['eliminé', 'éliminé', 'classé', 'retenu'],
-        path: ['Classé ?'],
-        message:
-          "Invalid enum value. Expected 'eliminé' | 'éliminé' | 'classé' | 'retenu', received 'wrong'",
-      });
+      assertError(
+        result,
+        ['Classé ?'],
+        'Option invalide : une valeur parmi "eliminé"|"éliminé"|"classé"|"retenu" attendue',
+      );
     });
 
     test('Enum avec valeur vide', () => {
@@ -422,13 +363,7 @@ describe('Schema candidature CSV', () => {
         ...minimumValuesEliminé,
         'Adresse électronique du contact': 'wrong',
       });
-      assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        validation: 'email',
-        code: 'invalid_string',
-        message: 'Invalid email',
-        path: ['Adresse électronique du contact'],
-      });
+      assertError(result, ['Adresse électronique du contact'], 'adresse e-mail invalide');
     });
 
     test('Date invalide', () => {
@@ -437,8 +372,8 @@ describe('Schema candidature CSV', () => {
         "Date d'échéance au format JJ/MM/AAAA": '00/01/2000',
       });
       assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
-        code: 'invalid_date',
+      expect(result.error.issues[0]).to.deep.eq({
+        code: 'custom',
         message: 'La date a une valeur invalide',
         path: ["Date d'échéance au format JJ/MM/AAAA"],
       });
@@ -463,10 +398,10 @@ describe('Schema candidature CSV', () => {
         "Motif d'élimination": undefined,
       });
       assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
+      expect(result.error.issues[0]).to.deep.eq({
         code: 'invalid_type',
         expected: 'string',
-        received: 'undefined',
+        received: undefined,
         path: ["Motif d'élimination"],
         message: `"Motif d'élimination" est requis lorsque "Classé ?" a la valeur "éliminé"`,
       });
@@ -481,10 +416,10 @@ describe('Schema candidature CSV', () => {
           '2',
       });
       assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
+      expect(result.error.issues[0]).to.deep.eq({
         code: 'invalid_type',
         expected: 'string',
-        received: 'undefined',
+        received: undefined,
         path: ["Date d'échéance au format JJ/MM/AAAA"],
         message: `"Date d'échéance au format JJ/MM/AAAA" est requis lorsque "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation" a la valeur "2"`,
       });
@@ -506,8 +441,7 @@ describe('Schema candidature CSV', () => {
         notifiedOn: 'foo',
       });
       assert(!result.success, 'should be error');
-      expect(result.error.errors[0]).to.deep.eq({
-        received: 'string',
+      expect(result.error.issues[0]).to.deep.eq({
         expected: 'undefined',
         code: 'invalid_type',
         path: ['notifiedOn'],
@@ -522,7 +456,7 @@ describe('Schema candidature CSV', () => {
         'Gouvernance partagée (Oui/Non)': 'Oui',
       });
       assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
+      expect(result.error.issues[0]).to.deep.eq({
         code: 'custom',
         message: `Seule l'une des deux colonnes "Financement collectif (Oui/Non)" et "Gouvernance partagée (Oui/Non)" peut avoir la valeur "Oui"`,
         path: ['Financement collectif (Oui/Non)', 'Gouvernance partagée (Oui/Non)'],
@@ -537,10 +471,10 @@ describe('Schema candidature CSV', () => {
           undefined,
       });
       assert(!result.success);
-      expect(result.error.errors[0]).to.deep.eq({
+      expect(result.error.issues[0]).to.deep.eq({
         code: 'invalid_type',
         expected: 'string',
-        received: 'undefined',
+        received: undefined,
         path: [
           "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
         ],
@@ -633,7 +567,7 @@ describe('Schema candidature CSV', () => {
         });
 
         assert(!result.success, 'should be error');
-        expect(result.error.errors[0]).to.deep.eq({
+        expect(result.error.issues[0]).to.deep.eq({
           code: 'custom',
           path: ['CP'],
           message: 'Le code postal ne correspond à aucune région / département',
@@ -647,7 +581,7 @@ describe('Schema candidature CSV', () => {
         });
 
         assert(!result.success, 'should be error');
-        expect(result.error.errors[0]).to.deep.eq({
+        expect(result.error.issues[0]).to.deep.eq({
           code: 'custom',
           path: ['CP'],
           message: 'Le code postal est requis',
@@ -661,7 +595,7 @@ describe('Schema candidature CSV', () => {
         });
 
         assert(!result.success, 'should be error');
-        expect(result.error.errors[0]).to.deep.eq({
+        expect(result.error.issues[0]).to.deep.eq({
           code: 'custom',
           path: ['CP'],
           message: 'Le code postal ne correspond à aucune région / département',
@@ -676,7 +610,7 @@ describe('Schema candidature CSV', () => {
           'N°, voie, lieu-dit 1': undefined,
         });
         assert(!result.success, 'should be error');
-        expect(result.error.errors[0]).to.deep.eq({
+        expect(result.error.issues[0]).to.deep.eq({
           code: 'custom',
           path: ['N°, voie, lieu-dit 1', 'N°, voie, lieu-dit 2'],
           message: `L'une des deux colonnes "N°, voie, lieu-dit 1" et "N°, voie, lieu-dit 2" doit être renseignée`,
@@ -724,26 +658,3 @@ describe('Schema candidature CSV', () => {
     });
   });
 });
-
-const deepEqualWithRichDiff = (actual: object, expected: object) => {
-  try {
-    expect(actual).to.deep.equal(expected);
-  } catch (e) {
-    const diff = diffJson(expected, actual);
-
-    const formattedDiff = diff
-      .map((part) => {
-        const color = part.added ? '\x1b[32m' : part.removed ? '\x1b[31m' : '\x1b[0m';
-        return color + part.value + '\x1b[0m';
-      })
-      .join('');
-
-    console.log('Difference between actual and expected:\n', formattedDiff);
-
-    const error = e as Record<string, unknown>;
-    error.diff = diff
-      .filter((part) => part.added || part.removed)
-      .map((part) => (part.added ? { actual: part.value } : { expected: part.value }));
-    throw error;
-  }
-};

@@ -21,22 +21,12 @@ export const _numberSchemaBase = z.union([
 
 export const numberSchema = _numberSchemaBase
   // transform to number
-  .pipe(
-    z.number({
-      invalid_type_error: 'Le champ doit être un nombre',
-    }),
-  );
+  .pipe(z.number());
 
 export const optionalNumberSchema = _numberSchemaBase
   .optional()
   // transform to number
-  .pipe(
-    z
-      .number({
-        invalid_type_error: 'Le champ doit être un nombre',
-      })
-      .optional(),
-  );
+  .pipe(z.number().optional());
 
 export const optionalDateSchema = z
   .string()
@@ -45,7 +35,7 @@ export const optionalDateSchema = z
 
 export const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
-  .pipe(z.number().gt(0, { message: 'Le champ doit être un nombre positif' }));
+  .pipe(z.number().gt(0));
 
 export const ouiNonSchema = z
   .string()
@@ -71,18 +61,9 @@ export const optionalOuiNonVideSchema = z
   .optional()
   .transform((val) => (val === 'oui' ? true : val === 'non' ? false : undefined));
 
-export const booleanSchema = z.union([
-  z.boolean(),
-  z
-    .string()
-    .toLowerCase()
-    .optional()
-    .default('false')
-    .transform((s) => JSON.parse(s))
-    .pipe(z.boolean()),
-]);
+export const booleanSchema = z.union([z.boolean(), z.stringbool()]);
 
-export const optionalEnum = <TEnumSchema extends [string, ...string[]]>(
+export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>>>(
   enumSchema: z.ZodEnum<TEnumSchema>,
 ) =>
   z
@@ -107,8 +88,8 @@ export const conditionalRequiredError = (
   expectedValue: string,
 ) => ({
   code: z.ZodIssueCode.invalid_type,
-  expected: z.ZodParsedType.string,
-  received: z.ZodParsedType.undefined,
+  expected: 'string' as const,
+  received: undefined,
   path: [field],
   message: `"${field}" est requis lorsque "${referenceField}" a la valeur "${expectedValue}"`,
 });

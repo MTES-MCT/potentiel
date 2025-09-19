@@ -29,13 +29,7 @@ const paramsSchema = z.object({
   referenceDossier: z.string().optional(),
   appelOffre: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
-  avecDateMiseEnService: z
-    .string()
-    .optional()
-    .refine((value) => value === 'true' || value === 'false' || value === undefined, {
-      message: "Le paramètre avecDateMiseEnService doit être 'true' ou 'false'",
-    })
-    .transform((value) => (value === 'true' ? true : value === 'false' ? false : undefined)),
+  avecDateMiseEnService: z.stringbool().optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {

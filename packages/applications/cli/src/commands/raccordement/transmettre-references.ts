@@ -101,7 +101,7 @@ export default class TransmettreRéférences extends Command {
       } catch (error) {
         const formattedError =
           error instanceof z.ZodError
-            ? `${error.errors[0].path}: ${error.errors[0].message}`
+            ? `${error.issues[0].path}: ${error.issues[0].message}`
             : error instanceof Error
               ? error.message
               : error;
