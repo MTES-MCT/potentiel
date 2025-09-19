@@ -93,6 +93,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
               identifiantProjet={identifiantProjet}
               contactPorteurs={contactPorteurs}
               motif={motifMainlevée}
+              typeGfActuelles={actuelles.garantiesFinancières}
             />
           </SectionGarantiesFinancières>
         )}
