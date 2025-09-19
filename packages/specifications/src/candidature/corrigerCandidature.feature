@@ -132,26 +132,28 @@ Fonctionnalité: Corriger une candidature
         Alors l'administrateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
     Scénario: Impossible de corriger une candidature classée avec exemption de GF si la date de délibération est manquante
-        Quand le DGEC validateur corrige la candidature avec :
-            | statut         | classé                   |
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
-            | type GF        | exemption                |
+            | type GF        | consignation             |
+        Quand le DGEC validateur corrige la candidature avec :
+            | type GF | exemption |
         Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières est requise"
 
     Scénario: Impossible de corriger une candidature classée avec exemption de GF si la date de délibération est future
-        Quand le DGEC validateur corrige la candidature avec :
-            | statut               | classé                   |
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres       | PPE2 - Petit PV Bâtiment |
             | type GF              | exemption                |
-            | date de délibération | 2050-01-01               |
+            | date de délibération | 2025-01-01               |
+        Quand le DGEC validateur corrige la candidature avec :
+            | date de délibération | 2050-01-01 |
+
         Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible de corriger une candidature classée avec une date de délibération pour un type de GF qui n'en attend pas
         Quand le DGEC validateur corrige la candidature avec :
-            | statut               | classé                    |
-            | appel d'offres       | PPE2 - Bâtiment           |
-            | type GF              | six-mois-après-achèvement |
-            | date de délibération | 2024-01-01                |
+            | type GF              | consignation |
+            | date de délibération | 2024-01-01   |
+
         Alors l'administrateur devrait être informé que "La date de délibération ne peut être renseignée pour ce type de garanties financières"
 
     Scénario: Impossible de corriger une candidature sans modifications
