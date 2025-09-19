@@ -19,7 +19,7 @@ const schema = zod.object({
   preuveTransmissionAuCocontractant: keepOrUpdateSingleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
-  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
+  dateTransmissionAuCocontractant: zod.string().min(1),
 });
 
 export type ModifierAttestationConformitéFormKeys = keyof zod.infer<typeof schema>;

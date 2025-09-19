@@ -50,7 +50,7 @@ export const parseCsv: ParseCsv = async (
     return { parsedData: zod.array(lineSchema).parse(rawData), rawData };
   } catch (error) {
     if (error instanceof zod.ZodError) {
-      const csvErrors = error.errors.map(({ path: [ligne, key], message }) => {
+      const csvErrors = error.issues.map(({ path: [ligne, key], message }) => {
         return {
           line: (Number(ligne) + 1).toString(),
           field: key.toString(),

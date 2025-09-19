@@ -32,19 +32,14 @@ type PageProps = {
   searchParams?: Record<string, string>;
 };
 
-const optionalBoolean = z
-  .enum(['true', 'false'])
-  .optional()
-  .transform((val) => (val === 'true' ? true : val === 'false' ? false : undefined));
-
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   role: z.string().optional(),
   identifiantUtilisateur: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
   region: z.string().optional(),
-  zni: optionalBoolean,
-  actif: optionalBoolean,
+  zni: z.stringbool().optional(),
+  actif: z.stringbool().optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {

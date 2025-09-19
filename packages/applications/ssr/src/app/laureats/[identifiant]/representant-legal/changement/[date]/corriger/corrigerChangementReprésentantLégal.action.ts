@@ -15,11 +15,8 @@ import {
 
 const commonSchema = zod.object({
   identifiantProjet: zod.string().min(1),
-  typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
-    invalid_type_error: 'Le type de représentant légal est invalide',
-    required_error: 'Champ obligatoire',
-  }),
-  nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
+  typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types),
+  nomRepresentantLegal: zod.string(),
   dateDemande: zod.string().min(1),
 });
 
@@ -27,7 +24,7 @@ const schema = zod.discriminatedUnion('typeSociete', [
   zod.object({
     ...commonSchema.shape,
     typeSociete: zod.literal('constituée', {
-      invalid_type_error: 'Le type de société légal est invalide',
+      // invalid_type_error: 'Le type de société légal est invalide',
     }),
     piecesJustificatives: keepOrUpdateSingleDocument({
       acceptedFileTypes: ['application/pdf'],

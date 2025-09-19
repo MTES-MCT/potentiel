@@ -13,11 +13,8 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateDemande: zod.string().min(1),
-  typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
-    invalid_type_error: 'Ce type de représentant légal est invalide',
-    required_error: 'Champ obligatoire',
-  }),
-  nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
+  typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types),
+  nomRepresentantLegal: zod.string(),
 });
 
 export type AccorderChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;

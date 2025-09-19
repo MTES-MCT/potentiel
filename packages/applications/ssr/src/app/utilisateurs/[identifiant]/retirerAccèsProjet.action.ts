@@ -12,7 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  identifiantUtilisateurRetire: zod.string().min(1, { message: 'Champ obligatoire' }),
+  identifiantUtilisateurRetire: zod.string(),
 });
 
 const action: FormAction<FormState, typeof schema> = async (

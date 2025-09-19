@@ -13,8 +13,8 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  nombreDeMois: zod.coerce.number().min(1, { message: 'Champ obligatoire' }),
-  raison: zod.string().min(1, { message: 'Champ obligatoire' }),
+  nombreDeMois: zod.coerce.number().min(1),
+  raison: zod.string().min(1),
   pieceJustificative: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 

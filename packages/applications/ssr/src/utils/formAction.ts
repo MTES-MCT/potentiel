@@ -1,7 +1,4 @@
 import * as zod from 'zod';
-import i18next from 'i18next';
-import { zodI18nMap } from 'zod-i18n-map';
-import translation from 'zod-i18n-map/locales/fr/zod.json';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 // eslint-disable-next-line no-restricted-imports
@@ -17,14 +14,6 @@ import { unflatten } from '@potentiel-libraries/flat';
 import { applySearchParams } from '@/app/_helpers';
 
 import { TooManyRequestsError } from './withRateLimit';
-
-void i18next.init({
-  lng: 'fr',
-  resources: {
-    fr: { zod: translation },
-  },
-});
-zod.setErrorMap(zodI18nMap);
 
 export type ActionResult = {
   successMessage: string;
@@ -70,7 +59,7 @@ export type FormState =
       status: 'unknown-error';
     };
 
-export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.AnyZodObject> = (
+export type FormAction<TState extends FormState, TSchema extends zod.ZodType = zod.ZodObject> = (
   previousState: TState,
   data: zod.infer<TSchema>,
 ) => Promise<TState>;
@@ -106,7 +95,7 @@ export const formAction =
         ? await schema.parseAsync(unflatten(dataReduced))
         : unflatten(dataReduced);
 
-      const result = await action(previousState, data);
+      const result = await action(previousState, data as zod.infer<TSchema>);
 
       if (result.status === 'success' && result.redirection) {
         revalidatePath(result.redirection.url);

@@ -17,7 +17,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   attestation: manyDocuments({ acceptedFileTypes: ['application/pdf'] }),
   preuveTransmissionAuCocontractant: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
-  dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
+  dateTransmissionAuCocontractant: zod.string().min(1),
   demanderMainlevee: zod.string().optional(),
 });
 

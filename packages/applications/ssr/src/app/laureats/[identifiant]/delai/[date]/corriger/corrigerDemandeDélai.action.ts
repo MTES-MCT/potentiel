@@ -14,8 +14,8 @@ import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDoc
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateDemande: zod.string().min(1),
-  nombreDeMois: zod.coerce.number().min(1, { message: 'Champ obligatoire' }),
-  raison: zod.string().min(1, { message: 'Champ obligatoire' }),
+  nombreDeMois: zod.coerce.number().min(1),
+  raison: zod.string().min(1),
   pieceJustificative: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 

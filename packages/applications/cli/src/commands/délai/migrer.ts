@@ -87,7 +87,7 @@ export class Migrer extends Command {
     const { error } = envSchema.safeParse(process.env);
 
     if (error) {
-      console.error(error.errors);
+      console.error(error.issues);
       process.exit(1);
     }
   }

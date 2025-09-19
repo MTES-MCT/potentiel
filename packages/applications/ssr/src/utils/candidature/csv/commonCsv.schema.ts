@@ -9,13 +9,12 @@ const parseCsvDate = (val: string | undefined) => {
   return DateTime.convertirEnValueType(new Date(`${year}-${month}-${day}`)).formatter();
 };
 
-const refineCsvDate = (val: string | undefined, ctx: z.RefinementCtx): true | undefined => {
+const refineCsvDate = (val: string | undefined, ctx: z.RefinementCtx) => {
   try {
     parseCsvDate(val);
-    return true;
   } catch (e) {
     ctx.addIssue({
-      code: z.ZodIssueCode.invalid_date,
+      code: 'custom',
       message: e instanceof Error ? e.message : 'Format de date invalide',
     });
   }
