@@ -8,6 +8,7 @@ import TimelineOppositeContent, {
   timelineOppositeContentClasses,
 } from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import clsx from 'clsx';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
@@ -120,11 +121,11 @@ const TimelineItem: FC<TimelineItemProps> = ({
           },
         }}
       >
-        <>
+        <div className={clsx(icon && 'pt-3')}>
           {title}
           {isÉtapeInconnue && type && ` (${type})`}
-          {content ? <div className="mt-2">{content}</div> : null}
-        </>
+          {content ? <div className={clsx(title && 'mt-2')}>{content}</div> : null}
+        </div>
       </TimelineContent>
     </MuiTimelineItem>
   );
