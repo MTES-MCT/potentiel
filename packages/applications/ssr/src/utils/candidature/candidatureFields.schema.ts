@@ -54,7 +54,7 @@ export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
 export const statutSchema = z.enum(Candidature.StatutCandidature.statuts);
-export const puissanceALaPointeSchema = booleanSchema;
+export const puissanceALaPointeSchema = booleanSchema.optional().default(false);
 export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
