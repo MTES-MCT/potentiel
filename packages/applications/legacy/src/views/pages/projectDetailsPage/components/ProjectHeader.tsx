@@ -7,6 +7,7 @@ import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 import {
   GetActionnaireAffichageForProjectPage,
   GetInstallationAvecDispositifDeStockageForProjectPage,
+  GetNatureDeLExploitationForProjectPage,
   GetReprésentantLégalForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
@@ -28,6 +29,7 @@ export type ProjectHeaderProps = {
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
   installateurAffichage?: GetInstallateurForProjectPage['affichage'];
   installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
+  natureDeLExploitationAffichage?: GetNatureDeLExploitationForProjectPage['affichage'];
   délaiAffichage?: {
     label?: string;
     labelActions: string;
@@ -51,6 +53,7 @@ export const ProjectHeader = ({
   installateurAffichage,
   délaiAffichage,
   installationAvecDispositifDeStockageAffichage,
+  natureDeLExploitationAffichage,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -93,6 +96,7 @@ export const ProjectHeader = ({
         installationAvecDispositifDeStockageAffichage={
           installationAvecDispositifDeStockageAffichage
         }
+        natureDeLExploitationAffichage={natureDeLExploitationAffichage}
       />
     </div>
   </div>

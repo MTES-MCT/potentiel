@@ -73,6 +73,7 @@ type ProjectDetailsProps = {
   };
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
   installationAvecDispositifDeStockage?: InfoGeneralesProps['installationAvecDispositifDeStockage'];
+  natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
 };
 
 export const ProjectDetails = ({
@@ -98,6 +99,7 @@ export const ProjectDetails = ({
   autorisationDUrbanisme,
   installateur,
   installationAvecDispositifDeStockage,
+  natureDeLExploitation,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -191,6 +193,7 @@ export const ProjectDetails = ({
         installationAvecDispositifDeStockageAffichage={
           installationAvecDispositifDeStockage?.affichage
         }
+        natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -252,6 +255,7 @@ export const ProjectDetails = ({
               autorisationDUrbanisme={autorisationDUrbanisme}
               installateur={installateur}
               installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
+              natureDeLExploitation={natureDeLExploitation}
             />
             <Contact
               identifiantProjet={identifiantProjet}

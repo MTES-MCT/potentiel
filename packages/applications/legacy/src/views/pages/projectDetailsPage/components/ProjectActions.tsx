@@ -20,6 +20,7 @@ import { GetPuissanceForProjectPage } from '../../../../controllers/project/getP
 import {
   GetActionnaireForProjectPage,
   GetInstallationAvecDispositifDeStockageForProjectPage,
+  GetNatureDeLExploitationForProjectPage,
   GetReprésentantLégalForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
 import { GetDélaiForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getDélai';
@@ -35,6 +36,7 @@ type EnregistrerUneModificationProps = {
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
   installateurAffichage?: GetInstallateurForProjectPage['affichage'];
   installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
+  natureDeLExploitationAffichage?: GetNatureDeLExploitationForProjectPage['affichage'];
 };
 
 const EnregistrerUneModification = ({
@@ -46,6 +48,7 @@ const EnregistrerUneModification = ({
   fournisseurAffichage,
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
+  natureDeLExploitationAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -89,6 +92,11 @@ const EnregistrerUneModification = ({
           href={installationAvecDispositifDeStockageAffichage.url}
         >
           <span>{installationAvecDispositifDeStockageAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!natureDeLExploitationAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={natureDeLExploitationAffichage.url}>
+          <span>{natureDeLExploitationAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
     </DropdownMenuSecondaryButton>
@@ -235,6 +243,7 @@ type AdminActionsProps = {
   fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
   installateurAffichage?: GetInstallateurForProjectPage['affichage'];
   installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
+  natureDeLExploitationAffichage?: GetNatureDeLExploitationForProjectPage['affichage'];
 };
 
 const AdminActions = ({
@@ -248,6 +257,7 @@ const AdminActions = ({
   fournisseurAffichage,
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
+  natureDeLExploitationAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -263,6 +273,7 @@ const AdminActions = ({
           installationAvecDispositifDeStockageAffichage={
             installationAvecDispositifDeStockageAffichage
           }
+          natureDeLExploitationAffichage={natureDeLExploitationAffichage}
         />
       )}
       {notifiedOn && isClasse ? (
@@ -355,6 +366,7 @@ export const ProjectActions = ({
   installateurAffichage,
   features,
   installationAvecDispositifDeStockageAffichage,
+  natureDeLExploitationAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -379,6 +391,7 @@ export const ProjectActions = ({
           installationAvecDispositifDeStockageAffichage={
             installationAvecDispositifDeStockageAffichage
           }
+          natureDeLExploitationAffichage={natureDeLExploitationAffichage}
         />
       )}
       {userIs(['porteur-projet'])(user) && (

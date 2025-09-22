@@ -28,6 +28,7 @@ import {
   getActionnaire,
   getDateAchèvementPrévisionnel,
   getInstallationAvecDispositifDeStockage,
+  getNatureDeLExploitation,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -302,6 +303,10 @@ v1Router.get(
             rôle: user.role,
           }),
           installationAvecDispositifDeStockage,
+          natureDeLExploitation: await getNatureDeLExploitation({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: user.role,
+          }),
         }),
       );
     },
