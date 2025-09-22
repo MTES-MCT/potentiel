@@ -12,7 +12,7 @@ import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDoc
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
-  dateSignature: zod.string().min(1, { message: 'Champ obligatoire' }),
+  dateSignature: zod.string().min(1),
   propositionTechniqueEtFinanciereSignee: keepOrUpdateSingleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),

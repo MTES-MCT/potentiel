@@ -5,17 +5,14 @@ import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/i
 
 import {
   optionalEnum,
-  optionalOuiNonSchema,
-  optionalOuiNonVideSchema,
   optionalStringWithDefaultValueSchema,
-  ouiNonSchema,
   strictlyPositiveNumberSchema,
   stringToArray,
 } from '../schemaBase';
 
-import { optionalCsvDateSchema } from './commonCsv.schema';
+import { optionalCsvDateSchema, optionalOuiNonVideSchema } from './commonCsv.schema';
 
-export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
+export const puissanceALaPointeCsvSchema = optionalOuiNonVideSchema.default(false);
 export const évaluationCarboneSimplifiéeCsvSchema = z
   .union([z.literal('N/A'), z.literal(''), strictlyPositiveNumberSchema])
   .transform((val) => (val === 'N/A' || val === '' ? 0 : val));
@@ -39,13 +36,13 @@ export const statutCsvSchema = z
 
 export const adresse1CsvSchema = optionalStringWithDefaultValueSchema;
 export const dateEchéanceGfCsvSchema = optionalCsvDateSchema.optional();
-export const financementCollectifCsvSchema = ouiNonSchema;
-export const gouvernancePartagéeCsvSchema = ouiNonSchema;
+export const financementCollectifCsvSchema = optionalOuiNonVideSchema;
+export const gouvernancePartagéeCsvSchema = optionalOuiNonVideSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
 
 export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
 export const notifiedOnCsvSchema = z.undefined({
-  invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
+  error: 'Le champs notifiedOn ne peut pas être présent',
 });
 export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
 

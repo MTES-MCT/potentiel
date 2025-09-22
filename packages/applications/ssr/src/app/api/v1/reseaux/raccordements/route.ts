@@ -15,13 +15,7 @@ export const dynamic = 'force-dynamic';
 
 const routeParamsSchema = z.object({
   page: z.coerce.number().int().optional(),
-  avecDateMiseEnService: z
-    .string()
-    .optional()
-    .refine((value) => value === 'true' || value === 'false' || value === undefined, {
-      message: "Le paramètre avecDateMiseEnService doit être 'true' ou 'false'",
-    })
-    .transform((value) => (value === 'true' ? true : value === 'false' ? false : undefined)),
+  avecDateMiseEnService: z.stringbool().optional(),
 });
 
 type DossierRaccordementApiResponse = {

@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
 
+import { ouiNonSchema } from '../schemaBase';
+
 const dateParDéfautFormulaireCRE = '00/01/1900';
 const parseCsvDate = (val: string | undefined) => {
   if (!val || val === dateParDéfautFormulaireCRE) return;
@@ -9,13 +11,12 @@ const parseCsvDate = (val: string | undefined) => {
   return DateTime.convertirEnValueType(new Date(`${year}-${month}-${day}`)).formatter();
 };
 
-const refineCsvDate = (val: string | undefined, ctx: z.RefinementCtx): true | undefined => {
+const refineCsvDate = (val: string | undefined, ctx: z.RefinementCtx) => {
   try {
     parseCsvDate(val);
-    return true;
   } catch (e) {
     ctx.addIssue({
-      code: z.ZodIssueCode.invalid_date,
+      code: 'custom',
       message: e instanceof Error ? e.message : 'Format de date invalide',
     });
   }
@@ -33,3 +34,10 @@ export const optionalCsvDateSchema = z
   .transform((val) => {
     return parseCsvDate(val);
   });
+
+/** Retourne undefined en l'absence de valeur */
+export const optionalOuiNonVideSchema = z
+  .string()
+  .optional()
+  .transform((val) => val?.trim() || undefined)
+  .pipe(ouiNonSchema.optional());

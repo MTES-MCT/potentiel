@@ -25,10 +25,7 @@ const schema = zod.object({
 
   fichierInstruction: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 
-  test: zod
-    .enum(['', 'true', 'false'])
-    .optional()
-    .transform((val) => (val === 'true' ? true : val === 'false' ? false : undefined)),
+  test: zod.stringbool().optional(),
 });
 
 export type ImporterPériodeFormKeys = keyof zod.infer<typeof schema>;
@@ -98,7 +95,6 @@ const action: FormAction<FormState, typeof schema> = async (
             dateÉchéanceGf: undefined,
             dateDélibérationGf: undefined,
             puissanceDeSite: undefined,
-            autorisationDUrbanisme: undefined,
             installateur: undefined,
             installationAvecDispositifDeStockage: undefined,
             natureDeLExploitation: undefined,
@@ -113,7 +109,7 @@ const action: FormAction<FormState, typeof schema> = async (
         });
       } catch (error) {
         if (error instanceof zod.ZodError) {
-          error.errors.forEach((error) => {
+          error.issues.forEach((error) => {
             errors.push({
               key,
               reason: `${error.path.join('.')} : ${error.message}`,
@@ -174,7 +170,7 @@ const action: FormAction<FormState, typeof schema> = async (
             reason: error.message,
           });
         } else if (error instanceof zod.ZodError) {
-          error.errors.forEach((error) => {
+          error.issues.forEach((error) => {
             errors.push({
               key: identifiantProjetValue,
               reason: `${error.path.join('.')} : ${error.message}`,

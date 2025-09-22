@@ -12,7 +12,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
+  dateConstitution: zod.string(),
   attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 

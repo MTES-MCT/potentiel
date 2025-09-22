@@ -1,8 +1,10 @@
 import test, { describe } from 'node:test';
 
-import { expect, assert } from 'chai';
+import { assert } from 'chai';
 
+import '../../zod/setupLocale';
 import { candidatureSchema } from './candidature.schema';
+import { assertError, deepEqualWithRichDiff } from './_test-shared';
 
 const minimumValues = {
   identifiantProjet: 'PPE2 Bâtiment#1#2#3',
@@ -13,7 +15,7 @@ const minimumValues = {
   prixReference: '50',
   noteTotale: '80',
   nomRepresentantLegal: 'Représentant Légal',
-  emailContact: 'contact@example.com',
+  emailContact: ' contact@example.com ',
   adresse1: 'Adresse 1',
   adresse2: 'Adresse 2',
   codePostal: '75001',
@@ -30,6 +32,7 @@ const minimumValues = {
 
 const expectedMinimumValues = {
   ...minimumValues,
+  emailContact: 'contact@example.com',
   puissanceProductionAnnuelle: 100,
   prixReference: 50,
   noteTotale: 80,
@@ -42,7 +45,7 @@ describe('candidatureSchema', () => {
   test('Cas nominal, classé', () => {
     const result = candidatureSchema.safeParse(minimumValues);
     assert(result.success);
-    expect(result.data).to.deep.equal(expectedMinimumValues);
+    deepEqualWithRichDiff(result.data, expectedMinimumValues);
   });
 
   test('Cas nominal, éliminé', () => {
@@ -52,8 +55,8 @@ describe('candidatureSchema', () => {
       motifElimination: 'Motif',
     });
     assert(result.success);
-    expect(result.data).to.deep.equal({
-      ...minimumValues,
+    deepEqualWithRichDiff(result.data, {
+      ...expectedMinimumValues,
       statut: 'éliminé',
       puissanceProductionAnnuelle: 100,
       prixReference: 50,
@@ -78,7 +81,7 @@ describe('candidatureSchema', () => {
       natureDeLExploitation: 'vente-avec-injection-du-surplus',
     });
     assert(result.success);
-    expect(result.data).to.deep.equal({
+    deepEqualWithRichDiff(result.data, {
       ...expectedMinimumValues,
       installateur: 'Installateur.Inc',
       coefficientKChoisi: true,
@@ -93,17 +96,15 @@ describe('candidatureSchema', () => {
   test("motifs d'élimination requis si candidature éliminée", () => {
     const result = candidatureSchema.safeParse({
       ...minimumValues,
+      emailContact: 'contact@example.com',
       statut: 'éliminé',
       motifElimination: undefined,
     });
-    assert(!result.success);
-    expect(result.error.errors[0]).to.deep.equal({
-      code: 'invalid_type',
-      expected: 'string',
-      received: 'undefined',
-      path: ['motifElimination'],
-      message: '"motifElimination" est requis lorsque "statut" a la valeur "éliminé"',
-    });
+    assertError(
+      result,
+      ['motifElimination'],
+      '"motifElimination" est requis lorsque "statut" a la valeur "éliminé"',
+    );
   });
 
   test('typeGarantiesFinancieres est requis si la candidature est classée', () => {
@@ -112,14 +113,11 @@ describe('candidatureSchema', () => {
       statut: 'classé',
       typeGarantiesFinancieres: undefined,
     });
-    assert(!result.success);
-    expect(result.error.errors[0]).to.deep.equal({
-      code: 'invalid_type',
-      expected: 'string',
-      received: 'undefined',
-      path: ['typeGarantiesFinancieres'],
-      message: '"typeGarantiesFinancieres" est requis lorsque "statut" a la valeur "classé"',
-    });
+    assertError(
+      result,
+      ['typeGarantiesFinancieres'],
+      '"typeGarantiesFinancieres" est requis lorsque "statut" a la valeur "classé"',
+    );
   });
 
   test("date d'échéance est requis si typeGarantiesFinancieres est avec date d'échéance", () => {
@@ -129,14 +127,10 @@ describe('candidatureSchema', () => {
       typeGarantiesFinancieres: 'avec-date-échéance',
       dateEcheanceGf: undefined,
     });
-    assert(!result.success);
-    expect(result.error.errors[0]).to.deep.equal({
-      code: 'invalid_type',
-      expected: 'string',
-      received: 'undefined',
-      path: ['dateEcheanceGf'],
-      message:
-        '"dateEcheanceGf" est requis lorsque "typeGarantiesFinancieres" a la valeur "avec-date-échéance"',
-    });
+    assertError(
+      result,
+      ['dateEcheanceGf'],
+      '"dateEcheanceGf" est requis lorsque "typeGarantiesFinancieres" a la valeur "avec-date-échéance"',
+    );
   });
 });

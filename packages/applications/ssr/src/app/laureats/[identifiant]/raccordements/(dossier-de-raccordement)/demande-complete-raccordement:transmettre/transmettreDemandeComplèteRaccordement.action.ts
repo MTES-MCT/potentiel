@@ -12,9 +12,9 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
+  dateQualification: zod.string().min(1),
   identifiantGestionnaireReseau: zod.string().optional(),
-  referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
+  referenceDossier: zod.string().min(1),
   accuseReception: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 

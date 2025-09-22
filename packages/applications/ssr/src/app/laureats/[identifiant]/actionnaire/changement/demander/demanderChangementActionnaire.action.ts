@@ -12,8 +12,8 @@ import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  actionnaire: zod.string().min(1, { message: 'Champ obligatoire' }),
-  raison: zod.string().min(1, { message: 'Champ obligatoire' }),
+  actionnaire: zod.string().min(1),
+  raison: zod.string().min(1),
   piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
   }),

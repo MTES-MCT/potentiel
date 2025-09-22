@@ -18,7 +18,7 @@ type RouteParams = {
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   reference: zod.string().min(1),
-  nouvelleReference: zod.string().min(1, { message: 'Champ obligatoire' }),
+  nouvelleReference: zod.string().min(1),
 });
 
 export const POST = (request: NextRequest, routeParams: RouteParams) =>

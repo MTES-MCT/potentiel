@@ -29,7 +29,7 @@ export const puissanceProductionAnnuelleSchema = strictlyPositiveNumberSchema;
 export const prixRéférenceSchema = strictlyPositiveNumberSchema;
 export const noteTotaleSchema = numberSchema;
 export const nomReprésentantLégalSchema = requiredStringSchema;
-export const emailContactSchema = requiredStringSchema.email();
+export const emailContactSchema = requiredStringSchema.pipe(z.email());
 export const adresse1Schema = requiredStringSchema;
 export const adresse2Schema = optionalStringWithDefaultValueSchema;
 
@@ -54,7 +54,7 @@ export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
 export const statutSchema = z.enum(Candidature.StatutCandidature.statuts);
-export const puissanceALaPointeSchema = booleanSchema;
+export const puissanceALaPointeSchema = booleanSchema.optional().default(false);
 export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
