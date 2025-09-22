@@ -5,7 +5,7 @@ import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
 import { SendEmail } from '../../../sendEmail';
-import { getAppelOffre, getBaseUrl, listerPorteursRecipients } from '../../../helpers';
+import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { recoursNotificationTemplateId } from './constant';
 
@@ -26,7 +26,6 @@ export const recoursRejetéNotification = async ({
   projet,
 }: RecoursRejetéNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const appelOffres = await getAppelOffre(identifiantProjet.appelOffre);
   const utilisateursCre = await mediator.send<ListerUtilisateursQuery>({
     type: 'Utilisateur.Query.ListerUtilisateurs',
     data: {
@@ -35,7 +34,8 @@ export const recoursRejetéNotification = async ({
     },
   });
   const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
-  const adminRecipients = [{ email: appelOffres.dossierSuiviPar }];
+  const adminRecipients = await listerDgecRecipients(identifiantProjet);
+
   const creRecipients = utilisateursCre.items.map(({ email }) => ({ email }));
 
   await sendEmail({

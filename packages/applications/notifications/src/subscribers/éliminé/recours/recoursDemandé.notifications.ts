@@ -2,7 +2,7 @@ import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { SendEmail } from '../../../sendEmail';
-import { getAppelOffre, getBaseUrl, listerPorteursRecipients } from '../../../helpers';
+import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { recoursNotificationTemplateId } from './constant';
 
@@ -23,9 +23,8 @@ export const recoursDemandéNotification = async ({
   projet,
 }: RecoursDemandéNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const appelOffres = await getAppelOffre(identifiantProjet.appelOffre);
   const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
-  const adminRecipients = [{ email: appelOffres.dossierSuiviPar }];
+  const adminRecipients = await listerDgecRecipients(identifiantProjet);
 
   await sendEmail({
     templateId: recoursNotificationTemplateId.demander,
