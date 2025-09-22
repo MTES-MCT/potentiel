@@ -110,21 +110,22 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               marginTop: 10,
             }}
           >
-            - {appelOffre.id !== 'PPE2 - Petit PV Bâtiment' && `si ce n’est déjà fait, `}déposer une
-            demande complète de raccordement dans les {delaiDcrEnMois.texte} (
+            -{' '}
+            {!appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel &&
+              `si ce n’est déjà fait, `}
+            déposer une demande complète de raccordement dans les {delaiDcrEnMois.texte} (
             {delaiDcrEnMois.valeur}) mois à compter de la présente notification
             {appelOffre.typeAppelOffre === 'eolien' &&
               ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
             ;
           </Text>
-          {appelOffre.id === 'PPE2 - Petit PV Bâtiment' && (
+          {appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel && (
             <Text
               style={{
                 marginTop: 10,
               }}
             >
-              - renseigner dans votre espace Potentiel la référence de l’affaire de raccordement
-              dans les quatre (4) mois à compter de la présente notification;
+              - {appelOffre.addendums.paragrapheRenseignerRaccordementDansPotentiel};
             </Text>
           )}
           {soumisAuxGarantiesFinancieres &&
@@ -172,8 +173,8 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             }}
           >
             - fournir à EDF
-            {appelOffre.id === 'PPE2 - Petit PV Bâtiment' &&
-              `, par voie dématérialisée dans votre espace Potentiel,`}{' '}
+            {appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel &&
+              `, ${appelOffre.addendums.paragrapheRenseignerRaccordementDansPotentiel},`}{' '}
             l’attestation de conformité de l’installation prévue au paragraphe{' '}
             {appelOffre.paragrapheAttestationConformite} du cahier des charges;
           </Text>

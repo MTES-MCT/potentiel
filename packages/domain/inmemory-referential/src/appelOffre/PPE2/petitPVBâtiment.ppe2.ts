@@ -83,6 +83,12 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       dispositions: `***** A AJOUTER *****`,
     },
   },
+  addendums: {
+    paragrapheRenseignerRaccordementDansPotentiel:
+      'renseigner dans votre espace Potentiel la référence de l’affaire de raccordement dans les quatre (4) mois à compter de la présente notification',
+    paragrapheRenseignerAttestationConformitéDansPotentiel:
+      'par voie dématérialisée dans votre espace Potentiel',
+  },
   champsSupplémentaires: {
     puissanceDeSite: 'requis',
     autorisationDUrbanisme: 'requis',
