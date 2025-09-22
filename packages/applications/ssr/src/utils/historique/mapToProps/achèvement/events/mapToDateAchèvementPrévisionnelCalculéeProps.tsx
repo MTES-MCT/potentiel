@@ -16,7 +16,7 @@ export const mapToDateAchèvementPrévisionnelCalculéeProps = (
 
   return {
     date,
-    title: <div>{getTitleFromRaison(raison)}</div>,
+    title: getTitleFromRaison(raison),
     content: (
       <div className="flex flex-col gap-2">
         <div>
@@ -48,21 +48,21 @@ const getTitleFromRaison = (
 ) =>
   match(raison)
     .with('ajout-délai-cdc-30_08_2022', () => (
-      <>
+      <div>
         Attribution d'un délai supplémentaire prévu dans le{' '}
         <span className="font-semibold">cahier des charges rétroactif du 30/08/2022</span>
-      </>
+      </div>
     ))
     .with('retrait-délai-cdc-30_08_2022', () => (
-      <>
+      <div>
         Retrait d'un délai supplémentaire prévu dans le{' '}
         <span className="font-semibold">cahier des charges rétroactif du 30/08/2022</span>
-      </>
+      </div>
     ))
     .with('covid', () => (
-      <>
+      <div>
         Attribution d'un délai supplémentaire dû à la{' '}
         <span className="font-semibold">crise du COVID</span>
-      </>
+      </div>
     ))
     .otherwise(() => undefined);
