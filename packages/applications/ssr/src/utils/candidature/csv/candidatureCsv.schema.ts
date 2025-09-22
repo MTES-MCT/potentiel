@@ -57,6 +57,7 @@ const typeGf = [
   Candidature.TypeGarantiesFinancières.consignation.type,
 ] satisfies Array<Candidature.TypeGarantiesFinancières.RawType>;
 
+// Order matters! the CSV uses "1"/"2"
 const typesNatureDeLExploitation = [
   Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnSurplus.type,
   Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnTotalité.type,
