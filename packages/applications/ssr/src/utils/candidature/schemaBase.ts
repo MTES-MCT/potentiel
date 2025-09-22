@@ -42,14 +42,6 @@ export const ouiNonSchema = z.stringbool({
   falsy: ['false', 'non', '0'],
 });
 
-/** Retourne undefined en l'absence de valeur */
-export const optionalOuiNonVideSchema = ouiNonSchema
-  .optional()
-  .transform((val) => val || undefined);
-
-/** Retourne false en l'absence de valeur */
-export const optionalOuiNonSchema = ouiNonSchema.optional().transform((val) => val || false);
-
 export const booleanSchema = z.union([z.boolean(), ouiNonSchema]);
 
 export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>>>(

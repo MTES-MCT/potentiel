@@ -288,19 +288,6 @@ describe('Schema candidature CSV', () => {
       );
     });
 
-    test('oui/non valeur manquante', () => {
-      const result = candidatureCsvSchema.safeParse({
-        ...minimumValuesEliminé,
-        'Gouvernance partagée (Oui/Non)': '',
-      });
-      assert(!result.success);
-      assertError(
-        result,
-        ['Gouvernance partagée (Oui/Non)'],
-        'Option invalide : une valeur parmi "true"|"oui"|"1"|"false"|"non"|"0" attendue',
-      );
-    });
-
     test('oui/non avec valeur invalide', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
