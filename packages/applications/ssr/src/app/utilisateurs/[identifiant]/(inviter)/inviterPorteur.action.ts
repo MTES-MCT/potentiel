@@ -14,7 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  identifiantUtilisateurInvite: zod.email(),
+  identifiantUtilisateurInvite: zod.email().min(1),
   inviterATousSesProjets: zod.literal('true').optional(),
 });
 

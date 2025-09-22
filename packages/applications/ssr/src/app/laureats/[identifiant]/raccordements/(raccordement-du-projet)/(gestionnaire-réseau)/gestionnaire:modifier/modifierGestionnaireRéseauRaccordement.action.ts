@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  identifiantGestionnaireReseau: zod.string(),
+  identifiantGestionnaireReseau: zod.string().min(1),
 });
 
 export type ModifierGestionnaireRéseauRaccordementFormKeys = keyof zod.infer<typeof schema>;

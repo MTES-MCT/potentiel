@@ -9,9 +9,8 @@ const commonSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
     error: 'Le type de représentant légal est invalide',
-    // required_error: 'Champ obligatoire',
   }),
-  nomRepresentantLegal: zod.string(),
+  nomRepresentantLegal: zod.string().min(1),
 });
 
 export const demanderOuEnregistrerChangementSchema = zod.discriminatedUnion('typeSociete', [

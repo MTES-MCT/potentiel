@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateDemande: zod.string().min(1),
   typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types),
-  nomRepresentantLegal: zod.string(),
+  nomRepresentantLegal: zod.string().min(1),
 });
 
 export type AccorderChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;

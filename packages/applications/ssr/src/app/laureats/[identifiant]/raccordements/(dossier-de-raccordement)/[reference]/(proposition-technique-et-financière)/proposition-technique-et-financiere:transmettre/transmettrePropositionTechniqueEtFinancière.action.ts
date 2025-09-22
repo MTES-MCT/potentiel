@@ -11,8 +11,8 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  referenceDossier: zod.string(),
-  dateSignature: zod.string(),
+  referenceDossier: zod.string().min(1),
+  dateSignature: zod.string().min(1),
   propositionTechniqueEtFinanciereSignee: singleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),

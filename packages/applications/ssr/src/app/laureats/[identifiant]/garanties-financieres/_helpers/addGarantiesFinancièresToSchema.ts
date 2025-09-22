@@ -6,11 +6,11 @@ export const addGarantiesFinancièresToSchema = <T extends zod.ZodRawShape>(
   zod.discriminatedUnion('type', [
     baseSchema.extend({
       type: zod.literal('avec-date-échéance'),
-      dateEcheance: zod.string(),
+      dateEcheance: zod.string().min(1),
     }),
     baseSchema.extend({
       type: zod.literal('exemption'),
-      dateDeliberation: zod.string(),
+      dateDeliberation: zod.string().min(1),
     }),
     baseSchema.extend({
       type: zod.enum(['six-mois-après-achèvement', 'consignation']),

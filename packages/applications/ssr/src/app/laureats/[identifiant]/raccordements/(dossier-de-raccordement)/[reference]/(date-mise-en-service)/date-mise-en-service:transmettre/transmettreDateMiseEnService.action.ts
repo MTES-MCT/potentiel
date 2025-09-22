@@ -13,7 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
-  dateMiseEnService: zod.string(),
+  dateMiseEnService: zod.string().min(1),
 });
 
 export type TransmettreDateMiseEnServiceStateFormKeys = keyof zod.infer<typeof schema>;

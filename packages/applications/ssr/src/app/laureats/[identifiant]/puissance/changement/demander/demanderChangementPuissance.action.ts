@@ -14,7 +14,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 const demanderChangementPuissanceSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   puissance: strictlyPositiveNumberSchema,
-  raison: zod.string(),
+  raison: zod.string().min(1),
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
