@@ -1,19 +1,21 @@
 import { FC } from 'react';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-
-import { LauréatListItem, LauréatListItemProps } from './LauréatListItem';
+import {
+  ProjectListItem,
+  ProjectListItemProps,
+} from '@/components/molecules/projet/liste/ProjectListItem';
 
 export type LauréatListPageProps = {
   list: {
-    items: Array<LauréatListItemProps>;
+    items: Array<ProjectListItemProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
   };
-  legend: ListPageTemplateProps<typeof LauréatListItem>['legend'];
-  filters: ListPageTemplateProps<typeof LauréatListItem>['filters'];
-  actions: ListPageTemplateProps<typeof LauréatListItem>['actions'];
+  legend: ListPageTemplateProps<typeof ProjectListItem>['legend'];
+  filters: ListPageTemplateProps<typeof ProjectListItem>['filters'];
+  actions: ListPageTemplateProps<typeof ProjectListItem>['actions'];
 };
 
 export const LauréatListPage: FC<LauréatListPageProps> = ({
@@ -30,7 +32,7 @@ export const LauréatListPage: FC<LauréatListPageProps> = ({
     actions={actions}
     legend={legend}
     totalItems={totalItems}
-    ItemComponent={LauréatListItem}
+    ItemComponent={ProjectListItem}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     items={lauréats.map((projet) => ({
       ...projet,
