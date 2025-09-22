@@ -22,7 +22,7 @@ export const abandonConfirméNotifications = async ({
   });
 
   await sendEmail({
-    templateId: abandonNotificationTemplateId.annuler,
+    templateId: abandonNotificationTemplateId.confirmer,
     messageSubject: `Potentiel - Demande d'abandon confirmée pour le projet ${projet.nom} (${appelOffre} période ${période})`,
     recipients: porteurs,
     bcc: adminRecipients,

@@ -16,7 +16,7 @@ export const abandonRejetéNotifications = async ({
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   await sendEmail({
-    templateId: abandonNotificationTemplateId.annuler,
+    templateId: abandonNotificationTemplateId.rejeter,
     messageSubject: `Potentiel - Demande d'abandon rejetée pour le projet ${projet.nom} (${appelOffre} période ${période})`,
     recipients: porteurs,
     variables: {

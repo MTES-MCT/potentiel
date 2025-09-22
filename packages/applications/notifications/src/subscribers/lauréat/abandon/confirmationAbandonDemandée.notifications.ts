@@ -17,7 +17,7 @@ export const confirmationAbandonDemandéeNotifications = async ({
   const appelOffres = await getAppelOffre(identifiantProjet.appelOffre);
 
   await sendEmail({
-    templateId: abandonNotificationTemplateId.annuler,
+    templateId: abandonNotificationTemplateId.demanderConfirmation,
     messageSubject: `Potentiel - Demande d'abandon en attente de confirmation pour le projet ${projet.nom} (${appelOffres.id} période ${période})`,
     recipients: porteurs,
     variables: {
