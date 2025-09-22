@@ -13,7 +13,6 @@ type LaureatProps = {
 
 export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
   const { appelOffre, période } = project;
-  const { soumisAuxGarantiesFinancieres } = appelOffre.garantiesFinancières || {};
   const { delaiDcrEnMois } = période;
 
   const paragrapheEngagementIPFPGPFC =
@@ -128,9 +127,12 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               - {appelOffre.addendums.paragrapheRenseignerRaccordementDansPotentiel};
             </Text>
           )}
-          {soumisAuxGarantiesFinancieres &&
-            appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres &&
-            appelOffre.id !== 'PPE2 - Petit PV Bâtiment' && (
+          {appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres &&
+            (appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres ===
+              'après candidature' ||
+              appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles.includes(
+                'six-mois-après-achèvement',
+              )) && (
               <Text
                 style={{
                   marginTop: 10,
