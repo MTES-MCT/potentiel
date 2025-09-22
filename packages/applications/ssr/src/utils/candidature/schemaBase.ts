@@ -37,31 +37,20 @@ export const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
   .pipe(z.number().gt(0));
 
-export const ouiNonSchema = z
-  .string()
-  .transform((str) => str.toLowerCase())
-  .pipe(z.enum(['oui', 'non']))
-  .transform((val) => val === 'oui');
-
-/** Retourne false en l'absence de valeur */
-export const optionalOuiNonSchema = z
-  .string()
-  .transform((str) => str.toLowerCase())
-  .pipe(z.enum(['oui', 'non', '']))
-  .transform((val) => val ?? undefined)
-  .optional()
-  .transform((val) => val === 'oui');
+export const ouiNonSchema = z.stringbool({
+  truthy: ['true', 'oui', '1'],
+  falsy: ['false', 'non', '0'],
+});
 
 /** Retourne undefined en l'absence de valeur */
-export const optionalOuiNonVideSchema = z
-  .string()
-  .transform((str) => str.toLowerCase())
-  .pipe(z.enum(['oui', 'non', '']))
-  .transform((val) => val ?? undefined)
+export const optionalOuiNonVideSchema = ouiNonSchema
   .optional()
-  .transform((val) => (val === 'oui' ? true : val === 'non' ? false : undefined));
+  .transform((val) => val || undefined);
 
-export const booleanSchema = z.union([z.boolean(), z.stringbool()]);
+/** Retourne false en l'absence de valeur */
+export const optionalOuiNonSchema = ouiNonSchema.optional().transform((val) => val || false);
+
+export const booleanSchema = z.union([z.boolean(), ouiNonSchema]);
 
 export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>>>(
   enumSchema: z.ZodEnum<TEnumSchema>,

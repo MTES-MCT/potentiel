@@ -8,7 +8,6 @@ import {
   optionalOuiNonSchema,
   optionalOuiNonVideSchema,
   optionalStringWithDefaultValueSchema,
-  ouiNonSchema,
   strictlyPositiveNumberSchema,
   stringToArray,
 } from '../schemaBase';
@@ -39,8 +38,8 @@ export const statutCsvSchema = z
 
 export const adresse1CsvSchema = optionalStringWithDefaultValueSchema;
 export const dateEchéanceGfCsvSchema = optionalCsvDateSchema.optional();
-export const financementCollectifCsvSchema = ouiNonSchema;
-export const gouvernancePartagéeCsvSchema = ouiNonSchema;
+export const financementCollectifCsvSchema = optionalOuiNonVideSchema;
+export const gouvernancePartagéeCsvSchema = optionalOuiNonVideSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
 
 export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
