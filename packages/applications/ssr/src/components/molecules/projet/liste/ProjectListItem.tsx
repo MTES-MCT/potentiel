@@ -7,25 +7,26 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
-import { CopyButton } from '@/components/molecules/CopyButton';
 
-export type LauréatListItemProps = {
+export type ProjectListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   localité: Candidature.Localité.RawType;
   producteur: string;
-  représentantLégal: { nom: string; email: string };
+  email: string;
+  nomReprésentantLégal: string;
   puissance: string;
   prixReference: string;
   evaluationCarboneSimplifiée: string;
 };
 
-export const LauréatListItem: FC<LauréatListItemProps> = ({
+export const ProjectListItem: FC<ProjectListItemProps> = ({
   identifiantProjet,
   nomProjet,
   localité,
   producteur,
-  représentantLégal,
+  email,
+  nomReprésentantLégal,
   puissance,
   prixReference,
   evaluationCarboneSimplifiée,
@@ -67,11 +68,13 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
           />
           {producteur}
         </div>
-        <div className="flex items-start">
+        <div className="flex items-center">
           <Icon id="ri-user-line" className="mr-2 shrink-0" title="Représentant légal" size="xs" />
-          <div className="flex flex-col">
-            <span>{représentantLégal.nom}</span> <CopyButton textToCopy={représentantLégal.email} />
-          </div>
+          {nomReprésentantLégal}
+        </div>
+        <div className="flex items-center">
+          <Icon id="ri-mail-line" className="mr-2 shrink-0" title="Email" size="xs" />
+          {email}
         </div>
       </div>
       <div className="flex flex-col gap-2 items-start md:flex-row  md:gap-16">
