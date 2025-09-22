@@ -76,7 +76,7 @@ export const LauréatListItem: FC<LauréatListItemProps> = ({
       </div>
       <div className="flex flex-col gap-2 items-start md:flex-row  md:gap-16">
         <div className="flex fled-row gap-2 md:flex-col md:items-center">
-          <Icon id="ri-flashlight-fill" className="shrink-0" title="Représentant légal" />
+          <Icon id="ri-flashlight-fill" className="shrink-0" title="Puissance" />
           {puissance}
         </div>
         <div className="flex fled-row gap-2 md:flex-col md:items-center">
