@@ -118,9 +118,7 @@ EtantDonné('le porteur du projet désactivé', async function (this: PotentielW
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
-  const admin = this.utilisateurWorld.adminFixture.créer({
-    email: process.env.DGEC_EMAIL,
-  });
+  const admin = this.utilisateurWorld.adminFixture.créer({});
   const cre = this.utilisateurWorld.creFixture.créer();
 
   await inviterUtilisateur.call(this, {

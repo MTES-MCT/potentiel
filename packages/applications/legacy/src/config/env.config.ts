@@ -16,19 +16,17 @@ export const isDevEnv = process.env.APPLICATION_STAGE === 'development';
 export const isStagingEnv = process.env.APPLICATION_STAGE === 'staging';
 export const isProdEnv = process.env.APPLICATION_STAGE === 'production';
 
-export const dgecEmail: string = process.env.DGEC_EMAIL!;
-
 console.log(
   'Environment is ' +
     (isTestEnv
       ? 'Test'
       : isLocalEnv
-      ? 'Local'
-      : isDevEnv
-      ? 'Dev'
-      : isStagingEnv
-      ? 'Staging'
-      : isProdEnv
-      ? 'Production'
-      : 'Not recognized'),
+        ? 'Local'
+        : isDevEnv
+          ? 'Dev'
+          : isStagingEnv
+            ? 'Staging'
+            : isProdEnv
+              ? 'Production'
+              : 'Not recognized'),
 );
