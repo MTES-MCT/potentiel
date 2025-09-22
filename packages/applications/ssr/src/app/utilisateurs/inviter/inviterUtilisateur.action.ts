@@ -12,7 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   role: zod.string(),
-  identifiantUtilisateurInvite: zod.string(),
+  identifiantUtilisateurInvite: zod.string().min(1),
   region: zod.string().optional(),
   identifiantGestionnaireReseau: zod.string().optional(),
   nomComplet: zod.string().optional(),

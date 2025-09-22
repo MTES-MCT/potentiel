@@ -13,7 +13,9 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateDemande: zod.string().min(1),
-  typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types),
+  typeRepresentantLegal: zod.enum(Lauréat.ReprésentantLégal.TypeReprésentantLégal.types, {
+    error: 'Ce type de représentant légal est invalide',
+  }),
   nomRepresentantLegal: zod.string().min(1),
 });
 

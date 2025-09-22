@@ -11,7 +11,7 @@ import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
-  identifiantUtilisateurDesactive: zod.string(),
+  identifiantUtilisateurDesactive: zod.string().min(1),
   actif: zod.stringbool().optional(),
 });
 

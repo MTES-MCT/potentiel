@@ -13,6 +13,7 @@ import { unflatten } from '@potentiel-libraries/flat';
 
 import { applySearchParams } from '@/app/_helpers';
 
+import './zod/setupLocale';
 import { TooManyRequestsError } from './withRateLimit';
 
 export type ActionResult = {
