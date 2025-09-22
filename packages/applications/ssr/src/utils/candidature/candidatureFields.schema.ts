@@ -90,5 +90,8 @@ export const installateurSchema = optionalStringSchema;
 export const installationAvecDispositifDeStockageSchema = booleanSchema.optional();
 export const natureDeLExploitationSchema = z.enum(
   Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
+  {
+    message: 'SALUT A TOI VIOVIO',
+  },
 );
-export const natureDeLExploitationOptionalSchema = optionalEnum(natureDeLExploitationSchema);
+export const natureDeLExploitationOptionalSchema = natureDeLExploitationSchema.optional();

@@ -267,7 +267,9 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 numéro: numéroDAutorisationDUrbanisme,
               }
             : undefined,
-        natureDeLExploitation: typesNatureDeLExploitation[Number(natureDeLExploitation) - 1],
+        natureDeLExploitation: natureDeLExploitation
+          ? typesNatureDeLExploitation[Number(natureDeLExploitation) - 1]
+          : undefined,
         typologieInstallation: mapCsvToTypologieInstallation({
           typologieDeBâtiment,
           typeInstallationsAgrivoltaiques,
