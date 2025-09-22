@@ -38,8 +38,8 @@ export const strictlyPositiveNumberSchema = _numberSchemaBase
   .pipe(z.number().gt(0));
 
 export const ouiNonSchema = z.stringbool({
-  truthy: ['true', 'oui', '1'],
-  falsy: ['false', 'non', '0'],
+  truthy: ['true', 'oui'],
+  falsy: ['false', 'non'],
 });
 
 export const booleanSchema = z.union([z.boolean(), ouiNonSchema]);

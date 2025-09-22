@@ -296,7 +296,7 @@ describe('Schema candidature CSV', () => {
       assertError(
         result,
         ['Gouvernance partagée (Oui/Non)'],
-        'Option invalide : une valeur parmi "true"|"oui"|"1"|"false"|"non"|"0" attendue',
+        'Option invalide : une valeur parmi "true"|"oui"|"false"|"non" attendue',
       );
     });
 
