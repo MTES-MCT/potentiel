@@ -22,6 +22,7 @@ import { AchèvementEvent } from '../../achèvement';
 import { ÉliminéEvent } from '../../../éliminé';
 import { HistoriqueInstallateurProjetListItemReadModel } from '../../installateur/listerHistorique/listerHistoriqueInstallateurProjet.query';
 import { HistoriqueInstallationAvecDispositifDeStockageProjetListItemReadModel } from '../../installation-avec-dispositif-de-stockage/listerHistorique/ListerHistoriqueInstallationAvecDispositifDeStockageProjet.query';
+import { HistoriqueNatureDeLExploitationProjetListItemReadModel } from '../../nature-de-l-exploitation';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<'lauréat', LauréatEvent>;
 export type HistoriqueÉliminéProjetListItemReadModel = HistoryRecord<'éliminé', ÉliminéEvent>;
@@ -51,7 +52,8 @@ export type HistoriqueListItemReadModels =
   | HistoriqueDélaiProjetListItemReadModel
   | HistoriqueFournisseurProjetListItemReadModel
   | HistoriqueInstallateurProjetListItemReadModel
-  | HistoriqueInstallationAvecDispositifDeStockageProjetListItemReadModel;
+  | HistoriqueInstallationAvecDispositifDeStockageProjetListItemReadModel
+  | HistoriqueNatureDeLExploitationProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
 
