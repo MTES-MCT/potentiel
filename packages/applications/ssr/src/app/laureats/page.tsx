@@ -4,6 +4,8 @@ import { z } from 'zod';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-applications/routes';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -63,10 +65,52 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      return <LauréatListPage list={mapToListProps(lauréats)} filters={filters} />;
+      const legend: LauréatListPageProps['legend'] = {
+        symbols: [
+          { iconId: 'ri-flashlight-fill', description: 'Puissance' },
+          { iconId: 'ri-money-euro-circle-line', description: 'Prix de référence' },
+          { iconId: 'ri-cloud-fill', description: 'Évaluation carbone' },
+        ],
+      };
+
+      return (
+        <LauréatListPage
+          list={mapToListProps(lauréats)}
+          filters={filters}
+          legend={legend}
+          actions={mapToActions(utilisateur.role, {
+            appelOffre,
+            nomProjet,
+          })}
+        />
+      );
     }),
   );
 }
+
+const mapToActions = (
+  rôle: Role.ValueType,
+  searchParams: {
+    appelOffre?: string;
+    nomProjet?: string;
+  },
+) => {
+  const actions: LauréatListPageProps['actions'] = [];
+
+  if (rôle.estDGEC() || rôle.estDreal()) {
+    actions.push({
+      label: 'Télécharger un export (CSV)',
+      href: Routes.Projet.exportCsv({
+        appelOffreId: searchParams.appelOffre,
+        nomProjet: searchParams.nomProjet,
+        classement: 'classés',
+      }),
+      iconId: 'ri-file-excel-line',
+    });
+  }
+
+  return actions;
+};
 
 const mapToListProps = (
   readModel: Lauréat.ListerLauréatReadModel,

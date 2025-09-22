@@ -142,7 +142,10 @@ const mapToReadModel = ({
     nomProjet,
     localité: Localité.bind(localité),
     producteur: producteur.nom,
-    représentantLégal: { nom: représentantLégal.nomReprésentantLégal, email: '?????' },
+    représentantLégal: {
+      nom: représentantLégal.nomReprésentantLégal,
+      email: candidature.emailContact,
+    },
     puissance: {
       unité: UnitéPuissance.déterminer({
         appelOffres,
