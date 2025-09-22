@@ -14,11 +14,11 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Abandon demandé pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                               |
+            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                          |
         Et un email a été envoyé à l'autorité instructrice avec :
-            | sujet      | Potentiel - Abandon demandé pour le projet Du boulodrome de Marseille .* |
-            | nom_projet | Du boulodrome de Marseille                                               |
+            | sujet      | Potentiel - Nouvelle demande d'abandon pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                          |
 
         Exemples:
             | Appel d'offre            | Période |

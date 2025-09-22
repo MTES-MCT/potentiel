@@ -25,7 +25,7 @@ export const abandonDemandéNotifications = async ({
 
   await sendEmail({
     templateId: abandonNotificationTemplateId.demander,
-    messageSubject: `Potentiel - Abandon demandé pour le projet ${projet.nom} (${appelOffre} période ${période})`,
+    messageSubject: `Potentiel - Nouvelle demande d'abandon pour le projet ${projet.nom} (${appelOffre} période ${période})`,
     recipients: porteurs,
     bcc: adminRecipients,
     variables: {
