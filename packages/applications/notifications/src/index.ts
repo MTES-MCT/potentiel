@@ -21,7 +21,7 @@ export * as InstallationAvecDispositifDeStockageNotifications from './subscriber
 export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation';
 
 // Éliminé
-export * as RecoursNotification from './subscribers/éliminé/recours.notification';
+export * as RecoursNotification from './subscribers/éliminé/recours';
 
 // Période
 export * as PériodeNotification from './subscribers/période/période.notification';
