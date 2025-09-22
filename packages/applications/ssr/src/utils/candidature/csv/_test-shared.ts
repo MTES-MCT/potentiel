@@ -38,11 +38,12 @@ export function assertError<TOutput>(
   result: ZodSafeParseResult<TOutput>,
   path: string[],
   message: string,
+  index = 0,
 ): asserts result is ZodSafeParseResult<TOutput> {
   if (!result.error) {
     expect(result.data).to.be.undefined;
   }
   assert(result.error);
-  expect(result.error.issues[0].path).to.deep.eq(path);
-  expect(result.error.issues[0].message).to.eq(message);
+  expect(result.error.issues[index].path).to.deep.eq(path);
+  expect(result.error.issues[index].message).to.eq(message);
 }

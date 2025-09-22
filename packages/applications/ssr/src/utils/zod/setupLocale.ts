@@ -14,7 +14,7 @@ z.config({
       return 'Le champ doit être un nombre positif';
     }
     if (issue.code === 'invalid_type' && issue.expected === 'number') {
-      return 'Le champ doit être un nombre positif';
+      return 'Le champ doit être un nombre';
     }
     if (!issue.input && (issue.code === 'invalid_type' || issue.code === 'too_small')) {
       return 'Le champ est requis';

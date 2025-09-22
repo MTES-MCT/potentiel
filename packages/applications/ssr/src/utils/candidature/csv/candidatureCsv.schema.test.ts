@@ -232,12 +232,15 @@ describe('Schema candidature CSV', () => {
       const result = candidatureCsvSchema.safeParse({
         ...minimumValuesEliminé,
         puissance_production_annuelle: 'abcd',
+        'Note totale': 'abcd',
       });
       assertError(
         result,
         ['puissance_production_annuelle'],
         'Le champ doit être un nombre positif',
+        0,
       );
+      assertError(result, ['Note totale'], 'Le champ doit être un nombre', 1);
     });
 
     test('nombre strictement positif optionnel vide', () => {
