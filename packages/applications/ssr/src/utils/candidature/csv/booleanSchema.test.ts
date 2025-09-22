@@ -4,10 +4,7 @@ import { expect } from 'chai';
 
 import { booleanSchema } from '../schemaBase';
 
-import {
-  _optionalOuiNonSchema as optionalOuiNonSchema,
-  _optionalOuiNonVideSchema as optionalOuiNonVideSchema,
-} from './candidatureCsvFields.schema';
+import { optionalOuiNonVideSchema } from './commonCsv.schema';
 
 describe('booleanSchema', () => {
   it('supports boolean values', () => {
@@ -31,33 +28,6 @@ describe('booleanSchema', () => {
     expect(booleanSchema.parse('False')).to.equal(false);
     expect(booleanSchema.parse('True')).to.equal(true);
     expect(booleanSchema.parse('False')).to.equal(false);
-  });
-});
-
-describe('optionalOuiNonSchema', () => {
-  it('supports oui/non values', () => {
-    expect(optionalOuiNonSchema.parse('oui')).to.equal(true);
-    expect(optionalOuiNonSchema.parse('non')).to.equal(false);
-    expect(optionalOuiNonSchema.parse('OUI')).to.equal(true);
-    expect(optionalOuiNonSchema.parse('NON')).to.equal(false);
-    expect(optionalOuiNonSchema.parse('Oui')).to.equal(true);
-    expect(optionalOuiNonSchema.parse('Non')).to.equal(false);
-  });
-
-  it('supports true/false values', () => {
-    expect(optionalOuiNonSchema.parse('true')).to.equal(true);
-    expect(optionalOuiNonSchema.parse('false')).to.equal(false);
-    expect(optionalOuiNonSchema.parse('TRUE')).to.equal(true);
-    expect(optionalOuiNonSchema.parse('False')).to.equal(false);
-    expect(optionalOuiNonSchema.parse('True')).to.equal(true);
-    expect(optionalOuiNonSchema.parse('False')).to.equal(false);
-  });
-
-  it('returns false when no value is provided', () => {
-    expect(optionalOuiNonSchema.parse(undefined)).to.equal(false);
-  });
-  it('returns false when an empty string is provided', () => {
-    expect(optionalOuiNonSchema.parse('')).to.equal(false);
   });
 });
 
@@ -86,5 +56,15 @@ describe('optionalOuiNonVideSchema', () => {
 
   it('returns undefined when an empty string is provided', () => {
     expect(optionalOuiNonVideSchema.parse('')).to.equal(undefined);
+  });
+
+  describe('with default false', () => {
+    it('returns undefined when no value is provided', () => {
+      expect(optionalOuiNonVideSchema.default(false).parse(undefined)).to.equal(false);
+    });
+
+    it('returns undefined when an empty string is provided', () => {
+      expect(optionalOuiNonVideSchema.default(false).parse('')).to.equal(false);
+    });
   });
 });

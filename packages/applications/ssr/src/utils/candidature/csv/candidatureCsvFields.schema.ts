@@ -6,28 +6,13 @@ import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/i
 import {
   optionalEnum,
   optionalStringWithDefaultValueSchema,
-  ouiNonSchema,
   strictlyPositiveNumberSchema,
   stringToArray,
 } from '../schemaBase';
 
-import { optionalCsvDateSchema } from './commonCsv.schema';
+import { optionalCsvDateSchema, optionalOuiNonVideSchema } from './commonCsv.schema';
 
-/** Retourne undefined en l'absence de valeur */
-export const _optionalOuiNonVideSchema = z
-  .string()
-  .optional()
-  .transform((val) => val?.trim() || undefined)
-  .pipe(ouiNonSchema.optional());
-
-/** Retourne false en l'absence de valeur */
-export const _optionalOuiNonSchema = z
-  .string()
-  .optional()
-  .transform((val) => val?.trim() || 'false')
-  .pipe(ouiNonSchema);
-
-export const puissanceALaPointeCsvSchema = _optionalOuiNonSchema;
+export const puissanceALaPointeCsvSchema = optionalOuiNonVideSchema.default(false);
 export const évaluationCarboneSimplifiéeCsvSchema = z
   .union([z.literal('N/A'), z.literal(''), strictlyPositiveNumberSchema])
   .transform((val) => (val === 'N/A' || val === '' ? 0 : val));
@@ -51,15 +36,15 @@ export const statutCsvSchema = z
 
 export const adresse1CsvSchema = optionalStringWithDefaultValueSchema;
 export const dateEchéanceGfCsvSchema = optionalCsvDateSchema.optional();
-export const financementCollectifCsvSchema = _optionalOuiNonVideSchema;
-export const gouvernancePartagéeCsvSchema = _optionalOuiNonVideSchema;
+export const financementCollectifCsvSchema = optionalOuiNonVideSchema;
+export const gouvernancePartagéeCsvSchema = optionalOuiNonVideSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
 
 export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
 export const notifiedOnCsvSchema = z.undefined({
   error: 'Le champs notifiedOn ne peut pas être présent',
 });
-export const choixCoefficientKCsvSchema = _optionalOuiNonVideSchema;
+export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
 
 export const installationsAgrivoltaiquesCsvSchema = optionalEnum(
   z.enum(['culture', 'jachère de plus de 5 ans', 'élevage', 'serre']),
@@ -81,9 +66,9 @@ export const typologieDeBâtimentCsvSchema = optionalEnum(
 );
 export type TypologieBâtimentCsvShape = z.infer<typeof typologieDeBâtimentCsvSchema>;
 
-export const obligationDeSolarisationCsvSchema = _optionalOuiNonVideSchema;
+export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
 export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();
-export const installationAvecDispositifDeStockageCsvSchema = _optionalOuiNonVideSchema;
+export const installationAvecDispositifDeStockageCsvSchema = optionalOuiNonVideSchema;
 
 // On accepte :
 // - de multiples code postaux séparés par /

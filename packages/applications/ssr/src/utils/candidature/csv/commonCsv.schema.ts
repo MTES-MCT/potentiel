@@ -2,6 +2,8 @@ import { z } from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
 
+import { ouiNonSchema } from '../schemaBase';
+
 const dateParDéfautFormulaireCRE = '00/01/1900';
 const parseCsvDate = (val: string | undefined) => {
   if (!val || val === dateParDéfautFormulaireCRE) return;
@@ -32,3 +34,10 @@ export const optionalCsvDateSchema = z
   .transform((val) => {
     return parseCsvDate(val);
   });
+
+/** Retourne undefined en l'absence de valeur */
+export const optionalOuiNonVideSchema = z
+  .string()
+  .optional()
+  .transform((val) => val?.trim() || undefined)
+  .pipe(ouiNonSchema.optional());
