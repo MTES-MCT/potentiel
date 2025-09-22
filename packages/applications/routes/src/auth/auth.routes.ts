@@ -1,4 +1,9 @@
-export const signIn = (options?: { callbackUrl?: string; forceProConnect?: true }) => {
+type SignInProps = {
+  callbackUrl?: string;
+  forceProConnect?: true;
+};
+
+export const signIn = (options?: SignInProps) => {
   const route = `/auth/signIn`;
 
   if (!options) {
@@ -22,7 +27,12 @@ export const signIn = (options?: { callbackUrl?: string; forceProConnect?: true 
 export const signUp = () => `/auth/signUp`;
 
 // The signout page, where the user is redirected after federeated logout
-export const signOut = (options?: { callbackUrl?: string; idToken?: string }) => {
+type SignOutProps = {
+  callbackUrl?: string;
+  idToken?: string;
+};
+
+export const signOut = (options?: SignOutProps) => {
   const route = `/auth/signOut`;
   const params = new URLSearchParams(options ?? {});
   return params.size > 0 ? `${route}?${params}` : route;

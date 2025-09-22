@@ -1,22 +1,19 @@
 import React from 'react';
 import routes from '../../../../../routes';
-import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
 
-type AdminMenuLegacyProps = {
-  currentPage?: string;
-};
-
-export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
+export const AdminMenuLegacy = (
   <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Projets
-    </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Projets'}>
+      <DropdownMenu.DropdownItem href={Routes.Lauréat.lister()}>
+        Projets lauréats
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Projet.lister()}>
+        Tous les projets (legacy)
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({

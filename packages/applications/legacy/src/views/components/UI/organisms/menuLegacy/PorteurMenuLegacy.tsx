@@ -5,17 +5,16 @@ import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
 
-type PorteurMenuLegacyProps = {
-  currentPage?: string;
-};
-export const PorteurMenuLegacy = ({ currentPage }: PorteurMenuLegacyProps) => (
+export const PorteurMenuLegacy = (
   <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Mes projets
-    </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Projets'}>
+      <DropdownMenu.DropdownItem href={Routes.Lauréat.lister()}>
+        Projets lauréats
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Projet.lister()}>
+        Tous les projets (legacy)
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
@@ -55,11 +54,6 @@ export const PorteurMenuLegacy = ({ currentPage }: PorteurMenuLegacyProps) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
-    <Header.MenuItem
-      href={Routes.Utilisateur.réclamerProjet}
-      {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
-    >
-      Projets à réclamer
-    </Header.MenuItem>
+    <Header.MenuItem href={Routes.Utilisateur.réclamerProjet}>Projets à réclamer</Header.MenuItem>
   </>
 );

@@ -1,12 +1,15 @@
 import React from 'react';
 import routes from '../../../../../routes';
-import { Header } from '../Header';
+import { DropdownMenu } from '../../molecules';
+import { Routes } from '@potentiel-applications/routes';
 
-export const CaisseDesDépôtsMenuLegacy = (currentPage?: string) => (
-  <Header.MenuItem
-    href={routes.LISTE_PROJETS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>
+export const CaisseDesDépôtsMenuLegacy = (
+  <DropdownMenu buttonChildren={'Projets'}>
+    <DropdownMenu.DropdownItem href={Routes.Lauréat.lister()}>
+      Projets lauréats
+    </DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem href={Routes.Projet.lister()}>
+      Tous les projets (legacy)
+    </DropdownMenu.DropdownItem>
+  </DropdownMenu>
 );

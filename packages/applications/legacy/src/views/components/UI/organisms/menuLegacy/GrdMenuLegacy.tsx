@@ -2,7 +2,7 @@ import React from 'react';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 
-export const GrdMenuLegacy = () => (
+export const GrdMenuLegacy = (
   <DropdownMenu buttonChildren={'Raccordements'}>
     <DropdownMenu.DropdownItem href={Routes.Raccordement.lister}>
       Tous les dossiers de raccordement
