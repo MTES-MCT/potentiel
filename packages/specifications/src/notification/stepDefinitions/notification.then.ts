@@ -72,7 +72,9 @@ Alors(
 Alors(
   'un email a été envoyé à la dgec avec :',
   async function (this: PotentielWorld, data: DataTable) {
-    const identifiantAppelOffre = this.lauréatWorld.identifiantProjet.appelOffre;
+    const { appelOffre: identifiantAppelOffre } = this.éliminéWorld.notifierEliminéFixture.aÉtéCréé
+      ? this.éliminéWorld.identifiantProjet
+      : this.lauréatWorld.identifiantProjet;
 
     const ao = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',

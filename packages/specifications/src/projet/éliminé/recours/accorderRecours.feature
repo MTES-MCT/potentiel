@@ -15,6 +15,12 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | recours-accordé |
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
+        Et un email a été envoyé à la dgec avec :
+            | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                           |
         Et un email a été envoyé à la cre avec :
             | sujet      | Potentiel - Demande de recours accordée pour le projet Du boulodrome de Marseille .* |
             | nom_projet | Du boulodrome de Marseille                                                           |

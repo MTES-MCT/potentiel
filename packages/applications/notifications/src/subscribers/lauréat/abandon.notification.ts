@@ -85,6 +85,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
 
   const admins = [
     {
+      // TODO
       email: process.env.DGEC_EMAIL,
       fullName: 'DGEC',
     },
