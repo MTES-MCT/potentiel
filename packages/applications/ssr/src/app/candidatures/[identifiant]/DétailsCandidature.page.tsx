@@ -102,7 +102,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               )}
               {dépôt.installationAvecDispositifDeStockage !== undefined && (
                 <Field name="Dispositif de stockage">
-                  <span>{dépôt.installationAvecDispositifDeStockage ? 'avec' : 'sans'}</span>
+                  <span>{dépôt.installationAvecDispositifDeStockage ? 'Avec' : 'Sans'}</span>
                 </Field>
               )}
               <Field name="Performances">
