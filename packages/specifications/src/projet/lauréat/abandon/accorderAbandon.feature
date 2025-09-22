@@ -6,10 +6,14 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges permettant la modification du projet
 
+    @select
     Scénario: La DGEC accorde l'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                       |
 
     Scénario: Une dreal peut accorder l'abandon si elle en a l'autorité
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
