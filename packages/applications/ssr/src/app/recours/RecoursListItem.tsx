@@ -6,7 +6,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Éliminé } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
 import { StatutRecoursBadge } from '../elimine/[identifiant]/recours/(détails)/StatutRecoursBadge';

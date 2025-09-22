@@ -124,7 +124,8 @@ const mapToListProps = (
       puissance,
       evaluationCarboneSimplifiée,
       prixReference,
-      représentantLégal,
+      email,
+      nomReprésentantLégal,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -133,7 +134,8 @@ const mapToListProps = (
       puissance: `${puissance.valeur} ${puissance.unité}`,
       evaluationCarboneSimplifiée: `${evaluationCarboneSimplifiée} kgCO2e/kWh`,
       prixReference: `${prixReference} €`,
-      représentantLégal,
+      email: email.formatter(),
+      nomReprésentantLégal,
     }),
   );
 

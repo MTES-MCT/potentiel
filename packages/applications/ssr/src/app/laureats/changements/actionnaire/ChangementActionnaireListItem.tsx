@@ -6,7 +6,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 

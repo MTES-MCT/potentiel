@@ -7,7 +7,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';

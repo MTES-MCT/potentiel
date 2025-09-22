@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
 import { StatutChangementFournisseurBadge } from '../../[identifiant]/fournisseur/StatutChangementFournisseurBadge';

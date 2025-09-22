@@ -5,7 +5,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
 export type ListItemDépôtGarantiesFinancièresProps = {
