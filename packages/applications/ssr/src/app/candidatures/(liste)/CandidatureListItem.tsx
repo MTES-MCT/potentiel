@@ -5,7 +5,7 @@ import { Email } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 import * as symbols from './candidatureListLegendSymbols';
 import {

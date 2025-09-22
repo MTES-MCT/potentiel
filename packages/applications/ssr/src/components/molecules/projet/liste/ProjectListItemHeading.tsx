@@ -5,10 +5,9 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
 import { Candidature, StatutProjet } from '@potentiel-domain/projet';
 
-import { FormattedDate } from '../../atoms/FormattedDate';
-import { NotificationBadge } from '../candidature/NotificationBadge';
-
-import { StatutProjetBadge } from './StatutProjetBadge';
+import { FormattedDate } from '../../../atoms/FormattedDate';
+import { NotificationBadge } from '../../candidature/NotificationBadge';
+import { StatutProjetBadge } from '../StatutProjetBadge';
 
 export type ProjectListItemHeadingProps = {
   nomProjet: string;

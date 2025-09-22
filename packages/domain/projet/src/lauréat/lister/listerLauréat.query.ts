@@ -17,10 +17,8 @@ type LauréatListItemReadModel = {
   nomProjet: string;
   localité: Localité.ValueType;
   producteur: Producteur.ConsulterProducteurReadModel['producteur'];
-  représentantLégal: {
-    nom: ReprésentantLégal.ConsulterReprésentantLégalReadModel['nomReprésentantLégal'];
-    email: string; // TODO ???? Ajouter email utilisateur dans la query
-  };
+  email: Email.ValueType;
+  nomReprésentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel['nomReprésentantLégal'];
   puissance: {
     unité: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
     valeur: Puissance.ConsulterPuissanceReadModel['puissance'];
@@ -142,10 +140,8 @@ const mapToReadModel = ({
     nomProjet,
     localité: Localité.bind(localité),
     producteur: producteur.nom,
-    représentantLégal: {
-      nom: représentantLégal.nomReprésentantLégal,
-      email: candidature.emailContact,
-    },
+    email: Email.convertirEnValueType(candidature.emailContact),
+    nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
     puissance: {
       unité: UnitéPuissance.déterminer({
         appelOffres,

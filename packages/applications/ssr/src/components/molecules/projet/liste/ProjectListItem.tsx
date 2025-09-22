@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
 
