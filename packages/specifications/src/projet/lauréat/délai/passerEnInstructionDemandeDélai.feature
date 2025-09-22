@@ -12,14 +12,6 @@ Fonctionnalité: Passer en instruction la demande de délai d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand la dreal passe en instruction la demande de délai pour le projet lauréat
         Alors la demande de délai du projet lauréat devrait être en instruction
-        Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille situé dans le département(.*) est en instruction |
-            | nom_projet | Du boulodrome de Marseille                                                                                                 |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai                                                                           |
-        Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Marseille situé dans le département(.*) est en instruction |
-            | nom_projet | Du boulodrome de Marseille                                                                                                 |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai                                                                           |
 
     Scénario: Un nouvel utilisateur dreal reprend l'instruction de la demande de délai du projet lauréat
         Etant donné une demande de délai en instruction pour le projet lauréat

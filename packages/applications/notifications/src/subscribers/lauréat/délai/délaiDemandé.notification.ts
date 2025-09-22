@@ -3,7 +3,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { Recipient } from '../../../sendEmail';
-import { listerDrealsRecipients } from '../../../helpers';
+import { listerRecipientsAutoritéInstructrice } from '../../../helpers/listerRecipientsAutoritéInstructrice';
 
 import { RegisterDélaiNotificationDependencies } from '.';
 
@@ -27,7 +27,11 @@ export const délaiDemandéNotification = async ({
   baseUrl,
 }: DélaiDemandéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const recipients: Array<Recipient> = [...(await listerDrealsRecipients(projet.région))];
+  const recipients: Array<Recipient> = await listerRecipientsAutoritéInstructrice({
+    identifiantProjet,
+    région: projet.région,
+    domain: 'délai',
+  });
 
   if (recipients.length === 0) {
     getLogger().info('Aucune dreal trouvée', {

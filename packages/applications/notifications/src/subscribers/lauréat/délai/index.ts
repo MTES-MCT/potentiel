@@ -12,7 +12,6 @@ import { getBaseUrl } from '../../../helpers';
 import { demandeDélaiRejetéeNotification } from './demandeDélaiRejetée.notification';
 import { délaiDemandéNotification } from './délaiDemandé.notification';
 import { demandeDélaiAnnuléeNotification } from './demandeDélaiAnnulée.notification';
-import { demandeDélaiPasséeEnInstructionNotification } from './demandeDélaiPasséeEnInstruction.notification';
 import { demandeDélaiAccordéeNotification } from './démandeDélaiAccordée.notification';
 import { demandeDélaiCorrigéeNotification } from './demandeDélaiCorrigée.notification';
 
@@ -43,14 +42,6 @@ export const registerDélaiNotifications = ({
       .with({ type: 'DemandeDélaiRejetée-V1' }, async (event) =>
         demandeDélaiRejetéeNotification({ sendEmail, event, projet }),
       )
-      .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, async (event) =>
-        demandeDélaiPasséeEnInstructionNotification({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
-      )
       .with({ type: 'DélaiAccordé-V1' }, async (event) =>
         demandeDélaiAccordéeNotification({ sendEmail, event, projet }),
       )
@@ -58,6 +49,7 @@ export const registerDélaiNotifications = ({
         demandeDélaiCorrigéeNotification({ sendEmail, event, projet, baseUrl }),
       )
       .with({ type: 'DemandeDélaiSupprimée-V1' }, () => Promise.resolve())
+      .with({ type: 'DemandeDélaiPasséeEnInstruction-V1' }, () => Promise.resolve())
       .exhaustive();
   };
 
