@@ -22,7 +22,7 @@ export const abandonRejetéNotifications = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      nouveau_statut: 'envoyée',
+      nouveau_statut: 'rejetée',
       abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
     },
   });
