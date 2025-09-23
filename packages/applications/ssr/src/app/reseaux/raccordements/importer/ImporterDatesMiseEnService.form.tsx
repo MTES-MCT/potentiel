@@ -7,7 +7,6 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
@@ -49,7 +48,9 @@ export const ImporterDatesMiseEnServiceForm: FC<
         children: 'Import des dates de mise en service en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Importer</SubmitButton>}
+      actionButtons={{
+        submitButtonLabel: 'Importer',
+      }}
     >
       <GestionnaireRéseauSelect
         id="identifiantGestionnaireReseau"

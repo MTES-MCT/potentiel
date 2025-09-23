@@ -1,7 +1,6 @@
 'use client';
 import { FC, useState } from 'react';
 import Link from 'next/link';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
@@ -9,7 +8,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
@@ -56,21 +54,13 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
     <Form
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Projet.details(identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour à la page projet
-          </Button>
-          <SubmitButton>{submitButtonLabel}</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitButtonLabel,
+        backButton: {
+          url: Routes.Projet.details(identifiantProjet),
+          label: 'Retour à la projet',
+        },
+      }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 

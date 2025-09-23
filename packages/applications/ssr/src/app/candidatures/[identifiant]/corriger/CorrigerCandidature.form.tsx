@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
@@ -13,7 +12,6 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
@@ -73,21 +71,13 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         children: 'Correction de la candidature en cours...',
       }}
       onValidationError={setValidationErrors}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Candidature.détails(candidature.identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour à la candidature
-          </Button>
-          <SubmitButton>Corriger</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitButtonLabel: 'Corriger',
+        backButton: {
+          url: Routes.Candidature.détails(candidature.identifiantProjet),
+          label: 'Retour à la candidature',
+        },
+      }}
     >
       <input name="identifiantProjet" type="hidden" value={candidature.identifiantProjet} />
       <Select

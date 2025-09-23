@@ -8,7 +8,6 @@ import { match } from 'ts-pattern';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { listeDesRoleSaufPorteur } from '@/utils/utilisateur/format-role';
 
@@ -35,11 +34,9 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
       action={inviterUtilisateurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Inviter un utilisateur"
-      actions={
-        <>
-          <SubmitButton>Inviter</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitButtonLabel: 'Inviter',
+      }}
     >
       <div className="flex flex-col gap-5">
         <div>

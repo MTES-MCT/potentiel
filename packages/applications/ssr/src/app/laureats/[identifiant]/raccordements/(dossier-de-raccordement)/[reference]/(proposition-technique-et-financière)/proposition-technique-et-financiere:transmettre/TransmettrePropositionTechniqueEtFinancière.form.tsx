@@ -2,13 +2,11 @@
 
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -33,21 +31,13 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
       heading="Transmettre la proposition technique et financière"
       action={transmettrePropositionTechniqueEtFinancièreAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Raccordement.détail(identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour aux dossiers de raccordement
-          </Button>
-          <SubmitButton>Transmettre</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitButtonLabel: 'Transmettre',
+        backButton: {
+          url: Routes.Raccordement.détail(identifiantProjet),
+          label: 'Retour aux dossiers de raccordement',
+        },
+      }}
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={referenceDossierRaccordement} />

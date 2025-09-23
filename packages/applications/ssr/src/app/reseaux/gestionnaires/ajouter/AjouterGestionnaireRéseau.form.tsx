@@ -2,7 +2,6 @@
 import { Input } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -20,7 +19,9 @@ export const AjouterGestionnaireRéseauForm = () => {
     <Form
       action={ajouterGestionnaireRéseauAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Ajouter</SubmitButton>}
+      actionButtons={{
+        submitButtonLabel: 'Ajouter',
+      }}
     >
       <Input
         label="Code EIC ou gestionnaire"

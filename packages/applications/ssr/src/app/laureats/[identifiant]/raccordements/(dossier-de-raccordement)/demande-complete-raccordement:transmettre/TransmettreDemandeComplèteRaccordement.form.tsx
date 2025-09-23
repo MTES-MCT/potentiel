@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -13,7 +12,6 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { Icon } from '@/components/atoms/Icon';
 
@@ -70,34 +68,20 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       action={transmettreDemandeComplèteRaccordementAction}
       heading="Transmettre une demande complète de raccordement"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={
-        <>
-          {aDéjàTransmisUneDemandeComplèteDeRaccordement ? (
-            <Button
-              priority="secondary"
-              linkProps={{
-                href: Routes.Raccordement.détail(identifiantProjetValue),
-                prefetch: false,
-              }}
-              iconId="fr-icon-arrow-left-line"
-            >
-              Retour aux dossiers de raccordement
-            </Button>
-          ) : (
-            <Button
-              priority="secondary"
-              linkProps={{
-                href: Routes.Projet.details(identifiantProjetValue),
-                prefetch: false,
-              }}
-              iconId="fr-icon-arrow-left-line"
-            >
-              Retour au projet
-            </Button>
-          )}
-          <SubmitButton>Transmettre</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitButtonLabel: 'Transmettre',
+        backButton: aDéjàTransmisUneDemandeComplèteDeRaccordement
+          ? {
+              url: Routes.Raccordement.détail(
+                IdentifiantProjet.bind(identifiantProjet).formatter(),
+              ),
+              label: 'Retour aux dossiers de raccordement',
+            }
+          : {
+              url: Routes.Projet.details(identifiantProjetValue),
+              label: 'Retour à la page projet',
+            },
+      }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjetValue} />
 

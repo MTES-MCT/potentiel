@@ -9,7 +9,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
@@ -45,7 +44,9 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
         children: 'Import des candidats en cours ...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Importer</SubmitButton>}
+      actionButtons={{
+        submitButtonLabel: 'Importer',
+      }}
     >
       <div className="flex justify-between">
         <Select
