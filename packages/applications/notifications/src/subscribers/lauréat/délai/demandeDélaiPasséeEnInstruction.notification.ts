@@ -2,7 +2,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
+import { listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterDélaiNotificationDependencies } from '.';
 
@@ -27,30 +27,6 @@ export const demandeDélaiPasséeEnInstructionNotification = async ({
   baseUrl,
 }: demandeDélaiPasséeEnInstructionNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.région);
-
-  const messageSubject = `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} est en instruction`;
-
-  const url = `${baseUrl}${Routes.Délai.détail(identifiantProjet.formatter(), event.payload.dateDemande)}`;
-
-  if (dreals.length === 0) {
-    getLogger().info('Aucune dreal trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'demandeDélaiPasséeEnInstructionNotification',
-    });
-  } else {
-    await sendEmail({
-      templateId: délaiNotificationTemplateId.demande.passerEnInstruction,
-      messageSubject,
-      recipients: dreals,
-      variables: {
-        nom_projet: projet.nom,
-        departement_projet: projet.département,
-        url,
-      },
-    });
-  }
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
@@ -60,16 +36,17 @@ export const demandeDélaiPasséeEnInstructionNotification = async ({
       application: 'notifications',
       fonction: 'demandeDélaiPasséeEnInstructionNotification',
     });
-  } else {
-    await sendEmail({
-      templateId: délaiNotificationTemplateId.demande.passerEnInstruction,
-      messageSubject,
-      recipients: porteurs,
-      variables: {
-        nom_projet: projet.nom,
-        departement_projet: projet.département,
-        url,
-      },
-    });
+    return;
   }
+
+  await sendEmail({
+    templateId: délaiNotificationTemplateId.demande.passerEnInstruction,
+    messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} est en instruction`,
+    recipients: porteurs,
+    variables: {
+      nom_projet: projet.nom,
+      departement_projet: projet.département,
+      url: `${baseUrl}${Routes.Délai.détail(identifiantProjet.formatter(), event.payload.dateDemande)}`,
+    },
+  });
 };
