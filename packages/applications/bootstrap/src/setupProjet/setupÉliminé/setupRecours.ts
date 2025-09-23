@@ -27,7 +27,13 @@ export const setupRecours: SetupProjet = async ({ sendEmail }) => {
     RecoursNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['RecoursDemandé-V1', 'RecoursAnnulé-V1', 'RecoursAccordé-V1', 'RecoursRejeté-V1'],
+    eventType: [
+      'RecoursDemandé-V1',
+      'RecoursAccordé-V1',
+      'RecoursAnnulé-V1',
+      'RecoursRejeté-V1',
+      'RecoursPasséEnInstruction-V1',
+    ],
     messageType: 'System.Notification.Eliminé.Recours',
   });
 

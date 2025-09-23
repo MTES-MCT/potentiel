@@ -4,27 +4,16 @@ import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import { SendEmail } from '../../../sendEmail';
 import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { recoursNotificationTemplateId } from './constant';
-
-type RecoursRejetéNotificationsProps = {
-  sendEmail: SendEmail;
-  event: Éliminé.Recours.RecoursRejetéEvent;
-  projet: {
-    nom: string;
-    région: string;
-    département: string;
-    url: string;
-  };
-};
+import { RecoursNotificationsProps } from './type';
 
 export const recoursRejetéNotification = async ({
   sendEmail,
   event,
   projet,
-}: RecoursRejetéNotificationsProps) => {
+}: RecoursNotificationsProps<Éliminé.Recours.RecoursRejetéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const utilisateursCre = await mediator.send<ListerUtilisateursQuery>({
     type: 'Utilisateur.Query.ListerUtilisateurs',

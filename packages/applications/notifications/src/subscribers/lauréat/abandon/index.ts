@@ -14,6 +14,7 @@ import { abandonConfirméNotifications } from './abandonConfirmé.notifications'
 import { confirmationAbandonDemandéeNotifications } from './confirmationAbandonDemandée.notifications';
 import { abandonRejetéNotifications } from './abandonRejeté.notifications';
 import { preuveRecandidatureDemandéeNotifications } from './preuveRecandidatureDemandée.notifications';
+import { abandonPasséEnInstructionNotifications } from './abandonPasséEnInstruction.notifications';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
 
@@ -65,6 +66,9 @@ export const register = ({ sendEmail }: RegisterAbandonNotificationDependencies)
       )
       .with({ type: 'AbandonRejeté-V1' }, (event) =>
         abandonRejetéNotifications({ sendEmail, event, projet }),
+      )
+      .with({ type: 'AbandonPasséEnInstruction-V1' }, (event) =>
+        abandonPasséEnInstructionNotifications({ sendEmail, event, projet }),
       )
       .with({ type: 'PreuveRecandidatureDemandée-V1' }, (event) =>
         preuveRecandidatureDemandéeNotifications({ sendEmail, event, projet }),

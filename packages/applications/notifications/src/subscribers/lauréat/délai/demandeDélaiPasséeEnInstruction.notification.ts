@@ -41,7 +41,7 @@ export const demandeDélaiPasséeEnInstructionNotification = async ({
 
   await sendEmail({
     templateId: délaiNotificationTemplateId.demande.passerEnInstruction,
-    messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} est en instruction`,
+    messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} est en instruction`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,

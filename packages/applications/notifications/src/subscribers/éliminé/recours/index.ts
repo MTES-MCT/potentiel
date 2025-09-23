@@ -12,14 +12,9 @@ import { recoursAccordéNotification } from './recoursAccordé.notifications';
 import { recoursRejetéNotification } from './recoursRejeté.notifications';
 import { recoursDemandéNotification } from './recoursDemandé.notifications';
 import { recoursAnnuléNotification } from './recoursAnnulé.notifications';
+import { recoursPasséEnInstructionNotification } from './recoursPasséEnInstruction.notifications';
 
-export type SubscriptionEvent = (
-  | Éliminé.Recours.RecoursDemandéEvent
-  | Éliminé.Recours.RecoursRejetéEvent
-  | Éliminé.Recours.RecoursAnnuléEvent
-  | Éliminé.Recours.RecoursAccordéEvent
-) &
-  Event;
+export type SubscriptionEvent = Éliminé.Recours.RecoursEvent & Event;
 
 export type Execute = Message<'System.Notification.Eliminé.Recours', SubscriptionEvent>;
 
@@ -51,6 +46,9 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       )
       .with({ type: 'RecoursRejeté-V1' }, (event) =>
         recoursRejetéNotification({ sendEmail, event, projet }),
+      )
+      .with({ type: 'RecoursPasséEnInstruction-V1' }, (event) =>
+        recoursPasséEnInstructionNotification({ sendEmail, event, projet }),
       )
       .exhaustive();
   };
