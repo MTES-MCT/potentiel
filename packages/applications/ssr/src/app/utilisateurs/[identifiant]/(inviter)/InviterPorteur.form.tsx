@@ -34,7 +34,6 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
       <ModalWithForm
         id="inviter-porteur-form"
         title=""
-        acceptButtonLabel="Inviter"
         rejectButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

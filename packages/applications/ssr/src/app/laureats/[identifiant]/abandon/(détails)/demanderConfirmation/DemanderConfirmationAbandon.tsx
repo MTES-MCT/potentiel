@@ -40,7 +40,6 @@ export const DemanderConfirmationAbandon = ({
       <ModalWithForm
         id="demander-confirmation-abandon"
         title="Demander la confirmation de l'abandon"
-        acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

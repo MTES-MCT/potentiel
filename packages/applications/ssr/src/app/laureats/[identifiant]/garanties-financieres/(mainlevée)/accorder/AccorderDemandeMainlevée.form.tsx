@@ -34,7 +34,6 @@ export const AccorderDemandeMainlevée = ({ identifiantProjet }: AccorderDemande
       <ModalWithForm
         id="accorder-demande-gf"
         title="Accorder la demande"
-        acceptButtonLabel="Oui"
         rejectButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

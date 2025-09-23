@@ -44,7 +44,6 @@ export const AccorderChangementPuissance = ({
       <ModalWithForm
         id="accorder-changement-puissance-modal"
         title="Accorder le changement de puissance"
-        acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

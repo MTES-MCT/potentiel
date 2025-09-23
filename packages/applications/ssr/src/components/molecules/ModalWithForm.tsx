@@ -1,17 +1,15 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import { FC, useState } from 'react';
 
 import { Form, FormProps } from '../atoms/form/Form';
-import { SubmitButton } from '../atoms/form/SubmitButton';
 
 export type ModalWithFormProps = {
   id: string;
   acceptButtonLabel: string;
-  form: Omit<FormProps, 'actions'>;
+  form: Omit<FormProps, 'actions' | 'actionButtons'>;
   isOpen: boolean;
   rejectButtonLabel: string;
   onClose: () => void;
@@ -20,7 +18,6 @@ export type ModalWithFormProps = {
 
 export const ModalWithForm: FC<ModalWithFormProps> = ({
   id,
-  acceptButtonLabel,
   form,
   isOpen,
   rejectButtonLabel,
@@ -63,20 +60,12 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
         onValidationError={form.onValidationError}
         key={`form-${id}`}
         actionButtons={{
-          submitButtonLabel,
+          submitButtonLabel: 'Oui',
           backButton: {
-            url: Routes.GarantiesFinancières.détail(identifiantProjet),
-            label: 'Retour aux détails des garanties financières',
+            label: rejectButtonLabel,
+            onClick: handleRejectClick,
           },
         }}
-        actions={
-          <>
-            <Button priority="secondary" onClick={handleRejectClick} type="button">
-              {rejectButtonLabel}
-            </Button>
-            <SubmitButton>{acceptButtonLabel}</SubmitButton>
-          </>
-        }
       >
         {form.children}
       </Form>
