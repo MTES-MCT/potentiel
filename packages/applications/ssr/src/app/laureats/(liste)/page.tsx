@@ -23,9 +23,12 @@ export const metadata: Metadata = {
   description: 'Liste des projets lauréats',
 };
 
+const statutsProjet = StatutProjet.statuts.filter((s) => s !== 'éliminé');
+
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
+  statut: z.enum(statutsProjet).optional(),
   appelOffre: z.string().optional(),
 });
 
@@ -34,7 +37,7 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({
         type: 'Lauréat.Query.ListerLauréat',
@@ -42,6 +45,7 @@ export default async function Page({ searchParams }: PageProps) {
           utilisateur: utilisateur.identifiantUtilisateur.email,
           nomProjet,
           appelOffre,
+          statut,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -61,6 +65,14 @@ export default async function Page({ searchParams }: PageProps) {
           options: appelOffres.items.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
+          })),
+        },
+        {
+          label: 'Statut du projet',
+          searchParamKey: 'statut',
+          options: statutsProjet.map((s) => ({
+            label: s.charAt(0).toUpperCase() + s.slice(1).replace('-', ' '),
+            value: s,
           })),
         },
       ];
