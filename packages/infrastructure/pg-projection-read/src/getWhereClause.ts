@@ -19,18 +19,21 @@ type GetWhereClauseOptions = {
   joins?: JoinOptions[];
 };
 
+type WhereClausesAndValues = [clause: string, values: Array<unknown>];
+const emptyWhere: WhereClausesAndValues = ['', []];
+
 /** Returns the whole where clause (including key, filters, and join), and parameters */
 export const getWhereClause = ({
   key,
   where,
   joins = [],
-}: GetWhereClauseOptions): [clause: string, values: Array<unknown>] => {
+}: GetWhereClauseOptions): WhereClausesAndValues => {
   const baseWhereClause = key.operator === 'like' ? `where p.key LIKE $1` : `where p.key = $1`;
 
-  const [whereClause, whereValues] = where ? buildWhereClause(where, 'p') : ['', []];
+  const [whereClause, whereValues] = where ? buildWhereClause(where, 'p') : emptyWhere;
 
   const [joinWhereClause, joinWhereValues] = buildJoinWhereClause(joins, whereValues.length);
-  const completeWhereClause = `${baseWhereClause} ${whereClause} ${joinWhereClause}`;
+  const completeWhereClause = combineClauses([baseWhereClause, whereClause, joinWhereClause]);
 
   return [completeWhereClause, [key.value, ...whereValues, ...joinWhereValues]];
 };
@@ -54,7 +57,8 @@ const buildWhereClause = (
       const [newSql, newIndex] = mapOperatorToSqlCondition(operator, prevIndex, projection);
       // format the query to safely pass the parameter name (%L)
       const formattedNewSql = format(newSql, name);
-      return [prevSql.concat(' AND ', formattedNewSql), newIndex] as [string, number];
+      const combinedQuery = combineClauses([prevSql, formattedNewSql]);
+      return [combinedQuery, newIndex] as const;
     },
     // we offset by 2 the index of the sql variable to account for:
     // - the index starting at 1 and not 0
@@ -70,21 +74,20 @@ const buildJoinWhereClause = (
 ): [clause: string, values: Array<unknown>] => {
   const withWhere = joins.filter((join) => join.where);
   if (withWhere.length === 0) {
-    return ['', []];
+    return emptyWhere;
   }
-  const xx = withWhere.map((join, i) =>
+  const whereClausesAndValues = withWhere.map((join, i) =>
     buildWhereClause(join.where ?? '__NO_WHERE__', join.entity, startIndex + i),
   );
 
-  const whereClauses = xx
-    .map(([clause]) => clause)
-    .filter((clause) => clause !== '')
-    .join(' AND ');
+  const whereClauses = combineClauses(whereClausesAndValues.map(([clause]) => clause));
 
-  const whereValues = xx.map(([, values]) => values).flat();
+  const whereValues = whereClausesAndValues.map(([, values]) => values).flat();
 
   return [whereClauses, whereValues];
 };
+
+const combineClauses = (clauses: string[]) => clauses.filter(Boolean).join(' AND ');
 
 // The input is a record like {'data.name.operator': 'equal', 'data.name.value': 'foo'}
 // The return is an array like [{name: "data.name", operator: "equal", value: "foo"}]
