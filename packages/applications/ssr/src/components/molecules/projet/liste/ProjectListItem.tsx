@@ -4,14 +4,20 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
+import {
+  ProjectListItemHeading,
+  ProjectListItemHeadingProps,
+} from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
+
+import * as symbols from './ProjectListLegendAndSymbols';
 
 export type ProjectListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   localité: Candidature.Localité.RawType;
+  statut: ProjectListItemHeadingProps['statut'];
   producteur: string;
   email: string;
   nomReprésentantLégal: string;
@@ -26,6 +32,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
   localité,
   producteur,
   email,
+  statut,
   nomReprésentantLégal,
   puissance,
   prixReference,
@@ -35,6 +42,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
+        statut={statut}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Projet"
       />
@@ -43,58 +51,76 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
       <Link
         href={Routes.Projet.details(identifiantProjet)}
         aria-label={`voir le détail du projet ${nomProjet}`}
+        prefetch={false}
       >
         voir le détail
       </Link>
     }
   >
-    <div className="flex flex-col gap-6 mb-4 text-xs md:mb-8 md:flex-row md:justify-between md:items-start  ">
-      <div className="flex flex-col gap-2 ">
-        <div className="flex items-center">
+    <div className="flex flex-col gap-6 mb-4 md:mb-8 md:flex-row md:justify-between md:items-start  ">
+      <div className="flex flex-col gap-2 text-xs">
+        <div className="flex items-start gap-2">
           <Icon
-            id="ri-map-pin-line"
-            className="mr-2 shrink-0"
-            title="Localité du projet"
+            id={symbols.localité.iconId}
+            title={symbols.localité.description}
+            className={symbols.localité.iconColor}
             size="xs"
           />
-          {localité.commune}, {localité.région}
+          <div>
+            {localité.commune}, {localité.département}, {localité.région}
+          </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-start gap-2">
           <Icon
-            id="ri-building-line"
-            className="mr-2 shrink-0"
-            title="Nom du producteur"
+            id={symbols.nomProducteur.iconId}
+            title={symbols.nomProducteur.description}
+            className={symbols.nomProducteur.iconColor}
             size="xs"
           />
           {producteur}
         </div>
-        <div className="flex items-center">
-          <Icon id="ri-user-line" className="mr-2 shrink-0" title="Représentant légal" size="xs" />
+        <div className="flex items-start gap-2">
+          <Icon
+            id={symbols.représentantLégal.iconId}
+            title={symbols.représentantLégal.description}
+            className={symbols.représentantLégal.iconColor}
+            size="xs"
+          />
           {nomReprésentantLégal}
         </div>
-        <div className="flex items-center">
-          <Icon id="ri-mail-line" className="mr-2 shrink-0" title="Email" size="xs" />
+        <div className="flex items-start gap-2">
+          <Icon
+            id={symbols.email.iconId}
+            title={symbols.email.description}
+            className={symbols.email.iconColor}
+            size="xs"
+          />
           {email}
         </div>
       </div>
-      <div className="flex flex-col gap-2 items-start md:flex-row  md:gap-16">
+
+      <div className="flex flex-col gap-2 items-start md:flex-row  md:gap-16 text-sm">
         <div className="flex fled-row gap-2 md:flex-col md:items-center">
-          <Icon id="ri-flashlight-fill" className="shrink-0" title="Puissance" />
+          <Icon
+            id={symbols.puissance.iconId}
+            className={symbols.puissance.iconColor}
+            title={symbols.puissance.description}
+          />
           {puissance}
         </div>
         <div className="flex fled-row gap-2 md:flex-col md:items-center">
           <Icon
-            id="ri-money-euro-circle-line"
-            className="shrink-0 fr-icon--xs md:fr-icon--md"
-            title="Prix de référence"
+            id={symbols.prix.iconId}
+            className={symbols.prix.iconColor}
+            title={symbols.prix.description}
           />
           {prixReference}
         </div>
         <div className="flex fled-row gap-2 md:flex-col md:items-center">
           <Icon
-            id="ri-cloud-fill"
-            className="shrink-0 fr-icon--xs md:fr-icon--md"
-            title="Prix de référence"
+            id={symbols.évaluationCarbone.iconId}
+            className={symbols.évaluationCarbone.iconColor}
+            title={symbols.évaluationCarbone.description}
           />
           {evaluationCarboneSimplifiée}
         </div>

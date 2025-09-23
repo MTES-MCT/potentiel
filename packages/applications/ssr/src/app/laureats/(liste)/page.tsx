@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { Lauréat, StatutProjet } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
@@ -112,9 +112,9 @@ const mapToActions = (
   return actions;
 };
 
-const mapToListProps = (
-  readModel: Lauréat.ListerLauréatReadModel,
-): LauréatListPageProps['list'] => {
+type MapToListProps = (readModel: Lauréat.ListerLauréatReadModel) => LauréatListPageProps['list'];
+
+const mapToListProps: MapToListProps = (readModel) => {
   const items = readModel.items.map(
     ({
       identifiantProjet,
@@ -136,6 +136,7 @@ const mapToListProps = (
       prixReference: `${prixReference} €`,
       email: email.formatter(),
       nomReprésentantLégal,
+      statut: StatutProjet.classé.statut,
     }),
   );
 

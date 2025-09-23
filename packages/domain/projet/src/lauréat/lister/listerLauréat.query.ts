@@ -5,7 +5,7 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet, StatutProjet } from '../..';
 import { CandidatureEntity, Localité, UnitéPuissance } from '../../candidature';
 import { PuissanceEntity } from '../puissance';
 import { ProducteurEntity } from '../producteur';
@@ -39,6 +39,7 @@ export type ListerLauréatQuery = Message<
     utilisateur: Email.RawType;
     range: RangeOptions;
     nomProjet?: string;
+    statut?: StatutProjet.RawType;
     appelOffre?: string;
   },
   ListerLauréatReadModel
@@ -115,7 +116,20 @@ export const registerListerLauréatQuery = ({
   mediator.register('Lauréat.Query.ListerLauréat', handler);
 };
 
-const mapToReadModel = ({
+type MapToReadModelProps = (
+  args: LauréatEntity &
+    Joined<
+      [
+        PuissanceEntity,
+        ProducteurEntity,
+        ReprésentantLégalEntity,
+        CandidatureEntity,
+        AppelOffre.AppelOffreEntity,
+      ]
+    >,
+) => LauréatListItemReadModel;
+
+const mapToReadModel: MapToReadModelProps = ({
   nomProjet,
   identifiantProjet,
   localité,
@@ -124,17 +138,9 @@ const mapToReadModel = ({
   puissance,
   candidature,
   'appel-offre': appelOffres,
-}: LauréatEntity &
-  Joined<
-    [
-      PuissanceEntity,
-      ProducteurEntity,
-      ReprésentantLégalEntity,
-      CandidatureEntity,
-      AppelOffre.AppelOffreEntity,
-    ]
-  >): LauréatListItemReadModel => {
+}) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
   return {
     identifiantProjet: identifiantProjetValueType,
     nomProjet,
