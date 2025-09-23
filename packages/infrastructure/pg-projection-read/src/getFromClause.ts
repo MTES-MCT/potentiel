@@ -17,10 +17,11 @@ export const getFromClause = ({ joins }: GetFromClauseParams): string => {
   }, baseClause);
 };
 
-const getJoinClause = <TEntity extends Entity>(join: JoinOptions<TEntity, Entity>) =>
+const getJoinClause = <TJoin extends Entity>(join: JoinOptions<Entity, TJoin>) =>
   format(
-    `inner join domain_views.projection as %I on %I.key=format('%s|%%%%s', p.value->>%L)`,
-    join.entity, // as "entityName"
+    `%s join domain_views.projection as %I on %I.key=format('%s|%%%%s', p.value->>%L)`,
+    join.type === 'left' ? 'left' : 'inner',
+    join.entity, // ... as "entityName"
     join.entity, // on "entityName".key=...
     join.entity, // format('%s|...', 'entityName')
     join.on,
