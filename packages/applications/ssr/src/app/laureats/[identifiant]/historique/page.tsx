@@ -30,6 +30,7 @@ import { mapToInstallationAvecDispositifDeStockageProps } from '@/utils/historiq
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
 import { mapToInstallateurTimelineItemProps } from '../../../../utils/historique/mapToProps/installateur/mapToInstallateurTimelineItemProps';
+import { mapToNatureDeLExploitationTimelineItemProps } from '../../../../utils/historique/mapToProps/nature-de-l-exploitation/mapToNatureDeLExploitationTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
@@ -49,6 +50,7 @@ const categoriesDisponibles = [
   'raccordement',
   'installateur',
   'installation-avec-dispositif-de-stockage',
+  'nature-de-l-exploitation',
 ] as const;
 
 type PageProps = IdentifiantParameter & {
@@ -164,6 +166,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   fournisseur: DEMANDE_GENERIQUE_ICONE,
   installateur: DEMANDE_GENERIQUE_ICONE,
   'installation-avec-dispositif-de-stockage': DEMANDE_GENERIQUE_ICONE,
+  'nature-de-l-exploitation': DEMANDE_GENERIQUE_ICONE,
 };
 
 const filtrerImportsEtRecoursLegacy = (
@@ -236,6 +239,12 @@ const mapToTimelineItemProps = (
         category: 'installation-avec-dispositif-de-stockage',
       },
       mapToInstallationAvecDispositifDeStockageProps,
+    )
+    .with(
+      {
+        category: 'nature-de-l-exploitation',
+      },
+      mapToNatureDeLExploitationTimelineItemProps,
     )
     .exhaustive(() => undefined);
   if (props) {
