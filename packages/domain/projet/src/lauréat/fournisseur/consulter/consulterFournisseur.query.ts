@@ -2,11 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find, Joined } from '@potentiel-domain/entity';
-import { InvalidOperationError } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Fournisseur, FournisseurEntity } from '..';
-import { Candidature, IdentifiantProjet } from '../../..';
+import { IdentifiantProjet } from '../../..';
 import { CandidatureEntity } from '../../../candidature';
 
 export type ConsulterFournisseurReadModel = {
@@ -42,53 +41,27 @@ export const registerConsulterFournisseurQuery = ({ find }: ConsulterFournisseur
       return Option.none;
     }
 
-    const appelOffres = await find<AppelOffre.AppelOffreEntity>(
-      `appel-offre|${fournisseur.candidature.appelOffre}`,
-    );
-    if (Option.isNone(appelOffres)) {
-      return Option.none;
-    }
-
-    return mapToReadModel(fournisseur, appelOffres);
+    return mapToReadModel(fournisseur);
   };
   mediator.register('Lauréat.Fournisseur.Query.ConsulterFournisseur', handler);
 };
 
 type MapToReadModel = (
   founisseur: FournisseurEntity & Joined<CandidatureEntity>,
-  appelOffres: AppelOffre.AppelOffreReadModel,
 ) => ConsulterFournisseurReadModel;
 
-export const mapToReadModel: MapToReadModel = (
-  {
-    identifiantProjet,
-    évaluationCarboneSimplifiée,
-    fournisseurs,
-    candidature: { evaluationCarboneSimplifiée: évaluationCarboneSimplifiéeInitiale, technologie },
+export const mapToReadModel: MapToReadModel = ({
+  identifiantProjet,
+  évaluationCarboneSimplifiée,
+  fournisseurs,
+  candidature: {
+    evaluationCarboneSimplifiée: évaluationCarboneSimplifiéeInitiale,
+    technologieCalculée,
   },
-  appelOffres,
-) => ({
+}) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   évaluationCarboneSimplifiée,
   fournisseurs: fournisseurs.map(Fournisseur.convertirEnValueType),
-  technologie: getTechnologie({ appelOffres, technologie }),
+  technologie: technologieCalculée,
   évaluationCarboneSimplifiéeInitiale,
 });
-
-type GetTechnologieProps = {
-  appelOffres: AppelOffre.AppelOffreReadModel;
-  technologie: Candidature.TypeTechnologie.RawType;
-};
-
-const getTechnologie = ({
-  appelOffres,
-  technologie: technologieCandidature,
-}: GetTechnologieProps) => {
-  const technologie = appelOffres.technologie ?? technologieCandidature;
-
-  if (technologie === 'N/A') {
-    throw new InvalidOperationError(`Le type de technologie de ce projet est inconnu`);
-  }
-
-  return technologie;
-};

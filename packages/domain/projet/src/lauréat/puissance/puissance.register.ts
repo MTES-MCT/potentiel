@@ -29,6 +29,7 @@ import {
   ListerHistoriquePuissanceProjetDependencies,
   registerListerHistoriquePuissanceProjetQuery,
 } from './listerHistorique/listerHistoriquePuissanceProjet.query';
+import { registerConsulterVolumeRéservéQuery } from './consulter/consulterVolumeRéservé.query';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies &
   ConsulterChangementPuissanceDependencies &
@@ -63,4 +64,5 @@ export const registerPuissanceQueries = (dependencies: PuissanceQueryDependencie
   registerConsulterChangementPuissanceQuery(dependencies);
   registerListerChangementPuissanceQuery(dependencies);
   registerListerHistoriquePuissanceProjetQuery(dependencies);
+  registerConsulterVolumeRéservéQuery(dependencies);
 };

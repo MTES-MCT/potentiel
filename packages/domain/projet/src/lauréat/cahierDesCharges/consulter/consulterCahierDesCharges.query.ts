@@ -35,23 +35,27 @@ export const registerConsulterCahierDesChargesQuery = ({
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const lauréat = await find<LauréatEntity, CandidatureEntity>(
+    const lauréat = await find<LauréatEntity, [CandidatureEntity, AppelOffre.AppelOffreEntity]>(
       `lauréat|${identifiantProjetValue}`,
       {
-        join: {
-          entity: 'candidature',
-          on: 'identifiantProjet',
-        },
+        join: [
+          {
+            entity: 'candidature',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'appel-offre',
+            on: 'appelOffre',
+          },
+        ],
       },
     );
 
-    const appelOffres = await find<AppelOffre.AppelOffreEntity>(
-      `appel-offre|${identifiantProjet.appelOffre}`,
-    );
-
-    if (Option.isNone(lauréat) || Option.isNone(appelOffres)) {
+    if (Option.isNone(lauréat)) {
       return Option.none;
     }
+
+    const appelOffres = lauréat['appel-offre'];
     const période = appelOffres.periodes.find(
       (periode) => periode.id === identifiantProjet.période,
     );
@@ -65,11 +69,7 @@ export const registerConsulterCahierDesChargesQuery = ({
       return Option.none;
     }
 
-    const candidatureReadModel = mapToCandidatureReadModel(
-      lauréat.candidature,
-      appelOffres,
-      période,
-    );
+    const candidatureReadModel = mapToCandidatureReadModel(lauréat.candidature);
 
     const cahierDesChargesChoisi = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
       lauréat.cahierDesCharges,

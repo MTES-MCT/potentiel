@@ -1,4 +1,4 @@
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -33,7 +33,6 @@ export const changementPuissanceDemandéProjector = async ({
     `changement-puissance|${identifiantProjet}#${demandéLe}`,
     {
       identifiantProjet,
-      appelOffres: IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre,
       demande: {
         statut: Lauréat.Puissance.StatutChangementPuissance.demandé.statut,
         autoritéCompétente,

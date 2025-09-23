@@ -14,6 +14,7 @@ import {
   TypeGarantiesFinancières,
   TypeTechnologie,
   TypologieInstallation,
+  UnitéPuissance,
 } from '.';
 
 type CandidatureNonNotifiée = {
@@ -66,5 +67,9 @@ export type CandidatureEntity = Entity<
     détailsMisÀJourLe: DateTime.RawType;
     fournisseurs: Array<Fournisseur.RawType>;
     typologieInstallation: Array<TypologieInstallation.RawType>;
+
+    // Champs calculés
+    technologieCalculée: AppelOffre.Technologie;
+    unitéPuissanceCalculée: UnitéPuissance.RawType;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

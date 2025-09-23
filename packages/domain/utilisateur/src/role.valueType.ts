@@ -321,6 +321,7 @@ const référencielPermissions = {
         consulterChangement: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
         listerChangement: 'Lauréat.Puissance.Query.ListerChangementPuissance',
         listerHistoriquePuissance: 'Lauréat.Puissance.Query.ListerHistoriquePuissanceProjet',
+        consulterVolumeRéservé: 'Lauréat.Puissance.Query.ConsulterVolumeRéservé',
       },
       usecase: {
         modifier: 'Lauréat.Puissance.UseCase.ModifierPuissance',
@@ -1168,6 +1169,7 @@ const policies = {
     demanderChangement: [
       référencielPermissions.lauréat.puissance.usecase.demanderChangement,
       référencielPermissions.lauréat.puissance.command.demanderChangement,
+      référencielPermissions.lauréat.puissance.query.consulterVolumeRéservé,
     ],
     annulerChangement: [
       référencielPermissions.lauréat.puissance.usecase.annulerChangement,

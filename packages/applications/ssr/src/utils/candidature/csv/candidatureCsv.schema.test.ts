@@ -591,6 +591,24 @@ describe('Schema candidature CSV', () => {
           message: 'Le code postal ne correspond à aucune région / département',
         });
       });
+
+      test("plusieurs codes postaux séparés par des '/' sont acceptés", () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesClassé,
+          CP: ' 33100 / 75001 /  13001 ',
+        });
+        assert(result.success);
+        expect(result.data.localité.codePostal).to.deep.equal('33100 / 75001 / 13001');
+      });
+
+      test('si le CP fait moins de 5 caractères, il est complété par des 0 à gauche (transformation MS Excel)', () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesClassé,
+          CP: '3340',
+        });
+        assert(result.success);
+        expect(result.data.localité.codePostal).to.deep.equal('03340');
+      });
     });
 
     describe('Adresse', () => {
@@ -625,26 +643,6 @@ describe('Schema candidature CSV', () => {
         assert(result.success);
         expect(result.data.dateÉchéanceGf).to.be.undefined;
       });
-    });
-  });
-
-  describe('Code Postaux', () => {
-    test("plusieurs codes postaux séparés par des '/' sont acceptés", () => {
-      const result = candidatureCsvSchema.safeParse({
-        ...minimumValuesClassé,
-        CP: ' 33100 / 75001 /  13001 ',
-      });
-      assert(result.success);
-      expect(result.data.localité.codePostal).to.deep.equal('33100 / 75001 / 13001');
-    });
-
-    test('si le CP fait moins de 5 caractères, il est complété par des 0 à gauche (transformation MS Excel)', () => {
-      const result = candidatureCsvSchema.safeParse({
-        ...minimumValuesClassé,
-        CP: '3340',
-      });
-      assert(result.success);
-      expect(result.data.localité.codePostal).to.deep.equal('03340');
     });
   });
 });
