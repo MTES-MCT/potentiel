@@ -748,7 +748,7 @@ describe('listProjection', () => {
       actual.items.should.have.deep.members(expectedItems);
     });
 
-    it.only('should find projections with left joined projection and where clause', async () => {
+    it('should find projections with left joined projection and where clause', async () => {
       const expected = mapToListResultItems(fakeData1.slice(0, 1));
       const expectedItems = expected.items.map((item) => ({
         ...item,
