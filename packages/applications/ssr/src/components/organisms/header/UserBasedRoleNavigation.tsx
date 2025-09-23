@@ -117,9 +117,15 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
 
   const projetMenuLinks: Array<MenuProps.Link> = [
     {
-      text: 'Projets lauréats',
+      text: 'Projets classés',
       linkProps: {
         href: Routes.Lauréat.lister(),
+      },
+    },
+    {
+      text: 'Projets éliminés',
+      linkProps: {
+        href: Routes.Éliminé.lister(),
       },
     },
     {

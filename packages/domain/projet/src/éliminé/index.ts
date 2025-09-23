@@ -6,15 +6,28 @@ import {
   ConsulterÉliminéQuery,
   ConsulterÉliminéReadModel,
 } from './consulter/consulterÉliminé.query';
+import { ListerÉliminéQuery, ListerÉliminéReadModel } from './lister/listerÉliminé.query';
 
-export { ÉliminéEvent, ÉliminéNotifiéEvent, ÉliminéArchivéEvent };
+// Query
+export type ÉliminéQuery = ConsulterÉliminéQuery | ListerÉliminéQuery;
+export { ConsulterÉliminéQuery, ListerÉliminéQuery };
+
+// ReadModel
+export { ConsulterÉliminéReadModel, ListerÉliminéReadModel };
+
+// UseCases
 
 export type ÉliminéUseCase = NotifierÉliminéUseCase;
 export { NotifierÉliminéUseCase };
 
-export { ÉliminéEntity } from './éliminé.entity';
+// Events
+export { ÉliminéEvent, ÉliminéNotifiéEvent, ÉliminéArchivéEvent };
 
-export type ÉliminéQuery = ConsulterÉliminéQuery;
-export { ConsulterÉliminéQuery, ConsulterÉliminéReadModel };
+// Register
+
+export { registerEliminéUseCases, registerEliminéQueries } from './éliminé.register';
+
+// Entities
+export { ÉliminéEntity } from './éliminé.entity';
 
 export * as Recours from './recours';

@@ -456,7 +456,7 @@ const référencielPermissions = {
     query: { consulter: 'Lauréat.Query.ConsulterLauréat', lister: 'Lauréat.Query.ListerLauréat' },
   },
   éliminé: {
-    query: { consulter: 'Éliminé.Query.ConsulterÉliminé' },
+    query: { consulter: 'Éliminé.Query.ConsulterÉliminé', lister: 'Éliminé.Query.ListerÉliminé' },
     usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
     command: {
       notifier: 'Éliminé.Command.NotifierÉliminé',
@@ -1270,6 +1270,7 @@ const policies = {
   },
   éliminé: {
     consulter: [référencielPermissions.éliminé.query.consulter],
+    lister: [référencielPermissions.éliminé.query.lister],
   },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
@@ -1413,6 +1414,7 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'abandon.consulter.détail',
 
   'lauréat.lister',
+  'éliminé.lister',
 ];
 
 // En attendant d'avoir des gateways qui groupent les query

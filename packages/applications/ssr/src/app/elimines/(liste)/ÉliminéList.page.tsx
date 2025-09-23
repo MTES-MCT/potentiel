@@ -6,7 +6,7 @@ import {
   ProjectListItemProps,
 } from '@/components/molecules/projet/liste/ProjectListItem';
 
-export type LauréatListPageProps = {
+export type ÉliminéListPageProps = {
   list: {
     items: Array<ProjectListItemProps>;
     currentPage: number;
@@ -18,14 +18,14 @@ export type LauréatListPageProps = {
   actions: ListPageTemplateProps<typeof ProjectListItem>['actions'];
 };
 
-export const LauréatListPage: FC<LauréatListPageProps> = ({
-  list: { items: lauréats, currentPage, totalItems, itemsPerPage },
+export const ÉliminéListPage: FC<ÉliminéListPageProps> = ({
+  list: { items: éliminés, currentPage, totalItems, itemsPerPage },
   legend,
   filters,
   actions,
 }) => (
   <ListPageTemplate
-    heading="Projets classés"
+    heading="Projets éliminés"
     currentPage={currentPage}
     itemsPerPage={itemsPerPage}
     filters={filters}
@@ -34,7 +34,7 @@ export const LauréatListPage: FC<LauréatListPageProps> = ({
     totalItems={totalItems}
     ItemComponent={ProjectListItem}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
-    items={lauréats.map((projet) => ({
+    items={éliminés.map((projet) => ({
       ...projet,
       key: projet.identifiantProjet,
     }))}
