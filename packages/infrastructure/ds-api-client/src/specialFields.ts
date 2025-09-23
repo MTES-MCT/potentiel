@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { reverseRecord } from './utils';
 import { DossierAccessor } from './graphql';
@@ -31,6 +31,7 @@ const typeGfMap = reverseRecord({
   consignation: 'Consignation entre les mains de la Caisse des dépôts et Consignations (CDC)',
   exemption: `Exemption de fourniture (collectivité territoriale ou groupement de collectivités territoriales)`,
 } satisfies Partial<Record<Candidature.TypeGarantiesFinancières.RawType, string>>);
+
 export const getTypeGarantiesFinancières = <
   T extends Record<string, string>,
   TName extends string & keyof T,
@@ -88,3 +89,18 @@ export const getAutorisationDUrbanisme = <TDossier extends Record<string, string
     };
   }
 };
+
+const typeNatureDeLExploitationMap = reverseRecord({
+  'vente-avec-injection-du-surplus': 'Vente avec injection du surplus ',
+  'vente-avec-injection-en-totalité': `Vente avec injection en totalité`,
+} satisfies Partial<
+  Record<Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType, string>
+>);
+
+export const getTypeNatureDeLExploitation = <
+  T extends Record<string, string>,
+  TName extends string & keyof T,
+>(
+  accessor: DossierAccessor<T>,
+  nom: TName,
+) => mapSelectToValueType(typeNatureDeLExploitationMap, accessor, nom);
