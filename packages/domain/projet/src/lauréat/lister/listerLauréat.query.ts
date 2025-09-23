@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity';
@@ -11,6 +11,8 @@ import { PuissanceEntity } from '../puissance';
 import { ProducteurEntity } from '../producteur';
 import { ReprésentantLégalEntity } from '../représentantLégal';
 import { Producteur, Puissance, ReprésentantLégal } from '..';
+import { AbandonEntity } from '../abandon';
+import { AttestationConformitéEntity } from '../achèvement/attestationConformité';
 
 type LauréatListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -25,6 +27,7 @@ type LauréatListItemReadModel = {
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
+  statut?: Exclude<StatutProjet.ValueType, 'éliminé'>;
 };
 
 export type ListerLauréatReadModel = {
@@ -39,7 +42,7 @@ export type ListerLauréatQuery = Message<
     utilisateur: Email.RawType;
     range: RangeOptions;
     nomProjet?: string;
-    statut?: StatutProjet.RawType;
+    statut?: Exclude<StatutProjet.RawType, 'éliminé'>;
     appelOffre?: string;
   },
   ListerLauréatReadModel
@@ -59,6 +62,7 @@ export const registerListerLauréatQuery = ({
     nomProjet,
     appelOffre,
     range,
+    statut,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -70,6 +74,8 @@ export const registerListerLauréatQuery = ({
         ReprésentantLégalEntity,
         CandidatureEntity,
         AppelOffre.AppelOffreEntity,
+        LeftJoin<AbandonEntity>,
+        LeftJoin<AttestationConformitéEntity>,
       ]
     >('lauréat', {
       range,
@@ -104,6 +110,28 @@ export const registerListerLauréatQuery = ({
           entity: 'appel-offre',
           on: 'appelOffre',
         },
+        {
+          entity: 'abandon',
+          on: 'identifiantProjet',
+          type: 'left',
+          where:
+            statut === 'abandonné'
+              ? { statut: Where.equal('accordé') }
+              : statut === 'classé'
+                ? { identifiantProjet: Where.equalNull() }
+                : undefined,
+        },
+        {
+          entity: 'attestation-conformité',
+          on: 'identifiantProjet',
+          type: 'left',
+          where:
+            statut === 'achevé'
+              ? { identifiantProjet: Where.notEqualNull() }
+              : statut === 'classé'
+                ? { identifiantProjet: Where.equalNull() }
+                : undefined,
+        },
       ],
     });
 
@@ -125,6 +153,8 @@ type MapToReadModelProps = (
         ReprésentantLégalEntity,
         CandidatureEntity,
         AppelOffre.AppelOffreEntity,
+        LeftJoin<AbandonEntity>,
+        LeftJoin<AttestationConformitéEntity>,
       ]
     >,
 ) => LauréatListItemReadModel;
@@ -138,6 +168,8 @@ const mapToReadModel: MapToReadModelProps = ({
   puissance,
   candidature,
   'appel-offre': appelOffres,
+  abandon,
+  'attestation-conformité': attestationConformité,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -158,5 +190,10 @@ const mapToReadModel: MapToReadModelProps = ({
     },
     prixReference: candidature.prixReference,
     evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
+    statut: abandon
+      ? StatutProjet.abandonné
+      : attestationConformité
+        ? StatutProjet.achevé
+        : undefined,
   };
 };
