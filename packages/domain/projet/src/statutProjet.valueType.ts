@@ -1,21 +1,26 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 const statuts = ['abandonné', 'classé', 'éliminé', 'achevé'] as const;
 export type RawType = (typeof statuts)[number];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  statut: Type;
   estAbandonné: () => boolean;
   estClassé: () => boolean;
   estÉliminé: () => boolean;
   estAchevé: () => boolean;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = <Type extends RawType = RawType>({
+  statut,
+}: PlainType<ValueType>): ValueType<Type> => {
+  estValide(statut);
   return {
     get statut() {
-      return value;
+      return statut as Type;
+    },
+    estÉgaleÀ(valueType) {
+      return this.statut === valueType.statut;
     },
     estAbandonné() {
       return this.statut === 'abandonné';
@@ -29,10 +34,14 @@ export const convertirEnValueType = (value: string): ValueType => {
     estAchevé() {
       return this.statut === 'achevé';
     },
-    estÉgaleÀ(statut: ValueType) {
-      return this.statut === statut.statut;
-    },
   };
+};
+
+export const convertirEnValueType = <Type extends RawType = RawType>(
+  statut: string,
+): ValueType<Type> => {
+  estValide(statut);
+  return bind<Type>({ statut });
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -43,10 +52,10 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const abandonné = convertirEnValueType('abandonné');
-export const classé = convertirEnValueType('classé');
-export const éliminé = convertirEnValueType('éliminé');
-export const achevé = convertirEnValueType('achevé');
+export const abandonné = convertirEnValueType<'abandonné'>('abandonné');
+export const classé = convertirEnValueType<'classé'>('classé');
+export const éliminé = convertirEnValueType<'éliminé'>('éliminé');
+export const achevé = convertirEnValueType<'achevé'>('achevé');
 
 class StatutProjetInvalideError extends InvalidOperationError {
   constructor(value: string) {
