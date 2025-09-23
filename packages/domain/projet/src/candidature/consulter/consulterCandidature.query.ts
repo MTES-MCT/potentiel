@@ -96,6 +96,6 @@ export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatur
         ),
     },
     technologie: TypeTechnologie.convertirEnValueType(candidature.technologieCalculée),
-    unitéPuissance: UnitéPuissance.convertirEnValueType(candidature.unitéPuissanceCalculée),
+    unitéPuissance: UnitéPuissance.convertirEnValueType(candidature.unitéPuissance),
   };
 };

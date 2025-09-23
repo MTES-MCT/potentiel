@@ -120,7 +120,7 @@ type MapToReadModelProps = (
 export const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
   candidature: {
-    unitéPuissanceCalculée,
+    unitéPuissance,
     nomProjet,
     nomCandidat,
     sociétéMère,
@@ -143,7 +143,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     période,
     référenceDossier: Option.none,
     statutDGEC: StatutProjet.classé.statut,
-    puissance: `${puissance} ${unitéPuissanceCalculée}`,
+    puissance: `${puissance} ${unitéPuissance}`,
     codePostal: localité.codePostal,
     commune: localité.commune,
     nomProjet,

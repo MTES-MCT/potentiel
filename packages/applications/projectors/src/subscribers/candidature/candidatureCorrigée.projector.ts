@@ -77,7 +77,7 @@ export const mapToCandidatureToUpsert = ({
           // on ne peut pas avoir de correction sur une candidature non importée
           payload.corrigéLe,
     technologieCalculée: technologie.formatter(),
-    unitéPuissanceCalculée: Candidature.UnitéPuissance.déterminer({
+    unitéPuissance: Candidature.UnitéPuissance.déterminer({
       appelOffres,
       période: identifiantProjet.période,
       technologie: technologie.formatter(),

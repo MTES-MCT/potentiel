@@ -120,7 +120,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
   référence,
   lauréat,
-  candidature: { unitéPuissanceCalculée, emailContact, nomCandidat, sociétéMère },
+  candidature: { unitéPuissance, emailContact, nomCandidat, sociétéMère },
   puissance: { puissance },
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
@@ -137,7 +137,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutProjet.classé.statut,
-    puissance: `${puissance} ${unitéPuissanceCalculée}`,
+    puissance: `${puissance} ${unitéPuissance}`,
     dateNotification: lauréat.notifiéLe,
     emailContact,
     nomCandidat,
