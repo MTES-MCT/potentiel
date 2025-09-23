@@ -1,15 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementEntity } from '../raccordement.entity';
-import { Puissance } from '../..';
-import { Candidature, IdentifiantProjet, Lauréat, StatutProjet } from '../../..';
+import { LauréatEntity, Puissance } from '../..';
+import { Candidature, IdentifiantProjet, StatutProjet } from '../../..';
 
 type DossierRaccordementManquant = {
   référenceDossier: Option.None;
@@ -56,6 +54,12 @@ export type ConsulterDossierRaccordementDependencies = {
   list: List;
 };
 
+type ListerDossierRaccordementManquantJoins = [
+  LauréatEntity,
+  Candidature.CandidatureEntity,
+  Puissance.PuissanceEntity,
+  GestionnaireRéseau.GestionnaireRéseauEntity,
+];
 export const registerListerDossierRaccordementManquantsQuery = ({
   list,
 }: ConsulterDossierRaccordementDependencies) => {
@@ -67,7 +71,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<RaccordementEntity, Candidature.CandidatureEntity>('raccordement', {
+    } = await list<RaccordementEntity, ListerDossierRaccordementManquantJoins>('raccordement', {
       where: {
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
         dossiers: Where.isEmptyArray(),
@@ -76,47 +80,28 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       orderBy: {
         identifiantProjet: 'ascending',
       },
-      join: {
-        entity: 'candidature',
-        on: 'identifiantProjet',
-      },
-    });
-
-    const identifiants = items.map(
-      (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
-    );
-
-    const puissances = await list<Puissance.PuissanceEntity>('puissance', {
-      where: {
-        identifiantProjet: Where.matchAny(identifiants),
-      },
-    });
-
-    const appelsOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
-
-    const identifiantsGestionnaireRéseau = items.map(
-      (dossier) =>
-        dossier.identifiantGestionnaireRéseau as GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType,
-    );
-
-    const gestionnairesRéseau = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
-      'gestionnaire-réseau',
-      {
-        where: {
-          codeEIC: Where.matchAny(identifiantsGestionnaireRéseau),
+      join: [
+        {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
         },
-      },
-    );
+        {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'puissance',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'gestionnaire-réseau',
+          on: 'identifiantGestionnaireRéseau',
+        },
+      ],
+    });
 
     return {
-      items: items.map((raccordement) =>
-        mapToReadModel({
-          raccordement,
-          appelsOffres: appelsOffres.items,
-          puissances: puissances.items,
-          gestionnairesRéseau: gestionnairesRéseau.items,
-        }),
-      ),
+      items: items.map(mapToReadModel),
       range: {
         endPosition,
         startPosition,
@@ -128,41 +113,27 @@ export const registerListerDossierRaccordementManquantsQuery = ({
   mediator.register('Lauréat.Raccordement.Query.ListerDossierRaccordementManquantsQuery', handler);
 };
 
-type MapToReadModelProps = (args: {
-  raccordement: RaccordementEntity & Joined<Candidature.CandidatureEntity>;
-  puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
-  appelsOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
-}) => DossierRaccordementManquant;
+type MapToReadModelProps = (
+  raccordement: RaccordementEntity & Joined<ListerDossierRaccordementManquantJoins>,
+) => DossierRaccordementManquant;
 
 export const mapToReadModel: MapToReadModelProps = ({
-  raccordement: { identifiantProjet, candidature, identifiantGestionnaireRéseau },
-  puissances,
-  appelsOffres,
-  gestionnairesRéseau,
+  identifiantProjet,
+  candidature: {
+    unitéPuissanceCalculée,
+    nomProjet,
+    nomCandidat,
+    sociétéMère,
+    localité,
+    emailContact,
+    notification,
+  },
+  identifiantGestionnaireRéseau,
+  puissance: { puissance },
+  'gestionnaire-réseau': gestionnaireRéseau,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-  const puissanceItem = puissances.find(
-    (puissance) => puissance.identifiantProjet === identifiantProjet,
-  );
-  const appelOffres = appelsOffres.find((ao) => ao.id === candidature.appelOffre);
-
-  const unitéPuissance = appelOffres
-    ? Candidature.UnitéPuissance.déterminer({
-        appelOffres,
-        période: candidature.période,
-        technologie: candidature.technologie,
-      }).formatter()
-    : 'N/A';
-
-  const puissance = match(puissanceItem)
-    .with(P.nullish, () => `0 ${unitéPuissance}`)
-    .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
-  const gestionnaire = gestionnairesRéseau.find(
-    (gestionnaireRéseau) => gestionnaireRéseau.codeEIC === identifiantGestionnaireRéseau,
-  );
 
   return {
     appelOffre,
@@ -172,25 +143,23 @@ export const mapToReadModel: MapToReadModelProps = ({
     période,
     référenceDossier: Option.none,
     statutDGEC: StatutProjet.classé.statut,
-    puissance,
-    codePostal: candidature.localité.codePostal,
-    commune: candidature.localité.commune,
-    nomProjet: candidature.nomProjet,
+    puissance: `${puissance} ${unitéPuissanceCalculée}`,
+    codePostal: localité.codePostal,
+    commune: localité.commune,
+    nomProjet,
 
-    nomCandidat: candidature.nomCandidat,
-    sociétéMère: candidature.sociétéMère,
-    emailContact: candidature.emailContact,
-    siteProduction: `${candidature.localité.adresse1} ${candidature.localité.adresse2} ${candidature.localité.codePostal} ${candidature.localité.commune} (${candidature.localité.département}, ${candidature.localité.région})`,
-    département: candidature.localité.département,
-    région: candidature.localité.région,
-    dateNotification: candidature?.notification?.notifiéeLe || '',
+    nomCandidat,
+    sociétéMère,
+    emailContact,
+    siteProduction: `${localité.adresse1} ${localité.adresse2} ${localité.codePostal} ${localité.commune} (${localité.département}, ${localité.région})`,
+    département: localité.département,
+    région: localité.région,
+    dateNotification: notification?.notifiéeLe || '',
     dateMiseEnService: undefined,
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       ),
-    raisonSocialeGestionnaireRéseau: match(gestionnaire)
-      .with(undefined, () => 'Gestionnaire réseau inconnu')
-      .otherwise((value) => value.raisonSociale),
+    raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
   };
 };

@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { CahierDesCharges, Candidature, Lauréat } from '@potentiel-domain/projet';
+import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
@@ -14,7 +14,7 @@ export type DemanderChangementPuissancePageProps = PlainType<
   Lauréat.Puissance.ConsulterPuissanceReadModel & {
     cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
     cahierDesChargesInitial: PlainType<CahierDesCharges.ValueType>;
-    volumeRéservé?: PlainType<Candidature.VolumeRéservé.ValueType>;
+    volumeRéservé?: PlainType<Lauréat.Puissance.VolumeRéservé.ValueType>;
   }
 >;
 

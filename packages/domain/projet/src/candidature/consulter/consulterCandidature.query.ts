@@ -8,13 +8,12 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { IdentifiantProjet } from '../..';
-import { Dépôt, Instruction, TypeTechnologie, UnitéPuissance, VolumeRéservé } from '..';
+import { Dépôt, Instruction, TypeTechnologie, UnitéPuissance } from '..';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   dépôt: Dépôt.ValueType;
   instruction: Instruction.ValueType;
-  volumeRéservé: VolumeRéservé.ValueType | undefined;
 
   misÀJourLe: DateTime.ValueType;
 
@@ -46,26 +45,13 @@ export type ConsulterCandidatureDependencies = {
 
 export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidatureDependencies) => {
   const handler: MessageHandler<ConsulterCandidatureQuery> = async ({ identifiantProjet }) => {
-    const candidature = await find<CandidatureEntity, AppelOffre.AppelOffreEntity>(
-      `candidature|${identifiantProjet}`,
-      {
-        join: {
-          entity: 'appel-offre',
-          on: 'appelOffre',
-        },
-      },
-    );
+    const candidature = await find<CandidatureEntity>(`candidature|${identifiantProjet}`);
 
     if (Option.isNone(candidature)) {
       return Option.none;
     }
-    const appelOffres = candidature['appel-offre'];
-    const période = appelOffres.periodes.find((p) => p.id === candidature.période);
-    if (!période) {
-      return Option.none;
-    }
 
-    return mapToReadModel(candidature, appelOffres, période);
+    return mapToReadModel(candidature);
   };
 
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
@@ -73,22 +59,11 @@ export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidature
 
 type MapToReadModel = (
   candidature: Omit<CandidatureEntity, 'type'>,
-  appelOffres: AppelOffre.AppelOffreReadModel,
-  période: AppelOffre.Periode,
 ) => ConsulterCandidatureReadModel;
 
-export const mapToReadModel: MapToReadModel = (
-  candidature,
-  appelOffres,
-  période,
-): ConsulterCandidatureReadModel => {
+export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatureReadModel => {
   const {
     identifiantProjet,
-
-    technologie,
-
-    puissanceProductionAnnuelle,
-    noteTotale,
 
     misÀJourLe,
     détailsMisÀJourLe,
@@ -120,15 +95,7 @@ export const mapToReadModel: MapToReadModel = (
           notification.attestation.format,
         ),
     },
-    technologie: TypeTechnologie.déterminer({
-      appelOffre: appelOffres,
-      projet: candidature,
-    }),
-    unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période: période.id, technologie }),
-    volumeRéservé: VolumeRéservé.déterminer({
-      période,
-      note: noteTotale,
-      puissanceInitiale: puissanceProductionAnnuelle,
-    }),
+    technologie: TypeTechnologie.convertirEnValueType(candidature.technologieCalculée),
+    unitéPuissance: UnitéPuissance.convertirEnValueType(candidature.unitéPuissanceCalculée),
   };
 };

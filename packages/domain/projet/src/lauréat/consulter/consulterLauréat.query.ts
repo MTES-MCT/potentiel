@@ -1,24 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Find } from '@potentiel-domain/entity';
+import { Find, Joined, LeftJoin } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatEntity } from '../lauréat.entity';
 import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
-import { AbandonEntity } from '../abandon';
 import { Abandon } from '..';
-import {
-  CandidatureEntity,
-  Localité,
-  TypeTechnologie,
-  UnitéPuissance,
-  VolumeRéservé,
-} from '../../candidature';
+import { CandidatureEntity, Localité, TypeTechnologie, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
-import { AttestationConformitéEntity } from '../achèvement/attestationConformité';
+import { AttestationConformité } from '../achèvement';
 
 export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -29,7 +22,6 @@ export type ConsulterLauréatReadModel = {
   technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
   statut: StatutProjet.ValueType;
-  volumeRéservé?: VolumeRéservé.ValueType;
   /** non définie en cas de recours accordé ou projet d'une période "legacy" */
   attestationDésignation?: DocumentProjet.ValueType;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
@@ -52,56 +44,39 @@ export type ConsulterLauréatDependencies = {
   find: Find;
 };
 
+type LauréatJoins = [
+  CandidatureEntity,
+  LeftJoin<AttestationConformité.AttestationConformitéEntity>,
+  LeftJoin<Abandon.AbandonEntity>,
+];
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
-    const lauréat = await find<LauréatEntity, CandidatureEntity>(`lauréat|${identifiantProjet}`, {
-      join: {
-        entity: 'candidature',
-        on: 'identifiantProjet',
-      },
+    const lauréat = await find<LauréatEntity, LauréatJoins>(`lauréat|${identifiantProjet}`, {
+      join: [
+        {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+        },
+
+        { entity: 'attestation-conformité', on: 'identifiantProjet', type: 'left' },
+        { entity: 'abandon', on: 'identifiantProjet', type: 'left' },
+      ],
     });
 
     if (Option.isNone(lauréat)) {
       return lauréat;
     }
-    const appelOffres = await find<AppelOffre.AppelOffreEntity>(
-      `appel-offre|${lauréat.candidature.appelOffre}`,
-    );
-    if (Option.isNone(appelOffres)) {
-      return Option.none;
-    }
-    const période = appelOffres.periodes.find((p) => p.id === lauréat.candidature.période);
-    if (!période) {
-      return Option.none;
-    }
-    const candidatureReadModel = mapToCandidatureReadModel(
-      lauréat.candidature,
-      appelOffres,
-      période,
-    );
-    const achèvement = await find<AttestationConformitéEntity>(
-      `attestation-conformité|${identifiantProjet}`,
-    );
-    if (Option.isSome(achèvement)) {
-      return mapToReadModel(lauréat, candidatureReadModel, StatutProjet.achevé);
-    }
-    const abandon = await find<AbandonEntity>(`abandon|${identifiantProjet}`);
-    if (
-      Option.isSome(abandon) &&
-      Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé()
-    ) {
-      return mapToReadModel(lauréat, candidatureReadModel, StatutProjet.abandonné);
-    }
 
-    return mapToReadModel(lauréat, candidatureReadModel, StatutProjet.classé);
+    const candidatureReadModel = mapToCandidatureReadModel(lauréat.candidature);
+
+    return mapToReadModel(lauréat, candidatureReadModel);
   };
   mediator.register('Lauréat.Query.ConsulterLauréat', handler);
 };
 
 type MapToReadModel = (
-  lauréat: LauréatEntity,
+  lauréat: LauréatEntity & Joined<LauréatJoins>,
   candidature: Candidature.ConsulterCandidatureReadModel,
-  statut: StatutProjet.ValueType,
 ) => ConsulterLauréatReadModel;
 
 const mapToReadModel: MapToReadModel = (
@@ -111,9 +86,10 @@ const mapToReadModel: MapToReadModel = (
     notifiéPar,
     nomProjet,
     localité: { adresse1, adresse2, codePostal, commune, département, région },
+    abandon,
+    'attestation-conformité': attestationConformité,
   },
   candidature,
-  statut,
 ) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
@@ -127,9 +103,11 @@ const mapToReadModel: MapToReadModel = (
     département,
     région,
   }),
-  statut,
-
-  volumeRéservé: candidature.volumeRéservé,
+  statut: attestationConformité
+    ? StatutProjet.achevé
+    : abandon && Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé()
+      ? StatutProjet.abandonné
+      : StatutProjet.classé,
   technologie: candidature.technologie,
   unitéPuissance: candidature.unitéPuissance,
   emailContact: candidature.dépôt.emailContact,

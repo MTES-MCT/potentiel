@@ -21,18 +21,24 @@ import {
   HistoriquePuissanceProjetListItemReadModel,
   ListerHistoriquePuissanceProjetReadModel,
 } from './listerHistorique/listerHistoriquePuissanceProjet.query';
-
+import {
+  ConsulterVolumeRéservéReadModel,
+  ConsulterVolumeRéservéQuery,
+} from './consulter/consulterVolumeRéservé.query';
 // Query
 export type PuissanceQuery =
   | ConsulterPuissanceQuery
   | ConsulterChangementPuissanceQuery
   | ListerChangementPuissanceQuery
-  | ListerHistoriquePuissanceProjetQuery;
+  | ListerHistoriquePuissanceProjetQuery
+  | ConsulterVolumeRéservéQuery;
+
 export type {
   ConsulterPuissanceQuery,
   ConsulterChangementPuissanceQuery,
   ListerChangementPuissanceQuery,
   ListerHistoriquePuissanceProjetQuery,
+  ConsulterVolumeRéservéQuery,
 };
 
 // ReadModel
@@ -42,6 +48,7 @@ export type {
   ListerChangementPuissanceReadModel,
   ListerHistoriquePuissanceProjetReadModel,
   HistoriquePuissanceProjetListItemReadModel,
+  ConsulterVolumeRéservéReadModel,
 };
 
 // UseCase
@@ -82,3 +89,4 @@ export * as StatutChangementPuissance from './valueType/statutChangementPuissanc
 export * as TypeDocumentPuissance from './valueType/typeDocumentPuissance.valueType';
 export * as RatioChangementPuissance from './valueType/ratioChangementPuissance.valueType';
 export * as AutoritéCompétente from './valueType/autoritéCompétente.valueType';
+export * as VolumeRéservé from './valueType/volumeRéservé.valueType';

@@ -12,7 +12,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { getCahierDesCharges } from '@/app/_helpers';
 
-import { getLauréatInfos, getPuissanceInfos } from '../../../_helpers/getLauréat';
+import { getPuissanceInfos } from '../../../_helpers/getLauréat';
 
 import { DemanderChangementPuissancePage } from './DemanderChangementPuissance.page';
 
@@ -36,7 +36,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const lauréat = await getLauréatInfos({ identifiantProjet: identifiantProjet.formatter() });
     const puissance = await getPuissanceInfos({
       identifiantProjet: identifiantProjet.formatter(),
     });
@@ -44,6 +43,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
 
     cahierDesCharges.vérifierQueLeChangementEstPossible('information-enregistrée', 'puissance');
+
+    const volumeRéservé = await mediator.send<Lauréat.Puissance.ConsulterVolumeRéservéQuery>({
+      type: 'Lauréat.Puissance.Query.ConsulterVolumeRéservé',
+      data: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    });
 
     return (
       <DemanderChangementPuissancePage
@@ -57,7 +63,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
             cahierDesChargesModificatif: undefined,
           }),
         )}
-        volumeRéservé={lauréat.volumeRéservé ? mapToPlainObject(lauréat.volumeRéservé) : undefined}
+        volumeRéservé={Option.isSome(volumeRéservé) ? mapToPlainObject(volumeRéservé) : undefined}
         puissanceInitiale={puissance.puissanceInitiale}
       />
     );

@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ÉliminéEntity } from '../éliminé.entity';
@@ -52,21 +51,7 @@ export const registerConsulterÉliminéQuery = ({ find }: ConsulterÉliminéDepe
       return éliminé;
     }
 
-    const appelOffres = await find<AppelOffre.AppelOffreEntity>(
-      `appel-offre|${éliminé.candidature.appelOffre}`,
-    );
-    if (Option.isNone(appelOffres)) {
-      return Option.none;
-    }
-    const période = appelOffres.periodes.find((p) => p.id === éliminé.candidature.période);
-    if (!période) {
-      return Option.none;
-    }
-    const candidatureReadModel = mapToCandidatureReadModel(
-      éliminé.candidature,
-      appelOffres,
-      période,
-    );
+    const candidatureReadModel = mapToCandidatureReadModel(éliminé.candidature);
 
     return mapToReadModel(éliminé, candidatureReadModel);
   };
