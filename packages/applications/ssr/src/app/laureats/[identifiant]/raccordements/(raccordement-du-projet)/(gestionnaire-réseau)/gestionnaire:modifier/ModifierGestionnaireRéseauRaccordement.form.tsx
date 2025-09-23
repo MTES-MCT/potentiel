@@ -1,14 +1,12 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -39,23 +37,13 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
       action={modifierGestionnaireRéseauRaccordementAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Modifier le gestionnaire de réseau du projet"
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Raccordement.détail(
-                IdentifiantProjet.bind(identifiantProjet).formatter(),
-              ),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour aux dossiers de raccordement
-          </Button>
-          <SubmitButton>Modifier</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitButtonLabel: 'Modifier',
+        backButton: {
+          url: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+          label: 'Retour aux dossiers de raccordement',
+        },
+      }}
     >
       <input
         name="identifiantProjet"

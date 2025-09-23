@@ -4,7 +4,6 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -22,7 +21,9 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantP
     <Form
       action={demanderAbandonAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Demander l'abandon</SubmitButton>}
+      actionButtons={{
+        submitButtonLabel: "Demander l'abandon",
+      }}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 

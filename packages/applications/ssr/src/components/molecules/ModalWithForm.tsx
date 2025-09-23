@@ -62,6 +62,13 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
         pendingModal={form.pendingModal}
         onValidationError={form.onValidationError}
         key={`form-${id}`}
+        actionButtons={{
+          submitButtonLabel,
+          backButton: {
+            url: Routes.GarantiesFinancières.détail(identifiantProjet),
+            label: 'Retour aux détails des garanties financières',
+          },
+        }}
         actions={
           <>
             <Button priority="secondary" onClick={handleRejectClick} type="button">
