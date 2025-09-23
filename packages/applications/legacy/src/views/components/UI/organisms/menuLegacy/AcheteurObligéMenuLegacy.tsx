@@ -1,18 +1,12 @@
 import React from 'react';
-import routes from '../../../../../routes';
+
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
+import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
 export const AcheteurObligéMenuLegacy = (
   <>
-    <DropdownMenu buttonChildren={'Projets'}>
-      <DropdownMenu.DropdownItem href={Routes.Lauréat.lister()}>
-        Projets lauréats
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Projet.lister()}>
-        Tous les projets (legacy)
-      </DropdownMenu.DropdownItem>
-    </DropdownMenu>
+    <MenuLegacyProjet />
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] })}

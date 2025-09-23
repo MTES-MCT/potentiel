@@ -20,7 +20,7 @@ import { Candidature } from './candidature';
 import { Document } from './document';
 import { Gestionnaire } from './réseau';
 import { Projet } from './projet';
-import { Recours } from './éliminé';
+import { Recours, Éliminé } from './éliminé';
 import { Tache } from './tâche';
 import { Période } from './période';
 import { Auth } from './auth';
@@ -54,4 +54,5 @@ export const Routes = {
   Installateur,
   InstallationAvecDispositifDeStockage,
   NatureDeLExploitation,
+  Éliminé,
 };

@@ -3,18 +3,12 @@ import routes from '../../../../../routes';
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
-import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
+import { MenuLegacyGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
+import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
 export const PorteurMenuLegacy = (
   <>
-    <DropdownMenu buttonChildren={'Projets'}>
-      <DropdownMenu.DropdownItem href={Routes.Lauréat.lister()}>
-        Projets lauréats
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Projet.lister()}>
-        Tous les projets (legacy)
-      </DropdownMenu.DropdownItem>
-    </DropdownMenu>
+    <MenuLegacyProjet />
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
@@ -53,7 +47,7 @@ export const PorteurMenuLegacy = (
         Délai
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <MenuGarantiesFinancières />
+    <MenuLegacyGarantiesFinancières />
     <Header.MenuItem href={Routes.Utilisateur.réclamerProjet}>Projets à réclamer</Header.MenuItem>
   </>
 );
