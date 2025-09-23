@@ -99,6 +99,10 @@ const action: FormAction<FormState, typeof schema> = async (
             installationAvecDispositifDeStockage: undefined,
             natureDeLExploitation: undefined,
             ...dépôt,
+            localité: {
+              ...dépôt.localité,
+              adresse2: dépôt.localité.adresse2 ?? '',
+            },
           },
           détailsValue: {
             typeImport: 'démarches-simplifiées',

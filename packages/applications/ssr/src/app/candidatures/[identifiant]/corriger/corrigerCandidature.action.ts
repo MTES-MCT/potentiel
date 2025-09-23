@@ -105,7 +105,7 @@ const mapBodyToUseCaseData = (
       localité: {
         codePostal: data.codePostal,
         adresse1: data.adresse1,
-        adresse2: data.adresse2,
+        adresse2: data.adresse2 ?? '',
         commune: data.commune,
         département: data.departement,
         région: data.region,

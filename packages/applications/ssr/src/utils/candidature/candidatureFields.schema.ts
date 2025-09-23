@@ -31,7 +31,7 @@ export const noteTotaleSchema = numberSchema;
 export const nomReprésentantLégalSchema = requiredStringSchema;
 export const emailContactSchema = requiredStringSchema.pipe(z.email());
 export const adresse1Schema = requiredStringSchema;
-export const adresse2Schema = optionalStringWithDefaultValueSchema;
+export const adresse2Schema = optionalStringSchema;
 
 // On accepte de multiples code postaux séparés par /
 export const codePostalSchema = requiredStringSchema

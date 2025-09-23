@@ -278,7 +278,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
         }),
         localité: getLocalité({
           adresse1,
-          adresse2,
+          adresse2: adresse2 ?? '',
           codePostal,
           commune,
         }),
