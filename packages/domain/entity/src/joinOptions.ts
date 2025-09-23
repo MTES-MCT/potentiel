@@ -15,15 +15,34 @@ export type JoinOptionsParams<
     ? { join: JoinOptions<TEntity, TJoin> }
     : { join?: undefined };
 
-export type JoinOptions<TEntity extends Entity = Entity, TJoin extends Entity = Entity> = {
-  entity: TJoin['type'];
-  on: NestedKeys<Omit<TEntity, 'type'>>;
-  where?: WhereOptions<Omit<TJoin, 'type'>>;
-};
+export type JoinType = 'left' | 'inner';
 
-type EntityWithoutType<T extends Entity> = {
-  [K in T['type']]: Omit<T, 'type'>;
-};
+export type JoinOptions<TEntity extends Entity = Entity, TJoin extends Entity = Entity> = {
+  /**
+   * The entity type to join with.
+   * Cannot be used more than once in the same join array.
+   */
+  entity: TJoin['type'];
+  /**
+   * The key of the original entity to join on.
+   * NB: The joined entity is always matched on its key.
+   */
+  on: NestedKeys<Omit<TEntity, 'type'>>;
+  /**
+   * Optional additional where conditions to apply to the joined entity
+   */
+  where?: WhereOptions<Omit<TJoin, 'type' | '__joinType'>>;
+} & (TJoin extends LeftJoin<TJoin> ? { type: 'left' } : { type?: 'inner' });
+
+export type LeftJoin<T> = T & { __joinType: 'left' };
+type EntityWithoutType<T extends Entity> =
+  T extends LeftJoin<T>
+    ? {
+        [K in T['type']]?: Omit<T, 'type' | '__joinType'>;
+      }
+    : {
+        [K in T['type']]: Omit<T, 'type' | '__joinType'>;
+      };
 
 /**
  *  Joins entity types into a single object, under their "type" field

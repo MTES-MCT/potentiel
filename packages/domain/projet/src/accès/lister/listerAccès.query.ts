@@ -46,7 +46,7 @@ export const registerListerAccèsQuery = ({
       range,
       where: {
         identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : Where.matchAny([]),
       },
       join: {
         entity: 'candidature',

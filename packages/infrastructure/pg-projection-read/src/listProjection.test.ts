@@ -3,7 +3,7 @@ import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 
 import { should } from 'chai';
 
-import { Entity, ListResult, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Entity, LeftJoin, ListResult, RangeOptions, Where } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { flatten, unflatten } from '@potentiel-libraries/flat';
 
@@ -724,6 +724,51 @@ describe('listProjection', () => {
       );
 
       actual.items.length.should.eq(0);
+    });
+  });
+
+  describe('left join', () => {
+    it('should find projections with left joined projection', async () => {
+      const expected = mapToListResultItems(fakeData1);
+      const expectedItems = expected.items.map((item) => ({
+        ...item,
+        [category2]: null,
+      }));
+
+      const actual = await listProjection<FakeProjection1, LeftJoin<FakeProjection2>>(category1, {
+        join: {
+          on: 'data.name', // wrong join on purpose so it returns no result
+          entity: category2,
+          type: 'left',
+        },
+      });
+
+      actual.should.have.all.keys(Object.keys(expected));
+
+      actual.items.should.have.deep.members(expectedItems);
+    });
+
+    it('should find projections with left joined projection and where clause', async () => {
+      const expected = mapToListResultItems(fakeData1.slice(0, 1));
+      const expectedItems = expected.items.map((item) => ({
+        ...item,
+        [category2]: fakeData2,
+      }));
+
+      const actual = await listProjection<FakeProjection1, LeftJoin<FakeProjection2>>(category1, {
+        join: {
+          on: 'data.value',
+          entity: category2,
+          type: 'left',
+          where: {
+            moreData2: Where.notEqualNull(),
+          },
+        },
+      });
+
+      actual.should.have.all.keys(Object.keys(expected));
+
+      actual.items.should.have.deep.members(expectedItems);
     });
   });
 });
