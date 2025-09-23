@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { Candidature, IdentifiantProjet } from '../..';
 import { AccèsEntity } from '../accès.entity';
@@ -45,23 +45,27 @@ export const registerListerProjetsÀRéclamerQuery = ({
     nomCandidat,
     range,
   }) => {
-    const accès = await list<AccèsEntity>('accès');
-
-    const identifiantsProjets = accès.items
-      .filter((accès) => accès.utilisateursAyantAccès.length > 0)
-      .map((accès) => IdentifiantProjet.convertirEnValueType(accès.identifiantProjet).formatter());
-
-    const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
-      where: {
-        estNotifiée: Where.equal(true),
-        appelOffre: Where.equal(appelOffre),
-        période: Where.equal(période),
-        nomProjet: Where.contain(nomProjet),
-        nomCandidat: Where.contain(nomCandidat),
-        identifiantProjet: Where.notMatchAny(identifiantsProjets),
+    const candidatures = await list<Candidature.CandidatureEntity, LeftJoin<AccèsEntity>>(
+      'candidature',
+      {
+        where: {
+          estNotifiée: Where.equal(true),
+          appelOffre: Where.equal(appelOffre),
+          période: Where.equal(période),
+          nomProjet: Where.contain(nomProjet),
+          nomCandidat: Where.contain(nomCandidat),
+        },
+        join: {
+          entity: 'accès',
+          on: 'identifiantProjet',
+          type: 'left',
+          where: {
+            identifiantProjet: Where.equalNull(),
+          },
+        },
+        range,
       },
-      range,
-    });
+    );
 
     return {
       items: candidatures.items.map(mapToReadModel),
