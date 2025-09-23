@@ -25,7 +25,6 @@ export type CorrigerCandidaturesState = FormState;
 const schema = zod.object({
   identifiantProjet: identifiantProjetSchema,
   doitRegenererAttestation: doitRegenererAttestationSchema,
-
   nomProjet: dépôtSchema.shape.nomProjet,
   societeMere: dépôtSchema.shape.sociétéMère,
   nomCandidat: dépôtSchema.shape.nomCandidat,
