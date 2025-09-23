@@ -38,10 +38,10 @@ export type LeftJoin<T> = T & { __joinType: 'left' };
 type EntityWithoutType<T extends Entity> =
   T extends LeftJoin<T>
     ? {
-        [K in T['type']]?: Omit<T, 'type'>;
+        [K in T['type']]?: Omit<T, 'type' | '__joinType'>;
       }
     : {
-        [K in T['type']]: Omit<T, 'type'>;
+        [K in T['type']]: Omit<T, 'type' | '__joinType'>;
       };
 
 /**
