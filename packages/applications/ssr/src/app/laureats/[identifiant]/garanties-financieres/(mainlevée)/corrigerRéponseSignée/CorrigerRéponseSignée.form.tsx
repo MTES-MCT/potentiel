@@ -35,7 +35,6 @@ export const CorrigerRéponseSignée = ({
       <ModalWithForm
         id="corriger-réponse-signée-mainlevée-gf"
         title="Corriger la réponse signée"
-        acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

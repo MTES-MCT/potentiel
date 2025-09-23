@@ -44,7 +44,6 @@ export const RejeterDemandeDélai = ({
       <ModalWithForm
         id="rejeter-demande-délai"
         title="Rejeter la demande de délai"
-        acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

@@ -35,7 +35,6 @@ export const RejeterRecours = ({ identifiantProjet }: RejeterRecoursFormProps) =
       <ModalWithForm
         id="rejeter-recours-modal"
         title="Rejeter le recours"
-        acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

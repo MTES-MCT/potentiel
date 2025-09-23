@@ -11,7 +11,7 @@ import { Heading2 } from '../headings';
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
-import { FormActionButtons } from './FormActionButtons';
+import { FormActionButtons, FormActionButtonsProps } from './FormActionButtons';
 
 export type FormProps = {
   id?: string;
@@ -20,13 +20,7 @@ export type FormProps = {
   heading?: ReactNode;
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
-  actionButtons: {
-    backButton?: {
-      url: string;
-      label: string;
-    };
-    submitButtonLabel: string;
-  };
+  actionButtons: FormActionButtonsProps;
   onValidationError?: (validationErrors: ValidationErrors) => void;
   onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
   onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
