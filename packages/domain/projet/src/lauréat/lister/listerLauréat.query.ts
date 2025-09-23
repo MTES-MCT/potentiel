@@ -118,7 +118,7 @@ export const registerListerLauréatQuery = ({
             statut === 'abandonné'
               ? { statut: Where.equal('accordé') }
               : statut === 'classé'
-                ? { identifiantProjet: Where.equalNull() }
+                ? { statut: Where.notEqual('accordé') }
                 : undefined,
         },
         {
