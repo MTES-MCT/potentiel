@@ -162,7 +162,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   },
   'gestionnaire-réseau': gestionnaireRéseau,
   puissance: { puissance },
-  candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissanceCalculée },
+  candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance },
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -188,7 +188,7 @@ export const mapToReadModel: MapToReadModelProps = ({
         identifiantGestionnaireRéseau,
       ),
     raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
-    puissance: `${puissance} ${unitéPuissanceCalculée}`,
+    puissance: `${puissance} ${unitéPuissance}`,
 
     dateNotification: notifiéLe,
     emailContact,

@@ -115,6 +115,6 @@ const mapToReadModel = ({
     identifiantProjet,
     demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
     nouvellePuissance: entity.demande.nouvellePuissance,
-    unitéPuissance: candidature.unitéPuissanceCalculée,
+    unitéPuissance: candidature.unitéPuissance,
   };
 };

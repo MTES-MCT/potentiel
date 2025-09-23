@@ -54,7 +54,7 @@ export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   puissance,
   dateDemandeEnCours,
-  candidature: { puissanceProductionAnnuelle: puissanceInitiale, unitéPuissanceCalculée },
+  candidature: { puissanceProductionAnnuelle: puissanceInitiale, unitéPuissance },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   puissance,
@@ -62,5 +62,5 @@ export const mapToReadModel: MapToReadModel = ({
   dateDemandeEnCours: dateDemandeEnCours
     ? DateTime.convertirEnValueType(dateDemandeEnCours)
     : undefined,
-  unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissanceCalculée),
+  unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
 });

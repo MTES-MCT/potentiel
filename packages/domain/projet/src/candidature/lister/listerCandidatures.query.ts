@@ -110,7 +110,7 @@ export const mapToReadModel = ({
   evaluationCarboneSimplifiée,
   estNotifiée,
   notification,
-  unitéPuissanceCalculée,
+  unitéPuissance,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -136,5 +136,5 @@ export const mapToReadModel = ({
         notification.attestation.format,
       ),
     }),
-  unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissanceCalculée),
+  unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
 });

@@ -51,6 +51,7 @@ export type CandidatureEntity = Entity<
     emailContact: string;
     puissanceProductionAnnuelle: number;
     prixReference: number;
+    // Peut valoir N/A pour les AOs avec une seule technologie
     technologie: TypeTechnologie.RawType;
     sociétéMère: string;
     noteTotale: number;
@@ -68,8 +69,9 @@ export type CandidatureEntity = Entity<
     fournisseurs: Array<Fournisseur.RawType>;
     typologieInstallation: Array<TypologieInstallation.RawType>;
 
-    // Champs calculés
+    // Plus spécifique que `technologie`, ne peut valoir N/A
     technologieCalculée: AppelOffre.Technologie;
-    unitéPuissanceCalculée: UnitéPuissance.RawType;
+    // Calculée à partir de la technologie et de l'appel d'offres
+    unitéPuissance: UnitéPuissance.RawType;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;
