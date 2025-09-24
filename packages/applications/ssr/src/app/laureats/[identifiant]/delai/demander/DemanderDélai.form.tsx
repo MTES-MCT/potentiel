@@ -47,9 +47,9 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
       action={demanderDélaiAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Demander',
-        backButton: {
-          url: Routes.Projet.details(identifiantProjet),
+        submitLabel: 'Demander',
+        back: {
+          href: Routes.Projet.details(identifiantProjet),
           label: 'Retour à la page projet',
         },
       }}

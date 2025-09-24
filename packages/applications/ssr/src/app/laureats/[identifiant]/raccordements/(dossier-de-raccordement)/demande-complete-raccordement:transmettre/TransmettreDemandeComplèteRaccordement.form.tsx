@@ -69,16 +69,16 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       heading="Transmettre une demande complète de raccordement"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Transmettre',
-        backButton: aDéjàTransmisUneDemandeComplèteDeRaccordement
+        submitLabel: 'Transmettre',
+        back: aDéjàTransmisUneDemandeComplèteDeRaccordement
           ? {
-              url: Routes.Raccordement.détail(
+              href: Routes.Raccordement.détail(
                 IdentifiantProjet.bind(identifiantProjet).formatter(),
               ),
               label: 'Retour aux dossiers de raccordement',
             }
           : {
-              url: Routes.Projet.details(identifiantProjetValue),
+              href: Routes.Projet.details(identifiantProjetValue),
               label: 'Retour à la page projet',
             },
       }}

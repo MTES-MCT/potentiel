@@ -27,7 +27,7 @@ export const ImporterCandidaturesForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Importer',
+        submitLabel: 'Importer',
       }}
     >
       <UploadNewOrModifyExistingDocument

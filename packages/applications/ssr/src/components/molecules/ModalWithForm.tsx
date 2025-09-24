@@ -8,7 +8,6 @@ import { Form, FormProps } from '../atoms/form/Form';
 
 export type ModalWithFormProps = {
   id: string;
-  acceptButtonLabel: string;
   form: Omit<FormProps, 'actions' | 'actionButtons'>;
   isOpen: boolean;
   rejectButtonLabel: string;
@@ -60,8 +59,8 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
         onValidationError={form.onValidationError}
         key={`form-${id}`}
         actionButtons={{
-          submitButtonLabel: 'Oui',
-          backButton: {
+          submitLabel: 'Oui',
+          back: {
             label: rejectButtonLabel,
             onClick: handleRejectClick,
           },

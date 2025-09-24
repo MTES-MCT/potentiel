@@ -58,9 +58,9 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
         children: 'Modification du cahier des charges du projet en cours...',
       }}
       actionButtons={{
-        submitButtonLabel: 'Choisir',
-        backButton: {
-          url: Routes.Projet.details(identifiantProjet),
+        submitLabel: 'Choisir',
+        back: {
+          href: Routes.Projet.details(identifiantProjet),
           label: 'Retour à la page projet',
         },
       }}

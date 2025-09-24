@@ -31,9 +31,9 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
       action={enregistrerChangementProducteurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Confirmer le changement',
-        backButton: {
-          url: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        submitLabel: 'Confirmer le changement',
+        back: {
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
           label: 'Retour à la page projet',
         },
       }}

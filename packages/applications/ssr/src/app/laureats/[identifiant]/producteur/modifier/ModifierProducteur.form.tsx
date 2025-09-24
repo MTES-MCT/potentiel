@@ -29,9 +29,9 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
       action={modifierProducteurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Modifier',
-        backButton: {
-          url: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        submitLabel: 'Modifier',
+        back: {
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
           label: 'Retour à la page projet',
         },
       }}

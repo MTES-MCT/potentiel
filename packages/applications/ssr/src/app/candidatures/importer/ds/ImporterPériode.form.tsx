@@ -45,7 +45,7 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Importer',
+        submitLabel: 'Importer',
       }}
     >
       <div className="flex justify-between">

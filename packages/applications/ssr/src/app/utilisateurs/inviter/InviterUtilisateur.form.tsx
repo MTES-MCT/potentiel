@@ -35,7 +35,7 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Inviter un utilisateur"
       actionButtons={{
-        submitButtonLabel: 'Inviter',
+        submitLabel: 'Inviter',
       }}
     >
       <div className="flex flex-col gap-5">

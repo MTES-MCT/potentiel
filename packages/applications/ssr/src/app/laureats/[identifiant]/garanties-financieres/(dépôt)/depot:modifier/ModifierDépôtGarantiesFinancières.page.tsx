@@ -34,7 +34,7 @@ export const ModifierDépôtGarantiesFinancièresPage: FC<
           <SoumettreDépôtGarantiesFinancièresForm
             identifiantProjet={identifiantProjet}
             action={modifierDépôtGarantiesFinancièresAction}
-            submitButtonLabel="Modifier"
+            submitLabel="Modifier"
             typesGarantiesFinancières={typesGarantiesFinancières}
             dépôt={dépôt}
           />

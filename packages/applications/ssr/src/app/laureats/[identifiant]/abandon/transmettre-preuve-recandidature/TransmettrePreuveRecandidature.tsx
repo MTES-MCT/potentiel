@@ -8,7 +8,6 @@ import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -30,6 +29,7 @@ type ProjetÀSélectionner = {
   nom: string;
 };
 
+// Form Modal à remplacer
 export const TransmettrePreuveRecandidature = ({
   identifiantProjet,
   projetsÀSélectionner,
@@ -74,14 +74,13 @@ export const TransmettrePreuveRecandidature = ({
           key={id}
           action={transmettrePreuveRecandidatureAction}
           onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-          actions={
-            <>
-              <Button priority="secondary" onClick={closeModal} type="button">
-                Annuler
-              </Button>
-              <SubmitButton>Transmettre la preuve</SubmitButton>
-            </>
-          }
+          actionButtons={{
+            submitLabel: 'Transmettre',
+            back: {
+              onClick: closeModal,
+              label: 'Annuler',
+            },
+          }}
         >
           <SelectNext
             label="Choisir un projet comme preuve de recandidature"

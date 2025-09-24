@@ -1,42 +1,43 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { SubmitButton } from './SubmitButton';
 
 export type FormActionButtonsProps = {
-  submitButtonLabel: string;
-  backButton?:
+  submitLabel: string;
+  back?:
     | {
-        url?: undefined;
+        href?: undefined;
         label: string;
-        onClick: () => Promise<void>;
+        onClick: () => void;
       }
     | {
-        url: string;
+        href: string;
         label: string;
         onClick?: undefined;
       };
 };
 
-export const FormActionButtons = ({ backButton, submitButtonLabel }: FormActionButtonsProps) => {
+export const FormActionButtons = ({ back, submitLabel }: FormActionButtonsProps) => {
   return (
     <>
-      {backButton && (
+      {back && (
         <Button
           priority="secondary"
           iconId="fr-icon-arrow-left-line"
-          {...(backButton.url
+          {...(back.href
             ? {
-                href: backButton.url,
+                href: back.href,
                 prefetch: false,
               }
             : {
-                onClick: backButton.onClick,
+                onClick: back.onClick,
               })}
         >
-          {backButton.label}
+          {back.label}
         </Button>
       )}
-      <SubmitButton>{submitButtonLabel}</SubmitButton>
+      <SubmitButton>{submitLabel}</SubmitButton>
     </>
   );
 };

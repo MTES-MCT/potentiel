@@ -197,7 +197,6 @@ export const CorrigerChangementReprésentantLégalForm: FC<
         onValidationError={(validationErrors) => {
           setValidationErrors(validationErrors);
         }}
-        actions={null}
         omitMandatoryFieldsLegend={state.step !== 2 ? true : undefined}
       >
         <input type="hidden" value={DateTime.bind(dateDemande).formatter()} name="dateDemande" />

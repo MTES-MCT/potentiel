@@ -20,7 +20,7 @@ export type FormProps = {
   heading?: ReactNode;
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
-  actionButtons: FormActionButtonsProps;
+  actionButtons?: FormActionButtonsProps;
   onValidationError?: (validationErrors: ValidationErrors) => void;
   onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
   onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
@@ -87,12 +87,11 @@ export const Form: FC<FormProps> = ({
       )}
       <div className="flex flex-col gap-5">
         {children}
-        <div className="flex flex-col md:flex-row gap-2">
-          <FormActionButtons
-            backButton={actionButtons.backButton}
-            submitButtonLabel={actionButtons.submitButtonLabel}
-          />
-        </div>
+        {actionButtons && (
+          <div className="flex flex-col md:flex-row gap-2">
+            <FormActionButtons back={actionButtons.back} submitLabel={actionButtons.submitLabel} />
+          </div>
+        )}
       </div>
       <FormFeedbackCsvErrors formState={state} />
     </form>
