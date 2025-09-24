@@ -10,7 +10,7 @@ export type ModalWithFormProps = {
   id: string;
   form: Omit<FormProps, 'actions' | 'actionButtons'>;
   isOpen: boolean;
-  rejectButtonLabel: string;
+  cancelButtonLabel: string;
   onClose: () => void;
   title: string;
 };
@@ -19,7 +19,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   id,
   form,
   isOpen,
-  rejectButtonLabel,
+  cancelButtonLabel,
   onClose,
   title,
 }) => {
@@ -60,8 +60,9 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
         key={`form-${id}`}
         actionButtons={{
           submitLabel: 'Oui',
-          back: {
-            label: rejectButtonLabel,
+          secondaryAction: {
+            type: 'cancel',
+            label: cancelButtonLabel,
             onClick: handleRejectClick,
           },
         }}

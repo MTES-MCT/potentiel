@@ -26,7 +26,8 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Demander le recours',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Projet.details(identifiantProjet),
           label: 'Retour au projet',
         },

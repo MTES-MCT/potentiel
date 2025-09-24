@@ -29,7 +29,7 @@ export const AnnulerDemandeDélai = ({ identifiantProjet }: AnnulerDemandeDélai
       <ModalWithForm
         id="annuler-demande-délai"
         title="Annuler la demande de délai"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

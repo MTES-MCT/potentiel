@@ -101,7 +101,7 @@ const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = 
       <ModalWithForm
         id={`supprimer-dossier-raccordement-${référenceDossier}`}
         title={`Supprimer le dossier ${référenceDossier} du raccordement`}
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

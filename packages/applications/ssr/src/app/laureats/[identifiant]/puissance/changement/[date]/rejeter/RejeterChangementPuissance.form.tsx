@@ -43,7 +43,7 @@ export const RejeterChangementPuissance = ({
       <ModalWithForm
         id="rejeter-changement-puissance-modal"
         title="Rejeter la demande de changement de puissance"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

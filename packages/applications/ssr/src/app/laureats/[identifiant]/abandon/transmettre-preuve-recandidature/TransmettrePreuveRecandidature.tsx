@@ -76,7 +76,8 @@ export const TransmettrePreuveRecandidature = ({
           onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           actionButtons={{
             submitLabel: 'Transmettre',
-            back: {
+            secondaryAction: {
+              type: 'cancel',
               onClick: closeModal,
               label: 'Annuler',
             },

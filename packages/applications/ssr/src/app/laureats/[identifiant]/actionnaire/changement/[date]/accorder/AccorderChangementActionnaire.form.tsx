@@ -42,7 +42,7 @@ export const AccorderChangementActionnaire = ({
       <ModalWithForm
         id="accorder-changement-actionnaire-modal"
         title="Accorder"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

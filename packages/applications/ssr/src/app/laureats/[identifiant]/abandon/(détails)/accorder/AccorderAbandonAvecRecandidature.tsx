@@ -29,7 +29,7 @@ export const AccorderAbandonAvecRecandidature = ({
       <ModalWithForm
         id="accorder-abandon-avec-recandidature"
         title="Accorder l'abandon"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

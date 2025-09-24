@@ -27,7 +27,7 @@ export const ConfirmerAbandon = ({ identifiantProjet }: ConfirmerAbandonFormProp
       <ModalWithForm
         id="confirmer-abandon"
         title="Confirmer l'abandon"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

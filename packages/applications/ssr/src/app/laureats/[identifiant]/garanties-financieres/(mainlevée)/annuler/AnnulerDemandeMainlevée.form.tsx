@@ -23,7 +23,7 @@ export const AnnulerDemandeMainlevée = ({ identifiantProjet }: AnnulerDemanderM
       <ModalWithForm
         id="annuler-demande-mainlevée-gf"
         title="Annuler la demande de mainlevée des garanties financières"
-        rejectButtonLabel="Retour"
+        cancelButtonLabel="Retour"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

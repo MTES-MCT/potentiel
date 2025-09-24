@@ -59,7 +59,8 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
       }}
       actionButtons={{
         submitLabel: 'Choisir',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Projet.details(identifiantProjet),
           label: 'Retour à la page projet',
         },

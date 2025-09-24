@@ -45,7 +45,8 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Corriger',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: lienRetour,
           label: 'Retour aux dossiers de raccordement',
         },
