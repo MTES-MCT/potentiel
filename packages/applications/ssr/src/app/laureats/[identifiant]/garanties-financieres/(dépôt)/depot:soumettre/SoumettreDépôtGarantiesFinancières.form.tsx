@@ -39,14 +39,14 @@ type Action =
 export type SoumettreDépôtGarantiesFinancièresFormProps = {
   identifiantProjet: string;
   action: Action;
-  submitButtonLabel: string;
+  submitLabel: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
   dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
 };
 
 export const SoumettreDépôtGarantiesFinancièresForm: FC<
   SoumettreDépôtGarantiesFinancièresFormProps
-> = ({ identifiantProjet, action, submitButtonLabel, typesGarantiesFinancières, dépôt }) => {
+> = ({ identifiantProjet, action, submitLabel, typesGarantiesFinancières, dépôt }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
       | ModifierDépôtGarantiesFinancièresFormKeys
@@ -60,9 +60,9 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel,
-        backButton: {
-          url: Routes.GarantiesFinancières.détail(identifiantProjet),
+        submitLabel,
+        back: {
+          href: Routes.GarantiesFinancières.détail(identifiantProjet),
           label: 'Retour aux détails des garanties financières',
         },
       }}

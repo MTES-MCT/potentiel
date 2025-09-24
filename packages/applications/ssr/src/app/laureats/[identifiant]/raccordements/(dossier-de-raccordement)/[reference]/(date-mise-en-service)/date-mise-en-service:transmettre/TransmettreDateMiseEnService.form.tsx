@@ -38,9 +38,9 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
       action={transmettreDateMiseEnServiceAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Transmettre',
-        backButton: {
-          url: Routes.Raccordement.détail(identifiantProjet),
+        submitLabel: 'Transmettre',
+        back: {
+          href: Routes.Raccordement.détail(identifiantProjet),
           label: 'Retour aux dossiers de raccordement',
         },
       }}

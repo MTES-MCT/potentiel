@@ -27,7 +27,7 @@ export const CorrigerRéférencesDossierForm: FC = () => {
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Corriger',
+        submitLabel: 'Corriger',
       }}
     >
       <UploadNewOrModifyExistingDocument

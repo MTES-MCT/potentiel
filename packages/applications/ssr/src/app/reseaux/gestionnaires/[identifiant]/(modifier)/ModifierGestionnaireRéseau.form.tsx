@@ -49,7 +49,7 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
       action={modifierGestionnaireRéseauAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Modifier',
+        submitLabel: 'Modifier',
       }}
     >
       <div className="mb-6">

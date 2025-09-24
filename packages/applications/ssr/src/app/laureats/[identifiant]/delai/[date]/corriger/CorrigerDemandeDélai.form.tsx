@@ -59,9 +59,9 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
       action={corrigerDemandeDélaiAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Corriger la demande',
-        backButton: {
-          url: Routes.Délai.détail(identifiantProjet, dateDemande),
+        submitLabel: 'Corriger la demande',
+        back: {
+          href: Routes.Délai.détail(identifiantProjet, dateDemande),
           label: 'Retour à la page de la demande',
         },
       }}

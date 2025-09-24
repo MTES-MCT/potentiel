@@ -31,9 +31,9 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
       action={demanderChangementActionnaireAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Demander le changement',
-        backButton: {
-          url: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        submitLabel: 'Demander le changement',
+        back: {
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
           label: 'Retour à la page projet',
         },
       }}

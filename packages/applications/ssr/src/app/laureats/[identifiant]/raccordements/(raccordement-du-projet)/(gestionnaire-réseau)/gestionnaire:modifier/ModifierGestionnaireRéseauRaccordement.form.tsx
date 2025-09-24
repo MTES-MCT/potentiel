@@ -38,9 +38,9 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       heading="Modifier le gestionnaire de réseau du projet"
       actionButtons={{
-        submitButtonLabel: 'Modifier',
-        backButton: {
-          url: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        submitLabel: 'Modifier',
+        back: {
+          href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
           label: 'Retour aux dossiers de raccordement',
         },
       }}

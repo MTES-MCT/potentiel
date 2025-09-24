@@ -32,9 +32,9 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
       action={transmettrePropositionTechniqueEtFinancièreAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Transmettre',
-        backButton: {
-          url: Routes.Raccordement.détail(identifiantProjet),
+        submitLabel: 'Transmettre',
+        back: {
+          href: Routes.Raccordement.détail(identifiantProjet),
           label: 'Retour aux dossiers de raccordement',
         },
       }}

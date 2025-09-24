@@ -49,7 +49,7 @@ export const ImporterDatesMiseEnServiceForm: FC<
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Importer',
+        submitLabel: 'Importer',
       }}
     >
       <GestionnaireRéseauSelect

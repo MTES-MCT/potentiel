@@ -20,7 +20,7 @@ export const AjouterGestionnaireRéseauForm = () => {
       action={ajouterGestionnaireRéseauAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Ajouter',
+        submitLabel: 'Ajouter',
       }}
     >
       <Input

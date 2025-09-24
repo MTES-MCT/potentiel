@@ -41,9 +41,9 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
       action={modifierGarantiesFinancièresActuellesAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Modifier',
-        backButton: {
-          url: Routes.GarantiesFinancières.détail(identifiantProjet),
+        submitLabel: 'Modifier',
+        back: {
+          href: Routes.GarantiesFinancières.détail(identifiantProjet),
           label: 'Retour aux détails des garanties financières',
         },
       }}

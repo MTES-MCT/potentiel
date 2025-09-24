@@ -32,9 +32,9 @@ export const ModifierInstallateurForm: FC<ModifierInstallateurFormProps> = ({
       action={modifierInstallateurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Modifier',
-        backButton: {
-          url: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        submitLabel: 'Modifier',
+        back: {
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
           label: 'Retour à la page projet',
         },
       }}

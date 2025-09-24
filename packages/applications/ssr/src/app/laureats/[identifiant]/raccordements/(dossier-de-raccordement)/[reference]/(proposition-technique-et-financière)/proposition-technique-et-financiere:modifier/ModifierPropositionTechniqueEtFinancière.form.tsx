@@ -45,9 +45,9 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
       heading="Modifier la proposition technique et financière"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel: 'Modifier',
-        backButton: {
-          url: Routes.Raccordement.détail(identifiantProjet),
+        submitLabel: 'Modifier',
+        back: {
+          href: Routes.Raccordement.détail(identifiantProjet),
           label: 'Retour aux dossiers de raccordement',
         },
       }}

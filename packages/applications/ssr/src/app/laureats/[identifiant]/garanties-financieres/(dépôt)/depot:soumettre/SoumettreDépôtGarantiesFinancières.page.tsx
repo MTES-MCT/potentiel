@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -26,7 +26,7 @@ export const SoumettreDépôtGarantiesFinancièresPage: FC<
         <SoumettreDépôtGarantiesFinancièresForm
           identifiantProjet={identifiantProjet}
           action={soumettreDépôtGarantiesFinancièresAction}
-          submitButtonLabel="Soumettre"
+          submitLabel="Soumettre"
           typesGarantiesFinancières={typesGarantiesFinancières}
         />
       ),

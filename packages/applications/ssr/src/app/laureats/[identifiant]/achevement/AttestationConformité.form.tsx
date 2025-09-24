@@ -28,7 +28,7 @@ type Action =
 export type AttestationConformitéFormProps = {
   identifiantProjet: string;
   action: Action;
-  submitButtonLabel: string;
+  submitLabel: string;
   donnéesActuelles?: {
     attestation: string;
     preuveTransmissionAuCocontractant: string;
@@ -40,7 +40,7 @@ export type AttestationConformitéFormProps = {
 export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = ({
   identifiantProjet,
   action,
-  submitButtonLabel,
+  submitLabel,
   donnéesActuelles,
   demanderMainlevée,
 }) => {
@@ -55,9 +55,9 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitButtonLabel,
-        backButton: {
-          url: Routes.Projet.details(identifiantProjet),
+        submitLabel,
+        back: {
+          href: Routes.Projet.details(identifiantProjet),
           label: 'Retour à la projet',
         },
       }}

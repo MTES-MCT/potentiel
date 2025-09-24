@@ -26,7 +26,7 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
     <SoumettreDépôtGarantiesFinancièresForm
       identifiantProjet={identifiantProjet}
       action={enregistrerGarantiesFinancièresAction}
-      submitButtonLabel="Enregistrer"
+      submitLabel="Enregistrer"
       typesGarantiesFinancières={typesGarantiesFinancières}
     />
   </PageTemplate>
