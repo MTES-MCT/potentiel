@@ -29,7 +29,6 @@ type ProjetÀSélectionner = {
   nom: string;
 };
 
-// Form Modal à remplacer
 export const TransmettrePreuveRecandidature = ({
   identifiantProjet,
   projetsÀSélectionner,
