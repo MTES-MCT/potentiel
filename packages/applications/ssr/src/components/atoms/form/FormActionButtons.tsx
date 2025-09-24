@@ -23,12 +23,13 @@ export const FormActionButtons = ({ back, submitLabel }: FormActionButtonsProps)
     <>
       {back && (
         <Button
+          type="button"
           priority="secondary"
-          iconId="fr-icon-arrow-left-line"
           {...(back.href
             ? {
                 href: back.href,
                 prefetch: false,
+                iconId: 'fr-icon-arrow-left-line',
               }
             : {
                 onClick: back.onClick,
