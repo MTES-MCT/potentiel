@@ -82,6 +82,12 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       dispositions: `***** A AJOUTER *****`,
     },
   },
+  addendums: {
+    paragrapheRenseignerRaccordementDansPotentiel:
+      'renseigner dans votre espace Potentiel la référence de l’affaire de raccordement dans les quatre (4) mois à compter de la présente notification',
+    paragrapheRenseignerAttestationConformitéDansPotentiel:
+      'par voie dématérialisée dans votre espace Potentiel',
+  },
   champsSupplémentaires: {
     puissanceDeSite: 'requis',
     autorisationDUrbanisme: 'requis',
@@ -96,12 +102,18 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
-        référence: '', // à vérifier
+        référence: 'XXXX', // à vérifier
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' }, // à vérifier
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
       champsSupplémentaires: {},
+      addendums: {
+        paragrapheECS:
+          "Pour rappel, la conformité de l’autorisation d’urbanisme et  le respect du bilan carbone déclaré dans l’offre, arrondi au multiple de 10 le plus proche conformément au cahier des charges, fait l’objet d’une vérification pour la délivrance de l’attestation de conformité qui est obligatoire pour la prise d'effet du contrat",
+        paragraphePrix:
+          "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 de l'annexe 2 du cahier des charges.",
+      },
     },
   ],
 };
