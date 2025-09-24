@@ -33,7 +33,8 @@ export const EnregistrerChangementActionnaireForm: FC<
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Modifier',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
           label: 'Retour à la page projet',
         },

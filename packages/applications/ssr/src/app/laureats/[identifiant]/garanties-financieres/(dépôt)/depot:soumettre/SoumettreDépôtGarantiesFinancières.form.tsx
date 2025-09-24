@@ -61,7 +61,8 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel,
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.GarantiesFinancières.détail(identifiantProjet),
           label: 'Retour aux détails des garanties financières',
         },

@@ -29,7 +29,7 @@ export const AnnulerChangementReprésentantLégal = ({
       <ModalWithForm
         id="annuler-changementReprésentantLégal-modal"
         title="Annuler le changement de représentant légal"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

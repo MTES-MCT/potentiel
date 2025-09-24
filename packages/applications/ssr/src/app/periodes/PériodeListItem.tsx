@@ -163,7 +163,7 @@ const NotifyButton: FC<NotifyButtonProps> = ({
       <ModalWithForm
         id={`notifier-période-${identifiantPériode}`}
         title="Notifier la période"
-        rejectButtonLabel="Annuler"
+        cancelButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

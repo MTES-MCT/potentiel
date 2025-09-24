@@ -5,37 +5,37 @@ import { SubmitButton } from './SubmitButton';
 
 export type FormActionButtonsProps = {
   submitLabel: string;
-  back?:
+  secondaryAction?:
     | {
-        href?: undefined;
+        type: 'cancel';
         label: string;
         onClick: () => void;
       }
     | {
+        type: 'back';
         href: string;
         label: string;
-        onClick?: undefined;
       };
 };
 
-export const FormActionButtons = ({ back, submitLabel }: FormActionButtonsProps) => {
+export const FormActionButtons = ({ secondaryAction, submitLabel }: FormActionButtonsProps) => {
   return (
     <>
-      {back && (
+      {secondaryAction && (
         <Button
           type="button"
           priority="secondary"
-          {...(back.href
+          {...(secondaryAction.type === 'back'
             ? {
-                href: back.href,
+                href: secondaryAction.href,
                 prefetch: false,
                 iconId: 'fr-icon-arrow-left-line',
               }
             : {
-                onClick: back.onClick,
+                onClick: secondaryAction.onClick,
               })}
         >
-          {back.label}
+          {secondaryAction.label}
         </Button>
       )}
       <SubmitButton>{submitLabel}</SubmitButton>

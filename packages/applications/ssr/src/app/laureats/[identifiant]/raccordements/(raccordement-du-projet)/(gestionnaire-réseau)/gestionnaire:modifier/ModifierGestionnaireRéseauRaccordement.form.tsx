@@ -39,7 +39,8 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
       heading="Modifier le gestionnaire de réseau du projet"
       actionButtons={{
         submitLabel: 'Modifier',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
           label: 'Retour aux dossiers de raccordement',
         },

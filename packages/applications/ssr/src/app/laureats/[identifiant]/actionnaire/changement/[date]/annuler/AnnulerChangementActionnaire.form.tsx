@@ -29,7 +29,7 @@ export const AnnulerChangementActionnaire = ({
       <ModalWithForm
         id="annuler-changement-actionnaire-modal"
         title="Annuler"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

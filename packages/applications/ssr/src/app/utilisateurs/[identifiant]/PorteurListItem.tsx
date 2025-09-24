@@ -56,7 +56,7 @@ const RetirerAccèsProjetButton: FC<{
       <ModalWithForm
         id={`retirer-acces-projet-${identifiantProjet}-${identifiantUtilisateur}`}
         title="Retirer l'accès au projet"
-        rejectButtonLabel="Annuler"
+        cancelButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

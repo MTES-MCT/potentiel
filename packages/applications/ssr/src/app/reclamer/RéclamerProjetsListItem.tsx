@@ -86,7 +86,7 @@ const RéclamerProjetForm: FC<RéclamerProjetFormProps> = ({ identifiantProjet, 
       <ModalWithForm
         id={`réclamer-projet-${identifiantProjet}`}
         title="Réclamer le projet"
-        rejectButtonLabel="Annuler"
+        cancelButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
@@ -127,7 +127,7 @@ const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
       <ModalWithForm
         id={`réclamer-projet-${identifiantProjet}`}
         title="Réclamer le projet"
-        rejectButtonLabel="Annuler"
+        cancelButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

@@ -45,7 +45,7 @@ export const AccorderChangementReprésentantLégal = ({
       <ModalWithForm
         id="accorder-changementReprésentantLégal-modal"
         title="Accorder le changement de représentant légal"
-        rejectButtonLabel="Non"
+        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

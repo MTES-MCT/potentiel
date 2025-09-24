@@ -73,7 +73,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       onValidationError={setValidationErrors}
       actionButtons={{
         submitLabel: 'Corriger',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Candidature.détails(candidature.identifiantProjet),
           label: 'Retour à la candidature',
         },

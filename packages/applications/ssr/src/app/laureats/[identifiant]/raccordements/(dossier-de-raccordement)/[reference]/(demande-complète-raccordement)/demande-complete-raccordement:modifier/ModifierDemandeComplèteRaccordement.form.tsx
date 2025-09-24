@@ -63,7 +63,8 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Modifier',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Raccordement.détail(identifiantProjet),
           label: 'Retour aux dossiers de raccordement',
         },

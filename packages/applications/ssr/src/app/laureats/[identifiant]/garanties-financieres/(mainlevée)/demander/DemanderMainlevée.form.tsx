@@ -24,7 +24,7 @@ export const DemanderMainlevéeForm = ({ identifiantProjet, motif }: DemanderMai
       <ModalWithForm
         id="demander-mainlevée-gf"
         title="Demander la mainlevée des garanties financières"
-        rejectButtonLabel="Annuler"
+        cancelButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

@@ -56,7 +56,8 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel,
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Projet.details(identifiantProjet),
           label: 'Retour à la projet',
         },

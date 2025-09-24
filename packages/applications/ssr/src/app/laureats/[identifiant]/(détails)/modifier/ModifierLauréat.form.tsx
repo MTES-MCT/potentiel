@@ -85,7 +85,8 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
       }}
       actionButtons={{
         submitLabel: 'Modifier',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.Projet.details(projet.identifiantProjet),
           label: 'Retour à la page projet',
         },

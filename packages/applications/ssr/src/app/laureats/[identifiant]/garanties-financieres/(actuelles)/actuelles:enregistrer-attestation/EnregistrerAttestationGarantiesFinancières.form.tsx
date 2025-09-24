@@ -31,7 +31,8 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Enregistrer',
-        back: {
+        secondaryAction: {
+          type: 'back',
           href: Routes.GarantiesFinancières.détail(identifiantProjet),
           label: 'Retour aux détails des garanties financières',
         },
