@@ -3,7 +3,6 @@
 import { fr } from '@codegouvfr/react-dsfr';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
-import React from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -19,7 +18,7 @@ export const ErrorRedirectionLink = () => {
       <li>
         {identifiantProjet ? (
           <Link className={fr.cx('fr-btn')} href={Routes.Projet.details(identifiantProjet)}>
-            Retourner au projet
+            Retour à la page projet
           </Link>
         ) : (
           <Link className={fr.cx('fr-btn')} href="/">

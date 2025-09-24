@@ -79,7 +79,6 @@ export const TransmettrePreuveRecandidature = ({
             secondaryAction: {
               type: 'cancel',
               onClick: closeModal,
-              label: 'Annuler',
             },
           }}
         >

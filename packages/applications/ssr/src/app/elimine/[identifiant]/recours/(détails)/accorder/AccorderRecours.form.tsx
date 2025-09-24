@@ -35,7 +35,6 @@ export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps)
       <ModalWithForm
         id="accorder-recours-modal"
         title="Accorder le recours"
-        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

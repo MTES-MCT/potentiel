@@ -29,7 +29,6 @@ export const AnnulerChangementPuissance = ({
       <ModalWithForm
         id="annuler-changement-puissance-modal"
         title="Annuler ce changement de puissance"
-        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

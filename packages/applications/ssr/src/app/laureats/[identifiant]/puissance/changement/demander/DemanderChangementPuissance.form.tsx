@@ -85,11 +85,10 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
       action={demanderChangementPuissanceAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
-        submitLabel: 'Demander le changement',
+        submitLabel: 'Demander',
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-          label: 'Retour à la page projet',
         },
       }}
     >

@@ -35,7 +35,6 @@ export const ModifierInstallationAvecDispositifDeStockageForm: FC<
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-          label: 'Retour à la page projet',
         },
       }}
     >

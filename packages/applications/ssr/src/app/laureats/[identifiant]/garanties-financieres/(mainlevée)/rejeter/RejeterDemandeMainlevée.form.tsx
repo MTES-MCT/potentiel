@@ -36,7 +36,6 @@ export const RejeterDemandeMainlevéeForm = ({
       <ModalWithForm
         id="rejeter-demande"
         title="Rejeter la demande"
-        cancelButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

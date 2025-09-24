@@ -59,7 +59,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(identifiantProjet),
-          label: 'Retour à la projet',
         },
       }}
     >

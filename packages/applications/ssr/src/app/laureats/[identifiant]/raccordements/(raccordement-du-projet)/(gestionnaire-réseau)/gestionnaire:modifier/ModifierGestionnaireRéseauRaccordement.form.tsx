@@ -42,7 +42,6 @@ export const ModifierGestionnaireRéseauRaccordementForm: FC<
         secondaryAction: {
           type: 'back',
           href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
-          label: 'Retour aux dossiers de raccordement',
         },
       }}
     >

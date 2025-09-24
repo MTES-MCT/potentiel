@@ -51,7 +51,6 @@ export const DemanderDélaiForm: FC<DemanderDélaiFormProps> = ({
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(identifiantProjet),
-          label: 'Retour à la page projet',
         },
       }}
     >

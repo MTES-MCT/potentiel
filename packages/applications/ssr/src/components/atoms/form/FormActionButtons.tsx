@@ -8,36 +8,31 @@ export type FormActionButtonsProps = {
   secondaryAction?:
     | {
         type: 'cancel';
-        label: string;
         onClick: () => void;
       }
     | {
         type: 'back';
         href: string;
-        label: string;
       };
 };
 
 export const FormActionButtons = ({ secondaryAction, submitLabel }: FormActionButtonsProps) => {
   return (
     <>
-      {secondaryAction && (
-        <Button
-          type="button"
-          priority="secondary"
-          {...(secondaryAction.type === 'back'
-            ? {
-                href: secondaryAction.href,
-                prefetch: false,
-                iconId: 'fr-icon-arrow-left-line',
-              }
-            : {
-                onClick: secondaryAction.onClick,
-              })}
-        >
-          {secondaryAction.label}
-        </Button>
-      )}
+      {secondaryAction ? (
+        secondaryAction.type === 'back' ? (
+          <Button
+            linkProps={{ href: secondaryAction.href, prefetch: false }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour
+          </Button>
+        ) : (
+          <Button type="button" priority="secondary" onClick={secondaryAction.onClick}>
+            Annuler
+          </Button>
+        )
+      ) : null}
       <SubmitButton>{submitLabel}</SubmitButton>
     </>
   );

@@ -29,7 +29,6 @@ export const PasserDemandeMainlevéeEnInstruction = ({
       <ModalWithForm
         id="démarrer-instruction-demande-mainlevée"
         title="Démarrer l'instruction de la demande de mainlevée"
-        cancelButtonLabel="Annuler"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

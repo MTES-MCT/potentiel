@@ -36,7 +36,6 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
         secondaryAction: {
           type: 'back',
           href: Routes.Raccordement.détail(identifiantProjet),
-          label: 'Retour aux dossiers de raccordement',
         },
       }}
     >
