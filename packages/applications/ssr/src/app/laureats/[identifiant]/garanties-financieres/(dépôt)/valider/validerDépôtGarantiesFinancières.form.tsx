@@ -25,7 +25,6 @@ export const ValiderDépôtGarantiesFinancièresForm = ({
       <ModalWithForm
         id="valider-gf"
         title="Valider les garanties financières"
-        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

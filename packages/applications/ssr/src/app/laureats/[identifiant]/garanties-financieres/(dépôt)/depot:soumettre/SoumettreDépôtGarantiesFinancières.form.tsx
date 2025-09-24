@@ -64,7 +64,6 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
         secondaryAction: {
           type: 'back',
           href: Routes.GarantiesFinancières.détail(identifiantProjet),
-          label: 'Retour aux détails des garanties financières',
         },
       }}
     >

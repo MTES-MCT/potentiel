@@ -62,7 +62,6 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(identifiantProjet),
-          label: 'Retour à la page projet',
         },
       }}
     >

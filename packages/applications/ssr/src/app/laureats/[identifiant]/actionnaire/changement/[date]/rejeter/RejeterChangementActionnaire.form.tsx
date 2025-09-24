@@ -42,7 +42,6 @@ export const RejeterChangementActionnaire = ({
       <ModalWithForm
         id="rejeter-changement-actionnaire-modal"
         title="Rejeter"
-        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

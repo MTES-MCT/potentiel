@@ -33,7 +33,6 @@ export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-          label: 'Retour à la page projet',
         },
       }}
     >

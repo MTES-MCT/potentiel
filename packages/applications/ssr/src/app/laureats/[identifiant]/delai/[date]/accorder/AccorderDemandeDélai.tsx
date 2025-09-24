@@ -65,7 +65,6 @@ export const AccorderDemandeDélai = ({
       <ModalWithForm
         id="accorder-demande-délai"
         title="Accorder la demande de délai"
-        cancelButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

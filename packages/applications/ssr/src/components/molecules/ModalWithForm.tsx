@@ -10,19 +10,11 @@ export type ModalWithFormProps = {
   id: string;
   form: Omit<FormProps, 'actions' | 'actionButtons'>;
   isOpen: boolean;
-  cancelButtonLabel: string;
   onClose: () => void;
   title: string;
 };
 
-export const ModalWithForm: FC<ModalWithFormProps> = ({
-  id,
-  form,
-  isOpen,
-  cancelButtonLabel,
-  onClose,
-  title,
-}) => {
+export const ModalWithForm: FC<ModalWithFormProps> = ({ id, form, isOpen, onClose, title }) => {
   // trick to reset the form when re-opening the modal
   const [modal] = useState(
     createModal({
@@ -62,7 +54,6 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
           submitLabel: 'Oui',
           secondaryAction: {
             type: 'cancel',
-            label: cancelButtonLabel,
             onClick: handleRejectClick,
           },
         }}

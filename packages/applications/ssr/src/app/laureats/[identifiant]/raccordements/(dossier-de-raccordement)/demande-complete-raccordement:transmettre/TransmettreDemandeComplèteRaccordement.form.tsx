@@ -76,12 +76,10 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
               href: Routes.Raccordement.détail(
                 IdentifiantProjet.bind(identifiantProjet).formatter(),
               ),
-              label: 'Retour aux dossiers de raccordement',
             }
           : {
               type: 'back',
               href: Routes.Projet.details(identifiantProjetValue),
-              label: 'Retour à la page projet',
             },
       }}
     >

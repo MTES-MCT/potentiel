@@ -88,7 +88,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(projet.identifiantProjet),
-          label: 'Retour à la page projet',
         },
       }}
     >

@@ -48,7 +48,6 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
         secondaryAction: {
           type: 'back',
           href: lienRetour,
-          label: 'Retour aux dossiers de raccordement',
         },
       }}
     >

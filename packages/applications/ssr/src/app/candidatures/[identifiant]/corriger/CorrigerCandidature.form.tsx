@@ -76,7 +76,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         secondaryAction: {
           type: 'back',
           href: Routes.Candidature.détails(candidature.identifiantProjet),
-          label: 'Retour à la candidature',
         },
       }}
     >
