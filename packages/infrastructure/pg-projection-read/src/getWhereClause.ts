@@ -49,7 +49,7 @@ const buildWhereClause = (
   where: WhereOptions<Omit<Entity, 'type'>>,
   projection: string,
   startIndex = 0,
-): [clause: string, values: Array<unknown>] => {
+): WhereClausesAndValues => {
   const rawWhere = flatten<typeof where, Record<string, unknown>>(where);
   const conditions = mapToConditions(rawWhere);
   const [sqlClause] = conditions.reduce(
@@ -72,13 +72,15 @@ const buildJoinWhereClause = (
   joins: JoinOptions[],
   startIndex: number,
 ): [clause: string, values: Array<unknown>] => {
-  const withWhere = joins.filter((join) => join.where);
-  if (withWhere.length === 0) {
-    return emptyWhere;
-  }
-  const whereClausesAndValues = withWhere.map((join, i) =>
-    buildWhereClause(join.where ?? '__NO_WHERE__', join.entity, startIndex + i),
-  );
+  const whereClausesAndValues = joins.reduce((prev, curr) => {
+    if (curr.where) {
+      const [clause, values] = buildWhereClause(curr.where, curr.entity, startIndex + prev.length);
+      if (clause) {
+        prev.push([clause, values] as WhereClausesAndValues);
+      }
+    }
+    return prev;
+  }, [] as WhereClausesAndValues[]);
 
   const whereClauses = combineClauses(whereClausesAndValues.map(([clause]) => clause));
 

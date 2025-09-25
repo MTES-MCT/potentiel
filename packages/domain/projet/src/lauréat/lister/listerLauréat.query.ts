@@ -114,13 +114,12 @@ export const registerListerLauréatQuery = ({
         {
           entity: 'candidature',
           on: 'identifiantProjet',
-          ...(typeActionnariat && typeActionnariat.length > 0
-            ? {
-                where: {
-                  actionnariat: Where.matchAny(typeActionnariat),
-                },
-              }
-            : {}),
+          where: {
+            actionnariat:
+              typeActionnariat && typeActionnariat.length > 0
+                ? Where.matchAny(typeActionnariat)
+                : undefined,
+          },
         },
         {
           entity: 'appel-offre',

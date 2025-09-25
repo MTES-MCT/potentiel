@@ -71,10 +71,10 @@ export default async function Page({ searchParams }: PageProps) {
       const périodeFiltrée = appelOffresFiltrée?.periodes.find((p) => p.id === periode);
 
       const périodeOptions =
-        appelOffresFiltrée?.periodes.map((p) => ({ label: p.title, value: p.id })) ?? [];
+        appelOffresFiltrée?.periodes.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
       const familleOptions =
-        périodeFiltrée?.familles.map((f) => ({ label: f.title, value: f.id })) ?? [];
+        périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
       const typeActionnariatOptions =
         appelOffresFiltrée?.cycleAppelOffre === 'PPE2'
