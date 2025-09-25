@@ -6,7 +6,7 @@ import { applyStatutFilter } from './_helpers/applyStatutFilter';
 
 type ListerFilters = {
   statut?: Array<Lauréat.Puissance.StatutChangementPuissance.RawType>;
-  autoriteInstructrice?: Lauréat.Puissance.AutoritéCompétente.RawType;
+  autoriteCompetente?: Lauréat.Puissance.AutoritéCompétente.RawType;
 };
 
 export const modifier = (identifiantProjet: string) =>
@@ -31,8 +31,8 @@ export const changement = {
       filters.statut,
     );
 
-    if (filters?.autoriteInstructrice) {
-      searchParams.set('autoriteInstructrice', filters.autoriteInstructrice);
+    if (filters?.autoriteCompetente) {
+      searchParams.set('autoriteCompetente', filters.autoriteCompetente);
     }
 
     return `/laureats/changements/puissance${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

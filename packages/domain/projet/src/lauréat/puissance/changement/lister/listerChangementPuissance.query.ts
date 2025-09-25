@@ -32,7 +32,7 @@ export type ListerChangementPuissanceQuery = Message<
     statut?: Array<StatutChangementPuissance.RawType>;
     appelOffre?: string;
     nomProjet?: string;
-    autoriteInstructrice?: AutoritéCompétente.RawType;
+    autoriteCompetente?: AutoritéCompétente.RawType;
     range: RangeOptions;
   },
   ListerChangementPuissanceReadModel
@@ -52,7 +52,7 @@ export const registerListerChangementPuissanceQuery = ({
     appelOffre,
     nomProjet,
     utilisateur,
-    autoriteInstructrice,
+    autoriteCompetente,
     range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
@@ -92,7 +92,7 @@ export const registerListerChangementPuissanceQuery = ({
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         demande: {
           statut: Where.matchAny(statut),
-          autoritéCompétente: Where.equal(autoriteInstructrice),
+          autoritéCompétente: Where.equal(autoriteCompetente),
         },
       },
     });

@@ -44,7 +44,7 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
       <DropdownMenu.DropdownItem
         href={Routes.Puissance.changement.lister({
           statut: ['demandé'],
-          autoriteInstructrice: 'dreal',
+          autoriteCompetente: 'dreal',
         })}
       >
         Puissance
@@ -58,7 +58,7 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
       <DropdownMenu.DropdownItem
         href={Routes.Délai.lister({
           statut: ['demandé', 'en-instruction'],
-          autoriteInstructrice: 'dreal',
+          autoriteCompetente: 'dreal',
         })}
       >
         Délai
