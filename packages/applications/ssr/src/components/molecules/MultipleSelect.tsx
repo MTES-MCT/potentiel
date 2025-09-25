@@ -1,7 +1,9 @@
 'use client';
 
+import { fr } from '@codegouvfr/react-dsfr';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
+import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 
 type Option = {
@@ -13,6 +15,7 @@ export type MultipleSelectProps = MultipleSelectPopoverProps & {
   id?: string;
   label: string;
   options: Array<Option>;
+  disabled: boolean;
 };
 
 export const MultipleSelect: React.FC<MultipleSelectProps> = ({
@@ -23,6 +26,7 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
   noSearch,
   noSelectAll,
   onChange,
+  disabled,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -47,22 +51,33 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
   }, [open]);
 
   return (
-    <div ref={containerRef} className="relative mb-6">
-      <label htmlFor={id} className="fr-label ">
+    <div
+      ref={containerRef}
+      className={`relative mb-6 fr-select--group ${disabled ? 'fr-select-group--disabled' : ''}`}
+    >
+      <label htmlFor={id} className={clsx(fr.cx('fr-label', disabled && 'fr-label--disabled'))}>
         {label}
       </label>
-      <div
-        className="fr-select cursor-pointer"
-        onClick={() => setOpen((o) => !o)}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-      >
-        {selected.length > 0
-          ? selected.length === 1
-            ? `${selected.length} option sélectionnée`
-            : `${selected.length} options sélectionnées`
-          : 'Sélectionner une option'}
-      </div>
+      {disabled ? (
+        <select disabled className="fr-select">
+          <option value="" disabled selected>
+            Sélectionner une option
+          </option>
+        </select>
+      ) : (
+        <div
+          className="fr-select cursor-pointer"
+          onClick={() => setOpen((o) => !o)}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+        >
+          {selected.length > 0
+            ? selected.length === 1
+              ? `${selected.length} option sélectionnée`
+              : `${selected.length} options sélectionnées`
+            : 'Sélectionner une option'}
+        </div>
+      )}
       {open && (
         <MultipleSelectPopover
           options={options}

@@ -38,6 +38,11 @@ const évaluationCarbone: SymbolProps = {
   description: 'Évaluation carbone',
 };
 
+const typeActionnariat: SymbolProps = {
+  iconId: 'fr-icon-bank-line',
+  description: "Type d'actionnariat",
+};
+
 export const candidatureListLegendSymbols = [
   localité,
   nomProducteur,
@@ -46,6 +51,16 @@ export const candidatureListLegendSymbols = [
   puissance,
   prix,
   évaluationCarbone,
+  typeActionnariat,
 ];
 
-export { localité, nomProducteur, représentantLégal, email, puissance, prix, évaluationCarbone };
+export {
+  localité,
+  nomProducteur,
+  représentantLégal,
+  email,
+  puissance,
+  prix,
+  évaluationCarbone,
+  typeActionnariat,
+};

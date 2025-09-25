@@ -60,10 +60,11 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <div className="flex flex-col">
-      {filters.map(({ label, searchParamKey, options, affects, multiple, forceDisabled }) => {
-        const disabled = filters.some(
-          (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
-        );
+      {filters.map(({ label, searchParamKey, options, affects, multiple }) => {
+        const disabled =
+          filters.some(
+            (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
+          ) || options.length === 0;
         const activeFilters = searchParams.getAll(searchParamKey);
 
         return multiple ? (
@@ -73,6 +74,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
             label={label}
             options={options}
             selected={activeFilters}
+            disabled={disabled}
             onChange={(value) =>
               handleOnChange({
                 value: value.length > 0 ? value : [],
@@ -83,7 +85,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
           />
         ) : (
           <Filter
-            disabled={forceDisabled || disabled}
+            disabled={disabled}
             key={`filter-${searchParamKey}`}
             label={label}
             options={options}
