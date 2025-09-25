@@ -24,6 +24,7 @@ export type ProjectListItemProps = {
   puissance: string;
   prixReference: string;
   evaluationCarboneSimplifiée: string;
+  typeActionnariat?: Candidature.TypeActionnariat.RawType;
 };
 
 export const ProjectListItem: FC<ProjectListItemProps> = ({
@@ -37,6 +38,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
   puissance,
   prixReference,
   evaluationCarboneSimplifiée,
+  typeActionnariat,
 }) => (
   <ListItem
     heading={
@@ -97,6 +99,16 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
           />
           {email}
         </div>
+        {typeActionnariat && (
+          <div className="flex items-start gap-2">
+            <Icon
+              id={symbols.typeActionnariat.iconId}
+              title={symbols.typeActionnariat.description}
+              size="xs"
+            />
+            {typeActionnariat}
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-2 items-start md:flex-row  md:gap-16 text-sm">

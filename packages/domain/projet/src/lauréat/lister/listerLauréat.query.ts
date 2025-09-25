@@ -28,6 +28,7 @@ type LauréatListItemReadModel = {
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
   statut?: Exclude<StatutProjet.ValueType, 'éliminé'>;
+  typeActionnariat?: Candidature.TypeActionnariat.ValueType;
 };
 
 export type ListerLauréatReadModel = {
@@ -46,6 +47,7 @@ export type ListerLauréatQuery = Message<
     appelOffre?: string;
     periode?: string;
     famille?: string;
+    typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
   },
   ListerLauréatReadModel
 >;
@@ -67,6 +69,7 @@ export const registerListerLauréatQuery = ({
     famille,
     range,
     statut,
+    typeActionnariat,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -111,6 +114,13 @@ export const registerListerLauréatQuery = ({
         {
           entity: 'candidature',
           on: 'identifiantProjet',
+          ...(typeActionnariat && typeActionnariat.length > 0
+            ? {
+                where: {
+                  actionnariat: Where.matchAny(typeActionnariat),
+                },
+              }
+            : {}),
         },
         {
           entity: 'appel-offre',
@@ -140,6 +150,8 @@ export const registerListerLauréatQuery = ({
         },
       ],
     });
+
+    console.log(lauréats.items);
 
     return {
       ...lauréats,
@@ -172,7 +184,13 @@ const mapToReadModel: MapToReadModelProps = ({
   'représentant-légal': représentantLégal,
   producteur,
   puissance,
-  candidature,
+  candidature: {
+    emailContact,
+    technologie,
+    evaluationCarboneSimplifiée,
+    prixReference,
+    actionnariat,
+  },
   'appel-offre': appelOffres,
   abandon,
   'attestation-conformité': attestationConformité,
@@ -184,18 +202,21 @@ const mapToReadModel: MapToReadModelProps = ({
     nomProjet,
     localité: Localité.bind(localité),
     producteur: producteur.nom,
-    email: Email.convertirEnValueType(candidature.emailContact),
+    email: Email.convertirEnValueType(emailContact),
     nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
     puissance: {
       unité: UnitéPuissance.déterminer({
         appelOffres,
         période: identifiantProjetValueType.période,
-        technologie: candidature.technologie,
+        technologie,
       }).formatter(),
       valeur: puissance.puissance,
     },
-    prixReference: candidature.prixReference,
-    evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
+    prixReference,
+    evaluationCarboneSimplifiée,
+    typeActionnariat: actionnariat
+      ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
+      : undefined,
     statut: abandon
       ? StatutProjet.abandonné
       : attestationConformité
