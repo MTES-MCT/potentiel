@@ -9,7 +9,7 @@ import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/candidature';
 import { FieldValidationErrors } from '../../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../../LinkedValuesButton';
 
-export type CandidatureSelectFieldProps<T> = {
+type CandidatureSelectFieldProps<T> = {
   candidature: T;
   options: SelectProps.Option[];
   name: keyof ModifierCandidatureNotifiéeFormEntries;
