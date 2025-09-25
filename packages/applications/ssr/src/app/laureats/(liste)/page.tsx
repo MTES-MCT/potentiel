@@ -30,6 +30,8 @@ const paramsSchema = z.object({
   nomProjet: z.string().optional(),
   statut: z.enum(statutsProjet).optional(),
   appelOffre: z.string().optional(),
+  periode: z.string().optional(),
+  famille: z.string().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -37,7 +39,8 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, periode, famille, statut } =
+        paramsSchema.parse(searchParams);
 
       const lauréats = await mediator.send<Lauréat.ListerLauréatQuery>({
         type: 'Lauréat.Query.ListerLauréat',
@@ -45,6 +48,8 @@ export default async function Page({ searchParams }: PageProps) {
           utilisateur: utilisateur.identifiantUtilisateur.email,
           nomProjet,
           appelOffre,
+          periode,
+          famille,
           statut,
           range: mapToRangeOptions({
             currentPage: page,
@@ -58,6 +63,16 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
+      const appelOffresFiltrée = appelOffres.items.find((a) => a.id === appelOffre);
+
+      const périodeFiltrée = appelOffresFiltrée?.periodes.find((p) => p.id === periode);
+
+      const périodeOptions =
+        appelOffresFiltrée?.periodes.map((p) => ({ label: p.title, value: p.id })) ?? [];
+
+      const familleOptions =
+        périodeFiltrée?.familles.map((f) => ({ label: f.title, value: f.id })) ?? [];
+
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: `Appel d'offres`,
@@ -66,6 +81,20 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          affects: ['periode', 'famille'],
+        },
+        {
+          label: 'Période',
+          searchParamKey: 'periode',
+          options: périodeOptions,
+          affects: ['famille'],
+          forceDisabled: périodeOptions.length === 0 ? true : undefined,
+        },
+        {
+          label: 'Famille',
+          searchParamKey: 'famille',
+          options: familleOptions,
+          forceDisabled: familleOptions.length === 0 ? true : undefined,
         },
         {
           label: 'Statut du projet',

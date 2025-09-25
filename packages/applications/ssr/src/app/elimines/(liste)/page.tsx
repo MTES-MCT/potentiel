@@ -25,8 +25,10 @@ export const metadata: Metadata = {
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
-  nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
+  periode: z.string().optional(),
+  famille: z.string().optional(),
+  nomProjet: z.string().optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -34,14 +36,16 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre } = paramsSchema.parse(searchParams);
+      const { page, appelOffre, periode, famille, nomProjet } = paramsSchema.parse(searchParams);
 
       const éliminés = await mediator.send<Éliminé.ListerÉliminéQuery>({
         type: 'Éliminé.Query.ListerÉliminé',
         data: {
           utilisateur: utilisateur.identifiantUtilisateur.email,
-          nomProjet,
           appelOffre,
+          periode,
+          famille,
+          nomProjet,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -54,6 +58,16 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
+      const appelOffresFiltrée = appelOffres.items.find((a) => a.id === appelOffre);
+
+      const périodeFiltrée = appelOffresFiltrée?.periodes.find((p) => p.id === periode);
+
+      const périodeOptions =
+        appelOffresFiltrée?.periodes.map((p) => ({ label: p.title, value: p.id })) ?? [];
+
+      const familleOptions =
+        périodeFiltrée?.familles.map((f) => ({ label: f.title, value: f.id })) ?? [];
+
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: `Appel d'offres`,
@@ -62,6 +76,20 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          affects: ['periode', 'famille'],
+        },
+        {
+          label: 'Période',
+          searchParamKey: 'periode',
+          options: périodeOptions,
+          affects: ['famille'],
+          forceDisabled: périodeOptions.length === 0 ? true : undefined,
+        },
+        {
+          label: 'Famille',
+          searchParamKey: 'famille',
+          options: familleOptions,
+          forceDisabled: familleOptions.length === 0 ? true : undefined,
         },
       ];
 

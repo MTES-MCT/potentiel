@@ -34,9 +34,11 @@ export type ListerÉliminéQuery = Message<
   {
     utilisateur: Email.RawType;
     range: RangeOptions;
+    appelOffre?: string;
+    periode?: string;
+    famille?: string;
     nomProjet?: string;
     statut?: StatutProjet.RawType;
-    appelOffre?: string;
   },
   ListerÉliminéReadModel
 >;
@@ -52,8 +54,10 @@ export const registerListerÉliminéQuery = ({
 }: ListerÉliminéDependencies) => {
   const handler: MessageHandler<ListerÉliminéQuery> = async ({
     utilisateur,
-    nomProjet,
     appelOffre,
+    periode,
+    famille,
+    nomProjet,
     range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
@@ -62,16 +66,15 @@ export const registerListerÉliminéQuery = ({
       'candidature',
       {
         range,
-        // todo : order by candidature.nomProjet ????
-        // orderBy: {
-        //   candidature: {
-        //     nomProjet: 'ascending',
-        //   },
-        // },
+        orderBy: {
+          nomProjet: 'ascending',
+        },
         where: {
           identifiantProjet:
             scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           appelOffre: Where.equal(appelOffre),
+          période: Where.equal(periode),
+          famille: Where.equal(famille),
           nomProjet: Where.contain(nomProjet),
           localité: scope.type === 'region' ? { région: Where.equal(scope.region) } : undefined,
         },

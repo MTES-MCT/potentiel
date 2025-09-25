@@ -44,6 +44,8 @@ export type ListerLauréatQuery = Message<
     nomProjet?: string;
     statut?: Exclude<StatutProjet.RawType, 'éliminé'>;
     appelOffre?: string;
+    periode?: string;
+    famille?: string;
   },
   ListerLauréatReadModel
 >;
@@ -61,6 +63,8 @@ export const registerListerLauréatQuery = ({
     utilisateur,
     nomProjet,
     appelOffre,
+    periode,
+    famille,
     range,
     statut,
   }) => {
@@ -87,6 +91,8 @@ export const registerListerLauréatQuery = ({
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         nomProjet: Where.contain(nomProjet),
         appelOffre: Where.equal(appelOffre),
+        période: Where.equal(periode),
+        famille: Where.equal(famille),
         localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
       },
       join: [
