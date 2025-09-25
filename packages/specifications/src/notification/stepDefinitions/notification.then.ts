@@ -112,7 +112,7 @@ Alors(
 
     const domaine = this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
       ? 'délai'
-      : this.lauréatWorld.abandonWorld.demanderAbandonFixture
+      : this.lauréatWorld.abandonWorld.demanderAbandonFixture.aÉtéCréé
         ? 'abandon'
         : '';
 
