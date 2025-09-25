@@ -140,7 +140,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.nomRepresentantLegal}
             lauréat={lauréat.nomRepresentantLegal.currentValue}
             estEnCoursDeModification={lauréat.nomRepresentantLegal.estEnCoursDeModification}
-            label="Nom représentant légal"
+            label="Nom du représentant légal"
             name="nomRepresentantLegal"
             validationErrors={validationErrors}
           />
@@ -212,7 +212,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           <FormRow>
             <PuissanceALaPointeField
               candidature={candidature.puissanceALaPointe}
-              label="Engagement de puissance à la pointe"
+              label={`Engagement de puissance à la pointe${champsSupplémentaires.puissanceALaPointe === 'optionnel' ? ' optionnel' : ''}`}
               name="puissanceALaPointe"
               validationErrors={validationErrors}
             />
@@ -225,6 +225,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label={`Puissance de site (en ${projet.unitéPuissance})`}
               name="puissanceDeSite"
               validationErrors={validationErrors}
+              optionnel={champsSupplémentaires.puissanceDeSite === 'optionnel'}
             />
           </FormRow>
         )}
@@ -236,6 +237,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 label="Numéro d'autorisation d'urbanisme"
                 name="numeroDAutorisationDUrbanisme"
                 validationErrors={validationErrors}
+                optionnel={champsSupplémentaires.autorisationDUrbanisme === 'optionnel'}
               />
             </FormRow>
             <FormRow>
@@ -251,9 +253,10 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             <ProjectField
               candidature={candidature.installateur}
               lauréat={lauréat.installateur.currentValue}
-              label="Installateur (optionnel)"
+              label="Installateur"
               name="installateur"
               validationErrors={validationErrors}
+              optionnel={champsSupplémentaires.installateur === 'optionnel'}
             />
           </FormRow>
         )}
@@ -261,7 +264,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           <FormRow>
             <ProjectSelectField
               name="installationAvecDispositifDeStockage"
-              label={`Dispositif de stockage${champsSupplémentaires.installationAvecDispositifDeStockage === 'optionnel' ? ' optionnel' : ''}`}
+              label="Dispositif de stockage"
               candidature={candidature.installationAvecDispositifDeStockage ? 'true' : 'false'}
               lauréat={lauréat.installationAvecDispositifDeStockage ? 'true' : 'false'}
               options={[
@@ -269,6 +272,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 { label: 'Sans', value: 'false' },
               ]}
               validationErrors={validationErrors}
+              optionnel={champsSupplémentaires.installationAvecDispositifDeStockage === 'optionnel'}
             />
           </FormRow>
         )}
@@ -286,6 +290,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 }),
               )}
               validationErrors={validationErrors}
+              optionnel={champsSupplémentaires.natureDeLExploitation === 'optionnel'}
             />
           </FormRow>
         )}
@@ -300,6 +305,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 { label: 'Non', value: 'false' },
               ]}
               validationErrors={validationErrors}
+              optionnel={champsSupplémentaires.coefficientKChoisi === 'optionnel'}
             />
           </FormRow>
         )}
