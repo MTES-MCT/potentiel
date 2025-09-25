@@ -52,7 +52,8 @@ type MapToProps = (params: {
 
 const mapToProps: MapToProps = ({ identifiantProjet, garantiesFinancières }) => {
   const peutVoirMainlevée = Option.isSome(garantiesFinancières);
-  const peutDemanderMainlevée = peutVoirMainlevée && garantiesFinancières.attestation !== undefined;
+  const peutDemanderMainlevée =
+    peutVoirMainlevée && garantiesFinancières.garantiesFinancières.estConstitué();
 
   return {
     identifiantProjet: identifiantProjet.formatter(),

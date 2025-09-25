@@ -14,7 +14,11 @@ import {
 export const dépôtExempleMap: FieldToExempleMapper<
   Omit<
     Candidature.Dépôt.RawType,
-    'localité' | 'fournisseurs' | 'autorisationDUrbanisme' | 'typologieInstallation'
+    | 'localité'
+    | 'fournisseurs'
+    | 'autorisationDUrbanisme'
+    | 'typologieInstallation'
+    | 'attestationConstitutionGf'
   >
 > = {
   typeGarantiesFinancières: [
@@ -34,7 +38,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
   territoireProjet: ['territoire projet'],
   nomReprésentantLégal: ['nom représentant légal'],
   dateÉchéanceGf: ["date d'échéance", mapDateTime],
-  dateDélibérationGf: ['date de délibération', mapDateTime],
+  dateConstitutionGf: ['date de constitution', mapDateTime],
   puissanceProductionAnnuelle: ['puissance production annuelle', mapNumber],
   prixReference: ['prix reference', mapNumber],
   evaluationCarboneSimplifiée: ['évaluation carbone simplifiée', mapNumber],

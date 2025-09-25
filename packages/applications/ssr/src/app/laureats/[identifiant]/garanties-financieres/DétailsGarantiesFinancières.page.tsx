@@ -83,7 +83,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             <GarantiesFinancières
               title="Garanties financières actuelles"
               garantiesFinancières={actuelles}
-              attestation={actuelles.attestation}
               statutBadge={<StatutGarantiesFinancièresBadge statut={actuelles.statut.statut} />}
               actions={actions}
             />
@@ -102,7 +101,6 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
             <GarantiesFinancières
               title="Garanties financières à traiter"
               garantiesFinancières={dépôtEnCours}
-              attestation={dépôtEnCours.attestation}
               actions={actions}
             />
 

@@ -24,7 +24,7 @@ const colonnes = {
 
   typeGarantiesFinancières: 'Type de garantie financière',
   dateÉchéanceGf: "Date d'échéance des garanties financières",
-  dateDélibérationGf: "Date de la délibération portant sur le projet objet de l'offre",
+  dateConstitutionGf: "Date de la délibération portant sur le projet objet de l'offre",
 
   localité: 'Adresse postale du site de production',
   historiqueAbandon: 'Préciser le statut du projet',
@@ -70,9 +70,9 @@ export const mapApiResponseToDépôt = ({
     evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
 
     typeGarantiesFinancières: typeGarantiesFinancieres,
-    dateDélibérationGf:
+    dateConstitutionGf:
       typeGarantiesFinancieres === 'exemption'
-        ? accessor.getDateValue('dateDélibérationGf')
+        ? accessor.getDateValue('dateConstitutionGf')
         : undefined,
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 

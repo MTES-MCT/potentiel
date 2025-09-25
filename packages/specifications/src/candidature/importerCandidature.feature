@@ -17,12 +17,12 @@ Fonctionnalité: Importer une candidature
             | statut               | classé                 |
             | appel d'offres       | <appel d'offres>       |
             | type GF              | <type GF>              |
-            | date de délibération | <date de délibération> |
+            | date de constitution | <date de constitution> |
             | date d'échéance      | <date d'échéance>      |
         Alors la candidature devrait être consultable
 
         Exemples:
-            | appel d'offres           | type GF                   | date d'échéance | date de délibération |
+            | appel d'offres           | type GF                   | date d'échéance | date de constitution |
             | PPE2 - Bâtiment          | consignation              |                 |                      |
             | PPE2 - Sol               | avec-date-échéance        | 01/12/2042      |                      |
             | PPE2 - Innovation        | six-mois-après-achèvement |                 |                      |
@@ -141,7 +141,7 @@ Fonctionnalité: Importer une candidature
             | statut               | classé                   |
             | appel d'offres       | PPE2 - Petit PV Bâtiment |
             | type GF              | exemption                |
-            | date de délibération | 2050-01-01               |
+            | date de constitution | 2050-01-01               |
         Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible d'importer une candidature classée avec une date de délibération pour un type de GF qui n'en attend pas
@@ -151,7 +151,7 @@ Fonctionnalité: Importer une candidature
             | période              | 1                         |
             | famille              |                           |
             | type GF              | six-mois-après-achèvement |
-            | date de délibération | 2024-01-01                |
+            | date de constitution | 2024-01-01                |
         Alors l'administrateur devrait être informé que "La date de délibération ne peut être renseignée pour ce type de garanties financières"
 
     Scénario: Impossible d'importer une candidature d'une période d'AO "legacy"

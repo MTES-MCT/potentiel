@@ -105,7 +105,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres       | PPE2 - Petit PV Bâtiment |
             | type GF              | exemption                |
-            | date de délibération | 2025-01-01               |
+            | date de constitution | 2025-01-01               |
         Et un cahier des charges permettant la modification du projet
         Et un abandon accordé pour le projet lauréat "Du boulodrome de Lyon"
         Quand le porteur demande la mainlevée des garanties financières avec :

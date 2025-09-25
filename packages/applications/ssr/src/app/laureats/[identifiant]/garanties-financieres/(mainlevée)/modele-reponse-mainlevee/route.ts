@@ -94,7 +94,7 @@ export const GET = async (
           emailProjet: data.email,
 
           dateConstitutionGarantiesFinancières: formatDateForDocument(
-            Option.isSome(gf) ? gf.dateConstitution?.date : undefined,
+            Option.isSome(gf) ? gf.garantiesFinancières.constitution?.date.date : undefined,
           ),
           estMotifAchèvement: Option.match(mainlevéeEnCours)
             .some(({ motif }) => motif.estProjetAchevé())
