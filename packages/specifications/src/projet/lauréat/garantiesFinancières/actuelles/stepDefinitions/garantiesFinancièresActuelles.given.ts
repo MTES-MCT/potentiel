@@ -36,7 +36,7 @@ EtantDonné(
       dateÉchéance: new Date(dateÉchéance).toISOString() as Iso8601DateTime,
     };
 
-    await enregistrerOuModifierSiExistantes.call(this, identifiantProjet, { garantiesFinancières });
+    await enregistrerOuModifierSiExistantes.call(this, identifiantProjet, garantiesFinancières);
   },
 );
 
@@ -44,7 +44,7 @@ EtantDonné(
   'une exemption de garanties financières pour le projet lauréat',
   async function (this: PotentielWorld) {
     await enregistrerGarantiesFinancièresActuelles.call(this, this.lauréatWorld.identifiantProjet, {
-      garantiesFinancières: { type: 'exemption' },
+      type: 'exemption',
     });
   },
 );
@@ -78,7 +78,7 @@ export async function enregistrerGarantiesFinancièresActuelles(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: Partial<EnregistrerGarantiesFinancièresProps>,
 ) {
-  const { garantiesFinancières, dateConstitution, attestation, enregistréLe, enregistréPar } =
+  const { dateÉchéance, type, dateConstitution, attestation, enregistréLe, enregistréPar } =
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.enregistrer.créer({
       enregistréPar: this.utilisateurWorld.drealFixture.email,
       ...props,
@@ -86,10 +86,11 @@ export async function enregistrerGarantiesFinancièresActuelles(
   await mediator.send<Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
     data: {
+      typeValue: type,
+      dateÉchéanceValue: dateÉchéance,
       identifiantProjetValue: identifiantProjet.formatter(),
       enregistréLeValue: enregistréLe,
       enregistréParValue: enregistréPar,
-      garantiesFinancièresValue: garantiesFinancières,
       dateConstitutionValue: dateConstitution,
       attestationValue: convertFixtureFileToReadableStream(attestation),
     },
@@ -101,7 +102,7 @@ export async function modifierGarantiesFinancièresActuelles(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: Partial<EnregistrerGarantiesFinancièresProps>,
 ) {
-  const { garantiesFinancières, dateConstitution, attestation, enregistréLe, enregistréPar } =
+  const { type, dateÉchéance, dateConstitution, attestation, enregistréLe, enregistréPar } =
     this.lauréatWorld.garantiesFinancièresWorld.actuelles.modifier.créer({
       enregistréPar: this.utilisateurWorld.adminFixture.email,
       ...props,
@@ -109,10 +110,11 @@ export async function modifierGarantiesFinancièresActuelles(
   await mediator.send<Lauréat.GarantiesFinancières.ModifierGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
     data: {
+      typeValue: type,
+      dateÉchéanceValue: dateÉchéance,
       identifiantProjetValue: identifiantProjet.formatter(),
       modifiéLeValue: enregistréLe,
       modifiéParValue: enregistréPar,
-      garantiesFinancièresValue: garantiesFinancières,
       dateConstitutionValue: dateConstitution,
       attestationValue: convertFixtureFileToReadableStream(attestation),
     },

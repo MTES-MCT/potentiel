@@ -26,21 +26,13 @@ export class GarantiesFinancièresActuellesWorld {
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>): EnregistrerGarantiesFinancièresProps {
-    const garantiesFinancièresMapper: FieldToExempleMapper<
-      Lauréat.GarantiesFinancières.EnregistrerGarantiesFinancièresUseCase['data']['garantiesFinancièresValue']
-    > = {
+    const garantiesFinancièresMap: FieldToExempleMapper<EnregistrerGarantiesFinancièresProps> = {
       type: ['type GF'],
+      dateConstitution: ['date de constitution', mapDateTime],
       dateÉchéance: ["date d'échéance", mapDateTime],
     };
 
-    const otherProps = mapToExemple(exemple, {
-      dateConstitution: ['date de constitution', mapDateTime],
-    });
-
-    return {
-      garantiesFinancières: mapToExemple(exemple, garantiesFinancièresMapper),
-      ...otherProps,
-    };
+    return mapToExemple(exemple, garantiesFinancièresMap);
   }
   mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
@@ -52,22 +44,26 @@ export class GarantiesFinancièresActuellesWorld {
       this.garantiesFinancièresWorld.lauréatWorld.candidatureWorld.importerCandidature;
     const { notifiéLe } = this.garantiesFinancièresWorld.lauréatWorld.notifierLauréatFixture;
 
-    const { typeGarantiesFinancières, dateÉchéanceGf, dateDélibérationGf } = dépôtCandidature;
+    const {
+      typeGarantiesFinancières,
+      dateÉchéanceGf,
+      dateConstitutionGf,
+      attestationConstitutionGf,
+    } = dépôtCandidature;
     const valeurImport = typeGarantiesFinancières
       ? ({
           garantiesFinancières:
             Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
               type: typeGarantiesFinancières,
               dateÉchéance: dateÉchéanceGf,
+              attestation: attestationConstitutionGf,
+              dateConstitution: dateConstitutionGf,
             }),
           statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
           dernièreMiseÀJour: {
             date: DateTime.convertirEnValueType(notifiéLe),
           },
           identifiantProjet,
-          dateConstitution: dateDélibérationGf
-            ? DateTime.convertirEnValueType(dateDélibérationGf)
-            : undefined,
         } satisfies Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel)
       : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
 

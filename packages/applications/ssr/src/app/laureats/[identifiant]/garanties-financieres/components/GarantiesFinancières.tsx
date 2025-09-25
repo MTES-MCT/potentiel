@@ -20,7 +20,6 @@ type GarantiesFinancièresProps = {
   garantiesFinancières: PlainType<
     Omit<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'statut'>
   >;
-  attestation?: PlainType<DocumentProjet.ValueType>;
   statutBadge?: React.ReactNode;
   actions: DétailsGarantiesFinancièresPageProps['actions'];
 };
@@ -28,14 +27,7 @@ type GarantiesFinancièresProps = {
 export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
   title,
   actions,
-  garantiesFinancières: {
-    dateConstitution,
-    dernièreMiseÀJour,
-    soumisLe,
-    validéLe,
-    garantiesFinancières,
-    attestation,
-  },
+  garantiesFinancières: { dernièreMiseÀJour, soumisLe, validéLe, garantiesFinancières, document },
   statutBadge,
 }) => {
   const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.bind(garantiesFinancières);
@@ -71,7 +63,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               </span>
             </div>
           )}
-          {!attestation && (
+          {!gf.estConstitué() && (
             <span className="font-semibold italic">
               {gf.estExemption()
                 ? 'Délibération approuvant le projet objet de l’offre'
@@ -87,10 +79,10 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
             <FormattedDate className="font-semibold" date={gf.dateÉchéance.formatter()} />
           </div>
         )}
-        {dateConstitution && (
+        {gf.estConstitué() && (
           <div>
             Date de {gf.estExemption() ? `délibération` : `constitution`} :{' '}
-            <FormattedDate className="font-semibold" date={dateConstitution.date} />
+            <FormattedDate className="font-semibold" date={gf.constitution.date.formatter()} />
           </div>
         )}
 
@@ -105,7 +97,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
           </div>
         )}
         <div>
-          {attestation && (
+          {document && (
             <DownloadDocument
               format="pdf"
               label={
@@ -113,7 +105,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
                   ? 'Télécharger la délibération approuvant le projet objet de l’offre'
                   : "Télécharger l'attestation de constitution"
               }
-              url={Routes.Document.télécharger(DocumentProjet.bind(attestation).formatter())}
+              url={Routes.Document.télécharger(DocumentProjet.bind(document).formatter())}
             />
           )}
         </div>

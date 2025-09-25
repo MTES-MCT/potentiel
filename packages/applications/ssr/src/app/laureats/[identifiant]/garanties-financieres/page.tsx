@@ -177,7 +177,7 @@ const mapToActionsAndInfos = ({
     if (Option.isNone(actuelles)) {
       actions.push('garantiesFinancières.actuelles.enregistrer');
     } else {
-      if (!actuelles.attestation) {
+      if (!actuelles.garantiesFinancières.estConstitué()) {
         actions.push('garantiesFinancières.actuelles.enregistrerAttestation');
       }
 
@@ -186,12 +186,16 @@ const mapToActionsAndInfos = ({
           infos.push('échues');
         }
       } else if (Option.isNone(mainlevée) && !actuelles.garantiesFinancières.estExemption()) {
-        if (estAchevéOuAbandonné && !aUnDépôtEnCours && !!actuelles.attestation) {
+        if (
+          estAchevéOuAbandonné &&
+          !aUnDépôtEnCours &&
+          actuelles.garantiesFinancières.estConstitué()
+        ) {
           actions.push('garantiesFinancières.mainlevée.demander');
         } else if (utilisateur.role.aLaPermission('garantiesFinancières.mainlevée.demander')) {
           infos.push('conditions-demande-mainlevée');
         }
-        if (!estAbandonné && !!actuelles.attestation) {
+        if (!estAbandonné && actuelles.garantiesFinancières.estConstitué()) {
           actions.push('achèvement.attestationConformité.transmettre');
         }
       }

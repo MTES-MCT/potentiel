@@ -94,15 +94,16 @@ export class SoumettreDépôtGarantiesFinancièresFixture extends AbstractFixtur
       Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
         type: this.type,
         dateÉchéance: this.dateÉchéance,
+        attestation: this.attestation,
+        dateConstitution: this.dateConstitution,
       });
     return {
       identifiantProjet:
         this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld
           .identifiantProjet,
       garantiesFinancières,
-      dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
       soumisLe: DateTime.convertirEnValueType(this.soumisLe),
-      attestation: DocumentProjet.convertirEnValueType(
+      document: DocumentProjet.convertirEnValueType(
         this.dépôtGarantiesFinancièresWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
         Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
         this.dateConstitution,

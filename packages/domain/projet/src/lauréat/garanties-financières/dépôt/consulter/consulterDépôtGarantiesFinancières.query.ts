@@ -12,8 +12,7 @@ import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinanciè
 export type ConsulterDépôtGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: GarantiesFinancières.ValueType;
-  attestation: DocumentProjet.ValueType;
-  dateConstitution: DateTime.ValueType;
+  document: DocumentProjet.ValueType;
   soumisLe: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
@@ -67,10 +66,11 @@ const mapToReadModel = ({
   garantiesFinancières: GarantiesFinancières.convertirEnValueType({
     type,
     dateÉchéance,
+    attestation,
+    dateConstitution,
   }),
-  dateConstitution: DateTime.convertirEnValueType(dateConstitution),
   soumisLe: DateTime.convertirEnValueType(soumisLe),
-  attestation: DocumentProjet.convertirEnValueType(
+  document: DocumentProjet.convertirEnValueType(
     identifiantProjetValueType.formatter(),
     TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
     DateTime.convertirEnValueType(dateConstitution).formatter(),

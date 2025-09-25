@@ -28,11 +28,10 @@ export const ArchivesGarantiesFinancières = ({ archives }: ArchivesGarantiesFin
 };
 const mapToTimelineItem = ({
   garantiesFinancières,
+  document,
   dernièreMiseÀJour,
   motif,
   statut,
-  attestation,
-  dateConstitution,
   soumisLe,
   validéLe,
 }: PlainType<Lauréat.GarantiesFinancières.ArchiveGarantiesFinancièresListItemReadModel>): TimelineItemProps => {
@@ -48,20 +47,20 @@ const mapToTimelineItem = ({
     ),
     content: (
       <div>
-        {garantiesFinancières ? (
+        {gf ? (
           <div>
             Type :{' '}
             <span className="font-semibold">
-              {getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type)}
+              {getGarantiesFinancièresTypeLabel(gf.type.formatter())}
             </span>
           </div>
         ) : (
           <span className="font-semibold italic">Type de garanties financières manquant</span>
         )}
-        {dateConstitution && (
+        {gf.estConstitué() && (
           <div>
             Date de constitution :{' '}
-            <FormattedDate className="font-semibold" date={dateConstitution.date} />
+            <FormattedDate className="font-semibold" date={gf.constitution.date.formatter()} />
           </div>
         )}
         {gf.estAvecDateÉchéance() && (
@@ -83,11 +82,11 @@ const mapToTimelineItem = ({
           )}
         </>
         <div>
-          {attestation ? (
+          {document ? (
             <DownloadDocument
               format="pdf"
               label="Télécharger l'attestation de constitution"
-              url={Routes.Document.télécharger(DocumentProjet.bind(attestation).formatter())}
+              url={Routes.Document.télécharger(DocumentProjet.bind(document).formatter())}
             />
           ) : (
             <span className="font-semibold italic">

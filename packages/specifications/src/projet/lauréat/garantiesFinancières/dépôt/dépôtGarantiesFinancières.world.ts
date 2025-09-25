@@ -43,9 +43,9 @@ export class DépôtGarantiesFinancièresWorld {
         ...this.valider.mapToExpected(),
       };
 
-    if (this.valider.aÉtéCréé && dépôt.attestation) {
-      dépôt.attestation = DocumentProjet.bind({
-        ...dépôt.attestation,
+    if (this.valider.aÉtéCréé && dépôt.document) {
+      dépôt.document = DocumentProjet.bind({
+        ...dépôt.document,
         typeDocument:
           Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
       });
