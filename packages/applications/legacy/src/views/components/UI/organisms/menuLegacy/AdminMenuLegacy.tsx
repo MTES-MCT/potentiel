@@ -44,7 +44,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
       <DropdownMenu.DropdownItem
         href={Routes.Puissance.changement.lister({
           statut: ['demandé'],
-          autoriteInstructrice: 'dgec-admin',
+          autoriteCompetente: 'dgec-admin',
         })}
       >
         Puissance
@@ -58,7 +58,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
       <DropdownMenu.DropdownItem
         href={Routes.Délai.lister({
           statut: ['demandé', 'en-instruction'],
-          autoriteInstructrice: 'dgec',
+          autoriteCompetente: 'dgec',
         })}
       >
         Délai
