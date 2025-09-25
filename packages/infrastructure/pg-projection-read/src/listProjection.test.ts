@@ -758,6 +758,41 @@ describe('listProjection', () => {
 
       actual.items.should.have.deep.members(expectedItems);
     });
+
+    it('should find projections with multiple joined projection and undefined where clauses', async () => {
+      const expected = mapToListResultItems(fakeData1.slice(0, 1));
+      const expectedItems = expected.items.map((item) => ({
+        ...item,
+        [category2]: fakeData2,
+        [category3]: fakeData3,
+      }));
+
+      const actual = await listProjection<FakeProjection1, [FakeProjection2, FakeProjection3]>(
+        category1,
+        {
+          join: [
+            {
+              on: 'data.value',
+              entity: category2,
+              where: {
+                moreData2: undefined,
+              },
+            },
+            {
+              entity: category3,
+              on: 'data.value',
+              where: {
+                moreData3: Where.contain('foo'),
+              },
+            },
+          ],
+        },
+      );
+
+      actual.should.have.all.keys(Object.keys(expected));
+
+      actual.items.should.have.deep.members(expectedItems);
+    });
   });
 
   describe('left join', () => {
