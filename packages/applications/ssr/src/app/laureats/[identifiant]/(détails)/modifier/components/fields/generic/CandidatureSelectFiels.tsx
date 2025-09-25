@@ -15,6 +15,7 @@ export type CandidatureSelectFieldProps<T> = {
   name: keyof ModifierCandidatureNotifiéeFormEntries;
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
+  optionnel?: boolean;
 };
 
 export const CandidatureSelectField = <T extends string | number>({
@@ -23,6 +24,7 @@ export const CandidatureSelectField = <T extends string | number>({
   label,
   name,
   validationErrors,
+  optionnel,
 }: CandidatureSelectFieldProps<T>) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
   const candidatureLabel = String(
@@ -31,7 +33,7 @@ export const CandidatureSelectField = <T extends string | number>({
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">{label}</div>
+      <div className="flex-1 font-semibold">{optionnel ? `${label} (optionnel)` : label}</div>
       <div className="flex-[2] flex px-2">
         <input
           name={`candidature.${name}`}

@@ -19,9 +19,10 @@ type ProjectSelectFieldProps<T> = {
   name:
     | keyof ModifierLauréatValueFormEntries
     | keyof ModifierLauréatChampsSupplémentairesValueFormEntries;
-  estEnCoursDeModification?: boolean;
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
+  optionnel?: boolean;
+  estEnCoursDeModification?: boolean;
 };
 
 export const ProjectSelectField = <T extends string | undefined>({
@@ -30,8 +31,9 @@ export const ProjectSelectField = <T extends string | undefined>({
   label,
   options,
   name,
-  estEnCoursDeModification,
   validationErrors,
+  optionnel,
+  estEnCoursDeModification,
 }: ProjectSelectFieldProps<T>) => {
   const [linked, setLinked] = useState(candidature === lauréat && !estEnCoursDeModification);
   const [candidatureValue, setCandidatureValue] = useState(candidature);
@@ -44,7 +46,7 @@ export const ProjectSelectField = <T extends string | undefined>({
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">{label}</div>
+      <div className="flex-1 font-semibold">{optionnel ? `${label} (optionnel)` : label}</div>
       <div className="flex-[2] flex px-2">
         <input
           name={`candidature.${name}`}
