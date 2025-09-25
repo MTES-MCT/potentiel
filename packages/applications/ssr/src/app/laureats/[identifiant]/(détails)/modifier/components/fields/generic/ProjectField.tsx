@@ -8,9 +8,9 @@ import {
   ModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
 
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
-import { LinkedValuesButton } from '../LinkedValuesButton';
-import { getInputTypeNativeProps } from '../../_helpers/getInputTypeNativeProps';
+import { FieldValidationErrors } from '../../../ModifierLauréat.form';
+import { LinkedValuesButton } from '../../LinkedValuesButton';
+import { getInputTypeNativeProps } from '../../../_helpers/getInputTypeNativeProps';
 
 type ProjectFieldProps<T> = {
   candidature: T;

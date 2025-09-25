@@ -1,26 +1,39 @@
 'use client';
 
+import { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
-import Select from '@codegouvfr/react-dsfr/SelectNext';
+import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import {
+  ModifierLauréatChampsSupplémentairesValueFormEntries,
+  ModifierLauréatValueFormEntries,
+} from '@/utils/candidature';
 
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
-import { LinkedValuesButton } from '../LinkedValuesButton';
-import { getNatureDeLExploitationTypeLabel } from '../../../../../../_helpers/getNatureDeLExploitationTypeLabel';
+import { FieldValidationErrors } from '../../../ModifierLauréat.form';
+import { LinkedValuesButton } from '../../LinkedValuesButton';
 
-type NatureDeLExploitationFieldProps = {
-  candidature: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType | undefined;
-  lauréat: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType | undefined;
+type ProjectSelectFieldProps<T> = {
+  candidature: T;
+  lauréat: T;
+  options: SelectProps.Option[];
+  name:
+    | keyof ModifierLauréatValueFormEntries
+    | keyof ModifierLauréatChampsSupplémentairesValueFormEntries;
+  estEnCoursDeModification?: boolean;
   validationErrors: FieldValidationErrors;
+  label: InputProps['label'];
 };
 
-export const NatureDeLExploitationField = ({
+export const ProjectSelectField = <T extends string | undefined>({
   candidature,
   lauréat,
+  label,
+  options,
+  name,
+  estEnCoursDeModification,
   validationErrors,
-}: NatureDeLExploitationFieldProps) => {
-  const [linked, setLinked] = useState(candidature === lauréat);
+}: ProjectSelectFieldProps<T>) => {
+  const [linked, setLinked] = useState(candidature === lauréat && !estEnCoursDeModification);
   const [candidatureValue, setCandidatureValue] = useState(candidature);
   const [lauréatValue, setLauréatValue] = useState(lauréat);
 
@@ -29,17 +42,12 @@ export const NatureDeLExploitationField = ({
     setLauréatValue(candidatureValue);
   };
 
-  const options = Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types.map((type) => ({
-    label: getNatureDeLExploitationTypeLabel(type),
-    value: type,
-  }));
-
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">Nature de l'exploitation</div>
+      <div className="flex-1 font-semibold">{label}</div>
       <div className="flex-[2] flex px-2">
         <input
-          name={`candidature.natureDeLExploitation`}
+          name={`candidature.${name}`}
           type="hidden"
           value={candidatureValue}
           disabled={candidatureValue === candidature}
@@ -47,25 +55,25 @@ export const NatureDeLExploitationField = ({
         <Select
           className="w-full"
           label=""
-          state={validationErrors[`candidature.natureDeLExploitation`] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors[`candidature.natureDeLExploitation`]}
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeSelectProps={{
             value: candidatureValue,
             required: true,
             'aria-required': true,
             onChange: (ev) => {
-              setCandidatureValue(ev.target.value);
+              setCandidatureValue(ev.target.value as T);
               if (linked) {
-                setLauréatValue(ev.target.value);
+                setLauréatValue(ev.target.value as T);
               }
             },
           }}
           options={options}
         />
       </div>
-      <div className="flex-[2] flex px-2 ">
+      <div className="flex-[2] flex px-2">
         <input
-          name={`laureat.natureDeLExploitation`}
+          name={`laureat.${name}`}
           type="hidden"
           value={lauréatValue}
           disabled={lauréatValue === lauréat}
@@ -75,20 +83,22 @@ export const NatureDeLExploitationField = ({
           style={{ marginBottom: 0 }}
           label=""
           disabled={linked}
-          state={validationErrors[`laureat.natureDeLExploitation`] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors[`laureat.natureDeLExploitation`]}
+          state={validationErrors[`laureat.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`laureat.${name}`]}
           nativeSelectProps={{
             value: lauréatValue,
             required: true,
             'aria-required': true,
             onChange: (ev) => {
-              setLauréatValue(ev.target.value);
+              setLauréatValue(ev.target.value as T);
             },
           }}
           options={options}
         />
+
         <LinkedValuesButton
           linked={linked}
+          estEnCoursDeModification={estEnCoursDeModification}
           onButtonClick={onButtonClick}
           aDéjàEtéModifié={candidature !== lauréat}
         />
