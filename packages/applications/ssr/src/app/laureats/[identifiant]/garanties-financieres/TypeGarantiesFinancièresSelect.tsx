@@ -32,12 +32,12 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
   actuelles,
   typesGarantiesFinancières,
 }) => {
-  const typeActuel = actuelles?.garantiesFinancières
+  const gfActuelles = actuelles?.garantiesFinancières
     ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(actuelles.garantiesFinancières)
     : undefined;
   const [typeSélectionné, setTypeSélectionné] = useState<
     Candidature.TypeGarantiesFinancières.RawType | undefined
-  >(typeActuel?.type.type);
+  >(gfActuelles?.type.type);
 
   return (
     <>
@@ -63,7 +63,7 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
           name="dateEcheance"
           required
           defaultValue={
-            typeActuel?.estAvecDateÉchéance() ? typeActuel.dateÉchéance.formatter() : undefined
+            gfActuelles?.estAvecDateÉchéance() ? gfActuelles.dateÉchéance.formatter() : undefined
           }
           state={validationErrors['dateEcheance'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['dateEcheance']}
@@ -74,7 +74,7 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
         label={typeSélectionné === 'exemption' ? 'Date de délibération' : 'Date de constitution'}
         name="dateConstitution"
         max={DateTime.now().formatter()}
-        defaultValue={actuelles?.dateConstitution?.date}
+        defaultValue={gfActuelles?.constitution?.date.formatter()}
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
@@ -92,7 +92,7 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
         documentKeys={
-          actuelles?.attestation ? [DocumentProjet.bind(actuelles.attestation).formatter()] : []
+          actuelles?.document ? [DocumentProjet.bind(actuelles.document).formatter()] : []
         }
       />
     </>

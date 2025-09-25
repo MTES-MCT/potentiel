@@ -32,7 +32,8 @@ export type RawType = {
   actionnariat: TypeActionnariat.RawType | undefined;
   typeGarantiesFinancières: TypeGarantiesFinancières.RawType | undefined;
   dateÉchéanceGf: DateTime.RawType | undefined;
-  dateDélibérationGf: DateTime.RawType | undefined;
+  attestationConstitutionGf: { format: string } | undefined;
+  dateConstitutionGf: DateTime.RawType | undefined;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.RawType>;
   typologieInstallation: Array<TypologieInstallation.RawType>;
@@ -60,7 +61,6 @@ export type ValueType = ReadonlyValueType<{
   technologie: TypeTechnologie.ValueType;
   actionnariat: TypeActionnariat.ValueType | undefined;
   garantiesFinancières?: GarantiesFinancières.GarantiesFinancières.ValueType;
-  dateDélibérationGf: DateTime.ValueType | undefined;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.ValueType>;
   typologieInstallation: Array<TypologieInstallation.ValueType>;
@@ -97,9 +97,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   actionnariat: bindOptional(TypeActionnariat.bind, plain.actionnariat),
   garantiesFinancières: plain.garantiesFinancières
     ? GarantiesFinancières.GarantiesFinancières.bind(plain.garantiesFinancières)
-    : undefined,
-  dateDélibérationGf: plain.dateDélibérationGf
-    ? DateTime.bind(plain.dateDélibérationGf)
     : undefined,
   fournisseurs: plain.fournisseurs.map(Fournisseur.bind),
   puissanceDeSite: plain.puissanceDeSite,
@@ -142,7 +139,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.technologie, this.technologie) &&
       areEqual(valueType.actionnariat, this.actionnariat) &&
       areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
-      areEqual(valueType.dateDélibérationGf, this.dateDélibérationGf) &&
       areEqualArrays(valueType.fournisseurs, this.fournisseurs) &&
       areEqualArrays(valueType.typologieInstallation, this.typologieInstallation) &&
       areEqual(valueType.natureDeLExploitation, this.natureDeLExploitation)
@@ -167,11 +163,14 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       historiqueAbandon: this.historiqueAbandon.formatter(),
       technologie: this.technologie.formatter(),
       actionnariat: this.actionnariat?.formatter(),
+      typeGarantiesFinancières: this.garantiesFinancières?.type.formatter(),
       dateÉchéanceGf: this.garantiesFinancières?.estAvecDateÉchéance()
         ? this.garantiesFinancières.dateÉchéance.formatter()
         : undefined,
-      dateDélibérationGf: this.dateDélibérationGf?.formatter(),
-      typeGarantiesFinancières: this.garantiesFinancières?.type.formatter(),
+      attestationConstitutionGf: this.garantiesFinancières?.constitution
+        ? { format: this.garantiesFinancières.constitution.attestation.format }
+        : undefined,
+      dateConstitutionGf: this.garantiesFinancières?.constitution?.date.formatter(),
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       typologieInstallation: this.typologieInstallation.map((typologieInstallation) =>
         typologieInstallation.formatter(),
@@ -218,11 +217,10 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
             type: raw.typeGarantiesFinancières,
             dateÉchéance: raw.dateÉchéanceGf,
+            attestation: raw.attestationConstitutionGf,
+            dateConstitution: raw.dateConstitutionGf,
           }),
         )
-      : undefined,
-    dateDélibérationGf: raw.dateDélibérationGf
-      ? mapToPlainObject(DateTime.convertirEnValueType(raw.dateDélibérationGf))
       : undefined,
     fournisseurs: raw.fournisseurs.map(Fournisseur.convertirEnValueType),
     typologieInstallation: raw.typologieInstallation.map(

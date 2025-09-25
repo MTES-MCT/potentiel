@@ -8,10 +8,8 @@ import { AbstractFixture, DeepPartial } from '../../../../../fixture';
 import { GarantiesFinancièresActuellesWorld } from '../garantiesFinancièresActuelles.world';
 
 export interface EnregistrerGarantiesFinancières {
-  readonly garantiesFinancières: {
-    type: string;
-    dateÉchéance: string | undefined;
-  };
+  readonly type: string;
+  readonly dateÉchéance: string | undefined;
   readonly dateConstitution: string;
   readonly attestation: { format: string; content: string };
   readonly enregistréLe: string;
@@ -21,9 +19,14 @@ export interface EnregistrerGarantiesFinancières {
 export type EnregistrerGarantiesFinancièresProps = DeepPartial<EnregistrerGarantiesFinancières>;
 
 export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<EnregistrerGarantiesFinancières> {
-  #garantiesFinancières!: EnregistrerGarantiesFinancières['garantiesFinancières'];
-  get garantiesFinancières() {
-    return this.#garantiesFinancières;
+  #garantiesFinancièresType!: EnregistrerGarantiesFinancières['type'];
+  get garantiesFinancièresType() {
+    return this.#garantiesFinancièresType;
+  }
+
+  #dateÉchéance!: EnregistrerGarantiesFinancières['dateÉchéance'];
+  get dateÉchéance() {
+    return this.#dateÉchéance;
   }
 
   #dateConstitution!: string;
@@ -61,7 +64,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     partialData?: EnregistrerGarantiesFinancièresProps,
   ): Readonly<EnregistrerGarantiesFinancières> {
     const type =
-      partialData?.garantiesFinancières?.type ??
+      partialData?.type ??
       faker.helpers.arrayElement([
         'consignation',
         'avec-date-échéance',
@@ -72,17 +75,14 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
       dateConstitution: faker.date.recent().toISOString(),
       enregistréLe: new Date().toISOString(),
       enregistréPar: faker.internet.email(),
+      dateÉchéance: type === 'avec-date-échéance' ? faker.date.future().toISOString() : undefined,
+      type,
       ...partialData,
       attestation: faker.potentiel.document(),
-      garantiesFinancières: {
-        type,
-        dateÉchéance: type === 'avec-date-échéance' ? faker.date.future().toISOString() : undefined,
-        ...partialData?.garantiesFinancières,
-      },
     };
     this.#content = fixture.attestation.content;
     this.#format = fixture.attestation.format;
-    this.#garantiesFinancières = fixture.garantiesFinancières;
+    this.#garantiesFinancièresType = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
     this.#enregistréLe = fixture.enregistréLe;
     this.#enregistréPar = fixture.enregistréPar;
@@ -93,17 +93,19 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
   }
 
   mapToExpected() {
-    const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType(
-      this.garantiesFinancières,
-    );
+    const gf = Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
+      type: this.#garantiesFinancièresType,
+      dateÉchéance: this.#dateÉchéance,
+      attestation: this.attestation,
+      dateConstitution: this.#dateConstitution,
+    });
     const readModel: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel = {
       identifiantProjet:
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld
           .identifiantProjet,
       statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
       garantiesFinancières: gf,
-      dateConstitution: DateTime.convertirEnValueType(this.dateConstitution),
-      attestation: DocumentProjet.convertirEnValueType(
+      document: DocumentProjet.convertirEnValueType(
         this.garantiesFinancièresActuellesWorld.garantiesFinancièresWorld.lauréatWorld.identifiantProjet.formatter(),
         Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
         this.dateConstitution,

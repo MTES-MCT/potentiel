@@ -50,7 +50,7 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
         }
         name="dateConstitution"
         max={now()}
-        defaultValue={garantiesFinancièresActuelles.dateConstitution?.date}
+        defaultValue={garantiesFinancièresActuelles.garantiesFinancières.constitution?.date.date}
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}

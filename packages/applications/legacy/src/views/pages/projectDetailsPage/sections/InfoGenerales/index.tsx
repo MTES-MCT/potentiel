@@ -86,14 +86,14 @@ export const InfoGenerales = ({
 
   const peutModifierActuelles =
     !!garantiesFinancières?.actuelles &&
-    garantiesFinancières.actuelles.type !== 'exemption' &&
+    !garantiesFinancières.actuelles.estExemption() &&
     role.aLaPermission('garantiesFinancières.actuelles.modifier');
   const peutModifierDépôt =
-    garantiesFinancières?.actuelles?.type !== 'exemption' &&
+    !garantiesFinancières?.actuelles?.estExemption() &&
     role.aLaPermission('garantiesFinancières.dépôt.modifier');
   const peutDemanderMainlevée =
     !!garantiesFinancières?.actuelles &&
-    garantiesFinancières.actuelles.type !== 'exemption' &&
+    !garantiesFinancières.actuelles.estExemption() &&
     role.aLaPermission('garantiesFinancières.mainlevée.demander');
 
   return (
@@ -187,17 +187,8 @@ export const InfoGenerales = ({
 export type GarantiesFinancièresProjetProps = {
   garantiesFinancières: {
     motifGfEnAttente?: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
-    actuelles?: {
-      type?: Candidature.TypeGarantiesFinancières.RawType;
-      dateConstitution?: string;
-      dateÉchéance?: string;
-      attestation?: DocumentProjet.RawType;
-    };
-    dépôtÀTraiter?: {
-      type?: Candidature.TypeGarantiesFinancières.RawType;
-      dateConstitution: string;
-      dateÉchéance?: string;
-    };
+    actuelles?: Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
+    dépôtÀTraiter?: Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel['garantiesFinancières'];
   };
   identifiantProjet: IdentifiantProjet.ValueType;
   peutModifier: boolean;
@@ -227,53 +218,52 @@ const GarantiesFinancièresProjet = ({
       )}
 
       {garantiesFinancières.actuelles &&
-        (garantiesFinancières.actuelles.type === 'exemption' ? (
+        (garantiesFinancières.actuelles.type.estExemption() ? (
           <div>Le projet bénéficie d'une exemption de garanties financières.</div>
         ) : (
           <div>
             <span>
               Le projet dispose actuellement de garanties financières validées
-              {garantiesFinancières.actuelles.dateConstitution && (
+              {garantiesFinancières.actuelles.estConstitué() && (
                 <span>
                   , constituées le{' '}
-                  {afficherDate(new Date(garantiesFinancières.actuelles.dateConstitution))}
+                  {afficherDate(new Date(garantiesFinancières.actuelles.constitution.date.date))}
                 </span>
               )}
-              {garantiesFinancières.actuelles.type !== 'type-inconnu' && (
+              {garantiesFinancières.actuelles.type.formatter() !== 'type-inconnu' && (
                 <span className="font-semibold">
-                  , {getGFLabel(garantiesFinancières.actuelles.type)}
+                  , {getGFLabel(garantiesFinancières.actuelles.type.formatter())}
                 </span>
               )}
-              {garantiesFinancières.actuelles.dateÉchéance &&
-                garantiesFinancières.actuelles.type === 'avec-date-échéance' && (
-                  <span>
-                    {' '}
-                    au {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance))}
-                  </span>
-                )}
+              {garantiesFinancières.actuelles.estAvecDateÉchéance() && (
+                <span>
+                  {' '}
+                  au {afficherDate(new Date(garantiesFinancières.actuelles.dateÉchéance.date))}
+                </span>
+              )}
               .
             </span>
-            {!garantiesFinancières.actuelles?.dateConstitution && (
+            {!garantiesFinancières.actuelles?.estConstitué() && (
               <AlertMessage>
                 L'attestation de constitution des garanties financières reste à transmettre.
               </AlertMessage>
             )}
-            {garantiesFinancières.actuelles.type === 'type-inconnu' && (
+            {garantiesFinancières.actuelles.type.formatter() === 'type-inconnu' && (
               <AlertMessage>Le type de garanties financières reste à préciser.</AlertMessage>
             )}
           </div>
         ))}
 
-      {garantiesFinancières.dépôtÀTraiter && (
+      {garantiesFinancières.dépôtÀTraiter && garantiesFinancières.dépôtÀTraiter.estConstitué() && (
         <AlertMessage>
-          De nouvelles garanties financières {getGFLabel(garantiesFinancières.dépôtÀTraiter?.type)},
-          constituées le{' '}
-          {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.dateConstitution))}
-          {garantiesFinancières.dépôtÀTraiter.dateÉchéance && (
+          De nouvelles garanties financières{' '}
+          {getGFLabel(garantiesFinancières.dépôtÀTraiter?.type.formatter())}, constituées le{' '}
+          {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.constitution.date.date))}
+          {garantiesFinancières.dépôtÀTraiter.estAvecDateÉchéance() && (
             <span>
               {' '}
               et avec échéance au{' '}
-              {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.dateÉchéance))}{' '}
+              {afficherDate(new Date(garantiesFinancières.dépôtÀTraiter.dateÉchéance.date))}{' '}
             </span>
           )}{' '}
           sont à traiter par l'autorité compétente (

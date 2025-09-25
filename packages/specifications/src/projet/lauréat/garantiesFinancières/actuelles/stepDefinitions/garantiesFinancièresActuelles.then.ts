@@ -33,9 +33,9 @@ Alors(
 
       actual.should.be.deep.equal(expected);
 
-      if (actualReadModel.attestation) {
+      if (actualReadModel.document) {
         await expectFileContent(
-          actualReadModel.attestation,
+          actualReadModel.document,
           this.lauréatWorld.garantiesFinancièresWorld.mapToAttestation(),
         );
       }
@@ -98,7 +98,7 @@ Alors(
       );
       expect(actualMotif).to.deep.eq(expectedMotif);
 
-      await expectFileContent(actualArchive.attestation ?? Option.none, expectedAttestation);
+      await expectFileContent(actualArchive.document ?? Option.none, expectedAttestation);
     });
   },
 );

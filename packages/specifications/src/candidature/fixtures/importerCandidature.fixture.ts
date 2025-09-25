@@ -177,7 +177,7 @@ const créerDépôt = (
       faker.helpers.arrayElement(Candidature.TypeActionnariat.types),
     ),
     dateÉchéanceGf: undefined,
-    dateDélibérationGf: undefined,
+    dateConstitutionGf: undefined,
     coefficientKChoisi: undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
@@ -208,6 +208,9 @@ const créerDépôt = (
       ? { date: DateTime.now().formatter(), numéro: '12', ...dépôt.autorisationDUrbanisme }
       : undefined,
     typologieInstallation: [{ typologie: 'bâtiment.neuf' }],
+    attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
+      ? { format: dépôt.attestationConstitutionGf.format }
+      : undefined,
   };
 
   const référentielPériode = appelsOffreData
