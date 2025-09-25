@@ -95,14 +95,12 @@ export async function soumettreDépôt(
     type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
+      typeValue: type,
+      dateÉchéanceValue: dateÉchéance,
       attestationValue: convertFixtureFileToReadableStream(attestation),
       dateConstitutionValue: dateConstitution,
       soumisLeValue: soumisLe,
       soumisParValue: soumisPar,
-      garantiesFinancièresValue: {
-        type,
-        dateÉchéance,
-      },
     },
   });
 }
@@ -119,15 +117,12 @@ export async function modifierDépôt(
       type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-
+        typeValue: type,
+        dateÉchéanceValue: dateÉchéance,
         dateConstitutionValue: new Date(dateConstitution).toISOString(),
         modifiéLeValue: new Date(soumisLe).toISOString(),
         modifiéParValue: soumisPar,
         attestationValue: convertFixtureFileToReadableStream(attestation),
-        garantiesFinancièresValue: {
-          type,
-          dateÉchéance,
-        },
       },
     },
   );

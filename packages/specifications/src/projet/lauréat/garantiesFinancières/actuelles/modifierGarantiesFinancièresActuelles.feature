@@ -44,7 +44,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :
             | appel d'offres       | PPE2 - Petit PV Bâtiment |
             | type GF              | exemption                |
-            | date de délibération | 2025-01-01               |
+            | date de constitution | 2025-01-01               |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | type GF | consignation |
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat

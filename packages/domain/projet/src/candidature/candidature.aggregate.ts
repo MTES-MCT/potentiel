@@ -198,10 +198,6 @@ export class CandidatureAggregate extends AbstractAggregate<
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
         candidature.dépôt.garantiesFinancières,
       );
-      this.projet.lauréat.garantiesFinancières.vérifierSiDateDeDélibérationRequiseEtValide(
-        candidature.dépôt.dateDélibérationGf,
-        candidature.dépôt.garantiesFinancières?.type,
-      );
     }
 
     const event: CandidatureImportéeEvent = {
@@ -230,10 +226,6 @@ export class CandidatureAggregate extends AbstractAggregate<
     if (candidature.instruction.statut.estClassé()) {
       this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
         candidature.dépôt.garantiesFinancières,
-      );
-      this.projet.lauréat.garantiesFinancières.vérifierSiDateDeDélibérationRequiseEtValide(
-        candidature.dépôt.dateDélibérationGf,
-        candidature.dépôt.garantiesFinancières?.type,
       );
     }
 

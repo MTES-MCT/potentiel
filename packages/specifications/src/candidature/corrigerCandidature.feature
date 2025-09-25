@@ -143,16 +143,16 @@ Fonctionnalité: Corriger une candidature
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres       | PPE2 - Petit PV Bâtiment |
             | type GF              | exemption                |
-            | date de délibération | 2025-01-01               |
+            | date de constitution | 2025-01-01               |
         Quand le DGEC validateur corrige la candidature avec :
-            | date de délibération | 2050-01-01 |
+            | date de constitution | 2050-01-01 |
 
         Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible de corriger une candidature classée avec une date de délibération pour un type de GF qui n'en attend pas
         Quand le DGEC validateur corrige la candidature avec :
             | type GF              | consignation |
-            | date de délibération | 2024-01-01   |
+            | date de constitution | 2024-01-01   |
 
         Alors l'administrateur devrait être informé que "La date de délibération ne peut être renseignée pour ce type de garanties financières"
 

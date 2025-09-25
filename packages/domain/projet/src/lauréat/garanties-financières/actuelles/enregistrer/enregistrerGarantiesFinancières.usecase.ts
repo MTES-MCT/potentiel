@@ -11,10 +11,8 @@ export type EnregistrerGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
   {
     identifiantProjetValue: string;
-    garantiesFinancièresValue: {
-      type: string;
-      dateÉchéance: string | undefined;
-    };
+    typeValue: string;
+    dateÉchéanceValue: string | undefined;
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -28,38 +26,41 @@ export type EnregistrerGarantiesFinancièresUseCase = Message<
 export const registerEnregistrerGarantiesFinancièresUseCase = () => {
   const runner: MessageHandler<EnregistrerGarantiesFinancièresUseCase> = async ({
     attestationValue,
+    typeValue,
+    dateÉchéanceValue,
     dateConstitutionValue,
     identifiantProjetValue,
     enregistréLeValue,
-    garantiesFinancièresValue,
     enregistréParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const garantiesFinancières =
-      GarantiesFinancières.convertirEnValueType(garantiesFinancièresValue);
-    const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
-    const enregistréLe = DateTime.convertirEnValueType(enregistréLeValue);
-    const attestation = DocumentProjet.convertirEnValueType(
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+      type: typeValue,
+      dateÉchéance:
+        dateÉchéanceValue && DateTime.convertirEnValueType(dateÉchéanceValue).formatter(),
+      attestation: { format: attestationValue.format },
+      dateConstitution: DateTime.convertirEnValueType(dateConstitutionValue).formatter(),
+    });
+    const documentProjet = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
       dateConstitutionValue,
       attestationValue.format,
     );
+    const enregistréLe = DateTime.convertirEnValueType(enregistréLeValue);
     const enregistréPar = Email.convertirEnValueType(enregistréParValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content: attestationValue.content,
-        documentProjet: attestation,
+        documentProjet,
       },
     });
 
     await mediator.send<EnregistrerGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.EnregistrerGarantiesFinancières',
       data: {
-        attestation,
-        dateConstitution,
         identifiantProjet,
         garantiesFinancières,
         enregistréLe,

@@ -255,10 +255,9 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
 
     // Garanties Financières
-    if (importerGarantiesFinancières) {
-      await this.garantiesFinancières.importer({
+    if (importerGarantiesFinancières && this.projet.candidature.garantiesFinancières) {
+      await this.garantiesFinancières.importerType({
         garantiesFinancières: this.projet.candidature.garantiesFinancières,
-        dateDeDélibération: this.projet.candidature.dépôt.dateDélibérationGf,
         importéLe: notifiéLe,
       });
     }

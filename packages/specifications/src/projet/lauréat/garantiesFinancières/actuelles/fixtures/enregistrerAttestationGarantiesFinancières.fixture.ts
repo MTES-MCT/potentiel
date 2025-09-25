@@ -14,6 +14,8 @@ export class EnregistrerAttestationGarantiesFinancièresFixture extends Enregist
       garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
         type: dépôtCandidature.typeGarantiesFinancières!,
         dateÉchéance: dépôtCandidature.dateÉchéanceGf,
+        attestation: dépôtCandidature.attestationConstitutionGf,
+        dateConstitution: dépôtCandidature.dateConstitutionGf,
       }),
     };
   }

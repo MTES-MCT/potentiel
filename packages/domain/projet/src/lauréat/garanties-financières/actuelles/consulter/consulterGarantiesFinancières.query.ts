@@ -20,8 +20,7 @@ export type ConsulterGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: GarantiesFinancières.ValueType;
   statut: StatutGarantiesFinancières.ValueType;
-  attestation?: DocumentProjet.ValueType;
-  dateConstitution?: DateTime.ValueType;
+  document?: DocumentProjet.ValueType;
   soumisLe?: DateTime.ValueType;
   validéLe?: DateTime.ValueType;
   dernièreMiseÀJour: {
@@ -89,11 +88,12 @@ export const mapToReadModel = ({
   garantiesFinancières: GarantiesFinancières.convertirEnValueType({
     type,
     dateÉchéance,
+    attestation,
+    dateConstitution,
   }),
-  dateConstitution: dateConstitution ? DateTime.convertirEnValueType(dateConstitution) : undefined,
   soumisLe: soumisLe ? DateTime.convertirEnValueType(soumisLe) : undefined,
   validéLe: validéLe ? DateTime.convertirEnValueType(validéLe) : undefined,
-  attestation:
+  document:
     dateConstitution && attestation
       ? DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),

@@ -26,9 +26,9 @@ Alors(
 
       actual.should.be.deep.equal(expected);
 
-      if (actualReadModel.attestation) {
+      if (actualReadModel.document) {
         await expectFileContent(
-          actualReadModel.attestation,
+          actualReadModel.document,
           this.lauréatWorld.garantiesFinancièresWorld.dépôt.mapToAttestation(),
         );
       }

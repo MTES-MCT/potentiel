@@ -12,10 +12,8 @@ export type SoumettreDépôtGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
   {
     identifiantProjetValue: string;
-    garantiesFinancièresValue: {
-      type: string;
-      dateÉchéance: string | undefined;
-    };
+    typeValue: string;
+    dateÉchéanceValue: string | undefined;
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -28,42 +26,45 @@ export type SoumettreDépôtGarantiesFinancièresUseCase = Message<
 
 export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
   const runner: MessageHandler<SoumettreDépôtGarantiesFinancièresUseCase> = async ({
+    typeValue,
+    dateÉchéanceValue,
     attestationValue,
     dateConstitutionValue,
     identifiantProjetValue,
     soumisLeValue,
-    garantiesFinancièresValue,
     soumisParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const garantiesFinancières =
-      GarantiesFinancières.convertirEnValueType(garantiesFinancièresValue);
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+      type: typeValue,
+      dateÉchéance:
+        dateÉchéanceValue && DateTime.convertirEnValueType(dateÉchéanceValue).formatter(),
+      attestation: { format: attestationValue.format },
+      dateConstitution: DateTime.convertirEnValueType(dateConstitutionValue).formatter(),
+    });
 
-    const soumisLe = DateTime.convertirEnValueType(soumisLeValue);
-    const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
-    const soumisPar = IdentifiantUtilisateur.convertirEnValueType(soumisParValue);
-
-    const attestation = DocumentProjet.convertirEnValueType(
+    const documentProjet = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
       dateConstitutionValue,
       attestationValue.format,
     );
 
+    const soumisLe = DateTime.convertirEnValueType(soumisLeValue);
+    const soumisPar = IdentifiantUtilisateur.convertirEnValueType(soumisParValue);
+
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content: attestationValue.content,
-        documentProjet: attestation,
+        documentProjet,
       },
     });
 
     await mediator.send<SoumettreDépôtGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.SoumettreDépôtGarantiesFinancières',
       data: {
-        attestation,
-        dateConstitution,
         identifiantProjet,
         soumisLe,
         soumisPar,

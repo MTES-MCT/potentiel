@@ -8,12 +8,12 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | appel d'offres       | <AO>                   |
             | type GF              | <type GF>              |
             | date d'échéance      | <date d'échéance>      |
-            | date de délibération | <date de délibération> |
+            | date de constitution | <date de constitution> |
         Quand le DGEC validateur notifie la candidature lauréate
         Alors les garanties financières actuelles devraient être consultables pour le projet lauréat
 
         Exemples:
-            | type GF                   | AO                       | date d'échéance | date de délibération |
+            | type GF                   | AO                       | date d'échéance | date de constitution |
             | avec-date-échéance        | PPE2 - Sol               | 2027-12-01      |                      |
             | six-mois-après-achèvement | PPE2 - Eolien            |                 |                      |
             | consignation              | CRE4 - ZNI               |                 |                      |
