@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { conditionalRequiredError } from '../schemaBase';
 import {
@@ -23,7 +23,6 @@ import {
   puissanceDeSiteSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
-  natureDeLExploitationSchema,
 } from '../candidatureFields.schema';
 
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
@@ -38,6 +37,7 @@ import {
   historiqueAbandonCsvSchema,
   installationAvecDispositifDeStockageCsvSchema,
   installationsAgrivoltaiquesCsvSchema,
+  natureDeLExploitationCsvSchema,
   notifiedOnCsvSchema,
   obligationDeSolarisationCsvSchema,
   puissanceALaPointeCsvSchema,
@@ -56,6 +56,12 @@ const typeGf = [
   Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
   Candidature.TypeGarantiesFinancières.consignation.type,
 ] satisfies Array<Candidature.TypeGarantiesFinancières.RawType>;
+
+// Order matters! the CSV uses "1"/"2"
+const typesNatureDeLExploitation = [
+  Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnSurplus.type,
+  Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnTotalité.type,
+] satisfies Array<Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType>;
 
 const historiqueAbandon = [
   'première-candidature',
@@ -152,12 +158,12 @@ const candidatureCsvRowSchema = z
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     [colonnes.installateur]: installateurSchema,
     [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
-    [colonnes.natureDeLExploitation]: natureDeLExploitationSchema,
-    // columns with refines
+    // columns with refines, see refines below
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
+    [colonnes.natureDeLExploitation]: natureDeLExploitationCsvSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
@@ -238,12 +244,14 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       adresse1,
       adresse2,
       commune,
+      natureDeLExploitation,
+      typeGarantiesFinancières,
       ...val
     }) => {
       return {
         ...val,
-        typeGarantiesFinancières: val.typeGarantiesFinancières
-          ? typeGf[Number(val.typeGarantiesFinancières) - 1]
+        typeGarantiesFinancières: typeGarantiesFinancières
+          ? typeGf[Number(typeGarantiesFinancières) - 1]
           : undefined,
         historiqueAbandon: historiqueAbandon[Number(val.historiqueAbandon) - 1],
         technologie: technologie[val.technologie],
@@ -260,8 +268,9 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 numéro: numéroDAutorisationDUrbanisme,
               }
             : undefined,
-        installateur: val.installateur,
-        natureDeLExploitation: val.natureDeLExploitation,
+        natureDeLExploitation: natureDeLExploitation
+          ? typesNatureDeLExploitation[Number(natureDeLExploitation) - 1]
+          : undefined,
         typologieInstallation: mapCsvToTypologieInstallation({
           typologieDeBâtiment,
           typeInstallationsAgrivoltaiques,
@@ -269,7 +278,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
         }),
         localité: getLocalité({
           adresse1,
-          adresse2,
+          adresse2: adresse2 ?? '',
           codePostal,
           commune,
         }),

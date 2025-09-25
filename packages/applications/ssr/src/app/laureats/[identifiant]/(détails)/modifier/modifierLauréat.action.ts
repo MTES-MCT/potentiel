@@ -121,6 +121,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
           },
         });
       }
+
       if (laureat.installationAvecDispositifDeStockage !== undefined) {
         await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
           {
@@ -136,7 +137,19 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         );
       }
 
-      const lauréatAEtéModifié =
+      if (laureat.natureDeLExploitation) {
+        await mediator.send<Lauréat.NatureDeLExploitation.ModifierNatureDeLExploitationUseCase>({
+          type: 'Lauréat.NatureDeLExploitation.UseCase.ModifierNatureDeLExploitation',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            natureDeLExploitationValue: laureat.natureDeLExploitation,
+            dateModificationValue: new Date().toISOString(),
+            identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+          },
+        });
+      }
+
+      const lauréatAÉtéModifié =
         laureat.adresse1 != undefined ||
         laureat.adresse2 != undefined ||
         laureat.nomProjet != undefined ||
@@ -145,7 +158,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         laureat.departement != undefined ||
         laureat.region != undefined;
 
-      if (lauréatAEtéModifié) {
+      if (lauréatAÉtéModifié) {
         const lauréatAModifier = await getLauréatInfos({ identifiantProjet });
 
         await mediator.send<Lauréat.ModifierLauréatUseCase>({
@@ -220,6 +233,9 @@ const mapBodyToCandidatureUsecaseData = (
       installateur: data.installateur ?? previous.installateur,
       installationAvecDispositifDeStockage:
         data.installationAvecDispositifDeStockage ?? previous.installationAvecDispositifDeStockage,
+      natureDeLExploitation: data.natureDeLExploitation
+        ? data.natureDeLExploitation
+        : previous.natureDeLExploitation?.formatter(),
 
       // non-editable fields
       typeGarantiesFinancières: previous.garantiesFinancières?.type.type,
@@ -234,10 +250,6 @@ const mapBodyToCandidatureUsecaseData = (
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       obligationDeSolarisation: previous.obligationDeSolarisation,
       typologieInstallation: previous.typologieInstallation.map((t) => t.formatter()),
-      //TODO: : nature sera rendu éditable dans un second temps
-      natureDeLExploitation: previous.natureDeLExploitation
-        ? previous.natureDeLExploitation.formatter()
-        : undefined,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

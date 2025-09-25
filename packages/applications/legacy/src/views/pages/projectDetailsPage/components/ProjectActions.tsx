@@ -15,27 +15,19 @@ import { match } from 'ts-pattern';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { ProjectHeaderProps } from './ProjectHeader';
-import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
-import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
-import {
-  GetActionnaireForProjectPage,
-  GetInstallationAvecDispositifDeStockageForProjectPage,
-  GetReprésentantLégalForProjectPage,
-} from '../../../../controllers/project/getProjectPage/_utils';
-import { GetDélaiForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getDélai';
-import { GetInstallateurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getInstallateur';
-import { GetFournisseurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getFournisseur';
 
-type EnregistrerUneModificationProps = {
-  producteurAffichage?: GetProducteurForProjectPage['affichage'];
-  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
-  actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
-  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
-  délaiAffichage?: GetDélaiForProjectPage['affichage'];
-  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
-  installateurAffichage?: GetInstallateurForProjectPage['affichage'];
-  installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
-};
+type EnregistrerUneModificationProps = Pick<
+  ProjectHeaderProps,
+  | 'producteurAffichage'
+  | 'puissanceAffichage'
+  | 'actionnaireAffichage'
+  | 'représentantLégalAffichage'
+  | 'délaiAffichage'
+  | 'fournisseurAffichage'
+  | 'installateurAffichage'
+  | 'installationAvecDispositifDeStockageAffichage'
+  | 'natureDeLExploitationAffichage'
+>;
 
 const EnregistrerUneModification = ({
   producteurAffichage,
@@ -46,6 +38,7 @@ const EnregistrerUneModification = ({
   fournisseurAffichage,
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
+  natureDeLExploitationAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -89,6 +82,11 @@ const EnregistrerUneModification = ({
           href={installationAvecDispositifDeStockageAffichage.url}
         >
           <span>{installationAvecDispositifDeStockageAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!natureDeLExploitationAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={natureDeLExploitationAffichage.url}>
+          <span>{natureDeLExploitationAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
     </DropdownMenuSecondaryButton>
@@ -224,17 +222,9 @@ const PorteurProjetActions = ({
   );
 };
 
-type AdminActionsProps = {
+type AdminActionsProps = EnregistrerUneModificationProps & {
   project: ProjectDataForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
-  producteurAffichage?: GetProducteurForProjectPage['affichage'];
-  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
-  actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
-  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
-  délaiAffichage?: GetDélaiForProjectPage['affichage'];
-  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
-  installateurAffichage?: GetInstallateurForProjectPage['affichage'];
-  installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
 };
 
 const AdminActions = ({
@@ -248,6 +238,7 @@ const AdminActions = ({
   fournisseurAffichage,
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
+  natureDeLExploitationAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -263,6 +254,7 @@ const AdminActions = ({
           installationAvecDispositifDeStockageAffichage={
             installationAvecDispositifDeStockageAffichage
           }
+          natureDeLExploitationAffichage={natureDeLExploitationAffichage}
         />
       )}
       {notifiedOn && isClasse ? (
@@ -303,14 +295,15 @@ const AdminActions = ({
   );
 };
 
-type DrealActionsProps = {
-  project: ProjectDataForProjectPage;
-  identifiantProjet: IdentifiantProjet.RawType;
-  producteurAffichage?: GetProducteurForProjectPage['affichage'];
-  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
-  actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
-  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
-};
+type DrealActionsProps = Pick<
+  ProjectHeaderProps,
+  | 'project'
+  | 'puissanceAffichage'
+  | 'actionnaireAffichage'
+  | 'représentantLégalAffichage'
+  | 'producteurAffichage'
+  | 'fournisseurAffichage'
+>;
 
 const DrealActions = ({
   project: { isClasse },
@@ -355,6 +348,7 @@ export const ProjectActions = ({
   installateurAffichage,
   features,
   installationAvecDispositifDeStockageAffichage,
+  natureDeLExploitationAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -379,6 +373,7 @@ export const ProjectActions = ({
           installationAvecDispositifDeStockageAffichage={
             installationAvecDispositifDeStockageAffichage
           }
+          natureDeLExploitationAffichage={natureDeLExploitationAffichage}
         />
       )}
       {userIs(['porteur-projet'])(user) && (
@@ -401,7 +396,6 @@ export const ProjectActions = ({
       {userIs(['dreal'])(user) && (
         <DrealActions
           project={project}
-          identifiantProjet={identifiantProjet}
           producteurAffichage={producteurAffichage}
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}

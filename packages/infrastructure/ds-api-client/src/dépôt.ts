@@ -6,6 +6,7 @@ import {
   getHistoriqueAbandon,
   getLocalité,
   getAutorisationDUrbanisme,
+  getTypeNatureDeLExploitation,
 } from './specialFields';
 import { DeepPartial } from './utils';
 import { getTypologieInstallation } from './getTypologieInstallation';
@@ -31,6 +32,7 @@ const colonnes = {
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation (loi APER)`,
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
   installateur: "Identité de l'installateur",
+  natureDeLExploitation: "Nature de l'exploitation",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 export const mapApiResponseToDépôt = ({
@@ -82,6 +84,7 @@ export const mapApiResponseToDépôt = ({
       'installationAvecDispositifDeStockage',
     ),
     installateur: accessor.getStringValue('installateur'),
+    natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
 
     // TODO ajouter
     coefficientKChoisi: undefined,

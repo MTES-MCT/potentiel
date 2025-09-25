@@ -24,7 +24,6 @@ import {
   GarantiesFinancièresProjetProps,
   EtapesProjetProps,
   MaterielsEtTechnologiesProps,
-  AttestationConformitéProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
@@ -59,7 +58,7 @@ type ProjectDetailsProps = {
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
   installateur?: InfoGeneralesProps['installateur'];
-  attestationConformité?: AttestationConformitéProps;
+  attestationConformité?: InfoGeneralesProps['attestationConformité'];
   dateAchèvementPrévisionnel: number;
   estAchevé: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
@@ -74,6 +73,7 @@ type ProjectDetailsProps = {
   };
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
   installationAvecDispositifDeStockage?: InfoGeneralesProps['installationAvecDispositifDeStockage'];
+  natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
 };
 
 export const ProjectDetails = ({
@@ -99,6 +99,7 @@ export const ProjectDetails = ({
   autorisationDUrbanisme,
   installateur,
   installationAvecDispositifDeStockage,
+  natureDeLExploitation,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -192,6 +193,7 @@ export const ProjectDetails = ({
         installationAvecDispositifDeStockageAffichage={
           installationAvecDispositifDeStockage?.affichage
         }
+        natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -253,6 +255,7 @@ export const ProjectDetails = ({
               autorisationDUrbanisme={autorisationDUrbanisme}
               installateur={installateur}
               installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
+              natureDeLExploitation={natureDeLExploitation}
             />
             <Contact
               identifiantProjet={identifiantProjet}

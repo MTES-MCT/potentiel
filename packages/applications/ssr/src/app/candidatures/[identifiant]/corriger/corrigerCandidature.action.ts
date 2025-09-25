@@ -25,7 +25,6 @@ export type CorrigerCandidaturesState = FormState;
 const schema = zod.object({
   identifiantProjet: identifiantProjetSchema,
   doitRegenererAttestation: doitRegenererAttestationSchema,
-
   nomProjet: dépôtSchema.shape.nomProjet,
   societeMere: dépôtSchema.shape.sociétéMère,
   nomCandidat: dépôtSchema.shape.nomCandidat,
@@ -106,7 +105,7 @@ const mapBodyToUseCaseData = (
       localité: {
         codePostal: data.codePostal,
         adresse1: data.adresse1,
-        adresse2: data.adresse2,
+        adresse2: data.adresse2 ?? '',
         commune: data.commune,
         département: data.departement,
         région: data.region,
