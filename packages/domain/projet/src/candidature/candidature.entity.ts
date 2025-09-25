@@ -41,6 +41,7 @@ export type CandidatureEntity = Entity<
     identifiantProjet: IdentifiantProjet.RawType;
     appelOffre: string;
     période: string;
+    famille: string;
     statut: StatutCandidature.RawType;
     nomProjet: string;
     typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;

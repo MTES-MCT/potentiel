@@ -20,6 +20,7 @@ export type ListFilterItem<TSearchParamKey = string> = {
    *  - the affected filter will be removed when current changes
    **/
   affects?: TSearchParamKey[];
+  forceDisabled?: true;
 };
 
 export type ListFiltersProps = {
@@ -59,7 +60,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
 
   return (
     <div className="flex flex-col">
-      {filters.map(({ label, searchParamKey, options, affects, multiple }) => {
+      {filters.map(({ label, searchParamKey, options, affects, multiple, forceDisabled }) => {
         const disabled = filters.some(
           (f) => f.affects?.includes(searchParamKey) && !searchParams.get(f.searchParamKey),
         );
@@ -82,7 +83,7 @@ export const ListFilters: FC<ListFiltersProps> = ({ filters }) => {
           />
         ) : (
           <Filter
-            disabled={disabled}
+            disabled={forceDisabled || disabled}
             key={`filter-${searchParamKey}`}
             label={label}
             options={options}
