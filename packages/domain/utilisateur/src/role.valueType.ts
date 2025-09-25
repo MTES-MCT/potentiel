@@ -1733,6 +1733,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'utilisateur.inviterPorteur',
 
   // Producteur
+  'producteur.modifier',
   'producteur.listerChangement',
   'producteur.consulterChangement',
 
