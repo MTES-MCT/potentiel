@@ -31,9 +31,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  autoriteInstructrice: z
-    .enum(Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes)
-    .optional(),
+  autoriteCompetente: z.enum(Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes).optional(),
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Puissance.StatutChangementPuissance.statuts)),
 });
 
@@ -42,7 +40,7 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut, autoriteInstructrice } =
+      const { page, nomProjet, appelOffre, statut, autoriteCompetente } =
         paramsSchema.parse(searchParams);
 
       const changements = await mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
@@ -60,7 +58,7 @@ export default async function Page({ searchParams }: PageProps) {
             : undefined,
           appelOffre,
           nomProjet,
-          autoriteInstructrice,
+          autoritéCompétente: autoriteCompetente,
         },
       });
 
@@ -91,8 +89,8 @@ export default async function Page({ searchParams }: PageProps) {
           })),
         },
         {
-          label: 'Autorité instructrice',
-          searchParamKey: 'autoriteInstructrice',
+          label: 'Autorité compétente',
+          searchParamKey: 'autoriteCompetente',
           options: Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
             label: match(autorité)
               .with('dreal', () => 'DREAL')
