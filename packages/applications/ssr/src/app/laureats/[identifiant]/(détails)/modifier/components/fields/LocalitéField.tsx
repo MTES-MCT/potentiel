@@ -8,7 +8,7 @@ import { ModifierLauréatPageProps } from '../../ModifierLauréat.page';
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
 
-import { ProjectField } from './ProjectField';
+import { ProjectField } from './generic/ProjectField';
 
 type LocalitéFieldProps = {
   candidature: ModifierLauréatPageProps['candidature'];

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -20,18 +21,18 @@ import {
 import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 
+import { getNatureDeLExploitationTypeLabel } from '../../../../_helpers/getNatureDeLExploitationTypeLabel';
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '../../../../_helpers';
+
 import { modifierLauréatAction } from './modifierLauréat.action';
-import { ProjectField } from './components/fields/ProjectField';
-import { TechnologieField } from './components/fields/TechnologieField';
-import { ActionnariatField } from './components/fields/ActionnariatField';
+import { ProjectField } from './components/fields/generic/ProjectField';
 import { LocalitéField } from './components/fields/LocalitéField';
 import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
 import { AttestationField } from './components/fields/AttestationField';
-import { CandidatureField } from './components/fields/CandidatureField';
-import { CoefficientKField } from './components/fields/CoefficientKField';
+import { CandidatureField } from './components/fields/generic/CandidatureField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
-import { InstallationAvecDispositifDeStockageField } from './components/fields/InstallationAvecDispositifDeStockageField';
-import { NatureDeLExploitationField } from './components/fields/NatureDExploitationField';
+import { ProjectSelectField } from './components/fields/generic/ProjectSelectField';
+import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectFiels';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
@@ -145,11 +146,17 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           />
         </FormRow>
         <FormRow>
-          <ActionnariatField
+          <CandidatureSelectField
             candidature={candidature.actionnariat ?? ''}
             label="Type d'actionnariat"
             name="actionnariat"
-            typesActionnariat={cdcActuel.getTypesActionnariat()}
+            options={[
+              { label: 'Aucun', value: '' },
+              ...cdcActuel.getTypesActionnariat().map((type) => ({
+                label: getActionnariatTypeLabel(type),
+                value: type,
+              })),
+            ]}
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -169,10 +176,14 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           validationErrors={validationErrors}
         />
         <FormRow>
-          <TechnologieField
+          <CandidatureSelectField
             candidature={candidature.technologie}
             label="Technologie"
             name="technologie"
+            options={Candidature.TypeTechnologie.types.map((type) => ({
+              value: type,
+              label: getTechnologieTypeLabel(type),
+            }))}
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -248,28 +259,46 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         )}
         {champsSupplémentaires.installationAvecDispositifDeStockage && (
           <FormRow>
-            <InstallationAvecDispositifDeStockageField
-              candidature={candidature.installationAvecDispositifDeStockage ?? false}
-              lauréat={lauréat.installationAvecDispositifDeStockage?.currentValue ?? false}
+            <ProjectSelectField
+              name="installationAvecDispositifDeStockage"
+              label={`Dispositif de stockage${champsSupplémentaires.installationAvecDispositifDeStockage === 'optionnel' ? ' optionnel' : ''}`}
+              candidature={candidature.installationAvecDispositifDeStockage ? 'true' : 'false'}
+              lauréat={lauréat.installationAvecDispositifDeStockage ? 'true' : 'false'}
+              options={[
+                { label: 'Avec', value: 'true' },
+                { label: 'Sans', value: 'false' },
+              ]}
               validationErrors={validationErrors}
             />
           </FormRow>
         )}
         {champsSupplémentaires.natureDeLExploitation && (
           <FormRow>
-            <NatureDeLExploitationField
+            <ProjectSelectField
+              name="natureDeLExploitation"
+              label="Nature de l'exploitation"
               candidature={candidature.natureDeLExploitation}
               lauréat={lauréat.natureDeLExploitation?.currentValue}
+              options={Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types.map(
+                (type) => ({
+                  label: getNatureDeLExploitationTypeLabel(type),
+                  value: type,
+                }),
+              )}
               validationErrors={validationErrors}
             />
           </FormRow>
         )}
         {champsSupplémentaires.coefficientKChoisi && (
           <FormRow>
-            <CoefficientKField
-              candidature={candidature.coefficientKChoisi ?? false}
+            <CandidatureSelectField
+              candidature={candidature.coefficientKChoisi ? 'true' : 'false'}
               label="Choix du coefficient K"
               name="coefficientKChoisi"
+              options={[
+                { label: 'Oui', value: 'true' },
+                { label: 'Non', value: 'false' },
+              ]}
               validationErrors={validationErrors}
             />
           </FormRow>

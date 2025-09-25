@@ -1,18 +1,33 @@
-import Select from '@codegouvfr/react-dsfr/SelectNext';
+'use client';
+
+import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
-import Input from '@codegouvfr/react-dsfr/Input';
+import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
-import { LinkedValuesButton } from '../LinkedValuesButton';
+import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/candidature';
 
-import { CandidatureFieldProps } from './CandidatureField';
+import { FieldValidationErrors } from '../../../ModifierLauréat.form';
+import { LinkedValuesButton } from '../../LinkedValuesButton';
 
-export const CoefficientKField = ({
+export type CandidatureSelectFieldProps<T> = {
+  candidature: T;
+  options: SelectProps.Option[];
+  name: keyof ModifierCandidatureNotifiéeFormEntries;
+  validationErrors: FieldValidationErrors;
+  label: InputProps['label'];
+};
+
+export const CandidatureSelectField = <T extends string | number>({
   candidature,
-  name,
+  options,
   label,
+  name,
   validationErrors,
-}: CandidatureFieldProps<boolean>) => {
+}: CandidatureSelectFieldProps<T>) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
+  const candidatureLabel = String(
+    options.find((option) => option.value === candidatureValue)?.label,
+  );
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
@@ -21,7 +36,7 @@ export const CoefficientKField = ({
         <input
           name={`candidature.${name}`}
           type="hidden"
-          value={candidatureValue ? 'true' : 'false'}
+          value={candidatureValue}
           disabled={candidatureValue === candidature}
         />
         <Select
@@ -30,17 +45,12 @@ export const CoefficientKField = ({
           state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeSelectProps={{
-            defaultValue: candidatureValue ? 'true' : 'false',
-            required: true,
-            'aria-required': true,
+            defaultValue: candidature,
             onChange: (ev) => {
-              setCandidatureValue(ev.target.value === 'true');
+              setCandidatureValue(ev.target.value as T);
             },
           }}
-          options={[
-            { label: 'Oui', value: 'true' },
-            { label: 'Non', value: 'false' },
-          ]}
+          options={options}
         />
       </div>
       <div className="flex-[2] flex px-2">
@@ -51,7 +61,7 @@ export const CoefficientKField = ({
           state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
-            value: candidatureValue ? 'Oui' : 'Non',
+            value: candidatureLabel,
           }}
           addon={<LinkedValuesButton isLocked />}
         />
