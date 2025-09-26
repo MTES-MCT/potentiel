@@ -4,7 +4,7 @@ import { Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet, StatutProjet } from '../..';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { CandidatureEntity, Localité, UnitéPuissance } from '../../candidature';
 import { ÉliminéEntity } from '../éliminé.entity';
 
@@ -21,6 +21,7 @@ type ÉliminéListItemReadModel = {
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
+  typeActionnariat?: Candidature.TypeActionnariat.ValueType;
 };
 
 export type ListerÉliminéReadModel = {
@@ -38,7 +39,7 @@ export type ListerÉliminéQuery = Message<
     periode?: string;
     famille?: string;
     nomProjet?: string;
-    statut?: StatutProjet.RawType;
+    typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
   },
   ListerÉliminéReadModel
 >;
@@ -59,6 +60,7 @@ export const registerListerÉliminéQuery = ({
     famille,
     nomProjet,
     range,
+    typeActionnariat,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -77,6 +79,10 @@ export const registerListerÉliminéQuery = ({
           famille: Where.equal(famille),
           nomProjet: Where.contain(nomProjet),
           localité: scope.type === 'region' ? { région: Where.equal(scope.region) } : undefined,
+          actionnariat:
+            typeActionnariat && typeActionnariat.length > 0
+              ? Where.matchAny(typeActionnariat)
+              : undefined,
         },
         join: [
           {
@@ -116,6 +122,7 @@ const mapToReadModel: MapToReadModelProps = ({
   technologie,
   prixReference,
   evaluationCarboneSimplifiée,
+  actionnariat,
 }) => {
   const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -136,5 +143,8 @@ const mapToReadModel: MapToReadModelProps = ({
     },
     prixReference,
     evaluationCarboneSimplifiée,
+    typeActionnariat: actionnariat
+      ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
+      : undefined,
   };
 };

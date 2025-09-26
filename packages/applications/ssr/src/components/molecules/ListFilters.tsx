@@ -20,7 +20,6 @@ export type ListFilterItem<TSearchParamKey = string> = {
    *  - the affected filter will be removed when current changes
    **/
   affects?: TSearchParamKey[];
-  forceDisabled?: true;
 };
 
 export type ListFiltersProps = {

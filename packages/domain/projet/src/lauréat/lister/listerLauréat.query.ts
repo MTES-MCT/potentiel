@@ -150,8 +150,6 @@ export const registerListerLauréatQuery = ({
       ],
     });
 
-    console.log(lauréats.items);
-
     return {
       ...lauréats,
       items: lauréats.items.map((lauréat) => mapToReadModel(lauréat)),
