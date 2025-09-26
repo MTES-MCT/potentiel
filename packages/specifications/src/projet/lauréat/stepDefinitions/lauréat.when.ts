@@ -5,46 +5,21 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
-Quand('un administrateur modifie le projet lauréat', async function (this: PotentielWorld) {
-  try {
-    const { modifiéLe, modifiéPar, nomProjet, localité } =
-      this.lauréatWorld.modifierLauréatFixture.créer({
-        modifiéPar: this.utilisateurWorld.adminFixture.email,
-      });
-
-    await mediator.send<Lauréat.ModifierLauréatUseCase>({
-      type: 'Lauréat.UseCase.ModifierLauréat',
-      data: {
-        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-        modifiéParValue: modifiéPar,
-        modifiéLeValue: modifiéLe,
-        nomProjetValue: nomProjet,
-        localitéValue: localité,
-      },
-    });
-  } catch (e) {
-    this.error = e as Error;
-  }
-});
-
 Quand(
-  'un administrateur modifie le projet lauréat sans modification',
+  'un administrateur modifie le site de production du projet',
   async function (this: PotentielWorld) {
     try {
-      const { modifiéLe, modifiéPar, nomProjet, localité } =
-        this.lauréatWorld.modifierLauréatFixture.créer({
-          localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
-          nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+      const { modifiéLe, modifiéPar, localité } =
+        this.lauréatWorld.modifierSiteDeProductionFixture.créer({
           modifiéPar: this.utilisateurWorld.adminFixture.email,
         });
 
-      await mediator.send<Lauréat.ModifierLauréatUseCase>({
-        type: 'Lauréat.UseCase.ModifierLauréat',
+      await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
+        type: 'Lauréat.UseCase.ModifierSiteDeProduction',
         data: {
           identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
           modifiéParValue: modifiéPar,
           modifiéLeValue: modifiéLe,
-          nomProjetValue: nomProjet,
           localitéValue: localité,
         },
       });
@@ -54,6 +29,76 @@ Quand(
   },
 );
 
+Quand(
+  'un administrateur modifie le site de production du projet avec la même valeur',
+  async function (this: PotentielWorld) {
+    try {
+      const { modifiéLe, modifiéPar, localité } =
+        this.lauréatWorld.modifierSiteDeProductionFixture.créer({
+          localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
+          modifiéPar: this.utilisateurWorld.adminFixture.email,
+        });
+
+      await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
+        type: 'Lauréat.UseCase.ModifierSiteDeProduction',
+        data: {
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          modifiéParValue: modifiéPar,
+          modifiéLeValue: modifiéLe,
+          localitéValue: localité,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand('un administrateur modifie le nom du projet', async function (this: PotentielWorld) {
+  try {
+    const { modifiéLe, modifiéPar, nomProjet } = this.lauréatWorld.modifierNomProjetFixture.créer({
+      modifiéPar: this.utilisateurWorld.adminFixture.email,
+    });
+
+    await mediator.send<Lauréat.ModifierNomProjetUseCase>({
+      type: 'Lauréat.UseCase.ModifierNomProjet',
+      data: {
+        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+        modifiéParValue: modifiéPar,
+        modifiéLeValue: modifiéLe,
+        nomProjetValue: nomProjet,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+});
+
+Quand(
+  'un administrateur modifie le nom du projet avec la même valeur',
+  async function (this: PotentielWorld) {
+    try {
+      const { modifiéLe, modifiéPar, nomProjet } = this.lauréatWorld.modifierNomProjetFixture.créer(
+        {
+          nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+          modifiéPar: this.utilisateurWorld.adminFixture.email,
+        },
+      );
+
+      await mediator.send<Lauréat.ModifierNomProjetUseCase>({
+        type: 'Lauréat.UseCase.ModifierNomProjet',
+        data: {
+          identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+          modifiéParValue: modifiéPar,
+          modifiéLeValue: modifiéLe,
+          nomProjetValue: nomProjet,
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
 Quand(
   'le porteur choisit le cahier des charges {string}',
   async function (this: PotentielWorld, cdcChoisi: string) {
