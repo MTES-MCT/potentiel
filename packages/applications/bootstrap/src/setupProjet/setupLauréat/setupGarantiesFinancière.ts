@@ -24,6 +24,7 @@ export const setupGarantiesFinancières: SetupProjet = async ({ sendEmail }) => 
       'DépôtGarantiesFinancièresEnCoursValidé-V1',
       'DépôtGarantiesFinancièresEnCoursValidé-V2',
       'TypeGarantiesFinancièresImporté-V1',
+      'GarantiesFinancièresImportées-V1',
       'GarantiesFinancièresModifiées-V1',
       'AttestationGarantiesFinancièresEnregistrée-V1',
       'GarantiesFinancièresEnregistrées-V1',

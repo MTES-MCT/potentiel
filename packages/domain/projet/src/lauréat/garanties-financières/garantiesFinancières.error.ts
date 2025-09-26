@@ -64,7 +64,7 @@ export class DateConstitutionDansLeFuturError extends InvalidOperationError {
   }
 }
 
-export class GarantiesFinancièresDéjàEnregistréesError extends InvalidOperationError {
+export class GarantiesFinancièresActuellesDéjàExistantesError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières pour ce projet`);
   }
