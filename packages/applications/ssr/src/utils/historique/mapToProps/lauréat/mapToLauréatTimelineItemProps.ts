@@ -9,6 +9,8 @@ import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeIn
 
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
 import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
+import { mapToNomProjetModifiéTimelineItemProps } from './events/mapToLauréatModifiéTimelineItemProps';
+import { mapToSiteDeProductionModifiéTimelineItemProps } from './events/mapToLauréatModifiéTimelineItemProps copy';
 
 export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 
@@ -40,14 +42,12 @@ export const mapToLauréatTimelineItemProps = (
       {
         type: 'NomProjetModifié-V1',
       },
-      // TODO
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      mapToNomProjetModifiéTimelineItemProps,
     )
     .with(
       {
         type: 'SiteDeProductionModifié-V1',
       },
-      // TODO
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      mapToSiteDeProductionModifiéTimelineItemProps,
     )
     .exhaustive();
