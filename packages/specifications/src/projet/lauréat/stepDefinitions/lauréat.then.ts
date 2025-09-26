@@ -1,6 +1,6 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { Lauréat } from '@potentiel-domain/projet';
@@ -50,3 +50,27 @@ Alors('le cahier des charges devrait être modifié', async function (this: Pote
     expect(actual).to.deep.contain(expected);
   });
 });
+
+Alors(
+  `le statut du projet lauréat devrait être {string}`,
+  async function (this: PotentielWorld, statut: 'abandonné' | 'achevé') {
+    await waitForExpect(async () => {
+      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+        type: 'Lauréat.Query.ConsulterLauréat',
+        data: {
+          identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+        },
+      });
+
+      assert(Option.isSome(lauréat), "Le projet lauréat n'existe pas");
+
+      if (statut === 'abandonné') {
+        expect(lauréat.statut.estAbandonné()).to.be.true;
+      }
+
+      if (statut === 'achevé') {
+        expect(lauréat.statut.estAchevé()).to.be.true;
+      }
+    });
+  },
+);

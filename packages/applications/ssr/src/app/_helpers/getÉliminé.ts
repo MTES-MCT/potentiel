@@ -6,26 +6,16 @@ import { Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
-export type GetProjetReadModel = {
+export type GetÉliminéReadModel = {
   nomProjet: string;
   localité: Candidature.Localité.ValueType;
   notifiéLe: Option.Type<DateTime.ValueType>;
   statut: Lauréat.StatutLauréat.RawType | 'éliminé';
 };
 
-export type GetProjet = (identifiantProjet: string) => Promise<GetProjetReadModel>;
+export type GetÉliminé = (identifiantProjet: string) => Promise<GetÉliminéReadModel>;
 
-export const getProjet: GetProjet = cache(async (identifiantProjet: string) => {
-  const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-    type: 'Lauréat.Query.ConsulterLauréat',
-    data: {
-      identifiantProjet,
-    },
-  });
-  if (Option.isSome(lauréat)) {
-    return { ...lauréat, statut: lauréat.statut.statut };
-  }
-
+export const getÉliminé: GetÉliminé = cache(async (identifiantProjet: string) => {
   const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
     type: 'Éliminé.Query.ConsulterÉliminé',
     data: {

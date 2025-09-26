@@ -10,6 +10,7 @@ Fonctionnalité: Transmettre une attestation de conformité
     Scénario: le porteur transmet une attestation de conformité pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors une attestation de conformité devrait être consultable pour le projet lauréat
+        Et le statut du projet lauréat devrait être "achevé"
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
@@ -49,6 +50,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | période        | 7          |
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors une attestation de conformité devrait être consultable pour le projet lauréat
+        Et le statut du projet lauréat devrait être "achevé"
 
     Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au co-contractant est dans le futur
         Quand le porteur transmet une attestation de conformité pour le projet lauréat avec :

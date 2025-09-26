@@ -24,7 +24,6 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   département,
   région,
   référenceDossier,
-  statutDGEC,
   dateMiseEnService,
   raisonSocialeGestionnaireRéseau,
   puissance,
@@ -35,7 +34,6 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Projet lauréat"
-        statut={statutDGEC}
       />
     }
     actions={

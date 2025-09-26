@@ -6,7 +6,7 @@ import {
   LoadAppelOffreAggregatePort,
 } from '@potentiel-domain/appel-offre';
 
-import { CahierDesCharges, IdentifiantProjet, StatutProjet } from '.';
+import { CahierDesCharges, IdentifiantProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 import {
@@ -67,22 +67,6 @@ export class ProjetAggregateRoot {
   #candidature!: AggregateType<CandidatureAggregate>;
   get candidature() {
     return this.#candidature;
-  }
-
-  get statut() {
-    if (this.#lauréat.exists) {
-      if (this.#lauréat.achèvement.estAchevé) {
-        return StatutProjet.achevé;
-      }
-
-      if (this.#lauréat.abandon.statut.estAccordé()) {
-        return StatutProjet.abandonné;
-      }
-
-      return StatutProjet.classé;
-    }
-
-    return StatutProjet.éliminé;
   }
 
   get estNotifié() {

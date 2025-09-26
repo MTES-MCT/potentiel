@@ -11,7 +11,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -44,7 +44,7 @@ export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps>
 }) => {
   const identifiantProjetValue = IdentifiantProjet.bind(identifiantProjet).formatter();
   return (
-    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjetValue} />}>
+    <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjetValue} />}>
       <TitrePageRaccordement />
       <div className="my-2 md:my-4">
         <div className="flex flex-col md:flex-row items-start justify-between">

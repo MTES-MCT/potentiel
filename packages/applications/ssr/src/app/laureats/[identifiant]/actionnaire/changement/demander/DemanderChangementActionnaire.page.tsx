@@ -4,7 +4,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
@@ -20,7 +20,9 @@ export const DemanderChangementActionnairePage: FC<DemanderChangementActionnaire
 }) => (
   <PageTemplate
     banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+      <ProjetLauréatBanner
+        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+      />
     }
   >
     <Heading1>Demander un changement d’actionnaire(s)</Heading1>

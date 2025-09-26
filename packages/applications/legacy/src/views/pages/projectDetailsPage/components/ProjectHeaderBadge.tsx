@@ -1,24 +1,19 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Badge } from '../../../components';
+import { Lauréat } from '@potentiel-domain/projet';
+import { match } from 'ts-pattern';
 
 type ProjectHeaderBadgeProps = {
-  project: ProjectDataForProjectPage;
+  statutLauréat: Lauréat.StatutLauréat.RawType;
 };
 
-export const ProjectHeaderBadge = ({ project }: ProjectHeaderBadgeProps) => (
+export const ProjectHeaderBadge = ({ statutLauréat }: ProjectHeaderBadgeProps) => (
   <div className="flex flex-row gap-2">
-    {project.isAbandoned ? (
-      <Badge type="warning">Abandonné</Badge>
-    ) : (
-      <>
-        {!project.notifiedOn && <Badge type="new">à notifier</Badge>}
-        {project.isClasse ? (
-          <Badge type="success">Classé</Badge>
-        ) : (
-          <Badge type="error">Éliminé</Badge>
-        )}
-      </>
-    )}
+    {match(statutLauréat)
+      .with('abandonné', () => <Badge type="warning">Abandonné</Badge>)
+      .with('achevé', () => <Badge type="success">Achevé</Badge>)
+      .with('actif', () => <Badge type="success">Actif</Badge>)
+      .exhaustive()}
   </div>
 );

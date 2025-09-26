@@ -1,13 +1,10 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { StatutProjet } from '..';
-
 export type ProjetEntity = {
   appelOffre: string;
   période: string;
   famille: string;
   numéroCRE: string;
-  statut: StatutProjet.RawType;
   nom: string;
   localité: {
     adresse: string;

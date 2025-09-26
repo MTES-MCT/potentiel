@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ImprimerPage } from '@/components/atoms/ImprimerPage';
 import { ListFilters } from '@/components/molecules/ListFilters';
 import { FiltersTagListProps, FiltersTagList } from '@/components/molecules/FiltersTagList';
@@ -22,7 +22,7 @@ export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   historique,
   filters,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+  <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
     <div className="flex flex-col gap-6">
       <div className="flex print:hidden">
         <FiltersTagList filters={filters} />

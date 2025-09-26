@@ -63,6 +63,7 @@ export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.re
 export { LauréatEntity } from './lauréat.entity';
 
 // ValueType
+export * as StatutLauréat from './statutLauréat.valueType';
 export * as Abandon from './abandon';
 export * as Actionnaire from './actionnaire';
 export * as Achèvement from './achèvement';

@@ -7,8 +7,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatEntity } from '../lauréat.entity';
-import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
-import { Abandon } from '..';
+import { Candidature, IdentifiantProjet } from '../..';
+import { Abandon, StatutLauréat } from '..';
 import { CandidatureEntity, Localité, TypeTechnologie, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
 import { AttestationConformité } from '../achèvement';
@@ -21,7 +21,7 @@ export type ConsulterLauréatReadModel = {
   localité: Localité.ValueType;
   technologie: TypeTechnologie.ValueType<AppelOffre.Technologie>;
   unitéPuissance: UnitéPuissance.ValueType;
-  statut: StatutProjet.ValueType;
+  statut: StatutLauréat.ValueType;
   /** non définie en cas de recours accordé ou projet d'une période "legacy" */
   attestationDésignation?: DocumentProjet.ValueType;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
@@ -104,10 +104,10 @@ const mapToReadModel: MapToReadModel = (
     région,
   }),
   statut: attestationConformité
-    ? StatutProjet.achevé
+    ? StatutLauréat.achevé
     : abandon && Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé()
-      ? StatutProjet.abandonné
-      : StatutProjet.classé,
+      ? StatutLauréat.abandonné
+      : StatutLauréat.actif,
   technologie: candidature.technologie,
   unitéPuissance: candidature.unitéPuissance,
   emailContact: candidature.dépôt.emailContact,

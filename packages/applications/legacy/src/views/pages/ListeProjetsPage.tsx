@@ -243,7 +243,7 @@ export const ListeProjets = ({
         >
           <Form action={routes.LISTE_PROJETS} method="GET" className="mt-2">
             <div>
-              <Label htmlFor="classement">Projets Classés/Eliminés/Abandons</Label>
+              <Label htmlFor="classement">Projets Actifs/Eliminés/Abandons</Label>
               <Select
                 id="classement"
                 name="classement"
@@ -258,7 +258,7 @@ export const ListeProjets = ({
                   Choisir un état
                 </option>
                 <option value="">Tous</option>
-                <option value="classés">Classés</option>
+                <option value="actifs">Actifs</option>
                 <option value="éliminés">Eliminés</option>
                 <option value="abandons">Abandons</option>
               </Select>

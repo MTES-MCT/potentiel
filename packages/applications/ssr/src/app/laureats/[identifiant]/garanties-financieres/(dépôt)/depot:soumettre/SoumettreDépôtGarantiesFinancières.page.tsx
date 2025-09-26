@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
 import { TypeGarantiesFinancièresSelectProps } from '../../TypeGarantiesFinancièresSelect';
@@ -19,7 +19,7 @@ export const SoumettreDépôtGarantiesFinancièresPage: FC<
   SoumettreDépôtGarantiesFinancièresProps
 > = ({ identifiantProjet, typesGarantiesFinancières }) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
     heading={<TitrePageGarantiesFinancières title="Soumettre des garanties financières" />}
     leftColumn={{
       children: (

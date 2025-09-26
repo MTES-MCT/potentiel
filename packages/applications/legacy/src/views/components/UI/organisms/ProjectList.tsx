@@ -19,7 +19,6 @@ import {
   SecondaryLinkButton,
   ExcelFileIcon,
 } from '../..';
-import { Routes } from '@potentiel-applications/routes';
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -45,7 +44,7 @@ const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) 
 
   return (
     <Badge type="success">
-      Classé {getFinancementType(project) && `(${getFinancementType(project)})`}
+      Actif {getFinancementType(project) && `(${getFinancementType(project)})`}
     </Badge>
   );
 };

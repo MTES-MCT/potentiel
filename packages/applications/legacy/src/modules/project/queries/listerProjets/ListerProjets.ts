@@ -47,7 +47,7 @@ export type FiltreListeProjets = {
     periodeId?: AppelOffre.Periode['id'];
     familleId?: AppelOffre.Famille['id'];
   };
-  classement?: 'classés' | 'éliminés' | 'abandons';
+  classement?: 'actifs' | 'éliminés' | 'abandons';
   reclames?: 'réclamés' | 'non-réclamés';
 };
 

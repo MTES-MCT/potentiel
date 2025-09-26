@@ -237,7 +237,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
 
   private async planifierÉchéance(échuLe: DateTime.ValueType) {
     const garantiesFinancières = this.#actuelles?.garantiesFinancières;
-    if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.projet.statut.estAchevé()) {
+    if (!garantiesFinancières?.estAvecDateÉchéance() || this.lauréat.statut.estAchevé()) {
       return;
     }
 

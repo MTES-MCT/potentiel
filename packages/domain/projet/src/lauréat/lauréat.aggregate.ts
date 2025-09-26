@@ -7,6 +7,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { Candidature } from '..';
 
+import { StatutLauréat } from '.';
+
 import { LauréatEvent } from './lauréat.event';
 import {
   LauréatNotifiéEvent,
@@ -141,6 +143,20 @@ export class LauréatAggregate extends AbstractAggregate<
   #natureDeLExploitation!: AggregateType<NatureDeLExploitationAggregate>;
   get natureDeLExploitation() {
     return this.#natureDeLExploitation;
+  }
+
+  get statut() {
+    this.vérifierQueLeLauréatExiste();
+
+    if (this.achèvement.estAchevé) {
+      return StatutLauréat.achevé;
+    }
+
+    if (this.abandon.statut.estAccordé()) {
+      return StatutLauréat.abandonné;
+    }
+
+    return StatutLauréat.actif;
   }
 
   async init() {
@@ -440,7 +456,7 @@ export class LauréatAggregate extends AbstractAggregate<
   }
 
   vérifierNonAbandonné() {
-    if (this.projet.statut.estAbandonné()) {
+    if (this.statut.estAbandonné()) {
       throw new ProjetAbandonnéError();
     }
   }
@@ -457,7 +473,7 @@ export class LauréatAggregate extends AbstractAggregate<
   }
 
   vérifierNonAchevé() {
-    if (this.projet.statut.estAchevé()) {
+    if (this.statut.estAchevé()) {
       throw new ProjetAchevéError();
     }
   }

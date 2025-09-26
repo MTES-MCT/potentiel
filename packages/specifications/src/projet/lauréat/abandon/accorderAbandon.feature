@@ -10,6 +10,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
+        Et le statut du projet lauréat devrait être "abandonné"
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Demande d'abandon accordée pour le projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                       |
@@ -22,6 +23,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
+        Et le statut du projet lauréat devrait être "abandonné"
 
     Scénario: La DGEC peut accorder l'abandon si l'autorité compétente est la DREAL
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -31,6 +33,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand l'administrateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
+        Et le statut du projet lauréat devrait être "abandonné"
 
     # TODO : Vérifier avec le métier pour supprimer carrément la partie recandidature
     # Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé

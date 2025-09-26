@@ -74,6 +74,7 @@ type ProjectDetailsProps = {
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
   installationAvecDispositifDeStockage?: InfoGeneralesProps['installationAvecDispositifDeStockage'];
   natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
+  statutLauréat: Lauréat.StatutLauréat.RawType;
 };
 
 export const ProjectDetails = ({
@@ -100,6 +101,7 @@ export const ProjectDetails = ({
   installateur,
   installationAvecDispositifDeStockage,
   natureDeLExploitation,
+  statutLauréat,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -194,6 +196,7 @@ export const ProjectDetails = ({
           installationAvecDispositifDeStockage?.affichage
         }
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
+        statutLauréat={statutLauréat}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

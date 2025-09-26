@@ -330,7 +330,7 @@ const DrealActions = ({
   );
 };
 
-type ProjectActionsProps = ProjectHeaderProps;
+type ProjectActionsProps = Omit<ProjectHeaderProps, 'statutLauréat'>;
 
 export const ProjectActions = ({
   project,

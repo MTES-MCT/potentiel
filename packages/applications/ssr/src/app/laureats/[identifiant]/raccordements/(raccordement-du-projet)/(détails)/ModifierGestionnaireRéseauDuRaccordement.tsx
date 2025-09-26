@@ -9,11 +9,11 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { Icon } from '@/components/atoms/Icon';
 import { CopyButton } from '@/components/molecules/CopyButton';
-import { ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBannerProps } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 type ModifierGestionnaireRéseauDuRaccordementProps = {
   gestionnaireRéseau: PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
-  identifiantProjet: ProjetBannerProps['identifiantProjet'];
+  identifiantProjet: ProjetLauréatBannerProps['identifiantProjet'];
   actions: { modifier: boolean };
 };
 

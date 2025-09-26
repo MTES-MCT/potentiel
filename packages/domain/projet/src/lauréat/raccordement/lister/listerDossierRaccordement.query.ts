@@ -5,13 +5,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
-import {
-  Candidature,
-  GetProjetUtilisateurScope,
-  IdentifiantProjet,
-  Lauréat,
-  StatutProjet,
-} from '../../..';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
+import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../..';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -25,7 +20,7 @@ type DossierRaccordement = {
   région: string;
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
-  statutDGEC: StatutProjet.RawType;
+  statutDGEC: StatutLauréat.RawType;
   dateMiseEnService?: DateTime.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
@@ -64,9 +59,9 @@ export type ListerDossierRaccordementQueryDependencies = {
 };
 
 type DossierRaccordementJoins = [
-  Lauréat.LauréatEntity,
+  LauréatEntity,
   Candidature.CandidatureEntity,
-  Lauréat.Puissance.PuissanceEntity,
+  Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
 ];
 
@@ -147,7 +142,7 @@ export const registerListerDossierRaccordementQuery = ({
 };
 
 type MapToReadModelProps = (
-  dossier: Lauréat.Raccordement.DossierRaccordementEntity & Joined<DossierRaccordementJoins>,
+  dossier: Raccordement.DossierRaccordementEntity & Joined<DossierRaccordementJoins>,
 ) => DossierRaccordement;
 
 export const mapToReadModel: MapToReadModelProps = ({
@@ -179,7 +174,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: StatutProjet.classé.statut,
+    statutDGEC: StatutLauréat.actif.statut,
     dateMiseEnService: miseEnService
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,

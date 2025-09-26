@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
@@ -25,7 +25,9 @@ export const CorrigerChangementReprésentantLégalPage: FC<
 }) => (
   <PageTemplate
     banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+      <ProjetLauréatBanner
+        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+      />
     }
   >
     <Heading1>Corriger une demande de changement de représentant légal</Heading1>

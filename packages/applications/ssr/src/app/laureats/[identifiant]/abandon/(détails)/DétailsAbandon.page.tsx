@@ -6,7 +6,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutAbandonBadge } from '@/app/laureats/[identifiant]/abandon/(détails)/StatutAbandonBadge';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -64,7 +64,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
       heading={<Heading1>Détail de l'abandon</Heading1>}
       leftColumn={{
         children: (

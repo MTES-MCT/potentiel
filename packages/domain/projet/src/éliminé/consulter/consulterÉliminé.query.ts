@@ -6,7 +6,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ÉliminéEntity } from '../éliminé.entity';
-import { Candidature, IdentifiantProjet, StatutProjet } from '../..';
+import { Candidature, IdentifiantProjet } from '../..';
 import { CandidatureEntity, UnitéPuissance } from '../../candidature';
 import { mapToReadModel as mapToCandidatureReadModel } from '../../candidature/consulter/consulterCandidature.query';
 
@@ -14,7 +14,6 @@ export type ConsulterÉliminéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéLe: DateTime.ValueType;
   notifiéPar: Email.ValueType;
-  statut: StatutProjet.ValueType;
   attestationDésignation?: DocumentProjet.ValueType;
   unitéPuissance: UnitéPuissance.ValueType;
 } & Pick<
@@ -70,7 +69,6 @@ const mapToReadModel: MapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
-  statut: StatutProjet.éliminé,
 
   localité: candidature.dépôt.localité,
   nomProjet: candidature.dépôt.nomProjet,

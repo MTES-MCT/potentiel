@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import { TitrePageAttestationConformité } from '../TitrePageAttestationConformité';
 import { AttestationConformitéForm } from '../AttestationConformité.form';
@@ -20,7 +20,7 @@ export type TransmettreAttestationConformitéPageProps = {
 export const TransmettreAttestationConformitéPage: FC<
   TransmettreAttestationConformitéPageProps
 > = ({ identifiantProjet, peutDemanderMainlevée, peutVoirMainlevée }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+  <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageAttestationConformité title="Transmettre l'attestation de conformité du projet" />
     <InfoBoxAttestationConformité />
     <AttestationConformitéForm
