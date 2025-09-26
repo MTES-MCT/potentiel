@@ -5,7 +5,7 @@ export * as AccèsNotification from './subscribers/accès';
 export * as CandidatureNotification from './subscribers/candidature/candidature.notification';
 
 // Lauréat
-export * as AbandonNotification from './subscribers/lauréat/abandon.notification';
+export * as AbandonNotification from './subscribers/lauréat/abandon';
 export * as GarantiesFinancièresNotification from './subscribers/lauréat/garantiesFinancières.notification';
 export * as AttestationConformitéNotification from './subscribers/lauréat/achèvement';
 export * as TâchePlanifiéeNotification from './subscribers/lauréat/tâche-planifiée';
@@ -21,7 +21,7 @@ export * as InstallationAvecDispositifDeStockageNotifications from './subscriber
 export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation';
 
 // Éliminé
-export * as RecoursNotification from './subscribers/éliminé/recours.notification';
+export * as RecoursNotification from './subscribers/éliminé/recours';
 
 // Période
 export * as PériodeNotification from './subscribers/période/période.notification';

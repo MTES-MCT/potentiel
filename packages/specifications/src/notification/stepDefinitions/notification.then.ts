@@ -1,11 +1,13 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 import { mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { sleep } from '../../helpers/sleep';
@@ -72,7 +74,9 @@ Alors(
 Alors(
   'un email a été envoyé à la dgec avec :',
   async function (this: PotentielWorld, data: DataTable) {
-    const identifiantAppelOffre = this.lauréatWorld.identifiantProjet.appelOffre;
+    const { appelOffre: identifiantAppelOffre } = this.éliminéWorld.notifierEliminéFixture.aÉtéCréé
+      ? this.éliminéWorld.identifiantProjet
+      : this.lauréatWorld.identifiantProjet;
 
     const ao = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
@@ -87,6 +91,40 @@ Alors(
     }
 
     await vérifierEmailEnvoyé.call(this, ao.dossierSuiviPar, data);
+  },
+);
+
+Alors(
+  `un email a été envoyé à l'autorité instructrice avec :`,
+  async function (this: PotentielWorld, data: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const cdc = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+    if (Option.isNone(cdc)) {
+      throw new Error('Projet non trouvé');
+    }
+
+    const domaine = this.lauréatWorld.délaiWorld.demanderDélaiFixture.aÉtéCréé
+      ? 'délai'
+      : this.lauréatWorld.abandonWorld.demanderAbandonFixture.aÉtéCréé
+        ? 'abandon'
+        : '';
+
+    assert(domaine, "Domaine inconnu, l'autorité instructrice ne peut être déterminée");
+
+    const autorité = cdc.getAutoritéCompétente(domaine);
+    const email = match(autorité)
+      .with('dgec', () => cdc.appelOffre.dossierSuiviPar)
+      .with('dreal', () => this.utilisateurWorld.drealFixture.email)
+      .exhaustive();
+
+    await vérifierEmailEnvoyé.call(this, email, data);
   },
 );
 

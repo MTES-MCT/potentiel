@@ -12,7 +12,7 @@ Fonctionnalité: Corriger la demande de délai d'un projet lauréat
         Etant donné une demande de délai en cours pour le projet lauréat
         Quand le porteur corrige la demande de délai pour le projet lauréat
         Alors la demande corrigée de délai devrait être consultable
-        Et un email a été envoyé à la dreal avec :
+        Et un email a été envoyé à l'autorité instructrice avec :
             | sujet      | Potentiel - Correction de la demande de délai pour le projet Du boulodrome de Marseille situé dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                            |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/delai                                                                      |

@@ -7,22 +7,27 @@ export class NotificationWorld {
   #notifications: EmailPayload[] = [];
 
   ajouterNotification(notification: EmailPayload) {
-    for (const recipient of notification.recipients) {
-      const notificationToAdd = {
-        ...notification,
-        recipients: [recipient],
-      };
-      this.#notifications.push(notificationToAdd);
-    }
+    this.#notifications.push(notification);
   }
 
   récupérerNotification(emailValue: string, sujet?: string) {
     const email = Email.convertirEnValueType(emailValue);
-    const notif = this.#notifications.find(
-      (notif) =>
-        notif.recipients.find((r) => Email.convertirEnValueType(r.email).estÉgaleÀ(email)) &&
-        (!sujet || notif.messageSubject.match(new RegExp(sujet))),
-    );
+    const notif = this.#notifications.find((notif) => {
+      if (sujet && !notif.messageSubject.match(new RegExp(sujet))) {
+        return false;
+      }
+      const allRecipients = [...notif.recipients, ...(notif.cc ?? []), ...(notif.bcc ?? [])];
+      return allRecipients.some((r) => Email.convertirEnValueType(r.email).estÉgaleÀ(email));
+    });
+    if (!notif) {
+      console.log(
+        { sujet, emailValue },
+        this.#notifications.map((x) => ({
+          sujet: x.messageSubject,
+          recipients: [...x.recipients, ...(x.cc ?? []), ...(x.bcc ?? [])].map((r) => r.email),
+        })),
+      );
+    }
     assert(notif, 'Pas de notification');
     return notif;
   }

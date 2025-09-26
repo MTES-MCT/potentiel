@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients } from '../../../helpers';
+import { getCahierDesChargesLauréat } from '../../../helpers/getCahierDesChargesLauréat';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
@@ -27,22 +28,7 @@ export const représentantLégalRappelInstructionÀDeuxMoisNotification = async 
   baseUrl,
 }: HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps) => {
   const dreals = await listerDrealsRecipients(région);
-
-  const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
-    type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
-    data: {
-      identifiantProjetValue: identifiantProjet.formatter(),
-    },
-  });
-
-  if (Option.isNone(cahierDesCharges)) {
-    getLogger().error('Projet non trouvé', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
-    });
-    return;
-  }
+  const cahierDesCharges = await getCahierDesChargesLauréat(identifiantProjet);
 
   const règlesChangement = cahierDesCharges.getRèglesChangements('représentantLégal');
   if (!règlesChangement.instructionAutomatique) {

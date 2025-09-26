@@ -1,7 +1,7 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../helpers';
+import { listerRecipientsAutoritéInstructrice } from '../../../helpers/listerRecipientsAutoritéInstructrice';
 
 import { RegisterDélaiNotificationDependencies } from '.';
 
@@ -24,9 +24,13 @@ export const demandeDélaiAnnuléeNotification = async ({
   projet,
 }: DemandeDélaiAnnuléeNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.région);
+  const recipients = await listerRecipientsAutoritéInstructrice({
+    identifiantProjet,
+    région: projet.région,
+    domain: 'délai',
+  });
 
-  if (dreals.length === 0) {
+  if (recipients.length === 0) {
     getLogger().info('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
@@ -38,7 +42,7 @@ export const demandeDélaiAnnuléeNotification = async ({
   return sendEmail({
     templateId: délaiNotificationTemplateId.demande.annuler,
     messageSubject: `Potentiel - La demande de délai pour le projet ${projet.nom} situé dans le département ${projet.département} a été annulée`,
-    recipients: dreals,
+    recipients,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,

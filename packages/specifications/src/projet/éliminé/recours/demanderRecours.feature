@@ -9,6 +9,12 @@ Fonctionnalité: Demander le recours d'un projet éliminé
     Scénario: Un porteur demande le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être demandé
+        Et un email a été envoyé à la dgec avec :
+            | sujet      | Potentiel - Nouvelle demande de recours pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                           |
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Nouvelle demande de recours pour le projet Du boulodrome de Marseille .* |
+            | nom_projet | Du boulodrome de Marseille                                                           |
 
     Scénario: Un porteur demande le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé

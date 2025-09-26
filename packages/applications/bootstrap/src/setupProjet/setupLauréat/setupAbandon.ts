@@ -42,6 +42,7 @@ export const setupAbandon: SetupProjet = async ({ sendEmail }) => {
       'AbandonRejeté-V1',
       'ConfirmationAbandonDemandée-V1',
       'PreuveRecandidatureDemandée-V1',
+      'AbandonPasséEnInstruction-V1',
     ],
     messageType: 'System.Notification.Lauréat.Abandon',
   });

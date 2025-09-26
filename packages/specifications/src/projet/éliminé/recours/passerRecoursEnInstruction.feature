@@ -10,6 +10,10 @@ Fonctionnalité: Passer le recours d'un projet éliminé en instruction
         Etant donné une demande de recours en cours pour le projet éliminé
         Quand l'administrateur passe en instruction le recours pour le projet éliminé
         Alors la demande de recours du projet éliminé devrait être en instruction
+        Et un email a été envoyé au porteur avec :
+            | sujet        | Potentiel - La demande de recours pour le projet Du boulodrome de Marseille est en instruction |
+            | nom_projet   | Du boulodrome de Marseille                                                                     |
+            | redirect_url | https://potentiel.beta.gouv.fr/elimine/.*/recours                                              |
 
     Scénario: Un administrateur reprend l'instruction du recours du projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé
