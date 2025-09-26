@@ -19,6 +19,27 @@ export function UserBasedRoleNavigation() {
 const toutesLesDemandesWording = 'Toutes les demandes';
 
 const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
+  const projetMenuLinks: Array<MenuProps.Link> = [
+    {
+      text: 'Projets lauréats',
+      linkProps: {
+        href: Routes.Lauréat.lister(),
+      },
+    },
+    {
+      text: 'Projets éliminés',
+      linkProps: {
+        href: Routes.Éliminé.lister(),
+      },
+    },
+    {
+      text: 'Tous les projets (legacy)',
+      linkProps: {
+        href: Routes.Projet.lister(),
+      },
+    },
+  ];
+
   const demandesMenuLinks: Array<MenuProps.Link> = [
     {
       text: 'Abandon',
@@ -111,27 +132,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       text: 'Demandes de mainlevée en cours',
       linkProps: {
         href: Routes.GarantiesFinancières.demandeMainlevée.lister({ statut: 'demandé' }),
-      },
-    },
-  ];
-
-  const projetMenuLinks: Array<MenuProps.Link> = [
-    {
-      text: 'Projets classés',
-      linkProps: {
-        href: Routes.Lauréat.lister(),
-      },
-    },
-    {
-      text: 'Projets éliminés',
-      linkProps: {
-        href: Routes.Éliminé.lister(),
-      },
-    },
-    {
-      text: 'Tous les projets (legacy)',
-      linkProps: {
-        href: Routes.Projet.lister(),
       },
     },
   ];

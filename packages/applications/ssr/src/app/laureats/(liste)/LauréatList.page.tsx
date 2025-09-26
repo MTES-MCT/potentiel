@@ -25,7 +25,7 @@ export const LauréatListPage: FC<LauréatListPageProps> = ({
   actions,
 }) => (
   <ListPageTemplate
-    heading="Projets classés"
+    heading="Projets lauréats"
     currentPage={currentPage}
     itemsPerPage={itemsPerPage}
     filters={filters}
