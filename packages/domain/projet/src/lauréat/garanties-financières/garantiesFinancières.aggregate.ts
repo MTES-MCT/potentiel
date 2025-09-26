@@ -477,7 +477,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     const event: DépôtGarantiesFinancièresSoumisEvent = {
       type: 'DépôtGarantiesFinancièresSoumis-V1',
       payload: {
-        type: garantiesFinancières.type.formatter(),
+        ...garantiesFinancières.formatter(),
         attestation: garantiesFinancières.constitution.attestation,
         dateConstitution: garantiesFinancières.constitution.date.formatter(),
         identifiantProjet: this.identifiantProjet.formatter(),
