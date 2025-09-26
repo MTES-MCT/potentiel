@@ -149,22 +149,32 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      const lauréatAÉtéModifié =
+      const siteDeProductionModifié =
         laureat.adresse1 != undefined ||
         laureat.adresse2 != undefined ||
-        laureat.nomProjet != undefined ||
         laureat.codePostal != undefined ||
         laureat.commune != undefined ||
         laureat.departement != undefined ||
         laureat.region != undefined;
 
-      if (lauréatAÉtéModifié) {
+      if (siteDeProductionModifié) {
         const lauréatAModifier = await getLauréatInfos({ identifiantProjet });
 
-        await mediator.send<Lauréat.ModifierLauréatUseCase>({
-          type: 'Lauréat.UseCase.ModifierLauréat',
+        await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
+          type: 'Lauréat.UseCase.ModifierSiteDeProduction',
           data: {
             ...mapBodyToLauréatUsecaseData(identifiantProjet, laureat, lauréatAModifier),
+            modifiéLeValue: DateTime.now().formatter(),
+            modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+          },
+        });
+      }
+      if (laureat.nomProjet) {
+        await mediator.send<Lauréat.ModifierNomProjetUseCase>({
+          type: 'Lauréat.UseCase.ModifierNomProjet',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            nomProjetValue: laureat.nomProjet,
             modifiéLeValue: DateTime.now().formatter(),
             modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
@@ -260,10 +270,9 @@ const mapBodyToLauréatUsecaseData = (
   identifiantProjet: string,
   data: PartialModifierLauréatValueFormEntries,
   previous: Lauréat.ConsulterLauréatReadModel,
-): Omit<Lauréat.ModifierLauréatUseCase['data'], 'modifiéLeValue' | 'modifiéParValue'> => {
+): Omit<Lauréat.ModifierSiteDeProductionUseCase['data'], 'modifiéLeValue' | 'modifiéParValue'> => {
   return {
     identifiantProjetValue: identifiantProjet,
-    nomProjetValue: data.nomProjet ?? previous.nomProjet,
     localitéValue: {
       adresse1: data.adresse1 ?? previous.localité.adresse1,
       adresse2: data.adresse2 ?? previous.localité.adresse2,

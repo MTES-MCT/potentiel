@@ -23,7 +23,8 @@ import { getUserByEmail } from '../config';
 
 export type SubscriptionEvent = (
   | Lauréat.LauréatNotifiéEvent
-  | Lauréat.LauréatModifiéEvent
+  | Lauréat.SiteDeProductionModifiéEvent
+  | Lauréat.NomProjetModifiéEvent
   | Lauréat.CahierDesChargesChoisiEvent
 ) &
   Event;
@@ -123,7 +124,33 @@ export const register = () => {
         );
         return;
       }
-      case 'LauréatModifié-V1': {
+      case 'SiteDeProductionModifié-V1': {
+        const userId = await new Promise<string>((r) =>
+          getUserByEmail(event.payload.modifiéPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+        await eventStore.publish(
+          new ProjectDataCorrected({
+            payload: {
+              correctedBy: userId,
+              projectId: projet.id,
+              correctedData: {
+                adresseProjet: [event.payload.localité.adresse1, event.payload.localité.adresse2]
+                  .filter(Boolean)
+                  .join('\n'),
+                communeProjet: event.payload.localité.commune,
+                codePostalProjet: event.payload.localité.codePostal,
+                departementProjet: event.payload.localité.département,
+                regionProjet: event.payload.localité.région,
+              },
+            },
+          }),
+        );
+        return;
+      }
+      case 'NomProjetModifié-V1': {
         const userId = await new Promise<string>((r) =>
           getUserByEmail(event.payload.modifiéPar).map((user) => {
             r(user?.id ?? '');
@@ -137,13 +164,6 @@ export const register = () => {
               projectId: projet.id,
               correctedData: {
                 nomProjet: event.payload.nomProjet,
-                adresseProjet: [event.payload.localité.adresse1, event.payload.localité.adresse2]
-                  .filter(Boolean)
-                  .join('\n'),
-                communeProjet: event.payload.localité.commune,
-                codePostalProjet: event.payload.localité.codePostal,
-                departementProjet: event.payload.localité.département,
-                regionProjet: event.payload.localité.région,
               },
             },
           }),

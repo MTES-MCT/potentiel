@@ -1,11 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
-import { Option } from '@potentiel-libraries/monads';
 
-import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
-import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
-import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { PageTemplate } from '@/components/templates/Page.template';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { ModifierLauréatForm, ModifierLauréatFormProps } from './ModifierLauréat.form';
 
@@ -20,22 +16,7 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(projet.identifiantProjet);
 
   return (
-    <PageTemplate
-      banner={
-        <ProjetBannerTemplate
-          identifiantProjet={identifiantProjet}
-          nom={projet.nomProjet}
-          href={Routes.Projet.details(identifiantProjet.formatter())}
-          badge={
-            <div className="flex gap-2">
-              <StatutProjetBadge statut={'classé'} />
-              <NotificationBadge estNotifié={true} />
-            </div>
-          }
-          dateDésignation={Option.none}
-        />
-      }
-    >
+    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet.formatter()} />}>
       <ModifierLauréatForm
         candidature={candidature}
         lauréat={lauréat}

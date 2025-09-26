@@ -307,6 +307,24 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
+          siteDeProduction: {
+            localité: {
+              adresse1: project.adresseProjet.split('\n')[0] || '',
+              adresse2: project.adresseProjet.split('\n')[1],
+              codePostal: project.codePostalProjet,
+              commune: project.communeProjet,
+              département: project.departementProjet,
+              région: project.regionProjet,
+            },
+            affichage: role.aLaPermission('lauréat.modifierSiteDeProduction')
+              ? {
+                  url: Routes.Lauréat.modifierSiteDeProduction(
+                    identifiantProjetValueType.formatter(),
+                  ),
+                  label: 'Modifier',
+                }
+              : undefined,
+          },
         }),
       );
     },

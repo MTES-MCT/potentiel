@@ -1,5 +1,6 @@
 import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
-import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
+import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
+import { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
 import {
   LauréatNotifiéEvent,
   NomEtLocalitéLauréatImportésEvent,
@@ -10,5 +11,6 @@ export type LauréatEvent =
   | LauréatNotifiéEvent
   | LauréatNotifiéV1Event
   | NomEtLocalitéLauréatImportésEvent
-  | LauréatModifiéEvent
+  | SiteDeProductionModifiéEvent
+  | NomProjetModifiéEvent
   | CahierDesChargesChoisiEvent;

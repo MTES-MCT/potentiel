@@ -15,7 +15,8 @@ import {
   HistoriqueAchèvementProjetListItemReadModel,
   HistoriqueGarantiesFinancièresProjetListItemReadModel,
 } from './historique/lister/listerHistoriqueProjet.query';
-import { ModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
+import { ModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
+import { ModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 
 // Query
@@ -42,9 +43,15 @@ export { ConsulterCahierDesChargesPort } from './cahierDesCharges/consulter/cons
 // UseCases
 export type LauréatUseCase =
   | NotifierLauréatUseCase
-  | ModifierLauréatUseCase
+  | ModifierSiteDeProductionUseCase
+  | ModifierNomProjetUseCase
   | ChoisirCahierDesChargesUseCase;
-export { NotifierLauréatUseCase, ModifierLauréatUseCase, ChoisirCahierDesChargesUseCase };
+export {
+  NotifierLauréatUseCase,
+  ModifierSiteDeProductionUseCase,
+  ModifierNomProjetUseCase,
+  ChoisirCahierDesChargesUseCase,
+};
 
 // Events
 export { LauréatEvent } from './lauréat.event';
@@ -53,7 +60,8 @@ export {
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event';
-export { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
+export { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
+export { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
 export { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
 
 // Register

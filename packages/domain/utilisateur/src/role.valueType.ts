@@ -445,11 +445,13 @@ const référencielPermissions = {
     },
     usecase: {
       notifier: 'Lauréat.UseCase.NotifierLauréat',
-      modifier: 'Lauréat.UseCase.ModifierLauréat',
+      modifierSiteDeProduction: 'Lauréat.UseCase.ModifierSiteDeProduction',
+      modifierNomProjet: 'Lauréat.UseCase.ModifierNomProjet',
     },
     command: {
       notifier: 'Lauréat.Command.NotifierLauréat',
-      modifier: 'Lauréat.Command.ModifierLauréat',
+      modifierSiteDeProduction: 'Lauréat.Command.ModifierSiteDeProduction',
+      modifierNomProjet: 'Lauréat.Command.ModifierNomProjet',
     },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
   },
@@ -1249,8 +1251,20 @@ const policies = {
     consulter: [référencielPermissions.lauréat.query.consulter],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
-      référencielPermissions.lauréat.usecase.modifier,
-      référencielPermissions.lauréat.command.modifier,
+      référencielPermissions.lauréat.command.modifierSiteDeProduction,
+      référencielPermissions.lauréat.usecase.modifierSiteDeProduction,
+      référencielPermissions.lauréat.command.modifierNomProjet,
+      référencielPermissions.lauréat.usecase.modifierNomProjet,
+    ],
+    modifierSiteDeProduction: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.command.modifierSiteDeProduction,
+      référencielPermissions.lauréat.usecase.modifierSiteDeProduction,
+    ],
+    modifierNomProjet: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.command.modifierNomProjet,
+      référencielPermissions.lauréat.usecase.modifierNomProjet,
     ],
   },
   éliminé: {
@@ -1532,6 +1546,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Lauréat
   'lauréat.modifier',
+  'lauréat.modifierNomProjet',
+  'lauréat.modifierSiteDeProduction',
 
   // Accès
   'accès.autoriserAccèsProjet',
@@ -1699,6 +1715,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Candidature
   'candidature.attestation.télécharger',
+
+  // Lauréat
+  'lauréat.modifierSiteDeProduction',
 
   // Représentant légal
   'représentantLégal.modifier',
