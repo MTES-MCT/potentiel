@@ -5,7 +5,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
-import { GarantiesFinancièresFormInputsProps } from '../../TypeGarantiesFinancièresSelect';
+import { GarantiesFinancièresFormInputsProps } from '../../GarantiesFinancièresFormInputs';
 
 import { SoumettreDépôtGarantiesFinancièresForm } from './SoumettreDépôtGarantiesFinancières.form';
 import { soumettreDépôtGarantiesFinancièresAction } from './soumettreDépôtGarantiesFinancières.action';

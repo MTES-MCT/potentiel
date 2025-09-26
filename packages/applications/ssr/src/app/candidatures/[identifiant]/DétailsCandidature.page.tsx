@@ -129,13 +129,12 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       <FormattedDate date={garantiesFinancières.dateÉchéance.formatter()} />
                     </span>
                   )}
-                  {garantiesFinancières.estExemption() &&
-                    dépôt.garantiesFinancières?.constitution?.date && (
-                      <span>
-                        Date de délibération :{' '}
-                        <FormattedDate date={dépôt.garantiesFinancières?.constitution?.date.date} />
-                      </span>
-                    )}
+                  {garantiesFinancières.estExemption() && garantiesFinancières.estConstitué() && (
+                    <span>
+                      Date de délibération :{' '}
+                      <FormattedDate date={garantiesFinancières.constitution.date.formatter()} />
+                    </span>
+                  )}
                 </Field>
               )}
               {dépôt.technologie && (
