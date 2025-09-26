@@ -5,14 +5,14 @@ import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } f
 import routes from '../../../../routes';
 import type { Candidature } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
-import { StatutProjet } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export type RésuméProjet = {
   appelOffre: string;
   période: string;
   famille: string;
   numéroCRE: string;
-  statut: StatutProjet.RawType;
+  statut: Lauréat.StatutLauréat.RawType;
   nom: string;
   localité: Candidature.Localité.ValueType;
 };
@@ -70,11 +70,11 @@ const EntêteProjet: FC<RésuméProjet> = ({
   </div>
 );
 
-const getBadgeType = (statut: StatutProjet.RawType): BadgeType => {
+const getBadgeType = (statut: Lauréat.StatutLauréat.RawType | 'éliminé'): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
-    case 'classé':
+    case 'actif':
       return 'success';
     case 'achevé':
       return 'success';
@@ -84,7 +84,7 @@ const getBadgeType = (statut: StatutProjet.RawType): BadgeType => {
 };
 
 const StatutProjetBadge: FC<{
-  statut: StatutProjet.RawType;
+  statut: Lauréat.StatutLauréat.RawType;
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
     {statut}

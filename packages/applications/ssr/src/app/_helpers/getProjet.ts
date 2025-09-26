@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
-import { Candidature, Lauréat, StatutProjet, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -10,7 +10,7 @@ export type GetProjetReadModel = {
   nomProjet: string;
   localité: Candidature.Localité.ValueType;
   notifiéLe: Option.Type<DateTime.ValueType>;
-  statut: StatutProjet.ValueType;
+  statut: Lauréat.StatutLauréat.RawType | 'éliminé';
 };
 
 export type GetProjet = (identifiantProjet: string) => Promise<GetProjetReadModel>;
@@ -23,7 +23,7 @@ export const getProjet: GetProjet = cache(async (identifiantProjet: string) => {
     },
   });
   if (Option.isSome(lauréat)) {
-    return lauréat;
+    return { ...lauréat, statut: lauréat.statut.statut };
   }
 
   const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
@@ -33,7 +33,7 @@ export const getProjet: GetProjet = cache(async (identifiantProjet: string) => {
     },
   });
   if (Option.isSome(éliminé)) {
-    return éliminé;
+    return { ...éliminé, statut: 'éliminé' };
   }
 
   notFound();

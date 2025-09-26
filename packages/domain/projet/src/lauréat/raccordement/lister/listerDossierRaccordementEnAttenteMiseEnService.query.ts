@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 
-import { Candidature, IdentifiantProjet, StatutProjet } from '../../..';
+import { Candidature, IdentifiantProjet } from '../../..';
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 import { LauréatEntity } from '../../lauréat.entity';
-import { Puissance } from '../..';
+import { Puissance, StatutLauréat } from '../..';
 
 type DossierRaccordementEnAttenteMiseEnService = {
   nomProjet: string;
@@ -18,7 +18,7 @@ type DossierRaccordementEnAttenteMiseEnService = {
   commune: string;
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
-  statutDGEC: StatutProjet.RawType;
+  statutDGEC: StatutLauréat.RawType;
   puissance: string;
 
   nomCandidat: string;
@@ -136,7 +136,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: StatutProjet.classé.statut,
+    statutDGEC: StatutLauréat.actif.statut,
     puissance: `${puissance} ${unitéPuissance}`,
     dateNotification: lauréat.notifiéLe,
     emailContact,

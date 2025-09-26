@@ -1,4 +1,4 @@
-import { IdentifiantProjet, StatutProjet, Éliminé } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -86,7 +86,6 @@ export class ÉliminéWorld {
 
     const expected: Éliminé.ConsulterÉliminéReadModel = {
       identifiantProjet: this.identifiantProjet,
-      statut: StatutProjet.éliminé,
       emailContact,
       localité,
       nomCandidat,

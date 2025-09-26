@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
-import { Candidature, StatutProjet } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '../../atoms/FormattedDate';
 import { NotificationBadge } from '../candidature/NotificationBadge';
@@ -12,7 +12,7 @@ import { StatutProjetBadge } from './StatutProjetBadge';
 
 export type ProjectListItemHeadingProps = {
   nomProjet: string;
-  statut?: StatutProjet.RawType;
+  statut?: Lauréat.StatutLauréat.RawType | Candidature.StatutCandidature.RawType | 'éliminé';
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   prefix: string;
   misÀJourLe?: Iso8601DateTime;

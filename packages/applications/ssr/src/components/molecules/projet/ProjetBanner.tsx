@@ -31,7 +31,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, n
 
     return (
       <ProjetBannerTemplate
-        badge={<StatutProjetBadge statut={statut.statut} />}
+        badge={<StatutProjetBadge statut={statut} />}
         localité={localité}
         dateDésignation={Option.match(notifiéLe)
           .some((date) => date.formatter())

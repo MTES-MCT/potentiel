@@ -2,12 +2,13 @@ import { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { Candidature, StatutProjet } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 const convertStatutProjetToBadgeSeverity: Record<
-  StatutProjet.RawType | 'non-notifié',
+  StatutProjetBadgeProps['statut'],
   AlertProps.Severity
 > = {
+  actif: 'success',
   classé: 'success',
   abandonné: 'warning',
   achevé: 'success',
@@ -15,7 +16,7 @@ const convertStatutProjetToBadgeSeverity: Record<
   éliminé: 'error',
 };
 
-const getStatutProjetBadgeLabel = (statut: StatutProjet.RawType | 'non-notifié'): string => {
+const getStatutProjetBadgeLabel = (statut: StatutProjetBadgeProps['statut']): string => {
   if (statut === 'non-notifié') return 'à notifier';
   return statut;
 };
@@ -28,10 +29,16 @@ const getTypeActionnariat = (actionnariat?: Candidature.TypeActionnariat.RawType
         .join('')
     : undefined;
 
-export const StatutProjetBadge: FC<{
-  statut: StatutProjet.RawType | 'non-notifié';
+type StatutProjetBadgeProps = {
+  statut:
+    | Lauréat.StatutLauréat.RawType
+    | Candidature.StatutCandidature.RawType
+    | 'éliminé'
+    | 'non-notifié';
   actionnariat?: Candidature.TypeActionnariat.RawType;
-}> = ({ statut, actionnariat }) => (
+};
+
+export const StatutProjetBadge: FC<StatutProjetBadgeProps> = ({ statut, actionnariat }) => (
   <>
     <Badge
       small

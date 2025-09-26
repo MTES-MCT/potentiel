@@ -6,8 +6,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementEntity } from '../raccordement.entity';
-import { LauréatEntity, Puissance } from '../..';
-import { Candidature, IdentifiantProjet, StatutProjet } from '../../..';
+import { LauréatEntity, Puissance, StatutLauréat } from '../..';
+import { Candidature, IdentifiantProjet } from '../../..';
 
 type DossierRaccordementManquant = {
   référenceDossier: Option.None;
@@ -22,7 +22,7 @@ type DossierRaccordementManquant = {
   département: string;
   région: string;
   codePostal: string;
-  statutDGEC: StatutProjet.RawType;
+  statutDGEC: StatutLauréat.RawType;
   dateMiseEnService?: DateTime.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
@@ -142,7 +142,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     numéroCRE,
     période,
     référenceDossier: Option.none,
-    statutDGEC: StatutProjet.classé.statut,
+    statutDGEC: StatutLauréat.actif.statut,
     puissance: `${puissance} ${unitéPuissance}`,
     codePostal: localité.codePostal,
     commune: localité.commune,

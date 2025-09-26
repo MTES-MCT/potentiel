@@ -1,5 +1,5 @@
 export * as IdentifiantProjet from './identifiantProjet.valueType';
-export * as StatutProjet from './statutProjet.valueType';
+export * as StatutProjet from './lauréat/statutLauréat.valueType';
 
 export * from './getProjetAggregateRoot.port';
 export * from './getScopeProjetUtilisateur.port';
