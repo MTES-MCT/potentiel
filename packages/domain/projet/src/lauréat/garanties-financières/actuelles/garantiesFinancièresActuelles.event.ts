@@ -17,6 +17,18 @@ export type GarantiesFinancièresEnregistréesEvent = DomainEvent<
   }
 >;
 
+export type GarantiesFinancièresImportéesEvent = DomainEvent<
+  'GarantiesFinancièresImportées-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    type: Candidature.TypeGarantiesFinancières.RawType;
+    dateÉchéance?: DateTime.RawType;
+    attestation: { format: string };
+    dateConstitution: DateTime.RawType;
+    importéLe: DateTime.RawType;
+  }
+>;
+
 export type GarantiesFinancièresModifiéesEvent = DomainEvent<
   'GarantiesFinancièresModifiées-V1',
   {
@@ -86,4 +98,5 @@ export type GarantiesFinancièresActuellesEvent =
   | GarantiesFinancièresDemandéesEvent
   | GarantiesFinancièresÉchuesEvent
   | HistoriqueGarantiesFinancièresEffacéEvent
-  | AttestationGarantiesFinancièresEnregistréeEvent;
+  | AttestationGarantiesFinancièresEnregistréeEvent
+  | GarantiesFinancièresImportéesEvent;

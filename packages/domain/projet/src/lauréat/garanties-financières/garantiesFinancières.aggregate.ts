@@ -19,7 +19,6 @@ import {
 import { GarantiesFinancièresEvent } from './garantiesFinancières.event';
 import { DemanderOptions } from './actuelles/demander/demanderGarantiesFinancières.options';
 import { EffacerHistoriqueOptions } from './actuelles//effacer/efffacerHistoriqueGarantiesFinancières';
-import { ImporterOptions } from './actuelles//importer/importerGarantiesFinancières.option';
 import {
   AttestationDeConformitéError,
   AttestationEtDateGarantiesFinancièresRequisesError,
@@ -28,7 +27,7 @@ import {
   DateConstitutionDansLeFuturError,
   DateÉchéanceNonPasséeError,
   DépôtEnCoursError,
-  GarantiesFinancièresDéjàEnregistréesError,
+  GarantiesFinancièresActuellesDéjàExistantesError,
   GarantiesFinancièresDéjàLevéesError,
   GarantiesFinancièresDéjàÉchuesError,
   GarantiesFinancièresRequisesPourAppelOffreError,
@@ -38,7 +37,7 @@ import {
 } from './garantiesFinancières.error';
 import { ModifierActuellesOptions } from './actuelles/modifier/modifierGarantiesFinancières.options';
 import { EnregistrerAttestationOptions } from './actuelles/enregistrerAttestation/enregistrerAttestationGarantiesFinancières.options';
-import { EnregisterOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options';
+import { EnregistrerOptions } from './actuelles/enregistrer/enregisterGarantiesFinancières.options';
 import { ÉchoirOptions } from './actuelles/échoir/échoirGarantiesFinancières.options';
 import { SoumettreDépôtOptions } from './dépôt/soumettre/soumettreDépôtGarantiesFinancières.options';
 import {
@@ -55,6 +54,7 @@ import {
   GarantiesFinancièresEnregistréesEvent,
   GarantiesFinancièresÉchuesEvent,
   HistoriqueGarantiesFinancièresEffacéEvent,
+  GarantiesFinancièresImportéesEvent,
 } from './actuelles/garantiesFinancièresActuelles.event';
 import {
   DépôtGarantiesFinancièresSoumisEvent,
@@ -88,6 +88,7 @@ import { AnnulerMainlevéeOption } from './mainlevée/annuler/annulerMainlevéeG
 import { DémarrerInstructionMainlevéeOptions } from './mainlevée/démarrerInstruction/démarrerInstructionMainlevée.options';
 import { AccorderMainlevéeOptions } from './mainlevée/accorder/accorderMainlevéeGarantiesFinancières.options';
 import { RejeterMainlevéeOptions } from './mainlevée/rejeter/rejeterMainlevéeGarantiesFinancières.options';
+import { ImporterOptions } from './actuelles/importer/importerGarantiesFinancières.option';
 
 type GarantiesFinancièresActuelles = {
   garantiesFinancières: GarantiesFinancières.ValueType;
@@ -274,7 +275,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   //#endregion Utilitaires
 
   //#region Behavior Actuelles
-  // TODO : ajouter cas importer GF complètes
   async importerType({ importéLe, garantiesFinancières }: ImporterOptions) {
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
@@ -288,6 +288,33 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     };
     await this.publish(event);
     await this.planifierÉchéance(importéLe);
+  }
+
+  async importer({ garantiesFinancières, importéLe }: ImporterOptions) {
+    if (this.aDesGarantiesFinancières) {
+      throw new GarantiesFinancièresActuellesDéjàExistantesError();
+    }
+    if (!garantiesFinancières.estConstitué()) {
+      throw new AttestationEtDateGarantiesFinancièresRequisesError();
+    }
+    this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
+
+    const event: GarantiesFinancièresImportéesEvent = {
+      type: 'GarantiesFinancièresImportées-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        ...garantiesFinancières.formatter(),
+        attestation: { format: garantiesFinancières.constitution.attestation.format },
+        dateConstitution: garantiesFinancières.constitution.date.formatter(),
+        importéLe: importéLe.formatter(),
+      },
+    };
+
+    await this.publish(event);
+    await this.#tâchePlanifiéeRappelEnAttente.annuler();
+    await this.planifierÉchéance(importéLe);
+
+    await this.#tâcheDemanderGarantiesFinancières.achever();
   }
 
   async demander({ demandéLe, motif, dateLimiteSoumission }: DemanderOptions) {
@@ -359,9 +386,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async enregistrer({ garantiesFinancières, enregistréLe, enregistréPar }: EnregisterOptions) {
+  async enregistrer({ garantiesFinancières, enregistréLe, enregistréPar }: EnregistrerOptions) {
     if (this.aDesGarantiesFinancières) {
-      throw new GarantiesFinancièresDéjàEnregistréesError();
+      throw new GarantiesFinancièresActuellesDéjàExistantesError();
     }
     if (!garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
@@ -797,6 +824,10 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         { type: 'GarantiesFinancièresÉchues-V1' },
         this.applyGarantiesFinancièresÉchuesV1.bind(this),
       )
+      .with(
+        { type: 'GarantiesFinancièresImportées-V1' },
+        this.applyGarantiesFinancièresImportéesV1.bind(this),
+      )
       .exhaustive();
   }
 
@@ -871,6 +902,19 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   private applyGarantiesFinancièresEnregistréesV1({
     payload: { dateÉchéance, type, attestation, dateConstitution },
   }: GarantiesFinancièresEnregistréesEvent) {
+    this.#actuelles = {
+      garantiesFinancières: GarantiesFinancières.convertirEnValueType({
+        type,
+        dateÉchéance,
+        attestation,
+        dateConstitution,
+      }),
+    };
+  }
+
+  private applyGarantiesFinancièresImportéesV1({
+    payload: { dateÉchéance, type, attestation, dateConstitution },
+  }: GarantiesFinancièresImportéesEvent) {
     this.#actuelles = {
       garantiesFinancières: GarantiesFinancières.convertirEnValueType({
         type,
