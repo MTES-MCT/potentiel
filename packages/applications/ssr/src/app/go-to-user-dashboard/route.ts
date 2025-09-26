@@ -12,7 +12,7 @@ export const GET = async () =>
     if (utilisateur) {
       const redirectTo = utilisateur.role.estÉgaleÀ(Role.grd)
         ? Routes.Raccordement.lister
-        : Routes.Projet.lister();
+        : Routes.Lauréat.lister();
       redirect(redirectTo);
     }
     redirect(Routes.Auth.signIn());

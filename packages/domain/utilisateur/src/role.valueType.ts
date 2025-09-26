@@ -451,10 +451,10 @@ const référencielPermissions = {
       notifier: 'Lauréat.Command.NotifierLauréat',
       modifier: 'Lauréat.Command.ModifierLauréat',
     },
-    query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
+    query: { consulter: 'Lauréat.Query.ConsulterLauréat', lister: 'Lauréat.Query.ListerLauréat' },
   },
   éliminé: {
-    query: { consulter: 'Éliminé.Query.ConsulterÉliminé' },
+    query: { consulter: 'Éliminé.Query.ConsulterÉliminé', lister: 'Éliminé.Query.ListerÉliminé' },
     usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
     command: {
       notifier: 'Éliminé.Command.NotifierÉliminé',
@@ -1247,6 +1247,7 @@ const policies = {
   },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
+    lister: [référencielPermissions.lauréat.query.lister],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.usecase.modifier,
@@ -1255,6 +1256,7 @@ const policies = {
   },
   éliminé: {
     consulter: [référencielPermissions.éliminé.query.consulter],
+    lister: [référencielPermissions.éliminé.query.lister],
   },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],
@@ -1396,6 +1398,9 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'lauréat.consulter',
   'éliminé.consulter',
   'abandon.consulter.détail',
+
+  'lauréat.lister',
+  'éliminé.lister',
 ];
 
 // En attendant d'avoir des gateways qui groupent les query

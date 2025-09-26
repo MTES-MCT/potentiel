@@ -3,7 +3,7 @@ import React from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { DropdownMenu } from '../../../molecules';
 
-export const MenuGarantiesFinancières = () => (
+export const MenuLegacyGarantiesFinancières = () => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
     <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.dépôt.lister}>
       Garanties financières à traiter

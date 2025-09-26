@@ -1,22 +1,13 @@
 import React from 'react';
 import routes from '../../../../../routes';
-import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
-import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
+import { MenuLegacyGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
+import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
-type AdminMenuLegacyProps = {
-  currentPage?: string;
-};
-
-export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
+export const AdminMenuLegacy = (
   <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Projets
-    </Header.MenuItem>
+    <MenuLegacyProjet />
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
@@ -64,7 +55,7 @@ export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
         Délai
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <MenuGarantiesFinancières />
+    <MenuLegacyGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>
       <DropdownMenu.DropdownItem href={Routes.Candidature.importer}>
         Nouveaux candidats

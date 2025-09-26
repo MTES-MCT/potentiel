@@ -1,3 +1,4 @@
+import { match, P } from 'ts-pattern';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   AcheteurObligéMenuLegacy,
@@ -14,24 +15,14 @@ type UserNavigationProps = {
   user: UtilisateurReadModel;
   currentPage?: string;
 };
-export const UserNavigation = ({ user: { role }, currentPage }: UserNavigationProps) => {
-  switch (role) {
-    case 'porteur-projet':
-      return PorteurMenuLegacy({ currentPage });
-    case 'acheteur-obligé':
-      return AcheteurObligéMenuLegacy({ currentPage });
-    case 'ademe':
-      return AdemeMenuLegacy(currentPage);
-    case 'dreal':
-      return DrealMenuLegacy({ currentPage });
-    case 'admin':
-    case 'dgec-validateur':
-      return AdminMenuLegacy({ currentPage });
-    case 'cre':
-      return CreMenuLegacy({ currentPage });
-    case 'caisse-des-dépôts':
-      return CaisseDesDépôtsMenuLegacy(currentPage);
-    case 'grd':
-      return GrdMenuLegacy();
-  }
-};
+export const UserNavigation = ({ user: { role } }: UserNavigationProps) =>
+  match(role)
+    .with('porteur-projet', () => PorteurMenuLegacy)
+    .with(P.union('admin', 'dgec-validateur'), () => AdminMenuLegacy)
+    .with('dreal', () => DrealMenuLegacy)
+    .with('acheteur-obligé', () => AcheteurObligéMenuLegacy)
+    .with('ademe', () => AdemeMenuLegacy)
+    .with('cre', () => CreMenuLegacy)
+    .with('caisse-des-dépôts', () => CaisseDesDépôtsMenuLegacy)
+    .with('grd', () => GrdMenuLegacy)
+    .exhaustive();

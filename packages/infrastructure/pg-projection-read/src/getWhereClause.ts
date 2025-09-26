@@ -19,18 +19,21 @@ type GetWhereClauseOptions = {
   joins?: JoinOptions[];
 };
 
+type WhereClausesAndValues = [clause: string, values: Array<unknown>];
+const emptyWhere: WhereClausesAndValues = ['', []];
+
 /** Returns the whole where clause (including key, filters, and join), and parameters */
 export const getWhereClause = ({
   key,
   where,
   joins = [],
-}: GetWhereClauseOptions): [clause: string, values: Array<unknown>] => {
+}: GetWhereClauseOptions): WhereClausesAndValues => {
   const baseWhereClause = key.operator === 'like' ? `where p.key LIKE $1` : `where p.key = $1`;
 
-  const [whereClause, whereValues] = where ? buildWhereClause(where, 'p') : ['', []];
+  const [whereClause, whereValues] = where ? buildWhereClause(where, 'p') : emptyWhere;
 
   const [joinWhereClause, joinWhereValues] = buildJoinWhereClause(joins, whereValues.length);
-  const completeWhereClause = `${baseWhereClause} ${whereClause} ${joinWhereClause}`;
+  const completeWhereClause = combineClauses([baseWhereClause, whereClause, joinWhereClause]);
 
   return [completeWhereClause, [key.value, ...whereValues, ...joinWhereValues]];
 };
@@ -46,7 +49,7 @@ const buildWhereClause = (
   where: WhereOptions<Omit<Entity, 'type'>>,
   projection: string,
   startIndex = 0,
-): [clause: string, values: Array<unknown>] => {
+): WhereClausesAndValues => {
   const rawWhere = flatten<typeof where, Record<string, unknown>>(where);
   const conditions = mapToConditions(rawWhere);
   const [sqlClause] = conditions.reduce(
@@ -54,7 +57,8 @@ const buildWhereClause = (
       const [newSql, newIndex] = mapOperatorToSqlCondition(operator, prevIndex, projection);
       // format the query to safely pass the parameter name (%L)
       const formattedNewSql = format(newSql, name);
-      return [prevSql.concat(' AND ', formattedNewSql), newIndex] as [string, number];
+      const combinedQuery = combineClauses([prevSql, formattedNewSql]);
+      return [combinedQuery, newIndex] as const;
     },
     // we offset by 2 the index of the sql variable to account for:
     // - the index starting at 1 and not 0
@@ -68,23 +72,24 @@ const buildJoinWhereClause = (
   joins: JoinOptions[],
   startIndex: number,
 ): [clause: string, values: Array<unknown>] => {
-  const withWhere = joins.filter((join) => join.where);
-  if (withWhere.length === 0) {
-    return ['', []];
-  }
-  const xx = withWhere.map((join, i) =>
-    buildWhereClause(join.where ?? '__NO_WHERE__', join.entity, startIndex + i),
-  );
+  const whereClausesAndValues = joins.reduce((prev, curr) => {
+    if (curr.where) {
+      const [clause, values] = buildWhereClause(curr.where, curr.entity, startIndex + prev.length);
+      if (clause) {
+        prev.push([clause, values] as WhereClausesAndValues);
+      }
+    }
+    return prev;
+  }, [] as WhereClausesAndValues[]);
 
-  const whereClauses = xx
-    .map(([clause]) => clause)
-    .filter((clause) => clause !== '')
-    .join(' AND ');
+  const whereClauses = combineClauses(whereClausesAndValues.map(([clause]) => clause));
 
-  const whereValues = xx.map(([, values]) => values).flat();
+  const whereValues = whereClausesAndValues.map(([, values]) => values).flat();
 
   return [whereClauses, whereValues];
 };
+
+const combineClauses = (clauses: string[]) => clauses.filter(Boolean).join(' AND ');
 
 // The input is a record like {'data.name.operator': 'equal', 'data.name.value': 'foo'}
 // The return is an array like [{name: "data.name", operator: "equal", value: "foo"}]
@@ -119,11 +124,12 @@ const mapOperatorToSqlCondition = (
   projection: string,
 ): [clause: string, variableIndex: number] => {
   const baseCondition = format('%I.value->>%%L', projection);
+  const baseConditionCoalesce = format("COALESCE(%I.value->>%%L,'__null__')", projection);
   const baseConditionObject = format('%I.value->%%L', projection);
   return match(operator)
     .returnType<[clause: string, variableIndex: number]>()
     .with('equal', () => [`${baseCondition} = $${index}`, index + 1])
-    .with('notEqual', () => [`${baseCondition} <> $${index}`, index + 1])
+    .with('notEqual', () => [`${baseConditionCoalesce} <> $${index}`, index + 1])
     .with('like', () => [`${baseCondition} ILIKE $${index}`, index + 1])
     .with('notLike', () => [`${baseCondition} NOT ILIKE $${index}`, index + 1])
     .with('matchAny', () => [`${baseCondition} = ANY($${index})`, index + 1])

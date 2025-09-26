@@ -64,6 +64,7 @@ export const mapToCandidatureToUpsert = ({
     identifiantProjet: identifiantProjet.formatter(),
     appelOffre: identifiantProjet.appelOffre,
     période: identifiantProjet.période,
+    famille: identifiantProjet.famille,
     ...Candidature.Dépôt.convertirEnValueType(payload).formatter(),
     ...Candidature.Instruction.convertirEnValueType(payload).formatter(),
     estNotifiée: Option.isSome(candidature) ? candidature.estNotifiée : false,
