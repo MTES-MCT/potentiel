@@ -149,13 +149,6 @@ Fonctionnalité: Corriger une candidature
 
         Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières ne peut pas être une date future"
 
-    Scénario: Impossible de corriger une candidature classée avec une date de délibération pour un type de GF qui n'en attend pas
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF              | consignation |
-            | date de constitution | 2024-01-01   |
-
-        Alors l'administrateur devrait être informé que "La date de délibération ne peut être renseignée pour ce type de garanties financières"
-
     Scénario: Impossible de corriger une candidature sans modifications
         Quand le DGEC validateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"

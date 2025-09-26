@@ -55,7 +55,6 @@ export type TypeGarantiesFinancièresImportéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     type: Candidature.TypeGarantiesFinancières.RawType;
     dateÉchéance?: DateTime.RawType;
-    dateDélibération?: DateTime.RawType;
     importéLe: DateTime.RawType;
   }
 >;
