@@ -12,7 +12,7 @@ import { ValidationErrors } from '@/utils/formAction';
 import {
   GarantiesFinancièresFormInputs,
   GarantiesFinancièresFormInputsProps,
-} from '../../TypeGarantiesFinancièresSelect';
+} from '../../GarantiesFinancièresFormInputs';
 
 import {
   modifierGarantiesFinancièresActuellesAction,
