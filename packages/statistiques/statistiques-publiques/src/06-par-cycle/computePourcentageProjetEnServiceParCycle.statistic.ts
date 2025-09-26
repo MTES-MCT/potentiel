@@ -1,10 +1,11 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjetsLauréatsNonAbandonnés';
+import { getCountProjetsLauréatsNonAbandonnésParCycle } from '../_utils/getCountProjetsLauréatsNonAbandonnés';
 
-const statisticType = 'pourcentageProjetPPE2EnService';
+export const computePourcentageProjetEnServiceParCycle = async (cycle: 'PPE2' | 'CRE4') => {
+  const statisticType =
+    cycle === 'PPE2' ? 'pourcentageProjetPPE2EnService' : 'pourcentageProjetCRE4EnService';
 
-export const computePourcentageProjetPPE2EnService = async () => {
   await executeQuery(
     `
     insert
@@ -25,14 +26,15 @@ export const computePourcentageProjetPPE2EnService = async () => {
               WHERE
                 p1.key LIKE 'dossier-raccordement|%'
                 AND p1.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
-                AND p2."value" ->> 'cycleAppelOffre' = 'PPE2'
+                AND p2."value" ->> 'cycleAppelOffre' = 'CRE4'
             )::decimal / (
-              ${getCountProjetsLauréatsNonAbandonnés}
+              ${getCountProjetsLauréatsNonAbandonnésParCycle}
             )::decimal
           ) * 100
       )
     )
     `,
     statisticType,
+    cycle,
   );
 };

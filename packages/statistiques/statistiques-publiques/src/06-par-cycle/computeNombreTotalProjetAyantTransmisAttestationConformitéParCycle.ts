@@ -1,8 +1,13 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-const statisticType = 'nombreTotalProjetCRE4AyantTransmisAttestationConformité';
+export const computeNombreTotalProjetAyantTransmisAttestationConformitéParCycle = async (
+  cycle: 'CRE4' | 'PPE2',
+) => {
+  const statisticType =
+    cycle === 'PPE2'
+      ? 'nombreTotalProjetPPE2AyantTransmisAttestationConformité'
+      : 'nombreTotalProjetCRE4AyantTransmisAttestationConformité';
 
-export const computeNombreTotalProjetCRE4AyantTransmisAttestationConformité = async () => {
   await executeQuery(
     `
     insert
@@ -18,10 +23,11 @@ export const computeNombreTotalProjetCRE4AyantTransmisAttestationConformité = a
         where 
           es."type" like 'AttestationConformitéTransmise-V%' 
           and p."key" like 'appel-offre|%'
-          and p."value"->>'cycleAppelOffre' = 'CRE4'
+          and p."value"->>'cycleAppelOffre' = $2
       )
     )
     `,
     statisticType,
+    cycle,
   );
 };
