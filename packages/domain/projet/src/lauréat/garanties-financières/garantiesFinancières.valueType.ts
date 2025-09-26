@@ -6,6 +6,7 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { TypeGarantiesFinancières } from '../../candidature';
 
 import {
+  DateConstitutionDansLeFuturError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
 } from './garantiesFinancières.error';
@@ -80,7 +81,7 @@ export type ValueType<
 export const bind = (plain: PlainType<ValueType>): ValueType => {
   const constitutionValueType: ValueType['constitution'] = plain.constitution && {
     attestation: { format: plain.constitution.attestation.format },
-    date: DateTime.convertirEnValueType(plain.constitution.date.date),
+    date: vérifierDateConstitution(plain.constitution.date.date),
   };
   const common = {
     estConstitué(): this is ValueType & {
@@ -267,7 +268,7 @@ export const convertirEnValueType = ({
     attestation && dateConstitution
       ? {
           attestation: { format: attestation.format },
-          date: { date: DateTime.convertirEnValueType(dateConstitution).formatter() },
+          date: { date: vérifierDateConstitution(dateConstitution).formatter() },
         }
       : undefined;
 
@@ -304,4 +305,12 @@ const vérifierDateÉchéance = (date: string | undefined) => {
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
   return DateTime.convertirEnValueType(date);
+};
+
+const vérifierDateConstitution = (date: string) => {
+  const vt = DateTime.convertirEnValueType(date);
+  if (vt.estDansLeFutur()) {
+    throw new DateConstitutionDansLeFuturError();
+  }
+  return vt;
 };

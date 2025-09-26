@@ -84,6 +84,7 @@ export class EnregistrerGarantiesFinancièresFixture extends AbstractFixture<Enr
     this.#format = fixture.attestation.format;
     this.#garantiesFinancièresType = fixture.type;
     this.#dateConstitution = fixture.dateConstitution;
+    this.#dateÉchéance = fixture.dateÉchéance;
     this.#enregistréLe = fixture.enregistréLe;
     this.#enregistréPar = fixture.enregistréPar;
 
