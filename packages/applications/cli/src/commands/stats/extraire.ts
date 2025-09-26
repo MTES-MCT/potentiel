@@ -8,8 +8,7 @@ import {
 export default class ExtraireStats extends Command {
   static monitoringSlug = 'extraire-donnees-statistiques-publiques';
 
-  static override description =
-    'Extrait les données des statistiques publiques (permet de tester la tâche planifiée dédiée)';
+  static override description = 'Extrait les données des statistiques publiques';
 
   public async run(): Promise<void> {
     console.info('Lancement du script...');
