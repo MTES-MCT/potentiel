@@ -48,11 +48,18 @@ export const getGarantiesFinancières = async (
     const motifGfEnAttente = await getMotifGfEnAttente(identifiantProjet, role);
 
     const actuelles = Option.isSome(garantiesFinancièresActuelles)
-      ? garantiesFinancièresActuelles.garantiesFinancières
+      ? {
+          ...garantiesFinancièresActuelles.garantiesFinancières.formatter(),
+          attestation: garantiesFinancièresActuelles.document?.formatter(),
+        }
       : undefined;
 
     const dépôtÀTraiter = Option.isSome(dépôtEnCoursGarantiesFinancières)
-      ? dépôtEnCoursGarantiesFinancières.garantiesFinancières
+      ? {
+          ...dépôtEnCoursGarantiesFinancières.garantiesFinancières.formatter(),
+          dateConstitution:
+            dépôtEnCoursGarantiesFinancières.garantiesFinancières.constitution!.date.formatter(),
+        }
       : undefined;
 
     return {
