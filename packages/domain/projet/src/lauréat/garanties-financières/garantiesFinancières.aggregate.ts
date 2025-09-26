@@ -277,9 +277,6 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   // TODO : ajouter cas importer GF complètes
   async importerType({ importéLe, garantiesFinancières }: ImporterOptions) {
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
-    if (garantiesFinancières.constitution?.date) {
-      this.vérifierQueLaDateDeConstitutionEstValide(garantiesFinancières.constitution.date);
-    }
 
     const event: TypeGarantiesFinancièresImportéEvent = {
       type: 'TypeGarantiesFinancièresImporté-V1',

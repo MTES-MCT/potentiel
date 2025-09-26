@@ -38,12 +38,6 @@ export class DateDélibérationDansLeFuturError extends InvalidOperationError {
   }
 }
 
-export class DateDélibérationNonAttendueError extends InvalidOperationError {
-  constructor() {
-    super(`La date de délibération ne peut être renseignée pour ce type de garanties financières`);
-  }
-}
-
 export class TypeGarantiesFinancièresNonDisponiblePourAppelOffreError extends InvalidOperationError {
   constructor() {
     super(`Ce type de garanties financières n'est pas disponible pour cet appel d'offres`);

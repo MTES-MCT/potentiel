@@ -144,16 +144,6 @@ Fonctionnalité: Importer une candidature
             | date de constitution | 2050-01-01               |
         Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières ne peut pas être une date future"
 
-    Scénario: Impossible d'importer une candidature classée avec une date de délibération pour un type de GF qui n'en attend pas
-        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut               | classé                    |
-            | appel d'offres       | PPE2 - Bâtiment           |
-            | période              | 1                         |
-            | famille              |                           |
-            | type GF              | six-mois-après-achèvement |
-            | date de constitution | 2024-01-01                |
-        Alors l'administrateur devrait être informé que "La date de délibération ne peut être renseignée pour ce type de garanties financières"
-
     Scénario: Impossible d'importer une candidature d'une période d'AO "legacy"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut         | classé                      |
