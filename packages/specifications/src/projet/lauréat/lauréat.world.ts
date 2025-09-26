@@ -192,7 +192,9 @@ export class LauréatWorld {
       unitéPuissance,
       statut: this.abandonWorld.accorderAbandonFixture.aÉtéCréé
         ? StatutProjet.abandonné
-        : StatutProjet.actif,
+        : this.#achèvementWorld.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé
+          ? StatutProjet.achevé
+          : StatutProjet.actif,
       autorisationDUrbanisme,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé
