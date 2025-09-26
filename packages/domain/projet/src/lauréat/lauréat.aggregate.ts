@@ -255,11 +255,18 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
 
     // Garanties Financières
-    if (importerGarantiesFinancières) {
-      await this.garantiesFinancières.importer({
-        garantiesFinancières: this.projet.candidature.garantiesFinancières,
-        importéLe: notifiéLe,
-      });
+    if (importerGarantiesFinancières && this.projet.candidature.garantiesFinancières) {
+      if (this.projet.candidature.garantiesFinancières.estConstitué()) {
+        await this.garantiesFinancières.importer({
+          garantiesFinancières: this.projet.candidature.garantiesFinancières,
+          importéLe: notifiéLe,
+        });
+      } else {
+        await this.garantiesFinancières.importerType({
+          garantiesFinancières: this.projet.candidature.garantiesFinancières,
+          importéLe: notifiéLe,
+        });
+      }
     }
 
     // Champs soumis à demande

@@ -4,3 +4,4 @@ export { mapToGarantiesFinancièresModifiéesTimelineItemsProps } from './mapToG
 export { mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps } from './mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps';
 export { mapToGarantiesFinancièresDemandéesTimelineItemsProps } from './mapToGarantiesFinancièresDemandéesTimelineItemsProps';
 export { mapToGarantiesFinancièresÉchuesTimelineItemsProps } from './mapToGarantiesFinancièresÉchuesTimelineItemsProps';
+export { mapToGarantiesFinancièresImportéesTimelineItemsProps } from './mapToGarantiesFinancièresImportéesTimelineItemsProps';

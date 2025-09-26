@@ -87,30 +87,20 @@ export async function soumettreDépôt(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
 ) {
-  const {
-    attestation,
-    dateConstitution,
-    soumisLe,
-    soumisPar,
-    type,
-    dateÉchéance,
-    dateDélibération,
-  } = this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.créer({
-    ...props,
-  });
+  const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
+    this.lauréatWorld.garantiesFinancièresWorld.dépôt.soumettre.créer({
+      ...props,
+    });
   await mediator.send<Lauréat.GarantiesFinancières.SoumettreDépôtGarantiesFinancièresUseCase>({
     type: 'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),
+      typeValue: type,
+      dateÉchéanceValue: dateÉchéance,
       attestationValue: convertFixtureFileToReadableStream(attestation),
       dateConstitutionValue: dateConstitution,
       soumisLeValue: soumisLe,
       soumisParValue: soumisPar,
-      garantiesFinancièresValue: {
-        type,
-        dateÉchéance,
-        dateDélibération,
-      },
     },
   });
 }
@@ -120,30 +110,19 @@ export async function modifierDépôt(
   identifiantProjet: IdentifiantProjet.ValueType,
   props: SoumettreDépôtGarantiesFinancièresProps,
 ) {
-  const {
-    attestation,
-    dateConstitution,
-    soumisLe,
-    soumisPar,
-    type,
-    dateÉchéance,
-    dateDélibération,
-  } = this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer(props);
+  const { attestation, dateConstitution, soumisLe, soumisPar, type, dateÉchéance } =
+    this.lauréatWorld.garantiesFinancièresWorld.dépôt.modifier.créer(props);
   await mediator.send<Lauréat.GarantiesFinancières.ModifierDépôtGarantiesFinancièresEnCoursUseCase>(
     {
       type: 'Lauréat.GarantiesFinancières.UseCase.ModifierDépôtGarantiesFinancièresEnCours',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-
+        typeValue: type,
+        dateÉchéanceValue: dateÉchéance,
         dateConstitutionValue: new Date(dateConstitution).toISOString(),
         modifiéLeValue: new Date(soumisLe).toISOString(),
         modifiéParValue: soumisPar,
         attestationValue: convertFixtureFileToReadableStream(attestation),
-        garantiesFinancièresValue: {
-          type,
-          dateÉchéance,
-          dateDélibération,
-        },
       },
     },
   );

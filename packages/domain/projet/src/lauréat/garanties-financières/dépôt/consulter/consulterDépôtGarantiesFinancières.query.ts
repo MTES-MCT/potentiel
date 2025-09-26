@@ -12,8 +12,7 @@ import { DépôtGarantiesFinancièresEntity } from '../dépôtGarantiesFinanciè
 export type ConsulterDépôtGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: GarantiesFinancières.ValueType;
-  attestation: DocumentProjet.ValueType;
-  dateConstitution: DateTime.ValueType;
+  document: DocumentProjet.ValueType;
   soumisLe: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
@@ -58,15 +57,7 @@ export const registerConsulterDépôtGarantiesFinancièresQuery = ({
 };
 
 const mapToReadModel = ({
-  dépôt: {
-    type,
-    attestation,
-    dateConstitution,
-    dateÉchéance,
-    dateDélibération,
-    soumisLe,
-    dernièreMiseÀJour,
-  },
+  dépôt: { type, attestation, dateConstitution, dateÉchéance, soumisLe, dernièreMiseÀJour },
   identifiantProjetValueType,
 }: DépôtGarantiesFinancièresEntity & {
   identifiantProjetValueType: IdentifiantProjet.ValueType;
@@ -74,12 +65,12 @@ const mapToReadModel = ({
   identifiantProjet: identifiantProjetValueType,
   garantiesFinancières: GarantiesFinancières.convertirEnValueType({
     type,
-    dateDélibération,
     dateÉchéance,
+    attestation,
+    dateConstitution,
   }),
-  dateConstitution: DateTime.convertirEnValueType(dateConstitution),
   soumisLe: DateTime.convertirEnValueType(soumisLe),
-  attestation: DocumentProjet.convertirEnValueType(
+  document: DocumentProjet.convertirEnValueType(
     identifiantProjetValueType.formatter(),
     TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresSoumisesValueType.formatter(),
     DateTime.convertirEnValueType(dateConstitution).formatter(),

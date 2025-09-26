@@ -121,7 +121,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               {garantiesFinancières && (
                 <Field name="Garanties Financières">
                   <span>
-                    Type: {getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type)}
+                    Type : {getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type)}
                   </span>
                   {garantiesFinancières.estAvecDateÉchéance() && (
                     <span>
@@ -129,10 +129,10 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       <FormattedDate date={garantiesFinancières.dateÉchéance.formatter()} />
                     </span>
                   )}
-                  {garantiesFinancières.estExemption() && (
+                  {garantiesFinancières.estExemption() && garantiesFinancières.estConstitué() && (
                     <span>
                       Date de délibération :{' '}
-                      <FormattedDate date={garantiesFinancières.dateDélibération.formatter()} />
+                      <FormattedDate date={garantiesFinancières.constitution.date.formatter()} />
                     </span>
                   )}
                 </Field>

@@ -50,14 +50,15 @@ export const getGarantiesFinancières = async (
     const actuelles = Option.isSome(garantiesFinancièresActuelles)
       ? {
           ...garantiesFinancièresActuelles.garantiesFinancières.formatter(),
-          attestation: garantiesFinancièresActuelles.attestation?.formatter(),
+          attestation: garantiesFinancièresActuelles.document?.formatter(),
         }
       : undefined;
 
     const dépôtÀTraiter = Option.isSome(dépôtEnCoursGarantiesFinancières)
       ? {
           ...dépôtEnCoursGarantiesFinancières.garantiesFinancières.formatter(),
-          dateConstitution: dépôtEnCoursGarantiesFinancières.dateConstitution.formatter(),
+          dateConstitution:
+            dépôtEnCoursGarantiesFinancières.garantiesFinancières.constitution!.date.formatter(),
         }
       : undefined;
 

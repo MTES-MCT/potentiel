@@ -26,6 +26,10 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
       garantiesFinancièresActuelles.mapToTypeGarantiesFinancièresImportéTimelineItemsProps,
     )
     .with(
+      { type: 'GarantiesFinancièresImportées-V1' },
+      garantiesFinancièresActuelles.mapToGarantiesFinancièresImportéesTimelineItemsProps,
+    )
+    .with(
       {
         type: 'GarantiesFinancièresDemandées-V1',
       },

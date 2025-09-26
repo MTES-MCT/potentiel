@@ -26,8 +26,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
-            | type GF              | exemption  |
-            | date de délibération | 2020-01-01 |
+            | type GF | exemption |
         Alors le dépôt de garanties financières devrait être consultable pour le projet lauréat
         Et les garanties financières en attente du projet ne devraient plus être consultables
 
@@ -93,8 +92,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
             | appel d'offres | PPE2 - Sol   |
             | type GF        | consignation |
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
-            | type GF              | exemption  |
-            | date de délibération | 2025-01-01 |
+            | type GF | exemption |
         Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée a été demandée
@@ -130,7 +128,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Etant donné le projet lauréat "Du Boulodrome de Tourcoing" avec :
             | appel d'offres       | PPE2 - Petit PV Bâtiment |
             | type GF              | exemption                |
-            | date de délibération | 2025-01-01               |
+            | date de constitution | 2025-01-01               |
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF | consignation |
         Alors l'utilisateur devrait être informé que "Le projet est exempt de garanties financières"
