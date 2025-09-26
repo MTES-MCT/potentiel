@@ -131,24 +131,6 @@ Fonctionnalité: Corriger une candidature
             | date d'échéance | 2024-01-01                |
         Alors l'administrateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
-    Scénario: Impossible de corriger une candidature classée avec exemption de GF si la date de délibération est manquante
-        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offres | PPE2 - Petit PV Bâtiment |
-            | type GF        | consignation             |
-        Quand le DGEC validateur corrige la candidature avec :
-            | type GF | exemption |
-        Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières est requise"
-
-    Scénario: Impossible de corriger une candidature classée avec exemption de GF si la date de délibération est future
-        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offres       | PPE2 - Petit PV Bâtiment |
-            | type GF              | exemption                |
-            | date de constitution | 2025-01-01               |
-        Quand le DGEC validateur corrige la candidature avec :
-            | date de constitution | 2050-01-01 |
-
-        Alors l'administrateur devrait être informé que "La date de délibération de l'exemption des garanties financières ne peut pas être une date future"
-
     Scénario: Impossible de corriger une candidature sans modifications
         Quand le DGEC validateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
@@ -276,3 +258,9 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage |  |
         Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offres"
+
+
+# @TODO : cas métier à ajouter / valider - spécifique AOS
+# Scenario: Impossible de corriger une candidature classée avec des GF constituées sans date de constitution
+# Scenatio: Impossible d'importer/corriger une candidature avec une date de constitution des GF future
+# Scenario: Impossible d'importer une candidature Petit PV sans GFs constituées ?
