@@ -130,8 +130,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
           id={`enable-user-${identifiantUtilisateur.email}`}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          acceptButtonLabel="Oui"
-          rejectButtonLabel="Non"
           title="Réactiver un utilisateur"
           form={{
             id: 'enable-user-form',
@@ -159,8 +157,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
           id={`disable-user-${identifiantUtilisateur.email}`}
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          acceptButtonLabel="Oui"
-          rejectButtonLabel="Non"
           title="Désactiver un utilisateur"
           form={{
             id: 'disable-user-form',

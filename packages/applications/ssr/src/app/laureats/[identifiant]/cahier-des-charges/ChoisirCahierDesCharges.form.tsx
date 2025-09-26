@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 import Alert from '@codegouvfr/react-dsfr/Alert';
@@ -11,7 +10,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 
@@ -59,21 +57,13 @@ export const ChoisirCahierDesChargesForm: React.FC<ChoisirCahierDesChargesFormPr
         title: 'Choix du cahier des charges',
         children: 'Modification du cahier des charges du projet en cours...',
       }}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Projet.details(identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour au projet
-          </Button>
-          <SubmitButton>Choisir</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitLabel: 'Choisir',
+        secondaryAction: {
+          type: 'back',
+          href: Routes.Projet.details(identifiantProjet),
+        },
+      }}
     >
       <div className="flex flex-col gap-4 mt-4">
         <RadioButtons

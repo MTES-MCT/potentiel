@@ -29,7 +29,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
     <AttestationConformitéForm
       identifiantProjet={identifiantProjet}
       action={modifierAttestationConformitéAction}
-      submitButtonLabel="Modifier"
+      submitLabel="Modifier"
       donnéesActuelles={attestationConformitéActuelle}
       demanderMainlevée={{ visible: false, canBeDone: false }}
     />

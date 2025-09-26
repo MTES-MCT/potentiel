@@ -147,7 +147,6 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         onInvalid={() => setState((state) => ({ ...state, step: 1 }))}
         onError={() => setState((state) => ({ ...state, step: 1 }))}
         onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-        actions={null}
         omitMandatoryFieldsLegend={state.step === 3 ? undefined : true}
       >
         <input

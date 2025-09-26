@@ -1,32 +1,20 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import { FC, useState } from 'react';
 
 import { Form, FormProps } from '../atoms/form/Form';
-import { SubmitButton } from '../atoms/form/SubmitButton';
 
 export type ModalWithFormProps = {
   id: string;
-  acceptButtonLabel: string;
-  form: Omit<FormProps, 'actions'>;
+  form: Omit<FormProps, 'actions' | 'actionButtons'>;
   isOpen: boolean;
-  rejectButtonLabel: string;
   onClose: () => void;
   title: string;
 };
 
-export const ModalWithForm: FC<ModalWithFormProps> = ({
-  id,
-  acceptButtonLabel,
-  form,
-  isOpen,
-  rejectButtonLabel,
-  onClose,
-  title,
-}) => {
+export const ModalWithForm: FC<ModalWithFormProps> = ({ id, form, isOpen, onClose, title }) => {
   // trick to reset the form when re-opening the modal
   const [modal] = useState(
     createModal({
@@ -62,14 +50,13 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
         pendingModal={form.pendingModal}
         onValidationError={form.onValidationError}
         key={`form-${id}`}
-        actions={
-          <>
-            <Button priority="secondary" onClick={handleRejectClick} type="button">
-              {rejectButtonLabel}
-            </Button>
-            <SubmitButton>{acceptButtonLabel}</SubmitButton>
-          </>
-        }
+        actionButtons={{
+          submitLabel: 'Oui',
+          secondaryAction: {
+            type: 'cancel',
+            onClick: handleRejectClick,
+          },
+        }}
       >
         {form.children}
       </Form>

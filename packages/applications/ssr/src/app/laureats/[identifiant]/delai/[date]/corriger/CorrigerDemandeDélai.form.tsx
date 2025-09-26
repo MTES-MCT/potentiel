@@ -2,7 +2,6 @@
 
 import Input from '@codegouvfr/react-dsfr/Input';
 import { FC, useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
@@ -11,7 +10,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -60,21 +58,13 @@ export const CorrigerDemandeDélaiForm: FC<CorrigerDemandeDélaiFormProps> = ({
     <Form
       action={corrigerDemandeDélaiAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Délai.détail(identifiantProjet, dateDemande),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour à la page de la demande
-          </Button>
-          <SubmitButton>Corriger la demande de délai</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitLabel: 'Corriger',
+        secondaryAction: {
+          type: 'back',
+          href: Routes.Délai.détail(identifiantProjet, dateDemande),
+        },
+      }}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
       <input type={'hidden'} value={dateDemande} name="dateDemande" />

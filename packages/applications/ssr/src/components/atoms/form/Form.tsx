@@ -11,6 +11,7 @@ import { Heading2 } from '../headings';
 import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
+import { FormActionButtons, FormActionButtonsProps } from './FormActionButtons';
 
 export type FormProps = {
   id?: string;
@@ -19,7 +20,7 @@ export type FormProps = {
   heading?: ReactNode;
   omitMandatoryFieldsLegend?: true;
   pendingModal?: FormPendingModalProps;
-  actions: ReactNode;
+  actionButtons?: FormActionButtonsProps;
   onValidationError?: (validationErrors: ValidationErrors) => void;
   onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
   onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
@@ -33,7 +34,7 @@ export const Form: FC<FormProps> = ({
   children,
   heading,
   pendingModal,
-  actions,
+  actionButtons,
   onError,
   onInvalid,
 }) => {
@@ -86,7 +87,14 @@ export const Form: FC<FormProps> = ({
       )}
       <div className="flex flex-col gap-5">
         {children}
-        <div className="flex flex-col md:flex-row gap-2">{actions}</div>
+        {actionButtons && (
+          <div className="flex flex-col md:flex-row gap-2">
+            <FormActionButtons
+              secondaryAction={actionButtons.secondaryAction}
+              submitLabel={actionButtons.submitLabel}
+            />
+          </div>
+        )}
       </div>
       <FormFeedbackCsvErrors formState={state} />
     </form>

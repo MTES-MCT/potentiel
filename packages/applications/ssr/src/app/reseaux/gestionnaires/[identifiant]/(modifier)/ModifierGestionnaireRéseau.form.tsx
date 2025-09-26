@@ -8,7 +8,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -49,7 +48,9 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
     <Form
       action={modifierGestionnaireRéseauAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Modifier</SubmitButton>}
+      actionButtons={{
+        submitLabel: 'Modifier',
+      }}
     >
       <div className="mb-6">
         <label>Code EIC ou Gestionnaire: {identifiantGestionnaireReseauValue}</label>

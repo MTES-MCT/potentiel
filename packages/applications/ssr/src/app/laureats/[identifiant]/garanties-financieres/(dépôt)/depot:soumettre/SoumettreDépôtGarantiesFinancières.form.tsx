@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
@@ -10,7 +9,6 @@ import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
@@ -41,14 +39,14 @@ type Action =
 export type SoumettreDépôtGarantiesFinancièresFormProps = {
   identifiantProjet: string;
   action: Action;
-  submitButtonLabel: string;
+  submitLabel: string;
   typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
   dépôt?: PlainType<Lauréat.GarantiesFinancières.ConsulterDépôtGarantiesFinancièresReadModel>;
 };
 
 export const SoumettreDépôtGarantiesFinancièresForm: FC<
   SoumettreDépôtGarantiesFinancièresFormProps
-> = ({ identifiantProjet, action, submitButtonLabel, typesGarantiesFinancières, dépôt }) => {
+> = ({ identifiantProjet, action, submitLabel, typesGarantiesFinancières, dépôt }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<
       | ModifierDépôtGarantiesFinancièresFormKeys
@@ -61,21 +59,13 @@ export const SoumettreDépôtGarantiesFinancièresForm: FC<
     <Form
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.GarantiesFinancières.détail(identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour au détail des garanties financières
-          </Button>
-          <SubmitButton>{submitButtonLabel}</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitLabel,
+        secondaryAction: {
+          type: 'back',
+          href: Routes.GarantiesFinancières.détail(identifiantProjet),
+        },
+      }}
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
