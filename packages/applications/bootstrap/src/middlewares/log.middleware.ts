@@ -3,23 +3,29 @@ import { Middleware } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 import { getContext } from '@potentiel-applications/request-context';
+import { Entity, ListResult } from '@potentiel-domain/entity';
 
 export const logMiddleware: Middleware = async (message, next) => {
   const context = getContext();
   const correlationId = context?.correlationId ?? '';
   const utilisateur = context?.utilisateur?.identifiantUtilisateur?.email;
+  const url = context?.url;
   getLogger().info('Executing message', {
     message: JSON.stringify(message),
     utilisateur,
     correlationId,
   });
   try {
+    const start = Date.now();
     const result = await next();
+    const elapsed = Date.now() - start;
     const resultJson = getResultJsonBody(message.type, result);
     getLogger().info('Message executed', {
       messageType: message.type,
       result: JSON.stringify(resultJson),
       correlationId,
+      durationMS: elapsed,
+      url,
     });
     return result;
   } catch (e) {
@@ -42,5 +48,22 @@ const messagesToTruncate = [
 // This is to avoid extremely long results from ConsulterAppelOffre, which makes the logs unreadable.
 const getResultJsonBody = (messageType: string, result: unknown) => {
   if (messagesToTruncate.includes(messageType)) return {};
+  if (isListResult(result)) {
+    return {
+      subtotal: result.items.length,
+      total: result.total,
+    };
+  }
   return result;
+};
+
+const isListResult = (result: unknown): result is ListResult<Entity> => {
+  return (
+    typeof result === 'object' &&
+    !!result &&
+    'total' in result &&
+    typeof result.total === 'number' &&
+    'items' in result &&
+    Array.isArray(result.items)
+  );
 };
