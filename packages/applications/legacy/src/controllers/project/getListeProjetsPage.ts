@@ -19,10 +19,7 @@ import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/Util
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-const getFiltres = ({
-  query,
-  user,
-}: {
+type GetFiltresProps = {
   query: {
     appelOffreId?: string;
     periodeId?: string;
@@ -32,11 +29,13 @@ const getFiltres = ({
     reclames?: FiltreListeProjets['reclames'];
   };
   user: UtilisateurReadModel;
-}) => {
+};
+
+const getFiltres = ({ query, user }: GetFiltresProps) => {
   let { appelOffreId, periodeId, familleId, recherche, classement, reclames } = query;
 
   if (userIs(['admin', 'dgec-validateur', 'dreal'])(user) && typeof classement === 'undefined') {
-    classement = 'classés';
+    classement = 'actifs';
   }
 
   if (!query.appelOffreId) {
@@ -67,7 +66,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     userIs(['admin', 'dgec-validateur', 'dreal'])(user) &&
     typeof query.classement === 'undefined'
   ) {
-    request.query.classement = 'classés';
+    request.query.classement = 'actifs';
   }
 
   const filtres = getFiltres({

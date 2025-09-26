@@ -14,6 +14,7 @@ import { GetPuissanceForProjectPage } from '../../../../controllers/project/getP
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
 import { GetFournisseurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getFournisseur';
 import { GetInstallateurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getInstallateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
@@ -36,6 +37,7 @@ export type ProjectHeaderProps = {
     url: string;
   };
   features: Array<string>;
+  statutLauréat: Lauréat.StatutLauréat.RawType;
 };
 
 export const ProjectHeader = ({
@@ -54,6 +56,7 @@ export const ProjectHeader = ({
   délaiAffichage,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  statutLauréat,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -61,7 +64,7 @@ export const ProjectHeader = ({
         <Heading1 className="mb-0 pb-0">
           <div className="inline-block leading-10">{project.nomProjet}</div>
         </Heading1>
-        <ProjectHeaderBadge project={project} />
+        <ProjectHeaderBadge statutLauréat={statutLauréat} />
       </div>
       <div className="font-medium mt-3">
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
