@@ -17,7 +17,6 @@ import { StatutMainlevéeBadge } from './StatutMainlevéeBadge';
 import { AnnulerDemandeMainlevée } from './annuler/AnnulerDemandeMainlevée.form';
 import { PasserDemandeMainlevéeEnInstruction } from './passerEnInstruction/PasserDemandeMainlevéeEnInstruction.form';
 import { AccorderDemandeMainlevée } from './accorder/AccorderDemandeMainlevée.form';
-import { CorrigerRéponseSignée } from './corrigerRéponseSignée/CorrigerRéponseSignée.form';
 
 export type MainlevéeEnCoursProps = {
   mainlevée: PlainType<Lauréat.GarantiesFinancières.ConsulterMainlevéeEnCoursReadModel>;
@@ -73,12 +72,6 @@ export const MainlevéeEnCours: FC<MainlevéeEnCoursProps> = ({
                 DocumentProjet.bind(accord.courrierAccord).formatter(),
               )}
             />
-            {actions.includes('garantiesFinancières.mainlevée.corrigerRéponseSignée') && (
-              <CorrigerRéponseSignée
-                identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
-                courrierRéponseÀCorriger={DocumentProjet.bind(accord.courrierAccord).formatter()}
-              />
-            )}
           </div>
         </div>
       )}
