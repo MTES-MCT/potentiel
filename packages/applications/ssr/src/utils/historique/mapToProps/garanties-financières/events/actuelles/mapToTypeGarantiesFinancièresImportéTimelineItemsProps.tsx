@@ -5,7 +5,7 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 export const mapToTypeGarantiesFinancièresImportéTimelineItemsProps = (
   modification: Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent,
 ) => {
-  const { importéLe, type, dateÉchéance, dateDélibération } = modification.payload;
+  const { importéLe, type, dateÉchéance } = modification.payload;
 
   return {
     date: importéLe,
@@ -18,11 +18,6 @@ export const mapToTypeGarantiesFinancièresImportéTimelineItemsProps = (
         {dateÉchéance && (
           <div>
             Date d'échéance : <FormattedDate date={dateÉchéance} />
-          </div>
-        )}
-        {dateDélibération && type === 'exemption' && (
-          <div>
-            Date de délibération : <FormattedDate date={dateDélibération} />
           </div>
         )}
       </div>
