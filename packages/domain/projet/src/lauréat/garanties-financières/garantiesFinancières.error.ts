@@ -70,7 +70,7 @@ export class AttestationGarantiesFinancièresDéjàExistanteError extends Invali
 
 export class AttestationEtDateGarantiesFinancièresRequisesError extends InvalidOperationError {
   constructor() {
-    super(`L'attestation et la date de constitution sont requises pour les garanties financières`);
+    super(`L'attestation et la date de constitution des garanties financières sont requises`);
   }
 }
 
