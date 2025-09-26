@@ -178,7 +178,6 @@ export class LauréatWorld {
       },
       technologie,
       unitéPuissance,
-      volumeRéservé,
     } = this.potentielWorld.candidatureWorld.mapToExpected();
 
     const expected: Lauréat.ConsulterLauréatReadModel = {
@@ -194,7 +193,6 @@ export class LauréatWorld {
       statut: this.abandonWorld.accorderAbandonFixture.aÉtéCréé
         ? StatutProjet.abandonné
         : StatutProjet.classé,
-      volumeRéservé,
       autorisationDUrbanisme,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé

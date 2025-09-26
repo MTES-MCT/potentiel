@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
@@ -69,7 +68,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<CandidatureEntity, AppelOffre.AppelOffreEntity>('candidature', {
+    } = await list<CandidatureEntity>('candidature', {
       where: {
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(période),
@@ -77,10 +76,6 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         statut: Where.equal(statut),
         estNotifiée: Where.equal(estNotifiée),
         identifiantProjet: Where.matchAny(identifiantProjets),
-      },
-      join: {
-        entity: 'appel-offre',
-        on: 'appelOffre',
       },
       range,
       orderBy: {
@@ -115,11 +110,8 @@ export const mapToReadModel = ({
   evaluationCarboneSimplifiée,
   estNotifiée,
   notification,
-  période,
-  technologie,
-
-  'appel-offre': appelOffres,
-}: CandidatureEntity & Joined<AppelOffre.AppelOffreEntity>): CandidaturesListItemReadModel => ({
+  unitéPuissance,
+}: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
   nomProjet,
@@ -144,5 +136,5 @@ export const mapToReadModel = ({
         notification.attestation.format,
       ),
     }),
-  unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période, technologie }),
+  unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
 });

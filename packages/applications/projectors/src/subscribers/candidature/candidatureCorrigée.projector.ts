@@ -2,6 +2,7 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const candidatureCorrigéeProjector = async ({
   payload,
@@ -11,8 +12,19 @@ export const candidatureCorrigéeProjector = async ({
   const candidature = await findProjection<Candidature.CandidatureEntity>(
     `candidature|${identifiantProjet.formatter()}`,
   );
+  const appelOffres = await findProjection<AppelOffre.AppelOffreEntity>(
+    `appel-offre|${identifiantProjet.appelOffre}`,
+  );
+  if (Option.isNone(appelOffres)) {
+    throw new Error("Appel d'offres non trouvé");
+  }
 
-  const candidatureToUpsert = mapToCandidatureToUpsert({ payload, candidature, identifiantProjet });
+  const candidatureToUpsert = mapToCandidatureToUpsert({
+    payload,
+    candidature,
+    identifiantProjet,
+    appelOffres,
+  });
 
   await upsertProjection<Candidature.CandidatureEntity>(
     `candidature|${payload.identifiantProjet}`,
@@ -24,11 +36,13 @@ export const mapToCandidatureToUpsert = ({
   payload,
   candidature,
   identifiantProjet,
+  appelOffres,
 }: {
   payload: Candidature.CandidatureCorrigéeEvent['payload'];
   candidature: Option.Type<Candidature.CandidatureEntity>;
   identifiantProjet: IdentifiantProjet.ValueType;
-}) => {
+  appelOffres: AppelOffre.AppelOffreEntity;
+}): Omit<Candidature.CandidatureEntity, 'type'> => {
   const notification: Candidature.CandidatureEntity['notification'] = Option.isSome(candidature)
     ? payload.doitRégénérerAttestation && candidature.notification
       ? {
@@ -40,6 +54,11 @@ export const mapToCandidatureToUpsert = ({
         }
       : candidature.notification
     : undefined;
+
+  const technologie = Candidature.TypeTechnologie.déterminer({
+    appelOffre: appelOffres,
+    projet: payload,
+  });
 
   return {
     identifiantProjet: identifiantProjet.formatter(),
@@ -57,5 +76,11 @@ export const mapToCandidatureToUpsert = ({
         : // ce cas est théoriquement impossible,
           // on ne peut pas avoir de correction sur une candidature non importée
           payload.corrigéLe,
+    technologieCalculée: technologie.formatter(),
+    unitéPuissance: Candidature.UnitéPuissance.déterminer({
+      appelOffres,
+      période: identifiantProjet.période,
+      technologie: technologie.formatter(),
+    }).formatter(),
   };
 };

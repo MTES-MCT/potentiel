@@ -1,9 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Candidature, IdentifiantProjet, StatutProjet } from '../../..';
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
@@ -50,6 +48,11 @@ export type ConsulterDossierRaccordementDependencies = {
   list: List;
 };
 
+type ListerDossierRaccordementEnAttenteMiseEnServiceJoins = [
+  LauréatEntity,
+  Candidature.CandidatureEntity,
+  Puissance.PuissanceEntity,
+];
 export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
   list,
 }: ConsulterDossierRaccordementDependencies) => {
@@ -62,51 +65,39 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DossierRaccordementEntity, LauréatEntity>('dossier-raccordement', {
-      where: {
-        identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
-        miseEnService: {
-          dateMiseEnService: Where.equalNull(),
+    } = await list<DossierRaccordementEntity, ListerDossierRaccordementEnAttenteMiseEnServiceJoins>(
+      'dossier-raccordement',
+      {
+        where: {
+          identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
+          miseEnService: {
+            dateMiseEnService: Where.equalNull(),
+          },
+          projetNotifiéLe: Where.lessOrEqual(projetNotifiéAvant),
         },
-        projetNotifiéLe: Where.lessOrEqual(projetNotifiéAvant),
+        join: [
+          {
+            entity: 'lauréat',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'candidature',
+            on: 'identifiantProjet',
+          },
+          {
+            entity: 'puissance',
+            on: 'identifiantProjet',
+          },
+        ],
+        range,
+        orderBy: {
+          référence: 'ascending',
+        },
       },
-      join: {
-        entity: 'lauréat',
-        on: 'identifiantProjet',
-      },
-      range,
-      orderBy: {
-        référence: 'ascending',
-      },
-    });
-
-    const identifiants = items.map(
-      (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
     );
 
-    const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
-      where: {
-        identifiantProjet: Where.matchAny(identifiants),
-      },
-    });
-
-    const puissances = await list<Puissance.PuissanceEntity>('puissance', {
-      where: {
-        identifiantProjet: Where.matchAny(identifiants),
-      },
-    });
-
-    const appelsOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
-
     return {
-      items: items.map((dossier) =>
-        mapToReadModel({
-          dossier,
-          appelsOffres: appelsOffres.items,
-          candidatures: candidatures.items,
-          puissances: puissances.items,
-        }),
-      ),
+      items: items.map((dossier) => mapToReadModel(dossier)),
       range: {
         endPosition,
         startPosition,
@@ -121,53 +112,19 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
   );
 };
 
-type MapToReadModelProps = (args: {
-  dossier: DossierRaccordementEntity & Joined<LauréatEntity>;
-  candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
-  puissances: ReadonlyArray<Puissance.PuissanceEntity>;
-  appelsOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
-}) => DossierRaccordementEnAttenteMiseEnService;
+type MapToReadModelProps = (
+  dossier: DossierRaccordementEntity & Joined<ListerDossierRaccordementEnAttenteMiseEnServiceJoins>,
+) => DossierRaccordementEnAttenteMiseEnService;
 
 export const mapToReadModel: MapToReadModelProps = ({
-  dossier: { identifiantProjet, référence, lauréat },
-  candidatures,
-  puissances,
-  appelsOffres,
+  identifiantProjet,
+  référence,
+  lauréat,
+  candidature: { unitéPuissance, emailContact, nomCandidat, sociétéMère },
+  puissance: { puissance },
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
-  const candidature = candidatures.find(
-    (candidature) => candidature.identifiantProjet === identifiantProjet,
-  );
-
-  const appelOffres = appelsOffres.find((ao) => ao.id === appelOffre);
-  const { emailContact, nomCandidat, sociétéMère } = match(candidature)
-    .with(P.nullish, () => ({
-      nomCandidat: 'Nom candidat inconnu',
-      sociétéMère: 'Société mère inconnue',
-      emailContact: 'Email contact inconnu',
-    }))
-    .otherwise((value) => ({
-      nomCandidat: value.nomCandidat,
-      sociétéMère: value.sociétéMère,
-      emailContact: value.emailContact,
-    }));
-
-  const unitéPuissance =
-    appelOffres && candidature
-      ? Candidature.UnitéPuissance.déterminer({
-          appelOffres,
-          période,
-          technologie: candidature?.technologie,
-        }).formatter()
-      : 'N/A';
-  const puissanceItem = puissances.find(
-    (puissance) => puissance.identifiantProjet === identifiantProjet,
-  );
-
-  const puissance = match(puissanceItem)
-    .with(P.nullish, () => `0 ${unitéPuissance}`)
-    .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
 
   return {
     appelOffre,
@@ -180,7 +137,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutProjet.classé.statut,
-    puissance,
+    puissance: `${puissance} ${unitéPuissance}`,
     dateNotification: lauréat.notifiéLe,
     emailContact,
     nomCandidat,

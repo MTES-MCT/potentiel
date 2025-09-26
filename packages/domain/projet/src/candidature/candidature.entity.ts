@@ -14,6 +14,7 @@ import {
   TypeGarantiesFinancières,
   TypeTechnologie,
   TypologieInstallation,
+  UnitéPuissance,
 } from '.';
 
 type CandidatureNonNotifiée = {
@@ -50,6 +51,7 @@ export type CandidatureEntity = Entity<
     emailContact: string;
     puissanceProductionAnnuelle: number;
     prixReference: number;
+    // Peut valoir N/A pour les AOs avec une seule technologie
     technologie: TypeTechnologie.RawType;
     sociétéMère: string;
     noteTotale: number;
@@ -66,5 +68,10 @@ export type CandidatureEntity = Entity<
     détailsMisÀJourLe: DateTime.RawType;
     fournisseurs: Array<Fournisseur.RawType>;
     typologieInstallation: Array<TypologieInstallation.RawType>;
+
+    // Plus spécifique que `technologie`, ne peut valoir N/A
+    technologieCalculée: AppelOffre.Technologie;
+    // Calculée à partir de la technologie et de l'appel d'offres
+    unitéPuissance: UnitéPuissance.RawType;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

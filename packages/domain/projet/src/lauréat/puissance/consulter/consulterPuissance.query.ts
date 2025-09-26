@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find, Joined } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PuissanceEntity } from '..';
 import { IdentifiantProjet } from '../../..';
@@ -31,13 +30,10 @@ export type ConsulterPuissanceDependencies = {
 
 export const registerConsulterPuissanceQuery = ({ find }: ConsulterPuissanceDependencies) => {
   const handler: MessageHandler<ConsulterPuissanceQuery> = async ({ identifiantProjet }) => {
-    const puissance = await find<PuissanceEntity, [CandidatureEntity, AppelOffre.AppelOffreEntity]>(
+    const puissance = await find<PuissanceEntity, CandidatureEntity>(
       `puissance|${identifiantProjet}`,
       {
-        join: [
-          { entity: 'candidature', on: 'identifiantProjet' },
-          { entity: 'appel-offre', on: 'appelOffres' },
-        ],
+        join: { entity: 'candidature', on: 'identifiantProjet' },
       },
     );
 
@@ -51,15 +47,14 @@ export const registerConsulterPuissanceQuery = ({ find }: ConsulterPuissanceDepe
 };
 
 type MapToReadModel = (
-  puissance: PuissanceEntity & Joined<[CandidatureEntity, AppelOffre.AppelOffreEntity]>,
+  puissance: PuissanceEntity & Joined<[CandidatureEntity]>,
 ) => ConsulterPuissanceReadModel;
 
 export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   puissance,
   dateDemandeEnCours,
-  candidature: { puissanceProductionAnnuelle: puissanceInitiale, période, technologie },
-  'appel-offre': appelOffres,
+  candidature: { puissanceProductionAnnuelle: puissanceInitiale, unitéPuissance },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   puissance,
@@ -67,9 +62,5 @@ export const mapToReadModel: MapToReadModel = ({
   dateDemandeEnCours: dateDemandeEnCours
     ? DateTime.convertirEnValueType(dateDemandeEnCours)
     : undefined,
-  unitéPuissance: UnitéPuissance.déterminer({
-    appelOffres,
-    période,
-    technologie,
-  }),
+  unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
 });

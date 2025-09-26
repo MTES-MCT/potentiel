@@ -93,11 +93,6 @@ export class CandidatureWorld {
           dépôtValue.technologie,
         ).formatter(),
       }),
-      volumeRéservé: Candidature.VolumeRéservé.déterminer({
-        note: instructionValue.noteTotale,
-        puissanceInitiale: dépôtValue.puissanceProductionAnnuelle,
-        période,
-      }),
       technologie: Candidature.TypeTechnologie.déterminer({
         appelOffre: appelOffres,
         projet: dépôtValue,

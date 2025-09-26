@@ -1,13 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
-import { LauréatEntity } from '../../lauréat.entity';
 import {
   Candidature,
   GetProjetUtilisateurScope,
@@ -66,6 +63,13 @@ export type ListerDossierRaccordementQueryDependencies = {
   getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
+type DossierRaccordementJoins = [
+  Lauréat.LauréatEntity,
+  Candidature.CandidatureEntity,
+  Lauréat.Puissance.PuissanceEntity,
+  GestionnaireRéseau.GestionnaireRéseauEntity,
+];
+
 export const registerListerDossierRaccordementQuery = ({
   list,
   getScopeProjetUtilisateur,
@@ -83,7 +87,7 @@ export const registerListerDossierRaccordementQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DossierRaccordementEntity, LauréatEntity>('dossier-raccordement', {
+    } = await list<DossierRaccordementEntity, DossierRaccordementJoins>('dossier-raccordement', {
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
@@ -98,16 +102,30 @@ export const registerListerDossierRaccordementQuery = ({
                 : Where.equalNull(),
         },
       },
-      join: {
-        entity: 'lauréat',
-        on: 'identifiantProjet',
-        where: {
-          appelOffre: Where.equal(appelOffre),
-          localité: {
-            région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+      join: [
+        {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: Where.equal(appelOffre),
+            localité: {
+              région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+            },
           },
         },
-      },
+        {
+          entity: 'candidature',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'puissance',
+          on: 'identifiantProjet',
+        },
+        {
+          entity: 'gestionnaire-réseau',
+          on: 'identifiantGestionnaireRéseau',
+        },
+      ],
       orderBy: {
         référence: 'ascending',
         identifiantProjet: 'ascending',
@@ -115,52 +133,8 @@ export const registerListerDossierRaccordementQuery = ({
       range,
     });
 
-    const identifiantsGestionnaireRéseau = items.map(
-      (dossier) =>
-        dossier.identifiantGestionnaireRéseau as GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType,
-    );
-
-    const gestionnairesRéseau = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
-      'gestionnaire-réseau',
-      {
-        where: {
-          codeEIC: Where.matchAny(identifiantsGestionnaireRéseau),
-        },
-      },
-    );
-
-    const identifiants = items.map(
-      (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
-    );
-
-    const puissances = await list<Lauréat.Puissance.PuissanceEntity>('puissance', {
-      where: {
-        identifiantProjet: Where.matchAny(identifiants),
-      },
-    });
-
-    const candidatures = await list<Candidature.CandidatureEntity, AppelOffre.AppelOffreEntity>(
-      'candidature',
-      {
-        where: {
-          identifiantProjet: Where.matchAny(identifiants),
-        },
-        join: {
-          entity: 'appel-offre',
-          on: 'appelOffre',
-        },
-      },
-    );
-
     return {
-      items: items.map((dossier) =>
-        mapToReadModel({
-          dossier,
-          gestionnairesRéseau: gestionnairesRéseau.items,
-          puissances: puissances.items,
-          candidatures: candidatures.items,
-        }),
-      ),
+      items: items.map(mapToReadModel),
       range: {
         endPosition,
         startPosition,
@@ -172,62 +146,26 @@ export const registerListerDossierRaccordementQuery = ({
   mediator.register('Lauréat.Raccordement.Query.ListerDossierRaccordementQuery', handler);
 };
 
-type MapToReadModelProps = (args: {
-  dossier: Lauréat.Raccordement.DossierRaccordementEntity & Joined<LauréatEntity>;
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
-  puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
-  candidatures: ReadonlyArray<Candidature.CandidatureEntity & Joined<AppelOffre.AppelOffreEntity>>;
-}) => DossierRaccordement;
+type MapToReadModelProps = (
+  dossier: Lauréat.Raccordement.DossierRaccordementEntity & Joined<DossierRaccordementJoins>,
+) => DossierRaccordement;
 
 export const mapToReadModel: MapToReadModelProps = ({
-  dossier: { identifiantProjet, identifiantGestionnaireRéseau, référence, miseEnService, lauréat },
-  gestionnairesRéseau,
-  puissances,
-  candidatures,
-}) => {
-  const { appelOffre, famille, numéroCRE, période } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-  const gestionnaire = gestionnairesRéseau.find(
-    (gestionnaireRéseau) => gestionnaireRéseau.codeEIC === identifiantGestionnaireRéseau,
-  );
-
-  const {
+  identifiantProjet,
+  identifiantGestionnaireRéseau,
+  référence,
+  miseEnService,
+  lauréat: {
     nomProjet,
     localité: { codePostal, commune, département, région, adresse1, adresse2 },
     notifiéLe,
-  } = lauréat;
-
-  const candidature = candidatures.find(
-    (candidature) => candidature.identifiantProjet === identifiantProjet,
-  );
-
-  const puissanceItem = puissances.find(
-    (puissance) => puissance.identifiantProjet === identifiantProjet,
-  );
-
-  const unitéPuissance = candidature
-    ? Candidature.UnitéPuissance.déterminer({
-        appelOffres: candidature['appel-offre'],
-        technologie: candidature.technologie,
-        période,
-      }).formatter()
-    : 'N/A';
-
-  const puissance = match(puissanceItem)
-    .with(P.nullish, () => `0 ${unitéPuissance}`)
-    .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
-
-  const { emailContact, nomCandidat, sociétéMère } = match(candidature)
-    .with(P.nullish, () => ({
-      nomCandidat: 'Nom candidat inconnu',
-      sociétéMère: 'Société mère inconnue',
-      emailContact: 'Email contact inconnu',
-    }))
-    .otherwise((value) => ({
-      nomCandidat: value.nomCandidat,
-      sociétéMère: value.sociétéMère,
-      emailContact: value.emailContact,
-    }));
+  },
+  'gestionnaire-réseau': gestionnaireRéseau,
+  puissance: { puissance },
+  candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance },
+}) => {
+  const { appelOffre, famille, numéroCRE, période } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
   return {
     appelOffre,
@@ -249,10 +187,8 @@ export const mapToReadModel: MapToReadModelProps = ({
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         identifiantGestionnaireRéseau,
       ),
-    raisonSocialeGestionnaireRéseau: match(gestionnaire)
-      .with(undefined, () => 'Gestionnaire réseau inconnu')
-      .otherwise((value) => value.raisonSociale),
-    puissance,
+    raisonSocialeGestionnaireRéseau: gestionnaireRéseau.raisonSociale,
+    puissance: `${puissance} ${unitéPuissance}`,
 
     dateNotification: notifiéLe,
     emailContact,

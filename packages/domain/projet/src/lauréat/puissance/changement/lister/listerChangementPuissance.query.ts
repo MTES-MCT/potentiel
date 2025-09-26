@@ -2,12 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AutoritéCompétente, ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import { LauréatEntity } from '../../../lauréat.entity';
-import { CandidatureEntity, UnitéPuissance } from '../../../../candidature';
+import { CandidatureEntity } from '../../../../candidature';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -56,46 +55,42 @@ export const registerListerChangementPuissanceQuery = ({
     range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
-    const demandes = await list<
-      ChangementPuissanceEntity,
-      [LauréatEntity, CandidatureEntity, AppelOffre.AppelOffreEntity]
-    >('changement-puissance', {
-      range,
-      orderBy: {
-        demande: {
-          demandéeLe: 'descending',
-        },
-      },
-      join: [
-        {
-          entity: 'lauréat',
-          on: 'identifiantProjet',
-          where: {
-            appelOffre: Where.equal(appelOffre),
-            nomProjet: Where.contain(nomProjet),
-            localité: {
-              région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
-            },
+    const demandes = await list<ChangementPuissanceEntity, [LauréatEntity, CandidatureEntity]>(
+      'changement-puissance',
+      {
+        range,
+        orderBy: {
+          demande: {
+            demandéeLe: 'descending',
           },
         },
-        {
-          entity: 'candidature',
-          on: 'identifiantProjet',
-        },
-        {
-          entity: 'appel-offre',
-          on: 'appelOffres',
-        },
-      ],
-      where: {
-        identifiantProjet:
-          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        demande: {
-          statut: Where.matchAny(statut),
-          autoritéCompétente: Where.equal(autoriteInstructrice),
+        join: [
+          {
+            entity: 'lauréat',
+            on: 'identifiantProjet',
+            where: {
+              appelOffre: Where.equal(appelOffre),
+              nomProjet: Where.contain(nomProjet),
+              localité: {
+                région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+              },
+            },
+          },
+          {
+            entity: 'candidature',
+            on: 'identifiantProjet',
+          },
+        ],
+        where: {
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          demande: {
+            statut: Where.matchAny(statut),
+            autoritéCompétente: Where.equal(autoriteInstructrice),
+          },
         },
       },
-    });
+    );
     return {
       ...demandes,
       items: demandes.items.map(mapToReadModel),
@@ -106,14 +101,11 @@ export const registerListerChangementPuissanceQuery = ({
 };
 
 const mapToReadModel = ({
-  'appel-offre': appelOffres,
   candidature,
   lauréat,
   ...entity
 }: ChangementPuissanceEntity &
-  Joined<
-    [LauréatEntity, CandidatureEntity, AppelOffre.AppelOffreEntity]
-  >): ChangementPuissanceItemReadModel => {
+  Joined<[LauréatEntity, CandidatureEntity]>): ChangementPuissanceItemReadModel => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(entity.identifiantProjet);
 
   return {
@@ -123,10 +115,6 @@ const mapToReadModel = ({
     identifiantProjet,
     demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
     nouvellePuissance: entity.demande.nouvellePuissance,
-    unitéPuissance: UnitéPuissance.déterminer({
-      appelOffres,
-      période: identifiantProjet.période,
-      technologie: candidature.technologie,
-    }).formatter(),
+    unitéPuissance: candidature.unitéPuissance,
   };
 };
