@@ -20,7 +20,7 @@ export const mapToLauréatTimelineItemProps = (
     .returnType<TimelineItemProps>()
     .with(
       {
-        type: P.union('NomEtLocalitéLauréatImportés-V1', 'LauréatModifié-V1'),
+        type: P.union('NomEtLocalitéLauréatImportés-V1'),
       },
       mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
     )
@@ -35,5 +35,19 @@ export const mapToLauréatTimelineItemProps = (
         type: 'CahierDesChargesChoisi-V1',
       },
       mapToLauréatCahierDesChargesChoisiTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'NomProjetModifié-V1',
+      },
+      // TODO
+      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'SiteDeProductionModifié-V1',
+      },
+      // TODO
+      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
     )
     .exhaustive();

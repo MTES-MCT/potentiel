@@ -37,7 +37,7 @@ import {
 import { DemandeAbandonEnCoursInfoBox } from './sections/DemandeEnCoursInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
 import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
@@ -74,6 +74,7 @@ type ProjectDetailsProps = {
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
   installationAvecDispositifDeStockage?: InfoGeneralesProps['installationAvecDispositifDeStockage'];
   natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
+  siteDeProduction: InfoGeneralesProps['siteDeProduction'];
 };
 
 export const ProjectDetails = ({
@@ -100,6 +101,7 @@ export const ProjectDetails = ({
   installateur,
   installationAvecDispositifDeStockage,
   natureDeLExploitation,
+  siteDeProduction,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -256,6 +258,7 @@ export const ProjectDetails = ({
               installateur={installateur}
               installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
               natureDeLExploitation={natureDeLExploitation}
+              siteDeProduction={siteDeProduction}
             />
             <Contact
               identifiantProjet={identifiantProjet}

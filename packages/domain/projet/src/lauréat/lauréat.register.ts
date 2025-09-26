@@ -10,8 +10,10 @@ import {
   ConsulterLauréatDependencies,
   registerConsulterLauréatQuery,
 } from './consulter/consulterLauréat.query';
-import { registerModifierLauréatCommand } from './modifier/modifierLauréat.command';
-import { registerModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
+import { registerModifierSiteDeProductionCommand } from './modifier/modifierSiteDeProduction.command';
+import { registerModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
+import { registerModifierNomProjetCommand } from './modifier/modifierNomProjet.command';
+import { registerModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 import { DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
@@ -105,8 +107,10 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
   registerNotifierLauréatUseCase();
 
-  registerModifierLauréatCommand(dependencies.getProjetAggregateRoot);
-  registerModifierLauréatUseCase();
+  registerModifierSiteDeProductionCommand(dependencies.getProjetAggregateRoot);
+  registerModifierSiteDeProductionUseCase();
+  registerModifierNomProjetCommand(dependencies.getProjetAggregateRoot);
+  registerModifierNomProjetUseCase();
 
   registerChoisirCahierDesChargesUseCase();
   registerChoisirCahierDesChargesCommand(dependencies.getProjetAggregateRoot);
