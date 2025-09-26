@@ -6,7 +6,7 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 
 import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
 import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
-import { siteDeProductionModifiéProjector } from './sitedeProductionModifié.projector';
+import { siteDeProductionModifiéProjector } from './siteDeProductionModifié.projector';
 import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector';
 import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projector';
 import { nomProjetModifiéProjector } from './nomProjetModifié.projector';
