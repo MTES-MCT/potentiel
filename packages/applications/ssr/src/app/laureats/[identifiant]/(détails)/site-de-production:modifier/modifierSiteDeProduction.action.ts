@@ -48,7 +48,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: 'Le changement de site de production a été pris en compte',
+        message: 'Le site de production a été modifié',
       },
     };
   });

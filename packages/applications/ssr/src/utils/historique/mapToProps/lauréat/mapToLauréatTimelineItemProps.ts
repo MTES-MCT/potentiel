@@ -10,7 +10,7 @@ import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeIn
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
 import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
 import { mapToNomProjetModifiéTimelineItemProps } from './events/mapToLauréatModifiéTimelineItemProps';
-import { mapToSiteDeProductionModifiéTimelineItemProps } from './events/mapToLauréatModifiéTimelineItemProps copy';
+import { mapToSiteDeProductionModifiéTimelineItemProps } from './events/mapToSiteDeProductionModifiéTimelineItemProps';
 
 export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 
