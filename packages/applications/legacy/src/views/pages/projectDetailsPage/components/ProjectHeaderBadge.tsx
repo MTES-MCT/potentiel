@@ -12,7 +12,7 @@ export const ProjectHeaderBadge = ({ statutLauréat }: ProjectHeaderBadgeProps) 
   <div className="flex flex-row gap-2">
     {match(statutLauréat)
       .with('abandonné', () => <Badge type="warning">Abandonné</Badge>)
-      .with('achevé', () => <Badge type="error">Achevé</Badge>)
+      .with('achevé', () => <Badge type="success">Achevé</Badge>)
       .with('actif', () => <Badge type="success">Actif</Badge>)
       .exhaustive()}
   </div>

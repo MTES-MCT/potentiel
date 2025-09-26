@@ -4,7 +4,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { Éliminé } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -41,7 +41,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   const demandéPar = Email.bind(recours.demande.demandéPar).formatter();
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
       heading={<Heading1>Détail du recours</Heading1>}
       leftColumn={{
         children: (

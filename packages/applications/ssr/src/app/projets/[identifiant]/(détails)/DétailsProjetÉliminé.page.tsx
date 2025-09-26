@@ -6,12 +6,12 @@ import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/pro
 import { DateTime, Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading2 } from '@/components/atoms/headings';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -47,99 +47,96 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
   },
   utilisateursAyantAccèsAuProjet,
   actions,
-}) => {
-  return (
-    <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} noLink />}
-      leftColumn={{
-        children: (
-          <section className="flex flex-col gap-4">
-            <Heading2
-              icon={{
-                id: 'fr-icon-building-line',
-                size: 'md',
-              }}
-            >
-              Informations générales
-            </Heading2>
-            <ul className="flex-col gap-4 mt-2">
-              <li>
-                <span className="font-bold">Site de production :</span> {localité.adresse1}
-                {localité.adresse2 ? ` ${localité.adresse2}` : ''} {localité.codePostal}{' '}
-                {localité.commune}, {localité.département}, {localité.région}
-              </li>
-              <li>
-                <span className="font-bold">Nom du représentant légal : </span>{' '}
-                {nomReprésentantLégal}
-              </li>
-              {autorisationDUrbanisme && (
-                <>
-                  <li>
-                    <span className="font-bold">Numéro de l'autorisation d'urbanisme : </span>{' '}
-                    {autorisationDUrbanisme.numéro}
-                  </li>
-                  <li>
-                    <span className="font-bold">
-                      Date d'obtention de l'autorisation d'urbanisme :{' '}
-                    </span>
-                    {
-                      <FormattedDate
-                        date={DateTime.convertirEnValueType(
-                          autorisationDUrbanisme.date.date,
-                        ).formatter()}
-                      />
-                    }
-                  </li>
-                </>
-              )}
-              <li className="flex gap-2 items-center">
-                <span className="font-bold">Adresse email de candidature :</span>
-                <CopyButton textToCopy={Email.bind(emailContact).formatter()} />
-              </li>
-              <li>
-                <span className="font-bold">Producteur :</span> {nomCandidat}
-              </li>
-              <li>
-                <span className="font-bold">Actionnaire :</span> {sociétéMère}
-              </li>
-              <li>
-                <span className="font-bold">Puissance :</span> {puissanceProductionAnnuelle}{' '}
-                {Candidature.UnitéPuissance.bind(unitéPuissance).formatter()}
-              </li>
-              {prixReference && (
+}) => (
+  <ColumnPageTemplate
+    banner={<ProjetÉliminéBanner identifiantProjet={identifiantProjet} noLink />}
+    leftColumn={{
+      children: (
+        <section className="flex flex-col gap-4">
+          <Heading2
+            icon={{
+              id: 'fr-icon-building-line',
+              size: 'md',
+            }}
+          >
+            Informations générales
+          </Heading2>
+          <ul className="flex-col gap-4 mt-2">
+            <li>
+              <span className="font-bold">Site de production :</span> {localité.adresse1}
+              {localité.adresse2 ? ` ${localité.adresse2}` : ''} {localité.codePostal}{' '}
+              {localité.commune}, {localité.département}, {localité.région}
+            </li>
+            <li>
+              <span className="font-bold">Nom du représentant légal : </span> {nomReprésentantLégal}
+            </li>
+            {autorisationDUrbanisme && (
+              <>
                 <li>
-                  <span className="font-bold">Prix :</span> {prixReference} €/MWh
+                  <span className="font-bold">Numéro de l'autorisation d'urbanisme : </span>{' '}
+                  {autorisationDUrbanisme.numéro}
                 </li>
-              )}
-              {utilisateursAyantAccèsAuProjet.length && (
                 <li>
-                  <span className="font-bold">Utilisateurs ayant accès au projet :</span>
-                  <ul className="list-disc pl-4">
-                    {utilisateursAyantAccèsAuProjet.map((email) => (
-                      <li key={email}>
-                        <CopyButton textToCopy={email} />
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="font-bold">
+                    Date d'obtention de l'autorisation d'urbanisme :{' '}
+                  </span>
+                  {
+                    <FormattedDate
+                      date={DateTime.convertirEnValueType(
+                        autorisationDUrbanisme.date.date,
+                      ).formatter()}
+                    />
+                  }
                 </li>
-              )}
-            </ul>
-          </section>
-        ),
-      }}
-      rightColumn={{
-        children: (
-          <>
-            {mapToActionComponents({
-              actions,
-              identifiantProjet,
-            })}
-          </>
-        ),
-      }}
-    />
-  );
-};
+              </>
+            )}
+            <li className="flex gap-2 items-center">
+              <span className="font-bold">Adresse email de candidature :</span>
+              <CopyButton textToCopy={Email.bind(emailContact).formatter()} />
+            </li>
+            <li>
+              <span className="font-bold">Producteur :</span> {nomCandidat}
+            </li>
+            <li>
+              <span className="font-bold">Actionnaire :</span> {sociétéMère}
+            </li>
+            <li>
+              <span className="font-bold">Puissance :</span> {puissanceProductionAnnuelle}{' '}
+              {Candidature.UnitéPuissance.bind(unitéPuissance).formatter()}
+            </li>
+            {prixReference && (
+              <li>
+                <span className="font-bold">Prix :</span> {prixReference} €/MWh
+              </li>
+            )}
+            {utilisateursAyantAccèsAuProjet.length && (
+              <li>
+                <span className="font-bold">Utilisateurs ayant accès au projet :</span>
+                <ul className="list-disc pl-4">
+                  {utilisateursAyantAccèsAuProjet.map((email) => (
+                    <li key={email}>
+                      <CopyButton textToCopy={email} />
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            )}
+          </ul>
+        </section>
+      ),
+    }}
+    rightColumn={{
+      children: (
+        <>
+          {mapToActionComponents({
+            actions,
+            identifiantProjet,
+          })}
+        </>
+      ),
+    }}
+  />
+);
 
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<DétailsProjetÉliminéActions>;

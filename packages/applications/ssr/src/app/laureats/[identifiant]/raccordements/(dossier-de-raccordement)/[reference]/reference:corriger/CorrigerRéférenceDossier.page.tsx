@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import {
   CorrigerRéférenceDossierForm,
@@ -12,7 +12,7 @@ export type CorrigerRéférenceDossierPageProps = CorrigerRéférenceDossierForm
 
 export const CorrigerRéférenceDossierPage: FC<CorrigerRéférenceDossierPageProps> = (props) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={props.identifiantProjet} />}
+    banner={<ProjetLauréatBanner identifiantProjet={props.identifiantProjet} />}
     leftColumn={{
       children: (
         <CorrigerRéférenceDossierForm

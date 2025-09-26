@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
@@ -37,7 +37,9 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
 }) => (
   <ColumnPageTemplate
     banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+      <ProjetLauréatBanner
+        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+      />
     }
     heading={
       <>

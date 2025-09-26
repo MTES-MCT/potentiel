@@ -1,7 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 
@@ -12,7 +12,7 @@ export type DemanderRecoursPageProps = DemanderRecoursFormProps;
 export const DemanderRecoursPage: FC<DemanderRecoursPageProps> = ({ identifiantProjet }) => {
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
       heading={<Heading1>Demander un recours pour le projet</Heading1>}
       leftColumn={{
         children: <DemanderRecoursForm identifiantProjet={identifiantProjet} />,

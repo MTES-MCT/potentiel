@@ -1,4 +1,4 @@
-import { IdentifiantProjet, Lauréat, StatutProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -191,10 +191,10 @@ export class LauréatWorld {
       coefficientKChoisi,
       unitéPuissance,
       statut: this.abandonWorld.accorderAbandonFixture.aÉtéCréé
-        ? StatutProjet.abandonné
+        ? Lauréat.StatutLauréat.abandonné
         : this.#achèvementWorld.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé
-          ? StatutProjet.achevé
-          : StatutProjet.actif,
+          ? Lauréat.StatutLauréat.achevé
+          : Lauréat.StatutLauréat.actif,
       autorisationDUrbanisme,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé

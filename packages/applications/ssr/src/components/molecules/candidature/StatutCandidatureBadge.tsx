@@ -2,21 +2,18 @@ import { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 
-const convertStatutProjetToBadgeSeverity: Record<
-  StatutProjetBadgeProps['statut'],
+const convertStatutCandidatureToBadgeSeverity: Record<
+  StatutCandidatureBadgeProps['statut'],
   AlertProps.Severity
 > = {
-  actif: 'success',
   classé: 'success',
-  abandonné: 'warning',
-  achevé: 'success',
   'non-notifié': 'info',
   éliminé: 'error',
 };
 
-const getStatutProjetBadgeLabel = (statut: StatutProjetBadgeProps['statut']): string => {
+const getStatutCandidatureBadgeLabel = (statut: StatutCandidatureBadgeProps['statut']): string => {
   if (statut === 'non-notifié') return 'à notifier';
   return statut;
 };
@@ -29,28 +26,27 @@ const getTypeActionnariat = (actionnariat?: Candidature.TypeActionnariat.RawType
         .join('')
     : undefined;
 
-type StatutProjetBadgeProps = {
-  statut:
-    | Lauréat.StatutLauréat.RawType
-    | Candidature.StatutCandidature.RawType
-    | 'éliminé'
-    | 'non-notifié';
+type StatutCandidatureBadgeProps = {
+  statut: Candidature.StatutCandidature.RawType | 'non-notifié';
   actionnariat?: Candidature.TypeActionnariat.RawType;
 };
 
-export const StatutProjetBadge: FC<StatutProjetBadgeProps> = ({ statut, actionnariat }) => (
+export const StatutCandidatureBadge: FC<StatutCandidatureBadgeProps> = ({
+  statut,
+  actionnariat,
+}) => (
   <>
     <Badge
       small
       noIcon
-      severity={convertStatutProjetToBadgeSeverity[statut]}
+      severity={convertStatutCandidatureToBadgeSeverity[statut]}
       className="print:hidden"
     >
-      {getStatutProjetBadgeLabel(statut)}
+      {getStatutCandidatureBadgeLabel(statut)}
       {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
     </Badge>
     <div className="hidden print:block text-theme-black ">
-      {getStatutProjetBadgeLabel(statut)}
+      {getStatutCandidatureBadgeLabel(statut)}
       {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
     </div>
   </>

@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 
 import { ProjetEntity } from '../projet.entity';
-import { StatutProjet, IdentifiantProjet } from '../..';
+import { IdentifiantProjet } from '../..';
 
 export type ListerProjetsEligiblesPreuveRecanditureReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -11,7 +11,6 @@ export type ListerProjetsEligiblesPreuveRecanditureReadModel = Array<{
   période: string;
   famille: string;
   numéroCRE: string;
-  statut: StatutProjet.ValueType;
   nom: string;
   dateDésignation: DateTime.RawType;
 }>;
@@ -52,7 +51,6 @@ const mapToReadModel = ({
   nom,
   numéroCRE,
   période,
-  statut,
   dateDésignation,
 }: ProjetEntity): ListerProjetsEligiblesPreuveRecanditureReadModel[number] => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(
@@ -63,6 +61,5 @@ const mapToReadModel = ({
   famille,
   numéroCRE,
   nom,
-  statut: StatutProjet.convertirEnValueType(statut),
   dateDésignation,
 });

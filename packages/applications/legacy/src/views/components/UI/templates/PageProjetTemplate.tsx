@@ -6,6 +6,7 @@ import routes from '../../../../routes';
 import type { Candidature } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { match, P } from 'ts-pattern';
 
 export type RésuméProjet = {
   appelOffre: string;
@@ -70,18 +71,11 @@ const EntêteProjet: FC<RésuméProjet> = ({
   </div>
 );
 
-const getBadgeType = (statut: Lauréat.StatutLauréat.RawType | 'éliminé'): BadgeType => {
-  switch (statut) {
-    case 'abandonné':
-      return 'warning';
-    case 'actif':
-      return 'success';
-    case 'achevé':
-      return 'success';
-    case 'éliminé':
-      return 'error';
-  }
-};
+const getBadgeType = (statut: Lauréat.StatutLauréat.RawType): BadgeType =>
+  match(statut)
+    .with('abandonné', () => 'warning' as BadgeType)
+    .with(P.union('actif', 'achevé'), () => 'success' as BadgeType)
+    .exhaustive();
 
 const StatutProjetBadge: FC<{
   statut: Lauréat.StatutLauréat.RawType;

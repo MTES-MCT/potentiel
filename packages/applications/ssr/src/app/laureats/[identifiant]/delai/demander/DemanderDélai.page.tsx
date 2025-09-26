@@ -4,7 +4,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading1 } from '@/components/atoms/headings';
 
@@ -19,7 +19,7 @@ export const DemanderDélaiPage: FC<DemanderDélaiPageProps> = ({
   dateAchèvementPrévisionnelActuelle,
 }) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
     heading={
       <>
         <Heading1>Demander un délai</Heading1>

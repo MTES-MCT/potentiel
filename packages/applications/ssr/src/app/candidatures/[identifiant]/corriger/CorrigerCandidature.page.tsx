@@ -7,8 +7,8 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
-import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 
 import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './CorrigerCandidature.form';
 
@@ -38,7 +38,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
           href={Routes.Projet.details(identifiantProjet.formatter())}
           badge={
             <div className="flex gap-2">
-              {candidature.statut && <StatutProjetBadge statut={candidature.statut} />}
+              {candidature.statut && <StatutCandidatureBadge statut={candidature.statut} />}
               <NotificationBadge estNotifié={estNotifiée} />
             </div>
           }

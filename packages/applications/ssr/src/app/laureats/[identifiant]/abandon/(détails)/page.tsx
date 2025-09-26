@@ -224,7 +224,7 @@ const getProjetsÀSélectionner = async ({
     .filter((p) => !p.identifiantProjet.estÉgaleÀ(identifiantProjet))
     .map((projet) => ({
       ...projet,
-      statut: projet.statut.statut,
+      statut: 'actif',
       identifiantProjet: projet.identifiantProjet.formatter(),
     }));
 };
