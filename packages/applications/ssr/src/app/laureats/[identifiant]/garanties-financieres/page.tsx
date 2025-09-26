@@ -150,7 +150,6 @@ const mapToActionsAndInfos = ({
   utilisateur,
   actuelles,
   dépôtEnCours,
-  mainlevéesRejetées,
   mainlevée,
 }: Props): Pick<DétailsGarantiesFinancièresPageProps, 'actions' | 'infos'> => {
   const actions: ActionGarantiesFinancières[] = [];
@@ -164,13 +163,11 @@ const mapToActionsAndInfos = ({
   const aUnDépôtEnCours = Option.isSome(dépôtEnCours);
 
   if (Option.isSome(mainlevée)) {
-    if (mainlevée.statut.estAccordé() || mainlevée.statut.estRejeté()) {
-      actions.push('garantiesFinancières.mainlevée.corrigerRéponseSignée');
-    } else {
-      if (mainlevée.statut.estDemandé()) {
-        actions.push('garantiesFinancières.mainlevée.annuler');
-        actions.push('garantiesFinancières.mainlevée.démarrerInstruction');
-      }
+    if (mainlevée.statut.estDemandé()) {
+      actions.push('garantiesFinancières.mainlevée.annuler');
+      actions.push('garantiesFinancières.mainlevée.démarrerInstruction');
+    }
+    if (!mainlevée.statut.estAccordé() && !mainlevée.statut.estRejeté()) {
       actions.push('garantiesFinancières.mainlevée.accorder');
       actions.push('garantiesFinancières.mainlevée.rejeter');
 
@@ -219,10 +216,6 @@ const mapToActionsAndInfos = ({
     ) {
       actions.push('garantiesFinancières.dépôt.soumettre');
     }
-  }
-
-  if (mainlevéesRejetées.total > 0) {
-    actions.push('garantiesFinancières.mainlevée.corrigerRéponseSignée');
   }
 
   // TODO ETQ dreal si historique mainlevée rejetée modifier-courrier-réponse-mainlevée-gf

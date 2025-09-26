@@ -32,7 +32,6 @@ const actions = [
   'garantiesFinancières.mainlevée.démarrerInstruction',
   'garantiesFinancières.mainlevée.accorder',
   'garantiesFinancières.mainlevée.rejeter',
-  'garantiesFinancières.mainlevée.corrigerRéponseSignée',
   'garantiesFinancières.dépôt.soumettre',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.valider',
@@ -134,10 +133,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
               />
             )}
             {mainlevéesRejetées.length > 0 && (
-              <HistoriqueMainlevéeRejetée
-                mainlevéesRejetées={mainlevéesRejetées}
-                actions={actions}
-              />
+              <HistoriqueMainlevéeRejetée mainlevéesRejetées={mainlevéesRejetées} />
             )}
           </div>
         </SectionGarantiesFinancières>
