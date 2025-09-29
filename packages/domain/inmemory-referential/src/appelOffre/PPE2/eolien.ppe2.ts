@@ -71,7 +71,7 @@ export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   changement: {
     représentantLégal: {
       demande: true,
-      instructionAutomatique: 'rejet',
+      instructionAutomatique: 'accord',
     },
     actionnaire: {
       informationEnregistrée: true,
@@ -170,6 +170,12 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '2',
@@ -200,6 +206,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '3',
@@ -225,6 +237,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '4',
@@ -242,6 +260,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '5',
@@ -259,6 +283,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '6',
@@ -276,6 +306,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '7',
@@ -293,6 +329,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '8',
@@ -310,6 +352,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      changement: {
+        représentantLégal: {
+          demande: true,
+          instructionAutomatique: 'rejet',
+        },
+      },
     },
     {
       id: '9',
@@ -327,14 +375,26 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
-      changement: {
-        représentantLégal: {
-          demande: true,
-          instructionAutomatique: 'accord',
-        },
+    },
+    {
+      id: '10',
+      title: 'dixième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: '2025/S 322887-2025',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
+      cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      champsSupplémentaires: {
+        coefficientKChoisi: 'requis',
       },
     },
-    // ℹ️ représentation légal sera réputé accordé à partir de la P9, à garder par la suite
-    // ℹ️ à partir de la P10, penser à activer champsSupplémentaires: {coefficientKChoisi: "requis"}
   ],
 };
