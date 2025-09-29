@@ -93,11 +93,11 @@ export const mapApiResponseToDépôt = ({
       nomChampNuméro: 'numéro',
       nomChampDate: 'date',
     }),
+    typologieInstallation: getTypologieInstallation(champs),
 
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
     fournisseurs: [],
-    typologieInstallation: getTypologieInstallation(champs),
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
