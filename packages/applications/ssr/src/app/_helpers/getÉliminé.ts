@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
-import { Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -10,7 +10,7 @@ export type GetÉliminéReadModel = {
   nomProjet: string;
   localité: Candidature.Localité.ValueType;
   notifiéLe: Option.Type<DateTime.ValueType>;
-  statut: Lauréat.StatutLauréat.RawType | 'éliminé';
+  statut: 'éliminé';
 };
 
 export type GetÉliminé = (identifiantProjet: string) => Promise<GetÉliminéReadModel>;

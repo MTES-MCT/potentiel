@@ -5,13 +5,15 @@ import { Email } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
-import { CandidatureListItemHeading } from '@/components/molecules/candidature/CandidatureListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
+import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 
-import * as symbols from './candidatureListLegendSymbols';
 import {
   CandidatureListItemActions,
   CandidatureListItemActionsProps,
 } from './CandidatureListItemActions';
+import * as symbols from './candidatureListLegendSymbols';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -52,13 +54,16 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
 }) => (
   <div className="flex flex-1 flex-col gap-6">
     <div className="flex gap-4 items-start justify-between">
-      <CandidatureListItemHeading
+      <ProjectListItemHeading
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
         prefix="Candidature du projet"
-        statut={statut.statut}
-        estNotifié={estNotifiée}
-        actionnariat={actionnariat?.type}
+        statutBadge={
+          <>
+            <StatutCandidatureBadge statut={statut.statut} actionnariat={actionnariat?.type} />
+            {estNotifiée !== undefined && <NotificationBadge estNotifié={estNotifiée} />}
+          </>
+        }
       />
       <div className="max-md:hidden">
         <CandidatureListItemActions
