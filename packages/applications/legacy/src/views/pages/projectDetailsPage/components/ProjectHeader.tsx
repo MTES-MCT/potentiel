@@ -1,3 +1,4 @@
+import React from 'react';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Heading1 } from '../../../components';
