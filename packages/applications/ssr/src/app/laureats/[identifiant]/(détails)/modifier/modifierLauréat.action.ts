@@ -25,11 +25,9 @@ const schema = modifierLauréatEtCandidatureSchéma;
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const { identifiantProjet, candidature, laureat, doitRegenererAttestation } = body;
-    console.log('viovio candidature', candidature);
 
     if (candidature) {
       const candidatureACorriger = await getCandidature(identifiantProjet);
-      console.log('viovio corriger', candidatureACorriger);
 
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',
@@ -239,7 +237,10 @@ const mapBodyToCandidatureUsecaseData = (
       puissanceALaPointe: data.puissanceALaPointe ?? previous.puissanceALaPointe,
       evaluationCarboneSimplifiée:
         data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
-      actionnariat: data.actionnariat ?? previous.actionnariat?.formatter(),
+      actionnariat:
+        data.actionnariat === ''
+          ? undefined
+          : (data.actionnariat ?? previous.actionnariat?.formatter()),
       coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite ?? previous.puissanceDeSite,
       autorisationDUrbanisme: previous.autorisationDUrbanisme

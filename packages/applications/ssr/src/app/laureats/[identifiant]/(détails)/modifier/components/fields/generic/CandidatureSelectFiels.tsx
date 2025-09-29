@@ -30,8 +30,6 @@ export const CandidatureSelectField = <T extends string | number>({
   const candidatureLabel = String(
     options.find((option) => option.value === candidatureValue)?.label,
   );
-  console.log(candidature);
-  console.log(candidatureValue === candidature);
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">

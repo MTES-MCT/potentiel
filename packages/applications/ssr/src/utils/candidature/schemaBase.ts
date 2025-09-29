@@ -58,6 +58,15 @@ export const optionalEnum = <TEnumSchema extends Readonly<Record<string, string>
         .optional(),
     );
 
+export const optionalEnumForCorrection = <TEnumSchema extends Readonly<Record<string, string>>>(
+  enumSchema: z.ZodEnum<TEnumSchema>,
+) =>
+  z
+    .string()
+    .toLowerCase()
+    .optional()
+    .pipe(z.union([enumSchema, z.literal('')]).optional());
+
 /**
  * @param field Le champ validé
  * @param referenceField Le champs dont dépend la validation de `field`

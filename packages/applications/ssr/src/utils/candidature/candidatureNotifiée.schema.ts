@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 import {
-  actionnariatSchema,
   adresse1Schema,
   adresse2Schema,
   codePostalSchema,
@@ -27,7 +26,9 @@ import {
   installateurSchema,
   installationAvecDispositifDeStockageSchema,
   natureDeLExploitationOptionalSchema,
+  actionnariatCorrigerCandidatureSchema,
 } from './candidatureFields.schema';
+
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
   adresse2: adresse2Schema,
@@ -36,7 +37,8 @@ const localitéSchema = z.object({
   departement: départementSchema,
   region: régionSchema,
 });
-export const candidatureNotifiéeSchema = z
+
+const candidatureNotifiéeSchema = z
   .object({
     actionnaire: sociétéMèreSchema,
     nomRepresentantLegal: nomReprésentantLégalSchema,
@@ -46,7 +48,7 @@ export const candidatureNotifiéeSchema = z
     noteTotale: noteTotaleSchema,
     evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
     emailContact: emailContactSchema,
-    actionnariat: actionnariatSchema,
+    actionnariat: actionnariatCorrigerCandidatureSchema,
     nomProjet: nomProjetSchema,
     puissanceALaPointe: puissanceALaPointeSchema,
     puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
