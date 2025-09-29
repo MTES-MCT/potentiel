@@ -31,7 +31,7 @@ const paramsSchema = z.object({
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Délai.StatutDemandeDélai.statuts)),
-  autoriteInstructrice: z.enum(Lauréat.Délai.AutoritéCompétente.autoritésCompétentes).optional(),
+  autoriteCompetente: z.enum(Lauréat.Délai.AutoritéCompétente.autoritésCompétentes).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -39,7 +39,7 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut, autoriteInstructrice } =
+      const { page, nomProjet, appelOffre, statut, autoriteCompetente } =
         paramsSchema.parse(searchParams);
 
       const changements = await mediator.send<Lauréat.Délai.ListerDemandeDélaiQuery>({
@@ -55,7 +55,7 @@ export default async function Page({ searchParams }: PageProps) {
             : undefined,
           appelOffre,
           nomProjet,
-          autoriteInstructrice,
+          autoritéCompétente: autoriteCompetente,
         },
       });
 
@@ -87,8 +87,8 @@ export default async function Page({ searchParams }: PageProps) {
         },
 
         {
-          label: 'Autorité instructrice',
-          searchParamKey: 'autoriteInstructrice',
+          label: 'Autorité compétente',
+          searchParamKey: 'autoriteCompetente',
           options: Lauréat.Délai.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
             label: match(autorité)
               .with('dreal', () => 'DREAL')

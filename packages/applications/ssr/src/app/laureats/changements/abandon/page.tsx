@@ -123,7 +123,7 @@ export default async function Page({ searchParams }: PageProps) {
             })),
         },
         {
-          label: 'Autorité instructrice',
+          label: 'Autorité compétente',
           searchParamKey: 'autorite',
           options: Lauréat.Abandon.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
             label: match(autorité)
