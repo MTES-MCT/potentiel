@@ -5,8 +5,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { AbstractFixture } from '../../../fixture';
 import { getFakeLocation } from '../../../helpers/getFakeLocation';
 
-export interface ModifierLauréat {
-  readonly nomProjet: string;
+export interface ModifierSiteDeProduction {
   readonly modifiéLe: string;
   readonly modifiéPar: string;
   readonly localité: {
@@ -19,16 +18,10 @@ export interface ModifierLauréat {
   };
 }
 
-export class ModifierLauréatFixture
-  extends AbstractFixture<ModifierLauréat>
-  implements ModifierLauréat
+export class ModifierSiteDeProductionFixture
+  extends AbstractFixture<ModifierSiteDeProduction>
+  implements ModifierSiteDeProduction
 {
-  #nomProjet!: string;
-
-  get nomProjet(): string {
-    return this.#nomProjet;
-  }
-
   #modifiéLe!: string;
 
   get modifiéLe(): string {
@@ -40,17 +33,16 @@ export class ModifierLauréatFixture
     return this.#modifiéPar;
   }
 
-  #localité!: ModifierLauréat['localité'];
+  #localité!: ModifierSiteDeProduction['localité'];
 
-  get localité(): ModifierLauréat['localité'] {
+  get localité(): ModifierSiteDeProduction['localité'] {
     return this.#localité;
   }
 
   créer(
-    partialFixture: Partial<Readonly<ModifierLauréat>> & { modifiéPar: string },
-  ): Readonly<ModifierLauréat> {
+    partialFixture: Partial<Readonly<ModifierSiteDeProduction>> & { modifiéPar: string },
+  ): Readonly<ModifierSiteDeProduction> {
     const fixture = {
-      nomProjet: faker.person.fullName(),
       modifiéLe: faker.date.recent().toISOString(),
       localité: {
         adresse1: faker.location.streetAddress(),
@@ -60,7 +52,6 @@ export class ModifierLauréatFixture
       ...partialFixture,
     };
 
-    this.#nomProjet = fixture.nomProjet;
     this.#localité = fixture.localité;
     this.#modifiéLe = fixture.modifiéLe;
     this.#modifiéPar = fixture.modifiéPar;
@@ -75,7 +66,6 @@ export class ModifierLauréatFixture
       return {};
     }
     return {
-      nomProjet: this.nomProjet,
       localité: Candidature.Localité.bind(this.localité),
     };
   }

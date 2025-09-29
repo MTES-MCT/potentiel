@@ -26,6 +26,7 @@ import { GetInstallateurForProjectPage } from '../../../../../controllers/projec
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
 import { GetNatureDeLExploitationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
+import { InfoSiteDeProduction, InfoSiteDeProductionProps } from './InfoSiteDeProduction';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -43,6 +44,7 @@ export type InfoGeneralesProps = {
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
   installationAvecDispositifDeStockage?: GetInstallationAvecDispositifDeStockageForProjectPage;
   natureDeLExploitation?: GetNatureDeLExploitationForProjectPage;
+  siteDeProduction: InfoSiteDeProductionProps;
 };
 
 export const InfoGenerales = ({
@@ -55,11 +57,6 @@ export const InfoGenerales = ({
     unitePuissance,
     isClasse,
     désignationCatégorie,
-    codePostalProjet,
-    communeProjet,
-    regionProjet,
-    departementProjet,
-    adresseProjet,
     prixReference,
   },
   raccordement,
@@ -76,6 +73,7 @@ export const InfoGenerales = ({
   installateur,
   installationAvecDispositifDeStockage,
   natureDeLExploitation,
+  siteDeProduction,
 }: InfoGeneralesProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -132,16 +130,12 @@ export const InfoGenerales = ({
           role={role}
         />
       ) : null}
-      <div>
-        <Heading3 className="m-0">Site de production</Heading3>
-        <div>{adresseProjet}</div>
-        <div>
-          {codePostalProjet} {communeProjet}
-        </div>
-        <div>
-          {departementProjet}, {regionProjet}
-        </div>
-      </div>
+
+      <InfoSiteDeProduction
+        localité={siteDeProduction.localité}
+        affichage={siteDeProduction.affichage}
+      />
+
       {autorisationDUrbanisme !== undefined ? (
         <div>
           <Heading3 className="m-0">Autorisation d'urbanisme</Heading3>

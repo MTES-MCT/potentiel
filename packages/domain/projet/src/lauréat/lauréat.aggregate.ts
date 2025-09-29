@@ -15,8 +15,8 @@ import {
   LauréatNotifiéV1Event,
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event';
-import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
-import { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
+import { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
+import { ModifierSiteDeProductionOptions } from './modifier/modifierSiteDeProduction.option';
 import {
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
@@ -47,6 +47,8 @@ import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallateurAggregate } from './installateur/installateur.aggregate';
 import { InstallationAvecDispositifDeStockageAggregate } from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.aggregate';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
+import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
+import { ModifierNomProjetOptions } from './modifier/modifierNomProjet.option';
 
 export class LauréatAggregate extends AbstractAggregate<
   LauréatEvent,
@@ -345,25 +347,42 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.achèvement.calculerDateAchèvementPrévisionnel({ type: 'notification' });
   }
 
-  async modifier({
-    identifiantProjet,
+  async modifierSiteDeProduction({
     modifiéLe,
     modifiéPar,
-    nomProjet,
     localité,
-  }: ModifierLauréatOptions) {
+    raison,
+  }: ModifierSiteDeProductionOptions) {
     this.vérifierQueLeLauréatExiste();
-    if (this.#nomProjet === nomProjet && this.#localité?.estÉgaleÀ(localité)) {
+    if (this.#localité?.estÉgaleÀ(localité)) {
       throw new LauréatNonModifiéError();
     }
-    const event: LauréatModifiéEvent = {
-      type: 'LauréatModifié-V1',
+    const event: SiteDeProductionModifiéEvent = {
+      type: 'SiteDeProductionModifié-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+        localité: localité.formatter(),
+        ...(raison ? { raison } : {}),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async modifierNomProjet({ modifiéLe, modifiéPar, nomProjet }: ModifierNomProjetOptions) {
+    this.vérifierQueLeLauréatExiste();
+    if (this.#nomProjet === nomProjet) {
+      throw new LauréatNonModifiéError();
+    }
+    const event: NomProjetModifiéEvent = {
+      type: 'NomProjetModifié-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
         nomProjet,
-        localité: localité.formatter(),
       },
     };
 
@@ -495,7 +514,10 @@ export class LauréatAggregate extends AbstractAggregate<
         this.applyNomEtlocalitéLauréatImportés(event),
       )
       .with({ type: 'LauréatNotifié-V2' }, (event) => this.applyLauréatNotifié(event))
-      .with({ type: 'LauréatModifié-V1' }, (event) => this.applyLauréatModifié(event))
+      .with({ type: 'SiteDeProductionModifié-V1' }, (event) =>
+        this.applySitedeProductionModifié(event),
+      )
+      .with({ type: 'NomProjetModifié-V1' }, (event) => this.applyNomProjetModifié(event))
       .with({ type: 'CahierDesChargesChoisi-V1' }, (event) =>
         this.applyCahierDesChargesChoisi(event),
       )
@@ -523,9 +545,12 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#localité = Candidature.Localité.bind(localité);
   }
 
-  private applyLauréatModifié({ payload: { nomProjet, localité } }: LauréatModifiéEvent) {
-    this.#nomProjet = nomProjet;
+  private applySitedeProductionModifié({ payload: { localité } }: SiteDeProductionModifiéEvent) {
     this.#localité = Candidature.Localité.bind(localité);
+  }
+
+  private applyNomProjetModifié({ payload: { nomProjet } }: NomProjetModifiéEvent) {
+    this.#nomProjet = nomProjet;
   }
 
   private applyCahierDesChargesChoisi({

@@ -4,17 +4,13 @@ import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
-import {
-  GetActionnaireAffichageForProjectPage,
-  GetInstallationAvecDispositifDeStockageForProjectPage,
-  GetNatureDeLExploitationForProjectPage,
-  GetReprésentantLégalForProjectPage,
-} from '../../../../controllers/project/getProjectPage/_utils';
-import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
-import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
-import { GetFournisseurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getFournisseur';
-import { GetInstallateurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getInstallateur';
 import { Lauréat } from '@potentiel-domain/projet';
+
+type Affichage = {
+  label?: string;
+  labelActions?: string;
+  url: string;
+};
 
 export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
@@ -23,21 +19,19 @@ export type ProjectHeaderProps = {
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   estAchevé: boolean;
-  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
-  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
-  producteurAffichage?: GetProducteurForProjectPage['affichage'];
-  actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
-  fournisseurAffichage?: GetFournisseurForProjectPage['affichage'];
-  installateurAffichage?: GetInstallateurForProjectPage['affichage'];
-  installationAvecDispositifDeStockageAffichage?: GetInstallationAvecDispositifDeStockageForProjectPage['affichage'];
-  natureDeLExploitationAffichage?: GetNatureDeLExploitationForProjectPage['affichage'];
-  délaiAffichage?: {
-    label?: string;
-    labelActions: string;
-    url: string;
-  };
-  features: Array<string>;
   statutLauréat: Lauréat.StatutLauréat.RawType;
+  features: Array<string>;
+
+  représentantLégalAffichage?: Affichage;
+  puissanceAffichage?: Affichage;
+  producteurAffichage?: Affichage;
+  actionnaireAffichage?: Affichage;
+  fournisseurAffichage?: Affichage;
+  installateurAffichage?: Affichage;
+  installationAvecDispositifDeStockageAffichage?: Affichage;
+  natureDeLExploitationAffichage?: Affichage;
+  délaiAffichage?: Affichage;
+  siteDeProductionAffichage?: Affichage;
 };
 
 export const ProjectHeader = ({
@@ -53,6 +47,7 @@ export const ProjectHeader = ({
   producteurAffichage,
   fournisseurAffichage,
   installateurAffichage,
+  siteDeProductionAffichage,
   délaiAffichage,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
@@ -100,6 +95,7 @@ export const ProjectHeader = ({
           installationAvecDispositifDeStockageAffichage
         }
         natureDeLExploitationAffichage={natureDeLExploitationAffichage}
+        siteDeProductionAffichage={siteDeProductionAffichage}
       />
     </div>
   </div>

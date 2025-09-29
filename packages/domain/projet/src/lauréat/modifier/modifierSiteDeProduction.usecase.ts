@@ -4,38 +4,38 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Localité } from '../../candidature';
 
-import { ModifierLauréatCommand } from './modifierLauréat.command';
+import { ModifierSiteDeProductionCommand } from './modifierSiteDeProduction.command';
 
-export type ModifierLauréatUseCase = Message<
-  'Lauréat.UseCase.ModifierLauréat',
+export type ModifierSiteDeProductionUseCase = Message<
+  'Lauréat.UseCase.ModifierSiteDeProduction',
   {
     identifiantProjetValue: string;
     modifiéLeValue: string;
     modifiéParValue: string;
-    nomProjetValue: string;
     localitéValue: Localité.RawType;
+    raisonValue: string | undefined;
   }
 >;
 
-export const registerModifierLauréatUseCase = () => {
-  const handler: MessageHandler<ModifierLauréatUseCase> = async ({
+export const registerModifierSiteDeProductionUseCase = () => {
+  const handler: MessageHandler<ModifierSiteDeProductionUseCase> = async ({
     identifiantProjetValue,
-    nomProjetValue,
     modifiéLeValue,
     modifiéParValue,
     localitéValue,
+    raisonValue,
   }) => {
-    await mediator.send<ModifierLauréatCommand>({
-      type: 'Lauréat.Command.ModifierLauréat',
+    await mediator.send<ModifierSiteDeProductionCommand>({
+      type: 'Lauréat.Command.ModifierSiteDeProduction',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        nomProjet: nomProjetValue,
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
         localité: Localité.bind(localitéValue),
+        raison: raisonValue,
       },
     });
   };
 
-  mediator.register('Lauréat.UseCase.ModifierLauréat', handler);
+  mediator.register('Lauréat.UseCase.ModifierSiteDeProduction', handler);
 };

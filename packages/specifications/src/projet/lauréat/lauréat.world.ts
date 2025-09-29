@@ -7,7 +7,7 @@ import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 import { ActionnaireWorld } from './actionnaire/actionnaire.world';
 import { AchèvementWorld } from './achèvement/achèvement.world';
-import { ModifierLauréatFixture } from './fixtures/modifierLauréat.fixture';
+import { ModifierNomProjetFixture } from './fixtures/modifierNomProjet.fixture';
 import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
 import { PuissanceWorld } from './puissance/puissance.world';
 import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture';
@@ -18,6 +18,7 @@ import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFin
 import { InstallateurWorld } from './installateur/installateur.world';
 import { InstallationAvecDispositifDeStockageWorld } from './installation-avec-dispositif-de-stockage/stepDefinitions/installationAvecDispositifDeStockage.world';
 import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
+import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture';
 
 type LauréatFixture = {
   nom: string;
@@ -38,9 +39,13 @@ export class LauréatWorld {
     return this.#notifierLauréatFixture;
   }
 
-  #modifierLauréatFixture: ModifierLauréatFixture;
-  get modifierLauréatFixture() {
-    return this.#modifierLauréatFixture;
+  #modifierSiteDeProductionFixture: ModifierSiteDeProductionFixture;
+  get modifierSiteDeProductionFixture() {
+    return this.#modifierSiteDeProductionFixture;
+  }
+  #modifierNomProjetFixture: ModifierNomProjetFixture;
+  get modifierNomProjetFixture() {
+    return this.#modifierNomProjetFixture;
   }
 
   #choisirCahierDesChargesFixture: ChoisirCahierDesChargesFixture;
@@ -161,7 +166,8 @@ export class LauréatWorld {
     this.#natureDeLExploitationWorld = new NatureDeLExploitationWorld(this);
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
-    this.#modifierLauréatFixture = new ModifierLauréatFixture();
+    this.#modifierSiteDeProductionFixture = new ModifierSiteDeProductionFixture();
+    this.#modifierNomProjetFixture = new ModifierNomProjetFixture();
     this.#choisirCahierDesChargesFixture = new ChoisirCahierDesChargesFixture();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
@@ -183,7 +189,8 @@ export class LauréatWorld {
     const expected: Lauréat.ConsulterLauréatReadModel = {
       identifiantProjet: this.identifiantProjet,
       ...this.notifierLauréatFixture.mapToExpected(),
-      ...this.modifierLauréatFixture.mapToExpected(),
+      ...this.modifierSiteDeProductionFixture.mapToExpected(),
+      ...this.modifierNomProjetFixture.mapToExpected(),
       emailContact,
       nomCandidat,
       technologie,

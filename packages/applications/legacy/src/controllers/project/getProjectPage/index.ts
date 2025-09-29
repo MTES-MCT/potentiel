@@ -29,6 +29,7 @@ import {
   getDateAchèvementPrévisionnel,
   getInstallationAvecDispositifDeStockage,
   getNatureDeLExploitation,
+  getSiteDeProduction,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -308,6 +309,11 @@ v1Router.get(
             rôle: user.role,
           }),
           statutLauréat: lauréat.statut.statut,
+          siteDeProduction: getSiteDeProduction({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: role,
+            project,
+          }),
         }),
       );
     },

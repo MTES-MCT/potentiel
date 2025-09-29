@@ -6,9 +6,10 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 
 import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
 import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
-import { lauréatModifiéProjector } from './lauréatModifié.projector';
+import { siteDeProductionModifiéProjector } from './siteDeProductionModifié.projector';
 import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector';
 import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projector';
+import { nomProjetModifiéProjector } from './nomProjetModifié.projector';
 
 export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
 
@@ -21,7 +22,8 @@ export const register = () => {
       .with({ type: 'LauréatNotifié-V1' }, lauréatNotifiéV1Projector)
       .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, nomEtLocalitéLauréatImportésProjector)
       .with({ type: 'LauréatNotifié-V2' }, lauréatNotifiéProjector)
-      .with({ type: 'LauréatModifié-V1' }, lauréatModifiéProjector)
+      .with({ type: 'NomProjetModifié-V1' }, nomProjetModifiéProjector)
+      .with({ type: 'SiteDeProductionModifié-V1' }, siteDeProductionModifiéProjector)
       .with({ type: 'CahierDesChargesChoisi-V1' }, cahierDesChargesChoisiProjector)
       .exhaustive();
 

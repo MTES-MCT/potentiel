@@ -12,7 +12,6 @@ import { getCandidature } from '@/app/_helpers';
 import {
   modifierLauréatEtCandidatureSchéma,
   PartialModifierCandidatureNotifiéeFormEntries,
-  PartialModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
 import {
   getLauréatInfos,
@@ -149,22 +148,41 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      const lauréatAÉtéModifié =
+      const siteDeProductionModifié =
         laureat.adresse1 != undefined ||
         laureat.adresse2 != undefined ||
-        laureat.nomProjet != undefined ||
         laureat.codePostal != undefined ||
         laureat.commune != undefined ||
         laureat.departement != undefined ||
         laureat.region != undefined;
 
-      if (lauréatAÉtéModifié) {
+      if (siteDeProductionModifié) {
         const lauréatAModifier = await getLauréatInfos({ identifiantProjet });
 
-        await mediator.send<Lauréat.ModifierLauréatUseCase>({
-          type: 'Lauréat.UseCase.ModifierLauréat',
+        await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
+          type: 'Lauréat.UseCase.ModifierSiteDeProduction',
           data: {
-            ...mapBodyToLauréatUsecaseData(identifiantProjet, laureat, lauréatAModifier),
+            identifiantProjetValue: identifiantProjet,
+            localitéValue: {
+              adresse1: laureat.adresse1 ?? lauréatAModifier.localité.adresse1,
+              adresse2: laureat.adresse2 ?? lauréatAModifier.localité.adresse2,
+              codePostal: laureat.codePostal ?? lauréatAModifier.localité.codePostal,
+              commune: laureat.commune ?? lauréatAModifier.localité.commune,
+              département: laureat.departement ?? lauréatAModifier.localité.département,
+              région: laureat.region ?? lauréatAModifier.localité.région,
+            },
+            raisonValue: undefined,
+            modifiéLeValue: DateTime.now().formatter(),
+            modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+          },
+        });
+      }
+      if (laureat.nomProjet) {
+        await mediator.send<Lauréat.ModifierNomProjetUseCase>({
+          type: 'Lauréat.UseCase.ModifierNomProjet',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            nomProjetValue: laureat.nomProjet,
             modifiéLeValue: DateTime.now().formatter(),
             modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
@@ -253,24 +271,5 @@ const mapBodyToCandidatureUsecaseData = (
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
-  };
-};
-
-const mapBodyToLauréatUsecaseData = (
-  identifiantProjet: string,
-  data: PartialModifierLauréatValueFormEntries,
-  previous: Lauréat.ConsulterLauréatReadModel,
-): Omit<Lauréat.ModifierLauréatUseCase['data'], 'modifiéLeValue' | 'modifiéParValue'> => {
-  return {
-    identifiantProjetValue: identifiantProjet,
-    nomProjetValue: data.nomProjet ?? previous.nomProjet,
-    localitéValue: {
-      adresse1: data.adresse1 ?? previous.localité.adresse1,
-      adresse2: data.adresse2 ?? previous.localité.adresse2,
-      codePostal: data.codePostal ?? previous.localité.codePostal,
-      commune: data.commune ?? previous.localité.commune,
-      département: data.departement ?? previous.localité.département,
-      région: data.region ?? previous.localité.région,
-    },
   };
 };

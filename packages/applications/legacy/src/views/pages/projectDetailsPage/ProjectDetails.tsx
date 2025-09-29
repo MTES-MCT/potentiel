@@ -37,7 +37,7 @@ import {
 import { DemandeAbandonEnCoursInfoBox } from './sections/DemandeEnCoursInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
 import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
@@ -75,6 +75,7 @@ type ProjectDetailsProps = {
   installationAvecDispositifDeStockage?: InfoGeneralesProps['installationAvecDispositifDeStockage'];
   natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
   statutLauréat: Lauréat.StatutLauréat.RawType;
+  siteDeProduction: InfoGeneralesProps['siteDeProduction'];
 };
 
 export const ProjectDetails = ({
@@ -102,6 +103,7 @@ export const ProjectDetails = ({
   installationAvecDispositifDeStockage,
   natureDeLExploitation,
   statutLauréat,
+  siteDeProduction,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -183,6 +185,7 @@ export const ProjectDetails = ({
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={estAchevé}
+        statutLauréat={statutLauréat}
         demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
         représentantLégalAffichage={représentantLégal?.affichage}
         puissanceAffichage={puissance?.affichage}
@@ -196,7 +199,7 @@ export const ProjectDetails = ({
           installationAvecDispositifDeStockage?.affichage
         }
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
-        statutLauréat={statutLauréat}
+        siteDeProductionAffichage={siteDeProduction?.affichage}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -259,6 +262,7 @@ export const ProjectDetails = ({
               installateur={installateur}
               installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
               natureDeLExploitation={natureDeLExploitation}
+              siteDeProduction={siteDeProduction}
             />
             <Contact
               identifiantProjet={identifiantProjet}

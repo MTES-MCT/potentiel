@@ -27,6 +27,7 @@ type EnregistrerUneModificationProps = Pick<
   | 'installateurAffichage'
   | 'installationAvecDispositifDeStockageAffichage'
   | 'natureDeLExploitationAffichage'
+  | 'siteDeProductionAffichage'
 >;
 
 const EnregistrerUneModification = ({
@@ -39,6 +40,7 @@ const EnregistrerUneModification = ({
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  siteDeProductionAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -87,6 +89,11 @@ const EnregistrerUneModification = ({
       {!!natureDeLExploitationAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={natureDeLExploitationAffichage.url}>
           <span>{natureDeLExploitationAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!siteDeProductionAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={siteDeProductionAffichage.url}>
+          <span>{siteDeProductionAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
     </DropdownMenuSecondaryButton>
@@ -239,6 +246,7 @@ const AdminActions = ({
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  siteDeProductionAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -255,6 +263,7 @@ const AdminActions = ({
             installationAvecDispositifDeStockageAffichage
           }
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
       {notifiedOn && isClasse ? (
@@ -303,6 +312,7 @@ type DrealActionsProps = Pick<
   | 'représentantLégalAffichage'
   | 'producteurAffichage'
   | 'fournisseurAffichage'
+  | 'siteDeProductionAffichage'
 >;
 
 const DrealActions = ({
@@ -311,6 +321,7 @@ const DrealActions = ({
   puissanceAffichage,
   actionnaireAffichage,
   producteurAffichage,
+  siteDeProductionAffichage,
 }: DrealActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -320,6 +331,7 @@ const DrealActions = ({
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
       <PrimaryButton onClick={() => window.print()}>
@@ -349,6 +361,7 @@ export const ProjectActions = ({
   features,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  siteDeProductionAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -374,6 +387,7 @@ export const ProjectActions = ({
             installationAvecDispositifDeStockageAffichage
           }
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
       {userIs(['porteur-projet'])(user) && (
@@ -400,6 +414,7 @@ export const ProjectActions = ({
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
     </div>
