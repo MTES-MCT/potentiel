@@ -39,6 +39,7 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
         form={{
           omitMandatoryFieldsLegend: true,
           heading: 'Inviter un porteur de projet',
+          submitLabel: 'Inviter',
           action: inviterPorteurAction,
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (

@@ -8,7 +8,9 @@ import { Form, FormProps } from '../atoms/form/Form';
 
 export type ModalWithFormProps = {
   id: string;
-  form: Omit<FormProps, 'actions' | 'actionButtons'>;
+  form: Omit<FormProps, 'actionButtons'> & {
+    submitLabel?: string;
+  };
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -51,7 +53,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({ id, form, isOpen, onClos
         onValidationError={form.onValidationError}
         key={`form-${id}`}
         actionButtons={{
-          submitLabel: 'Oui',
+          submitLabel: form.submitLabel ?? 'Oui',
           secondaryAction: {
             type: 'cancel',
             onClick: handleRejectClick,

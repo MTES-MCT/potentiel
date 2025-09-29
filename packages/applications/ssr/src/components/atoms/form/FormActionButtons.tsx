@@ -23,13 +23,14 @@ export const FormActionButtons = ({ secondaryAction, submitLabel }: FormActionBu
         secondaryAction.type === 'back' ? (
           <Button
             linkProps={{ href: secondaryAction.href, prefetch: false }}
+            priority="secondary"
             iconId="fr-icon-arrow-left-line"
           >
             Retour
           </Button>
         ) : (
           <Button type="button" priority="secondary" onClick={secondaryAction.onClick}>
-            Annuler
+            Retour
           </Button>
         )
       ) : null}
