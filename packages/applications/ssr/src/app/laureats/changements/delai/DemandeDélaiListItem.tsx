@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
@@ -34,18 +34,21 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
       />
     }
     actions={
-      <Link
-        href={Routes.Délai.détail(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-          DateTime.bind(demandéLe).formatter(),
-        )}
+      <Button
+        linkProps={{
+          href: Routes.Délai.détail(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+            DateTime.bind(demandéLe).formatter(),
+          ),
+          prefetch: false,
+        }}
         aria-label="voir le détail de la demande"
       >
         Voir la demande
-      </Link>
+      </Button>
     }
   >
-    <ul className="mt-3 text-sm">
+    <ul className="my-3 text-sm">
       <li>
         <span>
           Délai demandé : <span className="font-semibold">{nombreDeMois} mois</span>

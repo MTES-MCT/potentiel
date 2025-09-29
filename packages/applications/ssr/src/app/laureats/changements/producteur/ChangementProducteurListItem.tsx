@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
@@ -31,18 +31,21 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
       />
     }
     actions={
-      <Link
-        href={Routes.Producteur.changement.détails(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-          enregistréLe.date,
-        )}
+      <Button
+        linkProps={{
+          href: Routes.Producteur.changement.détails(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+            enregistréLe.date,
+          ),
+          prefetch: false,
+        }}
         aria-label="voir le détail du changement"
       >
         Voir le changement
-      </Link>
+      </Button>
     }
   >
-    <ul className="mt-3 text-sm">
+    <ul className="my-3 text-sm">
       <li>
         <span>
           Ancien producteur : <span className="font-semibold">{ancienProducteur}</span>

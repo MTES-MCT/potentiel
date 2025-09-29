@@ -1,6 +1,6 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -40,12 +40,16 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       />
     }
     actions={
-      <Link
-        href={Routes.Abandon.détail(identifiantProjet)}
+      <Button
+        className="md:flex ml-auto"
+        linkProps={{
+          href: Routes.Abandon.détail(identifiantProjet),
+          prefetch: false,
+        }}
         aria-label={`voir le détail de l'abandon en statut ${statut} pour le projet ${nomProjet}`}
       >
         voir le détail
-      </Link>
+      </Button>
     }
   >
     <StatutAbandonBadge statut={statut} small />

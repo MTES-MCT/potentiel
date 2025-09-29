@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { FC } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
@@ -32,15 +32,18 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
       />
     }
     actions={
-      <Link
-        href={Routes.ReprésentantLégal.changement.détails(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-          demandéLe,
-        )}
+      <Button
+        linkProps={{
+          href: Routes.ReprésentantLégal.changement.détails(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+            demandéLe,
+          ),
+          prefetch: false,
+        }}
         aria-label={`voir le détail du changement de représentant légal en statut ${statut} pour le projet ${nomProjet}`}
       >
         voir le détail
-      </Link>
+      </Button>
     }
   >
     <StatutChangementReprésentantLégalBadge

@@ -25,21 +25,21 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
   statutBadge,
 }) => (
   <div className="flex flex-col gap-2">
-    <div className="flex flex-row justify-between gap-2 w-full">
+    <div className="flex flex-col justify-between gap-2 w-full">
       <h2 className="leading-5">
         {prefix} <span className="font-bold mr-3">{nomProjet}</span>
       </h2>
-      {misÀJourLe ? (
-        <p className="italic text-xs">
-          Dernière mise à jour le <FormattedDate date={misÀJourLe} />
-        </p>
-      ) : null}
+      <div className="flex items-center gap-2">
+        <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />{' '}
+        {misÀJourLe && (
+          <p className="italic text-xs">
+            - Dernière mise à jour le <FormattedDate date={misÀJourLe} />
+          </p>
+        )}
+      </div>
     </div>
-
     <div className="flex gap-1 md:items-center md:flex-row flex-col">
       {statutBadge && <div className="flex gap-1">{statutBadge}</div>}
-
-      <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />
     </div>
   </div>
 );

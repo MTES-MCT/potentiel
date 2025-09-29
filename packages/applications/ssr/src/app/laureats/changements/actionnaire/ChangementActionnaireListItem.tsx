@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
@@ -38,15 +38,18 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
       />
     }
     actions={
-      <Link
-        href={Routes.Actionnaire.changement.détails(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-          demandéLe.date,
-        )}
+      <Button
+        linkProps={{
+          href: Routes.Actionnaire.changement.détails(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+            demandéLe.date,
+          ),
+          prefetch: false,
+        }}
         aria-label="voir le détail de la demande"
       >
         Voir la demande
-      </Link>
+      </Button>
     }
   >
     <ul className="mt-3 text-sm">

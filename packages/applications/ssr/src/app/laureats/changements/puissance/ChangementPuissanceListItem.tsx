@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
@@ -39,18 +39,21 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
       />
     }
     actions={
-      <Link
-        href={Routes.Puissance.changement.détails(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-          demandéLe.date,
-        )}
+      <Button
+        linkProps={{
+          href: Routes.Puissance.changement.détails(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+            demandéLe.date,
+          ),
+          prefetch: false,
+        }}
         aria-label="voir le détail de la demande"
       >
         Voir la demande
-      </Link>
+      </Button>
     }
   >
-    <ul className="mt-3 text-sm">
+    <ul className="my-3 text-sm">
       <li>
         <span>
           Nouvelle puissance :{' '}

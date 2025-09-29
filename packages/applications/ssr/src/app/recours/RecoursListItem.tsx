@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
@@ -32,12 +32,15 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
         />
       }
       actions={
-        <Link
-          href={Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter())}
+        <Button
+          linkProps={{
+            href: Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+            prefetch: false,
+          }}
           aria-label={`voir le détail du recours en statut ${statut} pour le projet ${nomProjet}`}
         >
           voir le détail
-        </Link>
+        </Button>
       }
     >
       <StatutRecoursBadge statut={statut.value} small />
