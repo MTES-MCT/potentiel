@@ -31,7 +31,7 @@ export type ListerDemandeDélaiQuery = Message<
     identifiantProjet?: IdentifiantProjet.RawType;
     appelOffre?: string;
     nomProjet?: string;
-    autoriteCompetente?: AutoritéCompétente.RawType;
+    autoritéCompétente?: AutoritéCompétente.RawType;
     range: RangeOptions;
   },
   ListerDemandeDélaiReadModel
@@ -53,7 +53,7 @@ export const registerListerDemandeDélaiQuery = ({
     utilisateur,
     range,
     identifiantProjet,
-    autoriteCompetente,
+    autoritéCompétente,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
@@ -85,7 +85,7 @@ export const registerListerDemandeDélaiQuery = ({
       where: {
         identifiantProjet: Where.matchAny(identifiantProjets),
         statut: Where.matchAny(statuts),
-        autoritéCompétente: Where.equal(autoriteCompetente),
+        autoritéCompétente: Where.equal(autoritéCompétente),
       },
     });
 

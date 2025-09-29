@@ -55,7 +55,7 @@ export default async function Page({ searchParams }: PageProps) {
             : undefined,
           appelOffre,
           nomProjet,
-          autoriteCompetente,
+          autoritéCompétente: autoriteCompetente,
         },
       });
 
