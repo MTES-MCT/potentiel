@@ -32,12 +32,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Éliminé.lister(),
       },
     },
-    {
-      text: 'Tous les projets (legacy)',
-      linkProps: {
-        href: Routes.Projet.lister(),
-      },
-    },
   ];
 
   const demandesMenuLinks: Array<MenuProps.Link> = [

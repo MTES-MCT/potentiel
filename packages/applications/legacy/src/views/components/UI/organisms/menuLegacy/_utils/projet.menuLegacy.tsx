@@ -11,8 +11,5 @@ export const MenuLegacyProjet = () => (
     <DropdownMenu.DropdownItem href={Routes.Éliminé.lister()}>
       Projets éliminés
     </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem href={Routes.Projet.lister()}>
-      Tous les projets (legacy)
-    </DropdownMenu.DropdownItem>
   </DropdownMenu>
 );
