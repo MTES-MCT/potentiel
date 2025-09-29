@@ -1,7 +1,7 @@
 import { PageTemplate } from '@/components/templates/Page.template';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import { ModifierLauréatForm, ModifierLauréatFormProps } from './ModifierLauréat.form';
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 export type ModifierLauréatPageProps = ModifierLauréatFormProps;
 
