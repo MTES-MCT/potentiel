@@ -27,7 +27,6 @@ import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '../../../../_
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ProjectField } from './components/fields/generic/ProjectField';
 import { LocalitéField } from './components/fields/LocalitéField';
-import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
 import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/generic/CandidatureField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
@@ -219,10 +218,14 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         </FormRow>
         {champsSupplémentaires.puissanceALaPointe && (
           <FormRow>
-            <PuissanceALaPointeField
-              candidature={candidature.puissanceALaPointe}
-              label={`Engagement de puissance à la pointe${champsSupplémentaires.puissanceALaPointe === 'optionnel' ? ' optionnel' : ''}`}
+            <CandidatureSelectField
+              candidature={candidature.puissanceALaPointe ? 'true' : 'false'}
+              label="Puissance à la pointe"
               name="puissanceALaPointe"
+              options={[
+                { label: 'Oui', value: 'true' },
+                { label: 'Non', value: 'false' },
+              ]}
               validationErrors={validationErrors}
               required={champsSupplémentaires.puissanceALaPointe === 'requis'}
             />
