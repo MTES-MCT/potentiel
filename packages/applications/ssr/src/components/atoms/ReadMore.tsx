@@ -8,15 +8,15 @@ export const ReadMore = ({ text, maxLength = 100, className }: Props) => {
   const [isTruncated, setIsTruncated] = useState(true);
 
   if (text.length <= maxLength) {
-    return <span>{text}</span>;
+    return <span className={className}>{text}</span>;
   }
 
   return (
-    <span className={className}>
-      {isTruncated ? `${text.substring(0, maxLength)}...` : text}
+    <>
+      <span className={className}>{isTruncated ? `${text.substring(0, maxLength)}...` : text}</span>
       <button onClick={() => setIsTruncated(!isTruncated)} className="text-theme-blueFrance ml-2">
         {isTruncated ? 'Voir plus' : 'Voir moins'}
       </button>
-    </span>
+    </>
   );
 };

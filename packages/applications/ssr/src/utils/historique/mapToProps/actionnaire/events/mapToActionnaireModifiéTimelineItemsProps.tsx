@@ -3,11 +3,12 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { ReadMore } from '@/components/atoms/ReadMore';
 
 export const mapToActionnaireModifiéTimelineItemProps = (
   modification: Lauréat.Actionnaire.ActionnaireModifiéEvent,
 ) => {
-  const { modifiéLe, modifiéPar, identifiantProjet, pièceJustificative, actionnaire } =
+  const { modifiéLe, modifiéPar, identifiantProjet, pièceJustificative, actionnaire, raison } =
     modification.payload;
 
   return {
@@ -17,6 +18,9 @@ export const mapToActionnaireModifiéTimelineItemProps = (
       <div className="flex flex-col gap-2">
         <div>
           Nouvel actionnaire : <span className="font-semibold">{actionnaire}</span>
+        </div>
+        <div>
+          Raison : <ReadMore text={raison} className="font-semibold" />
         </div>
         {pièceJustificative && (
           <DownloadDocument
