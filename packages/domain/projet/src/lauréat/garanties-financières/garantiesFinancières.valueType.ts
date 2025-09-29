@@ -28,7 +28,7 @@ export type RawType = (
   constitution: { attestation: { format: string }; date: DateTime.RawType } | undefined;
 };
 
-export type ConstitutionValueType = { attestation: { format: string }; date: DateTime.ValueType };
+type ConstitutionValueType = { attestation: { format: string }; date: DateTime.ValueType };
 
 type InconnuValueType = {
   type: TypeGarantiesFinancières.ValueType<'type-inconnu'>;
