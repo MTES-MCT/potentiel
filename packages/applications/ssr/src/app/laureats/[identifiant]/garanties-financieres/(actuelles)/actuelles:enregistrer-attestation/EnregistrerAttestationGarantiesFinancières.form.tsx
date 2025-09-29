@@ -10,6 +10,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
+import { getGarantiesFinancièresDateLabel } from '@/app/_helpers';
 
 import {
   enregistrerAttestationGarantiesFinancièresAction,
@@ -43,11 +44,9 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
 
       <InputDate
-        label={
-          garantiesFinancièresActuelles.garantiesFinancières.type.type === 'exemption'
-            ? 'Date de délibération'
-            : 'Date de constitution'
-        }
+        label={getGarantiesFinancièresDateLabel(
+          garantiesFinancièresActuelles.garantiesFinancières.type.type,
+        )}
         name="dateConstitution"
         max={now()}
         defaultValue={garantiesFinancièresActuelles.garantiesFinancières.constitution?.date.date}

@@ -9,6 +9,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { getGarantiesFinancièresDateLabel } from '@/app/_helpers';
 
 export type GarantiesFinancièresFormInputsProps = {
   id: string;
@@ -71,7 +72,11 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
       )}
 
       <InputDate
-        label={typeSélectionné === 'exemption' ? 'Date de délibération' : 'Date de constitution'}
+        label={
+          typeSélectionné
+            ? getGarantiesFinancièresDateLabel(typeSélectionné)
+            : 'Date de constitution'
+        }
         name="dateConstitution"
         max={DateTime.now().formatter()}
         defaultValue={gfActuelles?.constitution?.date.formatter()}
