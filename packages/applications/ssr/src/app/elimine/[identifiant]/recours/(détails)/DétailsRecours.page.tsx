@@ -4,12 +4,12 @@ import { PlainType } from '@potentiel-domain/core';
 import { Éliminé } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 
 import { StatutRecoursBadge } from './StatutRecoursBadge';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
@@ -41,7 +41,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   const demandéPar = Email.bind(recours.demande.demandéPar).formatter();
   return (
     <ColumnPageTemplate
-      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
+      banner={<ProjetÉliminéBanner identifiantProjet={identifiantProjet} />}
       heading={<Heading1>Détail du recours</Heading1>}
       leftColumn={{
         children: (

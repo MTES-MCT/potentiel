@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getProjet, getPériodeAppelOffres } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { getProjetÉliminé } from '../_helpers/getÉliminé';
 
@@ -27,10 +27,10 @@ export async function generateMetadata(
   _: ResolvingMetadata,
 ): Promise<Metadata> {
   try {
-    const candidature = await getProjet(decodeParameter(params.identifiant));
+    const éliminé = await getProjetÉliminé(decodeParameter(params.identifiant));
 
     return {
-      title: `${candidature.nomProjet} - Potentiel`,
+      title: `${éliminé.nomProjet} - Potentiel`,
       description: "Détail de la page d'un projet",
     };
   } catch {

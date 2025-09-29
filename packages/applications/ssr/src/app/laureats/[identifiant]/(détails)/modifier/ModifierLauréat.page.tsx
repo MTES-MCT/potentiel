@@ -28,7 +28,7 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
           href={Routes.Projet.details(identifiantProjet.formatter())}
           badge={
             <div className="flex gap-2">
-              <StatutLauréatBadge statut={'actif'} />
+              <StatutLauréatBadge statut={lauréat.statut.statut} />
               <NotificationBadge estNotifié={true} />
             </div>
           }

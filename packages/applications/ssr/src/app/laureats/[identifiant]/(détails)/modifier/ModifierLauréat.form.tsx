@@ -4,7 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { CahierDesCharges } from '@potentiel-domain/projet';
+import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -51,7 +51,9 @@ type ModifierLauréatFormEntries = {
 
 export type ModifierLauréatFormProps = {
   candidature: ModifierCandidatureNotifiéeFormEntries;
-  lauréat: ModifierLauréatFormEntries;
+  lauréat: ModifierLauréatFormEntries & {
+    statut: PlainType<Lauréat.StatutLauréat.ValueType>;
+  };
   projet: {
     identifiantProjet: string;
     nomProjet: string;
