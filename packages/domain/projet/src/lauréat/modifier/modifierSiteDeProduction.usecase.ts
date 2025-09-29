@@ -13,6 +13,7 @@ export type ModifierSiteDeProductionUseCase = Message<
     modifiéLeValue: string;
     modifiéParValue: string;
     localitéValue: Localité.RawType;
+    raisonValue: string | undefined;
   }
 >;
 
@@ -22,6 +23,7 @@ export const registerModifierSiteDeProductionUseCase = () => {
     modifiéLeValue,
     modifiéParValue,
     localitéValue,
+    raisonValue,
   }) => {
     await mediator.send<ModifierSiteDeProductionCommand>({
       type: 'Lauréat.Command.ModifierSiteDeProduction',
@@ -30,6 +32,7 @@ export const registerModifierSiteDeProductionUseCase = () => {
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
         localité: Localité.bind(localitéValue),
+        raison: raisonValue,
       },
     });
   };

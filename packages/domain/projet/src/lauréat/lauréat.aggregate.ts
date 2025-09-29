@@ -351,6 +351,7 @@ export class LauréatAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
     localité,
+    raison,
   }: ModifierSiteDeProductionOptions) {
     this.vérifierQueLeLauréatExiste();
     if (this.#localité?.estÉgaleÀ(localité)) {
@@ -363,6 +364,7 @@ export class LauréatAggregate extends AbstractAggregate<
         modifiéLe: modifiéLe.formatter(),
         modifiéPar: modifiéPar.formatter(),
         localité: localité.formatter(),
+        ...(raison ? { raison } : {}),
       },
     };
 

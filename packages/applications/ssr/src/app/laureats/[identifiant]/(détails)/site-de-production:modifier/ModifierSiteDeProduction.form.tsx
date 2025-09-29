@@ -120,6 +120,19 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
         <input type="hidden" value={commune.region} name="region" />
         {validationErrors['region']}
       </div>
+      <div>
+        <Input
+          textArea
+          state={validationErrors['raison'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['raison']}
+          label="Raison de la modification (optionnel)"
+          hintText="Indiquez la raison de cette modification si nécessaire"
+          nativeTextAreaProps={{
+            name: 'raison',
+            defaultValue: '',
+          }}
+        />
+      </div>
     </Form>
   );
 };

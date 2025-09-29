@@ -17,5 +17,6 @@ export type SiteDeProductionModifiéEvent = DomainEvent<
       région: string;
       département: string;
     };
+    raison?: string;
   }
 >;

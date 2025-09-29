@@ -13,6 +13,7 @@ import { localitéSchema } from '@/utils/candidature/localité.schema';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  raison: zod.string().optional(),
   adresse1: localitéSchema.shape.adresse1,
   adresse2: localitéSchema.shape.adresse2,
   codePostal: localitéSchema.shape.codePostal,
@@ -24,7 +25,7 @@ export type ModifierSiteDeProductionFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, adresse1, adresse2, codePostal, commune, departement, region },
+  { identifiantProjet, raison, adresse1, adresse2, codePostal, commune, departement, region },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
@@ -41,6 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
         },
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
         modifiéLeValue: DateTime.now().formatter(),
+        raisonValue: raison,
       },
     });
 
