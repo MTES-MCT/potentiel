@@ -62,15 +62,10 @@ type MapToReadModel = (
 ) => ConsulterCandidatureReadModel;
 
 export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatureReadModel => {
-  const {
-    identifiantProjet,
-
-    misÀJourLe,
-    détailsMisÀJourLe,
-    notification,
-  } = candidature;
+  const { identifiantProjet, misÀJourLe, détailsMisÀJourLe, notification } = candidature;
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+
     dépôt: Dépôt.convertirEnValueType(candidature),
     instruction: Instruction.convertirEnValueType(candidature),
 

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import { TitrePageRaccordement } from '../../../../TitrePageRaccordement';
 
@@ -19,7 +19,7 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
 > = ({ identifiantProjet, raccordement }: ModifierPropositionTechniqueEtFinancièrePageProps) => {
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (

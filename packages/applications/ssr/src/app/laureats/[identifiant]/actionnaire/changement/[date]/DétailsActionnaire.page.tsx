@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
@@ -37,7 +37,9 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
 }) => (
   <ColumnPageTemplate
     banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+      <ProjetLauréatBanner
+        identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+      />
     }
     leftColumn={{
       children: (

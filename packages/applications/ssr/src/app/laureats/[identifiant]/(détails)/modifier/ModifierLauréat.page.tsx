@@ -4,8 +4,8 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
-import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { PageTemplate } from '@/components/templates/Page.template';
+import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 
 import { ModifierLauréatForm, ModifierLauréatFormProps } from './ModifierLauréat.form';
 
@@ -28,7 +28,7 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
           href={Routes.Projet.details(identifiantProjet.formatter())}
           badge={
             <div className="flex gap-2">
-              <StatutProjetBadge statut={'classé'} />
+              <StatutLauréatBadge statut={lauréat.statut.statut} />
               <NotificationBadge estNotifié={true} />
             </div>
           }

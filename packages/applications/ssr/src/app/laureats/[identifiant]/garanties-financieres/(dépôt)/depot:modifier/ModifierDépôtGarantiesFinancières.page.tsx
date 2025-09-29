@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
 import {
@@ -24,7 +24,7 @@ export const ModifierDépôtGarantiesFinancièresPage: FC<
   ModifierDépôtGarantiesFinancièresPageProps
 > = ({ identifiantProjet, typesGarantiesFinancières, dépôt, showWarning }) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
     heading={
       <TitrePageGarantiesFinancières title="Modifier des garanties financières en attente de validation" />
     }

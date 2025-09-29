@@ -78,6 +78,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
       : undefined,
   },
   lauréat: {
+    statut: mapToPlainObject(lauréat.lauréat.statut),
     actionnaire: {
       currentValue: lauréat.actionnaire.actionnaire,
       estEnCoursDeModification: !!lauréat.actionnaire.dateDemandeEnCours,

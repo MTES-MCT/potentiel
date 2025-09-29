@@ -6,12 +6,14 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
+import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 
-import * as symbols from './candidatureListLegendSymbols';
 import {
   CandidatureListItemActions,
   CandidatureListItemActionsProps,
 } from './CandidatureListItemActions';
+import * as symbols from './candidatureListLegendSymbols';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -56,9 +58,12 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         identifiantProjet={identifiantProjet}
         nomProjet={nomProjet}
         prefix="Candidature du projet"
-        statut={statut.statut}
-        estNotifié={estNotifiée}
-        actionnariat={actionnariat?.type}
+        statutBadge={
+          <>
+            <StatutCandidatureBadge statut={statut.statut} actionnariat={actionnariat?.type} />
+            {estNotifiée !== undefined && <NotificationBadge estNotifié={estNotifiée} />}
+          </>
+        }
       />
       <div className="max-md:hidden">
         <CandidatureListItemActions

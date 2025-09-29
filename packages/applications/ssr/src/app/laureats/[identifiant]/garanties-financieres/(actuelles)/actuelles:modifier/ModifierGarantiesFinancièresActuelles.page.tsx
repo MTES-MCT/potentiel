@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { TitrePageGarantiesFinancières } from '../../components/TitrePageGarantiesFinancières';
@@ -20,7 +20,7 @@ export const ModifierGarantiesFinancièresActuellesPage: FC<
 > = ({ actuelles, typesGarantiesFinancières }) => (
   <PageTemplate
     banner={
-      <ProjetBanner
+      <ProjetLauréatBanner
         identifiantProjet={IdentifiantProjet.bind(actuelles.identifiantProjet).formatter()}
       />
     }

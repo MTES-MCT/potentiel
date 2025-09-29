@@ -10,7 +10,6 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
-import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import {
@@ -19,6 +18,7 @@ import {
   getTechnologieTypeLabel,
 } from '@/app/_helpers';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { getNatureDeLExploitationTypeLabel } from '../../_helpers/getNatureDeLExploitationTypeLabel';
@@ -56,7 +56,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
           localité={dépôt.localité}
           badge={
             <div className="flex gap-2">
-              <StatutProjetBadge statut={instruction.statut.statut} />
+              <StatutCandidatureBadge statut={instruction.statut.statut} />
               <NotificationBadge estNotifié={!!notification} />
             </div>
           }

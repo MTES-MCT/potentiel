@@ -5,14 +5,15 @@ import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } f
 import routes from '../../../../routes';
 import type { Candidature } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
-import { StatutProjet } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
+import { match, P } from 'ts-pattern';
 
 export type RésuméProjet = {
   appelOffre: string;
   période: string;
   famille: string;
   numéroCRE: string;
-  statut: StatutProjet.RawType;
+  statut: Lauréat.StatutLauréat.RawType;
   nom: string;
   localité: Candidature.Localité.ValueType;
 };
@@ -70,21 +71,14 @@ const EntêteProjet: FC<RésuméProjet> = ({
   </div>
 );
 
-const getBadgeType = (statut: StatutProjet.RawType): BadgeType => {
-  switch (statut) {
-    case 'abandonné':
-      return 'warning';
-    case 'classé':
-      return 'success';
-    case 'achevé':
-      return 'success';
-    case 'éliminé':
-      return 'error';
-  }
-};
+const getBadgeType = (statut: Lauréat.StatutLauréat.RawType): BadgeType =>
+  match(statut)
+    .with('abandonné', () => 'warning' as BadgeType)
+    .with(P.union('actif', 'achevé'), () => 'success' as BadgeType)
+    .exhaustive();
 
 const StatutProjetBadge: FC<{
-  statut: StatutProjet.RawType;
+  statut: Lauréat.StatutLauréat.RawType;
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
     {statut}

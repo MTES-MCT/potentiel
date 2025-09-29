@@ -7,7 +7,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
@@ -41,7 +41,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
 
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={idProjet} />}
+      banner={<ProjetLauréatBanner identifiantProjet={idProjet} />}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">

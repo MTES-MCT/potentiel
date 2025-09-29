@@ -307,6 +307,7 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
+          statutLauréat: lauréat.statut.statut,
         }),
       );
     },

@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 
 import { TitrePageAttestationConformité } from '../TitrePageAttestationConformité';
 import {
@@ -23,7 +23,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
   identifiantProjet,
   attestationConformitéActuelle,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+  <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageAttestationConformité title="Modifier l'attestation de conformité du projet" />
     <InfoBoxAttestationConformité />
     <AttestationConformitéForm

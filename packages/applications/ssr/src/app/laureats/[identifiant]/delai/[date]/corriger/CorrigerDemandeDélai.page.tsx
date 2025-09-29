@@ -3,7 +3,7 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
@@ -23,7 +23,7 @@ export const CorrigerDemandeDélaiPage: FC<CorrigerDemandeDélaiPageProps> = ({
   pièceJustificative,
   raison,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+  <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
     <Heading1>Corriger la demande de délai</Heading1>
     <Alert
       description={

@@ -1,23 +1,20 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
-import { Candidature, StatutProjet } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '../../atoms/FormattedDate';
-import { NotificationBadge } from '../candidature/NotificationBadge';
-
-import { StatutProjetBadge } from './StatutProjetBadge';
 
 export type ProjectListItemHeadingProps = {
   nomProjet: string;
-  statut?: StatutProjet.RawType;
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   prefix: string;
   misÀJourLe?: Iso8601DateTime;
   estNotifié?: boolean;
   actionnariat?: Candidature.TypeActionnariat.RawType;
+  statutBadge?: React.ReactNode;
 };
 
 export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
@@ -25,9 +22,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
   identifiantProjet,
   prefix,
   misÀJourLe,
-  statut,
-  estNotifié,
-  actionnariat,
+  statutBadge,
 }) => (
   <div className="flex flex-col gap-2">
     <div className="flex flex-row justify-between gap-2 w-full">
@@ -42,10 +37,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
     </div>
 
     <div className="flex gap-1 md:items-center md:flex-row flex-col">
-      <div className="flex gap-1">
-        {statut && <StatutProjetBadge statut={statut} actionnariat={actionnariat} />}
-        {estNotifié !== undefined && <NotificationBadge estNotifié={estNotifié} />}
-      </div>
+      {statutBadge && <div className="flex gap-1">{statutBadge}</div>}
 
       <FormattedIdentifiantProjet identifiantProjet={identifiantProjet} />
     </div>

@@ -6,7 +6,7 @@ import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
@@ -48,7 +48,7 @@ export const DétailsDemandeDélaiPage: FC<DétailsDemandeDélaiPageProps> = ({
   const identifiantProjetValueType = IdentifiantProjet.bind(identifiantProjet);
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjetValueType.formatter()} />}
+      banner={<ProjetLauréatBanner identifiantProjet={identifiantProjetValueType.formatter()} />}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
