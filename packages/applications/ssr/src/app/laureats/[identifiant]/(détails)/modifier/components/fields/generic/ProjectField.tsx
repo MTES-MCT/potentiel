@@ -22,7 +22,7 @@ type ProjectFieldProps<T> = {
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
   nativeInputProps?: InputProps['nativeInputProps'];
-  optionnel?: boolean;
+  required?: boolean;
 };
 
 export const ProjectField = <T extends string | number | undefined>({
@@ -33,7 +33,7 @@ export const ProjectField = <T extends string | number | undefined>({
   estEnCoursDeModification,
   nativeInputProps,
   validationErrors,
-  optionnel,
+  required,
 }: ProjectFieldProps<T>) => {
   const [linked, setLinked] = useState(candidature === lauréat && !estEnCoursDeModification);
   const [candidatureValue, setCandidatureValue] = useState(candidature);
@@ -46,7 +46,7 @@ export const ProjectField = <T extends string | number | undefined>({
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">{optionnel ? `${label} (optionnel)` : label}</div>
+      <div className="flex-1 font-semibold">{required ? label : `${label} (optionnel)`}</div>
       <div className="flex-[2] flex px-2">
         <input
           name={`candidature.${name}`}

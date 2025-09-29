@@ -34,6 +34,7 @@ export const LocalitéField = ({ candidature, lauréat, validationErrors }: Loca
           label="Adresse 1"
           name="adresse1"
           validationErrors={validationErrors}
+          required
         />
       </FormRow>
       <FormRow>
@@ -44,6 +45,7 @@ export const LocalitéField = ({ candidature, lauréat, validationErrors }: Loca
           label="Adresse 2"
           name="adresse2"
           validationErrors={validationErrors}
+          required
         />
       </FormRow>
     </div>

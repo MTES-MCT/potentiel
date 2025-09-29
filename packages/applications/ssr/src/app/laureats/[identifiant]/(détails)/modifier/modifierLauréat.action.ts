@@ -25,9 +25,11 @@ const schema = modifierLauréatEtCandidatureSchéma;
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const { identifiantProjet, candidature, laureat, doitRegenererAttestation } = body;
+    console.log('viovio candidature', candidature);
 
     if (candidature) {
       const candidatureACorriger = await getCandidature(identifiantProjet);
+      console.log('viovio corriger', candidatureACorriger);
 
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',

@@ -9,6 +9,7 @@ type PuissanceALaPointeFieldProps = {
   name: 'puissanceALaPointe';
   label: string;
   validationErrors: FieldValidationErrors;
+  required?: boolean;
 };
 
 export const PuissanceALaPointeField = ({
@@ -16,6 +17,7 @@ export const PuissanceALaPointeField = ({
   validationErrors,
   name,
   label,
+  required,
 }: PuissanceALaPointeFieldProps) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
 
@@ -33,10 +35,12 @@ export const PuissanceALaPointeField = ({
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
           options={[
             {
-              label: label,
+              label: required ? label : `${label} (optionnel)`,
               nativeInputProps: {
                 defaultChecked: candidatureValue,
                 onClick: () => setCandidatureValue(!candidatureValue),
+                required,
+                'aria-required': required,
               },
             },
           ]}
@@ -49,10 +53,12 @@ export const PuissanceALaPointeField = ({
           disabled
           options={[
             {
-              label: label,
+              label: required ? label : `${label} (optionnel)`,
               nativeInputProps: {
                 value: 'true',
                 defaultChecked: candidature,
+                required,
+                'aria-required': required,
               },
             },
           ]}

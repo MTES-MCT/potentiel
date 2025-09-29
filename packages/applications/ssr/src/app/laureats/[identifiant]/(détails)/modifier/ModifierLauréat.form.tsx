@@ -116,6 +116,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Nom du projet"
             name="nomProjet"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -125,6 +126,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Nom du producteur"
             name="nomCandidat"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -133,6 +135,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Email de contact"
             name="emailContact"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -143,6 +146,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Nom du représentant légal"
             name="nomRepresentantLegal"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -158,6 +162,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               })),
             ]}
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -168,6 +173,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Actionnaire(s)"
             name="actionnaire"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <LocalitéField
@@ -185,6 +191,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label: getTechnologieTypeLabel(type),
             }))}
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -193,6 +200,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Prix de référence"
             name="prixReference"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -206,6 +214,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             nativeInputProps={{
               step: 0.1,
             }}
+            required
           />
         </FormRow>
         {champsSupplémentaires.puissanceALaPointe && (
@@ -215,6 +224,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label={`Engagement de puissance à la pointe${champsSupplémentaires.puissanceALaPointe === 'optionnel' ? ' optionnel' : ''}`}
               name="puissanceALaPointe"
               validationErrors={validationErrors}
+              required={champsSupplémentaires.puissanceALaPointe === 'requis'}
             />
           </FormRow>
         )}
@@ -225,7 +235,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label={`Puissance de site (en ${projet.unitéPuissance})`}
               name="puissanceDeSite"
               validationErrors={validationErrors}
-              optionnel={champsSupplémentaires.puissanceDeSite === 'optionnel'}
+              required={champsSupplémentaires.puissanceDeSite === 'requis'}
             />
           </FormRow>
         )}
@@ -237,7 +247,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 label="Numéro d'autorisation d'urbanisme"
                 name="numeroDAutorisationDUrbanisme"
                 validationErrors={validationErrors}
-                optionnel={champsSupplémentaires.autorisationDUrbanisme === 'optionnel'}
+                required={champsSupplémentaires.autorisationDUrbanisme === 'requis'}
               />
             </FormRow>
             <FormRow>
@@ -256,7 +266,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label="Installateur"
               name="installateur"
               validationErrors={validationErrors}
-              optionnel={champsSupplémentaires.installateur === 'optionnel'}
+              required={champsSupplémentaires.installateur === 'requis'}
             />
           </FormRow>
         )}
@@ -272,7 +282,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 { label: 'Sans', value: 'false' },
               ]}
               validationErrors={validationErrors}
-              optionnel={champsSupplémentaires.installationAvecDispositifDeStockage === 'optionnel'}
+              required={champsSupplémentaires.installationAvecDispositifDeStockage === 'requis'}
             />
           </FormRow>
         )}
@@ -290,7 +300,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 }),
               )}
               validationErrors={validationErrors}
-              optionnel={champsSupplémentaires.natureDeLExploitation === 'optionnel'}
+              required={champsSupplémentaires.natureDeLExploitation === 'requis'}
             />
           </FormRow>
         )}
@@ -305,7 +315,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 { label: 'Non', value: 'false' },
               ]}
               validationErrors={validationErrors}
-              optionnel={champsSupplémentaires.coefficientKChoisi === 'optionnel'}
+              required={champsSupplémentaires.coefficientKChoisi === 'requis'}
             />
           </FormRow>
         )}
@@ -318,6 +328,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             name="evaluationCarboneSimplifiee"
             validationErrors={validationErrors}
             estEnCoursDeModification={lauréat.evaluationCarboneSimplifiee.estEnCoursDeModification}
+            required
           />
         </FormRow>
         <FormRow>
@@ -326,6 +337,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Note"
             name="noteTotale"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>

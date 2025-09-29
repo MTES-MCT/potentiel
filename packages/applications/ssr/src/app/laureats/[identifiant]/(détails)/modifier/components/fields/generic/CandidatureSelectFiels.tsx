@@ -15,7 +15,7 @@ type CandidatureSelectFieldProps<T> = {
   name: keyof ModifierCandidatureNotifiéeFormEntries;
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
-  optionnel?: boolean;
+  required?: boolean;
 };
 
 export const CandidatureSelectField = <T extends string | number>({
@@ -24,16 +24,18 @@ export const CandidatureSelectField = <T extends string | number>({
   label,
   name,
   validationErrors,
-  optionnel,
+  required,
 }: CandidatureSelectFieldProps<T>) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
   const candidatureLabel = String(
     options.find((option) => option.value === candidatureValue)?.label,
   );
+  console.log(candidature);
+  console.log(candidatureValue === candidature);
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">{optionnel ? `${label} (optionnel)` : label}</div>
+      <div className="flex-1 font-semibold">{required ? label : `${label} (optionnel)`}</div>
       <div className="flex-[2] flex px-2">
         <input
           name={`candidature.${name}`}
