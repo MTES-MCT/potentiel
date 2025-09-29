@@ -17,7 +17,7 @@ export type DossierAccessor<
   getNumberValue: (nom: TKey) => number | undefined;
   getDateValue: (nom: TKey) => Iso8601DateTime | undefined;
   getBooleanValue: (nom: TKey) => boolean | undefined;
-  getUrlPièceJustificativeValue: (nom: TKey) => string | undefined;
+  getUrlPièceJustificativeValue: (nom: TKey) => { url: string; contentType: string } | undefined;
   getAdresse: (nom: TKey) => AddressFragmentFragment | undefined;
 };
 
@@ -84,8 +84,16 @@ export const createDossierAccessor = <
       return val === 'false' ? false : val === 'true' ? true : undefined;
     },
 
-    getUrlPièceJustificativeValue: (nom) =>
-      getChampValue(nom, ['PieceJustificativeChamp'])?.files?.[0]?.url,
+    getUrlPièceJustificativeValue: (nom) => {
+      const file = getChampValue(nom, ['PieceJustificativeChamp'])?.files?.[0];
+      if (!file) {
+        return undefined;
+      }
+      return {
+        url: file.url,
+        contentType: file.contentType,
+      };
+    },
 
     getAdresse: (nom) => getChampValue(nom, ['AddressChamp'])?.address ?? undefined,
   };

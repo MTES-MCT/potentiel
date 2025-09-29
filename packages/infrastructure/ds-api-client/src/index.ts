@@ -22,7 +22,8 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
   } catch (e) {
     logger.warn('Impossible de lire le dossier', {
       dossierNumber,
-      error: e,
+      errorMessage: e instanceof Error ? e.message : 'unknown',
+      errorData: e,
     });
     return Option.none;
   }
@@ -41,12 +42,12 @@ const mapApiResponseToFichiers = ({ champs, demarche }: GetDossierQuery['dossier
   const accessor = createDossierAccessor(
     champs,
     {
-      garantiesFinancièresUrl: 'Garantie financière de mise en œuvre du projet',
+      garantiesFinancières: 'Garantie financière de mise en œuvre du projet',
     },
     demarche.revision.champDescriptors,
   );
   return {
-    garantiesFinancièresUrl: accessor.getUrlPièceJustificativeValue('garantiesFinancièresUrl'),
+    garantiesFinancières: accessor.getUrlPièceJustificativeValue('garantiesFinancières'),
   };
 };
 

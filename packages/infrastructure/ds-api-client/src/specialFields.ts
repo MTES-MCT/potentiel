@@ -4,7 +4,10 @@ import { reverseRecord } from './utils';
 import { DossierAccessor } from './graphql';
 
 class ValeurInconnuePourChampsSelectError extends Error {
-  constructor(public nomDuChamp: string) {
+  constructor(
+    public nomDuChamp: string,
+    public valeur: unknown,
+  ) {
     super('La valeur fournie est invalide');
   }
 }
@@ -21,15 +24,13 @@ const mapSelectToValueType = <T>(
   if (map[value]) {
     return map[value];
   }
-  throw new ValeurInconnuePourChampsSelectError(nom);
+  throw new ValeurInconnuePourChampsSelectError(nom, value);
 };
 
 const typeGfMap = reverseRecord({
-  'garantie-bancaire':
-    'Garantie à première demande et émise au profit de l’État par un établissement de crédit ou une entreprise d’assurance ou de cautionnement',
-  'six-mois-après-achèvement': `Garantie financière jusqu'à 6 mois après la date d'achèvement`,
-  consignation: 'Consignation entre les mains de la Caisse des dépôts et Consignations (CDC)',
-  exemption: `Exemption de fourniture (collectivité territoriale ou groupement de collectivités territoriales)`,
+  consignation: 'Consignation',
+  'garantie-bancaire': 'Garantie bancaire',
+  exemption: `Exemption`,
 } satisfies Partial<Record<Candidature.TypeGarantiesFinancières.RawType, string>>);
 
 export const getTypeGarantiesFinancières = <
@@ -91,7 +92,7 @@ export const getAutorisationDUrbanisme = <TDossier extends Record<string, string
 };
 
 const typeNatureDeLExploitationMap = reverseRecord({
-  'vente-avec-injection-du-surplus': 'Vente avec injection du surplus ',
+  'vente-avec-injection-du-surplus': 'Vente avec injection du surplus',
   'vente-avec-injection-en-totalité': `Vente avec injection en totalité`,
 } satisfies Partial<
   Record<Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType, string>
