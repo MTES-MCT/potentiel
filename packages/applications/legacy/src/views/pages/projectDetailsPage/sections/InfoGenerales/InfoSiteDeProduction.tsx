@@ -6,6 +6,7 @@ export type InfoSiteDeProductionProps = {
   localité: Candidature.Localité.RawType;
   affichage?: {
     label: string;
+    labelActions: string;
     url: string;
   };
 };

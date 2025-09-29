@@ -246,6 +246,7 @@ const AdminActions = ({
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  siteDeProductionAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -262,6 +263,7 @@ const AdminActions = ({
             installationAvecDispositifDeStockageAffichage
           }
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
       {notifiedOn && isClasse ? (
@@ -310,6 +312,7 @@ type DrealActionsProps = Pick<
   | 'représentantLégalAffichage'
   | 'producteurAffichage'
   | 'fournisseurAffichage'
+  | 'siteDeProductionAffichage'
 >;
 
 const DrealActions = ({
@@ -318,6 +321,7 @@ const DrealActions = ({
   puissanceAffichage,
   actionnaireAffichage,
   producteurAffichage,
+  siteDeProductionAffichage,
 }: DrealActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -327,6 +331,7 @@ const DrealActions = ({
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
       <PrimaryButton onClick={() => window.print()}>
@@ -409,6 +414,7 @@ export const ProjectActions = ({
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
     </div>

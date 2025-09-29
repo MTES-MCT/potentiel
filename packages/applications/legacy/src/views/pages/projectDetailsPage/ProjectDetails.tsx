@@ -185,6 +185,7 @@ export const ProjectDetails = ({
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={estAchevé}
+        statutLauréat={statutLauréat}
         demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
         représentantLégalAffichage={représentantLégal?.affichage}
         puissanceAffichage={puissance?.affichage}
@@ -198,7 +199,7 @@ export const ProjectDetails = ({
           installationAvecDispositifDeStockage?.affichage
         }
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
-        statutLauréat={statutLauréat}
+        siteDeProductionAffichage={siteDeProduction?.affichage}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

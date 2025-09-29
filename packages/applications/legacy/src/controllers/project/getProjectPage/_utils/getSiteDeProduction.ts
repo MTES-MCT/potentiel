@@ -7,7 +7,7 @@ import { ProjectDataForProjectPage } from '../../../../modules/project';
 export type GetSiteDeProductionForProjectPage = {
   localité: Candidature.Localité.RawType;
   affichage?: {
-    labelActions?: string;
+    labelActions: string;
     label: string;
     url: string;
   };

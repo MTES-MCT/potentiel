@@ -9,7 +9,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export type GetActionnaireAffichageForProjectPage = {
+type GetActionnaireAffichageForProjectPage = {
   label: string;
   labelActions?: string;
   url: string;
