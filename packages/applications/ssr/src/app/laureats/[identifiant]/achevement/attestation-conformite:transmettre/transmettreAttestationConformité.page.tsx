@@ -26,7 +26,7 @@ export const TransmettreAttestationConformitéPage: FC<
     <AttestationConformitéForm
       identifiantProjet={identifiantProjet}
       action={transmettreAttestationConformitéAction}
-      submitButtonLabel="Transmettre"
+      submitLabel="Transmettre"
       demanderMainlevée={{ visible: peutVoirMainlevée, canBeDone: peutDemanderMainlevée }}
     />
   </PageTemplate>

@@ -181,7 +181,6 @@ export const DemanderOuEnregistrerChangementReprésentantLégalForm: FC<
         onValidationError={(validationErrors) => {
           setValidationErrors(validationErrors);
         }}
-        actions={null}
         omitMandatoryFieldsLegend={state.step !== 2 ? true : undefined}
       >
         <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />

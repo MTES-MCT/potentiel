@@ -35,8 +35,6 @@ export const PasserAbandonEnInstruction = ({
       <ModalWithForm
         id="passer-abandon-en-instruction"
         title="Passer l'abandon en instruction"
-        acceptButtonLabel="Oui"
-        rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

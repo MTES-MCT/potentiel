@@ -34,8 +34,6 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
       <ModalWithForm
         id="rejeter-abandon"
         title="Rejeter l'abandon"
-        acceptButtonLabel="Oui"
-        rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

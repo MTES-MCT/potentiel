@@ -35,8 +35,6 @@ export const PasserRecoursEnInstruction = ({
       <ModalWithForm
         id="passer-recours-en-instruction"
         title="Passer le recours en instruction"
-        acceptButtonLabel="Oui"
-        rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

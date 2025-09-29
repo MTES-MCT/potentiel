@@ -25,8 +25,6 @@ export const SupprimerDépôtGarantiesFinancièresForm = ({
       <ModalWithForm
         id="supprimer-gf-en-attente"
         title="Supprimer les garanties financières en attente de validation"
-        acceptButtonLabel="Oui"
-        rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{

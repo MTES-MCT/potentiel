@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
@@ -27,7 +26,9 @@ export const CorrigerRéférencesDossierForm: FC = () => {
         children: 'Correction des références de dossier de raccordement en cours',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Corriger</SubmitButton>}
+      actionButtons={{
+        submitLabel: 'Corriger',
+      }}
     >
       <UploadNewOrModifyExistingDocument
         label="Fichier des corrections"

@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -8,7 +7,6 @@ import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
 import {
@@ -85,21 +83,13 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         title: 'Modifier le projet lauréat',
         children: 'Modification du projet lauréat en cours...',
       }}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Projet.details(projet.identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour au projet
-          </Button>
-          <SubmitButton>Modifier</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitLabel: 'Modifier',
+        secondaryAction: {
+          type: 'back',
+          href: Routes.Projet.details(projet.identifiantProjet),
+        },
+      }}
     >
       <div className="flex flex-col gap-4 mt-4">
         <FormRow>

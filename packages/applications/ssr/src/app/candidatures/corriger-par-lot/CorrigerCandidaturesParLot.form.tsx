@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -27,7 +26,9 @@ export const CorrigerCandidaturesParLotForm: FC = () => {
         children: 'Correction des candidats en cours...',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Corriger</SubmitButton>}
+      actionButtons={{
+        submitLabel: 'Corriger',
+      }}
     >
       <UploadNewOrModifyExistingDocument
         label="Fichier CSV"
