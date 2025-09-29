@@ -6,7 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
-import { CandidatureEntity, Localité, UnitéPuissance } from '../../candidature';
+import { CandidatureEntity, Localité } from '../../candidature';
 import { PuissanceEntity } from '../puissance';
 import { ProducteurEntity } from '../producteur';
 import { ReprésentantLégalEntity } from '../représentantLégal';
@@ -22,7 +22,7 @@ type LauréatListItemReadModel = {
   email: Email.ValueType;
   nomReprésentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel['nomReprésentantLégal'];
   puissance: {
-    unité: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+    unité: Candidature.UnitéPuissance.RawType;
     valeur: Puissance.ConsulterPuissanceReadModel['puissance'];
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
@@ -202,7 +202,7 @@ const mapToReadModel: MapToReadModelProps = ({
     email: Email.convertirEnValueType(emailContact),
     nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
     puissance: {
-      unité: UnitéPuissance.déterminer({
+      unité: Candidature.UnitéPuissance.déterminer({
         appelOffres,
         période: identifiantProjetValueType.période,
         technologie,

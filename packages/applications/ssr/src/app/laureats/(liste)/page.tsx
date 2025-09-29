@@ -177,16 +177,16 @@ const mapToListProps: MapToListProps = (readModel) => {
       statut,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
+      statut: statut.formatter(),
       nomProjet,
-      localité: localité.formatter(),
+      localité,
       producteur,
-      puissance: `${puissance.valeur} ${puissance.unité}`,
-      evaluationCarboneSimplifiée: `${evaluationCarboneSimplifiée} kgCO2e/kWh`,
-      prixReference: `${prixReference} €`,
+      puissance,
+      evaluationCarboneSimplifiée,
+      prixReference,
       email: email.formatter(),
       nomReprésentantLégal,
-      statut: statut.statut,
-      typeActionnariat: typeActionnariat ? typeActionnariat.formatter() : undefined,
+      typeActionnariat: typeActionnariat?.formatter(),
     }),
   );
 

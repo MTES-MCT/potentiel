@@ -8,11 +8,18 @@ export type ListItemProps = {
 
 export function ListItem({ actions, children, heading }: ListItemProps) {
   return (
-    <div className="w-full">
-      {heading}
-      <div className="flex flex-col md:flex-row md:justify-between gap-2 mt-3 w-full">
-        <div className="flex-1">{children}</div>
-        <div className="my-4 self-center sm:my-0 sm:self-end">{actions}</div>
+    <div className="flex flex-1 flex-col gap-6">
+      <div className="flex gap-4 items-start justify-between">
+        {heading}
+        <div className="max-md:hidden">
+          <div className="flex md:max-lg:flex-col gap-2">{actions}</div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-4 md:flex-row md:items-center">{children}</div>
+
+      <div className="md:hidden">
+        <div className="flex md:max-lg:flex-col gap-2">{actions}</div>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
-import { CandidatureEntity, Localité, UnitéPuissance } from '../../candidature';
+import { CandidatureEntity, Localité } from '../../candidature';
 import { ÉliminéEntity } from '../éliminé.entity';
 
 type ÉliminéListItemReadModel = {
@@ -16,7 +16,7 @@ type ÉliminéListItemReadModel = {
   email: Email.ValueType;
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['dépôt']['nomReprésentantLégal'];
   puissance: {
-    unité: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+    unité: Candidature.UnitéPuissance.RawType;
     valeur: Candidature.ConsulterCandidatureReadModel['dépôt']['puissanceProductionAnnuelle'];
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
@@ -134,7 +134,7 @@ const mapToReadModel: MapToReadModelProps = ({
     email: Email.convertirEnValueType(emailContact),
     nomReprésentantLégal,
     puissance: {
-      unité: UnitéPuissance.déterminer({
+      unité: Candidature.UnitéPuissance.déterminer({
         appelOffres,
         période: identifiantProjetValueType.période,
         technologie,
