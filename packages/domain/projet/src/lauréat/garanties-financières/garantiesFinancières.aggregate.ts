@@ -275,42 +275,36 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   //#endregion Utilitaires
 
   //#region Behavior Actuelles
-  async importerType({ importéLe, garantiesFinancières }: ImporterOptions) {
-    this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
-
-    const event: TypeGarantiesFinancièresImportéEvent = {
-      type: 'TypeGarantiesFinancièresImporté-V1',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        importéLe: importéLe.formatter(),
-        ...garantiesFinancières.formatter(),
-      },
-    };
-    await this.publish(event);
-    await this.planifierÉchéance(importéLe);
-  }
-
   async importer({ garantiesFinancières, importéLe }: ImporterOptions) {
     if (this.aDesGarantiesFinancières) {
       throw new GarantiesFinancièresActuellesDéjàExistantesError();
     }
-    if (!garantiesFinancières.estConstitué()) {
-      throw new AttestationEtDateGarantiesFinancièresRequisesError();
-    }
     this.vérifierSiLesGarantiesFinancièresSontValides(garantiesFinancières);
 
-    const event: GarantiesFinancièresImportéesEvent = {
-      type: 'GarantiesFinancièresImportées-V1',
-      payload: {
-        identifiantProjet: this.identifiantProjet.formatter(),
-        ...garantiesFinancières.formatter(),
-        attestation: { format: garantiesFinancières.constitution.attestation.format },
-        dateConstitution: garantiesFinancières.constitution.date.formatter(),
-        importéLe: importéLe.formatter(),
-      },
-    };
+    if (garantiesFinancières.estConstitué()) {
+      const eventGFConstituéesImportées: GarantiesFinancièresImportéesEvent = {
+        type: 'GarantiesFinancièresImportées-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          ...garantiesFinancières.formatter(),
+          attestation: { format: garantiesFinancières.constitution.attestation.format },
+          dateConstitution: garantiesFinancières.constitution.date.formatter(),
+          importéLe: importéLe.formatter(),
+        },
+      };
+      await this.publish(eventGFConstituéesImportées);
+    } else {
+      const eventTypeGFImporté: TypeGarantiesFinancièresImportéEvent = {
+        type: 'TypeGarantiesFinancièresImporté-V1',
+        payload: {
+          identifiantProjet: this.identifiantProjet.formatter(),
+          importéLe: importéLe.formatter(),
+          ...garantiesFinancières.formatter(),
+        },
+      };
+      await this.publish(eventTypeGFImporté);
+    }
 
-    await this.publish(event);
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
     await this.planifierÉchéance(importéLe);
 
