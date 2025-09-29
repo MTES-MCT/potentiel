@@ -42,12 +42,12 @@ const mapApiResponseToFichiers = ({ champs, demarche }: GetDossierQuery['dossier
   const accessor = createDossierAccessor(
     champs,
     {
-      garantiesFinancièresUrl: 'Garantie financière de mise en œuvre du projet',
+      garantiesFinancières: 'Garantie financière de mise en œuvre du projet',
     },
     demarche.revision.champDescriptors,
   );
   return {
-    garantiesFinancièresUrl: accessor.getUrlPièceJustificativeValue('garantiesFinancièresUrl'),
+    garantiesFinancières: accessor.getUrlPièceJustificativeValue('garantiesFinancières'),
   };
 };
 
