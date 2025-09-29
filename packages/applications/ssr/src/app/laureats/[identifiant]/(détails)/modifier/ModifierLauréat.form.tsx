@@ -32,7 +32,7 @@ import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/generic/CandidatureField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
 import { ProjectSelectField } from './components/fields/generic/ProjectSelectField';
-import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectFiels';
+import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectField';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
