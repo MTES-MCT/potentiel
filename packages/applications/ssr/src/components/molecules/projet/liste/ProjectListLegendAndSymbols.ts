@@ -43,15 +43,15 @@ const typeActionnariat: SymbolProps = {
   description: "Type d'actionnariat",
 };
 
-export const candidatureListLegendSymbols = [
+export const projectListLegendSymbols = [
   localité,
   nomProducteur,
   représentantLégal,
   email,
+  typeActionnariat,
   puissance,
   prix,
   évaluationCarbone,
-  typeActionnariat,
 ];
 
 export {

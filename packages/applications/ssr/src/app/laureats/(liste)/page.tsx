@@ -13,6 +13,7 @@ import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
+import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 
 import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
 
@@ -112,19 +113,13 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      const legend: LauréatListPageProps['legend'] = {
-        symbols: [
-          { iconId: 'ri-flashlight-fill', description: 'Puissance' },
-          { iconId: 'ri-money-euro-circle-line', description: 'Prix de référence' },
-          { iconId: 'ri-cloud-fill', description: 'Évaluation carbone' },
-        ],
-      };
-
       return (
         <LauréatListPage
           list={mapToListProps(lauréats)}
           filters={filters}
-          legend={legend}
+          legend={{
+            symbols: projectListLegendSymbols,
+          }}
           actions={mapToActions(utilisateur.role, {
             appelOffre,
             nomProjet,

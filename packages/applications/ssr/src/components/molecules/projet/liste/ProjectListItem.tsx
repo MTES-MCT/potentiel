@@ -1,9 +1,8 @@
 import { FC } from 'react';
-import Link from 'next/link';
-import { match, P } from 'ts-pattern';
+import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -45,31 +44,31 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
   evaluationCarboneSimplifiée,
   typeActionnariat,
 }) => {
-  console.log('puissance', puissance);
+  const estÉliminé = statut === 'éliminé';
 
   return (
     <ListItem
       heading={
         <ProjectListItemHeading
           nomProjet={nomProjet}
-          statutBadge={match(statut)
-            .with('éliminé', () => <StatutÉliminéBadge />)
-            .with(P.union('actif', 'achevé', 'abandonné'), (statut) => (
-              <StatutLauréatBadge statut={statut} />
-            ))
-            .exhaustive()}
+          statutBadge={estÉliminé ? <StatutÉliminéBadge /> : <StatutLauréatBadge statut={statut} />}
           identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
           prefix="Projet"
         />
       }
       actions={
-        <Link
-          href={Routes.Projet.details(identifiantProjet)}
-          aria-label={`voir le détail du projet ${nomProjet}`}
-          prefetch={false}
+        <Button
+          className="md:flex ml-auto"
+          linkProps={{
+            href: estÉliminé
+              ? Routes.Projet.détailsÉliminé(identifiantProjet)
+              : Routes.Projet.details(identifiantProjet),
+            prefetch: false,
+          }}
+          aria-label={`Lien vers la page du projet ${nomProjet}`}
         >
-          voir le détail
-        </Link>
+          Consulter
+        </Button>
       }
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-center justify-between w-full">

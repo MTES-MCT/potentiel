@@ -13,6 +13,7 @@ import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
+import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 
 import { ÉliminéListPage, ÉliminéListPageProps } from './ÉliminéList.page';
 
@@ -102,19 +103,13 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      const legend: ÉliminéListPageProps['legend'] = {
-        symbols: [
-          { iconId: 'ri-flashlight-fill', description: 'Puissance' },
-          { iconId: 'ri-money-euro-circle-line', description: 'Prix de référence' },
-          { iconId: 'ri-cloud-fill', description: 'Évaluation carbone' },
-        ],
-      };
-
       return (
         <ÉliminéListPage
           list={mapToListProps(éliminés)}
           filters={filters}
-          legend={legend}
+          legend={{
+            symbols: projectListLegendSymbols,
+          }}
           actions={mapToActions(utilisateur.role, {
             appelOffre,
             nomProjet,
