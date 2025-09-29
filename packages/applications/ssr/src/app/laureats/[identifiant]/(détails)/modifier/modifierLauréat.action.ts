@@ -171,7 +171,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
               département: laureat.departement ?? lauréatAModifier.localité.département,
               région: laureat.region ?? lauréatAModifier.localité.région,
             },
-
+            raisonValue: undefined,
             modifiéLeValue: DateTime.now().formatter(),
             modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
