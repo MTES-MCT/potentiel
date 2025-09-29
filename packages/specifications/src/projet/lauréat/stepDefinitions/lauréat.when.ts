@@ -21,6 +21,7 @@ Quand(
           modifiéParValue: modifiéPar,
           modifiéLeValue: modifiéLe,
           localitéValue: localité,
+          raisonValue: undefined,
         },
       });
     } catch (e) {
@@ -46,6 +47,7 @@ Quand(
           modifiéParValue: modifiéPar,
           modifiéLeValue: modifiéLe,
           localitéValue: localité,
+          raisonValue: undefined,
         },
       });
     } catch (e) {
