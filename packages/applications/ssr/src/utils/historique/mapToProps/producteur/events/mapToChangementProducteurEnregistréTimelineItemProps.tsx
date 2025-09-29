@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { ReadMore } from '@/components/atoms/ReadMore';
 
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
   record: Lauréat.Producteur.ChangementProducteurEnregistréEvent,
@@ -21,7 +22,7 @@ export const mapToChangementProducteurEnregistréTimelineItemProps = (
         </div>
         {raison && (
           <div>
-            Raison : <span className="font-semibold">{raison}</span>
+            Raison : <ReadMore text={raison} className="font-semibold" />
           </div>
         )}
         <DownloadDocument

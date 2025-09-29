@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { ReadMore } from '@/components/atoms/ReadMore';
+
 export const mapToPuissanceModifiéeTimelineItemsProps = (
   record: Lauréat.Puissance.PuissanceModifiéeEvent,
   unitéPuissance: string,
@@ -19,7 +21,7 @@ export const mapToPuissanceModifiéeTimelineItemsProps = (
         </div>
         {raison && (
           <div>
-            Raison : <span className="font-semibold">{raison}</span>
+            Raison : <ReadMore text={raison} className="font-semibold" />
           </div>
         )}
       </div>
