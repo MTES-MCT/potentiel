@@ -29,10 +29,11 @@ const colonnes = {
   localité: 'Adresse postale du site de production',
   historiqueAbandon: 'Préciser le statut du projet',
 
-  obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation (loi APER)`,
+  obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
   installateur: "Identité de l'installateur",
   natureDeLExploitation: "Nature de l'exploitation",
+  coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
 export const mapApiResponseToDépôt = ({
@@ -43,17 +44,17 @@ export const mapApiResponseToDépôt = ({
   const accessorAutorisationDUrbanisme = createDossierAccessor(
     champs,
     {
-      numéro: "Numéro de l'autorisation",
-      date: "Date d'obtention",
+      numéro: "Numéro de l'autorisation d'urbanisme",
+      date: "Date d'obtention de l'autorisation d'urbanisme",
     } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
     demarche.revision.champDescriptors,
   );
 
-  accessor.getStringValue('nomCandidat');
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
     'typeGarantiesFinancières',
   );
+
   return {
     //  1. Renseignements administratifs
     nomCandidat: accessor.getStringValue('nomCandidat'),
@@ -77,6 +78,7 @@ export const mapApiResponseToDépôt = ({
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
+    coefficientKChoisi: accessor.getBooleanValue('coefficientKChoisi'),
 
     localité: getLocalité(accessor, 'localité'),
 
@@ -86,8 +88,12 @@ export const mapApiResponseToDépôt = ({
     installateur: accessor.getStringValue('installateur'),
     natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
 
-    // TODO ajouter
-    coefficientKChoisi: undefined,
+    autorisationDUrbanisme: getAutorisationDUrbanisme({
+      accessor: accessorAutorisationDUrbanisme,
+      nomChampNuméro: 'numéro',
+      nomChampDate: 'date',
+    }),
+
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,
     fournisseurs: [],
@@ -95,10 +101,5 @@ export const mapApiResponseToDépôt = ({
     puissanceALaPointe: undefined,
     territoireProjet: undefined,
     technologie: 'N/A',
-    autorisationDUrbanisme: getAutorisationDUrbanisme({
-      accessor: accessorAutorisationDUrbanisme,
-      nomChampNuméro: 'numéro',
-      nomChampDate: 'date',
-    }),
   };
 };

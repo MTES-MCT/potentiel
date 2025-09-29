@@ -22,7 +22,8 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
   } catch (e) {
     logger.warn('Impossible de lire le dossier', {
       dossierNumber,
-      error: e,
+      errorMessage: e instanceof Error ? e.message : 'unknown',
+      errorData: e,
     });
     return Option.none;
   }
