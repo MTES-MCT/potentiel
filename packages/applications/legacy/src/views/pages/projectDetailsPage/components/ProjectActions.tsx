@@ -27,6 +27,7 @@ type EnregistrerUneModificationProps = Pick<
   | 'installateurAffichage'
   | 'installationAvecDispositifDeStockageAffichage'
   | 'natureDeLExploitationAffichage'
+  | 'siteDeProductionAffichage'
 >;
 
 const EnregistrerUneModification = ({
@@ -39,6 +40,7 @@ const EnregistrerUneModification = ({
   installateurAffichage,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  siteDeProductionAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -87,6 +89,11 @@ const EnregistrerUneModification = ({
       {!!natureDeLExploitationAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={natureDeLExploitationAffichage.url}>
           <span>{natureDeLExploitationAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!siteDeProductionAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={siteDeProductionAffichage.url}>
+          <span>{siteDeProductionAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
     </DropdownMenuSecondaryButton>
@@ -349,6 +356,7 @@ export const ProjectActions = ({
   features,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
+  siteDeProductionAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -374,6 +382,7 @@ export const ProjectActions = ({
             installationAvecDispositifDeStockageAffichage
           }
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
+          siteDeProductionAffichage={siteDeProductionAffichage}
         />
       )}
       {userIs(['porteur-projet'])(user) && (

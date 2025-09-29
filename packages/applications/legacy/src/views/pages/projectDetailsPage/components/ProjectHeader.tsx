@@ -1,4 +1,3 @@
-import React from 'react';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Heading1 } from '../../../components';
@@ -9,6 +8,7 @@ import {
   GetInstallationAvecDispositifDeStockageForProjectPage,
   GetNatureDeLExploitationForProjectPage,
   GetReprésentantLégalForProjectPage,
+  GetSiteDeProductionForProjectPage,
 } from '../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
@@ -36,6 +36,7 @@ export type ProjectHeaderProps = {
     labelActions: string;
     url: string;
   };
+  siteDeProductionAffichage?: GetSiteDeProductionForProjectPage['affichage'];
   features: Array<string>;
   statutLauréat: Lauréat.StatutLauréat.RawType;
 };
@@ -53,6 +54,7 @@ export const ProjectHeader = ({
   producteurAffichage,
   fournisseurAffichage,
   installateurAffichage,
+  siteDeProductionAffichage,
   délaiAffichage,
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
@@ -100,6 +102,7 @@ export const ProjectHeader = ({
           installationAvecDispositifDeStockageAffichage
         }
         natureDeLExploitationAffichage={natureDeLExploitationAffichage}
+        siteDeProductionAffichage={siteDeProductionAffichage}
       />
     </div>
   </div>

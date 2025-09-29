@@ -29,6 +29,7 @@ import {
   getDateAchèvementPrévisionnel,
   getInstallationAvecDispositifDeStockage,
   getNatureDeLExploitation,
+  getSiteDeProduction,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -308,24 +309,11 @@ v1Router.get(
             rôle: user.role,
           }),
           statutLauréat: lauréat.statut.statut,
-          siteDeProduction: {
-            localité: {
-              adresse1: project.adresseProjet.split('\n')[0] || '',
-              adresse2: project.adresseProjet.split('\n')[1],
-              codePostal: project.codePostalProjet,
-              commune: project.communeProjet,
-              département: project.departementProjet,
-              région: project.regionProjet,
-            },
-            affichage: role.aLaPermission('lauréat.modifierSiteDeProduction')
-              ? {
-                  url: Routes.Lauréat.modifierSiteDeProduction(
-                    identifiantProjetValueType.formatter(),
-                  ),
-                  label: 'Modifier',
-                }
-              : undefined,
-          },
+          siteDeProduction: getSiteDeProduction({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: role,
+            project,
+          }),
         }),
       );
     },

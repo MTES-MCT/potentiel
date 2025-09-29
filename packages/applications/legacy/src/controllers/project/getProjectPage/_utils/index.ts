@@ -12,3 +12,4 @@ export * from './getProducteur';
 export * from './getFournisseur';
 export * from './getInstallateur';
 export * from './getNatureDeLExploitation';
+export * from './getSiteDeProduction';
