@@ -79,7 +79,7 @@ export type ValueType<
 >;
 
 export const bind = (plain: PlainType<ValueType>): ValueType => {
-  const constitutionValueType: ValueType['constitution'] = plain.constitution && {
+  const constitution: ValueType['constitution'] = plain.constitution && {
     attestation: { format: plain.constitution.attestation.format },
     date: vérifierDateConstitution(plain.constitution.date.date),
   };
@@ -92,7 +92,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
         typeof plain.constitution.date.date === 'string'
       );
     },
-    constitution: constitutionValueType || undefined,
+    constitution,
   };
   return match(plain)
     .returnType<ValueType>()
