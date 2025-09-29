@@ -109,3 +109,11 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-12-02         |
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+
+    Scénario: Impossible de modifier des garanties financières actuelles avec un type non disponible pour l'appel d'offre
+        Etant donné des garanties financières actuelles pour le projet lauréat avec :
+            | appel d'offres | PPE2 - Sol |
+        Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
+            | type GF              | exemption  |
+            | date de délibération | 2025-01-01 |
+        Alors l'utilisateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
