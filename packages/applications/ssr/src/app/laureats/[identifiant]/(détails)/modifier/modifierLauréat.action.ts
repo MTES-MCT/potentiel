@@ -12,7 +12,6 @@ import { getCandidature } from '@/app/_helpers';
 import {
   modifierLauréatEtCandidatureSchéma,
   PartialModifierCandidatureNotifiéeFormEntries,
-  PartialModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
 import {
   getLauréatInfos,
@@ -163,7 +162,16 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
           type: 'Lauréat.UseCase.ModifierSiteDeProduction',
           data: {
-            ...mapBodyToLauréatUsecaseData(identifiantProjet, laureat, lauréatAModifier),
+            identifiantProjetValue: identifiantProjet,
+            localitéValue: {
+              adresse1: laureat.adresse1 ?? lauréatAModifier.localité.adresse1,
+              adresse2: laureat.adresse2 ?? lauréatAModifier.localité.adresse2,
+              codePostal: laureat.codePostal ?? lauréatAModifier.localité.codePostal,
+              commune: laureat.commune ?? lauréatAModifier.localité.commune,
+              département: laureat.departement ?? lauréatAModifier.localité.département,
+              région: laureat.region ?? lauréatAModifier.localité.région,
+            },
+
             modifiéLeValue: DateTime.now().formatter(),
             modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
@@ -263,23 +271,5 @@ const mapBodyToCandidatureUsecaseData = (
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,
-  };
-};
-
-const mapBodyToLauréatUsecaseData = (
-  identifiantProjet: string,
-  data: PartialModifierLauréatValueFormEntries,
-  previous: Lauréat.ConsulterLauréatReadModel,
-): Omit<Lauréat.ModifierSiteDeProductionUseCase['data'], 'modifiéLeValue' | 'modifiéParValue'> => {
-  return {
-    identifiantProjetValue: identifiantProjet,
-    localitéValue: {
-      adresse1: data.adresse1 ?? previous.localité.adresse1,
-      adresse2: data.adresse2 ?? previous.localité.adresse2,
-      codePostal: data.codePostal ?? previous.localité.codePostal,
-      commune: data.commune ?? previous.localité.commune,
-      département: data.departement ?? previous.localité.département,
-      région: data.region ?? previous.localité.région,
-    },
   };
 };
