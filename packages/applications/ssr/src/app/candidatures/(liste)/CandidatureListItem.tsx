@@ -5,9 +5,9 @@ import { Email } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 import {
   CandidatureListItemActions,

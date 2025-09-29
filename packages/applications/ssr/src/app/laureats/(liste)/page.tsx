@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
-import { Candidature, Lauréat, StatutProjet } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
@@ -12,6 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 
 import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
 
@@ -24,12 +25,10 @@ export const metadata: Metadata = {
   description: 'Liste des projets lauréats',
 };
 
-const statutsProjet = StatutProjet.statuts.filter((s) => s !== 'éliminé');
-
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
-  statut: z.enum(statutsProjet).optional(),
+  statut: z.enum(Lauréat.StatutLauréat.statuts).optional(),
   appelOffre: z.string().optional(),
   periode: z.string().optional(),
   famille: z.string().optional(),
@@ -76,18 +75,11 @@ export default async function Page({ searchParams }: PageProps) {
       const familleOptions =
         périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
-      const typeActionnariatOptions =
-        appelOffresFiltrée?.cycleAppelOffre === 'PPE2'
-          ? Candidature.TypeActionnariat.ppe2Types.map((t) => ({ label: t, value: t }))
-          : appelOffresFiltrée?.cycleAppelOffre === 'CRE4'
-            ? Candidature.TypeActionnariat.cre4Types.map((t) => ({ label: t, value: t }))
-            : Candidature.TypeActionnariat.types.map((t) => ({ label: t, value: t }));
-
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: 'Statut du projet',
           searchParamKey: 'statut',
-          options: statutsProjet.map((value) => ({
+          options: Lauréat.StatutLauréat.statuts.map((value) => ({
             label: value.charAt(0).toUpperCase() + value.slice(1).replace('-', ' '),
             value,
           })),
@@ -115,7 +107,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: "Type d'actionnariat",
           searchParamKey: 'typeActionnariat',
-          options: typeActionnariatOptions,
+          options: getTypeActionnariatFilterOptions(appelOffresFiltrée?.cycleAppelOffre),
           multiple: true,
         },
       ];
@@ -170,7 +162,7 @@ const mapToActions = (
 type MapToListProps = (readModel: Lauréat.ListerLauréatReadModel) => LauréatListPageProps['list'];
 
 const mapToListProps: MapToListProps = (readModel) => {
-  const items = readModel.items.map(
+  const items: LauréatListPageProps['list']['items'] = readModel.items.map(
     ({
       identifiantProjet,
       nomProjet,
@@ -182,6 +174,7 @@ const mapToListProps: MapToListProps = (readModel) => {
       email,
       nomReprésentantLégal,
       typeActionnariat,
+      statut,
     }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       nomProjet,
@@ -192,7 +185,7 @@ const mapToListProps: MapToListProps = (readModel) => {
       prixReference: `${prixReference} €`,
       email: email.formatter(),
       nomReprésentantLégal,
-      statut: StatutProjet.classé.statut,
+      statut: statut.statut,
       typeActionnariat: typeActionnariat ? typeActionnariat.formatter() : undefined,
     }),
   );

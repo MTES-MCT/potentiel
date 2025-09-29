@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const statuts = ['abandonné', 'actif', 'achevé'] as const;
+export const statuts = ['abandonné', 'actif', 'achevé'] as const;
 export type RawType = (typeof statuts)[number];
 
 export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{

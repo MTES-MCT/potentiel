@@ -1,15 +1,17 @@
 import { FC } from 'react';
 import Link from 'next/link';
+import { match, P } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import {
-  ProjectListItemHeading,
-  ProjectListItemHeadingProps,
-} from '@/components/molecules/projet/liste/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
+import { getActionnariatTypeLabel } from '@/app/_helpers';
+
+import { StatutÉliminéBadge } from '../éliminé/StatutÉliminéBadge';
+import { StatutLauréatBadge } from '../lauréat/StatutLauréatBadge';
 
 import * as symbols from './ProjectListLegendAndSymbols';
 
@@ -17,7 +19,7 @@ export type ProjectListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
   localité: Candidature.Localité.RawType;
-  statut: ProjectListItemHeadingProps['statut'];
+  statut: Lauréat.StatutLauréat.RawType | 'éliminé';
   producteur: string;
   email: string;
   nomReprésentantLégal: string;
@@ -44,7 +46,12 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
-        statut={statut}
+        statutBadge={match(statut)
+          .with('éliminé', () => <StatutÉliminéBadge />)
+          .with(P.union('actif', 'achevé', 'abandonné'), (statut) => (
+            <StatutLauréatBadge statut={statut} />
+          ))
+          .exhaustive()}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Projet"
       />
@@ -106,7 +113,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
               title={symbols.typeActionnariat.description}
               size="xs"
             />
-            {typeActionnariat}
+            {getActionnariatTypeLabel(typeActionnariat)}
           </div>
         )}
       </div>

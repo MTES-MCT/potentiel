@@ -5,12 +5,12 @@ import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/e
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity';
-import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet, StatutProjet } from '../..';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
 import { CandidatureEntity, Localité, UnitéPuissance } from '../../candidature';
 import { PuissanceEntity } from '../puissance';
 import { ProducteurEntity } from '../producteur';
 import { ReprésentantLégalEntity } from '../représentantLégal';
-import { Producteur, Puissance, ReprésentantLégal } from '..';
+import { Producteur, Puissance, ReprésentantLégal, StatutLauréat } from '..';
 import { AbandonEntity } from '../abandon';
 import { AttestationConformitéEntity } from '../achèvement/attestationConformité';
 
@@ -27,7 +27,7 @@ type LauréatListItemReadModel = {
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
-  statut?: Exclude<StatutProjet.ValueType, 'éliminé'>;
+  statut: StatutLauréat.ValueType;
   typeActionnariat?: Candidature.TypeActionnariat.ValueType;
 };
 
@@ -43,7 +43,7 @@ export type ListerLauréatQuery = Message<
     utilisateur: Email.RawType;
     range: RangeOptions;
     nomProjet?: string;
-    statut?: Exclude<StatutProjet.RawType, 'éliminé'>;
+    statut?: StatutLauréat.RawType;
     appelOffre?: string;
     periode?: string;
     famille?: string;
@@ -132,7 +132,7 @@ export const registerListerLauréatQuery = ({
           where:
             statut === 'abandonné'
               ? { statut: Where.equal('accordé') }
-              : statut === 'classé'
+              : statut === 'actif'
                 ? { statut: Where.notEqual('accordé') }
                 : undefined,
         },
@@ -143,7 +143,7 @@ export const registerListerLauréatQuery = ({
           where:
             statut === 'achevé'
               ? { identifiantProjet: Where.notEqualNull() }
-              : statut === 'classé'
+              : statut === 'actif'
                 ? { identifiantProjet: Where.equalNull() }
                 : undefined,
         },
@@ -215,9 +215,9 @@ const mapToReadModel: MapToReadModelProps = ({
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
     statut: abandon
-      ? StatutProjet.abandonné
+      ? StatutLauréat.abandonné
       : attestationConformité
-        ? StatutProjet.achevé
-        : undefined,
+        ? StatutLauréat.achevé
+        : StatutLauréat.actif,
   };
 };
