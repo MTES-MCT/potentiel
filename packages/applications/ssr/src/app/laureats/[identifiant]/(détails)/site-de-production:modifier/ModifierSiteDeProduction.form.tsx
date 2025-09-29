@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -10,7 +9,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
 
@@ -43,21 +41,13 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
     <Form
       action={modifierSiteDeProductionAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour à la page projet
-          </Button>
-          <SubmitButton>Modifier</SubmitButton>
-        </>
-      }
+      actionButtons={{
+        submitLabel: 'Modifier',
+        secondaryAction: {
+          type: 'back',
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+        },
+      }}
     >
       <input
         name="identifiantProjet"
