@@ -1,7 +1,6 @@
 export * from './consulter';
 export * from './exporter';
 export * from './helpers';
-export * from './lister';
 export * from './findProjectByIdentifiers';
 export * from './getIdentifiantProjetByLegacyId';
 export * from './getListIdentifiantsProjetByLegacyIds';
