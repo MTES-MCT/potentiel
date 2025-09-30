@@ -30,7 +30,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | date d'échéance | 2050-12-02         |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2050-12-03" pour le projet lauréat
 
-    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de garanties financières actuelles modifiées
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-3 de la date d'échéance en cas de garanties financières actuelles modifiées
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-08-01         |
@@ -38,7 +38,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-10-01         |
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
-        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à trois mois" est planifiée à la date du "2050-07-01" pour le projet lauréat
 
     Scénario: Un admin modifie des garanties financières actuelles pour un projet qui en est exempté
         Etant donné le projet lauréat "Du Boulodrome de Toulouse" avec :

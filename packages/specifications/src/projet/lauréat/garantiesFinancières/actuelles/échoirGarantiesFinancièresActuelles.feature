@@ -45,7 +45,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat
-        Et une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à trois mois" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel des garanties financières à transmettre" n'est plus planifiée pour le projet lauréat
 
     @NotImplemented
