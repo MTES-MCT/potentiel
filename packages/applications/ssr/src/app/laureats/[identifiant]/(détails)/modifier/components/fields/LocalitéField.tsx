@@ -8,7 +8,7 @@ import { ModifierLauréatPageProps } from '../../ModifierLauréat.page';
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
 
-import { ProjectField } from './ProjectField';
+import { ProjectField } from './generic/ProjectField';
 
 type LocalitéFieldProps = {
   candidature: ModifierLauréatPageProps['candidature'];
@@ -34,6 +34,7 @@ export const LocalitéField = ({ candidature, lauréat, validationErrors }: Loca
           label="Adresse 1"
           name="adresse1"
           validationErrors={validationErrors}
+          required
         />
       </FormRow>
       <FormRow>
@@ -44,6 +45,7 @@ export const LocalitéField = ({ candidature, lauréat, validationErrors }: Loca
           label="Adresse 2"
           name="adresse2"
           validationErrors={validationErrors}
+          required
         />
       </FormRow>
     </div>

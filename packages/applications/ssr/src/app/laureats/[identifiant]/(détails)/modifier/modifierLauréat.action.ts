@@ -237,7 +237,10 @@ const mapBodyToCandidatureUsecaseData = (
       puissanceALaPointe: data.puissanceALaPointe ?? previous.puissanceALaPointe,
       evaluationCarboneSimplifiée:
         data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
-      actionnariat: data.actionnariat ?? previous.actionnariat?.formatter(),
+      actionnariat:
+        data.actionnariat === ''
+          ? undefined
+          : (data.actionnariat ?? previous.actionnariat?.formatter()),
       coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite ?? previous.puissanceDeSite,
       autorisationDUrbanisme: previous.autorisationDUrbanisme

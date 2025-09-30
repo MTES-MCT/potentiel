@@ -1,38 +1,40 @@
 'use client';
 
-import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
+import { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
+import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
 import {
   ModifierLauréatChampsSupplémentairesValueFormEntries,
   ModifierLauréatValueFormEntries,
 } from '@/utils/candidature';
 
-import { FieldValidationErrors } from '../../ModifierLauréat.form';
-import { LinkedValuesButton } from '../LinkedValuesButton';
-import { getInputTypeNativeProps } from '../../_helpers/getInputTypeNativeProps';
+import { FieldValidationErrors } from '../../../ModifierLauréat.form';
+import { LinkedValuesButton } from '../../LinkedValuesButton';
 
-type ProjectFieldProps<T> = {
+type ProjectSelectFieldProps<T> = {
   candidature: T;
   lauréat: T;
+  options: SelectProps.Option[];
   name:
     | keyof ModifierLauréatValueFormEntries
     | keyof ModifierLauréatChampsSupplémentairesValueFormEntries;
-  estEnCoursDeModification?: boolean;
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
-  nativeInputProps?: InputProps['nativeInputProps'];
+  required?: boolean;
+  estEnCoursDeModification?: boolean;
 };
 
-export const ProjectField = <T extends string | number | undefined>({
+export const ProjectSelectField = <T extends string | undefined>({
   candidature,
   lauréat,
   label,
+  options,
   name,
-  estEnCoursDeModification,
-  nativeInputProps,
   validationErrors,
-}: ProjectFieldProps<T>) => {
+  required,
+  estEnCoursDeModification,
+}: ProjectSelectFieldProps<T>) => {
   const [linked, setLinked] = useState(candidature === lauréat && !estEnCoursDeModification);
   const [candidatureValue, setCandidatureValue] = useState(candidature);
   const [lauréatValue, setLauréatValue] = useState(lauréat);
@@ -44,7 +46,7 @@ export const ProjectField = <T extends string | number | undefined>({
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">{label}</div>
+      <div className="flex-1 font-semibold">{required ? label : `${label} (optionnel)`}</div>
       <div className="flex-[2] flex px-2">
         <input
           name={`candidature.${name}`}
@@ -52,15 +54,15 @@ export const ProjectField = <T extends string | number | undefined>({
           value={candidatureValue}
           disabled={candidatureValue === candidature}
         />
-        <Input
+        <Select
           className="w-full"
           label=""
           state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
-          nativeInputProps={{
-            ...getInputTypeNativeProps(candidature),
-            ...nativeInputProps,
+          nativeSelectProps={{
             value: candidatureValue,
+            required: true,
+            'aria-required': true,
             onChange: (ev) => {
               setCandidatureValue(ev.target.value as T);
               if (linked) {
@@ -68,6 +70,7 @@ export const ProjectField = <T extends string | number | undefined>({
               }
             },
           }}
+          options={options}
         />
       </div>
       <div className="flex-[2] flex px-2">
@@ -77,31 +80,29 @@ export const ProjectField = <T extends string | number | undefined>({
           value={lauréatValue}
           disabled={lauréatValue === lauréat}
         />
-        <Input
-          className="w-full"
-          disabled={estEnCoursDeModification || linked}
+        <Select
+          className="w-full "
+          style={{ marginBottom: 0 }}
           label=""
+          disabled={linked}
           state={validationErrors[`laureat.${name}`] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors[`laureat.${name}`]}
-          nativeInputProps={{
-            ...getInputTypeNativeProps(candidature),
-            ...nativeInputProps,
+          nativeSelectProps={{
             value: lauréatValue,
+            required: true,
+            'aria-required': true,
             onChange: (ev) => {
               setLauréatValue(ev.target.value as T);
-              if (linked) {
-                setCandidatureValue(ev.target.value as T);
-              }
             },
           }}
-          addon={
-            <LinkedValuesButton
-              linked={linked}
-              estEnCoursDeModification={estEnCoursDeModification}
-              onButtonClick={onButtonClick}
-              aDéjàEtéModifié={candidature !== lauréat}
-            />
-          }
+          options={options}
+        />
+
+        <LinkedValuesButton
+          linked={linked}
+          estEnCoursDeModification={estEnCoursDeModification}
+          onButtonClick={onButtonClick}
+          aDéjàEtéModifié={candidature !== lauréat}
         />
       </div>
     </div>

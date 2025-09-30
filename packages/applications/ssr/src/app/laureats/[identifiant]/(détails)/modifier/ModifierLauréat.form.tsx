@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -20,18 +21,17 @@ import {
 import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 
+import { getNatureDeLExploitationTypeLabel } from '../../../../_helpers/getNatureDeLExploitationTypeLabel';
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '../../../../_helpers';
+
 import { modifierLauréatAction } from './modifierLauréat.action';
-import { ProjectField } from './components/fields/ProjectField';
-import { TechnologieField } from './components/fields/TechnologieField';
-import { ActionnariatField } from './components/fields/ActionnariatField';
+import { ProjectField } from './components/fields/generic/ProjectField';
 import { LocalitéField } from './components/fields/LocalitéField';
-import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
 import { AttestationField } from './components/fields/AttestationField';
-import { CandidatureField } from './components/fields/CandidatureField';
-import { CoefficientKField } from './components/fields/CoefficientKField';
+import { CandidatureField } from './components/fields/generic/CandidatureField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
-import { InstallationAvecDispositifDeStockageField } from './components/fields/InstallationAvecDispositifDeStockageField';
-import { NatureDeLExploitationField } from './components/fields/NatureDExploitationField';
+import { ProjectSelectField } from './components/fields/generic/ProjectSelectField';
+import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectField';
 
 type ModifierLauréatFormEntries = {
   [K in ModifierLauréatKeys]: {
@@ -115,6 +115,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Nom du projet"
             name="nomProjet"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -124,6 +125,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Nom du producteur"
             name="nomCandidat"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -132,6 +134,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Email de contact"
             name="emailContact"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -139,18 +142,26 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.nomRepresentantLegal}
             lauréat={lauréat.nomRepresentantLegal.currentValue}
             estEnCoursDeModification={lauréat.nomRepresentantLegal.estEnCoursDeModification}
-            label="Nom représentant légal"
+            label="Nom du représentant légal"
             name="nomRepresentantLegal"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
-          <ActionnariatField
+          <CandidatureSelectField
             candidature={candidature.actionnariat ?? ''}
             label="Type d'actionnariat"
             name="actionnariat"
-            typesActionnariat={cdcActuel.getTypesActionnariat()}
+            options={[
+              { label: 'Aucun', value: '' },
+              ...cdcActuel.getTypesActionnariat().map((type) => ({
+                label: getActionnariatTypeLabel(type),
+                value: type,
+              })),
+            ]}
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -161,6 +172,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Actionnaire(s)"
             name="actionnaire"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <LocalitéField
@@ -169,11 +181,16 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           validationErrors={validationErrors}
         />
         <FormRow>
-          <TechnologieField
+          <CandidatureSelectField
             candidature={candidature.technologie}
             label="Technologie"
             name="technologie"
+            options={Candidature.TypeTechnologie.types.map((type) => ({
+              value: type,
+              label: getTechnologieTypeLabel(type),
+            }))}
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -182,6 +199,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Prix de référence"
             name="prixReference"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
@@ -195,15 +213,21 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             nativeInputProps={{
               step: 0.1,
             }}
+            required
           />
         </FormRow>
         {champsSupplémentaires.puissanceALaPointe && (
           <FormRow>
-            <PuissanceALaPointeField
-              candidature={candidature.puissanceALaPointe}
-              label="Engagement de puissance à la pointe"
+            <CandidatureSelectField
+              candidature={candidature.puissanceALaPointe ? 'true' : 'false'}
+              label="Puissance à la pointe"
               name="puissanceALaPointe"
+              options={[
+                { label: 'Oui', value: 'true' },
+                { label: 'Non', value: 'false' },
+              ]}
               validationErrors={validationErrors}
+              required={champsSupplémentaires.puissanceALaPointe === 'requis'}
             />
           </FormRow>
         )}
@@ -214,6 +238,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label={`Puissance de site (en ${projet.unitéPuissance})`}
               name="puissanceDeSite"
               validationErrors={validationErrors}
+              required={champsSupplémentaires.puissanceDeSite === 'requis'}
             />
           </FormRow>
         )}
@@ -225,6 +250,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
                 label="Numéro d'autorisation d'urbanisme"
                 name="numeroDAutorisationDUrbanisme"
                 validationErrors={validationErrors}
+                required={champsSupplémentaires.autorisationDUrbanisme === 'requis'}
               />
             </FormRow>
             <FormRow>
@@ -240,37 +266,59 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             <ProjectField
               candidature={candidature.installateur}
               lauréat={lauréat.installateur.currentValue}
-              label="Installateur (optionnel)"
+              label="Installateur"
               name="installateur"
               validationErrors={validationErrors}
+              required={champsSupplémentaires.installateur === 'requis'}
             />
           </FormRow>
         )}
         {champsSupplémentaires.installationAvecDispositifDeStockage && (
           <FormRow>
-            <InstallationAvecDispositifDeStockageField
-              candidature={candidature.installationAvecDispositifDeStockage ?? false}
-              lauréat={lauréat.installationAvecDispositifDeStockage?.currentValue ?? false}
+            <ProjectSelectField
+              name="installationAvecDispositifDeStockage"
+              label="Dispositif de stockage"
+              candidature={candidature.installationAvecDispositifDeStockage ? 'true' : 'false'}
+              lauréat={lauréat.installationAvecDispositifDeStockage ? 'true' : 'false'}
+              options={[
+                { label: 'Avec', value: 'true' },
+                { label: 'Sans', value: 'false' },
+              ]}
               validationErrors={validationErrors}
+              required={champsSupplémentaires.installationAvecDispositifDeStockage === 'requis'}
             />
           </FormRow>
         )}
         {champsSupplémentaires.natureDeLExploitation && (
           <FormRow>
-            <NatureDeLExploitationField
+            <ProjectSelectField
+              name="natureDeLExploitation"
+              label="Nature de l'exploitation"
               candidature={candidature.natureDeLExploitation}
               lauréat={lauréat.natureDeLExploitation?.currentValue}
+              options={Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types.map(
+                (type) => ({
+                  label: getNatureDeLExploitationTypeLabel(type),
+                  value: type,
+                }),
+              )}
               validationErrors={validationErrors}
+              required={champsSupplémentaires.natureDeLExploitation === 'requis'}
             />
           </FormRow>
         )}
         {champsSupplémentaires.coefficientKChoisi && (
           <FormRow>
-            <CoefficientKField
-              candidature={candidature.coefficientKChoisi ?? false}
+            <CandidatureSelectField
+              candidature={candidature.coefficientKChoisi ? 'true' : 'false'}
               label="Choix du coefficient K"
               name="coefficientKChoisi"
+              options={[
+                { label: 'Oui', value: 'true' },
+                { label: 'Non', value: 'false' },
+              ]}
               validationErrors={validationErrors}
+              required={champsSupplémentaires.coefficientKChoisi === 'requis'}
             />
           </FormRow>
         )}
@@ -283,6 +331,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             name="evaluationCarboneSimplifiee"
             validationErrors={validationErrors}
             estEnCoursDeModification={lauréat.evaluationCarboneSimplifiee.estEnCoursDeModification}
+            required
           />
         </FormRow>
         <FormRow>
@@ -291,6 +340,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Note"
             name="noteTotale"
             validationErrors={validationErrors}
+            required
           />
         </FormRow>
         <FormRow>
