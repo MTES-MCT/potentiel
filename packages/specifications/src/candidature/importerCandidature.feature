@@ -206,7 +206,6 @@ Fonctionnalité: Importer une candidature
             | PPE2 - Bâtiment          | consignation              |                 |
             | PPE2 - Sol               | avec-date-échéance        | 01/12/2042      |
             | PPE2 - Innovation        | six-mois-après-achèvement |                 |
-            | PPE2 - Petit PV Bâtiment | garantie-bancaire         |                 |
             | PPE2 - Petit PV Bâtiment | exemption                 |                 |
 
     Scénario: Impossible d'importer une candidature sans GF, pour un AO soumis aux GF
@@ -250,9 +249,9 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Impossible d'importer une candidature avec un type de garanties financières non disponible dans l'appel d'offres
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut         | classé            |
-            | appel d'offres | PPE2 - Bâtiment   |
-            | type GF        | garantie-bancaire |
+            | statut         | classé          |
+            | appel d'offres | PPE2 - Bâtiment |
+            | type GF        | exemption       |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
 

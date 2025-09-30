@@ -5,7 +5,6 @@ export const types = [
   'avec-date-échéance',
   'six-mois-après-achèvement',
   'type-inconnu',
-  'garantie-bancaire',
   'exemption',
 ] as const;
 
@@ -13,7 +12,6 @@ export type RawType = (typeof types)[number];
 
 export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   type: Type;
-  estGarantieBancaire: () => boolean;
   estConsignation: () => boolean;
   estAvecDateÉchéance: () => boolean;
   estSixMoisAprèsAchèvement: () => boolean;
@@ -32,9 +30,6 @@ export const bind = <Type extends RawType = RawType>({
     },
     estÉgaleÀ(valueType) {
       return this.type === valueType.type;
-    },
-    estGarantieBancaire() {
-      return this.type === 'garantie-bancaire';
     },
     estConsignation() {
       return this.type === 'consignation';
@@ -75,7 +70,6 @@ export const avecDateÉchéance = convertirEnValueType<'avec-date-échéance'>('
 export const sixMoisAprèsAchèvement = convertirEnValueType<'six-mois-après-achèvement'>(
   'six-mois-après-achèvement',
 );
-export const garantieBancaire = convertirEnValueType<'garantie-bancaire'>('garantie-bancaire');
 export const exemption = convertirEnValueType<'exemption'>('exemption');
 export const typeInconnu = convertirEnValueType<'type-inconnu'>('type-inconnu');
 

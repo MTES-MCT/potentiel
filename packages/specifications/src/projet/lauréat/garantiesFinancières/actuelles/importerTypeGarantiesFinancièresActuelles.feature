@@ -17,7 +17,6 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | avec-date-échéance        | PPE2 - Sol               | 2027-12-01      |                      |
             | six-mois-après-achèvement | PPE2 - Eolien            |                 |                      |
             | consignation              | CRE4 - ZNI               |                 |                      |
-            | garantie-bancaire         | PPE2 - Petit PV Bâtiment |                 |                      |
             | exemption                 | PPE2 - Petit PV Bâtiment |                 | 2024-12-01           |
 
     Scénario: Un admin importe des garanties financières actuelles ayant initialement un statut échu

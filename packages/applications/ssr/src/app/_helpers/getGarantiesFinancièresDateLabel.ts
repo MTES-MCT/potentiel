@@ -10,7 +10,6 @@ export const getGarantiesFinancièresDateLabel = (
     .with(
       'avec-date-échéance',
       'consignation',
-      'garantie-bancaire',
       'six-mois-après-achèvement',
       'type-inconnu',
       () => 'Date de constitution',

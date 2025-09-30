@@ -29,7 +29,7 @@ const mapSelectToValueType = <T>(
 
 const typeGfMap = reverseRecord({
   consignation: 'Consignation',
-  'garantie-bancaire': 'Garantie bancaire',
+  'avec-date-échéance': 'Garantie bancaire',
   exemption: `Exemption`,
 } satisfies Partial<Record<Candidature.TypeGarantiesFinancières.RawType, string>>);
 
@@ -109,7 +109,7 @@ export const getTypeNatureDeLExploitation = <
 const gfDateLabels = {
   exemption: "Date de la délibération portant sur le projet objet de l'offre",
   consignation: 'Date de la consignation',
-  'garantie-bancaire': "Date de prise d'effet de la garantie financière",
+  'avec-date-échéance': "Date de prise d'effet de la garantie financière",
 } as const;
 
 export const getDateConstitutionGarantiesFinancières = (

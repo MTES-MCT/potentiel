@@ -90,13 +90,10 @@ export const mapApiResponseToDépôt = ({
     prixReference: accessor.getNumberValue('prixReference'),
     evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
 
-    typeGarantiesFinancières:
-      typeGarantiesFinancieres === 'garantie-bancaire'
-        ? 'avec-date-échéance'
-        : typeGarantiesFinancieres,
+    typeGarantiesFinancières: typeGarantiesFinancieres,
     dateConstitutionGf: dateConstitutionGarantiesFinancieres,
     dateÉchéanceGf:
-      typeGarantiesFinancieres === 'garantie-bancaire' && dateConstitutionGarantiesFinancieres
+      typeGarantiesFinancieres === 'avec-date-échéance' && dateConstitutionGarantiesFinancieres
         ? getDateÉchéanceGarantiesFinancières(dateConstitutionGarantiesFinancieres)
         : undefined,
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
