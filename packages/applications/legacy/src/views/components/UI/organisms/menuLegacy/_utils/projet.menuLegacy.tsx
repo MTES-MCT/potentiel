@@ -5,11 +5,7 @@ import { DropdownMenu } from '../../../molecules';
 
 export const MenuLegacyProjet = () => (
   <DropdownMenu buttonChildren={'Projets'}>
-    <DropdownMenu.DropdownItem href={Routes.Lauréat.lister()}>
-      Projets lauréats
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem href={Routes.Éliminé.lister()}>
-      Projets éliminés
-    </DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem href={Routes.Lauréat.lister()}>Lauréats</DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem href={Routes.Éliminé.lister()}>Éliminés</DropdownMenu.DropdownItem>
   </DropdownMenu>
 );

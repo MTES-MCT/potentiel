@@ -21,13 +21,13 @@ const toutesLesDemandesWording = 'Toutes les demandes';
 const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
   const projetMenuLinks: Array<MenuProps.Link> = [
     {
-      text: 'Projets lauréats',
+      text: 'Lauréats',
       linkProps: {
         href: Routes.Lauréat.lister(),
       },
     },
     {
-      text: 'Projets éliminés',
+      text: 'Éliminés',
       linkProps: {
         href: Routes.Éliminé.lister(),
       },

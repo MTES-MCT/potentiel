@@ -129,17 +129,19 @@ const mapToActions = (
 ) => {
   const actions: ÉliminéListPageProps['actions'] = [];
 
-  if (rôle.estDGEC() || rôle.estDreal()) {
-    actions.push({
-      label: 'Télécharger un export (CSV)',
-      href: Routes.Projet.exportCsv({
-        appelOffreId: searchParams.appelOffre,
-        nomProjet: searchParams.nomProjet,
-        classement: 'classés',
-      }),
-      iconId: 'ri-file-excel-line',
-    });
+  if (rôle.estGrd()) {
+    return actions;
   }
+
+  actions.push({
+    label: 'Télécharger un export (CSV)',
+    href: Routes.Projet.exportCsv({
+      appelOffreId: searchParams.appelOffre,
+      nomProjet: searchParams.nomProjet,
+      classement: 'classés',
+    }),
+    iconId: 'ri-file-excel-line',
+  });
 
   return actions;
 };

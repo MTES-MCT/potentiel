@@ -6,8 +6,8 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
+import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 
-import { candidatureListLegendSymbols } from './candidatureListLegendSymbols';
 import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
 
 export type CandidatureListPageProps = PlainType<
@@ -38,7 +38,9 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
       itemsPerPage={itemsPerPage}
       ItemComponent={CandidatureListItem}
       legend={{
-        symbols: candidatureListLegendSymbols,
+        symbols: projectListLegendSymbols.filter(
+          (symbol) => symbol.description !== `Type d'actionnariat`,
+        ),
       }}
       filters={filters}
       search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}

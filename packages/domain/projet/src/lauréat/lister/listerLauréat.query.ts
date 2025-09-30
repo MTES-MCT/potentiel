@@ -202,10 +202,11 @@ const mapToReadModel: MapToReadModelProps = ({
     typeActionnariat: actionnariat
       ? Candidature.TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined,
-    statut: abandon
-      ? StatutLauréat.abandonné
-      : attestationConformité
-        ? StatutLauréat.achevé
-        : StatutLauréat.actif,
+    statut:
+      abandon?.statut === 'accordé'
+        ? StatutLauréat.abandonné
+        : attestationConformité
+          ? StatutLauréat.achevé
+          : StatutLauréat.actif,
   };
 };
