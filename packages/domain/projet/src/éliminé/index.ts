@@ -24,7 +24,6 @@ export { NotifierÉliminéUseCase };
 export { ÉliminéEvent, ÉliminéNotifiéEvent, ÉliminéArchivéEvent };
 
 // Register
-
 export { registerEliminéUseCases, registerEliminéQueries } from './éliminé.register';
 
 // Entities
