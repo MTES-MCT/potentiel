@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email } from '@potentiel-domain/common';
 import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatEntity } from '../lauréat.entity';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../..';
@@ -80,7 +79,6 @@ export const registerListerLauréatQuery = ({
         ProducteurEntity,
         ReprésentantLégalEntity,
         CandidatureEntity,
-        AppelOffre.AppelOffreEntity,
         LeftJoin<AbandonEntity>,
         LeftJoin<AttestationConformitéEntity>,
       ]
@@ -120,10 +118,6 @@ export const registerListerLauréatQuery = ({
                 ? Where.matchAny(typeActionnariat)
                 : undefined,
           },
-        },
-        {
-          entity: 'appel-offre',
-          on: 'appelOffre',
         },
         {
           entity: 'abandon',
@@ -167,7 +161,6 @@ type MapToReadModelProps = (
         ProducteurEntity,
         ReprésentantLégalEntity,
         CandidatureEntity,
-        AppelOffre.AppelOffreEntity,
         LeftJoin<AbandonEntity>,
         LeftJoin<AttestationConformitéEntity>,
       ]
@@ -183,12 +176,11 @@ const mapToReadModel: MapToReadModelProps = ({
   puissance,
   candidature: {
     emailContact,
-    technologie,
     evaluationCarboneSimplifiée,
     prixReference,
     actionnariat,
+    unitéPuissance,
   },
-  'appel-offre': appelOffres,
   abandon,
   'attestation-conformité': attestationConformité,
 }) => {
@@ -202,11 +194,7 @@ const mapToReadModel: MapToReadModelProps = ({
     email: Email.convertirEnValueType(emailContact),
     nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
     puissance: {
-      unité: Candidature.UnitéPuissance.déterminer({
-        appelOffres,
-        période: identifiantProjetValueType.période,
-        technologie,
-      }).formatter(),
+      unité: unitéPuissance,
       valeur: puissance.puissance,
     },
     prixReference,

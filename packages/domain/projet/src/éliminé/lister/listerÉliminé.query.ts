@@ -107,19 +107,18 @@ export const registerListerÉliminéQuery = ({
 };
 
 type MapToReadModelProps = (
-  args: CandidatureEntity & Joined<[ÉliminéEntity, AppelOffre.AppelOffreEntity]>,
+  args: CandidatureEntity & Joined<ÉliminéEntity>,
 ) => ÉliminéListItemReadModel;
 
 const mapToReadModel: MapToReadModelProps = ({
   identifiantProjet,
-  'appel-offre': appelOffres,
   nomProjet,
   localité,
   nomReprésentantLégal,
   nomCandidat: producteur,
   puissanceProductionAnnuelle: puissance,
+  unitéPuissance,
   emailContact,
-  technologie,
   prixReference,
   evaluationCarboneSimplifiée,
   actionnariat,
@@ -134,11 +133,7 @@ const mapToReadModel: MapToReadModelProps = ({
     email: Email.convertirEnValueType(emailContact),
     nomReprésentantLégal,
     puissance: {
-      unité: Candidature.UnitéPuissance.déterminer({
-        appelOffres,
-        période: identifiantProjetValueType.période,
-        technologie,
-      }).formatter(),
+      unité: unitéPuissance,
       valeur: puissance,
     },
     prixReference,
