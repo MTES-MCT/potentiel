@@ -12,11 +12,8 @@ export type ModifierGarantiesFinancièresUseCase = Message<
   'Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières',
   {
     identifiantProjetValue: string;
-    garantiesFinancièresValue: {
-      type: string;
-      dateÉchéance: string | undefined;
-      dateDélibération: string | undefined;
-    };
+    typeValue: string;
+    dateÉchéanceValue: string | undefined;
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -33,35 +30,38 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
     dateConstitutionValue,
     identifiantProjetValue,
     modifiéLeValue,
-    garantiesFinancièresValue,
+    typeValue,
+    dateÉchéanceValue,
     modifiéParValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const garantiesFinancières =
-      GarantiesFinancières.convertirEnValueType(garantiesFinancièresValue);
-    const dateConstitution = DateTime.convertirEnValueType(dateConstitutionValue);
-    const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
-    const attestation = DocumentProjet.convertirEnValueType(
+    const garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+      type: typeValue,
+      dateÉchéance:
+        dateÉchéanceValue && DateTime.convertirEnValueType(dateÉchéanceValue).formatter(),
+      attestation: { format: attestationValue.format },
+      dateConstitution: DateTime.convertirEnValueType(dateConstitutionValue).formatter(),
+    });
+    const documentProjet = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
       dateConstitutionValue,
       attestationValue.format,
     );
+    const modifiéLe = DateTime.convertirEnValueType(modifiéLeValue);
     const modifiéPar = Email.convertirEnValueType(modifiéParValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
         content: attestationValue.content,
-        documentProjet: attestation,
+        documentProjet,
       },
     });
 
     await mediator.send<ModifierGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.ModifierGarantiesFinancières',
       data: {
-        attestation,
-        dateConstitution,
         identifiantProjet,
         garantiesFinancières,
         modifiéLe,

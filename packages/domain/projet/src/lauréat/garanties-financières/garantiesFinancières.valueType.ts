@@ -6,47 +6,56 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { TypeGarantiesFinancières } from '../../candidature';
 
 import {
-  DateDélibérationNonAttendueError,
-  DateDélibérationRequiseError,
+  DateConstitutionDansLeFuturError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
-  DateDélibérationDansLeFuturError,
 } from './garantiesFinancières.error';
 
-export type RawType =
+export type RawType = (
   | {
-      type: 'type-inconnu' | 'consignation' | 'six-mois-après-achèvement' | 'garantie-bancaire';
+      type:
+        | 'type-inconnu'
+        | 'consignation'
+        | 'six-mois-après-achèvement'
+        | 'garantie-bancaire'
+        | 'exemption';
     }
   | {
       type: 'avec-date-échéance';
       dateÉchéance: DateTime.RawType;
     }
-  | {
-      type: 'exemption';
-      dateDélibération: DateTime.RawType;
-    };
+) & {
+  constitution: { attestation: { format: string }; date: DateTime.RawType } | undefined;
+};
+
+type ConstitutionValueType = { attestation: { format: string }; date: DateTime.ValueType };
 
 type InconnuValueType = {
   type: TypeGarantiesFinancières.ValueType<'type-inconnu'>;
+  constitution: ConstitutionValueType | undefined;
 };
 
 type ConsignationValueType = {
   type: TypeGarantiesFinancières.ValueType<'consignation'>;
+  constitution: ConstitutionValueType | undefined;
 };
 
 type SixMoisAprèsAchèvementValueType = {
   type: TypeGarantiesFinancières.ValueType<'six-mois-après-achèvement'>;
+  constitution: ConstitutionValueType | undefined;
 };
 type GarantiesBancairesValueType = {
   type: TypeGarantiesFinancières.ValueType<'garantie-bancaire'>;
+  constitution: ConstitutionValueType | undefined;
+};
+type ExemptionValueType = {
+  type: TypeGarantiesFinancières.ValueType<'exemption'>;
+  constitution: ConstitutionValueType | undefined;
 };
 type AvecDateÉchéanceValueType = {
   type: TypeGarantiesFinancières.ValueType<'avec-date-échéance'>;
   dateÉchéance: DateTime.ValueType;
-};
-type ExemptionValueType = {
-  type: TypeGarantiesFinancières.ValueType<'exemption'>;
-  dateDélibération: DateTime.ValueType;
+  constitution: ConstitutionValueType | undefined;
 };
 
 export type ValueType<
@@ -63,114 +72,229 @@ export type ValueType<
     formatter(): RawType;
     estAvecDateÉchéance(): this is ValueType<'avec-date-échéance'>;
     estExemption(): this is ValueType<'exemption'>;
+    estConstitué(): this is ValueType & {
+      constitution: ConsignationValueType;
+    };
   }
 >;
 
 export const bind = (plain: PlainType<ValueType>): ValueType => {
+  const constitution: ValueType['constitution'] = plain.constitution && {
+    attestation: { format: plain.constitution.attestation.format },
+    date: vérifierDateConstitution(plain.constitution.date.date),
+  };
+  const common = {
+    estConstitué(): this is ValueType & {
+      constitution: ConsignationValueType;
+    } {
+      return (
+        typeof plain.constitution?.attestation.format === 'string' &&
+        typeof plain.constitution.date.date === 'string'
+      );
+    },
+    constitution,
+  };
   return match(plain)
     .returnType<ValueType>()
-    .with({ type: { type: 'type-inconnu' } }, () => ({
+    .with({ type: { type: 'type-inconnu' } }, ({ constitution }) => ({
       type: TypeGarantiesFinancières.typeInconnu,
-      estÉgaleÀ: (valueType) => valueType.type.type === 'type-inconnu',
-      formatter: () => ({ type: 'type-inconnu' }),
+      estÉgaleÀ: (valueType: ValueType) => {
+        const raw = valueType.formatter();
+        return (
+          raw.type === 'type-inconnu' &&
+          raw.constitution?.attestation.format === constitution?.attestation.format &&
+          raw.constitution?.date === constitution?.date.date
+        );
+      },
+      formatter: () => ({
+        type: 'type-inconnu',
+        constitution: constitution
+          ? {
+              attestation: { format: constitution?.attestation.format },
+              date: constitution?.date.date,
+            }
+          : undefined,
+      }),
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => false,
+      ...common,
     }))
-    .with({ type: { type: 'consignation' } }, () => ({
+    .with({ type: { type: 'consignation' } }, ({ constitution }) => ({
       type: TypeGarantiesFinancières.consignation,
-      estÉgaleÀ: (valueType) => valueType.type.type === 'consignation',
-      formatter: () => ({ type: 'consignation' }),
+      estÉgaleÀ: (valueType: ValueType) => {
+        const raw = valueType.formatter();
+        return (
+          raw.type === 'consignation' &&
+          raw.constitution?.attestation.format === constitution?.attestation.format &&
+          raw.constitution?.date === constitution?.date.date
+        );
+      },
+      formatter: () => ({
+        type: 'consignation',
+        constitution: constitution
+          ? {
+              attestation: { format: constitution?.attestation.format },
+              date: constitution?.date.date,
+            }
+          : undefined,
+      }),
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => false,
+      ...common,
     }))
-    .with({ type: { type: 'six-mois-après-achèvement' } }, () => ({
+    .with({ type: { type: 'six-mois-après-achèvement' } }, ({ constitution }) => ({
       type: TypeGarantiesFinancières.sixMoisAprèsAchèvement,
-      estÉgaleÀ: (valueType) => valueType.type.type === 'six-mois-après-achèvement',
-      formatter: () => ({ type: 'six-mois-après-achèvement' }),
+      estÉgaleÀ: (valueType: ValueType) => {
+        const raw = valueType.formatter();
+        return (
+          raw.type === 'six-mois-après-achèvement' &&
+          raw.constitution?.attestation.format === constitution?.attestation.format &&
+          raw.constitution?.date === constitution?.date.date
+        );
+      },
+      formatter: () => ({
+        type: 'six-mois-après-achèvement',
+        constitution: constitution
+          ? {
+              attestation: { format: constitution?.attestation.format },
+              date: constitution?.date.date,
+            }
+          : undefined,
+      }),
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => false,
+      ...common,
     }))
-    .with({ type: { type: 'garantie-bancaire' } }, () => ({
+    .with({ type: { type: 'garantie-bancaire' } }, ({ constitution }) => ({
       type: TypeGarantiesFinancières.garantieBancaire,
-      estÉgaleÀ: (valueType) => valueType.type.type === 'garantie-bancaire',
-      formatter: () => ({ type: 'garantie-bancaire' }),
+      estÉgaleÀ: (valueType: ValueType) => {
+        const raw = valueType.formatter();
+        return (
+          raw.type === 'garantie-bancaire' &&
+          raw.constitution?.attestation.format === constitution?.attestation.format &&
+          raw.constitution?.date === constitution?.date.date
+        );
+      },
+      formatter: () => ({
+        type: 'garantie-bancaire',
+        constitution: constitution
+          ? {
+              attestation: { format: constitution?.attestation.format },
+              date: constitution?.date.date,
+            }
+          : undefined,
+      }),
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => false,
+      ...common,
     }))
-    .with({ type: { type: 'avec-date-échéance' } }, ({ dateÉchéance }) => ({
-      type: TypeGarantiesFinancières.avecDateÉchéance,
-      dateÉchéance: vérifierDateÉchéance(dateÉchéance?.date),
-      estÉgaleÀ(valueType: ValueType) {
-        const raw = valueType.formatter();
-        return raw.type === 'avec-date-échéance' && raw.dateÉchéance === dateÉchéance.date;
-      },
-      formatter() {
-        return {
-          type: 'avec-date-échéance',
-          dateÉchéance: vérifierDateÉchéance(dateÉchéance?.date).formatter(),
-        };
-      },
-      estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => true,
-      estExemption: (): this is ValueType<'exemption'> => false,
-    }))
-    .with({ type: { type: 'exemption' } }, ({ dateDélibération }) => ({
+    .with({ type: { type: 'exemption' } }, ({ constitution }) => ({
       type: TypeGarantiesFinancières.exemption,
-      dateDélibération: vérifierDateDélibération(dateDélibération?.date),
-      estÉgaleÀ(valueType: ValueType) {
+      estÉgaleÀ: (valueType: ValueType) => {
         const raw = valueType.formatter();
-        return raw.type === 'exemption' && raw.dateDélibération === dateDélibération.date;
+        return (
+          raw.type === 'exemption' &&
+          raw.constitution?.attestation.format === constitution?.attestation.format &&
+          raw.constitution?.date === constitution?.date.date
+        );
       },
-      formatter() {
-        return {
-          type: 'exemption',
-          dateDélibération: vérifierDateDélibération(dateDélibération?.date).formatter(),
-        };
-      },
+      formatter: () => ({
+        type: 'exemption',
+        constitution: constitution
+          ? {
+              attestation: { format: constitution?.attestation.format },
+              date: constitution?.date.date,
+            }
+          : undefined,
+      }),
       estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
       estExemption: (): this is ValueType<'exemption'> => true,
+      ...common,
     }))
+    .with({ type: { type: 'avec-date-échéance' } }, ({ dateÉchéance, constitution }) => {
+      const dateÉchéanceValueType = vérifierDateÉchéance(dateÉchéance?.date);
+      return {
+        type: TypeGarantiesFinancières.avecDateÉchéance,
+        dateÉchéance: dateÉchéanceValueType,
+        estÉgaleÀ(valueType: ValueType) {
+          const raw = valueType.formatter();
+          return (
+            raw.type === 'avec-date-échéance' &&
+            raw.dateÉchéance === dateÉchéanceValueType.formatter() &&
+            raw.constitution?.attestation.format === constitution?.attestation.format &&
+            raw.constitution?.date === constitution?.date.date
+          );
+        },
+        formatter() {
+          return {
+            type: 'avec-date-échéance',
+            dateÉchéance: dateÉchéanceValueType.formatter(),
+            constitution: constitution
+              ? {
+                  attestation: { format: constitution?.attestation.format },
+                  date: constitution?.date.date,
+                }
+              : undefined,
+          };
+        },
+        estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => true,
+        estExemption: (): this is ValueType<'exemption'> => false,
+        ...common,
+      };
+    })
     .exhaustive();
 };
 
 type ConvertirEnValueTypeProps = {
   type: string;
   dateÉchéance: string | undefined;
-  dateDélibération: string | undefined;
+  attestation: { format: string } | undefined;
+  dateConstitution: string | undefined;
 };
 
 export const convertirEnValueType = ({
   type,
-  dateDélibération,
   dateÉchéance,
+  attestation,
+  dateConstitution,
 }: ConvertirEnValueTypeProps) => {
   const typeGarantiesFinancières = TypeGarantiesFinancières.convertirEnValueType(type);
+
   if (dateÉchéance && !typeGarantiesFinancières.estAvecDateÉchéance()) {
     throw new DateÉchéanceNonAttendueError();
   }
-  if (dateDélibération && !typeGarantiesFinancières.estExemption()) {
-    throw new DateDélibérationNonAttendueError();
-  }
+
+  const constitutionPlainType =
+    attestation && dateConstitution
+      ? {
+          attestation: { format: attestation.format },
+          date: { date: vérifierDateConstitution(dateConstitution).formatter() },
+        }
+      : undefined;
 
   return match(typeGarantiesFinancières.type)
     .returnType<ValueType>()
-    .with('type-inconnu', (type) => bind({ type: { type } }))
-    .with('consignation', (type) => bind({ type: { type } }))
-    .with('garantie-bancaire', (type) => bind({ type: { type } }))
-    .with('six-mois-après-achèvement', (type) => bind({ type: { type } }))
+    .with('type-inconnu', (type) =>
+      bind({
+        type: { type },
+        constitution: constitutionPlainType,
+      }),
+    )
+    .with('consignation', (type) => bind({ type: { type }, constitution: constitutionPlainType }))
+    .with('garantie-bancaire', (type) =>
+      bind({ type: { type }, constitution: constitutionPlainType }),
+    )
+    .with('six-mois-après-achèvement', (type) =>
+      bind({ type: { type }, constitution: constitutionPlainType }),
+    )
+    .with('exemption', (type) => bind({ type: { type }, constitution: constitutionPlainType }))
     .with('avec-date-échéance', (type) =>
       bind({
         type: { type },
         dateÉchéance: {
           date: vérifierDateÉchéance(dateÉchéance).formatter(),
         },
-      }),
-    )
-    .with('exemption', (type) =>
-      bind({
-        type: { type },
-        dateDélibération: {
-          date: vérifierDateDélibération(dateDélibération).formatter(),
-        },
+        constitution: constitutionPlainType,
       }),
     )
     .exhaustive();
@@ -183,13 +307,10 @@ const vérifierDateÉchéance = (date: string | undefined) => {
   return DateTime.convertirEnValueType(date);
 };
 
-const vérifierDateDélibération = (dateStr: string | undefined) => {
-  if (!dateStr) {
-    throw new DateDélibérationRequiseError();
+const vérifierDateConstitution = (date: string) => {
+  const vt = DateTime.convertirEnValueType(date);
+  if (vt.estDansLeFutur()) {
+    throw new DateConstitutionDansLeFuturError();
   }
-  const date = DateTime.convertirEnValueType(dateStr);
-  if (date.estDansLeFutur()) {
-    throw new DateDélibérationDansLeFuturError();
-  }
-  return date;
+  return vt;
 };

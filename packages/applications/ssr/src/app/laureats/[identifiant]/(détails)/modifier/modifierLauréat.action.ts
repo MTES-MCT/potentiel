@@ -263,9 +263,8 @@ const mapBodyToCandidatureUsecaseData = (
       dateÉchéanceGf: previous.garantiesFinancières?.estAvecDateÉchéance()
         ? previous.garantiesFinancières.dateÉchéance?.formatter()
         : undefined,
-      dateDélibérationGf: previous.garantiesFinancières?.estExemption()
-        ? previous.garantiesFinancières.dateDélibération.formatter()
-        : undefined,
+      dateConstitutionGf: previous.garantiesFinancières?.constitution?.date?.formatter(),
+      attestationConstitutionGf: previous.garantiesFinancières?.constitution?.attestation,
       territoireProjet: previous.territoireProjet,
       historiqueAbandon: previous.historiqueAbandon.formatter(),
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),

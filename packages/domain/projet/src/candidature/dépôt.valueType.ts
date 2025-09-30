@@ -32,7 +32,8 @@ export type RawType = {
   actionnariat: TypeActionnariat.RawType | undefined;
   typeGarantiesFinancières: TypeGarantiesFinancières.RawType | undefined;
   dateÉchéanceGf: DateTime.RawType | undefined;
-  dateDélibérationGf: DateTime.RawType | undefined;
+  attestationConstitutionGf: { format: string } | undefined;
+  dateConstitutionGf: DateTime.RawType | undefined;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.RawType>;
   typologieInstallation: Array<TypologieInstallation.RawType>;
@@ -97,7 +98,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   garantiesFinancières: plain.garantiesFinancières
     ? GarantiesFinancières.GarantiesFinancières.bind(plain.garantiesFinancières)
     : undefined,
-
   fournisseurs: plain.fournisseurs.map(Fournisseur.bind),
   puissanceDeSite: plain.puissanceDeSite,
   autorisationDUrbanisme: plain.autorisationDUrbanisme
@@ -163,13 +163,14 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       historiqueAbandon: this.historiqueAbandon.formatter(),
       technologie: this.technologie.formatter(),
       actionnariat: this.actionnariat?.formatter(),
+      typeGarantiesFinancières: this.garantiesFinancières?.type.formatter(),
       dateÉchéanceGf: this.garantiesFinancières?.estAvecDateÉchéance()
         ? this.garantiesFinancières.dateÉchéance.formatter()
         : undefined,
-      dateDélibérationGf: this.garantiesFinancières?.estExemption()
-        ? this.garantiesFinancières.dateDélibération.formatter()
+      attestationConstitutionGf: this.garantiesFinancières?.constitution
+        ? { format: this.garantiesFinancières.constitution.attestation.format }
         : undefined,
-      typeGarantiesFinancières: this.garantiesFinancières?.type.formatter(),
+      dateConstitutionGf: this.garantiesFinancières?.constitution?.date.formatter(),
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       typologieInstallation: this.typologieInstallation.map((typologieInstallation) =>
         typologieInstallation.formatter(),
@@ -215,8 +216,9 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       ? mapToPlainObject(
           GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
             type: raw.typeGarantiesFinancières,
-            dateDélibération: raw.dateDélibérationGf,
             dateÉchéance: raw.dateÉchéanceGf,
+            attestation: raw.attestationConstitutionGf,
+            dateConstitution: raw.dateConstitutionGf,
           }),
         )
       : undefined,

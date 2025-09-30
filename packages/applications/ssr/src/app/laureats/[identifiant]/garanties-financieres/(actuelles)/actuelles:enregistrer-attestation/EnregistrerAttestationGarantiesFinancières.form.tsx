@@ -3,11 +3,14 @@ import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { now } from '@potentiel-libraries/iso8601-datetime';
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
+import { getGarantiesFinancièresDateLabel } from '@/app/_helpers';
 
 import {
   enregistrerAttestationGarantiesFinancièresAction,
@@ -16,11 +19,12 @@ import {
 
 export type EnregistrerAttestationGarantiesFinancièresFormProps = {
   identifiantProjet: string;
+  garantiesFinancièresActuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 };
 
 export const EnregistrerAttestationGarantiesFinancièresForm: FC<
   EnregistrerAttestationGarantiesFinancièresFormProps
-> = ({ identifiantProjet }) => {
+> = ({ identifiantProjet, garantiesFinancièresActuelles }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<EnregistrerAttestationGarantiesFinancièresFormKeys>
   >({});
@@ -40,16 +44,23 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
 
       <InputDate
-        label="Date de constitution"
+        label={getGarantiesFinancièresDateLabel(
+          garantiesFinancièresActuelles.garantiesFinancières.type.type,
+        )}
         name="dateConstitution"
         max={now()}
+        defaultValue={garantiesFinancièresActuelles.garantiesFinancières.constitution?.date.date}
         required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
       />
 
       <UploadNewOrModifyExistingDocument
-        label="Attestation de constitution"
+        label={
+          garantiesFinancièresActuelles.garantiesFinancières.type.type === 'exemption'
+            ? 'Délibération approuvant le projet objet de l’offre'
+            : 'Attestation de constitution'
+        }
         name="attestation"
         required
         formats={['pdf']}

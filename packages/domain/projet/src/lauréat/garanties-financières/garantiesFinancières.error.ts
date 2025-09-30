@@ -30,20 +30,6 @@ export class DateDélibérationRequiseError extends InvalidOperationError {
   }
 }
 
-export class DateDélibérationDansLeFuturError extends InvalidOperationError {
-  constructor() {
-    super(
-      `La date de délibération de l'exemption des garanties financières ne peut pas être une date future`,
-    );
-  }
-}
-
-export class DateDélibérationNonAttendueError extends InvalidOperationError {
-  constructor() {
-    super(`La date de délibération ne peut être renseignée pour ce type de garanties financières`);
-  }
-}
-
 export class TypeGarantiesFinancièresNonDisponiblePourAppelOffreError extends InvalidOperationError {
   constructor() {
     super(`Ce type de garanties financières n'est pas disponible pour cet appel d'offres`);
@@ -70,7 +56,7 @@ export class DateConstitutionDansLeFuturError extends InvalidOperationError {
   }
 }
 
-export class GarantiesFinancièresDéjàEnregistréesError extends InvalidOperationError {
+export class GarantiesFinancièresActuellesDéjàExistantesError extends InvalidOperationError {
   constructor() {
     super(`Il y a déjà des garanties financières pour ce projet`);
   }
@@ -82,9 +68,9 @@ export class AttestationGarantiesFinancièresDéjàExistanteError extends Invali
   }
 }
 
-export class AttestationGarantiesFinancièresManquanteError extends InvalidOperationError {
+export class AttestationEtDateGarantiesFinancièresRequisesError extends InvalidOperationError {
   constructor() {
-    super(`L'attestation de constitution pour ces garanties financières est manquante`);
+    super(`L'attestation et la date de constitution des garanties financières sont requises`);
   }
 }
 

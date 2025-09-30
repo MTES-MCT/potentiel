@@ -3,20 +3,16 @@
 import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { now } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Form } from '@/components/atoms/form/Form';
-import { InputDate } from '@/components/atoms/form/InputDate';
-import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  TypeGarantiesFinancièresSelect,
-  TypeGarantiesFinancièresSelectProps,
-} from '../../TypeGarantiesFinancièresSelect';
+  GarantiesFinancièresFormInputs,
+  GarantiesFinancièresFormInputsProps,
+} from '../../GarantiesFinancièresFormInputs';
 
 import {
   modifierGarantiesFinancièresActuellesAction,
@@ -24,7 +20,7 @@ import {
 } from './modifierGarantiesFinancièresActuelles.action';
 
 export type ModifierGarantiesFinancièresActuellesFormProps = {
-  typesGarantiesFinancières: TypeGarantiesFinancièresSelectProps['typesGarantiesFinancières'];
+  typesGarantiesFinancières: GarantiesFinancièresFormInputsProps['typesGarantiesFinancières'];
   actuelles: PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 };
 
@@ -50,33 +46,12 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
 
-      <TypeGarantiesFinancièresSelect
+      <GarantiesFinancièresFormInputs
         id="type"
         name="type"
         validationErrors={validationErrors}
         typesGarantiesFinancières={typesGarantiesFinancières}
-        garantiesFinancièresActuelles={actuelles.garantiesFinancières}
-      />
-      <InputDate
-        label="Date de constitution"
-        name="dateConstitution"
-        max={now()}
-        defaultValue={actuelles.dateConstitution?.date}
-        required
-        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['dateConstitution']}
-      />
-
-      <UploadNewOrModifyExistingDocument
-        label="Attestation de constitution"
-        name="attestation"
-        required
-        formats={['pdf']}
-        state={validationErrors['attestation'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['attestation']}
-        documentKeys={
-          actuelles.attestation ? [DocumentProjet.bind(actuelles.attestation).formatter()] : []
-        }
+        actuelles={actuelles}
       />
     </Form>
   );

@@ -4,3 +4,4 @@ export * from './garantiesFinancièresEnregistrées.projector';
 export * from './garantiesFinancièresModifiées.projector';
 export * from './garantiesFinancièresÉchues.projector';
 export * from './typeGarantiesFinancièresImporté.projector';
+export * from './garantiesFinancièresImportées.projector';

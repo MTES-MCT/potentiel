@@ -17,6 +17,7 @@ import {
   garantiesFinancièresEnregistréesProjector,
   garantiesFinancièresModifiéesProjector,
   garantiesFinancièresÉchuesProjector,
+  garantiesFinancièresImportéesProjector,
 } from './actuelles';
 import { historiqueGarantiesFinancièresEffacéProjector } from './historiqueGarantiesFinancièresEffacé.projector';
 import {
@@ -81,6 +82,12 @@ export const register = () => {
           type: 'TypeGarantiesFinancièresImporté-V1',
         },
         typeGarantiesFinancièresImportéProjector,
+      )
+      .with(
+        {
+          type: 'GarantiesFinancièresImportées-V1',
+        },
+        garantiesFinancièresImportéesProjector,
       )
       .with(
         {

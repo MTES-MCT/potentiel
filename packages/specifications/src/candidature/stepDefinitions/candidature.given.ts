@@ -81,7 +81,6 @@ export async function importerCandidature(
       },
       importéPar: this.utilisateurWorld.validateurFixture.email,
     });
-
   await mediator.send<Candidature.ImporterCandidatureUseCase>({
     type: 'Candidature.UseCase.ImporterCandidature',
     data: {

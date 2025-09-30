@@ -50,7 +50,8 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrecti
             identifiantProjetValue: IdentifiantProjet.bind(line).formatter(),
             dépôtValue: {
               ...line,
-              dateDélibérationGf: undefined, // non supporté dans le CSV
+              dateConstitutionGf: undefined, // non supporté dans le CSV
+              attestationConstitutionGf: undefined, // non supporté dans le CSV
               fournisseurs: mapCsvRowToFournisseurs(rawLine),
             },
             instructionValue: line,

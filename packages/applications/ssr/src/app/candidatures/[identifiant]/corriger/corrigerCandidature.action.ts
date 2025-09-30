@@ -119,7 +119,9 @@ const mapBodyToUseCaseData = (
       dateÉchéanceGf: data.dateEcheanceGf
         ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
         : undefined,
-      dateDélibérationGf: data.dateDeliberationGf,
+      dateConstitutionGf: data.dateDeliberationGf
+        ? DateTime.convertirEnValueType(data.dateDeliberationGf).formatter()
+        : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,
       autorisationDUrbanisme:
@@ -141,6 +143,7 @@ const mapBodyToUseCaseData = (
       typologieInstallation: previous.dépôt.typologieInstallation.map((installation) =>
         installation.formatter(),
       ),
+      attestationConstitutionGf: previous.dépôt.garantiesFinancières?.constitution?.attestation,
     },
 
     détailsValue: undefined,

@@ -82,6 +82,11 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     changedValues.dépôt.autorisationDUrbanisme.numéro ??
     this.candidatureWorld.importerCandidature.dépôtValue.autorisationDUrbanisme?.numéro;
 
+  const attestationConstitutionGf = {
+    ...this.candidatureWorld.importerCandidature.dépôtValue.attestationConstitutionGf,
+    ...changedValues.dépôt.attestationConstitutionGf,
+  };
+
   const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
     this.candidatureWorld.corrigerCandidature.créer({
       identifiantProjet: {
@@ -105,6 +110,9 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
               }
             : undefined,
         fournisseurs: this.candidatureWorld.importerCandidature.dépôtValue.fournisseurs,
+        attestationConstitutionGf: attestationConstitutionGf.format
+          ? { format: attestationConstitutionGf.format }
+          : undefined,
       },
       instructionValue: {
         ...this.candidatureWorld.importerCandidature.instructionValue,

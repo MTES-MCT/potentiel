@@ -9,7 +9,7 @@ export const mapToTypeGarantiesFinancièresImportéTimelineItemsProps = (
 
   return {
     date: importéLe,
-    title: <div>Type de aranties financières importé</div>,
+    title: <div>Type de garanties financières importé</div>,
     content: (
       <div className="flex flex-col gap-2">
         <div>

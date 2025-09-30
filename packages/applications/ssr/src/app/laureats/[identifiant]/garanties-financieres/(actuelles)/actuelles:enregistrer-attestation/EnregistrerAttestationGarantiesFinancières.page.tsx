@@ -15,11 +15,14 @@ export type EnregistrerAttestationGarantiesFinancièresPageProps =
 
 export const EnregistrerAttestationGarantiesFinancièresPage: FC<
   EnregistrerAttestationGarantiesFinancièresPageProps
-> = ({ identifiantProjet }) => {
+> = ({ identifiantProjet, garantiesFinancièresActuelles }) => {
   return (
     <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}>
-      <TitrePageGarantiesFinancières title="Enregistrer l'attestation de constitution" />
-      <EnregistrerAttestationGarantiesFinancièresForm identifiantProjet={identifiantProjet} />
+      <TitrePageGarantiesFinancières title="Enregistrer l'attestation des garanties financières" />
+      <EnregistrerAttestationGarantiesFinancièresForm
+        identifiantProjet={identifiantProjet}
+        garantiesFinancièresActuelles={garantiesFinancièresActuelles}
+      />
     </PageTemplate>
   );
 };

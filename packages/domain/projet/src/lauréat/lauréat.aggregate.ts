@@ -273,7 +273,7 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
 
     // Garanties Financières
-    if (importerGarantiesFinancières) {
+    if (importerGarantiesFinancières && this.projet.candidature.garantiesFinancières) {
       await this.garantiesFinancières.importer({
         garantiesFinancières: this.projet.candidature.garantiesFinancières,
         importéLe: notifiéLe,

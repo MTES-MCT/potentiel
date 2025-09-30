@@ -3,32 +3,38 @@ import Select from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { DateTime } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { getGarantiesFinancièresDateLabel } from '@/app/_helpers';
 
-export type TypeGarantiesFinancièresSelectProps = {
+export type GarantiesFinancièresFormInputsProps = {
   id: string;
   name: string;
   label?: string;
   validationErrors: ValidationErrors;
-  garantiesFinancièresActuelles?: PlainType<Lauréat.GarantiesFinancières.GarantiesFinancières.ValueType>;
+  actuelles?: Partial<
+    PlainType<Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>
+  >;
   typesGarantiesFinancières: Array<{
     label: string;
     value: Candidature.TypeGarantiesFinancières.RawType;
   }>;
 };
 
-export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelectProps> = ({
+export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputsProps> = ({
   id,
   name,
   label = 'Type des garanties financières',
   validationErrors,
-  garantiesFinancièresActuelles,
+  actuelles,
   typesGarantiesFinancières,
 }) => {
-  const gfActuelles = garantiesFinancièresActuelles
-    ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(garantiesFinancièresActuelles)
+  const gfActuelles = actuelles?.garantiesFinancières
+    ? Lauréat.GarantiesFinancières.GarantiesFinancières.bind(actuelles.garantiesFinancières)
     : undefined;
   const [typeSélectionné, setTypeSélectionné] = useState<
     Candidature.TypeGarantiesFinancières.RawType | undefined
@@ -64,18 +70,36 @@ export const TypeGarantiesFinancièresSelect: FC<TypeGarantiesFinancièresSelect
           stateRelatedMessage={validationErrors['dateEcheance']}
         />
       )}
-      {typeSélectionné === 'exemption' && (
-        <InputDate
-          label="Date de délibération"
-          name="dateDeliberation"
-          required
-          defaultValue={
-            gfActuelles?.estExemption() ? gfActuelles.dateDélibération.formatter() : undefined
-          }
-          state={validationErrors['dateEcheance'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['dateEcheance']}
-        />
-      )}
+
+      <InputDate
+        label={
+          typeSélectionné
+            ? getGarantiesFinancièresDateLabel(typeSélectionné)
+            : 'Date de constitution'
+        }
+        name="dateConstitution"
+        max={DateTime.now().formatter()}
+        defaultValue={gfActuelles?.constitution?.date.formatter()}
+        required
+        state={validationErrors['dateConstitution'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['dateConstitution']}
+      />
+
+      <UploadNewOrModifyExistingDocument
+        label={
+          typeSélectionné === 'exemption'
+            ? 'Délibération approuvant le projet objet de l’offre'
+            : 'Attestation de constitution'
+        }
+        name="attestation"
+        required
+        formats={['pdf']}
+        state={validationErrors['attestation'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['attestation']}
+        documentKeys={
+          actuelles?.document ? [DocumentProjet.bind(actuelles.document).formatter()] : []
+        }
+      />
     </>
   );
 };

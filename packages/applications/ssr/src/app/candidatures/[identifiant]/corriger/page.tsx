@@ -104,9 +104,11 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     dateEcheanceGf: candidature.dépôt.garantiesFinancières?.estAvecDateÉchéance()
       ? candidature.dépôt.garantiesFinancières.dateÉchéance?.formatter()
       : undefined,
-    dateDeliberationGf: candidature.dépôt.garantiesFinancières?.estExemption()
-      ? candidature.dépôt.garantiesFinancières.dateDélibération?.formatter()
-      : undefined,
+    dateDeliberationGf:
+      candidature.dépôt.garantiesFinancières?.estExemption() &&
+      candidature.dépôt.garantiesFinancières.estConstitué()
+        ? candidature.dépôt.garantiesFinancières?.constitution?.date?.formatter()
+        : undefined,
     coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
     puissanceDeSite: candidature.dépôt.puissanceDeSite,
     numeroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro

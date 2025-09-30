@@ -14,6 +14,7 @@ import { NotificationBadge } from '@/components/molecules/candidature/Notificati
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import {
   getActionnariatTypeLabel,
+  getGarantiesFinancièresDateLabel,
   getGarantiesFinancièresTypeLabel,
   getTechnologieTypeLabel,
 } from '@/app/_helpers';
@@ -121,7 +122,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               {garantiesFinancières && (
                 <Field name="Garanties Financières">
                   <span>
-                    Type: {getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type)}
+                    Type : {getGarantiesFinancièresTypeLabel(garantiesFinancières.type.type)}
                   </span>
                   {garantiesFinancières.estAvecDateÉchéance() && (
                     <span>
@@ -129,10 +130,10 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       <FormattedDate date={garantiesFinancières.dateÉchéance.formatter()} />
                     </span>
                   )}
-                  {garantiesFinancières.estExemption() && (
+                  {garantiesFinancières.estConstitué() && (
                     <span>
-                      Date de délibération :{' '}
-                      <FormattedDate date={garantiesFinancières.dateDélibération.formatter()} />
+                      {getGarantiesFinancièresDateLabel(garantiesFinancières.type.type)} :{' '}
+                      <FormattedDate date={garantiesFinancières.constitution.date.formatter()} />
                     </span>
                   )}
                 </Field>
