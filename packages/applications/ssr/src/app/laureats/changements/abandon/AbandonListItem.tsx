@@ -31,24 +31,23 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   preuveRecandidatureStatut,
 }) => (
   <ListItem
+    misÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Abandon du projet"
-        misÀJourLe={misÀJourLe}
       />
     }
     actions={
       <Button
-        className="md:flex ml-auto"
         linkProps={{
           href: Routes.Abandon.détail(identifiantProjet),
           prefetch: false,
         }}
-        aria-label={`voir le détail de l'abandon en statut ${statut} pour le projet ${nomProjet}`}
+        aria-label={`voir le détail de l'abandon pour le projet ${nomProjet}`}
       >
-        voir le détail
+        Consulter
       </Button>
     }
   >

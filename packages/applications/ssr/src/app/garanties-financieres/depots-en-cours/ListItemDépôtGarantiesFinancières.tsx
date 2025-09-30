@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -24,21 +25,24 @@ export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFi
   dateÉchéance,
 }) => (
   <ListItem
+    misÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Garanties financières du projet"
-        misÀJourLe={misÀJourLe}
       />
     }
     actions={
-      <a
-        href={Routes.GarantiesFinancières.détail(identifiantProjet)}
-        aria-label={`voir le détail des garanties financières à traiter pour le projet ${nomProjet}`}
+      <Button
+        linkProps={{
+          href: Routes.GarantiesFinancières.détail(identifiantProjet),
+          'aria-label': `voir le détail du dépôt de garanties financièrespour le projet ${nomProjet}`,
+          prefetch: false,
+        }}
       >
-        voir le détail
-      </a>
+        Consulter
+      </Button>
     }
   >
     <ul className="mt-3 text-sm">

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Routes } from '@potentiel-applications/routes';
@@ -31,22 +31,27 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
   peutInstruireMainlevée,
 }) => (
   <ListItem
+    misÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Mainlevée du projet"
         nomProjet={nomProjet}
-        misÀJourLe={misÀJourLe}
       />
     }
     actions={
-      <Link href={Routes.GarantiesFinancières.détail(identifiantProjet)} aria-label={`voir`}>
-        {peutInstruireMainlevée ? 'Instruire' : 'Voir'}
-      </Link>
+      <Button
+        linkProps={{
+          href: Routes.GarantiesFinancières.détail(identifiantProjet),
+          'aria-label': `voir le détail des garanties financières du projet ${nomProjet}`,
+          prefetch: false,
+        }}
+      >
+        {peutInstruireMainlevée ? 'Instruire' : 'Consulter'}
+      </Button>
     }
   >
-    <StatutMainlevéeBadge statut={statut} />
-    <ul className="mt-3 text-sm">
+    <ul className="text-sm">
       <li>
         <span>
           Motif :{' '}
@@ -59,5 +64,6 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
         </span>
       </li>
     </ul>
+    <StatutMainlevéeBadge statut={statut} />
   </ListItem>
 );

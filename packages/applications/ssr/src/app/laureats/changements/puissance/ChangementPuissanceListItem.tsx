@@ -26,6 +26,7 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
   unitéPuissance,
 }) => (
   <ListItem
+    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
@@ -35,7 +36,6 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
             ? 'Changement de puissance du projet'
             : 'Demande de changement de puissance du projet'
         }
-        misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
     actions={
@@ -49,26 +49,28 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
         }}
         aria-label="voir le détail de la demande"
       >
-        Voir la demande
+        Consulter
       </Button>
     }
   >
-    <ul className="my-3 text-sm">
-      <li>
-        <span>
-          Nouvelle puissance :{' '}
-          <span className="font-semibold">
-            {nouvellePuissance} {unitéPuissance}
+    <div>
+      <ul className="text-sm">
+        <li>
+          <span>
+            Nouvelle puissance :{' '}
+            <span className="font-semibold">
+              {nouvellePuissance} {unitéPuissance}
+            </span>
           </span>
-        </span>
-      </li>
-      <li>
-        <span>
-          Date de la demande :{' '}
-          <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
-        </span>
-      </li>
-    </ul>
-    <StatutChangementPuissanceBadge statut={statut} small />
+        </li>
+        <li>
+          <span>
+            Date de la demande :{' '}
+            <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
+          </span>
+        </li>
+      </ul>
+      <StatutChangementPuissanceBadge statut={statut} small />
+    </div>
   </ListItem>
 );

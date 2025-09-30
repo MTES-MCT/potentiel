@@ -23,12 +23,12 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
   demandéLe,
 }) => (
   <ListItem
+    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Changement du représentant légal du projet"
-        misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
     actions={
@@ -40,9 +40,9 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
           ),
           prefetch: false,
         }}
-        aria-label={`voir le détail du changement de représentant légal en statut ${statut} pour le projet ${nomProjet}`}
+        aria-label={`voir le détail du changement de représentant légal pour le projet ${nomProjet}`}
       >
-        voir le détail
+        Consulter
       </Button>
     }
   >

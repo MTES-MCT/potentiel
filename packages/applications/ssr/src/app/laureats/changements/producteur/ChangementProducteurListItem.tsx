@@ -22,12 +22,12 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
   nouveauProducteur,
 }) => (
   <ListItem
+    misÀJourLe={DateTime.bind(enregistréLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Changement de producteur du projet"
-        misÀJourLe={DateTime.bind(enregistréLe).formatter()}
       />
     }
     actions={
@@ -39,13 +39,13 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
           ),
           prefetch: false,
         }}
-        aria-label="voir le détail du changement"
+        aria-label={`voir le détail du changement de producteur pour le projet ${nomProjet}`}
       >
-        Voir le changement
+        Consulter
       </Button>
     }
   >
-    <ul className="my-3 text-sm">
+    <ul className="text-sm">
       <li>
         <span>
           Ancien producteur : <span className="font-semibold">{ancienProducteur}</span>

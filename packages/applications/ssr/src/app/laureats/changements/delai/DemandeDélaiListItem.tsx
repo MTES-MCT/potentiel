@@ -25,12 +25,12 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
   nombreDeMois,
 }) => (
   <ListItem
+    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Demande de délai du projet"
-        misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
     actions={
@@ -42,13 +42,13 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
           ),
           prefetch: false,
         }}
-        aria-label="voir le détail de la demande"
+        aria-label={`voir le détail de la demande pour le projet ${nomProjet}`}
       >
-        Voir la demande
+        Consulter
       </Button>
     }
   >
-    <ul className="my-3 text-sm">
+    <ul className="text-sm">
       <li>
         <span>
           Délai demandé : <span className="font-semibold">{nombreDeMois} mois</span>

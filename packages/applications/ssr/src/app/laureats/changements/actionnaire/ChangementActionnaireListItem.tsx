@@ -25,6 +25,7 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
   nouvelActionnaire,
 }) => (
   <ListItem
+    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
@@ -34,7 +35,6 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
             ? "Changement d'actionnaire(s) du projet"
             : "Demande de changement d'actionnaire(s) du projet"
         }
-        misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
     actions={
@@ -46,13 +46,17 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
           ),
           prefetch: false,
         }}
-        aria-label="voir le détail de la demande"
+        aria-label={
+          statut.statut === 'information-enregistrée'
+            ? `voir le détail de la demande pour le projet ${nomProjet}`
+            : `voir le détail de la demande pour le projet ${nomProjet}`
+        }
       >
-        Voir la demande
+        Consulter
       </Button>
     }
   >
-    <ul className="mt-3 text-sm">
+    <ul className="text-sm">
       <li>
         <span>
           Nouvel actionnaire : <span className="font-semibold">{nouvelActionnaire}</span>

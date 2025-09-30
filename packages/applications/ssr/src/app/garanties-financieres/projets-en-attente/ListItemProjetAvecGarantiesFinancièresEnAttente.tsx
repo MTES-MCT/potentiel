@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { FC } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
@@ -31,24 +31,27 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
   afficherModèleMiseEnDemeure,
 }) => (
   <ListItem
+    misÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Projet"
-        misÀJourLe={misÀJourLe}
       />
     }
     actions={
-      <Link
-        href={Routes.Projet.details(identifiantProjet)}
-        aria-label={`voir le détail du projet ${nomProjet}`}
+      <Button
+        linkProps={{
+          href: Routes.Projet.details(identifiantProjet),
+          'aria-label': `voir le détail du projet ${nomProjet}`,
+          prefetch: false,
+        }}
       >
-        voir le projet
-      </Link>
+        Voir le projet
+      </Button>
     }
   >
-    <div className="mt-3 text-sm">
+    <div className="text-sm">
       Motif : <strong>{motif}</strong>
     </div>
     <div className="text-sm">
