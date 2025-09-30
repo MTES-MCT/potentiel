@@ -4,19 +4,21 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { mapToExemple } from '../../../../helpers/mapToExemple';
+import { DispositifDeStockageExempleMap } from '../fixture/dispositifDeStockageExempleMap';
 
 Quand(
   `un admin modifie l'information concernant l'installation avec dispositif de stockage du projet lauréat avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
-    const installationAvecDispositifDeStockage =
-      exemple['installation avec dispositif de stockage'];
+
+    const dispositifDeStockage = mapToExemple(exemple, DispositifDeStockageExempleMap);
 
     try {
       await modifierInstallationAvecDispositifDeStockage.call(
         this,
         this.utilisateurWorld.adminFixture.email,
-        installationAvecDispositifDeStockage,
+        dispositifDeStockage,
       );
     } catch (error) {
       this.error = error as Error;
@@ -27,16 +29,9 @@ Quand(
 async function modifierInstallationAvecDispositifDeStockage(
   this: PotentielWorld,
   modifiéPar: string,
-  installationAvecDispositifDeStockageExample?: string,
+  dispositifDeStockageExemple: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType,
 ) {
   const { identifiantProjet } = this.lauréatWorld;
-
-  const installationAvecDispositifDeStockage =
-    installationAvecDispositifDeStockageExample === 'oui'
-      ? true
-      : installationAvecDispositifDeStockageExample === 'non'
-        ? false
-        : undefined;
 
   const {
     installationAvecDispositifDeStockage: installationAvecDispositifDeStockageFixture,

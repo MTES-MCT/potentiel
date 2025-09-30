@@ -10,6 +10,7 @@ import {
   getAutorisationDUrbanisme,
   getTypeNatureDeLExploitation,
   getDateConstitutionGarantiesFinancières,
+  getDispositifDeStockage,
 } from './specialFields';
 import { DeepPartial } from './utils';
 import { getTypologieInstallation } from './getTypologieInstallation';
@@ -31,11 +32,15 @@ const colonnes = {
   historiqueAbandon: 'Préciser le statut du projet',
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
-  installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+  dispositifDeStockage: 'Installation couplée à un dispositif de stockage',
   installateur: "Identité de l'installateur",
   natureDeLExploitation: "Nature de l'exploitation",
   coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
+  // tauxACIPrévisionnel: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
+
+// puissanceDuDispositifDeStockage: 'Puissance du dispositif de stockage',
+//   capacitéDuDispositifDeStockage: 'Capacité du dispositif de stockage',
 
 export const mapApiResponseToDépôt = ({
   champs,
@@ -102,9 +107,11 @@ export const mapApiResponseToDépôt = ({
 
     localité: getLocalité(accessor, 'localité'),
 
-    installationAvecDispositifDeStockage: accessor.getBooleanValue(
-      'installationAvecDispositifDeStockage',
-    ),
+    dispositifDeStockage: getDispositifDeStockage(accessor, 'dispositifDeStockage'),
+
+    // viovio après
+    // tauxACIPrévisionnel: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
+
     installateur: accessor.getStringValue('installateur'),
     natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
 

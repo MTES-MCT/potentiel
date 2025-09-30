@@ -1,5 +1,6 @@
 # language: fr
 @installation-avec-dispositif-de-stockage
+@select
 Fonctionnalité: Modifier l'information relative au couplage de l'installation avec un dispositif de stockage
 
     Contexte:

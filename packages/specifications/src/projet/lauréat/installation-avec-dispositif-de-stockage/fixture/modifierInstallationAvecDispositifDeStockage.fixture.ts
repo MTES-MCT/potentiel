@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export interface ModifierInstallationAvecDispositifDeStockage {
-  readonly installationAvecDispositifDeStockage: boolean;
+  readonly dispositifDeStockage: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
   readonly dateModification: string;
 }
 
@@ -11,10 +12,10 @@ export class ModifierInstallationAvecDispositifDeStockageFixture
   extends AbstractFixture<ModifierInstallationAvecDispositifDeStockage>
   implements ModifierInstallationAvecDispositifDeStockage
 {
-  #installationAvecDispositifDeStockage!: boolean;
+  #dispositifDeStockage!: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
 
-  get installationAvecDispositifDeStockage(): boolean {
-    return this.#installationAvecDispositifDeStockage;
+  get dispositifDeStockage(): Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType {
+    return this.#dispositifDeStockage;
   }
 
   #dateModification!: string;
@@ -26,13 +27,29 @@ export class ModifierInstallationAvecDispositifDeStockageFixture
   créer(
     partialFixture?: Partial<Readonly<ModifierInstallationAvecDispositifDeStockage>>,
   ): Readonly<ModifierInstallationAvecDispositifDeStockage> {
+    const installationAvecDispositifDeStockage = faker.datatype.boolean();
+
     const fixture = {
-      installationAvecDispositifDeStockage: faker.datatype.boolean(),
+      dispositifDeStockage: installationAvecDispositifDeStockage
+        ? {
+            installationAvecDispositifDeStockage,
+            capacitéDuDispositifDeStockage: faker.number.float({
+              min: 0,
+              max: 1000,
+              fractionDigits: 3,
+            }),
+            puissanceDuDispositifDeStockage: faker.number.float({
+              min: 0,
+              max: 1000,
+              fractionDigits: 3,
+            }),
+          }
+        : { installationAvecDispositifDeStockage },
       dateModification: faker.date.recent().toISOString(),
       ...partialFixture,
     };
 
-    this.#installationAvecDispositifDeStockage = fixture.installationAvecDispositifDeStockage;
+    this.#dispositifDeStockage = fixture.dispositifDeStockage;
     this.#dateModification = fixture.dateModification;
 
     this.aÉtéCréé = true;

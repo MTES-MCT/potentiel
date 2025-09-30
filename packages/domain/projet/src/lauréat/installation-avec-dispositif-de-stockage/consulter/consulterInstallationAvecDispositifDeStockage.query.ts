@@ -5,10 +5,12 @@ import { Find } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../../..';
 import { InstallationAvecDispositifDeStockageEntity } from '../installationAvecDispositifDeStockage.entity';
+import { DispositifDeStockage } from '..';
 
 export type ConsulterInstallationAvecDispositifDeStockageReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  installationAvecDispositifDeStockage: boolean;
+  // installationAvecDispositifDeStockage: boolean;
+  dispositifDeStockage: DispositifDeStockage.ValueType;
 };
 
 export type ConsulterInstallationAvecDispositifDeStockageQuery = Message<
@@ -46,8 +48,10 @@ export const registerConsulterInstallationAvecDispositifDeStockageQuery = ({
 
 export const mapToReadModel = ({
   identifiantProjet,
-  installationAvecDispositifDeStockage,
+  // installationAvecDispositifDeStockage,
+  dispositifDeStockage,
 }: InstallationAvecDispositifDeStockageEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  installationAvecDispositifDeStockage,
+  dispositifDeStockage: DispositifDeStockage.bind(dispositifDeStockage),
+  // installationAvecDispositifDeStockage,
 });

@@ -39,3 +39,6 @@ export {
 
 // Entities
 export * from './installationAvecDispositifDeStockage.entity';
+
+// Value type
+export * as DispositifDeStockage from './dispositifDeStockage.valueType';

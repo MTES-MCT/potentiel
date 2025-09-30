@@ -323,11 +323,10 @@ export class LauréatAggregate extends AbstractAggregate<
     if (
       this.projet.appelOffre.champsSupplémentaires?.installationAvecDispositifDeStockage !==
         undefined &&
-      this.projet.candidature.dépôt.installationAvecDispositifDeStockage !== undefined
+      this.projet.candidature.dépôt.dispositifDeStockage !== undefined
     ) {
       await this.installationAvecDispositifDeStockage.importer({
-        installationAvecDispositifDeStockage:
-          this.projet.candidature.dépôt.installationAvecDispositifDeStockage,
+        dispositifDeStockage: this.projet.candidature.dépôt.dispositifDeStockage,
         importéeLe: notifiéLe,
         importéePar: notifiéPar,
       });

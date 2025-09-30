@@ -6,20 +6,21 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 
 import { ImporterInstallationAvecDispositifDeStockageOptions } from './importer/importerInstallationAvecDispositifDeStockage.option';
 import { InstallationAvecDispositifDeStockageImportéeEvent } from './importer/importerInstallationAvecDispositifDeStockage.event';
-import { InstallationAvecDispositifDeStockageEvent } from './installationAvecDispositifDeStockage.event';
+
+import { ModifierInstallationAvecDispositifDeStockageOptions } from './modifier/modifierInstallationAvecDispositifDeStockage.options';
+import { InstallationAvecDispositifDeStockageModifiéeEvent } from './modifier/modifierInstallationAvecDispositifDeStockage.event';
+import { DispositifDeStockage, InstallationAvecDispositifDeStockageEvent } from '.';
 import {
   InstallationAvecDispositifDeStockageDéjàTransmiseError,
   InstallationAvecDispositifDeStockageIdentiqueError,
 } from './installationAvecDispositifDeStockage.error';
-import { ModifierInstallationAvecDispositifDeStockageOptions } from './modifier/modifierInstallationAvecDispositifDeStockage.options';
-import { InstallationAvecDispositifDeStockageModifiéeEvent } from './modifier/modifierInstallationAvecDispositifDeStockage.event';
 
 export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggregate<
   InstallationAvecDispositifDeStockageEvent,
   'installation-avec-dispositif-de-stockage',
   LauréatAggregate
 > {
-  installationAvecDispositifDeStockage!: boolean;
+  dispositifDeStockage!: DispositifDeStockage.ValueType;
 
   get lauréat() {
     return this.parent;
@@ -30,11 +31,11 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
   }
 
   async importer({
-    installationAvecDispositifDeStockage,
+    dispositifDeStockage,
     importéeLe,
     importéePar,
   }: ImporterInstallationAvecDispositifDeStockageOptions) {
-    if (this.installationAvecDispositifDeStockage) {
+    if (this.dispositifDeStockage) {
       throw new InstallationAvecDispositifDeStockageDéjàTransmiseError();
     }
 
@@ -42,7 +43,7 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
       type: 'InstallationAvecDispositifDeStockageImportée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        installationAvecDispositifDeStockage,
+        dispositifDeStockage,
         importéeLe: importéeLe.formatter(),
         importéePar: importéePar.formatter(),
       },
@@ -52,11 +53,11 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
   }
 
   async modifier({
-    installationAvecDispositifDeStockage,
+    dispositifDeStockage,
     modifiéeLe,
     modifiéePar,
   }: ModifierInstallationAvecDispositifDeStockageOptions) {
-    if (installationAvecDispositifDeStockage === this.installationAvecDispositifDeStockage) {
+    if (dispositifDeStockage === this.dispositifDeStockage) {
       throw new InstallationAvecDispositifDeStockageIdentiqueError();
     }
 
@@ -64,7 +65,7 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
       type: 'InstallationAvecDispositifDeStockageModifiée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        installationAvecDispositifDeStockage,
+        dispositifDeStockage,
         modifiéeLe: modifiéeLe.formatter(),
         modifiéePar: modifiéePar.formatter(),
       },
@@ -91,14 +92,14 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
   }
 
   private applyInstallationAvecDispositifDeStockageImportéeV1({
-    payload: { installationAvecDispositifDeStockage },
+    payload: { dispositifDeStockage },
   }: InstallationAvecDispositifDeStockageEvent) {
-    this.installationAvecDispositifDeStockage = installationAvecDispositifDeStockage;
+    this.dispositifDeStockage = DispositifDeStockage.bind(dispositifDeStockage);
   }
 
   private applyInstallationAvecDispositifDeStockageModifiéeV1({
-    payload: { installationAvecDispositifDeStockage },
+    payload: { dispositifDeStockage },
   }: InstallationAvecDispositifDeStockageEvent) {
-    this.installationAvecDispositifDeStockage = installationAvecDispositifDeStockage;
+    this.dispositifDeStockage = DispositifDeStockage.bind(dispositifDeStockage);
   }
 }
