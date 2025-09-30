@@ -1,13 +1,13 @@
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
 import { StatutPreuveRecandidatureBadge } from '../../[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
@@ -31,21 +31,24 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
   preuveRecandidatureStatut,
 }) => (
   <ListItem
+    misÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         prefix="Abandon du projet"
-        misÀJourLe={misÀJourLe}
       />
     }
     actions={
-      <Link
-        href={Routes.Abandon.détail(identifiantProjet)}
-        aria-label={`voir le détail de l'abandon en statut ${statut} pour le projet ${nomProjet}`}
+      <Button
+        linkProps={{
+          href: Routes.Abandon.détail(identifiantProjet),
+          prefetch: false,
+        }}
+        aria-label={`voir le détail de l'abandon pour le projet ${nomProjet}`}
       >
-        voir le détail
-      </Link>
+        Consulter
+      </Button>
     }
   >
     <StatutAbandonBadge statut={statut} small />

@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
@@ -25,6 +25,7 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
   nouvelActionnaire,
 }) => (
   <ListItem
+    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
@@ -34,22 +35,28 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
             ? "Changement d'actionnaire(s) du projet"
             : "Demande de changement d'actionnaire(s) du projet"
         }
-        misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
     actions={
-      <Link
-        href={Routes.Actionnaire.changement.détails(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-          demandéLe.date,
-        )}
-        aria-label="voir le détail de la demande"
+      <Button
+        linkProps={{
+          href: Routes.Actionnaire.changement.détails(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+            demandéLe.date,
+          ),
+          prefetch: false,
+        }}
+        aria-label={
+          statut.statut === 'information-enregistrée'
+            ? `voir le détail du changement d'actionnaire pour le projet ${nomProjet}`
+            : `voir le détail de la demande de changement d'actionnaire pour le projet ${nomProjet}`
+        }
       >
-        Voir la demande
-      </Link>
+        Consulter
+      </Button>
     }
   >
-    <ul className="mt-3 text-sm">
+    <ul className="text-sm">
       <li>
         <span>
           Nouvel actionnaire : <span className="font-semibold">{nouvelActionnaire}</span>

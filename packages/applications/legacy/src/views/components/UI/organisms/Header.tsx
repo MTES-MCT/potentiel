@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Badge from '@mui/material/Badge';
 
-import routes from '../../../../routes';
-
 import { Routes } from '@potentiel-applications/routes';
 import {
   AccountIcon,

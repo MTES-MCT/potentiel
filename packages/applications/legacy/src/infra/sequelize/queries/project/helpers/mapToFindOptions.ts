@@ -40,9 +40,9 @@ const construireFiltreAppelOffre = ({
 
 const construireFiltreClassement = (classement: NonNullable<FiltreListeProjets['classement']>) => ({
   where: {
-    ...(classement === 'actifs' && { classe: 'Classé', abandonedOn: 0 }),
-    ...(classement === 'éliminés' && { classe: 'Eliminé', abandonedOn: 0 }),
-    ...(classement === 'abandons' && { abandonedOn: { [Op.ne]: 0 } }),
+    ...(classement === 'actif' && { classe: 'Classé', abandonedOn: 0 }),
+    ...(classement === 'abandonné' && { classe: 'Classé', abandonedOn: { [Op.ne]: 0 } }),
+    ...(classement === 'éliminé' && { classe: 'Eliminé', abandonedOn: 0 }),
   },
 });
 

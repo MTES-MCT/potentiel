@@ -3,20 +3,12 @@ import routes from '../../../../../routes';
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
-import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
+import { MenuLegacyGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
+import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
-type DrealMenuLegacyProps = {
-  currentPage?: string;
-};
-
-export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
+export const DrealMenuLegacy = (
   <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Projets
-    </Header.MenuItem>
+    <MenuLegacyProjet />
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({
@@ -64,7 +56,7 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
         Délai
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <MenuGarantiesFinancières />
+    <MenuLegacyGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
     <Header.MenuItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
       Tableau de bord

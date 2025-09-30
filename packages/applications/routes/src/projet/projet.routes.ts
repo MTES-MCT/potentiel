@@ -1,3 +1,5 @@
+import { Lauréat } from '@potentiel-domain/projet';
+
 import { encodeParameter } from '../encodeParameter';
 
 /**
@@ -13,7 +15,33 @@ export const details = (
 ) =>
   `/projet/${encodeParameter(identifiantProjet)}/details.html${feedback ? `?${feedback.type === 'success' ? `success=${feedback.message}` : `error=${feedback.message}`}` : ''}`;
 
+type exportCsvFilters = {
+  classement?: Exclude<Lauréat.StatutLauréat.RawType, 'achevé'> | 'éliminé';
+  appelOffreId?: string;
+  nomProjet?: string;
+};
+
+/**
+ *
+ * @deprecated Lien pour générer un document CSV
+ */
+export const exportCsv = ({ appelOffreId, nomProjet, classement }: exportCsvFilters) => {
+  const searchParams = new URLSearchParams();
+
+  if (classement) {
+    searchParams.append('classement', classement);
+  }
+
+  if (appelOffreId) {
+    searchParams.append('appelOffreId', appelOffreId);
+  }
+
+  if (nomProjet) {
+    searchParams.append('recherche', nomProjet);
+  }
+
+  return `/export-liste-projets.csv${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+};
+
 export const détailsÉliminé = (identifiantProjet: string) =>
   `/projets/${encodeParameter(identifiantProjet)}`;
-
-export const lister = () => `/projets.html`;

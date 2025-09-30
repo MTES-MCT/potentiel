@@ -29,11 +29,9 @@ export type SymbolProps = {
   description: string;
 };
 
-const Symbol: FC<SymbolProps> = ({ iconId, iconColor: iconClassname = '', description }) => {
-  return (
-    <>
-      <Icon id={iconId} className={`mr-1 ${iconClassname ?? ''}`} size="sm" />
-      {description}
-    </>
-  );
-};
+const Symbol: FC<SymbolProps> = ({ iconId, iconColor: iconClassname = '', description }) => (
+  <>
+    <Icon id={iconId} className={`mr-1 ${iconClassname ?? ''}`} size="sm" />
+    {description}
+  </>
+);

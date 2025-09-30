@@ -5,7 +5,7 @@ const localité: SymbolProps = {
   description: 'Localité',
 };
 
-const nomCandidat: SymbolProps = {
+const nomProducteur: SymbolProps = {
   iconId: 'fr-icon-building-line',
   description: 'Nom du producteur',
 };
@@ -13,6 +13,11 @@ const nomCandidat: SymbolProps = {
 const représentantLégal: SymbolProps = {
   iconId: 'fr-icon-user-line',
   description: 'Représentant légal',
+};
+
+const email: SymbolProps = {
+  iconId: 'fr-icon-mail-line',
+  description: 'Email',
 };
 
 const puissance: SymbolProps = {
@@ -33,13 +38,29 @@ const évaluationCarbone: SymbolProps = {
   description: 'Évaluation carbone',
 };
 
-export const candidatureListLegendSymbols = [
+const typeActionnariat: SymbolProps = {
+  iconId: 'fr-icon-bank-line',
+  description: "Type d'actionnariat",
+};
+
+export const projectListLegendSymbols = [
   localité,
+  nomProducteur,
   représentantLégal,
-  nomCandidat,
+  email,
+  typeActionnariat,
   puissance,
   prix,
   évaluationCarbone,
 ];
 
-export { localité, nomCandidat, représentantLégal, puissance, prix, évaluationCarbone };
+export {
+  localité,
+  nomProducteur,
+  représentantLégal,
+  email,
+  puissance,
+  prix,
+  évaluationCarbone,
+  typeActionnariat,
+};

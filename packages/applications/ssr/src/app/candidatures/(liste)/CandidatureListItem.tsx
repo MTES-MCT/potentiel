@@ -5,15 +5,15 @@ import { Email } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Icon } from '@/components/atoms/Icon';
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
+import * as symbols from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
 
 import {
   CandidatureListItemActions,
   CandidatureListItemActionsProps,
 } from './CandidatureListItemActions';
-import * as symbols from './candidatureListLegendSymbols';
 
 export type CandidatureListItemProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -84,7 +84,11 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         </div>
 
         <div className="flex  items-center gap-2">
-          <Icon id={symbols.nomCandidat.iconId} title={symbols.nomCandidat.description} size="sm" />
+          <Icon
+            id={symbols.nomProducteur.iconId}
+            title={symbols.nomProducteur.description}
+            size="sm"
+          />
           {nomCandidat}
         </div>
         <div className="flex items-center gap-2">
@@ -93,12 +97,16 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
             title={symbols.représentantLégal.description}
             size="sm"
           />
-          <div className="flex flex-col overflow-hidden">
-            <div>{nomReprésentantLégal}</div>
-            <div className="truncate" title={emailContact.email}>
-              {emailContact.email}
-            </div>
-          </div>
+          {nomReprésentantLégal}
+        </div>
+        <div className="flex items-start gap-2">
+          <Icon
+            id={symbols.email.iconId}
+            title={symbols.email.description}
+            className={symbols.email.iconColor}
+            size="sm"
+          />
+          {emailContact.email}
         </div>
       </div>
 

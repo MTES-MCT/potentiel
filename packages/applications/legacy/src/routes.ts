@@ -10,7 +10,5 @@ class routes {
   };
 
   static EXPORTER_LISTE_PROJETS_CSV = '/export-liste-projets.csv';
-
-  static LISTE_PROJETS = '/projets.html';
 }
 export default routes;

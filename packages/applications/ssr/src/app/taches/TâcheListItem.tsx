@@ -1,13 +1,13 @@
-import Link from 'next/link';
 import { FC } from 'react';
 import { match } from 'ts-pattern';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
 export type TâcheListItemProps = PlainType<Lauréat.Tâche.ListerTâchesReadModel['items'][number]>;
@@ -22,18 +22,23 @@ export const TâcheListItem: FC<TâcheListItemProps> = ({
 
   return (
     <ListItem
+      misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       heading={
         <ProjectListItemHeading
           prefix="À faire pour le projet"
           identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
           nomProjet={nomProjet}
-          misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
         />
       }
       actions={
-        <Link href={descriptionTâche.lien} aria-label={descriptionTâche.ariaLabel}>
+        <Button
+          linkProps={{
+            href: descriptionTâche.lien,
+            'aria-label': descriptionTâche.ariaLabel,
+          }}
+        >
           {descriptionTâche.action}
-        </Link>
+        </Button>
       }
     >
       <h3 className="font-bold">{descriptionTâche.titre}</h3>

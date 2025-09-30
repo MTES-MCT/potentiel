@@ -10,13 +10,12 @@ import { User } from '../../../../../entities';
 import { errAsync } from 'neverthrow';
 import { UnauthorizedError } from '../../../../../modules/shared';
 
-export const exporterProjets: ExporterProjets = ({
-  user,
-  filtres,
-}: {
+type ExporterProjetsProps = {
   user: User;
   filtres?: FiltreListeProjets;
-}) => {
+};
+
+export const exporterProjets: ExporterProjets = ({ user, filtres }: ExporterProjetsProps) => {
   switch (user.role) {
     case 'admin':
     case 'dgec-validateur':

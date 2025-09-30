@@ -7,7 +7,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Image from 'next/image';
 
 import { ListItem } from '@/components/molecules/ListItem';
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 
 import { ModalWithForm } from '../../components/molecules/ModalWithForm';
 import { ValidationErrors } from '../../utils/formAction';

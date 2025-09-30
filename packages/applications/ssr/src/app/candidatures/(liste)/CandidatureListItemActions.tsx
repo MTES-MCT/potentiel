@@ -21,16 +21,6 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
 }) => {
   return (
     <div className="flex md:max-lg:flex-col gap-2">
-      <Button
-        className="md:flex ml-auto"
-        linkProps={{
-          href: Routes.Candidature.détails(IdentifiantProjet.bind(identifiantProjet).formatter()),
-          prefetch: false,
-        }}
-        aria-label={`Lien vers la page de la candidature ${nomProjet}`}
-      >
-        Consulter
-      </Button>
       {actions.télécharger && (
         <Button
           className="md:flex ml-auto"
@@ -66,6 +56,16 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
           Attestation
         </Button>
       )}
+      <Button
+        className="md:flex ml-auto"
+        linkProps={{
+          href: Routes.Candidature.détails(IdentifiantProjet.bind(identifiantProjet).formatter()),
+          prefetch: false,
+        }}
+        aria-label={`Lien vers la page de la candidature ${nomProjet}`}
+      >
+        Consulter
+      </Button>
     </div>
   );
 };

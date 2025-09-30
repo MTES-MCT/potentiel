@@ -11,7 +11,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |
+            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
 
         Exemples:
             | Rôle              |
@@ -27,7 +27,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |
+            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
 
     Scénario: Inviter une dreal
         Quand un administrateur invite une dreal pour la région du projet
@@ -35,7 +35,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |
+            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
 
     Scénario: Inviter un gestionnaire de réseau
         Etant donné le gestionnaire de réseau "Enedis"
@@ -44,7 +44,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Alors l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
-            | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |
+            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
 
     Scénario: Impossible d'inviter un utilisateur déjà invité
         Quand un administrateur invite un utilisateur avec le rôle "admin"

@@ -1,12 +1,13 @@
 import { FC } from 'react';
 
-import { LinkAction, LinkActionProps } from '../atoms/LinkAction';
+import { LinkActionProps } from '../atoms/LinkAction';
 import { Heading1 } from '../atoms/headings';
 import { Search, SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
 import { ListFilters, ListFiltersProps } from '../molecules/ListFilters';
 import { ListHeader } from '../organisms/ListHeader';
 import { ListLegend, ListLegendProps } from '../molecules/ListLegend';
+import { ListAction } from '../molecules/ListAction';
 
 import { PageTemplate } from './Page.template';
 
@@ -50,13 +51,7 @@ export const ListPageTemplate = <TItem,>({
 
       <div className="flex flex-col md:flex-row gap-5 md:gap-10">
         <div className="flex flex-col gap-3 pb-2 md:w-1/4">
-          {actions.length ? (
-            <>
-              {actions.map((a) => (
-                <LinkAction key={a.href} label={a.label} href={a.href} iconId={a.iconId} />
-              ))}
-            </>
-          ) : null}
+          {actions.length ? <ListAction actions={actions} /> : null}
           {filters.length ? <ListFilters filters={filters} /> : null}
           {legend.symbols.length ? <ListLegend symbols={legend.symbols} /> : null}
         </div>

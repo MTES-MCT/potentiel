@@ -6,8 +6,8 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { mapToPagination } from '@/utils/pagination';
+import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
 
-import { candidatureListLegendSymbols } from './candidatureListLegendSymbols';
 import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
 
 export type CandidatureListPageProps = PlainType<

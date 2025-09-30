@@ -8,7 +8,7 @@ export async function accèsProjetRetiréNotification({
   payload: { identifiantProjet, identifiantsUtilisateur, cause },
 }: Accès.AccèsProjetRetiréEvent): Promise<Array<EmailPayload>> {
   const { nom } = await getCandidature(identifiantProjet);
-  const urlPageProjets = `${getBaseUrl()}${Routes.Projet.lister()}`;
+  const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 
   return [
     {

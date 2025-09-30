@@ -5,3 +5,5 @@ export const modifierSiteDeProduction = (identifiantProjet: string) =>
 
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/modifier`;
+
+export const lister = () => `/laureats`;

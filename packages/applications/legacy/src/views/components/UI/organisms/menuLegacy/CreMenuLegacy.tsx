@@ -3,19 +3,11 @@ import routes from '../../../../../routes';
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
+import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
-type CreMenuLegacyProps = {
-  currentPage?: string;
-};
-
-export const CreMenuLegacy = ({ currentPage }: CreMenuLegacyProps) => (
+export const CreMenuLegacy = (
   <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Projets
-    </Header.MenuItem>
+    <MenuLegacyProjet />
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.Abandon.lister({

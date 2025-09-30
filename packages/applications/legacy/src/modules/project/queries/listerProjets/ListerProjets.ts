@@ -2,6 +2,7 @@ import { UtilisateurReadModel } from '../../../utilisateur/récupérer/Utilisate
 import { ProjectAppelOffre } from '../../../../entities';
 import { PaginatedList, Pagination } from '../../../pagination';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const PermissionListerProjets = {
   nom: 'lister-projets',
@@ -47,7 +48,7 @@ export type FiltreListeProjets = {
     periodeId?: AppelOffre.Periode['id'];
     familleId?: AppelOffre.Famille['id'];
   };
-  classement?: 'actifs' | 'éliminés' | 'abandons';
+  classement?: Exclude<Lauréat.StatutLauréat.RawType, 'achevé'> | 'éliminé';
   reclames?: 'réclamés' | 'non-réclamés';
 };
 

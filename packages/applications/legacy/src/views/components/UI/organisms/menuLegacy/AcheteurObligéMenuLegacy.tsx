@@ -1,21 +1,12 @@
 import React from 'react';
-import routes from '../../../../../routes';
-import { Header } from '../Header';
+
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
+import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
-type AcheteurObligéMenuLegacyProps = {
-  currentPage?: string;
-};
-
-export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLegacyProps) => (
+export const AcheteurObligéMenuLegacy = (
   <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Projets
-    </Header.MenuItem>
+    <MenuLegacyProjet />
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem
         href={Routes.ReprésentantLégal.changement.lister({ statut: ['demandé'] })}

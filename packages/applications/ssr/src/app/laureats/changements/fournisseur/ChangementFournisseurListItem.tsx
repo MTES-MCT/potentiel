@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import Link from 'next/link';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
 import { StatutChangementFournisseurBadge } from '../../[identifiant]/fournisseur/StatutChangementFournisseurBadge';
@@ -22,27 +22,30 @@ export const ChangementFournisseurListItem: FC<ChangementFournisseurListItemProp
   évaluationCarboneSimplifiée,
 }) => (
   <ListItem
+    misÀJourLe={DateTime.bind(enregistréLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Changement de fournisseur du projet"
-        misÀJourLe={DateTime.bind(enregistréLe).formatter()}
       />
     }
     actions={
-      <Link
-        href={Routes.Fournisseur.changement.détails(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-          enregistréLe.date,
-        )}
-        aria-label="voir le détail du changement"
+      <Button
+        linkProps={{
+          href: Routes.Fournisseur.changement.détails(
+            IdentifiantProjet.bind(identifiantProjet).formatter(),
+            enregistréLe.date,
+          ),
+          prefetch: false,
+        }}
+        aria-label={`voir le détail du changement de fournisseur pour le projet ${nomProjet}`}
       >
-        Voir le changement
-      </Link>
+        Consulter
+      </Button>
     }
   >
-    <ul className="mt-3 text-sm">
+    <ul className="text-sm">
       {évaluationCarboneSimplifiée !== undefined && (
         <li>
           <span>Évaluation carbone simplifiée : </span>

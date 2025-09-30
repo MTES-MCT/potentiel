@@ -19,6 +19,21 @@ export function UserBasedRoleNavigation() {
 const toutesLesDemandesWording = 'Toutes les demandes';
 
 const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
+  const projetMenuLinks: Array<MenuProps.Link> = [
+    {
+      text: 'Lauréats',
+      linkProps: {
+        href: Routes.Lauréat.lister(),
+      },
+    },
+    {
+      text: 'Éliminés',
+      linkProps: {
+        href: Routes.Éliminé.lister(),
+      },
+    },
+  ];
+
   const demandesMenuLinks: Array<MenuProps.Link> = [
     {
       text: 'Abandon',
@@ -120,9 +135,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     .with(P.union('admin', 'dgec-validateur'), () => [
       {
         text: 'Projets',
-        linkProps: {
-          href: '/projets.html',
-        },
+        menuLinks: projetMenuLinks,
       },
       {
         text: 'Demandes',
@@ -224,9 +237,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     .with('dreal', () => [
       {
         text: 'Projets',
-        linkProps: {
-          href: '/projets.html',
-        },
+        menuLinks: projetMenuLinks,
       },
       {
         text: 'Demandes',
@@ -251,10 +262,8 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     ])
     .with('porteur-projet', () => [
       {
-        text: 'Mes projets',
-        linkProps: {
-          href: '/projets.html',
-        },
+        text: 'Projets',
+        menuLinks: projetMenuLinks,
       },
       {
         text: 'Demandes',
@@ -274,17 +283,13 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     .with('caisse-des-dépôts', () => [
       {
         text: 'Projets',
-        linkProps: {
-          href: '/projets.html',
-        },
+        menuLinks: projetMenuLinks,
       },
     ])
     .with('cre', () => [
       {
         text: 'Projets',
-        linkProps: {
-          href: '/projets.html',
-        },
+        menuLinks: projetMenuLinks,
       },
       {
         text: 'Demandes',
@@ -306,9 +311,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     .with('ademe', () => [
       {
         text: 'Projets',
-        linkProps: {
-          href: '/projets.html',
-        },
+        menuLinks: projetMenuLinks,
       },
       {
         text: 'Tableau de bord',
@@ -320,9 +323,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     .with('acheteur-obligé', () => [
       {
         text: 'Projets',
-        linkProps: {
-          href: '/projets.html',
-        },
+        menuLinks: projetMenuLinks,
       },
       {
         text: 'Demandes',

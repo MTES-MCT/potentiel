@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const statuts = ['abandonné', 'actif', 'achevé'] as const;
+export const statuts = ['abandonné', 'actif', 'achevé'] as const;
 export type RawType = (typeof statuts)[number];
 
 export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
@@ -8,6 +8,7 @@ export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
   estAbandonné: () => this is ValueType<'abandonné'>;
   estActif: () => this is ValueType<'actif'>;
   estAchevé: () => this is ValueType<'achevé'>;
+  formatter: () => Type;
 }>;
 
 export const bind = <Type extends RawType = RawType>({
@@ -29,6 +30,9 @@ export const bind = <Type extends RawType = RawType>({
     },
     estAchevé(): this is ValueType<'achevé'> {
       return this.statut === 'achevé';
+    },
+    formatter() {
+      return this.statut;
     },
   };
 };

@@ -1,12 +1,7 @@
 import React from 'react';
 import routes from '../../../../../routes';
-import { Header } from '../Header';
+import { DropdownMenu } from '../../molecules';
+import { Routes } from '@potentiel-applications/routes';
+import { MenuLegacyProjet } from './_utils/projet.menuLegacy';
 
-export const CaisseDesDépôtsMenuLegacy = (currentPage?: string) => (
-  <Header.MenuItem
-    href={routes.LISTE_PROJETS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>
-);
+export const CaisseDesDépôtsMenuLegacy = <MenuLegacyProjet />;
