@@ -8,3 +8,4 @@ export * from './getTechnologieTypeLabel';
 export * from './récupérerLauréat';
 export * from './vérifierQueLeCahierDesChargesPermetUnChangement';
 export * from './getGarantiesFinancièresDateLabel';
+export * from './getGarantiesFinancièresAttestationLabel';

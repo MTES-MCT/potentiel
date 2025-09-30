@@ -2,16 +2,16 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-export const getGarantiesFinancièresDateLabel = (
+export const getGarantiesFinancièresAttestationLabel = (
   type: Lauréat.GarantiesFinancières.GarantiesFinancières.RawType['type'],
 ): string =>
   match(type)
-    .with('exemption', () => "Date de délibération de l'exemption de Garanties Financières")
+    .with('exemption', () => 'Délibération approuvant le projet objet de l’offre')
     .with(
       'avec-date-échéance',
       'consignation',
       'six-mois-après-achèvement',
       'type-inconnu',
-      () => 'Date de constitution des garanties financières',
+      () => 'Attestation de constitution des garanties financières',
     )
     .exhaustive();

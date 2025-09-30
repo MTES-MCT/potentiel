@@ -44,7 +44,7 @@ const schema = zod.object({
   technologie: dépôtSchema.shape.technologie,
   typeGarantiesFinancieres: dépôtSchema.shape.typeGarantiesFinancières,
   dateEcheanceGf: dépôtSchema.shape.dateÉchéanceGf,
-  dateDeliberationGf: dépôtSchema.shape.dateDélibérationGf,
+  dateConstitutionGf: dépôtSchema.shape.dateConstitutionGf,
   coefficientKChoisi: dépôtSchema.shape.coefficientKChoisi,
   puissanceDeSite: dépôtSchema.shape.puissanceDeSite,
   dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
@@ -119,8 +119,8 @@ const mapBodyToUseCaseData = (
       dateÉchéanceGf: data.dateEcheanceGf
         ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
         : undefined,
-      dateConstitutionGf: data.dateDeliberationGf
-        ? DateTime.convertirEnValueType(data.dateDeliberationGf).formatter()
+      dateConstitutionGf: data.dateConstitutionGf
+        ? DateTime.convertirEnValueType(data.dateConstitutionGf).formatter()
         : undefined,
       coefficientKChoisi: data.coefficientKChoisi,
       puissanceDeSite: data.puissanceDeSite,

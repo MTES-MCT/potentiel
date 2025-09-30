@@ -8,7 +8,11 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
+import {
+  getGarantiesFinancièresAttestationLabel,
+  getGarantiesFinancièresDateLabel,
+  getGarantiesFinancièresTypeLabel,
+} from '@/app/_helpers';
 
 import { DétailsGarantiesFinancièresPageProps } from '../DétailsGarantiesFinancières.page';
 
@@ -65,10 +69,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
           )}
           {!gf.estConstitué() && (
             <span className="font-semibold italic">
-              {gf.estExemption()
-                ? 'Délibération approuvant le projet objet de l’offre'
-                : 'Attestation de constitution des garanties financières'}{' '}
-              manquante
+              {getGarantiesFinancièresAttestationLabel(gf.type.type)} manquante
             </span>
           )}
         </div>
@@ -81,7 +82,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
         )}
         {gf.estConstitué() && (
           <div>
-            Date de {gf.estExemption() ? `délibération` : `constitution`} :{' '}
+            {getGarantiesFinancièresDateLabel(gf.type.type)} :{' '}
             <FormattedDate className="font-semibold" date={gf.constitution.date.formatter()} />
           </div>
         )}

@@ -6,7 +6,7 @@ import {
   adresse1Schema,
   adresse2Schema,
   codePostalSchema,
-  dateEchéanceOuDéliberationGfSchema,
+  dateEchéanceOuConstitutionGfSchema,
   doitRegenererAttestationSchema,
   emailContactSchema,
   évaluationCarboneSimplifiéeSchema,
@@ -64,8 +64,8 @@ export const candidatureSchema = z
     motifElimination: motifEliminationSchema, // see refine below
     technologie: technologieSchema,
     typeGarantiesFinancieres: typeGarantiesFinancieresSchema, // see refine below
-    dateEcheanceGf: dateEchéanceOuDéliberationGfSchema, // see refine below
-    dateDeliberationGf: dateEchéanceOuDéliberationGfSchema, // see refine below
+    dateEcheanceGf: dateEchéanceOuConstitutionGfSchema, // see refine below
+    dateDeliberationGf: dateEchéanceOuConstitutionGfSchema, // see refine below
     coefficientKChoisi: choixCoefficientKSchema,
     puissanceDeSite: puissanceDeSiteSchema,
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,

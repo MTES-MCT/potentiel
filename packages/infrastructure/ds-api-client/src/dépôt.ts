@@ -26,7 +26,6 @@ const colonnes = {
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
   typeGarantiesFinancières: 'Type de garantie financière',
-  dateConstitutionGf: "Date de la délibération portant sur le projet objet de l'offre",
 
   localité: 'Adresse postale du site de production',
   historiqueAbandon: 'Préciser le statut du projet',

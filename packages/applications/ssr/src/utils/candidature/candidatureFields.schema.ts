@@ -65,7 +65,7 @@ export const actionnariatCorrigerCandidatureSchema = optionalEnumForCorrection(
 
 export const historiqueAbandonSchema = z.enum(Candidature.HistoriqueAbandon.types);
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
-export const dateEchéanceOuDéliberationGfSchema = optionalDateSchema;
+export const dateEchéanceOuConstitutionGfSchema = optionalDateSchema;
 export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 
 export const choixCoefficientKSchema = booleanSchema.optional();

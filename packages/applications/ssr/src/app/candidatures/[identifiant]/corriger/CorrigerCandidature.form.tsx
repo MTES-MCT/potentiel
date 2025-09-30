@@ -17,6 +17,7 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
 import {
   getActionnariatTypeLabel,
+  getGarantiesFinancièresDateLabel,
   getGarantiesFinancièresTypeLabel,
   getTechnologieTypeLabel,
 } from '@/app/_helpers';
@@ -381,17 +382,16 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
               stateRelatedMessage={validationErrors['dateEcheanceGf']}
             />
           )}
-          {typeGf === 'exemption' && (
+          {candidature.typeGarantiesFinancieres && candidature.dateConstitutionGf && (
             <InputDate
-              name="dateDeliberationGf"
-              label="Date de délibération de l'exemption de Garanties Financières"
+              name="dateConstitutionGf"
+              label={getGarantiesFinancièresDateLabel(candidature.typeGarantiesFinancieres)}
               required
-              defaultValue={
-                candidature.dateDeliberationGf &&
-                DateTime.convertirEnValueType(candidature.dateDeliberationGf).formatter()
-              }
-              state={validationErrors['dateDeliberationGf'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['dateDeliberationGf']}
+              defaultValue={DateTime.convertirEnValueType(
+                candidature.dateConstitutionGf,
+              ).formatter()}
+              state={validationErrors['dateConstitutionGf'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['dateConstitutionGf']}
             />
           )}
         </>
