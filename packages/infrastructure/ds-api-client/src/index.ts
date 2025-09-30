@@ -1,8 +1,10 @@
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { createDossierAccessor, GetDossierQuery, getDSApiClient } from './graphql';
 import { mapApiResponseToDépôt } from './dépôt';
+import { DeepPartial } from './utils';
 
 export type Dossier = Awaited<ReturnType<typeof getDépôtCandidature>>;
 
@@ -13,10 +15,14 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
   try {
     const { dossier } = await sdk.GetDossier({ dossier: dossierNumber });
 
+    const fichiers = mapApiResponseToFichiers(dossier);
     return {
       demarcheId: dossier.demarche.number,
-      dépôt: mapApiResponseToDépôt(dossier),
-      fichiers: mapApiResponseToFichiers(dossier),
+      dépôt: {
+        ...mapApiResponseToDépôt(dossier),
+        attestationConstitutionGf: { format: fichiers.garantiesFinancières?.contentType },
+      } satisfies DeepPartial<Candidature.Dépôt.RawType>,
+      fichiers,
       détails: mapApiResponseToDétails(dossier),
     };
   } catch (e) {
