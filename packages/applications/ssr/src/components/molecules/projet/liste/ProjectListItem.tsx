@@ -71,7 +71,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
         </Button>
       }
     >
-      <div className="flex flex-col gap-4 md:flex-row md:items-center justify-between w-full mt-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center justify-between w-full">
         <div className="flex md:flex-1 flex-col gap-1 text-sm">
           <div className="flex items-start gap-2">
             <Icon

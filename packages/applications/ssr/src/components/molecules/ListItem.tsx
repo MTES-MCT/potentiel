@@ -19,7 +19,7 @@ export const ListItem: React.FC<ListItemProps> = ({ actions, children, heading, 
     </div>
 
     <div className="flex flex-col justify-between gap-2 mt-4 lg:flex-row lg:gap-4 md:items-end">
-      <div>{children}</div>
+      <div className="flex-1">{children}</div>
       {misÀJourLe && (
         <div className="shrink-0 lg:text-right italic text-xs">
           Dernière mise à jour le <FormattedDate date={misÀJourLe} />
