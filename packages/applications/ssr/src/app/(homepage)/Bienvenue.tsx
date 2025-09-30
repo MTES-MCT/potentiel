@@ -10,11 +10,11 @@ type BienvenueProps = {
 export const Bienvenue = ({ utilisateur }: BienvenueProps) => {
   const { lien, texte } = match(utilisateur.role.nom)
     .with('porteur-projet', () => ({
-      texte: 'Voir mes projets',
-      lien: Routes.Projet.lister(),
+      texte: 'Voir mes projets lauréats',
+      lien: Routes.Lauréat.lister(),
     }))
     .with('grd', () => ({ texte: 'Voir les raccordements', lien: Routes.Raccordement.lister }))
-    .otherwise(() => ({ texte: 'Voir les projets', lien: Routes.Projet.lister() }));
+    .otherwise(() => ({ texte: 'Voir les projets lauréats', lien: Routes.Lauréat.lister() }));
   return (
     <section className="bg-[linear-gradient(180deg,_#000091_50%,_white_50%)]">
       <h2 className="sr-only">Accéder à Potentiel</h2>

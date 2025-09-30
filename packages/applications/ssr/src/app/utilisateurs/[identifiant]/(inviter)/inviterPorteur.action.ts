@@ -63,7 +63,7 @@ const action: FormAction<FormState, typeof schema> = async (
         status: 'success',
         redirection: {
           message: `Utilisateur invité avec succès à ${success} projets`,
-          url: Routes.Projet.lister(),
+          url: Routes.Lauréat.lister(),
         },
       };
     }

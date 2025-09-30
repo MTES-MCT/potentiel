@@ -8,7 +8,7 @@ import { getBaseUrl } from '../../helpers';
 export async function utilisateurInvitéNotification({
   payload: { identifiantUtilisateur, rôle },
 }: UtilisateurInvitéEvent) {
-  const urlPageProjets = `${getBaseUrl()}${Routes.Projet.lister()}`;
+  const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 
   const templateIds = {
     dreal: 1436254,

@@ -45,10 +45,3 @@ export const exportCsv = ({ appelOffreId, nomProjet, classement }: exportCsvFilt
 
 export const détailsÉliminé = (identifiantProjet: string) =>
   `/projets/${encodeParameter(identifiantProjet)}`;
-
-/**
- *
- * @deprecated Lien vers la page liste des projets legacy
- *
- */
-export const lister = () => `/projets.html`;

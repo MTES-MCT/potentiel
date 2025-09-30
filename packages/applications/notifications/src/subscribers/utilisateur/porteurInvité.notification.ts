@@ -9,7 +9,7 @@ export const porteurInvitéNotification = async ({
 }: PorteurInvitéEvent) => {
   const projets = await Promise.all(identifiantsProjet.map(getCandidature));
 
-  const urlPageProjets = `${getBaseUrl()}${Routes.Projet.lister()}`;
+  const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 
   // On ne notifie pas le porteur invité par le système,
   // car cela correspond à l'invitation liée à la candidature,
