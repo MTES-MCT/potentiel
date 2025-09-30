@@ -7,6 +7,7 @@ import {
   getLocalité,
   getAutorisationDUrbanisme,
   getTypeNatureDeLExploitation,
+  getDateConstitutionGF,
 } from './specialFields';
 import { DeepPartial } from './utils';
 import { getTypologieInstallation } from './getTypologieInstallation';
@@ -23,7 +24,6 @@ const colonnes = {
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
   typeGarantiesFinancières: 'Type de garantie financière',
-  dateÉchéanceGf: "Date d'échéance des garanties financières",
   dateConstitutionGf: "Date de la délibération portant sur le projet objet de l'offre",
 
   localité: 'Adresse postale du site de production',
@@ -71,10 +71,11 @@ export const mapApiResponseToDépôt = ({
     evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
 
     typeGarantiesFinancières: typeGarantiesFinancieres,
-    dateConstitutionGf:
-      typeGarantiesFinancieres === 'exemption'
-        ? accessor.getDateValue('dateConstitutionGf')
-        : undefined,
+    dateConstitutionGf: getDateConstitutionGF(
+      typeGarantiesFinancieres,
+      champs,
+      demarche.revision.champDescriptors,
+    ),
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 
     obligationDeSolarisation: accessor.getBooleanValue('obligationDeSolarisation'),
