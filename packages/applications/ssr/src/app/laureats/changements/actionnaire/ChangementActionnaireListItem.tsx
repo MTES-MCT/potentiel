@@ -48,8 +48,8 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
         }}
         aria-label={
           statut.statut === 'information-enregistrée'
-            ? `voir le détail de la demande pour le projet ${nomProjet}`
-            : `voir le détail de la demande pour le projet ${nomProjet}`
+            ? `voir le détail du changement d'actionnaire pour le projet ${nomProjet}`
+            : `voir le détail de la demande de changement d'actionnaire pour le projet ${nomProjet}`
         }
       >
         Consulter

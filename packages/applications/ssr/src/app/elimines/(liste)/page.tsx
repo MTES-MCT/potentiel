@@ -110,9 +110,9 @@ export default async function Page({ searchParams }: PageProps) {
           legend={{
             symbols: projectListLegendSymbols,
           }}
-          actions={mapToActions(utilisateur.role, {
-            appelOffre,
-            nomProjet,
+          actions={mapToActions({
+            rôle: utilisateur.role,
+            searchParams: { appelOffre, nomProjet },
           })}
         />
       );
@@ -120,13 +120,15 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-const mapToActions = (
-  rôle: Role.ValueType,
+type MapToActionsProps = {
+  rôle: Role.ValueType;
   searchParams: {
     appelOffre?: string;
     nomProjet?: string;
-  },
-) => {
+  };
+};
+
+const mapToActions = ({ rôle, searchParams: { appelOffre, nomProjet } }: MapToActionsProps) => {
   const actions: ÉliminéListPageProps['actions'] = [];
 
   if (rôle.estGrd()) {
@@ -134,13 +136,12 @@ const mapToActions = (
   }
 
   actions.push({
-    label: 'Télécharger un export (CSV)',
+    label: 'Télécharger un export (format CSV)',
     href: Routes.Projet.exportCsv({
-      appelOffreId: searchParams.appelOffre,
-      nomProjet: searchParams.nomProjet,
-      classement: 'classés',
+      appelOffreId: appelOffre,
+      nomProjet: nomProjet,
+      classement: 'éliminé',
     }),
-    iconId: 'ri-file-excel-line',
   });
 
   return actions;

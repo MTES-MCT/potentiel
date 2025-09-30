@@ -37,7 +37,7 @@ export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFi
       <Button
         linkProps={{
           href: Routes.GarantiesFinancières.détail(identifiantProjet),
-          'aria-label': `voir le détail du dépôt de garanties financièrespour le projet ${nomProjet}`,
+          'aria-label': `voir le détail du dépôt de garanties financières pour le projet ${nomProjet}`,
           prefetch: false,
         }}
       >

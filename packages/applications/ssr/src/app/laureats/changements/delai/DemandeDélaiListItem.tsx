@@ -42,7 +42,7 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
           ),
           prefetch: false,
         }}
-        aria-label={`voir le détail de la demande pour le projet ${nomProjet}`}
+        aria-label={`voir le détail de la demande de délai pour le projet ${nomProjet}`}
       >
         Consulter
       </Button>

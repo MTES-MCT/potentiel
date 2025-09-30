@@ -47,7 +47,7 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
           ),
           prefetch: false,
         }}
-        aria-label="voir le détail de la demande"
+        aria-label={`voir le détail de la demande de changement de puissance pour le projet ${nomProjet}`}
       >
         Consulter
       </Button>

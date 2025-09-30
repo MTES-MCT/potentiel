@@ -53,7 +53,7 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative mb-6 fr-select--group ${disabled ? 'fr-select-group--disabled' : ''}`}
+      className={clsx(`relative mb-6 fr-select--group ${disabled && 'fr-select-group--disabled'}`)}
     >
       <label htmlFor={id} className={clsx(fr.cx('fr-label', disabled && 'fr-label--disabled'))}>
         {label}

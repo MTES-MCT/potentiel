@@ -6,19 +6,21 @@ import { Literal } from 'sequelize/types/utils';
 import { Project, UserProjects } from '../../../../projectionsNext';
 import { Op } from 'sequelize';
 
+type RécupérerExportProjetsProps = {
+  colonnesÀExporter: Readonly<Array<Colonne>>;
+  filtres?: FiltreListeProjets;
+  inclureLesProjetsNonNotifiés?: true;
+  seulementLesProjetsAvecAccèsPour?: string;
+  seulementLesProjetsParRégion?: string;
+};
+
 export const récupérerExportProjets = ({
   colonnesÀExporter,
   filtres,
   inclureLesProjetsNonNotifiés,
   seulementLesProjetsAvecAccèsPour,
   seulementLesProjetsParRégion,
-}: {
-  colonnesÀExporter: Readonly<Array<Colonne>>;
-  filtres?: FiltreListeProjets;
-  inclureLesProjetsNonNotifiés?: true;
-  seulementLesProjetsAvecAccèsPour?: string;
-  seulementLesProjetsParRégion?: string;
-}) => {
+}: RécupérerExportProjetsProps) => {
   const findOptions = filtres && mapToFindOptions(filtres);
 
   return wrapInfra(

@@ -120,9 +120,9 @@ export default async function Page({ searchParams }: PageProps) {
           legend={{
             symbols: projectListLegendSymbols,
           }}
-          actions={mapToActions(utilisateur.role, {
-            appelOffre,
-            nomProjet,
+          actions={mapToActions({
+            rôle: utilisateur.role,
+            searchParams: { appelOffre, nomProjet, statut },
           })}
         />
       );
@@ -130,26 +130,33 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-const mapToActions = (
-  rôle: Role.ValueType,
+type MapToActionsProps = {
+  rôle: Role.ValueType;
   searchParams: {
     appelOffre?: string;
     nomProjet?: string;
-  },
-) => {
+    statut?: Lauréat.StatutLauréat.RawType;
+  };
+};
+
+const mapToActions = ({
+  rôle,
+  searchParams: { appelOffre, nomProjet, statut },
+}: MapToActionsProps) => {
   const actions: LauréatListPageProps['actions'] = [];
 
-  if (rôle.estDGEC() || rôle.estDreal()) {
-    actions.push({
-      label: 'Télécharger un export (CSV)',
-      href: Routes.Projet.exportCsv({
-        appelOffreId: searchParams.appelOffre,
-        nomProjet: searchParams.nomProjet,
-        classement: 'classés',
-      }),
-      iconId: 'ri-file-excel-line',
-    });
+  if (rôle.estGrd()) {
+    return actions;
   }
+
+  actions.push({
+    label: 'Télécharger un export (format CSV)',
+    href: Routes.Projet.exportCsv({
+      appelOffreId: appelOffre,
+      nomProjet: nomProjet,
+      classement: !statut || statut === 'achevé' ? undefined : statut,
+    }),
+  });
 
   return actions;
 };

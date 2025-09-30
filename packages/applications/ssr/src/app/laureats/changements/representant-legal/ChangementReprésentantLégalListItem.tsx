@@ -40,7 +40,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
           ),
           prefetch: false,
         }}
-        aria-label={`voir le détail du changement de représentant légal pour le projet ${nomProjet}`}
+        aria-label={`voir le détail de la demande de changement de représentant légal pour le projet ${nomProjet}`}
       >
         Consulter
       </Button>
