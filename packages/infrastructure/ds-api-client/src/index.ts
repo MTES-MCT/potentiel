@@ -20,7 +20,7 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
       demarcheId: dossier.demarche.number,
       dépôt: {
         ...mapApiResponseToDépôt(dossier),
-        attestationConstitutionGf: { format: fichiers.garantiesFinancières?.contentType },
+        attestationConstitutionGf: fichiers.garantiesFinancières ? { format: fichiers.garantiesFinancières.contentType } : undefined,
       } satisfies DeepPartial<Candidature.Dépôt.RawType>,
       fichiers,
       détails: mapApiResponseToDétails(dossier),
