@@ -66,12 +66,12 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const appelOffresFiltrée = appelOffres.items.find((a) => a.id === appelOffre);
+      const appelOffresFiltré = appelOffres.items.find((a) => a.id === appelOffre);
 
-      const périodeFiltrée = appelOffresFiltrée?.periodes.find((p) => p.id === periode);
+      const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
 
       const périodeOptions =
-        appelOffresFiltrée?.periodes.map(({ title, id }) => ({ label: title, value: id })) ?? [];
+        appelOffresFiltré?.periodes.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
       const familleOptions =
         périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
@@ -108,7 +108,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: "Type d'actionnariat",
           searchParamKey: 'typeActionnariat',
-          options: getTypeActionnariatFilterOptions(appelOffresFiltrée?.cycleAppelOffre),
+          options: getTypeActionnariatFilterOptions(appelOffresFiltré?.cycleAppelOffre),
           multiple: true,
         },
       ];
