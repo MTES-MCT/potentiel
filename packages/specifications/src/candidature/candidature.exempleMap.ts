@@ -88,3 +88,9 @@ export const autorisationDUrbanismeExempleMap: FieldToExempleMapper<{
   date: [`date d'obtention de l'autorisation d'urbanisme`, mapDateTime],
   numéro: [`numéro de l'autorisation d'urbanisme`],
 };
+
+export const formatAttestationGFExempleMap: FieldToExempleMapper<{
+  format: string;
+}> = {
+  format: [`format attestation GF`],
+};
