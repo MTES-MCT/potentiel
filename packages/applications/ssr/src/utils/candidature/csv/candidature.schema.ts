@@ -31,9 +31,10 @@ import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
-  installationAvecDispositifDeStockageSchema,
   natureDeLExploitationOptionalSchema,
 } from '../candidatureFields.schema';
+
+// TODO: juste après, ajouter dispositif de stockage à ce schema. Remplacer les usages de dépôt schéma par celui ci qui est testé
 
 /**
  * Schema simplifié par rapport au CSV, pour utilisation dans des formulaires
@@ -71,7 +72,6 @@ export const candidatureSchema = z
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: installateurSchema,
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée

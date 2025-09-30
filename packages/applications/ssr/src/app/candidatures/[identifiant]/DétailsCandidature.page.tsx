@@ -104,9 +104,25 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>{getNatureDeLExploitationTypeLabel(dépôt.natureDeLExploitation.type)}</span>
                 </Field>
               )}
-              {dépôt.installationAvecDispositifDeStockage !== undefined && (
+              {dépôt.dispositifDeStockage !== undefined && (
                 <Field name="Dispositif de stockage">
-                  <span>{dépôt.installationAvecDispositifDeStockage ? 'Avec' : 'Sans'}</span>
+                  <span>
+                    {dépôt.dispositifDeStockage.installationAvecDispositifDeStockage
+                      ? 'Installation couplée à un dispositif de stockage'
+                      : 'Installation non couplée à un dispositif de stockage'}
+                  </span>
+                  {dépôt.dispositifDeStockage.puissanceDuDispositifDeStockageEnKW !== undefined ? (
+                    <span>
+                      Puissance du dispositif de stockage :{' '}
+                      {dépôt.dispositifDeStockage.puissanceDuDispositifDeStockageEnKW} KW
+                    </span>
+                  ) : null}
+                  {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKW !== undefined ? (
+                    <span>
+                      Capacité du dispositif de stockage :{' '}
+                      {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKW} KW
+                    </span>
+                  ) : null}
                 </Field>
               )}
               <Field name="Performances">

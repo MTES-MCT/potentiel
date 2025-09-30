@@ -37,7 +37,7 @@ import {
 import { DemandeAbandonEnCoursInfoBox } from './sections/DemandeEnCoursInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
 import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
@@ -72,7 +72,7 @@ type ProjectDetailsProps = {
     };
   };
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
-  installationAvecDispositifDeStockage?: InfoGeneralesProps['installationAvecDispositifDeStockage'];
+  dispositifDeStockage?: InfoGeneralesProps['dispositifDeStockage'];
   natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
   statutLauréat: Lauréat.StatutLauréat.RawType;
   siteDeProduction: InfoGeneralesProps['siteDeProduction'];
@@ -100,7 +100,7 @@ export const ProjectDetails = ({
   délai,
   autorisationDUrbanisme,
   installateur,
-  installationAvecDispositifDeStockage,
+  dispositifDeStockage,
   natureDeLExploitation,
   statutLauréat,
   siteDeProduction,
@@ -195,9 +195,7 @@ export const ProjectDetails = ({
         délaiAffichage={délai.affichage}
         installateurAffichage={installateur?.affichage}
         features={user.features}
-        installationAvecDispositifDeStockageAffichage={
-          installationAvecDispositifDeStockage?.affichage
-        }
+        dispositifDeStockageAffichage={dispositifDeStockage?.affichage}
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
         siteDeProductionAffichage={siteDeProduction?.affichage}
       />
@@ -260,7 +258,7 @@ export const ProjectDetails = ({
               attestationConformité={attestationConformité}
               autorisationDUrbanisme={autorisationDUrbanisme}
               installateur={installateur}
-              installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
+              dispositifDeStockage={dispositifDeStockage}
               natureDeLExploitation={natureDeLExploitation}
               siteDeProduction={siteDeProduction}
             />

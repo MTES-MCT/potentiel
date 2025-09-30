@@ -19,6 +19,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     | 'autorisationDUrbanisme'
     | 'typologieInstallation'
     | 'attestationConstitutionGf'
+    | 'dispositifDeStockage'
   >
 > = {
   typeGarantiesFinancières: [
@@ -47,10 +48,6 @@ export const dépôtExempleMap: FieldToExempleMapper<
   coefficientKChoisi: ['coefficient K choisi', mapOptionalBoolean],
   puissanceDeSite: ['puissance de site', mapNumber],
   installateur: ['installateur'],
-  installationAvecDispositifDeStockage: [
-    'installation avec dispositif de stockage',
-    mapOptionalBoolean,
-  ],
   natureDeLExploitation: [
     "nature de l'exploitation",
     mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
@@ -94,3 +91,10 @@ export const formatAttestationGFExempleMap: FieldToExempleMapper<{
 }> = {
   format: [`format attestation GF`],
 };
+
+export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.DispositifDeStockage.DispositifDeStockage.RawType> =
+  {
+    installationAvecDispositifDeStockage: ['installation avec dispositif de stockage', mapBoolean],
+    capacitéDuDispositifDeStockageEnKW: ['capacité du dispositif', mapNumber],
+    puissanceDuDispositifDeStockageEnKW: ['puissance du dispositif', mapNumber],
+  };

@@ -46,6 +46,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
         const rawLine = removeEmptyValues(
           rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {},
         );
+
         await mediator.send<Candidature.ImporterCandidatureUseCase>({
           type: 'Candidature.UseCase.ImporterCandidature',
           data: {

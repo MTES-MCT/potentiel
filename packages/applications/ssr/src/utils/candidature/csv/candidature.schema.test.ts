@@ -77,7 +77,6 @@ describe('candidatureSchema', () => {
       dateDAutorisationDUrbanisme,
       numeroDAutorisationDUrbanisme: '666',
       puissanceDeSite: '200',
-      installationAvecDispositifDeStockage: 'true',
       natureDeLExploitation: 'vente-avec-injection-du-surplus',
     });
     assert(result.success);
@@ -88,7 +87,6 @@ describe('candidatureSchema', () => {
       puissanceDeSite: 200,
       dateDAutorisationDUrbanisme: new Date(dateDAutorisationDUrbanisme).toISOString(),
       numeroDAutorisationDUrbanisme: '666',
-      installationAvecDispositifDeStockage: true,
       natureDeLExploitation: 'vente-avec-injection-du-surplus',
     });
   });

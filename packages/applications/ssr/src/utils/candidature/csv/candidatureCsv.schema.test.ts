@@ -86,7 +86,7 @@ describe('Schema candidature CSV', () => {
       autorisationDUrbanisme: undefined,
       installateur: undefined,
       typologieInstallation: [],
-      installationAvecDispositifDeStockage: undefined,
+      dispositifDeStockage: undefined,
       natureDeLExploitation: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
@@ -132,7 +132,7 @@ describe('Schema candidature CSV', () => {
       autorisationDUrbanisme: undefined,
       installateur: undefined,
       typologieInstallation: [],
-      installationAvecDispositifDeStockage: undefined,
+      dispositifDeStockage: undefined,
       natureDeLExploitation: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
@@ -151,6 +151,8 @@ describe('Schema candidature CSV', () => {
       "Numéro de l'autorisation d'urbanisme": '123',
       "Identité de l'installateur": 'Installateur Inc.',
       'Installation couplée à un dispositif de stockage': 'oui',
+      'Capacité du dispositif de stockage': '2',
+      'Puissance du dispositif de stockage': '3',
       "Nature de l'exploitation": '1',
     });
     assertNoError(result);
@@ -190,7 +192,11 @@ describe('Schema candidature CSV', () => {
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
       installateur: 'Installateur Inc.',
-      installationAvecDispositifDeStockage: true,
+      dispositifDeStockage: {
+        installationAvecDispositifDeStockage: true,
+        capacitéDuDispositifDeStockageEnKW: 2,
+        puissanceDuDispositifDeStockageEnKW: 3,
+      },
       natureDeLExploitation: 'vente-avec-injection-du-surplus',
       typologieInstallation: [
         {
@@ -481,6 +487,19 @@ describe('Schema candidature CSV', () => {
           undefined,
       });
       assertNoError(result);
+    });
+
+    test('Installation couplée à un dispositif de stockage requiert sa capacité et puissance', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesClassé,
+        'Installation couplée à un dispositif de stockage': 'oui',
+      });
+      assert(!result.success);
+      expect(result.error.issues[0]).to.deep.eq({
+        code: 'custom',
+        path: ['Capacité du dispositif de stockage', 'Puissance du dispositif de stockage'],
+        message: 'La capacité et la puissance du dispositif de stockage sont requis',
+      });
     });
   });
 

@@ -10,6 +10,7 @@ import {
   getAutorisationDUrbanisme,
   getTypeNatureDeLExploitation,
   getDateConstitutionGarantiesFinancières,
+  getDispositifDeStockage,
 } from './specialFields';
 import { DeepPartial } from './utils';
 import { getTypologieInstallation } from './getTypologieInstallation';
@@ -31,7 +32,7 @@ const colonnes = {
   historiqueAbandon: 'Préciser le statut du projet',
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
-  installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+
   installateur: "Identité de l'installateur",
   natureDeLExploitation: "Nature de l'exploitation",
   coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
@@ -48,6 +49,16 @@ export const mapApiResponseToDépôt = ({
       numéro: "Numéro de l'autorisation d'urbanisme",
       date: "Date d'obtention de l'autorisation d'urbanisme",
     } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
+    demarche.revision.champDescriptors,
+  );
+
+  const accessorDispositifDeStockage = createDossierAccessor(
+    champs,
+    {
+      installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+      capacitéDuDispositifDeStockageEnKW: 'Capacité du dispositif de stockage',
+      puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
+    } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>,
     demarche.revision.champDescriptors,
   );
 
@@ -102,9 +113,13 @@ export const mapApiResponseToDépôt = ({
 
     localité: getLocalité(accessor, 'localité'),
 
-    installationAvecDispositifDeStockage: accessor.getBooleanValue(
-      'installationAvecDispositifDeStockage',
-    ),
+    dispositifDeStockage: getDispositifDeStockage({
+      accessor: accessorDispositifDeStockage,
+      nomChampsInstallation: 'installationAvecDispositifDeStockage',
+      nomChampCapacité: 'capacitéDuDispositifDeStockageEnKW',
+      nomChampPuissance: 'puissanceDuDispositifDeStockageEnKW',
+    }),
+
     installateur: accessor.getStringValue('installateur'),
     natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
 
@@ -113,6 +128,7 @@ export const mapApiResponseToDépôt = ({
       nomChampNuméro: 'numéro',
       nomChampDate: 'date',
     }),
+
     typologieInstallation: getTypologieInstallation(champs),
 
     // Non disponibles sur Démarches simplifiées
