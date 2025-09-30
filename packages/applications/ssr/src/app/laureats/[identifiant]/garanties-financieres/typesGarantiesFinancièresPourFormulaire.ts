@@ -1,6 +1,6 @@
 import { CahierDesCharges } from '@potentiel-domain/projet';
 
-import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
+import { getGarantiesFinancièresTypeLabel } from './_helpers/getGarantiesFinancièresTypeLabel';
 
 export const typesGarantiesFinancièresPourFormulaire = (
   cahierDesCharges: CahierDesCharges.ValueType,

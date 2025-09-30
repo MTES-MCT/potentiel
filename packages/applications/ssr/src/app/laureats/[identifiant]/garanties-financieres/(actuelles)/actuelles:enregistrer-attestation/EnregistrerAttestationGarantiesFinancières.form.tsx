@@ -10,10 +10,9 @@ import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
-import {
-  getGarantiesFinancièresAttestationLabel,
-  getGarantiesFinancièresDateLabel,
-} from '@/app/_helpers';
+
+import { getGarantiesFinancièresDateLabel } from '../../_helpers/getGarantiesFinancièresDateLabel';
+import { getGarantiesFinancièresAttestationLabel } from '../../_helpers/getGarantiesFinancièresAttestationLabel';
 
 import {
   enregistrerAttestationGarantiesFinancièresAction,

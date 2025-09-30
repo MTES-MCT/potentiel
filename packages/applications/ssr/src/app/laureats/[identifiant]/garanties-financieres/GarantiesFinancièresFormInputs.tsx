@@ -9,10 +9,9 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import {
-  getGarantiesFinancièresAttestationLabel,
-  getGarantiesFinancièresDateLabel,
-} from '@/app/_helpers';
+
+import { getGarantiesFinancièresAttestationLabel } from './_helpers/getGarantiesFinancièresAttestationLabel';
+import { getGarantiesFinancièresDateLabel } from './_helpers/getGarantiesFinancièresDateLabel';
 
 export type GarantiesFinancièresFormInputsProps = {
   id: string;

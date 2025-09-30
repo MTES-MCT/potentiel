@@ -15,12 +15,9 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
-import {
-  getActionnariatTypeLabel,
-  getGarantiesFinancièresDateLabel,
-  getGarantiesFinancièresTypeLabel,
-  getTechnologieTypeLabel,
-} from '@/app/_helpers';
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
+import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 
 import { getNatureDeLExploitationTypeLabel } from '../../../_helpers/getNatureDeLExploitationTypeLabel';
 

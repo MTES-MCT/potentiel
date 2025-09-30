@@ -6,7 +6,7 @@ export const getGarantiesFinancièresDateLabel = (
   type: Lauréat.GarantiesFinancières.GarantiesFinancières.RawType['type'],
 ): string =>
   match(type)
-    .with('exemption', () => "Date de délibération de l'exemption de Garanties Financières")
+    .with('exemption', () => "Date de délibération de l'exemption de garanties financières")
     .with(
       'avec-date-échéance',
       'consignation',
