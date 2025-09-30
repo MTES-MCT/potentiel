@@ -112,7 +112,7 @@ const gfDateLabels = {
   'garantie-bancaire': "Date de prise d'effet de la garantie financière",
 } as const;
 
-export const getDateConstitutionGF = (
+export const getDateConstitutionGarantiesFinancières = (
   typeGarantiesFinancieres: ReturnType<typeof getTypeGarantiesFinancières>,
   champs: GetDossierQuery['dossier']['champs'],
   demarche: GetDossierQuery['dossier']['demarche']['revision']['champDescriptors'],

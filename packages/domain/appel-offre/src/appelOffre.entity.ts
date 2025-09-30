@@ -37,6 +37,7 @@ type GarantiesFinancièresAppelOffre = {
   typeGarantiesFinancièresDisponibles: Array<TypeGarantiesFinancières>;
   renvoiRetraitDesignationGarantieFinancieres: string;
   renvoiSoumisAuxGarantiesFinancieres?: string;
+  délaiÉchéanceGarantieBancaireEnMois?: number;
 } & (
   | GarantiesFinancièresFamille
   | {
