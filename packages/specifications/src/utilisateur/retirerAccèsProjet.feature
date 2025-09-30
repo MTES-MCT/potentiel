@@ -10,7 +10,7 @@ Fonctionnalité: Retirer les accès d'un utilisateur à un projet
         Et un email a été envoyé au porteur avec :
             | sujet           | Révocation de vos accès pour le projet Du boulodrome de Marseille |
             | nom_projet      | Du boulodrome de Marseille                                        |
-            | mes_projets_url | https://potentiel.beta.gouv.fr/projets.html                       |
+            | mes_projets_url | https://potentiel.beta.gouv.fr/laureats                           |
             | cause           |                                                                   |
 
         Exemples:
