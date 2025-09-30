@@ -108,6 +108,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   #tâchePlanifiéeEchoir!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel1mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel2mois!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeRappel3mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappelEnAttente!: AggregateType<TâchePlanifiéeAggregate>;
 
   // Tâches porteur
@@ -125,6 +126,9 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     );
     this.#tâchePlanifiéeRappel2mois = await this.lauréat.loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
+    );
+    this.#tâchePlanifiéeRappel3mois = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceTroisMois.type,
     );
     this.#tâchePlanifiéeRappelEnAttente = await this.lauréat.loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.rappelEnAttente.type,
@@ -255,8 +259,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
         àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(1),
       });
 
-      await this.#tâchePlanifiéeRappel2mois.ajouter({
-        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(2),
+      await this.#tâchePlanifiéeRappel3mois.ajouter({
+        àExécuterLe: garantiesFinancières.dateÉchéance.retirerNombreDeMois(3),
       });
     } else if (!this.estÉchu) {
       // TODO: Délai pour s'assurer que les projecteurs s'exécutent dans le bon ordre
@@ -270,6 +274,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappel1mois.annuler();
     await this.#tâchePlanifiéeRappel2mois.annuler();
+    await this.#tâchePlanifiéeRappel3mois.annuler();
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
   }
   //#endregion Utilitaires
