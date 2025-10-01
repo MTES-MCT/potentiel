@@ -124,12 +124,14 @@ const mapOperatorToSqlCondition = (
   projection: string,
 ): [clause: string, variableIndex: number] => {
   const baseCondition = format('%I.value->>%%L', projection);
-  const baseConditionCoalesce = format("COALESCE(%I.value->>%%L,'__null__')", projection);
   const baseConditionObject = format('%I.value->%%L', projection);
   return match(operator)
     .returnType<[clause: string, variableIndex: number]>()
     .with('equal', () => [`${baseCondition} = $${index}`, index + 1])
-    .with('notEqual', () => [`${baseConditionCoalesce} <> $${index}`, index + 1])
+    .with('notEqual', () => [
+      `(${baseCondition} <> $${index} OR ${baseCondition} IS NULL)`,
+      index + 1,
+    ])
     .with('like', () => [`${baseCondition} ILIKE $${index}`, index + 1])
     .with('notLike', () => [`${baseCondition} NOT ILIKE $${index}`, index + 1])
     .with('matchAny', () => [`${baseCondition} = ANY($${index})`, index + 1])
