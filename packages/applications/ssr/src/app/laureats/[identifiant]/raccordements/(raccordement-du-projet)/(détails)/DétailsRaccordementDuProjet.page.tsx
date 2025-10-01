@@ -109,10 +109,7 @@ export const DétailsRaccordementDuProjetPage: FC<DétailsRaccordementPageProps>
 
       <Button
         priority="secondary"
-        linkProps={{
-          href,
-          prefetch: false,
-        }}
+        linkProps={{ href }}
         className="mt-4"
         iconId="fr-icon-arrow-left-line"
       >

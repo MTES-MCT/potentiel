@@ -44,7 +44,6 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         linkProps={{
           href: Routes.Projet.details(identifiantProjet),
           'aria-label': `voir le détail du projet ${nomProjet}`,
-          prefetch: false,
         }}
       >
         Voir le projet

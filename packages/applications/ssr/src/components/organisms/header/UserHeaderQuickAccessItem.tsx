@@ -20,7 +20,6 @@ export async function UserHeaderQuickAccessItem() {
               iconId: 'ri-user-line',
               linkProps: {
                 href: utilisateur.accountUrl,
-                prefetch: false,
               },
               text: utilisateur.nom || utilisateur.identifiantUtilisateur.email,
             }}
@@ -42,7 +41,6 @@ export async function UserHeaderQuickAccessItem() {
             iconId: 'ri-logout-box-line',
             linkProps: {
               href: Routes.Auth.signOut(),
-              prefetch: false,
             },
             text: 'Me déconnecter',
           }}
@@ -58,7 +56,6 @@ export async function UserHeaderQuickAccessItem() {
           iconId: 'ri-account-circle-line',
           linkProps: {
             href: Routes.Auth.signUp(),
-            prefetch: false,
           },
           text: "M'inscrire",
         }}
@@ -68,7 +65,6 @@ export async function UserHeaderQuickAccessItem() {
           iconId: 'ri-lock-line',
           linkProps: {
             href: Routes.Auth.signIn(),
-            prefetch: false,
           },
           text: "M'identifier",
         }}
@@ -108,7 +104,6 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType
             iconId: 'fr-icon-list-ordered',
             linkProps: {
               href: Routes.Tache.lister,
-              prefetch: false,
             },
             text: <div className="mr-3">Tâches</div>,
           }}

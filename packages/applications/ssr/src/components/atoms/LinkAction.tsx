@@ -10,11 +10,7 @@ export type LinkActionProps = {
 };
 
 export const LinkAction: FC<LinkActionProps> = ({ label, href, iconId }) => (
-  <Link
-    href={href}
-    className={clsx(`w-fit fr-link fr-link--icon-right ${iconId}`)}
-    prefetch={false}
-  >
+  <Link href={href} className={clsx(`w-fit fr-link fr-link--icon-right ${iconId}`)}>
     {label}
   </Link>
 );

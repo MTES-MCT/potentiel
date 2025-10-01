@@ -22,7 +22,7 @@ export const FormActionButtons = ({ secondaryAction, submitLabel }: FormActionBu
       {secondaryAction ? (
         secondaryAction.type === 'back' ? (
           <Button
-            linkProps={{ href: secondaryAction.href, prefetch: false }}
+            linkProps={{ href: secondaryAction.href }}
             priority="secondary"
             iconId="fr-icon-arrow-left-line"
           >

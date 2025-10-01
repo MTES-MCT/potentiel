@@ -149,7 +149,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       <Button
         linkProps={{
           href: Routes.Candidature.téléchargerAttestation(identifiantProjet),
-          prefetch: false,
         }}
         title={`Télécharger l'avis de rejet`}
         aria-label={`Télécharger l'avis de rejet`}
@@ -165,7 +164,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
         priority="secondary"
         linkProps={{
           href: Routes.Recours.demander(identifiantProjet),
-          prefetch: false,
         }}
       >
         Faire une demande de recours
@@ -176,7 +174,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
         priority="secondary"
         linkProps={{
           href: Routes.Recours.détail(identifiantProjet),
-          prefetch: false,
         }}
       >
         Consulter la demande de recours
@@ -187,7 +184,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
         priority="secondary"
         linkProps={{
           href: Routes.Candidature.corriger(identifiantProjet),
-          prefetch: false,
         }}
       >
         Modifier la candidature
@@ -198,7 +194,6 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
         priority="secondary"
         linkProps={{
           href: Routes.Utilisateur.listerPorteurs(identifiantProjet),
-          prefetch: false,
         }}
       >
         {actions.includes('gérer-accès-au-projet')

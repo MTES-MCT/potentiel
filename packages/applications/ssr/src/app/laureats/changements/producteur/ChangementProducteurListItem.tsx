@@ -37,7 +37,6 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
             IdentifiantProjet.bind(identifiantProjet).formatter(),
             enregistréLe.date,
           ),
-          prefetch: false,
         }}
         aria-label={`voir le détail du changement de producteur pour le projet ${nomProjet}`}
       >

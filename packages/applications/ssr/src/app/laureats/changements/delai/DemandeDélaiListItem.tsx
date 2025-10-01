@@ -40,7 +40,6 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
             IdentifiantProjet.bind(identifiantProjet).formatter(),
             DateTime.bind(demandéLe).formatter(),
           ),
-          prefetch: false,
         }}
         aria-label={`voir le détail de la demande de délai pour le projet ${nomProjet}`}
       >
