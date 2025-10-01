@@ -8,10 +8,24 @@ export type ListItemProps = {
   heading: React.ReactNode;
   children: React.ReactNode;
   actions: React.ReactNode;
-  misÀJourLe?: Iso8601DateTime;
-};
+} & (
+  | {
+      misÀJourLe: Iso8601DateTime;
+      subtext?: never;
+    }
+  | {
+      misÀJourLe?: never;
+      subtext?: React.ReactNode;
+    }
+);
 
-export const ListItem: React.FC<ListItemProps> = ({ actions, children, heading, misÀJourLe }) => (
+export const ListItem: React.FC<ListItemProps> = ({
+  actions,
+  children,
+  heading,
+  misÀJourLe,
+  subtext,
+}) => (
   <div className="flex flex-1 flex-col">
     <div className="flex gap-4 items-start justify-between">
       {heading}
@@ -20,10 +34,12 @@ export const ListItem: React.FC<ListItemProps> = ({ actions, children, heading, 
 
     <div className="flex flex-col justify-between gap-2 mt-4 lg:flex-row lg:gap-4 md:items-end">
       <div className="flex-1">{children}</div>
-      {misÀJourLe && (
+      {misÀJourLe ? (
         <div className="shrink-0 lg:text-right italic text-xs">
           Dernière mise à jour le <FormattedDate date={misÀJourLe} />
         </div>
+      ) : (
+        subtext
       )}
     </div>
 
