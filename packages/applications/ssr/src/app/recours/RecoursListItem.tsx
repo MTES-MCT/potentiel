@@ -35,7 +35,6 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
         <Button
           linkProps={{
             href: Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
-            prefetch: false,
           }}
           aria-label={`voir le détail du recours pour le projet ${nomProjet}`}
         >

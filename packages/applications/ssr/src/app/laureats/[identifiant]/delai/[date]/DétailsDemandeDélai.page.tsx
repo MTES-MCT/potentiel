@@ -124,7 +124,6 @@ const mapToActionComponents = ({
       <Button
         linkProps={{
           href: Routes.Délai.corriger(identifiantProjet.formatter(), dateDemande.formatter()),
-          prefetch: false,
         }}
         className="block w-1/2 text-center"
       >

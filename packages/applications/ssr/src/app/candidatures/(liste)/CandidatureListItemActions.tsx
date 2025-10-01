@@ -28,7 +28,6 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
             href: Routes.Candidature.téléchargerAttestation(
               IdentifiantProjet.bind(identifiantProjet).formatter(),
             ),
-            prefetch: false,
           }}
           title={`Télécharger l'attestation de désignation de ${nomProjet}`}
           aria-label={`Télécharger l'attestation de désignation de ${nomProjet}`}
@@ -46,7 +45,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
             href: Routes.Candidature.prévisualiserAttestation(
               IdentifiantProjet.bind(identifiantProjet).formatter(),
             ),
-            prefetch: false,
+
             target: '_blank',
           }}
           title={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
@@ -60,7 +59,6 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
         className="md:flex ml-auto"
         linkProps={{
           href: Routes.Candidature.détails(IdentifiantProjet.bind(identifiantProjet).formatter()),
-          prefetch: false,
         }}
         aria-label={`Lien vers la page de la candidature ${nomProjet}`}
       >

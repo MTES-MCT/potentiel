@@ -45,7 +45,6 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
             IdentifiantProjet.bind(identifiantProjet).formatter(),
             demandéLe.date,
           ),
-          prefetch: false,
         }}
         aria-label={`voir le détail de la demande de changement de puissance pour le projet ${nomProjet}`}
       >

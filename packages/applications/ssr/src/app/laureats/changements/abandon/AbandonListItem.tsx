@@ -43,7 +43,6 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       <Button
         linkProps={{
           href: Routes.Abandon.détail(identifiantProjet),
-          prefetch: false,
         }}
         aria-label={`voir le détail de l'abandon pour le projet ${nomProjet}`}
       >

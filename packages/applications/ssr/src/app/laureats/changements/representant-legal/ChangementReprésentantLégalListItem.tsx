@@ -38,7 +38,6 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
             IdentifiantProjet.bind(identifiantProjet).formatter(),
             demandéLe,
           ),
-          prefetch: false,
         }}
         aria-label={`voir le détail de la demande de changement de représentant légal pour le projet ${nomProjet}`}
       >

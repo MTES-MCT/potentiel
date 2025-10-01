@@ -63,7 +63,6 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
             href: estÉliminé
               ? Routes.Projet.détailsÉliminé(identifiantProjet)
               : Routes.Projet.details(identifiantProjet),
-            prefetch: false,
           }}
           aria-label={`Lien vers la page du projet ${nomProjet}`}
         >

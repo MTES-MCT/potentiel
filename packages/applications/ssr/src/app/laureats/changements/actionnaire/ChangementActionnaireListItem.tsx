@@ -44,7 +44,6 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
             IdentifiantProjet.bind(identifiantProjet).formatter(),
             demandéLe.date,
           ),
-          prefetch: false,
         }}
         aria-label={
           statut.statut === 'information-enregistrée'

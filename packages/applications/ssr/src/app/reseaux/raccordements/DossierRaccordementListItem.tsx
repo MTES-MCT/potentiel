@@ -42,7 +42,6 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
           className="md:flex ml-auto"
           linkProps={{
             href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
-            prefetch: false,
           }}
           aria-label={`Consulter le dossier de raccordement ${référenceDossier}`}
         >
