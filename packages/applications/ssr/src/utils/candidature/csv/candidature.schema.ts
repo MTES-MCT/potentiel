@@ -34,7 +34,7 @@ import {
   natureDeLExploitationOptionalSchema,
 } from '../candidatureFields.schema';
 
-// viovio
+// TODO: ajouter dispositif de stockage et utiliser ce schema à la place de dépôtSchema
 
 /**
  * Schema simplifié par rapport au CSV, pour utilisation dans des formulaires
@@ -111,5 +111,3 @@ export const candidatureSchema = z
       );
     }
   });
-
-// viovio ajouter ici

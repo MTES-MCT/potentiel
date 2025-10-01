@@ -251,7 +251,7 @@ v1Router.get(
         rôle: user.role,
       });
 
-      const installationAvecDispositifDeStockage = await getInstallationAvecDispositifDeStockage({
+      const dispositifDeStockage = await getInstallationAvecDispositifDeStockage({
         identifiantProjet: identifiantProjetValueType,
         rôle: user.role,
       });
@@ -303,7 +303,7 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
-          installationAvecDispositifDeStockage,
+          dispositifDeStockage,
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,

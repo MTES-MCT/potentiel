@@ -11,7 +11,6 @@ import {
   mapValueType,
 } from '../helpers/mapToExemple';
 
-// viovio
 export const dépôtExempleMap: FieldToExempleMapper<
   Omit<
     Candidature.Dépôt.RawType,

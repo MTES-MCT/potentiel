@@ -25,9 +25,7 @@ Alors(
 
       const actual = mapToPlainObject(installationAvecDispositifDeStockage);
       const expected = mapToPlainObject(
-        this.lauréatWorld.installationAvecDispositifDeStockageWorld.mapToExpected(
-          identifiantProjet,
-        ),
+        this.lauréatWorld.dispositifDeStockageWorld.mapToExpected(identifiantProjet),
       );
 
       actual.should.be.deep.equal(expected);

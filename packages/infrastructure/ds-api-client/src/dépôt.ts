@@ -109,9 +109,6 @@ export const mapApiResponseToDépôt = ({
 
     dispositifDeStockage: getDispositifDeStockage(accessor, 'dispositifDeStockage'),
 
-    // viovio après
-    // tauxACIPrévisionnel: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
-
     installateur: accessor.getStringValue('installateur'),
     natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
 

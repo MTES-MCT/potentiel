@@ -72,8 +72,7 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     numeroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro,
     dateDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.date.formatter(),
     installateur: candidature.dépôt.installateur,
-    // viovio à changer
-    dispositifDeStockage: undefined,
+    dispositifDeStockage: candidature.dépôt.dispositifDeStockage,
     natureDeLExploitation: candidature.dépôt.natureDeLExploitation
       ? candidature.dépôt.natureDeLExploitation.type
       : undefined,
@@ -134,8 +133,12 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
           estEnCoursDeModification: false,
         }
       : undefined,
-    // viovio à modifier
-    dispositifDeStockage: undefined,
+    dispositifDeStockage: lauréat.dispositifDeStockage
+      ? {
+          currentValue: lauréat.dispositifDeStockage.dispositifDeStockage,
+          estEnCoursDeModification: false,
+        }
+      : undefined,
     natureDeLExploitation: lauréat.natureDeLExploitation
       ? {
           currentValue: lauréat.natureDeLExploitation.natureDeLExploitation.type,

@@ -8,9 +8,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 
 export type GetInstallationAvecDispositifDeStockageForProjectPage = {
-  dispositifDeStockage:
-    | Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType
-    | undefined;
+  dispositifDeStockage: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
   affichage?: {
     labelActions?: string;
     label: string;
@@ -30,11 +28,11 @@ export const getInstallationAvecDispositifDeStockage = async ({
   try {
     const role = Role.convertirEnValueType(rôle);
 
-    if (!role.aLaPermission('installationAvecDispositifDeStockage.consulter')) {
+    if (!role.aLaPermission('dispositifDeStockage.consulter')) {
       return undefined;
     }
 
-    const installationAvecDispositifDeStockageProjection =
+    const dispositifDeStockageProjection =
       await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
         {
           type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
@@ -42,10 +40,10 @@ export const getInstallationAvecDispositifDeStockage = async ({
         },
       );
 
-    if (Option.isSome(installationAvecDispositifDeStockageProjection)) {
-      const { dispositifDeStockage } = installationAvecDispositifDeStockageProjection;
+    if (Option.isSome(dispositifDeStockageProjection)) {
+      const { dispositifDeStockage } = dispositifDeStockageProjection;
 
-      if (role.aLaPermission('installationAvecDispositifDeStockage.modifier')) {
+      if (role.aLaPermission('dispositifDeStockage.modifier')) {
         return {
           dispositifDeStockage,
           affichage: {

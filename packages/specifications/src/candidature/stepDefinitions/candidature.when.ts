@@ -98,7 +98,7 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
       dépôtValue: {
         ...this.candidatureWorld.importerCandidature.dépôtValue,
         ...changedValues.dépôt,
-        // viovio as...
+        // as...
         dispositifDeStockage: {
           ...this.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage,
           ...changedValues.dépôt.dispositifDeStockage,

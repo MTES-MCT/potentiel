@@ -104,7 +104,6 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>{getNatureDeLExploitationTypeLabel(dépôt.natureDeLExploitation.type)}</span>
                 </Field>
               )}
-              {/* viovio à améliorer */}
               {dépôt.dispositifDeStockage !== undefined && (
                 <Field name="Dispositif de stockage">
                   <span>
@@ -112,6 +111,18 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       ? 'Avec'
                       : 'Sans'}
                   </span>
+                  {dépôt.dispositifDeStockage.puissanceDuDispositifDeStockageEnKw !== undefined ? (
+                    <span>
+                      Puissance du dispositif de stockage : $
+                      {dépôt.dispositifDeStockage.puissanceDuDispositifDeStockageEnKw} Kw
+                    </span>
+                  ) : null}
+                  {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKw !== undefined ? (
+                    <span>
+                      Capacité du dispositif de stockage : $
+                      {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKw} Kw
+                    </span>
+                  ) : null}
                 </Field>
               )}
               <Field name="Performances">
