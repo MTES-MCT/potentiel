@@ -19,9 +19,10 @@ import {
 export type ModifierInstallationAvecDispositifDeStockageFormProps =
   PlainType<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel>;
 
+// viovio ajouter ici les valeurs optionnels si l'installation est true
 export const ModifierInstallationAvecDispositifDeStockageForm: FC<
   ModifierInstallationAvecDispositifDeStockageFormProps
-> = ({ identifiantProjet, installationAvecDispositifDeStockage }) => {
+> = ({ identifiantProjet, dispositifDeStockage }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierInstallationAvecDispositifDeStockageFormKeys>
   >({});
@@ -51,7 +52,9 @@ export const ModifierInstallationAvecDispositifDeStockageForm: FC<
         label="Dispositif de stockage"
         nativeSelectProps={{
           name: 'installationAvecDispositifDeStockage',
-          defaultValue: installationAvecDispositifDeStockage ? 'true' : 'false',
+          defaultValue: dispositifDeStockage.installationAvecDispositifDeStockage
+            ? 'true'
+            : 'false',
           required: true,
           'aria-required': true,
         }}

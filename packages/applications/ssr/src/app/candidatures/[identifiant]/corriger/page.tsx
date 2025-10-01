@@ -116,7 +116,8 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
       ? candidature.dépôt.autorisationDUrbanisme.date.formatter()
       : undefined,
     installateur: candidature.dépôt.installateur,
-    installationAvecDispositifDeStockage: candidature.dépôt.installationAvecDispositifDeStockage,
+    // viovio à modifier
+    dispositifDeStockage: undefined,
     natureDeLExploitation: candidature.dépôt.natureDeLExploitation
       ? candidature.dépôt.natureDeLExploitation.formatter()
       : undefined,

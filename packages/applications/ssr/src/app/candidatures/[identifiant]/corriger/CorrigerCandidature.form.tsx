@@ -457,7 +457,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           }}
         />
       )}
-      {champsSupplémentaires.installationAvecDispositifDeStockage && (
+      {/* viovio à retravailler */}
+      {/* {champsSupplémentaires.installationAvecDispositifDeStockage && (
         <Select
           state={validationErrors['installationAvecDispositifDeStockage'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['installationAvecDispositifDeStockage']}
@@ -474,7 +475,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             { label: 'Sans', value: 'false' },
           ]}
         />
-      )}
+      )} */}
       {champsSupplémentaires.natureDeLExploitation && (
         <Select
           state={validationErrors['natureDeLExploitation'] ? 'error' : 'default'}

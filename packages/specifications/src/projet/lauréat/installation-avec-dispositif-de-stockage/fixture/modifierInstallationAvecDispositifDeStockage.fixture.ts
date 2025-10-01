@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../../../fixture';
 import { Lauréat } from '@potentiel-domain/projet';
+
+import { AbstractFixture } from '../../../../fixture';
 
 export interface ModifierInstallationAvecDispositifDeStockage {
   readonly dispositifDeStockage: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
@@ -35,12 +36,10 @@ export class ModifierInstallationAvecDispositifDeStockageFixture
             installationAvecDispositifDeStockage,
             capacitéDuDispositifDeStockage: faker.number.float({
               min: 0,
-              max: 1000,
               fractionDigits: 3,
             }),
             puissanceDuDispositifDeStockage: faker.number.float({
               min: 0,
-              max: 1000,
               fractionDigits: 3,
             }),
           }

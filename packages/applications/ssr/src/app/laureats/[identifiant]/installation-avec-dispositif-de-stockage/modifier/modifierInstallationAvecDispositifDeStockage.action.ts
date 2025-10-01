@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
           identifiantProjetValue: identifiantProjet,
           modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
           modifiéeLeValue: new Date().toISOString(),
-          installationAvecDispositifDeStockageValue: installationAvecDispositifDeStockage,
+          dispositifDeStockageValue: { installationAvecDispositifDeStockage },
         },
       },
     );
@@ -37,7 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: "Le changement d'installation avec dispositif de stockage a été pris en compte",
+        message: 'Le changement de dispositif de stockage a été pris en compte',
       },
     };
   });

@@ -37,7 +37,7 @@ import {
 import { DemandeAbandonEnCoursInfoBox } from './sections/DemandeEnCoursInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Candidature, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { GetRaccordementForProjectPage } from '../../../controllers/project/getProjectPage/_utils';
 import { Dépôt } from '@potentiel-domain/projet/dist/candidature';
 
@@ -195,9 +195,7 @@ export const ProjectDetails = ({
         délaiAffichage={délai.affichage}
         installateurAffichage={installateur?.affichage}
         features={user.features}
-        installationAvecDispositifDeStockageAffichage={
-          installationAvecDispositifDeStockage?.affichage
-        }
+        dispositifDeStockageAffichage={installationAvecDispositifDeStockage?.affichage}
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
         siteDeProductionAffichage={siteDeProduction?.affichage}
       />

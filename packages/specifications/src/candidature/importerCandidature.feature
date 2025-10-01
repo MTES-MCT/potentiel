@@ -49,6 +49,8 @@ Fonctionnalité: Importer une candidature
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
+            | puissance du dispositif                  | 3                        |
+            | capacité du dispositif                   | 4                        |
         Alors la candidature devrait être consultable
 
     Scénario: Impossible d'importer 2 fois la même candidature

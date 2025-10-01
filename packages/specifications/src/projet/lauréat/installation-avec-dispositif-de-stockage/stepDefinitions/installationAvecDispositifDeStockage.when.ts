@@ -5,14 +5,15 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { mapToExemple } from '../../../../helpers/mapToExemple';
-import { DispositifDeStockageExempleMap } from '../fixture/dispositifDeStockageExempleMap';
+import { ModifierInstallationAvecDispositifDeStockage } from '../fixture/modifierInstallationAvecDispositifDeStockage.fixture';
+import { dispositifDeStockageExempleMap } from '../../../../candidature/candidature.exempleMap';
 
 Quand(
   `un admin modifie l'information concernant l'installation avec dispositif de stockage du projet lauréat avec :`,
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const dispositifDeStockage = mapToExemple(exemple, DispositifDeStockageExempleMap);
+    const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
 
     try {
       await modifierInstallationAvecDispositifDeStockage.call(
@@ -29,16 +30,25 @@ Quand(
 async function modifierInstallationAvecDispositifDeStockage(
   this: PotentielWorld,
   modifiéPar: string,
-  dispositifDeStockageExemple: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType,
+  dispositifDeStockageExemple: Partial<
+    ModifierInstallationAvecDispositifDeStockage['dispositifDeStockage']
+  >,
 ) {
   const { identifiantProjet } = this.lauréatWorld;
 
-  const {
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageFixture,
-    dateModification,
-  } =
+  const { dispositifDeStockage, dateModification } =
     this.lauréatWorld.installationAvecDispositifDeStockageWorld.modifierInstallationAvecDispositifDeStockageFixture.créer(
-      { installationAvecDispositifDeStockage },
+      {
+        dispositifDeStockage:
+          dispositifDeStockageExemple.installationAvecDispositifDeStockage !== undefined
+            ? {
+                // otherwise typescript does not understand that dispositifDeStockageExemple.installationAvecDispositifDeStockage is not undefined...
+                installationAvecDispositifDeStockage:
+                  dispositifDeStockageExemple.installationAvecDispositifDeStockage,
+                ...dispositifDeStockageExemple,
+              }
+            : undefined,
+      },
     );
 
   await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
@@ -46,7 +56,7 @@ async function modifierInstallationAvecDispositifDeStockage(
       type: 'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        installationAvecDispositifDeStockageValue: installationAvecDispositifDeStockageFixture,
+        dispositifDeStockageValue: dispositifDeStockage,
         modifiéeLeValue: dateModification,
         modifiéeParValue: modifiéPar,
       },

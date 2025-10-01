@@ -20,7 +20,7 @@ export type GetLauréat = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   installateur?: Lauréat.Installateur.ConsulterInstallateurReadModel;
-  installationAvecDispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
+  dispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
   natureDeLExploitation?: Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationReadModel;
 };
 
@@ -54,7 +54,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
     installateur: installateurInfos,
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageInfo,
+    dispositifDeStockage: installationAvecDispositifDeStockageInfo,
     natureDeLExploitation: natureDeLExploitationInfo,
     lauréat,
   };

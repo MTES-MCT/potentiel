@@ -1,9 +1,10 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+// viovio affichage
 export const mapToinstallationAvecDispositifDeStockageModifiéeTimelineItemsProps = (
   record: Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageModifiéeEvent,
 ) => {
-  const { modifiéeLe, modifiéePar, installationAvecDispositifDeStockage } = record.payload;
+  const { modifiéeLe, modifiéePar, dispositifDeStockage } = record.payload;
 
   return {
     date: modifiéeLe,
@@ -18,7 +19,7 @@ export const mapToinstallationAvecDispositifDeStockageModifiéeTimelineItemsProp
         <div>
           Dispositif de stockage :{' '}
           <span className="font-semibold">
-            {installationAvecDispositifDeStockage ? 'avec' : 'sans'}
+            {dispositifDeStockage.installationAvecDispositifDeStockage ? 'avec' : 'sans'}
           </span>
         </div>
       </div>

@@ -8,6 +8,4 @@ export const installationAvecDispositifDeStockageRebuilTriggeredProjector = asyn
   await removeProjection<Lauréat.InstallationAvecDispositifDeStockage.InstallationAvecDispositifDeStockageEntity>(
     `installation-avec-dispositif-de-stockage|${id}`,
   );
-
-  //@TODO: ne pas oublier de supprimer les projections associées aux changements
 };

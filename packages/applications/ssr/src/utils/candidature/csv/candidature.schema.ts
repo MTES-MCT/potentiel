@@ -31,9 +31,10 @@ import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
-  installationAvecDispositifDeStockageSchema,
   natureDeLExploitationOptionalSchema,
 } from '../candidatureFields.schema';
+
+// viovio
 
 /**
  * Schema simplifié par rapport au CSV, pour utilisation dans des formulaires
@@ -71,7 +72,6 @@ export const candidatureSchema = z
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: installateurSchema,
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
@@ -111,3 +111,5 @@ export const candidatureSchema = z
       );
     }
   });
+
+// viovio ajouter ici

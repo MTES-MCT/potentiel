@@ -11,6 +11,7 @@ import {
   mapValueType,
 } from '../helpers/mapToExemple';
 
+// viovio
 export const dépôtExempleMap: FieldToExempleMapper<
   Omit<
     Candidature.Dépôt.RawType,
@@ -19,6 +20,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     | 'autorisationDUrbanisme'
     | 'typologieInstallation'
     | 'attestationConstitutionGf'
+    | 'dispositifDeStockage'
   >
 > = {
   typeGarantiesFinancières: [
@@ -47,10 +49,6 @@ export const dépôtExempleMap: FieldToExempleMapper<
   coefficientKChoisi: ['coefficient K choisi', mapOptionalBoolean],
   puissanceDeSite: ['puissance de site', mapNumber],
   installateur: ['installateur'],
-  installationAvecDispositifDeStockage: [
-    'installation avec dispositif de stockage',
-    mapOptionalBoolean,
-  ],
   natureDeLExploitation: [
     "nature de l'exploitation",
     mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
@@ -94,3 +92,10 @@ export const formatAttestationGFExempleMap: FieldToExempleMapper<{
 }> = {
   format: [`format attestation GF`],
 };
+
+export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType> =
+  {
+    installationAvecDispositifDeStockage: ['installation avec dispositif de stockage', mapBoolean],
+    capacitéDuDispositifDeStockageEnKw: ['capacité du dispositif', mapNumber],
+    puissanceDuDispositifDeStockageEnKw: ['puissance du dispositif', mapNumber],
+  };

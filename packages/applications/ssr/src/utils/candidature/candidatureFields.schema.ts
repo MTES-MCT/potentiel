@@ -92,7 +92,29 @@ export const autorisationDUrbanismeSchema = z
   );
 
 export const installateurSchema = optionalStringSchema;
-export const installationAvecDispositifDeStockageSchema = booleanSchema.optional();
+
+export const dispositifDeStockageSchema = z
+  .object({
+    installationAvecDispositifDeStockage: booleanSchema,
+    capacitéDuDispositifDeStockageEnKw: optionalNumberSchema,
+    puissanceDuDispositifDeStockageEnKw: optionalNumberSchema,
+  })
+  .refine(
+    (d) =>
+      d.installationAvecDispositifDeStockage &&
+      d.capacitéDuDispositifDeStockageEnKw !== undefined &&
+      d.puissanceDuDispositifDeStockageEnKw !== undefined,
+    'La puissance et la capacité du dispositif de stockage sont requis',
+  )
+  .refine(
+    (d) =>
+      !d.installationAvecDispositifDeStockage &&
+      d.capacitéDuDispositifDeStockageEnKw === undefined &&
+      d.puissanceDuDispositifDeStockageEnKw === undefined,
+    'La puissance et la capacité du dispositif de stockage ne peuvent être renseignées',
+  )
+  .optional();
+
 export const natureDeLExploitationSchema = z.enum(
   Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
 );

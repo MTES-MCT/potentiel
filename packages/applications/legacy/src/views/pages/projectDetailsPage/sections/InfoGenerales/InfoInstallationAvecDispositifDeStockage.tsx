@@ -7,14 +7,23 @@ export type InfoInstallationAvecDispositifDeStockageProps = {
   installationAvecDispositifDeStockage: GetInstallationAvecDispositifDeStockageForProjectPage;
 };
 
+// viovio
+// affichage à retravailler
 export const InfoInstallationAvecDispositifDeStockage = ({
   installationAvecDispositifDeStockage,
 }: InfoInstallationAvecDispositifDeStockageProps) => {
-  const value = installationAvecDispositifDeStockage.installationAvecDispositifDeStockage;
   return (
     <div className="flex flex-col gap-0">
       <Heading3 className="m-0">Dispositif de stockage</Heading3>
-      <span>{value === true ? 'Avec' : value === false ? 'Sans' : 'Non renseigné'}</span>
+      <span>
+        {installationAvecDispositifDeStockage.dispositifDeStockage
+          ?.installationAvecDispositifDeStockage === true
+          ? 'Avec'
+          : installationAvecDispositifDeStockage.dispositifDeStockage
+                ?.installationAvecDispositifDeStockage === false
+            ? 'Sans'
+            : 'Non renseigné'}
+      </span>
       {installationAvecDispositifDeStockage.affichage && (
         <Link
           href={installationAvecDispositifDeStockage.affichage.url}

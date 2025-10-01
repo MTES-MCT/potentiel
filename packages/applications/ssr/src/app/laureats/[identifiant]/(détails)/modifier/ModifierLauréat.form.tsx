@@ -273,7 +273,8 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-        {champsSupplémentaires.installationAvecDispositifDeStockage && (
+        {/* // viovio affichage */}
+        {/* {champsSupplémentaires.installationAvecDispositifDeStockage && (
           <FormRow>
             <ProjectSelectField
               name="installationAvecDispositifDeStockage"
@@ -288,7 +289,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               required={champsSupplémentaires.installationAvecDispositifDeStockage === 'requis'}
             />
           </FormRow>
-        )}
+        )} */}
         {champsSupplémentaires.natureDeLExploitation && (
           <FormRow>
             <ProjectSelectField

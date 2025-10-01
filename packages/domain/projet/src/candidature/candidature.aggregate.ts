@@ -389,15 +389,12 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (
       installationAvecDispositifDeStockage === 'requis' &&
-      dépôt.installationAvecDispositifDeStockage === undefined
+      dépôt.dispositifDeStockage === undefined
     ) {
       throw new InstallationAvecDispositifDeStockageRequisError();
     }
 
-    if (
-      !installationAvecDispositifDeStockage &&
-      dépôt.installationAvecDispositifDeStockage !== undefined
-    ) {
+    if (!installationAvecDispositifDeStockage && dépôt.dispositifDeStockage !== undefined) {
       throw new InstallationAvecDispositifDeStockageNonAttendueError();
     }
   }

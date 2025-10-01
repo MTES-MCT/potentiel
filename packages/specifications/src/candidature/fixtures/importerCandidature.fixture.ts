@@ -12,7 +12,6 @@ import { getFakeLocation } from '../../helpers/getFakeLocation';
 interface ImporterCandidature {
   dépôtValue: Candidature.Dépôt.RawType;
   instructionValue: Candidature.Instruction.RawType;
-
   détailsValue: Record<string, string>;
   importéPar: string;
   importéLe: string;
@@ -157,6 +156,11 @@ const créerDépôt = (
     ...dépôt.localité,
   };
 
+  const installationAvecDispositifDeStockage =
+    aoData?.champsSupplémentaires?.installationAvecDispositifDeStockage === 'requis'
+      ? faker.datatype.boolean()
+      : undefined;
+
   const dépôtValue: ImporterCandidature['dépôtValue'] = {
     typeGarantiesFinancières: dépôt?.typeGarantiesFinancières ?? 'consignation',
     nomProjet: faker.company.name(),
@@ -187,10 +191,6 @@ const créerDépôt = (
       aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
         ? faker.number.int({ min: 1 })
         : undefined,
-    installationAvecDispositifDeStockage:
-      aoData?.champsSupplémentaires?.installationAvecDispositifDeStockage === 'requis'
-        ? faker.datatype.boolean()
-        : undefined,
     natureDeLExploitation:
       aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis'
         ? faker.helpers.arrayElement(
@@ -214,6 +214,18 @@ const créerDépôt = (
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }
       : undefined,
+    dispositifDeStockage:
+      installationAvecDispositifDeStockage !== undefined
+        ? {
+            installationAvecDispositifDeStockage,
+            capacitéDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
+              ? faker.number.float({ min: 0, fractionDigits: 3 })
+              : undefined,
+            puissanceDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
+              ? faker.number.float({ min: 0, fractionDigits: 3 })
+              : undefined,
+          }
+        : undefined,
   };
 
   const référentielPériode = appelsOffreData

@@ -8,7 +8,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 
 export type GetInstallationAvecDispositifDeStockageForProjectPage = {
-  installationAvecDispositifDeStockage: boolean | undefined;
+  dispositifDeStockage:
+    | Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType
+    | undefined;
   affichage?: {
     labelActions?: string;
     label: string;
@@ -41,12 +43,11 @@ export const getInstallationAvecDispositifDeStockage = async ({
       );
 
     if (Option.isSome(installationAvecDispositifDeStockageProjection)) {
-      const { installationAvecDispositifDeStockage } =
-        installationAvecDispositifDeStockageProjection;
+      const { dispositifDeStockage } = installationAvecDispositifDeStockageProjection;
 
       if (role.aLaPermission('installationAvecDispositifDeStockage.modifier')) {
         return {
-          installationAvecDispositifDeStockage,
+          dispositifDeStockage,
           affichage: {
             url: Routes.InstallationAvecDispositifDeStockage.modifier(
               identifiantProjet.formatter(),
@@ -58,7 +59,7 @@ export const getInstallationAvecDispositifDeStockage = async ({
       }
 
       return {
-        installationAvecDispositifDeStockage,
+        dispositifDeStockage,
       };
     }
 

@@ -17,23 +17,27 @@ export class InstallationAvecDispositifDeStockageWorld {
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
-    const installationAvecDispositifDeStockageÀLaCandidature =
-      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue
-        .installationAvecDispositifDeStockage;
+    const dispositifDeStockageÀLaCandidature =
+      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage;
 
-    if (!installationAvecDispositifDeStockageÀLaCandidature) {
+    if (!dispositifDeStockageÀLaCandidature) {
       return Option.none;
     }
 
     const expected: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel =
       {
         identifiantProjet,
-        installationAvecDispositifDeStockage: installationAvecDispositifDeStockageÀLaCandidature,
+        dispositifDeStockage:
+          Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.bind(
+            dispositifDeStockageÀLaCandidature,
+          ),
       };
 
     if (this.#modifierInstallationAvecDispositifDeStockageFixture.aÉtéCréé) {
-      expected.installationAvecDispositifDeStockage =
-        this.#modifierInstallationAvecDispositifDeStockageFixture.installationAvecDispositifDeStockage;
+      expected.dispositifDeStockage =
+        Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.bind(
+          this.#modifierInstallationAvecDispositifDeStockageFixture.dispositifDeStockage,
+        );
     }
     return expected;
   }

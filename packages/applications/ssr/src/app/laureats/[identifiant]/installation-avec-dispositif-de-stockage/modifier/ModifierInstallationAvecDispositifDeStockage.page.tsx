@@ -16,7 +16,7 @@ export type ModifierInstallationAvecDispositifDeStockagePageProps =
 
 export const ModifierInstallationAvecDispositifDeStockagePage: FC<
   ModifierInstallationAvecDispositifDeStockagePageProps
-> = ({ identifiantProjet, installationAvecDispositifDeStockage }) => (
+> = ({ identifiantProjet, dispositifDeStockage }) => (
   <PageTemplate
     banner={
       <ProjetLauréatBanner
@@ -27,7 +27,7 @@ export const ModifierInstallationAvecDispositifDeStockagePage: FC<
     <Heading1>Changer le couplage de l'installation avec un dispositif de stockage</Heading1>
     <ModifierInstallationAvecDispositifDeStockageForm
       identifiantProjet={identifiantProjet}
-      installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
+      dispositifDeStockage={dispositifDeStockage}
     />
   </PageTemplate>
 );

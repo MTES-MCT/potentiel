@@ -39,7 +39,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     return (
       <ModifierInstallationAvecDispositifDeStockagePage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
-        installationAvecDispositifDeStockage={actuel.installationAvecDispositifDeStockage}
+        dispositifDeStockage={actuel.dispositifDeStockage}
       />
     );
   });

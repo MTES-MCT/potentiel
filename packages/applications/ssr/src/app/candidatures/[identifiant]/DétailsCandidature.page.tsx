@@ -104,9 +104,14 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>{getNatureDeLExploitationTypeLabel(dépôt.natureDeLExploitation.type)}</span>
                 </Field>
               )}
-              {dépôt.installationAvecDispositifDeStockage !== undefined && (
+              {/* viovio à améliorer */}
+              {dépôt.dispositifDeStockage !== undefined && (
                 <Field name="Dispositif de stockage">
-                  <span>{dépôt.installationAvecDispositifDeStockage ? 'Avec' : 'Sans'}</span>
+                  <span>
+                    {dépôt.dispositifDeStockage.installationAvecDispositifDeStockage
+                      ? 'Avec'
+                      : 'Sans'}
+                  </span>
                 </Field>
               )}
               <Field name="Performances">
