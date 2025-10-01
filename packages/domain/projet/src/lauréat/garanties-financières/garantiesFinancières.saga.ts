@@ -51,7 +51,7 @@ export const register = () => {
           },
         }),
       )
-      .otherwise(Promise.resolve);
+      .otherwise(() => Promise.resolve());
   };
   mediator.register('System.Lauréat.GarantiesFinancières.Saga.Execute', handler);
 };
