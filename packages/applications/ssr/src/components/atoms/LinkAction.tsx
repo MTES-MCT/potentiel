@@ -1,7 +1,8 @@
 import { FrIconClassName, RiIconClassName } from '@codegouvfr/react-dsfr';
 import clsx from 'clsx';
-import Link from 'next/link';
 import React, { FC } from 'react';
+
+import { Link } from './LinkNoPrefetch';
 
 export type LinkActionProps = {
   label: string;

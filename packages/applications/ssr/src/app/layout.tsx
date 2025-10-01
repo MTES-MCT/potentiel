@@ -4,11 +4,11 @@ import { DsfrHead } from '@codegouvfr/react-dsfr/next-appdir/DsfrHead';
 import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAttributes';
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
-import NextLink, { LinkProps } from 'next/link';
 import dynamicImport from 'next/dynamic';
 
 import { getContext } from '@potentiel-applications/request-context';
 
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/header/Header';
 
@@ -26,9 +26,6 @@ export const dynamic = 'force-dynamic';
 type RootLayoutProps = {
   children: JSX.Element;
 };
-
-// eslint-disable-next-line react/jsx-props-no-spreading
-const Link = (props: LinkProps) => <NextLink prefetch={false} {...props} />;
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const crispWebsiteId = process.env.CRISP_WEBSITE_ID;

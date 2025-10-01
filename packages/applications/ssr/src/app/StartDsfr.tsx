@@ -1,7 +1,8 @@
 'use client';
 
 import { startReactDsfr } from '@codegouvfr/react-dsfr/next-appdir';
-import Link from 'next/link';
+
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
 import { defaultColorScheme } from './defaultColorScheme';
 
