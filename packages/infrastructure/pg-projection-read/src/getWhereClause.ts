@@ -54,10 +54,8 @@ const buildWhereClause = (
   const conditions = mapToConditions(rawWhere);
   const [sqlClause] = conditions.reduce(
     ([prevSql, prevIndex], { operator, name }) => {
-      const [newSql, newIndex] = mapOperatorToSqlCondition(operator, prevIndex, projection);
-      // format the query to safely pass the parameter name (%L)
-      const formattedNewSql = format(newSql, name);
-      const combinedQuery = combineClauses([prevSql, formattedNewSql]);
+      const [newSql, newIndex] = mapOperatorToSqlCondition(name, operator, prevIndex, projection);
+      const combinedQuery = combineClauses([prevSql, newSql]);
       return [combinedQuery, newIndex] as const;
     },
     // we offset by 2 the index of the sql variable to account for:
@@ -119,27 +117,28 @@ const mapToConditions = (flattenWhere: Record<string, unknown>): Array<Condition
 // Returns the SQL query, with the next variable index ($2...)
 // this is due to some operators not requiring an index (isNull...)
 const mapOperatorToSqlCondition = (
+  name: string,
   operator: WhereOperator,
   index: number,
   projection: string,
 ): [clause: string, variableIndex: number] => {
-  const baseCondition = format('%I.value->>%%L', projection);
-  const baseConditionCoalesce = format("COALESCE(%I.value->>%%L,'__null__')", projection);
-  const baseConditionObject = format('%I.value->%%L', projection);
+  const field = format('%I.value->>%L', projection, name);
+  const objectField = format('%I.value->%L', projection, name);
+
   return match(operator)
     .returnType<[clause: string, variableIndex: number]>()
-    .with('equal', () => [`${baseCondition} = $${index}`, index + 1])
-    .with('notEqual', () => [`${baseConditionCoalesce} <> $${index}`, index + 1])
-    .with('like', () => [`${baseCondition} ILIKE $${index}`, index + 1])
-    .with('notLike', () => [`${baseCondition} NOT ILIKE $${index}`, index + 1])
-    .with('matchAny', () => [`${baseCondition} = ANY($${index})`, index + 1])
-    .with('notMatchAny', () => [`${baseCondition} <> ALL($${index})`, index + 1])
-    .with('lessOrEqual', () => [`${baseCondition} <= $${index}`, index + 1])
-    .with('greaterOrEqual', () => [`${baseCondition} >= $${index}`, index + 1])
-    .with('equalNull', () => [`${baseCondition} IS NULL`, index])
-    .with('notEqualNull', () => [`${baseCondition} IS NOT NULL`, index])
-    .with('include', () => [`${baseConditionObject} ? $${index}`, index])
-    .with('notInclude', () => [`NOT ${baseConditionObject} ? $${index} `, index + 1])
-    .with('emptyArray', () => [`${baseCondition} = '[]'`, index])
+    .with('equal', () => [`${field} = $${index}`, index + 1])
+    .with('notEqual', () => [`(${field} IS NULL OR ${field} <> $${index})`, index + 1])
+    .with('like', () => [`${field} ILIKE $${index}`, index + 1])
+    .with('notLike', () => [`${field} NOT ILIKE $${index}`, index + 1])
+    .with('matchAny', () => [`${field} = ANY($${index})`, index + 1])
+    .with('notMatchAny', () => [`${field} <> ALL($${index})`, index + 1])
+    .with('lessOrEqual', () => [`${field} <= $${index}`, index + 1])
+    .with('greaterOrEqual', () => [`${field} >= $${index}`, index + 1])
+    .with('equalNull', () => [`${field} IS NULL`, index])
+    .with('notEqualNull', () => [`${field} IS NOT NULL`, index])
+    .with('include', () => [`${objectField} ? $${index}`, index])
+    .with('notInclude', () => [`NOT ${objectField} ? $${index} `, index + 1])
+    .with('emptyArray', () => [`${field} = '[]'`, index])
     .exhaustive();
 };
