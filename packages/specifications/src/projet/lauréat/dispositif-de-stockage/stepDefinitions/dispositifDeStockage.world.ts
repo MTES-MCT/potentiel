@@ -23,20 +23,17 @@ export class DispositifDeStockageWorld {
       return Option.none;
     }
 
-    const expected: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel =
-      {
-        identifiantProjet,
-        dispositifDeStockage:
-          Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.bind(
-            dispositifDeStockageÀLaCandidature,
-          ),
-      };
+    const expected: Lauréat.DispositifDeStockage.ConsulterDispositifDeStockageReadModel = {
+      identifiantProjet,
+      dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.bind(
+        dispositifDeStockageÀLaCandidature,
+      ),
+    };
 
     if (this.#modifierDispositifDeStockageFixture.aÉtéCréé) {
-      expected.dispositifDeStockage =
-        Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.bind(
-          this.#modifierDispositifDeStockageFixture.dispositifDeStockage,
-        );
+      expected.dispositifDeStockage = Lauréat.DispositifDeStockage.DispositifDeStockage.bind(
+        this.#modifierDispositifDeStockageFixture.dispositifDeStockage,
+      );
     }
     return expected;
   }

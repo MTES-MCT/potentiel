@@ -192,7 +192,7 @@ Fonctionnalité: Importer une candidature
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Bâtiment |
             | installation avec dispositif de stockage | non             |
-        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage n'est pas attendue pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le dispositif de stockage n'est pas attendu pour cet appel d'offres"
 
     # garanties financières - début
     Plan du Scénario: Importer une candidature avec les différents types de garanties financières

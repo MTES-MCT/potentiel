@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { AbstractFixture } from '../../../../fixture';
 
 export interface ModifierDispositifDeStockage {
-  readonly dispositifDeStockage: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
+  readonly dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.RawType;
   readonly dateModification: string;
 }
 
@@ -13,9 +13,9 @@ export class ModifierDispositifDeStockageFixture
   extends AbstractFixture<ModifierDispositifDeStockage>
   implements ModifierDispositifDeStockage
 {
-  #dispositifDeStockage!: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
+  #dispositifDeStockage!: Lauréat.DispositifDeStockage.DispositifDeStockage.RawType;
 
-  get dispositifDeStockage(): Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType {
+  get dispositifDeStockage(): Lauréat.DispositifDeStockage.DispositifDeStockage.RawType {
     return this.#dispositifDeStockage;
   }
 

@@ -36,7 +36,7 @@ import {
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
   historiqueAbandonCsvSchema,
-  installationAvecDispositifDeStockageCsvSchema,
+  dispositifDeStockageCsvSchema,
   installationsAgrivoltaiquesCsvSchema,
   natureDeLExploitationCsvSchema,
   notifiedOnCsvSchema,
@@ -161,7 +161,7 @@ const candidatureCsvRowSchema = z
     [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     [colonnes.installateur]: installateurSchema,
-    [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
+    [colonnes.installationAvecDispositifDeStockage]: dispositifDeStockageCsvSchema,
     [colonnes.puissanceduDispositifDeStockage]: puissanceDuDispositifDeStockageSchema,
     [colonnes.capacitéDuDispositifDeStockage]: capacitéDuDispositifDeStockageSchema,
     // columns with refines, see refines below

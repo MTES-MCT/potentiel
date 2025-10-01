@@ -157,7 +157,7 @@ const créerDépôt = (
   };
 
   const installationAvecDispositifDeStockage =
-    aoData?.champsSupplémentaires?.installationAvecDispositifDeStockage === 'requis'
+    aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis'
       ? faker.datatype.boolean()
       : undefined;
 

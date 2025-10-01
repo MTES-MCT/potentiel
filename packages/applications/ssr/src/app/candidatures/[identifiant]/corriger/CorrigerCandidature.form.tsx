@@ -458,15 +458,15 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         />
       )}
       {/* viovio à retravailler */}
-      {/* {champsSupplémentaires.installationAvecDispositifDeStockage && (
+      {/* {champsSupplémentaires.dispositifDeStockage && (
         <Select
-          state={validationErrors['installationAvecDispositifDeStockage'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['installationAvecDispositifDeStockage']}
-          id="installationAvecDispositifDeStockage"
+          state={validationErrors['dispositifDeStockage'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['dispositifDeStockage']}
+          id="dispositifDeStockage"
           label={'Dispositif de stockage'}
           nativeSelectProps={{
-            name: 'installationAvecDispositifDeStockage',
-            value: candidature.installationAvecDispositifDeStockage ? 'true' : 'false',
+            name: 'dispositifDeStockage',
+            value: candidature.dispositifDeStockage ? 'true' : 'false',
             required: true,
             'aria-required': true,
           }}

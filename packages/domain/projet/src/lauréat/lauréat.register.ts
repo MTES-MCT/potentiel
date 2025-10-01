@@ -70,10 +70,10 @@ import { InstallateurQueryDependencies } from './installateur/installateur.regis
 import { registerTâcheQuery, TâcheQueryDependencies } from './tâche';
 import { registerInstallateurUseCases } from './installateur/installateur.register';
 import {
-  InstallationAvecDispositifDeStockageQueryDependencies,
-  registerInstallationAvecDispositifDeStockageQueries,
-  registerInstallationAvecDispositifDeStockageUseCase,
-} from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.register';
+  DispositifDeStockageQueryDependencies,
+  registerDispositifDeStockageQueries,
+  registerDispositifDeStockageUseCase,
+} from './dispositif-de-stockage/dispositifDeStockage.register';
 import {
   NatureDeLExploitationQueryDependencies,
   registerNatureDeLExploitationQueries,
@@ -101,7 +101,7 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   AchèvementQueryDependencies &
   InstallateurQueryDependencies &
   TâcheQueryDependencies &
-  InstallationAvecDispositifDeStockageQueryDependencies &
+  DispositifDeStockageQueryDependencies &
   NatureDeLExploitationQueryDependencies;
 
 export type LauréatCommandDependencies = {
@@ -132,7 +132,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerTâchePlanifiéeUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerInstallateurUseCases(dependencies);
-  registerInstallationAvecDispositifDeStockageUseCase(dependencies);
+  registerDispositifDeStockageUseCase(dependencies);
   registerNatureDeLExploitationUseCases(dependencies);
 };
 
@@ -155,6 +155,6 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerListerHistoriqueProjetQuery(dependencies);
   registerInstallateurQueries(dependencies);
   registerTâcheQuery(dependencies);
-  registerInstallationAvecDispositifDeStockageQueries(dependencies);
+  registerDispositifDeStockageQueries(dependencies);
   registerNatureDeLExploitationQueries(dependencies);
 };

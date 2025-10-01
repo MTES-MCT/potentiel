@@ -39,7 +39,7 @@ async function modifierDispositifDeStockage(
       dispositifDeStockage:
         dispositifDeStockageExemple.installationAvecDispositifDeStockage !== undefined
           ? {
-              // otherwise typescript does not understand that dispositifDeStockageExemple.installationAvecDispositifDeStockage is not undefined...
+              // otherwise typescript does not understand that dispositifDeStockageExemple.dispositifDeStockage is not undefined...
               installationAvecDispositifDeStockage:
                 dispositifDeStockageExemple.installationAvecDispositifDeStockage,
               ...dispositifDeStockageExemple,
@@ -47,15 +47,13 @@ async function modifierDispositifDeStockage(
           : undefined,
     });
 
-  await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
-    {
-      type: 'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-        dispositifDeStockageValue: dispositifDeStockage,
-        modifiéeLeValue: dateModification,
-        modifiéeParValue: modifiéPar,
-      },
+  await mediator.send<Lauréat.DispositifDeStockage.ModifierDispositifDeStockageUseCase>({
+    type: 'Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      dispositifDeStockageValue: dispositifDeStockage,
+      modifiéLeValue: dateModification,
+      modifiéParValue: modifiéPar,
     },
-  );
+  });
 }

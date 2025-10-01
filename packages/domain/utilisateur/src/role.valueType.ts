@@ -400,16 +400,13 @@ const référencielPermissions = {
     },
     dispositifDeStockage: {
       query: {
-        consulter:
-          'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
+        consulter: 'Lauréat.DispositifDeStockage.Query.ConsulterDispositifDeStockage',
       },
       command: {
-        modifier:
-          'Lauréat.InstallationAvecDispositifDeStockage.Command.ModifierInstallationAvecDispositifDeStockage',
+        modifier: 'Lauréat.DispositifDeStockage.Command.ModifierDispositifDeStockage',
       },
       usecase: {
-        modifier:
-          'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
+        modifier: 'Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage',
       },
     },
     cahierDesCharges: {

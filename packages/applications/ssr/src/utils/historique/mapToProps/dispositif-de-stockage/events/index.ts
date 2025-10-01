@@ -1,2 +1,2 @@
-export { mapToInstallationAvecDispositifDeStockageImportéTimelineItemProps } from './mapToInstallationAvecDispositifDeStockageImportéeTimelineItemProps';
-export { mapToinstallationAvecDispositifDeStockageModifiéeTimelineItemsProps } from './mapToInstallationAvecDispositifDeStockageModifiéeTimelineItemsProps';
+export { mapToDispositifDeStockageImportéTimelineItemProps } from './mapToDispositifDeStockageImportéTimelineItemProps';
+export { mapTodispositifDeStockagemodifiéTimelineItemsProps } from './mapToDispositifDeStockageModifiéTimelineItemsProps';

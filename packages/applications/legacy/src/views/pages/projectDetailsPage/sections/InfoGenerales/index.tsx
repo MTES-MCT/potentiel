@@ -19,7 +19,7 @@ import { InfoAttestationConformité } from './InfoAttestationConformité';
 import {
   GetActionnaireForProjectPage,
   GetAttestationDeConformitéForProjectPage,
-  GetInstallationAvecDispositifDeStockageForProjectPage,
+  GetDispositifDeStockageForProjectPage,
 } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetInstallateurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
@@ -42,7 +42,7 @@ export type InfoGeneralesProps = {
   estAchevé: boolean;
   attestationConformité?: GetAttestationDeConformitéForProjectPage;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
-  dispositifDeStockage?: GetInstallationAvecDispositifDeStockageForProjectPage;
+  dispositifDeStockage?: GetDispositifDeStockageForProjectPage;
   natureDeLExploitation?: GetNatureDeLExploitationForProjectPage;
   siteDeProduction: InfoSiteDeProductionProps;
 };

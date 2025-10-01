@@ -122,17 +122,15 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       if (laureat.dispositifDeStockage !== undefined) {
-        await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
-          {
-            type: 'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
-            data: {
-              identifiantProjetValue: identifiantProjet,
-              dispositifDeStockageValue: laureat.dispositifDeStockage,
-              modifiéeLeValue: new Date().toISOString(),
-              modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
-            },
+        await mediator.send<Lauréat.DispositifDeStockage.ModifierDispositifDeStockageUseCase>({
+          type: 'Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            dispositifDeStockageValue: laureat.dispositifDeStockage,
+            modifiéLeValue: new Date().toISOString(),
+            modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
-        );
+        });
       }
 
       if (laureat.natureDeLExploitation) {

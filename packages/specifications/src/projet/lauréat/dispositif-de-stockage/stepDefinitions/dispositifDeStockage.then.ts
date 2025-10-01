@@ -13,17 +13,15 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const installationAvecDispositifDeStockage =
-        await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
-          {
-            type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
-            data: {
-              identifiantProjet: identifiantProjet.formatter(),
-            },
+      const dispositifDeStockage =
+        await mediator.send<Lauréat.DispositifDeStockage.ConsulterDispositifDeStockageQuery>({
+          type: 'Lauréat.DispositifDeStockage.Query.ConsulterDispositifDeStockage',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
           },
-        );
+        });
 
-      const actual = mapToPlainObject(installationAvecDispositifDeStockage);
+      const actual = mapToPlainObject(dispositifDeStockage);
       const expected = mapToPlainObject(
         this.lauréatWorld.dispositifDeStockageWorld.mapToExpected(identifiantProjet),
       );

@@ -274,19 +274,19 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           </FormRow>
         )}
         {/* // viovio affichage */}
-        {/* {champsSupplémentaires.installationAvecDispositifDeStockage && (
+        {/* {champsSupplémentaires.dispositifDeStockage && (
           <FormRow>
             <ProjectSelectField
-              name="installationAvecDispositifDeStockage"
+              name="dispositifDeStockage"
               label="Dispositif de stockage"
-              candidature={candidature.installationAvecDispositifDeStockage ? 'true' : 'false'}
-              lauréat={lauréat.installationAvecDispositifDeStockage ? 'true' : 'false'}
+              candidature={candidature.dispositifDeStockage ? 'true' : 'false'}
+              lauréat={lauréat.dispositifDeStockage ? 'true' : 'false'}
               options={[
                 { label: 'Avec', value: 'true' },
                 { label: 'Sans', value: 'false' },
               ]}
               validationErrors={validationErrors}
-              required={champsSupplémentaires.installationAvecDispositifDeStockage === 'requis'}
+              required={champsSupplémentaires.dispositifDeStockage === 'requis'}
             />
           </FormRow>
         )} */}

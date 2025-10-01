@@ -102,7 +102,7 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
         dispositifDeStockage: {
           ...this.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage,
           ...changedValues.dépôt.dispositifDeStockage,
-        } as Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType | undefined,
+        } as Lauréat.DispositifDeStockage.DispositifDeStockage.RawType | undefined,
         localité: {
           ...this.candidatureWorld.importerCandidature.dépôtValue.localité,
           ...changedValues.dépôt.localité,

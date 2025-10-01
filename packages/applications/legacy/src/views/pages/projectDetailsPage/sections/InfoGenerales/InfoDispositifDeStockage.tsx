@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Heading3, Link } from '../../../../components';
 
-import { GetInstallationAvecDispositifDeStockageForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getInstallationAvecDispositifDeStockage';
+import { GetDispositifDeStockageForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getDispositifDeStockage';
 
 export type InfoDispositifDeStockageProps = {
-  dispositifDeStockage: GetInstallationAvecDispositifDeStockageForProjectPage;
+  dispositifDeStockage: GetDispositifDeStockageForProjectPage;
 };
 
 export const InfoDispositifDeStockage = ({
@@ -33,13 +33,6 @@ export const InfoDispositifDeStockage = ({
       {capacitéDuDispositifDeStockageEnKw ? (
         <span>Capacité du dispositif de stockage : ${capacitéDuDispositifDeStockageEnKw} Kw</span>
       ) : null}
-      <span>
-        {installationAvecDispositifDeStockage === true
-          ? 'Avec'
-          : installationAvecDispositifDeStockage === false
-            ? 'Sans'
-            : 'Non renseigné'}
-      </span>
       {dispositifDeStockage.affichage && (
         <Link
           href={dispositifDeStockage.affichage.url}

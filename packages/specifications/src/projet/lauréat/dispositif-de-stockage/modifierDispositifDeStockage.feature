@@ -1,5 +1,5 @@
 # language: fr
-@installation-avec-dispositif-de-stockage
+@dispositif-de-stockage
 Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
 
     Contexte:

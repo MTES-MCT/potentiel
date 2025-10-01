@@ -27,7 +27,7 @@ import {
   getRaccordement,
   getActionnaire,
   getDateAchèvementPrévisionnel,
-  getInstallationAvecDispositifDeStockage,
+  getDispositifDeStockage,
   getNatureDeLExploitation,
   getSiteDeProduction,
 } from './_utils';
@@ -251,7 +251,7 @@ v1Router.get(
         rôle: user.role,
       });
 
-      const dispositifDeStockage = await getInstallationAvecDispositifDeStockage({
+      const dispositifDeStockage = await getDispositifDeStockage({
         identifiantProjet: identifiantProjetValueType,
         rôle: user.role,
       });

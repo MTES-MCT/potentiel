@@ -42,9 +42,7 @@ export type RawType = {
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
   natureDeLExploitation: TypeDeNatureDeLExploitation.RawType | undefined;
-  dispositifDeStockage:
-    | Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType
-    | undefined;
+  dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.RawType | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -70,9 +68,7 @@ export type ValueType = ReadonlyValueType<{
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
-  dispositifDeStockage:
-    | Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.ValueType
-    | undefined;
+  dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.ValueType | undefined;
   natureDeLExploitation:
     | Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.ValueType
     | undefined;
@@ -113,7 +109,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
   installateur: plain.installateur,
   dispositifDeStockage: bindOptional(
-    Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.bind,
+    Lauréat.DispositifDeStockage.DispositifDeStockage.bind,
     plain.dispositifDeStockage,
   ),
   natureDeLExploitation: bindOptional(
@@ -246,7 +242,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
       raw.natureDeLExploitation,
     ),
     dispositifDeStockage: bindOptional(
-      Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.bind,
+      Lauréat.DispositifDeStockage.DispositifDeStockage.bind,
       raw.dispositifDeStockage,
     ),
   });

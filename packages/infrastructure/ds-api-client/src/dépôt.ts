@@ -36,11 +36,7 @@ const colonnes = {
   installateur: "Identité de l'installateur",
   natureDeLExploitation: "Nature de l'exploitation",
   coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
-  // tauxACIPrévisionnel: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
-
-// puissanceDuDispositifDeStockage: 'Puissance du dispositif de stockage',
-//   capacitéDuDispositifDeStockage: 'Capacité du dispositif de stockage',
 
 export const mapApiResponseToDépôt = ({
   champs,

@@ -92,7 +92,7 @@ export const formatAttestationGFExempleMap: FieldToExempleMapper<{
   format: [`format attestation GF`],
 };
 
-export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType> =
+export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.DispositifDeStockage.DispositifDeStockage.RawType> =
   {
     installationAvecDispositifDeStockage: ['installation avec dispositif de stockage', mapBoolean],
     capacitéDuDispositifDeStockageEnKw: ['capacité du dispositif', mapNumber],
