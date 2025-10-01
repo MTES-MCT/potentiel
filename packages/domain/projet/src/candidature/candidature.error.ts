@@ -151,9 +151,7 @@ export class DateAutorisationDUrbanismeError extends InvalidOperationError {
 
 export class DispositifDeStockageRequisError extends InvalidOperationError {
   constructor() {
-    super(
-      "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offres",
-    );
+    super("Le dispositif de stockage est requis pour cet appel d'offres");
   }
 }
 

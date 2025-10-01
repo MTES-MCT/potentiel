@@ -457,7 +457,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           }}
         />
       )}
-      {/* viovio à retravailler */}
+      {/* TODO: à retravailler */}
       {/* {champsSupplémentaires.dispositifDeStockage && (
         <Select
           state={validationErrors['dispositifDeStockage'] ? 'error' : 'default'}

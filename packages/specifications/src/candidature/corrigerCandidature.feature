@@ -224,7 +224,7 @@ Fonctionnalité: Corriger une candidature
             | installation avec dispositif de stockage | oui                      |
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage |  |
-        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le dispositif de stockage est requis pour cet appel d'offres"
 
     # champs spécifiques à l'appel d'offres simplifié - fin
     # garanties financières - début

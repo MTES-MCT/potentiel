@@ -224,7 +224,7 @@ const candidatureCsvRowSchema = z
     message: `L'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,
     path: [colonnes.adresse1, colonnes.adresse2],
   });
-// viovio
+// TODO:
 // si l'installation est couplée à un dispositif de stockage, on doit en avoir la capacité et la puissance. Et vice versa
 // .refine((val) => !!val[colonnes.adresse1] || !!val[colonnes.adresse2], {
 //   message: `L'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,

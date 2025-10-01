@@ -19,7 +19,7 @@ import {
 export type ModifierDispositifDeStockageFormProps =
   PlainType<Lauréat.DispositifDeStockage.ConsulterDispositifDeStockageReadModel>;
 
-// viovio ajouter ici les valeurs optionnels si l'installation est true
+// TODO: ajouter ici les valeurs optionnels si l'installation est true
 export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFormProps> = ({
   identifiantProjet,
   dispositifDeStockage,

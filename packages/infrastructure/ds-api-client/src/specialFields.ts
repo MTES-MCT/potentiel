@@ -131,12 +131,8 @@ export const getDateConstitutionGarantiesFinancières = (
   return accessor.getDateValue('dateConstitutionGf');
 };
 
-export const getDispositifDeStockage = <
-  T extends Record<string, string>,
-  TName extends string & keyof T,
->(
+export const getDispositifDeStockage = <T extends Record<string, string>>(
   accessor: DossierAccessor<T>,
-  nom: TName,
 ) => {
   const installationAvecDispositifDeStockage = accessor.getBooleanValue(
     'installationAvecDispositifDeStockage',

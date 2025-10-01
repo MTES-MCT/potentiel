@@ -156,14 +156,16 @@ const créerDépôt = (
     ...dépôt.localité,
   };
 
+  // TODO: à régler
   const installationAvecDispositifDeStockage =
     aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis'
       ? faker.datatype.boolean()
       : undefined;
 
   const dispositifDeStockage =
-    installationAvecDispositifDeStockage !== undefined
-      ? {
+    installationAvecDispositifDeStockage === undefined
+      ? undefined
+      : {
           installationAvecDispositifDeStockage,
           capacitéDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
             ? faker.number.float({ min: 0, fractionDigits: 3 })
@@ -172,8 +174,7 @@ const créerDépôt = (
             ? faker.number.float({ min: 0, fractionDigits: 3 })
             : undefined,
           ...dépôt.dispositifDeStockage,
-        }
-      : undefined;
+        };
 
   const dépôtValue: ImporterCandidature['dépôtValue'] = {
     typeGarantiesFinancières: dépôt?.typeGarantiesFinancières ?? 'consignation',

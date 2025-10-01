@@ -273,7 +273,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-        {/* // viovio affichage */}
+        {/* // TODO: affichage */}
         {/* {champsSupplémentaires.dispositifDeStockage && (
           <FormRow>
             <ProjectSelectField

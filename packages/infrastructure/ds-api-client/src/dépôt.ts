@@ -103,7 +103,7 @@ export const mapApiResponseToDépôt = ({
 
     localité: getLocalité(accessor, 'localité'),
 
-    dispositifDeStockage: getDispositifDeStockage(accessor, 'dispositifDeStockage'),
+    dispositifDeStockage: getDispositifDeStockage(accessor),
 
     installateur: accessor.getStringValue('installateur'),
     natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
