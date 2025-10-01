@@ -50,6 +50,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
+  const actifSearchParam = searchParams.get('actif');
 
   return (
     <>
@@ -65,7 +66,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                 iconId: 'fr-icon-mail-line',
                 priority: 'secondary',
                 linkProps: { href: `mailto:${identifiantUtilisateur.email}` },
-                style: { marginBottom: 0, marginTop: '1rem' },
               },
               désactivé
                 ? {
@@ -73,7 +73,6 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                     iconId: 'ri-user-follow-line',
                     priority: 'primary',
                     onClick: () => setIsOpen(true),
-                    style: { marginBottom: 0, marginTop: '1rem' },
                     disabled: !actions.includes('réactiver'),
                   }
                 : {
@@ -81,26 +80,25 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                     iconId: 'ri-user-forbid-line',
                     priority: 'primary',
                     onClick: () => setIsOpen(true),
-                    style: { marginBottom: 0, marginTop: '1rem' },
                     disabled: !actions.includes('désactiver'),
                   },
             ]}
           />
         }
         heading={
-          <div className="flex flex-row justify-between gap-2 w-full">
-            <h2 className="leading-4">
-              <span className="font-bold">{identifiantUtilisateur.email}</span>
-            </h2>
-            <p className="italic text-xs">
-              Invité le <FormattedDate date={DateTime.bind(invitéLe).formatter()} /> par{' '}
-              {invitéPar.email}
-            </p>
+          <div className="flex flex-col gap-2">
+            <span className="font-bold">{identifiantUtilisateur.email}</span>
+            <RoleBadge role={rôle.nom} />
           </div>
+        }
+        subtext={
+          <p className="italic text-xs">
+            Invité le <FormattedDate date={DateTime.bind(invitéLe).formatter()} /> par{' '}
+            {invitéPar.email}
+          </p>
         }
       >
         <div className="flex flex-row gap-2">
-          <RoleBadge role={rôle.nom} />
           {désactivé && (
             <Badge small noIcon severity="error">
               Inactif
@@ -147,7 +145,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                   value={identifiantUtilisateur.email}
                   name={'identifiantUtilisateurReactive'}
                 />
-                <input type="hidden" value={searchParams.get('actif') ?? ''} name="actif" />
+                {actifSearchParam && <input type="hidden" value={actifSearchParam} name="actif" />}
               </>
             ),
           }}
@@ -174,7 +172,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                   value={identifiantUtilisateur.email}
                   name={'identifiantUtilisateurDesactive'}
                 />
-                <input type="hidden" value={searchParams.get('actif') ?? ''} name="actif" />
+                {actifSearchParam && <input type="hidden" value={actifSearchParam} name="actif" />}
               </>
             ),
           }}
