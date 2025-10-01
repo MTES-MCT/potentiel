@@ -21,11 +21,14 @@ export const récupérerExportProjets = ({
   seulementLesProjetsAvecAccèsPour,
   seulementLesProjetsParRégion,
 }: RécupérerExportProjetsProps) => {
-  const findOptions = filtres && mapToFindOptions(filtres);
+  const findOptions = mapToFindOptions(filtres);
+
+  const appelOffreIdPetitPVBâtimentPPE2 = 'PPE2 - Petit PV Bâtiment';
 
   return wrapInfra(
     Project.findAll({
       where: {
+        appelOffreId: { [Op.ne]: appelOffreIdPetitPVBâtimentPPE2 },
         ...findOptions?.where,
         notifiedOn: { [Op.gt]: 0 },
         ...(inclureLesProjetsNonNotifiés && { notifiedOn: { [Op.gte]: 0 } }),
@@ -52,14 +55,21 @@ export const récupérerExportProjets = ({
     }),
   ).map((projects) => ({
     colonnes: récupérerIntitulés(colonnesÀExporter),
-    données: projects.map((project) => applatirEtChangerLesIntitulés(colonnesÀExporter, project)),
+    données: projects.map((project) =>
+      applatirEtChangerLesIntitulés({ colonnesÀExporter, project }),
+    ),
   }));
 };
 
-const applatirEtChangerLesIntitulés = (
-  colonnesÀExporter: Readonly<Array<Colonne>>,
-  { details, ...project }: Project,
-): { [key: string]: string | number } => ({
+type ApplatirEtChangerLesIntitulés = (args: {
+  colonnesÀExporter: Readonly<Array<Colonne>>;
+  project: Project;
+}) => { [key: string]: string | number };
+
+const applatirEtChangerLesIntitulés: ApplatirEtChangerLesIntitulés = ({
+  colonnesÀExporter,
+  project: { details, ...project },
+}) => ({
   ...colonnesÀExporter.filter(isNotPropriétéDeLaColonneDétail).reduce(
     (acc, c) => ({
       ...acc,
