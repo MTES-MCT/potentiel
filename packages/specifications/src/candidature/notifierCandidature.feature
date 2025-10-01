@@ -28,7 +28,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le fournisseur devrait être mis à jour
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et l'installateur du projet lauréat devrait être mis à jour
-        Et l'information concernant le couplage de l'installation avec un dispositif de stockage pour le projet lauréat devrait être mise à jour
+        Et le dispositif de stockage du projet lauréat devrait être mise à jour
         Et la nature de l'exploitation du projet lauréat devrait être mise à jour
         Et l'attestation de désignation de la candidature devrait être consultable
 

@@ -2,18 +2,17 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
-import { ModifierInstallationAvecDispositifDeStockageFixture } from '../fixture/modifierInstallationAvecDispositifDeStockage.fixture';
 import { LauréatWorld } from '../../lauréat.world';
+import { ModifierDispositifDeStockageFixture } from '../fixture/modifierDispositifDeStockage.fixture';
 
-export class InstallationAvecDispositifDeStockageWorld {
-  #modifierInstallationAvecDispositifDeStockageFixture: ModifierInstallationAvecDispositifDeStockageFixture;
-  get modifierInstallationAvecDispositifDeStockageFixture() {
-    return this.#modifierInstallationAvecDispositifDeStockageFixture;
+export class DispositifDeStockageWorld {
+  #modifierDispositifDeStockageFixture: ModifierDispositifDeStockageFixture;
+  get modifierDispositifDeStockageFixture() {
+    return this.#modifierDispositifDeStockageFixture;
   }
 
   constructor(public readonly lauréatWorld: LauréatWorld) {
-    this.#modifierInstallationAvecDispositifDeStockageFixture =
-      new ModifierInstallationAvecDispositifDeStockageFixture();
+    this.#modifierDispositifDeStockageFixture = new ModifierDispositifDeStockageFixture();
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
@@ -33,10 +32,10 @@ export class InstallationAvecDispositifDeStockageWorld {
           ),
       };
 
-    if (this.#modifierInstallationAvecDispositifDeStockageFixture.aÉtéCréé) {
+    if (this.#modifierDispositifDeStockageFixture.aÉtéCréé) {
       expected.dispositifDeStockage =
         Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.bind(
-          this.#modifierInstallationAvecDispositifDeStockageFixture.dispositifDeStockage,
+          this.#modifierDispositifDeStockageFixture.dispositifDeStockage,
         );
     }
     return expected;

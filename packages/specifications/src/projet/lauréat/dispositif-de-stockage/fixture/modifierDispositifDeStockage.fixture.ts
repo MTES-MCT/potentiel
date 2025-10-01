@@ -4,14 +4,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../fixture';
 
-export interface ModifierInstallationAvecDispositifDeStockage {
+export interface ModifierDispositifDeStockage {
   readonly dispositifDeStockage: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
   readonly dateModification: string;
 }
 
-export class ModifierInstallationAvecDispositifDeStockageFixture
-  extends AbstractFixture<ModifierInstallationAvecDispositifDeStockage>
-  implements ModifierInstallationAvecDispositifDeStockage
+export class ModifierDispositifDeStockageFixture
+  extends AbstractFixture<ModifierDispositifDeStockage>
+  implements ModifierDispositifDeStockage
 {
   #dispositifDeStockage!: Lauréat.InstallationAvecDispositifDeStockage.DispositifDeStockage.RawType;
 
@@ -26,8 +26,8 @@ export class ModifierInstallationAvecDispositifDeStockageFixture
   }
 
   créer(
-    partialFixture?: Partial<Readonly<ModifierInstallationAvecDispositifDeStockage>>,
-  ): Readonly<ModifierInstallationAvecDispositifDeStockage> {
+    partialFixture?: Partial<Readonly<ModifierDispositifDeStockage>>,
+  ): Readonly<ModifierDispositifDeStockage> {
     const installationAvecDispositifDeStockage = faker.datatype.boolean();
 
     const fixture = {

@@ -161,6 +161,20 @@ const créerDépôt = (
       ? faker.datatype.boolean()
       : undefined;
 
+  const dispositifDeStockage =
+    installationAvecDispositifDeStockage !== undefined
+      ? {
+          installationAvecDispositifDeStockage,
+          capacitéDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
+            ? faker.number.float({ min: 0, fractionDigits: 3 })
+            : undefined,
+          puissanceDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
+            ? faker.number.float({ min: 0, fractionDigits: 3 })
+            : undefined,
+          ...dépôt.dispositifDeStockage,
+        }
+      : undefined;
+
   const dépôtValue: ImporterCandidature['dépôtValue'] = {
     typeGarantiesFinancières: dépôt?.typeGarantiesFinancières ?? 'consignation',
     nomProjet: faker.company.name(),
@@ -214,18 +228,7 @@ const créerDépôt = (
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }
       : undefined,
-    dispositifDeStockage:
-      installationAvecDispositifDeStockage !== undefined
-        ? {
-            installationAvecDispositifDeStockage,
-            capacitéDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
-              ? faker.number.float({ min: 0, fractionDigits: 3 })
-              : undefined,
-            puissanceDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
-              ? faker.number.float({ min: 0, fractionDigits: 3 })
-              : undefined,
-          }
-        : undefined,
+    dispositifDeStockage,
   };
 
   const référentielPériode = appelsOffreData

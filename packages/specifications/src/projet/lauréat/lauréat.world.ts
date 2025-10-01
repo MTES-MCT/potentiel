@@ -16,7 +16,7 @@ import { FournisseurWorld } from './fournisseur/fournisseur.world';
 import { DélaiWorld } from './délai/délai.world';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
 import { InstallateurWorld } from './installateur/installateur.world';
-import { InstallationAvecDispositifDeStockageWorld } from './installation-avec-dispositif-de-stockage/stepDefinitions/installationAvecDispositifDeStockage.world';
+import { DispositifDeStockageWorld } from './dispositif-de-stockage/stepDefinitions/dispositifDeStockage.world';
 import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
 import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture';
 
@@ -137,10 +137,10 @@ export class LauréatWorld {
     return this.#garantiesFinancièresWorld;
   }
 
-  #installationAvecDispositifDeStockageWorld!: InstallationAvecDispositifDeStockageWorld;
+  #dispositifDeStockageWorld!: DispositifDeStockageWorld;
 
-  get installationAvecDispositifDeStockageWorld() {
-    return this.#installationAvecDispositifDeStockageWorld;
+  get dispositifDeStockageWorld() {
+    return this.#dispositifDeStockageWorld;
   }
 
   #natureDeLExploitationWorld!: NatureDeLExploitationWorld;
@@ -160,9 +160,7 @@ export class LauréatWorld {
     this.#fournisseurWorld = new FournisseurWorld();
     this.#délaiWorld = new DélaiWorld();
     this.#garantiesFinancièresWorld = new GarantiesFinancièresWorld(this);
-    this.#installationAvecDispositifDeStockageWorld = new InstallationAvecDispositifDeStockageWorld(
-      this,
-    );
+    this.#dispositifDeStockageWorld = new DispositifDeStockageWorld(this);
     this.#natureDeLExploitationWorld = new NatureDeLExploitationWorld(this);
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();

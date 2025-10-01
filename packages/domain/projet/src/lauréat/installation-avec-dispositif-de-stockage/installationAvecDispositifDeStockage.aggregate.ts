@@ -4,12 +4,12 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
+import { DispositifDeStockage, InstallationAvecDispositifDeStockageEvent } from '.';
+
 import { ImporterInstallationAvecDispositifDeStockageOptions } from './importer/importerInstallationAvecDispositifDeStockage.option';
 import { InstallationAvecDispositifDeStockageImportéeEvent } from './importer/importerInstallationAvecDispositifDeStockage.event';
-
 import { ModifierInstallationAvecDispositifDeStockageOptions } from './modifier/modifierInstallationAvecDispositifDeStockage.options';
 import { InstallationAvecDispositifDeStockageModifiéeEvent } from './modifier/modifierInstallationAvecDispositifDeStockage.event';
-import { DispositifDeStockage, InstallationAvecDispositifDeStockageEvent } from '.';
 import {
   InstallationAvecDispositifDeStockageDéjàTransmiseError,
   InstallationAvecDispositifDeStockageIdentiqueError,
@@ -57,7 +57,7 @@ export class InstallationAvecDispositifDeStockageAggregate extends AbstractAggre
     modifiéeLe,
     modifiéePar,
   }: ModifierInstallationAvecDispositifDeStockageOptions) {
-    if (dispositifDeStockage === this.dispositifDeStockage) {
+    if (dispositifDeStockage.estÉgaleÀ(this.dispositifDeStockage)) {
       throw new InstallationAvecDispositifDeStockageIdentiqueError();
     }
 

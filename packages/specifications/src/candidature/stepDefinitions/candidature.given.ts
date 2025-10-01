@@ -13,6 +13,7 @@ EtantDonné(
   `la candidature lauréate {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
+
     await importerCandidature.call(this, {
       nomProjet,
       statut: 'classé',
@@ -81,6 +82,7 @@ export async function importerCandidature(
       },
       importéPar: this.utilisateurWorld.validateurFixture.email,
     });
+
   await mediator.send<Candidature.ImporterCandidatureUseCase>({
     type: 'Candidature.UseCase.ImporterCandidature',
     data: {
