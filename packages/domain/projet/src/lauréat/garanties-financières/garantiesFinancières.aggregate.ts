@@ -107,6 +107,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   // Tâches planifiées
   #tâchePlanifiéeEchoir!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel1mois!: AggregateType<TâchePlanifiéeAggregate>;
+  // plus de nouvelles tâches planifiées à 2 mois, on conserve ce cas pour les tâches déjà publiées destinées à être annulées
   #tâchePlanifiéeRappel2mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappel3mois!: AggregateType<TâchePlanifiéeAggregate>;
   #tâchePlanifiéeRappelEnAttente!: AggregateType<TâchePlanifiéeAggregate>;
@@ -273,6 +274,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   async annulerTâchesPlanififées() {
     await this.#tâchePlanifiéeEchoir.annuler();
     await this.#tâchePlanifiéeRappel1mois.annuler();
+    // plus de nouvelles tâches planifiées à 2 mois, on conserve ce cas pour les tâches déjà publiées destinées à être annulées
     await this.#tâchePlanifiéeRappel2mois.annuler();
     await this.#tâchePlanifiéeRappel3mois.annuler();
     await this.#tâchePlanifiéeRappelEnAttente.annuler();
