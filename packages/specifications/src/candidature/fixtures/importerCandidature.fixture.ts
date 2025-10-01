@@ -178,7 +178,10 @@ const créerDépôt = (
     ),
     dateÉchéanceGf: undefined,
     dateConstitutionGf: undefined,
-    coefficientKChoisi: undefined,
+    coefficientKChoisi:
+      aoData?.champsSupplémentaires?.coefficientKChoisi === 'requis'
+        ? faker.datatype.boolean()
+        : undefined,
     obligationDeSolarisation: undefined,
     puissanceDeSite:
       aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
