@@ -222,8 +222,6 @@ const mapToActionsAndInfos = ({
     }
   }
 
-  // TODO ETQ dreal si historique mainlevée rejetée modifier-courrier-réponse-mainlevée-gf
-
   return { actions: actions.filter((action) => utilisateur.role.aLaPermission(action)), infos };
 };
 

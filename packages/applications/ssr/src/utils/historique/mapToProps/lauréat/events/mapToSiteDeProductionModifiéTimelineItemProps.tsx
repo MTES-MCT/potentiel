@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { ReadMore } from '@/components/atoms/ReadMore';
+
 export const mapToSiteDeProductionModifiéTimelineItemProps = (
   modification: Lauréat.SiteDeProductionModifiéEvent,
 ) => {
@@ -16,8 +18,7 @@ export const mapToSiteDeProductionModifiéTimelineItemProps = (
       <>
         {raison && (
           <div>
-            <span className="font-semibold">Raison : </span>
-            {raison}
+            Raison : <ReadMore text={raison} className="font-semibold" />
           </div>
         )}
         <div className="flex flex-col">
