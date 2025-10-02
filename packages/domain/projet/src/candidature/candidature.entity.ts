@@ -61,7 +61,7 @@ export type CandidatureEntity = Entity<
     evaluationCarboneSimplifiée: number;
     actionnariat?: TypeActionnariat.RawType;
     dateÉchéanceGf?: DateTime.RawType;
-    dateDélibérationGf?: DateTime.RawType;
+    dateConstitutionGf?: DateTime.RawType;
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
     coefficientKChoisi?: boolean;

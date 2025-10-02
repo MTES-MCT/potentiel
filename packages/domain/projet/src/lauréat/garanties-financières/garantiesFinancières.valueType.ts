@@ -13,12 +13,7 @@ import {
 
 export type RawType = (
   | {
-      type:
-        | 'type-inconnu'
-        | 'consignation'
-        | 'six-mois-après-achèvement'
-        | 'garantie-bancaire'
-        | 'exemption';
+      type: 'type-inconnu' | 'consignation' | 'six-mois-après-achèvement' | 'exemption';
     }
   | {
       type: 'avec-date-échéance';
@@ -44,10 +39,6 @@ type SixMoisAprèsAchèvementValueType = {
   type: TypeGarantiesFinancières.ValueType<'six-mois-après-achèvement'>;
   constitution: ConstitutionValueType | undefined;
 };
-type GarantiesBancairesValueType = {
-  type: TypeGarantiesFinancières.ValueType<'garantie-bancaire'>;
-  constitution: ConstitutionValueType | undefined;
-};
 type ExemptionValueType = {
   type: TypeGarantiesFinancières.ValueType<'exemption'>;
   constitution: ConstitutionValueType | undefined;
@@ -64,7 +55,6 @@ export type ValueType<
   (
     | (Type extends 'consignation' ? ConsignationValueType : never)
     | (Type extends 'six-mois-après-achèvement' ? SixMoisAprèsAchèvementValueType : never)
-    | (Type extends 'garantie-bancaire' ? GarantiesBancairesValueType : never)
     | (Type extends 'avec-date-échéance' ? AvecDateÉchéanceValueType : never)
     | (Type extends 'exemption' ? ExemptionValueType : never)
     | (Type extends 'type-inconnu' ? InconnuValueType : never)
@@ -154,29 +144,6 @@ export const bind = (plain: PlainType<ValueType>): ValueType => {
       },
       formatter: () => ({
         type: 'six-mois-après-achèvement',
-        constitution: constitution
-          ? {
-              attestation: { format: constitution?.attestation.format },
-              date: constitution?.date.date,
-            }
-          : undefined,
-      }),
-      estAvecDateÉchéance: (): this is ValueType<'avec-date-échéance'> => false,
-      estExemption: (): this is ValueType<'exemption'> => false,
-      ...common,
-    }))
-    .with({ type: { type: 'garantie-bancaire' } }, ({ constitution }) => ({
-      type: TypeGarantiesFinancières.garantieBancaire,
-      estÉgaleÀ: (valueType: ValueType) => {
-        const raw = valueType.formatter();
-        return (
-          raw.type === 'garantie-bancaire' &&
-          raw.constitution?.attestation.format === constitution?.attestation.format &&
-          raw.constitution?.date === constitution?.date.date
-        );
-      },
-      formatter: () => ({
-        type: 'garantie-bancaire',
         constitution: constitution
           ? {
               attestation: { format: constitution?.attestation.format },
@@ -281,9 +248,6 @@ export const convertirEnValueType = ({
       }),
     )
     .with('consignation', (type) => bind({ type: { type }, constitution: constitutionPlainType }))
-    .with('garantie-bancaire', (type) =>
-      bind({ type: { type }, constitution: constitutionPlainType }),
-    )
     .with('six-mois-après-achèvement', (type) =>
       bind({ type: { type }, constitution: constitutionPlainType }),
     )

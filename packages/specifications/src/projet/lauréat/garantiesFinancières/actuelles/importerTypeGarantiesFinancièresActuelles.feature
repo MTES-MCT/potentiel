@@ -17,7 +17,6 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | avec-date-échéance        | PPE2 - Sol               | 2027-12-01      |                      |
             | six-mois-après-achèvement | PPE2 - Eolien            |                 |                      |
             | consignation              | CRE4 - ZNI               |                 |                      |
-            | garantie-bancaire         | PPE2 - Petit PV Bâtiment |                 |                      |
             | exemption                 | PPE2 - Petit PV Bâtiment |                 | 2024-12-01           |
 
     Scénario: Un admin importe des garanties financières actuelles ayant initialement un statut échu
@@ -46,4 +45,4 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | date d'échéance | 2050-10-01                        |
         Quand le DGEC validateur notifie la candidature lauréate
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
-        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à trois mois" est planifiée à la date du "2050-07-01" pour le projet lauréat

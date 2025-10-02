@@ -59,13 +59,13 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
-    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de dépôt validé
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-3 de la date d'échéance en cas de dépôt validé
         Etant donné un dépôt de garanties financières avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-10-01         |
         Quand l'utilisateur dreal valide le dépôt de garanties financières
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
-        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à trois mois" est planifiée à la date du "2050-07-01" pour le projet lauréat
 
     Scénario: Impossible de valider un dépôt de garanties financières si aucune dépôt n'est trouvé
         Etant donné des garanties financières en attente pour le projet lauréat

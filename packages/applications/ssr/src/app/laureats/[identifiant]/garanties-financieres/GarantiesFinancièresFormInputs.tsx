@@ -9,7 +9,9 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
-import { getGarantiesFinancièresDateLabel } from '@/app/_helpers';
+
+import { getGarantiesFinancièresAttestationLabel } from './_helpers/getGarantiesFinancièresAttestationLabel';
+import { getGarantiesFinancièresDateLabel } from './_helpers/getGarantiesFinancièresDateLabel';
 
 export type GarantiesFinancièresFormInputsProps = {
   id: string;
@@ -87,9 +89,9 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
 
       <UploadNewOrModifyExistingDocument
         label={
-          typeSélectionné === 'exemption'
-            ? 'Délibération approuvant le projet objet de l’offre'
-            : 'Attestation de constitution'
+          typeSélectionné
+            ? getGarantiesFinancièresAttestationLabel(typeSélectionné)
+            : 'Attestation de constitution des garanties financières'
         }
         name="attestation"
         required

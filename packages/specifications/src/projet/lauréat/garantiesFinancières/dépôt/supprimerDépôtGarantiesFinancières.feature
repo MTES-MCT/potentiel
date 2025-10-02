@@ -61,7 +61,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
-    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
+    Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-3 de la date d'échéance quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-10-01         |
@@ -69,7 +69,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Et un dépôt de garanties financières
         Quand le porteur supprime le dépôt de garanties financières du projet
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2050-09-01" pour le projet lauréat
-        Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2050-08-01" pour le projet lauréat
+        Et une tâche "rappel échéance garanties financières à trois mois" est planifiée à la date du "2050-07-01" pour le projet lauréat
 
     Scénario: Une tâche du type "échoir les garanties financières" n'est pas planifiée quand le porteur supprime un dépôt et que le projet ne dispose pas de garanties financières actuelles avec date d'échéance
         Etant donné un dépôt de garanties financières

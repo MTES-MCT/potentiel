@@ -7,9 +7,9 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3, Heading4 } from '@/components/atoms/headings';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
-import { getGarantiesFinancièresTypeLabel } from '@/app/_helpers';
 
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
+import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinancièresTypeLabel';
 
 type ArchivesGarantiesFinancièresProps = {
   archives: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;

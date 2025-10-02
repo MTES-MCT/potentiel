@@ -50,9 +50,10 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   affichageParagrapheECS: true, // à vérifier
   renvoiDemandeCompleteRaccordement: '6.1', // à vérifier
   garantiesFinancières: {
-    typeGarantiesFinancièresDisponibles: ['consignation', 'garantie-bancaire', 'exemption'],
+    typeGarantiesFinancièresDisponibles: ['consignation', 'avec-date-échéance', 'exemption'],
     soumisAuxGarantiesFinancieres: 'à la candidature', // à vérifier
     renvoiRetraitDesignationGarantieFinancieres: '5.1', // à vérifier
+    délaiÉchéanceGarantieBancaireEnMois: 48,
   },
   renvoiEngagementIPFPGPFC: '3.2.7', // à vérifier
   paragrapheClauseCompetitivite: '2.9', // à vérifier

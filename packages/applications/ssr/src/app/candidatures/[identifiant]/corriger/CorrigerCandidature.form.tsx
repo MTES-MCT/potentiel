@@ -15,11 +15,9 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
-import {
-  getActionnariatTypeLabel,
-  getGarantiesFinancièresTypeLabel,
-  getTechnologieTypeLabel,
-} from '@/app/_helpers';
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
+import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
+import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
 
 import { getNatureDeLExploitationTypeLabel } from '../../../_helpers/getNatureDeLExploitationTypeLabel';
 
@@ -381,17 +379,16 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
               stateRelatedMessage={validationErrors['dateEcheanceGf']}
             />
           )}
-          {typeGf === 'exemption' && (
+          {candidature.typeGarantiesFinancieres && candidature.dateConstitutionGf && (
             <InputDate
-              name="dateDeliberationGf"
-              label="Date de délibération de l'exemption de Garanties Financières"
+              name="dateConstitutionGf"
+              label={getGarantiesFinancièresDateLabel(candidature.typeGarantiesFinancieres)}
               required
-              defaultValue={
-                candidature.dateDeliberationGf &&
-                DateTime.convertirEnValueType(candidature.dateDeliberationGf).formatter()
-              }
-              state={validationErrors['dateDeliberationGf'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['dateDeliberationGf']}
+              defaultValue={DateTime.convertirEnValueType(
+                candidature.dateConstitutionGf,
+              ).formatter()}
+              state={validationErrors['dateConstitutionGf'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['dateConstitutionGf']}
             />
           )}
         </>

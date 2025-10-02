@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 export type TypeTâchePlanifiée =
   | 'échoir les garanties financières'
   | 'rappel échéance garanties financières à un mois'
-  | 'rappel échéance garanties financières à deux mois'
+  | 'rappel échéance garanties financières à trois mois'
   | 'rappel des garanties financières à transmettre'
   | 'gestion automatique de la demande de changement de représentant légal'
   | "rappel d'instruction de la demande de changement de représentant légal à deux mois"
@@ -24,10 +24,10 @@ export class TâchePlanifiéeWorld {
           Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois,
       )
       .with(
-        'rappel échéance garanties financières à deux mois',
+        'rappel échéance garanties financières à trois mois',
         () =>
           Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières
-            .rappelÉchéanceDeuxMois,
+            .rappelÉchéanceTroisMois,
       )
       .with(
         'rappel des garanties financières à transmettre',
