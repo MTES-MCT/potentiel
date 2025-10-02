@@ -2,6 +2,7 @@ import { assert } from 'chai';
 
 import { EmailPayload } from '@potentiel-applications/notifications';
 import { Email } from '@potentiel-domain/common';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export class NotificationWorld {
   #notifications: EmailPayload[] = [];
@@ -20,13 +21,14 @@ export class NotificationWorld {
       return allRecipients.some((r) => Email.convertirEnValueType(r.email).estÉgaleÀ(email));
     });
     if (!notif) {
-      console.log(
-        { sujet, emailValue },
-        this.#notifications.map((x) => ({
+      getLogger('NotificationWorld').debug(`Aucune notification trouvée`, {
+        sujet,
+        emailValue,
+        notificationsEnvoyées: this.#notifications.map((x) => ({
           sujet: x.messageSubject,
           recipients: [...x.recipients, ...(x.cc ?? []), ...(x.bcc ?? [])].map((r) => r.email),
         })),
-      );
+      });
     }
     assert(notif, 'Pas de notification');
     return notif;
