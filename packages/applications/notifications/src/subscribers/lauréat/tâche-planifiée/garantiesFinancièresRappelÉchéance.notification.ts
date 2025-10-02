@@ -48,9 +48,11 @@ export const garantiesFinancièresRappelÉchéanceNotification = async ({
   }
 
   const nombreDeMois =
-    event.payload.typeTâchePlanifiée === 'garanties-financières.rappel-échéance-un-mois'
-      ? '1'
-      : '2';
+    event.payload.typeTâchePlanifiée === 'garanties-financières.rappel-échéance-trois-mois'
+      ? '3'
+      : event.payload.typeTâchePlanifiée === 'garanties-financières.rappel-échéance-deux-mois'
+        ? '2'
+        : '1';
 
   await sendEmail({
     messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,

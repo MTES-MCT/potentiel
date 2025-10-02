@@ -39,6 +39,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         P.union(
           'garanties-financières.rappel-échéance-un-mois',
           'garanties-financières.rappel-échéance-deux-mois',
+          'garanties-financières.rappel-échéance-trois-mois',
         ),
         async () =>
           garantiesFinancièresRappelÉchéanceNotification({
