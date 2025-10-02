@@ -12,6 +12,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
+import { getActionnariatTypeLabel } from '@/app/_helpers';
 
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -20,6 +21,7 @@ export type DétailsProjetÉliminéPageProps = {
       prixReference: Éliminé.ConsulterÉliminéReadModel['prixReference'] | undefined;
     }
   >;
+  typeActionnariat?: Candidature.TypeActionnariat.RawType;
   utilisateursAyantAccèsAuProjet: ReadonlyArray<Email.RawType>;
   actions: Array<DétailsProjetÉliminéActions>;
 };
@@ -46,6 +48,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
     autorisationDUrbanisme,
   },
   utilisateursAyantAccèsAuProjet,
+  typeActionnariat,
   actions,
 }) => (
   <ColumnPageTemplate
@@ -100,6 +103,12 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
             <li>
               <span className="font-bold">Actionnaire :</span> {sociétéMère}
             </li>
+            {typeActionnariat && (
+              <li>
+                <span className="font-bold">Type d'actionnariat :</span>{' '}
+                {getActionnariatTypeLabel(typeActionnariat)}
+              </li>
+            )}
             <li>
               <span className="font-bold">Puissance :</span> {puissanceProductionAnnuelle}{' '}
               {Candidature.UnitéPuissance.bind(unitéPuissance).formatter()}
