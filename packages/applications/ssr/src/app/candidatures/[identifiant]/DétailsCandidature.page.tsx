@@ -12,14 +12,11 @@ import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import {
-  getActionnariatTypeLabel,
-  getGarantiesFinancièresDateLabel,
-  getGarantiesFinancièresTypeLabel,
-  getTechnologieTypeLabel,
-} from '@/app/_helpers';
+import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
+import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { getNatureDeLExploitationTypeLabel } from '../../_helpers/getNatureDeLExploitationTypeLabel';

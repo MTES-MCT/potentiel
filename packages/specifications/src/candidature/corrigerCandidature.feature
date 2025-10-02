@@ -259,10 +259,9 @@ Fonctionnalité: Corriger une candidature
             | statut         | classé          |
             | appel d'offres | PPE2 - Bâtiment |
         Quand le DGEC validateur corrige la candidature avec :
-            | type GF | garantie-bancaire |
+            | type GF | exemption |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
 
-    @select
     Scénario: Impossible de corriger une candidature classée avec des GF constituées dans le futur
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | statut                | classé                   |

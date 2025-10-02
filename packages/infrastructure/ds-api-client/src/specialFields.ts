@@ -1,7 +1,7 @@
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { reverseRecord } from './utils';
-import { DossierAccessor } from './graphql';
+import { createDossierAccessor, DossierAccessor, GetDossierQuery } from './graphql';
 
 class ValeurInconnuePourChampsSelectError extends Error {
   constructor(
@@ -29,7 +29,7 @@ const mapSelectToValueType = <T>(
 
 const typeGfMap = reverseRecord({
   consignation: 'Consignation',
-  'garantie-bancaire': 'Garantie bancaire',
+  'avec-date-échéance': 'Garantie bancaire',
   exemption: `Exemption`,
 } satisfies Partial<Record<Candidature.TypeGarantiesFinancières.RawType, string>>);
 
@@ -105,3 +105,28 @@ export const getTypeNatureDeLExploitation = <
   accessor: DossierAccessor<T>,
   nom: TName,
 ) => mapSelectToValueType(typeNatureDeLExploitationMap, accessor, nom);
+
+const gfDateLabels = {
+  exemption: "Date de la délibération portant sur le projet objet de l'offre",
+  consignation: 'Date de la consignation',
+  'avec-date-échéance': "Date de prise d'effet de la garantie financière",
+} as const;
+
+export const getDateConstitutionGarantiesFinancières = (
+  typeGarantiesFinancieres: ReturnType<typeof getTypeGarantiesFinancières>,
+  champs: GetDossierQuery['dossier']['champs'],
+  demarche: GetDossierQuery['dossier']['demarche']['revision']['champDescriptors'],
+) => {
+  if (!typeGarantiesFinancieres) return undefined;
+
+  const label = gfDateLabels[typeGarantiesFinancieres];
+  if (!label) return undefined;
+
+  const accessor = createDossierAccessor(
+    champs,
+    { dateConstitutionGf: label } as Record<'dateConstitutionGf', string>,
+    demarche,
+  );
+
+  return accessor.getDateValue('dateConstitutionGf');
+};

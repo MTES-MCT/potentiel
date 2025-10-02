@@ -1,4 +1,6 @@
 import { Candidature } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { GetDossierQuery, createDossierAccessor } from './graphql';
 import {
@@ -7,6 +9,7 @@ import {
   getLocalité,
   getAutorisationDUrbanisme,
   getTypeNatureDeLExploitation,
+  getDateConstitutionGarantiesFinancières,
 } from './specialFields';
 import { DeepPartial } from './utils';
 import { getTypologieInstallation } from './getTypologieInstallation';
@@ -23,8 +26,6 @@ const colonnes = {
   evaluationCarboneSimplifiée: 'Évaluation carbone simplifiée',
 
   typeGarantiesFinancières: 'Type de garantie financière',
-  dateÉchéanceGf: "Date d'échéance des garanties financières",
-  dateConstitutionGf: "Date de la délibération portant sur le projet objet de l'offre",
 
   localité: 'Adresse postale du site de production',
   historiqueAbandon: 'Préciser le statut du projet',
@@ -55,6 +56,24 @@ export const mapApiResponseToDépôt = ({
     'typeGarantiesFinancières',
   );
 
+  const dateConstitutionGarantiesFinancieres = getDateConstitutionGarantiesFinancières(
+    typeGarantiesFinancieres,
+    champs,
+    demarche.revision.champDescriptors,
+  );
+
+  const getDateÉchéanceGarantiesFinancières = (date: string) => {
+    const délaiÉchéanceGarantieBancaireEnMois = appelsOffreData.find(
+      (ao) => ao.id === 'PPE2 - Petit PV Bâtiment',
+    )?.garantiesFinancières.délaiÉchéanceGarantieBancaireEnMois;
+
+    return délaiÉchéanceGarantieBancaireEnMois
+      ? DateTime.convertirEnValueType(date)
+          .ajouterNombreDeMois(délaiÉchéanceGarantieBancaireEnMois)
+          .formatter()
+      : undefined;
+  };
+
   return {
     //  1. Renseignements administratifs
     nomCandidat: accessor.getStringValue('nomCandidat'),
@@ -71,9 +90,10 @@ export const mapApiResponseToDépôt = ({
     evaluationCarboneSimplifiée: accessor.getNumberValue('evaluationCarboneSimplifiée'),
 
     typeGarantiesFinancières: typeGarantiesFinancieres,
-    dateConstitutionGf:
-      typeGarantiesFinancieres === 'exemption'
-        ? accessor.getDateValue('dateConstitutionGf')
+    dateConstitutionGf: dateConstitutionGarantiesFinancieres,
+    dateÉchéanceGf:
+      typeGarantiesFinancieres === 'avec-date-échéance' && dateConstitutionGarantiesFinancieres
+        ? getDateÉchéanceGarantiesFinancières(dateConstitutionGarantiesFinancieres)
         : undefined,
     historiqueAbandon: getHistoriqueAbandon(accessor, 'historiqueAbandon'),
 

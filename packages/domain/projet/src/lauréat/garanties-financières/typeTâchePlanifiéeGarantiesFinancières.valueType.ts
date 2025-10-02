@@ -1,9 +1,12 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
+// il n'y a plus de nouvelles tâches planifiées à 2 mois, on conserve ce type pour les tâches déjà publiées destinées à être annulées
+
 const types = [
   'garanties-financières.échoir',
   'garanties-financières.rappel-échéance-un-mois',
   'garanties-financières.rappel-échéance-deux-mois',
+  'garanties-financières.rappel-échéance-trois-mois',
   'garanties-financières.rappel-en-attente',
 ] as const;
 
@@ -43,6 +46,9 @@ export const rappelÉchéanceUnMois = convertirEnValueType(
 );
 export const rappelÉchéanceDeuxMois = convertirEnValueType(
   'garanties-financières.rappel-échéance-deux-mois',
+);
+export const rappelÉchéanceTroisMois = convertirEnValueType(
+  'garanties-financières.rappel-échéance-trois-mois',
 );
 export const rappelEnAttente = convertirEnValueType('garanties-financières.rappel-en-attente');
 

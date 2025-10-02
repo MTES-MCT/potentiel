@@ -37,7 +37,7 @@ type CandidatureImportéeEventPayload = {
   technologie: TypeTechnologie.RawType;
   actionnariat?: TypeActionnariat.RawType;
   dateÉchéanceGf?: DateTime.RawType;
-  dateDélibérationGf?: DateTime.RawType;
+  dateConstitutionGf?: DateTime.RawType;
   territoireProjet: string;
   coefficientKChoisi?: boolean;
   puissanceDeSite?: number;

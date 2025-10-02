@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import {
   actionnariatSchema,
-  dateEchéanceOuDéliberationGfSchema,
+  dateEchéanceOuConstitutionGfSchema,
   emailContactSchema,
   évaluationCarboneSimplifiéeSchema,
   nomCandidatSchema,
@@ -39,8 +39,8 @@ export const dépôtSchema = z.object({
   actionnariat: actionnariatSchema,
   technologie: technologieSchema,
   typeGarantiesFinancières: typeGarantiesFinancieresSchema,
-  dateÉchéanceGf: dateEchéanceOuDéliberationGfSchema,
-  dateDélibérationGf: dateEchéanceOuDéliberationGfSchema,
+  dateÉchéanceGf: dateEchéanceOuConstitutionGfSchema,
+  dateConstitutionGf: dateEchéanceOuConstitutionGfSchema,
   coefficientKChoisi: choixCoefficientKSchema,
   historiqueAbandon: historiqueAbandonSchema,
   obligationDeSolarisation: obligationDeSolarisationSchema,

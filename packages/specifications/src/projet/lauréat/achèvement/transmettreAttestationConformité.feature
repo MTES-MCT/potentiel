@@ -36,13 +36,13 @@ Fonctionnalité: Transmettre une attestation de conformité
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat
 
-    Scénario: Une tâche du type "rappel échéance garanties financières à deux mois" est annulée quand une attestation de conformité est transmise
+    Scénario: Une tâche du type "rappel échéance garanties financières à trois mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
             | type GF            | avec-date-échéance |
             | date d'échéance    | 2050-12-01         |
             | date de validation | 2024-11-24         |
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
-        Alors une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet lauréat
+        Alors une tâche "rappel échéance garanties financières à trois mois" n'est plus planifiée pour le projet lauréat
 
     Scénario: le porteur transmet une attestation de conformité pour un appel d'offres le cahier des charges ne le permet pas
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
