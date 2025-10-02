@@ -177,7 +177,7 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
   }
 
   //#region Utilitaires
-  vérifierSiLesGarantiesFinancièresSontValides(
+  private vérifierSiLesGarantiesFinancièresSontValides(
     garantiesFinancières: GarantiesFinancières.ValueType | undefined,
   ) {
     this.vérifierSiLesGarantiesFinancièresSontRequises(garantiesFinancières?.type);
