@@ -58,6 +58,9 @@ export const InfoGenerales = ({
     isClasse,
     désignationCatégorie,
     prixReference,
+    actionnariat,
+    isFinancementParticipatif,
+    isInvestissementParticipatif,
   },
   raccordement,
   role,
@@ -88,13 +91,21 @@ export const InfoGenerales = ({
     !!garantiesFinancières?.actuelles &&
     garantiesFinancières.actuelles.type !== 'exemption' &&
     role.aLaPermission('garantiesFinancières.actuelles.modifier');
+
   const peutModifierDépôt =
     garantiesFinancières?.actuelles?.type !== 'exemption' &&
     role.aLaPermission('garantiesFinancières.dépôt.modifier');
+
   const peutDemanderMainlevée =
     !!garantiesFinancières?.actuelles &&
     garantiesFinancières.actuelles.type !== 'exemption' &&
     role.aLaPermission('garantiesFinancières.mainlevée.demander');
+
+  const typeActionnariat = getTypeActionnariat({
+    actionnariat,
+    isFinancementParticipatif,
+    isInvestissementParticipatif,
+  });
 
   return (
     <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-4 flex-col">
@@ -179,6 +190,12 @@ export const InfoGenerales = ({
           role={role}
           identifiantProjet={identifiantProjet}
         />
+      )}
+      {typeActionnariat && (
+        <div className="flex flex-col">
+          <Heading3 className="m-0">Type d'actionnariat</Heading3>
+          <span>{typeActionnariat}</span>
+        </div>
       )}
     </Section>
   );
@@ -335,4 +352,34 @@ const AlertMessage = ({ children }: AlertMessageProps) => {
       <WarningIcon title="Information alerte" className="text-lg -mb-1 shrink-0" /> {children}
     </div>
   );
+};
+
+type GetTypeActionnariatProps = {
+  actionnariat?: ProjectDataForProjectPage['actionnariat'];
+  isFinancementParticipatif: ProjectDataForProjectPage['isFinancementParticipatif'];
+  isInvestissementParticipatif: ProjectDataForProjectPage['isInvestissementParticipatif'];
+};
+const getTypeActionnariat = ({
+  actionnariat,
+  isFinancementParticipatif,
+  isInvestissementParticipatif,
+}: GetTypeActionnariatProps) => {
+  if (actionnariat) {
+    if (actionnariat === 'financement-collectif') {
+      return 'Financement collectif';
+    }
+    if (actionnariat === 'gouvernance-partagee') {
+      return 'Gouvernance partagée';
+    }
+  }
+
+  if (isFinancementParticipatif) {
+    return 'Financement participatif';
+  }
+
+  if (isInvestissementParticipatif) {
+    return 'Investissement participatif';
+  }
+
+  return undefined;
 };

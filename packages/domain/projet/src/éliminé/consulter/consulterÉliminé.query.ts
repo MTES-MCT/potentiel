@@ -27,6 +27,7 @@ export type ConsulterÉliminéReadModel = {
   | 'nomReprésentantLégal'
   | 'sociétéMère'
   | 'autorisationDUrbanisme'
+  | 'actionnariat'
 >;
 
 export type ConsulterÉliminéQuery = Message<
@@ -86,4 +87,5 @@ const mapToReadModel: MapToReadModel = (
         numéro: candidature.dépôt.autorisationDUrbanisme.numéro,
       }
     : undefined,
+  actionnariat: candidature.dépôt.actionnariat,
 });

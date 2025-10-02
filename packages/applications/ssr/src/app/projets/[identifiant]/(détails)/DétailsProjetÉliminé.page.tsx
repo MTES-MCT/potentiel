@@ -12,6 +12,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
+import { getActionnariatTypeLabel } from '@/app/_helpers';
 
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -44,6 +45,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
     nomCandidat,
     nomReprésentantLégal,
     autorisationDUrbanisme,
+    actionnariat,
   },
   utilisateursAyantAccèsAuProjet,
   actions,
@@ -100,6 +102,12 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
             <li>
               <span className="font-bold">Actionnaire :</span> {sociétéMère}
             </li>
+            {actionnariat && (
+              <li>
+                <span className="font-bold">Type d'actionnariat :</span>{' '}
+                {getActionnariatTypeLabel(actionnariat.type)}
+              </li>
+            )}
             <li>
               <span className="font-bold">Puissance :</span> {puissanceProductionAnnuelle}{' '}
               {Candidature.UnitéPuissance.bind(unitéPuissance).formatter()}
