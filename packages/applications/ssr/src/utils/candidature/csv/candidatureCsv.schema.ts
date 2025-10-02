@@ -28,6 +28,7 @@ import {
 import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
 import {
   adresse1CsvSchema,
+  capacitéDuDispositifDeStockageSchema,
   choixCoefficientKCsvSchema,
   codePostalCsvSchema,
   dateDAutorisationDUrbanismeCsvSchema,
@@ -35,12 +36,13 @@ import {
   financementCollectifCsvSchema,
   gouvernancePartagéeCsvSchema,
   historiqueAbandonCsvSchema,
-  installationAvecDispositifDeStockageCsvSchema,
+  dispositifDeStockageCsvSchema,
   installationsAgrivoltaiquesCsvSchema,
   natureDeLExploitationCsvSchema,
   notifiedOnCsvSchema,
   obligationDeSolarisationCsvSchema,
   puissanceALaPointeCsvSchema,
+  puissanceDuDispositifDeStockageSchema,
   statutCsvSchema,
   technologieCsvSchema,
   typeGarantiesFinancieresCsvSchema,
@@ -119,6 +121,8 @@ const colonnes = {
   numéroDAutorisationDUrbanisme: "Numéro de l'autorisation d'urbanisme",
   installateur: "Identité de l'installateur",
   installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+  puissanceduDispositifDeStockage: 'Puissance du dispositif de stockage',
+  capacitéDuDispositifDeStockage: 'Capacité du dispositif de stockage',
   natureDeLExploitation: "Nature de l'exploitation",
 } as const;
 
@@ -157,7 +161,9 @@ const candidatureCsvRowSchema = z
     [colonnes.dateDAutorisationDUrbanisme]: dateDAutorisationDUrbanismeCsvSchema,
     [colonnes.numéroDAutorisationDUrbanisme]: numéroDAutorisationDUrbanismeSchema,
     [colonnes.installateur]: installateurSchema,
-    [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
+    [colonnes.installationAvecDispositifDeStockage]: dispositifDeStockageCsvSchema,
+    [colonnes.puissanceduDispositifDeStockage]: puissanceDuDispositifDeStockageSchema,
+    [colonnes.capacitéDuDispositifDeStockage]: capacitéDuDispositifDeStockageSchema,
     // columns with refines, see refines below
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
@@ -218,6 +224,12 @@ const candidatureCsvRowSchema = z
     message: `L'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,
     path: [colonnes.adresse1, colonnes.adresse2],
   });
+// TODO:
+// si l'installation est couplée à un dispositif de stockage, on doit en avoir la capacité et la puissance. Et vice versa
+// .refine((val) => !!val[colonnes.adresse1] || !!val[colonnes.adresse2], {
+//   message: `L'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,
+//   path: [colonnes.adresse1, colonnes.adresse2],
+// });
 
 export const candidatureCsvSchema = candidatureCsvRowSchema
   // Transforme les noms des clés de la ligne en valeurs plus simples à manipuler
@@ -246,6 +258,9 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       commune,
       natureDeLExploitation,
       typeGarantiesFinancières,
+      installationAvecDispositifDeStockage,
+      capacitéDuDispositifDeStockage,
+      puissanceduDispositifDeStockage,
       ...val
     }) => {
       return {
@@ -282,6 +297,14 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
           codePostal,
           commune,
         }),
+        dispositifDeStockage:
+          installationAvecDispositifDeStockage !== undefined
+            ? {
+                installationAvecDispositifDeStockage,
+                capacitéDuDispositifDeStockage,
+                puissanceduDispositifDeStockage,
+              }
+            : undefined,
       };
     },
   );

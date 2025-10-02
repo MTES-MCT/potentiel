@@ -149,18 +149,14 @@ export class DateAutorisationDUrbanismeError extends InvalidOperationError {
   }
 }
 
-export class InstallationAvecDispositifDeStockageRequisError extends InvalidOperationError {
+export class DispositifDeStockageRequisError extends InvalidOperationError {
   constructor() {
-    super(
-      "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offres",
-    );
+    super("Le dispositif de stockage est requis pour cet appel d'offres");
   }
 }
 
-export class InstallationAvecDispositifDeStockageNonAttendueError extends InvalidOperationError {
+export class DispositifDeStockageNonAttenduError extends InvalidOperationError {
   constructor() {
-    super(
-      "L'information relative au couplage de l'installation avec un dispositif de stockage n'est pas attendue pour cet appel d'offres",
-    );
+    super("Le dispositif de stockage n'est pas attendu pour cet appel d'offres");
   }
 }

@@ -86,7 +86,7 @@ describe('Schema candidature CSV', () => {
       autorisationDUrbanisme: undefined,
       installateur: undefined,
       typologieInstallation: [],
-      installationAvecDispositifDeStockage: undefined,
+      dispositifDeStockage: undefined,
       natureDeLExploitation: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
@@ -132,7 +132,7 @@ describe('Schema candidature CSV', () => {
       autorisationDUrbanisme: undefined,
       installateur: undefined,
       typologieInstallation: [],
-      installationAvecDispositifDeStockage: undefined,
+      dispositifDeStockage: undefined,
       natureDeLExploitation: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
@@ -150,7 +150,9 @@ describe('Schema candidature CSV', () => {
       "Date d'obtention de l'autorisation d'urbanisme": '21/08/2025',
       "Numéro de l'autorisation d'urbanisme": '123',
       "Identité de l'installateur": 'Installateur Inc.',
-      'Installation couplée à un dispositif de stockage': 'oui',
+      'Installation couplée à un dispositif de stockage': 'false',
+      'Capacité du dispositif de stockage': '2',
+      'Puissance du dispositif de stockage': '3',
       "Nature de l'exploitation": '1',
     });
     assertNoError(result);
@@ -190,7 +192,11 @@ describe('Schema candidature CSV', () => {
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
       installateur: 'Installateur Inc.',
-      installationAvecDispositifDeStockage: true,
+      dispositifDeStockage: {
+        installationAvecDispositifDeStockage: true,
+        capacitéDuDispositifDeStockage: 2,
+        puissanceduDispositifDeStockage: 3,
+      },
       natureDeLExploitation: 'vente-avec-injection-du-surplus',
       typologieInstallation: [
         {

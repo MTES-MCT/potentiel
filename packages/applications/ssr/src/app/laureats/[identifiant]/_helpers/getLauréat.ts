@@ -20,7 +20,7 @@ export type GetLauréat = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   installateur?: Lauréat.Installateur.ConsulterInstallateurReadModel;
-  installationAvecDispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
+  dispositifDeStockage?: Lauréat.DispositifDeStockage.ConsulterDispositifDeStockageReadModel;
   natureDeLExploitation?: Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationReadModel;
 };
 
@@ -40,9 +40,9 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   // champs supplémentaires
   const installateurInfos =
     champsSupplémentaires.installateur && (await getInstallateurInfos({ identifiantProjet }));
-  const installationAvecDispositifDeStockageInfo =
-    champsSupplémentaires.installationAvecDispositifDeStockage &&
-    (await getInstallationAvecDispositifDeStockageInfos({ identifiantProjet }));
+  const dispositifDeStockageInfo =
+    champsSupplémentaires.dispositifDeStockage &&
+    (await getDispositifDeStockageInfos({ identifiantProjet }));
   const natureDeLExploitationInfo =
     champsSupplémentaires.natureDeLExploitation &&
     (await getNatureDeLExploitationInfos({ identifiantProjet }));
@@ -54,7 +54,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
     installateur: installateurInfos,
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageInfo,
+    dispositifDeStockage: dispositifDeStockageInfo,
     natureDeLExploitation: natureDeLExploitationInfo,
     lauréat,
   };
@@ -184,22 +184,20 @@ const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
   return installateur;
 };
 
-const getInstallationAvecDispositifDeStockageInfos = async ({ identifiantProjet }: Props) => {
-  const installationAvecDispositifDeStockage =
-    await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
-      {
-        type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
-        data: {
-          identifiantProjet,
-        },
+const getDispositifDeStockageInfos = async ({ identifiantProjet }: Props) => {
+  const dispositifDeStockage =
+    await mediator.send<Lauréat.DispositifDeStockage.ConsulterDispositifDeStockageQuery>({
+      type: 'Lauréat.DispositifDeStockage.Query.ConsulterDispositifDeStockage',
+      data: {
+        identifiantProjet,
       },
-    );
+    });
 
-  if (Option.isNone(installationAvecDispositifDeStockage)) {
+  if (Option.isNone(dispositifDeStockage)) {
     return notFound();
   }
 
-  return installationAvecDispositifDeStockage;
+  return dispositifDeStockage;
 };
 
 const getNatureDeLExploitationInfos = async ({ identifiantProjet }: Props) => {

@@ -457,15 +457,16 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           }}
         />
       )}
-      {champsSupplémentaires.installationAvecDispositifDeStockage && (
+      {/* TODO: à retravailler */}
+      {/* {champsSupplémentaires.dispositifDeStockage && (
         <Select
-          state={validationErrors['installationAvecDispositifDeStockage'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['installationAvecDispositifDeStockage']}
-          id="installationAvecDispositifDeStockage"
+          state={validationErrors['dispositifDeStockage'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['dispositifDeStockage']}
+          id="dispositifDeStockage"
           label={'Dispositif de stockage'}
           nativeSelectProps={{
-            name: 'installationAvecDispositifDeStockage',
-            value: candidature.installationAvecDispositifDeStockage ? 'true' : 'false',
+            name: 'dispositifDeStockage',
+            value: candidature.dispositifDeStockage ? 'true' : 'false',
             required: true,
             'aria-required': true,
           }}
@@ -474,7 +475,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             { label: 'Sans', value: 'false' },
           ]}
         />
-      )}
+      )} */}
       {champsSupplémentaires.natureDeLExploitation && (
         <Select
           state={validationErrors['natureDeLExploitation'] ? 'error' : 'default'}

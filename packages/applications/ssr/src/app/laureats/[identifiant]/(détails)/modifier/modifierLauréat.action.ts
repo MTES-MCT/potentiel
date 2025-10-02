@@ -121,19 +121,16 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      if (laureat.installationAvecDispositifDeStockage !== undefined) {
-        await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
-          {
-            type: 'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
-            data: {
-              identifiantProjetValue: identifiantProjet,
-              installationAvecDispositifDeStockageValue:
-                laureat.installationAvecDispositifDeStockage,
-              modifiéeLeValue: new Date().toISOString(),
-              modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
-            },
+      if (laureat.dispositifDeStockage !== undefined) {
+        await mediator.send<Lauréat.DispositifDeStockage.ModifierDispositifDeStockageUseCase>({
+          type: 'Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            dispositifDeStockageValue: laureat.dispositifDeStockage,
+            modifiéLeValue: new Date().toISOString(),
+            modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
-        );
+        });
       }
 
       if (laureat.natureDeLExploitation) {
@@ -252,8 +249,7 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       installateur: data.installateur ?? previous.installateur,
-      installationAvecDispositifDeStockage:
-        data.installationAvecDispositifDeStockage ?? previous.installationAvecDispositifDeStockage,
+      dispositifDeStockage: data.dispositifDeStockage ?? previous.dispositifDeStockage,
       natureDeLExploitation: data.natureDeLExploitation
         ? data.natureDeLExploitation
         : previous.natureDeLExploitation?.formatter(),

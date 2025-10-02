@@ -17,6 +17,7 @@ import {
   doitRegenererAttestationSchema,
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
+  dispositifDeStockageSchema,
 } from '@/utils/candidature';
 
 export type CorrigerCandidaturesState = FormState;
@@ -50,7 +51,7 @@ const schema = zod.object({
   dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
   numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
   installateur: dépôtSchema.shape.installateur,
-  installationAvecDispositifDeStockage: dépôtSchema.shape.installationAvecDispositifDeStockage,
+  dispositifDeStockage: dispositifDeStockageSchema,
   natureDeLExploitation: dépôtSchema.shape.natureDeLExploitation,
   statut: instructionSchema.shape.statut.optional(),
   motifElimination: instructionSchema.shape.motifÉlimination,
@@ -132,7 +133,7 @@ const mapBodyToUseCaseData = (
             }
           : undefined,
       installateur: data.installateur,
-      installationAvecDispositifDeStockage: data.installationAvecDispositifDeStockage,
+      dispositifDeStockage: data.dispositifDeStockage,
       natureDeLExploitation: data.natureDeLExploitation,
 
       // non-editable fields

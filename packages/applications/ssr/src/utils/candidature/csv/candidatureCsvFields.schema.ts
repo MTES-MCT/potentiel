@@ -5,6 +5,7 @@ import { récupérerDépartementRégionParCodePostal } from '@potentiel-domain/i
 
 import {
   optionalEnum,
+  optionalNumberSchema,
   optionalStringWithDefaultValueSchema,
   strictlyPositiveNumberSchema,
   stringToArray,
@@ -68,7 +69,9 @@ export type TypologieBâtimentCsvShape = z.infer<typeof typologieDeBâtimentCsvS
 
 export const obligationDeSolarisationCsvSchema = optionalOuiNonVideSchema;
 export const dateDAutorisationDUrbanismeCsvSchema = optionalCsvDateSchema.optional();
-export const installationAvecDispositifDeStockageCsvSchema = optionalOuiNonVideSchema;
+export const dispositifDeStockageCsvSchema = optionalOuiNonVideSchema;
+export const puissanceDuDispositifDeStockageSchema = optionalNumberSchema;
+export const capacitéDuDispositifDeStockageSchema = optionalNumberSchema;
 
 // On accepte :
 // - de multiples code postaux séparés par /

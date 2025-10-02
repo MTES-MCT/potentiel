@@ -130,3 +130,23 @@ export const getDateConstitutionGarantiesFinancières = (
 
   return accessor.getDateValue('dateConstitutionGf');
 };
+
+export const getDispositifDeStockage = <T extends Record<string, string>>(
+  accessor: DossierAccessor<T>,
+) => {
+  const installationAvecDispositifDeStockage = accessor.getBooleanValue(
+    'installationAvecDispositifDeStockage',
+  );
+  const capacitéDuDispositifDeStockage = accessor.getNumberValue('capacitéDuDispositifDeStockage');
+  const puissanceDuDispositifDeStockage = accessor.getNumberValue(
+    'puissanceDuDispositifDeStockage',
+  );
+
+  return installationAvecDispositifDeStockage
+    ? {
+        installationAvecDispositifDeStockage,
+        capacitéDuDispositifDeStockage,
+        puissanceDuDispositifDeStockage,
+      }
+    : { installationAvecDispositifDeStockage };
+};

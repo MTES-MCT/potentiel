@@ -41,8 +41,8 @@ export type RawType = {
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
-  installationAvecDispositifDeStockage: boolean | undefined;
   natureDeLExploitation: TypeDeNatureDeLExploitation.RawType | undefined;
+  dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.RawType | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -68,7 +68,7 @@ export type ValueType = ReadonlyValueType<{
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
   installateur: string | undefined;
-  installationAvecDispositifDeStockage: boolean | undefined;
+  dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.ValueType | undefined;
   natureDeLExploitation:
     | Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.ValueType
     | undefined;
@@ -108,7 +108,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
     : undefined,
   typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
   installateur: plain.installateur,
-  installationAvecDispositifDeStockage: plain.installationAvecDispositifDeStockage,
+  dispositifDeStockage: bindOptional(
+    Lauréat.DispositifDeStockage.DispositifDeStockage.bind,
+    plain.dispositifDeStockage,
+  ),
   natureDeLExploitation: bindOptional(
     Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.bind,
     plain.natureDeLExploitation,
@@ -130,8 +133,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.obligationDeSolarisation === this.obligationDeSolarisation &&
       valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
       valueType.installateur === this.installateur &&
-      valueType.installationAvecDispositifDeStockage ===
-        this.installationAvecDispositifDeStockage &&
+      areEqual(valueType.dispositifDeStockage, this.dispositifDeStockage) &&
       areEqual(valueType.autorisationDUrbanisme?.date, this.autorisationDUrbanisme?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
@@ -182,8 +184,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
           }
         : undefined,
       installateur: this.installateur,
-      installationAvecDispositifDeStockage: this.installationAvecDispositifDeStockage,
       natureDeLExploitation: this.natureDeLExploitation?.formatter(),
+      dispositifDeStockage: this.dispositifDeStockage?.formatter(),
     };
   },
 });
@@ -235,10 +237,13 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           })
         : undefined,
     installateur: raw.installateur,
-    installationAvecDispositifDeStockage: raw.installationAvecDispositifDeStockage,
     natureDeLExploitation: bindOptional(
       Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType,
       raw.natureDeLExploitation,
+    ),
+    dispositifDeStockage: bindOptional(
+      Lauréat.DispositifDeStockage.DispositifDeStockage.bind,
+      raw.dispositifDeStockage,
     ),
   });
 

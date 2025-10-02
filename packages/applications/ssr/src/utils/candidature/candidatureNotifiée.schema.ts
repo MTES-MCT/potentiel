@@ -24,7 +24,7 @@ import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
-  installationAvecDispositifDeStockageSchema,
+  dispositifDeStockageSchema,
   natureDeLExploitationOptionalSchema,
   actionnariatCorrigerCandidatureSchema,
 } from './candidatureFields.schema';
@@ -57,7 +57,7 @@ const candidatureNotifiéeSchema = z
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: installateurSchema,
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
+    dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
   })
   .merge(localitéSchema);
@@ -76,7 +76,7 @@ const lauréatSchema = z
 
 const lauréatChampsSupplémentairesSchema = z.object({
   installateur: installateurSchema,
-  installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
+  dispositifDeStockage: dispositifDeStockageSchema,
   natureDeLExploitation: natureDeLExploitationOptionalSchema,
 });
 

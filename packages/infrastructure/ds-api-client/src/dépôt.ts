@@ -10,6 +10,7 @@ import {
   getAutorisationDUrbanisme,
   getTypeNatureDeLExploitation,
   getDateConstitutionGarantiesFinancières,
+  getDispositifDeStockage,
 } from './specialFields';
 import { DeepPartial } from './utils';
 import { getTypologieInstallation } from './getTypologieInstallation';
@@ -31,7 +32,7 @@ const colonnes = {
   historiqueAbandon: 'Préciser le statut du projet',
 
   obligationDeSolarisation: `Projet réalisé dans le cadre d'une obligation de solarisation`,
-  installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+  dispositifDeStockage: 'Installation couplée à un dispositif de stockage',
   installateur: "Identité de l'installateur",
   natureDeLExploitation: "Nature de l'exploitation",
   coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
@@ -102,9 +103,8 @@ export const mapApiResponseToDépôt = ({
 
     localité: getLocalité(accessor, 'localité'),
 
-    installationAvecDispositifDeStockage: accessor.getBooleanValue(
-      'installationAvecDispositifDeStockage',
-    ),
+    dispositifDeStockage: getDispositifDeStockage(accessor),
+
     installateur: accessor.getStringValue('installateur'),
     natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
 
