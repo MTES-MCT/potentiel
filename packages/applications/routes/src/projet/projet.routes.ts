@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
@@ -15,8 +17,8 @@ export const details = (
 ) =>
   `/projet/${encodeParameter(identifiantProjet)}/details.html${feedback ? `?${feedback.type === 'success' ? `success=${feedback.message}` : `error=${feedback.message}`}` : ''}`;
 
-type exportCsvFilters = {
-  classement?: Exclude<Lauréat.StatutLauréat.RawType, 'achevé'> | 'éliminé';
+type ExportCsvFilters = {
+  statut?: Lauréat.StatutLauréat.RawType | 'éliminé';
   appelOffreId?: string;
   nomProjet?: string;
 };
@@ -25,12 +27,22 @@ type exportCsvFilters = {
  *
  * @deprecated Lien pour générer un document CSV
  */
-export const exportCsv = ({ appelOffreId, nomProjet, classement }: exportCsvFilters) => {
+export const exportCsv = ({ appelOffreId, nomProjet, statut }: ExportCsvFilters) => {
   const searchParams = new URLSearchParams();
 
-  if (classement) {
-    searchParams.append('classement', classement);
-  }
+  // mapping avec les statuts legacy, sachant que :
+  // - le front ne propose pas d'export de tous les projets Lauréats ET Éliminés
+  // - achevé n'existe pas dans le legacy
+  // - actif est considéré comme "classé" dans le legacy, puisque achevé n'existe pas
+  const classementLegacy = match(statut)
+    .returnType<'classé' | 'abandonné' | 'éliminé'>()
+    .with(undefined, () => 'classé')
+    .with('achevé', () => 'classé')
+    .with('actif', () => 'classé')
+    .with('abandonné', () => 'abandonné')
+    .with('éliminé', () => 'éliminé')
+    .exhaustive();
+  searchParams.append('classement', classementLegacy);
 
   if (appelOffreId) {
     searchParams.append('appelOffreId', appelOffreId);

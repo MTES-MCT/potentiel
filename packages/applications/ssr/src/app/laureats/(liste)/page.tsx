@@ -154,7 +154,7 @@ const mapToActions = ({
     href: Routes.Projet.exportCsv({
       appelOffreId: appelOffre,
       nomProjet: nomProjet,
-      classement: !statut || statut === 'achevé' ? undefined : statut,
+      statut: statut,
     }),
   });
 
