@@ -1,10 +1,8 @@
 import { Args, Command } from '@oclif/core';
 
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { getProjetAggregateRootAdapter } from '@potentiel-applications/bootstrap';
 
 export class LoadTest extends Command {
   static description =
@@ -28,10 +26,7 @@ export class LoadTest extends Command {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
       try {
-        await ProjetAggregateRoot.get(identifiantProjet, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        });
+        await getProjetAggregateRootAdapter(identifiantProjet);
       } catch (err) {
         // swallow errors during load test but keep them visible in stdout
         // so the user can inspect potential issues when running the test.
