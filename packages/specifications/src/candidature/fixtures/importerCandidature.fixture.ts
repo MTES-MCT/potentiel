@@ -156,26 +156,6 @@ const créerDépôt = (
     ...dépôt.localité,
   };
 
-  // TODO: à régler
-  const installationAvecDispositifDeStockage =
-    aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis'
-      ? faker.datatype.boolean()
-      : undefined;
-
-  const dispositifDeStockage =
-    installationAvecDispositifDeStockage === undefined
-      ? undefined
-      : {
-          installationAvecDispositifDeStockage,
-          capacitéDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
-            ? faker.number.float({ min: 0, fractionDigits: 3 })
-            : undefined,
-          puissanceDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
-            ? faker.number.float({ min: 0, fractionDigits: 3 })
-            : undefined,
-          ...dépôt.dispositifDeStockage,
-        };
-
   const dépôtValue: ImporterCandidature['dépôtValue'] = {
     typeGarantiesFinancières: dépôt?.typeGarantiesFinancières ?? 'consignation',
     nomProjet: faker.company.name(),
@@ -229,7 +209,10 @@ const créerDépôt = (
     attestationConstitutionGf: dépôt.attestationConstitutionGf?.format
       ? { format: dépôt.attestationConstitutionGf.format }
       : undefined,
-    dispositifDeStockage,
+    dispositifDeStockage: getDispositifDeStockageFixture(
+      dépôt.dispositifDeStockage,
+      aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis',
+    ),
   };
 
   const référentielPériode = appelsOffreData
@@ -244,4 +227,33 @@ const créerDépôt = (
   }
 
   return dépôtValue;
+};
+
+const getDispositifDeStockageFixture = (
+  dépôtValue: Partial<ImporterCandidature['dépôtValue']['dispositifDeStockage']>,
+  champsRequis: boolean,
+) => {
+  const installationAvecDispositifDeStockage =
+    dépôtValue &&
+    Object.keys(dépôtValue).length > 0 &&
+    dépôtValue.installationAvecDispositifDeStockage === undefined
+      ? undefined
+      : dépôtValue?.installationAvecDispositifDeStockage !== undefined
+        ? dépôtValue.installationAvecDispositifDeStockage
+        : champsRequis
+          ? faker.datatype.boolean()
+          : undefined;
+
+  return installationAvecDispositifDeStockage === undefined
+    ? undefined
+    : {
+        installationAvecDispositifDeStockage,
+        capacitéDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
+          ? faker.number.float({ min: 0, fractionDigits: 3 })
+          : undefined,
+        puissanceDuDispositifDeStockageEnKw: installationAvecDispositifDeStockage
+          ? faker.number.float({ min: 0, fractionDigits: 3 })
+          : undefined,
+        ...dépôtValue,
+      };
 };

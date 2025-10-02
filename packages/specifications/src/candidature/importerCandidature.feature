@@ -182,7 +182,6 @@ Fonctionnalité: Importer une candidature
             | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
 
-    @select
     Scénario: Impossible d'importer une candidature sans dispositif de stockage pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
