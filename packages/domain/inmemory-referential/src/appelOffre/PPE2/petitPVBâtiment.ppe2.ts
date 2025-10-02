@@ -112,7 +112,7 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
       certificateTemplate: 'ppe2.v2',
       logo: 'Gouvernement',
       cahierDesCharges: {
-        référence: 'XXXX', // à vérifier
+        référence: '2025/S 513616-2025',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
