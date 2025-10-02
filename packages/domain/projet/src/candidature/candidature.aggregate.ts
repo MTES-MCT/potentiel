@@ -7,6 +7,11 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { FournisseurImportéEvent } from '../lauréat/fournisseur';
 import { Puissance } from '../lauréat';
+import { GarantiesFinancières } from '../lauréat/garanties-financières';
+import {
+  GarantiesFinancièresRequisesPourAppelOffreError,
+  TypeGarantiesFinancièresNonDisponiblePourAppelOffreError,
+} from '../lauréat/garanties-financières/garantiesFinancières.error';
 
 import { Dépôt, Instruction } from '.';
 
@@ -195,9 +200,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierTechnologie(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
-      this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.dépôt.garantiesFinancières,
-      );
+      this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
     }
 
     const event: CandidatureImportéeEvent = {
@@ -224,9 +227,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
     if (candidature.instruction.statut.estClassé()) {
-      this.projet.lauréat.garantiesFinancières.vérifierSiLesGarantiesFinancièresSontValides(
-        candidature.dépôt.garantiesFinancières,
-      );
+      this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
     }
 
     const event: CandidatureCorrigéeEvent = {
@@ -408,6 +409,24 @@ export class CandidatureAggregate extends AbstractAggregate<
       )
     ) {
       throw new TechnologieIndisponibleError();
+    }
+  }
+
+  // Logique métier identique à celle de l'aggrégat GarantiesFinancières,
+  // qui n'est pas réutilisée pour des raisons d'optimisation du chargement de l'agrégat Candidature
+  private vérifierSiLesGarantiesFinancièresSontValides(
+    garantiesFinancières: GarantiesFinancières.ValueType | undefined,
+  ) {
+    if (
+      !garantiesFinancières &&
+      this.projet.cahierDesChargesActuel.estSoumisAuxGarantiesFinancières()
+    ) {
+      throw new GarantiesFinancièresRequisesPourAppelOffreError();
+    }
+    const typesDisponibles =
+      this.projet.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles;
+    if (garantiesFinancières?.type && !typesDisponibles.includes(garantiesFinancières.type.type)) {
+      throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError();
     }
   }
 

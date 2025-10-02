@@ -27,6 +27,9 @@ export const registerNotifierLauréatCommand = (getProjetAggregateRoot: GetProje
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
+    // TODO supprimer le use case NotifierLauréat pour ne garder que NotifierCandidature
+    // NotifierLauréat sera fait en saga après la notification de la candidature
+    // et trouver une solution pour notifier la période une fois que toutes les candidatures ont été notifiées (saga terminées)
     await projet.candidature.notifier({
       notifiéeLe: notifiéLe,
       notifiéePar: notifiéPar,
