@@ -26,7 +26,7 @@ const envSchema = zod.object({
 
 export class ImportCandidature extends Command {
   static flags = {
-    occurences: Flags.integer({
+    occurrences: Flags.integer({
       default: 100,
     }),
     dossier: Flags.integer({
@@ -72,14 +72,17 @@ export class ImportCandidature extends Command {
   }
 
   async run() {
+    const importId = faker.string.uuid().slice(0, 8);
+
+    console.log(`--- Début du job d'import de candidatures (Import ${importId}) ---`);
     const { flags } = await this.parse(ImportCandidature);
-    const { occurences, appelOffre, periode, dossier: numeroDossierDS, reuse } = flags;
+    const { occurrences, appelOffre, periode, dossier: numeroDossierDS, reuse } = flags;
     const candidatures: Omit<
       Candidature.ImporterCandidatureUseCase['data'],
       'importéLe' | 'importéPar'
     >[] = [];
 
-    const instructions = Array(occurences)
+    const instructions = Array(occurrences)
       .fill(null)
       .map((_, i) => ({
         numeroDossierDS,
@@ -87,7 +90,7 @@ export class ImportCandidature extends Command {
           appelOffre,
           période: String(periode),
           famille: '',
-          numéroCRE: numeroDossierDS + '_' + i,
+          numéroCRE: `${numeroDossierDS}_${importId}_${i}`,
         }).formatter(),
         statut: faker.helpers.arrayElement(Candidature.StatutCandidature.statuts),
         note: faker.number.int({ min: 0, max: 100 }),
@@ -125,7 +128,7 @@ export class ImportCandidature extends Command {
 
       candidatures.push({
         identifiantProjetValue: identifiantProjet,
-        dépôtValue: dépôt as Candidature.Dépôt.RawType,
+        dépôtValue: { ...dépôt, puissanceALaPointe: false } as Candidature.Dépôt.RawType,
         détailsValue: {
           typeImport: 'démarches-simplifiées',
           demarcheId: dossier.demarcheId,
@@ -138,10 +141,15 @@ export class ImportCandidature extends Command {
     const endApiCalls = process.hrtime.bigint();
     const durationAPICalls = Number(endApiCalls - start) / 1_000_000;
     this.log(
-      `Chargement de ${occurences} candidatures depuis l'API DS en ${durationAPICalls.toFixed(2)}ms (${(
-        durationAPICalls / occurences
+      `Chargement de ${occurrences} candidatures depuis l'API DS en ${durationAPICalls.toFixed(2)}ms (${(
+        durationAPICalls / occurrences
       ).toFixed(2)}ms/candidature)`,
     );
+
+    let importées = 0;
+    setInterval(() => {
+      console.log(`${importées}/${occurrences} candidatures importées`);
+    }, 1000).unref();
     for (const {
       identifiantProjetValue,
       dépôtValue,
@@ -159,12 +167,20 @@ export class ImportCandidature extends Command {
           importéPar: Email.system().formatter(),
         },
       });
+      importées++;
     }
     const end = process.hrtime.bigint();
     const durationTotal = Number(end - start) / 1_000_000;
+    const duractionImport = Number(end - endApiCalls) / 1_000_000;
     this.log(
-      `Import de ${occurences} candidatures terminé en ${durationTotal.toFixed(2)}ms (${(
-        durationTotal / occurences
+      `Import de ${occurrences} candidatures terminé en ${duractionImport.toFixed(2)}ms (${(
+        duractionImport / occurrences
+      ).toFixed(2)}ms/candidature)`,
+    );
+
+    this.log(
+      `Total (API+import): ${occurrences} candidatures en ${durationTotal.toFixed(2)}ms (${(
+        durationTotal / occurrences
       ).toFixed(2)}ms/candidature)`,
     );
   }
