@@ -1,9 +1,8 @@
 import { Args, Command } from '@oclif/core';
 
-import { ProjetAggregateRoot, registerProjetUseCases } from '@potentiel-domain/projet';
-import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { registerProjetUseCases } from '@potentiel-domain/projet';
 import { getDépôtCandidature } from '@potentiel-infrastructure/ds-api-client';
+import { getProjetAggregateRootAdapter } from '@potentiel-applications/bootstrap';
 
 export class ImporterDossierCandidatureCommand extends Command {
   static args = {
@@ -11,11 +10,7 @@ export class ImporterDossierCandidatureCommand extends Command {
   };
   async init() {
     registerProjetUseCases({
-      getProjetAggregateRoot: (identifiant) =>
-        ProjetAggregateRoot.get(identifiant, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        }),
+      getProjetAggregateRoot: getProjetAggregateRootAdapter,
       supprimerDocumentProjetSensible: () => {
         throw new Error('not implemented');
       },

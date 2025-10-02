@@ -3,19 +3,14 @@ import zod from 'zod';
 import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
-import {
-  Candidature,
-  IdentifiantProjet,
-  ProjetAggregateRoot,
-  registerProjetUseCases,
-} from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, registerProjetUseCases } from '@potentiel-domain/projet';
 import { getDépôtCandidature } from '@potentiel-infrastructure/ds-api-client';
 import { Option } from '@potentiel-libraries/monads';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { registerDocumentProjetCommand } from '@potentiel-domain/document';
+import { getProjetAggregateRootAdapter } from '@potentiel-applications/bootstrap';
 
 const envSchema = zod.object({
   APPLICATION_STAGE: zod.string(),
@@ -62,11 +57,7 @@ export class ImportCandidature extends Command {
     }
 
     registerProjetUseCases({
-      getProjetAggregateRoot: (identifiantProjet) =>
-        ProjetAggregateRoot.get(identifiantProjet, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        }),
+      getProjetAggregateRoot: (d) => getProjetAggregateRootAdapter(d, true),
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }
