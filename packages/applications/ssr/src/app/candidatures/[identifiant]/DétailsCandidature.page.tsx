@@ -21,6 +21,8 @@ import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/
 import { ListeFournisseurs } from '../../laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { getNatureDeLExploitationTypeLabel } from '../../_helpers/getNatureDeLExploitationTypeLabel';
 
+import { TypologieInstallationDétail } from './TypologieInstallationDétail';
+
 type AvailableActions = Record<
   'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',
   boolean
@@ -92,6 +94,13 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       />
                     }
                   </span>
+                </Field>
+              )}
+              {dépôt.typologieInstallation.length > 0 && (
+                <Field
+                  name={`Typologie d'installation${dépôt.typologieInstallation.length > 1 ? ' mixte' : ''}`}
+                >
+                  {TypologieInstallationDétail(dépôt.typologieInstallation)}
                 </Field>
               )}
               {dépôt.installateur !== undefined && (
