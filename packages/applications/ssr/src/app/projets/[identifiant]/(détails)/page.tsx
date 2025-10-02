@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { getCandidature, getPériodeAppelOffres } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers';
 
 import { getProjetÉliminé } from '../_helpers/getÉliminé';
 
@@ -47,8 +47,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const éliminé = await getProjetÉliminé(identifiantProjet.formatter());
 
-      const candidature = await getCandidature(identifiantProjet.formatter());
-
       const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',
         data: {
@@ -76,7 +74,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <DétailsProjetÉliminéPage
           identifiantProjet={identifiantProjet.formatter()}
           éliminé={mapToProps({ éliminé, role: utilisateur.role })}
-          typeActionnariat={candidature.dépôt.actionnariat?.formatter() ?? undefined}
           utilisateursAyantAccèsAuProjet={Option.match(accèsProjet)
             .some((accèsProjet) =>
               accèsProjet.utilisateursAyantAccès.map((utilisateur) => utilisateur.formatter()),

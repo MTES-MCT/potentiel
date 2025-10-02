@@ -21,7 +21,6 @@ export type DétailsProjetÉliminéPageProps = {
       prixReference: Éliminé.ConsulterÉliminéReadModel['prixReference'] | undefined;
     }
   >;
-  typeActionnariat?: Candidature.TypeActionnariat.RawType;
   utilisateursAyantAccèsAuProjet: ReadonlyArray<Email.RawType>;
   actions: Array<DétailsProjetÉliminéActions>;
 };
@@ -46,9 +45,9 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
     nomCandidat,
     nomReprésentantLégal,
     autorisationDUrbanisme,
+    actionnariat,
   },
   utilisateursAyantAccèsAuProjet,
-  typeActionnariat,
   actions,
 }) => (
   <ColumnPageTemplate
@@ -103,10 +102,10 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
             <li>
               <span className="font-bold">Actionnaire :</span> {sociétéMère}
             </li>
-            {typeActionnariat && (
+            {actionnariat && (
               <li>
                 <span className="font-bold">Type d'actionnariat :</span>{' '}
-                {getActionnariatTypeLabel(typeActionnariat)}
+                {getActionnariatTypeLabel(actionnariat.type)}
               </li>
             )}
             <li>
