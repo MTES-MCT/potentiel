@@ -87,6 +87,11 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     ...changedValues.dépôt.attestationConstitutionGf,
   };
 
+  const dispositifDeStockageValue = {
+    ...this.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage,
+    ...changedValues.dépôt.dispositifDeStockage,
+  };
+
   const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
     this.candidatureWorld.corrigerCandidature.créer({
       identifiantProjet: {
@@ -98,11 +103,10 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
       dépôtValue: {
         ...this.candidatureWorld.importerCandidature.dépôtValue,
         ...changedValues.dépôt,
-        // as...
-        dispositifDeStockage: {
-          ...this.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage,
-          ...changedValues.dépôt.dispositifDeStockage,
-        } as Lauréat.DispositifDeStockage.DispositifDeStockage.RawType | undefined,
+        dispositifDeStockage:
+          dispositifDeStockageValue.installationAvecDispositifDeStockage !== undefined
+            ? (dispositifDeStockageValue as Lauréat.DispositifDeStockage.DispositifDeStockage.RawType)
+            : undefined,
         localité: {
           ...this.candidatureWorld.importerCandidature.dépôtValue.localité,
           ...changedValues.dépôt.localité,
