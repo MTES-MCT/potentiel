@@ -122,13 +122,14 @@ export class ProjetAggregateRoot {
   static async get(
     identifiantProjet: IdentifiantProjet.ValueType,
     { loadAggregate, loadAppelOffreAggregate }: ProjetAggregateRootDependencies,
+    skipInitialization: boolean = false,
   ) {
     const root = new ProjetAggregateRoot(identifiantProjet, loadAggregate, loadAppelOffreAggregate);
-    await root.init();
+    await root.init(skipInitialization);
     return root;
   }
 
-  private async init() {
+  private async init(skipInitialization: boolean) {
     if (this.#initialized) {
       throw new ProjetAggregateRootAlreadyInitialized();
     }
@@ -150,14 +151,18 @@ export class ProjetAggregateRoot {
       `lauréat|${this.identifiantProjet.formatter()}`,
       this,
     );
-    await this.#lauréat.init();
+    if (!skipInitialization) {
+      await this.#lauréat.init();
+    }
 
     this.#éliminé = await this.#loadAggregate(
       ÉliminéAggregate,
       `éliminé|${this.identifiantProjet.formatter()}`,
       this,
     );
-    await this.#éliminé.init();
+    if (!skipInitialization) {
+      await this.#éliminé.init();
+    }
 
     const appelOffre = await this.#loadAppelOffreAggregate(this.#identifiantProjet.appelOffre);
 

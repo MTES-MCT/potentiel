@@ -18,6 +18,7 @@ import {
 import { SiteDeProductionModifiéEvent } from './modifier/siteDeProductionModifié.event';
 import { ModifierSiteDeProductionOptions } from './modifier/modifierSiteDeProduction.option';
 import {
+  AgrégatLauréatNonInitialiséError,
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
   LauréatDéjàNotifiéError,
@@ -84,66 +85,79 @@ export class LauréatAggregate extends AbstractAggregate<
 
   #abandon!: AggregateType<AbandonAggregate>;
   get abandon() {
+    this.checkInitialized();
     return this.#abandon;
   }
 
   #achèvement!: AggregateType<AchèvementAggregate>;
   get achèvement() {
+    this.checkInitialized();
     return this.#achèvement;
   }
 
   #producteur!: AggregateType<ProducteurAggregate>;
   get producteur() {
+    this.checkInitialized();
     return this.#producteur;
   }
 
   #puissance!: AggregateType<PuissanceAggregate>;
   get puissance() {
+    this.checkInitialized();
     return this.#puissance;
   }
 
   #actionnaire!: AggregateType<ActionnaireAggregate>;
   get actionnaire() {
+    this.checkInitialized();
     return this.#actionnaire;
   }
 
   #représentantLégal!: AggregateType<ReprésentantLégalAggregate>;
   get représentantLégal() {
+    this.checkInitialized();
     return this.#représentantLégal;
   }
 
   #fournisseur!: AggregateType<FournisseurAggregate>;
   get fournisseur() {
+    this.checkInitialized();
     return this.#fournisseur;
   }
 
   #délai!: AggregateType<DélaiAggregate>;
   get délai() {
+    this.checkInitialized();
     return this.#délai;
   }
 
   #installation!: AggregateType<InstallationAggregate>;
   get installation() {
+    this.checkInitialized();
     return this.#installation;
   }
 
   #raccordement!: AggregateType<RaccordementAggregate>;
   get raccordement() {
+    this.checkInitialized();
     return this.#raccordement;
   }
 
   #garantiesFinancières!: AggregateType<GarantiesFinancièresAggregate>;
   get garantiesFinancières() {
+    this.checkInitialized();
     return this.#garantiesFinancières;
   }
 
   #dispositifDeStockage!: AggregateType<DispositifDeStockageAggregate>;
   get dispositifDeStockage() {
+    this.checkInitialized();
     return this.#dispositifDeStockage;
   }
 
   #natureDeLExploitation!: AggregateType<NatureDeLExploitationAggregate>;
   get natureDeLExploitation() {
+    this.checkInitialized();
     return this.#natureDeLExploitation;
   }
 
@@ -161,13 +175,20 @@ export class LauréatAggregate extends AbstractAggregate<
     return StatutLauréat.actif;
   }
 
+  #isInitialized: boolean = false;
+  private checkInitialized() {
+    if (!this.#isInitialized) {
+      throw new AgrégatLauréatNonInitialiséError();
+    }
+  }
+
   async init() {
     this.#abandon = await this.loadAggregate(
       AbandonAggregate,
       `abandon|${this.projet.identifiantProjet.formatter()}`,
     );
 
-    await this.abandon.init();
+    await this.#abandon.init();
 
     this.#achèvement = await this.loadAggregate(
       AchèvementAggregate,
@@ -193,7 +214,7 @@ export class LauréatAggregate extends AbstractAggregate<
       ReprésentantLégalAggregate,
       `représentant-légal|${this.projet.identifiantProjet.formatter()}`,
     );
-    await this.représentantLégal.init();
+    await this.#représentantLégal.init();
 
     this.#fournisseur = await this.loadAggregate(
       FournisseurAggregate,
@@ -231,6 +252,8 @@ export class LauréatAggregate extends AbstractAggregate<
       NatureDeLExploitationAggregate,
       `nature-de-l-exploitation|${this.projet.identifiantProjet.formatter()}`,
     );
+
+    this.#isInitialized = true;
   }
 
   async loadTâchePlanifiée(typeTâchePlanifiée: string) {
