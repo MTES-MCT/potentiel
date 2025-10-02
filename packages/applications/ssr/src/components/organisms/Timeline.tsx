@@ -113,12 +113,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
       <TimelineContent
         color={isÉtapeInconnue ? 'error' : undefined}
         sx={{
-          '@media print': {
-            alignContent: 'flex-start',
-          },
-          '@media screen': {
-            alignContent: icon ? 'center' : 'flex-start',
-          },
+          alignContent: 'flex-start',
         }}
       >
         <div className={clsx(icon && 'pt-3')}>
