@@ -116,7 +116,7 @@ const TimelineItem: FC<TimelineItemProps> = ({
           alignContent: 'flex-start',
         }}
       >
-        <div className={clsx(icon && 'pt-3')}>
+        <div className="pt-3 print:pt-0">
           {title}
           {isÉtapeInconnue && type && ` (${type})`}
           {content ? <div className={clsx(title && 'mt-2')}>{content}</div> : null}
