@@ -7,14 +7,9 @@ import {
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  Lauréat,
-  ProjetAggregateRoot,
-  registerProjetQueries,
-  registerProjetUseCases,
-} from '@potentiel-domain/projet';
-import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
+import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { getProjetAggregateRootAdapter } from '@potentiel-applications/bootstrap';
 
 export class Annuler extends Command {
   static flags = {
@@ -47,11 +42,7 @@ export class Annuler extends Command {
       },
     });
     registerProjetUseCases({
-      getProjetAggregateRoot: (identifiantProjet) =>
-        ProjetAggregateRoot.get(identifiantProjet, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        }),
+      getProjetAggregateRoot: getProjetAggregateRootAdapter,
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }
