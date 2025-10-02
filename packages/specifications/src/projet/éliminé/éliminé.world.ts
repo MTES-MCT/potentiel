@@ -80,6 +80,7 @@ export class ÉliminéWorld {
         prixReference,
         nomReprésentantLégal,
         sociétéMère,
+        actionnariat,
       },
       unitéPuissance,
     } = this.potentielWorld.candidatureWorld.mapToExpected();
@@ -96,6 +97,7 @@ export class ÉliminéWorld {
       prixReference,
       nomProjet,
       puissanceProductionAnnuelle,
+      actionnariat,
       attestationDésignation: this.potentielWorld.éliminéWorld.recoursWorld.accorderRecoursFixture
         .aÉtéCréé
         ? undefined
