@@ -1,28 +1,16 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../helpers';
 
-import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
-
-type GarantiesFinancièresRappelEnAttenteNotificationProps = {
-  sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];
-  identifiantProjet: IdentifiantProjet.ValueType;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
-};
+import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '.';
 
 export const garantiesFinancièresRappelEnAttenteNotification = async ({
   sendEmail,
   identifiantProjet,
   projet: { nom, région, département },
   baseUrl,
-}: GarantiesFinancièresRappelEnAttenteNotificationProps) => {
+}: TâchePlanifiéeGarantiesFinancièresNotificationProps) => {
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(région);
 

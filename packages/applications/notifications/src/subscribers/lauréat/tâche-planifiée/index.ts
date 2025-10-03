@@ -8,21 +8,21 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
-import { garantiesFinancièresRappelEnAttenteNotification } from './garantiesFinancièresRappelEnAttente.notification';
-import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
+import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières';
+import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal';
 
-export type SubscriptionEvent = Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent & Event;
+type TypeTâchePlanifiée =
+  | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
+  | Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
+
+export type SubscriptionEvent = Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent &
+  Event & { payload: { typeTâchePlanifiée: TypeTâchePlanifiée } };
 
 export type Execute = Message<'System.Notification.TâchePlanifiée', SubscriptionEvent>;
 
 export type RegisterTâchePlanifiéeNotificationDependencies = {
   sendEmail: SendEmail;
 };
-
-type TâchePlanifiée =
-  | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
-  | Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
 
 export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -34,38 +34,38 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
 
     const projet = await getLauréat(identifiantProjet.formatter());
 
-    return match(event.payload.typeTâchePlanifiée as TâchePlanifiée)
+    await match(event.payload)
       .with(
-        P.union(
-          'garanties-financières.rappel-échéance-un-mois',
-          'garanties-financières.rappel-échéance-deux-mois',
-        ),
-        async () =>
-          garantiesFinancièresRappelÉchéanceNotification({
-            sendEmail,
-            identifiantProjet,
-            event,
-            projet,
+        {
+          typeTâchePlanifiée: P.union(
+            ...Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.types,
+          ),
+        },
+        (payload) =>
+          tâchePlanifiéeGarantiesFinancièresNotifications({
             baseUrl,
+            identifiantProjet,
+            projet,
+            sendEmail,
+            payload,
           }),
       )
-      .with('garanties-financières.rappel-en-attente', () =>
-        garantiesFinancièresRappelEnAttenteNotification({
-          sendEmail,
-          identifiantProjet,
-          projet,
-          baseUrl,
-        }),
+      .with(
+        {
+          typeTâchePlanifiée: P.union(
+            ...Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.types,
+          ),
+        },
+        (payload) =>
+          tâchePlanifiéeReprésentantLégalNotifications({
+            sendEmail,
+            identifiantProjet,
+            projet,
+            baseUrl,
+            payload,
+          }),
       )
-      .with('représentant-légal.rappel-instruction-à-deux-mois', async () =>
-        représentantLégalRappelInstructionÀDeuxMoisNotification({
-          sendEmail,
-          identifiantProjet,
-          projet,
-          baseUrl,
-        }),
-      )
-      .otherwise(() => Promise.resolve());
+      .exhaustive();
   };
 
   mediator.register('System.Notification.TâchePlanifiée', handler);

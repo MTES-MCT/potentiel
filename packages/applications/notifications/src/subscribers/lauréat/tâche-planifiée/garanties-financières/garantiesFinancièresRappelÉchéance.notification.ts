@@ -1,29 +1,23 @@
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../helpers';
 
-import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
+import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '.';
 
-type GarantiesFinancièresRappelÉchéanceNotificationProps = {
-  sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];
-  identifiantProjet: IdentifiantProjet.ValueType;
-  event: Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
+type GarantiesFinancièresRappelÉchéanceNotificationProps = Omit<
+  TâchePlanifiéeGarantiesFinancièresNotificationProps,
+  'payload'
+> & {
+  nombreDeMois: number;
 };
 
 export const garantiesFinancièresRappelÉchéanceNotification = async ({
   sendEmail,
   identifiantProjet,
-  event,
   projet: { nom, région, département },
   baseUrl,
+  nombreDeMois,
 }: GarantiesFinancièresRappelÉchéanceNotificationProps) => {
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
@@ -47,11 +41,6 @@ export const garantiesFinancièresRappelÉchéanceNotification = async ({
     return;
   }
 
-  const nombreDeMois =
-    event.payload.typeTâchePlanifiée === 'garanties-financières.rappel-échéance-un-mois'
-      ? '1'
-      : '2';
-
   await sendEmail({
     messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,
     recipients: dreals,
@@ -59,7 +48,7 @@ export const garantiesFinancièresRappelÉchéanceNotification = async ({
     variables: {
       nom_projet: nom,
       departement_projet: département,
-      nombre_mois: nombreDeMois,
+      nombre_mois: nombreDeMois.toString(),
       url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   });
@@ -71,7 +60,7 @@ export const garantiesFinancièresRappelÉchéanceNotification = async ({
     variables: {
       nom_projet: nom,
       departement_projet: département,
-      nombre_mois: nombreDeMois,
+      nombre_mois: nombreDeMois.toString(),
       url: `${baseUrl}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   });
