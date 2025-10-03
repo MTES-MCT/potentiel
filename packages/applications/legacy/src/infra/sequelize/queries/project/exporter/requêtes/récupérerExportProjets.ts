@@ -9,7 +9,6 @@ import { Op } from 'sequelize';
 type RécupérerExportProjetsProps = {
   colonnesÀExporter: Readonly<Array<Colonne>>;
   filtres?: FiltreListeProjets;
-  inclureLesProjetsNonNotifiés?: true;
   seulementLesProjetsAvecAccèsPour?: string;
   seulementLesProjetsParRégion?: string;
 };
@@ -17,7 +16,6 @@ type RécupérerExportProjetsProps = {
 export const récupérerExportProjets = ({
   colonnesÀExporter,
   filtres,
-  inclureLesProjetsNonNotifiés,
   seulementLesProjetsAvecAccèsPour,
   seulementLesProjetsParRégion,
 }: RécupérerExportProjetsProps) => {
@@ -31,7 +29,6 @@ export const récupérerExportProjets = ({
         appelOffreId: { [Op.ne]: appelOffreIdPetitPVBâtimentPPE2 },
         ...findOptions?.where,
         notifiedOn: { [Op.gt]: 0 },
-        ...(inclureLesProjetsNonNotifiés && { notifiedOn: { [Op.gte]: 0 } }),
         ...(seulementLesProjetsAvecAccèsPour && {
           '$users.userId$': seulementLesProjetsAvecAccèsPour,
         }),

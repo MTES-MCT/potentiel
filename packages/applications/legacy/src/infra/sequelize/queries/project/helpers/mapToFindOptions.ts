@@ -6,7 +6,7 @@ export const mapToFindOptions = (filtres?: FiltreListeProjets) => {
     return undefined;
   }
 
-  const { recherche, appelOffre, classement, reclames } = filtres;
+  const { recherche, appelOffre, classement } = filtres;
 
   const filtreRecherche = construireFiltreRecherche(recherche);
   const filtreAO = construireFiltreAppelOffre(appelOffre);
@@ -43,6 +43,7 @@ const construireFiltreClassement = (classement: FiltreListeProjets['classement']
   classement
     ? {
         where: {
+          ...(classement === 'classé' && { classe: 'Classé' }),
           ...(classement === 'actif' && { classe: 'Classé', abandonedOn: 0 }),
           ...(classement === 'abandonné' && { classe: 'Classé', abandonedOn: { [Op.ne]: 0 } }),
           ...(classement === 'éliminé' && { classe: 'Eliminé', abandonedOn: 0 }),

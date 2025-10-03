@@ -140,7 +140,7 @@ const mapToActions = ({ rôle, searchParams: { appelOffre, nomProjet } }: MapToA
     href: Routes.Projet.exportCsv({
       appelOffreId: appelOffre,
       nomProjet: nomProjet,
-      classement: 'éliminé',
+      statut: 'éliminé',
     }),
   });
 

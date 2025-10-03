@@ -49,4 +49,4 @@ const colonnesÀExporter = [
 ];
 
 export const exporterProjetsPourCRE = ({ filtres }: { filtres?: FiltreListeProjets }) =>
-  récupérerExportProjets({ colonnesÀExporter, filtres, inclureLesProjetsNonNotifiés: true });
+  récupérerExportProjets({ colonnesÀExporter, filtres });
