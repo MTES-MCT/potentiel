@@ -35,10 +35,10 @@ export const exportCsv = ({ appelOffreId, nomProjet, statut }: ExportCsvFilters)
   // - achevé n'existe pas dans le legacy
   // - actif est considéré comme "classé" dans le legacy, puisque achevé n'existe pas
   const classementLegacy = match(statut)
-    .returnType<'classé' | 'abandonné' | 'éliminé'>()
+    .returnType<'classé' | 'actif' | 'abandonné' | 'éliminé'>()
     .with(undefined, () => 'classé')
-    .with('achevé', () => 'classé')
-    .with('actif', () => 'classé')
+    .with('achevé', () => 'actif')
+    .with('actif', () => 'actif')
     .with('abandonné', () => 'abandonné')
     .with('éliminé', () => 'éliminé')
     .exhaustive();
