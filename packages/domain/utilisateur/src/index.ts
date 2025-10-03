@@ -18,7 +18,6 @@ import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateu
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.behavior';
 import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
-export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
