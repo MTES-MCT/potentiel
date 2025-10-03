@@ -973,13 +973,11 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { attestation, dateConstitution },
   }: AttestationGarantiesFinancièresEnregistréeEvent) {
     if (this.#actuelles) {
-      this.#actuelles.garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+       this.#actuelles.garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+        dateÉchéance: undefined,
+        ...this.#actuelles.garantiesFinancières.formatter(),
         attestation,
         dateConstitution,
-        dateÉchéance: this.#actuelles.garantiesFinancières.estAvecDateÉchéance()
-          ? this.#actuelles.garantiesFinancières.dateÉchéance.formatter()
-          : undefined,
-        type: this.#actuelles.garantiesFinancières.type.formatter(),
       });
     }
   }
