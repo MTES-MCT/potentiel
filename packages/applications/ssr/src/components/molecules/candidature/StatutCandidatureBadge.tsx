@@ -18,23 +18,11 @@ const getStatutCandidatureBadgeLabel = (statut: StatutCandidatureBadgeProps['sta
   return statut;
 };
 
-const getTypeActionnariat = (actionnariat?: Candidature.TypeActionnariat.RawType) =>
-  actionnariat
-    ? actionnariat
-        .split('-')
-        .map((word) => word[0].toUpperCase())
-        .join('')
-    : undefined;
-
 type StatutCandidatureBadgeProps = {
   statut: Candidature.StatutCandidature.RawType | 'non-notifié';
-  actionnariat?: Candidature.TypeActionnariat.RawType;
 };
 
-export const StatutCandidatureBadge: FC<StatutCandidatureBadgeProps> = ({
-  statut,
-  actionnariat,
-}) => (
+export const StatutCandidatureBadge: FC<StatutCandidatureBadgeProps> = ({ statut }) => (
   <>
     <Badge
       small
@@ -43,11 +31,9 @@ export const StatutCandidatureBadge: FC<StatutCandidatureBadgeProps> = ({
       className="print:hidden"
     >
       {getStatutCandidatureBadgeLabel(statut)}
-      {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
     </Badge>
     <div className="hidden print:block text-theme-black ">
       {getStatutCandidatureBadgeLabel(statut)}
-      {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
     </div>
   </>
 );

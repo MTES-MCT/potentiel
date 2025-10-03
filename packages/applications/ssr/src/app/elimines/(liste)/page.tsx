@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -14,6 +15,7 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
+import { StatutÉliminéBadge } from '@/components/molecules/projet/éliminé/StatutÉliminéBadge';
 
 import { ÉliminéListPage, ÉliminéListPageProps } from './ÉliminéList.page';
 
@@ -174,6 +176,18 @@ const mapToListProps: MapToListProps = (readModel) => {
       nomReprésentantLégal,
       typeActionnariat: typeActionnariat?.formatter(),
       statut: 'éliminé',
+      statutBadge: <StatutÉliminéBadge />,
+      actions: (
+        <Button
+          className="md:flex ml-auto"
+          linkProps={{
+            href: Routes.Projet.détailsÉliminé(identifiantProjet.formatter()),
+          }}
+          aria-label={`Lien vers la page du projet ${nomProjet}`}
+        >
+          Consulter
+        </Button>
+      ),
     }),
   );
 
