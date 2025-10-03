@@ -226,10 +226,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     }
   }
 
-  private vérifierQueLesGarantiesFinancièresSontConstituées(
-    garantiesFinancières: GarantiesFinancières.ValueType,
-  ) {
-    if (!garantiesFinancières.estConstitué()) {
+  private vérifierQueLesGarantiesFinancièresActuellesSontConstituées() {
+    if (!this.#actuelles) {
+      throw new AucunesGarantiesFinancièresActuellesError();
+    }
+
+    if (!this.#actuelles.garantiesFinancières.estConstitué()) {
       throw new AttestationEtDateGarantiesFinancièresRequisesError();
     }
   }
@@ -608,8 +610,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
       throw new ProjetNonAchevéError();
     }
 
-    this.vérifierQueLesGarantiesFinancièresActuellesExistent();
-    this.vérifierQueLesGarantiesFinancièresSontConstituées(this.#actuelles!.garantiesFinancières);
+    this.vérifierQueLesGarantiesFinancièresActuellesSontConstituées();
+
     this.vérifierQueLeProjetNEstPasExempt();
 
     if (this.#estÉchu) {
@@ -967,10 +969,12 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<
     payload: { attestation, dateConstitution },
   }: AttestationGarantiesFinancièresEnregistréeEvent) {
     if (this.#actuelles) {
-      this.#actuelles.garantiesFinancières = {
-        ...this.#actuelles.garantiesFinancières,
-        constitution: { attestation, date: DateTime.convertirEnValueType(dateConstitution) },
-      };
+      this.#actuelles.garantiesFinancières = GarantiesFinancières.convertirEnValueType({
+        dateÉchéance: undefined,
+        ...this.#actuelles.garantiesFinancières.formatter(),
+        attestation,
+        dateConstitution,
+      });
     }
   }
   //#endregion Apply GF Actuelles
