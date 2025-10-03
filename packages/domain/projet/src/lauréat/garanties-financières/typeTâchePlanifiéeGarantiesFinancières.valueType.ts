@@ -12,6 +12,11 @@ const types = [
 
 export type RawType = (typeof types)[number];
 
+export type RawTâchePlanifiéeRappelÉchéance = Extract<
+  RawType,
+  `garanties-financières.rappel-échéance-${string}-mois`
+>;
+
 export type ValueType = ReadonlyValueType<{
   type: RawType;
 }>;

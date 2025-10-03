@@ -34,39 +34,47 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
 
     const projet = await getLauréat(identifiantProjet.formatter());
 
-    return match(event.payload.typeTâchePlanifiée as TâchePlanifiée)
-      .with(
-        P.union(
-          'garanties-financières.rappel-échéance-un-mois',
-          'garanties-financières.rappel-échéance-deux-mois',
-          'garanties-financières.rappel-échéance-trois-mois',
-        ),
-        async () =>
-          garantiesFinancièresRappelÉchéanceNotification({
+    if (event.payload.typeTâchePlanifiée.startsWith('garanties-financières.rappel-échéance')) {
+      return match(
+        event.payload
+          .typeTâchePlanifiée as Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawTâchePlanifiéeRappelÉchéance,
+      )
+        .with(
+          P.union(
+            'garanties-financières.rappel-échéance-un-mois',
+            'garanties-financières.rappel-échéance-deux-mois',
+            'garanties-financières.rappel-échéance-trois-mois',
+          ),
+          () =>
+            garantiesFinancièresRappelÉchéanceNotification({
+              sendEmail,
+              identifiantProjet,
+              event,
+              projet,
+              baseUrl,
+            }),
+        )
+        .exhaustive();
+    } else {
+      return match(event.payload.typeTâchePlanifiée as TâchePlanifiée)
+        .with('garanties-financières.rappel-en-attente', () =>
+          garantiesFinancièresRappelEnAttenteNotification({
             sendEmail,
             identifiantProjet,
-            event,
             projet,
             baseUrl,
           }),
-      )
-      .with('garanties-financières.rappel-en-attente', () =>
-        garantiesFinancièresRappelEnAttenteNotification({
-          sendEmail,
-          identifiantProjet,
-          projet,
-          baseUrl,
-        }),
-      )
-      .with('représentant-légal.rappel-instruction-à-deux-mois', async () =>
-        représentantLégalRappelInstructionÀDeuxMoisNotification({
-          sendEmail,
-          identifiantProjet,
-          projet,
-          baseUrl,
-        }),
-      )
-      .otherwise(() => Promise.resolve());
+        )
+        .with('représentant-légal.rappel-instruction-à-deux-mois', () =>
+          représentantLégalRappelInstructionÀDeuxMoisNotification({
+            sendEmail,
+            identifiantProjet,
+            projet,
+            baseUrl,
+          }),
+        )
+        .otherwise(() => Promise.resolve());
+    }
   };
 
   mediator.register('System.Notification.TâchePlanifiée', handler);

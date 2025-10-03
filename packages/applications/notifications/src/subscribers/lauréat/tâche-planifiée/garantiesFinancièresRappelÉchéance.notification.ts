@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -47,12 +49,14 @@ export const garantiesFinancièresRappelÉchéanceNotification = async ({
     return;
   }
 
-  const nombreDeMois =
-    event.payload.typeTâchePlanifiée === 'garanties-financières.rappel-échéance-trois-mois'
-      ? '3'
-      : event.payload.typeTâchePlanifiée === 'garanties-financières.rappel-échéance-deux-mois'
-        ? '2'
-        : '1';
+  const nombreDeMois = match(
+    event.payload
+      .typeTâchePlanifiée as Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawTâchePlanifiéeRappelÉchéance,
+  )
+    .with('garanties-financières.rappel-échéance-un-mois', () => '1')
+    .with('garanties-financières.rappel-échéance-deux-mois', () => '2')
+    .with('garanties-financières.rappel-échéance-trois-mois', () => '3')
+    .exhaustive();
 
   await sendEmail({
     messageSubject: `Potentiel - Arrivée à échéance des garanties financières pour le projet ${nom} dans ${nombreDeMois} mois`,
