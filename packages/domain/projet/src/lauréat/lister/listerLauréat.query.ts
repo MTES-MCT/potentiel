@@ -41,12 +41,12 @@ export type ListerLauréatQuery = Message<
   {
     utilisateur: Email.RawType;
     range: RangeOptions;
-    nomProjet?: string;
     statut?: StatutLauréat.RawType;
     appelOffre?: string;
     periode?: string;
     famille?: string;
     typeActionnariat?: Array<Candidature.TypeActionnariat.RawType>;
+    nomProjet?: string;
   },
   ListerLauréatReadModel
 >;

@@ -1,47 +1,42 @@
 import { FC } from 'react';
 
-import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/projet';
-
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { mapToPagination } from '@/utils/pagination';
-import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
+import {
+  ProjectListItem,
+  ProjectListItemProps,
+} from '@/components/molecules/projet/liste/ProjectListItem';
 
-import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
-
-export type CandidatureListPageProps = PlainType<
-  Omit<Candidature.ListerCandidaturesReadModel, 'items'> & {
-    items: ReadonlyArray<CandidatureListItemProps>;
-    filters: ListPageTemplateProps<CandidatureListItemProps>['filters'];
-  }
->;
+export type CandidatureListPageProps = {
+  list: {
+    items: Array<ProjectListItemProps>;
+    currentPage: number;
+    totalItems: number;
+    itemsPerPage: number;
+  };
+  legend: ListPageTemplateProps<typeof ProjectListItem>['legend'];
+  filters: ListPageTemplateProps<typeof ProjectListItem>['filters'];
+  actions: ListPageTemplateProps<typeof ProjectListItem>['actions'];
+};
 
 export const CandidatureListPage: FC<CandidatureListPageProps> = ({
-  items: candidatures,
-  range,
-  total,
+  list: { items: candidatures, currentPage, totalItems, itemsPerPage },
+  legend,
   filters,
-}) => {
-  const { currentPage, itemsPerPage } = mapToPagination(range);
-
-  return (
-    <ListPageTemplate
-      heading="Tous les candidats"
-      actions={[]}
-      items={candidatures.map((candidature) => ({
-        ...candidature,
-        key: IdentifiantProjet.bind(candidature.identifiantProjet).formatter(),
-      }))}
-      currentPage={currentPage}
-      totalItems={total}
-      itemsPerPage={itemsPerPage}
-      ItemComponent={CandidatureListItem}
-      legend={{
-        symbols: candidatureListLegendSymbols,
-      }}
-      filters={filters}
-      search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
-    />
-  );
-};
+  actions = [],
+}) => (
+  <ListPageTemplate
+    heading="Tous les candidats"
+    currentPage={currentPage}
+    itemsPerPage={itemsPerPage}
+    filters={filters}
+    actions={actions}
+    legend={legend}
+    totalItems={totalItems}
+    ItemComponent={ProjectListItem}
+    search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+    items={candidatures.map((candidature) => ({
+      ...candidature,
+      key: candidature.identifiantProjet,
+    }))}
+  />
+);

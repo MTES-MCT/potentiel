@@ -1,21 +1,28 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
+import z from 'zod';
+import { match } from 'ts-pattern';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { RangeOptions } from '@potentiel-domain/entity';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { mapToRangeOptions } from '@/utils/pagination';
+import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
+import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
+import { StatutCandidatureBadge } from '@/components/molecules/candidature/StatutCandidatureBadge';
+import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 
 import { getCandidatureListActions } from '../_helpers/getCandidatureListActions';
 
-import { CandidatureListItemProps } from './CandidatureListItem';
-import { CandidatureListPage } from './CandidatureList.page';
-
-type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
+import { CandidatureListPage, CandidatureListPageProps } from './CandidatureList.page';
+import {
+  CandidatureListItemActions,
+  CandidatureListItemActionsProps,
+} from './CandidatureListItemActions';
 
 type PageProps = {
   searchParams?: Record<SearchParams, string>;
@@ -26,14 +33,29 @@ export const metadata: Metadata = {
   description: 'Liste des candidatures',
 };
 
+const paramsSchema = z.object({
+  page: z.coerce.number().int().optional().default(1),
+  nomProjet: z.string().optional(),
+  statut: z.enum(Candidature.StatutCandidature.statuts).optional(),
+  appelOffre: z.string().optional(),
+  periode: z.string().optional(),
+  famille: z.string().optional(),
+  notifie: z.enum(['notifie', 'a-notifier']).optional(),
+  typeActionnariat: transformToOptionalEnumArray(z.enum(Candidature.TypeActionnariat.types)),
+});
+
+type SearchParams = keyof z.infer<typeof paramsSchema>;
+
+export type CandidatureListItemProps = Array<
+  Candidature.CandidaturesListItemReadModel & {
+    actions: CandidatureListItemActionsProps['actions'];
+  }
+>;
+
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const appelOffreParams = searchParams?.appelOffre;
-    const périodeParams = searchParams?.periode;
-    const nomProjet = searchParams?.nomProjet;
-    const statut = searchParams?.statut;
-    const estNotifiée = searchParams?.notifie ? searchParams?.notifie === 'notifie' : undefined;
-    const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+    const { page, appelOffre, famille, nomProjet, periode, statut, notifie, typeActionnariat } =
+      paramsSchema.parse(searchParams);
 
     const candidaturesData = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
@@ -43,12 +65,16 @@ export default async function Page({ searchParams }: PageProps) {
           itemsPerPage: 10,
         }),
         nomProjet,
-        appelOffre: appelOffreParams,
-        période: périodeParams,
-        statut: statut
-          ? Candidature.StatutCandidature.convertirEnValueType(statut).statut
-          : undefined,
-        estNotifiée,
+        appelOffre,
+        période: periode,
+        famille,
+        statut,
+        typeActionnariat,
+        estNotifiée: match(notifie)
+          .with('notifie', () => true)
+          .with('a-notifier', () => false)
+          .with(undefined, () => undefined)
+          .exhaustive(),
       },
     });
 
@@ -57,42 +83,24 @@ export default async function Page({ searchParams }: PageProps) {
       data: {},
     });
 
-    const périodesOption =
-      appelOffres.items
-        .find((appelOffresItem) => appelOffresItem.id === appelOffreParams)
-        ?.periodes.map((p) => ({
-          label: p.title,
-          value: p.id,
-        })) ?? [];
+    const appelOffresFiltré = appelOffres.items.find((a) => a.id === appelOffre);
+
+    const périodeFiltrée = appelOffresFiltré?.periodes.find((p) => p.id === periode);
+
+    const périodeOptions =
+      appelOffresFiltré?.periodes.map(({ title, id }) => ({ label: title, value: id })) ?? [];
+
+    const familleOptions =
+      périodeFiltrée?.familles.map(({ title, id }) => ({ label: title, value: id })) ?? [];
 
     const filters: ListFilterItem<SearchParams>[] = [
       {
-        label: `Appel d'offres`,
-        searchParamKey: 'appelOffre',
-        options: appelOffres.items.map((appelOffre) => ({
-          label: appelOffre.id,
-          value: appelOffre.id,
-        })),
-        affects: ['periode'],
-      },
-      {
-        label: `Période`,
-        searchParamKey: 'periode',
-        options: périodesOption,
-      },
-      {
-        label: 'Statut',
+        label: 'Statut de la candidature',
         searchParamKey: 'statut',
-        options: [
-          {
-            label: 'Classé',
-            value: Candidature.StatutCandidature.classé.statut,
-          },
-          {
-            label: 'Éliminé',
-            value: Candidature.StatutCandidature.éliminé.statut,
-          },
-        ],
+        options: Candidature.StatutCandidature.statuts.map((value) => ({
+          label: value.charAt(0).toUpperCase() + value.slice(1),
+          value,
+        })),
       },
       {
         label: 'Notifié',
@@ -102,54 +110,122 @@ export default async function Page({ searchParams }: PageProps) {
           { label: 'À notifier', value: 'a-notifier' },
         ],
       },
+      {
+        label: `Appel d'offres`,
+        searchParamKey: 'appelOffre',
+        options: appelOffres.items.map((appelOffre) => ({
+          label: appelOffre.id,
+          value: appelOffre.id,
+        })),
+        affects: ['periode', 'famille'],
+      },
+      {
+        label: 'Période',
+        searchParamKey: 'periode',
+        options: périodeOptions,
+        affects: ['famille'],
+      },
+      {
+        label: 'Famille',
+        searchParamKey: 'famille',
+        options: familleOptions,
+      },
+      {
+        label: "Type d'actionnariat",
+        searchParamKey: 'typeActionnariat',
+        options: getTypeActionnariatFilterOptions(appelOffresFiltré?.cycleAppelOffre),
+        multiple: true,
+      },
     ];
 
-    if (candidaturesData.items.length === 0) {
-      return (
-        <CandidatureListPage
-          items={[]}
-          range={candidaturesData.range}
-          total={candidaturesData.total}
-          filters={filters}
-        />
-      );
-    }
-
-    const items: Array<CandidatureListItemProps> = [];
+    const candidatures: CandidatureListItemProps = [];
 
     for (const candidature of candidaturesData.items) {
-      const appelOffresItem = appelOffres.items.find(
-        (appelOffresItem) => appelOffresItem.id === candidature.identifiantProjet.appelOffre,
-      );
-
-      if (!appelOffresItem) {
-        getLogger().warn(`Aucun appel d'offres existant trouvé pour la candidature`, {
-          identifiantProjet: candidature.identifiantProjet.formatter(),
-          appelOffre: candidature.identifiantProjet.appelOffre,
-        });
-      }
-
       const actions = getCandidatureListActions({
         estNotifiée: candidature.estNotifiée,
         aUneAttestation: !!candidature.attestation,
       });
 
-      items.push(
-        mapToPlainObject({
-          ...candidature,
-          unitéPuissance: candidature.unitéPuissance.formatter(),
-          actions,
-        }),
-      );
+      candidatures.push({
+        ...candidature,
+        actions,
+      });
     }
 
     return (
       <CandidatureListPage
-        range={candidaturesData.range}
-        total={candidaturesData.total}
-        items={items}
+        list={mapToListProps({
+          items: candidatures,
+          range: candidaturesData.range,
+          total: candidaturesData.total,
+        })}
         filters={filters}
+        legend={{
+          symbols: candidatureListLegendSymbols,
+        }}
+        actions={[]}
       />
     );
   });
 }
+
+type MapToListProps = (args: {
+  items: CandidatureListItemProps;
+  range: RangeOptions;
+  total: number;
+}) => CandidatureListPageProps['list'];
+
+const mapToListProps: MapToListProps = (readModel) => {
+  const items = readModel.items.map(
+    ({
+      identifiantProjet,
+      nomProjet,
+      localité,
+      evaluationCarboneSimplifiée,
+      prixReference,
+      nomReprésentantLégal,
+      statut,
+      nomCandidat,
+      puissanceProductionAnnuelle,
+      unitéPuissance,
+      emailContact,
+      typeActionnariat,
+      actions,
+      estNotifiée,
+    }) => ({
+      identifiantProjet: identifiantProjet.formatter(),
+      statut: statut.formatter(),
+      nomProjet,
+      localité,
+      producteur: nomCandidat,
+      puissance: {
+        valeur: puissanceProductionAnnuelle,
+        unité: unitéPuissance.formatter(),
+      },
+      evaluationCarboneSimplifiée,
+      prixReference,
+      email: emailContact.formatter(),
+      nomReprésentantLégal,
+      typeActionnariat: typeActionnariat?.formatter(),
+      statutBadge: (
+        <>
+          <StatutCandidatureBadge statut={statut.statut} />
+          {estNotifiée !== undefined && <NotificationBadge estNotifié={estNotifiée} />}
+        </>
+      ),
+      actions: (
+        <CandidatureListItemActions
+          identifiantProjet={identifiantProjet}
+          nomProjet={nomProjet}
+          actions={actions}
+        />
+      ),
+    }),
+  );
+
+  return {
+    items,
+    ...mapToPagination(readModel.range),
+    totalItems: readModel.total,
+  };
+};

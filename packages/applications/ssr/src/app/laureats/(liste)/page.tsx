@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -14,6 +15,7 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
+import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 
 import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
 
@@ -189,6 +191,18 @@ const mapToListProps: MapToListProps = (readModel) => {
       email: email.formatter(),
       nomReprésentantLégal,
       typeActionnariat: typeActionnariat?.formatter(),
+      statutBadge: <StatutLauréatBadge statut={statut.formatter()} />,
+      actions: (
+        <Button
+          className="md:flex ml-auto"
+          linkProps={{
+            href: Routes.Projet.details(identifiantProjet.formatter()),
+          }}
+          aria-label={`Lien vers la page du projet ${nomProjet}`}
+        >
+          Consulter
+        </Button>
+      ),
     }),
   );
 
