@@ -2,7 +2,7 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 
 // il n'y a plus de nouvelles tâches planifiées à 2 mois, on conserve ce type pour les tâches déjà publiées destinées à être annulées
 
-const types = [
+export const types = [
   'garanties-financières.échoir',
   'garanties-financières.rappel-échéance-un-mois',
   'garanties-financières.rappel-échéance-deux-mois',
