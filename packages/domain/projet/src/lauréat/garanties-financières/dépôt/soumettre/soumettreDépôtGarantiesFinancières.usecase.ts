@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
 
@@ -52,7 +51,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
     );
 
     const soumisLe = DateTime.convertirEnValueType(soumisLeValue);
-    const soumisPar = IdentifiantUtilisateur.convertirEnValueType(soumisParValue);
+    const soumisPar = Email.convertirEnValueType(soumisParValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

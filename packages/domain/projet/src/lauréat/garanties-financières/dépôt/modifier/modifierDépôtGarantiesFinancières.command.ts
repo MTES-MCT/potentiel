@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GarantiesFinancières } from '../..';
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
@@ -12,7 +11,7 @@ export type ModifierDépôtGarantiesFinancièresEnCoursCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     garantiesFinancières: GarantiesFinancières.ValueType;
     modifiéLe: DateTime.ValueType;
-    modifiéPar: IdentifiantUtilisateur.ValueType;
+    modifiéPar: Email.ValueType;
   }
 >;
 

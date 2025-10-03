@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { SupprimerDépôtGarantiesFinancièresCommand } from './supprimerDépôtGarantiesFinancières.command';
 
@@ -22,7 +21,7 @@ export const registerSupprimerDépôtGarantiesFinancièresUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const suppriméLe = DateTime.convertirEnValueType(suppriméLeValue);
-    const suppriméPar = IdentifiantUtilisateur.convertirEnValueType(suppriméParValue);
+    const suppriméPar = Email.convertirEnValueType(suppriméParValue);
 
     await mediator.send<SupprimerDépôtGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.SupprimerDépôtGarantiesFinancières',

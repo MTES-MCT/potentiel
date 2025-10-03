@@ -5,11 +5,10 @@ import { Find } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
-import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
 import * as Role from '../role.valueType';
 
 export type ConsulterUtilisateurReadModel = {
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   email: string;
   nomComplet: Option.Type<string>;
   rôle: Role.ValueType;
