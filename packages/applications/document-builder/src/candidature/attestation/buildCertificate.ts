@@ -134,6 +134,12 @@ const mapToCertificateData = ({
         periodeDetails: période,
       }),
       coefficientKChoisi: candidature.dépôt.coefficientKChoisi,
+      autorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme
+        ? {
+            date: candidature.dépôt.autorisationDUrbanisme.date.date,
+            numéro: candidature.dépôt.autorisationDUrbanisme.numéro,
+          }
+        : undefined,
 
       ...financementEtTemplate,
     },
