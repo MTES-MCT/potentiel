@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot } from '../../../../getProjetAggregateRoot.port';
 import { GarantiesFinancières } from '../..';
@@ -12,7 +11,7 @@ export type SoumettreDépôtGarantiesFinancièresCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     garantiesFinancières: GarantiesFinancières.ValueType;
     soumisLe: DateTime.ValueType;
-    soumisPar: IdentifiantUtilisateur.ValueType;
+    soumisPar: Email.ValueType;
   }
 >;
 

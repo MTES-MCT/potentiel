@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document';
 
 import { TypeDocumentGarantiesFinancières } from '../..';
@@ -25,7 +24,7 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const validéLe = DateTime.convertirEnValueType(validéLeValue);
-    const validéPar = IdentifiantUtilisateur.convertirEnValueType(validéParValue);
+    const validéPar = Email.convertirEnValueType(validéParValue);
 
     await mediator.send<DocumentProjetCommand>({
       type: 'Document.Command.DéplacerDocumentProjet',

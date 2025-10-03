@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
@@ -9,7 +8,7 @@ export type RejeterChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     dateRejet: DateTime.ValueType;
     motifRejet: string;
     rejetAutomatique: boolean;

@@ -4,7 +4,6 @@ import { match } from 'ts-pattern';
 import { Email, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementEntity } from '../raccordement.entity';
@@ -17,7 +16,7 @@ export type ConsulterGestionnaireRéseauRaccordementReadModel = {
     légende: Option.Type<string>;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
-  contactEmail: Option.Type<IdentifiantUtilisateur.ValueType>;
+  contactEmail: Option.Type<Email.ValueType>;
 };
 
 export type ConsulterGestionnaireRéseauRaccordementQuery = Message<
