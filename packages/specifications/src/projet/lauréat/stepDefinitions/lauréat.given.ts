@@ -147,7 +147,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
       identifiantUtilisateurValue: candidature.values.emailContactValue,
       identifiantsProjetValues: [identifiantProjetValue.formatter()],
       invitéLeValue: notifiéLe,
-      invitéParValue: Email.system().formatter(),
+      invitéParValue: Email.système.formatter(),
     },
   });
 
@@ -157,7 +157,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
       identifiantProjetValue: identifiantProjetValue.formatter(),
       identifiantUtilisateurValue: candidature.values.emailContactValue,
       autoriséLeValue: notifiéLe,
-      autoriséParValue: Email.system().formatter(),
+      autoriséParValue: Email.système.formatter(),
       raison: 'notification',
     },
   });

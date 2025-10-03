@@ -69,7 +69,7 @@ const tâchePlanifiéeGestionAutomatiqueExecutéeSaga = async ({
         type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet,
-          identifiantUtilisateurValue: Email.system().formatter(),
+          identifiantUtilisateurValue: Email.système.formatter(),
           dateAccordValue: DateTime.now().formatter(),
           accordAutomatiqueValue: true,
         },
@@ -80,7 +80,7 @@ const tâchePlanifiéeGestionAutomatiqueExecutéeSaga = async ({
         type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet,
-          identifiantUtilisateurValue: Email.system().formatter(),
+          identifiantUtilisateurValue: Email.système.formatter(),
           motifRejetValue: 'Rejet automatique',
           dateRejetValue: DateTime.now().formatter(),
           rejetAutomatiqueValue: true,

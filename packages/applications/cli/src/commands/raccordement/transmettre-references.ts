@@ -156,7 +156,7 @@ const handleLine = async ({
       identifiantProjetValue: identifiantProjet.formatter(),
       référenceDossierValue: référenceDossier.formatter(),
       dateQualificationValue: dateAccuseRéception.formatter(),
-      transmiseParValue: Email.system().formatter(),
+      transmiseParValue: Email.système.formatter(),
     },
   });
 };
