@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const types = [
+export const types = [
   'représentant-légal.gestion-automatique-demande-changement',
   'représentant-légal.rappel-instruction-à-deux-mois',
   'représentant-légal.suppression-document-à-trois-mois',

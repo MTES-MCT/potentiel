@@ -1,32 +1,21 @@
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../helpers';
-import { getCahierDesChargesLauréat } from '../../../helpers/getCahierDesChargesLauréat';
+import { listerDrealsRecipients } from '../../../../helpers';
+import { getCahierDesChargesLauréat } from '../../../../helpers/getCahierDesChargesLauréat';
 
-import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
-
-type HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps = {
-  sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];
-  identifiantProjet: IdentifiantProjet.ValueType;
-  projet: {
-    nom: string;
-    département: string;
-    région: string;
-  };
-  baseUrl: string;
-};
+import { TâchePlanifiéeReprésentantLégalNotificationProps } from '.';
 
 export const représentantLégalRappelInstructionÀDeuxMoisNotification = async ({
   sendEmail,
   identifiantProjet,
   projet: { nom, région, département },
   baseUrl,
-}: HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps) => {
+}: TâchePlanifiéeReprésentantLégalNotificationProps) => {
   const dreals = await listerDrealsRecipients(région);
   const cahierDesCharges = await getCahierDesChargesLauréat(identifiantProjet);
 
