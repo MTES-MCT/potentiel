@@ -270,7 +270,7 @@ const GarantiesFinancièresProjet = ({
                 )}
               .
             </span>
-            {!garantiesFinancières.actuelles?.dateConstitution && (
+            {!garantiesFinancières.actuelles?.attestation && (
               <AlertMessage>
                 L'attestation de constitution des garanties financières reste à transmettre.
               </AlertMessage>
