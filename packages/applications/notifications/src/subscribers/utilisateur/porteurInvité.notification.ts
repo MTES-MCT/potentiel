@@ -14,7 +14,7 @@ export const porteurInvitéNotification = async ({
   // On ne notifie pas le porteur invité par le système,
   // car cela correspond à l'invitation liée à la candidature,
   // pour laquelle le porteur est déjà notifié
-  if (Email.convertirEnValueType(invitéPar).estÉgaleÀ(Email.system())) {
+  if (Email.convertirEnValueType(invitéPar).estSystème()) {
     return [];
   }
 

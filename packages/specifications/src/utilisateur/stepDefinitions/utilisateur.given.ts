@@ -40,7 +40,7 @@ EtantDonné(
         fonction: validateur.fonction,
         identifiantUtilisateur: validateur.email,
         invitéLe: DateTime.now().formatter(),
-        invitéPar: Email.system().formatter(),
+        invitéPar: Email.système.formatter(),
         nomComplet: validateur.nom,
         rôle: 'dgec-validateur',
       },

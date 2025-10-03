@@ -82,7 +82,7 @@ export class Migrer extends Command {
           identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
           modifiéPar: email
             ? Email.convertirEnValueType(email).formatter()
-            : Email.system().formatter(),
+            : Email.système.formatter(),
         },
       };
       if (flags.dryRun) {

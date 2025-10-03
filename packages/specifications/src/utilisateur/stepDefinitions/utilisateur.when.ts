@@ -236,7 +236,7 @@ export async function inviterPorteur(
         invitéLeValue: DateTime.now().formatter(),
         invitéParValue: this.utilisateurWorld.porteurFixture.aÉtéCréé
           ? this.utilisateurWorld.porteurFixture.email
-          : Email.system().formatter(),
+          : Email.système.formatter(),
       },
     });
 
@@ -249,7 +249,7 @@ export async function inviterPorteur(
           autoriséLeValue: DateTime.now().formatter(),
           autoriséParValue: this.utilisateurWorld.porteurFixture.aÉtéCréé
             ? this.utilisateurWorld.porteurFixture.email
-            : Email.system().formatter(),
+            : Email.système.formatter(),
           raison: 'invitation',
         },
       });

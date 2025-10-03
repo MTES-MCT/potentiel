@@ -25,7 +25,7 @@ export const registerCréerPorteurCommand = (loadAggregate: LoadAggregate) => {
       identifiantsProjet: [],
       identifiantUtilisateur,
       invitéLe: crééLe,
-      invitéPar: Email.system(),
+      invitéPar: Email.système,
     });
   };
   mediator.register('Utilisateur.Command.CréerPorteur', handler);

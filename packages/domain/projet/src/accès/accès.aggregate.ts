@@ -63,7 +63,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent, 'accès', Pr
     await this.autoriser({
       identifiantUtilisateur,
       autoriséLe: dateRéclamation,
-      autoriséPar: Email.system(),
+      autoriséPar: Email.système,
       raison: 'réclamation',
     });
   }

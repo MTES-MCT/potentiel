@@ -98,7 +98,7 @@ export const registerNotifierPériodeCommand = (
           identifiantUtilisateurValue: email,
           identifiantsProjetValues: projets,
           invitéLeValue: notifiéeLe.formatter(),
-          invitéParValue: Email.system().formatter(),
+          invitéParValue: Email.système.formatter(),
         },
       });
 
@@ -109,7 +109,7 @@ export const registerNotifierPériodeCommand = (
             identifiantProjetValue,
             identifiantUtilisateurValue: email,
             autoriséLeValue: notifiéeLe.formatter(),
-            autoriséParValue: Email.system().formatter(),
+            autoriséParValue: Email.système.formatter(),
             raison: 'notification',
           },
         });
