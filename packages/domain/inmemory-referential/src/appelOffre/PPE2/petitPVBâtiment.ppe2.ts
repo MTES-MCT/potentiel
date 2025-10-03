@@ -7,7 +7,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   title: `portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments ou ombrières de puissance supérieure à 100 kWc et inférieure à 500 kWc »`,
   shortTitle: 'PPE2 - Petit PV Bâtiment',
   launchDate: 'Septembre 2025',
-  cahiersDesChargesUrl: `https://www.cre.fr/fileadmin/Documents/Appels_d_offres/2025/CDC_AOS_P1.pdf`,
+  cahiersDesChargesUrl: `https://www.cre.fr/documents/appels-doffres/appel-doffres-portant-sur-la-realisation-et-lexploitation-dinstallations-de-production-delectricite-a-partir-de-lenergie-solaire-centrales-sur-batiments-ou-ombrieres-de-puissance-superieure-a-100-kwc-et-inferieure-a-500-kwc.html`,
   technologie: 'pv',
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 34,

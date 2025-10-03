@@ -36,9 +36,9 @@ export const Introduction = ({ project }: IntroductionProps) => {
         {période.familles.length > 0 && famille ? `dans la famille ${famille.id} ` : ''} le projet «{' '}
         {project.nomProjet} », situé {project.adresseProjet} {project.codePostalProjet}{' '}
         {project.communeProjet} d’une puissance de {formatNumber(project.puissance, 1e6)}{' '}
-        {project.unitePuissance}{' '}
+        {project.unitePuissance}
         {project.autorisationDUrbanisme &&
-          `disposant d’une autorisation au titre du code de l’urbanisme n° ${project.autorisationDUrbanisme.numéro} obtenue le ${formatDateForPdf(project.autorisationDUrbanisme.date)}`}
+          ` disposant d’une autorisation au titre du code de l’urbanisme n° ${project.autorisationDUrbanisme.numéro} obtenue le ${formatDateForPdf(project.autorisationDUrbanisme.date)}`}
         .
       </Text>
     </>

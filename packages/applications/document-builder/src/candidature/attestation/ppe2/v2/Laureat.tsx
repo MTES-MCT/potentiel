@@ -175,8 +175,8 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             }}
           >
             - fournir à EDF
-            {appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel &&
-              `, ${appelOffre.addendums.paragrapheRenseignerRaccordementDansPotentiel},`}{' '}
+            {appelOffre.addendums?.paragrapheRenseignerAttestationConformitéDansPotentiel &&
+              `, ${appelOffre.addendums.paragrapheRenseignerAttestationConformitéDansPotentiel},`}{' '}
             l’attestation de conformité de l’installation prévue au paragraphe{' '}
             {appelOffre.paragrapheAttestationConformite} du cahier des charges;
           </Text>
