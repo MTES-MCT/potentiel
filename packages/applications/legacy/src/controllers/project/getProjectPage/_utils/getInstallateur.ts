@@ -29,7 +29,7 @@ export const getInstallateur = async ({
     const role = Role.convertirEnValueType(rôle);
 
     const installateurProjection =
-      await mediator.send<Lauréat.Installateur.ConsulterInstallateurQuery>({
+      await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
         type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });

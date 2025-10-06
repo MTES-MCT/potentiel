@@ -65,10 +65,7 @@ import {
   registerGarantiesFinancièresQueries,
   registerGarantiesFinancièresUseCases,
 } from './garanties-financières/garantiesFinancières.register';
-import { registerInstallateurQueries } from './installateur';
-import { InstallateurQueryDependencies } from './installateur/installateur.register';
 import { registerTâcheQuery, TâcheQueryDependencies } from './tâche';
-import { registerInstallateurUseCases } from './installateur/installateur.register';
 import {
   InstallationAvecDispositifDeStockageQueryDependencies,
   registerInstallationAvecDispositifDeStockageQueries,
@@ -83,6 +80,11 @@ import {
   ListerLauréatDependencies,
   registerListerLauréatQuery,
 } from './lister/listerLauréat.query';
+import {
+  InstallationQueryDependencies,
+  registerInstallationQueries,
+  registerInstallationUseCases,
+} from './installation/installation.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ListerLauréatDependencies &
@@ -99,7 +101,7 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   GarantiesFinancièresQueryDependencies &
   ListerHistoriqueProjetDependencies &
   AchèvementQueryDependencies &
-  InstallateurQueryDependencies &
+  InstallationQueryDependencies &
   TâcheQueryDependencies &
   InstallationAvecDispositifDeStockageQueryDependencies &
   NatureDeLExploitationQueryDependencies;
@@ -131,7 +133,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerDélaiUseCases(dependencies);
   registerTâchePlanifiéeUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
-  registerInstallateurUseCases(dependencies);
+  registerInstallationUseCases(dependencies);
   registerInstallationAvecDispositifDeStockageUseCase(dependencies);
   registerNatureDeLExploitationUseCases(dependencies);
 };
@@ -153,7 +155,7 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerTâchePlanifiéeQuery(dependencies);
   registerGarantiesFinancièresQueries(dependencies);
   registerListerHistoriqueProjetQuery(dependencies);
-  registerInstallateurQueries(dependencies);
+  registerInstallationQueries(dependencies);
   registerTâcheQuery(dependencies);
   registerInstallationAvecDispositifDeStockageQueries(dependencies);
   registerNatureDeLExploitationQueries(dependencies);

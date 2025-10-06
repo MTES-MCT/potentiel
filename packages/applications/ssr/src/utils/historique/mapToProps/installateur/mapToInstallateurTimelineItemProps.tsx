@@ -10,11 +10,11 @@ import {
 } from './events';
 
 export const mapToInstallateurTimelineItemProps = (
-  readmodel: Lauréat.Installateur.HistoriqueInstallateurProjetListItemReadModel,
+  readmodel: Lauréat.Installation.HistoriqueInstallateurProjetListItemReadModel,
 ) =>
   match(readmodel)
     .returnType<TimelineItemProps>()
-    .with({ type: 'InstallateurImporté-V1' }, (readmodel) =>
+    .with({ type: 'InstallationImportée-V1' }, (readmodel) =>
       mapToInstallateurImportéTimelineItemProps(readmodel),
     )
     .with({ type: 'InstallateurModifié-V1' }, (readmodel) =>

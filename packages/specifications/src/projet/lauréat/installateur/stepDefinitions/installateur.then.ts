@@ -13,7 +13,7 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const installateur = await mediator.send<Lauréat.Installateur.InstallateurQuery>({
+      const installateur = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
         type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
         data: {
           identifiantProjet: identifiantProjet.formatter(),

@@ -19,7 +19,7 @@ export type GetLauréat = {
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
-  installateur?: Lauréat.Installateur.ConsulterInstallateurReadModel;
+  installateur?: Lauréat.Installation.ConsulterInstallateurReadModel;
   installationAvecDispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
   natureDeLExploitation?: Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationReadModel;
 };
@@ -170,7 +170,7 @@ export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
 };
 
 const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
-  const installateur = await mediator.send<Lauréat.Installateur.ConsulterInstallateurQuery>({
+  const installateur = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
     type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
     data: {
       identifiantProjet,

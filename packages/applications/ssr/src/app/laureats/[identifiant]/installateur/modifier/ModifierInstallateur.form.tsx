@@ -17,7 +17,7 @@ import {
 } from './modifierInstallateur.action';
 
 export type ModifierInstallateurFormProps =
-  PlainType<Lauréat.Installateur.ConsulterInstallateurReadModel>;
+  PlainType<Lauréat.Installation.ConsulterInstallateurReadModel>;
 
 export const ModifierInstallateurForm: FC<ModifierInstallateurFormProps> = ({
   identifiantProjet,
