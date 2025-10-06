@@ -2,7 +2,7 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { HistoriqueItem } from '../../HistoriqueItem.type';
 
 import {
   mapToAbandonAccordéTimelineItemProps,
@@ -16,63 +16,62 @@ import {
 } from './events';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapToAbandonPasséEnInstructionTimelineItemProps';
 
-export const mapToAbandonTimelineItemProps = (
-  readmodel: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
-) =>
-  match(readmodel)
-    .returnType<TimelineItemProps>()
+export const mapToAbandonTimelineItemProps: HistoriqueItem<
+  Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel
+> = ({ event, withLink }) =>
+  match(event)
     .with(
       {
         type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2'),
       },
-      mapToAbandonDemandéTimelineItemProps,
+      (event) => mapToAbandonDemandéTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'AbandonAnnulé-V1',
       },
-      mapToAbandonAnnuléTimelineItemProps,
+      (event) => mapToAbandonAnnuléTimelineItemProps({ event }),
     )
     .with(
       {
         type: 'ConfirmationAbandonDemandée-V1',
       },
-      mapToConfirmationAbandonDemandéeTimelineItemProps,
+      (event) => mapToConfirmationAbandonDemandéeTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'AbandonConfirmé-V1',
       },
-      mapToAbandonConfirméTimelineItemProps,
+      (event) => mapToAbandonConfirméTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'AbandonAccordé-V1',
       },
-      mapToAbandonAccordéTimelineItemProps,
+      (event) => mapToAbandonAccordéTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'AbandonRejeté-V1',
       },
-      mapToAbandonRejetéTimelineItemProps,
+      (event) => mapToAbandonRejetéTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'PreuveRecandidatureDemandée-V1',
       },
-      mapToPreuveRecandidatureDemandéeTimelineItemProps,
+      (event) => mapToPreuveRecandidatureDemandéeTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'PreuveRecandidatureTransmise-V1',
       },
-      mapToPreuveRecandidatureTransmiseTimelineItemProps,
+      (event) => mapToPreuveRecandidatureTransmiseTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'AbandonPasséEnInstruction-V1',
       },
-      mapToAbandonPasséEnInstructionTimelineItemProps,
+      (event) => mapToAbandonPasséEnInstructionTimelineItemProps({ event, withLink }),
     )
     .exhaustive();

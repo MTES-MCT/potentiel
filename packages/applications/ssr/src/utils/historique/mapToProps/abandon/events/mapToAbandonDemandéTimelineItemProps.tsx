@@ -3,16 +3,26 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
-export const mapToAbandonDemandéTimelineItemProps = (
-  event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
-) => {
+import { HistoriqueItem } from '../../../HistoriqueItem.type';
+
+export const mapToAbandonDemandéTimelineItemProps: HistoriqueItem<
+  Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1
+> = ({ event, withLink }) => {
   const { demandéLe, demandéPar, identifiantProjet, pièceJustificative } = event.payload;
 
   return {
     date: demandéLe,
     title: (
-      <div>Demande d'abandon déposée par {<span className="font-semibold">{demandéPar}</span>}</div>
+      <div>
+        {withLink ? (
+          <Link href={Routes.Abandon.détail(identifiantProjet)}>Demande d'abandon déposée </Link>
+        ) : (
+          `Demande d'abandon déposée par`
+        )}
+        par <span className="font-semibold">{demandéPar}</span>
+      </div>
     ),
     content: (
       <>

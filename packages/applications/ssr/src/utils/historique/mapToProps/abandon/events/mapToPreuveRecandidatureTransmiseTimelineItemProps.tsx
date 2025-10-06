@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
-export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
-  preuveRecandidatureTransmise: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent,
-) => {
-  const { preuveRecandidature, transmiseLe, transmisePar } = preuveRecandidatureTransmise.payload;
+import { HistoriqueItem } from '@/utils/historique/HistoriqueItem.type';
+
+export const mapToPreuveRecandidatureTransmiseTimelineItemProps: HistoriqueItem<
+  Lauréat.Abandon.PreuveRecandidatureTransmiseEvent
+> = ({ event }) => {
+  const { preuveRecandidature, transmiseLe, transmisePar } = event.payload;
 
   return {
     date: transmiseLe,

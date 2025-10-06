@@ -1,18 +1,21 @@
+import Link from 'next/link';
+
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { HistoriqueItem } from '@/utils/historique/HistoriqueItem.type';
 
-export const mapToAbandonRejetéTimelineItemProps = (
-  abandonRejeté: Lauréat.Abandon.AbandonRejetéEvent,
-) => {
+export const mapToAbandonRejetéTimelineItemProps: HistoriqueItem<
+  Lauréat.Abandon.AbandonRejetéEvent
+> = ({ event, withLink }) => {
   const {
     rejetéLe,
     rejetéPar,
     réponseSignée: { format },
     identifiantProjet,
-  } = abandonRejeté.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -24,7 +27,14 @@ export const mapToAbandonRejetéTimelineItemProps = (
   return {
     date: rejetéLe,
     title: (
-      <div>Demande d'abandon rejetée par {<span className="font-semibold">{rejetéPar}</span>}</div>
+      <div>
+        {withLink ? (
+          <Link href={Routes.Abandon.détail(identifiantProjet)}>Demande d'abandon rejetée</Link>
+        ) : (
+          `Demande d'abandon rejetée`
+        )}
+        par {<span className="font-semibold">{rejetéPar}</span>}
+      </div>
     ),
     content: (
       <DownloadDocument

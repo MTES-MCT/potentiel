@@ -3,16 +3,19 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { Link } from '@/components/atoms/LinkNoPrefetch';
 
-export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
-  confirmationAbandonDemandée: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent,
-) => {
+import { HistoriqueItem } from '../../../HistoriqueItem.type';
+
+export const mapToConfirmationAbandonDemandéeTimelineItemProps: HistoriqueItem<
+  Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
+> = ({ event, withLink }) => {
   const {
     confirmationDemandéeLe,
     confirmationDemandéePar,
     identifiantProjet,
     réponseSignée: { format },
-  } = confirmationAbandonDemandée.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -25,8 +28,14 @@ export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
     date: confirmationDemandéeLe,
     title: (
       <div>
-        Confirmation demandée pour la demande d'abandon par{' '}
-        {<span className="font-semibold">{confirmationDemandéePar}</span>}
+        {withLink ? (
+          <Link href={Routes.Abandon.détail(identifiantProjet)}>
+            Confirmation demandée pour la demande d'abandon
+          </Link>
+        ) : (
+          `Confirmation demandée pour la demande d'abandon`
+        )}
+        par {<span className="font-semibold">{confirmationDemandéePar}</span>}
       </div>
     ),
     content: (
