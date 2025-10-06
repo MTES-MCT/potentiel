@@ -1,6 +1,8 @@
 import { FC } from 'react';
 
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
+import { Email } from '@potentiel-domain/common';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -10,19 +12,19 @@ import { getActionnariatTypeLabel } from '@/app/_helpers';
 import * as symbols from './ProjectListLegendAndSymbols';
 
 export type ProjectListItemProps = {
-  identifiantProjet: string;
+  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   nomProjet: string;
-  localité: Candidature.Localité.RawType;
+  localité: PlainType<Candidature.Localité.ValueType>;
   producteur: string;
-  email: string;
+  email: PlainType<Email.ValueType>;
   nomReprésentantLégal: string;
   puissance: {
     valeur: number;
-    unité: Candidature.UnitéPuissance.RawType;
+    unité: PlainType<Candidature.UnitéPuissance.ValueType>;
   };
-  prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
-  evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['dépôt']['evaluationCarboneSimplifiée'];
-  typeActionnariat?: Candidature.TypeActionnariat.RawType;
+  prixReference: number;
+  evaluationCarboneSimplifiée: number;
+  typeActionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
   statutBadge?: React.ReactNode;
   actions?: React.ReactNode;
 };
@@ -46,7 +48,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
       <ProjectListItemHeading
         nomProjet={nomProjet}
         statutBadge={statutBadge}
-        identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+        identifiantProjet={identifiantProjet}
         prefix="Projet"
       />
     }
@@ -90,7 +92,7 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
             className={symbols.email.iconColor}
             size="sm"
           />
-          {email}
+          {Email.bind(email).formatter()}
         </div>
         {typeActionnariat && (
           <div className="flex items-start gap-2">
@@ -99,7 +101,9 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
               title={symbols.typeActionnariat.description}
               size="sm"
             />
-            {getActionnariatTypeLabel(typeActionnariat)}
+            {getActionnariatTypeLabel(
+              Candidature.TypeActionnariat.bind(typeActionnariat).formatter(),
+            )}
           </div>
         )}
       </div>
@@ -112,7 +116,9 @@ export const ProjectListItem: FC<ProjectListItemProps> = ({
           />
           <div className="lg:flex lg:flex-col items-center text-center">
             {puissance.valeur}
-            <span className="italic text-sm">{puissance.unité}</span>
+            <span className="italic text-sm">
+              {Candidature.UnitéPuissance.bind(puissance.unité).formatter()}
+            </span>
           </div>
         </div>
         <div className="flex lg:flex-1 lg:flex-col items-center gap-2">

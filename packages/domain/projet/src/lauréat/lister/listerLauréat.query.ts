@@ -21,7 +21,7 @@ type LauréatListItemReadModel = {
   email: Email.ValueType;
   nomReprésentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel['nomReprésentantLégal'];
   puissance: {
-    unité: Candidature.UnitéPuissance.RawType;
+    unité: Candidature.UnitéPuissance.ValueType;
     valeur: Puissance.ConsulterPuissanceReadModel['puissance'];
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
@@ -194,7 +194,7 @@ const mapToReadModel: MapToReadModelProps = ({
     email: Email.convertirEnValueType(emailContact),
     nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
     puissance: {
-      unité: unitéPuissance,
+      unité: Candidature.UnitéPuissance.convertirEnValueType(unitéPuissance),
       valeur: puissance.puissance,
     },
     prixReference,

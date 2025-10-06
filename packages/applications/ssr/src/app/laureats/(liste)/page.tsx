@@ -1,12 +1,12 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -15,7 +15,6 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
-import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 
 import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
 
@@ -117,7 +116,11 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <LauréatListPage
-          list={mapToListProps(lauréats)}
+          list={{
+            items: lauréats.items.map(mapToPlainObject),
+            ...mapToPagination(lauréats.range),
+            totalItems: lauréats.total,
+          }}
           filters={filters}
           legend={{
             symbols: projectListLegendSymbols,
@@ -161,54 +164,4 @@ const mapToActions = ({
   });
 
   return actions;
-};
-
-type MapToListProps = (readModel: Lauréat.ListerLauréatReadModel) => LauréatListPageProps['list'];
-
-const mapToListProps: MapToListProps = (readModel) => {
-  const items: LauréatListPageProps['list']['items'] = readModel.items.map(
-    ({
-      identifiantProjet,
-      nomProjet,
-      localité,
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email,
-      nomReprésentantLégal,
-      typeActionnariat,
-      statut,
-    }) => ({
-      identifiantProjet: identifiantProjet.formatter(),
-      statut: statut.formatter(),
-      nomProjet,
-      localité,
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email: email.formatter(),
-      nomReprésentantLégal,
-      typeActionnariat: typeActionnariat?.formatter(),
-      statutBadge: <StatutLauréatBadge statut={statut.formatter()} />,
-      actions: (
-        <Button
-          className="md:flex ml-auto"
-          linkProps={{
-            href: Routes.Projet.details(identifiantProjet.formatter()),
-          }}
-          aria-label={`Lien vers la page du projet ${nomProjet}`}
-        >
-          Consulter
-        </Button>
-      ),
-    }),
-  );
-
-  return {
-    items,
-    ...mapToPagination(readModel.range),
-    totalItems: readModel.total,
-  };
 };

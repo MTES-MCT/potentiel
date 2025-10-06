@@ -1,12 +1,12 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -15,7 +15,6 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
-import { StatutÉliminéBadge } from '@/components/molecules/projet/éliminé/StatutÉliminéBadge';
 
 import { ÉliminéListPage, ÉliminéListPageProps } from './ÉliminéList.page';
 
@@ -107,7 +106,11 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <ÉliminéListPage
-          list={mapToListProps(éliminés)}
+          list={{
+            items: éliminés.items.map(mapToPlainObject),
+            ...mapToPagination(éliminés.range),
+            totalItems: éliminés.total,
+          }}
           filters={filters}
           legend={{
             symbols: projectListLegendSymbols,
@@ -147,53 +150,4 @@ const mapToActions = ({ rôle, searchParams: { appelOffre, nomProjet } }: MapToA
   });
 
   return actions;
-};
-
-type MapToListProps = (readModel: Éliminé.ListerÉliminéReadModel) => ÉliminéListPageProps['list'];
-
-const mapToListProps: MapToListProps = (readModel) => {
-  const items: ÉliminéListPageProps['list']['items'] = readModel.items.map(
-    ({
-      identifiantProjet,
-      nomProjet,
-      localité,
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email,
-      nomReprésentantLégal,
-      typeActionnariat,
-    }) => ({
-      identifiantProjet: identifiantProjet.formatter(),
-      nomProjet,
-      localité: localité.formatter(),
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email: email.formatter(),
-      nomReprésentantLégal,
-      typeActionnariat: typeActionnariat?.formatter(),
-      statut: 'éliminé',
-      statutBadge: <StatutÉliminéBadge />,
-      actions: (
-        <Button
-          className="md:flex ml-auto"
-          linkProps={{
-            href: Routes.Projet.détailsÉliminé(identifiantProjet.formatter()),
-          }}
-          aria-label={`Lien vers la page du projet ${nomProjet}`}
-        >
-          Consulter
-        </Button>
-      ),
-    }),
-  );
-
-  return {
-    items,
-    ...mapToPagination(readModel.range),
-    totalItems: readModel.total,
-  };
 };

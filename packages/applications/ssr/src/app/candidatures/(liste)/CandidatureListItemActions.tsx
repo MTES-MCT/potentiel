@@ -19,15 +19,15 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
   nomProjet,
   actions,
 }) => {
+  const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
+
   return (
     <div className="flex md:max-lg:flex-col gap-2">
       {actions.télécharger && (
         <Button
           className="md:flex ml-auto"
           linkProps={{
-            href: Routes.Candidature.téléchargerAttestation(
-              IdentifiantProjet.bind(identifiantProjet).formatter(),
-            ),
+            href: Routes.Candidature.téléchargerAttestation(idProjet),
           }}
           title={`Télécharger l'attestation de désignation de ${nomProjet}`}
           aria-label={`Télécharger l'attestation de désignation de ${nomProjet}`}
@@ -42,10 +42,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
         <Button
           className="md:flex ml-auto"
           linkProps={{
-            href: Routes.Candidature.prévisualiserAttestation(
-              IdentifiantProjet.bind(identifiantProjet).formatter(),
-            ),
-
+            href: Routes.Candidature.prévisualiserAttestation(idProjet),
             target: '_blank',
           }}
           title={`Prévisualiser l'attestation de désignation de ${nomProjet}`}
@@ -58,7 +55,7 @@ export const CandidatureListItemActions: FC<CandidatureListItemActionsProps> = (
       <Button
         className="md:flex ml-auto"
         linkProps={{
-          href: Routes.Candidature.détails(IdentifiantProjet.bind(identifiantProjet).formatter()),
+          href: Routes.Candidature.détails(idProjet),
         }}
         aria-label={`Lien vers la page de la candidature ${nomProjet}`}
       >

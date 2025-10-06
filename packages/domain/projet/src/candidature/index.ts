@@ -14,7 +14,6 @@ import {
 } from './importer/candidatureImportée.event';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import {
-  CandidaturesListItemReadModel,
   ListerCandidaturesQuery,
   ListerCandidaturesReadModel,
 } from './lister/listerCandidatures.query';
@@ -45,7 +44,6 @@ export {
 export {
   ListerProjetsEligiblesPreuveRecanditureReadModel,
   ListerCandidaturesReadModel,
-  CandidaturesListItemReadModel,
   ConsulterCandidatureReadModel,
 };
 

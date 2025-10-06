@@ -1,14 +1,15 @@
 import { FC } from 'react';
 
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import {
-  ProjectListItem,
-  ProjectListItemProps,
-} from '@/components/molecules/projet/liste/ProjectListItem';
+import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
+
+import { CandidatureListItem, CandidatureListItemProps } from './CandidatureListItem';
 
 export type CandidatureListPageProps = {
   list: {
-    items: Array<ProjectListItemProps>;
+    items: Array<CandidatureListItemProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
@@ -32,11 +33,11 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
     actions={actions}
     legend={legend}
     totalItems={totalItems}
-    ItemComponent={ProjectListItem}
+    ItemComponent={CandidatureListItem}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     items={candidatures.map((candidature) => ({
       ...candidature,
-      key: candidature.identifiantProjet,
+      key: IdentifiantProjet.bind(candidature.identifiantProjet).formatter(),
     }))}
   />
 );
