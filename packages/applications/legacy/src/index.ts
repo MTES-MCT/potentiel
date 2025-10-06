@@ -1,8 +1,6 @@
 import { makeServer } from './server';
 
-// Check env variables
-
-const mandatoryVariables = ['APPLICATION_STAGE', 'BASE_URL', 'SEND_EMAILS_FROM', 'DGEC_EMAIL'];
+const mandatoryVariables = ['APPLICATION_STAGE', 'BASE_URL', 'SEND_EMAILS_FROM'];
 
 mandatoryVariables.forEach((variable) => {
   if (!process.env[variable]) {
