@@ -1,17 +1,17 @@
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { Éliminé } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
-
 export type StatutDemandeBadgeProps = {
   statut:
-    | Lauréat.Abandon.StatutAbandon.RawType
-    | Éliminé.Recours.StatutRecours.RawType
-    | Lauréat.Puissance.StatutChangementPuissance.RawType
-    | Lauréat.Actionnaire.StatutChangementActionnaire.RawType
-    | Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.RawType
-    | 'information-enregistrée';
+    | 'demandé'
+    | 'confirmé'
+    | 'accordé'
+    | 'rejeté'
+    | 'annulé'
+    | 'en-instruction'
+    | 'inconnu'
+    | 'information-enregistrée'
+    | 'confirmation-demandée';
   small?: true;
 };
 

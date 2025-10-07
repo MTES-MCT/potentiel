@@ -9,7 +9,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { StatutDemandeBadge } from '../../components/organisms/StatutDemande';
+import { StatutDemandeBadge } from '../../components/organisms/demande/StatutDemande';
 
 export type RecoursListItemProps = PlainType<
   Éliminé.Recours.ListerRecoursReadModel['items'][number]

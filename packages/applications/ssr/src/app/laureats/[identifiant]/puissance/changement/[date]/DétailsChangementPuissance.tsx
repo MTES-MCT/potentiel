@@ -11,7 +11,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
-import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 

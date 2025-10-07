@@ -11,7 +11,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
 import { ReadMore } from '@/components/atoms/ReadMore';
-import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 import { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 

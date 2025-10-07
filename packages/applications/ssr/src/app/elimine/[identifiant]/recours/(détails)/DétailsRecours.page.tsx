@@ -11,12 +11,12 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
-import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
 import { PasserRecoursEnInstruction } from './passerEnInstruction/PasserRecoursEnInstruction.form';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 export type AvailableRecoursAction =
   | 'accorder'

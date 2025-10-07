@@ -6,7 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 import { ChangementProducteurListPageProps } from './ChangementProducteurList.page';
 

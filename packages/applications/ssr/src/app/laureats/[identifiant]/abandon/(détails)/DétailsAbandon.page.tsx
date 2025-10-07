@@ -11,7 +11,7 @@ import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
-import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 import {
   TransmettrePreuveRecandidature,

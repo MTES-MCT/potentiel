@@ -10,7 +10,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
