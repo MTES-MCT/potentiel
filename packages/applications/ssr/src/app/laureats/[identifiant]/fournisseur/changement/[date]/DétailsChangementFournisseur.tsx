@@ -28,7 +28,10 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>Changement de Fournisseur</Heading2>
+      <div className="flex flex-row gap-4">
+        <Heading2>Changement de Fournisseur</Heading2>
+        <StatutDemandeBadge statut="information-enregistrée" />
+      </div>
       <>
         <div className="flex flex-col gap-4">
           <div className="text-xs italic">
@@ -41,10 +44,6 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
             <span className="font-semibold">
               {Email.bind(changement.enregistréPar).formatter()}
             </span>
-          </div>
-          <div className="flex gap-2">
-            <div className="font-semibold">Statut :</div>{' '}
-            <StatutDemandeBadge statut="information-enregistrée" />
           </div>
         </div>
         <>

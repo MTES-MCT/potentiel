@@ -43,11 +43,16 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
 
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>
-        {estUneInformationEnregistrée
-          ? 'Changement de représentant légal'
-          : 'Demande de changement de représentant légal'}
-      </Heading2>
+      <div className="flex flex-row gap-4">
+        <Heading2>
+          {estUneInformationEnregistrée
+            ? 'Changement de représentant légal'
+            : 'Demande de changement de représentant légal'}
+        </Heading2>
+        <StatutDemandeBadge
+          statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter()}
+        />
+      </div>
       <div className="flex flex-col">
         {dateDemandeEnCoursPourLien && (
           <InfoBoxDemandeEnCours
@@ -154,12 +159,6 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéLe, demandéP
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
     </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge
-        statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter()}
-      />
-    </div>
   </div>
 );
 
@@ -169,14 +168,6 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéLe, dema
       Modifié le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge
-        statut={
-          Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée.statut
-        }
-      />
     </div>
   </div>
 );
@@ -191,12 +182,6 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({ accordéLe, accordéP
       Accordé le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(accordéLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(accordéPar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge
-        statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter()}
-      />
     </div>
   </div>
 );
@@ -214,12 +199,6 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéLe, rejetéPar, 
       Rejeté le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(rejetéLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(rejetéPar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge
-        statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter()}
-      />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Motif :</div>

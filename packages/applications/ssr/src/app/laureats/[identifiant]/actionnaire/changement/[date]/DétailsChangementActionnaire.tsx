@@ -24,11 +24,14 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
 
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>
-        {estUneInformationEnregistrée
-          ? "Changement d'actionnaire(s)"
-          : "Demande de changement d'actionnaire(s)"}
-      </Heading2>
+      <div className="flex flex-row gap-4">
+        <Heading2>
+          {estUneInformationEnregistrée
+            ? "Changement d'actionnaire(s)"
+            : "Demande de changement d'actionnaire(s)"}
+        </Heading2>
+        <StatutDemandeBadge statut={demande.statut.statut} />
+      </div>
       <div className="flex flex-col">
         {demande.accord && (
           <ChangementAccordé
@@ -99,12 +102,6 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, dem
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(demandéePar).formatter()}</span>
     </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge
-        statut={Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut}
-      />
-    </div>
   </div>
 );
 
@@ -119,10 +116,6 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
       Demandé le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(demandéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge statut={Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut} />
     </div>
   </div>
 );
@@ -141,10 +134,6 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
       Accordée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(accordéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge statut={Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
@@ -168,10 +157,6 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
       Rejetée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(rejetéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeBadge statut={Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

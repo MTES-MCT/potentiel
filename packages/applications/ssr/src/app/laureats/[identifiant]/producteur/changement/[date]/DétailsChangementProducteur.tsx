@@ -21,7 +21,7 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row gap-4">
-        <Heading2>Changement de producteur</Heading2>{' '}
+        <Heading2>Changement de producteur</Heading2>
         <StatutDemandeBadge statut="information-enregistrée" />
       </div>
       <>
