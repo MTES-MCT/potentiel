@@ -21,8 +21,6 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
   statut,
   misÀJourLe,
 }) => {
-  const estConsultable = ['demandé', 'en-instruction', 'annulé', 'inconnu'].includes(statut.value);
-
   return (
     <ListItem
       misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
@@ -34,16 +32,14 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
         />
       }
       actions={
-        estConsultable ? (
-          <Button
-            linkProps={{
-              href: Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
-            }}
-            aria-label={`voir le détail du recours pour le projet ${nomProjet}`}
-          >
-            Consulter
-          </Button>
-        ) : null
+        <Button
+          linkProps={{
+            href: Routes.Recours.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+          }}
+          aria-label={`voir le détail du recours pour le projet ${nomProjet}`}
+        >
+          Consulter
+        </Button>
       }
     >
       <StatutDemandeBadge statut={statut.value} small />

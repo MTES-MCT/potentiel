@@ -55,7 +55,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-4">
               <Heading2>Détails</Heading2>
-              <StatutDemandeBadge statut={recours.statut.value} />
+              <StatutDemandeBadge statut={recours.statut.value} small />
             </div>
             <div className="flex flex-col gap-2">
               <div className="text-xs italic">
