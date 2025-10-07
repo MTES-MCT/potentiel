@@ -65,7 +65,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | puissance du dispositif                  | 1                        |
         Alors l'utilisateur devrait être informé que "Pour enregistrer une modification vous devez renseigner une valeur différente de la valeur actuelle"
 
-    Scénario: Impossible de modifier le dispositif de stockage avec des valeurs invalides
+    Scénario: Impossible de modifier un projet avec dispositif de stockage avec des valeurs invalides
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
@@ -73,7 +73,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | puissance du dispositif                  |                          |
         Alors l'utilisateur devrait être informé que "La capacité et la puissance du dispositif de stockage sont requises"
 
-    Scénario: Impossible de modifier le dispositif de stockage avec des valeurs invalides
+    Scénario: Impossible de modifier un projet sans dispositif de stockage avec des valeurs invalides
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | non                      |

@@ -92,8 +92,6 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     ...changedValues.dépôt.dispositifDeStockage,
   };
 
-  console.log(dispositifDeStockageValue);
-
   const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
     this.candidatureWorld.corrigerCandidature.créer({
       identifiantProjet: {
