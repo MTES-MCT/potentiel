@@ -3,7 +3,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { Entity } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { IdentifiantProjet } from '..';
+import { IdentifiantProjet, Lauréat } from '..';
 import { Fournisseur } from '../lauréat/fournisseur';
 
 import {
@@ -63,12 +63,17 @@ export type CandidatureEntity = Entity<
     dateÉchéanceGf?: DateTime.RawType;
     dateConstitutionGf?: DateTime.RawType;
     territoireProjet: string;
-    misÀJourLe: DateTime.RawType;
-    coefficientKChoisi?: boolean;
-    obligationDeSolarisation?: boolean;
-    détailsMisÀJourLe: DateTime.RawType;
     fournisseurs: Array<Fournisseur.RawType>;
+    coefficientKChoisi?: boolean;
     typologieInstallation: Array<TypologieInstallation.RawType>;
+    installateur?: string;
+    obligationDeSolarisation?: boolean;
+    autorisationDUrbanisme?: { numéro: string; date: DateTime.RawType };
+    natureDeLExploitation?: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+    puissanceDeSite?: number;
+
+    misÀJourLe: DateTime.RawType;
+    détailsMisÀJourLe: DateTime.RawType;
 
     // Plus spécifique que `technologie`, ne peut valoir N/A
     technologieCalculée: AppelOffre.Technologie;

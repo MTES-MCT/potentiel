@@ -6,7 +6,7 @@ import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueTy
 import * as TypeTechnologie from '../typeTechnologie.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet, Lauréat } from '../..';
 import { Fournisseur } from '../../lauréat/fournisseur';
 import { TypologieInstallation } from '..';
 
@@ -39,11 +39,14 @@ type CandidatureImportéeEventPayload = {
   dateÉchéanceGf?: DateTime.RawType;
   dateConstitutionGf?: DateTime.RawType;
   territoireProjet: string;
-  coefficientKChoisi?: boolean;
-  puissanceDeSite?: number;
-  obligationDeSolarisation?: boolean;
   fournisseurs: Array<Fournisseur.RawType>;
+  coefficientKChoisi?: boolean;
   typologieInstallation: Array<TypologieInstallation.RawType>;
+  installateur?: string;
+  obligationDeSolarisation?: boolean;
+  autorisationDUrbanisme?: { numéro: string; date: DateTime.RawType };
+  natureDeLExploitation?: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+  puissanceDeSite?: number;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
 };
