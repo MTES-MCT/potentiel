@@ -2,7 +2,7 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Accès, CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
+import { Accès, CahierDesCharges, Candidature } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -104,7 +104,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
 
   this.lauréatWorld.identifiantProjet = identifiantProjetValue;
 
-  const { nomProjet, notifiéLe } = this.lauréatWorld.notifierLauréatFixture.créer({
+  const { nomProjet, notifiéLe, notifiéPar } = this.lauréatWorld.notifierLauréatFixture.créer({
     nomProjet: candidature.values.nomProjetValue,
     localité: candidature.values.localitéValue,
     notifiéPar: this.utilisateurWorld.validateurFixture.email,
@@ -123,12 +123,13 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
     période: identifiantProjetValue.période,
   });
 
-  await mediator.send<Lauréat.NotifierLauréatUseCase>({
-    type: 'Lauréat.UseCase.NotifierLauréat',
+  await mediator.send<Candidature.NotifierCandidatureUseCase>({
+    type: 'Candidature.UseCase.NotifierCandidature',
     data: {
       identifiantProjetValue: identifiantProjetValue.formatter(),
-      notifiéLeValue: notifiéLe,
-      notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+      statutValue: Candidature.StatutCandidature.classé.formatter(),
+      notifiéeLeValue: notifiéLe,
+      notifiéeParValue: notifiéPar,
       attestationValue: {
         format: `application/pdf`,
       },

@@ -1,9 +1,9 @@
 import { Candidature } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-export const candidatureNotifiéeV2Projector = async ({
+export const candidatureNotifiéeV3Projector = async ({
   payload,
-}: Candidature.CandidatureNotifiéeEventV2) => {
+}: Candidature.CandidatureNotifiéeEvent) => {
   await updateOneProjection<Candidature.CandidatureEntity>(
     `candidature|${payload.identifiantProjet}`,
     {

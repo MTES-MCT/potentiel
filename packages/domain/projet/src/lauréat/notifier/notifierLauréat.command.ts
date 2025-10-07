@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 import { IdentifiantProjet } from '../..';
@@ -13,7 +12,6 @@ export type NotifierLauréatCommand = Message<
     notifiéLe: DateTime.ValueType;
     notifiéPar: Email.ValueType;
     attestation: { format: string };
-    validateur: AppelOffre.Validateur;
   }
 >;
 
@@ -23,19 +21,8 @@ export const registerNotifierLauréatCommand = (getProjetAggregateRoot: GetProje
     identifiantProjet,
     notifiéLe,
     notifiéPar,
-    validateur,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
-
-    // TODO supprimer le use case NotifierLauréat pour ne garder que NotifierCandidature
-    // NotifierLauréat sera fait en saga après la notification de la candidature
-    // et trouver une solution pour notifier la période une fois que toutes les candidatures ont été notifiées (saga terminées)
-    await projet.candidature.notifier({
-      notifiéeLe: notifiéLe,
-      notifiéePar: notifiéPar,
-      attestation,
-      validateur,
-    });
 
     await projet.lauréat.notifier({
       attestation: { format: attestation.format },

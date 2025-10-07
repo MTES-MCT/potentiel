@@ -15,7 +15,6 @@ import { registerModifierSiteDeProductionUseCase } from './modifier/modifierSite
 import { registerModifierNomProjetCommand } from './modifier/modifierNomProjet.command';
 import { registerModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
-import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 import { DélaiQueryDependencies, registerDélaiQueries, registerDélaiUseCases } from './délai';
 import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
 import { ProducteurQueryDependencies } from './producteur/producteur.register';
@@ -112,7 +111,6 @@ export type LauréatCommandDependencies = {
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
-  registerNotifierLauréatUseCase();
 
   registerModifierSiteDeProductionCommand(dependencies.getProjetAggregateRoot);
   registerModifierSiteDeProductionUseCase();

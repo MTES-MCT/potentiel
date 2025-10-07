@@ -12,6 +12,7 @@ import { candidatureImportéeProjector } from './candidatureImportée.projector'
 import { candidatureImportéeV1Projector } from './candidatureImportéeV1.projector';
 import { candidatureCorrigéeV1Projector } from './candidatureCorrigéeV1.projector';
 import { détailsFournisseursCandidatureImportésProjector } from './détailsFournisseursCandidatureImportés.projector';
+import { candidatureNotifiéeV3Projector } from './candidatureNotifiéeV3.projector';
 
 export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | RebuildTriggered;
 
@@ -27,6 +28,7 @@ export const register = () => {
       .with({ type: 'CandidatureCorrigée-V2' }, candidatureCorrigéeProjector)
       .with({ type: 'CandidatureNotifiée-V1' }, candidatureNotifiéeV1Projector)
       .with({ type: 'CandidatureNotifiée-V2' }, candidatureNotifiéeV2Projector)
+      .with({ type: 'CandidatureNotifiée-V3' }, candidatureNotifiéeV3Projector)
       .with(
         { type: 'DétailsFournisseursCandidatureImportés-V1' },
         détailsFournisseursCandidatureImportésProjector,
