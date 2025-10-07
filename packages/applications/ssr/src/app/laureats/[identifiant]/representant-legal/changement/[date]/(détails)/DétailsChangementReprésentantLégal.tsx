@@ -49,9 +49,7 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
             ? 'Changement de représentant légal'
             : 'Demande de changement de représentant légal'}
         </Heading2>
-        <StatutDemandeBadge
-          statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter()}
-        />
+        <StatutDemandeBadge statut={statut.statut} />
       </div>
       <div className="flex flex-col">
         {dateDemandeEnCoursPourLien && (

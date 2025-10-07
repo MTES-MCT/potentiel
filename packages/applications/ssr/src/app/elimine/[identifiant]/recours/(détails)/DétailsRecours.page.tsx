@@ -11,12 +11,12 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
 import { PasserRecoursEnInstruction } from './passerEnInstruction/PasserRecoursEnInstruction.form';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
 
 export type AvailableRecoursAction =
   | 'accorder'
@@ -55,7 +55,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-4">
               <Heading2>Détails</Heading2>
-              <StatutDemandeBadge statut={recours.statut.value} small />
+              <StatutDemandeBadge statut={recours.statut.value} />
             </div>
             <div className="flex flex-col gap-2">
               <div className="text-xs italic">
