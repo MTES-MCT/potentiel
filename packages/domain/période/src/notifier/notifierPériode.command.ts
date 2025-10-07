@@ -2,12 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { LoadAggregate } from '@potentiel-domain/core';
-import {
-  Accès,
-  Candidature,
-  GetProjetAggregateRoot,
-  IdentifiantProjet,
-} from '@potentiel-domain/projet';
+import { Accès, GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -44,33 +39,29 @@ export const registerNotifierPériodeCommand = (
 
     let nbError = 0;
     for (const identifiantCandidature of identifiantCandidatures) {
-      const { candidature } = await getProjetAggregateRoot(identifiantCandidature, true);
+      const projet = await getProjetAggregateRoot(identifiantCandidature, true);
 
-      candidature.vérifierQueLaCandidatureExiste();
+      projet.candidature.vérifierQueLaCandidatureExiste();
 
       try {
-        await mediator.send<Candidature.NotifierCandidatureUseCase>({
-          type: 'Candidature.UseCase.NotifierCandidature',
-          data: {
-            identifiantProjetValue: identifiantCandidature.formatter(),
-            statutValue: candidature.statut.formatter(),
-            notifiéeLeValue: notifiéeLe.formatter(),
-            notifiéeParValue: notifiéePar.formatter(),
-            validateurValue: validateur,
-            attestationValue: {
-              format: 'application/pdf',
-            },
+        await projet.candidature.notifier({
+          notifiéeLe,
+          notifiéePar,
+          validateur,
+          attestation: {
+            format: 'application/pdf',
           },
         });
-        if (candidature.statut?.estClassé()) {
+
+        if (projet.candidature.statut?.estClassé()) {
           identifiantLauréats.push(identifiantCandidature);
         }
 
-        if (candidature.statut?.estÉliminé()) {
+        if (projet.candidature.statut?.estÉliminé()) {
           identifiantÉliminés.push(identifiantCandidature);
         }
 
-        const emailPorteur = candidature.emailContact.formatter();
+        const emailPorteur = projet.candidature.emailContact.formatter();
         porteursAInviter[emailPorteur] ??= [];
         porteursAInviter[emailPorteur].push(identifiantCandidature.formatter());
       } catch (error) {

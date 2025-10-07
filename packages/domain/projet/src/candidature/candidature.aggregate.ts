@@ -248,7 +248,6 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   async notifier({
-    statut,
     notifiéeLe,
     notifiéePar,
     validateur,
@@ -270,7 +269,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       type: 'CandidatureNotifiée-V3',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
-        statut: statut.formatter(),
+        statut: this.statut.formatter(),
         notifiéeLe: notifiéeLe.formatter(),
         notifiéePar: notifiéePar.formatter(),
         validateur,
