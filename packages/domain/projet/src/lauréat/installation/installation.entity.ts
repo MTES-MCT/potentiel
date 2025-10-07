@@ -1,10 +1,12 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-export type InstallationEntiry = Entity<
+import { IdentifiantProjet } from '../..';
+
+export type InstallationEntity = Entity<
   'installation',
   {
-    identifiantProjet: string;
+    identifiantProjet: IdentifiantProjet.RawType;
     misÀJourLe: DateTime.RawType;
     installateur: string;
   }

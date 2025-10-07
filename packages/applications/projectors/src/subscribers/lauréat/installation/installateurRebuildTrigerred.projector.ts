@@ -5,6 +5,6 @@ import { Lauréat } from '@potentiel-domain/projet';
 export const installationRebuilTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
-  await removeProjection<Lauréat.Installation.InstallationEntiry>(`installation|${id}`);
+  await removeProjection<Lauréat.Installation.InstallationEntity>(`installation|${id}`);
   await removeProjection<Lauréat.Installation.InstallateurEntity>(`installateur|${id}`);
 };
