@@ -22,9 +22,9 @@ export const InfoDispositifDeStockage = ({
       <Heading3 className="m-0">Dispositif de stockage</Heading3>
       <span>
         {installationAvecDispositifDeStockage === true
-          ? 'Avec'
+          ? 'Installation couplée à un dispositif de stockage'
           : installationAvecDispositifDeStockage === false
-            ? 'Sans'
+            ? 'Installation non couplée à un dispositif de stockage''
             : 'Non renseigné'}
       </span>
       {puissanceDuDispositifDeStockageEnKW ? (
