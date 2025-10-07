@@ -22,7 +22,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const installateurActuel = await mediator.send<Lauréat.Installateur.ConsulterInstallateurQuery>(
+    const installateurActuel = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>(
       {
         type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
         data: {

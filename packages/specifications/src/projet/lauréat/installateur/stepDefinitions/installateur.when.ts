@@ -44,8 +44,8 @@ export async function modifierInstallateur(
       ...(installateurValue && { installateur: installateurValue }),
     });
 
-  await mediator.send<Lauréat.Installateur.ModifierInstallateurUseCase>({
-    type: 'Lauréat.Installateur.UseCase.ModifierInstallateur',
+  await mediator.send<Lauréat.Installation.ModifierInstallateurUseCase>({
+    type: 'Lauréat.Installation.UseCase.ModifierInstallateur',
     data: {
       installateurValue: installateur,
       dateModificationValue: modifiéLe,

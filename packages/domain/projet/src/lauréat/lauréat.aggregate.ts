@@ -44,7 +44,7 @@ import { DélaiAggregate } from './délai/délai.aggregate';
 import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.aggregate';
 import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
-import { InstallateurAggregate } from './installateur/installateur.aggregate';
+import { InstallationAggregate } from './installation/installation.aggregate';
 import { InstallationAvecDispositifDeStockageAggregate } from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.aggregate';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
 import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
@@ -122,9 +122,9 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#délai;
   }
 
-  #installateur!: AggregateType<InstallateurAggregate>;
-  get installateur() {
-    return this.#installateur;
+  #installation!: AggregateType<InstallationAggregate>;
+  get installation() {
+    return this.#installation;
   }
 
   #raccordement!: AggregateType<RaccordementAggregate>;
@@ -217,9 +217,9 @@ export class LauréatAggregate extends AbstractAggregate<
       `délai|${this.projet.identifiantProjet.formatter()}`,
     );
 
-    this.#installateur = await this.loadAggregate(
-      InstallateurAggregate,
-      `installateur|${this.projet.identifiantProjet.formatter()}`,
+    this.#installation = await this.loadAggregate(
+      InstallationAggregate,
+      `installation|${this.projet.identifiantProjet.formatter()}`,
     );
 
     this.#installationAvecDispositifDeStockage = await this.loadAggregate(
@@ -313,7 +313,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
     // Champs supplémentaires, dont l'import dépend de l'appel d'offre
     if (this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined) {
-      await this.installateur.importer({
+      await this.#installation.importer({
         installateur: this.projet.candidature.installateur ?? '',
         importéLe: notifiéLe,
         importéPar: notifiéPar,

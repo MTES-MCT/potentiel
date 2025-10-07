@@ -4,16 +4,17 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
-import { ImporterOptions } from './importer/importerInstallateur.option';
-import { InstallateurImportéEvent } from './importer/importerInstallateur.event';
-import { InstallateurEvent } from './installateur.event';
-import { InstallateurDéjàTransmisError, InstallateurIdentiqueError } from './installateur.error';
-import { InstallateurModifiéEvent } from './modifier/modifierInstallateur.event';
-import { ModifierOptions } from './modifier/modifierInstallateur.option';
+import { InstallationEvent } from './installation.event';
+import { ImporterOptions } from './importer/importerInstallation.option';
+import { InstallationDéjàTransmiseError } from './installation.error';
+import { InstallationImportéeEvent } from './importer/importerInstalltion.event';
+import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
+import { InstallateurIdentiqueError } from './installateur/installateur.error';
+import { InstallateurModifiéEvent } from './installateur';
 
-export class InstallateurAggregate extends AbstractAggregate<
-  InstallateurEvent,
-  'installateur',
+export class InstallationAggregate extends AbstractAggregate<
+  InstallationEvent,
+  'installation',
   LauréatAggregate
 > {
   installateur!: string | undefined;
@@ -28,11 +29,11 @@ export class InstallateurAggregate extends AbstractAggregate<
 
   async importer({ installateur, importéLe, importéPar }: ImporterOptions) {
     if (this.installateur) {
-      throw new InstallateurDéjàTransmisError();
+      throw new InstallationDéjàTransmiseError();
     }
 
-    const event: InstallateurImportéEvent = {
-      type: 'InstallateurImporté-V1',
+    const event: InstallationImportéeEvent = {
+      type: 'InstallationImportée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installateur,
@@ -44,7 +45,11 @@ export class InstallateurAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async modifier({ installateur, dateModification, identifiantUtilisateur }: ModifierOptions) {
+  async modifierInstallateur({
+    installateur,
+    dateModification,
+    identifiantUtilisateur,
+  }: ModifierInstallateurOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
     if (this.installateur === installateur) {
@@ -64,13 +69,13 @@ export class InstallateurAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  apply(event: InstallateurEvent): void {
+  apply(event: InstallationEvent): void {
     match(event)
       .with(
         {
-          type: 'InstallateurImporté-V1',
+          type: 'InstallationImportée-V1',
         },
-        (event) => this.applyInstallateurImportéV1(event),
+        (event) => this.applyInstallationImportéeV1(event),
       )
       .with(
         {
@@ -81,7 +86,7 @@ export class InstallateurAggregate extends AbstractAggregate<
       .exhaustive();
   }
 
-  private applyInstallateurImportéV1({ payload: { installateur } }: InstallateurImportéEvent) {
+  private applyInstallationImportéeV1({ payload: { installateur } }: InstallationImportéeEvent) {
     this.installateur = installateur;
   }
 

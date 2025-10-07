@@ -3,8 +3,8 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 
 export const installateurModifiéProjector = async ({
   payload: { identifiantProjet, installateur, modifiéLe },
-}: Lauréat.Installateur.InstallateurModifiéEvent) => {
-  await upsertProjection<Lauréat.Installateur.InstallateurEntity>(
+}: Lauréat.Installation.InstallateurModifiéEvent) => {
+  await upsertProjection<Lauréat.Installation.InstallateurEntity>(
     `installateur|${identifiantProjet}`,
     {
       identifiantProjet,

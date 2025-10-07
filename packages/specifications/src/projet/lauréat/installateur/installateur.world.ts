@@ -24,7 +24,7 @@ export class InstallateurWorld {
       return Option.none;
     }
 
-    const expected: Lauréat.Installateur.ConsulterInstallateurReadModel = {
+    const expected: Lauréat.Installation.ConsulterInstallateurReadModel = {
       identifiantProjet,
       installateur: this.#modifierInstallateurFixture.aÉtéCréé
         ? this.#modifierInstallateurFixture.installateur

@@ -365,10 +365,10 @@ const référencielPermissions = {
         consulter: 'Lauréat.Installateur.Query.ConsulterInstallateur',
       },
       usecase: {
-        modifier: 'Lauréat.Installateur.UseCase.ModifierInstallateur',
+        modifier: 'Lauréat.Installation.UseCase.ModifierInstallateur',
       },
       command: {
-        modifier: 'Lauréat.Installateur.Command.ModifierInstallateur',
+        modifier: 'Lauréat.Installation.Command.ModifierInstallateur',
       },
     },
     natureDeLExploitation: {

@@ -9,7 +9,7 @@ import { installateurNotificationTemplateId } from './constant';
 
 type InstallateurModifiéNotificationProps = {
   sendEmail: RegisterInstallateurNotificationDependencies['sendEmail'];
-  event: Lauréat.Installateur.InstallateurModifiéEvent;
+  event: Lauréat.Installation.InstallateurModifiéEvent;
   projet: {
     nom: string;
     département: string;

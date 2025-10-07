@@ -5,7 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { ModifierInstallateurCommand } from './modifierInstallateur.command';
 
 export type ModifierInstallateurUseCase = Message<
-  'Lauréat.Installateur.UseCase.ModifierInstallateur',
+  'Lauréat.Installation.UseCase.ModifierInstallateur',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -22,7 +22,7 @@ export const registerModifierInstallateurUseCase = () => {
     dateModificationValue,
   }) => {
     await mediator.send<ModifierInstallateurCommand>({
-      type: 'Lauréat.Installateur.Command.ModifierInstallateur',
+      type: 'Lauréat.Installation.Command.ModifierInstallateur',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
@@ -31,5 +31,5 @@ export const registerModifierInstallateurUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.Installateur.UseCase.ModifierInstallateur', runner);
+  mediator.register('Lauréat.Installation.UseCase.ModifierInstallateur', runner);
 };

@@ -1,4 +1,4 @@
-import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
+import { GetProjetAggregateRoot } from '../../../getProjetAggregateRoot.port';
 
 import {
   ConsulterInstallateurDependencies,
@@ -9,11 +9,11 @@ import { registerModifierInstallateurUseCase } from './modifier/modifierInstalla
 
 export type InstallateurQueryDependencies = ConsulterInstallateurDependencies;
 
-export type InstallateurCommandDependencies = {
+export type InstallateurUseCaseDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerInstallateurUseCases = (dependencies: InstallateurCommandDependencies) => {
+export const registerInstallateurUseCases = (dependencies: InstallateurUseCaseDependencies) => {
   registerModifierInstallateurCommand(dependencies.getProjetAggregateRoot);
   registerModifierInstallateurUseCase();
 };
