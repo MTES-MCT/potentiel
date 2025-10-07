@@ -1,52 +1,21 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import * as StatutCandidature from '../statutCandidature.valueType';
-import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import * as TypeTechnologie from '../typeTechnologie.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
-import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
-import { IdentifiantProjet } from '../..';
-import { Fournisseur } from '../../lauréat/fournisseur';
-import { TypologieInstallation } from '..';
+import { Candidature, IdentifiantProjet } from '../..';
+
+// Transforme les clés qui peuvent être undefined en optionnelles
+type MakeUndefinedOptional<T> = {
+  [K in keyof T as undefined extends T[K] ? K : never]?: Exclude<T[K], undefined>;
+} & {
+  [K in keyof T as undefined extends T[K] ? never : K]: T[K];
+};
 
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
-  statut: StatutCandidature.RawType;
-  typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
-  historiqueAbandon: HistoriqueAbandon.RawType;
-  nomProjet: string;
-  sociétéMère: string;
-  nomCandidat: string;
-  puissanceProductionAnnuelle: number;
-  prixReference: number;
-  noteTotale: number;
-  nomReprésentantLégal: string;
-  emailContact: Email.RawType;
-  localité: {
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    département: string;
-    région: string;
-  };
-  motifÉlimination?: string;
-  puissanceALaPointe: boolean;
-  evaluationCarboneSimplifiée: number;
-  technologie: TypeTechnologie.RawType;
-  actionnariat?: TypeActionnariat.RawType;
-  dateÉchéanceGf?: DateTime.RawType;
-  dateConstitutionGf?: DateTime.RawType;
-  territoireProjet: string;
-  coefficientKChoisi?: boolean;
-  puissanceDeSite?: number;
-  obligationDeSolarisation?: boolean;
-  fournisseurs: Array<Fournisseur.RawType>;
-  typologieInstallation: Array<TypologieInstallation.RawType>;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
-};
+} & MakeUndefinedOptional<Candidature.Dépôt.RawType> &
+  Candidature.Instruction.RawType;
 
 /**
  * @deprecated Ajoute les informations fournisseurs à une candidature importée avec CandidatureImportée-V1
