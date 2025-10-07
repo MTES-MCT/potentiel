@@ -6,6 +6,7 @@ import { Candidature, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -105,7 +106,11 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <ÉliminéListPage
-          list={mapToListProps(éliminés)}
+          list={{
+            items: éliminés.items.map(mapToPlainObject),
+            ...mapToPagination(éliminés.range),
+            totalItems: éliminés.total,
+          }}
           filters={filters}
           legend={{
             symbols: projectListLegendSymbols,
@@ -145,41 +150,4 @@ const mapToActions = ({ rôle, searchParams: { appelOffre, nomProjet } }: MapToA
   });
 
   return actions;
-};
-
-type MapToListProps = (readModel: Éliminé.ListerÉliminéReadModel) => ÉliminéListPageProps['list'];
-
-const mapToListProps: MapToListProps = (readModel) => {
-  const items: ÉliminéListPageProps['list']['items'] = readModel.items.map(
-    ({
-      identifiantProjet,
-      nomProjet,
-      localité,
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email,
-      nomReprésentantLégal,
-      typeActionnariat,
-    }) => ({
-      identifiantProjet: identifiantProjet.formatter(),
-      nomProjet,
-      localité: localité.formatter(),
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email: email.formatter(),
-      nomReprésentantLégal,
-      typeActionnariat: typeActionnariat?.formatter(),
-      statut: 'éliminé',
-    }),
-  );
-
-  return {
-    items,
-    ...mapToPagination(readModel.range),
-    totalItems: readModel.total,
-  };
 };
