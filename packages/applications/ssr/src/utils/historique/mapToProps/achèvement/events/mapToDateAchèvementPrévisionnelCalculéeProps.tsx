@@ -4,11 +4,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { HistoriqueItem } from '@/utils/historique/HistoriqueItem.type';
 
-export const mapToDateAchèvementPrévisionnelCalculéeProps = (
-  dateAchèvementPrévisionnelCalculée: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent,
-) => {
-  const { date, raison } = dateAchèvementPrévisionnelCalculée.payload;
+export const mapToDateAchèvementPrévisionnelCalculéeProps: HistoriqueItem<
+  Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent
+> = ({ event }) => {
+  const { date, raison } = event.payload;
 
   if (['inconnue', 'notification', 'délai-accordé'].includes(raison)) {
     return undefined;

@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { HistoriqueItem } from '../../HistoriqueItem.type';
 
 import {
   mapToAttestationConformitéModifiéeTimelineItemProps,
@@ -10,27 +10,26 @@ import {
   mapToDateAchèvementPrévisionnelCalculéeProps,
 } from './events';
 
-export const mapToAchèvementTimelineItemProps = (
-  readmodel: Lauréat.HistoriqueAchèvementProjetListItemReadModel,
-) =>
-  match(readmodel)
-    .returnType<TimelineItemProps | undefined>()
+export const mapToAchèvementTimelineItemProps: HistoriqueItem<
+  Lauréat.HistoriqueAchèvementProjetListItemReadModel
+> = ({ event, withLink }) =>
+  match(event)
     .with(
       {
         type: 'AttestationConformitéModifiée-V1',
       },
-      mapToAttestationConformitéModifiéeTimelineItemProps,
+      (event) => mapToAttestationConformitéModifiéeTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'AttestationConformitéTransmise-V1',
       },
-      mapToAttestationConformitéTransmiseTimelineItemProps,
+      (event) => mapToAttestationConformitéTransmiseTimelineItemProps({ event, withLink }),
     )
     .with(
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
       },
-      mapToDateAchèvementPrévisionnelCalculéeProps,
+      (event) => mapToDateAchèvementPrévisionnelCalculéeProps({ event, withLink }),
     )
     .exhaustive();

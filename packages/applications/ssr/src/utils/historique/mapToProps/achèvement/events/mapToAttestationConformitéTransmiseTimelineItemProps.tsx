@@ -4,17 +4,18 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { HistoriqueItem } from '@/utils/historique/HistoriqueItem.type';
 
-export const mapToAttestationConformitéTransmiseTimelineItemProps = (
-  attestationConformitéTransmise: Lauréat.Achèvement.AttestationConformité.AttestationConformitéTransmiseEvent,
-) => {
+export const mapToAttestationConformitéTransmiseTimelineItemProps: HistoriqueItem<
+  Lauréat.Achèvement.AttestationConformité.AttestationConformitéTransmiseEvent
+> = ({ event }) => {
   const {
     identifiantProjet,
     attestation: { format },
     preuveTransmissionAuCocontractant,
     dateTransmissionAuCocontractant,
     date,
-  } = attestationConformitéTransmise.payload;
+  } = event.payload;
 
   const attestation = DocumentProjet.convertirEnValueType(
     identifiantProjet,
