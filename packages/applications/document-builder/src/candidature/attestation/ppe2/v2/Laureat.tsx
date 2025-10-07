@@ -109,9 +109,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               marginTop: 10,
             }}
           >
-            -{' '}
-            {!appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel &&
-              `si ce n’est déjà fait, `}
+            - {!appelOffre.dépôtDCRPossibleSeulementAprèsDésignation && `si ce n’est déjà fait, `}
             déposer une demande complète de raccordement dans les {delaiDcrEnMois.texte} (
             {delaiDcrEnMois.valeur}) mois à compter de la présente notification
             {appelOffre.typeAppelOffre === 'eolien' &&

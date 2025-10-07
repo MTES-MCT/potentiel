@@ -64,6 +64,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
   changementProducteurPossibleAvantAchèvement: true,
+  dépôtDCRPossibleSeulementAprèsDésignation: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

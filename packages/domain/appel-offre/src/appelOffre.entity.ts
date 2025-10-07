@@ -328,6 +328,7 @@ export type AppelOffreReadModel = {
   dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
   changementProducteurPossibleAvantAchèvement: boolean;
+  dépôtDCRPossibleSeulementAprèsDésignation?: true;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
   addendums?: {
