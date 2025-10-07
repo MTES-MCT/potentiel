@@ -8,8 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
-
-import { StatutChangementReprésentantLégalBadge } from '../../[identifiant]/representant-legal/changement/[date]/(détails)/StatutChangementReprésentantLégalBadge';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 export type ChangementReprésentantLégalListItemProps = PlainType<
   Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalReadModel['items'][number]
@@ -45,7 +44,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
       </Button>
     }
   >
-    <StatutChangementReprésentantLégalBadge
+    <StatutDemandeBadge
       statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).formatter()}
       small
     />

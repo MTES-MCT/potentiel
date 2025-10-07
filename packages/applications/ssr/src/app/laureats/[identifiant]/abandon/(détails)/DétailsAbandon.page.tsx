@@ -5,13 +5,13 @@ import { PlainType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { StatutAbandonBadge } from '@/app/laureats/[identifiant]/abandon/(détails)/StatutAbandonBadge';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 import {
   TransmettrePreuveRecandidature,
@@ -78,7 +78,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
                 </div>
                 <div className="flex gap-2">
                   <div className="font-semibold">Statut :</div>{' '}
-                  <StatutAbandonBadge statut={abandon.statut.statut} />
+                  <StatutDemandeBadge statut={abandon.statut.statut} />
                 </div>
                 {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
                   <div>

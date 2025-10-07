@@ -11,8 +11,8 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
-import { StatutRecoursBadge } from './StatutRecoursBadge';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
@@ -61,7 +61,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
                   <span className="font-semibold">{demandéPar}</span>
                 </div>
                 <div>
-                  Statut : <StatutRecoursBadge statut={recours.statut.value} />
+                  Statut : <StatutDemandeBadge statut={recours.statut.value} />
                 </div>
                 <div className="flex gap-2">
                   <div className="whitespace-nowrap">Explications :</div>

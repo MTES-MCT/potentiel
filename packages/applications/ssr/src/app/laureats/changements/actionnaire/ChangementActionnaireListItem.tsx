@@ -9,8 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
-import { StatutChangementActionnaireBadge } from '../../[identifiant]/actionnaire/StatutChangementActionnaireBadge';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 export type ChangementActionnaireListItemProps = PlainType<
   Lauréat.Actionnaire.ListerChangementActionnaireReadModel['items'][number]
@@ -68,7 +67,7 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
         </span>
       </li>
     </ul>
-    <StatutChangementActionnaireBadge
+    <StatutDemandeBadge
       statut={Lauréat.Actionnaire.StatutChangementActionnaire.bind(statut).statut}
       small
     />

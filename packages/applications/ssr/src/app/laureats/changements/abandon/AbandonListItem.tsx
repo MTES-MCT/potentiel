@@ -9,9 +9,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 import { StatutPreuveRecandidatureBadge } from '../../[identifiant]/abandon/transmettre-preuve-recandidature/StatutPreuveRecandidatureBadge';
-import { StatutAbandonBadge } from '../../[identifiant]/abandon/(détails)/StatutAbandonBadge';
 
 export type AbandonListItemProps = {
   identifiantProjet: string;
@@ -50,7 +50,7 @@ export const AbandonListItem: FC<AbandonListItemProps> = ({
       </Button>
     }
   >
-    <StatutAbandonBadge statut={statut} small />
+    <StatutDemandeBadge statut={statut} small />
     {recandidature && (
       <>
         <Badge noIcon small className="mx-1" severity="info">

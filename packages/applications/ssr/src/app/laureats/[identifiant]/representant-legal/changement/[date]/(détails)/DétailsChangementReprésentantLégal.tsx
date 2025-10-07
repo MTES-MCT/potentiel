@@ -10,8 +10,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
-import { StatutChangementReprésentantLégalBadge } from './StatutChangementReprésentantLégalBadge';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
 type DétailsChangementReprésentantLégalProps =
@@ -156,7 +156,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéLe, demandéP
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementReprésentantLégalBadge
+      <StatutDemandeBadge
         statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter()}
       />
     </div>
@@ -172,7 +172,7 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéLe, dema
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementReprésentantLégalBadge
+      <StatutDemandeBadge
         statut={
           Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée.statut
         }
@@ -194,7 +194,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({ accordéLe, accordéP
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementReprésentantLégalBadge
+      <StatutDemandeBadge
         statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter()}
       />
     </div>
@@ -217,7 +217,7 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéLe, rejetéPar, 
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementReprésentantLégalBadge
+      <StatutDemandeBadge
         statut={Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter()}
       />
     </div>

@@ -10,9 +10,9 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 import { ListeFournisseurs } from '../ListeFournisseurs';
-import { StatutChangementFournisseurBadge } from '../../StatutChangementFournisseurBadge';
 import { AlerteChangementÉvaluationCarbone } from '../AlerteChangementÉvaluationCarbone';
 
 export type DétailsChangementFournisseurProps = {
@@ -43,7 +43,8 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
             </span>
           </div>
           <div className="flex gap-2">
-            <div className="font-semibold">Statut :</div> <StatutChangementFournisseurBadge />
+            <div className="font-semibold">Statut :</div>{' '}
+            <StatutDemandeBadge statut="information-enregistrée" />
           </div>
         </div>
         <>

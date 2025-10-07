@@ -10,10 +10,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
+import { ReadMore } from '@/components/atoms/ReadMore';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
-import { ReadMore } from '../../../../../components/atoms/ReadMore';
-
-import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;
@@ -118,8 +117,7 @@ const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois, stat
       <div>{nombreDeMois} mois</div>
     </div>
     <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeDélaiBadge statut={statut.statut} />
+      <div className="font-semibold">Statut :</div> <StatutDemandeBadge statut={statut.statut} />
     </div>
   </div>
 );
@@ -143,7 +141,7 @@ const DemandeAccordée: FC<DemandeAccordéeProps> = ({
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeDélaiBadge statut={Lauréat.Délai.StatutDemandeDélai.accordé.statut} />
+      <StatutDemandeBadge statut={Lauréat.Délai.StatutDemandeDélai.accordé.statut} />
     </div>
     <div className="flex flex-col gap-1">
       <div className="flex gap-2">
@@ -182,7 +180,7 @@ const DemandeRejetée: FC<DemandeRejetéeProps> = ({ rejetéeLe, rejetéePar, r�
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeDélaiBadge statut={Lauréat.Délai.StatutDemandeDélai.rejeté.statut} />
+      <StatutDemandeBadge statut={Lauréat.Délai.StatutDemandeDélai.rejeté.statut} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

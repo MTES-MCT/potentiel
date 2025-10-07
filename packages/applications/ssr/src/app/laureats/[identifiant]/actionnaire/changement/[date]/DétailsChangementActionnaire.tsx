@@ -9,8 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
-
-import { StatutChangementActionnaireBadge } from '../../StatutChangementActionnaireBadge';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 
@@ -22,6 +21,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
   const estUneInformationEnregistrée = Lauréat.Actionnaire.StatutChangementActionnaire.bind(
     demande.statut,
   ).estInformationEnregistrée();
+
   return (
     <div className="flex flex-col gap-4">
       <Heading2>
@@ -101,7 +101,7 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, dem
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementActionnaireBadge
+      <StatutDemandeBadge
         statut={Lauréat.Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut}
       />
     </div>
@@ -122,9 +122,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementActionnaireBadge
-        statut={Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut}
-      />
+      <StatutDemandeBadge statut={Lauréat.Actionnaire.StatutChangementActionnaire.demandé.statut} />
     </div>
   </div>
 );
@@ -146,9 +144,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementActionnaireBadge
-        statut={Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut}
-      />
+      <StatutDemandeBadge statut={Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
@@ -175,9 +171,7 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementActionnaireBadge
-        statut={Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut}
-      />
+      <StatutDemandeBadge statut={Lauréat.Actionnaire.StatutChangementActionnaire.rejeté.statut} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

@@ -9,7 +9,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-import { StatutRecoursBadge } from '../elimine/[identifiant]/recours/(détails)/StatutRecoursBadge';
+import { StatutDemandeBadge } from '../../components/organisms/StatutDemande';
 
 export type RecoursListItemProps = PlainType<
   Éliminé.Recours.ListerRecoursReadModel['items'][number]
@@ -42,7 +42,7 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
         </Button>
       }
     >
-      <StatutRecoursBadge statut={statut.value} small />
+      <StatutDemandeBadge statut={statut.value} small />
     </ListItem>
   );
 };

@@ -7,8 +7,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-
-import { StatutChangementProducteurBadge } from '../StatutChangementProducteurBadge';
+import { StatutDemandeBadge } from '@/components/organisms/StatutDemande';
 
 import { DétailsProducteurPageProps } from './DétailsProducteur.page';
 
@@ -21,7 +20,10 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>Changement de producteur</Heading2>
+      <div className="flex flex-row gap-4">
+        <Heading2>Changement de producteur</Heading2>{' '}
+        <StatutDemandeBadge statut="information-enregistrée" />
+      </div>
       <>
         <div className="flex flex-col gap-4">
           <div className="text-xs italic">
@@ -35,12 +37,9 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
               {Email.bind(changement.enregistréPar).formatter()}
             </span>
           </div>
-          <div className="flex gap-2">
-            <div className="font-semibold">Statut :</div> <StatutChangementProducteurBadge />
-          </div>
         </div>
         <>
-          <Heading5>Détails du changement</Heading5>
+          <Heading5>Détails</Heading5>
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2">
               <div className="font-semibold whitespace-nowrap">Producteur</div>
