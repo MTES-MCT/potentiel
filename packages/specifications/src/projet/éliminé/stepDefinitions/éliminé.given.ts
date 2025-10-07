@@ -69,7 +69,6 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation?:
     type: 'Candidature.UseCase.NotifierCandidature',
     data: {
       identifiantProjetValue: identifiantProjetValue.formatter(),
-      statutValue: Candidature.StatutCandidature.classé.formatter(),
       notifiéeLeValue: notifiéLe,
       notifiéeParValue: notifiéPar,
       attestationValue: {
