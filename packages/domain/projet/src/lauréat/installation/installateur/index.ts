@@ -24,7 +24,7 @@ export { ModifierInstallateurUseCase } from './modifier/modifierInstallateur.use
 // Event
 export { InstallateurEvent } from './installateur.event';
 
-export { InstallateurImportéEvent } from './importer/importerInstallateur.event';
+export { InstallationImportéeEvent as InstallateurImportéEvent } from '../importer/importerInstalltion.event';
 export { InstallateurModifiéEvent } from './modifier/modifierInstallateur.event';
 
 // Register

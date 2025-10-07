@@ -110,8 +110,8 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       if (laureat.installateur) {
-        await mediator.send<Lauréat.Installateur.ModifierInstallateurUseCase>({
-          type: 'Lauréat.Installateur.UseCase.ModifierInstallateur',
+        await mediator.send<Lauréat.Installation.ModifierInstallateurUseCase>({
+          type: 'Lauréat.Installation.UseCase.ModifierInstallateur',
           data: {
             identifiantProjetValue: identifiantProjet,
             installateurValue: laureat.installateur,

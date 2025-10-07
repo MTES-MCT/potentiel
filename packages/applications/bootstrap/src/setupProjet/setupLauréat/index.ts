@@ -16,7 +16,7 @@ import { setupRaccordement } from './setupRaccordement';
 import { setupDélai } from './setupDélai';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 import { setupGarantiesFinancières } from './setupGarantiesFinancière';
-import { setupInstallateur } from './setupInstallateur';
+import { setupInstallation } from './setupInstallation';
 import { setupTâche } from './setupTâche';
 import { setupInstallationAvecDispositifDeStockage } from './setupInstallationAvecDispositifDeStockage';
 import { setupNatureDeLExploitation } from './setupNatureDeLExploitation';
@@ -82,7 +82,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupGarantiesFinancières = await setupGarantiesFinancières(dependencies);
   const unsetupTâchePlanifiée = await setupTâchePlanifiée(dependencies);
   const unsetupTâche = await setupTâche();
-  const unsetupInstallateur = await setupInstallateur(dependencies);
+  const unsetupInstallation = await setupInstallation(dependencies);
   const unsetupInstallationAvecDispositifDeStockage =
     await setupInstallationAvecDispositifDeStockage(dependencies);
   const unsetupNatureDeLExploitation = await setupNatureDeLExploitation(dependencies);
@@ -102,7 +102,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupGarantiesFinancières();
     await unsetupTâchePlanifiée();
     await unsetupTâche();
-    await unsetupInstallateur();
+    await unsetupInstallation();
     await unsetupInstallationAvecDispositifDeStockage();
     await unsetupNatureDeLExploitation();
   };

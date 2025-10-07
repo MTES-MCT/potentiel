@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToInstallateurModifiéTimelineItemsProps = (
-  record: Lauréat.Installateur.InstallateurModifiéEvent,
+  record: Lauréat.Installation.InstallateurModifiéEvent,
 ) => {
   const { modifiéLe, modifiéPar, installateur } = record.payload;
 

@@ -2,9 +2,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '../../..';
-
-export type InstallateurImportéEvent = DomainEvent<
-  'InstallateurImporté-V1',
+export type InstallationImportéeEvent = DomainEvent<
+  'InstallationImportée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     installateur: string;

@@ -9,9 +9,9 @@ import { SendEmail } from '../../../sendEmail';
 
 import { installateurModifiéNotification } from './installateurModifié.notification';
 
-export type SubscriptionEvent = Lauréat.Installateur.InstallateurEvent & Event;
+export type SubscriptionEvent = Lauréat.Installation.InstallationEvent & Event;
 
-export type Execute = Message<'System.Notification.Lauréat.Installateur', SubscriptionEvent>;
+export type Execute = Message<'System.Notification.Lauréat.Installation', SubscriptionEvent>;
 
 export type RegisterInstallateurNotificationDependencies = {
   sendEmail: SendEmail;
@@ -35,12 +35,12 @@ export const register = ({ sendEmail }: RegisterInstallateurNotificationDependen
       )
       .with(
         {
-          type: P.union('InstallateurImporté-V1'),
+          type: P.union('InstallationImportée-V1'),
         },
         () => Promise.resolve(),
       )
       .exhaustive();
   };
 
-  mediator.register('System.Notification.Lauréat.Installateur', handler);
+  mediator.register('System.Notification.Lauréat.Installation', handler);
 };
