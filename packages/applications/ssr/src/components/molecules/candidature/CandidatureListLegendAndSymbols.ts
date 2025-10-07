@@ -6,6 +6,7 @@ import {
   puissance,
   représentantLégal,
   évaluationCarbone,
+  typeActionnariat,
 } from '../projet/liste/ProjectListLegendAndSymbols';
 
 export const candidatureListLegendSymbols = [
@@ -13,6 +14,7 @@ export const candidatureListLegendSymbols = [
   nomProducteur,
   représentantLégal,
   email,
+  typeActionnariat,
   puissance,
   prix,
   évaluationCarbone,

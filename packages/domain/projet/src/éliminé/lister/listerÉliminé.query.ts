@@ -16,7 +16,7 @@ type ÉliminéListItemReadModel = {
   email: Email.ValueType;
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['dépôt']['nomReprésentantLégal'];
   puissance: {
-    unité: Candidature.UnitéPuissance.RawType;
+    unité: Candidature.UnitéPuissance.ValueType;
     valeur: Candidature.ConsulterCandidatureReadModel['dépôt']['puissanceProductionAnnuelle'];
   };
   prixReference: Candidature.ConsulterCandidatureReadModel['dépôt']['prixReference'];
@@ -133,7 +133,7 @@ const mapToReadModel: MapToReadModelProps = ({
     email: Email.convertirEnValueType(emailContact),
     nomReprésentantLégal,
     puissance: {
-      unité: unitéPuissance,
+      unité: Candidature.UnitéPuissance.convertirEnValueType(unitéPuissance),
       valeur: puissance,
     },
     prixReference,

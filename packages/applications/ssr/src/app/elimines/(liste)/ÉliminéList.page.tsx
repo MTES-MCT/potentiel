@@ -1,14 +1,15 @@
 import { FC } from 'react';
 
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import {
-  ProjectListItem,
-  ProjectListItemProps,
-} from '@/components/molecules/projet/liste/ProjectListItem';
+import { ProjectListItem } from '@/components/molecules/projet/liste/ProjectListItem';
+
+import { ÉliminéListItem, ÉliminéListItemProps } from './ÉliminéListItem';
 
 export type ÉliminéListPageProps = {
   list: {
-    items: Array<ProjectListItemProps>;
+    items: Array<ÉliminéListItemProps>;
     currentPage: number;
     totalItems: number;
     itemsPerPage: number;
@@ -32,11 +33,11 @@ export const ÉliminéListPage: FC<ÉliminéListPageProps> = ({
     actions={actions}
     legend={legend}
     totalItems={totalItems}
-    ItemComponent={ProjectListItem}
+    ItemComponent={ÉliminéListItem}
     search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
     items={éliminés.map((projet) => ({
       ...projet,
-      key: projet.identifiantProjet,
+      key: IdentifiantProjet.bind(projet.identifiantProjet).formatter(),
     }))}
   />
 );

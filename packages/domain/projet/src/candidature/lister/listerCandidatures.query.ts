@@ -8,7 +8,7 @@ import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import { IdentifiantProjet } from '../..';
-import { Dépôt, UnitéPuissance } from '..';
+import { Dépôt, Localité, TypeActionnariat, UnitéPuissance } from '..';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -20,14 +20,11 @@ export type CandidaturesListItemReadModel = {
   puissanceProductionAnnuelle: number;
   prixReference: Dépôt.ValueType['prixReference'];
   evaluationCarboneSimplifiée: Dépôt.ValueType['evaluationCarboneSimplifiée'];
-  localité: {
-    commune: Dépôt.ValueType['localité']['commune'];
-    département: Dépôt.ValueType['localité']['département'];
-    région: Dépôt.ValueType['localité']['région'];
-  };
+  localité: Localité.ValueType;
   estNotifiée: boolean;
   attestation?: DocumentProjet.ValueType;
   unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];
+  typeActionnariat?: Dépôt.ValueType['actionnariat'];
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -40,12 +37,14 @@ export type ListerCandidaturesQuery = Message<
   'Candidature.Query.ListerCandidatures',
   {
     range?: RangeOptions;
+    statut?: StatutCandidature.RawType;
     appelOffre?: string;
     période?: string;
-    nomProjet?: string;
-    statut?: StatutCandidature.RawType;
-    identifiantProjets?: Array<IdentifiantProjet.RawType>;
+    famille?: string;
     estNotifiée?: boolean;
+    typeActionnariat?: Array<TypeActionnariat.RawType>;
+    nomProjet?: string;
+    identifiantProjets?: Array<IdentifiantProjet.RawType>;
   },
   ListerCandidaturesReadModel
 >;
@@ -57,12 +56,14 @@ export type ListerCandidaturesQueryDependencies = {
 export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQueryDependencies) => {
   const handler: MessageHandler<ListerCandidaturesQuery> = async ({
     range,
-    nomProjet,
+    statut,
     appelOffre,
     période,
-    statut,
-    identifiantProjets,
+    famille,
     estNotifiée,
+    typeActionnariat,
+    nomProjet,
+    identifiantProjets,
   }) => {
     const {
       items,
@@ -70,11 +71,16 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
       total,
     } = await list<CandidatureEntity>('candidature', {
       where: {
+        statut: Where.equal(statut),
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(période),
-        nomProjet: Where.contain(nomProjet),
-        statut: Where.equal(statut),
+        famille: Where.equal(famille),
         estNotifiée: Where.equal(estNotifiée),
+        actionnariat:
+          typeActionnariat && typeActionnariat.length > 0
+            ? Where.matchAny(typeActionnariat)
+            : undefined,
+        nomProjet: Where.contain(nomProjet),
         identifiantProjet: Where.matchAny(identifiantProjets),
       },
       range,
@@ -106,11 +112,12 @@ export const mapToReadModel = ({
   emailContact,
   puissanceProductionAnnuelle,
   prixReference,
-  localité: { commune, département, région },
+  localité,
   evaluationCarboneSimplifiée,
   estNotifiée,
   notification,
   unitéPuissance,
+  actionnariat,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -121,11 +128,7 @@ export const mapToReadModel = ({
   prixReference,
   evaluationCarboneSimplifiée,
   nomCandidat,
-  localité: {
-    commune,
-    département,
-    région,
-  },
+  localité: Localité.bind(localité),
   estNotifiée,
   ...(estNotifiée &&
     notification.attestation && {
@@ -137,4 +140,5 @@ export const mapToReadModel = ({
       ),
     }),
   unitéPuissance: UnitéPuissance.convertirEnValueType(unitéPuissance),
+  typeActionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
 });

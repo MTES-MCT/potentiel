@@ -6,6 +6,7 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -115,7 +116,11 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <LauréatListPage
-          list={mapToListProps(lauréats)}
+          list={{
+            items: lauréats.items.map(mapToPlainObject),
+            ...mapToPagination(lauréats.range),
+            totalItems: lauréats.total,
+          }}
           filters={filters}
           legend={{
             symbols: projectListLegendSymbols,
@@ -159,42 +164,4 @@ const mapToActions = ({
   });
 
   return actions;
-};
-
-type MapToListProps = (readModel: Lauréat.ListerLauréatReadModel) => LauréatListPageProps['list'];
-
-const mapToListProps: MapToListProps = (readModel) => {
-  const items: LauréatListPageProps['list']['items'] = readModel.items.map(
-    ({
-      identifiantProjet,
-      nomProjet,
-      localité,
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email,
-      nomReprésentantLégal,
-      typeActionnariat,
-      statut,
-    }) => ({
-      identifiantProjet: identifiantProjet.formatter(),
-      statut: statut.formatter(),
-      nomProjet,
-      localité,
-      producteur,
-      puissance,
-      evaluationCarboneSimplifiée,
-      prixReference,
-      email: email.formatter(),
-      nomReprésentantLégal,
-      typeActionnariat: typeActionnariat?.formatter(),
-    }),
-  );
-
-  return {
-    items,
-    ...mapToPagination(readModel.range),
-    totalItems: readModel.total,
-  };
 };
