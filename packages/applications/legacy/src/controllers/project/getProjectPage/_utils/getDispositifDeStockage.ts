@@ -47,7 +47,7 @@ export const getDispositifDeStockage = async ({
           affichage: {
             url: Routes.DispositifDeStockage.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
-            labelActions: 'Modifier dispositif de stockage',
+            labelActions: 'Modifier le dispositif de stockage',
           },
         };
       }

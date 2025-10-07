@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Heading3, Link } from '../../../../components';
 
 import { GetDispositifDeStockageForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getDispositifDeStockage';
@@ -13,7 +11,7 @@ export const InfoDispositifDeStockage = ({
 }: InfoDispositifDeStockageProps) => {
   const {
     installationAvecDispositifDeStockage,
-    capacitéDuDispositifDeStockageEnKW,
+    capacitéDuDispositifDeStockageEnKWh,
     puissanceDuDispositifDeStockageEnKW,
   } = dispositifDeStockage.dispositifDeStockage;
 
@@ -22,16 +20,16 @@ export const InfoDispositifDeStockage = ({
       <Heading3 className="m-0">Dispositif de stockage</Heading3>
       <span>
         {installationAvecDispositifDeStockage === true
-          ? 'Avec'
+          ? 'Installation couplée à un dispositif de stockage'
           : installationAvecDispositifDeStockage === false
-            ? 'Sans'
+            ? 'Installation sans dispositif de stockage'
             : 'Non renseigné'}
       </span>
       {puissanceDuDispositifDeStockageEnKW ? (
-        <span>Puissance du dispositif de stockage : ${puissanceDuDispositifDeStockageEnKW} Kw</span>
+        <span>Puissance du dispositif de stockage : {puissanceDuDispositifDeStockageEnKW} kW</span>
       ) : null}
-      {capacitéDuDispositifDeStockageEnKW ? (
-        <span>Capacité du dispositif de stockage : ${capacitéDuDispositifDeStockageEnKW} Kw</span>
+      {capacitéDuDispositifDeStockageEnKWh ? (
+        <span>Capacité du dispositif de stockage : {capacitéDuDispositifDeStockageEnKWh} kWh</span>
       ) : null}
       {dispositifDeStockage.affichage && (
         <Link

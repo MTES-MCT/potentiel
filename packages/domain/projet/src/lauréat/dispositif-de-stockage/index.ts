@@ -38,4 +38,4 @@ export {
 export * from './dispositifDeStockage.entity';
 
 // Value type
-export * as DispositifDeStockage from './dispositifDeStockage.valueType';
+export * as DispositifDeStockage from './valueType';

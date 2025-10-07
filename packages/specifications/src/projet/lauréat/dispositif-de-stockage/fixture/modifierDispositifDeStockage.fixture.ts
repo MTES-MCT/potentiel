@@ -34,7 +34,7 @@ export class ModifierDispositifDeStockageFixture
       dispositifDeStockage: installationAvecDispositifDeStockage
         ? {
             installationAvecDispositifDeStockage,
-            capacitéDuDispositifDeStockageEnKW: faker.number.float({
+            capacitéDuDispositifDeStockageEnKWh: faker.number.float({
               min: 0,
               fractionDigits: 3,
             }),

@@ -72,12 +72,13 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
       {installationAvecDispositifDeStockage && (
         <>
           <Input
-            state={validationErrors['capaciteDuDispositifDeStockageEnKW'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['capaciteDuDispositifDeStockageEnKW']}
-            label="Capacité du dispositif de stockage (en KW)"
+            state={validationErrors['capaciteDuDispositifDeStockageEnKWh'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['capaciteDuDispositifDeStockageEnKWh']}
+            label="Capacité du dispositif de stockage (en kWh)"
+            className="w-fit"
             nativeInputProps={{
-              name: 'capaciteDuDispositifDeStockageEnKW',
-              defaultValue: dispositifDeStockage.capacitéDuDispositifDeStockageEnKW,
+              name: 'capaciteDuDispositifDeStockageEnKWh',
+              defaultValue: dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh,
               required: true,
               'aria-required': true,
               disabled: !installationAvecDispositifDeStockage,
@@ -87,7 +88,8 @@ export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFo
           <Input
             state={validationErrors['puissanceDuDispositifDeStockageEnKW'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['puissanceDuDispositifDeStockageEnKW']}
-            label="Puissance du dispositif de stockage (en KW)"
+            label="Puissance du dispositif de stockage (en kW)"
+            className="w-fit"
             nativeInputProps={{
               name: 'puissanceDuDispositifDeStockageEnKW',
               defaultValue: dispositifDeStockage.puissanceDuDispositifDeStockageEnKW,

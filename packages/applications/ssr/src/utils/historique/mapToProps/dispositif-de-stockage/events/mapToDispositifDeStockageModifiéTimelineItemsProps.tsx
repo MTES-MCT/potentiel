@@ -8,7 +8,7 @@ export const mapTodispositifDeStockagemodifiéTimelineItemsProps = (
     modifiéPar,
     dispositifDeStockage: {
       installationAvecDispositifDeStockage,
-      capacitéDuDispositifDeStockageEnKW,
+      capacitéDuDispositifDeStockageEnKWh,
       puissanceDuDispositifDeStockageEnKW,
     },
   } = record.payload;
@@ -30,12 +30,12 @@ export const mapTodispositifDeStockagemodifiéTimelineItemsProps = (
           </span>
           {puissanceDuDispositifDeStockageEnKW !== undefined ? (
             <span>
-              Puissance du dispositif de stockage : ${puissanceDuDispositifDeStockageEnKW} Kw
+              Puissance du dispositif de stockage : ${puissanceDuDispositifDeStockageEnKW} kW
             </span>
           ) : null}
-          {capacitéDuDispositifDeStockageEnKW !== undefined ? (
+          {capacitéDuDispositifDeStockageEnKWh !== undefined ? (
             <span>
-              Capacité du dispositif de stockage : ${capacitéDuDispositifDeStockageEnKW} Kw
+              Capacité du dispositif de stockage : ${capacitéDuDispositifDeStockageEnKWh} kWh
             </span>
           ) : null}
         </div>

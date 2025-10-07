@@ -3,7 +3,7 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 export type RawType = {
   installationAvecDispositifDeStockage: boolean;
   puissanceDuDispositifDeStockageEnKW?: number;
-  capacitéDuDispositifDeStockageEnKW?: number;
+  capacitéDuDispositifDeStockageEnKWh?: number;
 };
 
 export type ValueType = ReadonlyValueType<
@@ -15,33 +15,33 @@ export type ValueType = ReadonlyValueType<
 export const bind = ({
   installationAvecDispositifDeStockage,
   puissanceDuDispositifDeStockageEnKW,
-  capacitéDuDispositifDeStockageEnKW,
+  capacitéDuDispositifDeStockageEnKWh,
 }: PlainType<ValueType>): ValueType => {
   estValide({
     installationAvecDispositifDeStockage,
     puissanceDuDispositifDeStockageEnKW,
-    capacitéDuDispositifDeStockageEnKW,
+    capacitéDuDispositifDeStockageEnKWh,
   });
   return {
     installationAvecDispositifDeStockage,
     puissanceDuDispositifDeStockageEnKW,
-    capacitéDuDispositifDeStockageEnKW,
+    capacitéDuDispositifDeStockageEnKWh,
     estÉgaleÀ({
       installationAvecDispositifDeStockage,
       puissanceDuDispositifDeStockageEnKW,
-      capacitéDuDispositifDeStockageEnKW,
+      capacitéDuDispositifDeStockageEnKWh,
     }) {
       return (
         this.installationAvecDispositifDeStockage === installationAvecDispositifDeStockage &&
         this.puissanceDuDispositifDeStockageEnKW === puissanceDuDispositifDeStockageEnKW &&
-        this.capacitéDuDispositifDeStockageEnKW === capacitéDuDispositifDeStockageEnKW
+        this.capacitéDuDispositifDeStockageEnKWh === capacitéDuDispositifDeStockageEnKWh
       );
     },
     formatter() {
       return {
         installationAvecDispositifDeStockage,
         puissanceDuDispositifDeStockageEnKW,
-        capacitéDuDispositifDeStockageEnKW,
+        capacitéDuDispositifDeStockageEnKWh,
       };
     },
   };
@@ -50,15 +50,15 @@ export const bind = ({
 function estValide(value: {
   installationAvecDispositifDeStockage: boolean;
   puissanceDuDispositifDeStockageEnKW?: number;
-  capacitéDuDispositifDeStockageEnKW?: number;
+  capacitéDuDispositifDeStockageEnKWh?: number;
 }): asserts value is RawType {
   const isInvalidWithDispositifDeStockage =
     value.installationAvecDispositifDeStockage &&
-    (!value.capacitéDuDispositifDeStockageEnKW || !value.puissanceDuDispositifDeStockageEnKW);
+    (!value.capacitéDuDispositifDeStockageEnKWh || !value.puissanceDuDispositifDeStockageEnKW);
 
   const isInvalidWithoutDispositifDeStockage =
     !value.installationAvecDispositifDeStockage &&
-    (value.capacitéDuDispositifDeStockageEnKW || value.puissanceDuDispositifDeStockageEnKW);
+    (value.capacitéDuDispositifDeStockageEnKWh || value.puissanceDuDispositifDeStockageEnKW);
 
   if (isInvalidWithDispositifDeStockage) {
     throw new InstallationAvecDispositifDeStockageError();

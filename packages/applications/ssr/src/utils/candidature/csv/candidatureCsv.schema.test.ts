@@ -194,7 +194,7 @@ describe('Schema candidature CSV', () => {
       installateur: 'Installateur Inc.',
       dispositifDeStockage: {
         installationAvecDispositifDeStockage: true,
-        capacitéDuDispositifDeStockageEnKW: 2,
+        capacitéDuDispositifDeStockageEnKWh: 2,
         puissanceDuDispositifDeStockageEnKW: 3,
       },
       natureDeLExploitation: 'vente-avec-injection-du-surplus',

@@ -109,7 +109,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>
                     {dépôt.dispositifDeStockage.installationAvecDispositifDeStockage
                       ? 'Installation couplée à un dispositif de stockage'
-                      : 'Installation non couplée à un dispositif de stockage'}
+                      : 'Installation sans dispositif de stockage'}
                   </span>
                   {dépôt.dispositifDeStockage.puissanceDuDispositifDeStockageEnKW !== undefined ? (
                     <span>
@@ -117,10 +117,10 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       {dépôt.dispositifDeStockage.puissanceDuDispositifDeStockageEnKW} KW
                     </span>
                   ) : null}
-                  {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKW !== undefined ? (
+                  {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh !== undefined ? (
                     <span>
                       Capacité du dispositif de stockage :{' '}
-                      {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKW} KW
+                      {dépôt.dispositifDeStockage.capacitéDuDispositifDeStockageEnKWh} KW
                     </span>
                   ) : null}
                 </Field>

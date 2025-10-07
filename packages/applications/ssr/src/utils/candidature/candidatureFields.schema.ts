@@ -97,7 +97,7 @@ export const installateurSchema = optionalStringSchema;
 export const dispositifDeStockageSchema = z
   .object({
     installationAvecDispositifDeStockage: booleanSchema,
-    capacitéDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
+    capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
     puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
   })
   .optional();

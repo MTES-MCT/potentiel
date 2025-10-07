@@ -56,7 +56,7 @@ export const mapApiResponseToDépôt = ({
     champs,
     {
       installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
-      capacitéDuDispositifDeStockageEnKW: 'Capacité du dispositif de stockage',
+      capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
       puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
     } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>,
     demarche.revision.champDescriptors,
@@ -116,7 +116,7 @@ export const mapApiResponseToDépôt = ({
     dispositifDeStockage: getDispositifDeStockage({
       accessor: accessorDispositifDeStockage,
       nomChampsInstallation: 'installationAvecDispositifDeStockage',
-      nomChampCapacité: 'capacitéDuDispositifDeStockageEnKW',
+      nomChampCapacité: 'capacitéDuDispositifDeStockageEnKWh',
       nomChampPuissance: 'puissanceDuDispositifDeStockageEnKW',
     }),
 

@@ -248,7 +248,7 @@ const getDispositifDeStockageFixture = (
     ? undefined
     : {
         installationAvecDispositifDeStockage,
-        capacitéDuDispositifDeStockageEnKW: installationAvecDispositifDeStockage
+        capacitéDuDispositifDeStockageEnKWh: installationAvecDispositifDeStockage
           ? faker.number.float({ min: 0.001, fractionDigits: 3 })
           : undefined,
         puissanceDuDispositifDeStockageEnKW: installationAvecDispositifDeStockage

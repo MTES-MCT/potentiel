@@ -95,6 +95,6 @@ export const formatAttestationGFExempleMap: FieldToExempleMapper<{
 export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.DispositifDeStockage.DispositifDeStockage.RawType> =
   {
     installationAvecDispositifDeStockage: ['installation avec dispositif de stockage', mapBoolean],
-    capacitéDuDispositifDeStockageEnKW: ['capacité du dispositif', mapNumber],
+    capacitéDuDispositifDeStockageEnKWh: ['capacité du dispositif', mapNumber],
     puissanceDuDispositifDeStockageEnKW: ['puissance du dispositif', mapNumber],
   };

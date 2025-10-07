@@ -15,13 +15,13 @@ const schema = zod
   .object({
     identifiantProjet: zod.string().min(1),
     installationAvecDispositifDeStockage: zod.stringbool(),
-    capaciteDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
+    capaciteDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
     puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
   })
   .refine(
     (val) =>
       (val.installationAvecDispositifDeStockage &&
-        val.capaciteDuDispositifDeStockageEnKW !== undefined &&
+        val.capaciteDuDispositifDeStockageEnKWh !== undefined &&
         val.puissanceDuDispositifDeStockageEnKW !== undefined) ||
       !val.installationAvecDispositifDeStockage,
     'La capacité et la puissance du dispositif de stockage sont requis',
@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
   {
     identifiantProjet,
     installationAvecDispositifDeStockage,
-    capaciteDuDispositifDeStockageEnKW,
+    capaciteDuDispositifDeStockageEnKWh,
     puissanceDuDispositifDeStockageEnKW,
   },
 ) =>
@@ -47,7 +47,7 @@ const action: FormAction<FormState, typeof schema> = async (
         modifiéLeValue: new Date().toISOString(),
         dispositifDeStockageValue: {
           installationAvecDispositifDeStockage,
-          capacitéDuDispositifDeStockageEnKW: capaciteDuDispositifDeStockageEnKW,
+          capacitéDuDispositifDeStockageEnKWh: capaciteDuDispositifDeStockageEnKWh,
           puissanceDuDispositifDeStockageEnKW,
         },
       },
