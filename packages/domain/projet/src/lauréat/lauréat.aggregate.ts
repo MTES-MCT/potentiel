@@ -123,7 +123,7 @@ export class LauréatAggregate extends AbstractAggregate<
   }
 
   #installation!: AggregateType<InstallationAggregate>;
-  get installateur() {
+  get installation() {
     return this.#installation;
   }
 

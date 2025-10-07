@@ -19,7 +19,7 @@ export const registerModifierInstallateurCommand = (
 ) => {
   const handler: MessageHandler<ModifierInstallateurCommand> = async (payload) => {
     const projet = await getProjetAggregateRoot(payload.identifiantProjet);
-    await projet.lauréat.installateur.modifierInstallateur(payload);
+    await projet.lauréat.installation.modifierInstallateur(payload);
   };
   mediator.register('Lauréat.Installation.Command.ModifierInstallateur', handler);
 };

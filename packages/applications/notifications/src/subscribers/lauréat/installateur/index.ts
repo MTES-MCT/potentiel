@@ -11,7 +11,7 @@ import { installateurModifiéNotification } from './installateurModifié.notific
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent & Event;
 
-export type Execute = Message<'System.Notification.Lauréat.Installateur', SubscriptionEvent>;
+export type Execute = Message<'System.Notification.Lauréat.Installation', SubscriptionEvent>;
 
 export type RegisterInstallateurNotificationDependencies = {
   sendEmail: SendEmail;
@@ -42,5 +42,5 @@ export const register = ({ sendEmail }: RegisterInstallateurNotificationDependen
       .exhaustive();
   };
 
-  mediator.register('System.Notification.Lauréat.Installateur', handler);
+  mediator.register('System.Notification.Lauréat.Installation', handler);
 };

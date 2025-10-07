@@ -8,6 +8,6 @@ export type InstallationEntity = Entity<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     misÀJourLe: DateTime.RawType;
-    installateur: string;
+    installateur: string | undefined;
   }
 >;
