@@ -29,12 +29,10 @@ export const mapToAbandonAccordéTimelineItemProps: HistoriqueItem<
     title: (
       <div>
         {withLink ? (
-          <Link href={Routes.Abandon.détail(identifiantProjet)}>
-            Demande d'abandon accordée par
-          </Link>
+          <Link href={Routes.Abandon.détail(identifiantProjet)}>Demande d'abandon accordée</Link>
         ) : (
           `Demande d'abandon accordée`
-        )}
+        )}{' '}
         par {<span className="font-semibold">{accordéPar}</span>}
       </div>
     ),

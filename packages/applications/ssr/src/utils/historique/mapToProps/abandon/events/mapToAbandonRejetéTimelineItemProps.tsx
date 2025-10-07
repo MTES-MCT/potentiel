@@ -32,7 +32,7 @@ export const mapToAbandonRejetéTimelineItemProps: HistoriqueItem<
           <Link href={Routes.Abandon.détail(identifiantProjet)}>Demande d'abandon rejetée</Link>
         ) : (
           `Demande d'abandon rejetée`
-        )}
+        )}{' '}
         par {<span className="font-semibold">{rejetéPar}</span>}
       </div>
     ),

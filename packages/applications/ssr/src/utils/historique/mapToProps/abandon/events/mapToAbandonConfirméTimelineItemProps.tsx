@@ -15,12 +15,10 @@ export const mapToAbandonConfirméTimelineItemProps: HistoriqueItem<
     title: (
       <div>
         {withLink ? (
-          <Link href={Routes.Abandon.détail(identifiantProjet)}>
-            Demande d'abandon confirmée par
-          </Link>
+          <Link href={Routes.Abandon.détail(identifiantProjet)}>Demande d'abandon confirmée</Link>
         ) : (
           `Demande d'abandon confirmée`
-        )}
+        )}{' '}
         par {<span className="font-semibold">{confirméPar}</span>}
       </div>
     ),

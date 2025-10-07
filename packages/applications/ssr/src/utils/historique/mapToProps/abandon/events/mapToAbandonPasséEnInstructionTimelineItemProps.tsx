@@ -20,7 +20,7 @@ export const mapToAbandonPasséEnInstructionTimelineItemProps: HistoriqueItem<
           </Link>
         ) : (
           `Demande d'abandon passée en instruction`
-        )}
+        )}{' '}
         par {<span className="font-semibold">{passéEnInstructionPar}</span>}
       </div>
     ),

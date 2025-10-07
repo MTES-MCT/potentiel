@@ -17,10 +17,10 @@ export const mapToAbandonDemandéTimelineItemProps: HistoriqueItem<
     title: (
       <div>
         {withLink ? (
-          <Link href={Routes.Abandon.détail(identifiantProjet)}>Demande d'abandon déposée </Link>
+          <Link href={Routes.Abandon.détail(identifiantProjet)}>Demande d'abandon déposée</Link>
         ) : (
-          `Demande d'abandon déposée par`
-        )}
+          `Demande d'abandon déposée`
+        )}{' '}
         par <span className="font-semibold">{demandéPar}</span>
       </div>
     ),

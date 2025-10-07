@@ -34,7 +34,7 @@ export const mapToConfirmationAbandonDemandéeTimelineItemProps: HistoriqueItem<
           </Link>
         ) : (
           `Confirmation demandée pour la demande d'abandon`
-        )}
+        )}{' '}
         par {<span className="font-semibold">{confirmationDemandéePar}</span>}
       </div>
     ),
