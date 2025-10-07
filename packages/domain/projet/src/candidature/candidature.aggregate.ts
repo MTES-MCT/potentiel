@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
@@ -59,6 +59,7 @@ import { NotifierOptions } from './notifier/notifierCandidature.options';
 import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
+  CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
@@ -247,6 +248,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   }
 
   async notifier({
+    statut,
     notifiéeLe,
     notifiéePar,
     validateur,
@@ -265,9 +267,10 @@ export class CandidatureAggregate extends AbstractAggregate<
     }
 
     const event: CandidatureNotifiéeEvent = {
-      type: 'CandidatureNotifiée-V2',
+      type: 'CandidatureNotifiée-V3',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
+        statut: statut.formatter(),
         notifiéeLe: notifiéeLe.formatter(),
         notifiéePar: notifiéePar.formatter(),
         validateur,
@@ -464,16 +467,15 @@ export class CandidatureAggregate extends AbstractAggregate<
       )
       .with(
         {
-          type: 'CandidatureNotifiée-V1',
+          type: P.union(
+            'CandidatureNotifiée-V1',
+            'CandidatureNotifiée-V2',
+            'CandidatureNotifiée-V3',
+          ),
         },
         (event) => this.applyCandidatureNotifiée(event),
       )
-      .with(
-        {
-          type: 'CandidatureNotifiée-V2',
-        },
-        (event) => this.applyCandidatureNotifiée(event),
-      )
+
       .exhaustive();
   }
 
@@ -503,7 +505,7 @@ export class CandidatureAggregate extends AbstractAggregate<
 
   private applyCandidatureNotifiée(
     this: CandidatureAggregate,
-    event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
+    event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1 | CandidatureNotifiéeEventV2,
   ) {
     this.#estNotifiée = true;
     this.#notifiéeLe = DateTime.convertirEnValueType(event.payload.notifiéeLe);

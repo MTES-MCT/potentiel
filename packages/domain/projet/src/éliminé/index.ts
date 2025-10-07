@@ -1,7 +1,6 @@
 import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
 import { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event';
 import { ÉliminéEvent } from './éliminé.event';
-import { NotifierÉliminéUseCase } from './notifier/notifierÉliminé.usecase';
 import {
   ConsulterÉliminéQuery,
   ConsulterÉliminéReadModel,
@@ -16,9 +15,6 @@ export { ConsulterÉliminéQuery, ListerÉliminéQuery };
 export { ConsulterÉliminéReadModel, ListerÉliminéReadModel };
 
 // UseCases
-
-export type ÉliminéUseCase = NotifierÉliminéUseCase;
-export { NotifierÉliminéUseCase };
 
 // Events
 export { ÉliminéEvent, ÉliminéNotifiéEvent, ÉliminéArchivéEvent };

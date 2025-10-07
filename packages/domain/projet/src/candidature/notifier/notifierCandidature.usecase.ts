@@ -4,6 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantProjet } from '../..';
+import { StatutCandidature } from '..';
 
 import { NotifierCandidatureCommand } from './notifierCandidature.command';
 
@@ -11,6 +12,7 @@ export type NotifierCandidatureUseCase = Message<
   'Candidature.UseCase.NotifierCandidature',
   {
     identifiantProjetValue: string;
+    statutValue: string;
     notifiéeLeValue: string;
     notifiéeParValue: string;
     validateurValue: AppelOffre.Validateur;
@@ -23,6 +25,7 @@ export type NotifierCandidatureUseCase = Message<
 export const registerNotifierCandidatureUseCase = () => {
   const handler: MessageHandler<NotifierCandidatureUseCase> = async ({
     identifiantProjetValue,
+    statutValue,
     notifiéeParValue,
     notifiéeLeValue,
     validateurValue,
@@ -32,6 +35,7 @@ export const registerNotifierCandidatureUseCase = () => {
       type: 'Candidature.Command.NotifierCandidature',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
+        statut: StatutCandidature.convertirEnValueType(statutValue),
         notifiéeLe: DateTime.convertirEnValueType(notifiéeLeValue),
         notifiéePar: Email.convertirEnValueType(notifiéeParValue),
         validateur: validateurValue,

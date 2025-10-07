@@ -25,6 +25,7 @@ import {
 import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
+  CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event';
 import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 
@@ -67,6 +68,7 @@ export {
   CandidatureCorrigéeEventV1,
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
+  CandidatureNotifiéeEventV2,
   DétailsFournisseursCandidatureImportésEvent,
 };
 

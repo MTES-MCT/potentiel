@@ -18,7 +18,6 @@ import {
 import { ModifierSiteDeProductionUseCase } from './modifier/modifierSiteDeProduction.usecase';
 import { ModifierNomProjetUseCase } from './modifier/modifierNomProjet.usecase';
 import { ListerLauréatQuery, ListerLauréatReadModel } from './lister/listerLauréat.query';
-import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 
 // Query
 export type LauréatQuery =
@@ -51,12 +50,10 @@ export { ConsulterCahierDesChargesPort } from './cahierDesCharges/consulter/cons
 
 // UseCases
 export type LauréatUseCase =
-  | NotifierLauréatUseCase
   | ModifierSiteDeProductionUseCase
   | ModifierNomProjetUseCase
   | ChoisirCahierDesChargesUseCase;
 export {
-  NotifierLauréatUseCase,
   ModifierSiteDeProductionUseCase,
   ModifierNomProjetUseCase,
   ChoisirCahierDesChargesUseCase,
