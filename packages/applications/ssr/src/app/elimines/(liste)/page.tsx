@@ -1,8 +1,9 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
+import { redirect } from 'next/navigation';
 
-import { Candidature, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
@@ -43,6 +44,10 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, appelOffre, periode, famille, nomProjet, typeActionnariat } =
         paramsSchema.parse(searchParams);
+
+      if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
+        return redirect(Routes.Projet.détailsÉliminé(nomProjet));
+      }
 
       const éliminés = await mediator.send<Éliminé.ListerÉliminéQuery>({
         type: 'Éliminé.Query.ListerÉliminé',

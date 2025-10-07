@@ -1,10 +1,12 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import z from 'zod';
+import { redirect } from 'next/navigation';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
@@ -44,6 +46,10 @@ export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const { page, appelOffre, famille, nomProjet, periode, statut, notifie, typeActionnariat } =
       paramsSchema.parse(searchParams);
+
+    if (nomProjet && IdentifiantProjet.estValide(nomProjet)) {
+      return redirect(Routes.Candidature.détails(nomProjet));
+    }
 
     const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
       type: 'Candidature.Query.ListerCandidatures',
