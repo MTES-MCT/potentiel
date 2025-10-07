@@ -6,13 +6,15 @@ import { DateTime } from '@potentiel-domain/common';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { HistoriqueItem } from '@/utils/historique/HistoriqueItem.type';
 
+import { mapToÉtapeIgnoréeTimelineItemProps } from '../../mapToÉtapeIgnoréeTimelineItemProps';
+
 export const mapToDateAchèvementPrévisionnelCalculéeProps: HistoriqueItem<
   Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent
 > = ({ event }) => {
   const { date, raison } = event.payload;
 
   if (['inconnue', 'notification', 'délai-accordé'].includes(raison)) {
-    return undefined;
+    return mapToÉtapeIgnoréeTimelineItemProps({ event });
   }
 
   return {

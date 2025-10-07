@@ -6,7 +6,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading3, Heading4 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
+import { Timeline } from '@/components/organisms/timeline/Timeline';
 
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinancièresTypeLabel';

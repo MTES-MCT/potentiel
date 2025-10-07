@@ -6,7 +6,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { PageTemplate } from '@/components/templates/Page.template';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { Timeline } from '@/components/organisms/timeline/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
 import {
   DétailsChangementFournisseur,

@@ -5,7 +5,8 @@ import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/Pro
 import { ImprimerPage } from '@/components/atoms/ImprimerPage';
 import { ListFilters } from '@/components/molecules/ListFilters';
 import { FiltersTagListProps, FiltersTagList } from '@/components/molecules/FiltersTagList';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
+import { Timeline } from '@/components/organisms/timeline/Timeline';
 
 export type HistoriqueLauréatAction = 'imprimer';
 

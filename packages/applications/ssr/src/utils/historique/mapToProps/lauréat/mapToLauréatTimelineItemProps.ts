@@ -3,9 +3,9 @@ import { match, P } from 'ts-pattern';
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeIgnoréeTimelineItemProps } from '../mapToÉtapeIgnoréeTimelineItemProps';
 
 import { mapToLauréatCahierDesChargesChoisiTimelineItemProps } from './events';
 import { mapToLauréatNotifiéTimelineItemProps } from './events/mapToLauréatNotifiéTimelineItemProps';
@@ -22,9 +22,9 @@ export const mapToLauréatTimelineItemProps = (
     .returnType<TimelineItemProps>()
     .with(
       {
-        type: P.union('NomEtLocalitéLauréatImportés-V1'),
+        type: 'NomEtLocalitéLauréatImportés-V1',
       },
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      (event) => mapToÉtapeIgnoréeTimelineItemProps({ event }),
     )
     .with(
       {

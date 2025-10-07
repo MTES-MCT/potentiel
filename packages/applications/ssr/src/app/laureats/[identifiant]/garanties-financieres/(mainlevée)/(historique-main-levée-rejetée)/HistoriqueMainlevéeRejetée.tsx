@@ -8,8 +8,9 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Heading3 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 import { FormattedDate } from '@/components//atoms/FormattedDate';
+import { Timeline } from '@/components/organisms/timeline/Timeline';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   mainlevéesRejetées: PlainType<Lauréat.GarantiesFinancières.ListerMainlevéeItemReadModel>[];

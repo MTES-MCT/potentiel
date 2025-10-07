@@ -9,8 +9,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { Timeline } from '@/components/organisms/timeline/Timeline';
 
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';

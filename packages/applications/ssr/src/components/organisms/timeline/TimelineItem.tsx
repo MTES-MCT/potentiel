@@ -1,59 +1,18 @@
-import { FC, ReactNode } from 'react';
-import MuiTimeline from '@mui/lab/Timeline';
-import MuiTimelineItem from '@mui/lab/TimelineItem';
+import { ReactNode, FC } from 'react';
+import clsx from 'clsx';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import TimelineOppositeContent, {
-  timelineOppositeContentClasses,
-} from '@mui/lab/TimelineOppositeContent';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import clsx from 'clsx';
+import MuiTimelineItem from '@mui/lab/TimelineItem';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { Icon, IconProps } from '../atoms/Icon';
-import { FormattedDate } from '../atoms/FormattedDate';
+import { IconProps, Icon } from '@/components/atoms/Icon';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-export type TimelineProps = {
-  items: Array<TimelineItemProps>;
-  className?: string;
-};
-
-export const ETAPE_INCONNUE_TITLE = 'Étape inconnue';
-
-export const Timeline: FC<TimelineProps> = ({ items, className }) => {
-  const filteredItems = items.filter((item) => item.title !== ETAPE_INCONNUE_TITLE);
-
-  return (
-    <MuiTimeline
-      sx={{
-        [`& .${timelineOppositeContentClasses.root}`]: {
-          flex: 0.2,
-          paddingLeft: 0,
-        },
-        '& .MuiTimelineItem-root:before': {
-          display: 'none',
-        },
-        paddingLeft: 0,
-      }}
-      className={className ?? ''}
-    >
-      {filteredItems.map((item, index) => (
-        <TimelineItem
-          key={`${item.title}-${item.date}`}
-          icon={item.icon}
-          content={item.content}
-          date={item.date}
-          type={item.type}
-          status={item.status}
-          title={item.title}
-          isLast={index === filteredItems.length - 1 ? true : undefined}
-        />
-      ))}
-    </MuiTimeline>
-  );
-};
+import { ETAPE_INCONNUE_TITLE } from './Timeline';
 
 export type TimelineItemProps = {
   status?: 'error' | 'success' | 'warning' | 'info';
@@ -64,7 +23,7 @@ export type TimelineItemProps = {
   icon?: IconProps;
   isLast?: true;
 };
-const TimelineItem: FC<TimelineItemProps> = ({
+export const TimelineItem: FC<TimelineItemProps> = ({
   date,
   title,
   content,

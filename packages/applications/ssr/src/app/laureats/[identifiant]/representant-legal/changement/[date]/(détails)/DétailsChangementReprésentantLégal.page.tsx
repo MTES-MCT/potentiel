@@ -10,8 +10,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading2 } from '@/components/atoms/headings';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { Timeline } from '@/components/organisms/timeline/Timeline';
 
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';

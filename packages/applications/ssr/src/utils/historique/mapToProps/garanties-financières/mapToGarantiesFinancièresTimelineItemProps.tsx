@@ -2,9 +2,9 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeIgnoréeTimelineItemProps } from '../mapToÉtapeIgnoréeTimelineItemProps';
 
 import {
   garantiesFinancièresActuelles,
@@ -61,7 +61,7 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
       {
         type: 'HistoriqueGarantiesFinancièresEffacé-V1',
       },
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      (event) => mapToÉtapeIgnoréeTimelineItemProps({ event }),
     )
 
     // Dépôt de garanties financières pour le projet

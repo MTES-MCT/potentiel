@@ -7,9 +7,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { Timeline } from '@/components/organisms/timeline/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
 import { StatutRecoursBadge } from './StatutRecoursBadge';
 import { AccorderRecours } from './accorder/AccorderRecours.form';

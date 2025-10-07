@@ -3,9 +3,9 @@ import { match, P } from 'ts-pattern';
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeIgnoréeTimelineItemProps } from '../mapToÉtapeIgnoréeTimelineItemProps';
 
 import {
   dossierRaccordement,
@@ -128,6 +128,6 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
       {
         type: 'GestionnaireRéseauInconnuAttribué-V1',
       },
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      (event) => mapToÉtapeIgnoréeTimelineItemProps({ event }),
     )
     .exhaustive();

@@ -12,7 +12,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
-import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToAbandonTimelineItemProps } from '@/utils/historique/mapToProps/abandon/mapToAbandonTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '@/utils/historique/mapToProps/achèvement/mapToAchèvementTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from '@/utils/historique/mapToProps/actionnaire/mapToActionnaireTimelineItemProps';
@@ -26,6 +25,7 @@ import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 import { mapToÉliminéTimelineItemProps } from '@/utils/historique/mapToProps/éliminé';
 import { mapToInstallationAvecDispositifDeStockageProps } from '@/utils/historique/mapToProps/installation-avec-dispositif-de-stockage/mapToInstallationAvecDispositifDeStockageTimelineItemProps';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
@@ -216,7 +216,7 @@ const mapToTimelineItemProps = (
   aUnRecoursAccordé: boolean,
 ) => {
   const props = match(readmodel)
-    .returnType<TimelineItemProps | undefined>()
+    .returnType<TimelineItemProps>()
     .with({ category: 'abandon' }, (event) =>
       mapToAbandonTimelineItemProps({ event, withLink: true }),
     )
@@ -232,7 +232,7 @@ const mapToTimelineItemProps = (
     .with({ category: 'puissance' }, (readmodel) =>
       mapToPuissanceTimelineItemProps(readmodel, unitéPuissance),
     )
-    .with({ category: 'achevement' }, mapToAchèvementTimelineItemProps)
+    .with({ category: 'achevement' }, (event) => mapToAchèvementTimelineItemProps({ event }))
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
     .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
     .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
@@ -249,7 +249,7 @@ const mapToTimelineItemProps = (
       },
       mapToNatureDeLExploitationTimelineItemProps,
     )
-    .exhaustive(() => undefined);
+    .exhaustive();
   if (props) {
     return {
       ...props,

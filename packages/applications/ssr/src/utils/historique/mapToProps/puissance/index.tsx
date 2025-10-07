@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
 import { mapToChangementPuissanceDemandéTimelineItemProps } from './events/mapToChangementPuissanceDemandéTimelineItemProps';
 import { mapToPuissanceImportéeTimelineItemsProps } from './events/mapToPuissanceImportéeTimelineItemsProps';

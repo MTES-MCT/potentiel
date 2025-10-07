@@ -3,9 +3,9 @@ import { match } from 'ts-pattern';
 import { Éliminé } from '@potentiel-domain/projet';
 import { HistoryRecord } from '@potentiel-domain/entity';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline/TimelineItem';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeIgnoréeTimelineItemProps } from '../mapToÉtapeIgnoréeTimelineItemProps';
 
 import { mapToÉliminéNotifiéTimelineItemProps } from './events';
 
@@ -20,5 +20,5 @@ export const mapToÉliminéTimelineItemProps = (record: ÉliminéHistoryRecord) 
       },
       mapToÉliminéNotifiéTimelineItemProps,
     )
-    .with({ type: 'ÉliminéArchivé-V1' }, mapToÉtapeInconnueOuIgnoréeTimelineItemProps)
+    .with({ type: 'ÉliminéArchivé-V1' }, (event) => mapToÉtapeIgnoréeTimelineItemProps({ event }))
     .exhaustive();
