@@ -1,0 +1,27 @@
+{
+  "name": "@potentiel-applications/subscribers",
+  "description": "Potentiel subscribers (projectors, notifications, sagas)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "tsx ./src/main.ts"
+  },
+  "dependencies": {
+    "@potentiel-applications/projectors": "*",
+    "@potentiel-applications/bootstrap": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-infrastructure/email": "*",
+    "@potentiel-infrastructure/ore-client": "*",
+    "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-infrastructure/pg-projection-write": "*",
+    "graphile-worker": "^0.16.6",
+    "mediateur": "^0.3.0"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}

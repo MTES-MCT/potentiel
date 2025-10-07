@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import { Middleware } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -7,7 +9,7 @@ import { Entity, ListResult } from '@potentiel-domain/entity';
 
 export const logMiddleware: Middleware = async (message, next) => {
   const context = getContext();
-  const correlationId = context?.correlationId ?? '';
+  const correlationId = context?.correlationId ?? randomUUID();
   const utilisateur = context?.utilisateur?.identifiantUtilisateur?.email;
   const url = context?.url;
   getLogger().info('Executing message', {

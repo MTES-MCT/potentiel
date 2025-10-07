@@ -2,7 +2,7 @@ import { HistoriqueProjector, LauréatProjector } from '@potentiel-applications/
 import { LauréatNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 import { setupPuissance } from './setupPuissance';

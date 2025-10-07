@@ -22,6 +22,8 @@ export const setupPériode = async ({ sendEmail }: SetupPériodeDependencies) =>
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
   });
 
+  // TODO move to Subscribers
+
   PériodeProjector.register();
   PériodeNotification.register({ sendEmail });
 

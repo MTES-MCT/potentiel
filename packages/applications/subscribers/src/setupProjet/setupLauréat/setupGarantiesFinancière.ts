@@ -2,7 +2,7 @@ import { GarantiesFinancièreProjector } from '@potentiel-applications/projector
 import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupGarantiesFinancières: SetupProjet = async ({ sendEmail }) => {

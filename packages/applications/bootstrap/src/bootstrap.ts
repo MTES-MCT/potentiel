@@ -2,7 +2,6 @@ import { Middleware, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { sendEmail } from '@potentiel-infrastructure/email';
-import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
@@ -19,7 +18,6 @@ let mutex: Promise<void> | undefined;
 
 const defaultDependencies = {
   sendEmail,
-  récupérerGRDParVille,
 };
 
 type BootstrapProps = {
@@ -54,14 +52,13 @@ export const bootstrap = async ({
     setupDocumentProjet();
     const unsetupPériode = await setupPériode(allDependencies);
 
-    const unsetupProjet = await setupProjet(allDependencies);
+    setupProjet();
     const unsetupGestionnaireRéseau = await setupRéseau();
 
     getLogger().info('Application bootstrapped');
 
     unsubscribe = async () => {
       await unsetupHistorique();
-      await unsetupProjet();
       await unsetupGestionnaireRéseau();
       await unsetupPériode();
       await unsetupUtilisateur();

@@ -2,7 +2,7 @@ import { AbandonProjector, HistoriqueProjector } from '@potentiel-applications/p
 import { AbandonNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupAbandon: SetupProjet = async ({ sendEmail }) => {

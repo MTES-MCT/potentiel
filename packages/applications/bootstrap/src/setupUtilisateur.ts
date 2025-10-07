@@ -23,6 +23,8 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     loadAggregate,
   });
 
+  // TODO move to Subscribers
+
   UtilisateurProjector.register();
   UtilisateurNotification.register({ sendEmail });
 

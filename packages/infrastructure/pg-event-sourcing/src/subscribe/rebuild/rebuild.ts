@@ -6,7 +6,7 @@ import { RebuildTriggered } from './rebuildTriggered.event';
 
 export const rebuild = async <TEvent extends Event = Event>(
   rebuildTriggered: RebuildTriggered,
-  { eventType, eventHandler }: Subscriber<TEvent>,
+  { eventType, eventHandler }: Pick<Subscriber<TEvent>, 'eventType' | 'eventHandler'>,
 ) => {
   const streamId = `${rebuildTriggered.payload.category}|${rebuildTriggered.payload.id}`;
 

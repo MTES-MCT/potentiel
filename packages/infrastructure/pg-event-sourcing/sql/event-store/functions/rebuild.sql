@@ -1,58 +1,62 @@
 create or replace procedure event_store.rebuild(
-  p_category varchar,
-  p_id varchar default null
-)
-as
-$$
-declare
-  v_row event_store.event_stream%ROWTYPE;
-  v_chanel varchar;
-  v_streamId varchar;
+    p_category varchar,
+    p_id varchar default null
+  ) as $$
+declare jobs_array graphile_worker.job_spec [];
 begin
-  for v_chanel in
-    select stream_category || '|' || subscriber_name
-    from event_store.subscriber
-    where stream_category = p_category and (filter is null or 'RebuildTriggered' in (select jsonb_array_elements_text(filter)))
-  loop
-    if p_id is not null then
-      select into v_row
-        stream_id
-      from event_store.event_stream
-      where stream_id = p_category || '|' || p_id;
+select array(
+    select json_populate_record(
+        null::graphile_worker.job_spec,
+        json_build_object(
+          'identifier',
+          'rebuild',
+          'payload',
+          json_build_object(
+            'version',
+            1,
+            'created_at',
+            now()::text,
+            'stream_id',
+            stream_id,
+            'type',
+            'RebuildTriggered',
+            'payload',
+            json_build_object(
+              'category',
+              p_category,
+              'id',
+              split_part(stream_id, '|', 2)
+            )
+          ),
+          'priority',
+          case
+            when subscriber_name = 'projector' then 0
+            when subscriber_name = 'history' then 10
+            else 1
+          end
+        )
+      )
+    from event_store.event_stream
+      inner join event_store.subscriber on stream_category = p_category
+      and subscriber_name = 'projector'
+    WHERE (
+        p_id is NULL
+        AND stream_id like p_category || '|%'
+      )
+      OR (
+        p_id is not null
+        AND stream_id = p_category || '|' || p_id
+      )
+    group by stream_id,
+      stream_category,
+      subscriber_name
+  ) into jobs_array;
+perform graphile_worker.add_jobs(jobs_array);
 
-      if found then
-        perform pg_notify(v_chanel, json_build_object(
-          'version', 1,
-          'created_at', now()::text,
-          'stream_id', v_row.stream_id,
-          'type', 'RebuildTriggered',
-          'payload', json_build_object(
-            'category', p_category,
-            'id', p_id
-          )
-        )::text);
-      end if;
-    else
-      for v_streamId in
-        select stream_id
-        from event_store.event_stream
-        where stream_id like p_category || '|%'
-      loop
-        perform pg_notify(v_chanel, json_build_object(
-          'version', 1,
-          'created_at', now()::text,
-          'stream_id', v_streamId,
-          'type', 'RebuildTriggered',
-          'payload', json_build_object(
-            'category', p_category,
-            'id', split_part(v_streamId, '|', 2)
-          )
-        )::text);
-      end loop;
-    end if;
-  end loop;
-  exception
-  when others then
-    perform pg_notify('error_notifications', json_build_object('error_message', sqlerrm)::text);
+exception
+when others then perform graphile_worker.add_job(
+  'error_notifications',
+  json_build_object('error_message', sqlerrm)
+);
 end;
 $$ language plpgsql;

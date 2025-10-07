@@ -17,6 +17,7 @@ let client: Client | undefined;
 
 const eventStreamEmitters = new Map<string, EventStreamEmitter>();
 
+/** @deprecated */
 export const subscribe = async <TEvent extends Event = Event>(
   subscriber: Subscriber<TEvent>,
 ): Promise<Unsubscribe> => {

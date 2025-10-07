@@ -15,6 +15,8 @@ export const setupRéseau = async () => {
     find: findProjection,
   });
 
+  // TODO move to Subscribers
+
   // Projectors
   GestionnaireRéseauProjector.register();
 

@@ -5,7 +5,7 @@ import {
 import { InstallationAvecDispositifDeStockageNotifications } from '@potentiel-applications/notifications';
 
 import { SetupProjet } from '../setup';
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 
 export const setupInstallationAvecDispositifDeStockage: SetupProjet = async ({ sendEmail }) => {
   const installationAvecDispositifDeStockage = createSubscriptionSetup(

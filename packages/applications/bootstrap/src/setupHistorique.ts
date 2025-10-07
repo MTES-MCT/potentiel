@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 import { HistoriqueProjector } from '@potentiel-applications/projectors';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 
+// TODO move to Subscribers
 export const setupHistorique = async () => {
   HistoriqueProjector.register();
 
