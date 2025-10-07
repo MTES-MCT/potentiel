@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Heading3, Link } from '../../../../components';
 
 import { GetDispositifDeStockageForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getDispositifDeStockage';
