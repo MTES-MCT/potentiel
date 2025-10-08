@@ -1,6 +1,5 @@
 import { Command, Flags } from '@oclif/core';
 import zod from 'zod';
-import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet, registerProjetUseCases } from '@potentiel-domain/projet';
@@ -63,6 +62,8 @@ export class ImporterCandidatures extends Command {
   }
 
   async run() {
+    const { faker } = await import('@faker-js/faker');
+
     const importId = faker.string.uuid().slice(0, 8);
 
     console.log(`--- Début du job d'import de candidatures (Import ${importId}) ---`);
