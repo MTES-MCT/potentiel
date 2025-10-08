@@ -143,16 +143,17 @@ export const getDispositifDeStockage = <TDossier extends Record<string, string>>
   nomChampsInstallation,
   nomChampCapacité,
   nomChampPuissance,
-}: GetDispositifDeStockageProps<TDossier>) => {
-  const installationAvecDispositifDeStockage = accessor.getBooleanValue(nomChampsInstallation);
-  const capacitéDuDispositifDeStockage = accessor.getNumberValue(nomChampCapacité);
-  const puissanceDuDispositifDeStockage = accessor.getNumberValue(nomChampPuissance);
+}: GetDispositifDeStockageProps<TDossier>): Lauréat.DispositifDeStockage.DispositifDeStockage.RawType => {
+  const installationAvecDispositifDeStockage =
+    accessor.getBooleanValue(nomChampsInstallation) ?? false;
+  const capacitéDuDispositifDeStockageEnKWh = accessor.getNumberValue(nomChampCapacité);
+  const puissanceDuDispositifDeStockageEnKW = accessor.getNumberValue(nomChampPuissance);
 
   return installationAvecDispositifDeStockage
     ? {
         installationAvecDispositifDeStockage,
-        capacitéDuDispositifDeStockage,
-        puissanceDuDispositifDeStockage,
+        capacitéDuDispositifDeStockageEnKWh,
+        puissanceDuDispositifDeStockageEnKW,
       }
     : { installationAvecDispositifDeStockage };
 };
