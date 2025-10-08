@@ -5,13 +5,13 @@ import { PlainType } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { StatutAbandonBadge } from '@/app/laureats/[identifiant]/abandon/(détails)/StatutAbandonBadge';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 import {
   TransmettrePreuveRecandidature,
@@ -65,40 +65,37 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   return (
     <ColumnPageTemplate
       banner={<ProjetLauréatBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Détail de l'abandon</Heading1>}
+      heading={<Heading1>Demande d'abandon</Heading1>}
       leftColumn={{
         children: (
-          <div className="flex flex-col gap-8">
-            <div>
-              <Heading2 className="mb-4">Contexte</Heading2>
-              <div className="flex flex-col gap-2">
-                <div className="text-xs italic gap-2 font-semibold">
-                  Demandé le <FormattedDate date={demandéLe} /> par{' '}
-                  <span className="font-semibold">{demandéPar}</span>
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">Statut :</div>{' '}
-                  <StatutAbandonBadge statut={abandon.statut.statut} />
-                </div>
-                {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
-                  <div>
-                    Abandon avec recandidature :{' '}
-                    <StatutPreuveRecandidatureBadge
-                      statut={abandon.demande.recandidature.statut.statut}
-                    />
-                  </div>
-                )}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-row gap-4">
+              <Heading2>Détails</Heading2>
+              <StatutDemandeBadge statut={abandon.statut.statut} />
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="text-xs italic gap-2 font-semibold">
+                Demandé le <FormattedDate date={demandéLe} /> par{' '}
+                <span className="font-semibold">{demandéPar}</span>
               </div>
-              <div className="flex gap-2">
-                <div className="whitespace-nowrap font-semibold">
-                  Autorité compétente pour l'instruction :
+              {abandon.demande.accord?.accordéLe && abandon.demande.recandidature && (
+                <div>
+                  Abandon avec recandidature :{' '}
+                  <StatutPreuveRecandidatureBadge
+                    statut={abandon.demande.recandidature.statut.statut}
+                  />
                 </div>
-                {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+              )}
+            </div>
+            <div className="flex gap-2">
+              <div className="whitespace-nowrap font-semibold">
+                Autorité compétente pour l'instruction :
               </div>
-              <div className="flex gap-2">
-                <div className="whitespace-nowrap font-semibold">Raison :</div>
-                <blockquote>"{abandon.demande.raison}"</blockquote>
-              </div>
+              {abandon.demande.autoritéCompétente.autoritéCompétente.toLocaleUpperCase()}
+            </div>
+            <div className="flex gap-2">
+              <div className="whitespace-nowrap font-semibold">Raison :</div>
+              <blockquote>"{abandon.demande.raison}"</blockquote>
             </div>
             <div className="mb-4">
               <Heading2>Historique</Heading2>
