@@ -11,9 +11,9 @@ import { PlainType } from '@potentiel-domain/core';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 import { DétailsPuissancePageProps } from './DétailsPuissance.page';
-import { StatutChangementPuissanceBadge } from './StatutChangementPuissanceBadge';
 
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
@@ -30,11 +30,14 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
 
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>
-        {statut.estInformationEnregistrée()
-          ? 'Changement de puissance'
-          : 'Demande de changement de puissance'}
-      </Heading2>
+      <div className="flex flex-row gap-4">
+        <Heading2>
+          {statut.estInformationEnregistrée()
+            ? 'Changement de puissance'
+            : 'Demande de changement de puissance'}
+        </Heading2>
+        <StatutDemandeBadge statut={demande.statut.statut} />
+      </div>
       <>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -97,7 +100,7 @@ const Changement: FC<ChangementProps> = ({
   puissanceInitiale,
 }) => (
   <>
-    <Heading5>Détails de la demande initiale</Heading5>
+    <Heading5>Détails</Heading5>
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-2">
         <div className="font-semibold whitespace-nowrap">Puissance : </div>
@@ -159,12 +162,6 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, dem
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(demandéePar).formatter()}</span>
     </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementPuissanceBadge
-        statut={Lauréat.Puissance.StatutChangementPuissance.informationEnregistrée.statut}
-      />
-    </div>
   </>
 );
 
@@ -179,12 +176,6 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
       Demandé le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(demandéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementPuissanceBadge
-        statut={Lauréat.Puissance.StatutChangementPuissance.demandé.statut}
-      />
     </div>
   </>
 );
@@ -203,12 +194,6 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
       Accordée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(accordéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementPuissanceBadge
-        statut={Lauréat.Puissance.StatutChangementPuissance.accordé.statut}
-      />
     </div>
     {réponseSignée && (
       <div className="flex gap-2">
@@ -234,12 +219,6 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
       Rejetée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(rejetéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementPuissanceBadge
-        statut={Lauréat.Puissance.StatutChangementPuissance.rejeté.statut}
-      />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

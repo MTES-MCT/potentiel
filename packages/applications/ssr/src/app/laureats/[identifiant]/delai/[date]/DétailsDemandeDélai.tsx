@@ -10,17 +10,19 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2 } from '@/components/atoms/headings';
+import { ReadMore } from '@/components/atoms/ReadMore';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
-import { ReadMore } from '../../../../../components/atoms/ReadMore';
-
-import { StatutDemandeDélaiBadge } from './StatutDemandeDélaiBadge';
 import { DétailsDemandeDélaiPageProps } from './DétailsDemandeDélai.page';
 
 export type DétailsDemandeDélaiProps = Pick<DétailsDemandeDélaiPageProps, 'demande'>;
 
 export const DétailsDemandeDélai: FC<DétailsDemandeDélaiProps> = ({ demande }) => (
   <div className="flex flex-col gap-4">
-    <Heading2>Demande de délai</Heading2>
+    <div className="flex flex-col gap-4">
+      <Heading2>Demande de délai</Heading2>
+      <StatutDemandeBadge statut={demande.statut.statut} />
+    </div>
     <div className="flex flex-col">
       {demande.accord && (
         <DemandeAccordée
@@ -104,7 +106,7 @@ type DemandeProps = Pick<
   'demandéLe' | 'demandéPar' | 'nombreDeMois' | 'statut'
 >;
 
-const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois, statut }) => (
+const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois }) => (
   <div className="flex flex-col gap-2">
     <div className="text-xs italic">
       Demandé le{' '}
@@ -116,10 +118,6 @@ const Demande: FC<DemandeProps> = ({ demandéLe, demandéPar, nombreDeMois, stat
         Nombre de mois demandé{nombreDeMois > 1 ? 's' : ''} :
       </div>
       <div>{nombreDeMois} mois</div>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeDélaiBadge statut={statut.statut} />
     </div>
   </div>
 );
@@ -140,10 +138,6 @@ const DemandeAccordée: FC<DemandeAccordéeProps> = ({
       Accordée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(accordéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeDélaiBadge statut={Lauréat.Délai.StatutDemandeDélai.accordé.statut} />
     </div>
     <div className="flex flex-col gap-1">
       <div className="flex gap-2">
@@ -179,10 +173,6 @@ const DemandeRejetée: FC<DemandeRejetéeProps> = ({ rejetéeLe, rejetéePar, r�
       Rejetée le{' '}
       <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
       <span className="font-semibold">{Email.bind(rejetéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold">Statut :</div>{' '}
-      <StatutDemandeDélaiBadge statut={Lauréat.Délai.StatutDemandeDélai.rejeté.statut} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

@@ -6,8 +6,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
-
-import { StatutChangementProducteurBadge } from '../../[identifiant]/producteur/changement/StatutChangementProducteurBadge';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 import { ChangementProducteurListPageProps } from './ChangementProducteurList.page';
 
@@ -56,6 +55,6 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
         </span>
       </li>
     </ul>
-    <StatutChangementProducteurBadge />
+    <StatutDemandeBadge statut="information-enregistrée" small />
   </ListItem>
 );

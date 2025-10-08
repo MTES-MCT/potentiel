@@ -11,8 +11,8 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
-import { StatutRecoursBadge } from './StatutRecoursBadge';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
@@ -42,6 +42,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   const demandéPar = Email.bind(recours.demande.demandéPar).formatter();
   return (
     <ColumnPageTemplate
+      heading={<Heading1>Demande de recours</Heading1>}
       banner={
         recours.statut.value === 'accordé' ? (
           <ProjetLauréatBanner identifiantProjet={identifiantProjet} />
@@ -49,26 +50,21 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
           <ProjetÉliminéBanner identifiantProjet={identifiantProjet} />
         )
       }
-      heading={<Heading1>Détail du recours</Heading1>}
       leftColumn={{
         children: (
-          <div className="flex flex-col gap-8">
-            <div>
-              <Heading2 className="mb-4">Contexte</Heading2>
-              <div className="flex flex-col gap-2">
-                <div className="text-xs italic">
-                  Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
-                  <span className="font-semibold">{demandéPar}</span>
-                </div>
-                <div>
-                  Statut : <StatutRecoursBadge statut={recours.statut.value} />
-                </div>
-                <div className="flex gap-2">
-                  <div className="whitespace-nowrap">Explications :</div>
-                  <blockquote className="font-semibold italic">
-                    "{recours.demande.raison}"
-                  </blockquote>
-                </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-row gap-4">
+              <Heading2>Détails</Heading2>
+              <StatutDemandeBadge statut={recours.statut.value} />
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="text-xs italic">
+                Demandé le <FormattedDate className="font-semibold" date={demandéLe} /> par{' '}
+                <span className="font-semibold">{demandéPar}</span>
+              </div>
+              <div className="flex gap-2">
+                <div className="whitespace-nowrap">Explications :</div>
+                <blockquote className="font-semibold italic">"{recours.demande.raison}"</blockquote>
               </div>
             </div>
             <div className="mb-4">

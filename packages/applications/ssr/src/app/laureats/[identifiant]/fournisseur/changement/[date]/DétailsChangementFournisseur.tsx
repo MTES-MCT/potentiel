@@ -10,9 +10,9 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 import { ListeFournisseurs } from '../ListeFournisseurs';
-import { StatutChangementFournisseurBadge } from '../../StatutChangementFournisseurBadge';
 import { AlerteChangementÉvaluationCarbone } from '../AlerteChangementÉvaluationCarbone';
 
 export type DétailsChangementFournisseurProps = {
@@ -28,7 +28,10 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>Changement de Fournisseur</Heading2>
+      <div className="flex flex-row gap-4">
+        <Heading2>Changement de Fournisseur</Heading2>
+        <StatutDemandeBadge statut="information-enregistrée" />
+      </div>
       <>
         <div className="flex flex-col gap-4">
           <div className="text-xs italic">
@@ -41,9 +44,6 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
             <span className="font-semibold">
               {Email.bind(changement.enregistréPar).formatter()}
             </span>
-          </div>
-          <div className="flex gap-2">
-            <div className="font-semibold">Statut :</div> <StatutChangementFournisseurBadge />
           </div>
         </div>
         <>
