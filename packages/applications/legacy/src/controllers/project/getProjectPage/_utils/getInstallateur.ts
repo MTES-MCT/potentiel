@@ -30,14 +30,14 @@ export const getInstallateur = async ({
 
     const installateurProjection =
       await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
-        type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
+        type: 'Lauréat.Installation.Query.ConsulterInstallateur',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
     if (Option.isSome(installateurProjection)) {
       const { installateur } = installateurProjection;
 
-      if (role.aLaPermission('installateur.modifier')) {
+      if (role.aLaPermission('installation.modifier')) {
         return {
           installateur,
           affichage: {

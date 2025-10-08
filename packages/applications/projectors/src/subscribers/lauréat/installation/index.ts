@@ -4,9 +4,9 @@ import { match } from 'ts-pattern';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { installateurImportéProjector } from './installateur/installateurImporté.projector';
 import { installationRebuilTriggeredProjector } from './installateurRebuildTrigerred.projector';
-import { installateurModifiéProjector } from './installateur/installateurModifié.projector';
+import { installationImportéeProjector } from './installationImportée.projector';
+import { installationModifiéeProjector } from './installationModifiée.projector';
 
 export type SubscriptionEvent = (Lauréat.Installation.InstallationEvent | RebuildTriggered) & Event;
 
@@ -16,8 +16,8 @@ export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, installationRebuilTriggeredProjector)
-      .with({ type: 'InstallationImportée-V1' }, installateurImportéProjector)
-      .with({ type: 'InstallateurModifié-V1' }, installateurModifiéProjector)
+      .with({ type: 'InstallationImportée-V1' }, installationImportéeProjector)
+      .with({ type: 'InstallateurModifié-V1' }, installationModifiéeProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Installation', handler);

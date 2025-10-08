@@ -360,9 +360,10 @@ const référencielPermissions = {
         enregistrerChangement: 'Lauréat.Producteur.Command.EnregistrerChangement',
       },
     },
-    installateur: {
+    installation: {
       query: {
-        consulter: 'Lauréat.Installateur.Query.ConsulterInstallateur',
+        consulter: 'Lauréat.Installation.Query.ConsulterInstallation',
+        consulterInstallateur: 'Lauréat.Installation.Query.ConsulterInstallateur',
       },
       usecase: {
         modifier: 'Lauréat.Installation.UseCase.ModifierInstallateur',
@@ -989,15 +990,16 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.query.listerChangement,
     ],
   },
-  installateur: {
+  installation: {
     consulter: [
       référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.installateur.query.consulter,
+      référencielPermissions.lauréat.installation.query.consulterInstallateur,
+      référencielPermissions.lauréat.installation.query.consulter,
     ],
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.installateur.usecase.modifier,
-      référencielPermissions.lauréat.installateur.command.modifier,
+      référencielPermissions.lauréat.installation.usecase.modifier,
+      référencielPermissions.lauréat.installation.command.modifier,
     ],
   },
   natureDeLExploitation: {
@@ -1446,7 +1448,7 @@ const pageProjetPolicies: Policy[] = [
   'fournisseur.consulter',
 
   // Installateur
-  'installateur.consulter',
+  'installation.consulter',
 
   // Installation avec dispositif de stockage
   'dispositifDeStockage.consulter',
@@ -1595,8 +1597,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'délai.accorderDemande',
 
   // installateur
-  'installateur.consulter',
-  'installateur.modifier',
+  'installation.consulter',
+  'installation.modifier',
 
   // Installation avec dispositif de stockage
   'dispositifDeStockage.consulter',

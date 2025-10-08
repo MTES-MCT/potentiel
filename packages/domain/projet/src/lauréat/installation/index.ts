@@ -1,4 +1,8 @@
 import {
+  ConsulterInstallationQuery,
+  ConsulterInstallationReadModel,
+} from './consulter/consulterInstallation.query';
+import {
   ConsulterInstallateurQuery,
   ListerHistoriqueInstallateurProjetQuery,
   ConsulterInstallateurReadModel,
@@ -8,12 +12,21 @@ import {
 
 // Query
 export type InstallationQuery =
+  | ConsulterInstallationQuery
   | ConsulterInstallateurQuery
   | ListerHistoriqueInstallateurProjetQuery;
-export { ConsulterInstallateurQuery, ListerHistoriqueInstallateurProjetQuery };
+export {
+  ConsulterInstallateurQuery,
+  ListerHistoriqueInstallateurProjetQuery,
+  ConsulterInstallationQuery,
+};
 
 // ReadModel
-export { ConsulterInstallateurReadModel, HistoriqueInstallateurProjetListItemReadModel };
+export {
+  ConsulterInstallationReadModel,
+  ConsulterInstallateurReadModel,
+  HistoriqueInstallateurProjetListItemReadModel,
+};
 
 // UseCase
 export type InstallationUseCase = ModifierInstallateurUseCase;
@@ -22,7 +35,7 @@ export { ModifierInstallateurUseCase } from './installateur/modifier/modifierIns
 // Event
 export { InstallationEvent } from './installation.event';
 
-export { InstallationImportéeEvent } from './importer/importerInstalltion.event';
+export { InstallationImportéeEvent } from './importer/importerInstallation.event';
 export { InstallateurModifiéEvent } from './installateur/modifier/modifierInstallateur.event';
 
 // Register
@@ -30,4 +43,3 @@ export { registerInstallationQueries, registerInstallationUseCases } from './ins
 
 // Entities
 export * from './installation.entity';
-export * from './installateur/installateur.entity';

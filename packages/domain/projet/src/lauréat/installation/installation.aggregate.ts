@@ -3,11 +3,12 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { TypologieInstallation } from '../../candidature';
 
 import { InstallationEvent } from './installation.event';
 import { ImporterOptions } from './importer/importerInstallation.option';
 import { InstallationDéjàTransmiseError } from './installation.error';
-import { InstallationImportéeEvent } from './importer/importerInstalltion.event';
+import { InstallationImportéeEvent } from './importer/importerInstallation.event';
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
 import { InstallateurIdentiqueError } from './installateur/installateur.error';
 import { InstallateurModifiéEvent } from './installateur';
@@ -17,7 +18,8 @@ export class InstallationAggregate extends AbstractAggregate<
   'installation',
   LauréatAggregate
 > {
-  installateur!: string | undefined;
+  #installateur?: string;
+  #typologieInstallation!: TypologieInstallation.ValueType[];
 
   get lauréat() {
     return this.parent;
@@ -27,8 +29,8 @@ export class InstallationAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async importer({ installateur, importéLe, importéPar }: ImporterOptions) {
-    if (this.installateur) {
+  async importer({ installateur, typologieInstallation, importéLe, importéPar }: ImporterOptions) {
+    if (this.#installateur || this.#typologieInstallation) {
       throw new InstallationDéjàTransmiseError();
     }
 
@@ -36,7 +38,8 @@ export class InstallationAggregate extends AbstractAggregate<
       type: 'InstallationImportée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        installateur,
+        installateur: installateur ?? '',
+        typologieInstallation,
         importéLe: importéLe.formatter(),
         importéPar: importéPar.formatter(),
       },
@@ -52,7 +55,7 @@ export class InstallationAggregate extends AbstractAggregate<
   }: ModifierInstallateurOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    if (this.installateur === installateur) {
+    if (this.#installateur === installateur) {
       throw new InstallateurIdentiqueError();
     }
 
@@ -86,13 +89,18 @@ export class InstallationAggregate extends AbstractAggregate<
       .exhaustive();
   }
 
-  private applyInstallationImportéeV1({ payload: { installateur } }: InstallationImportéeEvent) {
-    this.installateur = installateur;
+  private applyInstallationImportéeV1({
+    payload: { installateur, typologieInstallation },
+  }: InstallationImportéeEvent) {
+    this.#installateur = installateur;
+    this.#typologieInstallation = typologieInstallation.map(
+      TypologieInstallation.convertirEnValueType,
+    );
   }
 
   private applyInstallateurModifiéV1({
     payload: { installateur: nouvelInstallateur },
   }: InstallateurModifiéEvent) {
-    this.installateur = nouvelInstallateur;
+    this.#installateur = nouvelInstallateur;
   }
 }
