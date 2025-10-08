@@ -231,7 +231,8 @@ const mapBodyToCandidatureUsecaseData = (
       dispositifDeStockage: previous.dispositifDeStockage,
       natureDeLExploitation: previous.natureDeLExploitation
         ? {
-            type: previous.natureDeLExploitation.type.formatter(),
+            typeNatureDeLExploitation:
+              previous.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
             tauxPrévisionnelACI: previous.natureDeLExploitation.tauxPrévisionnelACI,
           }
         : undefined,

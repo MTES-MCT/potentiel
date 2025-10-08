@@ -105,7 +105,9 @@ export const dispositifDeStockageSchema = z
 
 export const natureDeLExploitationOptionalSchema = z
   .object({
-    type: z.enum(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types),
+    typeNatureDeLExploitation: z.enum(
+      Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
+    ),
     tauxPrévisionnelACI: optionalPercentageSchema,
   })
   .optional();

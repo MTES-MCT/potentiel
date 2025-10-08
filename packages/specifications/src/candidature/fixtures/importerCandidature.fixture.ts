@@ -261,8 +261,9 @@ const getNatureDeLExploitationFixture = (
   champsRequis: boolean,
 ) => {
   const typeNatureDeLExploitation =
-    // viovio
-    dépôtValue && dépôtValue.typeNatureDeLExploitation === undefined
+    dépôtValue &&
+    Object.keys(dépôtValue).length > 0 &&
+    dépôtValue.typeNatureDeLExploitation === undefined
       ? undefined
       : dépôtValue?.typeNatureDeLExploitation !== undefined
         ? dépôtValue.typeNatureDeLExploitation

@@ -144,7 +144,8 @@ const mapBodyToUseCaseData = (
       dispositifDeStockage: previous.dépôt.dispositifDeStockage,
       natureDeLExploitation: previous.dépôt.natureDeLExploitation
         ? {
-            type: previous.dépôt.natureDeLExploitation?.type.formatter(),
+            typeNatureDeLExploitation:
+              previous.dépôt.natureDeLExploitation?.typeNatureDeLExploitation.formatter(),
             tauxPrévisionnelACI: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACI,
           }
         : undefined,

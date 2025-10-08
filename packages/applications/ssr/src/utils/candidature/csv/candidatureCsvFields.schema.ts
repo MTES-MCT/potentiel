@@ -85,4 +85,11 @@ export const codePostalCsvSchema = z
     'Le code postal ne correspond à aucune région / département',
   )
   .transform((val) => val.join(' / '));
-export const natureDeLExploitationCsvSchema = optionalEnum(z.enum(['1', '2']));
+
+export const natureDeLExploitationCsvSchema = z
+  .union([
+    z.enum(['Vente avec injection du surplus', 'Vente avec injection en totalité']),
+    z.literal(''),
+  ])
+  .optional()
+  .transform((val) => val || undefined);
