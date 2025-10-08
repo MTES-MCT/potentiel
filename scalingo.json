@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "first-deploy": ".database/scripts/restore-test-env-db.sh"
+  }
+}
