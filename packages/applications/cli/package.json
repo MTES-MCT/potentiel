@@ -25,7 +25,6 @@
     "@oclif/core": "^4.5.0",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/ds-api-client": "*",

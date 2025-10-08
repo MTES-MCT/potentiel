@@ -16,7 +16,6 @@
     "@potentiel-domain/document": "*",
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/ore-client": "*",

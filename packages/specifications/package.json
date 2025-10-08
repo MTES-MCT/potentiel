@@ -16,7 +16,6 @@
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/periode": "*",
-    "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
