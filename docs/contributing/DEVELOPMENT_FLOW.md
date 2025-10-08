@@ -4,43 +4,53 @@
 
 - [Flow de développement](#flow-de-développement)
   - [Table des matières](#table-des-matières)
-  - [ Organisation du code source](#-organisation-du-code-source)
-  - [ Scripts NPM](#-scripts-npm)
-      - [`prepare`](#prepare)
-      - [`start`](#start)
-      - [`up`](#up)
-      - [`down`](#down)
-      - [`prestart:legacy`](#prestartlegacy)
-      - [`start:legacy`](#startlegacy)
-      - [`build`](#build)
-      - [`build:dev`](#builddev)
-      - [`build:test`](#buildtest)
-      - [`predev`](#predev)
-      - [`dev`](#dev)
-      - [`lint`](#lint)
-      - [`lint:fix`](#lintfix)
-      - [`format`](#format)
-      - [`storybook:documents`](#storybookdocuments)
-      - [`up:test`](#uptest)
-      - [`down:test`](#downtest)
-      - [`pretest`](#pretest)
-      - [`pretest:legacy`](#pretestlegacy)
-      - [`test:legacy`](#testlegacy)
-      - [`pretest:libraries`](#pretestlibraries)
-      - [`test:libraries`](#testlibraries)
-      - [`prespecs`](#prespecs)
-      - [`specs`](#specs)
-      - [`prespecs:select`](#prespecsselect)
-      - [`specs:select`](#specsselect)
-      - [`update:dump`](#updatedump)
-      - [`update:dump-metabase`](#updatedump-metabase)
-      - [`version`](#version)
-  - [ Environnements](#-environnements)
-  - [ Déploiement](#-déploiement)
-  - [ Apporter des changements](#-apporter-des-changements)
-  - [ Faire un hotfix](#-faire-un-hotfix)
-  - [ Récupérer les modifications d'une branche release vers main](#-récupérer-les-modifications-dune-branche-release-vers-main)
-  - [ Approche/Méthode](#-approcheméthode)
+  - [Approche/Méthode](#approche-methode)
+  - [Organisation du code source](#organisation-du-code-source)
+  - [Scripts NPM](#scripts-npm)
+    - [`prepare`](#prepare)
+    - [`start`](#start)
+    - [`up`](#up)
+    - [`down`](#down)
+    - [`prestart:legacy`](#prestartlegacy)
+    - [`start:legacy`](#startlegacy)
+    - [`build`](#build)
+    - [`build:dev`](#builddev)
+    - [`build:test`](#buildtest)
+    - [`predev`](#predev)
+    - [`dev`](#dev)
+    - [`lint`](#lint)
+    - [`lint:fix`](#lintfix)
+    - [`format`](#format)
+    - [`storybook:documents`](#storybookdocuments)
+    - [`up:test`](#uptest)
+    - [`down:test`](#downtest)
+    - [`pretest`](#pretest)
+    - [`pretest:legacy`](#pretestlegacy)
+    - [`test:legacy`](#testlegacy)
+    - [`pretest:libraries`](#pretestlibraries)
+    - [`test:libraries`](#testlibraries)
+    - [`prespecs`](#prespecs)
+    - [`specs`](#specs)
+    - [`prespecs:select`](#prespecsselect)
+    - [`specs:select`](#specsselect)
+    - [`update:dump`](#updatedump)
+    - [`update:dump-metabase`](#updatedump-metabase)
+    - [`version`](#version)
+  - [Environnements](#environnements)
+    - [Remise à zéro d'un environnement de test](#raz-environnement)
+  - [Déploiement](#deploiement)
+  - [Apporter des changements](#apporter-des-changements)
+  - [Faire un hotfix](#faire-un-hotfix)
+  - [Récupérer les modifications d'une branche release vers main](#-récupérer-les-modifications-dune-branche-release-vers-main)
+
+## <a id="approche-methode"></a> Approche/Méthode
+
+- [**B**ehavior **D**riven **D**velopment](https://fr.wikipedia.org/wiki/Programmation_pilot%C3%A9e_par_le_comportement)
+
+L'équipe de développement travaille en suivant la méthodologie BDD.
+De ce fait chaque développement (nouvelle fonctionnalité ou correction de bug) commence par l'ajout ou la modification d'un scénario de test du package `specifications`
+
+- [**D**omain **D**riven **D**esign](https://fr.wikipedia.org/wiki/Conception_pilot%C3%A9e_par_le_domaine)
 
 ## <a id="organisation-du-code-source"></a> Organisation du code source
 
@@ -205,7 +215,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 
 - **Description**: Exécute une sélection de spécifications.
 - **Commande**: `npm run test:select -w @potentiel/specifications`
-  
+
 #### `update:dump`
 
 - **Description**: Génére un fichier .dump de la base `potentiel`
@@ -242,7 +252,15 @@ Liste des environnements sur Scalingo :
 - https://potentiel.beta.gouv.fr
 - Déployé manuellement depuis le workflow `Release workflow` depuis les actions Github du projet
 
-## <a id="deploy"></a> Déploiement
+### <a id="raz-environnement"></a> Remise à zéro d'un environnement de test
+
+Le script `.database/scripts/restore-test-env-db.sh` permet une remise à zéro de la base de donnée d'un environnement de test. Il peut être éxécuté depuis un [terminal one-off](https://doc.scalingo.com/platform/app/tasks#run-an-attached-one-off) :
+
+```bash
+scalingo run --app XXX .database/scripts/restore-test-env-db.sh
+```
+
+## <a id="deploiement"></a> Déploiement
 
 Le projet potentiel suit la stratégie de branche de release : [Release Flow](http://releaseflow.org/).
 Les différentes étapes du workflow déclenchent des déploiements automatiquement depuis les workflows github configurés.
@@ -283,12 +301,3 @@ Note : l'équipe utilise `gitmoji` pour les commits, donc merci de bien sélecti
    3. Gérer les conflits et nommer le message du commit comme ceci : `🔀 Resolve merge conflicts after merge`
    4. Ouvrir la PR en mettant comme titre de la PR : `🔀 Intégration des modifications de la release x.x`
    5. Merger la PR en sélectionnant le mode **merge commit**
-
-## <a id="approche-methode"></a> Approche/Méthode
-
-- [**B**ehavior **D**riven **D**velopment](https://fr.wikipedia.org/wiki/Programmation_pilot%C3%A9e_par_le_comportement)
-
-L'équipe de développement travaille en suivant la méthodologie BDD.
-De ce fait chaque développement (nouvelle fonctionnalité ou correction de bug) commence par l'ajout ou la modification d'un scénario de test du package `specifications`
-
-- [**D**omain **D**riven **D**esign](https://fr.wikipedia.org/wiki/Conception_pilot%C3%A9e_par_le_domaine)
