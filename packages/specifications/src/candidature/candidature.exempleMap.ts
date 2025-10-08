@@ -97,10 +97,10 @@ export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.Dispo
   };
 
 export const natureDeLExploitationExempleMap: FieldToExempleMapper<{
-  type: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+  typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
   tauxPrévisionnelACI: number;
 }> = {
-  type: [
+  typeNatureDeLExploitation: [
     "type de nature de l'exploitation",
     mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
   ],

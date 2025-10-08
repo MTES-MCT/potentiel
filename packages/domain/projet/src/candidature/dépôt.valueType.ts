@@ -43,7 +43,10 @@ export type RawType = {
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.RawType | undefined;
   natureDeLExploitation:
-    | { type: TypeDeNatureDeLExploitation.RawType; tauxPrévisionnelACI?: number }
+    | {
+        typeNatureDeLExploitation: TypeDeNatureDeLExploitation.RawType;
+        tauxPrévisionnelACI?: number;
+      }
     | undefined;
 };
 
@@ -73,7 +76,7 @@ export type ValueType = ReadonlyValueType<{
   dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.ValueType | undefined;
   natureDeLExploitation:
     | {
-        type: TypeDeNatureDeLExploitation.ValueType;
+        typeNatureDeLExploitation: TypeDeNatureDeLExploitation.ValueType;
         tauxPrévisionnelACI?: number;
       }
     | undefined;
@@ -119,8 +122,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
   ),
   natureDeLExploitation: plain.natureDeLExploitation
     ? {
-        type: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.bind(
-          plain.natureDeLExploitation.type,
+        typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.bind(
+          plain.natureDeLExploitation.typeNatureDeLExploitation,
         ),
         tauxPrévisionnelACI: plain.natureDeLExploitation.tauxPrévisionnelACI,
       }
@@ -154,7 +157,10 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
       areEqualArrays(valueType.fournisseurs, this.fournisseurs) &&
       areEqualArrays(valueType.typologieInstallation, this.typologieInstallation) &&
-      areEqual(valueType.natureDeLExploitation?.type, this.natureDeLExploitation?.type)
+      areEqual(
+        valueType.natureDeLExploitation?.typeNatureDeLExploitation,
+        this.natureDeLExploitation?.typeNatureDeLExploitation,
+      )
     );
   },
   formatter() {
@@ -198,7 +204,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       dispositifDeStockage: this.dispositifDeStockage?.formatter(),
       natureDeLExploitation: this.natureDeLExploitation
         ? {
-            type: this.natureDeLExploitation.type.formatter(),
+            typeNatureDeLExploitation:
+              this.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
             tauxPrévisionnelACI: this.natureDeLExploitation.tauxPrévisionnelACI,
           }
         : undefined,
@@ -260,9 +267,10 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     ),
     natureDeLExploitation: raw.natureDeLExploitation
       ? mapToPlainObject({
-          type: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType(
-            raw.natureDeLExploitation.type,
-          ),
+          typeNatureDeLExploitation:
+            Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType(
+              raw.natureDeLExploitation.typeNatureDeLExploitation,
+            ),
           tauxPrévisionnelACI: raw.natureDeLExploitation.tauxPrévisionnelACI,
         })
       : undefined,

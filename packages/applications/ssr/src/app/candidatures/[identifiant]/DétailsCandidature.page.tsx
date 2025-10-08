@@ -101,7 +101,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               )}
               {dépôt.natureDeLExploitation && (
                 <Field name="Nature de l'exploitation">
-                  <span>{getNatureDeLExploitationTypeLabel(dépôt.natureDeLExploitation.type)}</span>
+                  <span>
+                    {getNatureDeLExploitationTypeLabel(dépôt.natureDeLExploitation.type.type)}
+                  </span>
                 </Field>
               )}
               {dépôt.dispositifDeStockage !== undefined && (

@@ -260,23 +260,25 @@ const getNatureDeLExploitationFixture = (
   dépôtValue: Partial<ImporterCandidature['dépôtValue']['natureDeLExploitation']>,
   champsRequis: boolean,
 ) => {
-  const type =
+  const typeNatureDeLExploitation =
     // viovio
-    dépôtValue && dépôtValue.type === undefined
+    dépôtValue && dépôtValue.typeNatureDeLExploitation === undefined
       ? undefined
-      : dépôtValue?.type !== undefined
-        ? dépôtValue.type
+      : dépôtValue?.typeNatureDeLExploitation !== undefined
+        ? dépôtValue.typeNatureDeLExploitation
         : champsRequis
           ? faker.helpers.arrayElement(
               Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
             )
           : undefined;
 
-  return type === undefined
+  return typeNatureDeLExploitation === undefined
     ? undefined
     : {
-        type,
-        tauxPrévisionnelACI: type ? faker.number.int({ min: 0, max: 100 }) : undefined,
+        typeNatureDeLExploitation,
+        tauxPrévisionnelACI: typeNatureDeLExploitation
+          ? faker.number.int({ min: 0, max: 100 })
+          : undefined,
         ...dépôtValue,
       };
 };

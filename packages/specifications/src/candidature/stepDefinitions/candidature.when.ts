@@ -92,6 +92,15 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     ...changedValues.dépôt.dispositifDeStockage,
   };
 
+  const typeNatureDeLExploitation =
+    changedValues.dépôt.natureDeLExploitation.typeNatureDeLExploitation ??
+    this.candidatureWorld.importerCandidature.dépôtValue.natureDeLExploitation
+      ?.typeNatureDeLExploitation;
+
+  const tauxPrévisionnelACI =
+    changedValues.dépôt.natureDeLExploitation.tauxPrévisionnelACI ??
+    this.candidatureWorld.importerCandidature.dépôtValue.natureDeLExploitation?.tauxPrévisionnelACI;
+
   const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
     this.candidatureWorld.corrigerCandidature.créer({
       identifiantProjet: {
@@ -107,6 +116,9 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
           dispositifDeStockageValue.installationAvecDispositifDeStockage !== undefined
             ? (dispositifDeStockageValue as Lauréat.DispositifDeStockage.DispositifDeStockage.RawType)
             : undefined,
+        natureDeLExploitation: typeNatureDeLExploitation
+          ? { typeNatureDeLExploitation, tauxPrévisionnelACI }
+          : undefined,
         localité: {
           ...this.candidatureWorld.importerCandidature.dépôtValue.localité,
           ...changedValues.dépôt.localité,
