@@ -9,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 export type ChangementActionnaireListItemProps = PlainType<
   Lauréat.Actionnaire.ListerChangementActionnaireReadModel['items'][number]

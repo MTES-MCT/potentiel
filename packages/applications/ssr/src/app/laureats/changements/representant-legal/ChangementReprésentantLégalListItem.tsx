@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ListItem } from '@/components/molecules/ListItem';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 export type ChangementReprésentantLégalListItemProps = PlainType<
   Lauréat.ReprésentantLégal.ListerChangementReprésentantLégalReadModel['items'][number]

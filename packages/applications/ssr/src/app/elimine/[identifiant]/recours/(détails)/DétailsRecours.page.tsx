@@ -11,7 +11,7 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { ProjetÉliminéBanner } from '@/components/molecules/projet/éliminé/ProjetÉliminéBanner';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';

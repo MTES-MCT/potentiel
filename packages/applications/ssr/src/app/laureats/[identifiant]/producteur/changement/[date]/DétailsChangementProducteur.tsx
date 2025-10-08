@@ -7,7 +7,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemande';
+import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
 import { DétailsProducteurPageProps } from './DétailsProducteur.page';
 
