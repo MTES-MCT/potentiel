@@ -73,9 +73,6 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
     numeroDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.numéro,
     dateDAutorisationDUrbanisme: candidature.dépôt.autorisationDUrbanisme?.date.formatter(),
     installateur: candidature.dépôt.installateur,
-    natureDeLExploitation: candidature.dépôt.natureDeLExploitation
-      ? candidature.dépôt.natureDeLExploitation.type
-      : undefined,
   },
   lauréat: {
     statut: mapToPlainObject(lauréat.lauréat.statut),
@@ -127,18 +124,6 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
       currentValue: lauréat.fournisseur.évaluationCarboneSimplifiée,
       estEnCoursDeModification: false,
     },
-    installateur: lauréat.installateur
-      ? {
-          currentValue: lauréat.installateur.installateur,
-          estEnCoursDeModification: false,
-        }
-      : undefined,
-    natureDeLExploitation: lauréat.natureDeLExploitation
-      ? {
-          currentValue: lauréat.natureDeLExploitation.natureDeLExploitation.type,
-          estEnCoursDeModification: false,
-        }
-      : undefined,
   },
   projet: {
     nomProjet: candidature.dépôt.nomProjet,

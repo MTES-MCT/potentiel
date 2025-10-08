@@ -74,12 +74,7 @@ const lauréatSchema = z
   })
   .merge(localitéSchema);
 
-const lauréatChampsSupplémentairesSchema = z.object({
-  installateur: installateurSchema,
-  natureDeLExploitation: natureDeLExploitationOptionalSchema,
-});
-
-const partialLauréatSchema = lauréatSchema.merge(lauréatChampsSupplémentairesSchema).partial();
+const partialLauréatSchema = lauréatSchema.partial();
 
 const identifiantProjetSchema = z.string().min(1);
 
@@ -114,14 +109,10 @@ export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
   typeof partialCandidatureNotifiéeSchema
 >;
 export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
-// TODO: à challenger mais sûrement à supprimer car on n'intègrera pas ces données au formulaire
-export type ModifierLauréatChampsSupplémentairesValueFormEntries = z.infer<
-  typeof lauréatChampsSupplémentairesSchema
->;
+
 export type PartialModifierLauréatValueFormEntries = z.infer<typeof partialLauréatSchema>;
 export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
-export type ModifierChampsSupplémentairesLauréatKeys =
-  keyof ModifierLauréatChampsSupplémentairesValueFormEntries;
+
 export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
   z.infer<typeof modifierLauréatEtCandidatureSchéma>
 >;

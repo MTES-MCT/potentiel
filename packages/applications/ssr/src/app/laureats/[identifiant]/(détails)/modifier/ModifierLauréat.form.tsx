@@ -13,8 +13,6 @@ import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
 import {
   ModifierCandidatureNotifiéeFormEntries,
-  ModifierChampsSupplémentairesLauréatKeys,
-  ModifierLauréatChampsSupplémentairesValueFormEntries,
   ModifierLauréatEtCandidatureNotifiéeFormEntries,
   ModifierLauréatKeys,
   ModifierLauréatValueFormEntries,
@@ -22,7 +20,6 @@ import {
 import { ValidationErrors } from '@/utils/formAction';
 import { FormAlertError } from '@/components/atoms/form/FormAlertError';
 
-import { getNatureDeLExploitationTypeLabel } from '../../../../_helpers/getNatureDeLExploitationTypeLabel';
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '../../../../_helpers';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
@@ -31,7 +28,6 @@ import { LocalitéField } from './components/fields/LocalitéField';
 import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/generic/CandidatureField';
 import { DateDAutorisationDUrbanismeField } from './components/fields/DateDAutorisationDUrbanismeField';
-import { ProjectSelectField } from './components/fields/generic/ProjectSelectField';
 import { CandidatureSelectField } from './components/fields/generic/CandidatureSelectField';
 
 type ModifierLauréatFormEntries = {
@@ -39,13 +35,6 @@ type ModifierLauréatFormEntries = {
     currentValue: ModifierLauréatValueFormEntries[K];
     estEnCoursDeModification: boolean;
   };
-} & {
-  [K in ModifierChampsSupplémentairesLauréatKeys]:
-    | {
-        currentValue: ModifierLauréatChampsSupplémentairesValueFormEntries[K];
-        estEnCoursDeModification: boolean;
-      }
-    | undefined;
 };
 
 export type ModifierLauréatFormProps = {
@@ -277,36 +266,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             </FormRow>
           </>
         )}
-        {champsSupplémentaires.installateur && lauréat.installateur && (
-          <FormRow>
-            <ProjectField
-              candidature={candidature.installateur}
-              lauréat={lauréat.installateur.currentValue}
-              label="Installateur"
-              name="installateur"
-              validationErrors={validationErrors}
-              required={champsSupplémentaires.installateur === 'requis'}
-            />
-          </FormRow>
-        )}
-        {champsSupplémentaires.natureDeLExploitation && (
-          <FormRow>
-            <ProjectSelectField
-              name="natureDeLExploitation"
-              label="Nature de l'exploitation"
-              candidature={candidature.natureDeLExploitation}
-              lauréat={lauréat.natureDeLExploitation?.currentValue}
-              options={Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types.map(
-                (type) => ({
-                  label: getNatureDeLExploitationTypeLabel(type),
-                  value: type,
-                }),
-              )}
-              validationErrors={validationErrors}
-              required={champsSupplémentaires.natureDeLExploitation === 'requis'}
-            />
-          </FormRow>
-        )}
+
         {champsSupplémentaires.coefficientKChoisi && (
           <FormRow>
             <CandidatureSelectField

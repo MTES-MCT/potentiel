@@ -3,10 +3,7 @@
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
-import {
-  ModifierLauréatChampsSupplémentairesValueFormEntries,
-  ModifierLauréatValueFormEntries,
-} from '@/utils/candidature';
+import { ModifierLauréatValueFormEntries } from '@/utils/candidature';
 
 import { FieldValidationErrors } from '../../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../../LinkedValuesButton';
@@ -15,9 +12,7 @@ import { getInputTypeNativeProps } from '../../../_helpers/getInputTypeNativePro
 type ProjectFieldProps<T> = {
   candidature: T;
   lauréat: T;
-  name:
-    | keyof ModifierLauréatValueFormEntries
-    | keyof ModifierLauréatChampsSupplémentairesValueFormEntries;
+  name: keyof ModifierLauréatValueFormEntries;
   estEnCoursDeModification?: boolean;
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
