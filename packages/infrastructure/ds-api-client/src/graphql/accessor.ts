@@ -83,18 +83,6 @@ export const createDossierAccessor = <
   };
 };
 
-// class FieldNotFoundError extends Error {
-//   constructor(public fieldName: string) {
-//     super('Champ non existant dans la démarche');
-//   }
-// }
-
-// class RequiredFieldMissingError extends Error {
-//   constructor(public fieldName: string) {
-//     super('Un champ requis est manquant dans le dossier');
-//   }
-// }
-
 class InvalidFieldTypeError extends Error {
   constructor(
     public fieldName: string,
