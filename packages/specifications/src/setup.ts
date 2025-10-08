@@ -23,7 +23,7 @@ import waitForExpect from 'wait-for-expect';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
-import { bootstrap } from '@potentiel-applications/bootstrap';
+import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 import { EmailPayload } from '@potentiel-applications/notifications';
 import { Option } from '@potentiel-libraries/monads';
 import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
@@ -129,7 +129,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   clear();
 
   unsetup = await bootstrap({
-    middlewares: [],
+    middlewares: [logMiddleware],
     dependencies: {
       sendEmail: testEmailAdapter.bind(this),
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),

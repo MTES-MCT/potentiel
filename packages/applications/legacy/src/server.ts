@@ -12,9 +12,9 @@ import { logger } from './core/utils';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
-import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
+import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
-import { runWithContext } from '@potentiel-applications/request-context';
+import { runWebWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
 import {
   executeSubscribersRetry,
@@ -31,7 +31,7 @@ export async function makeServer(port: number) {
     const app = express();
 
     // This handles the authentication
-    app.use((req, res, next) => runWithContext({ req, res, callback: next }));
+    app.use((req, res, next) => runWebWithContext({ app: 'legacy', req, res, callback: next }));
 
     if (!isLocalEnv) {
       // generate a unique nonce per request, to use in the CSP header and in every <script> in the markup
@@ -144,7 +144,7 @@ export async function makeServer(port: number) {
 
     await nextApp.prepare();
 
-    await bootstrap({ middlewares: [permissionMiddleware] });
+    await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
     await registerSagas();
     await executeSubscribersRetry();
 

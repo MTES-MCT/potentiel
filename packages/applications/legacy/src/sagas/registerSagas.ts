@@ -1,5 +1,4 @@
-import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { mediator } from 'mediateur';
+import { createSubscriptionSetup } from '@potentiel-applications/bootstrap';
 import * as AbandonSaga from './abandon.saga';
 import * as AccèsSaga from './accès.saga';
 import * as ActionnaireSaga from './actionnaire.saga';
@@ -13,46 +12,28 @@ import * as FournisseurSaga from './fournisseur.saga';
 import * as AchèvementSaga from './achèvement.saga';
 
 /**
- * @deprecated à bouger dans la nouvelle app
+ * Synchronisation des événements issus de la nouvelle app vers le legacy
  */
 export const registerSagas = async () => {
+  const abandon = createSubscriptionSetup('abandon');
   AbandonSaga.register();
-  CandidatureSaga.register();
-  LauréatSaga.register();
-  ÉliminéSaga.register();
-  ActionnaireSaga.register();
-  UtilisateurSaga.register();
-  PuissanceSaga.register();
-  ProducteurSaga.register();
-  AccèsSaga.register();
-  FournisseurSaga.register();
-  AchèvementSaga.register();
-
-  const unsubscribeAbandon = await subscribe<AbandonSaga.SubscriptionEvent>({
+  await abandon.setupSubscription<AbandonSaga.SubscriptionEvent, AbandonSaga.Execute>({
     name: 'legacy-saga',
     eventType: ['AbandonAccordé-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<AbandonSaga.Execute>({
-        type: 'System.Saga.Abandon',
-        data: event,
-      });
-    },
-    streamCategory: 'abandon',
+    messageType: 'System.Saga.Abandon',
   });
 
-  const unsubscribeCandidature = await subscribe<CandidatureSaga.SubscriptionEvent>({
+  const candidature = createSubscriptionSetup('candidature');
+  CandidatureSaga.register();
+  await candidature.setupSubscription<CandidatureSaga.SubscriptionEvent, CandidatureSaga.Execute>({
     name: 'legacy-saga',
     eventType: ['CandidatureImportée-V2', 'CandidatureCorrigée-V2'],
-    eventHandler: async (event) => {
-      await mediator.send<CandidatureSaga.Execute>({
-        type: 'System.Saga.Candidature',
-        data: event,
-      });
-    },
-    streamCategory: 'candidature',
+    messageType: 'System.Saga.Candidature',
   });
 
-  const unsubscribeLauréat = await subscribe<LauréatSaga.SubscriptionEvent>({
+  const lauréat = createSubscriptionSetup('lauréat');
+  LauréatSaga.register();
+  lauréat.setupSubscription<LauréatSaga.SubscriptionEvent, LauréatSaga.Execute>({
     name: 'legacy-saga',
     eventType: [
       'LauréatNotifié-V2',
@@ -60,130 +41,92 @@ export const registerSagas = async () => {
       'SiteDeProductionModifié-V1',
       'CahierDesChargesChoisi-V1',
     ],
-    eventHandler: async (event) => {
-      await mediator.send<LauréatSaga.Execute>({
-        type: 'System.Saga.Lauréat',
-        data: event,
-      });
-    },
-    streamCategory: 'lauréat',
+    messageType: 'System.Saga.Lauréat',
   });
 
-  const unsubscribeÉliminé = await subscribe<ÉliminéSaga.SubscriptionEvent>({
+  const éliminé = createSubscriptionSetup('éliminé');
+  ÉliminéSaga.register();
+  await éliminé.setupSubscription<ÉliminéSaga.SubscriptionEvent, ÉliminéSaga.Execute>({
     name: 'legacy-saga',
     eventType: ['ÉliminéNotifié-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<ÉliminéSaga.Execute>({
-        type: 'System.Saga.Éliminé',
-        data: event,
-      });
-    },
-    streamCategory: 'éliminé',
+    messageType: 'System.Saga.Éliminé',
   });
 
-  const unsubscribeActionnaire = await subscribe<ActionnaireSaga.SubscriptionEvent>({
+  const actionnaire = createSubscriptionSetup('actionnaire');
+  ActionnaireSaga.register();
+  await actionnaire.setupSubscription<ActionnaireSaga.SubscriptionEvent, ActionnaireSaga.Execute>({
     name: 'legacy-saga',
     eventType: [
       'ActionnaireModifié-V1',
       'ChangementActionnaireAccordé-V1',
       'ChangementActionnaireEnregistré-V1',
     ],
-    eventHandler: async (event) => {
-      await mediator.send<ActionnaireSaga.Execute>({
-        type: 'System.Saga.Actionnaire',
-        data: event,
-      });
-    },
-    streamCategory: 'actionnaire',
+    messageType: 'System.Saga.Actionnaire',
   });
 
-  const unsubscribeAccès = await subscribe<AccèsSaga.SubscriptionEvent>({
+  const accès = createSubscriptionSetup('accès');
+  AccèsSaga.register();
+  await accès.setupSubscription<AccèsSaga.SubscriptionEvent, AccèsSaga.Execute>({
     name: 'legacy-saga',
     eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<AccèsSaga.Execute>({
-        type: 'System.Saga.Accès',
-        data: event,
-      });
-    },
-    streamCategory: 'accès',
+    messageType: 'System.Saga.Accès',
   });
 
-  const unsubscribeUtilisateur = await subscribe<UtilisateurSaga.SubscriptionEvent>({
+  const utilisateur = createSubscriptionSetup('utilisateur');
+  UtilisateurSaga.register();
+  await utilisateur.setupSubscription<UtilisateurSaga.SubscriptionEvent, UtilisateurSaga.Execute>({
     name: 'legacy-saga',
     eventType: ['UtilisateurInvité-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<UtilisateurSaga.Execute>({
-        type: 'System.Saga.Utilisateur',
-        data: event,
-      });
-    },
-    streamCategory: 'utilisateur',
+    messageType: 'System.Saga.Utilisateur',
   });
 
-  const unsubscribePuissance = await subscribe<PuissanceSaga.SubscriptionEvent>({
+  const puissance = createSubscriptionSetup('puissance');
+  PuissanceSaga.register();
+  await puissance.setupSubscription<PuissanceSaga.SubscriptionEvent, PuissanceSaga.Execute>({
     name: 'legacy-saga',
     eventType: [
       'PuissanceModifiée-V1',
       'ChangementPuissanceEnregistré-V1',
       'ChangementPuissanceAccordé-V1',
     ],
-    eventHandler: async (event) => {
-      await mediator.send<PuissanceSaga.Execute>({
-        type: 'System.Saga.Puissance',
-        data: event,
-      });
-    },
-    streamCategory: 'puissance',
+    messageType: 'System.Saga.Puissance',
   });
 
-  const unsubscribeProducteur = await subscribe<ProducteurSaga.SubscriptionEvent>({
-    name: 'legacy-saga-producteur',
+  const producteur = createSubscriptionSetup('producteur');
+  ProducteurSaga.register();
+  await producteur.setupSubscription<ProducteurSaga.SubscriptionEvent, ProducteurSaga.Execute>({
+    name: 'legacy-saga',
     eventType: ['ProducteurModifié-V1', 'ChangementProducteurEnregistré-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<ProducteurSaga.Execute>({
-        type: 'System.Saga.Producteur',
-        data: event,
-      });
-    },
-    streamCategory: 'producteur',
+    messageType: 'System.Saga.Producteur',
   });
 
-  const unsubscribeFournisseur = await subscribe<FournisseurSaga.SubscriptionEvent>({
-    name: 'legacy-saga-fournisseur',
+  const fournisseur = createSubscriptionSetup('fournisseur');
+  FournisseurSaga.register();
+  await fournisseur.setupSubscription<FournisseurSaga.SubscriptionEvent, FournisseurSaga.Execute>({
+    name: 'legacy-saga',
     eventType: ['ÉvaluationCarboneSimplifiéeModifiée-V1', 'ChangementFournisseurEnregistré-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<FournisseurSaga.Execute>({
-        type: 'System.Saga.Fournisseur',
-        data: event,
-      });
-    },
-    streamCategory: 'fournisseur',
+    messageType: 'System.Saga.Fournisseur',
   });
 
-  const unsubscribeAchèvement = await subscribe<AchèvementSaga.SubscriptionEvent>({
-    name: 'legacy-saga-achevement',
+  const achèvement = createSubscriptionSetup('achevement');
+  AchèvementSaga.register();
+  await achèvement.setupSubscription<AchèvementSaga.SubscriptionEvent, AchèvementSaga.Execute>({
+    name: 'legacy-saga',
     eventType: ['DateAchèvementPrévisionnelCalculée-V1'],
-    eventHandler: async (event) => {
-      await mediator.send<AchèvementSaga.Execute>({
-        type: 'System.Saga.Achèvement',
-        data: event,
-      });
-    },
-    streamCategory: 'achevement',
+    messageType: 'System.Saga.Achèvement',
   });
 
   return async () => {
-    await unsubscribeAbandon();
-    await unsubscribeCandidature();
-    await unsubscribeLauréat();
-    await unsubscribeÉliminé();
-    await unsubscribeActionnaire();
-    await unsubscribeUtilisateur();
-    await unsubscribePuissance();
-    await unsubscribeProducteur();
-    await unsubscribeAccès();
-    await unsubscribeFournisseur();
-    await unsubscribeAchèvement();
+    await abandon.clearSubscriptions();
+    await candidature.clearSubscriptions();
+    await lauréat.clearSubscriptions();
+    await éliminé.clearSubscriptions();
+    await actionnaire.clearSubscriptions();
+    await utilisateur.clearSubscriptions();
+    await puissance.clearSubscriptions();
+    await producteur.clearSubscriptions();
+    await accès.clearSubscriptions();
+    await fournisseur.clearSubscriptions();
+    await achèvement.clearSubscriptions();
   };
 };

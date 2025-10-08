@@ -1,13 +1,13 @@
-import { mediator } from 'mediateur';
-
 import {
   registerUtilisateurQueries,
   registerUtilisateurUseCases,
 } from '@potentiel-domain/utilisateur';
-import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { UtilisateurProjector } from '@potentiel-applications/projectors';
 import { SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
+
+import { createSubscriptionSetup } from './createSubscriptionSetup';
 
 type SetupUtilisateurDependencies = {
   sendEmail: SendEmail;
@@ -23,10 +23,13 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     loadAggregate,
   });
 
-  UtilisateurProjector.register();
-  UtilisateurNotification.register({ sendEmail });
+  const utilisateur = createSubscriptionSetup('utilisateur');
 
-  const unsubscribeUtilisateurProjector = await subscribe<UtilisateurProjector.SubscriptionEvent>({
+  UtilisateurProjector.register();
+  await utilisateur.setupSubscription<
+    UtilisateurProjector.SubscriptionEvent,
+    UtilisateurProjector.Execute
+  >({
     name: 'projector',
     eventType: [
       'RebuildTriggered',
@@ -35,30 +38,19 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
       'UtilisateurDésactivé-V1',
       'UtilisateurRéactivé-V1',
     ],
-    eventHandler: async (event) => {
-      await mediator.send<UtilisateurProjector.Execute>({
-        type: 'System.Projector.Utilisateur',
-        data: event,
-      });
-    },
-    streamCategory: 'utilisateur',
+    messageType: 'System.Projector.Utilisateur',
   });
 
-  const unsubscribeUtilisateurNotification =
-    await subscribe<UtilisateurNotification.SubscriptionEvent>({
-      name: 'notifications',
-      streamCategory: 'utilisateur',
-      eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V1'],
-      eventHandler: async (event) => {
-        await mediator.publish<UtilisateurNotification.Execute>({
-          type: 'System.Notification.Utilisateur',
-          data: event,
-        });
-      },
-    });
+  UtilisateurNotification.register({ sendEmail });
 
-  return async () => {
-    await unsubscribeUtilisateurProjector();
-    await unsubscribeUtilisateurNotification();
-  };
+  await utilisateur.setupSubscription<
+    UtilisateurNotification.SubscriptionEvent,
+    UtilisateurNotification.Execute
+  >({
+    name: 'notifications',
+    eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V1'],
+    messageType: 'System.Notification.Utilisateur',
+  });
+
+  return utilisateur.clearSubscriptions;
 };

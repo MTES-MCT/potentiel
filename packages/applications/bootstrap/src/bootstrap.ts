@@ -3,19 +3,15 @@ import { Middleware, mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
+import { HistoriqueProjector } from '@potentiel-applications/projectors';
 
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
-import { logMiddleware } from './middlewares/log.middleware';
 import { setupProjet } from './setupProjet';
 import { setupPériode } from './setupPériode';
-import { setupHistorique } from './setupHistorique';
 import { setupStatistiques } from './setupStatistiques';
-
-let unsubscribe: (() => Promise<void>) | undefined;
-let mutex: Promise<void> | undefined;
 
 const defaultDependencies = {
   sendEmail,
@@ -30,47 +26,34 @@ export const bootstrap = async ({
   middlewares,
   dependencies,
 }: BootstrapProps): Promise<() => Promise<void>> => {
-  // if there's already a bootstrap operation in progress, wait for it to finish
-  if (mutex) {
-    await mutex;
+  if (mediator.getMessageTypes().length > 0) {
+    throw new Error('Application already bootstrapped');
   }
-  let resolveMutex: (() => void) | undefined;
-  mutex = new Promise((r) => (resolveMutex = r));
 
-  if (!unsubscribe) {
-    mediator.use({
-      middlewares: [logMiddleware, ...middlewares],
-    });
-    const allDependencies = {
-      ...defaultDependencies,
-      ...dependencies,
-    };
+  mediator.use({ middlewares });
 
-    const unsetupHistorique = await setupHistorique();
+  const allDependencies = {
+    ...defaultDependencies,
+    ...dependencies,
+  };
 
-    setupStatistiques();
-    const unsetupUtilisateur = await setupUtilisateur(allDependencies);
-    await setupAppelOffre();
-    setupDocumentProjet();
-    const unsetupPériode = await setupPériode(allDependencies);
+  HistoriqueProjector.register();
 
-    const unsetupProjet = await setupProjet(allDependencies);
-    const unsetupGestionnaireRéseau = await setupRéseau();
+  setupStatistiques();
+  const unsetupUtilisateur = await setupUtilisateur(allDependencies);
+  await setupAppelOffre();
+  setupDocumentProjet();
+  const unsetupPériode = await setupPériode(allDependencies);
 
-    getLogger().info('Application bootstrapped');
+  const unsetupProjet = await setupProjet(allDependencies);
+  const unsetupGestionnaireRéseau = await setupRéseau();
 
-    unsubscribe = async () => {
-      await unsetupHistorique();
-      await unsetupProjet();
-      await unsetupGestionnaireRéseau();
-      await unsetupPériode();
-      await unsetupUtilisateur();
-      unsubscribe = undefined;
-    };
-  }
-  if (resolveMutex) {
-    resolveMutex();
-  }
-  mutex = undefined;
-  return unsubscribe;
+  getLogger().info('Application bootstrapped');
+
+  return async () => {
+    await unsetupProjet();
+    await unsetupGestionnaireRéseau();
+    await unsetupPériode();
+    await unsetupUtilisateur();
+  };
 };

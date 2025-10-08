@@ -1,9 +1,9 @@
-import { mediator } from 'mediateur';
-
 import { GestionnaireRéseauProjector } from '@potentiel-applications/projectors';
 import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
-import { loadAggregateV2, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+
+import { createSubscriptionSetup } from './createSubscriptionSetup';
 
 export const setupRéseau = async () => {
   registerRéseauUseCases({
@@ -15,29 +15,23 @@ export const setupRéseau = async () => {
     find: findProjection,
   });
 
-  // Projectors
   GestionnaireRéseauProjector.register();
+  const réseau = createSubscriptionSetup('réseau');
 
-  const unsubscribeGestionnaireRéseauProjector =
-    await subscribe<GestionnaireRéseauProjector.SubscriptionEvent>({
-      name: 'projector',
-      eventType: [
-        'RebuildTriggered',
-        'GestionnaireRéseauAjouté-V1',
-        'GestionnaireRéseauModifié-V1',
-        'GestionnaireRéseauAjouté-V2',
-        'GestionnaireRéseauModifié-V2',
-      ],
-      eventHandler: async (event) => {
-        await mediator.send<GestionnaireRéseauProjector.Execute>({
-          type: 'System.Projector.Réseau.Gestionnaire',
-          data: event,
-        });
-      },
-      streamCategory: 'gestionnaire-réseau',
-    });
+  await réseau.setupSubscription<
+    GestionnaireRéseauProjector.SubscriptionEvent,
+    GestionnaireRéseauProjector.Execute
+  >({
+    name: 'projector',
+    eventType: [
+      'RebuildTriggered',
+      'GestionnaireRéseauAjouté-V1',
+      'GestionnaireRéseauModifié-V1',
+      'GestionnaireRéseauAjouté-V2',
+      'GestionnaireRéseauModifié-V2',
+    ],
+    messageType: 'System.Projector.Réseau.Gestionnaire',
+  });
 
-  return async () => {
-    await unsubscribeGestionnaireRéseauProjector();
-  };
+  return réseau.clearSubscriptions;
 };

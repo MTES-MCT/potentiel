@@ -9,7 +9,7 @@ import { périodeRebuildTriggered } from './périodeRebuildTriggered.projector';
 
 export type SubscriptionEvent = (Période.PériodeNotifiéeEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'System.Projector.Periode', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Période', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
@@ -18,5 +18,5 @@ export const register = () => {
       .with({ type: 'PériodeNotifiée-V1' }, périodeNotifiéeProjector)
       .exhaustive();
 
-  mediator.register('System.Projector.Periode', handler);
+  mediator.register('System.Projector.Période', handler);
 };

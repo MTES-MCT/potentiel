@@ -5,7 +5,7 @@ import {
 import { DispositifDeStockageNotifications } from '@potentiel-applications/notifications';
 
 import { SetupProjet } from '../setup';
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 
 export const setupDispositifDeStockage: SetupProjet = async ({ sendEmail }) => {
   const dispositifDeStockage = createSubscriptionSetup('dispositif-de-stockage');
