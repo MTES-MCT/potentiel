@@ -38,18 +38,23 @@ const colonnes = {
   coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
+type MapApiResponseToDépôt = {
+  champs: GetDossierQuery['dossier']['champs'];
+  champDescriptors: GetDossierQuery['dossier']['demarche']['revision']['champDescriptors'];
+};
+
 export const mapApiResponseToDépôt = ({
   champs,
-  demarche,
-}: GetDossierQuery['dossier']): DeepPartial<Candidature.Dépôt.RawType> => {
-  const accessor = createDossierAccessor(champs, colonnes, demarche.revision.champDescriptors);
+  champDescriptors,
+}: MapApiResponseToDépôt): DeepPartial<Candidature.Dépôt.RawType> => {
+  const accessor = createDossierAccessor(champs, colonnes, champDescriptors);
   const accessorAutorisationDUrbanisme = createDossierAccessor(
     champs,
     {
       numéro: "Numéro de l'autorisation d'urbanisme",
       date: "Date d'obtention de l'autorisation d'urbanisme",
     } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
-    demarche.revision.champDescriptors,
+    champDescriptors,
   );
 
   const accessorDispositifDeStockage = createDossierAccessor(
@@ -70,7 +75,7 @@ export const mapApiResponseToDépôt = ({
   const dateConstitutionGarantiesFinancieres = getDateConstitutionGarantiesFinancières(
     typeGarantiesFinancieres,
     champs,
-    demarche.revision.champDescriptors,
+    champDescriptors,
   );
 
   const getDateÉchéanceGarantiesFinancières = (date: string) => {

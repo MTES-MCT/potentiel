@@ -1,10 +1,19 @@
 query GetDemarche($demarche: Int!) {
   demarche(number: $demarche) {
     number
+    activeRevision {
+      champDescriptors {
+        label
+        required
+      }
+    }
     dossiers {
       nodes {
         number
         state
+        champs {
+          ...ChampFragment
+        }
       }
     }
   }

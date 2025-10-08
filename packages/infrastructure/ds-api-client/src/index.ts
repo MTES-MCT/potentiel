@@ -15,17 +15,32 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
   try {
     const { dossier } = await sdk.GetDossier({ dossier: dossierNumber });
 
-    const fichiers = mapApiResponseToFichiers(dossier);
+    const {
+      champs,
+      demarche: {
+        revision: { champDescriptors },
+      },
+    } = dossier;
+
+    const fichiers = mapApiResponseToFichiers({
+      champs,
+      champDescriptors,
+    });
     return {
       demarcheId: dossier.demarche.number,
       dépôt: {
-        ...mapApiResponseToDépôt(dossier),
+        ...mapApiResponseToDépôt({
+          champs,
+          champDescriptors,
+        }),
         attestationConstitutionGf: fichiers.garantiesFinancières
           ? { format: fichiers.garantiesFinancières.contentType }
           : undefined,
       } satisfies DeepPartial<Candidature.Dépôt.RawType>,
       fichiers,
-      détails: mapApiResponseToDétails(dossier),
+      détails: mapApiResponseToDétails({
+        champs,
+      }),
     };
   } catch (e) {
     logger.warn('Impossible de lire le dossier', {
@@ -41,25 +56,64 @@ export const getDossiersDemarche = async (démarcheNumber: number) => {
   const sdk = getDSApiClient();
   const { demarche } = await sdk.GetDemarche({ demarche: démarcheNumber });
   if (!demarche.dossiers.nodes) return [];
+
   return demarche.dossiers.nodes
-    .filter((node) => node && (node.state === 'accepte' || node.state === 'en_instruction'))
-    .map((node) => node!.number);
+    .filter(
+      (dossier) => dossier && (dossier.state === 'accepte' || dossier.state === 'en_instruction'),
+    )
+    .map((dossier) => {
+      if (!dossier) throw new Error('dossier is null');
+
+      const { champs } = dossier;
+      const { champDescriptors } = demarche.activeRevision;
+
+      const fichiers = mapApiResponseToFichiers({
+        champs,
+        champDescriptors,
+      });
+
+      return {
+        demarcheId: démarcheNumber,
+        dépôt: {
+          ...mapApiResponseToDépôt({
+            champs,
+            champDescriptors,
+          }),
+          attestationConstitutionGf: fichiers.garantiesFinancières
+            ? { format: fichiers.garantiesFinancières.contentType }
+            : undefined,
+        } satisfies DeepPartial<Candidature.Dépôt.RawType>,
+        fichiers,
+        détails: mapApiResponseToDétails({
+          champs,
+        }),
+      };
+    });
 };
 
-const mapApiResponseToFichiers = ({ champs, demarche }: GetDossierQuery['dossier']) => {
+type MapApiResponseToFichiers = {
+  champs: GetDossierQuery['dossier']['champs'];
+  champDescriptors: GetDossierQuery['dossier']['demarche']['revision']['champDescriptors'];
+};
+
+const mapApiResponseToFichiers = ({ champs, champDescriptors }: MapApiResponseToFichiers) => {
   const accessor = createDossierAccessor(
     champs,
     {
       garantiesFinancières: 'Garantie financière de mise en œuvre du projet',
     },
-    demarche.revision.champDescriptors,
+    champDescriptors,
   );
   return {
     garantiesFinancières: accessor.getUrlPièceJustificativeValue('garantiesFinancières'),
   };
 };
 
-const mapApiResponseToDétails = ({ champs }: GetDossierQuery['dossier']) => {
+type MapApiResponseToDétails = {
+  champs: GetDossierQuery['dossier']['champs'];
+};
+
+const mapApiResponseToDétails = ({ champs }: MapApiResponseToDétails) => {
   const logger = getLogger('ds-api-client');
   return champs.reduce(
     (prev, curr) => {
