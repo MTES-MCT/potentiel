@@ -21,5 +21,5 @@ export * as FournisseurProjector from './subscribers/lauréat/fournisseur';
 export * as AccèsProjector from './subscribers/accès';
 export * as DélaiProjector from './subscribers/lauréat/délai/registerDélaiProjectors';
 export * as InstallationProjector from './subscribers/lauréat/installation';
-export * as InstallationAvecDispositifDeStockageProjector from './subscribers/lauréat/installationAvecDispositifDeStockage';
+export * as DispositifDeStockageProjector from './subscribers/lauréat/dispositifDeStockage';
 export * as NatureDeLExploitationProjector from './subscribers/lauréat/nature-de-l-exploitation';

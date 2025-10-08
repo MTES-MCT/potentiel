@@ -24,7 +24,7 @@ import {
   dateDAutorisationDUrbanismeSchema,
   numéroDAutorisationDUrbanismeSchema,
   installateurSchema,
-  installationAvecDispositifDeStockageSchema,
+  dispositifDeStockageSchema,
   natureDeLExploitationOptionalSchema,
   actionnariatCorrigerCandidatureSchema,
 } from './candidatureFields.schema';
@@ -57,7 +57,7 @@ const candidatureNotifiéeSchema = z
     dateDAutorisationDUrbanisme: dateDAutorisationDUrbanismeSchema,
     numeroDAutorisationDUrbanisme: numéroDAutorisationDUrbanismeSchema,
     installateur: installateurSchema,
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
+    dispositifDeStockage: dispositifDeStockageSchema,
     natureDeLExploitation: natureDeLExploitationOptionalSchema,
   })
   .merge(localitéSchema);
@@ -76,7 +76,6 @@ const lauréatSchema = z
 
 const lauréatChampsSupplémentairesSchema = z.object({
   installateur: installateurSchema,
-  installationAvecDispositifDeStockage: installationAvecDispositifDeStockageSchema,
   natureDeLExploitation: natureDeLExploitationOptionalSchema,
 });
 
@@ -115,6 +114,7 @@ export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
   typeof partialCandidatureNotifiéeSchema
 >;
 export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
+// TODO: à challenger mais sûrement à supprimer car on n'intègrera pas ces données au formulaire
 export type ModifierLauréatChampsSupplémentairesValueFormEntries = z.infer<
   typeof lauréatChampsSupplémentairesSchema
 >;
