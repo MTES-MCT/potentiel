@@ -340,7 +340,7 @@ export class LauréatAggregate extends AbstractAggregate<
       this.projet.candidature.natureDeLExploitation
     ) {
       await this.natureDeLExploitation.importer({
-        typeDeNatureDeLExploitation: this.projet.candidature.natureDeLExploitation.type,
+        type: this.projet.candidature.natureDeLExploitation.type,
         tauxPrévisionnelACI: this.projet.candidature.natureDeLExploitation.tauxPrévisionnelACI,
         importéeLe: notifiéLe,
         importéePar: notifiéPar,

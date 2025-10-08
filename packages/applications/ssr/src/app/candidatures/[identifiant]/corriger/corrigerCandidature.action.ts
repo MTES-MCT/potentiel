@@ -142,7 +142,12 @@ const mapBodyToUseCaseData = (
       ),
       attestationConstitutionGf: previous.dépôt.garantiesFinancières?.constitution?.attestation,
       dispositifDeStockage: previous.dépôt.dispositifDeStockage,
-      natureDeLExploitation: previous.dépôt.natureDeLExploitation,
+      natureDeLExploitation: previous.dépôt.natureDeLExploitation
+        ? {
+            type: previous.dépôt.natureDeLExploitation?.type.formatter(),
+            tauxPrévisionnelACI: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACI,
+          }
+        : undefined,
     },
 
     détailsValue: undefined,

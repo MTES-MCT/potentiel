@@ -20,6 +20,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     | 'typologieInstallation'
     | 'attestationConstitutionGf'
     | 'dispositifDeStockage'
+    | 'natureDeLExploitation'
   >
 > = {
   typeGarantiesFinancières: [
@@ -48,10 +49,6 @@ export const dépôtExempleMap: FieldToExempleMapper<
   coefficientKChoisi: ['coefficient K choisi', mapOptionalBoolean],
   puissanceDeSite: ['puissance de site', mapNumber],
   installateur: ['installateur'],
-  natureDeLExploitation: [
-    "nature de l'exploitation",
-    mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
-  ],
 };
 
 export const instructionExempleMap: FieldToExempleMapper<Candidature.Instruction.RawType> = {
@@ -98,3 +95,14 @@ export const dispositifDeStockageExempleMap: FieldToExempleMapper<Lauréat.Dispo
     capacitéDuDispositifDeStockageEnKWh: ['capacité du dispositif', mapNumber],
     puissanceDuDispositifDeStockageEnKW: ['puissance du dispositif', mapNumber],
   };
+
+export const natureDeLExploitationExempleMap: FieldToExempleMapper<{
+  type: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+  tauxPrévisionnelACI: number;
+}> = {
+  type: [
+    "type de nature de l'exploitation",
+    mapValueType(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType),
+  ],
+  tauxPrévisionnelACI: ['taux prévisionnel aci', mapNumber],
+};

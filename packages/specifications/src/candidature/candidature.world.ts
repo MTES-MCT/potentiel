@@ -15,6 +15,7 @@ import {
   identifiantProjetExempleMap,
   instructionExempleMap,
   localitéExempleMap,
+  natureDeLExploitationExempleMap,
 } from './candidature.exempleMap';
 
 export class CandidatureWorld {
@@ -42,6 +43,7 @@ export class CandidatureWorld {
     const autorisationDUrbanisme = mapToExemple(exemple, autorisationDUrbanismeExempleMap);
     const attestationConstitutionGf = mapToExemple(exemple, formatAttestationGFExempleMap);
     const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
+    const natureDeLExploitation = mapToExemple(exemple, natureDeLExploitationExempleMap);
 
     return {
       identifiantProjet,
@@ -51,6 +53,7 @@ export class CandidatureWorld {
         autorisationDUrbanisme,
         attestationConstitutionGf,
         dispositifDeStockage,
+        natureDeLExploitation,
       },
       instruction,
     };

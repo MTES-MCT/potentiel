@@ -27,9 +27,9 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Importer une candidature avec un champ requis "nature de l'exploitation"
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offres           | PPE2 - Petit PV Bâtiment         |
-            | nature de l'exploitation | vente-avec-injection-en-totalité |
-            | statut                   | classé                           |
+            | appel d'offres                   | PPE2 - Petit PV Bâtiment         |
+            | type de nature de l'exploitation | vente-avec-injection-en-totalité |
+            | statut                           | classé                           |
         Alors la candidature devrait être consultable
 
     Scénario: Importer une candidature avec une puissance de site pour un appel d'offres qui a ce champ requis
@@ -158,14 +158,14 @@ Fonctionnalité: Importer une candidature
 
     Scénario: Impossible d'importer une candidature avec la nature de l'exploitation si l'appel d'offres ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offres           | PPE2 - Bâtiment                 |
-            | nature de l'exploitation | vente-avec-injection-du-surplus |
+            | appel d'offres                   | PPE2 - Bâtiment                  |
+            | type de nature de l'exploitation | vente-avec-injection-en-totalité |
         Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offres"
 
     Scénario: Impossible d'importer une candidature sans la nature de l'exploitation si l'appel d'offres la requiert
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | appel d'offres           | PPE2 - Petit PV Bâtiment |
-            | nature de l'exploitation |                          |
+            | appel d'offres                   | PPE2 - Petit PV Bâtiment |
+            | type de nature de l'exploitation |                          |
         Alors l'administrateur devrait être informé que "La nature de l'exploitation est requise pour cet appel d'offres"
 
     Scénario: Impossible d'importer une candidature sans autorisation d'urbanisme pour un appel d'offres qui a ces champs requis

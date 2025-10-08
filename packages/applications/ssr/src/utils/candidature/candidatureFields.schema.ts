@@ -10,6 +10,7 @@ import {
   optionalEnum,
   optionalEnumForCorrection,
   optionalNumberSchema,
+  optionalPercentageSchema,
   optionalStrictlyPositiveNumberSchema,
   optionalStringSchema,
   optionalStringWithDefaultValueSchema,
@@ -102,7 +103,9 @@ export const dispositifDeStockageSchema = z
   })
   .optional();
 
-export const natureDeLExploitationSchema = z.enum(
-  Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
-);
-export const natureDeLExploitationOptionalSchema = natureDeLExploitationSchema.optional();
+export const natureDeLExploitationOptionalSchema = z
+  .object({
+    type: z.enum(Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types),
+    tauxPrévisionnelACI: optionalPercentageSchema,
+  })
+  .optional();

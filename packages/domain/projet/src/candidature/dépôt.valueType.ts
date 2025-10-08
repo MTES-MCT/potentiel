@@ -72,7 +72,10 @@ export type ValueType = ReadonlyValueType<{
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.ValueType | undefined;
   natureDeLExploitation:
-    | { type: TypeDeNatureDeLExploitation.ValueType; tauxPrévisionnelACI?: number }
+    | {
+        type: TypeDeNatureDeLExploitation.ValueType;
+        tauxPrévisionnelACI?: number;
+      }
     | undefined;
 
   formatter(): RawType;
