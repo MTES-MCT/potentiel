@@ -12,7 +12,6 @@
     "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-libraries/file-storage": "*",

@@ -30,7 +30,6 @@
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/ds-api-client": "*",
     "@potentiel-infrastructure/filigrane-facile-client": "*",

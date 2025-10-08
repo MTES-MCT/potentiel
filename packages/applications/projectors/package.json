@@ -13,7 +13,6 @@
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
