@@ -88,7 +88,7 @@ export class NotifierCandidatures extends Command {
         ),
         identifiantPériodeValue: `${appelOffre}#${periode}`,
         notifiéeLeValue: DateTime.now().formatter(),
-        notifiéeParValue: Email.system().formatter(),
+        notifiéeParValue: Email.système.formatter(),
         validateurValue: {
           fonction: 'Système',
           nomComplet: 'Système',

@@ -155,7 +155,7 @@ export class ImporterCandidatures extends Command {
           instructionValue,
           détailsValue,
           importéLe: DateTime.now().formatter(),
-          importéPar: Email.system().formatter(),
+          importéPar: Email.système.formatter(),
         },
       });
       importées++;
