@@ -168,12 +168,16 @@ Fonctionnalité: Corriger une candidature
             | nature de l'exploitation | vente-avec-injection-du-surplus |
         Alors la candidature devrait être consultable
 
-    Scénario: Corriger une candidature avec une information relative au couplage de l'installation avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
+    Scénario: Corriger le dispositif de stockadge d'une candidature pour un appel d'offres qui a ce champ requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
+            | capacité du dispositif                   | 3                        |
+            | puissance du dispositif                  | 6                        |
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage | non |
+            | capacité du dispositif                   |     |
+            | puissance du dispositif                  |     |
         Alors la candidature devrait être consultable
 
     Scénario: Impossible de corriger une candidature sans puissance de site pour un appel d'offres qui a ce champ requis
@@ -218,13 +222,13 @@ Fonctionnalité: Corriger une candidature
             | date d'obtention de l'autorisation d'urbanisme | 10/08/2070 |
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
 
-    Scénario: Impossible de corriger une candidature sans information relative au couplage de l'installation avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
+    Scénario: Impossible de corriger une candidature sans dispositif de stockage pour un appel d'offres qui a ce champ requis
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
         Quand le DGEC validateur corrige la candidature avec :
             | installation avec dispositif de stockage |  |
-        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le dispositif de stockage est requis pour cet appel d'offres"
 
     # champs spécifiques à l'appel d'offres simplifié - fin
     # garanties financières - début

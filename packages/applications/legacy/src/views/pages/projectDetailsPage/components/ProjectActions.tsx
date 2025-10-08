@@ -25,7 +25,7 @@ type EnregistrerUneModificationProps = Pick<
   | 'délaiAffichage'
   | 'fournisseurAffichage'
   | 'installateurAffichage'
-  | 'installationAvecDispositifDeStockageAffichage'
+  | 'dispositifDeStockageAffichage'
   | 'natureDeLExploitationAffichage'
   | 'siteDeProductionAffichage'
 >;
@@ -38,7 +38,7 @@ const EnregistrerUneModification = ({
   délaiAffichage,
   fournisseurAffichage,
   installateurAffichage,
-  installationAvecDispositifDeStockageAffichage,
+  dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
 }: EnregistrerUneModificationProps) => {
@@ -79,11 +79,9 @@ const EnregistrerUneModification = ({
           <span>{installateurAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
-      {!!installationAvecDispositifDeStockageAffichage?.labelActions && (
-        <DropdownMenuSecondaryButton.DropdownItem
-          href={installationAvecDispositifDeStockageAffichage.url}
-        >
-          <span>{installationAvecDispositifDeStockageAffichage.labelActions}</span>
+      {!!dispositifDeStockageAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={dispositifDeStockageAffichage.url}>
+          <span>{dispositifDeStockageAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
       {!!natureDeLExploitationAffichage?.labelActions && (
@@ -244,7 +242,7 @@ const AdminActions = ({
   délaiAffichage,
   fournisseurAffichage,
   installateurAffichage,
-  installationAvecDispositifDeStockageAffichage,
+  dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
 }: AdminActionsProps) => {
@@ -259,9 +257,7 @@ const AdminActions = ({
           délaiAffichage={délaiAffichage}
           fournisseurAffichage={fournisseurAffichage}
           installateurAffichage={installateurAffichage}
-          installationAvecDispositifDeStockageAffichage={
-            installationAvecDispositifDeStockageAffichage
-          }
+          dispositifDeStockageAffichage={dispositifDeStockageAffichage}
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
           siteDeProductionAffichage={siteDeProductionAffichage}
         />
@@ -359,7 +355,7 @@ export const ProjectActions = ({
   délaiAffichage,
   installateurAffichage,
   features,
-  installationAvecDispositifDeStockageAffichage,
+  dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
 }: ProjectActionsProps) => {
@@ -383,9 +379,7 @@ export const ProjectActions = ({
           délaiAffichage={délaiAffichage}
           fournisseurAffichage={fournisseurAffichage}
           installateurAffichage={installateurAffichage}
-          installationAvecDispositifDeStockageAffichage={
-            installationAvecDispositifDeStockageAffichage
-          }
+          dispositifDeStockageAffichage={dispositifDeStockageAffichage}
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
           siteDeProductionAffichage={siteDeProductionAffichage}
         />

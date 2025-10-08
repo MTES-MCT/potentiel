@@ -20,7 +20,6 @@ export type GetLauréat = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
   installateur?: Lauréat.Installation.ConsulterInstallateurReadModel;
-  installationAvecDispositifDeStockage?: Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageReadModel;
   natureDeLExploitation?: Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationReadModel;
 };
 
@@ -40,9 +39,6 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   // champs supplémentaires
   const installateurInfos =
     champsSupplémentaires.installateur && (await getInstallateurInfos({ identifiantProjet }));
-  const installationAvecDispositifDeStockageInfo =
-    champsSupplémentaires.installationAvecDispositifDeStockage &&
-    (await getInstallationAvecDispositifDeStockageInfos({ identifiantProjet }));
   const natureDeLExploitationInfo =
     champsSupplémentaires.natureDeLExploitation &&
     (await getNatureDeLExploitationInfos({ identifiantProjet }));
@@ -54,7 +50,6 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
     installateur: installateurInfos,
-    installationAvecDispositifDeStockage: installationAvecDispositifDeStockageInfo,
     natureDeLExploitation: natureDeLExploitationInfo,
     lauréat,
   };
@@ -182,24 +177,6 @@ const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return installateur;
-};
-
-const getInstallationAvecDispositifDeStockageInfos = async ({ identifiantProjet }: Props) => {
-  const installationAvecDispositifDeStockage =
-    await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ConsulterInstallationAvecDispositifDeStockageQuery>(
-      {
-        type: 'Lauréat.InstallationAvecDispositifDeStockage.Query.ConsulterInstallationAvecDispositifDeStockage',
-        data: {
-          identifiantProjet,
-        },
-      },
-    );
-
-  if (Option.isNone(installationAvecDispositifDeStockage)) {
-    return notFound();
-  }
-
-  return installationAvecDispositifDeStockage;
 };
 
 const getNatureDeLExploitationInfos = async ({ identifiantProjet }: Props) => {

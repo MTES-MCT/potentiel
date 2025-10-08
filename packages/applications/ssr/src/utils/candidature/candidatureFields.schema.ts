@@ -10,6 +10,7 @@ import {
   optionalEnum,
   optionalEnumForCorrection,
   optionalNumberSchema,
+  optionalStrictlyPositiveNumberSchema,
   optionalStringSchema,
   optionalStringWithDefaultValueSchema,
   requiredStringSchema,
@@ -92,7 +93,15 @@ export const autorisationDUrbanismeSchema = z
   );
 
 export const installateurSchema = optionalStringSchema;
-export const installationAvecDispositifDeStockageSchema = booleanSchema.optional();
+
+export const dispositifDeStockageSchema = z
+  .object({
+    installationAvecDispositifDeStockage: booleanSchema,
+    capacitéDuDispositifDeStockageEnKWh: optionalStrictlyPositiveNumberSchema,
+    puissanceDuDispositifDeStockageEnKW: optionalStrictlyPositiveNumberSchema,
+  })
+  .optional();
+
 export const natureDeLExploitationSchema = z.enum(
   Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
 );

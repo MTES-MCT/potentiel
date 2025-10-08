@@ -45,7 +45,7 @@ import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.
 import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallationAggregate } from './installation/installation.aggregate';
-import { InstallationAvecDispositifDeStockageAggregate } from './installation-avec-dispositif-de-stockage/installationAvecDispositifDeStockage.aggregate';
+import { DispositifDeStockageAggregate } from './dispositif-de-stockage/dispositifDeStockage.aggregate';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
 import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
 import { ModifierNomProjetOptions } from './modifier/modifierNomProjet.option';
@@ -137,9 +137,9 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#garantiesFinancières;
   }
 
-  #installationAvecDispositifDeStockage!: AggregateType<InstallationAvecDispositifDeStockageAggregate>;
-  get installationAvecDispositifDeStockage() {
-    return this.#installationAvecDispositifDeStockage;
+  #dispositifDeStockage!: AggregateType<DispositifDeStockageAggregate>;
+  get dispositifDeStockage() {
+    return this.#dispositifDeStockage;
   }
 
   #natureDeLExploitation!: AggregateType<NatureDeLExploitationAggregate>;
@@ -222,9 +222,9 @@ export class LauréatAggregate extends AbstractAggregate<
       `installation|${this.projet.identifiantProjet.formatter()}`,
     );
 
-    this.#installationAvecDispositifDeStockage = await this.loadAggregate(
-      InstallationAvecDispositifDeStockageAggregate,
-      `installation-avec-dispositif-de-stockage|${this.projet.identifiantProjet.formatter()}`,
+    this.#dispositifDeStockage = await this.loadAggregate(
+      DispositifDeStockageAggregate,
+      `dispositif-de-stockage|${this.projet.identifiantProjet.formatter()}`,
     );
 
     this.#natureDeLExploitation = await this.loadAggregate(
@@ -321,15 +321,13 @@ export class LauréatAggregate extends AbstractAggregate<
     }
 
     if (
-      this.projet.appelOffre.champsSupplémentaires?.installationAvecDispositifDeStockage !==
-        undefined &&
-      this.projet.candidature.dépôt.installationAvecDispositifDeStockage !== undefined
+      this.projet.appelOffre.champsSupplémentaires?.dispositifDeStockage !== undefined &&
+      this.projet.candidature.dépôt.dispositifDeStockage !== undefined
     ) {
-      await this.installationAvecDispositifDeStockage.importer({
-        installationAvecDispositifDeStockage:
-          this.projet.candidature.dépôt.installationAvecDispositifDeStockage,
-        importéeLe: notifiéLe,
-        importéePar: notifiéPar,
+      await this.dispositifDeStockage.importer({
+        dispositifDeStockage: this.projet.candidature.dépôt.dispositifDeStockage,
+        importéLe: notifiéLe,
+        importéPar: notifiéPar,
       });
     }
 

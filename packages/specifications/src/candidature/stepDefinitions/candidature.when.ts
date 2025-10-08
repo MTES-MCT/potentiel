@@ -1,7 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -87,6 +87,11 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
     ...changedValues.dépôt.attestationConstitutionGf,
   };
 
+  const dispositifDeStockageValue = {
+    ...this.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage,
+    ...changedValues.dépôt.dispositifDeStockage,
+  };
+
   const { identifiantProjet, dépôtValue, instructionValue, corrigéLe, corrigéPar, détailsValue } =
     this.candidatureWorld.corrigerCandidature.créer({
       identifiantProjet: {
@@ -98,6 +103,10 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
       dépôtValue: {
         ...this.candidatureWorld.importerCandidature.dépôtValue,
         ...changedValues.dépôt,
+        dispositifDeStockage:
+          dispositifDeStockageValue.installationAvecDispositifDeStockage !== undefined
+            ? (dispositifDeStockageValue as Lauréat.DispositifDeStockage.DispositifDeStockage.RawType)
+            : undefined,
         localité: {
           ...this.candidatureWorld.importerCandidature.dépôtValue.localité,
           ...changedValues.dépôt.localité,

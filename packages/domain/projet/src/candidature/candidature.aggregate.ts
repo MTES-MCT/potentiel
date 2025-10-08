@@ -32,8 +32,8 @@ import {
   FonctionManquanteError,
   InstallateurNonAttenduError,
   InstallateurRequisError,
-  InstallationAvecDispositifDeStockageNonAttendueError,
-  InstallationAvecDispositifDeStockageRequisError,
+  DispositifDeStockageNonAttenduError,
+  DispositifDeStockageRequisError,
   NatureDeLExploitationNonAttendueError,
   NatureDeLExploitationRequiseError,
   NomManquantError,
@@ -340,7 +340,7 @@ export class CandidatureAggregate extends AbstractAggregate<
       puissanceDeSite,
       autorisationDUrbanisme,
       installateur,
-      installationAvecDispositifDeStockage,
+      dispositifDeStockage,
       natureDeLExploitation,
     } = this.projet.cahierDesChargesActuel.getChampsSupplémentaires();
 
@@ -387,18 +387,12 @@ export class CandidatureAggregate extends AbstractAggregate<
       throw new DateAutorisationDUrbanismeError();
     }
 
-    if (
-      installationAvecDispositifDeStockage === 'requis' &&
-      dépôt.installationAvecDispositifDeStockage === undefined
-    ) {
-      throw new InstallationAvecDispositifDeStockageRequisError();
+    if (dispositifDeStockage === 'requis' && dépôt.dispositifDeStockage === undefined) {
+      throw new DispositifDeStockageRequisError();
     }
 
-    if (
-      !installationAvecDispositifDeStockage &&
-      dépôt.installationAvecDispositifDeStockage !== undefined
-    ) {
-      throw new InstallationAvecDispositifDeStockageNonAttendueError();
+    if (!dispositifDeStockage && dépôt.dispositifDeStockage !== undefined) {
+      throw new DispositifDeStockageNonAttenduError();
     }
   }
 

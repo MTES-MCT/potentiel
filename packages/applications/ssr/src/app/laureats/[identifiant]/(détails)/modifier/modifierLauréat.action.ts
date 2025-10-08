@@ -121,21 +121,6 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      if (laureat.installationAvecDispositifDeStockage !== undefined) {
-        await mediator.send<Lauréat.InstallationAvecDispositifDeStockage.ModifierInstallationAvecDispositifDeStockageUseCase>(
-          {
-            type: 'Lauréat.InstallationAvecDispositifDeStockage.UseCase.ModifierInstallationAvecDispositifDeStockage',
-            data: {
-              identifiantProjetValue: identifiantProjet,
-              installationAvecDispositifDeStockageValue:
-                laureat.installationAvecDispositifDeStockage,
-              modifiéeLeValue: new Date().toISOString(),
-              modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
-            },
-          },
-        );
-      }
-
       if (laureat.natureDeLExploitation) {
         await mediator.send<Lauréat.NatureDeLExploitation.ModifierNatureDeLExploitationUseCase>({
           type: 'Lauréat.NatureDeLExploitation.UseCase.ModifierNatureDeLExploitation',
@@ -252,8 +237,6 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       installateur: data.installateur ?? previous.installateur,
-      installationAvecDispositifDeStockage:
-        data.installationAvecDispositifDeStockage ?? previous.installationAvecDispositifDeStockage,
       natureDeLExploitation: data.natureDeLExploitation
         ? data.natureDeLExploitation
         : previous.natureDeLExploitation?.formatter(),
@@ -270,6 +253,7 @@ const mapBodyToCandidatureUsecaseData = (
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       obligationDeSolarisation: previous.obligationDeSolarisation,
       typologieInstallation: previous.typologieInstallation.map((t) => t.formatter()),
+      dispositifDeStockage: previous.dispositifDeStockage,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

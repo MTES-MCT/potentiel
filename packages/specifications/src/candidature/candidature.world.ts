@@ -9,6 +9,7 @@ import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixtu
 import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
 import {
   autorisationDUrbanismeExempleMap,
+  dispositifDeStockageExempleMap,
   dépôtExempleMap,
   formatAttestationGFExempleMap,
   identifiantProjetExempleMap,
@@ -40,6 +41,7 @@ export class CandidatureWorld {
     const localité = mapToExemple(exemple, localitéExempleMap);
     const autorisationDUrbanisme = mapToExemple(exemple, autorisationDUrbanismeExempleMap);
     const attestationConstitutionGf = mapToExemple(exemple, formatAttestationGFExempleMap);
+    const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
 
     return {
       identifiantProjet,
@@ -48,6 +50,7 @@ export class CandidatureWorld {
         localité,
         autorisationDUrbanisme,
         attestationConstitutionGf,
+        dispositifDeStockage,
       },
       instruction,
     };

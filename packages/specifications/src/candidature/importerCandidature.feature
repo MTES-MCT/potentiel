@@ -49,6 +49,8 @@ Fonctionnalité: Importer une candidature
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | oui                      |
+            | puissance du dispositif                  | 3                        |
+            | capacité du dispositif                   | 4                        |
         Alors la candidature devrait être consultable
 
     Scénario: Impossible d'importer 2 fois la même candidature
@@ -180,17 +182,19 @@ Fonctionnalité: Importer une candidature
             | date d'obtention de l'autorisation d'urbanisme | 01/02/2060               |
         Alors l'administrateur devrait être informé que "La date d'obtention de l'autorisation d'urbanisme doit être antérieure à la date du jour"
 
-    Scénario: Impossible d'importer une candidature sans information relative au couplage avec un dispositif de stockage pour un appel d'offres qui a ce champ requis
+    Scénario: Impossible d'importer une candidature sans dispositif de stockage pour un appel d'offres qui a ce champ requis
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage |                          |
-        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage est requise pour cet appel d'offres"
+            | capacité du dispositif                   |                          |
+            | puissance du dispositif                  |                          |
+        Alors l'administrateur devrait être informé que "Le dispositif de stockage est requis pour cet appel d'offres"
 
-    Scénario: Impossible d'importer une candidature avec une information relative au couplage avec un dispositif de stockage si l'appel d'offres ne le propose pas
+    Scénario: Impossible d'importer une candidature avec dispositif de stockage si l'appel d'offres ne le propose pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Bâtiment |
             | installation avec dispositif de stockage | non             |
-        Alors l'administrateur devrait être informé que "L'information relative au couplage de l'installation avec un dispositif de stockage n'est pas attendue pour cet appel d'offres"
+        Alors l'administrateur devrait être informé que "Le dispositif de stockage n'est pas attendu pour cet appel d'offres"
 
     # garanties financières - début
     Plan du Scénario: Importer une candidature avec les différents types de garanties financières

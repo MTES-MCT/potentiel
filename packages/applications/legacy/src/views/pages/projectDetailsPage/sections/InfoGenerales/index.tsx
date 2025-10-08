@@ -13,13 +13,13 @@ import { InfoActionnaire } from './InfoActionnaire';
 import { InfoInstallateur } from './InfoInstallateur';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';
-import { InfoInstallationAvecDispositifDeStockage } from './InfoInstallationAvecDispositifDeStockage';
+import { InfoDispositifDeStockage } from './InfoDispositifDeStockage';
 import { InfoNatureDeLExploitation } from './InfoNatureDeLExploitation';
 import { InfoAttestationConformité } from './InfoAttestationConformité';
 import {
   GetActionnaireForProjectPage,
   GetAttestationDeConformitéForProjectPage,
-  GetInstallationAvecDispositifDeStockageForProjectPage,
+  GetDispositifDeStockageForProjectPage,
 } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetInstallateurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
@@ -42,7 +42,7 @@ export type InfoGeneralesProps = {
   estAchevé: boolean;
   attestationConformité?: GetAttestationDeConformitéForProjectPage;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
-  installationAvecDispositifDeStockage?: GetInstallationAvecDispositifDeStockageForProjectPage;
+  dispositifDeStockage?: GetDispositifDeStockageForProjectPage;
   natureDeLExploitation?: GetNatureDeLExploitationForProjectPage;
   siteDeProduction: InfoSiteDeProductionProps;
 };
@@ -74,7 +74,7 @@ export const InfoGenerales = ({
   attestationConformité,
   autorisationDUrbanisme,
   installateur,
-  installationAvecDispositifDeStockage,
+  dispositifDeStockage,
   natureDeLExploitation,
   siteDeProduction,
 }: InfoGeneralesProps) => {
@@ -157,10 +157,8 @@ export const InfoGenerales = ({
         </div>
       ) : null}
       {installateur ? <InfoInstallateur installateur={installateur} /> : null}
-      {installationAvecDispositifDeStockage !== undefined ? (
-        <InfoInstallationAvecDispositifDeStockage
-          installationAvecDispositifDeStockage={installationAvecDispositifDeStockage}
-        />
+      {dispositifDeStockage !== undefined ? (
+        <InfoDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
       ) : null}
       {natureDeLExploitation !== undefined ? (
         <InfoNatureDeLExploitation natureDeLExploitation={natureDeLExploitation} />
