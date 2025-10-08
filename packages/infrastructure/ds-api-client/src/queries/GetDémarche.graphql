@@ -1,13 +1,12 @@
-query GetDemarche($demarche: Int!) {
+query GetDemarche($demarche: Int!, $first: Int!, $after: String) {
   demarche(number: $demarche) {
     number
-    activeRevision {
-      champDescriptors {
-        label
-        required
+    dossiers(first: $first, after: $after) {
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        endCursor
       }
-    }
-    dossiers {
       nodes {
         number
         state

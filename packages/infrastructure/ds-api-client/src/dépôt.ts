@@ -40,22 +40,16 @@ const colonnes = {
 
 type MapApiResponseToDépôt = {
   champs: GetDossierQuery['dossier']['champs'];
-  champDescriptors: GetDossierQuery['dossier']['demarche']['revision']['champDescriptors'];
 };
 
 export const mapApiResponseToDépôt = ({
   champs,
-  champDescriptors,
 }: MapApiResponseToDépôt): DeepPartial<Candidature.Dépôt.RawType> => {
-  const accessor = createDossierAccessor(champs, colonnes, champDescriptors);
-  const accessorAutorisationDUrbanisme = createDossierAccessor(
-    champs,
-    {
-      numéro: "Numéro de l'autorisation d'urbanisme",
-      date: "Date d'obtention de l'autorisation d'urbanisme",
-    } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
-    champDescriptors,
-  );
+  const accessor = createDossierAccessor(champs, colonnes);
+  const accessorAutorisationDUrbanisme = createDossierAccessor(champs, {
+    numéro: "Numéro de l'autorisation d'urbanisme",
+    date: "Date d'obtention de l'autorisation d'urbanisme",
+  } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>);
 
   const accessorDispositifDeStockage = createDossierAccessor(
     champs,
@@ -75,7 +69,6 @@ export const mapApiResponseToDépôt = ({
   const dateConstitutionGarantiesFinancieres = getDateConstitutionGarantiesFinancières(
     typeGarantiesFinancieres,
     champs,
-    champDescriptors,
   );
 
   const getDateÉchéanceGarantiesFinancières = (date: string) => {

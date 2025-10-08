@@ -1,11 +1,6 @@
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import {
-  AddressFragmentFragment,
-  ChampDescriptor,
-  ChampFragmentFragment,
-  GetDossierQuery,
-} from './client';
+import { AddressFragmentFragment, ChampFragmentFragment, GetDossierQuery } from './client';
 
 export type Champs = GetDossierQuery['dossier']['champs'];
 
@@ -32,7 +27,6 @@ export const createDossierAccessor = <
 >(
   champs: Champs,
   colonnesMap: TColonnes,
-  descriptors: Pick<ChampDescriptor, 'label' | 'required'>[],
 ): DossierAccessor<TColonnes, TKey> => {
   const getChampValue = <TType extends ChampFragmentFragment['__typename']>(
     nom: TKey,
@@ -40,18 +34,8 @@ export const createDossierAccessor = <
   ): (ChampFragmentFragment & { __typename: TType }) | undefined => {
     const labelDémarche = colonnesMap[nom];
 
-    const descriptor = descriptors.find((x) => x.label === labelDémarche);
-    if (!descriptor) {
-      throw new FieldNotFoundError(labelDémarche);
-    }
-
     const champ = champs.find((x) => x.label === labelDémarche);
     if (!champ) {
-      // TODO comment gére la logique d'affichage conditionnelle ?
-      // Actuellement, required peut être `true` pour un champ affiché conditionnellement
-      // if (descriptor.required) {
-      //   throw new RequiredFieldMissingError(labelDémarche);
-      // }
       return;
     }
     if (!(types as string[]).includes(champ.__typename)) {
@@ -99,11 +83,11 @@ export const createDossierAccessor = <
   };
 };
 
-class FieldNotFoundError extends Error {
-  constructor(public fieldName: string) {
-    super('Champ non existant dans la démarche');
-  }
-}
+// class FieldNotFoundError extends Error {
+//   constructor(public fieldName: string) {
+//     super('Champ non existant dans la démarche');
+//   }
+// }
 
 // class RequiredFieldMissingError extends Error {
 //   constructor(public fieldName: string) {

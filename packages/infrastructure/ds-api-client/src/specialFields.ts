@@ -115,18 +115,16 @@ const gfDateLabels = {
 export const getDateConstitutionGarantiesFinancières = (
   typeGarantiesFinancieres: ReturnType<typeof getTypeGarantiesFinancières>,
   champs: GetDossierQuery['dossier']['champs'],
-  demarche: GetDossierQuery['dossier']['demarche']['revision']['champDescriptors'],
 ) => {
   if (!typeGarantiesFinancieres) return undefined;
 
   const label = gfDateLabels[typeGarantiesFinancieres];
   if (!label) return undefined;
 
-  const accessor = createDossierAccessor(
-    champs,
-    { dateConstitutionGf: label } as Record<'dateConstitutionGf', string>,
-    demarche,
-  );
+  const accessor = createDossierAccessor(champs, { dateConstitutionGf: label } as Record<
+    'dateConstitutionGf',
+    string
+  >);
 
   return accessor.getDateValue('dateConstitutionGf');
 };

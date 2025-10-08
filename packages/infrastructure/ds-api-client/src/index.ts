@@ -15,23 +15,16 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
   try {
     const { dossier } = await sdk.GetDossier({ dossier: dossierNumber });
 
-    const {
-      champs,
-      demarche: {
-        revision: { champDescriptors },
-      },
-    } = dossier;
+    const { champs } = dossier;
 
     const fichiers = mapApiResponseToFichiers({
       champs,
-      champDescriptors,
     });
     return {
       demarcheId: dossier.demarche.number,
       dépôt: {
         ...mapApiResponseToDépôt({
           champs,
-          champDescriptors,
         }),
         attestationConstitutionGf: fichiers.garantiesFinancières
           ? { format: fichiers.garantiesFinancières.contentType }
@@ -52,26 +45,42 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
   }
 };
 
-export const getDossiersDemarche = async (démarcheId: number) => {
+const fetchAllDossiers = async (démarcheId: number) => {
+  const dossiers = [];
+  let hasNextPage = true;
+  const first = 1;
+  let after: string | undefined = undefined;
+
   const sdk = getDSApiClient();
+
+  while (hasNextPage) {
+    const { demarche } = await sdk.GetDemarche({
+      demarche: démarcheId,
+      first,
+      after,
+    });
+
+    dossiers.push(...(demarche.dossiers.nodes ?? []));
+
+    hasNextPage = demarche.dossiers.pageInfo.hasNextPage;
+
+    after = demarche.dossiers.pageInfo.endCursor ?? undefined;
+  }
+  return { dossiers };
+};
+
+export const getDossiersDemarche = async (démarcheId: number) => {
   const logger = getLogger('ds-api-client');
   try {
-    const { demarche } = await sdk.GetDemarche({ demarche: démarcheId });
-    if (!demarche.dossiers.nodes) return [];
+    const { dossiers } = await fetchAllDossiers(démarcheId);
 
-    return demarche.dossiers.nodes
-      .filter(
-        (dossier) => dossier && (dossier.state === 'accepte' || dossier.state === 'en_instruction'),
-      )
+    return dossiers
+      .filter((dossier) => !!dossier)
       .map((dossier) => {
-        if (!dossier) throw new Error('dossier is null');
-
         const { champs } = dossier;
-        const { champDescriptors } = demarche.activeRevision;
 
         const fichiers = mapApiResponseToFichiers({
-          champs,
-          champDescriptors,
+          champs: dossier.champs,
         });
 
         return {
@@ -79,7 +88,6 @@ export const getDossiersDemarche = async (démarcheId: number) => {
           dépôt: {
             ...mapApiResponseToDépôt({
               champs,
-              champDescriptors,
             }),
             attestationConstitutionGf: fichiers.garantiesFinancières
               ? { format: fichiers.garantiesFinancières.contentType }
@@ -103,17 +111,12 @@ export const getDossiersDemarche = async (démarcheId: number) => {
 
 type MapApiResponseToFichiers = {
   champs: GetDossierQuery['dossier']['champs'];
-  champDescriptors: GetDossierQuery['dossier']['demarche']['revision']['champDescriptors'];
 };
 
-const mapApiResponseToFichiers = ({ champs, champDescriptors }: MapApiResponseToFichiers) => {
-  const accessor = createDossierAccessor(
-    champs,
-    {
-      garantiesFinancières: 'Garantie financière de mise en œuvre du projet',
-    },
-    champDescriptors,
-  );
+const mapApiResponseToFichiers = ({ champs }: MapApiResponseToFichiers) => {
+  const accessor = createDossierAccessor(champs, {
+    garantiesFinancières: 'Garantie financière de mise en œuvre du projet',
+  });
   return {
     garantiesFinancières: accessor.getUrlPièceJustificativeValue('garantiesFinancières'),
   };

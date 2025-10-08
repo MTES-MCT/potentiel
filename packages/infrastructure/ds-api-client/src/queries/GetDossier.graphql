@@ -12,12 +12,6 @@ query GetDossier($dossier: Int!) {
     }
     demarche {
       number
-      revision {
-        champDescriptors {
-          label
-          required
-        }
-      }
     }
   }
 }
