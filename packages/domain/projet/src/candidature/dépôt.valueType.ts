@@ -41,8 +41,10 @@ export type RawType = {
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
   installateur: string | undefined;
-  natureDeLExploitation: TypeDeNatureDeLExploitation.RawType | undefined;
   dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.RawType | undefined;
+  natureDeLExploitation:
+    | { type: TypeDeNatureDeLExploitation.RawType; tauxPrévisionnelACI?: number }
+    | undefined;
 };
 
 export type ValueType = ReadonlyValueType<{
@@ -70,7 +72,7 @@ export type ValueType = ReadonlyValueType<{
   installateur: string | undefined;
   dispositifDeStockage: Lauréat.DispositifDeStockage.DispositifDeStockage.ValueType | undefined;
   natureDeLExploitation:
-    | Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.ValueType
+    | { type: TypeDeNatureDeLExploitation.ValueType; tauxPrévisionnelACI?: number }
     | undefined;
 
   formatter(): RawType;
@@ -112,10 +114,14 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
     Lauréat.DispositifDeStockage.DispositifDeStockage.bind,
     plain.dispositifDeStockage,
   ),
-  natureDeLExploitation: bindOptional(
-    Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.bind,
-    plain.natureDeLExploitation,
-  ),
+  natureDeLExploitation: plain.natureDeLExploitation
+    ? {
+        type: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.bind(
+          plain.natureDeLExploitation.type,
+        ),
+        tauxPrévisionnelACI: plain.natureDeLExploitation.tauxPrévisionnelACI,
+      }
+    : undefined,
 
   estÉgaleÀ(valueType) {
     return (
@@ -134,6 +140,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       valueType.autorisationDUrbanisme?.numéro === this.autorisationDUrbanisme?.numéro &&
       valueType.installateur === this.installateur &&
       areEqual(valueType.dispositifDeStockage, this.dispositifDeStockage) &&
+      valueType.natureDeLExploitation?.tauxPrévisionnelACI ===
+        this.natureDeLExploitation?.tauxPrévisionnelACI &&
       areEqual(valueType.autorisationDUrbanisme?.date, this.autorisationDUrbanisme?.date) &&
       areEqual(valueType.emailContact, this.emailContact) &&
       areEqual(valueType.localité, this.localité) &&
@@ -143,7 +151,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
       areEqualArrays(valueType.fournisseurs, this.fournisseurs) &&
       areEqualArrays(valueType.typologieInstallation, this.typologieInstallation) &&
-      areEqual(valueType.natureDeLExploitation, this.natureDeLExploitation)
+      areEqual(valueType.natureDeLExploitation?.type, this.natureDeLExploitation?.type)
     );
   },
   formatter() {
@@ -184,8 +192,13 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
           }
         : undefined,
       installateur: this.installateur,
-      natureDeLExploitation: this.natureDeLExploitation?.formatter(),
       dispositifDeStockage: this.dispositifDeStockage?.formatter(),
+      natureDeLExploitation: this.natureDeLExploitation
+        ? {
+            type: this.natureDeLExploitation.type.formatter(),
+            tauxPrévisionnelACI: this.natureDeLExploitation.tauxPrévisionnelACI,
+          }
+        : undefined,
     };
   },
 });
@@ -237,14 +250,19 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
           })
         : undefined,
     installateur: raw.installateur,
-    natureDeLExploitation: bindOptional(
-      Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType,
-      raw.natureDeLExploitation,
-    ),
+
     dispositifDeStockage: bindOptional(
       Lauréat.DispositifDeStockage.DispositifDeStockage.bind,
       raw.dispositifDeStockage,
     ),
+    natureDeLExploitation: raw.natureDeLExploitation
+      ? mapToPlainObject({
+          type: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.convertirEnValueType(
+            raw.natureDeLExploitation.type,
+          ),
+          tauxPrévisionnelACI: raw.natureDeLExploitation.tauxPrévisionnelACI,
+        })
+      : undefined,
   });
 
 const bindOptional = <TValue, TValueType>(
