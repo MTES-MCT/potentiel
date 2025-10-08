@@ -4,12 +4,12 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
-import { getDépôtCandidature } from '@potentiel-infrastructure/ds-api-client';
+import { getDossiersDemarche } from '@potentiel-infrastructure/ds-api-client';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { parseCsv } from '@potentiel-libraries/csv';
-import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -17,6 +17,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { dépôtSchema } from '@/utils/candidature/dépôt.schema';
 import { instructionSchema } from '@/utils/candidature/instruction.schema';
 import { statutCsvSchema } from '@/utils/candidature/csv/candidatureCsvFields.schema';
+import { numberSchema } from '@/utils/candidature/schemaBase';
 
 const schema = zod.object({
   appelOffre: zod.string(),
@@ -24,6 +25,7 @@ const schema = zod.object({
   famille: zod.string().optional(),
 
   fichierInstruction: singleDocument({ acceptedFileTypes: ['text/csv'] }),
+  identifiantDemarcheDS: numberSchema,
 
   test: zod.stringbool().optional(),
 });
@@ -39,9 +41,9 @@ const instructionCsvSchema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { appelOffre, periode, fichierInstruction, test },
-) => {
-  return withUtilisateur(async (utilisateur) => {
+  { appelOffre, periode, fichierInstruction, test, identifiantDemarcheDS },
+) =>
+  withUtilisateur(async (utilisateur) => {
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
@@ -56,20 +58,25 @@ const action: FormAction<FormState, typeof schema> = async (
       'importéLe' | 'importéPar'
     >[] = [];
 
+    const démarche = await getDossiersDemarche(identifiantDemarcheDS);
+
+    if (Option.isNone(démarche)) {
+      throw new Error(`La démarche ${identifiantDemarcheDS} est introuvable`);
+    }
+
     for (const { numeroDossierDS, statut, note, motifElimination } of instructions) {
       let key = `Dossier ${numeroDossierDS}`;
 
+      const dossier = démarche.find((d) => d.numeroDS === numeroDossierDS);
+
+      if (!dossier) {
+        errors.push({
+          key,
+          reason: `Le dossier n'a pas été trouvé`,
+        });
+        continue;
+      }
       try {
-        const dossier = await getDépôtCandidature(numeroDossierDS);
-
-        if (Option.isNone(dossier)) {
-          errors.push({
-            key,
-            reason: `Le dossier n'a pas été trouvé`,
-          });
-          continue;
-        }
-
         key += ` - ${dossier.dépôt.nomProjet}`;
         const dépôt = dépôtSchema.parse(dossier.dépôt);
         const instruction = instructionSchema.parse({
@@ -107,7 +114,7 @@ const action: FormAction<FormState, typeof schema> = async (
           },
           détailsValue: {
             typeImport: 'démarches-simplifiées',
-            demarcheId: dossier.demarcheId,
+            demarcheId: identifiantDemarcheDS,
             pièceJustificativeGf: dossier.fichiers.garantiesFinancières?.url ?? '',
           },
           instructionValue: instruction,
@@ -209,6 +216,5 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     };
   });
-};
 
 export const importerPériodeAction = formAction(action, schema);

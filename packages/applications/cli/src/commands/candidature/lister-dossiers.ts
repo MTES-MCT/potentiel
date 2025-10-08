@@ -5,6 +5,7 @@ import { Args, Command, Flags } from '@oclif/core';
 import type { Faker } from '@faker-js/faker';
 
 import { getDossiersDemarche } from '@potentiel-infrastructure/ds-api-client';
+import { Option } from '@potentiel-libraries/monads';
 
 export class ListerDossiersCandidatureCommand extends Command {
   static args = {
@@ -27,13 +28,16 @@ export class ListerDossiersCandidatureCommand extends Command {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
       const dossiers = await getDossiersDemarche(args.démarche);
-      console.log(dossiers);
+
+      if (Option.isNone(dossiers)) {
+        throw new Error(`La démarche ${args.démarche} est introuvable`);
+      }
 
       if (flags.instruction) {
-        const data = dossiers.map((numeroDossierDS) => {
+        const data = dossiers.map((dossier) => {
           const statut = this.#faker.helpers.arrayElement(['retenu', 'éliminé']);
           return {
-            numeroDossierDS,
+            numeroDossierDS: dossier.numeroDS,
             statut,
             motifElimination:
               statut === 'éliminé' ? this.#faker.lorem.words({ min: 8, max: 16 }) : undefined,

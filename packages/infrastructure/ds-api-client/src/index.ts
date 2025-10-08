@@ -52,43 +52,53 @@ export const getDépôtCandidature = async (dossierNumber: number) => {
   }
 };
 
-export const getDossiersDemarche = async (démarcheNumber: number) => {
+export const getDossiersDemarche = async (démarcheId: number) => {
   const sdk = getDSApiClient();
-  const { demarche } = await sdk.GetDemarche({ demarche: démarcheNumber });
-  if (!demarche.dossiers.nodes) return [];
+  const logger = getLogger('ds-api-client');
+  try {
+    const { demarche } = await sdk.GetDemarche({ demarche: démarcheId });
+    if (!demarche.dossiers.nodes) return [];
 
-  return demarche.dossiers.nodes
-    .filter(
-      (dossier) => dossier && (dossier.state === 'accepte' || dossier.state === 'en_instruction'),
-    )
-    .map((dossier) => {
-      if (!dossier) throw new Error('dossier is null');
+    return demarche.dossiers.nodes
+      .filter(
+        (dossier) => dossier && (dossier.state === 'accepte' || dossier.state === 'en_instruction'),
+      )
+      .map((dossier) => {
+        if (!dossier) throw new Error('dossier is null');
 
-      const { champs } = dossier;
-      const { champDescriptors } = demarche.activeRevision;
+        const { champs } = dossier;
+        const { champDescriptors } = demarche.activeRevision;
 
-      const fichiers = mapApiResponseToFichiers({
-        champs,
-        champDescriptors,
-      });
-
-      return {
-        demarcheId: démarcheNumber,
-        dépôt: {
-          ...mapApiResponseToDépôt({
-            champs,
-            champDescriptors,
-          }),
-          attestationConstitutionGf: fichiers.garantiesFinancières
-            ? { format: fichiers.garantiesFinancières.contentType }
-            : undefined,
-        } satisfies DeepPartial<Candidature.Dépôt.RawType>,
-        fichiers,
-        détails: mapApiResponseToDétails({
+        const fichiers = mapApiResponseToFichiers({
           champs,
-        }),
-      };
+          champDescriptors,
+        });
+
+        return {
+          numeroDS: dossier.number,
+          dépôt: {
+            ...mapApiResponseToDépôt({
+              champs,
+              champDescriptors,
+            }),
+            attestationConstitutionGf: fichiers.garantiesFinancières
+              ? { format: fichiers.garantiesFinancières.contentType }
+              : undefined,
+          } satisfies DeepPartial<Candidature.Dépôt.RawType>,
+          fichiers,
+          détails: mapApiResponseToDétails({
+            champs,
+          }),
+        };
+      });
+  } catch (e) {
+    logger.error('Impossible de lire les dossiers de la démarche', {
+      démarcheId,
+      errorMessage: e instanceof Error ? e.message : 'unknown',
+      errorData: e,
     });
+    return Option.none;
+  }
 };
 
 type MapApiResponseToFichiers = {

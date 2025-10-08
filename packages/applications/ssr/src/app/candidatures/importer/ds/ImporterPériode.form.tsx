@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useSearchParams } from 'next/navigation';
+import Input from '@codegouvfr/react-dsfr/Input';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
@@ -87,6 +88,18 @@ export const ImporterPériodeForm: FC<ImporterPériodeFormProps> = ({ périodes 
           disabled={!appelOffre}
         />
       </div>
+
+      <Input
+        state={validationErrors['identifiantDemarcheDS'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['identifiantDemarcheDS']}
+        label="Identifiant de la démarche"
+        nativeInputProps={{
+          name: 'identifiantDemarcheDS',
+          required: true,
+          'aria-required': true,
+        }}
+      />
+
       <UploadNewOrModifyExistingDocument
         label="Fichier CSV d'instruction des candidatures"
         name="fichierInstruction"
