@@ -16,9 +16,9 @@ export const setupRéseau = async () => {
   });
 
   GestionnaireRéseauProjector.register();
-  const réseau = createSubscriptionSetup('réseau');
+  const gestionnaireRéseau = createSubscriptionSetup('gestionnaire-réseau');
 
-  await réseau.setupSubscription<
+  await gestionnaireRéseau.setupSubscription<
     GestionnaireRéseauProjector.SubscriptionEvent,
     GestionnaireRéseauProjector.Execute
   >({
@@ -33,5 +33,5 @@ export const setupRéseau = async () => {
     messageType: 'System.Projector.Réseau.Gestionnaire',
   });
 
-  return réseau.clearSubscriptions;
+  return gestionnaireRéseau.clearSubscriptions;
 };
