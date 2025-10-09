@@ -7,7 +7,6 @@ type Props = {
   fourchetteRatioInitialEtCDC2022AlertMessage?: string;
   unitéPuissance: string;
   ratioCdcActuel: Lauréat.Puissance.RatioChangementPuissance.ValueType;
-  ratioCdcInitial: Lauréat.Puissance.RatioChangementPuissance.ValueType;
 };
 
 export const DemanderChangementPuissanceFormErrors = ({
@@ -15,7 +14,6 @@ export const DemanderChangementPuissanceFormErrors = ({
   fourchetteRatioInitialEtCDC2022AlertMessage,
   unitéPuissance,
   ratioCdcActuel,
-  ratioCdcInitial,
 }: Props) => {
   return (
     <div>
@@ -57,7 +55,6 @@ export const DemanderChangementPuissanceFormErrors = ({
       {!ratioCdcActuel.dépassePuissanceMaxDuVolumeRéservé() &&
         aChoisiCDC2022 &&
         !ratioCdcActuel.dépasseRatiosChangementPuissance() &&
-        ratioCdcInitial.dépasseRatiosChangementPuissance() &&
         fourchetteRatioInitialEtCDC2022AlertMessage && (
           <Alert
             severity="warning"
