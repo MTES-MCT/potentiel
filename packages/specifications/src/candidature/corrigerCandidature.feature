@@ -199,7 +199,6 @@ Fonctionnalité: Corriger une candidature
             | installateur | Installateur.Inc |
         Alors l'administrateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offres"
 
-    @select
     Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
             | type de nature de l'exploitation | vente-avec-injection-en-totalité |

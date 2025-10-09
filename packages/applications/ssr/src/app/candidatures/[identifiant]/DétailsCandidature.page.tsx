@@ -108,8 +108,8 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   </span>
                   {dépôt.natureDeLExploitation.tauxPrévisionnelACI !== undefined ? (
                     <span>
-                      Taux d'autoconsommation individuelle prévisionnel:{' '}
-                      {dépôt.natureDeLExploitation.tauxPrévisionnelACI}
+                      Taux d'autoconsommation individuelle prévisionnel :{' '}
+                      {dépôt.natureDeLExploitation.tauxPrévisionnelACI} %
                     </span>
                   ) : null}
                 </Field>
