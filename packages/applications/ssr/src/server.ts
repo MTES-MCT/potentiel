@@ -4,8 +4,8 @@ import { parse } from 'url';
 import next from 'next';
 import * as Sentry from '@sentry/nextjs';
 
-import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
-import { getContext, runWithContext } from '@potentiel-applications/request-context';
+import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-applications/bootstrap';
+import { getContext, runWebWithContext } from '@potentiel-applications/request-context';
 import {
   executeSubscribersRetry,
   listDanglingSubscribers,
@@ -27,7 +27,7 @@ async function main() {
   const handle = app.getRequestHandler();
   await app.prepare();
 
-  await bootstrap({ middlewares: [permissionMiddleware] });
+  await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
   await executeSubscribersRetry();
 
   const danglingSubscribers = await listDanglingSubscribers();
@@ -43,7 +43,8 @@ async function main() {
   const server = createServer(async (req, res) => {
     const parsedUrl = parse(req.url!, true);
 
-    await runWithContext({
+    await runWebWithContext({
+      app: 'web',
       req,
       res,
       callback: () =>

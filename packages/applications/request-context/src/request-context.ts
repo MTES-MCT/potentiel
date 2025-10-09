@@ -4,6 +4,7 @@ import { type Utilisateur } from '@potentiel-domain/utilisateur';
 
 export type RequestContext = {
   correlationId: string;
+  app?: 'web' | 'legacy' | 'subscribers' | 'cli';
   features: Array<string>;
   utilisateur?: Utilisateur.ValueType & { accountUrl: string };
   url?: string;

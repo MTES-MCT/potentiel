@@ -1,7 +1,7 @@
 import { HistoriqueProjector, DélaiProjector } from '@potentiel-applications/projectors';
 import { DélaiNotification } from '@potentiel-applications/notifications';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupDélai: SetupProjet = async ({ sendEmail }) => {

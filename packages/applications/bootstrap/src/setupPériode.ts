@@ -1,12 +1,11 @@
-import { mediator } from 'mediateur';
-
 import { PériodeProjector } from '@potentiel-applications/projectors';
 import { Période } from '@potentiel-domain/periode';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregateV2, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
+import { createSubscriptionSetup } from './createSubscriptionSetup';
 
 type SetupPériodeDependencies = {
   sendEmail: SendEmail;
@@ -22,35 +21,24 @@ export const setupPériode = async ({ sendEmail }: SetupPériodeDependencies) =>
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
   });
 
-  PériodeProjector.register();
-  PériodeNotification.register({ sendEmail });
+  const période = createSubscriptionSetup('période');
 
-  const unsubscribePériodeProjector = await subscribe<PériodeProjector.SubscriptionEvent>({
+  PériodeProjector.register();
+  await période.setupSubscription<PériodeProjector.SubscriptionEvent, PériodeProjector.Execute>({
     name: 'projector',
     eventType: ['PériodeNotifiée-V1', 'RebuildTriggered'],
-    eventHandler: async (event) => {
-      await mediator.send<PériodeProjector.Execute>({
-        type: 'System.Projector.Periode',
-        data: event,
-      });
-    },
-    streamCategory: 'période',
+    messageType: 'System.Projector.Période',
   });
 
-  const unsubscribePériodeNotification = await subscribe<PériodeNotification.SubscriptionEvent>({
+  PériodeNotification.register({ sendEmail });
+  await période.setupSubscription<
+    PériodeNotification.SubscriptionEvent,
+    PériodeNotification.Execute
+  >({
     name: 'notifications',
-    streamCategory: 'période',
     eventType: ['PériodeNotifiée-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<PériodeNotification.Execute>({
-        type: 'System.Notification.Période',
-        data: event,
-      });
-    },
+    messageType: 'System.Notification.Période',
   });
 
-  return async () => {
-    await unsubscribePériodeProjector();
-    await unsubscribePériodeNotification();
-  };
+  return période.clearSubscriptions;
 };

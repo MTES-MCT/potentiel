@@ -6,19 +6,20 @@ import { requestContextStorage } from './request-context';
 type RunWithAuthContextProps = {
   req: IncomingMessage;
   res: ServerResponse;
+  app: 'web' | 'legacy';
   callback: () => void | Promise<void>;
 };
 
 const ignorePath = (path: string) => ['/_next', '/illustrations'].some((p) => path.startsWith(p));
 
-export function runWithContext({ req, res, callback }: RunWithAuthContextProps) {
-  const correlationId = crypto.randomUUID();
+export function runWebWithContext({ app, req, res, callback }: RunWithAuthContextProps) {
   if (ignorePath(req.url ?? '')) {
     return callback();
   }
 
+  const correlationId = crypto.randomUUID();
   return requestContextStorage.run(
-    { correlationId, features: fetchFeatures(), url: req.url },
+    { app, correlationId, features: fetchFeatures(), url: req.url },
     async () => {
       const utilisateur = await getUtilisateur(req, res);
       const store = requestContextStorage.getStore()!;
@@ -28,6 +29,17 @@ export function runWithContext({ req, res, callback }: RunWithAuthContextProps) 
       await callback();
     },
   );
+}
+
+type RunWithWorkerContextProps = {
+  app: 'cli' | 'subscribers';
+  callback: () => void | Promise<void>;
+};
+export function runWorkerWithContext({ app, callback }: RunWithWorkerContextProps) {
+  const correlationId = crypto.randomUUID();
+  return requestContextStorage.run({ app, correlationId, features: fetchFeatures() }, async () => {
+    await callback();
+  });
 }
 
 const fetchFeatures = () => {

@@ -1,9 +1,9 @@
 import { Message, Middleware, mediator } from 'mediateur';
 
 import { getContext } from '@potentiel-applications/request-context';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { AuthenticationError } from '../errors';
 
@@ -15,9 +15,11 @@ export const permissionMiddleware: Middleware = async (message, next) => {
   const context = getContext();
   if (!context) {
     getLogger().warn('no context', { messageType: message.type });
+  }
+  if (context?.app === 'cli' || context?.app === 'subscribers') {
     return await next();
   }
-  const utilisateur = context.utilisateur;
+  const utilisateur = context?.utilisateur;
   if (!utilisateur) {
     throw new AuthenticationError();
   }

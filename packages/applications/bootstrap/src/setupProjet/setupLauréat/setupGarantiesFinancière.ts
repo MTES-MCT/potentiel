@@ -1,8 +1,11 @@
-import { GarantiesFinancièreProjector } from '@potentiel-applications/projectors';
+import {
+  GarantiesFinancièreProjector,
+  HistoriqueProjector,
+} from '@potentiel-applications/projectors';
 import { GarantiesFinancièresNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupGarantiesFinancières: SetupProjet = async ({ sendEmail }) => {
@@ -60,6 +63,15 @@ export const setupGarantiesFinancières: SetupProjet = async ({ sendEmail }) => 
       'GarantiesFinancièresÉchues-V1',
     ],
     messageType: 'System.Notification.Lauréat.GarantiesFinancières',
+  });
+
+  await garantiesFinancières.setupSubscription<
+    HistoriqueProjector.SubscriptionEvent,
+    HistoriqueProjector.Execute
+  >({
+    name: 'history',
+    eventType: 'all',
+    messageType: 'System.Projector.Historique',
   });
 
   return garantiesFinancières.clearSubscriptions;

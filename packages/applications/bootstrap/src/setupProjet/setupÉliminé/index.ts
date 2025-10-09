@@ -1,7 +1,7 @@
 import { HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 
 import { SetupProjet } from '../setup';
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 
 import { setupRecours } from './setupRecours';
 
