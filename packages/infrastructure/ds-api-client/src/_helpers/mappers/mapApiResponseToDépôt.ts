@@ -2,18 +2,18 @@ import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { GetDossierQuery, createDossierAccessor } from './graphql';
+import { createDossierAccessor, GetDossierQuery } from '../../graphql';
 import {
-  getTypeGarantiesFinancières,
+  getAutorisationDUrbanisme,
+  getDateConstitutionGarantiesFinancières,
   getHistoriqueAbandon,
   getLocalité,
-  getAutorisationDUrbanisme,
+  getTypeGarantiesFinancières,
   getTypeNatureDeLExploitation,
-  getDateConstitutionGarantiesFinancières,
+  getTypologieInstallation,
   getDispositifDeStockage,
-} from './specialFields';
-import { DeepPartial } from './utils';
-import { getTypologieInstallation } from './getTypologieInstallation';
+} from '../getters';
+import { DeepPartial } from '../types';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -51,15 +51,11 @@ export const mapApiResponseToDépôt = ({
     date: "Date d'obtention de l'autorisation d'urbanisme",
   } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>);
 
-  const accessorDispositifDeStockage = createDossierAccessor(
-    champs,
-    {
-      installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
-      capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
-      puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
-    } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>,
-    demarche.revision.champDescriptors,
-  );
+  const accessorDispositifDeStockage = createDossierAccessor(champs, {
+    installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+    capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
+    puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
+  } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>);
 
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,

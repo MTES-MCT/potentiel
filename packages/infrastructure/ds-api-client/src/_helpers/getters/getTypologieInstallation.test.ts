@@ -5,7 +5,8 @@ import { expect } from 'chai';
 import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { Champs } from './graphql';
+import { Champs } from '../../graphql';
+
 import { getTypologieInstallation } from './getTypologieInstallation';
 
 const baseChamp = {
