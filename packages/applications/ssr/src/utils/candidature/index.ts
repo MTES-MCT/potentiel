@@ -5,3 +5,4 @@ export * from './dépôt.schema';
 export * from './instruction.schema';
 
 export * from './candidatureFields.schema';
+export * from './nestedKeysForSchema';

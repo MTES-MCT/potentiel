@@ -28,6 +28,7 @@ import {
   natureDeLExploitationOptionalSchema,
   actionnariatCorrigerCandidatureSchema,
 } from './candidatureFields.schema';
+import { NestedKeysForSchema } from './nestedKeysForSchema';
 
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
@@ -113,14 +114,6 @@ export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
 export type PartialModifierLauréatValueFormEntries = z.infer<typeof partialLauréatSchema>;
 export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
 
-export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
+export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeysForSchema<
   z.infer<typeof modifierLauréatEtCandidatureSchéma>
 >;
-
-type NestedKeys<T> = T extends object
-  ? {
-      [K in keyof T & string]: T[K] extends object | undefined
-        ? `${K}.${NestedKeys<NonNullable<T[K]>>}` | `${K}`
-        : `${K}`;
-    }[keyof T & string]
-  : never;

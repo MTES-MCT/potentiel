@@ -106,6 +106,12 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                       dépôt.natureDeLExploitation.typeNatureDeLExploitation.type,
                     )}
                   </span>
+                  {dépôt.natureDeLExploitation.tauxPrévisionnelACI !== undefined ? (
+                    <span>
+                      Taux d'autoconsommation individuelle prévisionnel:{' '}
+                      {dépôt.natureDeLExploitation.tauxPrévisionnelACI}
+                    </span>
+                  ) : null}
                 </Field>
               )}
               {dépôt.dispositifDeStockage !== undefined && (
