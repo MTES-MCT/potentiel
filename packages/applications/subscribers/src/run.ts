@@ -19,13 +19,6 @@ const main = async () => {
   const logger = getLogger('subscribers');
   logger.info('Starting subscribers...');
 
-  const danglingSubscribers = await listDanglingSubscribers();
-  if (danglingSubscribers.length > 0) {
-    logger.warn('Some subscribers are no longer listed in the application', {
-      subscribers: danglingSubscribers,
-    });
-  }
-
   // Bootstrap application for:
   // - regular sagas (that send commands)
   // - attestation saga (that uses queries)
@@ -34,6 +27,14 @@ const main = async () => {
   });
 
   const unlisten = await startSubscribers({});
+
+  const danglingSubscribers = await listDanglingSubscribers();
+  if (danglingSubscribers.length > 0) {
+    logger.warn('Some subscribers are no longer listed in the application', {
+      subscribers: danglingSubscribers,
+    });
+  }
+
   await executeSubscribersRetry();
 
   process.on('SIGTERM', async () => {
