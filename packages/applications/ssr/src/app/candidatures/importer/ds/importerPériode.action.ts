@@ -54,16 +54,8 @@ const action: FormAction<FormState, typeof schema> = async (
 
     if (instructions.length === 0) {
       return {
-        status: 'success',
-        result: {
-          successMessage: ``,
-          errors: [
-            {
-              key: "Fichier CSV d'instruction des candidatures",
-              reason: 'Le fichier est vide',
-            },
-          ],
-        },
+        status: 'validation-error',
+        errors: { fichierInstruction: 'Le fichier est vide' },
       };
     }
 
