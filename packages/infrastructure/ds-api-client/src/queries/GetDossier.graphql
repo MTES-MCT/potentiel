@@ -4,20 +4,5 @@ query GetDossier($dossier: Int!) {
     champs {
       ...ChampFragment
     }
-    annotations {
-      ...ChampFragment
-    }
-    usager {
-      email
-    }
-    demarche {
-      number
-      revision {
-        champDescriptors {
-          label
-          required
-        }
-      }
-    }
   }
 }

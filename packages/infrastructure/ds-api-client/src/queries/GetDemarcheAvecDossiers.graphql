@@ -1,0 +1,19 @@
+query GetDemarcheAvecDossiers($demarche: Int!, $first: Int, $after: String) {
+  demarche(number: $demarche) {
+    number
+    dossiers(first: $first, after: $after) {
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        number
+        state
+        champs {
+          ...ChampFragment
+        }
+      }
+    }
+  }
+}

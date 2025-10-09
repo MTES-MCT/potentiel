@@ -12,5 +12,3 @@ export const reverseRecord = <T extends string, U extends string>(
   }
   return reversed;
 };
-
-export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;

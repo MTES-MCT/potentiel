@@ -2,8 +2,8 @@ import { Args, Command } from '@oclif/core';
 
 import { ProjetAggregateRoot, registerProjetUseCases } from '@potentiel-domain/projet';
 import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getDépôtCandidature } from '@potentiel-infrastructure/ds-api-client';
 
 export class ImporterDossierCandidatureCommand extends Command {
   static args = {
@@ -25,7 +25,7 @@ export class ImporterDossierCandidatureCommand extends Command {
   async run() {
     const { args } = await this.parse(ImporterDossierCandidatureCommand);
     try {
-      const dépôt = await getDépôtCandidature(args.numéroDossier);
+      const dépôt = await getDossier(args.numéroDossier);
       console.log(JSON.stringify(dépôt, null, 2));
     } catch (e) {
       console.log(e);
