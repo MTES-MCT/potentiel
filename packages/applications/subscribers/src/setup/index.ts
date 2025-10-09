@@ -2,11 +2,11 @@ import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 import { seedAppelOffre } from '@potentiel-applications/projectors';
 
-import { setupProjet } from './setupProjet';
-import { setupHistorique } from './setupHistorique';
-import { setupUtilisateur } from './setupUtilisateur';
-import { setupPériode } from './setupPériode';
-import { setupRéseau } from './setupRéseau';
+import { setupProjet } from './setupProjet/index.js';
+import { setupHistorique } from './setupHistorique.js';
+import { setupUtilisateur } from './setupUtilisateur.js';
+import { setupPériode } from './setupPériode.js';
+import { setupRéseau } from './setupRéseau.js';
 
 const defaultDependencies = {
   sendEmail,

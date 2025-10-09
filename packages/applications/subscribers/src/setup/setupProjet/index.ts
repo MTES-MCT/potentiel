@@ -1,8 +1,8 @@
-import { SetupProjet } from './setup';
-import { setupÉliminé } from './setupÉliminé';
-import { setupLauréat } from './setupLauréat';
-import { setupCandidature } from './setupCandidature';
-import { setupAccès } from './setupAccès';
+import { SetupProjet } from './setup.js';
+import { setupÉliminé } from './setupÉliminé/index.js';
+import { setupLauréat } from './setupLauréat/index.js';
+import { setupCandidature } from './setupCandidature.js';
+import { setupAccès } from './setupAccès.js';
 
 export const setupProjet: SetupProjet = async (dependencies) => {
   const unsetupÉliminé = await setupÉliminé(dependencies);

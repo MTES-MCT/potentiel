@@ -1,8 +1,8 @@
 import { RaccordementProjector } from '@potentiel-applications/projectors';
 import { HistoriqueProjector } from '@potentiel-applications/projectors';
 
-import { createSubscriptionSetup } from '../../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
+import { SetupProjet } from '../setup.js';
 
 export const setupRaccordement: SetupProjet = async () => {
   const raccordement = createSubscriptionSetup('raccordement');

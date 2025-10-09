@@ -1,7 +1,7 @@
 import { PériodeProjector } from '@potentiel-applications/projectors';
 import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
 
-import { createSubscriptionSetup } from './createSubscriptionSetup';
+import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 
 type SetupPériodeDependencies = {
   sendEmail: SendEmail;

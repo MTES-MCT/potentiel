@@ -2,7 +2,10 @@
   "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "module": "nodenext",
+    "moduleResolution": "node16",
+    "target": "es2024"
   },
   "references": [
     { "path": "../projectors" },
@@ -12,6 +15,7 @@
     { "path": "../../infrastructure/ore-client" },
     { "path": "../../infrastructure/pg-event-sourcing" },
     { "path": "../../infrastructure/pg-projection-read" },
-    { "path": "../../infrastructure/pg-projection-write" }
+    { "path": "../../infrastructure/pg-projection-write" },
+    { "path": "../../libraries/monitoring" }
   ]
 }

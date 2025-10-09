@@ -1,2 +1,2 @@
-export { startSubscribers } from './startSubscribers';
-export { createSubscriptionSetup } from './setup/createSubscriptionSetup';
+export { startSubscribers } from './startSubscribers.js';
+export { createSubscriptionSetup } from './setup/createSubscriptionSetup.js';

@@ -1,9 +1,9 @@
 import { HistoriqueProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 
-import { SetupProjet } from '../setup';
-import { createSubscriptionSetup } from '../../createSubscriptionSetup';
+import { SetupProjet } from '../setup.js';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
-import { setupRecours } from './setupRecours';
+import { setupRecours } from './setupRecours.js';
 
 export const setupÉliminé: SetupProjet = async (dependencies) => {
   const éliminé = createSubscriptionSetup('éliminé');

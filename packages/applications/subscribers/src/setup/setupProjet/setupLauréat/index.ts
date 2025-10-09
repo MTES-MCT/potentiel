@@ -2,24 +2,24 @@ import { HistoriqueProjector, LauréatProjector } from '@potentiel-applications/
 import { LauréatNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { createSubscriptionSetup } from '../../createSubscriptionSetup';
-import { SetupProjet } from '../setup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
+import { SetupProjet } from '../setup.js';
 
-import { setupPuissance } from './setupPuissance';
-import { setupProducteur } from './setupProducteur';
-import { setupFournisseur } from './setupFournisseur';
-import { setupAbandon } from './setupAbandon';
-import { setupAchèvement } from './setupAchèvement';
-import { setupActionnaire } from './setupActionnaire';
-import { setupReprésentantLégal } from './setupReprésentantLégal';
-import { setupRaccordement } from './setupRaccordement';
-import { setupDélai } from './setupDélai';
-import { setupTâchePlanifiée } from './setupTâchePlanifiée';
-import { setupGarantiesFinancières } from './setupGarantiesFinancière';
-import { setupInstallation } from './setupInstallation';
-import { setupTâche } from './setupTâche';
-import { setupDispositifDeStockage } from './setupDispositifDeStockage';
-import { setupNatureDeLExploitation } from './setupNatureDeLExploitation';
+import { setupPuissance } from './setupPuissance.js';
+import { setupProducteur } from './setupProducteur.js';
+import { setupFournisseur } from './setupFournisseur.js';
+import { setupAbandon } from './setupAbandon.js';
+import { setupAchèvement } from './setupAchèvement.js';
+import { setupActionnaire } from './setupActionnaire.js';
+import { setupReprésentantLégal } from './setupReprésentantLégal.js';
+import { setupRaccordement } from './setupRaccordement.js';
+import { setupDélai } from './setupDélai.js';
+import { setupTâchePlanifiée } from './setupTâchePlanifiée.js';
+import { setupGarantiesFinancières } from './setupGarantiesFinancière.js';
+import { setupInstallation } from './setupInstallation.js';
+import { setupTâche } from './setupTâche.js';
+import { setupDispositifDeStockage } from './setupDispositifDeStockage.js';
+import { setupNatureDeLExploitation } from './setupNatureDeLExploitation.js';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
   LauréatProjector.register();

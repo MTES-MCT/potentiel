@@ -4,8 +4,8 @@ import {
 } from '@potentiel-applications/projectors';
 import { DispositifDeStockageNotifications } from '@potentiel-applications/notifications';
 
-import { SetupProjet } from '../setup';
-import { createSubscriptionSetup } from '../../createSubscriptionSetup';
+import { SetupProjet } from '../setup.js';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 
 export const setupDispositifDeStockage: SetupProjet = async ({ sendEmail }) => {
   const dispositifDeStockage = createSubscriptionSetup('dispositif-de-stockage');

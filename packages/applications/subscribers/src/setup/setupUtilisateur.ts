@@ -1,7 +1,7 @@
 import { UtilisateurProjector } from '@potentiel-applications/projectors';
 import { SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
 
-import { createSubscriptionSetup } from './createSubscriptionSetup';
+import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 
 type SetupUtilisateurDependencies = {
   sendEmail: SendEmail;

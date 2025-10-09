@@ -1,6 +1,6 @@
 import { GestionnaireRéseauProjector } from '@potentiel-applications/projectors';
 
-import { createSubscriptionSetup } from './createSubscriptionSetup';
+import { createSubscriptionSetup } from './createSubscriptionSetup.js';
 
 export const setupRéseau = async () => {
   GestionnaireRéseauProjector.register();

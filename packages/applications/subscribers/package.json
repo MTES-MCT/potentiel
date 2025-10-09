@@ -4,6 +4,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/run.js",
@@ -18,6 +19,7 @@
     "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/ore-client": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
+    "@potentiel-libraries/monitoring": "*",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

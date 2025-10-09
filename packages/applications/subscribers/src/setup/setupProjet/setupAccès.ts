@@ -1,9 +1,9 @@
 import { AccèsProjector } from '@potentiel-applications/projectors';
 import { AccèsNotification } from '@potentiel-applications/notifications';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 
-import { SetupProjet } from './setup';
+import { SetupProjet } from './setup.js';
 
 export const setupAccès: SetupProjet = async ({ sendEmail }) => {
   const accès = createSubscriptionSetup('accès');
