@@ -40,24 +40,17 @@ export const getInstallation = async ({
     if (Option.isSome(installationProjection)) {
       const { installateur, typologieInstallation } = installationProjection;
 
-      if (role.aLaPermission('installation.modifier')) {
-        return {
-          installateur: {
-            value: installateur,
+      return {
+        installateur: {
+          value: installateur,
+          ...(role.aLaPermission('installation.installateur.modifier') && {
             affichage: {
               url: Routes.Installateur.modifier(identifiantProjet.formatter()),
               label: 'Modifier',
               labelActions: "Modifier l'installateur",
             },
-          },
-          typologieInstallation: {
-            value: typologieInstallation.map((typologie) => typologie.formatter()),
-          },
-        };
-      }
-
-      return {
-        installateur: { value: installateur },
+          }),
+        },
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
         },

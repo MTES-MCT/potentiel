@@ -361,15 +361,17 @@ const référencielPermissions = {
       },
     },
     installation: {
-      query: {
-        consulter: 'Lauréat.Installation.Query.ConsulterInstallation',
-        consulterInstallateur: 'Lauréat.Installation.Query.ConsulterInstallateur',
-      },
-      usecase: {
-        modifier: 'Lauréat.Installation.UseCase.ModifierInstallateur',
-      },
-      command: {
-        modifier: 'Lauréat.Installation.Command.ModifierInstallateur',
+      query: { consulter: 'Lauréat.Installation.Query.ConsulterInstallation' },
+      installateur: {
+        query: {
+          consulter: 'Lauréat.Installation.Query.ConsulterInstallateur',
+        },
+        usecase: {
+          modifier: 'Lauréat.Installation.UseCase.ModifierInstallateur',
+        },
+        command: {
+          modifier: 'Lauréat.Installation.Command.ModifierInstallateur',
+        },
       },
     },
     natureDeLExploitation: {
@@ -993,14 +995,16 @@ const policies = {
   installation: {
     consulter: [
       référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.installation.query.consulterInstallateur,
       référencielPermissions.lauréat.installation.query.consulter,
+      référencielPermissions.lauréat.installation.installateur.query.consulter,
     ],
-    modifier: [
-      référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.installation.usecase.modifier,
-      référencielPermissions.lauréat.installation.command.modifier,
-    ],
+    installateur: {
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.lauréat.installation.installateur.usecase.modifier,
+        référencielPermissions.lauréat.installation.installateur.command.modifier,
+      ],
+    },
   },
   natureDeLExploitation: {
     consulter: [
@@ -1596,9 +1600,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'délai.rejeterDemande',
   'délai.accorderDemande',
 
-  // installateur
-  'installation.consulter',
-  'installation.modifier',
+  // installation
+  'installation.installateur.modifier',
 
   // Installation avec dispositif de stockage
   'dispositifDeStockage.consulter',
