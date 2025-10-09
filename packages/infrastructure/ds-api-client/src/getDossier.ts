@@ -3,12 +3,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { getDSApiClient } from './graphql';
-import {
-  DeepPartial,
-  mapApiResponseToDépôt,
-  mapApiResponseToDétails,
-  mapApiResponseToFichiers,
-} from './_helpers';
+import { DeepPartial, mapApiResponseToDépôt, mapApiResponseToFichiers } from './_helpers';
 
 export type Dossier = Awaited<ReturnType<typeof getDossier>>;
 
@@ -25,7 +20,6 @@ export const getDossier = async (dossierNumber: number) => {
       champs,
     });
     return {
-      demarcheId: dossier.demarche.number,
       dépôt: {
         ...mapApiResponseToDépôt({
           champs,
@@ -34,10 +28,6 @@ export const getDossier = async (dossierNumber: number) => {
           ? { format: fichiers.garantiesFinancières.contentType }
           : undefined,
       } satisfies DeepPartial<Candidature.Dépôt.RawType>,
-      fichiers,
-      détails: mapApiResponseToDétails({
-        champs,
-      }),
     };
   } catch (e) {
     logger.warn('Impossible de lire le dossier', {

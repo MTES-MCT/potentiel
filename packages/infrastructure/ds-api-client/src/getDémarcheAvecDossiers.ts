@@ -13,15 +13,13 @@ import {
 const fetchAllDossiers = async (démarcheId: number) => {
   const dossiers = [];
   let hasNextPage = true;
-  const first = process.env.DS_LIMIT_DOSSIER_PAGINATION
-    ? Number(process.env.DS_LIMIT_DOSSIER_PAGINATION)
-    : undefined;
+  const first = process.env.DS_API_PAGE_SIZE ? Number(process.env.DS_API_PAGE_SIZE) : undefined;
   let after: string | undefined = undefined;
 
   const sdk = getDSApiClient();
 
   while (hasNextPage) {
-    const { demarche } = await sdk.GetDemarcheAvecDossier({
+    const { demarche } = await sdk.GetDemarcheAvecDossiers({
       demarche: démarcheId,
       first,
       after,

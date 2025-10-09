@@ -1,4 +1,4 @@
-query GetDemarcheAvecDossier($demarche: Int!, $first: Int, $after: String) {
+query GetDemarcheAvecDossiers($demarche: Int!, $first: Int, $after: String) {
   demarche(number: $demarche) {
     number
     dossiers(first: $first, after: $after) {

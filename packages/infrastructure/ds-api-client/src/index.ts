@@ -1,5 +1,5 @@
 import { getDossier } from './getDossier';
-import { getDémarcheAvecDossier } from './getDémarcheAvecDossier';
+import { getDémarcheAvecDossier } from './getDémarcheAvecDossiers';
 import { getDémarcheIdParDossier } from './getDémarcheIdParDossier';
 
 export { getDémarcheAvecDossier, getDossier, getDémarcheIdParDossier };
