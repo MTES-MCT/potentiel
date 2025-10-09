@@ -19,9 +19,11 @@
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-infrastructure/pg-projection-write": "*",
     "graphile-worker": "^0.16.6",
-    "mediateur": "^0.3.0"
+    "mediateur": "^0.3.0",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/pg": "^8.15.5"
   }
 }

@@ -38,8 +38,7 @@ const main = async () => {
     max: 5,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
-    // TODO
-    // options: '-c search_path=auth',
+    options: '-c search_path=auth',
   });
 
   const handler: Task<'handler'> = async (event, helpers) => {
@@ -47,9 +46,7 @@ const main = async () => {
     await runSubscriber(streamCategory, subscriberName, event);
   };
 
-  let nbRebuild = 0;
   const rebuildTriggered: Task<'rebuild'> = async (rebuildEvent) => {
-    nbRebuild++;
     await rebuild(rebuildEvent, {
       eventType: 'all',
       eventHandler: async (event) => {
@@ -64,6 +61,7 @@ const main = async () => {
 
   const subscribers = listSubscribers();
 
+  // Une tâche par subscriber configuré via setupSubscription
   const tasks = subscribers.reduce(
     (acc, subscriberKey) => {
       acc[subscriberKey] = handler;
@@ -71,10 +69,6 @@ const main = async () => {
     },
     {} as Record<string, Task<'handler'>>,
   );
-
-  setInterval(() => {
-    console.log({ nbRebuild });
-  }, 5000).unref();
 
   await runTaskList(
     {
@@ -92,9 +86,7 @@ const main = async () => {
       }),
     },
     { ...tasks, rebuild: rebuildTriggered },
-    // Incompatibilité avec @types/pg
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    pool as any,
+    pool,
   );
 };
 
