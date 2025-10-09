@@ -44,7 +44,7 @@ const DétailsFournisseursEtÉvaluationCarbonesSimplifiée = ({
     {changement.évaluationCarboneSimplifiée !== undefined && (
       <>
         <div className="flex gap-2">
-          <div className="font-semibold whitespace-nowrap">Évaluation carbone simplifiée :</div>
+          <div className="font-medium whitespace-nowrap">Évaluation carbone simplifiée :</div>
           <div>{changement.évaluationCarboneSimplifiée} kg eq CO2/kWc</div>
         </div>
         <AlerteChangementÉvaluationCarbone
@@ -55,8 +55,8 @@ const DétailsFournisseursEtÉvaluationCarbonesSimplifiée = ({
       </>
     )}
     {changement.fournisseurs && (
-      <div className="flex flex-col gap-2">
-        <div className="font-semibold whitespace-nowrap">Fournisseurs :</div>
+      <div className="flex flex-col">
+        <div className="font-medium whitespace-nowrap">Fournisseurs :</div>
         <div className="flex flex-col gap-2">
           <ListeFournisseurs fournisseurs={changement.fournisseurs} />
         </div>

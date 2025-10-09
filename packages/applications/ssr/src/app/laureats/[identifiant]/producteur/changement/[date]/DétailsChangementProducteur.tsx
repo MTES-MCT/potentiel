@@ -27,10 +27,10 @@ const ProducteurChangé = ({
 }) => (
   <>
     <div>
-      <span className="font-semibold">Nouveau producteur</span>: {changement.nouveauProducteur}
+      <span className="font-medium">Nouveau producteur</span>: {changement.nouveauProducteur}
     </div>
     <div>
-      <span className="font-semibold">Producteur initial</span>: {changement.ancienProducteur}
+      <span className="font-medium">Producteur initial</span>: {changement.ancienProducteur}
     </div>
   </>
 );
