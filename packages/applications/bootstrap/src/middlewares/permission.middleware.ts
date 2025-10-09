@@ -16,9 +16,6 @@ export const permissionMiddleware: Middleware = async (message, next) => {
   if (!context) {
     getLogger().warn('no context', { messageType: message.type });
   }
-  if (context?.app === 'cli' || context?.app === 'subscribers') {
-    return await next();
-  }
   const utilisateur = context?.utilisateur;
   if (!utilisateur) {
     throw new AuthenticationError();
