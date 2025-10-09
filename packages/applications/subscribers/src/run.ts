@@ -4,6 +4,7 @@ import {
   listDanglingSubscribers,
 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { killPool } from '@potentiel-libraries/pg-helpers';
+import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 
 import { startSubscribers } from './index.js';
 
@@ -25,9 +26,15 @@ const main = async () => {
     });
   }
 
-  await executeSubscribersRetry();
+  // Bootstrap application for:
+  // - regular sagas (that send commands)
+  // - attestation saga (that uses queries)
+  await bootstrap({
+    middlewares: [logMiddleware],
+  });
 
   const unlisten = await startSubscribers({});
+  await executeSubscribersRetry();
 
   process.on('SIGTERM', async () => {
     logger.info('Gracefully shutting down...');
