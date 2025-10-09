@@ -11,7 +11,7 @@ export type InfoInstallationProps = {
 export const InfoInstallation = ({
   installation: { installateur, typologieInstallation },
 }: InfoInstallationProps) => {
-  const getFormattedTypologie = (
+  const getTypologieLabels = (
     typologie: GetInstallationForProjectPage['typologieInstallation']['value'][number]['typologie'],
   ) => {
     return match(typologie)
@@ -45,7 +45,7 @@ export const InfoInstallation = ({
     détails,
   }: InfoInstallationProps['installation']['typologieInstallation']['value'][number]) => (
     <>
-      <div>{getFormattedTypologie(typologie)}</div>
+      <div>{getTypologieLabels(typologie)}</div>
       {détails && <div>Éléments sous l'installation : {détails}</div>}
     </>
   );
