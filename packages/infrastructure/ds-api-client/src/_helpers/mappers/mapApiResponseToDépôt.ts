@@ -2,18 +2,18 @@ import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-import { GetDossierQuery, createDossierAccessor } from './graphql';
+import { createDossierAccessor, GetDossierQuery } from '../../graphql';
 import {
-  getTypeGarantiesFinancières,
+  getAutorisationDUrbanisme,
+  getDateConstitutionGarantiesFinancières,
   getHistoriqueAbandon,
   getLocalité,
-  getAutorisationDUrbanisme,
+  getTypeGarantiesFinancières,
   getTypeNatureDeLExploitation,
-  getDateConstitutionGarantiesFinancières,
+  getTypologieInstallation,
   getDispositifDeStockage,
-} from './specialFields';
-import { DeepPartial } from './utils';
-import { getTypologieInstallation } from './getTypologieInstallation';
+} from '../getters';
+import { DeepPartial } from '../types';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -38,29 +38,24 @@ const colonnes = {
   coefficientKChoisi: "Souhaitez vous bénéficier de l'indexation K ?",
 } satisfies Partial<Record<keyof Candidature.Dépôt.RawType, string>>;
 
+type MapApiResponseToDépôt = {
+  champs: GetDossierQuery['dossier']['champs'];
+};
+
 export const mapApiResponseToDépôt = ({
   champs,
-  demarche,
-}: GetDossierQuery['dossier']): DeepPartial<Candidature.Dépôt.RawType> => {
-  const accessor = createDossierAccessor(champs, colonnes, demarche.revision.champDescriptors);
-  const accessorAutorisationDUrbanisme = createDossierAccessor(
-    champs,
-    {
-      numéro: "Numéro de l'autorisation d'urbanisme",
-      date: "Date d'obtention de l'autorisation d'urbanisme",
-    } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>,
-    demarche.revision.champDescriptors,
-  );
+}: MapApiResponseToDépôt): DeepPartial<Candidature.Dépôt.RawType> => {
+  const accessor = createDossierAccessor(champs, colonnes);
+  const accessorAutorisationDUrbanisme = createDossierAccessor(champs, {
+    numéro: "Numéro de l'autorisation d'urbanisme",
+    date: "Date d'obtention de l'autorisation d'urbanisme",
+  } satisfies Record<keyof Candidature.Dépôt.RawType['autorisationDUrbanisme'], string>);
 
-  const accessorDispositifDeStockage = createDossierAccessor(
-    champs,
-    {
-      installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
-      capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
-      puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
-    } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>,
-    demarche.revision.champDescriptors,
-  );
+  const accessorDispositifDeStockage = createDossierAccessor(champs, {
+    installationAvecDispositifDeStockage: 'Installation couplée à un dispositif de stockage',
+    capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
+    puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
+  } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>);
 
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
@@ -70,7 +65,6 @@ export const mapApiResponseToDépôt = ({
   const dateConstitutionGarantiesFinancieres = getDateConstitutionGarantiesFinancières(
     typeGarantiesFinancieres,
     champs,
-    demarche.revision.champDescriptors,
   );
 
   const getDateÉchéanceGarantiesFinancières = (date: string) => {

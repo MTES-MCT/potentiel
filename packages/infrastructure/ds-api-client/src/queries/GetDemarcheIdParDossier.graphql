@@ -1,0 +1,8 @@
+query GetDemarcheIdParDossier($dossier: Int!) {
+  dossier(number: $dossier) {
+    number
+    demarche {
+      number
+    }
+  }
+}
