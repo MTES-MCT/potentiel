@@ -16,10 +16,6 @@ import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-appli
 import crypto from 'node:crypto';
 import { runWebWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
-import {
-  executeSubscribersRetry,
-  listDanglingSubscribers,
-} from '@potentiel-infrastructure/pg-event-sourcing';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -146,14 +142,6 @@ export async function makeServer(port: number) {
 
     await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
     await registerSagas();
-    await executeSubscribersRetry();
-
-    const danglingSubscribers = await listDanglingSubscribers();
-    if (danglingSubscribers.length > 0) {
-      logger.warning('Some subscribers are no longer listed in the application', {
-        subscribers: danglingSubscribers,
-      });
-    }
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {
