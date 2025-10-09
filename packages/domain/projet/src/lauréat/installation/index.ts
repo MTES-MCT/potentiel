@@ -4,11 +4,13 @@ import {
 } from './consulter/consulterInstallation.query';
 import {
   ConsulterInstallateurQuery,
-  ListerHistoriqueInstallateurProjetQuery,
   ConsulterInstallateurReadModel,
+} from './installateur/consulter/consulterInstallateur.query';
+import {
   HistoriqueInstallateurProjetListItemReadModel,
-  ModifierInstallateurUseCase,
-} from './installateur';
+  ListerHistoriqueInstallateurProjetQuery,
+} from './installateur/listerHistorique/listerHistoriqueInstallateurProjet.query';
+import { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase';
 
 // Query
 export type InstallationQuery =
@@ -40,6 +42,10 @@ export { InstallateurModifiéEvent } from './installateur/modifier/modifierInsta
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';
+export {
+  registerInstallateurQueries,
+  registerInstallateurUseCases,
+} from './installateur/installateur.register';
 
 // Entities
 export * from './installation.entity';

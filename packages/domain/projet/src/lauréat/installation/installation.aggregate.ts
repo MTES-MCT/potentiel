@@ -5,13 +5,14 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
 
+import { InstallateurModifiéEvent } from '.';
+
 import { InstallationEvent } from './installation.event';
 import { ImporterOptions } from './importer/importerInstallation.option';
 import { InstallationDéjàTransmiseError } from './installation.error';
 import { InstallationImportéeEvent } from './importer/importerInstallation.event';
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
 import { InstallateurIdentiqueError } from './installateur/installateur.error';
-import { InstallateurModifiéEvent } from './installateur';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
