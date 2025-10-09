@@ -4,7 +4,7 @@ import { Parser } from '@json2csv/plainjs';
 import { Args, Command, Flags } from '@oclif/core';
 import type { Faker } from '@faker-js/faker';
 
-import { getDossiersDemarche } from '@potentiel-infrastructure/ds-api-client';
+import { getDémarcheAvecDossier } from '@potentiel-infrastructure/ds-api-client';
 import { Option } from '@potentiel-libraries/monads';
 
 export class ListerDossiersCandidatureCommand extends Command {
@@ -27,7 +27,8 @@ export class ListerDossiersCandidatureCommand extends Command {
   async run() {
     const { args, flags } = await this.parse(ListerDossiersCandidatureCommand);
     try {
-      const dossiers = await getDossiersDemarche(args.démarche);
+      const dossiers = await getDémarcheAvecDossier(args.démarche);
+      console.log(dossiers);
 
       if (Option.isNone(dossiers)) {
         throw new Error(`La démarche ${args.démarche} est introuvable`);

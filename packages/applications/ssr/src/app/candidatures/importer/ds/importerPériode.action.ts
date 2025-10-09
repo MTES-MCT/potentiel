@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
 import {
-  getDossiersDemarche,
+  getDémarcheAvecDossier,
   getDémarcheIdParDossier,
 } from '@potentiel-infrastructure/ds-api-client';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -25,10 +25,7 @@ const schema = zod.object({
   appelOffre: zod.string(),
   periode: zod.string(),
   famille: zod.string().optional(),
-
   fichierInstruction: singleDocument({ acceptedFileTypes: ['text/csv'] }),
-  // identifiantDemarcheDS: numberSchema,
-
   test: zod.stringbool().optional(),
 });
 
@@ -68,7 +65,7 @@ const action: FormAction<FormState, typeof schema> = async (
       'importéLe' | 'importéPar'
     >[] = [];
 
-    const dossiers = await getDossiersDemarche(demarcheId);
+    const dossiers = await getDémarcheAvecDossier(demarcheId);
 
     if (Option.isNone(dossiers)) {
       throw new Error(`La démarche ${demarcheId} est introuvable`);
