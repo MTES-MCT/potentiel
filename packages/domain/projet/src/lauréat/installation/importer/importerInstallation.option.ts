@@ -6,5 +6,5 @@ export type ImporterOptions = {
   importéPar: Email.ValueType;
   importéLe: DateTime.ValueType;
   installateur?: string;
-  typologieInstallation: TypologieInstallation.RawType[];
+  typologieInstallation: TypologieInstallation.ValueType[];
 };

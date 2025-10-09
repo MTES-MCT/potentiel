@@ -35,7 +35,7 @@ export const register = ({ sendEmail }: RegisterInstallateurNotificationDependen
       )
       .with(
         {
-          type: P.union('InstallationImportée-V1'),
+          type: P.union('InstallationImportée-V1', 'TypologieInstallationModifiée-V1'),
         },
         () => Promise.resolve(),
       )

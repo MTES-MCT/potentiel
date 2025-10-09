@@ -8,18 +8,29 @@ import {
   registerInstallateurUseCases,
   registerInstallateurQueries,
 } from './installateur/installateur.register';
+import {
+  registerTypologieInstallationQueries,
+  registerTypologieInstallationUseCases,
+  TypologieInstallationQueryDependencies,
+  TypologieInstallationUseCaseDependencies,
+} from './typologie-installation/typologieInstallation.register';
 
 export type InstallationQueryDependencies =
+  | TypologieInstallationQueryDependencies
   | InstallateurQueryDependencies
   | ConsulterInstallationDependencies;
 
-export type InstallationUseCasesDependencies = InstallateurUseCaseDependencies;
+export type InstallationUseCasesDependencies =
+  | TypologieInstallationUseCaseDependencies
+  | InstallateurUseCaseDependencies;
+
+export const registerInstallationQueries = (dependencies: InstallationQueryDependencies) => {
+  registerTypologieInstallationQueries(dependencies);
+  registerInstallateurQueries(dependencies);
+  registerConsulterInstallationQuery(dependencies);
+};
 
 export const registerInstallationUseCases = (dependencies: InstallationUseCasesDependencies) => {
   registerInstallateurUseCases(dependencies);
-};
-
-export const registerInstallationQueries = (dependencies: InstallationQueryDependencies) => {
-  registerInstallateurQueries(dependencies);
-  registerConsulterInstallationQuery(dependencies);
+  registerTypologieInstallationUseCases(dependencies);
 };

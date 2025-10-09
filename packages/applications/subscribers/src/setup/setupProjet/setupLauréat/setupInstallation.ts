@@ -14,7 +14,7 @@ export const setupInstallation: SetupProjet = async ({ sendEmail }) => {
     InstallationProjector.Execute
   >({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'InstallationImportée-V1', 'InstallateurModifié-V1'],
+    eventType: 'all',
     messageType: 'System.Projector.Lauréat.Installation',
   });
 

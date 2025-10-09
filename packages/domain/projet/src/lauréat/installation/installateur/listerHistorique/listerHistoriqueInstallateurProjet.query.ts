@@ -16,7 +16,7 @@ export type ListerHistoriqueInstallateurProjetReadModel = {
 };
 
 export type ListerHistoriqueInstallateurProjetQuery = Message<
-  'Lauréat.Installateur.Query.ListerHistoriqueInstallateurProjet',
+  'Lauréat.Installation.Query.ListerHistoriqueInstallateurProjet',
   {
     identifiantProjet: string;
     range?: RangeOptions;
@@ -41,5 +41,5 @@ export const registerListerHistoriqueInstallateurProjetQuery = ({
       range,
     });
 
-  mediator.register('Lauréat.Installateur.Query.ListerHistoriqueInstallateurProjet', handler);
+  mediator.register('Lauréat.Installation.Query.ListerHistoriqueInstallateurProjet', handler);
 };

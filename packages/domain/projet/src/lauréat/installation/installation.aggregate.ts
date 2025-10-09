@@ -9,10 +9,15 @@ import { InstallateurModifiéEvent } from '.';
 
 import { InstallationEvent } from './installation.event';
 import { ImporterOptions } from './importer/importerInstallation.option';
-import { InstallationDéjàTransmiseError } from './installation.error';
+import {
+  InstallateurIdentiqueError,
+  InstallationDéjàTransmiseError,
+  TypologieInstallationIdentiqueError,
+} from './installation.error';
 import { InstallationImportéeEvent } from './importer/importerInstallation.event';
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
-import { InstallateurIdentiqueError } from './installateur/installateur.error';
+import { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option';
+import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -73,6 +78,32 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async modifierTypologieInstallation({
+    typologieInstallation,
+    dateModification,
+    identifiantUtilisateur,
+  }: ModifierTypologieInstallationOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
+    if (this.#typologieInstallation === typologieInstallation) {
+      throw new TypologieInstallationIdentiqueError();
+    }
+
+    const event: TypologieInstallationModifiéeEvent = {
+      type: 'TypologieInstallationModifiée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        typologieInstallation: typologieInstallation.map(
+          TypologieInstallation.convertirEnValueType,
+        ),
+        modifiéeLe: dateModification.formatter(),
+        modifiéePar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: InstallationEvent): void {
     match(event)
       .with(
@@ -86,6 +117,9 @@ export class InstallationAggregate extends AbstractAggregate<
           type: 'InstallateurModifié-V1',
         },
         (event) => this.applyInstallateurModifiéV1(event),
+      )
+      .with({ type: 'TypologieInstallationModifiée-V1' }, (event) =>
+        this.applyTypologieInstallationModifiéeV1(event),
       )
       .exhaustive();
   }
@@ -103,5 +137,13 @@ export class InstallationAggregate extends AbstractAggregate<
     payload: { installateur: nouvelInstallateur },
   }: InstallateurModifiéEvent) {
     this.#installateur = nouvelInstallateur;
+  }
+
+  private applyTypologieInstallationModifiéeV1({
+    payload: { typologieInstallation: nouvelleTypologieInstallation },
+  }: TypologieInstallationModifiéeEvent) {
+    this.#typologieInstallation = nouvelleTypologieInstallation.map(
+      TypologieInstallation.convertirEnValueType,
+    );
   }
 }

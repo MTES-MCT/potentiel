@@ -39,6 +39,7 @@ export { InstallationEvent } from './installation.event';
 
 export { InstallationImportéeEvent } from './importer/importerInstallation.event';
 export { InstallateurModifiéEvent } from './installateur/modifier/modifierInstallateur.event';
+export { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';
