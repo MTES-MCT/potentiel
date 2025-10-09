@@ -166,7 +166,7 @@ export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
 
 const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
   const installateur = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
-    type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
+    type: 'Lauréat.Installation.Query.ConsulterInstallateur',
     data: {
       identifiantProjet,
     },

@@ -1,19 +1,34 @@
 import {
+  ConsulterInstallationQuery,
+  ConsulterInstallationReadModel,
+} from './consulter/consulterInstallation.query';
+import {
   ConsulterInstallateurQuery,
-  ListerHistoriqueInstallateurProjetQuery,
   ConsulterInstallateurReadModel,
+} from './installateur/consulter/consulterInstallateur.query';
+import {
   HistoriqueInstallateurProjetListItemReadModel,
-  ModifierInstallateurUseCase,
-} from './installateur';
+  ListerHistoriqueInstallateurProjetQuery,
+} from './installateur/listerHistorique/listerHistoriqueInstallateurProjet.query';
+import { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase';
 
 // Query
 export type InstallationQuery =
+  | ConsulterInstallationQuery
   | ConsulterInstallateurQuery
   | ListerHistoriqueInstallateurProjetQuery;
-export { ConsulterInstallateurQuery, ListerHistoriqueInstallateurProjetQuery };
+export {
+  ConsulterInstallateurQuery,
+  ListerHistoriqueInstallateurProjetQuery,
+  ConsulterInstallationQuery,
+};
 
 // ReadModel
-export { ConsulterInstallateurReadModel, HistoriqueInstallateurProjetListItemReadModel };
+export {
+  ConsulterInstallationReadModel,
+  ConsulterInstallateurReadModel,
+  HistoriqueInstallateurProjetListItemReadModel,
+};
 
 // UseCase
 export type InstallationUseCase = ModifierInstallateurUseCase;
@@ -22,12 +37,15 @@ export { ModifierInstallateurUseCase } from './installateur/modifier/modifierIns
 // Event
 export { InstallationEvent } from './installation.event';
 
-export { InstallationImportéeEvent } from './importer/importerInstalltion.event';
+export { InstallationImportéeEvent } from './importer/importerInstallation.event';
 export { InstallateurModifiéEvent } from './installateur/modifier/modifierInstallateur.event';
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';
+export {
+  registerInstallateurQueries,
+  registerInstallateurUseCases,
+} from './installateur/installateur.register';
 
 // Entities
 export * from './installation.entity';
-export * from './installateur/installateur.entity';

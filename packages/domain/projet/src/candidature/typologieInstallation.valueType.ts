@@ -11,14 +11,14 @@ export const bâtiment = [
 
 export const ombrière = ['ombrière.parking', 'ombrière.autre', 'ombrière.mixte'] as const;
 
-export const agrivoltaique = [
-  'agrivoltaique.culture',
-  'agrivoltaique.jachère-plus-de-5-ans',
-  'agrivoltaique.élevage',
-  'agrivoltaique.serre',
+export const agrivoltaïque = [
+  'agrivoltaïque.culture',
+  'agrivoltaïque.jachère-plus-de-5-ans',
+  'agrivoltaïque.élevage',
+  'agrivoltaïque.serre',
 ] as const;
 
-export const typologies = [...bâtiment, ...ombrière, ...agrivoltaique] as const;
+export const typologies = [...bâtiment, ...ombrière, ...agrivoltaïque] as const;
 
 type Typologie = (typeof typologies)[number];
 

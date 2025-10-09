@@ -200,7 +200,7 @@ describe('Schema candidature CSV', () => {
       natureDeLExploitation: 'vente-avec-injection-du-surplus',
       typologieInstallation: [
         {
-          typologie: 'agrivoltaique.jachère-plus-de-5-ans',
+          typologie: 'agrivoltaïque.jachère-plus-de-5-ans',
         },
         {
           typologie: 'bâtiment.existant-avec-rénovation-de-toiture',

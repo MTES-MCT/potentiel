@@ -47,11 +47,11 @@ export const notifiedOnCsvSchema = z.undefined({
 });
 export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
 
-export const installationsAgrivoltaiquesCsvSchema = optionalEnum(
+export const installationsAgrivoltaïquesCsvSchema = optionalEnum(
   z.enum(['culture', 'jachère de plus de 5 ans', 'élevage', 'serre']),
 );
-export type InstallationsAgrivoltaiquesCsvShape = z.infer<
-  typeof installationsAgrivoltaiquesCsvSchema
+export type InstallationsAgrivoltaïquesCsvShape = z.infer<
+  typeof installationsAgrivoltaïquesCsvSchema
 >;
 
 export const élémentsSousOmbrièreCsvSchema = z.string().optional();
