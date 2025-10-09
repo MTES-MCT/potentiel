@@ -31,7 +31,7 @@ export class InstallationAggregate extends AbstractAggregate<
   }
 
   async importer({ installateur, typologieInstallation, importéLe, importéPar }: ImporterOptions) {
-    if (this.#installateur || this.#typologieInstallation) {
+    if (this.exists) {
       throw new InstallationDéjàTransmiseError();
     }
 

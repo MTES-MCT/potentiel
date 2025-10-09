@@ -2,6 +2,7 @@ import React from 'react';
 import { Heading3, Heading4, Link } from '../../../../components';
 
 import { GetInstallationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getInstallation';
+import { match } from 'ts-pattern';
 
 export type InfoInstallationProps = {
   installation: GetInstallationForProjectPage;
@@ -10,15 +11,41 @@ export type InfoInstallationProps = {
 export const InfoInstallation = ({
   installation: { installateur, typologieInstallation },
 }: InfoInstallationProps) => {
-  const formatTypologie = ({
+  const getFormattedTypologie = (
+    typologie: GetInstallationForProjectPage['typologieInstallation']['value'][number]['typologie'],
+  ) => {
+    return match(typologie)
+      .with('agrivoltaique.culture', () => 'Installation agrivoltaïque (culture)')
+      .with(
+        'agrivoltaique.jachère-plus-de-5-ans',
+        () => 'Installation agrivoltaïque : jachère de plus de 5 ans',
+      )
+      .with('agrivoltaique.serre', () => 'Installation agrivoltaïque (serre)')
+      .with('agrivoltaique.élevage', () => 'Installation agrivoltaïque (élevage)')
+      .with(
+        'bâtiment.existant-avec-rénovation-de-toiture',
+        () => 'Installation sur bâtiment existant avec rénovation de toiture',
+      )
+      .with(
+        'bâtiment.existant-sans-rénovation-de-toiture',
+        () => 'Installation sur bâtiment existant sans rénovation de toiture',
+      )
+      .with('bâtiment.mixte', () => 'Installation sur bâtiment (mixte)')
+      .with('bâtiment.neuf', () => 'Installation sur bâtiment neuf')
+      .with('bâtiment.serre', () => 'Installation sur bâtiment (serre)')
+      .with('bâtiment.stabulation', () => 'bâtiment (stabulation)')
+      .with('ombrière.parking', () => 'Ombrière (parking)')
+      .with('ombrière.mixte', () => 'Ombrière (mixte)')
+      .with('ombrière.autre', () => 'Ombrière')
+      .exhaustive();
+  };
+
+  const formatTypologieInstallation = ({
     typologie,
     détails,
   }: InfoInstallationProps['installation']['typologieInstallation']['value'][number]) => (
     <>
-      <div>
-        {typologie.charAt(0).toUpperCase() +
-          typologie.slice(1).replace(/-/g, ' ').replace(/\./g, ' : ')}
-      </div>
+      <div>{getFormattedTypologie(typologie)}</div>
       {détails && <div>Éléments sous l'installation : {détails}</div>}
     </>
   );
@@ -35,13 +62,13 @@ export const InfoInstallation = ({
             <ul className="list-disc pl-4 m-0">
               {typologieInstallation.value.map((typologieInstallation) => (
                 <li key={typologieInstallation.typologie}>
-                  {formatTypologie(typologieInstallation)}
+                  {formatTypologieInstallation(typologieInstallation)}
                 </li>
               ))}
             </ul>
           </>
         ) : typologieInstallation.value.length === 1 ? (
-          <div>{formatTypologie(typologieInstallation.value[0])}</div>
+          <div>{formatTypologieInstallation(typologieInstallation.value[0])}</div>
         ) : (
           <span>Typologie du projet non renseignée</span>
         )}
