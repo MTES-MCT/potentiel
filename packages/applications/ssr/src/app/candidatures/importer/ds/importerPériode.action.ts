@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
 import {
-  getDémarcheAvecDossier,
+  getDémarcheAvecDossiers,
   getDémarcheIdParDossier,
 } from '@potentiel-infrastructure/ds-api-client';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
@@ -72,7 +72,7 @@ const action: FormAction<FormState, typeof schema> = async (
       'importéLe' | 'importéPar'
     >[] = [];
 
-    const dossiers = await getDémarcheAvecDossier(demarcheId);
+    const dossiers = await getDémarcheAvecDossiers(demarcheId);
 
     if (Option.isNone(dossiers)) {
       throw new Error(`La démarche ${demarcheId} est introuvable`);

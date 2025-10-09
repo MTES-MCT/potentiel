@@ -34,7 +34,7 @@ const fetchAllDossiers = async (démarcheId: number) => {
   return { dossiers };
 };
 
-export const getDémarcheAvecDossier = async (démarcheId: number) => {
+export const getDémarcheAvecDossiers = async (démarcheId: number) => {
   const logger = getLogger('ds-api-client');
   try {
     const { dossiers } = await fetchAllDossiers(démarcheId);
