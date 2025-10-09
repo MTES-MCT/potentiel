@@ -27,6 +27,7 @@ import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 import { EmailPayload } from '@potentiel-applications/notifications';
 import { Option } from '@potentiel-libraries/monads';
 import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
+import { startSubscribers } from '@potentiel-applications/subscribers';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -128,8 +129,11 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
 
   clear();
 
-  unsetup = await bootstrap({
+  await bootstrap({
     middlewares: [logMiddleware],
+  });
+
+  unsetup = await startSubscribers({
     dependencies: {
       sendEmail: testEmailAdapter.bind(this),
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),

@@ -1,11 +1,12 @@
 import { GetProjetAggregateRoot, ProjetAggregateRoot } from '@potentiel-domain/projet';
-import { AppelOffreAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+
+import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter';
 
 export const getProjetAggregateRootAdapter: GetProjetAggregateRoot = async (identifiant) => {
   const projet = await ProjetAggregateRoot.get(identifiant, {
     loadAggregate: loadAggregateV2,
-    loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
+    loadAppelOffreAggregate: loadAppelOffreAggregateAdapter,
   });
   return projet;
 };

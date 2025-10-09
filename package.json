@@ -13,6 +13,8 @@
   "scripts": {
     "prepare": "husky",
     "start": "npm run start --workspaces --if-present ",
+    "start:web": "npm run start -w @potentiel-applications/legacy",
+    "start:subscribers": "npm run start -w @potentiel-applications/subscribers",
     "up": "./.docker-scripts/up.sh",
     "down": "./.docker-scripts/down.sh",
     "prestart:legacy": "npm run build && npm run up",

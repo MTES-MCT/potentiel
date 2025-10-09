@@ -10,14 +10,11 @@ import {
   listHistoryProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
 import {
-  Lauréat,
-  ProjetAggregateRoot,
-  registerProjetQueries,
-  registerProjetUseCases,
-} from '@potentiel-domain/projet';
-import { AppelOffreAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+  DocumentAdapter,
+  getProjetAggregateRootAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
@@ -52,11 +49,7 @@ export class Executer extends Command {
       },
     });
     registerProjetUseCases({
-      getProjetAggregateRoot: (identifiantProjet) =>
-        ProjetAggregateRoot.get(identifiantProjet, {
-          loadAggregate: loadAggregateV2,
-          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
-        }),
+      getProjetAggregateRoot: getProjetAggregateRootAdapter,
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }

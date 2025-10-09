@@ -1,0 +1,17 @@
+{
+  "extends": "@potentiel-config/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    { "path": "../projectors" },
+    { "path": "../bootstrap" },
+    { "path": "../../infrastructure/domain-adapters" },
+    { "path": "../../infrastructure/email" },
+    { "path": "../../infrastructure/ore-client" },
+    { "path": "../../infrastructure/pg-event-sourcing" },
+    { "path": "../../infrastructure/pg-projection-read" },
+    { "path": "../../infrastructure/pg-projection-write" }
+  ]
+}

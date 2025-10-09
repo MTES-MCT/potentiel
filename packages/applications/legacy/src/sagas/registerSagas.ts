@@ -1,4 +1,4 @@
-import { createSubscriptionSetup } from '@potentiel-applications/bootstrap';
+import { createSubscriptionSetup } from '@potentiel-applications/subscribers';
 import * as AbandonSaga from './abandon.saga';
 import * as AccèsSaga from './accès.saga';
 import * as ActionnaireSaga from './actionnaire.saga';
