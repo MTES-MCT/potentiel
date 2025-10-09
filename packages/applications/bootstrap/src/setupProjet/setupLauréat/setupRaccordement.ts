@@ -1,7 +1,7 @@
 import { RaccordementProjector } from '@potentiel-applications/projectors';
 import { HistoriqueProjector } from '@potentiel-applications/projectors';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupRaccordement: SetupProjet = async () => {

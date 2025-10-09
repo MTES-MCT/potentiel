@@ -1,7 +1,7 @@
 import { HistoriqueProjector, InstallationProjector } from '@potentiel-applications/projectors';
 import { InstallateurNotification } from '@potentiel-applications/notifications';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupInstallation: SetupProjet = async ({ sendEmail }) => {

@@ -1,6 +1,6 @@
 import { TâcheProjector } from '@potentiel-applications/projectors';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 
 export const setupTâche = async () => {
   const tâche = createSubscriptionSetup('tâche');

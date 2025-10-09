@@ -2,7 +2,7 @@ import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
 import { SendEmail, TâchePlanifiéeNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 
 export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmail }) => {
   const tâchePlanifiée = createSubscriptionSetup('tâche-planifiée');

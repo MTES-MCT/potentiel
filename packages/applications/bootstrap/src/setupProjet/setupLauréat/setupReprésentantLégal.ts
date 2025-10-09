@@ -5,7 +5,7 @@ import {
 import { ReprésentantLégalNotification } from '@potentiel-applications/notifications';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupReprésentantLégal: SetupProjet = async ({ sendEmail }) => {

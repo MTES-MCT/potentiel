@@ -1,7 +1,7 @@
 import { HistoriqueProjector, ProducteurProjector } from '@potentiel-applications/projectors';
 import { ProducteurNotification } from '@potentiel-applications/notifications';
 
-import { createSubscriptionSetup } from '../createSubscriptionSetup';
+import { createSubscriptionSetup } from '../../createSubscriptionSetup';
 import { SetupProjet } from '../setup';
 
 export const setupProducteur: SetupProjet = async ({ sendEmail }) => {
