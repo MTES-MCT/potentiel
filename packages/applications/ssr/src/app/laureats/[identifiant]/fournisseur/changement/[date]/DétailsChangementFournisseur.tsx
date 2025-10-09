@@ -22,7 +22,7 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
 }) => {
   return (
     <DétailsChangement
-      domaineLabel="fournisseurs"
+      title="Changement de fournisseurs"
       changement={changement}
       détailsSpécifiques={
         <DétailsFournisseursEtÉvaluationCarbonesSimplifiée

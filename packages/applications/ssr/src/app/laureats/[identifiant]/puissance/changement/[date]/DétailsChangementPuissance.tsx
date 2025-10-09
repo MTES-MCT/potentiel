@@ -10,7 +10,7 @@ import { PlainType } from '@potentiel-domain/core';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Heading2, Heading4 } from '@/components/atoms/headings';
+import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 
@@ -31,7 +31,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
 
   return statut.estInformationEnregistrée() ? (
     <DétailsChangement
-      domaineLabel="puissance"
+      title="Changement de puissance"
       détailsSpécifiques={
         <DétailsPuissance
           unitéPuissance={unitéPuissance}
@@ -57,30 +57,26 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
         <div className="text-xs italic">
           Demandé le{' '}
           <FormattedDate
-            className="font-semibold"
+            className="font-medium"
             date={DateTime.bind(demande.demandéeLe).formatter()}
           />{' '}
-          par <span className="font-semibold">{Email.bind(demande.demandéePar).formatter()}</span>
+          par <span className="font-medium">{Email.bind(demande.demandéePar).formatter()}</span>
         </div>
       </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          {demande.accord && (
-            <ChangementAccordé
-              accordéeLe={demande.accord.accordéeLe}
-              accordéePar={demande.accord.accordéePar}
-              réponseSignée={demande.accord.réponseSignée}
-            />
-          )}
-          {demande.rejet && (
-            <ChangementRejeté
-              rejetéeLe={demande.rejet.rejetéeLe}
-              rejetéePar={demande.rejet.rejetéePar}
-              réponseSignée={demande.rejet.réponseSignée}
-            />
-          )}
-        </div>
-      </div>
+      {demande.accord && (
+        <ChangementAccordé
+          accordéeLe={demande.accord.accordéeLe}
+          accordéePar={demande.accord.accordéePar}
+          réponseSignée={demande.accord.réponseSignée}
+        />
+      )}
+      {demande.rejet && (
+        <ChangementRejeté
+          rejetéeLe={demande.rejet.rejetéeLe}
+          rejetéePar={demande.rejet.rejetéePar}
+          réponseSignée={demande.rejet.réponseSignée}
+        />
+      )}
       <Changement
         nouvellePuissance={demande.nouvellePuissance}
         raison={demande.raison}
@@ -104,16 +100,14 @@ const DétailsPuissance = ({
 >) => (
   <>
     <div>
-      <span className="font-semibold">Puissance demandée</span> : {nouvellePuissance}{' '}
-      {unitéPuissance}
+      <span className="font-medium">Puissance demandée</span> : {nouvellePuissance} {unitéPuissance}
     </div>
     <div>
-      <span className="font-semibold">Puissance initiale</span> : {puissanceInitiale}{' '}
-      {unitéPuissance}
+      <span className="font-medium">Puissance initiale</span> : {puissanceInitiale} {unitéPuissance}
     </div>
     {autoritéCompétente && (
       <div className="flex gap-2">
-        <div className="font-semibold whitespace-nowrap">
+        <div className="font-medium whitespace-nowrap">
           Autorité compétente pour l'instruction :
         </div>
         <div>
@@ -152,36 +146,32 @@ const Changement: FC<ChangementProps> = ({
   puissanceInitiale,
   autoritéCompétente,
 }) => (
-  <>
-    <Heading4>Détails</Heading4>
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-2">
-        <DétailsPuissance
-          unitéPuissance={unitéPuissance}
-          puissanceInitiale={puissanceInitiale}
-          nouvellePuissance={nouvellePuissance}
-          autoritéCompétente={autoritéCompétente}
+  <div className="flex flex-col">
+    <Heading5>Détails de la demande</Heading5>
+    <DétailsPuissance
+      unitéPuissance={unitéPuissance}
+      puissanceInitiale={puissanceInitiale}
+      nouvellePuissance={nouvellePuissance}
+      autoritéCompétente={autoritéCompétente}
+    />
+    {raison && (
+      <div className="flex gap-2">
+        <div className="font-medium whitespace-nowrap">Raison du changement :</div>
+        <div>{raison}</div>
+      </div>
+    )}
+    {pièceJustificative && (
+      <div className="flex gap-2">
+        <div className="font-medium whitespace-nowrap">Pièce(s) justificative(s) :</div>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la pièce justificative"
+          format={pièceJustificative.format}
+          url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
         />
       </div>
-      {raison && (
-        <div className="flex gap-2">
-          <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-          <div>{raison}</div>
-        </div>
-      )}
-      {pièceJustificative && (
-        <div className="flex gap-2">
-          <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
-          <DownloadDocument
-            className="mb-0"
-            label="Télécharger la pièce justificative"
-            format={pièceJustificative.format}
-            url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
-          />
-        </div>
-      )}
-    </div>
-  </>
+    )}
+  </div>
 );
 
 type ChangementAccordéProps = NonNullable<
@@ -193,17 +183,16 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
   accordéePar,
   réponseSignée,
 }) => (
-  <>
+  <div>
+    <Heading5>Accord</Heading5>
     <div>
-      <span className="font-semibold">Accordée le</span>
-      : <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} />
-    </div>
-    <div>
-      <span className="font-semibold">Accordée par</span>: {Email.bind(accordéePar).formatter()}
+      Accordée le{' '}
+      <FormattedDate className="font-medium" date={DateTime.bind(accordéeLe).formatter()} />, par{' '}
+      <span className="font-medium">{Email.bind(accordéePar).formatter()}</span>
     </div>
     {réponseSignée && (
       <div className="flex gap-2">
-        <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
+        <div className="font-medium whitespace-nowrap">Réponse signée :</div>
         <DownloadDocument
           className="mb-0"
           label="Télécharger la réponse signée"
@@ -212,7 +201,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
         />
       </div>
     )}
-  </>
+  </div>
 );
 
 type ChangementRejetéProps = NonNullable<
@@ -220,16 +209,15 @@ type ChangementRejetéProps = NonNullable<
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
-  <>
+  <div>
+    <Heading5>Rejet</Heading5>
     <div>
-      <span className="font-semibold">Rejetée le</span>
-      : <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} />
-    </div>
-    <div>
-      <span className="font-semibold">Rejetée par</span>: {Email.bind(rejetéePar).formatter()}
+      Rejetée le{' '}
+      <FormattedDate className="font-medium" date={DateTime.bind(rejetéeLe).formatter()} />, par{' '}
+      <span className="font-medium">{Email.bind(rejetéePar).formatter()}</span>
     </div>
     <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
+      <div className="font-medium whitespace-nowrap">Réponse signée :</div>
       <DownloadDocument
         className="mb-0"
         label="Télécharger la réponse signée"
@@ -237,5 +225,5 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
         url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
       />
     </div>
-  </>
+  </div>
 );

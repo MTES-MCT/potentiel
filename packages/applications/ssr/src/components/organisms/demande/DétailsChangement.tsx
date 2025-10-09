@@ -17,13 +17,13 @@ export type DétailsChangementProps = {
     raison?: string;
     pièceJustificative?: DocumentProjet.ValueType;
   }>;
-  domaineLabel: string;
+  title: string;
   détailsSpécifiques: React.ReactNode;
 };
 
 export const DétailsChangement: FC<DétailsChangementProps> = ({
   changement,
-  domaineLabel,
+  title,
   détailsSpécifiques,
 }) => {
   return (
@@ -31,7 +31,7 @@ export const DétailsChangement: FC<DétailsChangementProps> = ({
       <div>
         <div className="flex flex-row gap-4">
           <div>
-            <Heading2>Changement de {domaineLabel}</Heading2>
+            <Heading2>{title}</Heading2>
           </div>
           <StatutDemandeBadge statut="information-enregistrée" />
         </div>
