@@ -40,8 +40,10 @@ export const InfoInstallation = ({
               ))}
             </ul>
           </>
+        ) : typologieInstallation.value.length === 1 ? (
+          <div>{formatTypologie(typologieInstallation.value[0])}</div>
         ) : (
-          <div>{formatTypologie(typologieInstallation[0])}</div>
+          <span>Typologie du projet non renseignée</span>
         )}
       </div>
       <div>
