@@ -15,13 +15,13 @@ export const InfoInstallation = ({
     typologie: GetInstallationForProjectPage['typologieInstallation']['value'][number]['typologie'],
   ) => {
     return match(typologie)
-      .with('agrivoltaique.culture', () => 'Installation agrivoltaïque (culture)')
+      .with('agrivoltaïque.culture', () => 'Installation agrivoltaïque (culture)')
       .with(
-        'agrivoltaique.jachère-plus-de-5-ans',
+        'agrivoltaïque.jachère-plus-de-5-ans',
         () => 'Installation agrivoltaïque : jachère de plus de 5 ans',
       )
-      .with('agrivoltaique.serre', () => 'Installation agrivoltaïque (serre)')
-      .with('agrivoltaique.élevage', () => 'Installation agrivoltaïque (élevage)')
+      .with('agrivoltaïque.serre', () => 'Installation agrivoltaïque (serre)')
+      .with('agrivoltaïque.élevage', () => 'Installation agrivoltaïque (élevage)')
       .with(
         'bâtiment.existant-avec-rénovation-de-toiture',
         () => 'Installation sur bâtiment existant avec rénovation de toiture',

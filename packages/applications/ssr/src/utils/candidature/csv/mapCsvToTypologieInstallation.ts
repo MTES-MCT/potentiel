@@ -3,42 +3,42 @@ import { match } from 'ts-pattern';
 import { Candidature } from '@potentiel-domain/projet';
 
 import {
-  InstallationsAgrivoltaiquesCsvShape,
+  InstallationsAgrivoltaïquesCsvShape,
   TypologieBâtimentCsvShape,
   ÉlémentsSousOmbrièreCsvShape,
 } from './candidatureCsvFields.schema';
 
 type GetTypologieInstallation = (args: {
-  typeInstallationsAgrivoltaiques: InstallationsAgrivoltaiquesCsvShape;
+  typeInstallationsAgrivoltaïques: InstallationsAgrivoltaïquesCsvShape;
   typologieDeBâtiment: TypologieBâtimentCsvShape;
   élémentsSousOmbrière: ÉlémentsSousOmbrièreCsvShape;
 }) => Array<Candidature.TypologieInstallation.RawType>;
 
 export const mapCsvToTypologieInstallation: GetTypologieInstallation = ({
-  typeInstallationsAgrivoltaiques,
+  typeInstallationsAgrivoltaïques,
   typologieDeBâtiment,
   élémentsSousOmbrière,
 }) => {
   const typologiesInstallation: Array<Candidature.TypologieInstallation.RawType> = [];
 
-  if (typeInstallationsAgrivoltaiques) {
-    const installationAgrivoltaique = match(typeInstallationsAgrivoltaiques)
+  if (typeInstallationsAgrivoltaïques) {
+    const installationAgrivoltaïque = match(typeInstallationsAgrivoltaïques)
       .returnType<Candidature.TypologieInstallation.RawType>()
       .with('culture', () => ({
-        typologie: 'agrivoltaique.culture',
+        typologie: 'agrivoltaïque.culture',
       }))
       .with('jachère de plus de 5 ans', () => ({
-        typologie: 'agrivoltaique.jachère-plus-de-5-ans',
+        typologie: 'agrivoltaïque.jachère-plus-de-5-ans',
       }))
       .with('serre', () => ({
-        typologie: 'agrivoltaique.serre',
+        typologie: 'agrivoltaïque.serre',
       }))
       .with('élevage', () => ({
-        typologie: 'agrivoltaique.élevage',
+        typologie: 'agrivoltaïque.élevage',
       }))
       .exhaustive();
 
-    typologiesInstallation.push(installationAgrivoltaique);
+    typologiesInstallation.push(installationAgrivoltaïque);
   }
 
   if (typologieDeBâtiment) {
