@@ -15,7 +15,7 @@ import { ProducteurWorld } from './producteur/producteur.world';
 import { FournisseurWorld } from './fournisseur/fournisseur.world';
 import { DélaiWorld } from './délai/délai.world';
 import { GarantiesFinancièresWorld } from './garantiesFinancières/garantiesFinancières.world';
-import { InstallateurWorld } from './installateur/installateur.world';
+import { InstallationWorld } from './installation/installation.world';
 import { DispositifDeStockageWorld } from './dispositif-de-stockage/stepDefinitions/dispositifDeStockage.world';
 import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
 import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture';
@@ -108,10 +108,10 @@ export class LauréatWorld {
     return this.#producteurWorld;
   }
 
-  #installateurWorld!: InstallateurWorld;
+  #installationWorld!: InstallationWorld;
 
-  get installateurWorld() {
-    return this.#installateurWorld;
+  get installationWorld() {
+    return this.#installationWorld;
   }
 
   #achèvementWorld!: AchèvementWorld;
@@ -155,7 +155,7 @@ export class LauréatWorld {
     this.#actionnaireWorld = new ActionnaireWorld();
     this.#puissanceWorld = new PuissanceWorld();
     this.#producteurWorld = new ProducteurWorld();
-    this.#installateurWorld = new InstallateurWorld(this);
+    this.#installationWorld = new InstallationWorld(this);
     this.#achèvementWorld = new AchèvementWorld();
     this.#fournisseurWorld = new FournisseurWorld();
     this.#délaiWorld = new DélaiWorld();

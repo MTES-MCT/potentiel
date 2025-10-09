@@ -10,6 +10,6 @@ export * from './getRaccordement';
 export * from './getDispositifDeStockage';
 export * from './getProducteur';
 export * from './getFournisseur';
-export * from './getInstallateur';
+export * from './getInstallation';
 export * from './getNatureDeLExploitation';
 export * from './getSiteDeProduction';

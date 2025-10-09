@@ -10,19 +10,19 @@ import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { InfoActionnaire } from './InfoActionnaire';
-import { InfoInstallateur } from './InfoInstallateur';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';
 import { InfoDispositifDeStockage } from './InfoDispositifDeStockage';
 import { InfoNatureDeLExploitation } from './InfoNatureDeLExploitation';
 import { InfoAttestationConformité } from './InfoAttestationConformité';
+import { InfoInstallation } from './InfoInstallation';
 import {
   GetActionnaireForProjectPage,
   GetAttestationDeConformitéForProjectPage,
   GetDispositifDeStockageForProjectPage,
 } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
-import { GetInstallateurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
+import { GetInstallationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
 import { GetNatureDeLExploitationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
@@ -36,7 +36,7 @@ export type InfoGeneralesProps = {
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   actionnaire?: GetActionnaireForProjectPage;
   puissance?: GetPuissanceForProjectPage;
-  installateur?: GetInstallateurForProjectPage;
+  installation?: GetInstallationForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
@@ -73,7 +73,7 @@ export const InfoGenerales = ({
   estAchevé,
   attestationConformité,
   autorisationDUrbanisme,
-  installateur,
+  installation,
   dispositifDeStockage,
   natureDeLExploitation,
   siteDeProduction,
@@ -156,7 +156,7 @@ export const InfoGenerales = ({
           </ul>
         </div>
       ) : null}
-      {installateur ? <InfoInstallateur installateur={installateur} /> : null}
+      {installation ? <InfoInstallation installation={installation} /> : null}
       {dispositifDeStockage !== undefined ? (
         <InfoDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
       ) : null}

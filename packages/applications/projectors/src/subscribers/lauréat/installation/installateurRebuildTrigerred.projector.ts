@@ -6,5 +6,4 @@ export const installationRebuilTriggeredProjector = async ({
   payload: { id },
 }: RebuildTriggered) => {
   await removeProjection<Lauréat.Installation.InstallationEntity>(`installation|${id}`);
-  await removeProjection<Lauréat.Installation.InstallateurEntity>(`installateur|${id}`);
 };

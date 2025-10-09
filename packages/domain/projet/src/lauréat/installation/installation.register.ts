@@ -1,11 +1,17 @@
 import {
+  ConsulterInstallationDependencies,
+  registerConsulterInstallationQuery,
+} from './consulter/consulterInstallation.query';
+import {
   InstallateurUseCaseDependencies,
   InstallateurQueryDependencies,
   registerInstallateurUseCases,
   registerInstallateurQueries,
 } from './installateur/installateur.register';
 
-export type InstallationQueryDependencies = InstallateurQueryDependencies;
+export type InstallationQueryDependencies =
+  | InstallateurQueryDependencies
+  | ConsulterInstallationDependencies;
 
 export type InstallationUseCasesDependencies = InstallateurUseCaseDependencies;
 
@@ -15,4 +21,5 @@ export const registerInstallationUseCases = (dependencies: InstallationUseCasesD
 
 export const registerInstallationQueries = (dependencies: InstallationQueryDependencies) => {
   registerInstallateurQueries(dependencies);
+  registerConsulterInstallationQuery(dependencies);
 };

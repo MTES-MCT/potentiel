@@ -39,7 +39,7 @@ export async function modifierInstallateur(
   installateurValue?: string,
 ) {
   const { modifiéLe, modifiéPar, installateur } =
-    this.lauréatWorld.installateurWorld.modifierInstallateurFixture.créer({
+    this.lauréatWorld.installationWorld.modifierInstallateurFixture.créer({
       modifiéPar: this.utilisateurWorld.adminFixture.email,
       ...(installateurValue && { installateur: installateurValue }),
     });

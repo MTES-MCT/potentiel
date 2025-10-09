@@ -312,9 +312,13 @@ export class LauréatAggregate extends AbstractAggregate<
     });
 
     // Champs supplémentaires, dont l'import dépend de l'appel d'offre
-    if (this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined) {
+    if (
+      this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined ||
+      this.projet.candidature.dépôt.typologieInstallation
+    ) {
       await this.#installation.importer({
         installateur: this.projet.candidature.installateur ?? '',
+        typologieInstallation: this.projet.candidature.dépôt.typologieInstallation,
         importéLe: notifiéLe,
         importéPar: notifiéPar,
       });

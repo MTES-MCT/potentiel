@@ -57,7 +57,7 @@ type ProjectDetailsProps = {
   actionnaire?: InfoGeneralesProps['actionnaire'];
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
-  installateur?: InfoGeneralesProps['installateur'];
+  installation?: InfoGeneralesProps['installation'];
   attestationConformité?: InfoGeneralesProps['attestationConformité'];
   dateAchèvementPrévisionnel: number;
   estAchevé: boolean;
@@ -99,7 +99,7 @@ export const ProjectDetails = ({
   fournisseur,
   délai,
   autorisationDUrbanisme,
-  installateur,
+  installation,
   dispositifDeStockage,
   natureDeLExploitation,
   statutLauréat,
@@ -193,7 +193,7 @@ export const ProjectDetails = ({
         producteurAffichage={producteur?.affichage}
         fournisseurAffichage={fournisseur?.affichage}
         délaiAffichage={délai.affichage}
-        installateurAffichage={installateur?.affichage}
+        installateurAffichage={installation?.installateur.affichage}
         features={user.features}
         dispositifDeStockageAffichage={dispositifDeStockage?.affichage}
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
@@ -257,7 +257,7 @@ export const ProjectDetails = ({
               estAchevé={estAchevé}
               attestationConformité={attestationConformité}
               autorisationDUrbanisme={autorisationDUrbanisme}
-              installateur={installateur}
+              installation={installation}
               dispositifDeStockage={dispositifDeStockage}
               natureDeLExploitation={natureDeLExploitation}
               siteDeProduction={siteDeProduction}

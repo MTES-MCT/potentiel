@@ -24,7 +24,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const installateurActuel = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>(
       {
-        type: 'Lauréat.Installateur.Query.ConsulterInstallateur',
+        type: 'Lauréat.Installation.Query.ConsulterInstallateur',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },

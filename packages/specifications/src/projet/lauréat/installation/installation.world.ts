@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -6,7 +6,7 @@ import { LauréatWorld } from '../lauréat.world';
 
 import { ModifierInstallateurFixture } from './fixture/modifierInstallateur.fixture';
 
-export class InstallateurWorld {
+export class InstallationWorld {
   #modifierInstallateurFixture: ModifierInstallateurFixture;
   get modifierInstallateurFixture() {
     return this.#modifierInstallateurFixture;
@@ -17,18 +17,24 @@ export class InstallateurWorld {
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
-    const installateurALaCandidature =
-      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.installateur;
+    const installateurÀLaCandidature =
+      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.installateur ?? '';
 
-    if (!installateurALaCandidature) {
+    const typologieInstallationÀLaCandidature =
+      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.typologieInstallation;
+
+    if (!installateurÀLaCandidature && !typologieInstallationÀLaCandidature) {
       return Option.none;
     }
 
-    const expected: Lauréat.Installation.ConsulterInstallateurReadModel = {
+    const expected: Lauréat.Installation.ConsulterInstallationReadModel = {
       identifiantProjet,
       installateur: this.#modifierInstallateurFixture.aÉtéCréé
         ? this.#modifierInstallateurFixture.installateur
-        : installateurALaCandidature,
+        : installateurÀLaCandidature,
+      typologieInstallation: typologieInstallationÀLaCandidature.map(
+        Candidature.TypologieInstallation.convertirEnValueType,
+      ),
     };
 
     return expected;

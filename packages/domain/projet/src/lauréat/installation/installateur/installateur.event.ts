@@ -1,4 +1,4 @@
-import { InstallationImportéeEvent } from '../importer/importerInstalltion.event';
+import { InstallationImportéeEvent } from '../importer/importerInstallation.event';
 
 import { InstallateurModifiéEvent } from './modifier/modifierInstallateur.event';
 
