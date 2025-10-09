@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 
-import { DétailsProducteurPage } from './DétailsProducteur.page';
+import { DétailsProducteurPage } from './DétailsChangementProducteur.page';
 
 export const metadata: Metadata = {
   title: 'Détail du changement de producteur du projet - Potentiel',
