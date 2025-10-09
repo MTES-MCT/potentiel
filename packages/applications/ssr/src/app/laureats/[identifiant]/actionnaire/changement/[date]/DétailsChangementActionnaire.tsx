@@ -19,11 +19,7 @@ export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePagePro
 export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProps> = ({
   demande,
 }) => {
-  const estUneInformationEnregistrée = Lauréat.Actionnaire.StatutChangementActionnaire.bind(
-    demande.statut,
-  ).estInformationEnregistrée();
-
-  return estUneInformationEnregistrée ? (
+  return demande.statut.statut === 'information-enregistrée' ? (
     <DétailsChangement
       title="Changement d'actionnaire(s)"
       détailsSpécifiques={<DétailsActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
