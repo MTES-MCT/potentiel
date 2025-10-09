@@ -13,7 +13,6 @@ import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.f
 export type DemanderChangementPuissancePageProps = PlainType<
   Lauréat.Puissance.ConsulterPuissanceReadModel & {
     cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
-    cahierDesChargesInitial: PlainType<CahierDesCharges.ValueType>;
     volumeRéservé?: PlainType<Lauréat.Puissance.VolumeRéservé.ValueType>;
   }
 >;
@@ -22,7 +21,6 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
   identifiantProjet,
   puissance,
   cahierDesCharges,
-  cahierDesChargesInitial,
   volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
@@ -39,7 +37,6 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
       identifiantProjet={identifiantProjet}
       puissance={puissance}
       cahierDesCharges={cahierDesCharges}
-      cahierDesChargesInitial={cahierDesChargesInitial}
       volumeRéservé={volumeRéservé}
       unitéPuissance={unitéPuissance}
       puissanceInitiale={puissanceInitiale}

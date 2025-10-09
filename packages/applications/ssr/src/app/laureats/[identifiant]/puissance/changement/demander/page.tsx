@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -57,12 +57,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         puissance={puissanceActuelle.puissance}
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
         cahierDesCharges={mapToPlainObject(cahierDesCharges)}
-        cahierDesChargesInitial={mapToPlainObject(
-          CahierDesCharges.bind({
-            ...cahierDesCharges,
-            cahierDesChargesModificatif: undefined,
-          }),
-        )}
         volumeRéservé={Option.isSome(volumeRéservé) ? mapToPlainObject(volumeRéservé) : undefined}
         puissanceInitiale={puissance.puissanceInitiale}
       />

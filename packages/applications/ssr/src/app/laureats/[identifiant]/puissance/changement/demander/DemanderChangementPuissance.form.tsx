@@ -25,7 +25,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   identifiantProjet,
   puissance,
   cahierDesCharges,
-  cahierDesChargesInitial,
   volumeRéservé,
   unitéPuissance,
   puissanceInitiale,
@@ -41,13 +40,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const ratioCdcActuel = Lauréat.Puissance.RatioChangementPuissance.bind({
     puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
     ratios: cdcActuel.getRatiosChangementPuissance(),
-    puissanceInitiale,
-    nouvellePuissance,
-    volumeRéservé,
-  });
-  const ratioCdcInitial = Lauréat.Puissance.RatioChangementPuissance.bind({
-    puissanceMaxFamille: cahierDesCharges.famille?.puissanceMax,
-    ratios: CahierDesCharges.bind(cahierDesChargesInitial).getRatiosChangementPuissance(),
     puissanceInitiale,
     nouvellePuissance,
     volumeRéservé,
@@ -125,7 +117,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           />
           <DemanderChangementPuissanceFormErrors
             ratioCdcActuel={ratioCdcActuel}
-            ratioCdcInitial={ratioCdcInitial}
             aChoisiCDC2022={
               cahierDesCharges.cahierDesChargesModificatif
                 ? AppelOffre.RéférenceCahierDesCharges.bind(
