@@ -37,8 +37,8 @@ export const DétailsChangementFournisseurPage: FC<DétailsChangementFournisseur
     <div className="flex flex-col gap-8">
       <DétailsChangementFournisseur
         changement={changement}
-        technologie={technologie}
         évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
+        technologie={technologie}
       />
       <div className="mb-4">
         <Heading2>Historique</Heading2>
