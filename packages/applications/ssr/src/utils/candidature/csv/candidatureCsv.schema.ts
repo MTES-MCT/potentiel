@@ -270,10 +270,18 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       installationAvecDispositifDeStockage,
       capacitéDuDispositifDeStockageEnKWh,
       puissanceDuDispositifDeStockageEnKW,
+      tauxPrévisionnelACI,
+      natureDeLExploitation,
       ...val
     }) => {
       return {
         ...val,
+        localité: getLocalité({
+          adresse1,
+          adresse2: adresse2 ?? '',
+          codePostal,
+          commune,
+        }),
         typeGarantiesFinancières: typeGarantiesFinancières
           ? typeGf[Number(typeGarantiesFinancières) - 1]
           : undefined,
@@ -293,23 +301,16 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
               }
             : undefined,
         natureDeLExploitation:
-          val.natureDeLExploitation && typeNatureDeLExploitationMapper[val.natureDeLExploitation]
+          natureDeLExploitation && typeNatureDeLExploitationMapper[natureDeLExploitation]
             ? {
-                typeNatureDeLExploitation:
-                  typeNatureDeLExploitationMapper[val.natureDeLExploitation],
-                tauxPrévisionnelACI: val.tauxPrévisionnelACI,
+                typeNatureDeLExploitation: typeNatureDeLExploitationMapper[natureDeLExploitation],
+                tauxPrévisionnelACI,
               }
             : undefined,
         typologieInstallation: mapCsvToTypologieInstallation({
           typologieDeBâtiment,
           typeInstallationsAgrivoltaïques,
           élémentsSousOmbrière,
-        }),
-        localité: getLocalité({
-          adresse1,
-          adresse2: adresse2 ?? '',
-          codePostal,
-          commune,
         }),
         dispositifDeStockage:
           installationAvecDispositifDeStockage !== undefined
