@@ -16,7 +16,14 @@ export type GetInstallationForProjectPage = {
       url: string;
     };
   };
-  typologieInstallation: { value: Candidature.TypologieInstallation.RawType[] };
+  typologieInstallation: {
+    value: Candidature.TypologieInstallation.RawType[];
+    affichage?: {
+      labelActions?: string;
+      label: string;
+      url: string;
+    };
+  };
 };
 
 type Props = {
@@ -45,7 +52,7 @@ export const getInstallation = async ({
           value: installateur,
           ...(role.aLaPermission('installation.installateur.modifier') && {
             affichage: {
-              url: Routes.Installateur.modifier(identifiantProjet.formatter()),
+              url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
               label: 'Modifier',
               labelActions: "Modifier l'installateur",
             },
@@ -53,6 +60,13 @@ export const getInstallation = async ({
         },
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
+          ...(role.aLaPermission('installation.typologieInstallation.modifier') && {
+            affichage: {
+              url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
+              label: 'Modifier',
+              labelActions: "Modifier la typologie d'installation",
+            },
+          }),
         },
       };
     }

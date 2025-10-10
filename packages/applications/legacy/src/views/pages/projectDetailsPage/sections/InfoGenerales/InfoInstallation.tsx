@@ -18,22 +18,22 @@ export const InfoInstallation = ({
       .with('agrivoltaïque.culture', () => 'Installation agrivoltaïque (culture)')
       .with(
         'agrivoltaïque.jachère-plus-de-5-ans',
-        () => 'Installation agrivoltaïque : jachère de plus de 5 ans',
+        () => 'Installation agrivoltaïque (jachère de plus de 5 ans)',
       )
       .with('agrivoltaïque.serre', () => 'Installation agrivoltaïque (serre)')
       .with('agrivoltaïque.élevage', () => 'Installation agrivoltaïque (élevage)')
       .with(
         'bâtiment.existant-avec-rénovation-de-toiture',
-        () => 'Installation sur bâtiment existant avec rénovation de toiture',
+        () => 'Bâtiment existant avec rénovation de toiture',
       )
       .with(
         'bâtiment.existant-sans-rénovation-de-toiture',
-        () => 'Installation sur bâtiment existant sans rénovation de toiture',
+        () => 'Bâtiment existant sans rénovation de toiture',
       )
-      .with('bâtiment.mixte', () => 'Installation sur bâtiment (mixte)')
-      .with('bâtiment.neuf', () => 'Installation sur bâtiment neuf')
-      .with('bâtiment.serre', () => 'Installation sur bâtiment (serre)')
-      .with('bâtiment.stabulation', () => 'bâtiment (stabulation)')
+      .with('bâtiment.mixte', () => 'Bâtiment (mixte)')
+      .with('bâtiment.neuf', () => 'Bâtiment neuf')
+      .with('bâtiment.serre', () => 'Bâtiment (serre)')
+      .with('bâtiment.stabulation', () => 'Bâtiment (stabulation)')
       .with('ombrière.parking', () => 'Ombrière (parking)')
       .with('ombrière.mixte', () => 'Ombrière (mixte)')
       .with('ombrière.autre', () => 'Ombrière')
@@ -73,8 +73,16 @@ export const InfoInstallation = ({
           <span>Typologie du projet non renseignée</span>
         )}
       </div>
+      {typologieInstallation.affichage && (
+        <Link
+          href={typologieInstallation.affichage.url}
+          aria-label={typologieInstallation.affichage.label}
+        >
+          {typologieInstallation.affichage.label}
+        </Link>
+      )}
       <div>
-        <Heading4 className="m-0" style={{ fontSize: '16px' }}>
+        <Heading4 className="mb-0" style={{ fontSize: '16px' }}>
           Installateur
         </Heading4>
         <div className="m-0">{installateur.value || 'Non renseigné'}</div>

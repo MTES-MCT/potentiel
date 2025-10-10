@@ -25,6 +25,7 @@ type EnregistrerUneModificationProps = Pick<
   | 'délaiAffichage'
   | 'fournisseurAffichage'
   | 'installateurAffichage'
+  | 'typologieInstallationAffichage'
   | 'dispositifDeStockageAffichage'
   | 'natureDeLExploitationAffichage'
   | 'siteDeProductionAffichage'
@@ -38,6 +39,7 @@ const EnregistrerUneModification = ({
   délaiAffichage,
   fournisseurAffichage,
   installateurAffichage,
+  typologieInstallationAffichage,
   dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
@@ -77,6 +79,11 @@ const EnregistrerUneModification = ({
       {!!installateurAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={installateurAffichage.url}>
           <span>{installateurAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!typologieInstallationAffichage?.labelActions && (
+        <DropdownMenuSecondaryButton.DropdownItem href={typologieInstallationAffichage.url}>
+          <span>{typologieInstallationAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
       {!!dispositifDeStockageAffichage?.labelActions && (
@@ -243,6 +250,7 @@ const AdminActions = ({
   délaiAffichage,
   fournisseurAffichage,
   installateurAffichage,
+  typologieInstallationAffichage,
   dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
@@ -258,6 +266,7 @@ const AdminActions = ({
         délaiAffichage={délaiAffichage}
         fournisseurAffichage={fournisseurAffichage}
         installateurAffichage={installateurAffichage}
+        typologieInstallationAffichage={typologieInstallationAffichage}
         dispositifDeStockageAffichage={dispositifDeStockageAffichage}
         natureDeLExploitationAffichage={natureDeLExploitationAffichage}
         siteDeProductionAffichage={siteDeProductionAffichage}
@@ -352,6 +361,7 @@ export const ProjectActions = ({
   fournisseurAffichage,
   délaiAffichage,
   installateurAffichage,
+  typologieInstallationAffichage,
   features,
   dispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
@@ -378,6 +388,7 @@ export const ProjectActions = ({
           délaiAffichage={délaiAffichage}
           fournisseurAffichage={fournisseurAffichage}
           installateurAffichage={installateurAffichage}
+          typologieInstallationAffichage={typologieInstallationAffichage}
           dispositifDeStockageAffichage={dispositifDeStockageAffichage}
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
           siteDeProductionAffichage={siteDeProductionAffichage}
