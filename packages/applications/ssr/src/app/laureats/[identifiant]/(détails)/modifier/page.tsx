@@ -27,7 +27,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const lauréat = await getLauréat({ identifiantProjet });
       const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet);
 
-      const props = mapToProps(candidature, lauréat, cahierDesCharges);
+      const props = mapToProps({ candidature, lauréat, cahierDesCharges });
 
       return (
         <ModifierLauréatPage
@@ -35,19 +35,20 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           lauréat={props.lauréat}
           projet={props.projet}
           cahierDesCharges={props.cahierDesCharges}
+          peutRegénérerAttestation={props.peutRegénérerAttestation}
         />
       );
     }),
   );
 }
 
-type MapToProps = (
-  candidature: Candidature.ConsulterCandidatureReadModel,
-  lauréat: GetLauréat,
-  cahierDesCharges: CahierDesCharges.ValueType,
-) => ModifierLauréatPageProps;
+type MapToProps = (args: {
+  candidature: Candidature.ConsulterCandidatureReadModel;
+  lauréat: GetLauréat;
+  cahierDesCharges: CahierDesCharges.ValueType;
+}) => ModifierLauréatPageProps;
 
-const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
+const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => ({
   candidature: {
     actionnaire: candidature.dépôt.sociétéMère,
     nomRepresentantLegal: candidature.dépôt.nomReprésentantLégal,
@@ -153,4 +154,5 @@ const mapToProps: MapToProps = (candidature, lauréat, cahierDesCharges) => ({
     unitéPuissance: candidature.unitéPuissance.formatter(),
   },
   cahierDesCharges: mapToPlainObject(cahierDesCharges),
+  peutRegénérerAttestation: cahierDesCharges.période.type !== 'legacy',
 });
