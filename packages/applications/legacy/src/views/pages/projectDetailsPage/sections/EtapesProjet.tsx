@@ -7,7 +7,7 @@ import { match } from 'ts-pattern';
 
 export type EtapesProjetProps = {
   identifiantProjet: string;
-  isLegacy: boolean;
+  doitAfficherAttestationDésignation: boolean;
   étapes: Array<{
     type:
       | 'designation'
@@ -20,7 +20,11 @@ export type EtapesProjetProps = {
   }>;
 };
 
-export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegacy, étapes }) => (
+export const EtapesProjet: FC<EtapesProjetProps> = ({
+  identifiantProjet,
+  doitAfficherAttestationDésignation,
+  étapes,
+}) => (
   <Section title="Étapes du projet" icon={<CalendarIcon />} className="flex-auto min-w-0">
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
@@ -32,7 +36,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
             return match(étape)
               .with({ type: 'designation' }, ({ type, date }) => (
                 <ÉtapeTerminée key={`project-step-${type}`} titre="Notification" date={date}>
-                  {!isLegacy && (
+                  {doitAfficherAttestationDésignation && (
                     <DownloadLink
                       fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
                     >
