@@ -4,6 +4,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
+import { Candidature } from '../..';
 
 import { InstallateurModifiéEvent } from '.';
 
@@ -85,9 +86,7 @@ export class InstallationAggregate extends AbstractAggregate<
   }: ModifierTypologieInstallationOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    if (this.#typologieInstallation === typologieInstallation) {
-      throw new TypologieInstallationIdentiqueError();
-    }
+    this.vérifierModificationTypologieInstallation(typologieInstallation);
 
     const event: TypologieInstallationModifiéeEvent = {
       type: 'TypologieInstallationModifiée-V1',
@@ -103,6 +102,19 @@ export class InstallationAggregate extends AbstractAggregate<
 
     await this.publish(event);
   }
+
+  private vérifierModificationTypologieInstallation = (
+    modification: Candidature.TypologieInstallation.ValueType[],
+  ) => {
+    if (modification.length !== this.#typologieInstallation.length) return;
+
+    modification.every((item, index) => {
+      const actuel = this.#typologieInstallation[index];
+      if (item.estÉgaleÀ(actuel)) {
+        throw new TypologieInstallationIdentiqueError();
+      }
+    });
+  };
 
   apply(event: InstallationEvent): void {
     match(event)
