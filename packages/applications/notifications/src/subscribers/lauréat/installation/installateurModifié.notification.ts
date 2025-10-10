@@ -3,12 +3,12 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
-import { RegisterInstallateurNotificationDependencies } from '.';
+import { RegisterInstallationNotificationDependencies } from '.';
 
-import { installateurNotificationTemplateId } from './constant';
+import { installationNotificationTemplateId } from './constant';
 
 type InstallateurModifiéNotificationProps = {
-  sendEmail: RegisterInstallateurNotificationDependencies['sendEmail'];
+  sendEmail: RegisterInstallationNotificationDependencies['sendEmail'];
   event: Lauréat.Installation.InstallateurModifiéEvent;
   projet: {
     nom: string;
@@ -37,7 +37,7 @@ export const installateurModifiéNotification = async ({
   }
 
   await sendEmail({
-    templateId: installateurNotificationTemplateId.modifier,
+    templateId: installationNotificationTemplateId.modifierInstallateur,
     messageSubject: `Potentiel - Modification de l'installateur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
@@ -48,7 +48,7 @@ export const installateurModifiéNotification = async ({
   });
 
   await sendEmail({
-    templateId: installateurNotificationTemplateId.modifier,
+    templateId: installationNotificationTemplateId.modifierInstallateur,
     messageSubject: `Potentiel - Modification de l'installateur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
