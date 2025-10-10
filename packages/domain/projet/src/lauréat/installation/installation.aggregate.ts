@@ -106,14 +106,19 @@ export class InstallationAggregate extends AbstractAggregate<
   private vérifierModificationTypologieInstallation = (
     modification: Candidature.TypologieInstallation.ValueType[],
   ) => {
-    if (modification.length !== this.#typologieInstallation.length) return;
+    if (modification.length !== this.#typologieInstallation.length) {
+      return;
+    }
 
-    modification.every((item, index) => {
-      const actuel = this.#typologieInstallation[index];
-      if (item.estÉgaleÀ(actuel)) {
-        throw new TypologieInstallationIdentiqueError();
+    for (let i = 0; i < modification.length; i++) {
+      const actuel = this.#typologieInstallation[i];
+      const modifié = modification[i];
+      if (!actuel.estÉgaleÀ(modifié)) {
+        return;
       }
-    });
+    }
+
+    throw new TypologieInstallationIdentiqueError();
   };
 
   apply(event: InstallationEvent): void {
