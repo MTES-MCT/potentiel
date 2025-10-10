@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
@@ -21,8 +22,9 @@ export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const logger = getLogger('System.Candidature.Attestation.Saga.Execute');
 
-    const { payload, type } = event;
-    const { identifiantProjet } = payload;
+    const {
+      payload: { identifiantProjet },
+    } = event;
 
     const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
       type: 'Candidature.Query.ConsulterCandidature',
@@ -64,46 +66,46 @@ export const register = () => {
       return;
     }
 
-    switch (type) {
-      case 'CandidatureNotifiée-V2': {
-        const {
-          attestation: { format },
-          notifiéeLe: notifiéLe,
-          validateur,
-        } = payload;
-
-        const certificate = await buildCertificate({
-          appelOffre,
-          période,
-          candidature,
-          validateur,
-          notifiéLe,
-        });
-
-        if (!certificate) {
-          logger.warn(`Impossible de générer l'attestation du projet ${identifiantProjet}`);
-          return;
-        }
-
-        const attestation = DocumentProjet.convertirEnValueType(
-          identifiantProjet,
-          'attestation',
-          notifiéLe,
-          format,
-        );
-
-        await mediator.send<EnregistrerDocumentProjetCommand>({
-          type: 'Document.Command.EnregistrerDocumentProjet',
-          data: {
-            content: certificate,
-            documentProjet: attestation,
+    return match(event)
+      .with(
+        { type: 'CandidatureNotifiée-V2' },
+        async ({
+          payload: {
+            attestation: { format },
+            notifiéeLe: notifiéLe,
+            validateur,
           },
-        });
+        }) => {
+          const certificate = await buildCertificate({
+            appelOffre,
+            période,
+            candidature,
+            validateur,
+            notifiéLe,
+          });
 
-        break;
-      }
+          if (!certificate) {
+            logger.warn(`Impossible de générer l'attestation du projet ${identifiantProjet}`);
+            return;
+          }
 
-      case 'CandidatureCorrigée-V2': {
+          const attestation = DocumentProjet.convertirEnValueType(
+            identifiantProjet,
+            'attestation',
+            notifiéLe,
+            format,
+          );
+
+          await mediator.send<EnregistrerDocumentProjetCommand>({
+            type: 'Document.Command.EnregistrerDocumentProjet',
+            data: {
+              content: certificate,
+              documentProjet: attestation,
+            },
+          });
+        },
+      )
+      .with({ type: 'CandidatureCorrigée-V2' }, async ({ payload }) => {
         // la correction d'une candidature ne peut pas modifier le champs notification ou validateur
         // on peut donc sans crainte utiliser ces 2 champs
         if (!candidature.notification?.notifiéeLe) {
@@ -162,9 +164,8 @@ export const register = () => {
             documentProjet: attestation,
           },
         });
-        break;
-      }
-    }
+      })
+      .exhaustive();
   };
   mediator.register('System.Candidature.Attestation.Saga.Execute', handler);
 };

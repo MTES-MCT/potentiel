@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { CahierDesCharges, Lauréat } from '@potentiel-domain/projet';
@@ -58,6 +59,7 @@ export type ModifierLauréatFormProps = {
     unitéPuissance: string;
   };
   cahierDesCharges: PlainType<CahierDesCharges.ValueType>;
+  peutRegénérerAttestation: boolean;
 };
 export type FieldValidationErrors =
   ValidationErrors<ModifierLauréatEtCandidatureNotifiéeFormEntries>;
@@ -67,6 +69,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   lauréat,
   projet,
   cahierDesCharges,
+  peutRegénérerAttestation,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
 
@@ -91,7 +94,19 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         },
       }}
     >
-      <div className="flex flex-col gap-4 mt-4">
+      {!peutRegénérerAttestation && (
+        <Alert
+          severity="info"
+          small
+          description={
+            <div className="p-1">
+              La période de l'appel d'offre de ce projet ne dispose pas de modèle d'attestation de
+              désignation, il est donc impossible de regénérer l'attestation existante.
+            </div>
+          }
+        />
+      )}
+      <div className="flex flex-col gap-4">
         <FormRow>
           <div className="flex-1">
             <Heading3>Champs à modifier</Heading3>
@@ -231,6 +246,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
+
         {champsSupplémentaires.puissanceDeSite && (
           <FormRow>
             <CandidatureField
@@ -327,9 +343,13 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             required
           />
         </FormRow>
-        <FormRow>
-          <AttestationField validationErrors={validationErrors} />
-        </FormRow>
+        {peutRegénérerAttestation ? (
+          <FormRow>
+            <AttestationField validationErrors={validationErrors} />
+          </FormRow>
+        ) : (
+          <input type="hidden" name="doitRegenererAttestation" value="false" />
+        )}
       </div>
     </Form>
   );

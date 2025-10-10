@@ -197,7 +197,7 @@ export type Validateur = {
   fonction: string;
 };
 
-export type NotifiedPeriode = (
+export type NotifiedPeriode = { type?: undefined } & (
   | {
       noteThresholdBy: 'category';
       noteThreshold: NoteThresholdByCategory;
@@ -208,7 +208,9 @@ export type NotifiedPeriode = (
 ) &
   CertificateTemplateProps;
 
+/** Représente une période notifiée hors Potentiel */
 type LegacyPeriode = {
+  type: 'legacy';
   certificateTemplate?: undefined;
   noteThresholdBy?: undefined;
   noteThreshold?: undefined;
@@ -254,7 +256,6 @@ export type ChampsSupplémentairesCandidature = Partial<
 
 export type Periode = {
   id: string;
-  type?: 'legacy';
   title: string;
   /** Surcharge l'unité de puissance par défaut définie dans l'AO, même si elle est définie par technologie */
   unitéPuissance?: UnitéPuissance;
