@@ -104,6 +104,9 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
           .exhaustive();
       });
 
+      const doitAfficherLienAttestationDésignation =
+        !aUnRecoursAccordé && !!lauréat.attestationDésignation;
+
       const options = categoriesDisponibles
         .map((categorie) => ({
           label: categorie.charAt(0).toUpperCase() + categorie.slice(1).replace('-', ' '),
@@ -115,7 +118,11 @@ export default async function Page({ params: { identifiant }, searchParams }: Pa
         .filter(filtrerImportsEtRecoursLegacy)
         .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
         .map((item) =>
-          mapToTimelineItemProps(item, lauréat.unitéPuissance.formatter(), aUnRecoursAccordé),
+          mapToTimelineItemProps({
+            readmodel: item,
+            unitéPuissance: lauréat.unitéPuissance.formatter(),
+            doitAfficherLienAttestationDésignation,
+          }),
         )
         .filter((item) => item !== undefined)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -210,11 +217,17 @@ const isLauréatNotifié = (
     .exhaustive();
 };
 
-const mapToTimelineItemProps = (
-  readmodel: Lauréat.HistoriqueListItemReadModels,
-  unitéPuissance: string,
-  aUnRecoursAccordé: boolean,
-) => {
+type MapToTimelineItemProps = {
+  readmodel: Lauréat.HistoriqueListItemReadModels;
+  unitéPuissance: string;
+  doitAfficherLienAttestationDésignation: boolean;
+};
+
+const mapToTimelineItemProps = ({
+  readmodel,
+  unitéPuissance,
+  doitAfficherLienAttestationDésignation,
+}: MapToTimelineItemProps) => {
   const props = match(readmodel)
     .returnType<TimelineItemProps | undefined>()
     .with({ category: 'abandon' }, mapToAbandonTimelineItemProps)
@@ -222,7 +235,10 @@ const mapToTimelineItemProps = (
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, (readmodel) =>
-      mapToLauréatTimelineItemProps(readmodel, aUnRecoursAccordé),
+      mapToLauréatTimelineItemProps({
+        readmodel,
+        doitAfficherLienAttestationDésignation,
+      }),
     )
     .with({ category: 'éliminé' }, mapToÉliminéTimelineItemProps)
     .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)

@@ -76,6 +76,7 @@ type ProjectDetailsProps = {
   natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
   statutLauréat: Lauréat.StatutLauréat.RawType;
   siteDeProduction: InfoGeneralesProps['siteDeProduction'];
+  doitAfficherAttestationDésignation: boolean;
 };
 
 export const ProjectDetails = ({
@@ -104,6 +105,7 @@ export const ProjectDetails = ({
   natureDeLExploitation,
   statutLauréat,
   siteDeProduction,
+  doitAfficherAttestationDésignation,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -200,6 +202,7 @@ export const ProjectDetails = ({
         }
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
         siteDeProductionAffichage={siteDeProduction?.affichage}
+        doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -241,8 +244,8 @@ export const ProjectDetails = ({
           <div className="flex-1">
             <EtapesProjet
               identifiantProjet={identifiantProjet}
-              isLegacy={project.isLegacy}
               étapes={étapes}
+              doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
             />
           </div>
           <div className="flex flex-col flex-1 gap-3 break-before-page">

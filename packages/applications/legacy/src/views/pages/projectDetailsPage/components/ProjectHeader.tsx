@@ -32,6 +32,7 @@ export type ProjectHeaderProps = {
   natureDeLExploitationAffichage?: Affichage;
   délaiAffichage?: Affichage;
   siteDeProductionAffichage?: Affichage;
+  doitAfficherAttestationDésignation: boolean;
 };
 
 export const ProjectHeader = ({
@@ -52,6 +53,7 @@ export const ProjectHeader = ({
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   statutLauréat,
+  doitAfficherAttestationDésignation,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -96,6 +98,7 @@ export const ProjectHeader = ({
         }
         natureDeLExploitationAffichage={natureDeLExploitationAffichage}
         siteDeProductionAffichage={siteDeProductionAffichage}
+        doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
       />
     </div>
   </div>

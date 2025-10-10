@@ -232,6 +232,7 @@ const PorteurProjetActions = ({
 type AdminActionsProps = EnregistrerUneModificationProps & {
   project: ProjectDataForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
+  doitAfficherAttestationDésignation: boolean;
 };
 
 const AdminActions = ({
@@ -247,62 +248,59 @@ const AdminActions = ({
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
-}: AdminActionsProps) => {
-  return (
-    <div className="flex flex-col md:flex-row gap-2">
-      {isClasse && (
-        <EnregistrerUneModification
-          producteurAffichage={producteurAffichage}
-          puissanceAffichage={puissanceAffichage}
-          actionnaireAffichage={actionnaireAffichage}
-          représentantLégalAffichage={représentantLégalAffichage}
-          délaiAffichage={délaiAffichage}
-          fournisseurAffichage={fournisseurAffichage}
-          installateurAffichage={installateurAffichage}
-          installationAvecDispositifDeStockageAffichage={
-            installationAvecDispositifDeStockageAffichage
-          }
-          natureDeLExploitationAffichage={natureDeLExploitationAffichage}
-          siteDeProductionAffichage={siteDeProductionAffichage}
-        />
-      )}
-      {notifiedOn && isClasse ? (
-        <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>
-          Modifier le projet
-        </LinkButton>
-      ) : (
-        <LinkButton href={Routes.Candidature.corriger(identifiantProjet)}>
-          Modifier la candidature
-        </LinkButton>
-      )}
-      {match({
-        notifiedOn: !!notifiedOn,
-        isLegacy: isLegacy,
-      })
-        .with({ notifiedOn: true, isLegacy: false }, () => (
-          <DownloadLinkButton
-            fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-            className="m-auto"
-          >
-            Voir attestation
-          </DownloadLinkButton>
-        ))
-        .with({ notifiedOn: false, isLegacy: false }, () => (
-          <PreviewLinkButton
-            fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
-            className="m-auto"
-          >
-            Aperçu attestation
-          </PreviewLinkButton>
-        ))
-        .otherwise(() => null)}
-      <PrimaryButton className="m-auto inline-flex items-center" onClick={() => window.print()}>
-        <PrintIcon className="text-white mr-2" aria-hidden />
-        Imprimer la page
-      </PrimaryButton>
-    </div>
-  );
-};
+  doitAfficherAttestationDésignation,
+}: AdminActionsProps) => (
+  <div className="flex flex-col md:flex-row gap-2">
+    {isClasse && (
+      <EnregistrerUneModification
+        producteurAffichage={producteurAffichage}
+        puissanceAffichage={puissanceAffichage}
+        actionnaireAffichage={actionnaireAffichage}
+        représentantLégalAffichage={représentantLégalAffichage}
+        délaiAffichage={délaiAffichage}
+        fournisseurAffichage={fournisseurAffichage}
+        installateurAffichage={installateurAffichage}
+        installationAvecDispositifDeStockageAffichage={
+          installationAvecDispositifDeStockageAffichage
+        }
+        natureDeLExploitationAffichage={natureDeLExploitationAffichage}
+        siteDeProductionAffichage={siteDeProductionAffichage}
+      />
+    )}
+    {notifiedOn && isClasse ? (
+      <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>Modifier le projet</LinkButton>
+    ) : (
+      <LinkButton href={Routes.Candidature.corriger(identifiantProjet)}>
+        Modifier la candidature
+      </LinkButton>
+    )}
+    {match({
+      notifiedOn: !!notifiedOn,
+      doitAfficherAttestationDésignation,
+    })
+      .with({ notifiedOn: true, doitAfficherAttestationDésignation: true }, () => (
+        <DownloadLinkButton
+          fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+          className="m-auto"
+        >
+          Voir attestation
+        </DownloadLinkButton>
+      ))
+      .with({ notifiedOn: false }, () => (
+        <PreviewLinkButton
+          fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
+          className="m-auto"
+        >
+          Aperçu attestation
+        </PreviewLinkButton>
+      ))
+      .otherwise(() => null)}
+    <PrimaryButton className="m-auto inline-flex items-center" onClick={() => window.print()}>
+      <PrintIcon className="text-white mr-2" aria-hidden />
+      Imprimer la page
+    </PrimaryButton>
+  </div>
+);
 
 type DrealActionsProps = Pick<
   ProjectHeaderProps,
@@ -362,6 +360,7 @@ export const ProjectActions = ({
   installationAvecDispositifDeStockageAffichage,
   natureDeLExploitationAffichage,
   siteDeProductionAffichage,
+  doitAfficherAttestationDésignation,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -388,6 +387,7 @@ export const ProjectActions = ({
           }
           natureDeLExploitationAffichage={natureDeLExploitationAffichage}
           siteDeProductionAffichage={siteDeProductionAffichage}
+          doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
         />
       )}
       {userIs(['porteur-projet'])(user) && (
@@ -405,6 +405,7 @@ export const ProjectActions = ({
           délaiAffichage={délaiAffichage}
           identifiantProjet={identifiantProjet}
           features={features}
+          doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
         />
       )}
       {userIs(['dreal'])(user) && (
