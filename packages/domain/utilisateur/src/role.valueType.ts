@@ -373,6 +373,17 @@ const référencielPermissions = {
           modifier: 'Lauréat.Installation.Command.ModifierInstallateur',
         },
       },
+      typologieInstallation: {
+        query: {
+          consulter: 'Lauréat.Installation.Query.ConsulterTypologieInstallation',
+        },
+        usecase: {
+          modifier: 'Lauréat.Installation.UseCase.ModifierTypologieInstallation',
+        },
+        command: {
+          modifier: 'Lauréat.Installation.Command.ModifierTypologieInstallation',
+        },
+      },
     },
     natureDeLExploitation: {
       query: {
@@ -997,12 +1008,20 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.installation.query.consulter,
       référencielPermissions.lauréat.installation.installateur.query.consulter,
+      référencielPermissions.lauréat.installation.typologieInstallation.query.consulter,
     ],
     installateur: {
       modifier: [
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.lauréat.installation.installateur.usecase.modifier,
         référencielPermissions.lauréat.installation.installateur.command.modifier,
+      ],
+    },
+    typologieInstallation: {
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.lauréat.installation.typologieInstallation.usecase.modifier,
+        référencielPermissions.lauréat.installation.typologieInstallation.command.modifier,
       ],
     },
   },
@@ -1602,6 +1621,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // installation
   'installation.installateur.modifier',
+  'installation.typologieInstallation.modifier',
 
   // Installation avec dispositif de stockage
   'dispositifDeStockage.consulter',
