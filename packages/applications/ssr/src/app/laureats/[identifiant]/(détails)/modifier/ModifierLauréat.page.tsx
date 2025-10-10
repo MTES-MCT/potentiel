@@ -10,6 +10,7 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
   lauréat,
   projet,
   cahierDesCharges,
+  peutRegénérerAttestation,
 }) => (
   <PageTemplate banner={<ProjetLauréatBanner identifiantProjet={projet.identifiantProjet} />}>
     <ModifierLauréatForm
@@ -17,6 +18,7 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
       lauréat={lauréat}
       projet={projet}
       cahierDesCharges={cahierDesCharges}
+      peutRegénérerAttestation={peutRegénérerAttestation}
     />
   </PageTemplate>
 );
