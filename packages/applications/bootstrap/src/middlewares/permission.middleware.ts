@@ -18,6 +18,9 @@ export const permissionMiddleware: Middleware = async (message, next) => {
   }
   const utilisateur = context?.utilisateur;
   if (!utilisateur) {
+    if (context?.app === 'legacy') {
+      return await next();
+    }
     throw new AuthenticationError();
   }
 
