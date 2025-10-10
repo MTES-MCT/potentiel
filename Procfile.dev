@@ -1,0 +1,2 @@
+web: PORT=3000 npm run dev:web
+worker: npm run start:subscribers
