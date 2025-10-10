@@ -246,22 +246,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
-        {champsSupplémentaires.installationAvecDispositifDeStockage && (
-          <FormRow>
-            <ProjectSelectField
-              name="installationAvecDispositifDeStockage"
-              label="Dispositif de stockage"
-              candidature={candidature.installationAvecDispositifDeStockage ? 'true' : 'false'}
-              lauréat={lauréat.installationAvecDispositifDeStockage ? 'true' : 'false'}
-              options={[
-                { label: 'Avec', value: 'true' },
-                { label: 'Sans', value: 'false' },
-              ]}
-              validationErrors={validationErrors}
-              required={champsSupplémentaires.installationAvecDispositifDeStockage === 'requis'}
-            />
-          </FormRow>
-        )}
+
         {champsSupplémentaires.puissanceDeSite && (
           <FormRow>
             <CandidatureField
@@ -301,6 +286,22 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               name="installateur"
               validationErrors={validationErrors}
               required={champsSupplémentaires.installateur === 'requis'}
+            />
+          </FormRow>
+        )}
+        {champsSupplémentaires.installationAvecDispositifDeStockage && (
+          <FormRow>
+            <ProjectSelectField
+              name="installationAvecDispositifDeStockage"
+              label="Dispositif de stockage"
+              candidature={candidature.installationAvecDispositifDeStockage ? 'true' : 'false'}
+              lauréat={lauréat.installationAvecDispositifDeStockage ? 'true' : 'false'}
+              options={[
+                { label: 'Avec', value: 'true' },
+                { label: 'Sans', value: 'false' },
+              ]}
+              validationErrors={validationErrors}
+              required={champsSupplémentaires.installationAvecDispositifDeStockage === 'requis'}
             />
           </FormRow>
         )}

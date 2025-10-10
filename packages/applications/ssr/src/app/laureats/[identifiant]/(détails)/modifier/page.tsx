@@ -2,13 +2,12 @@ import { Metadata } from 'next';
 
 import { CahierDesCharges, Candidature } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { getCandidature, getCahierDesCharges, getPériode } from '@/app/_helpers';
+import { getCandidature, getCahierDesCharges } from '@/app/_helpers';
 
 import { GetLauréat, getLauréat } from '../../_helpers/getLauréat';
 
@@ -28,12 +27,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const lauréat = await getLauréat({ identifiantProjet });
       const cahierDesCharges = await getCahierDesCharges(candidature.identifiantProjet);
 
-      const période = await getPériode({
-        identifiantAppelOffres: candidature.identifiantProjet.appelOffre,
-        identifiantPériode: candidature.identifiantProjet.période,
-      });
-
-      const props = mapToProps({ candidature, lauréat, cahierDesCharges, période });
+      const props = mapToProps({ candidature, lauréat, cahierDesCharges });
 
       return (
         <ModifierLauréatPage
@@ -52,10 +46,9 @@ type MapToProps = (args: {
   candidature: Candidature.ConsulterCandidatureReadModel;
   lauréat: GetLauréat;
   cahierDesCharges: CahierDesCharges.ValueType;
-  période: AppelOffre.ConsulterAppelOffreReadModel['periodes'][number];
 }) => ModifierLauréatPageProps;
 
-const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges, période }) => ({
+const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => ({
   candidature: {
     actionnaire: candidature.dépôt.sociétéMère,
     nomRepresentantLegal: candidature.dépôt.nomReprésentantLégal,
@@ -161,5 +154,5 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges, péri
     unitéPuissance: candidature.unitéPuissance.formatter(),
   },
   cahierDesCharges: mapToPlainObject(cahierDesCharges),
-  peutRegénérerAttestation: période.type !== 'legacy',
+  peutRegénérerAttestation: cahierDesCharges.période.type !== 'legacy',
 });
