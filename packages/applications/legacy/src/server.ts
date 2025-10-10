@@ -16,6 +16,7 @@ import { bootstrap, logMiddleware, permissionMiddleware } from '@potentiel-appli
 import crypto from 'node:crypto';
 import { runWebWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
+import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -142,6 +143,7 @@ export async function makeServer(port: number) {
 
     await bootstrap({ middlewares: [logMiddleware, permissionMiddleware] });
     await registerSagas();
+    await executeSubscribersRetry();
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {
