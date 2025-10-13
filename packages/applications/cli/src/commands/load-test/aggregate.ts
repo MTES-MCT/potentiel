@@ -20,20 +20,6 @@ export class LoadTest extends Command {
     const { args } = await this.parse(LoadTest);
     const { iterations } = args;
 
-    // load a ProjetAggregateRoot for a sample IdentifiantProjet
-    const testCode = async (identifiantProjetValue: IdentifiantProjet.RawType) => {
-      // Create a dummy identifiant projet. We reuse the 'inconnu' pattern to produce a valid value.
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-
-      try {
-        await getProjetAggregateRootAdapter(identifiantProjet);
-      } catch (err) {
-        // swallow errors during load test but keep them visible in stdout
-        // so the user can inspect potential issues when running the test.
-        this.log(`load error: ${(err as Error).message}`);
-      }
-    };
-
     const sql = `SELECT SPLIT_PART(stream_id,'|',2) as "identifiantProjet" FROM event_store.event_stream WHERE stream_id LIKE 'candidature|%' LIMIT $1;`;
     const rows = await executeSelect<{ identifiantProjet: IdentifiantProjet.RawType }>(
       sql,
@@ -48,9 +34,16 @@ export class LoadTest extends Command {
 
     const durations: number[] = [];
 
-    for (const { identifiantProjet } of rows) {
+    for (const { identifiantProjet: identifiantProjetValue } of rows) {
       const iterStart = process.hrtime.bigint();
-      await testCode(identifiantProjet);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+      try {
+        await getProjetAggregateRootAdapter(identifiantProjet, true);
+      } catch (err) {
+        // swallow errors during load test but keep them visible in stdout
+        // so the user can inspect potential issues when running the test.
+        this.log(`load error: ${(err as Error).message}`);
+      }
       const iterEnd = process.hrtime.bigint();
       durations.push(Number(iterEnd - iterStart) / 1_000_000);
     }
