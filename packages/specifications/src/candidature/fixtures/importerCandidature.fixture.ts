@@ -279,7 +279,7 @@ const getNatureDeLExploitationFixture = (
         typeNatureDeLExploitation,
         tauxPrévisionnelACI:
           typeNatureDeLExploitation === 'vente-avec-injection-du-surplus'
-            ? faker.number.int({ min: 0, max: 100 })
+            ? faker.number.int({ min: 1, max: 100 })
             : undefined,
         ...dépôtValue,
       };
