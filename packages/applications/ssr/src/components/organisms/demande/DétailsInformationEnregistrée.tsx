@@ -10,6 +10,8 @@ import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
+import { ReadMore } from '../../atoms/ReadMore';
+
 export type DétailsInformationEnregistréeProps = {
   changement: PlainType<{
     enregistréPar: Email.ValueType;
@@ -51,7 +53,7 @@ export const DétailsInformationEnregistrée: FC<DétailsInformationEnregistrée
         {changement.raison ? (
           <div className="flex gap-2">
             <div className="font-medium whitespace-nowrap">Raison du changement :</div>
-            <div>{changement.raison}</div>
+            <ReadMore text={changement.raison} />
           </div>
         ) : null}
         {changement.pièceJustificative ? (

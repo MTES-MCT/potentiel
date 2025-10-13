@@ -22,7 +22,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
   return demande.statut.statut === 'information-enregistrée' ? (
     <DétailsInformationEnregistrée
       title="Changement d'actionnaire(s)"
-      détailsSpécifiques={<DétailsActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
+      détailsSpécifiques={<DétailsActionnaire demande={demande} />}
       changement={{
         enregistréPar: demande.demandéePar,
         enregistréLe: demande.demandéeLe,
@@ -61,49 +61,43 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
             réponseSignée={demande.rejet.réponseSignée}
           />
         )}
-        <Changement
-          nouvelActionnaire={demande.nouvelActionnaire}
-          raison={demande.raison}
-          pièceJustificative={demande.pièceJustificative}
-        />
+        <Changement demande={demande} />
       </div>
     </div>
   );
 };
 
-const DétailsActionnaire = ({ nouvelActionnaire }: { nouvelActionnaire: string }) => (
-  <>
-    <div className="font-medium whitespace-nowrap">Société mère</div>
-    <div>{nouvelActionnaire}</div>
-  </>
+const DétailsActionnaire: FC<DétailsChangementActionnaireProps> = ({ demande }) => (
+  <div>
+    <span className="font-medium">Nouvel actionnaire :</span> {demande.nouvelActionnaire}
+  </div>
 );
 
-type ChangementProps = Pick<
-  PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
-  'raison' | 'pièceJustificative' | 'nouvelActionnaire'
->;
+type ChangementProps = DétailsChangementActionnaireProps;
 
-const Changement: FC<ChangementProps> = ({ nouvelActionnaire, pièceJustificative, raison }) => (
+const Changement: FC<ChangementProps> = ({ demande }) => (
   <div>
     <Heading5>Détails de la demande</Heading5>
     <div className="flex gap-2">
-      <DétailsActionnaire nouvelActionnaire={nouvelActionnaire} />
+      <DétailsActionnaire demande={demande} />
     </div>
     <div className="flex gap-2">
       <div className="font-medium whitespace-nowrap">Raison du changement :</div>
-      <div>{raison}</div>
+      <div>{demande.raison}</div>
     </div>
-    {pièceJustificative && (
+    {demande.pièceJustificative && (
       <div className="flex gap-2">
         <div className="font-medium whitespace-nowrap">Pièce(s) justificative(s) :</div>
         <DownloadDocument
           className="mb-0"
           label="Télécharger la pièce justificative"
-          format={pièceJustificative.format}
-          url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
+          format={demande.pièceJustificative.format}
+          url={Routes.Document.télécharger(
+            DocumentProjet.bind(demande.pièceJustificative).formatter(),
+          )}
         />
       </div>
-    )}
+    )}{' '}
   </div>
 );
 
