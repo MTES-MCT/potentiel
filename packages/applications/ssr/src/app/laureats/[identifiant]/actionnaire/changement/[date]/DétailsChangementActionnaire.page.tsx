@@ -11,16 +11,18 @@ import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/Pro
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
+import { DétailsInformationEnregistrée } from '@/components/organisms/demande/DétailsInformationEnregistrée';
 
 import { AccorderChangementActionnaire } from './accorder/AccorderChangementActionnaire.form';
 import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
 import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionnaire.form';
-import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
-import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
+import { InfoBoxDemandeChangementActionnaireEnCours } from './(demande)/InfoBoxDemandeChangementActionnaireEnCours';
+import { DétailsActionnaire } from './DétailsActionnaire';
+import { DétailsDemandeChangementActionnaire } from './(demande)/DétailsDemandeChangementActionnaire';
 
 export type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 
-export type DétailsActionnairePageProps = {
+export type DétailsChangementActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
@@ -28,7 +30,7 @@ export type DétailsActionnairePageProps = {
   demandeEnCoursDate?: string;
 };
 
-export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
+export const DétailsChangementActionnairePage: FC<DétailsChangementActionnairePageProps> = ({
   demande,
   identifiantProjet,
   actions,
@@ -45,12 +47,28 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
       children: (
         <div className="flex flex-col gap-8">
           {demandeEnCoursDate && demandeEnCoursDate !== demande.demandéeLe.date && (
-            <InfoBoxDemandeEnCours
+            <InfoBoxDemandeChangementActionnaireEnCours
               identifiantProjet={identifiantProjet}
               demandeEnCoursDate={demandeEnCoursDate}
             />
           )}
-          <DétailsChangementActionnaire demande={demande} />
+          {demande.statut.statut === 'information-enregistrée' ? (
+            <DétailsInformationEnregistrée
+              title="Changement d'actionnaire(s)"
+              détailsSpécifiques={
+                <DétailsActionnaire nouvelActionnaire={demande.nouvelActionnaire} />
+              }
+              changement={{
+                enregistréPar: demande.demandéePar,
+                enregistréLe: demande.demandéeLe,
+                raison: demande.raison,
+                pièceJustificative: demande.pièceJustificative,
+              }}
+            />
+          ) : (
+            <DétailsDemandeChangementActionnaire demande={demande} />
+          )}
+
           <div>
             <Heading2>Historique</Heading2>
             <Timeline items={historique} />
@@ -76,7 +94,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementActionnaireActions>;
   identifiantProjet: string;
-  dateDemande: DétailsActionnairePageProps['demande']['demandéeLe']['date'];
+  dateDemande: DétailsChangementActionnairePageProps['demande']['demandéeLe']['date'];
 };
 
 const mapToActionComponents = ({

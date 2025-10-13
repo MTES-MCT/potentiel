@@ -13,7 +13,10 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToActionnaireTimelineItemProps } from '@/utils/historique/mapToProps/actionnaire/mapToActionnaireTimelineItemProps';
 
-import { ChangementActionnaireActions, DétailsActionnairePage } from './DétailsActionnaire.page';
+import {
+  ChangementActionnaireActions,
+  DétailsChangementActionnairePage,
+} from './DétailsChangementActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Détail de l'actionnariat du projet - Potentiel",
@@ -69,7 +72,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         });
 
       return (
-        <DétailsActionnairePage
+        <DétailsChangementActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           actions={mapToActions(changement.demande.statut, utilisateur.role)}
