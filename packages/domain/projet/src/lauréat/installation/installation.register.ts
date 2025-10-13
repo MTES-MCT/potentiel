@@ -15,14 +15,12 @@ import {
   TypologieInstallationUseCaseDependencies,
 } from './typologie-installation/typologieInstallation.register';
 
-export type InstallationQueryDependencies =
-  | TypologieInstallationQueryDependencies
-  | InstallateurQueryDependencies
-  | ConsulterInstallationDependencies;
+export type InstallationQueryDependencies = TypologieInstallationQueryDependencies &
+  InstallateurQueryDependencies &
+  ConsulterInstallationDependencies;
 
-export type InstallationUseCasesDependencies =
-  | TypologieInstallationUseCaseDependencies
-  | InstallateurUseCaseDependencies;
+export type InstallationUseCasesDependencies = TypologieInstallationUseCaseDependencies &
+  InstallateurUseCaseDependencies;
 
 export const registerInstallationQueries = (dependencies: InstallationQueryDependencies) => {
   registerTypologieInstallationQueries(dependencies);

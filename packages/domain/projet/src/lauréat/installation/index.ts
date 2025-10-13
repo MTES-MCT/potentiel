@@ -25,7 +25,8 @@ import { ModifierTypologieInstallationUseCase } from './typologie-installation/m
 export type InstallationQuery =
   | ConsulterInstallationQuery
   | ConsulterTypologieInstallationQuery
-  | ListerHistoriqueInstallateurProjetQuery;
+  | ListerHistoriqueInstallateurProjetQuery
+  | ListerHistoriqueTypologieInstallationProjetQuery;
 
 export {
   ConsulterInstallationQuery,

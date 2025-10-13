@@ -4,10 +4,15 @@ import {
   ConsulterInstallateurDependencies,
   registerConsulterInstallateurQuery,
 } from './consulter/consulterInstallateur.query';
+import {
+  ListerHistoriqueInstallateurProjetDependencies,
+  registerListerHistoriqueInstallateurProjetQuery,
+} from './listerHistorique/listerHistoriqueInstallateurProjet.query';
 import { registerModifierInstallateurCommand } from './modifier/modifierInstallateur.command';
 import { registerModifierInstallateurUseCase } from './modifier/modifierInstallateur.usecase';
 
-export type InstallateurQueryDependencies = ConsulterInstallateurDependencies;
+export type InstallateurQueryDependencies = ConsulterInstallateurDependencies &
+  ListerHistoriqueInstallateurProjetDependencies;
 
 export type InstallateurUseCaseDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -20,4 +25,5 @@ export const registerInstallateurUseCases = (dependencies: InstallateurUseCaseDe
 
 export const registerInstallateurQueries = (dependencies: InstallateurQueryDependencies) => {
   registerConsulterInstallateurQuery(dependencies);
+  registerListerHistoriqueInstallateurProjetQuery(dependencies);
 };
