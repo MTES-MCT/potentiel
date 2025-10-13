@@ -13,7 +13,6 @@ import {
   Délai,
   GarantiesFinancières,
   Installation,
-  DispositifDeStockage,
   NatureDeLExploitation,
 } from './lauréat';
 import { Candidature } from './candidature';
@@ -52,7 +51,6 @@ export const Routes = {
   Délai,
   GarantiesFinancières,
   Installation,
-  DispositifDeStockage,
   NatureDeLExploitation,
   Éliminé,
 };

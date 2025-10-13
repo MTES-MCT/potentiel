@@ -7,6 +7,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
+import { DispositifDeStockageModifiéNotifications } from './dispositifDeStockageModifiée.notifications';
 import { installateurModifiéNotification } from './installateurModifié.notification';
 import { typologieInstallationModifiéeNotification } from './typologieInstallationModifiée.notification';
 
@@ -36,6 +37,13 @@ export const register = ({ sendEmail }: RegisterInstallationNotificationDependen
       )
       .with({ type: 'TypologieInstallationModifiée-V1' }, async (event) =>
         typologieInstallationModifiéeNotification({
+          sendEmail,
+          event,
+          projet,
+        }),
+      )
+      .with({ type: 'DispositifDeStockageModifié-V1' }, async (event) =>
+        DispositifDeStockageModifiéNotifications({
           sendEmail,
           event,
           projet,

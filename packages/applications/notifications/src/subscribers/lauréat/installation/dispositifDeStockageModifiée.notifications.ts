@@ -3,13 +3,13 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
-import { RegisterDispositifDeStockageNotificationDependencies } from '.';
+import { RegisterInstallationNotificationDependencies } from '.';
 
-import { dispositifDeStockageNotificationTemplateId } from './constant';
+import { installationNotificationTemplateId } from './constant';
 
 type DispositifDeStockageModifiéNotificationsProps = {
-  sendEmail: RegisterDispositifDeStockageNotificationDependencies['sendEmail'];
-  event: Lauréat.DispositifDeStockage.DispositifDeStockageModifiéEvent;
+  sendEmail: RegisterInstallationNotificationDependencies['sendEmail'];
+  event: Lauréat.Installation.DispositifDeStockageModifiéEvent;
   projet: {
     nom: string;
     région: string;
@@ -37,7 +37,7 @@ export const DispositifDeStockageModifiéNotifications = async ({
   }
 
   await sendEmail({
-    templateId: dispositifDeStockageNotificationTemplateId.modifier,
+    templateId: installationNotificationTemplateId.modifierDispositifDeStockage,
     messageSubject: `Potentiel - Modification du couplage avec un dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
@@ -48,7 +48,7 @@ export const DispositifDeStockageModifiéNotifications = async ({
   });
 
   await sendEmail({
-    templateId: dispositifDeStockageNotificationTemplateId.modifier,
+    templateId: installationNotificationTemplateId.modifierDispositifDeStockage,
     messageSubject: `Potentiel - Modification du couplage avec un dispositif de stockage pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {

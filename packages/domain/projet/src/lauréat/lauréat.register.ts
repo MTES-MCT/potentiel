@@ -67,11 +67,6 @@ import {
 } from './garanties-financières/garantiesFinancières.register';
 import { registerTâcheQuery, TâcheQueryDependencies } from './tâche';
 import {
-  DispositifDeStockageQueryDependencies,
-  registerDispositifDeStockageQueries,
-  registerDispositifDeStockageUseCase,
-} from './dispositif-de-stockage/dispositifDeStockage.register';
-import {
   NatureDeLExploitationQueryDependencies,
   registerNatureDeLExploitationQueries,
   registerNatureDeLExploitationUseCases,
@@ -103,7 +98,6 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   AchèvementQueryDependencies &
   InstallationQueryDependencies &
   TâcheQueryDependencies &
-  DispositifDeStockageQueryDependencies &
   NatureDeLExploitationQueryDependencies;
 
 export type LauréatCommandDependencies = {
@@ -134,7 +128,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerTâchePlanifiéeUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerInstallationUseCases(dependencies);
-  registerDispositifDeStockageUseCase(dependencies);
   registerNatureDeLExploitationUseCases(dependencies);
 };
 
@@ -157,6 +150,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerListerHistoriqueProjetQuery(dependencies);
   registerInstallationQueries(dependencies);
   registerTâcheQuery(dependencies);
-  registerDispositifDeStockageQueries(dependencies);
   registerNatureDeLExploitationQueries(dependencies);
 };

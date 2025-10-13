@@ -2,13 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { IdentifiantProjet } from '../../..';
-import { DispositifDeStockage } from '..';
+import { IdentifiantProjet } from '../../../..';
+import { DispositifDeStockage } from '../..';
 
 import { ModifierDispositifDeStockageCommand } from './modifierDispositifDeStockage.command';
 
 export type ModifierDispositifDeStockageUseCase = Message<
-  'Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage',
+  'Lauréat.Installation.UseCase.ModifierDispositifDeStockage',
   {
     identifiantProjetValue: string;
     dispositifDeStockageValue: DispositifDeStockage.RawType;
@@ -25,7 +25,7 @@ export const registerModifierDispositifDeStockageUseCase = () => {
     dispositifDeStockageValue,
   }) => {
     await mediator.send<ModifierDispositifDeStockageCommand>({
-      type: 'Lauréat.DispositifDeStockage.Command.ModifierDispositifDeStockage',
+      type: 'Lauréat.Installation.Command.ModifierDispositifDeStockage',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
@@ -35,5 +35,5 @@ export const registerModifierDispositifDeStockageUseCase = () => {
     });
   };
 
-  mediator.register('Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage', handler);
+  mediator.register('Lauréat.Installation.UseCase.ModifierDispositifDeStockage', handler);
 };

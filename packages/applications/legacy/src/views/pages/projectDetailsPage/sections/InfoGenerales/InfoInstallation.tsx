@@ -9,7 +9,7 @@ export type InfoInstallationProps = {
 };
 
 export const InfoInstallation = ({
-  installation: { installateur, typologieInstallation },
+  installation: { installateur, typologieInstallation, dispositifDeStockage },
 }: InfoInstallationProps) => {
   const getTypologieLabels = (
     typologie: GetInstallationForProjectPage['typologieInstallation']['value'][number]['typologie'],
@@ -71,6 +71,36 @@ export const InfoInstallation = ({
         {installateur.affichage && (
           <Link href={installateur.affichage.url} aria-label={installateur.affichage.label}>
             {installateur.affichage.label}
+          </Link>
+        )}
+      </div>
+      <div className="flex flex-col gap-0">
+        <Heading3 className="m-0">Dispositif de stockage</Heading3>
+        <span>
+          {dispositifDeStockage.value?.installationAvecDispositifDeStockage === true
+            ? 'Installation couplée à un dispositif de stockage'
+            : dispositifDeStockage.value?.installationAvecDispositifDeStockage === false
+              ? 'Installation sans dispositif de stockage'
+              : 'Non renseigné'}
+        </span>
+        {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW ? (
+          <span>
+            Puissance du dispositif de stockage :{' '}
+            {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW} kW
+          </span>
+        ) : null}
+        {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh ? (
+          <span>
+            Capacité du dispositif de stockage :{' '}
+            {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh} kWh
+          </span>
+        ) : null}
+        {dispositifDeStockage.affichage && (
+          <Link
+            href={dispositifDeStockage.affichage.url}
+            aria-label={dispositifDeStockage.affichage.label}
+          >
+            {dispositifDeStockage.affichage.label}
           </Link>
         )}
       </div>

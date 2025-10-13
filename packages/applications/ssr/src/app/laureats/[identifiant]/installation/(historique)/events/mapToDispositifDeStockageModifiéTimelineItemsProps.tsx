@@ -1,6 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-export const mapTodispositifDeStockageModifiéTimelineItemsProps = (
+export const mapTodispositifDeStockagemodifiéTimelineItemsProps = (
   record: Lauréat.Installation.DispositifDeStockageModifiéEvent,
 ) => {
   const {

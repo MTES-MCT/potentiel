@@ -4,6 +4,8 @@ import { Entity } from '@potentiel-domain/entity';
 import { IdentifiantProjet } from '../..';
 import { TypologieInstallation } from '../../candidature';
 
+import { DispositifDeStockage } from '.';
+
 export type InstallationEntity = Entity<
   'installation',
   {
@@ -11,5 +13,6 @@ export type InstallationEntity = Entity<
     misÀJourLe: DateTime.RawType;
     installateur: string;
     typologieInstallation: TypologieInstallation.RawType[];
+    dispositifDeStockage?: DispositifDeStockage.RawType;
   }
 >;

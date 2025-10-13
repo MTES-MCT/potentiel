@@ -27,7 +27,6 @@ import {
   getRaccordement,
   getActionnaire,
   getDateAchèvementPrévisionnel,
-  getDispositifDeStockage,
   getNatureDeLExploitation,
   getSiteDeProduction,
 } from './_utils';
@@ -251,11 +250,6 @@ v1Router.get(
         rôle: user.role,
       });
 
-      const dispositifDeStockage = await getDispositifDeStockage({
-        identifiantProjet: identifiantProjetValueType,
-        rôle: user.role,
-      });
-
       return response.send(
         ProjectDetailsPage({
           request,
@@ -303,7 +297,6 @@ v1Router.get(
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
-          dispositifDeStockage,
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,

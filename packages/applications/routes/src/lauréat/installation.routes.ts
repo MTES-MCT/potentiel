@@ -5,3 +5,6 @@ export const modifierInstallateur = (identifiantProjet: string) =>
 
 export const modifierTypologie = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/installation/typologie-du-projet/modifier`;
+
+export const modifierDispositifDeStockage = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/installation/dispositif-de-stockage/modifier`;

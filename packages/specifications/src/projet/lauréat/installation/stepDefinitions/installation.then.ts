@@ -85,3 +85,31 @@ Alors(
     });
   },
 );
+
+Alors(
+  'le dispositif de stockage du projet lauréat devrait être mise à jour',
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const dispositifDeStockage =
+        await mediator.send<Lauréat.Installation.ConsulterDispositifDeStockageQuery>({
+          type: 'Lauréat.Installation.Query.ConsulterDispositifDeStockage',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      const actual = mapToPlainObject(dispositifDeStockage);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.installationWorld.mapToExpected(identifiantProjet),
+      );
+
+      if (Option.isSome(actual) && Option.isSome(expected)) {
+        actual.dispositifDeStockage.should.be.deep.equal(expected.dispositifDeStockage);
+      } else {
+        actual.should.be.deep.equal(expected);
+      }
+    });
+  },
+);

@@ -1,5 +1,6 @@
 # language: fr
 @dispositif-de-stockage
+@installation
 Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
 
     Contexte:
@@ -16,6 +17,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | non                      |
         Alors le dispositif de stockage du projet lauréat devrait être mise à jour
+        Et l'installation du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                             |
@@ -33,6 +35,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | capacité du dispositif                   | 3                        |
             | puissance du dispositif                  | 3                        |
         Alors le dispositif de stockage du projet lauréat devrait être mise à jour
+        Et l'installation du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                             |
@@ -48,6 +51,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | appel d'offres                           | PPE2 - Petit PV Bâtiment |
             | installation avec dispositif de stockage | non                      |
         Alors le dispositif de stockage du projet lauréat devrait être mise à jour
+        Et l'installation du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du couplage avec un dispositif de stockage pour le projet Du boulodrome de Marseille dans le département (.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                             |
