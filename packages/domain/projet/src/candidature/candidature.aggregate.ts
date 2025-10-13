@@ -253,6 +253,7 @@ export class CandidatureAggregate extends AbstractAggregate<
     validateur,
     attestation: { format },
   }: NotifierOptions) {
+    this.vérifierQueLaCandidatureExiste();
     if (this.#estNotifiée) {
       throw new CandidatureDéjàNotifiéeError(this.projet.identifiantProjet);
     }

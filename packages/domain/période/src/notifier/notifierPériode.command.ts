@@ -41,8 +41,6 @@ export const registerNotifierPériodeCommand = (
     for (const identifiantCandidature of identifiantCandidatures) {
       const projet = await getProjetAggregateRoot(identifiantCandidature, true);
 
-      projet.candidature.vérifierQueLaCandidatureExiste();
-
       try {
         await projet.candidature.notifier({
           notifiéeLe,
