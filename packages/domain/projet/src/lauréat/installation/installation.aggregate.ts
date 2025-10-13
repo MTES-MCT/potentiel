@@ -47,8 +47,8 @@ export class InstallationAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         installateur: installateur ?? '',
         typologieInstallation,
-        importéLe: importéLe.formatter(),
-        importéPar: importéPar.formatter(),
+        importéeLe: importéLe.formatter(),
+        importéePar: importéPar.formatter(),
       },
     };
 
@@ -86,7 +86,7 @@ export class InstallationAggregate extends AbstractAggregate<
   }: ModifierTypologieInstallationOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    this.vérifierModificationTypologieInstallation(typologieInstallation);
+    this.vérifierQueModificationTypologieInstallationEstPossible(typologieInstallation);
 
     const event: TypologieInstallationModifiéeEvent = {
       type: 'TypologieInstallationModifiée-V1',
@@ -103,22 +103,17 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  private vérifierModificationTypologieInstallation = (
+  private vérifierQueModificationTypologieInstallationEstPossible = (
     modification: Candidature.TypologieInstallation.ValueType[],
   ) => {
-    if (modification.length !== this.#typologieInstallation.length) {
-      return;
-    }
+    const actuel = this.#typologieInstallation;
 
-    for (let i = 0; i < modification.length; i++) {
-      const actuel = this.#typologieInstallation[i];
-      const modifié = modification[i];
-      if (!actuel.estÉgaleÀ(modifié)) {
-        return;
-      }
+    if (
+      actuel.length === modification.length &&
+      modification.every((m) => actuel.some((a) => m.estÉgaleÀ(a)))
+    ) {
+      throw new TypologieInstallationIdentiqueError();
     }
-
-    throw new TypologieInstallationIdentiqueError();
   };
 
   apply(event: InstallationEvent): void {

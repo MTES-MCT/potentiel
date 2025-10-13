@@ -5,9 +5,9 @@ import { DétailTypologieInstallation } from './DétailTypologieInstallation';
 export const mapToInstallationImportéeTimelineItemProps = (
   record: Lauréat.Installation.InstallationImportéeEvent,
 ) => {
-  const { importéLe, installateur, typologieInstallation } = record.payload;
+  const { importéeLe, installateur, typologieInstallation } = record.payload;
   return {
-    date: importéLe,
+    date: importéeLe,
     title: <div>Candidature :</div>,
     content: (
       <>

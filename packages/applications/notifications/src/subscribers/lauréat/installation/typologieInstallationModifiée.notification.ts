@@ -18,7 +18,7 @@ type TypologieInstallationModifiéeNotificationProps = {
   };
 };
 
-export const typologieTnstallationModifiéeNotification = async ({
+export const typologieInstallationModifiéeNotification = async ({
   sendEmail,
   event,
   projet,
@@ -31,7 +31,7 @@ export const typologieTnstallationModifiéeNotification = async ({
     getLogger().info('Aucune dreal ou porteur trouvé(e)', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'installateurModifiéNotifications',
+      fonction: 'typologieInstallationModifiéeNotification',
     });
     return;
   }

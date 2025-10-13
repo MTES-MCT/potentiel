@@ -40,6 +40,14 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
   );
 
   const listeTypologiesDisponibles = Candidature.TypologieInstallation.typologies;
+
+  const typologiesAvecDetails = [
+    'bâtiment.serre',
+    'ombrière.autre',
+    'ombrière.mixte',
+    'agrivoltaïque.serre',
+  ];
+
   return (
     <Form
       action={modifierTypologieInstallationAction}
@@ -64,6 +72,10 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
             `typologieInstallation.${index}.typologie` satisfies ModifierTypologieInstallationFormKeys;
           const detailsFieldKey =
             `typologieInstallation.${index}.details` satisfies ModifierTypologieInstallationFormKeys;
+
+          const [afficherDetails, setAfficherDetails] = useState(
+            typologiesAvecDetails.includes(typologie),
+          );
           return (
             <div className="flex flex-row  gap-2" key={`${typologie}-${détails}`}>
               <Select
@@ -79,19 +91,25 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
                   name: typologieFieldKey,
                   defaultValue: typologie,
                   required: true,
+                  onChange: (e) => {
+                    setAfficherDetails(typologiesAvecDetails.includes(e.target.value));
+                  },
                 }}
               />
-              <Input
-                label=""
-                state={validationErrors[detailsFieldKey] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors[detailsFieldKey]}
-                className="flex-1"
-                nativeInputProps={{
-                  placeholder: 'Détails',
-                  defaultValue: détails,
-                  name: detailsFieldKey,
-                }}
-              />
+              {afficherDetails && (
+                <Input
+                  label=""
+                  state={validationErrors[detailsFieldKey] ? 'error' : 'default'}
+                  stateRelatedMessage={validationErrors[detailsFieldKey]}
+                  className="flex-1"
+                  nativeInputProps={{
+                    placeholder: "Précisez les éléments sous l'installation",
+                    defaultValue: détails,
+                    name: detailsFieldKey,
+                    required: true,
+                  }}
+                />
+              )}
               <Button
                 className="mt-1"
                 type="button"

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-import { getTypologieInstallationLabel } from '@/app/laureats/[identifiant]/installation/typologie-installation/typologieInstallationLabel';
+import { getTypologieInstallationLabel } from '@/app/laureats/[identifiant]/installation/typologie-de-l-installation/typologieInstallationLabel';
 
 export const DétailTypologieInstallation = (
   typologieInstallation: Candidature.TypologieInstallation.RawType[],

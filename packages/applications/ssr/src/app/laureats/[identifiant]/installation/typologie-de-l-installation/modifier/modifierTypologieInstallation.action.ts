@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { NestedKeysWithArrayIndices } from '@/utils/zod/nestedKeysWithArrayIndices';
+import { ArrayFormKeys } from '@/utils/zod/arrayFormKeys';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -20,9 +20,7 @@ const schema = zod.object({
   ),
 });
 
-export type ModifierTypologieInstallationFormKeys = NestedKeysWithArrayIndices<
-  zod.infer<typeof schema>
->;
+export type ModifierTypologieInstallationFormKeys = ArrayFormKeys<zod.infer<typeof schema>>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,

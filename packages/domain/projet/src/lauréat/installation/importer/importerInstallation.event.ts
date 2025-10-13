@@ -9,7 +9,7 @@ export type InstallationImportéeEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     installateur: string;
     typologieInstallation: TypologieInstallation.RawType[];
-    importéLe: DateTime.RawType;
-    importéPar: Email.RawType;
+    importéeLe: DateTime.RawType;
+    importéePar: Email.RawType;
   }
 >;

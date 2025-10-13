@@ -46,29 +46,32 @@ export const getInstallation = async ({
 
     if (Option.isSome(installationProjection)) {
       const { installateur, typologieInstallation } = installationProjection;
-
-      return {
+      const data: GetInstallationForProjectPage = {
         installateur: {
           value: installateur,
-          ...(role.aLaPermission('installation.installateur.modifier') && {
-            affichage: {
-              url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
-              label: 'Modifier',
-              labelActions: "Modifier l'installateur",
-            },
-          }),
         },
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
-          ...(role.aLaPermission('installation.typologieInstallation.modifier') && {
-            affichage: {
-              url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
-              label: 'Modifier',
-              labelActions: "Modifier la typologie d'installation",
-            },
-          }),
         },
       };
+
+      if (role.aLaPermission('installation.installateur.modifier')) {
+        data.installateur.affichage = {
+          url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: "Modifier l'installateur",
+        };
+      }
+
+      if (role.aLaPermission('installation.typologieInstallation.modifier')) {
+        data.typologieInstallation.affichage = {
+          url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: "Modifier la typologie de l'installation",
+        };
+      }
+
+      return data;
     }
 
     return undefined;
