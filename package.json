@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "prepare": "husky",
-    "start": "PORT=3000 npx --offline foreman start -j Procfile",
+    "start": "npx --offline foreman start --procfile Procfile --port 3000",
     "start:web": "npm run start -w @potentiel-applications/legacy",
     "start:subscribers": "npm run start -w @potentiel-applications/subscribers",
     "up": "./.docker-scripts/up.sh",
@@ -23,7 +23,7 @@
     "build:dev": "turbo run build --filter=@potentiel-applications/ssr... --filter=!@potentiel-applications/ssr",
     "build:cli": "turbo run build --filter=@potentiel/cli...",
     "predev": "npm run up && npm run build:dev",
-    "dev": "PORT=3000 npx --offline foreman start -j Procfile.dev",
+    "dev": "npx --offline foreman start --procfile Procfile.dev --port 3000",
     "dev:web": "npm run dev -w @potentiel-applications/ssr",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
