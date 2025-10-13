@@ -45,7 +45,7 @@ export const optionalStrictlyPositiveNumberSchema = _numberSchemaBase
 export const optionalPercentageSchema = _numberSchemaBase
   .optional()
   // transform to number and validate
-  .pipe(z.number().gt(0).lte(100).optional());
+  .pipe(z.number().gte(0).lte(100).optional());
 
 export const ouiNonSchema = z.stringbool({
   truthy: ['true', 'oui'],
