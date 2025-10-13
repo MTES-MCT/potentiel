@@ -15,6 +15,7 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToRecoursTimelineItemProps } from '@/app/elimine/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 import { mapToÉliminéTimelineItemProps } from '@/app/elimine/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
+import { mapToTypologieInstallationTimelineItemProps } from '@/utils/historique/mapToProps/typologie-installation/mapToTypologieInstallationTimelineItemProps';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToAchèvementTimelineItemProps } from '../achevement/(historique)/mapToAchèvementTimelineItemProps';
@@ -49,6 +50,7 @@ const categoriesDisponibles = [
   'représentant-légal',
   'raccordement',
   'installateur',
+  'typologie-installation',
   'dispositif-de-stockage',
   'nature-de-l-exploitation',
 ] as const;
@@ -172,6 +174,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   délai: 'ri-time-line',
   fournisseur: DEMANDE_GENERIQUE_ICONE,
   installateur: DEMANDE_GENERIQUE_ICONE,
+  'typologie-installation': DEMANDE_GENERIQUE_ICONE,
   'dispositif-de-stockage': DEMANDE_GENERIQUE_ICONE,
   'nature-de-l-exploitation': DEMANDE_GENERIQUE_ICONE,
 };
@@ -262,6 +265,12 @@ const mapToTimelineItemProps = ({
         category: 'nature-de-l-exploitation',
       },
       mapToNatureDeLExploitationTimelineItemProps,
+    )
+    .with(
+      {
+        category: 'typologie-installation',
+      },
+      mapToTypologieInstallationTimelineItemProps,
     )
     .exhaustive(() => undefined);
   if (props) {

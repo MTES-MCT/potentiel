@@ -5,7 +5,7 @@ import { HistoryRecord, ListHistory, RangeOptions } from '@potentiel-domain/enti
 import { TypologieInstallationEvent } from '../typologieInstallation.event';
 
 export type HistoriqueTypologieInstallationProjetListItemReadModel = HistoryRecord<
-  'typologieInstallation',
+  'typologie-installation',
   TypologieInstallationEvent
 >;
 
@@ -37,7 +37,7 @@ export const registerListerHistoriqueTypologieInstallationProjetQuery = ({
   }) =>
     listHistory({
       id: identifiantProjet,
-      category: 'typologieInstallation',
+      category: 'typologie-installation',
       range,
     });
 

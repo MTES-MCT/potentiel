@@ -20,5 +20,4 @@ export const mapToInstallateurTimelineItemProps = (
     .with({ type: 'InstallateurModifié-V1' }, (readmodel) =>
       mapToInstallateurModifiéTimelineItemsProps(readmodel),
     )
-
     .exhaustive();
