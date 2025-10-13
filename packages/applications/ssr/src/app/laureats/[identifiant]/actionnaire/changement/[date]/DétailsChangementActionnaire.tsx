@@ -10,7 +10,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
+import { DétailsInformationEnregistrée } from '@/components/organisms/demande/DétailsInformationEnregistrée';
 
 import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 
@@ -20,7 +20,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
   demande,
 }) => {
   return demande.statut.statut === 'information-enregistrée' ? (
-    <DétailsChangement
+    <DétailsInformationEnregistrée
       title="Changement d'actionnaire(s)"
       détailsSpécifiques={<DétailsActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
       changement={{

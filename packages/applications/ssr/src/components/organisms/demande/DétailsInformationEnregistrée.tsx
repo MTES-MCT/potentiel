@@ -10,7 +10,7 @@ import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
 
-export type DétailsChangementProps = {
+export type DétailsInformationEnregistréeProps = {
   changement: PlainType<{
     enregistréPar: Email.ValueType;
     enregistréLe: DateTime.ValueType;
@@ -21,7 +21,7 @@ export type DétailsChangementProps = {
   détailsSpécifiques: React.ReactNode;
 };
 
-export const DétailsChangement: FC<DétailsChangementProps> = ({
+export const DétailsInformationEnregistrée: FC<DétailsInformationEnregistréeProps> = ({
   changement,
   title,
   détailsSpécifiques,

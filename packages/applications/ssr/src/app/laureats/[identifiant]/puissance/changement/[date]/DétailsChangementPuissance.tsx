@@ -12,7 +12,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
+import { DétailsInformationEnregistrée } from '@/components/organisms/demande/DétailsInformationEnregistrée';
 
 import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 
@@ -30,7 +30,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
   const statut = Lauréat.Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
   return statut.estInformationEnregistrée() ? (
-    <DétailsChangement
+    <DétailsInformationEnregistrée
       title="Changement de puissance"
       détailsSpécifiques={
         <DétailsPuissance
