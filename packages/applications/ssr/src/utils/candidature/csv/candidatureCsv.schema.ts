@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
-import { conditionalRequiredError } from '../schemaBase';
+import { conditionalRequiredError, optionalPercentageSchema } from '../schemaBase';
 import {
   adresse2Schema,
   appelOffreSchema,
@@ -59,11 +59,10 @@ const typeGf = [
   Candidature.TypeGarantiesFinancières.consignation.type,
 ] satisfies Array<Candidature.TypeGarantiesFinancières.RawType>;
 
-// Order matters! the CSV uses "1"/"2"
-const typesNatureDeLExploitation = [
-  Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnSurplus.type,
-  Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.venteAvecInjectionEnTotalité.type,
-] satisfies Array<Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType>;
+const typeNatureDeLExploitationMapper = {
+  'Vente avec injection du surplus': 'vente-avec-injection-du-surplus',
+  'Vente avec injection en totalité': 'vente-avec-injection-en-totalité',
+} satisfies Record<string, Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType>;
 
 const historiqueAbandon = [
   'première-candidature',
@@ -124,6 +123,7 @@ const colonnes = {
   puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
   capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
   natureDeLExploitation: "Nature de l'exploitation",
+  tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -164,12 +164,13 @@ const candidatureCsvRowSchema = z
     [colonnes.installationAvecDispositifDeStockage]: installationAvecDispositifDeStockageCsvSchema,
     [colonnes.puissanceDuDispositifDeStockageEnKW]: puissanceDuDispositifDeStockageSchema,
     [colonnes.capacitéDuDispositifDeStockageEnKWh]: capacitéDuDispositifDeStockageSchema,
+    [colonnes.natureDeLExploitation]: natureDeLExploitationCsvSchema,
+    [colonnes.tauxPrévisionnelACI]: optionalPercentageSchema,
     // columns with refines, see refines below
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGarantiesFinancières]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
-    [colonnes.natureDeLExploitation]: natureDeLExploitationCsvSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
@@ -265,15 +266,22 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
       adresse1,
       adresse2,
       commune,
-      natureDeLExploitation,
       typeGarantiesFinancières,
       installationAvecDispositifDeStockage,
       capacitéDuDispositifDeStockageEnKWh,
       puissanceDuDispositifDeStockageEnKW,
+      tauxPrévisionnelACI,
+      natureDeLExploitation,
       ...val
     }) => {
       return {
         ...val,
+        localité: getLocalité({
+          adresse1,
+          adresse2: adresse2 ?? '',
+          codePostal,
+          commune,
+        }),
         typeGarantiesFinancières: typeGarantiesFinancières
           ? typeGf[Number(typeGarantiesFinancières) - 1]
           : undefined,
@@ -292,19 +300,17 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 numéro: numéroDAutorisationDUrbanisme,
               }
             : undefined,
-        natureDeLExploitation: natureDeLExploitation
-          ? typesNatureDeLExploitation[Number(natureDeLExploitation) - 1]
-          : undefined,
+        natureDeLExploitation:
+          natureDeLExploitation && typeNatureDeLExploitationMapper[natureDeLExploitation]
+            ? {
+                typeNatureDeLExploitation: typeNatureDeLExploitationMapper[natureDeLExploitation],
+                tauxPrévisionnelACI,
+              }
+            : undefined,
         typologieInstallation: mapCsvToTypologieInstallation({
           typologieDeBâtiment,
           typeInstallationsAgrivoltaïques,
           élémentsSousOmbrière,
-        }),
-        localité: getLocalité({
-          adresse1,
-          adresse2: adresse2 ?? '',
-          codePostal,
-          commune,
         }),
         dispositifDeStockage:
           installationAvecDispositifDeStockage !== undefined

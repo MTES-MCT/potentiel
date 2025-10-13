@@ -162,10 +162,11 @@ Fonctionnalité: Corriger une candidature
 
     Scénario: Corriger la nature de l'exploitation d'une candidature pour un appel d'offres qui a ce champ
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
-            | appel d'offres           | PPE2 - Petit PV Bâtiment         |
-            | nature de l'exploitation | vente-avec-injection-en-totalité |
+            | appel d'offres                   | PPE2 - Petit PV Bâtiment         |
+            | type de nature de l'exploitation | vente-avec-injection-en-totalité |
         Quand le DGEC validateur corrige la candidature avec :
-            | nature de l'exploitation | vente-avec-injection-du-surplus |
+            | type de nature de l'exploitation | vente-avec-injection-du-surplus |
+            | taux prévisionnel aci            | 54                              |
         Alors la candidature devrait être consultable
 
     Scénario: Corriger le dispositif de stockadge d'une candidature pour un appel d'offres qui a ce champ requis
@@ -200,7 +201,7 @@ Fonctionnalité: Corriger une candidature
 
     Scénario: Impossible de corriger une candidature avec nature de l'exploitation si l'appel d'offres ne le propose pas
         Quand le DGEC validateur corrige la candidature avec :
-            | nature de l'exploitation | vente-avec-injection-en-totalité |
+            | type de nature de l'exploitation | vente-avec-injection-en-totalité |
         Alors l'administrateur devrait être informé que "La nature de l'exploitation ne peut être renseignée pour cet appel d'offres"
 
     Scénario: Impossible de corriger une candidature sans autorisation d'urbanisme si l'appel d'offres a ces champs requis

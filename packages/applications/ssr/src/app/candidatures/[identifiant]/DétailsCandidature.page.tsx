@@ -101,7 +101,17 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               )}
               {dépôt.natureDeLExploitation && (
                 <Field name="Nature de l'exploitation">
-                  <span>{getNatureDeLExploitationTypeLabel(dépôt.natureDeLExploitation.type)}</span>
+                  <span>
+                    {getNatureDeLExploitationTypeLabel(
+                      dépôt.natureDeLExploitation.typeNatureDeLExploitation.type,
+                    )}
+                  </span>
+                  {dépôt.natureDeLExploitation.tauxPrévisionnelACI !== undefined ? (
+                    <span>
+                      Taux d'autoconsommation individuelle prévisionnel :{' '}
+                      {dépôt.natureDeLExploitation.tauxPrévisionnelACI} %
+                    </span>
+                  ) : null}
                 </Field>
               )}
               {dépôt.dispositifDeStockage !== undefined && (

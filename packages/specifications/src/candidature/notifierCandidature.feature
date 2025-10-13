@@ -19,7 +19,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
             | appel d'offres                           | PPE2 - Petit PV Bâtiment         |
             | installateur                             | Installeur.INC                   |
             | installation avec dispositif de stockage | oui                              |
-            | nature de l'exploitation                 | vente-avec-injection-en-totalité |
+            | type de nature de l'exploitation         | vente-avec-injection-en-totalité |
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet lauréat devrait être consultable
         Et le producteur du projet lauréat devrait être mis à jour

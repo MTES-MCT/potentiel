@@ -4,16 +4,16 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { createDossierAccessor, GetDossierQuery } from '../../graphql';
 import {
-  getAutorisationDUrbanisme,
+  getTypeGarantiesFinancières,
   getDateConstitutionGarantiesFinancières,
   getHistoriqueAbandon,
   getLocalité,
-  getTypeGarantiesFinancières,
-  getTypeNatureDeLExploitation,
-  getTypologieInstallation,
   getDispositifDeStockage,
+  getAutorisationDUrbanisme,
+  getTypologieInstallation,
 } from '../getters';
 import { DeepPartial } from '../types';
+import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation';
 
 const colonnes = {
   nomCandidat: 'Nom du candidat',
@@ -56,6 +56,11 @@ export const mapApiResponseToDépôt = ({
     capacitéDuDispositifDeStockageEnKWh: 'Capacité du dispositif de stockage',
     puissanceDuDispositifDeStockageEnKW: 'Puissance du dispositif de stockage',
   } satisfies Record<keyof Candidature.Dépôt.RawType['dispositifDeStockage'], string>);
+
+  const accessorNatureDeLExploitation = createDossierAccessor(champs, {
+    typeDeNatureDeLExploitation: "Nature de l'exploitation",
+    tauxPrévisionnelACI: "Taux d'autoconsommation individuelle (ACI) prévisionnel",
+  } satisfies Record<keyof Candidature.Dépôt.RawType['natureDeLExploitation'], string>);
 
   const typeGarantiesFinancieres = getTypeGarantiesFinancières(
     accessor,
@@ -115,7 +120,12 @@ export const mapApiResponseToDépôt = ({
     }),
 
     installateur: accessor.getStringValue('installateur'),
-    natureDeLExploitation: getTypeNatureDeLExploitation(accessor, 'natureDeLExploitation'),
+
+    natureDeLExploitation: getNatureDeLExploitation({
+      accessor: accessorNatureDeLExploitation,
+      nomChampType: 'typeDeNatureDeLExploitation',
+      nomChampTaux: 'tauxPrévisionnelACI',
+    }),
 
     autorisationDUrbanisme: getAutorisationDUrbanisme({
       accessor: accessorAutorisationDUrbanisme,

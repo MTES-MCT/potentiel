@@ -8,7 +8,7 @@ import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -18,8 +18,6 @@ import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { getActionnariatTypeLabel, getTechnologieTypeLabel } from '@/app/_helpers';
 import { getGarantiesFinancièresDateLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresDateLabel';
 import { getGarantiesFinancièresTypeLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresTypeLabel';
-
-import { getNatureDeLExploitationTypeLabel } from '../../../_helpers/getNatureDeLExploitationTypeLabel';
 
 import {
   corrigerCandidatureAction,
@@ -455,24 +453,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
             name: 'installateur',
             defaultValue: candidature.installateur,
           }}
-        />
-      )}
-      {champsSupplémentaires.natureDeLExploitation && (
-        <Select
-          state={validationErrors['natureDeLExploitation'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['natureDeLExploitation']}
-          id="natureDeLExploitation"
-          label={"Nature de l'exploitation"}
-          nativeSelectProps={{
-            name: 'natureDeLExploitation',
-            value: candidature.natureDeLExploitation,
-            required: true,
-            'aria-required': true,
-          }}
-          options={Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types.map((type) => ({
-            label: getNatureDeLExploitationTypeLabel(type),
-            value: type,
-          }))}
         />
       )}
 

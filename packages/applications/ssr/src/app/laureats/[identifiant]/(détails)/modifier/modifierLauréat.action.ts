@@ -109,30 +109,6 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      if (laureat.installateur) {
-        await mediator.send<Lauréat.Installation.ModifierInstallateurUseCase>({
-          type: 'Lauréat.Installation.UseCase.ModifierInstallateur',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            installateurValue: laureat.installateur,
-            dateModificationValue: new Date().toISOString(),
-            identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-          },
-        });
-      }
-
-      if (laureat.natureDeLExploitation) {
-        await mediator.send<Lauréat.NatureDeLExploitation.ModifierNatureDeLExploitationUseCase>({
-          type: 'Lauréat.NatureDeLExploitation.UseCase.ModifierNatureDeLExploitation',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            natureDeLExploitationValue: laureat.natureDeLExploitation,
-            dateModificationValue: new Date().toISOString(),
-            identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-          },
-        });
-      }
-
       const siteDeProductionModifié =
         laureat.adresse1 != undefined ||
         laureat.adresse2 != undefined ||
@@ -237,11 +213,10 @@ const mapBodyToCandidatureUsecaseData = (
           }
         : undefined,
       installateur: data.installateur ?? previous.installateur,
-      natureDeLExploitation: data.natureDeLExploitation
-        ? data.natureDeLExploitation
-        : previous.natureDeLExploitation?.formatter(),
 
-      // non-editable fields
+      // champs non éditables
+      // soit parce qu'ils ne peuvent changer après la candidature
+      // soit parce qu'ils peuvent être modifier au cas par cas mais pas dans ce formulaire pour ne pas l'alourdir
       typeGarantiesFinancières: previous.garantiesFinancières?.type.type,
       dateÉchéanceGf: previous.garantiesFinancières?.estAvecDateÉchéance()
         ? previous.garantiesFinancières.dateÉchéance?.formatter()
@@ -254,6 +229,13 @@ const mapBodyToCandidatureUsecaseData = (
       obligationDeSolarisation: previous.obligationDeSolarisation,
       typologieInstallation: previous.typologieInstallation.map((t) => t.formatter()),
       dispositifDeStockage: previous.dispositifDeStockage,
+      natureDeLExploitation: previous.natureDeLExploitation
+        ? {
+            typeNatureDeLExploitation:
+              previous.natureDeLExploitation.typeNatureDeLExploitation.formatter(),
+            tauxPrévisionnelACI: previous.natureDeLExploitation.tauxPrévisionnelACI,
+          }
+        : undefined,
     },
     doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     détailsValue: undefined,

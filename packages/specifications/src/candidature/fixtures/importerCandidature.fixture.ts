@@ -186,12 +186,6 @@ const créerDépôt = (
       aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
         ? faker.number.int({ min: 1 })
         : undefined,
-    natureDeLExploitation:
-      aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis'
-        ? faker.helpers.arrayElement(
-            Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
-          )
-        : undefined,
     fournisseurs: [
       {
         typeFournisseur: 'cellules' as const,
@@ -212,6 +206,10 @@ const créerDépôt = (
     dispositifDeStockage: getDispositifDeStockageFixture(
       dépôt.dispositifDeStockage,
       aoData?.champsSupplémentaires?.dispositifDeStockage === 'requis',
+    ),
+    natureDeLExploitation: getNatureDeLExploitationFixture(
+      dépôt.natureDeLExploitation,
+      aoData?.champsSupplémentaires?.natureDeLExploitation === 'requis',
     ),
   };
 
@@ -254,6 +252,35 @@ const getDispositifDeStockageFixture = (
         puissanceDuDispositifDeStockageEnKW: installationAvecDispositifDeStockage
           ? faker.number.float({ min: 0.001, fractionDigits: 3 })
           : undefined,
+        ...dépôtValue,
+      };
+};
+
+const getNatureDeLExploitationFixture = (
+  dépôtValue: Partial<ImporterCandidature['dépôtValue']['natureDeLExploitation']>,
+  champsRequis: boolean,
+) => {
+  const typeNatureDeLExploitation =
+    dépôtValue &&
+    Object.keys(dépôtValue).length > 0 &&
+    dépôtValue.typeNatureDeLExploitation === undefined
+      ? undefined
+      : dépôtValue?.typeNatureDeLExploitation !== undefined
+        ? dépôtValue.typeNatureDeLExploitation
+        : champsRequis
+          ? faker.helpers.arrayElement(
+              Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.types,
+            )
+          : undefined;
+
+  return typeNatureDeLExploitation === undefined
+    ? undefined
+    : {
+        typeNatureDeLExploitation,
+        tauxPrévisionnelACI:
+          typeNatureDeLExploitation === 'vente-avec-injection-du-surplus'
+            ? faker.number.int({ min: 0, max: 100 })
+            : undefined,
         ...dépôtValue,
       };
 };

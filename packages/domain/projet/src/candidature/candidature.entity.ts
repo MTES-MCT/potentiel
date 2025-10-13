@@ -69,7 +69,10 @@ export type CandidatureEntity = Entity<
     installateur?: string;
     obligationDeSolarisation?: boolean;
     autorisationDUrbanisme?: { numéro: string; date: DateTime.RawType };
-    natureDeLExploitation?: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+    natureDeLExploitation?: {
+      typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+      tauxPrévisionnelACI?: number;
+    };
     puissanceDeSite?: number;
 
     misÀJourLe: DateTime.RawType;

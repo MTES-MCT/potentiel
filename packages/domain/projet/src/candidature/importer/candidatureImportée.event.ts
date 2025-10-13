@@ -45,7 +45,10 @@ type CandidatureImportéeEventPayload = {
   installateur?: string;
   obligationDeSolarisation?: boolean;
   autorisationDUrbanisme?: { numéro: string; date: DateTime.RawType };
-  natureDeLExploitation?: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+  natureDeLExploitation?: {
+    typeNatureDeLExploitation: Lauréat.NatureDeLExploitation.TypeDeNatureDeLExploitation.RawType;
+    tauxPrévisionnelACI?: number;
+  };
   puissanceDeSite?: number;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;

@@ -161,7 +161,7 @@ export const InfoGenerales = ({
         <InfoDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
       ) : null}
       {natureDeLExploitation !== undefined ? (
-        <InfoNatureDeLExploitation natureDeLExploitation={natureDeLExploitation} />
+        <InfoNatureDeLExploitation data={natureDeLExploitation} />
       ) : null}
       {actionnaire ? (
         <InfoActionnaire

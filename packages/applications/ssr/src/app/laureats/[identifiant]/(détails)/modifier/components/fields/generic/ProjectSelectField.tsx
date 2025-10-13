@@ -4,10 +4,7 @@ import { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
-import {
-  ModifierLauréatChampsSupplémentairesValueFormEntries,
-  ModifierLauréatValueFormEntries,
-} from '@/utils/candidature';
+import { ModifierLauréatValueFormEntries } from '@/utils/candidature';
 
 import { FieldValidationErrors } from '../../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../../LinkedValuesButton';
@@ -16,9 +13,7 @@ type ProjectSelectFieldProps<T> = {
   candidature: T;
   lauréat: T;
   options: SelectProps.Option[];
-  name:
-    | keyof ModifierLauréatValueFormEntries
-    | keyof ModifierLauréatChampsSupplémentairesValueFormEntries;
+  name: keyof ModifierLauréatValueFormEntries;
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
   required?: boolean;

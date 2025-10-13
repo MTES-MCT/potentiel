@@ -3,10 +3,8 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { getCahierDesCharges } from '../../../_helpers';
 
 type Props = {
   identifiantProjet: string;
@@ -19,16 +17,9 @@ export type GetLauréat = {
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
   fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
-  installateur?: Lauréat.Installation.ConsulterInstallateurReadModel;
-  natureDeLExploitation?: Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationReadModel;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
-  const cahierDesCharges = await getCahierDesCharges(
-    IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  );
-  const champsSupplémentaires = cahierDesCharges.getChampsSupplémentaires();
-
   const lauréat = await getLauréatInfos({ identifiantProjet });
   const actionnaireInfos = await getActionnaireInfos({ identifiantProjet });
   const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet });
@@ -36,21 +27,12 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   const producteurInfos = await getProducteurInfos({ identifiantProjet });
   const fournisseurInfos = await getFournisseurInfos({ identifiantProjet });
 
-  // champs supplémentaires
-  const installateurInfos =
-    champsSupplémentaires.installateur && (await getInstallateurInfos({ identifiantProjet }));
-  const natureDeLExploitationInfo =
-    champsSupplémentaires.natureDeLExploitation &&
-    (await getNatureDeLExploitationInfos({ identifiantProjet }));
-
   return {
     actionnaire: actionnaireInfos,
     représentantLégal: représentantLégalInfos,
     puissance: puissanceInfos,
     producteur: producteurInfos,
     fournisseur: fournisseurInfos,
-    installateur: installateurInfos,
-    natureDeLExploitation: natureDeLExploitationInfo,
     lauréat,
   };
 });
@@ -162,35 +144,4 @@ export const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return fournisseur;
-};
-
-const getInstallateurInfos = async ({ identifiantProjet }: Props) => {
-  const installateur = await mediator.send<Lauréat.Installation.ConsulterInstallateurQuery>({
-    type: 'Lauréat.Installation.Query.ConsulterInstallateur',
-    data: {
-      identifiantProjet,
-    },
-  });
-
-  if (Option.isNone(installateur)) {
-    return;
-  }
-
-  return installateur;
-};
-
-const getNatureDeLExploitationInfos = async ({ identifiantProjet }: Props) => {
-  const natureDeLExploitation =
-    await mediator.send<Lauréat.NatureDeLExploitation.ConsulterNatureDeLExploitationQuery>({
-      type: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
-      data: {
-        identifiantProjet,
-      },
-    });
-
-  if (Option.isNone(natureDeLExploitation)) {
-    return notFound();
-  }
-
-  return natureDeLExploitation;
 };

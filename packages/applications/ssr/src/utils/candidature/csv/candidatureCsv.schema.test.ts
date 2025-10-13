@@ -62,14 +62,6 @@ describe('Schema candidature CSV', () => {
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
-      localité: {
-        adresse1: 'adresse',
-        adresse2: '',
-        codePostal: '13000',
-        commune: 'MARSEILLE',
-        département: 'Bouches-du-Rhône',
-        région: "Provence-Alpes-Côte d'Azur",
-      },
       statut: 'éliminé',
       motifÉlimination: 'motif',
       puissanceALaPointe: false,
@@ -82,13 +74,22 @@ describe('Schema candidature CSV', () => {
       coefficientKChoisi: undefined,
       obligationDeSolarisation: undefined,
       puissanceDeSite: undefined,
+      installateur: undefined,
+      natureDeLExploitation: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
-      installateur: undefined,
       typologieInstallation: [],
+      localité: {
+        adresse1: 'adresse',
+        adresse2: '',
+        codePostal: '13000',
+        commune: 'MARSEILLE',
+        département: 'Bouches-du-Rhône',
+        région: "Provence-Alpes-Côte d'Azur",
+      },
       dispositifDeStockage: undefined,
-      natureDeLExploitation: undefined,
     };
+
     deepEqualWithRichDiff(result.data, expected);
   });
 
@@ -108,6 +109,11 @@ describe('Schema candidature CSV', () => {
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
+      statut: 'classé',
+      motifÉlimination: undefined,
+      puissanceALaPointe: false,
+      evaluationCarboneSimplifiée: 0,
+      technologie: 'N/A',
       localité: {
         adresse1: 'adresse',
         adresse2: '',
@@ -116,11 +122,6 @@ describe('Schema candidature CSV', () => {
         département: 'Bouches-du-Rhône',
         région: "Provence-Alpes-Côte d'Azur",
       },
-      statut: 'classé',
-      motifÉlimination: undefined,
-      puissanceALaPointe: false,
-      evaluationCarboneSimplifiée: 0,
-      technologie: 'N/A',
       typeGarantiesFinancières: 'avec-date-échéance',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
       historiqueAbandon: 'première-candidature',
@@ -129,11 +130,11 @@ describe('Schema candidature CSV', () => {
       obligationDeSolarisation: undefined,
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
-      autorisationDUrbanisme: undefined,
       installateur: undefined,
       typologieInstallation: [],
-      dispositifDeStockage: undefined,
+      autorisationDUrbanisme: undefined,
       natureDeLExploitation: undefined,
+      dispositifDeStockage: undefined,
     };
     deepEqualWithRichDiff(result.data, expected);
   });
@@ -153,7 +154,8 @@ describe('Schema candidature CSV', () => {
       'Installation couplée à un dispositif de stockage': 'oui',
       'Capacité du dispositif de stockage': '2',
       'Puissance du dispositif de stockage': '3',
-      "Nature de l'exploitation": '1',
+      "Nature de l'exploitation": 'Vente avec injection du surplus',
+      "Taux d'autoconsommation individuelle (ACI) prévisionnel": '32',
     });
     assertNoError(result);
     const expected: CandidatureShape = {
@@ -169,35 +171,33 @@ describe('Schema candidature CSV', () => {
       noteTotale: 1,
       nomReprésentantLégal: 'valentin cognito',
       emailContact: 'porteur@test.com',
-      localité: {
-        adresse1: 'adresse',
-        adresse2: '',
-        codePostal: '13000',
-        commune: 'MARSEILLE',
-        département: 'Bouches-du-Rhône',
-        région: "Provence-Alpes-Côte d'Azur",
-      },
       statut: 'classé',
       motifÉlimination: undefined,
       puissanceALaPointe: true,
       evaluationCarboneSimplifiée: 0,
       technologie: 'eolien',
-      typeGarantiesFinancières: 'avec-date-échéance',
       dateÉchéanceGf: '2024-12-01T00:00:00.000Z',
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
       coefficientKChoisi: undefined,
       obligationDeSolarisation: true,
       puissanceDeSite: undefined,
+      installateur: 'Installateur Inc.',
+      localité: {
+        adresse1: 'adresse',
+        adresse2: '',
+        commune: 'MARSEILLE',
+        codePostal: '13000',
+        département: 'Bouches-du-Rhône',
+        région: "Provence-Alpes-Côte d'Azur",
+      },
+      typeGarantiesFinancières: 'avec-date-échéance',
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: { date: '2025-08-21T00:00:00.000Z', numéro: '123' },
-      installateur: 'Installateur Inc.',
-      dispositifDeStockage: {
-        installationAvecDispositifDeStockage: true,
-        capacitéDuDispositifDeStockageEnKWh: 2,
-        puissanceDuDispositifDeStockageEnKW: 3,
+      natureDeLExploitation: {
+        typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
+        tauxPrévisionnelACI: 32,
       },
-      natureDeLExploitation: 'vente-avec-injection-du-surplus',
       typologieInstallation: [
         {
           typologie: 'agrivoltaïque.jachère-plus-de-5-ans',
@@ -210,7 +210,13 @@ describe('Schema candidature CSV', () => {
           détails: "Ce qu'il y a sous l'ombrière",
         },
       ],
+      dispositifDeStockage: {
+        installationAvecDispositifDeStockage: true,
+        capacitéDuDispositifDeStockageEnKWh: 2,
+        puissanceDuDispositifDeStockageEnKW: 3,
+      },
     };
+
     deepEqualWithRichDiff(result.data, expected);
   });
 

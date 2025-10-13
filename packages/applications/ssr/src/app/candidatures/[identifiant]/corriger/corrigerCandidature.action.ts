@@ -131,7 +131,6 @@ const mapBodyToUseCaseData = (
             }
           : undefined,
       installateur: data.installateur,
-      natureDeLExploitation: data.natureDeLExploitation,
 
       // non-editable fields
       territoireProjet: previous.dépôt.territoireProjet,
@@ -143,6 +142,13 @@ const mapBodyToUseCaseData = (
       ),
       attestationConstitutionGf: previous.dépôt.garantiesFinancières?.constitution?.attestation,
       dispositifDeStockage: previous.dépôt.dispositifDeStockage,
+      natureDeLExploitation: previous.dépôt.natureDeLExploitation
+        ? {
+            typeNatureDeLExploitation:
+              previous.dépôt.natureDeLExploitation?.typeNatureDeLExploitation.formatter(),
+            tauxPrévisionnelACI: previous.dépôt.natureDeLExploitation?.tauxPrévisionnelACI,
+          }
+        : undefined,
     },
 
     détailsValue: undefined,

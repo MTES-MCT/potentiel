@@ -77,7 +77,7 @@ describe('candidatureSchema', () => {
       dateDAutorisationDUrbanisme,
       numeroDAutorisationDUrbanisme: '666',
       puissanceDeSite: '200',
-      natureDeLExploitation: 'vente-avec-injection-du-surplus',
+      natureDeLExploitation: { typeNatureDeLExploitation: 'vente-avec-injection-en-totalité' },
     });
     assert(result.success);
     deepEqualWithRichDiff(result.data, {
@@ -87,7 +87,7 @@ describe('candidatureSchema', () => {
       puissanceDeSite: 200,
       dateDAutorisationDUrbanisme: new Date(dateDAutorisationDUrbanisme).toISOString(),
       numeroDAutorisationDUrbanisme: '666',
-      natureDeLExploitation: 'vente-avec-injection-du-surplus',
+      natureDeLExploitation: { typeNatureDeLExploitation: 'vente-avec-injection-en-totalité' },
     });
   });
 
