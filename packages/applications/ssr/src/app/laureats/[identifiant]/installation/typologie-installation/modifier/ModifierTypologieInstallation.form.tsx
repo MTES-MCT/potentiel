@@ -28,7 +28,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
   typologieInstallation: typologieInstallationActuelle,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<ModifierTypologieInstallationFormKeys> & Record<string, string | undefined>
+    ValidationErrors<ModifierTypologieInstallationFormKeys>
   >({});
 
   const [typologiesProjet, setTypologiesProjet] = useState<
@@ -60,8 +60,10 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
 
       <div className="flex flex-col gap-2">
         {typologiesProjet.map(({ typologie, détails }, index) => {
-          const typologieFieldKey = `typologieInstallation.${index}.typologie`;
-          const detailsFieldKey = `typologieInstallation.${index}.details`;
+          const typologieFieldKey =
+            `typologieInstallation.${index}.typologie` satisfies ModifierTypologieInstallationFormKeys;
+          const detailsFieldKey =
+            `typologieInstallation.${index}.details` satisfies ModifierTypologieInstallationFormKeys;
           return (
             <div className="flex flex-row  gap-2" key={`${typologie}-${détails}`}>
               <Select
