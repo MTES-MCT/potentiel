@@ -7,19 +7,16 @@
     "moduleResolution": "nodenext"
   },
   "references": [
-    { "path": "../../libraries/csv" },
-    { "path": "../../libraries/file-storage" },
     { "path": "../../applications/bootstrap" },
+    { "path": "../../applications/document-builder" },
     { "path": "../../domain/réseau" },
     { "path": "../../domain/utilisateur" },
-    {
-      "path": "../../infrastructure/domain-adapters"
-    },
-    {
-      "path": "../../infrastructure/ds-api-client"
-    },
-    {
-      "path": "../../statistiques/statistiques-publiques"
-    }
+    { "path": "../../infrastructure/domain-adapters" },
+    { "path": "../../infrastructure/ds-api-client" },
+    { "path": "../../infrastructure/ore-client" },
+    { "path": "../../libraries/csv" },
+    { "path": "../../libraries/file-storage" },
+    { "path": "../../libraries/monitoring" },
+    { "path": "../../statistiques/statistiques-publiques" }
   ]
 }
