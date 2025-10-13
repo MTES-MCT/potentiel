@@ -9,6 +9,10 @@ import {
   registerInstallateurQueries,
 } from './installateur/installateur.register';
 import {
+  ListerHistoriqueInstallationProjetDependencies,
+  registerListerHistoriqueInstallationProjetQuery,
+} from './listerHistorique/listerHistoriqueInstallationProjet.query';
+import {
   registerTypologieInstallationQueries,
   registerTypologieInstallationUseCases,
   TypologieInstallationQueryDependencies,
@@ -17,7 +21,8 @@ import {
 
 export type InstallationQueryDependencies = TypologieInstallationQueryDependencies &
   InstallateurQueryDependencies &
-  ConsulterInstallationDependencies;
+  ConsulterInstallationDependencies &
+  ListerHistoriqueInstallationProjetDependencies;
 
 export type InstallationUseCasesDependencies = TypologieInstallationUseCaseDependencies &
   InstallateurUseCaseDependencies;
@@ -26,6 +31,7 @@ export const registerInstallationQueries = (dependencies: InstallationQueryDepen
   registerTypologieInstallationQueries(dependencies);
   registerInstallateurQueries(dependencies);
   registerConsulterInstallationQuery(dependencies);
+  registerListerHistoriqueInstallationProjetQuery(dependencies);
 };
 
 export const registerInstallationUseCases = (dependencies: InstallationUseCasesDependencies) => {
