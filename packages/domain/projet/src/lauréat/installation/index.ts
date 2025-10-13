@@ -3,6 +3,11 @@ import {
   ConsulterInstallationReadModel,
 } from './consulter/consulterInstallation.query';
 import {
+  ConsulterDispositifDeStockageQuery,
+  ConsulterDispositifDeStockageReadModel,
+} from './dispositif-de-stockage/consulter/consulterDispositifDeStockage.query';
+import { ModifierDispositifDeStockageUseCase } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.usecase';
+import {
   ConsulterInstallateurQuery,
   ConsulterInstallateurReadModel,
 } from './installateur/consulter/consulterInstallateur.query';
@@ -21,13 +26,16 @@ import { ModifierTypologieInstallationUseCase } from './typologie-installation/m
 export type InstallationQuery =
   | ConsulterInstallationQuery
   | ConsulterTypologieInstallationQuery
-  | ListerHistoriqueInstallationProjetQuery;
+  | ListerHistoriqueInstallationProjetQuery
+  | ListerHistoriqueInstallationProjetQuery
+  | ConsulterDispositifDeStockageQuery;
 
 export {
   ConsulterInstallationQuery,
   ConsulterInstallateurQuery,
   ConsulterTypologieInstallationQuery,
   ListerHistoriqueInstallationProjetQuery,
+  ConsulterDispositifDeStockageQuery,
 };
 
 // ReadModel
@@ -36,23 +44,31 @@ export {
   ConsulterInstallateurReadModel,
   HistoriqueInstallationProjetListItemReadModel,
   ConsulterTypologieInstallationReadModel,
+  ConsulterDispositifDeStockageReadModel,
 };
 
 // UseCase
 export type InstallationUseCase =
   | ModifierInstallateurUseCase
-  | ModifierTypologieInstallationUseCase;
+  | ModifierTypologieInstallationUseCase
+  | ModifierDispositifDeStockageUseCase;
+
 export { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase';
 export { ModifierTypologieInstallationUseCase } from './typologie-installation/modifier/modifierTypologieInstallation.usecase';
+export { ModifierDispositifDeStockageUseCase } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.usecase';
 
 // Event
 export { InstallationEvent } from './installation.event';
 export { InstallationImportéeEvent } from './importer/importerInstallation.event';
 export { InstallateurModifiéEvent } from './installateur/modifier/modifierInstallateur.event';
 export { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
+export { DispositifDeStockageModifiéEvent } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.event';
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';
 
 // Entities
 export * from './installation.entity';
+
+// Value type
+export * as DispositifDeStockage from './dispositif-de-stockage/valueType';

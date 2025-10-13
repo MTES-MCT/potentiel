@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { DispositifDeStockage } from '..';
+import { DispositifDeStockage } from '../..';
 
 export type ModifierDispositifDeStockageOptions = {
   dispositifDeStockage: DispositifDeStockage.ValueType;

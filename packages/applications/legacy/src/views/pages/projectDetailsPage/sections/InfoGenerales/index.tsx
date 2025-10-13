@@ -12,14 +12,12 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { InfoActionnaire } from './InfoActionnaire';
 import { InfoPuissance } from './InfoPuissance';
 import { InfoRaccordement } from './InfoRaccordement';
-import { InfoDispositifDeStockage } from './InfoDispositifDeStockage';
 import { InfoNatureDeLExploitation } from './InfoNatureDeLExploitation';
 import { InfoAttestationConformité } from './InfoAttestationConformité';
 import { InfoInstallation } from './InfoInstallation';
 import {
   GetActionnaireForProjectPage,
   GetAttestationDeConformitéForProjectPage,
-  GetDispositifDeStockageForProjectPage,
 } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetInstallationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
@@ -42,7 +40,6 @@ export type InfoGeneralesProps = {
   estAchevé: boolean;
   attestationConformité?: GetAttestationDeConformitéForProjectPage;
   autorisationDUrbanisme: Candidature.Dépôt.ValueType['autorisationDUrbanisme'];
-  dispositifDeStockage?: GetDispositifDeStockageForProjectPage;
   natureDeLExploitation?: GetNatureDeLExploitationForProjectPage;
   siteDeProduction: InfoSiteDeProductionProps;
 };
@@ -74,7 +71,6 @@ export const InfoGenerales = ({
   attestationConformité,
   autorisationDUrbanisme,
   installation,
-  dispositifDeStockage,
   natureDeLExploitation,
   siteDeProduction,
 }: InfoGeneralesProps) => {
@@ -157,9 +153,6 @@ export const InfoGenerales = ({
         </div>
       ) : null}
       {installation ? <InfoInstallation installation={installation} /> : null}
-      {dispositifDeStockage !== undefined ? (
-        <InfoDispositifDeStockage dispositifDeStockage={dispositifDeStockage} />
-      ) : null}
       {natureDeLExploitation !== undefined ? (
         <InfoNatureDeLExploitation data={natureDeLExploitation} />
       ) : null}

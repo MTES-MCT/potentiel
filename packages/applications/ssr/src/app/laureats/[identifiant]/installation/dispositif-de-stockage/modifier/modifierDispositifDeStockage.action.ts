@@ -9,7 +9,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { optionalStrictlyPositiveNumberSchema } from '../../../../../utils/candidature/schemaBase';
+import { optionalStrictlyPositiveNumberSchema } from '../../../../../../utils/candidature/schemaBase';
 
 const schema = zod
   .object({
@@ -39,8 +39,8 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.DispositifDeStockage.ModifierDispositifDeStockageUseCase>({
-      type: 'Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage',
+    await mediator.send<Lauréat.Installation.ModifierDispositifDeStockageUseCase>({
+      type: 'Lauréat.Installation.UseCase.ModifierDispositifDeStockage',
       data: {
         identifiantProjetValue: identifiantProjet,
         modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),

@@ -22,13 +22,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const actuel =
-      await mediator.send<Lauréat.DispositifDeStockage.ConsulterDispositifDeStockageQuery>({
-        type: 'Lauréat.DispositifDeStockage.Query.ConsulterDispositifDeStockage',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+    const actuel = await mediator.send<Lauréat.Installation.ConsulterDispositifDeStockageQuery>({
+      type: 'Lauréat.Installation.Query.ConsulterDispositifDeStockage',
+      data: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    });
 
     if (Option.isNone(actuel)) {
       return notFound();

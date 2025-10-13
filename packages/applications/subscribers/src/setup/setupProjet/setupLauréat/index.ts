@@ -18,7 +18,6 @@ import { setupTâchePlanifiée } from './setupTâchePlanifiée.js';
 import { setupGarantiesFinancières } from './setupGarantiesFinancière.js';
 import { setupInstallation } from './setupInstallation.js';
 import { setupTâche } from './setupTâche.js';
-import { setupDispositifDeStockage } from './setupDispositifDeStockage.js';
 import { setupNatureDeLExploitation } from './setupNatureDeLExploitation.js';
 
 export const setupLauréat: SetupProjet = async (dependencies) => {
@@ -83,7 +82,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
   const unsetupTâchePlanifiée = await setupTâchePlanifiée(dependencies);
   const unsetupTâche = await setupTâche();
   const unsetupInstallation = await setupInstallation(dependencies);
-  const unsetupDispositifDeStockage = await setupDispositifDeStockage(dependencies);
   const unsetupNatureDeLExploitation = await setupNatureDeLExploitation(dependencies);
 
   return async () => {
@@ -102,7 +100,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     await unsetupTâchePlanifiée();
     await unsetupTâche();
     await unsetupInstallation();
-    await unsetupDispositifDeStockage();
     await unsetupNatureDeLExploitation();
   };
 };

@@ -4,6 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { LauréatWorld } from '../lauréat.world';
 
+import { ModifierDispositifDeStockageFixture } from './fixture/modifierDispositifDeStockage.fixture';
 import { ModifierInstallateurFixture } from './fixture/modifierInstallateur.fixture';
 import { ModifierTypologieInstallationFixture } from './fixture/modifierTypologieInstallation.fixture';
 
@@ -18,11 +19,17 @@ export class InstallationWorld {
     return this.#modifierTypologieInstallationFixture;
   }
 
+  #modifierDispositifDeStockageFixture: ModifierDispositifDeStockageFixture;
+  get modifierDispositifDeStockageFixture() {
+    return this.#modifierDispositifDeStockageFixture;
+  }
+
   constructor(public readonly lauréatWorld: LauréatWorld) {
     this.#modifierInstallateurFixture = new ModifierInstallateurFixture();
     this.#modifierTypologieInstallationFixture = new ModifierTypologieInstallationFixture(
       lauréatWorld,
     );
+    this.#modifierDispositifDeStockageFixture = new ModifierDispositifDeStockageFixture();
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
@@ -32,7 +39,14 @@ export class InstallationWorld {
     const typologieInstallationÀLaCandidature =
       this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.typologieInstallation;
 
-    if (!installateurÀLaCandidature && !typologieInstallationÀLaCandidature) {
+    const dispositifDeStockageÀLaCandidature =
+      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.dispositifDeStockage;
+
+    if (
+      !installateurÀLaCandidature &&
+      !typologieInstallationÀLaCandidature &&
+      !dispositifDeStockageÀLaCandidature
+    ) {
       return Option.none;
     }
 
@@ -48,6 +62,12 @@ export class InstallationWorld {
         : typologieInstallationÀLaCandidature.map(
             Candidature.TypologieInstallation.convertirEnValueType,
           ),
+      dispositifDeStockage: this.#modifierDispositifDeStockageFixture.aÉtéCréé
+        ? Lauréat.Installation.DispositifDeStockage.bind(
+            this.#modifierDispositifDeStockageFixture.dispositifDeStockage,
+          )
+        : dispositifDeStockageÀLaCandidature &&
+          Lauréat.Installation.DispositifDeStockage.bind(dispositifDeStockageÀLaCandidature),
     };
 
     return expected;

@@ -22,7 +22,6 @@ import { AchèvementEvent } from '../../achèvement';
 import { ÉliminéEvent } from '../../../éliminé';
 import { HistoriqueNatureDeLExploitationProjetListItemReadModel } from '../../nature-de-l-exploitation';
 import { HistoriqueInstallationProjetListItemReadModel } from '../../installation';
-import { HistoriqueDispositifDeStockageProjetListItemReadModel } from '../../dispositif-de-stockage';
 
 export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<'lauréat', LauréatEvent>;
 export type HistoriqueÉliminéProjetListItemReadModel = HistoryRecord<'éliminé', ÉliminéEvent>;
@@ -52,7 +51,6 @@ export type HistoriqueListItemReadModels =
   | HistoriqueDélaiProjetListItemReadModel
   | HistoriqueFournisseurProjetListItemReadModel
   | HistoriqueInstallationProjetListItemReadModel
-  | HistoriqueDispositifDeStockageProjetListItemReadModel
   | HistoriqueNatureDeLExploitationProjetListItemReadModel;
 
 export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;

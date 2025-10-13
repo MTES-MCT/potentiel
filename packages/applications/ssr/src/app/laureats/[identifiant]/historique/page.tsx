@@ -30,7 +30,6 @@ import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiT
 import { mapToInstallationTimelineItemProps } from '../installation/(historique)/mapToInstallationTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
 import { mapToFournisseurTimelineItemProps } from '../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
-import { mapToDispositifDeStockageProps } from '../dispositif-de-stockage/(historique)/mapToDispositifDeStockageTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
@@ -49,7 +48,6 @@ const categoriesDisponibles = [
   'représentant-légal',
   'raccordement',
   'installation',
-  'dispositif-de-stockage',
   'nature-de-l-exploitation',
 ] as const;
 
@@ -172,7 +170,6 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   délai: 'ri-time-line',
   fournisseur: DEMANDE_GENERIQUE_ICONE,
   installation: DEMANDE_GENERIQUE_ICONE,
-  'dispositif-de-stockage': DEMANDE_GENERIQUE_ICONE,
   'nature-de-l-exploitation': DEMANDE_GENERIQUE_ICONE,
 };
 
@@ -251,12 +248,6 @@ const mapToTimelineItemProps = ({
     .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
     .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
     .with({ category: 'installation' }, mapToInstallationTimelineItemProps)
-    .with(
-      {
-        category: 'dispositif-de-stockage',
-      },
-      mapToDispositifDeStockageProps,
-    )
     .with(
       {
         category: 'nature-de-l-exploitation',

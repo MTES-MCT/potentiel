@@ -1,10 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/timeline';
-
-export const mapTodispositifDeStockageModifiéTimelineItemsProps = (
+export const mapTodispositifDeStockagemodifiéTimelineItemsProps = (
   record: Lauréat.Installation.DispositifDeStockageModifiéEvent,
-): TimelineItemProps => {
+) => {
   const {
     modifiéLe,
     modifiéPar,
@@ -17,7 +15,6 @@ export const mapTodispositifDeStockageModifiéTimelineItemsProps = (
 
   return {
     date: modifiéLe,
-    acteur: modifiéPar,
     title: (
       <div>
         Dispositif de stockage modifié par {<span className="font-semibold">{modifiéPar}</span>}

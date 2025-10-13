@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
-import { DispositifDeStockage } from '..';
+import { DispositifDeStockage } from '../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type ModifierDispositifDeStockageCommand = Message<
-  'Lauréat.DispositifDeStockage.Command.ModifierDispositifDeStockage',
+  'Lauréat.Installation.Command.ModifierDispositifDeStockage',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dispositifDeStockage: DispositifDeStockage.ValueType;
@@ -20,8 +20,8 @@ export const registerModifierDispositifDeStockageCommand = (
 ) => {
   const handler: MessageHandler<ModifierDispositifDeStockageCommand> = async (payload) => {
     const projet = await getProjetAggregateRoot(payload.identifiantProjet);
-    await projet.lauréat.dispositifDeStockage.modifier(payload);
+    await projet.lauréat.installation.modifierDispositifDeStockage(payload);
   };
 
-  mediator.register('Lauréat.DispositifDeStockage.Command.ModifierDispositifDeStockage', handler);
+  mediator.register('Lauréat.Installation.Command.ModifierDispositifDeStockage', handler);
 };

@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 
-import { IdentifiantProjet } from '../../..';
-import { DispositifDeStockageEntity } from '../dispositifDeStockage.entity';
-import { DispositifDeStockage } from '..';
+import { IdentifiantProjet } from '../../../..';
+import { InstallationEntity } from '../../installation.entity';
+import { DispositifDeStockage } from '../..';
 
 export type ConsulterDispositifDeStockageReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -13,7 +13,7 @@ export type ConsulterDispositifDeStockageReadModel = {
 };
 
 export type ConsulterDispositifDeStockageQuery = Message<
-  'Lauréat.DispositifDeStockage.Query.ConsulterDispositifDeStockage',
+  'Lauréat.Installation.Query.ConsulterDispositifDeStockage',
   {
     identifiantProjet: string;
   },
@@ -32,19 +32,19 @@ export const registerConsulterDispositifDeStockageQuery = ({
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const dispositifDeStockage = await find<DispositifDeStockageEntity>(
-      `dispositif-de-stockage|${identifiantProjetValueType.formatter()}`,
+    const dispositifDeStockage = await find<InstallationEntity>(
+      `installation|${identifiantProjetValueType.formatter()}`,
     );
 
     return Option.match(dispositifDeStockage).some(mapToReadModel).none();
   };
-  mediator.register('Lauréat.DispositifDeStockage.Query.ConsulterDispositifDeStockage', handler);
+  mediator.register('Lauréat.Installation.Query.ConsulterDispositifDeStockage', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  dispositifDeStockage,
-}: DispositifDeStockageEntity) => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  dispositifDeStockage: DispositifDeStockage.bind(dispositifDeStockage),
-});
+export const mapToReadModel = ({ identifiantProjet, dispositifDeStockage }: InstallationEntity) =>
+  dispositifDeStockage
+    ? {
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+        dispositifDeStockage: DispositifDeStockage.bind(dispositifDeStockage),
+      }
+    : Option.none;

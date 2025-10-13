@@ -114,7 +114,7 @@ export async function corrigerCandidature(this: PotentielWorld, exemple?: Record
         ...changedValues.dépôt,
         dispositifDeStockage:
           dispositifDeStockageValue.installationAvecDispositifDeStockage !== undefined
-            ? (dispositifDeStockageValue as Lauréat.DispositifDeStockage.DispositifDeStockage.RawType)
+            ? (dispositifDeStockageValue as Lauréat.Installation.DispositifDeStockage.RawType)
             : undefined,
         natureDeLExploitation: typeNatureDeLExploitation
           ? { typeNatureDeLExploitation, tauxPrévisionnelACI }
