@@ -1,8 +1,8 @@
 import { Args, Command } from '@oclif/core';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { getProjetAggregateRootAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { getProjetAggregateRootAdapter } from '@potentiel-applications/bootstrap';
 
 export class LoadTest extends Command {
   static description =

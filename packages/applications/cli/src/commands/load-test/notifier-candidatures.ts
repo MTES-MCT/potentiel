@@ -8,9 +8,11 @@ import {
   registerProjetUseCases,
 } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  DocumentAdapter,
+  getProjetAggregateRootAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { getProjetAggregateRootAdapter } from '@potentiel-applications/bootstrap';
 import {
   countProjection,
   findProjection,

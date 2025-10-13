@@ -3,13 +3,15 @@ import zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet, registerProjetUseCases } from '@potentiel-domain/projet';
-import { getDépôtCandidature } from '@potentiel-infrastructure/ds-api-client';
 import { Option } from '@potentiel-libraries/monads';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import { DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  DocumentAdapter,
+  getProjetAggregateRootAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { registerDocumentProjetCommand } from '@potentiel-domain/document';
-import { getProjetAggregateRootAdapter } from '@potentiel-applications/bootstrap';
+import { getDossier } from '@potentiel-infrastructure/ds-api-client';
 
 const envSchema = zod.object({
   APPLICATION_STAGE: zod.string(),
@@ -105,7 +107,7 @@ export class ImporterCandidatures extends Command {
               demarcheId: '',
               fichiers: { garantiesFinancières: undefined },
             }
-          : await getDépôtCandidature(numeroDossierDS);
+          : await getDossier(numeroDossierDS);
 
       if (Option.isNone(dossier)) {
         throw new Error(`Le dossier ${numeroDossierDS} est introuvable`);
@@ -123,8 +125,6 @@ export class ImporterCandidatures extends Command {
         dépôtValue: { ...dépôt, puissanceALaPointe: false } as Candidature.Dépôt.RawType,
         détailsValue: {
           typeImport: 'démarches-simplifiées',
-          demarcheId: dossier.demarcheId,
-          pièceJustificativeGf: dossier.fichiers.garantiesFinancières?.url ?? '',
         },
         instructionValue: instruction,
       });
