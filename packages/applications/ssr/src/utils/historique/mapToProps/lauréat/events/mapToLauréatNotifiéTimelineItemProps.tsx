@@ -6,7 +6,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 
 export const mapToLauréatNotifiéTimelineItemProps = (
   modification: Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event,
-  recoursAccordé: boolean,
+  doitAfficherLienAttestationDésignation: boolean,
 ) => {
   const {
     identifiantProjet,
@@ -17,7 +17,7 @@ export const mapToLauréatNotifiéTimelineItemProps = (
   return {
     date: notifiéLe,
     title: <div>Projet notifié lauréat</div>,
-    content: recoursAccordé ? undefined : (
+    content: doitAfficherLienAttestationDésignation ? (
       <DownloadDocument
         className="mb-0"
         label="Télécharger l'attestation"
@@ -31,6 +31,6 @@ export const mapToLauréatNotifiéTimelineItemProps = (
           ).formatter(),
         )}
       />
-    ),
+    ) : undefined,
   };
 };

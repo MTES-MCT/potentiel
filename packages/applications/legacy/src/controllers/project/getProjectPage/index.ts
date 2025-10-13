@@ -314,6 +314,7 @@ v1Router.get(
             rôle: role,
             project,
           }),
+          doitAfficherAttestationDésignation: !!lauréat.attestationDésignation,
         }),
       );
     },
