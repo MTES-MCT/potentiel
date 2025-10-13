@@ -8,8 +8,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Heading2 } from '@/components/atoms/headings';
+import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { DétailsInformationEnregistrée } from '@/components/organisms/demande/DétailsInformationEnregistrée';
 
 import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 
@@ -18,21 +19,34 @@ export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePagePro
 export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProps> = ({
   demande,
 }) => {
-  const estUneInformationEnregistrée = Lauréat.Actionnaire.StatutChangementActionnaire.bind(
-    demande.statut,
-  ).estInformationEnregistrée();
-
-  return (
+  return demande.statut.statut === 'information-enregistrée' ? (
+    <DétailsInformationEnregistrée
+      title="Changement d'actionnaire(s)"
+      détailsSpécifiques={<DétailsActionnaire demande={demande} />}
+      changement={{
+        enregistréPar: demande.demandéePar,
+        enregistréLe: demande.demandéeLe,
+        raison: demande.raison,
+        pièceJustificative: demande.pièceJustificative,
+      }}
+    />
+  ) : (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row gap-4">
-        <Heading2>
-          {estUneInformationEnregistrée
-            ? "Changement d'actionnaire(s)"
-            : "Demande de changement d'actionnaire(s)"}
-        </Heading2>
-        <StatutDemandeBadge statut={demande.statut.statut} />
+      <div>
+        <div className="flex flex-row gap-4">
+          <Heading2>Demande de changement d'actionnaire(s)</Heading2>
+          <StatutDemandeBadge statut={demande.statut.statut} />
+        </div>
+        <div className="text-xs italic">
+          Demandé le{' '}
+          <FormattedDate
+            className="font-medium"
+            date={DateTime.bind(demande.demandéeLe).formatter()}
+          />{' '}
+          par <span className="font-medium">{Email.bind(demande.demandéePar).formatter()}</span>
+        </div>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         {demande.accord && (
           <ChangementAccordé
             accordéeLe={demande.accord.accordéeLe}
@@ -47,76 +61,43 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
             réponseSignée={demande.rejet.réponseSignée}
           />
         )}
-        {Lauréat.Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
-          <ChangementDemandé demandéeLe={demande.demandéeLe} demandéePar={demande.demandéePar} />
-        )}
-        {estUneInformationEnregistrée && (
-          <InformationEnregistrée
-            demandéeLe={demande.demandéeLe}
-            demandéePar={demande.demandéePar}
-          />
-        )}
-        <Changement
-          nouvelActionnaire={demande.nouvelActionnaire}
-          raison={demande.raison}
-          pièceJustificative={demande.pièceJustificative}
-        />
+        <Changement demande={demande} />
       </div>
     </div>
   );
 };
 
-type ChangementProps = Pick<
-  PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
-  'raison' | 'pièceJustificative' | 'nouvelActionnaire'
->;
-
-const Changement: FC<ChangementProps> = ({ nouvelActionnaire, pièceJustificative, raison }) => (
-  <>
-    <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Société mère</div>
-      <div>{nouvelActionnaire}</div>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-      <div>{raison}</div>
-    </div>
-    {pièceJustificative && (
-      <div className="flex gap-2">
-        <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la pièce justificative"
-          format={pièceJustificative.format}
-          url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
-        />
-      </div>
-    )}
-  </>
-);
-
-const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, demandéePar }) => (
-  <div className="flex flex-col gap-2">
-    <div className="text-xs italic">
-      Modifié le{' '}
-      <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
-      <span className="font-semibold">{Email.bind(demandéePar).formatter()}</span>
-    </div>
+const DétailsActionnaire: FC<DétailsChangementActionnaireProps> = ({ demande }) => (
+  <div>
+    <span className="font-medium">Nouvel actionnaire :</span> {demande.nouvelActionnaire}
   </div>
 );
 
-type ChangementDemandéProps = Pick<
-  PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
-  'demandéeLe' | 'demandéePar'
->;
+type ChangementProps = DétailsChangementActionnaireProps;
 
-const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandéePar }) => (
-  <div className="flex flex-col gap-2">
-    <div className="text-xs italic">
-      Demandé le{' '}
-      <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
-      <span className="font-semibold">{Email.bind(demandéePar).formatter()}</span>
+const Changement: FC<ChangementProps> = ({ demande }) => (
+  <div>
+    <Heading5>Détails de la demande</Heading5>
+    <div className="flex gap-2">
+      <DétailsActionnaire demande={demande} />
     </div>
+    <div className="flex gap-2">
+      <div className="font-medium whitespace-nowrap">Raison du changement :</div>
+      <div>{demande.raison}</div>
+    </div>
+    {demande.pièceJustificative && (
+      <div className="flex gap-2">
+        <div className="font-medium whitespace-nowrap">Pièce(s) justificative(s) :</div>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la pièce justificative"
+          format={demande.pièceJustificative.format}
+          url={Routes.Document.télécharger(
+            DocumentProjet.bind(demande.pièceJustificative).formatter(),
+          )}
+        />
+      </div>
+    )}{' '}
   </div>
 );
 
@@ -129,14 +110,15 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
   accordéePar,
   réponseSignée,
 }) => (
-  <div className="flex flex-col gap-2">
-    <div className="text-xs italic">
+  <div>
+    <Heading5>Accord</Heading5>
+    <div>
       Accordée le{' '}
-      <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
-      <span className="font-semibold">{Email.bind(accordéePar).formatter()}</span>
+      <FormattedDate className="font-medium" date={DateTime.bind(accordéeLe).formatter()} />, par{' '}
+      <span className="font-medium">{Email.bind(accordéePar).formatter()}</span>
     </div>
     <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
+      <div className="font-medium whitespace-nowrap">Réponse signée :</div>
       <DownloadDocument
         className="mb-0"
         label="Télécharger la réponse signée"
@@ -152,14 +134,15 @@ type ChangementRejetéProps = NonNullable<
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
-  <div className="flex flex-col gap-2">
-    <div className="text-xs italic">
+  <div>
+    <Heading5>Rejet</Heading5>
+    <div>
       Rejetée le{' '}
-      <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
-      <span className="font-semibold">{Email.bind(rejetéePar).formatter()}</span>
+      <FormattedDate className="font-medium" date={DateTime.bind(rejetéeLe).formatter()} />, par{' '}
+      <span className="font-medium">{Email.bind(rejetéePar).formatter()}</span>
     </div>
     <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
+      <div className="font-medium whitespace-nowrap">Réponse signée :</div>
       <DownloadDocument
         className="mb-0"
         label="Télécharger la réponse signée"
