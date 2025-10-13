@@ -8,20 +8,16 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-applications/document-builder": "*",
-    "@potentiel-applications/notifications": "*",
-    "@potentiel-applications/projectors": "*",
     "@potentiel-applications/request-context": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/periode": "*",
+    "@potentiel-domain/projet": "*",
+    "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/email": "*",
-    "@potentiel-infrastructure/ore-client": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
-    "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

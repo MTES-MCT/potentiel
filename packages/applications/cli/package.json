@@ -24,10 +24,12 @@
   "dependencies": {
     "@oclif/core": "^4.5.0",
     "@potentiel-applications/bootstrap": "*",
+    "@potentiel-applications/document-builder": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/ds-api-client": "*",
+    "@potentiel-infrastructure/ore-client": "*",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monitoring": "*",

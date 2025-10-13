@@ -31,6 +31,9 @@
     },
     {
       "path": "../applications/bootstrap"
+    },
+    {
+      "path": "../applications/subscribers"
     }
   ]
 }

@@ -15,8 +15,8 @@
     - [Les tests de specifications (scénarios métiers)](#les-tests-de-specifications-scénarios-métiers)
     - [Les tests unitaires](#les-tests-unitaires)
   - [Metabase local](#metabase-local)
-      - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
-      - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
+    - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
+    - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
   - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
   - [Lancer des commandes CLI](#lancer-des-commandes-cli)
   - [Tâches récurrentes / CRON](#tâches-récurrentes--cron)
@@ -50,13 +50,12 @@ Pour installer et lancer le projet vous aurez besoin de :
    npm install
    ```
 
-4. Configurer les variables d'environnement à la base des deux applications (ssr et legacy) :
+4. Configurer les variables d'environnement à la base des applications :
 
    ```bash
-   cd packages/applications/ssr
-   cp .env.template .env
-   cd ../legacy
-   cp .env.template .env
+   cp packages/applications/ssr/.env.template packages/applications/ssr/.env
+   cp packages/applications/subscribers/.env.template packages/applications/subscribers/.env
+   cp packages/applications/legacy/.env.template packages/applications/legacy/.env
    ```
 
 5. Synchroniser les submodules
@@ -68,9 +67,8 @@ Pour installer et lancer le projet vous aurez besoin de :
       git submodule update
    ```
 
-## <a id="keycloak">Système d'authentification avec Keycloak
+## <a id="keycloak"></a>Système d'authentification avec Keycloak
 
-</a> 
 Nous utilisons le service de Keycloak seulement en local.
 
 Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mis en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
@@ -90,19 +88,15 @@ Pour les environnements de production et de staging, Keycloak est hébergé sur 
 
 > ⚠️ Pour démarrer l'application vous aurez besoin de Docker 🐋
 
+L'application est composée de 3 parties :
+
+- le serveur web dit "ssr", qui contient les pages migrées en Next.js
+- le serveur web dit "legacy", qui contient la page projet et englobe la partie "ssr"
+- le serveur "worker" qui exécute les tâches de fond (projections, sagas et notifications)
+
+Ces composants peuvent être lancés individuellement ou de manière simultanée.
+
 1. Lancer l'application via le script npm :
-
-```bash
-npm run dev
-```
-
-Pour accéder à toute l'application, y compris les quelques pages encore gérées dans l'application legacy :
-
-```bash
-npm run start:legacy
-```
-
-Pour compiler puis lancer l'application comme cela est fait en production :
 
 ```bash
 npm run build
@@ -132,9 +126,9 @@ Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer le
 
 > ✨ Si vous avez besoin de compléter le dump qui est seed par défaut, vous pouvez effectuer les modifications sur la base de donnée avec votre éditeur de base de donnés.
 >
-> Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée. Pour se faire il lancer le script npm 'update:dump'
+> Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée, via la commande `npm update:dump`.
 >
-> Il ne vous reste qu'à remplacer votre fichier à jour avec celui existant
+> Attention ! Pensez à ne garder que les modifications pertinentes. Vous pouvez remettre la base de donnée à son état d'origine avec `npm run down && npm run up`.
 
 ### <a id="ajouter-a-la-main-projets-dans-potentiel">Ajouter "à la main des projets dans Potentiel"</a>
 

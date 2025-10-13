@@ -39,6 +39,9 @@
       "path": "../bootstrap"
     },
     {
+      "path": "../subscribers"
+    },
+    {
       "path": "../request-context"
     },
     {
