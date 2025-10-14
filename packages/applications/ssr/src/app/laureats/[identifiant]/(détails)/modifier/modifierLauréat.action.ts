@@ -227,7 +227,7 @@ const mapBodyToCandidatureUsecaseData = (
       historiqueAbandon: previous.historiqueAbandon.formatter(),
       fournisseurs: previous.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       obligationDeSolarisation: previous.obligationDeSolarisation,
-      typologieInstallation: previous.typologieInstallation.map((t) => t.formatter()),
+      typologieDuProjet: previous.typologieDuProjet.map((t) => t.formatter()),
       dispositifDeStockage: previous.dispositifDeStockage,
       natureDeLExploitation: previous.natureDeLExploitation
         ? {

@@ -19,12 +19,13 @@ Quand(
 );
 
 Quand(
-  "le DGEC validateur modifie la typologie d'installation du projet lauréat",
+  'le DGEC validateur modifie la typologie du projet lauréat',
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
-
-      await modifierTypologieInstallation.call(this, identifiantProjet);
+      await modifierTypologieDuProjet.call(this, identifiantProjet, [
+        { typologie: 'ombrière.parking' },
+      ]);
     } catch (error) {
       this.error = error as Error;
     }
@@ -47,13 +48,13 @@ Quand(
 );
 
 Quand(
-  "le DGEC validateur modifie la typologie d'installation avec une valeur identique pour le projet lauréat",
+  'le DGEC validateur modifie la typologie avec une valeur identique pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
-      await modifierTypologieInstallation.call(
+      await modifierTypologieDuProjet.call(
         this,
         this.lauréatWorld.identifiantProjet,
-        this.candidatureWorld.importerCandidature.dépôtValue.typologieInstallation,
+        this.candidatureWorld.importerCandidature.dépôtValue.typologieDuProjet,
       );
     } catch (error) {
       this.error = error as Error;
@@ -62,10 +63,10 @@ Quand(
 );
 
 Quand(
-  "le DGEC validateur modifie la typologie d'installation un jeu de typologies identiques",
+  'le DGEC validateur modifie la typologie du projet avec un jeu de typologies identiques',
   async function (this: PotentielWorld) {
     try {
-      await modifierTypologieInstallation.call(this, this.lauréatWorld.identifiantProjet, [
+      await modifierTypologieDuProjet.call(this, this.lauréatWorld.identifiantProjet, [
         { typologie: 'bâtiment.neuf' },
         { typologie: 'bâtiment.neuf' },
       ]);
@@ -97,22 +98,22 @@ export async function modifierInstallateur(
   });
 }
 
-export async function modifierTypologieInstallation(
+export async function modifierTypologieDuProjet(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   value?: { typologie: string; détails?: string }[],
 ) {
-  const { modifiéeLe, modifiéePar, typologieInstallation } =
-    this.lauréatWorld.installationWorld.modifierTypologieInstallationFixture.créer({
+  const { modifiéeLe, modifiéePar, typologieDuProjet } =
+    this.lauréatWorld.installationWorld.modifierTypologieDuProjetFixture.créer({
       modifiéePar: this.utilisateurWorld.adminFixture.email,
-      ...(value && { typologieInstallation: value }),
+      ...(value && { typologieDuProjet: value }),
     });
 
-  await mediator.send<Lauréat.Installation.ModifierTypologieInstallationUseCase>({
-    type: 'Lauréat.Installation.UseCase.ModifierTypologieInstallation',
+  await mediator.send<Lauréat.Installation.ModifierTypologieDuProjetUseCase>({
+    type: 'Lauréat.Installation.UseCase.ModifierTypologieDuProjet',
     data: {
-      typologieInstallationValue: typologieInstallation.map(
-        Candidature.TypologieInstallation.convertirEnValueType,
+      typologieDuProjetValue: typologieDuProjet.map((t) =>
+        Candidature.TypologieDuProjet.convertirEnValueType(t).formatter(),
       ),
       dateModificationValue: modifiéeLe,
       identifiantUtilisateurValue: modifiéePar,

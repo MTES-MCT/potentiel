@@ -8,22 +8,22 @@ import {
   ÉlémentsSousOmbrièreCsvShape,
 } from './candidatureCsvFields.schema';
 
-type GetTypologieInstallation = (args: {
+type GetTypologieDuProjet = (args: {
   typeInstallationsAgrivoltaïques: InstallationsAgrivoltaïquesCsvShape;
   typologieDeBâtiment: TypologieBâtimentCsvShape;
   élémentsSousOmbrière: ÉlémentsSousOmbrièreCsvShape;
-}) => Array<Candidature.TypologieInstallation.RawType>;
+}) => Array<Candidature.TypologieDuProjet.RawType>;
 
-export const mapCsvToTypologieInstallation: GetTypologieInstallation = ({
+export const mapCsvToTypologieDuProjet: GetTypologieDuProjet = ({
   typeInstallationsAgrivoltaïques,
   typologieDeBâtiment,
   élémentsSousOmbrière,
 }) => {
-  const typologiesInstallation: Array<Candidature.TypologieInstallation.RawType> = [];
+  const typologiesInstallation: Array<Candidature.TypologieDuProjet.RawType> = [];
 
   if (typeInstallationsAgrivoltaïques) {
     const installationAgrivoltaïque = match(typeInstallationsAgrivoltaïques)
-      .returnType<Candidature.TypologieInstallation.RawType>()
+      .returnType<Candidature.TypologieDuProjet.RawType>()
       .with('culture', () => ({
         typologie: 'agrivoltaïque.culture',
       }))
@@ -43,7 +43,7 @@ export const mapCsvToTypologieInstallation: GetTypologieInstallation = ({
 
   if (typologieDeBâtiment) {
     const typologieBâtiment = match(typologieDeBâtiment)
-      .returnType<Candidature.TypologieInstallation.RawType>()
+      .returnType<Candidature.TypologieDuProjet.RawType>()
       .with('bâtiment neuf', () => ({
         typologie: 'bâtiment.neuf',
       }))

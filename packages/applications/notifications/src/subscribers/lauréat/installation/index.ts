@@ -8,7 +8,7 @@ import { getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import { installateurModifiéNotification } from './installateurModifié.notification';
-import { typologieInstallationModifiéeNotification } from './typologieInstallationModifiée.notification';
+import { typologieDuProjetModifiéeNotification } from './typologieDuProjetModifiée.notification';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent & Event;
 
@@ -34,8 +34,8 @@ export const register = ({ sendEmail }: RegisterInstallationNotificationDependen
           projet,
         }),
       )
-      .with({ type: 'TypologieInstallationModifiée-V1' }, async (event) =>
-        typologieInstallationModifiéeNotification({
+      .with({ type: 'TypologieDuProjetModifiée-V1' }, async (event) =>
+        typologieDuProjetModifiéeNotification({
           sendEmail,
           event,
           projet,

@@ -2,7 +2,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../..';
-import { TypologieInstallation } from '../../candidature';
+import { TypologieDuProjet } from '../../candidature';
 
 export type InstallationEntity = Entity<
   'installation',
@@ -10,6 +10,6 @@ export type InstallationEntity = Entity<
     identifiantProjet: IdentifiantProjet.RawType;
     misÀJourLe: DateTime.RawType;
     installateur: string;
-    typologieInstallation: TypologieInstallation.RawType[];
+    typologieDuProjet: TypologieDuProjet.RawType[];
   }
 >;

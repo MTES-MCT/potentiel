@@ -1,4 +1,4 @@
 import { InstallateurEvent } from './installateur/installateur.event';
-import { TypologieInstallationEvent } from './typologie-installation/typologieInstallation.event';
+import { TypologieDuProjetEvent } from './typologie-du-projet/typologieDuProjet.event';
 
-export type InstallationEvent = TypologieInstallationEvent | InstallateurEvent;
+export type InstallationEvent = TypologieDuProjetEvent | InstallateurEvent;

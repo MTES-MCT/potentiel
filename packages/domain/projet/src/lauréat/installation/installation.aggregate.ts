@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { TypologieInstallation } from '../../candidature';
+import { TypologieDuProjet } from '../../candidature';
 import { Candidature } from '../..';
 
 import { InstallateurModifiéEvent } from '.';
@@ -14,12 +14,12 @@ import {
   InstallateurIdentiqueError,
   InstallationDéjàTransmiseError,
   JeuDeTypologiesIdentiquesError,
-  TypologieInstallationIdentiqueError,
+  TypologiDuProjetIdentiqueError,
 } from './installation.error';
 import { InstallationImportéeEvent } from './importer/importerInstallation.event';
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
-import { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option';
-import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
+import { ModifierTypologieDuProjetOptions } from './typologie-du-projet/modifier/modifierTypologieDuProjet.option';
+import { TypologieDuProjetModifiéeEvent } from './typologie-du-projet/modifier/modifierTypologieDuProjet.event';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -27,7 +27,7 @@ export class InstallationAggregate extends AbstractAggregate<
   LauréatAggregate
 > {
   #installateur?: string;
-  #typologieInstallation!: TypologieInstallation.ValueType[];
+  #typologieDuProjet!: TypologieDuProjet.ValueType[];
 
   get lauréat() {
     return this.parent;
@@ -37,7 +37,7 @@ export class InstallationAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async importer({ installateur, typologieInstallation, importéLe, importéPar }: ImporterOptions) {
+  async importer({ installateur, typologieDuProjet, importéLe, importéPar }: ImporterOptions) {
     if (this.exists) {
       throw new InstallationDéjàTransmiseError();
     }
@@ -47,7 +47,7 @@ export class InstallationAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installateur: installateur ?? '',
-        typologieInstallation,
+        typologieDuProjet: typologieDuProjet.map((t) => t.formatter()),
         importéeLe: importéLe.formatter(),
         importéePar: importéPar.formatter(),
       },
@@ -80,22 +80,20 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async modifierTypologieInstallation({
-    typologieInstallation,
+  async modifierTypologieDuProjet({
+    typologieDuProjet,
     dateModification,
     identifiantUtilisateur,
-  }: ModifierTypologieInstallationOptions) {
+  }: ModifierTypologieDuProjetOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    this.vérifierQueModificationTypologieInstallationEstPossible(typologieInstallation);
+    this.vérifierQueModificationTypologieDuProjetEstPossible(typologieDuProjet);
 
-    const event: TypologieInstallationModifiéeEvent = {
-      type: 'TypologieInstallationModifiée-V1',
+    const event: TypologieDuProjetModifiéeEvent = {
+      type: 'TypologieDuProjetModifiée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        typologieInstallation: typologieInstallation.map(
-          TypologieInstallation.convertirEnValueType,
-        ),
+        typologieDuProjet: typologieDuProjet.map((t) => t.formatter()),
         modifiéeLe: dateModification.formatter(),
         modifiéePar: identifiantUtilisateur.formatter(),
       },
@@ -104,20 +102,23 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  private vérifierQueModificationTypologieInstallationEstPossible = (
-    modification: Candidature.TypologieInstallation.ValueType[],
+  private vérifierQueModificationTypologieDuProjetEstPossible = (
+    modification: Candidature.TypologieDuProjet.ValueType[],
   ) => {
-    const actuel = this.#typologieInstallation;
+    const actuel = this.#typologieDuProjet;
 
     if (
       actuel.length === modification.length &&
       modification.every((m) => actuel.some((a) => m.estÉgaleÀ(a)))
     ) {
-      throw new TypologieInstallationIdentiqueError();
+      throw new TypologiDuProjetIdentiqueError();
     }
 
-    if (modification.every((m1) => modification.some((m2) => m1.typologie === m2.typologie))) {
-      throw new JeuDeTypologiesIdentiquesError();
+    if (modification.length > 1) {
+      const uniqueTypologies = new Set(modification.map((m) => m.typologie));
+      if (uniqueTypologies.size < modification.length) {
+        throw new JeuDeTypologiesIdentiquesError();
+      }
     }
   };
 
@@ -135,19 +136,17 @@ export class InstallationAggregate extends AbstractAggregate<
         },
         (event) => this.applyInstallateurModifiéV1(event),
       )
-      .with({ type: 'TypologieInstallationModifiée-V1' }, (event) =>
-        this.applyTypologieInstallationModifiéeV1(event),
+      .with({ type: 'TypologieDuProjetModifiée-V1' }, (event) =>
+        this.applyTypologieDuProjetModifiéeV1(event),
       )
       .exhaustive();
   }
 
   private applyInstallationImportéeV1({
-    payload: { installateur, typologieInstallation },
+    payload: { installateur, typologieDuProjet },
   }: InstallationImportéeEvent) {
     this.#installateur = installateur;
-    this.#typologieInstallation = typologieInstallation.map(
-      TypologieInstallation.convertirEnValueType,
-    );
+    this.#typologieDuProjet = typologieDuProjet.map(TypologieDuProjet.convertirEnValueType);
   }
 
   private applyInstallateurModifiéV1({
@@ -156,11 +155,9 @@ export class InstallationAggregate extends AbstractAggregate<
     this.#installateur = nouvelInstallateur;
   }
 
-  private applyTypologieInstallationModifiéeV1({
-    payload: { typologieInstallation: nouvelleTypologieInstallation },
-  }: TypologieInstallationModifiéeEvent) {
-    this.#typologieInstallation = nouvelleTypologieInstallation.map(
-      TypologieInstallation.convertirEnValueType,
-    );
+  private applyTypologieDuProjetModifiéeV1({
+    payload: { typologieDuProjet: nouvelleTypologieDuProjet },
+  }: TypologieDuProjetModifiéeEvent) {
+    this.#typologieDuProjet = nouvelleTypologieDuProjet.map(TypologieDuProjet.convertirEnValueType);
   }
 }

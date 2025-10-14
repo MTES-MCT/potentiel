@@ -12,21 +12,21 @@ import {
   ListerHistoriqueInstallationProjetQuery,
 } from './listerHistorique/listerHistoriqueInstallationProjet.query';
 import {
-  ConsulterTypologieInstallationQuery,
-  ConsulterTypologieInstallationReadModel,
-} from './typologie-installation/consulter/consulterTypologieInstallation.query';
-import { ModifierTypologieInstallationUseCase } from './typologie-installation/modifier/modifierTypologieInstallation.usecase';
+  ConsulterTypologieDuProjetQuery,
+  ConsulterTypologieDuProjetReadModel,
+} from './typologie-du-projet/consulter/consulterTypologieDuProjet.query';
+import { ModifierTypologieDuProjetUseCase } from './typologie-du-projet/modifier/modifierTypologieDuProjet.usecase';
 
 // Query
 export type InstallationQuery =
   | ConsulterInstallationQuery
-  | ConsulterTypologieInstallationQuery
+  | ConsulterTypologieDuProjetQuery
   | ListerHistoriqueInstallationProjetQuery;
 
 export {
   ConsulterInstallationQuery,
   ConsulterInstallateurQuery,
-  ConsulterTypologieInstallationQuery,
+  ConsulterTypologieDuProjetQuery,
   ListerHistoriqueInstallationProjetQuery,
 };
 
@@ -35,21 +35,19 @@ export {
   ConsulterInstallationReadModel,
   ConsulterInstallateurReadModel,
   HistoriqueInstallationProjetListItemReadModel,
-  ConsulterTypologieInstallationReadModel,
+  ConsulterTypologieDuProjetReadModel,
 };
 
 // UseCase
-export type InstallationUseCase =
-  | ModifierInstallateurUseCase
-  | ModifierTypologieInstallationUseCase;
+export type InstallationUseCase = ModifierInstallateurUseCase | ModifierTypologieDuProjetUseCase;
 export { ModifierInstallateurUseCase } from './installateur/modifier/modifierInstallateur.usecase';
-export { ModifierTypologieInstallationUseCase } from './typologie-installation/modifier/modifierTypologieInstallation.usecase';
+export { ModifierTypologieDuProjetUseCase } from './typologie-du-projet/modifier/modifierTypologieDuProjet.usecase';
 
 // Event
 export { InstallationEvent } from './installation.event';
 export { InstallationImportéeEvent } from './importer/importerInstallation.event';
 export { InstallateurModifiéEvent } from './installateur/modifier/modifierInstallateur.event';
-export { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
+export { TypologieDuProjetModifiéeEvent } from './typologie-du-projet/modifier/modifierTypologieDuProjet.event';
 
 // Register
 export { registerInstallationQueries, registerInstallationUseCases } from './installation.register';

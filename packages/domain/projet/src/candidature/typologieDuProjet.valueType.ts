@@ -57,13 +57,13 @@ function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
   const isValid = (typologies as readonly string[]).includes(value.typologie);
 
   if (!isValid) {
-    throw new TypologieInstallationInvalideError(value.typologie);
+    throw new TypologieDuProjetInvalideError(value.typologie);
   }
 }
 
-class TypologieInstallationInvalideError extends InvalidOperationError {
+class TypologieDuProjetInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`La typologie de l'installation ne correspond à aucune valeur connue`, {
+    super(`La typologie du projet ne correspond à aucune valeur connue`, {
       value,
     });
   }

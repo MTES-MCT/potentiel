@@ -9,10 +9,10 @@ export type InfoInstallationProps = {
 };
 
 export const InfoInstallation = ({
-  installation: { installateur, typologieInstallation },
+  installation: { installateur, typologieDuProjet },
 }: InfoInstallationProps) => {
   const getTypologieLabels = (
-    typologie: GetInstallationForProjectPage['typologieInstallation']['value'][number]['typologie'],
+    typologie: GetInstallationForProjectPage['typologieDuProjet']['value'][number]['typologie'],
   ) => {
     return match(typologie)
       .with('agrivoltaïque.culture', () => 'Installation agrivoltaïque (culture)')
@@ -39,10 +39,10 @@ export const InfoInstallation = ({
       .exhaustive();
   };
 
-  const formatTypologieInstallation = ({
+  const formatTypologieDuProjet = ({
     typologie,
     détails,
-  }: InfoInstallationProps['installation']['typologieInstallation']['value'][number]) => (
+  }: InfoInstallationProps['installation']['typologieDuProjet']['value'][number]) => (
     <>
       <div>{getTypologieLabels(typologie)}</div>
       {détails && <div>Éléments sous l'installation : {détails}</div>}
@@ -55,29 +55,24 @@ export const InfoInstallation = ({
         <Heading4 className="m-0" style={{ fontSize: '16px' }}>
           Typologie du projet
         </Heading4>
-        {typologieInstallation.value.length > 1 ? (
+        {typologieDuProjet.value.length > 1 ? (
           <>
             <div className="m-0">Installation mixte :</div>
             <ul className="list-disc pl-4 m-0">
-              {typologieInstallation.value.map((typologieInstallation) => (
-                <li key={typologieInstallation.typologie}>
-                  {formatTypologieInstallation(typologieInstallation)}
-                </li>
+              {typologieDuProjet.value.map((t) => (
+                <li key={t.typologie}>{formatTypologieDuProjet(t)}</li>
               ))}
             </ul>
           </>
-        ) : typologieInstallation.value.length === 1 ? (
-          <div>{formatTypologieInstallation(typologieInstallation.value[0])}</div>
+        ) : typologieDuProjet.value.length === 1 ? (
+          <div>{formatTypologieDuProjet(typologieDuProjet.value[0])}</div>
         ) : (
           <span>Typologie du projet non renseignée</span>
         )}
       </div>
-      {typologieInstallation.affichage && (
-        <Link
-          href={typologieInstallation.affichage.url}
-          aria-label={typologieInstallation.affichage.label}
-        >
-          {typologieInstallation.affichage.label}
+      {typologieDuProjet.affichage && (
+        <Link href={typologieDuProjet.affichage.url} aria-label={typologieDuProjet.affichage.label}>
+          {typologieDuProjet.affichage.label}
         </Link>
       )}
       <div>

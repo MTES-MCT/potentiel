@@ -5,7 +5,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { LauréatWorld } from '../lauréat.world';
 
 import { ModifierInstallateurFixture } from './fixture/modifierInstallateur.fixture';
-import { ModifierTypologieInstallationFixture } from './fixture/modifierTypologieInstallation.fixture';
+import { ModifierTypologieDuProjetFixture } from './fixture/modifierTypologieDuProjet.fixture';
 
 export class InstallationWorld {
   #modifierInstallateurFixture: ModifierInstallateurFixture;
@@ -13,24 +13,24 @@ export class InstallationWorld {
     return this.#modifierInstallateurFixture;
   }
 
-  #modifierTypologieInstallationFixture: ModifierTypologieInstallationFixture;
-  get modifierTypologieInstallationFixture() {
-    return this.#modifierTypologieInstallationFixture;
+  #modifierTypologieDuProjetFixture: ModifierTypologieDuProjetFixture;
+  get modifierTypologieDuProjetFixture() {
+    return this.#modifierTypologieDuProjetFixture;
   }
 
   constructor(public readonly lauréatWorld: LauréatWorld) {
     this.#modifierInstallateurFixture = new ModifierInstallateurFixture();
-    this.#modifierTypologieInstallationFixture = new ModifierTypologieInstallationFixture();
+    this.#modifierTypologieDuProjetFixture = new ModifierTypologieDuProjetFixture();
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     const installateurÀLaCandidature =
       this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.installateur ?? '';
 
-    const typologieInstallationÀLaCandidature =
-      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.typologieInstallation;
+    const typologieDuProjetÀLaCandidature =
+      this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.typologieDuProjet;
 
-    if (!installateurÀLaCandidature && !typologieInstallationÀLaCandidature) {
+    if (!installateurÀLaCandidature && !typologieDuProjetÀLaCandidature) {
       return Option.none;
     }
 
@@ -39,13 +39,11 @@ export class InstallationWorld {
       installateur: this.#modifierInstallateurFixture.aÉtéCréé
         ? this.#modifierInstallateurFixture.installateur
         : installateurÀLaCandidature,
-      typologieInstallation: this.#modifierTypologieInstallationFixture.aÉtéCréé
-        ? this.#modifierTypologieInstallationFixture.typologieInstallation.map(
-            Candidature.TypologieInstallation.convertirEnValueType,
+      typologieDuProjet: this.#modifierTypologieDuProjetFixture.aÉtéCréé
+        ? this.#modifierTypologieDuProjetFixture.typologieDuProjet.map(
+            Candidature.TypologieDuProjet.convertirEnValueType,
           )
-        : typologieInstallationÀLaCandidature.map(
-            Candidature.TypologieInstallation.convertirEnValueType,
-          ),
+        : typologieDuProjetÀLaCandidature.map(Candidature.TypologieDuProjet.convertirEnValueType),
     };
 
     return expected;

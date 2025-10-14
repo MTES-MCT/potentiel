@@ -2,8 +2,8 @@ import { match } from 'ts-pattern';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-export const getTypologieInstallationLabel = (
-  typologie: Candidature.TypologieInstallation.ValueType['typologie'],
+export const getTypologieDuProjetLabel = (
+  typologie: Candidature.TypologieDuProjet.ValueType['typologie'],
 ) => {
   return match(typologie)
     .with('agrivoltaïque.culture', () => 'Installation agrivoltaïque (culture)')

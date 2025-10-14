@@ -13,22 +13,22 @@ import {
   registerListerHistoriqueInstallationProjetQuery,
 } from './listerHistorique/listerHistoriqueInstallationProjet.query';
 import {
-  registerTypologieInstallationQueries,
-  registerTypologieInstallationUseCases,
-  TypologieInstallationQueryDependencies,
-  TypologieInstallationUseCaseDependencies,
-} from './typologie-installation/typologieInstallation.register';
+  registerTypologieDuProjetQueries,
+  registerTypologieDuProjetUseCases,
+  TypologieDuProjetQueryDependencies,
+  TypologieDuProjetUseCaseDependencies,
+} from './typologie-du-projet/typologieDuProjet.register';
 
-export type InstallationQueryDependencies = TypologieInstallationQueryDependencies &
+export type InstallationQueryDependencies = TypologieDuProjetQueryDependencies &
   InstallateurQueryDependencies &
   ConsulterInstallationDependencies &
   ListerHistoriqueInstallationProjetDependencies;
 
-export type InstallationUseCasesDependencies = TypologieInstallationUseCaseDependencies &
+export type InstallationUseCasesDependencies = TypologieDuProjetUseCaseDependencies &
   InstallateurUseCaseDependencies;
 
 export const registerInstallationQueries = (dependencies: InstallationQueryDependencies) => {
-  registerTypologieInstallationQueries(dependencies);
+  registerTypologieDuProjetQueries(dependencies);
   registerInstallateurQueries(dependencies);
   registerConsulterInstallationQuery(dependencies);
   registerListerHistoriqueInstallationProjetQuery(dependencies);
@@ -36,5 +36,5 @@ export const registerInstallationQueries = (dependencies: InstallationQueryDepen
 
 export const registerInstallationUseCases = (dependencies: InstallationUseCasesDependencies) => {
   registerInstallateurUseCases(dependencies);
-  registerTypologieInstallationUseCases(dependencies);
+  registerTypologieDuProjetUseCases(dependencies);
 };

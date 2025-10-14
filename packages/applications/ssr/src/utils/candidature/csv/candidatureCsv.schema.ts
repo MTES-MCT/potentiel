@@ -25,7 +25,7 @@ import {
   installateurSchema,
 } from '../candidatureFields.schema';
 
-import { mapCsvToTypologieInstallation } from './mapCsvToTypologieInstallation';
+import { mapCsvToTypologieDuProjet } from './mapCsvToTypologieDuProjet';
 import {
   adresse1CsvSchema,
   capacitéDuDispositifDeStockageSchema,
@@ -307,7 +307,7 @@ export const candidatureCsvSchema = candidatureCsvRowSchema
                 tauxPrévisionnelACI,
               }
             : undefined,
-        typologieInstallation: mapCsvToTypologieInstallation({
+        typologieDuProjet: mapCsvToTypologieDuProjet({
           typologieDeBâtiment,
           typeInstallationsAgrivoltaïques,
           élémentsSousOmbrière,

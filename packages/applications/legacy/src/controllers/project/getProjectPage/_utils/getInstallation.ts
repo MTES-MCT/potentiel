@@ -16,8 +16,8 @@ export type GetInstallationForProjectPage = {
       url: string;
     };
   };
-  typologieInstallation: {
-    value: Candidature.TypologieInstallation.RawType[];
+  typologieDuProjet: {
+    value: Candidature.TypologieDuProjet.RawType[];
     affichage?: {
       labelActions?: string;
       label: string;
@@ -45,13 +45,13 @@ export const getInstallation = async ({
       });
 
     if (Option.isSome(installationProjection)) {
-      const { installateur, typologieInstallation } = installationProjection;
+      const { installateur, typologieDuProjet } = installationProjection;
       const data: GetInstallationForProjectPage = {
         installateur: {
           value: installateur,
         },
-        typologieInstallation: {
-          value: typologieInstallation.map((typologie) => typologie.formatter()),
+        typologieDuProjet: {
+          value: typologieDuProjet.map((typologie) => typologie.formatter()),
         },
       };
 
@@ -63,11 +63,11 @@ export const getInstallation = async ({
         };
       }
 
-      if (role.aLaPermission('installation.typologieInstallation.modifier')) {
-        data.typologieInstallation.affichage = {
+      if (role.aLaPermission('installation.typologieDuProjet.modifier')) {
+        data.typologieDuProjet.affichage = {
           url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
           label: 'Modifier',
-          labelActions: "Modifier la typologie de l'installation",
+          labelActions: 'Modifier la typologie du projet',
         };
       }
 

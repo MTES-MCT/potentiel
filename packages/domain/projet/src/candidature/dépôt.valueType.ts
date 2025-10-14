@@ -12,7 +12,7 @@ import {
   TypeActionnariat,
   TypeGarantiesFinancières,
   TypeTechnologie,
-  TypologieInstallation,
+  TypologieDuProjet,
 } from '.';
 
 export type RawType = {
@@ -36,7 +36,7 @@ export type RawType = {
   dateConstitutionGf: DateTime.RawType | undefined;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.RawType>;
-  typologieInstallation: Array<TypologieInstallation.RawType>;
+  typologieDuProjet: Array<TypologieDuProjet.RawType>;
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.RawType } | undefined;
@@ -68,7 +68,7 @@ export type ValueType = ReadonlyValueType<{
   garantiesFinancières?: GarantiesFinancières.GarantiesFinancières.ValueType;
   territoireProjet: string;
   fournisseurs: Array<Fournisseur.ValueType>;
-  typologieInstallation: Array<TypologieInstallation.ValueType>;
+  typologieDuProjet: Array<TypologieDuProjet.ValueType>;
   obligationDeSolarisation: boolean | undefined;
   puissanceDeSite: number | undefined;
   autorisationDUrbanisme: { numéro: string; date: DateTime.ValueType } | undefined;
@@ -114,7 +114,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         numéro: plain.autorisationDUrbanisme.numéro,
       }
     : undefined,
-  typologieInstallation: plain.typologieInstallation.map(TypologieInstallation.bind),
+  typologieDuProjet: plain.typologieDuProjet.map(TypologieDuProjet.bind),
   installateur: plain.installateur,
   dispositifDeStockage: bindOptional(
     Lauréat.DispositifDeStockage.DispositifDeStockage.bind,
@@ -156,7 +156,7 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
       areEqual(valueType.actionnariat, this.actionnariat) &&
       areEqual(valueType.garantiesFinancières, this.garantiesFinancières) &&
       areEqualArrays(valueType.fournisseurs, this.fournisseurs) &&
-      areEqualArrays(valueType.typologieInstallation, this.typologieInstallation) &&
+      areEqualArrays(valueType.typologieDuProjet, this.typologieDuProjet) &&
       areEqual(
         valueType.natureDeLExploitation?.typeNatureDeLExploitation,
         this.natureDeLExploitation?.typeNatureDeLExploitation,
@@ -191,8 +191,8 @@ export const bind = (plain: PlainType<ValueType>): ValueType => ({
         : undefined,
       dateConstitutionGf: this.garantiesFinancières?.constitution?.date.formatter(),
       fournisseurs: this.fournisseurs.map((fournisseur) => fournisseur.formatter()),
-      typologieInstallation: this.typologieInstallation.map((typologieInstallation) =>
-        typologieInstallation.formatter(),
+      typologieDuProjet: this.typologieDuProjet.map((typologieDuProjet) =>
+        typologieDuProjet.formatter(),
       ),
       autorisationDUrbanisme: this.autorisationDUrbanisme
         ? {
@@ -248,9 +248,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
         )
       : undefined,
     fournisseurs: raw.fournisseurs.map(Fournisseur.convertirEnValueType),
-    typologieInstallation: raw.typologieInstallation.map(
-      TypologieInstallation.convertirEnValueType,
-    ),
+    typologieDuProjet: raw.typologieDuProjet.map(TypologieDuProjet.convertirEnValueType),
     puissanceDeSite: raw.puissanceDeSite,
     autorisationDUrbanisme:
       raw.autorisationDUrbanisme?.date && raw.autorisationDUrbanisme.numéro

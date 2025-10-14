@@ -4,8 +4,8 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { Champs } from '../../graphql';
 
-export const getTypologieInstallation = (champs: Champs) => {
-  const typologieInstallation: Candidature.TypologieInstallation.RawType[] = [];
+export const getTypologieDuProjet = (champs: Champs) => {
+  const typologieDuProjet: Candidature.TypologieDuProjet.RawType[] = [];
 
   const champTypologieBâtiment = champs.find(
     (champ) =>
@@ -33,7 +33,7 @@ export const getTypologieInstallation = (champs: Champs) => {
 
   if (champTypologieBâtiment?.stringValue) {
     const typologie = match(champTypologieBâtiment.stringValue.trim().toLowerCase())
-      .returnType<Candidature.TypologieInstallation.RawType | undefined>()
+      .returnType<Candidature.TypologieDuProjet.RawType | undefined>()
       .with('stabulation visant à loger du bétail', () => ({
         typologie: 'bâtiment.stabulation',
       }))
@@ -52,13 +52,13 @@ export const getTypologieInstallation = (champs: Champs) => {
       }))
       .otherwise(() => undefined);
     if (typologie) {
-      typologieInstallation.push(typologie);
+      typologieDuProjet.push(typologie);
     }
   }
 
   if (champTypologieOmbrière?.stringValue) {
     const typologie = match(champTypologieOmbrière.stringValue.trim().toLowerCase())
-      .returnType<Candidature.TypologieInstallation.RawType | undefined>()
+      .returnType<Candidature.TypologieDuProjet.RawType | undefined>()
       .with('ombrière sur parking', () => ({
         typologie: 'ombrière.parking',
       }))
@@ -72,9 +72,9 @@ export const getTypologieInstallation = (champs: Champs) => {
       }))
       .otherwise(() => undefined);
     if (typologie) {
-      typologieInstallation.push(typologie);
+      typologieDuProjet.push(typologie);
     }
   }
 
-  return typologieInstallation;
+  return typologieDuProjet;
 };

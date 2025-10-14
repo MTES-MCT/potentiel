@@ -7,9 +7,9 @@ import { RegisterInstallationNotificationDependencies } from '.';
 
 import { installationNotificationTemplateId } from './constant';
 
-type TypologieInstallationModifiéeNotificationProps = {
+type TypologieDuProjetModifiéeNotificationProps = {
   sendEmail: RegisterInstallationNotificationDependencies['sendEmail'];
-  event: Lauréat.Installation.TypologieInstallationModifiéeEvent;
+  event: Lauréat.Installation.TypologieDuProjetModifiéeEvent;
   projet: {
     nom: string;
     département: string;
@@ -18,11 +18,11 @@ type TypologieInstallationModifiéeNotificationProps = {
   };
 };
 
-export const typologieInstallationModifiéeNotification = async ({
+export const typologieDuProjetModifiéeNotification = async ({
   sendEmail,
   event,
   projet,
-}: TypologieInstallationModifiéeNotificationProps) => {
+}: TypologieDuProjetModifiéeNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
@@ -31,13 +31,13 @@ export const typologieInstallationModifiéeNotification = async ({
     getLogger().info('Aucune dreal ou porteur trouvé(e)', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'typologieInstallationModifiéeNotification',
+      fonction: 'typologieDuProjetModifiéeNotification',
     });
     return;
   }
 
   await sendEmail({
-    templateId: installationNotificationTemplateId.modifierTypologieInstallation,
+    templateId: installationNotificationTemplateId.modifierTypologieDuProjet,
     messageSubject: `Potentiel - Modification de la typologie du projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
@@ -48,7 +48,7 @@ export const typologieInstallationModifiéeNotification = async ({
   });
 
   await sendEmail({
-    templateId: installationNotificationTemplateId.modifierTypologieInstallation,
+    templateId: installationNotificationTemplateId.modifierTypologieDuProjet,
     messageSubject: `Potentiel - Modification de la typologie du projet ${projet.nom}`,
     recipients: porteurs,
     variables: {

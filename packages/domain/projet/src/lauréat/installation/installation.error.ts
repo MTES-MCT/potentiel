@@ -6,15 +6,15 @@ export class InstallationDéjàTransmiseError extends InvalidOperationError {
   }
 }
 
-export class TypologieInstallationIdentiqueError extends InvalidOperationError {
+export class TypologiDuProjetIdentiqueError extends InvalidOperationError {
   constructor() {
-    super("La typologie d'installation est identique");
+    super('La nouvelle typologie est identique à celle du projet');
   }
 }
 
 export class JeuDeTypologiesIdentiquesError extends InvalidOperationError {
   constructor() {
-    super('Vous ne pouvez pas renseigner deux fois la même typologie');
+    super('Vous ne pouvez pas sélectionner deux fois la même typologie pour le projet');
   }
 }
 

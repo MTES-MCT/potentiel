@@ -1,5 +1,5 @@
 # language: fr
-@typologie-installation
+@typologie-du-projet
 @installation
 Fonctionnalité: Modifier la typologie d'un projet
 
@@ -8,10 +8,10 @@ Fonctionnalité: Modifier la typologie d'un projet
         Et un cahier des charges permettant la modification du projet
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    Scénario: Modifier la typologie d'installation du projet lauréat
-        Quand le DGEC validateur modifie la typologie d'installation du projet lauréat
+    Scénario: Modifier la typologie du projet lauréat
+        Quand le DGEC validateur modifie la typologie du projet lauréat
         Alors l'installation du projet lauréat devrait être mise à jour
-        Et la typologie d'installation du projet lauréat devrait être mise à jour
+        Et la typologie du projet lauréat devrait être mise à jour
 
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Modification de la typologie du projet Du boulodrome de Marseille dans le département(.*) |
@@ -22,10 +22,10 @@ Fonctionnalité: Modifier la typologie d'un projet
             | nom_projet | Du boulodrome de Marseille                                                    |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                         |
 
-    Scénario: Impossible de modifier la typologie d'installation sans modification
-        Quand le DGEC validateur modifie la typologie d'installation avec une valeur identique pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "La typologie d'installation est identique"
+    Scénario: Impossible de modifier la typologie d'un projet sans modification
+        Quand le DGEC validateur modifie la typologie avec une valeur identique pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "La nouvelle typologie est identique à celle du projet"
 
-    Scénario: Impossible de modifier la typologie d'installation avec un jeu de typologies identiques
-        Quand le DGEC validateur modifie la typologie d'installation un jeu de typologies identiques
-        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner deux fois la même typologie"
+    Scénario: Impossible de modifier la typologie d'un projet avec un jeu de typologies identiques
+        Quand le DGEC validateur modifie la typologie du projet avec un jeu de typologies identiques
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas sélectionner deux fois la même typologie pour le projet"

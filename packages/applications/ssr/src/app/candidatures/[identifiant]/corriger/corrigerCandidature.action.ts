@@ -137,7 +137,7 @@ const mapBodyToUseCaseData = (
       historiqueAbandon: previous.dépôt.historiqueAbandon.formatter(),
       fournisseurs: previous.dépôt.fournisseurs.map((fournisseur) => fournisseur.formatter()),
       obligationDeSolarisation: previous.dépôt.obligationDeSolarisation,
-      typologieInstallation: previous.dépôt.typologieInstallation.map((installation) =>
+      typologieDuProjet: previous.dépôt.typologieDuProjet.map((installation) =>
         installation.formatter(),
       ),
       attestationConstitutionGf: previous.dépôt.garantiesFinancières?.constitution?.attestation,

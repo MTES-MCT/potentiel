@@ -17,7 +17,7 @@ export const dépôtExempleMap: FieldToExempleMapper<
     | 'localité'
     | 'fournisseurs'
     | 'autorisationDUrbanisme'
-    | 'typologieInstallation'
+    | 'typologieDuProjet'
     | 'attestationConstitutionGf'
     | 'dispositifDeStockage'
     | 'natureDeLExploitation'

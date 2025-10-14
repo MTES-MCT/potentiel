@@ -28,7 +28,7 @@ export type ProjectHeaderProps = {
   actionnaireAffichage?: Affichage;
   fournisseurAffichage?: Affichage;
   installateurAffichage?: Affichage;
-  typologieInstallationAffichage?: Affichage;
+  typologieDuProjetAffichage?: Affichage;
   dispositifDeStockageAffichage?: Affichage;
   natureDeLExploitationAffichage?: Affichage;
   délaiAffichage?: Affichage;
@@ -49,7 +49,7 @@ export const ProjectHeader = ({
   producteurAffichage,
   fournisseurAffichage,
   installateurAffichage,
-  typologieInstallationAffichage,
+  typologieDuProjetAffichage,
   siteDeProductionAffichage,
   délaiAffichage,
   dispositifDeStockageAffichage,
@@ -94,7 +94,7 @@ export const ProjectHeader = ({
         fournisseurAffichage={fournisseurAffichage}
         délaiAffichage={délaiAffichage}
         installateurAffichage={installateurAffichage}
-        typologieInstallationAffichage={typologieInstallationAffichage}
+        typologieDuProjetAffichage={typologieDuProjetAffichage}
         features={user.features}
         dispositifDeStockageAffichage={dispositifDeStockageAffichage}
         natureDeLExploitationAffichage={natureDeLExploitationAffichage}

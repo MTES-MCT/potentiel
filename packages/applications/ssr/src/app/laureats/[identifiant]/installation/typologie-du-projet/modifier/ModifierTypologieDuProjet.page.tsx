@@ -7,15 +7,15 @@ import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import {
-  ModifierTypologieInstallationForm,
-  ModifierTypologieInstallationFormProps,
-} from './ModifierTypologieInstallation.form';
+  ModifierTypologieDuProjetForm,
+  ModifierTypologieDuProjetFormProps,
+} from './ModifierTypologieDuProjet.form';
 
-export type ModifierTypologieInstallationPageProps = ModifierTypologieInstallationFormProps;
+export type ModifierTypologieDuProjetPageProps = ModifierTypologieDuProjetFormProps;
 
-export const ModifierTypologieInstallationPage: FC<ModifierTypologieInstallationPageProps> = ({
+export const ModifierTypologieDuProjetPage: FC<ModifierTypologieDuProjetPageProps> = ({
   identifiantProjet,
-  typologieInstallation,
+  typologieDuProjet,
 }) => (
   <PageTemplate
     banner={
@@ -25,9 +25,9 @@ export const ModifierTypologieInstallationPage: FC<ModifierTypologieInstallation
     }
   >
     <Heading1>Modifier la typologie du projet</Heading1>
-    <ModifierTypologieInstallationForm
+    <ModifierTypologieDuProjetForm
       identifiantProjet={identifiantProjet}
-      typologieInstallation={typologieInstallation}
+      typologieDuProjet={typologieDuProjet}
     />
   </PageTemplate>
 );

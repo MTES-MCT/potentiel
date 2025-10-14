@@ -373,15 +373,15 @@ const référencielPermissions = {
           modifier: 'Lauréat.Installation.Command.ModifierInstallateur',
         },
       },
-      typologieInstallation: {
+      typologieDuProjet: {
         query: {
-          consulter: 'Lauréat.Installation.Query.ConsulterTypologieInstallation',
+          consulter: 'Lauréat.Installation.Query.ConsulterTypologieDuProjet',
         },
         usecase: {
-          modifier: 'Lauréat.Installation.UseCase.ModifierTypologieInstallation',
+          modifier: 'Lauréat.Installation.UseCase.ModifierTypologieDuProjet',
         },
         command: {
-          modifier: 'Lauréat.Installation.Command.ModifierTypologieInstallation',
+          modifier: 'Lauréat.Installation.Command.ModifierTypologieDuProjet',
         },
       },
     },
@@ -1008,7 +1008,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.installation.query.consulter,
       référencielPermissions.lauréat.installation.installateur.query.consulter,
-      référencielPermissions.lauréat.installation.typologieInstallation.query.consulter,
+      référencielPermissions.lauréat.installation.typologieDuProjet.query.consulter,
     ],
     installateur: {
       modifier: [
@@ -1017,11 +1017,11 @@ const policies = {
         référencielPermissions.lauréat.installation.installateur.command.modifier,
       ],
     },
-    typologieInstallation: {
+    typologieDuProjet: {
       modifier: [
         référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.lauréat.installation.typologieInstallation.usecase.modifier,
-        référencielPermissions.lauréat.installation.typologieInstallation.command.modifier,
+        référencielPermissions.lauréat.installation.typologieDuProjet.usecase.modifier,
+        référencielPermissions.lauréat.installation.typologieDuProjet.command.modifier,
       ],
     },
   },
@@ -1621,7 +1621,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // installation
   'installation.installateur.modifier',
-  'installation.typologieInstallation.modifier',
+  'installation.typologieDuProjet.modifier',
 
   // Installation avec dispositif de stockage
   'dispositifDeStockage.consulter',

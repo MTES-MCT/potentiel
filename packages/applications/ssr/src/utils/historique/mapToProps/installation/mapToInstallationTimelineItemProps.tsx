@@ -8,7 +8,7 @@ import {
   mapToInstallationImportéeTimelineItemProps,
   mapToInstallateurModifiéTimelineItemsProps,
 } from './events';
-import { mapToTypologieInstallationModifiéeTimelineItemsProps } from './events/mapToTypologieInstallationModifiéeTimelineItemsProps';
+import { mapToTypologieDuProjetModifiéeTimelineItemsProps } from './events/mapToTypologieDuProjetModifiéeTimelineItemsProps';
 
 export const mapToInstallationTimelineItemProps = (
   readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
@@ -21,7 +21,7 @@ export const mapToInstallationTimelineItemProps = (
     .with({ type: 'InstallateurModifié-V1' }, (readmodel) =>
       mapToInstallateurModifiéTimelineItemsProps(readmodel),
     )
-    .with({ type: 'TypologieInstallationModifiée-V1' }, (readmodel) =>
-      mapToTypologieInstallationModifiéeTimelineItemsProps(readmodel),
+    .with({ type: 'TypologieDuProjetModifiée-V1' }, (readmodel) =>
+      mapToTypologieDuProjetModifiéeTimelineItemsProps(readmodel),
     )
     .exhaustive();

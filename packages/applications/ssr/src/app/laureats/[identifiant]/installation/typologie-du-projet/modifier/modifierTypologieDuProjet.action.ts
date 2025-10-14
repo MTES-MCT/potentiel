@@ -12,30 +12,30 @@ import { ArrayFormKeys } from '@/utils/zod/arrayFormKeys';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  typologieInstallation: zod.array(
+  typologieDuProjet: zod.array(
     zod.object({
-      typologie: zod.enum(Candidature.TypologieInstallation.typologies),
+      typologie: zod.enum(Candidature.TypologieDuProjet.typologies),
       details: zod.string().optional(),
     }),
   ),
 });
 
-export type ModifierTypologieInstallationFormKeys = ArrayFormKeys<zod.infer<typeof schema>>;
+export type ModifierTypologieDuProjetFormKeys = ArrayFormKeys<zod.infer<typeof schema>>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, typologieInstallation },
+  { identifiantProjet, typologieDuProjet },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.Installation.ModifierTypologieInstallationUseCase>({
-      type: 'Lauréat.Installation.UseCase.ModifierTypologieInstallation',
+    await mediator.send<Lauréat.Installation.ModifierTypologieDuProjetUseCase>({
+      type: 'Lauréat.Installation.UseCase.ModifierTypologieDuProjet',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateModificationValue: new Date().toISOString(),
-        typologieInstallationValue: typologieInstallation.map((typologieInstallation) => ({
-          typologie: typologieInstallation.typologie,
-          détails: typologieInstallation.details,
+        typologieDuProjetValue: typologieDuProjet.map((t) => ({
+          typologie: t.typologie,
+          détails: t.details,
         })),
       },
     });
@@ -44,9 +44,9 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: 'Le changement de typologie a été pris en compte',
+        message: 'Le changement de typologie du projet a été pris en compte',
       },
     };
   });
 
-export const modifierTypologieInstallationAction = formAction(action, schema);
+export const modifierTypologieDuProjetAction = formAction(action, schema);

@@ -10,7 +10,7 @@ import {
   getLocalité,
   getDispositifDeStockage,
   getAutorisationDUrbanisme,
-  getTypologieInstallation,
+  getTypologieDuProjet,
 } from '../getters';
 import { DeepPartial } from '../types';
 import { getNatureDeLExploitation } from '../getters/getNatureDeLExploitation';
@@ -133,7 +133,7 @@ export const mapApiResponseToDépôt = ({
       nomChampDate: 'date',
     }),
 
-    typologieInstallation: getTypologieInstallation(champs),
+    typologieDuProjet: getTypologieDuProjet(champs),
 
     // Non disponibles sur Démarches simplifiées
     actionnariat: undefined,

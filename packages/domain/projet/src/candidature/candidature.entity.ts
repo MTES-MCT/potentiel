@@ -13,7 +13,7 @@ import {
   TypeActionnariat,
   TypeGarantiesFinancières,
   TypeTechnologie,
-  TypologieInstallation,
+  TypologieDuProjet,
   UnitéPuissance,
 } from '.';
 
@@ -65,7 +65,7 @@ export type CandidatureEntity = Entity<
     territoireProjet: string;
     fournisseurs: Array<Fournisseur.RawType>;
     coefficientKChoisi?: boolean;
-    typologieInstallation: Array<TypologieInstallation.RawType>;
+    typologieDuProjet: Array<TypologieDuProjet.RawType>;
     installateur?: string;
     obligationDeSolarisation?: boolean;
     autorisationDUrbanisme?: { numéro: string; date: DateTime.RawType };

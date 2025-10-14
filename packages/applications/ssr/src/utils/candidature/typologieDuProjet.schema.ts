@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 import { Candidature } from '@potentiel-domain/projet';
 
-export const typologieInstallationSchema = z.array(
+export const typologieDuProjetSchema = z.array(
   z.object({
-    typologie: z.enum(Candidature.TypologieInstallation.typologies),
+    typologie: z.enum(Candidature.TypologieDuProjet.typologies),
     détails: z.string().optional(),
   }),
 );

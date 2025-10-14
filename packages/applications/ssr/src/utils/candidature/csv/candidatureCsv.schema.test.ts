@@ -78,7 +78,7 @@ describe('Schema candidature CSV', () => {
       natureDeLExploitation: undefined,
       actionnariat: 'gouvernance-partagée',
       autorisationDUrbanisme: undefined,
-      typologieInstallation: [],
+      typologieDuProjet: [],
       localité: {
         adresse1: 'adresse',
         adresse2: '',
@@ -131,7 +131,7 @@ describe('Schema candidature CSV', () => {
       puissanceDeSite: undefined,
       actionnariat: 'gouvernance-partagée',
       installateur: undefined,
-      typologieInstallation: [],
+      typologieDuProjet: [],
       autorisationDUrbanisme: undefined,
       natureDeLExploitation: undefined,
       dispositifDeStockage: undefined,
@@ -198,7 +198,7 @@ describe('Schema candidature CSV', () => {
         typeNatureDeLExploitation: 'vente-avec-injection-du-surplus',
         tauxPrévisionnelACI: 32,
       },
-      typologieInstallation: [
+      typologieDuProjet: [
         {
           typologie: 'agrivoltaïque.jachère-plus-de-5-ans',
         },

@@ -24,7 +24,7 @@ export const setupInstallation: SetupProjet = async ({ sendEmail }) => {
     InstallationNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['InstallateurModifié-V1', 'TypologieInstallationModifiée-V1'],
+    eventType: ['InstallateurModifié-V1', 'TypologieDuProjetModifiée-V1'],
     messageType: 'System.Notification.Lauréat.Installation',
   });
 
