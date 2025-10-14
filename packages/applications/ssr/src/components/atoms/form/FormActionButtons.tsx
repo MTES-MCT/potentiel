@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { SubmitButton } from './SubmitButton';
 
 export type FormActionButtonsProps = {
+  submitDisabled?: boolean;
   submitLabel: string;
   secondaryAction?:
     | {
@@ -16,7 +17,11 @@ export type FormActionButtonsProps = {
       };
 };
 
-export const FormActionButtons = ({ secondaryAction, submitLabel }: FormActionButtonsProps) => {
+export const FormActionButtons = ({
+  secondaryAction,
+  submitLabel,
+  submitDisabled,
+}: FormActionButtonsProps) => {
   return (
     <>
       {secondaryAction ? (
@@ -34,7 +39,7 @@ export const FormActionButtons = ({ secondaryAction, submitLabel }: FormActionBu
           </Button>
         )
       ) : null}
-      <SubmitButton>{submitLabel}</SubmitButton>
+      <SubmitButton disabled={!!submitDisabled}>{submitLabel}</SubmitButton>
     </>
   );
 };

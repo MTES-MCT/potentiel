@@ -2,11 +2,13 @@
 
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -17,14 +19,14 @@ import {
   ModifierSiteDeProductionFormKeys,
 } from './modifierSiteDeProduction.action';
 
-export type ModifierSiteDeProductionFormProps = Pick<
-  PlainType<Lauréat.ConsulterLauréatReadModel>,
-  'identifiantProjet' | 'localité'
->;
+export type ModifierSiteDeProductionFormProps = {
+  lauréat: PlainType<Lauréat.ConsulterLauréatReadModel>;
+  rôle: PlainType<Role.ValueType>;
+};
 
 export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps> = ({
-  identifiantProjet,
-  localité,
+  lauréat: { identifiantProjet, localité },
+  rôle,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierSiteDeProductionFormKeys>
@@ -36,6 +38,11 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
     departement: localité.département,
     region: localité.région,
   });
+  const [changementRégionConfirmé, setChangementRégionConfirmé] = useState(false);
+  const originalRegion = localité.région;
+
+  const nécessiteLaConfirmationPourChangementDeRégion =
+    Role.bind(rôle).estDreal() && originalRegion != commune.region;
 
   return (
     <Form
@@ -43,6 +50,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Modifier',
+        submitDisabled: nécessiteLaConfirmationPourChangementDeRégion && !changementRégionConfirmé,
         secondaryAction: {
           type: 'back',
           href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
@@ -123,6 +131,22 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
           }}
         />
       </div>
+      {nécessiteLaConfirmationPourChangementDeRégion && (
+        <div className="mt-8">
+          <Checkbox
+            options={[
+              {
+                label: `J'ai bien compris que le changement de région du site de production entraînera la perte de mes accès à ce projet`,
+                nativeInputProps: {
+                  name: 'regionModifiee',
+                  checked: changementRégionConfirmé,
+                  onChange: (e) => setChangementRégionConfirmé(e.target.checked),
+                },
+              },
+            ]}
+          />
+        </div>
+      )}
     </Form>
   );
 };

@@ -92,6 +92,7 @@ export const Form: FC<FormProps> = ({
             <FormActionButtons
               secondaryAction={actionButtons.secondaryAction}
               submitLabel={actionButtons.submitLabel}
+              submitDisabled={actionButtons.submitDisabled}
             />
           </div>
         )}

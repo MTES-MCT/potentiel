@@ -6,13 +6,13 @@ import { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
 export type SubmitButtonProps = {
-  disabledCondition?: () => boolean;
+  disabled?: boolean;
   children: React.ReactNode;
   classname?: string;
 };
-export const SubmitButton: FC<SubmitButtonProps> = ({ disabledCondition, children, classname }) => {
+export const SubmitButton: FC<SubmitButtonProps> = ({ disabled, children, classname }) => {
   const { pending } = useFormStatus();
-  const isDisabled = pending || (disabledCondition ? disabledCondition() : false);
+  const isDisabled = pending || disabled || false;
 
   return (
     <Button
