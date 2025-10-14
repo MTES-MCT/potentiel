@@ -18,7 +18,7 @@ export const setupAccès: SetupProjet = async ({ sendEmail }) => {
   AccèsNotification.register({ sendEmail });
   await accès.setupSubscription<AccèsNotification.SubscriptionEvent, AccèsNotification.Execute>({
     name: 'notifications',
-    eventType: ['AccèsProjetRetiré-V1'],
+    eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
     messageType: 'System.Notification.Accès',
   });
 

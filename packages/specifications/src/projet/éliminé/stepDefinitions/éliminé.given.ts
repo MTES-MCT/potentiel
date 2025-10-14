@@ -53,34 +53,33 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation?:
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
 
-  const { notifiéPar, notifiéLe } = this.éliminéWorld.notifierEliminéFixture.créer({
+  this.éliminéWorld.identifiantProjet = identifiantProjetValue;
+
+  const { nomProjet, notifiéPar, notifiéLe } = this.éliminéWorld.notifierEliminéFixture.créer({
+    nomProjet: candidature.values.nomProjetValue,
     notifiéPar: this.utilisateurWorld.validateurFixture.email,
     ...(dateDésignation ? { notifiéLe: dateDésignation } : {}),
   });
 
-  this.éliminéWorld.identifiantProjet = identifiantProjetValue;
-
   this.éliminéWorld.éliminéFixtures.set(candidature.values.nomProjetValue, {
-    nom: candidature.values.nomProjetValue,
+    nom: nomProjet,
     identifiantProjet: identifiantProjetValue,
   });
 
-  const data = {
-    identifiantProjetValue: identifiantProjetValue.formatter(),
-    notifiéLeValue: notifiéLe,
-    notifiéParValue: notifiéPar,
-    attestationValue: {
-      format: `application/pdf`,
-    },
-    validateurValue: {
-      fonction: this.utilisateurWorld.validateurFixture.fonction,
-      nomComplet: this.utilisateurWorld.validateurFixture.nom,
-    },
-  };
-
   await mediator.send<Éliminé.NotifierÉliminéUseCase>({
     type: 'Éliminé.UseCase.NotifierÉliminé',
-    data,
+    data: {
+      identifiantProjetValue: identifiantProjetValue.formatter(),
+      notifiéLeValue: notifiéLe,
+      notifiéParValue: notifiéPar,
+      attestationValue: {
+        format: `application/pdf`,
+      },
+      validateurValue: {
+        fonction: this.utilisateurWorld.validateurFixture.fonction,
+        nomComplet: this.utilisateurWorld.validateurFixture.nom,
+      },
+    },
   });
 
   // L'invitation du porteur est normalement faite lors de la notification de la période

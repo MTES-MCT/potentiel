@@ -5,12 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { getBaseUrl } from './getBaseUrl';
-
-class ProjetNonTrouvéError extends Error {
-  constructor() {
-    super('Projet non trouvé');
-  }
-}
+import { ProjetNonTrouvéError } from './ProjetNonTrouvé.error';
 
 export const getLauréat = async (identifiantProjet: string) => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
