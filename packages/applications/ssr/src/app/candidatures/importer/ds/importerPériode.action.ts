@@ -38,6 +38,11 @@ const instructionCsvSchema = zod.object({
   motifElimination: instructionSchema.shape.motifÉlimination,
 });
 
+/**
+ * Cette méthode s'applique uniquement à l'appel d'offres PPE2 - Petit PV Bâtiment car la puissance initiale sur Démarches Simplifiées est renseignées en kWc
+ */
+const convertirKWcEnMWc = (value: number) => Number((value / 1000).toFixed(6));
+
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { appelOffre, periode, fichierInstruction, test },
@@ -122,6 +127,7 @@ const action: FormAction<FormState, typeof schema> = async (
             attestationConstitutionGf: undefined,
             dateConstitutionGf: undefined,
             ...dépôt,
+            puissanceProductionAnnuelle: convertirKWcEnMWc(dépôt.puissanceProductionAnnuelle),
             localité: {
               ...dépôt.localité,
               adresse2: dépôt.localité.adresse2 ?? '',
