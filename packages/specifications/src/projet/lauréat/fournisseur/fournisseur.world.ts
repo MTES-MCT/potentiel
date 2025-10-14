@@ -5,12 +5,12 @@ import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluationCarbone.fixture';
-import { EnregistrerChangementFournisseurFixture } from './fixtures/enregistrerChangementFournisseur.fixture';
+import { MettreAJourFournisseurFixture } from './fixtures/mettreAJourFournisseur.fixture';
 
 export class FournisseurWorld {
   constructor() {}
   readonly modifierÉvaluationCarbone = new ModifierÉvaluationCarboneFixture();
-  readonly enregistrerChangementFournisseur = new EnregistrerChangementFournisseurFixture();
+  readonly mettreAJourFournisseur = new MettreAJourFournisseurFixture();
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {
     return {
@@ -29,15 +29,15 @@ export class FournisseurWorld {
     )!;
     const expected: Lauréat.Fournisseur.ConsulterFournisseurReadModel = {
       identifiantProjet,
-      fournisseurs: this.enregistrerChangementFournisseur.aÉtéCréé
-        ? this.enregistrerChangementFournisseur.fournisseurs.map(
+      fournisseurs: this.mettreAJourFournisseur.aÉtéCréé
+        ? this.mettreAJourFournisseur.fournisseurs.map(
             Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
           )
         : candidature.dépôt.fournisseurs,
       évaluationCarboneSimplifiée: this.modifierÉvaluationCarbone.aÉtéCréé
         ? this.modifierÉvaluationCarbone.évaluationCarbone
-        : this.enregistrerChangementFournisseur.aÉtéCréé
-          ? this.enregistrerChangementFournisseur.évaluationCarbone
+        : this.mettreAJourFournisseur.aÉtéCréé
+          ? this.mettreAJourFournisseur.évaluationCarbone
           : candidature.dépôt.evaluationCarboneSimplifiée,
       technologie:
         appelOffres.technologie ??
@@ -49,32 +49,26 @@ export class FournisseurWorld {
   }
 
   mapChangementToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
-    if (!this.enregistrerChangementFournisseur.aÉtéCréé) {
+    if (!this.mettreAJourFournisseur.aÉtéCréé) {
       throw new Error(`Aucune information enregistrée n'a été créée dans FournisseurWorld`);
     }
 
     const expected: Lauréat.Fournisseur.ConsulterChangementFournisseurReadModel = {
       identifiantProjet,
       changement: {
-        enregistréLe: DateTime.convertirEnValueType(
-          this.enregistrerChangementFournisseur.enregistréLe,
-        ),
-        enregistréPar: Email.convertirEnValueType(
-          this.enregistrerChangementFournisseur.enregistréPar,
-        ),
-        fournisseurs: this.enregistrerChangementFournisseur.fournisseurs?.map(
+        enregistréLe: DateTime.convertirEnValueType(this.mettreAJourFournisseur.misAJourLe),
+        enregistréPar: Email.convertirEnValueType(this.mettreAJourFournisseur.misAJourPar),
+        fournisseurs: this.mettreAJourFournisseur.fournisseurs?.map(
           Lauréat.Fournisseur.Fournisseur.convertirEnValueType,
         ),
-        évaluationCarboneSimplifiée: this.enregistrerChangementFournisseur.évaluationCarbone,
+        évaluationCarboneSimplifiée: this.mettreAJourFournisseur.évaluationCarbone,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Lauréat.Fournisseur.TypeDocumentFournisseur.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(
-            this.enregistrerChangementFournisseur.enregistréLe,
-          ).formatter(),
-          this.enregistrerChangementFournisseur.pièceJustificative.format,
+          DateTime.convertirEnValueType(this.mettreAJourFournisseur.misAJourLe).formatter(),
+          this.mettreAJourFournisseur.pièceJustificative.format,
         ),
-        raison: this.enregistrerChangementFournisseur.raison,
+        raison: this.mettreAJourFournisseur.raison,
       },
     };
 

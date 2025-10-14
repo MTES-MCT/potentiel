@@ -18,6 +18,12 @@ export class ChangementFournisseurValeurIdentiqueError extends InvalidOperationE
   }
 }
 
+export class ChangementFournisseurChampsManquantsError extends InvalidOperationError {
+  constructor() {
+    super('Le changement de fournisseur doit contenir une raison et une pièce justificative');
+  }
+}
+
 export class ÉvaluationCarboneNégativeError extends InvalidOperationError {
   constructor() {
     super("L'évaluation carbone ne peut être négative");

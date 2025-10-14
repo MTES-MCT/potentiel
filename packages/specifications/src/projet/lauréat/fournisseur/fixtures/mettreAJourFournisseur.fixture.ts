@@ -9,13 +9,13 @@ export interface EnregistrerChangementFournisseur {
   readonly évaluationCarbone: number;
   readonly fournisseurs: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
   readonly raison: string;
-  readonly enregistréLe: string;
-  readonly enregistréPar: string;
+  readonly misAJourLe: string;
+  readonly misAJourPar: string;
 
   readonly pièceJustificative: { format: string; content: ReadableStream };
 }
 
-export class EnregistrerChangementFournisseurFixture
+export class MettreAJourFournisseurFixture
   extends AbstractFixture<EnregistrerChangementFournisseur>
   implements EnregistrerChangementFournisseur
 {
@@ -47,24 +47,24 @@ export class EnregistrerChangementFournisseurFixture
     return this.#raison;
   }
 
-  #enregistréLe!: string;
+  #misAJourLe!: string;
 
-  get enregistréLe(): string {
-    return this.#enregistréLe;
+  get misAJourLe(): string {
+    return this.#misAJourLe;
   }
 
-  #enregistréPar!: string;
+  #misAJourPar!: string;
 
-  get enregistréPar(): string {
-    return this.#enregistréPar;
+  get misAJourPar(): string {
+    return this.#misAJourPar;
   }
 
   créer(
-    partialFixture: Partial<Readonly<EnregistrerChangementFournisseur>> & { enregistréPar: string },
+    partialFixture: Partial<Readonly<EnregistrerChangementFournisseur>> & { misAJourPar: string },
   ): Readonly<EnregistrerChangementFournisseur> {
     const content = faker.word.words();
     const fixture = {
-      enregistréLe: faker.date.recent().toISOString(),
+      misAJourLe: faker.date.recent().toISOString(),
       évaluationCarbone: faker.number.float({ fractionDigits: 4 }),
       fournisseurs: faker.helpers
         .arrayElements(Lauréat.Fournisseur.TypeFournisseur.typesFournisseur)
@@ -82,8 +82,8 @@ export class EnregistrerChangementFournisseurFixture
     };
 
     this.#évaluationCarbone = fixture.évaluationCarbone;
-    this.#enregistréLe = fixture.enregistréLe;
-    this.#enregistréPar = fixture.enregistréPar;
+    this.#misAJourLe = fixture.misAJourLe;
+    this.#misAJourPar = fixture.misAJourPar;
     this.#fournisseurs = fixture.fournisseurs;
     this.#raison = fixture.raison;
     this.#format = fixture.pièceJustificative.format;

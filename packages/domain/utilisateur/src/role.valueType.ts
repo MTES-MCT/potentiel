@@ -394,11 +394,13 @@ const référencielPermissions = {
       },
       usecase: {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',
-        enregistrerChangement: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
+        enregistrerChangement: 'Lauréat.Fournisseur.UseCase.MettreAJour',
+        modifier: 'Lauréat.Fournisseur.UseCase.MettreAJour',
       },
       command: {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.Command.ModifierÉvaluationCarbone',
-        enregistrerChangement: 'Lauréat.Fournisseur.Command.EnregistrerChangement',
+        enregistrerChangement: 'Lauréat.Fournisseur.Command.MettreAJour',
+        modifier: 'Lauréat.Fournisseur.Command.MettreAJour',
       },
     },
     dispositifDeStockage: {
@@ -1243,6 +1245,12 @@ const policies = {
     enregistrerChangement: [
       référencielPermissions.lauréat.fournisseur.usecase.enregistrerChangement,
       référencielPermissions.lauréat.fournisseur.command.enregistrerChangement,
+      référencielPermissions.document.command.enregister,
+    ],
+    modifier: [
+      référencielPermissions.lauréat.fournisseur.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.fournisseur.command.enregistrerChangement,
+      référencielPermissions.document.command.enregister,
     ],
   },
   dispositifDeStockage: {

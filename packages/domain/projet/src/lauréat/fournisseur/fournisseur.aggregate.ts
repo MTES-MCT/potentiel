@@ -5,7 +5,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { Lauréat } from '../..';
 
-import { Fournisseur } from '.';
+import { ChangementFournisseurEnregistréEvent, Fournisseur } from '.';
 
 import { FournisseurEvent } from './fournisseur.event';
 import { ImporterOptions } from './importer/importerFournisseur.option';
@@ -19,8 +19,9 @@ import {
   ÉvaluationCarboneNombreError,
   ÉvaluationCarboneNégativeError,
 } from './fournisseur.error';
-import { EnregistrerChangementFournisseurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
-import { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
+import { FournisseurModifiéEvent } from './changement/miseAJour/modifierFournisseur.event';
+import { ModifierFournisseurOptions } from './changement/miseAJour/modifierFournisseur.option';
+import { EnregistrerChangementFournisseurOptions } from './changement/miseAJour/enregistrerChangement.option';
 
 export class FournisseurAggregate extends AbstractAggregate<
   FournisseurEvent,
@@ -117,6 +118,39 @@ export class FournisseurAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async modifier({
+    identifiantProjet,
+    fournisseurs,
+    évaluationCarboneSimplifiée,
+    dateModification,
+    identifiantUtilisateur,
+    pièceJustificative,
+    raison,
+  }: ModifierFournisseurOptions) {
+    if (évaluationCarboneSimplifiée !== undefined && fournisseurs !== undefined) {
+      this.vérifierÉvaluationCarboneEtFournisseurs(évaluationCarboneSimplifiée, fournisseurs);
+    } else if (évaluationCarboneSimplifiée !== undefined) {
+      this.vérifierÉvaluationCarbone(évaluationCarboneSimplifiée);
+    } else if (fournisseurs !== undefined) {
+      this.vérifierFournisseurs(fournisseurs);
+    }
+
+    const event: FournisseurModifiéEvent = {
+      type: 'FournisseurModifié-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        fournisseurs: fournisseurs?.map((fournisseur) => fournisseur.formatter()),
+        évaluationCarboneSimplifiée,
+        modifiéLe: dateModification.formatter(),
+        modifiéPar: identifiantUtilisateur.formatter(),
+        raison,
+        pièceJustificative,
+      },
+    };
+
+    await this.publish(event);
+  }
+
   /**
    * On vérifie la validité dans le cas où les deux valeurs sont fournies
    * Les valeurs doivent être valides, et au moins l'une des deux doit être modifiée
@@ -162,6 +196,7 @@ export class FournisseurAggregate extends AbstractAggregate<
     if (fournisseurs.length !== this.#fournisseurs.length) {
       return;
     }
+
     for (let i = 0; i < fournisseurs.length; i++) {
       const fournisseurActuel = this.#fournisseurs[i];
       const fournisseurModifié = fournisseurs[i];
@@ -190,8 +225,9 @@ export class FournisseurAggregate extends AbstractAggregate<
         {
           type: 'ChangementFournisseurEnregistré-V1',
         },
-        (event) => this.applyChangementFournisseurEnregistré(event),
+        (event) => this.applyFournisseurModifié(event),
       )
+      .with({ type: 'FournisseurModifié-V1' }, (event) => this.applyFournisseurModifié(event))
       .exhaustive();
   }
 
@@ -208,9 +244,9 @@ export class FournisseurAggregate extends AbstractAggregate<
     this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
   }
 
-  private applyChangementFournisseurEnregistré({
+  private applyFournisseurModifié({
     payload: { évaluationCarboneSimplifiée, fournisseurs },
-  }: ChangementFournisseurEnregistréEvent) {
+  }: ChangementFournisseurEnregistréEvent | FournisseurModifiéEvent) {
     if (évaluationCarboneSimplifiée !== undefined) {
       this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
     }

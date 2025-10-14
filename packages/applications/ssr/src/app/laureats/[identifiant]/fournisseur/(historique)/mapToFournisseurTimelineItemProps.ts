@@ -8,6 +8,7 @@ import {
   mapToFournisseurImportéTimelineItemProps,
   mapToChangementFournisseurEnregistréTimelineItemProps,
   mapToÉvaluationCarboneModifiéeTimelineItemsProps,
+  mapToFournisseurModifiéTimelineItemProps,
 } from './events';
 
 export const mapToFournisseurTimelineItemProps = (
@@ -24,4 +25,5 @@ export const mapToFournisseurTimelineItemProps = (
       { type: 'ChangementFournisseurEnregistré-V1' },
       mapToChangementFournisseurEnregistréTimelineItemProps,
     )
+    .with({ type: 'FournisseurModifié-V1' }, mapToFournisseurModifiéTimelineItemProps)
     .exhaustive();

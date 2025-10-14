@@ -79,15 +79,20 @@ const action: FormAction<FormState, typeof schema> = async (
       ? fournisseurs
       : undefined;
 
+    const typeDeChangement = utilisateur.role.aLaPermission('fournisseur.modifier')
+      ? 'modification'
+      : 'information-enregistrée';
+
     const common = {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       dateChangementValue: date,
       pièceJustificativeValue: piecesJustificatives,
       raisonValue: raison,
+      typeDeChangementValueu: typeDeChangement,
     };
 
-    const payload: Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase['data'] | undefined =
+    const payload: Lauréat.Fournisseur.MettreAJourFournisseurUseCase['data'] | undefined =
       fournisseursModifiés
         ? {
             ...common,
@@ -115,8 +120,8 @@ const action: FormAction<FormState, typeof schema> = async (
       };
     }
 
-    await mediator.send<Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase>({
-      type: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
+    await mediator.send<Lauréat.Fournisseur.MettreAJourFournisseurUseCase>({
+      type: 'Lauréat.Fournisseur.UseCase.MettreAJour',
       data: payload,
     });
 
@@ -124,7 +129,10 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Fournisseur.changement.détails(identifiantProjet, date),
-        message: 'Votre changement de fournisseur a bien été pris en compte',
+        message:
+          typeDeChangement === 'modification'
+            ? 'La modification de fournisseur a bien été prise en compte'
+            : 'Votre changement de fournisseur a bien été pris en compte',
       },
     };
   });
