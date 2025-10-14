@@ -21,7 +21,6 @@ export const getTypologieInstallationLabel = (
       'bâtiment.existant-sans-rénovation-de-toiture',
       () => 'Bâtiment existant sans rénovation de toiture',
     )
-    .with('bâtiment.mixte', () => 'Bâtiment (mixte)')
     .with('bâtiment.neuf', () => 'Bâtiment neuf')
     .with('bâtiment.serre', () => 'Bâtiment (serre)')
     .with('bâtiment.stabulation', () => 'Bâtiment (stabulation)')

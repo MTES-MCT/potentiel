@@ -6,7 +6,6 @@ export const bâtiment = [
   'bâtiment.existant-sans-rénovation-de-toiture',
   'bâtiment.serre',
   'bâtiment.stabulation',
-  'bâtiment.mixte',
 ] as const;
 
 export const ombrière = ['ombrière.parking', 'ombrière.autre', 'ombrière.mixte'] as const;
