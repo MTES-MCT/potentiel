@@ -31,27 +31,51 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
     ValidationErrors<ModifierTypologieInstallationFormKeys>
   >({});
 
-  const [typologiesProjet, setTypologiesProjet] = useState<
-    Array<Candidature.TypologieInstallation.RawType>
-  >(() =>
-    typologieInstallationActuelle.map((typologie) =>
-      Candidature.TypologieInstallation.bind(typologie).formatter(),
-    ),
-  );
-
   const listeTypologiesDisponibles = Candidature.TypologieInstallation.typologies;
 
-  const typologiesAvecDetails = [
+  const typologiesAvecDetailsSousInstallation = [
     'bâtiment.serre',
     'ombrière.autre',
     'ombrière.mixte',
     'agrivoltaïque.serre',
   ];
 
+  const [typologies, setTypologies] = useState<Array<Candidature.TypologieInstallation.RawType>>(
+    () =>
+      typologieInstallationActuelle.map((typologie) =>
+        Candidature.TypologieInstallation.bind(typologie).formatter(),
+      ),
+  );
+
+  const handleTypologieChange = (
+    index: number,
+    value: Candidature.TypologieInstallation.RawType['typologie'],
+  ) => {
+    setTypologies((prev) =>
+      prev.map((t, i) => (i === index ? { ...t, typologie: value, détails: '' } : t)),
+    );
+  };
+
+  const handleDetailsChange = (index: number, value: string) => {
+    setTypologies((prev) => prev.map((t, i) => (i === index ? { ...t, détails: value } : t)));
+  };
+
+  const addSecondTypologie = () => {
+    if (typologies.length < 2) {
+      setTypologies((prev) => [...prev, { typologie: listeTypologiesDisponibles[0], détails: '' }]);
+    }
+  };
+
+  const removeSecondTypologie = () => {
+    if (typologies.length === 2) {
+      setTypologies((prev) => prev.slice(0, 1));
+    }
+  };
+
   return (
     <Form
       action={modifierTypologieInstallationAction}
-      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
+      onValidationError={setValidationErrors}
       actionButtons={{
         submitLabel: 'Modifier',
         secondaryAction: {
@@ -66,83 +90,104 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
         value={IdentifiantProjet.bind(identifiantProjet).formatter()}
       />
 
-      <div className="flex flex-col gap-2">
-        {typologiesProjet.map(({ typologie, détails }, index) => {
-          const typologieFieldKey =
-            `typologieInstallation.${index}.typologie` satisfies ModifierTypologieInstallationFormKeys;
-          const detailsFieldKey =
-            `typologieInstallation.${index}.details` satisfies ModifierTypologieInstallationFormKeys;
+      <div className="flex flex-row gap-2">
+        <Select
+          label="Typologie 1"
+          state={validationErrors['typologieInstallation.0.typologie'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['typologieInstallation.0.typologie']}
+          options={listeTypologiesDisponibles.map((typologie) => ({
+            label: getTypologieInstallationLabel(typologie),
+            value: typologie,
+          }))}
+          className="flex-1"
+          nativeSelectProps={{
+            name: 'typologieInstallation.0.typologie',
+            value: typologies[0]?.typologie ?? listeTypologiesDisponibles[0],
+            required: true,
+            onChange: (e) =>
+              handleTypologieChange(
+                0,
+                e.target.value as Candidature.TypologieInstallation.RawType['typologie'],
+              ),
+          }}
+        />
+        {typologiesAvecDetailsSousInstallation.includes(typologies[0].typologie) && (
+          <Input
+            label="Détails typologie 1"
+            state={validationErrors['typologieInstallation.0.details'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['typologieInstallation.0.details']}
+            className="flex-1"
+            nativeInputProps={{
+              name: 'typologieInstallation.0.details',
+              value: typologies[0]?.détails ?? '',
+              required: true,
+              placeholder: "Précisez les éléments sous l'installation",
+              onChange: (e) => handleDetailsChange(0, e.target.value),
+            }}
+          />
+        )}
+      </div>
 
-          const [afficherDetails, setAfficherDetails] = useState(
-            typologiesAvecDetails.includes(typologie),
-          );
-          return (
-            <div className="flex flex-row  gap-2" key={`${typologie}-${détails}`}>
-              <Select
-                state={validationErrors[typologieFieldKey] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors[typologieFieldKey]}
-                options={listeTypologiesDisponibles.map((typologie) => ({
-                  label: getTypologieInstallationLabel(typologie),
-                  value: typologie,
-                }))}
-                label=""
-                className="flex-1"
-                nativeSelectProps={{
-                  name: typologieFieldKey,
-                  defaultValue: typologie,
-                  required: true,
-                  onChange: (e) => {
-                    setAfficherDetails(typologiesAvecDetails.includes(e.target.value));
-                  },
-                }}
-              />
-              {afficherDetails && (
-                <Input
-                  label=""
-                  state={validationErrors[detailsFieldKey] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors[detailsFieldKey]}
-                  className="flex-1"
-                  nativeInputProps={{
-                    placeholder: "Précisez les éléments sous l'installation",
-                    defaultValue: détails,
-                    name: detailsFieldKey,
-                    required: true,
-                  }}
-                />
-              )}
-              <Button
-                className="mt-1"
-                type="button"
-                size="small"
-                priority="tertiary no outline"
-                iconId="fr-icon-delete-bin-line"
-                title="Supprimer la typologie"
-                onClick={() => {
-                  setTypologiesProjet((typologies) => typologies.filter((_, i) => index !== i));
-                  setValidationErrors({});
-                }}
-              />
-            </div>
-          );
-        })}
+      {typologies[1] && (
+        <div className="flex flex-row gap-2 items-center">
+          <Select
+            label="Typologie 2"
+            state={validationErrors['typologieInstallation.1.typologie'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['typologieInstallation.1.typologie']}
+            options={listeTypologiesDisponibles.map((t) => ({
+              label: getTypologieInstallationLabel(t),
+              value: t,
+            }))}
+            className="flex-1"
+            nativeSelectProps={{
+              name: 'typologieInstallation.1.typologie',
+              value: typologies[1].typologie,
+              required: true,
+              onChange: (e) =>
+                handleTypologieChange(
+                  1,
+                  e.target.value as Candidature.TypologieInstallation.RawType['typologie'],
+                ),
+            }}
+          />
+          {typologiesAvecDetailsSousInstallation.includes(typologies[1].typologie) && (
+            <Input
+              label="Détails typologie 2"
+              state={validationErrors['typologieInstallation.1.details'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['typologieInstallation.1.details']}
+              className="flex-1"
+              nativeInputProps={{
+                name: 'typologieInstallation.1.details',
+                value: typologies[1]?.détails ?? '',
+                required: true,
+                placeholder: "Précisez les éléments sous l'installation",
+                onChange: (e) => handleDetailsChange(1, e.target.value),
+              }}
+            />
+          )}
+          <Button
+            className=""
+            type="button"
+            size="small"
+            priority="tertiary no outline"
+            iconId="fr-icon-delete-bin-line"
+            title="Supprimer la seconde typologie"
+            onClick={removeSecondTypologie}
+          />
+        </div>
+      )}
+
+      {!typologies[1] && (
         <Button
           iconId="fr-icon-add-circle-line"
-          title="Ajouter une typologie"
+          title="Ajouter une seconde typologie"
           size="small"
           type="button"
-          onClick={() => {
-            setTypologiesProjet((typologies) =>
-              typologies.concat({
-                typologie: listeTypologiesDisponibles[0],
-                détails: '',
-              }),
-            );
-            return false;
-          }}
+          onClick={addSecondTypologie}
         >
-          Ajouter
+          Ajouter une seconde typologie
         </Button>
-      </div>
+      )}
     </Form>
   );
 };
