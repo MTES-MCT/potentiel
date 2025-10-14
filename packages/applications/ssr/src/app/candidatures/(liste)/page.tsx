@@ -87,10 +87,10 @@ export default async function Page({ searchParams }: PageProps) {
       {
         label: 'Statut de la candidature',
         searchParamKey: 'statut',
-        options: Candidature.StatutCandidature.statuts.map((value) => ({
-          label: value.charAt(0).toUpperCase() + value.slice(1),
-          value,
-        })),
+        options: [
+          { label: 'Classé', value: Candidature.StatutCandidature.classé.formatter() },
+          { label: 'Éliminé', value: Candidature.StatutCandidature.éliminé.formatter() },
+        ],
       },
       {
         label: 'Notifié',

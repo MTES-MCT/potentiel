@@ -5,6 +5,7 @@ import {
 import {
   ListerGarantiesFinancièresEnAttenteQuery,
   ListerGarantiesFinancièresEnAttenteReadModel,
+  GarantiesFinancièresEnAttenteListItemReadModel,
 } from './lister/listerProjetsAvecGarantiesFinancièresEnAttente.query';
 
 export type GarantiesFinancièresEnAttenteQuery =
@@ -13,11 +14,8 @@ export type GarantiesFinancièresEnAttenteQuery =
 
 export { ConsulterGarantiesFinancièresEnAttenteQuery, ListerGarantiesFinancièresEnAttenteQuery };
 
-export type GarantiesFinancièresEnAttenteReadModel =
-  | ConsulterGarantiesFinancièresEnAttenteReadModel
-  | ListerGarantiesFinancièresEnAttenteReadModel;
-
 export {
   ConsulterGarantiesFinancièresEnAttenteReadModel,
   ListerGarantiesFinancièresEnAttenteReadModel,
+  GarantiesFinancièresEnAttenteListItemReadModel,
 };

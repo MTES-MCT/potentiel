@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
 import {
@@ -26,7 +28,7 @@ export const ListProjetsAvecGarantiesFinancièresEnAttentePage: FC<
       actions={[]}
       items={garantiesFinancières.map((gf) => ({
         ...gf,
-        key: gf.identifiantProjet,
+        key: IdentifiantProjet.bind(gf.identifiantProjet).formatter(),
       }))}
       currentPage={currentPage}
       totalItems={totalItems}
