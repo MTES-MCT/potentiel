@@ -134,10 +134,12 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
             label="Typologie 2"
             state={validationErrors['typologieInstallation.1.typologie'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['typologieInstallation.1.typologie']}
-            options={listeTypologiesDisponibles.map((t) => ({
-              label: getTypologieInstallationLabel(t),
-              value: t,
-            }))}
+            options={listeTypologiesDisponibles
+              .filter((typologie) => typologie !== typologies[0].typologie)
+              .map((typologie) => ({
+                label: getTypologieInstallationLabel(typologie),
+                value: typologie,
+              }))}
             className="flex-1"
             nativeSelectProps={{
               name: 'typologieInstallation.1.typologie',

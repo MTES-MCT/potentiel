@@ -12,6 +12,12 @@ export class TypologieInstallationIdentiqueError extends InvalidOperationError {
   }
 }
 
+export class JeuDeTypologiesIdentiquesError extends InvalidOperationError {
+  constructor() {
+    super('Vous ne pouvez pas renseigner deux fois la même typologie');
+  }
+}
+
 export class InstallateurIdentiqueError extends InvalidOperationError {
   constructor() {
     super('Le nouvel installateur est identique à celui associé au projet');

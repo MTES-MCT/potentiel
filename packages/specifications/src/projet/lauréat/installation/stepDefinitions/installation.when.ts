@@ -61,6 +61,20 @@ Quand(
   },
 );
 
+Quand(
+  "le DGEC validateur modifie la typologie d'installation un jeu de typologies identiques",
+  async function (this: PotentielWorld) {
+    try {
+      await modifierTypologieInstallation.call(this, this.lauréatWorld.identifiantProjet, [
+        { typologie: 'bâtiment.neuf' },
+        { typologie: 'bâtiment.neuf' },
+      ]);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 export async function modifierInstallateur(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,

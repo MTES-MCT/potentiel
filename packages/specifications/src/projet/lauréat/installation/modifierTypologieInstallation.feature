@@ -25,3 +25,7 @@ Fonctionnalité: Modifier la typologie d'un projet
     Scénario: Impossible de modifier la typologie d'installation sans modification
         Quand le DGEC validateur modifie la typologie d'installation avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La typologie d'installation est identique"
+
+    Scénario: Impossible de modifier la typologie d'installation avec un jeu de typologies identiques
+        Quand le DGEC validateur modifie la typologie d'installation un jeu de typologies identiques
+        Alors l'utilisateur devrait être informé que "Vous ne pouvez pas renseigner deux fois la même typologie"

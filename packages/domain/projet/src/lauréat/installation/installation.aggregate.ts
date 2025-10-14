@@ -13,6 +13,7 @@ import { ImporterOptions } from './importer/importerInstallation.option';
 import {
   InstallateurIdentiqueError,
   InstallationDéjàTransmiseError,
+  JeuDeTypologiesIdentiquesError,
   TypologieInstallationIdentiqueError,
 } from './installation.error';
 import { InstallationImportéeEvent } from './importer/importerInstallation.event';
@@ -113,6 +114,10 @@ export class InstallationAggregate extends AbstractAggregate<
       modification.every((m) => actuel.some((a) => m.estÉgaleÀ(a)))
     ) {
       throw new TypologieInstallationIdentiqueError();
+    }
+
+    if (modification.every((m1) => modification.some((m2) => m1.typologie === m2.typologie))) {
+      throw new JeuDeTypologiesIdentiquesError();
     }
   };
 
