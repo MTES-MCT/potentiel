@@ -1,25 +1,25 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature, listerDrealsRecipients } from '../../helpers';
-import { EmailPayload } from '../../sendEmail';
+import { getBaseUrl, listerDrealsRecipients } from '../../helpers';
 
 import { accèsNotificationTemplateId } from './constant';
+import { AccèsNotificationsProps } from './type';
 
 export async function accèsProjetAutoriséSuiteÀRéclamationNotification({
-  payload: { identifiantProjet, identifiantUtilisateur },
-}: Accès.AccèsProjetAutoriséEvent): Promise<Array<EmailPayload>> {
-  const { nom, département, région } = await getCandidature(identifiantProjet);
-
-  const emailPayloads: EmailPayload[] = [];
-
+  sendEmail,
+  event: {
+    payload: { identifiantProjet, identifiantUtilisateur },
+  },
+  candidature: { nom, région, département },
+}: AccèsNotificationsProps<Accès.AccèsProjetAutoriséEvent>) {
   const variables = {
     nom_projet: nom,
     departement_projet: département,
     projet_url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
   };
 
-  emailPayloads.push({
+  await sendEmail({
     templateId: accèsNotificationTemplateId.accèsProjetAutorisé.porteur,
     messageSubject: `Potentiel - Récupération de la gestion du projet ${nom}`,
     recipients: [
@@ -33,13 +33,11 @@ export async function accèsProjetAutoriséSuiteÀRéclamationNotification({
   const dreals = await listerDrealsRecipients(région);
 
   if (dreals.length > 0) {
-    emailPayloads.push({
+    await sendEmail({
       templateId: accèsNotificationTemplateId.accèsProjetAutorisé.dreal,
       messageSubject: `Potentiel - Récupération de la gestion du projet ${nom}`,
       recipients: dreals,
       variables,
     });
   }
-
-  return emailPayloads;
 }
