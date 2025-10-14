@@ -14,7 +14,6 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { candidatureListLegendSymbols } from '@/components/molecules/candidature/CandidatureListLegendAndSymbols';
-import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 
 import { CandidatureListPage } from './CandidatureList.page';
 
@@ -88,10 +87,10 @@ export default async function Page({ searchParams }: PageProps) {
       {
         label: 'Statut de la candidature',
         searchParamKey: 'statut',
-        options: Candidature.StatutCandidature.statuts.map((value) => ({
-          label: getStatutLauréatLabel(value),
-          value,
-        })),
+        options: [
+          { label: 'Classé', value: Candidature.StatutCandidature.classé.formatter() },
+          { label: 'Éliminé', value: Candidature.StatutCandidature.éliminé.formatter() },
+        ],
       },
       {
         label: 'Notifié',
