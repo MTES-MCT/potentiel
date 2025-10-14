@@ -56,6 +56,7 @@ const fakeProject: AttestationPPE2Options = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   coefficientKChoisi: undefined,
+  autorisationDUrbanisme: undefined,
 };
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif: Story = {

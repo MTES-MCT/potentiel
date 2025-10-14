@@ -13,7 +13,6 @@ type LaureatProps = {
 
 export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
   const { appelOffre, période } = project;
-  const { soumisAuxGarantiesFinancieres } = appelOffre.garantiesFinancières || {};
   const { delaiDcrEnMois } = période;
 
   const paragrapheEngagementIPFPGPFC =
@@ -110,16 +109,28 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               marginTop: 10,
             }}
           >
-            - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
-            {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente
-            notification
+            - {!appelOffre.dépôtDCRPossibleSeulementAprèsDésignation && `si ce n’est déjà fait, `}
+            déposer une demande complète de raccordement dans les {delaiDcrEnMois.texte} (
+            {delaiDcrEnMois.valeur}) mois à compter de la présente notification
             {appelOffre.typeAppelOffre === 'eolien' &&
               ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
             ;
           </Text>
-
-          {soumisAuxGarantiesFinancieres &&
-            appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres && (
+          {appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel && (
+            <Text
+              style={{
+                marginTop: 10,
+              }}
+            >
+              - {appelOffre.addendums.paragrapheRenseignerRaccordementDansPotentiel};
+            </Text>
+          )}
+          {appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres &&
+            (appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres ===
+              'après candidature' ||
+              appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles.includes(
+                'six-mois-après-achèvement',
+              )) && (
               <Text
                 style={{
                   marginTop: 10,
@@ -161,7 +172,10 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               marginTop: 10,
             }}
           >
-            - fournir à EDF l’attestation de conformité de l’installation prévue au paragraphe{' '}
+            - fournir à EDF
+            {appelOffre.addendums?.paragrapheRenseignerAttestationConformitéDansPotentiel &&
+              `, ${appelOffre.addendums.paragrapheRenseignerAttestationConformitéDansPotentiel},`}{' '}
+            l’attestation de conformité de l’installation prévue au paragraphe{' '}
             {appelOffre.paragrapheAttestationConformite} du cahier des charges;
           </Text>
 
