@@ -16,6 +16,7 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
 import { getTypeActionnariatFilterOptions } from '@/app/_helpers/filters/getTypeActionnariatFilterOptions';
 import { projectListLegendSymbols } from '@/components/molecules/projet/liste/ProjectListLegendAndSymbols';
+import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 
 import { LauréatListPage, LauréatListPageProps } from './LauréatList.page';
 
@@ -87,7 +88,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Statut du projet',
           searchParamKey: 'statut',
           options: Lauréat.StatutLauréat.statuts.map((value) => ({
-            label: value.charAt(0).toUpperCase() + value.slice(1).replace('-', ' '),
+            label: getStatutLauréatLabel(value),
             value,
           })),
         },

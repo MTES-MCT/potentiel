@@ -1,5 +1,4 @@
 import React from 'react';
-import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Badge } from '../../../components';
 import { Lauréat } from '@potentiel-domain/projet';
 import { match } from 'ts-pattern';

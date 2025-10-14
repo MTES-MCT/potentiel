@@ -2,47 +2,50 @@ import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ProjectListItemHeading } from '@/components/molecules/projet/liste/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
+import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 
-export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = {
-  identifiantProjet: string;
-  nomProjet: string;
-  motif: string;
-  misÀJourLe: Iso8601DateTime;
-  dateLimiteSoumission: Iso8601DateTime;
-  afficherModèleMiseEnDemeure: boolean;
-};
+export type ListItemProjetAvecGarantiesFinancièresEnAttenteActions = 'mise-en-demeure'[];
+export type ListItemProjetAvecGarantiesFinancièresEnAttenteProps = PlainType<
+  Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteListItemReadModel & {
+    actions: ListItemProjetAvecGarantiesFinancièresEnAttenteActions;
+  }
+>;
 
 export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
   ListItemProjetAvecGarantiesFinancièresEnAttenteProps
 > = ({
   identifiantProjet,
   nomProjet,
-
-  misÀJourLe,
-  motif,
-  dateLimiteSoumission,
-  afficherModèleMiseEnDemeure,
+  dernièreMiseÀJour: {
+    date: { date: misÀJourLe },
+  },
+  statut: { statut },
+  motif: { motif },
+  dateLimiteSoumission: { date: dateLimiteSoumission },
+  actions,
 }) => (
   <ListItem
     misÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
-        identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+        identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
         nomProjet={nomProjet}
         prefix="Projet"
+        statutBadge={<StatutLauréatBadge statut={statut} />}
       />
     }
     actions={
       <Button
         linkProps={{
-          href: Routes.Projet.details(identifiantProjet),
+          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
           'aria-label': `voir le détail du projet ${nomProjet}`,
         }}
       >
@@ -51,7 +54,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
     }
   >
     <div className="text-sm">
-      Motif : <strong>{motif}</strong>
+      Motif : <strong>{getGarantiesFinancièresMotifLabel(motif)}</strong>
     </div>
     <div className="text-sm">
       Date limite de soumission :{' '}
@@ -59,10 +62,12 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
         <FormattedDate date={dateLimiteSoumission} />
       </strong>
     </div>
-    {afficherModèleMiseEnDemeure && (
+    {actions.includes('mise-en-demeure') && (
       <DownloadDocument
         className="mb-4"
-        url={Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(identifiantProjet)}
+        url={Routes.GarantiesFinancières.téléchargerModèleMiseEnDemeure(
+          IdentifiantProjet.bind(identifiantProjet).formatter(),
+        )}
         format="docx"
         label="Télécharger un modèle de mise en demeure"
       />

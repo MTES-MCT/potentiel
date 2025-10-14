@@ -2,29 +2,33 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
-import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import { getGarantiesFinancièresMotifLabel } from '@/app/laureats/[identifiant]/garanties-financieres/_helpers/getGarantiesFinancièresMotifLabel';
+import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 
 import {
   ListProjetsAvecGarantiesFinancièresEnAttentePage,
   ListProjetsAvecGarantiesFinancièresEnAttenteProps,
 } from './ListerProjetsAvecGarantiesFinancièresEnAttente.page';
+import { ListItemProjetAvecGarantiesFinancièresEnAttenteActions } from './ListItemProjetAvecGarantiesFinancièresEnAttente';
 
 const searchParamsSchema = z.object({
   page: z.coerce.number().default(1),
   appelOffre: z.string().optional(),
   cycle: z.enum(['CRE4', 'PPE2']).optional(),
   motif: z.string().optional(),
+  statut: z.enum(Lauréat.StatutLauréat.statuts).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof searchParamsSchema>;
@@ -41,7 +45,7 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, appelOffre, cycle, motif } = searchParamsSchema.parse(searchParams);
+      const { page, appelOffre, cycle, motif, statut } = searchParamsSchema.parse(searchParams);
 
       const projetsAvecGarantiesFinancièresEnAttente =
         await mediator.send<Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteQuery>({
@@ -51,6 +55,7 @@ export default async function Page({ searchParams }: PageProps) {
             appelOffre,
             motif,
             cycle,
+            statut,
             range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
           },
         });
@@ -61,6 +66,14 @@ export default async function Page({ searchParams }: PageProps) {
       });
 
       const filters: ListFilterItem<SearchParams>[] = [
+        {
+          label: 'Statut du projet',
+          searchParamKey: 'statut',
+          options: Lauréat.StatutLauréat.statuts.map((value) => ({
+            label: getStatutLauréatLabel(value),
+            value,
+          })),
+        },
         {
           label: "Cycle d'appels d'offres",
           searchParamKey: 'cycle',
@@ -101,7 +114,10 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <ListProjetsAvecGarantiesFinancièresEnAttentePage
-          list={mapToListProps(projetsAvecGarantiesFinancièresEnAttente, utilisateur.role)}
+          list={mapToListProps({
+            list: projetsAvecGarantiesFinancièresEnAttente,
+            role: utilisateur.role,
+          })}
           filters={filters}
         />
       );
@@ -109,42 +125,33 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-const mapToListProps = (
-  {
-    items,
-    range,
-    total,
-  }: Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteReadModel,
-  role: Role.ValueType,
-): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
-  const mappedItems = items.map(
-    ({ identifiantProjet, nomProjet, motif, dernièreMiseÀJour, dateLimiteSoumission }) => ({
-      identifiantProjet: identifiantProjet.formatter(),
-      nomProjet,
-      motif: getGarantiesFinancièresMotifLabel(motif.motif),
-      misÀJourLe: dernièreMiseÀJour.date.formatter(),
-      dateLimiteSoumission: dateLimiteSoumission.formatter(),
-      afficherModèleMiseEnDemeure:
-        dateLimiteSoumission.estAntérieurÀ(DateTime.now()) && role.estÉgaleÀ(Role.dreal),
-    }),
-  );
+type MapToListProps = {
+  list: Lauréat.GarantiesFinancières.ListerGarantiesFinancièresEnAttenteReadModel;
+  role: Role.ValueType;
+};
 
+const mapToListProps = ({
+  list: { items, total, range },
+  role,
+}: MapToListProps): ListProjetsAvecGarantiesFinancièresEnAttenteProps['list'] => {
   return {
-    items: mappedItems,
+    items: items.map((item) =>
+      mapToPlainObject({
+        ...item,
+        actions: mapToActions({ item, role }),
+      }),
+    ),
     totalItems: total,
     ...mapToPagination(range, 10),
   };
 };
 
-const getGarantiesFinancièresMotifLabel = (
-  type: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
-) =>
-  match(type)
-    .with('changement-producteur', () => 'Changement de producteur')
-    .with('recours-accordé', () => 'Recours accordé')
-    .with(
-      'échéance-garanties-financières-actuelles',
-      () => 'Garanties financières arrivées à échéance',
-    )
-    .with('motif-inconnu', () => 'Inconnu')
-    .exhaustive();
+type MapToActions = (props: {
+  item: Lauréat.GarantiesFinancières.GarantiesFinancièresEnAttenteListItemReadModel;
+  role: Role.ValueType;
+}) => ListItemProjetAvecGarantiesFinancièresEnAttenteActions;
+
+const mapToActions: MapToActions = ({ item, role }) =>
+  item.dateLimiteSoumission.estAntérieurÀ(DateTime.now()) && role.estÉgaleÀ(Role.dreal)
+    ? ['mise-en-demeure']
+    : [];
