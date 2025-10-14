@@ -38,6 +38,8 @@ const instructionCsvSchema = zod.object({
   motifElimination: instructionSchema.shape.motifÉlimination,
 });
 
+const convertirKWcEnMWc = (value: number) => Number((value / 1000).toFixed(3));
+
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { appelOffre, periode, fichierInstruction, test },
@@ -122,6 +124,7 @@ const action: FormAction<FormState, typeof schema> = async (
             attestationConstitutionGf: undefined,
             dateConstitutionGf: undefined,
             ...dépôt,
+            puissanceProductionAnnuelle: convertirKWcEnMWc(dépôt.puissanceProductionAnnuelle),
             localité: {
               ...dépôt.localité,
               adresse2: dépôt.localité.adresse2 ?? '',
