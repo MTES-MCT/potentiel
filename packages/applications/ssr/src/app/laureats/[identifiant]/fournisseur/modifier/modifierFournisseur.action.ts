@@ -15,11 +15,13 @@ import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   evaluationCarboneSimplifiee: zod.coerce.number().positive(),
-  raison: zod.string(),
+  raison: zod.string().optional(),
   piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
+    optional: true,
   }),
 };
+
 const schema = zod.discriminatedUnion('technologie', [
   zod.object({
     ...commonSchema,
@@ -79,13 +81,17 @@ const action: FormAction<FormState, typeof schema> = async (
       ? fournisseurs
       : undefined;
 
+    const typeDeChangement = utilisateur.role.aLaPermission('fournisseur.modifier')
+      ? 'modification'
+      : 'information-enregistrée';
+
     const common = {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       dateChangementValue: date,
       pièceJustificativeValue: piecesJustificatives,
       raisonValue: raison,
-      typeDeChangementValue: 'information-enregistrée',
+      typeDeChangementValueu: typeDeChangement,
     };
 
     const payload: Lauréat.Fournisseur.MettreAJourFournisseurUseCase['data'] | undefined =
@@ -125,7 +131,10 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Fournisseur.changement.détails(identifiantProjet, date),
-        message: 'Le changement de fournisseur a bien été pris en compte',
+        message:
+          typeDeChangement === 'modification'
+            ? 'La modification de fournisseur a bien été prise en compte'
+            : 'Votre changement de fournisseur a bien été pris en compte',
       },
     };
   });

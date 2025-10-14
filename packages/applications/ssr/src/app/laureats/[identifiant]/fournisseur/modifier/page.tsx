@@ -6,14 +6,13 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 
-import { getFournisseurInfos } from '../../../_helpers/getLauréat';
-import { EnregistrerChangementFournisseurPage } from '../(mettre-à-jour)/MettreAJour.page';
+import { getFournisseurInfos } from '../../_helpers/getLauréat';
+import { EnregistrerChangementFournisseurPage } from '../changement/(mettre-à-jour)/MettreAJour.page';
 
 export const metadata: Metadata = {
   title: 'Changer le fournisseur du projet - Potentiel',
-  description: 'Formulaire de changement de fournisseur du projet',
+  description: 'Formulaire de modification du fournisseur du projet',
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
@@ -22,12 +21,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const fournisseur = await getFournisseurInfos({
       identifiantProjet: identifiantProjet.formatter(),
     });
-
-    await vérifierQueLeCahierDesChargesPermetUnChangement(
-      fournisseur.identifiantProjet,
-      'information-enregistrée',
-      'fournisseur',
-    );
 
     return (
       <EnregistrerChangementFournisseurPage

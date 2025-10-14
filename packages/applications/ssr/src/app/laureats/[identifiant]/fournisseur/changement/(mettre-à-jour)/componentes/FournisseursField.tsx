@@ -8,9 +8,9 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { ValidationErrors } from '@/utils/formAction';
 import { PaysPicker } from '@/components/molecules/CountryPicker';
 
-import { typeFournisseurLabel } from '../typeFournisseurLabel';
+import { typeFournisseurLabel } from '../../typeFournisseurLabel';
 
-import { EnregistrerChangementFournisseurFormProps } from './EnregistrerChangementFournisseur.form';
+import { EnregistrerChangementFournisseurFormProps } from './MettreAJourFournisseur.form';
 
 type FournisseursFieldProps = Pick<
   EnregistrerChangementFournisseurFormProps,

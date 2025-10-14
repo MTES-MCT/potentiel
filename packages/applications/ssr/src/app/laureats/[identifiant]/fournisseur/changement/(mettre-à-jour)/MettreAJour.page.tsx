@@ -9,7 +9,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import {
   EnregistrerChangementFournisseurForm,
   EnregistrerChangementFournisseurFormProps,
-} from './EnregistrerChangementFournisseur.form';
+} from './componentes/MettreAJourFournisseur.form';
 
 export type EnregistrerChangementFournisseurPageProps = EnregistrerChangementFournisseurFormProps;
 export const EnregistrerChangementFournisseurPage: FC<
