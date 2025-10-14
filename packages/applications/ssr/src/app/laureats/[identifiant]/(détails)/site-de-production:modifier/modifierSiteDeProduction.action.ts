@@ -20,7 +20,7 @@ const schema = zod.object({
   commune: localitéSchema.shape.commune,
   departement: localitéSchema.shape.département,
   region: localitéSchema.shape.région,
-  regionModifiee: zod.stringbool().optional(),
+  accesAuProjetPerdu: zod.stringbool().optional(),
 });
 export type ModifierSiteDeProductionFormKeys = keyof zod.infer<typeof schema>;
 
@@ -35,7 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (
     commune,
     departement,
     region,
-    regionModifiee,
+    accesAuProjetPerdu,
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
@@ -60,7 +60,9 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: regionModifiee ? Routes.Lauréat.lister() : Routes.Projet.details(identifiantProjet),
+        url: accesAuProjetPerdu
+          ? Routes.Lauréat.lister()
+          : Routes.Projet.details(identifiantProjet),
         message: 'Le site de production a été modifié',
       },
     };

@@ -138,7 +138,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
               {
                 label: `J'ai bien compris que le changement de région du site de production entraînera la perte de mes accès à ce projet`,
                 nativeInputProps: {
-                  name: 'regionModifiee',
+                  name: 'accesAuProjetPerdu',
                   checked: changementRégionConfirmé,
                   onChange: (e) => setChangementRégionConfirmé(e.target.checked),
                 },
