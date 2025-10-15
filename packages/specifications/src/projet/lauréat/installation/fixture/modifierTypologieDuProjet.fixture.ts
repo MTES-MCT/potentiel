@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../../fixture';
+import { LauréatWorld } from '../../lauréat.world';
 
 interface ModifierTypologieDuProjet {
   readonly modifiéeLe: string;
@@ -32,12 +33,23 @@ export class ModifierTypologieDuProjetFixture
     return this.#typologieDuProjet;
   }
 
+  constructor(public readonly lauréatWorld: LauréatWorld) {
+    super();
+  }
+
   créer(partialData?: Partial<ModifierTypologieDuProjet>): Readonly<ModifierTypologieDuProjet> {
     const fixture: ModifierTypologieDuProjet = {
       modifiéeLe: faker.date.recent().toISOString(),
       modifiéePar: faker.internet.email(),
       typologieDuProjet: faker.helpers
-        .arrayElements(Candidature.TypologieDuProjet.typologies)
+        .arrayElements(
+          Candidature.TypologieDuProjet.typologies.filter(
+            (t) =>
+              !this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.typologieDuProjet
+                .map((t) => t.typologie)
+                .includes(t),
+          ),
+        )
         .map((typologie) => ({
           typologie,
           détails: faker.word.words(),

@@ -20,7 +20,7 @@ export class InstallationWorld {
 
   constructor(public readonly lauréatWorld: LauréatWorld) {
     this.#modifierInstallateurFixture = new ModifierInstallateurFixture();
-    this.#modifierTypologieDuProjetFixture = new ModifierTypologieDuProjetFixture();
+    this.#modifierTypologieDuProjetFixture = new ModifierTypologieDuProjetFixture(lauréatWorld);
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {

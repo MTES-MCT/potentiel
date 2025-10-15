@@ -6,7 +6,7 @@ export class InstallationDéjàTransmiseError extends InvalidOperationError {
   }
 }
 
-export class TypologiDuProjetIdentiqueError extends InvalidOperationError {
+export class NouvelleTypologieDuProjetIdentiqueÀLActuelleError extends InvalidOperationError {
   constructor() {
     super('La nouvelle typologie est identique à celle du projet');
   }

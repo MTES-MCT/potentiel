@@ -44,7 +44,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: 'Le changement de typologie du projet a été pris en compte',
+        message: 'La modification de la typologie du projet a été prise en compte',
       },
     };
   });

@@ -23,9 +23,7 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.lauréatWorld;
-      await modifierTypologieDuProjet.call(this, identifiantProjet, [
-        { typologie: 'ombrière.parking' },
-      ]);
+      await modifierTypologieDuProjet.call(this, identifiantProjet);
     } catch (error) {
       this.error = error as Error;
     }

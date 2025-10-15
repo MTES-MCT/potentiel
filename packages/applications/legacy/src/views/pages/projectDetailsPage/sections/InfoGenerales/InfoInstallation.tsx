@@ -39,33 +39,20 @@ export const InfoInstallation = ({
       .exhaustive();
   };
 
-  const formatTypologieDuProjet = ({
-    typologie,
-    détails,
-  }: InfoInstallationProps['installation']['typologieDuProjet']['value'][number]) => (
-    <>
-      <div>{getTypologieLabels(typologie)}</div>
-      {détails && <div>Éléments sous l'installation : {détails}</div>}
-    </>
-  );
   return (
     <div className="flex flex-col gap-0">
-      <Heading3 className="m-0 ">Installation</Heading3>
+      <Heading3 className="m-0">Installation</Heading3>
       <div>
-        <Heading4 className="m-0" style={{ fontSize: '16px' }}>
-          Typologie du projet
-        </Heading4>
-        {typologieDuProjet.value.length > 1 ? (
-          <>
-            <div className="m-0">Installation mixte :</div>
-            <ul className="list-disc pl-4 m-0">
-              {typologieDuProjet.value.map((t) => (
-                <li key={t.typologie}>{formatTypologieDuProjet(t)}</li>
-              ))}
-            </ul>
-          </>
-        ) : typologieDuProjet.value.length === 1 ? (
-          <div>{formatTypologieDuProjet(typologieDuProjet.value[0])}</div>
+        <Heading4 className="m-0">Typologie du projet</Heading4>
+        {typologieDuProjet.value.length > 0 ? (
+          <ul className="m-0">
+            {typologieDuProjet.value.map((t) => (
+              <li>
+                <div>{getTypologieLabels(t.typologie)}</div>
+                {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
+              </li>
+            ))}
+          </ul>
         ) : (
           <span>Typologie du projet non renseignée</span>
         )}
@@ -76,9 +63,7 @@ export const InfoInstallation = ({
         </Link>
       )}
       <div>
-        <Heading4 className="mb-0" style={{ fontSize: '16px' }}>
-          Installateur
-        </Heading4>
+        <Heading4 className="mb-0">Installateur</Heading4>
         <div className="m-0">{installateur.value || 'Non renseigné'}</div>
         {installateur.affichage && (
           <Link href={installateur.affichage.url} aria-label={installateur.affichage.label}>

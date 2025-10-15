@@ -14,7 +14,7 @@ import {
   InstallateurIdentiqueError,
   InstallationDéjàTransmiseError,
   JeuDeTypologiesIdentiquesError,
-  TypologiDuProjetIdentiqueError,
+  NouvelleTypologieDuProjetIdentiqueÀLActuelleError,
 } from './installation.error';
 import { InstallationImportéeEvent } from './importer/importerInstallation.event';
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
@@ -111,7 +111,7 @@ export class InstallationAggregate extends AbstractAggregate<
       actuel.length === modification.length &&
       modification.every((m) => actuel.some((a) => m.estÉgaleÀ(a)))
     ) {
-      throw new TypologiDuProjetIdentiqueError();
+      throw new NouvelleTypologieDuProjetIdentiqueÀLActuelleError();
     }
 
     if (modification.length > 1) {
