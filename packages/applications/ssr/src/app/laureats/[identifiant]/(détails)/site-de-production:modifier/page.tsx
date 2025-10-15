@@ -18,10 +18,15 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async () => {
+    withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
       const lauréat = await getLauréatInfos({ identifiantProjet });
-      return <ModifierSiteDeProductionPage lauréat={mapToPlainObject(lauréat)} />;
+      return (
+        <ModifierSiteDeProductionPage
+          lauréat={mapToPlainObject(lauréat)}
+          rôle={mapToPlainObject(utilisateur.role)}
+        />
+      );
     }),
   );
 }

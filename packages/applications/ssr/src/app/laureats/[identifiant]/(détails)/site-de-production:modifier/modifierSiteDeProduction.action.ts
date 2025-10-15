@@ -20,12 +20,23 @@ const schema = zod.object({
   commune: localitéSchema.shape.commune,
   departement: localitéSchema.shape.département,
   region: localitéSchema.shape.région,
+  accesAuProjetPerdu: zod.stringbool().optional(),
 });
 export type ModifierSiteDeProductionFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, raison, adresse1, adresse2, codePostal, commune, departement, region },
+  {
+    identifiantProjet,
+    raison,
+    adresse1,
+    adresse2,
+    codePostal,
+    commune,
+    departement,
+    region,
+    accesAuProjetPerdu,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ModifierSiteDeProductionUseCase>({
@@ -49,7 +60,9 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Projet.details(identifiantProjet),
+        url: accesAuProjetPerdu
+          ? Routes.Lauréat.lister()
+          : Routes.Projet.details(identifiantProjet),
         message: 'Le site de production a été modifié',
       },
     };

@@ -46,7 +46,7 @@ export const StepNavigation: FC<StepNavigationProps> = ({
         {nextStep.name}
       </Button>
     ) : (
-      <SubmitButton classname="flex ml-auto" disabledCondition={() => nextStep.disabled}>
+      <SubmitButton classname="flex ml-auto" disabled={nextStep.disabled}>
         {nextStep.name}
       </SubmitButton>
     )}
