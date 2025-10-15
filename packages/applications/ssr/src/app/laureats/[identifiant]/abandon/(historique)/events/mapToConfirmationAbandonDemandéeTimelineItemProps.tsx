@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
   confirmationAbandonDemandée: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent,
@@ -25,8 +26,8 @@ export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
     date: confirmationDemandéeLe,
     title: (
       <div>
-        Confirmation demandée pour la demande d'abandon par{' '}
-        {<span className="font-semibold">{confirmationDemandéePar}</span>}
+        Confirmation demandée pour la demande d'abandon{' '}
+        <TimelineItemUserEmail email={confirmationDemandéePar} />
       </div>
     ),
     content: (

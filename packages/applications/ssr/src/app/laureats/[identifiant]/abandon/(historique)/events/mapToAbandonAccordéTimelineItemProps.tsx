@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToAbandonAccordéTimelineItemProps = (
   abandonAccordé: Lauréat.Abandon.AbandonAccordéEvent,
@@ -25,7 +26,7 @@ export const mapToAbandonAccordéTimelineItemProps = (
     date: accordéLe,
     title: (
       <div>
-        Demande d'abandon accordée par {<span className="font-semibold">{accordéPar}</span>}
+        Demande d'abandon accordée <TimelineItemUserEmail email={accordéPar} />
       </div>
     ),
     content: (

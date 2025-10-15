@@ -5,6 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   record: Lauréat.Fournisseur.ChangementFournisseurEnregistréEvent,
@@ -21,7 +22,9 @@ export const mapToChangementFournisseurEnregistréTimelineItemProps = (
   return {
     date: enregistréLe,
     title: (
-      <div>Fournisseur modifié par {<span className="font-semibold">{enregistréPar}</span>}</div>
+      <div>
+        Fournisseur modifié <TimelineItemUserEmail email={enregistréPar} />
+      </div>
     ),
     content: (
       <div className="flex flex-col gap-2">

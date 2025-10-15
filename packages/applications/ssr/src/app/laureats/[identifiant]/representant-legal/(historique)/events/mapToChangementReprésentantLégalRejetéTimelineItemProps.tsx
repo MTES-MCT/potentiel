@@ -1,16 +1,22 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToChangementReprésentantLégalRejetéTimelineItemProps = (
   changementRejeté: Lauréat.ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
 ) => {
-  const { rejetéLe, rejetéPar } = changementRejeté.payload;
+  const { rejetéLe, rejetéPar, rejetAutomatique } = changementRejeté.payload;
 
   return {
     date: rejetéLe,
     title: (
       <div>
-        Demande de changement de représentant légal rejetée par{' '}
-        {<span className="font-semibold">{rejetéPar}</span>}
+        Demande de changement de représentant légal rejetée{' '}
+        {rejetAutomatique ? (
+          `par le préfet de la région du projet`
+        ) : (
+          <TimelineItemUserEmail email={rejetéPar} />
+        )}
       </div>
     ),
   };

@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToChangementPuissanceRejetéTimelineItemProps = (
   record: Lauréat.Puissance.ChangementPuissanceRejetéEvent,
@@ -26,7 +27,7 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (
     date: rejetéLe,
     title: (
       <div>
-        Changement de puissance rejeté par {<span className="font-semibold">{rejetéPar}</span>}
+        Changement de puissance rejeté <TimelineItemUserEmail email={rejetéPar} />
       </div>
     ),
     content: (

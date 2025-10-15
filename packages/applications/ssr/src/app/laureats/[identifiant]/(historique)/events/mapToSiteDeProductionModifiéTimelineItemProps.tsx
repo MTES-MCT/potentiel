@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToSiteDeProductionModifiéTimelineItemProps = (
   modification: Lauréat.SiteDeProductionModifiéEvent,
@@ -11,7 +12,7 @@ export const mapToSiteDeProductionModifiéTimelineItemProps = (
     date: modifiéLe,
     title: (
       <div>
-        Site de production modifié par {<span className="font-semibold">{modifiéPar}</span>}
+        Site de production modifié <TimelineItemUserEmail email={modifiéPar} />
       </div>
     ),
     content: (

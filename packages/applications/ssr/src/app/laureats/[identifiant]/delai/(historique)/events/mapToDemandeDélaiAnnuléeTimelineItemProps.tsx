@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToDemandeDélaiAnnuléeTimelineItemProps = (
   record: Lauréat.Délai.DemandeDélaiAnnuléeEvent,
 ) => {
@@ -8,7 +10,9 @@ export const mapToDemandeDélaiAnnuléeTimelineItemProps = (
   return {
     date: annuléLe,
     title: (
-      <div>Demande de délai annulée par {<span className="font-semibold">{annuléPar}</span>}</div>
+      <div>
+        Demande de délai annulée <TimelineItemUserEmail email={annuléPar} />
+      </div>
     ),
   };
 };

@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToInstallateurModifiéTimelineItemsProps = (
   record: Lauréat.Installation.InstallateurModifiéEvent,
 ) => {
@@ -8,7 +10,10 @@ export const mapToInstallateurModifiéTimelineItemsProps = (
   return {
     date: modifiéLe,
     title: (
-      <div>Installateur modifié par {<span className="font-semibold">{modifiéPar}</span>}</div>
+      <div>
+        Installateur modifié
+        <TimelineItemUserEmail email={modifiéPar} />
+      </div>
     ),
     content: (
       <div className="flex flex-col gap-2">

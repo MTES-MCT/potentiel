@@ -4,6 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToRecoursRejetéTimelineItemProps = (
   recoursRejeté: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
@@ -25,7 +26,9 @@ export const mapToRecoursRejetéTimelineItemProps = (
   return {
     date: rejetéLe,
     title: (
-      <div>Demande de recours rejetée par {<span className="font-semibold">{rejetéPar}</span>}</div>
+      <div>
+        Demande de recours rejetée <TimelineItemUserEmail email={rejetéPar} />
+      </div>
     ),
     content: (
       <DownloadDocument

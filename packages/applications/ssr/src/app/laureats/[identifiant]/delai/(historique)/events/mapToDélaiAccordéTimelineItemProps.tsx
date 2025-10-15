@@ -5,6 +5,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToDélaiAccordéTimelineItemProps = (
   délaiAccordé: Lauréat.Délai.DélaiAccordéEvent,
@@ -16,8 +17,7 @@ export const mapToDélaiAccordéTimelineItemProps = (
     date: accordéLe,
     title: (
       <div>
-        Demande de délai exceptionnel accordée par{' '}
-        <span className="font-semibold">{accordéPar}</span>
+        Demande de délai exceptionnel accordée <TimelineItemUserEmail email={accordéPar} />
       </div>
     ),
     content: (

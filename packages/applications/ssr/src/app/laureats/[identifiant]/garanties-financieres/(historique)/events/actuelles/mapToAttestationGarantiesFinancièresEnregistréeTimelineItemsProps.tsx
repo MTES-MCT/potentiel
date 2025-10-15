@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps = (
   modification: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent,
 ) => {
@@ -9,8 +11,8 @@ export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps
     date: enregistréLe,
     title: (
       <div>
-        Attestion de garanties financières enregistrée par{' '}
-        {<span className="font-semibold">{enregistréPar}</span>}
+        Attestation de garanties financières enregistrée{' '}
+        <TimelineItemUserEmail email={enregistréPar} />
       </div>
     ),
   };

@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToPuissanceModifiéeTimelineItemsProps = (
   record: Lauréat.Puissance.PuissanceModifiéeEvent,
@@ -10,7 +11,11 @@ export const mapToPuissanceModifiéeTimelineItemsProps = (
 
   return {
     date: modifiéeLe,
-    title: <div>Puissance modifiée par {<span className="font-semibold">{modifiéePar}</span>}</div>,
+    title: (
+      <div>
+        Puissance modifiée <TimelineItemUserEmail email={modifiéePar} />
+      </div>
+    ),
     content: (
       <div className="flex flex-col gap-2">
         <div>

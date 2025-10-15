@@ -4,6 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToRecoursDemandéTimelineItemProps = (
   recoursDemandé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
@@ -26,7 +27,7 @@ export const mapToRecoursDemandéTimelineItemProps = (
     date: demandéLe,
     title: (
       <div>
-        Demande de recours déposée par {<span className="font-semibold">{demandéPar}</span>}
+        Demande de recours déposée <TimelineItemUserEmail email={demandéPar} />
       </div>
     ),
     content: (

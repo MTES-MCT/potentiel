@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToDemandeMainlevéeGarantiesFinancièresAnnuléeTimelineItemsProps = (
   modification: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
 ) => {
@@ -9,8 +11,8 @@ export const mapToDemandeMainlevéeGarantiesFinancièresAnnuléeTimelineItemsPro
     date: annuléLe,
     title: (
       <div>
-        La demande de mainlevée des garanties financières a été annulée par{' '}
-        <span className="font-semibold">{annuléPar}</span>{' '}
+        La demande de mainlevée des garanties financières a été annulée{' '}
+        <TimelineItemUserEmail email={annuléPar} />
       </div>
     ),
   };

@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToGarantiesFinancièresEnregistréesTimelineItemsProps = (
   modification: Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent,
@@ -12,8 +13,7 @@ export const mapToGarantiesFinancièresEnregistréesTimelineItemsProps = (
     date: enregistréLe,
     title: (
       <div>
-        Garanties financières enregistrées par{' '}
-        {<span className="font-semibold">{enregistréPar}</span>}
+        Garanties financières enregistrées <TimelineItemUserEmail email={enregistréPar} />
       </div>
     ),
     content: (

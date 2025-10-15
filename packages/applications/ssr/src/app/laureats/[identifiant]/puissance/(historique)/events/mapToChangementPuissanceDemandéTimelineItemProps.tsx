@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToChangementPuissanceDemandéTimelineItemProps = (
   record: Lauréat.Puissance.ChangementPuissanceDemandéEvent,
@@ -15,7 +16,7 @@ export const mapToChangementPuissanceDemandéTimelineItemProps = (
     date: demandéLe,
     title: (
       <div>
-        Changement de puissance demandé par {<span className="font-semibold">{demandéPar}</span>}
+        Changement de puissance demandé <TimelineItemUserEmail email={demandéPar} />
       </div>
     ),
     content: (

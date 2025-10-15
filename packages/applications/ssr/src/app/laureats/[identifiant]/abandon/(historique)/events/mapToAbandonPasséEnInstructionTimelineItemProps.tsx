@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToAbandonPasséEnInstructionTimelineItemProps = (
   abandonPasséEnInstruction: Lauréat.Abandon.AbandonPasséEnInstructionEvent,
 ) => {
@@ -9,8 +11,8 @@ export const mapToAbandonPasséEnInstructionTimelineItemProps = (
     date: passéEnInstructionLe,
     title: (
       <div>
-        Demande d'abandon passée en instruction par{' '}
-        {<span className="font-semibold">{passéEnInstructionPar}</span>}
+        Demande d'abandon passée en instruction{' '}
+        <TimelineItemUserEmail email={passéEnInstructionPar} />
       </div>
     ),
   };

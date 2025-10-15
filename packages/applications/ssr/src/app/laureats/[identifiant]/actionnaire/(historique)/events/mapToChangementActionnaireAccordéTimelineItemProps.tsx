@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToChangementActionnaireAccordéTimelineItemProps = (
   changementAccordé: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent,
@@ -26,8 +27,7 @@ export const mapToChangementActionnaireAccordéTimelineItemProps = (
     date: accordéLe,
     title: (
       <div>
-        Demande de changement d'actionnaire accordée par{' '}
-        {<span className="font-semibold">{accordéPar}</span>}
+        Demande de changement d'actionnaire accordée <TimelineItemUserEmail email={accordéPar} />
       </div>
     ),
     content: (

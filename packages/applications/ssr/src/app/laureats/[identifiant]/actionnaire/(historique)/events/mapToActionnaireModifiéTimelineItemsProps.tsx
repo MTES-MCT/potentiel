@@ -4,6 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToActionnaireModifiéTimelineItemProps = (
   modification: Lauréat.Actionnaire.ActionnaireModifiéEvent,
@@ -13,7 +14,11 @@ export const mapToActionnaireModifiéTimelineItemProps = (
 
   return {
     date: modifiéLe,
-    title: <div>Actionnaire modifié par {<span className="font-semibold">{modifiéPar}</span>}</div>,
+    title: (
+      <div>
+        Actionnaire modifié <TimelineItemUserEmail email={modifiéPar} />
+      </div>
+    ),
     content: (
       <div className="flex flex-col gap-2">
         <div>

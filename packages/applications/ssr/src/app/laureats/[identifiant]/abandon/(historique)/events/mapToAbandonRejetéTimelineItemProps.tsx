@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToAbandonRejetéTimelineItemProps = (
   abandonRejeté: Lauréat.Abandon.AbandonRejetéEvent,
@@ -24,7 +25,9 @@ export const mapToAbandonRejetéTimelineItemProps = (
   return {
     date: rejetéLe,
     title: (
-      <div>Demande d'abandon rejetée par {<span className="font-semibold">{rejetéPar}</span>}</div>
+      <div>
+        Demande d'abandon rejetée <TimelineItemUserEmail email={rejetéPar} />
+      </div>
     ),
     content: (
       <DownloadDocument

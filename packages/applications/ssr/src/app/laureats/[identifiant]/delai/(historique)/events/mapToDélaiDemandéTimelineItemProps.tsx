@@ -4,6 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToDélaiDemandéTimelineItemProps = (record: Lauréat.Délai.DélaiDemandéEvent) => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, nombreDeMois, raison } =
@@ -11,7 +12,11 @@ export const mapToDélaiDemandéTimelineItemProps = (record: Lauréat.Délai.Dé
 
   return {
     date: demandéLe,
-    title: <div>Délai demandé par {<span className="font-semibold">{demandéPar}</span>}</div>,
+    title: (
+      <div>
+        Délai demandé <TimelineItemUserEmail email={demandéPar} />
+      </div>
+    ),
     content: (
       <div className="flex flex-col gap-2">
         <div>

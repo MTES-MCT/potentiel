@@ -1,6 +1,8 @@
 import { Éliminé } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToRecoursAnnuléTimelineItemProps = (
   recoursAnnulé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
@@ -10,7 +12,9 @@ export const mapToRecoursAnnuléTimelineItemProps = (
   return {
     date: annuléLe,
     title: (
-      <div>Demande de recours annulée par {<span className="font-semibold">{annuléPar}</span>}</div>
+      <div>
+        Demande de recours annulée <TimelineItemUserEmail email={annuléPar} />
+      </div>
     ),
   };
 };

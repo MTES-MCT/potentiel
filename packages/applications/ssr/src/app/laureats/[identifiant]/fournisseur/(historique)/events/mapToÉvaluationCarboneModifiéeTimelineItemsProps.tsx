@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToÉvaluationCarboneModifiéeTimelineItemsProps = (
   record: Lauréat.Fournisseur.ÉvaluationCarboneModifiéeEvent,
 ) => {
@@ -9,8 +11,7 @@ export const mapToÉvaluationCarboneModifiéeTimelineItemsProps = (
     date: modifiéeLe,
     title: (
       <div>
-        Évaluation carbone simplifiée modifiée par{' '}
-        {<span className="font-semibold">{modifiéePar}</span>}
+        Évaluation carbone simplifiée modifiée <TimelineItemUserEmail email={modifiéePar} />
       </div>
     ),
     content: (

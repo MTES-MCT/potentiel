@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
   preuveRecandidatureTransmise: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent,
 ) => {
@@ -19,7 +21,7 @@ export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
         >
           projet faisant preuve de recandidature
         </Link>{' '}
-        a été transmis par {<span className="font-semibold">{transmisePar}</span>}
+        a été transmis <TimelineItemUserEmail email={transmisePar} />
       </div>
     ),
   };

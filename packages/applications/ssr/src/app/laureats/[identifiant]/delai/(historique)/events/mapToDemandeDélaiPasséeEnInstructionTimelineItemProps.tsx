@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToDemandeDélaiPasséeEnInstructionTimelineItemProps = (
   record: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent,
 ) => {
@@ -9,8 +11,8 @@ export const mapToDemandeDélaiPasséeEnInstructionTimelineItemProps = (
     date: passéeEnInstructionLe,
     title: (
       <div>
-        Demande de délai passée en instruction par{' '}
-        {<span className="font-semibold">{passéeEnInstructionPar}</span>}
+        Demande de délai passée en instruction{' '}
+        <TimelineItemUserEmail email={passéeEnInstructionPar} />
       </div>
     ),
   };

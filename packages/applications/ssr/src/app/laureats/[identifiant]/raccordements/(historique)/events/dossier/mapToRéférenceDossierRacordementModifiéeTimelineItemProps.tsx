@@ -1,6 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
   event: (
     | Lauréat.Raccordement.RéférenceDossierRacordementModifiéeEventV1
@@ -19,8 +21,9 @@ export const mapToRéférenceDossierRacordementModifiéeTimelineItemProps = (
         La référence pour le dossier de raccordement{' '}
         <span className="font-semibold">{event.payload.référenceDossierRaccordementActuelle}</span>{' '}
         a été changée
-        {event.type === 'RéférenceDossierRacordementModifiée-V2' &&
-          ` par ${event.payload.modifiéePar}`}
+        {event.type === 'RéférenceDossierRacordementModifiée-V2' && (
+          <TimelineItemUserEmail email={event.payload.modifiéePar} />
+        )}
       </div>
     ),
     content: (

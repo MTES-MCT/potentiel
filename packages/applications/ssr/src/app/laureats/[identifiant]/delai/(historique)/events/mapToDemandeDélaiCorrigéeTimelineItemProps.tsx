@@ -4,6 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
   record: Lauréat.Délai.DemandeDélaiCorrigéeEvent,
@@ -22,7 +23,7 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
     date: corrigéeLe,
     title: (
       <div>
-        Demande de délai corrigée par {<span className="font-semibold">{corrigéePar}</span>}
+        Demande de délai corrigée <TimelineItemUserEmail email={corrigéePar} />
       </div>
     ),
     content: (

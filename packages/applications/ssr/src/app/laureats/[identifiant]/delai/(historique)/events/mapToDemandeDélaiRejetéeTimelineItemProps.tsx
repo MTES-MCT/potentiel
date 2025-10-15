@@ -3,6 +3,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
 
 export const mapToDemandeDélaiRejetéeTimelineItemProps = (
   record: Lauréat.Délai.DemandeDélaiRejetéeEvent,
@@ -12,7 +13,9 @@ export const mapToDemandeDélaiRejetéeTimelineItemProps = (
   return {
     date: rejetéeLe,
     title: (
-      <div>Demande de délai rejetée par {<span className="font-semibold">{rejetéePar}</span>}</div>
+      <div>
+        Demande de délai rejetée <TimelineItemUserEmail email={rejetéePar} />
+      </div>
     ),
     content: (
       <DownloadDocument

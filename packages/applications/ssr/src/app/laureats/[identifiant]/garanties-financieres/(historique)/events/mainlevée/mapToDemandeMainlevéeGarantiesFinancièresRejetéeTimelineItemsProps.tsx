@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps = (
   modification: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
 ) => {
@@ -9,8 +11,8 @@ export const mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsPro
     date: rejetéLe,
     title: (
       <div>
-        La demande de mainlevée des garanties financières a été rejetée par{' '}
-        <span className="font-semibold">{rejetéPar}</span>{' '}
+        La demande de mainlevée des garanties financières a été rejetée{' '}
+        <TimelineItemUserEmail email={rejetéPar} />
       </div>
     ),
   };

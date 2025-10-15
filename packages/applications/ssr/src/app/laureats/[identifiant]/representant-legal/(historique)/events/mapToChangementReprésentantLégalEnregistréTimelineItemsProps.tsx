@@ -1,5 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+
 export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
   changement: Lauréat.ReprésentantLégal.ChangementReprésentantLégalEnregistréEvent,
 ) => {
@@ -10,7 +12,7 @@ export const mapToChangementReprésentantLégalEnregistréTimelineItemProps = (
     date: enregistréLe,
     title: (
       <div>
-        Représentant légal modifié par {<span className="font-semibold">{enregistréPar}</span>}
+        Représentant légal modifié <TimelineItemUserEmail email={enregistréPar} />
       </div>
     ),
     content: (
