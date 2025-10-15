@@ -46,6 +46,7 @@ export const getFournisseur = async ({
 
     if (Option.isSome(fournisseur)) {
       const { fournisseurs, évaluationCarboneSimplifiée } = fournisseur;
+
       const peutModifier = role.aLaPermission('fournisseur.modifier');
       const peutEnregistrerUnChangement =
         role.aLaPermission('fournisseur.enregistrerChangement') &&

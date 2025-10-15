@@ -81,17 +81,13 @@ const action: FormAction<FormState, typeof schema> = async (
       ? fournisseurs
       : undefined;
 
-    const typeDeChangement = utilisateur.role.aLaPermission('fournisseur.modifier')
-      ? ('modification-admin' as const)
-      : ('information-enregistrée' as const);
-
     const common = {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       dateValue: date,
       pièceJustificativeValue: piecesJustificatives,
       raisonValue: raison,
-      typeDeChangementValue: typeDeChangement,
+      rôleUtilisateurValue: utilisateur.role.nom,
     };
 
     const payload: Lauréat.Fournisseur.MettreAJourFournisseurUseCase['data'] | undefined =
@@ -131,10 +127,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Fournisseur.changement.détails(identifiantProjet, date),
-        message:
-          typeDeChangement === 'modification-admin'
-            ? 'La modification de fournisseur a bien été prise en compte'
-            : 'Votre changement de fournisseur a bien été pris en compte',
+        message: 'Le changement de fournisseur a bien été pris en compte',
       },
     };
   });

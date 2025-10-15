@@ -151,13 +151,15 @@ export async function mettreAJourFournisseur(
     fournisseurs?: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
   } = {},
 ) {
+  const utilisateurFixture =
+    typeDeChangement === 'information-enregistrée'
+      ? this.utilisateurWorld.porteurFixture
+      : this.utilisateurWorld.validateurFixture;
+
   try {
     const { évaluationCarbone, fournisseurs, misAJourLe, misAJourPar, pièceJustificative, raison } =
       this.lauréatWorld.fournisseurWorld.mettreAJourFournisseur.créer({
-        misAJourPar:
-          typeDeChangement === 'information-enregistrée'
-            ? this.utilisateurWorld.porteurFixture.email
-            : this.utilisateurWorld.validateurFixture.email,
+        misAJourPar: utilisateurFixture.email,
         ...values,
       });
 
@@ -171,7 +173,7 @@ export async function mettreAJourFournisseur(
         identifiantUtilisateurValue: misAJourPar,
         raisonValue: raison,
         pièceJustificativeValue: pièceJustificative,
-        typeDeChangementValue: typeDeChangement,
+        rôleUtilisateurValue: utilisateurFixture.role,
       },
     });
   } catch (e) {

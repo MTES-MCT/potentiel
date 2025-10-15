@@ -41,6 +41,8 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
     number | undefined
   >();
 
+  const raisonAndPJRequired = isInformationEnregistrée;
+
   return (
     <Form
       action={mettreAJourFournisseurAction}
@@ -105,22 +107,22 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
 
         <Input
           textArea
-          label={`Raison${!isInformationEnregistrée && ' (optionnel)'}`}
+          label={`Raison${raisonAndPJRequired ? '' : ' (optionnel)'}`}
           id="raison"
           className="md:max-w-96"
           hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
           nativeTextAreaProps={{
             name: 'raison',
-            required: isInformationEnregistrée,
-            'aria-required': isInformationEnregistrée,
+            required: raisonAndPJRequired,
+            'aria-required': raisonAndPJRequired,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label={`Pièce(s) justificative(s)${!isInformationEnregistrée && ' (optionnel)'}`}
+          label={`Pièce(s) justificative(s)${raisonAndPJRequired ? '' : ' (optionnel)'}`}
           name="piecesJustificatives"
-          required={isInformationEnregistrée}
+          required={raisonAndPJRequired}
           multiple
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

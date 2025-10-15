@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantProjet } from '../../../../..';
 import { Fournisseur, TypeDocumentFournisseur } from '../../..';
@@ -13,7 +14,7 @@ export type MettreAJourFournisseurUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
-    typeDeChangementValue: 'modification-admin' | 'information-enregistrée';
+    rôleUtilisateurValue: string;
     dateValue: string;
     raisonValue?: string;
     pièceJustificativeValue?: {
@@ -45,11 +46,12 @@ export const registerMettreAJourFournisseurUseCase = () => {
     pièceJustificativeValue,
     évaluationCarboneSimplifiéeValue,
     raisonValue,
-    typeDeChangementValue,
+    rôleUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const date = DateTime.convertirEnValueType(dateValue);
+    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     const pièceJustificative = pièceJustificativeValue
       ? DocumentProjet.convertirEnValueType(
@@ -68,7 +70,9 @@ export const registerMettreAJourFournisseurUseCase = () => {
         date,
         pièceJustificative,
         raison: raisonValue,
-        typeDeChangement: typeDeChangementValue,
+        typeDeChangement: rôleUtilisateur.aLaPermission('fournisseur.modifier')
+          ? 'modification-admin'
+          : 'information-enregistrée',
         ...(fournisseursValue
           ? {
               fournisseurs: fournisseursValue?.map(Fournisseur.convertirEnValueType),
