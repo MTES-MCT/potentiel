@@ -13,7 +13,6 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { IconProps } from '@/components/atoms/Icon';
-import { mapToDispositifDeStockageProps } from '@/utils/historique/mapToProps/dispositif-de-stockage/mapToDispositifDeStockageTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/app/elimine/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 import { mapToÉliminéTimelineItemProps } from '@/app/elimine/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 
@@ -31,6 +30,7 @@ import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique
 import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';
 import { mapToFournisseurTimelineItemProps } from '../fournisseur/changement/(historique)';
 import { mapToInstallateurTimelineItemProps } from '../installateur/(historique)/mapToInstallateurTimelineItemProps';
+import { mapToDispositifDeStockageProps } from '../dispositif-de-stockage/modifier/(historique)/mapToDispositifDeStockageTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
