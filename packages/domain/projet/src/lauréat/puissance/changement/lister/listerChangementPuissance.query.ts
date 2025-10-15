@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { AutoritéCompétente, ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
+import { ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import { LauréatEntity } from '../../../lauréat.entity';
 import { CandidatureEntity } from '../../../../candidature';
@@ -31,7 +31,6 @@ export type ListerChangementPuissanceQuery = Message<
     statut?: Array<StatutChangementPuissance.RawType>;
     appelOffre?: string;
     nomProjet?: string;
-    autoritéCompétente?: AutoritéCompétente.RawType;
     range: RangeOptions;
   },
   ListerChangementPuissanceReadModel
@@ -51,7 +50,6 @@ export const registerListerChangementPuissanceQuery = ({
     appelOffre,
     nomProjet,
     utilisateur,
-    autoritéCompétente,
     range,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
@@ -86,7 +84,6 @@ export const registerListerChangementPuissanceQuery = ({
             scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           demande: {
             statut: Where.matchAny(statut),
-            autoritéCompétente: Where.equal(autoritéCompétente),
           },
         },
       },

@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { UtilisateurWorld } from '../../../../../utilisateur/utilisateur.world';
 
 Quand(
   'le porteur demande le changement de puissance pour le projet {lauréat-éliminé} avec :',
@@ -54,18 +53,10 @@ Quand(
 );
 
 Quand(
-  /(.*) accorde le changement de puissance pour le projet lauréat/,
-  async function (
-    this: PotentielWorld,
-    rôle: 'la DREAL associée au projet' | 'le DGEC validateur',
-  ) {
+  'la DREAL associée au projet accorde le changement de puissance pour le projet lauréat',
+  async function (this: PotentielWorld) {
     try {
-      await accorderChangementPuissance.call(
-        this,
-        rôle === 'la DREAL associée au projet'
-          ? this.utilisateurWorld.drealFixture.role
-          : this.utilisateurWorld.adminFixture.role,
-      );
+      await accorderChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -73,18 +64,10 @@ Quand(
 );
 
 Quand(
-  /(.*) rejette le changement de puissance pour le projet lauréat/,
-  async function (
-    this: PotentielWorld,
-    rôle: 'la DREAL associée au projet' | 'le DGEC validateur',
-  ) {
+  'la DREAL associée au projet rejette le changement de puissance pour le projet lauréat',
+  async function (this: PotentielWorld) {
     try {
-      await rejeterChangementPuissance.call(
-        this,
-        rôle === 'la DREAL associée au projet'
-          ? this.utilisateurWorld.drealFixture.role
-          : this.utilisateurWorld.adminFixture.role,
-      );
+      await rejeterChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -173,21 +156,13 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
   });
 }
 
-export async function accorderChangementPuissance(
-  this: PotentielWorld,
-  rôleUtilisateurValue:
-    | UtilisateurWorld['drealFixture']['role']
-    | UtilisateurWorld['adminFixture']['role'],
-) {
+export async function accorderChangementPuissance(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { accordéeLe, accordéePar, réponseSignée, estUneDécisionDEtat } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture.créer(
       {
-        accordéePar:
-          rôleUtilisateurValue === 'dreal'
-            ? this.utilisateurWorld.drealFixture.email
-            : this.utilisateurWorld.adminFixture.email,
+        accordéePar: this.utilisateurWorld.drealFixture.email,
       },
     );
 
@@ -201,27 +176,18 @@ export async function accorderChangementPuissance(
         content: réponseSignée.content,
         format: réponseSignée.format,
       },
-      rôleUtilisateurValue,
       estUneDécisionDEtatValue: estUneDécisionDEtat,
     },
   });
 }
 
-export async function rejeterChangementPuissance(
-  this: PotentielWorld,
-  rôleUtilisateurValue:
-    | UtilisateurWorld['drealFixture']['role']
-    | UtilisateurWorld['adminFixture']['role'],
-) {
+export async function rejeterChangementPuissance(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { rejetéeLe, rejetéePar, réponseSignée, estUneDécisionDEtat } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture.créer(
       {
-        rejetéePar:
-          rôleUtilisateurValue === 'dreal'
-            ? this.utilisateurWorld.drealFixture.email
-            : this.utilisateurWorld.adminFixture.email,
+        rejetéePar: this.utilisateurWorld.drealFixture.email,
       },
     );
 
@@ -235,7 +201,6 @@ export async function rejeterChangementPuissance(
         content: réponseSignée.content,
         format: réponseSignée.format,
       },
-      rôleUtilisateurValue,
       estUneDécisionDEtatValue: estUneDécisionDEtat,
     },
   });

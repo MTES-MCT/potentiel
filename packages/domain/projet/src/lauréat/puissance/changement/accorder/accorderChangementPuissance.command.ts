@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
@@ -12,7 +11,6 @@ export type AccorderChangementPuissanceCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     accordéLe: DateTime.ValueType;
     accordéPar: Email.ValueType;
-    rôleUtilisateur: Role.ValueType;
     réponseSignée?: DocumentProjet.ValueType;
     estUneDécisionDEtat: boolean;
   }
@@ -26,7 +24,6 @@ export const registerAccorderChangementPuissanceCommand = (
     accordéLe,
     accordéPar,
     réponseSignée,
-    rôleUtilisateur,
     estUneDécisionDEtat,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
@@ -36,7 +33,6 @@ export const registerAccorderChangementPuissanceCommand = (
       accordéLe,
       accordéPar,
       réponseSignée,
-      rôleUtilisateur,
       estUneDécisionDEtat,
     });
   };

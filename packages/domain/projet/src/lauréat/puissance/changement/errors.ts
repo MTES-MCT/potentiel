@@ -6,12 +6,6 @@ export class DemandeDeChangementInexistanteError extends InvalidOperationError {
   }
 }
 
-export class DemandeDoitÊtreInstruiteParDGECError extends InvalidOperationError {
-  constructor() {
-    super('Une demande de changement de puissance à la hausse doit être instruite par la DGEC');
-  }
-}
-
 export class RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError extends InvalidOperationError {
   constructor() {
     super("La réponse signée est obligatoire si l'accord n'est pas une décision de l'État");

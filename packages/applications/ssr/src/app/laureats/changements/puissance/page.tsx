@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
-import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -31,7 +30,6 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  autoriteCompetente: z.enum(Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes).optional(),
   statut: transformToOptionalEnumArray(z.enum(Lauréat.Puissance.StatutChangementPuissance.statuts)),
 });
 
@@ -40,8 +38,7 @@ type SearchParams = keyof z.infer<typeof paramsSchema>;
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut, autoriteCompetente } =
-        paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
       const changements = await mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ListerChangementPuissance',
@@ -58,7 +55,6 @@ export default async function Page({ searchParams }: PageProps) {
             : undefined,
           appelOffre,
           nomProjet,
-          autoritéCompétente: autoriteCompetente,
         },
       });
 
@@ -86,17 +82,6 @@ export default async function Page({ searchParams }: PageProps) {
           options: appelOffres.items.map((appelOffre) => ({
             label: appelOffre.id,
             value: appelOffre.id,
-          })),
-        },
-        {
-          label: 'Autorité compétente',
-          searchParamKey: 'autoriteCompetente',
-          options: Lauréat.Puissance.AutoritéCompétente.autoritésCompétentes.map((autorité) => ({
-            label: match(autorité)
-              .with('dreal', () => 'DREAL')
-              .with('dgec-admin', () => 'DGEC')
-              .exhaustive(),
-            value: autorité,
           })),
         },
       ];

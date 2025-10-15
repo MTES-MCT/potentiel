@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
@@ -13,7 +12,6 @@ export type RejeterChangementPuissanceCommand = Message<
     rejetéLe: DateTime.ValueType;
     rejetéPar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
-    rôleUtilisateur: Role.ValueType;
     estUneDécisionDEtat: boolean;
   }
 >;
@@ -26,7 +24,6 @@ export const registerRejeterChangementPuissanceCommand = (
     rejetéLe,
     rejetéPar,
     réponseSignée,
-    rôleUtilisateur,
     estUneDécisionDEtat,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
@@ -35,7 +32,6 @@ export const registerRejeterChangementPuissanceCommand = (
       rejetéLe,
       rejetéPar,
       réponseSignée,
-      rôleUtilisateur,
       estUneDécisionDEtat,
     });
   };
