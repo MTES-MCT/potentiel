@@ -14,7 +14,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToGarantiesFinancièresTimelineItemProps } from '@/utils/historique/mapToProps/garanties-financières/mapToGarantiesFinancièresTimelineItemProps';
-import { mapToLauréatTimelineItemProps } from '@/utils/historique/mapToProps/lauréat/mapToLauréatTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProps/raccordement/mapToRaccordementTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
@@ -31,6 +30,7 @@ import { mapToAbandonTimelineItemProps } from '../abandon/(détails)/(historique
 import { mapToAchèvementTimelineItemProps } from '../achevement/(historique)/mapToAchèvementTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from '../actionnaire/(historique)/mapToActionnaireTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
+import { mapToLauréatTimelineItemProps } from '../(historique)/mapToLauréatTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
