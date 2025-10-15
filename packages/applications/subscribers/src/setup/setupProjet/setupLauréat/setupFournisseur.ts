@@ -29,7 +29,11 @@ export const setupFournisseur: SetupProjet = async ({ sendEmail }) => {
     FournisseurNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['ÉvaluationCarboneSimplifiéeModifiée-V1', 'ChangementFournisseurEnregistré-V1'],
+    eventType: [
+      'ÉvaluationCarboneSimplifiéeModifiée-V1',
+      'ChangementFournisseurEnregistré-V1',
+      'FournisseurModifié-V1',
+    ],
     messageType: 'System.Notification.Lauréat.Fournisseur',
   });
 

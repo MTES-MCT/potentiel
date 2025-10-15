@@ -9,6 +9,7 @@ import { getLauréat } from '../../../helpers';
 
 import { changementFournisseurEnregistréNotifications } from './changementFournisseurEnregistré.notifications';
 import { évaluationCarboneSimplifiéeModifiéeNotifications } from './évaluationCarboneSimplifiéeModifiée.notifications';
+import { fournisseurModifiéNotifications } from './fournisseurModifié.notifications';
 
 export type SubscriptionEvent = Lauréat.Fournisseur.FournisseurEvent & Event;
 
@@ -31,6 +32,9 @@ export const register = ({ sendEmail }: RegisterFournisseurNotificationDependenc
       )
       .with({ type: 'ChangementFournisseurEnregistré-V1' }, async (event) =>
         changementFournisseurEnregistréNotifications({ sendEmail, event, projet }),
+      )
+      .with({ type: 'FournisseurModifié-V1' }, async (event) =>
+        fournisseurModifiéNotifications({ sendEmail, event, projet }),
       )
       .otherwise(() => Promise.resolve());
   };

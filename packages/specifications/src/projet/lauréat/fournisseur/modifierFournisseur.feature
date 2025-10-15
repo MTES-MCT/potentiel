@@ -10,11 +10,11 @@ Fonctionnalité: Modifier un fournisseur
         Quand le DGEC validateur modifie le fournisseur du projet lauréat
         Alors le fournisseur devrait être mis à jour
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification de fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
 
