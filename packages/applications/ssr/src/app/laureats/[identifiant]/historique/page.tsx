@@ -12,7 +12,6 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
-import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProps/raccordement/mapToRaccordementTimelineItemProps';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 import { mapToDispositifDeStockageProps } from '@/utils/historique/mapToProps/dispositif-de-stockage/mapToDispositifDeStockageTimelineItemProps';
@@ -31,6 +30,7 @@ import { mapToGarantiesFinancièresTimelineItemProps } from '../garanties-financ
 import { mapToProducteurTimelineItemProps } from '../producteur/(historique)/mapToProducteurTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)';
 import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
+import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
