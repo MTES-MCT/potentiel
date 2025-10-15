@@ -13,7 +13,6 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProps/raccordement/mapToRaccordementTimelineItemProps';
-import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 import { mapToDispositifDeStockageProps } from '@/utils/historique/mapToProps/dispositif-de-stockage/mapToDispositifDeStockageTimelineItemProps';
@@ -24,13 +23,14 @@ import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
 import { mapToInstallateurTimelineItemProps } from '../../../../utils/historique/mapToProps/installateur/mapToInstallateurTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../../../../utils/historique/mapToProps/nature-de-l-exploitation/mapToNatureDeLExploitationTimelineItemProps';
-import { mapToAbandonTimelineItemProps } from '../abandon/(détails)/(historique)/mapToAbandonTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '../achevement/(historique)/mapToAchèvementTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from '../actionnaire/(historique)/mapToActionnaireTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
 import { mapToLauréatTimelineItemProps } from '../(historique)/mapToLauréatTimelineItemProps';
 import { mapToGarantiesFinancièresTimelineItemProps } from '../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
 import { mapToProducteurTimelineItemProps } from '../producteur/(historique)/mapToProducteurTimelineItemProps';
+import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)';
+import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
