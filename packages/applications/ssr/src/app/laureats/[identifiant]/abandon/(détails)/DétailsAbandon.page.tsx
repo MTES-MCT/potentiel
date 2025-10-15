@@ -9,9 +9,10 @@ import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/Pro
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { Timeline } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
   TransmettrePreuveRecandidature,

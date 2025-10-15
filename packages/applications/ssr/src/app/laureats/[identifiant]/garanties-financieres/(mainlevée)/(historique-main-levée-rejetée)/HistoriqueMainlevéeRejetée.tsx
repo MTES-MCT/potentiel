@@ -8,7 +8,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { Heading3 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { FormattedDate } from '@/components//atoms/FormattedDate';
 
 export type HistoriqueMainlevéeRejetéeProps = {

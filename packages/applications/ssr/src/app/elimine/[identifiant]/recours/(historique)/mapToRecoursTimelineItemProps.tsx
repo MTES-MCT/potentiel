@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Éliminé } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
   mapToRecoursDemandéTimelineItemProps,
