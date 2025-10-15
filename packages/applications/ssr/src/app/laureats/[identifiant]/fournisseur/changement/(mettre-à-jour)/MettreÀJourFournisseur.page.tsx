@@ -18,6 +18,7 @@ export const MettreÀJourFournisseurPage: FC<MettreÀJourFournisseurPageProps> =
   évaluationCarboneSimplifiée,
   technologie,
   évaluationCarboneSimplifiéeInitiale,
+  isInformationEnregistrée,
 }) => (
   <PageTemplate
     banner={
@@ -33,6 +34,7 @@ export const MettreÀJourFournisseurPage: FC<MettreÀJourFournisseurPageProps> =
       évaluationCarboneSimplifiée={évaluationCarboneSimplifiée}
       technologie={technologie}
       évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
+      isInformationEnregistrée={isInformationEnregistrée}
     />
   </PageTemplate>
 );

@@ -1,6 +1,5 @@
 # language: fr
 @fournisseur
-@select
 Fonctionnalité: Modifier un fournisseur
 
     Contexte:

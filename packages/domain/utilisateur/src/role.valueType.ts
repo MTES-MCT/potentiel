@@ -1599,6 +1599,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'fournisseur.modifierÉvaluationCarbone',
   'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
+  'fournisseur.modifier',
 
   // Délai
   'délai.consulterDemande',

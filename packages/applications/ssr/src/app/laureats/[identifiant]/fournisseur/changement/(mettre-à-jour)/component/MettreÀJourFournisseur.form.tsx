@@ -21,7 +21,9 @@ import {
 } from './mettreÀJourFournisseur.action';
 
 export type MettreÀJourFournisseurFormProps =
-  PlainType<Lauréat.Fournisseur.ConsulterFournisseurReadModel>;
+  PlainType<Lauréat.Fournisseur.ConsulterFournisseurReadModel> & {
+    isInformationEnregistrée?: boolean;
+  };
 
 export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> = ({
   identifiantProjet,
@@ -29,6 +31,7 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
   évaluationCarboneSimplifiéeInitiale,
   fournisseurs,
   technologie,
+  isInformationEnregistrée = false,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<MettreÀJourFournisseurFormKeys>
@@ -102,22 +105,22 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
 
         <Input
           textArea
-          label="Raison"
+          label={`Raison${!isInformationEnregistrée && ' (optionnel)'}`}
           id="raison"
           className="md:max-w-96"
           hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
           nativeTextAreaProps={{
             name: 'raison',
-            required: true,
-            'aria-required': true,
+            required: isInformationEnregistrée,
+            'aria-required': isInformationEnregistrée,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label={'Pièce(s) justificative(s)'}
+          label={`Pièce(s) justificative(s)${!isInformationEnregistrée && ' (optionnel)'}`}
           name="piecesJustificatives"
-          required
+          required={isInformationEnregistrée}
           multiple
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

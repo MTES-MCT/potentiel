@@ -36,6 +36,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         évaluationCarboneSimplifiée={fournisseur.évaluationCarboneSimplifiée}
         évaluationCarboneSimplifiéeInitiale={fournisseur.évaluationCarboneSimplifiéeInitiale}
         technologie={fournisseur.technologie}
+        isInformationEnregistrée={true}
       />
     );
   });
