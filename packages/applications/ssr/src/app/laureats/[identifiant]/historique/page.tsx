@@ -18,9 +18,9 @@ import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProp
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
-import { mapToÉliminéTimelineItemProps } from '@/utils/historique/mapToProps/éliminé';
 import { mapToDispositifDeStockageProps } from '@/utils/historique/mapToProps/dispositif-de-stockage/mapToDispositifDeStockageTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from '@/app/elimine/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
+import { mapToÉliminéTimelineItemProps } from '@/app/elimine/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
