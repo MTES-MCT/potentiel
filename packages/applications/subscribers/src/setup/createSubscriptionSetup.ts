@@ -1,7 +1,10 @@
 import { Message, mediator } from 'mediateur';
+import { bulkhead } from 'cockatiel';
 
 import { Event, Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { runWorkerWithContext } from '@potentiel-applications/request-context';
+
+const policy = bulkhead(50, Infinity);
 
 export const createSubscriptionSetup = <TCategory extends string>(streamCategory: TCategory) => {
   const listeners: (() => Promise<void>)[] = [];
@@ -17,16 +20,18 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
     const unsubscribe = await subscribe<TEvent>({
       name,
       eventType,
-      eventHandler: async (event) =>
-        runWorkerWithContext({
-          app: 'subscribers',
-          callback: async () => {
-            await mediator.send<Message<TMessage['type'], TMessage['data']>>({
-              type: messageType,
-              data: event,
-            });
-          },
-        }),
+      eventHandler: (event) =>
+        policy.execute(async () =>
+          runWorkerWithContext({
+            app: 'subscribers',
+            callback: async () => {
+              await mediator.send<Message<TMessage['type'], TMessage['data']>>({
+                type: messageType,
+                data: event,
+              });
+            },
+          }),
+        ),
       streamCategory,
     });
     listeners.push(unsubscribe);
