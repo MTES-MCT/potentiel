@@ -214,6 +214,8 @@ export class PuissanceAggregate extends AbstractAggregate<
       StatutChangementPuissance.accordé,
     );
 
+    // mise à jour octobre 2025
+    // cette erreur ne pourra plus arriver, car l'autorité compétente est systématiquement la DREAL
     if (this.#demande.autoritéCompétente === 'dgec-admin' && rôleUtilisateur.nom === 'dreal') {
       throw new DemandeDoitÊtreInstruiteParDGECError();
     }

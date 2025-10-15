@@ -94,7 +94,7 @@ Quand(
 export async function demanderChangementPuissance(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
-  ratioValue?: number,
+  ratioValue: number,
 ) {
   const { identifiantProjet } = statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
 
@@ -102,7 +102,7 @@ export async function demanderChangementPuissance(
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture.créer(
       {
         demandéPar: this.utilisateurWorld.porteurFixture.email,
-        ...(ratioValue !== undefined && { ratio: ratioValue }),
+        ratio: ratioValue,
       },
     );
 

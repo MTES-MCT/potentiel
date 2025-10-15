@@ -49,7 +49,9 @@ export class DemanderChangementPuissanceFixture
     return this.#ratio;
   }
 
-  créer(partialData?: Partial<DemanderChangementPuissance>): Readonly<DemanderChangementPuissance> {
+  créer(
+    partialData?: Partial<DemanderChangementPuissance> & { ratio: number },
+  ): Readonly<DemanderChangementPuissance> {
     const content = faker.word.words();
 
     const fixture: DemanderChangementPuissance = {
@@ -60,8 +62,7 @@ export class DemanderChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      // ce ratio est inférieur à celui de l'AO PPE2 - Eolien, Période 1 (0.8)
-      ratio: faker.number.float({ min: 0.7, max: 0.79, multipleOf: 0.01 }),
+      ratio: partialData?.ratio ?? faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
       ...partialData,
     };
 
