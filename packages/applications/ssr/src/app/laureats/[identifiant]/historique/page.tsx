@@ -28,9 +28,9 @@ import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAban
 import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';
 import { mapToInstallateurTimelineItemProps } from '../installateur/(historique)/mapToInstallateurTimelineItemProps';
-import { mapToDispositifDeStockageProps } from '../dispositif-de-stockage/modifier/(historique)/mapToDispositifDeStockageTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
 import { mapToFournisseurTimelineItemProps } from '../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
+import { mapToDispositifDeStockageProps } from '../dispositif-de-stockage/(historique)/mapToDispositifDeStockageTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
