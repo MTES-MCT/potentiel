@@ -12,8 +12,9 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToDélaiTimelineItemProps } from '@/utils/historique/mapToProps/délai/mapToDélaiTimelineItemProps';
 import { getCahierDesCharges } from '@/app/_helpers';
+
+import { mapToDélaiTimelineItemProps } from '../(historique)/mapToDélaiTimelineItemProps';
 
 import { DemandeDélaiActions, DétailsDemandeDélaiPage } from './DétailsDemandeDélai.page';
 
