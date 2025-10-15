@@ -8,7 +8,8 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
+
+import { mapToProducteurTimelineItemProps } from '../../(historique)/mapToProducteurTimelineItemProps';
 
 import { DétailsProducteurPage } from './DétailsChangementProducteur.page';
 

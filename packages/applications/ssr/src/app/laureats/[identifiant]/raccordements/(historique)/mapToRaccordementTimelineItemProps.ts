@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import {
   dossierRaccordement,

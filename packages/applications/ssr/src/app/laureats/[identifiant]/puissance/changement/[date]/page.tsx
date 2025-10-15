@@ -10,9 +10,9 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
+import { mapToPuissanceTimelineItemProps } from '../../(historique)';
 
 import { ChangementPuissanceActions, DétailsPuissancePage } from './DétailsPuissance.page';
 

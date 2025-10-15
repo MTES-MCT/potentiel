@@ -16,7 +16,8 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToAbandonTimelineItemProps } from '@/utils/historique/mapToProps/abandon/mapToAbandonTimelineItemProps';
+
+import { mapToAbandonTimelineItemProps } from '../(historique)/mapToAbandonTimelineItemProps';
 
 type PageProps = IdentifiantParameter;
 
