@@ -8,9 +8,9 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { mapToFournisseurTimelineItemProps } from '@/utils/historique/mapToProps/fournisseur';
 
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';
+import { mapToFournisseurTimelineItemProps } from '../(historique)';
 
 import { DétailsChangementFournisseurPage } from './DétailsChangementFournisseur.page';
 

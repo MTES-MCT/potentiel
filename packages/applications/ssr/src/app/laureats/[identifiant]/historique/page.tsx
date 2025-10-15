@@ -18,7 +18,6 @@ import { mapToRecoursTimelineItemProps } from '@/app/elimine/[identifiant]/recou
 import { mapToÉliminéTimelineItemProps } from '@/app/elimine/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
 
 import { getLauréatInfos } from '../_helpers/getLauréat';
-import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
 import { mapToInstallateurTimelineItemProps } from '../../../../utils/historique/mapToProps/installateur/mapToInstallateurTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../../../../utils/historique/mapToProps/nature-de-l-exploitation/mapToNatureDeLExploitationTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '../achevement/(historique)/mapToAchèvementTimelineItemProps';
@@ -31,6 +30,7 @@ import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)';
 import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';
+import { mapToFournisseurTimelineItemProps } from '../fournisseur/changement/(historique)';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
