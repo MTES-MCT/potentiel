@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
@@ -132,11 +133,24 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
         />
       </div>
       {nécessiteLaConfirmationPourChangementDeRégion && (
-        <div className="mt-8">
+        <>
+          <Alert
+            small
+            className="mt-8"
+            severity="warning"
+            description={
+              <p>
+                La gestion de ce projet sera transférée à la région{' '}
+                <span className="font-semilbold">{commune.region}</span>
+              </p>
+            }
+          />
           <Checkbox
+            small
+            className="mt-2"
             options={[
               {
-                label: `J'ai bien compris que le changement de région du site de production entraînera la perte de mes accès à ce projet`,
+                label: `J'ai compris que ce changement entraînera la perte de mes accès à ce projet`,
                 nativeInputProps: {
                   name: 'accesAuProjetPerdu',
                   checked: changementRégionConfirmé,
@@ -145,7 +159,7 @@ export const ModifierSiteDeProductionForm: FC<ModifierSiteDeProductionFormProps>
               },
             ]}
           />
-        </div>
+        </>
       )}
     </Form>
   );
