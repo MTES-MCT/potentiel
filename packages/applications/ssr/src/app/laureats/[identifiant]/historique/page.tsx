@@ -13,7 +13,6 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
-import { mapToGarantiesFinancièresTimelineItemProps } from '@/utils/historique/mapToProps/garanties-financières/mapToGarantiesFinancièresTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '@/utils/historique/mapToProps/raccordement/mapToRaccordementTimelineItemProps';
 import { mapToPuissanceTimelineItemProps } from '@/utils/historique/mapToProps/puissance';
 import { IconProps } from '@/components/atoms/Icon';
@@ -31,6 +30,7 @@ import { mapToAchèvementTimelineItemProps } from '../achevement/(historique)/ma
 import { mapToActionnaireTimelineItemProps } from '../actionnaire/(historique)/mapToActionnaireTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from '../representant-legal/(historique)/mapToReprésentantLégalTimelineItemProps';
 import { mapToLauréatTimelineItemProps } from '../(historique)/mapToLauréatTimelineItemProps';
+import { mapToGarantiesFinancièresTimelineItemProps } from '../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
