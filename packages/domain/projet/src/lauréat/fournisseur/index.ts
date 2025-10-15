@@ -16,7 +16,7 @@ import {
   ListerHistoriqueFournisseurProjetReadModel,
   HistoriqueFournisseurProjetListItemReadModel,
 } from './listerHistorique/listerHistoriqueFournisseurProjet.query';
-import { MettreAJourFournisseurUseCase } from './changement/miseAJour/common/mettreAJourFournisseur.usecase';
+import { MettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase';
 
 // Query
 export type FournisseurQuery =
@@ -41,8 +41,8 @@ export {
 };
 
 // UseCases
-export type FournisseurUseCase = ModifierÉvaluationCarboneUseCase | MettreAJourFournisseurUseCase;
-export { ModifierÉvaluationCarboneUseCase, MettreAJourFournisseurUseCase };
+export type FournisseurUseCase = ModifierÉvaluationCarboneUseCase | MettreÀJourFournisseurUseCase;
+export { ModifierÉvaluationCarboneUseCase, MettreÀJourFournisseurUseCase };
 
 // Event
 export { FournisseurEvent } from './fournisseur.event';

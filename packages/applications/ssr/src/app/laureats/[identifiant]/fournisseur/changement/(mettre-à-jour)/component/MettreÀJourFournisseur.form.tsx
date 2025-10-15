@@ -17,7 +17,7 @@ import { AlerteChangementÉvaluationCarbone } from '../../AlerteChangementÉvalu
 import { FournisseursField } from './FournisseursField';
 import {
   MettreÀJourFournisseurFormKeys,
-  mettreAJourFournisseurAction,
+  mettreÀJourFournisseurAction,
 } from './mettreÀJourFournisseur.action';
 
 export type MettreÀJourFournisseurFormProps =
@@ -45,7 +45,7 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
 
   return (
     <Form
-      action={mettreAJourFournisseurAction}
+      action={mettreÀJourFournisseurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Confirmer',

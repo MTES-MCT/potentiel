@@ -15,7 +15,7 @@ export interface EnregistrerChangementFournisseur {
   readonly pièceJustificative: { format: string; content: ReadableStream };
 }
 
-export class MettreAJourFournisseurFixture
+export class MettreÀJourFournisseurFixture
   extends AbstractFixture<EnregistrerChangementFournisseur>
   implements EnregistrerChangementFournisseur
 {

@@ -90,7 +90,7 @@ const action: FormAction<FormState, typeof schema> = async (
       rôleUtilisateurValue: utilisateur.role.nom,
     };
 
-    const payload: Lauréat.Fournisseur.MettreAJourFournisseurUseCase['data'] | undefined =
+    const payload: Lauréat.Fournisseur.MettreÀJourFournisseurUseCase['data'] | undefined =
       fournisseursModifiés
         ? {
             ...common,
@@ -118,7 +118,7 @@ const action: FormAction<FormState, typeof schema> = async (
       };
     }
 
-    await mediator.send<Lauréat.Fournisseur.MettreAJourFournisseurUseCase>({
+    await mediator.send<Lauréat.Fournisseur.MettreÀJourFournisseurUseCase>({
       type: 'Lauréat.Fournisseur.UseCase.MettreAJour',
       data: payload,
     });
@@ -132,7 +132,7 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const mettreAJourFournisseurAction = formAction(action, schema);
+export const mettreÀJourFournisseurAction = formAction(action, schema);
 
 const fournisseursContiennentModification = ({
   nouveauxFournisseurs,

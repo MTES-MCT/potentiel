@@ -225,9 +225,9 @@ export class FournisseurAggregate extends AbstractAggregate<
         {
           type: 'ChangementFournisseurEnregistré-V1',
         },
-        (event) => this.applyFournisseurModifié(event),
+        (event) => this.applyFournisseurMisÀJour(event),
       )
-      .with({ type: 'FournisseurModifié-V1' }, (event) => this.applyFournisseurModifié(event))
+      .with({ type: 'FournisseurModifié-V1' }, (event) => this.applyFournisseurMisÀJour(event))
       .exhaustive();
   }
 
@@ -244,7 +244,7 @@ export class FournisseurAggregate extends AbstractAggregate<
     this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
   }
 
-  private applyFournisseurModifié({
+  private applyFournisseurMisÀJour({
     payload: { évaluationCarboneSimplifiée, fournisseurs },
   }: ChangementFournisseurEnregistréEvent | FournisseurModifiéEvent) {
     if (évaluationCarboneSimplifiée !== undefined) {

@@ -7,9 +7,9 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '../../../../..';
 import { Fournisseur, TypeDocumentFournisseur } from '../../..';
 
-import { MettreAJourFournisseurCommand } from './mettreAJourFournisseur.command';
+import { MettreÀJourFournisseurCommand } from './mettreÀJourFournisseur.command';
 
-export type MettreAJourFournisseurUseCase = Message<
+export type MettreÀJourFournisseurUseCase = Message<
   'Lauréat.Fournisseur.UseCase.MettreAJour',
   {
     identifiantProjetValue: string;
@@ -37,8 +37,8 @@ export type MettreAJourFournisseurUseCase = Message<
   )
 >;
 
-export const registerMettreAJourFournisseurUseCase = () => {
-  const handler: MessageHandler<MettreAJourFournisseurUseCase> = async ({
+export const registerMettreÀJourFournisseurUseCase = () => {
+  const handler: MessageHandler<MettreÀJourFournisseurUseCase> = async ({
     identifiantProjetValue,
     identifiantUtilisateurValue,
     fournisseursValue,
@@ -62,7 +62,7 @@ export const registerMettreAJourFournisseurUseCase = () => {
         )
       : undefined;
 
-    await mediator.send<MettreAJourFournisseurCommand>({
+    await mediator.send<MettreÀJourFournisseurCommand>({
       type: 'Lauréat.Fournisseur.Command.MettreAJour',
       data: {
         identifiantProjet,

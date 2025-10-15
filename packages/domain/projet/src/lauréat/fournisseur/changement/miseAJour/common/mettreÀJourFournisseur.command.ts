@@ -8,7 +8,7 @@ import { Fournisseur } from '../../..';
 import { ChangementFournisseurChampsManquantsError } from '../../../fournisseur.error';
 import { ModifierFournisseurOptions } from '../modifierFournisseur.option';
 
-export type MettreAJourFournisseurCommand = Message<
+export type MettreÀJourFournisseurCommand = Message<
   'Lauréat.Fournisseur.Command.MettreAJour',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -33,10 +33,10 @@ export type MettreAJourFournisseurCommand = Message<
   )
 >;
 
-export const registerMettreAJourFournisseurCommand = (
+export const registerMettreÀJourFournisseurCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const handler: MessageHandler<MettreAJourFournisseurCommand> = async (payload) => {
+  const handler: MessageHandler<MettreÀJourFournisseurCommand> = async (payload) => {
     const projet = await getProjetAggregateRoot(payload.identifiantProjet);
 
     const modifierPayload: ModifierFournisseurOptions = {

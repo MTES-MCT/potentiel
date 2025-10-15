@@ -18,8 +18,8 @@ import {
   ListerHistoriqueFournisseurProjetDependencies,
   registerListerHistoriqueFournisseurProjetQuery,
 } from './listerHistorique/listerHistoriqueFournisseurProjet.query';
-import { registerMettreAJourFournisseurUseCase } from './changement/miseAJour/common/mettreAJourFournisseur.usecase';
-import { registerMettreAJourFournisseurCommand } from './changement/miseAJour/common/mettreAJourFournisseur.command';
+import { registerMettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase';
+import { registerMettreÀJourFournisseurCommand } from './changement/miseAJour/common/mettreÀJourFournisseur.command';
 
 export type FournisseurQueryDependencies = ConsulterFournisseurDependencies &
   ConsulterChangementFournisseurDependencies &
@@ -41,6 +41,6 @@ export const registerFournisseurUseCases = (dependencies: FournisseurCommandDepe
   registerModifierÉvaluationCarboneUseCase();
   registerModifierÉvaluationCarboneCommand(dependencies.getProjetAggregateRoot);
 
-  registerMettreAJourFournisseurCommand(dependencies.getProjetAggregateRoot);
-  registerMettreAJourFournisseurUseCase();
+  registerMettreÀJourFournisseurCommand(dependencies.getProjetAggregateRoot);
+  registerMettreÀJourFournisseurUseCase();
 };

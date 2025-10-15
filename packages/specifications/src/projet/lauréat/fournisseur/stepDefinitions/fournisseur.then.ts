@@ -47,7 +47,7 @@ Alors(
           type: 'Lauréat.Fournisseur.Query.ConsulterChangementFournisseur',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
-            enregistréLe: this.lauréatWorld.fournisseurWorld.mettreAJourFournisseur.misAJourLe,
+            enregistréLe: this.lauréatWorld.fournisseurWorld.mettreÀJourFournisseur.misAJourLe,
           },
         });
 

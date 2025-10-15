@@ -43,14 +43,14 @@ Quand(
 );
 
 Quand('le porteur enregistre un changement de fournisseur', async function (this: PotentielWorld) {
-  await mettreAJourFournisseur.call(this, 'information-enregistrée');
+  await mettreÀJourFournisseur.call(this, 'information-enregistrée');
 });
 
 Quand(
   'le porteur enregistre un changement de fournisseur avec :',
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await mettreAJourFournisseur.call(
+    await mettreÀJourFournisseur.call(
       this,
       'information-enregistrée',
       this.lauréatWorld.fournisseurWorld.mapExempleToFixtureValues(exemple),
@@ -69,7 +69,7 @@ Quand(
     });
     assert(Option.isSome(fournisseur), 'Fournisseur non trouvé');
 
-    await mettreAJourFournisseur.call(this, 'information-enregistrée', {
+    await mettreÀJourFournisseur.call(this, 'information-enregistrée', {
       évaluationCarbone: fournisseur.évaluationCarboneSimplifiée,
       fournisseurs: fournisseur.fournisseurs
         .map(Lauréat.Fournisseur.Fournisseur.bind)
@@ -81,7 +81,7 @@ Quand(
 Quand(
   'le DGEC validateur modifie le fournisseur du projet lauréat',
   async function (this: PotentielWorld) {
-    await mettreAJourFournisseur.call(this, 'modification-admin');
+    await mettreÀJourFournisseur.call(this, 'modification-admin');
   },
 );
 
@@ -89,7 +89,7 @@ Quand(
   'le DGEC validateur modifie le fournisseur du projet lauréat avec :',
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await mettreAJourFournisseur.call(
+    await mettreÀJourFournisseur.call(
       this,
       'modification-admin',
       this.lauréatWorld.fournisseurWorld.mapExempleToFixtureValues(exemple),
@@ -108,7 +108,7 @@ Quand(
     });
     assert(Option.isSome(fournisseur), 'Fournisseur non trouvé');
 
-    await mettreAJourFournisseur.call(this, 'modification-admin', {
+    await mettreÀJourFournisseur.call(this, 'modification-admin', {
       évaluationCarbone: fournisseur.évaluationCarboneSimplifiée,
       fournisseurs: fournisseur.fournisseurs
         .map(Lauréat.Fournisseur.Fournisseur.bind)
@@ -143,7 +143,7 @@ export async function modifierÉvaluationCarbone(
   }
 }
 
-export async function mettreAJourFournisseur(
+export async function mettreÀJourFournisseur(
   this: PotentielWorld,
   typeDeChangement: 'modification-admin' | 'information-enregistrée',
   values: {
@@ -158,12 +158,12 @@ export async function mettreAJourFournisseur(
 
   try {
     const { évaluationCarbone, fournisseurs, misAJourLe, misAJourPar, pièceJustificative, raison } =
-      this.lauréatWorld.fournisseurWorld.mettreAJourFournisseur.créer({
+      this.lauréatWorld.fournisseurWorld.mettreÀJourFournisseur.créer({
         misAJourPar: utilisateurFixture.email,
         ...values,
       });
 
-    await mediator.send<Lauréat.Fournisseur.MettreAJourFournisseurUseCase>({
+    await mediator.send<Lauréat.Fournisseur.MettreÀJourFournisseurUseCase>({
       type: 'Lauréat.Fournisseur.UseCase.MettreAJour',
       data: {
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
