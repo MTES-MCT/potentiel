@@ -32,8 +32,9 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const déterminer = (ratio: number): ValueType =>
-  ratio < 1 ? convertirEnValueType('dreal') : convertirEnValueType('dgec-admin');
+export const déterminer = (): ValueType => convertirEnValueType('dreal');
+// ancienne règle valable jusqu'à octobre 2025
+// ratio < 1 ? convertirEnValueType('dreal') : convertirEnValueType('dgec-admin');
 
 class AutoritéCompétenteInvalideError extends InvalidOperationError {
   constructor(value: string) {

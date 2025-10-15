@@ -159,14 +159,12 @@ export class PuissanceAggregate extends AbstractAggregate<
       );
     }
 
-    const ratio = nouvellePuissance / this.lauréat.projet.candidature.puissanceProductionAnnuelle;
-
     const event: ChangementPuissanceDemandéEvent = {
       type: 'ChangementPuissanceDemandé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         puissance: nouvellePuissance,
-        autoritéCompétente: AutoritéCompétente.déterminer(ratio).autoritéCompétente,
+        autoritéCompétente: AutoritéCompétente.déterminer().autoritéCompétente,
         pièceJustificative: {
           format: pièceJustificative.format,
         },

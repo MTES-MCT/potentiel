@@ -82,7 +82,7 @@ export class ChangementPuissanceWorld {
         raison: baseFixture.raison,
         statut,
         autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
-          ? Lauréat.Puissance.AutoritéCompétente.déterminer(baseFixture.ratio)
+          ? Lauréat.Puissance.AutoritéCompétente.déterminer()
           : undefined,
       },
     };
