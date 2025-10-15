@@ -13,7 +13,6 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToProducteurTimelineItemProps } from '@/utils/historique/mapToProps/producteur/mapToProducteurTimelineItemProps';
 import { TimelineItemProps } from '@/components/organisms/Timeline';
-import { mapToAbandonTimelineItemProps } from '@/utils/historique/mapToProps/abandon/mapToAbandonTimelineItemProps';
 import { mapToAchèvementTimelineItemProps } from '@/utils/historique/mapToProps/achèvement/mapToAchèvementTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from '@/utils/historique/mapToProps/actionnaire/mapToActionnaireTimelineItemProps';
 import { mapToGarantiesFinancièresTimelineItemProps } from '@/utils/historique/mapToProps/garanties-financières/mapToGarantiesFinancièresTimelineItemProps';
@@ -31,6 +30,7 @@ import { getLauréatInfos } from '../_helpers/getLauréat';
 import { mapToFournisseurTimelineItemProps } from '../../../../utils/historique/mapToProps/fournisseur';
 import { mapToInstallateurTimelineItemProps } from '../../../../utils/historique/mapToProps/installateur/mapToInstallateurTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../../../../utils/historique/mapToProps/nature-de-l-exploitation/mapToNatureDeLExploitationTimelineItemProps';
+import { mapToAbandonTimelineItemProps } from '../abandon/(détails)/(historique)/mapToAbandonTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 
