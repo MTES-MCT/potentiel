@@ -10,9 +10,9 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToReprésentantLégalTimelineItemProps } from '@/utils/historique/mapToProps/représentant-légal/mapToReprésentantLégalTimelineItemProps';
 
 import { récupérerChangementsPermisParLeCahierDesCharges } from '../../../../../../_helpers/récupérerChangementsPermisParLeCahierDesCharges';
+import { mapToReprésentantLégalTimelineItemProps } from '../../../(historique)/mapToReprésentantLégalTimelineItemProps';
 
 import {
   AvailableChangementReprésentantLégalAction,
