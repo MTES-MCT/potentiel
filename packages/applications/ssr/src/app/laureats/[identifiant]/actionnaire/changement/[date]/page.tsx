@@ -11,7 +11,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { mapToActionnaireTimelineItemProps } from '@/utils/historique/mapToProps/actionnaire/mapToActionnaireTimelineItemProps';
+
+import { mapToActionnaireTimelineItemProps } from '../../(historique)/mapToActionnaireTimelineItemProps';
 
 import { ChangementActionnaireActions, DétailsActionnairePage } from './DétailsActionnaire.page';
 
