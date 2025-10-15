@@ -1,6 +1,4 @@
 import { FC } from 'react';
-import { match } from 'ts-pattern';
-import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -37,7 +35,6 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           unitéPuissance={unitéPuissance}
           puissanceInitiale={puissanceInitiale}
           nouvellePuissance={demande.nouvellePuissance}
-          autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
         />
       }
       changement={{
@@ -81,7 +78,6 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
         nouvellePuissance={demande.nouvellePuissance}
         raison={demande.raison}
         pièceJustificative={demande.pièceJustificative}
-        autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
         unitéPuissance={unitéPuissance}
         puissanceInitiale={puissanceInitiale}
       />
@@ -93,11 +89,7 @@ const DétailsPuissance = ({
   unitéPuissance,
   puissanceInitiale,
   nouvellePuissance,
-  autoritéCompétente,
-}: Pick<
-  ChangementProps,
-  'unitéPuissance' | 'puissanceInitiale' | 'nouvellePuissance' | 'autoritéCompétente'
->) => (
+}: Pick<ChangementProps, 'unitéPuissance' | 'puissanceInitiale' | 'nouvellePuissance'>) => (
   <>
     <div>
       <span className="font-medium">Puissance demandée</span> : {nouvellePuissance} {unitéPuissance}
@@ -105,27 +97,6 @@ const DétailsPuissance = ({
     <div>
       <span className="font-medium">Puissance initiale</span> : {puissanceInitiale} {unitéPuissance}
     </div>
-    {autoritéCompétente && (
-      <div className="flex gap-2">
-        <div className="font-medium whitespace-nowrap">
-          Autorité compétente pour l'instruction :
-        </div>
-        <div>
-          {match(autoritéCompétente)
-            .with('dreal', () => 'DREAL')
-            .with('dgec-admin', () => 'DGEC')
-            .exhaustive()}
-        </div>
-        {autoritéCompétente === 'dgec-admin' && (
-          <Tooltip
-            kind="hover"
-            title={
-              'Cette demande de changement de puissance à la hausse et en dehors de la fourchette prévue aux cahiers des charges est une demande dérogatoire qui n’est pas prévue par les cahiers des charges. Par conséquent, elle fait l’objet d’une instruction par la DGEC.'
-            }
-          />
-        )}
-      </div>
-    )}
   </>
 );
 
@@ -135,7 +106,6 @@ type ChangementProps = {
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
   puissanceInitiale: DétailsChangementPuissanceProps['puissanceInitiale'];
-  autoritéCompétente?: Lauréat.Puissance.AutoritéCompétente.RawType;
 };
 
 const Changement: FC<ChangementProps> = ({
@@ -144,7 +114,6 @@ const Changement: FC<ChangementProps> = ({
   raison,
   unitéPuissance,
   puissanceInitiale,
-  autoritéCompétente,
 }) => (
   <div className="flex flex-col">
     <Heading5>Détails de la demande</Heading5>
@@ -152,7 +121,6 @@ const Changement: FC<ChangementProps> = ({
       unitéPuissance={unitéPuissance}
       puissanceInitiale={puissanceInitiale}
       nouvellePuissance={nouvellePuissance}
-      autoritéCompétente={autoritéCompétente}
     />
     {raison && (
       <div className="flex gap-2">
