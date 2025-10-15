@@ -9,7 +9,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';
-import { EnregistrerChangementFournisseurPage } from '../(mettre-à-jour)/MettreAJour.page';
+import { MettreÀJourFournisseurPage } from '../(mettre-à-jour)/MettreÀJourFournisseur.page';
 
 export const metadata: Metadata = {
   title: 'Changer le fournisseur du projet - Potentiel',
@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     );
 
     return (
-      <EnregistrerChangementFournisseurPage
+      <MettreÀJourFournisseurPage
         identifiantProjet={mapToPlainObject(fournisseur.identifiantProjet)}
         fournisseurs={mapToPlainObject(fournisseur.fournisseurs)}
         évaluationCarboneSimplifiée={fournisseur.évaluationCarboneSimplifiée}

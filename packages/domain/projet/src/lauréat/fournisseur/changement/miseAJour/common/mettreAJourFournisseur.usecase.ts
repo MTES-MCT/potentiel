@@ -13,7 +13,7 @@ export type MettreAJourFournisseurUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
-    typeDeChangementValue: 'modification' | 'information-enregistrée';
+    typeDeChangementValue: 'modification-admin' | 'information-enregistrée';
     dateValue: string;
     raisonValue?: string;
     pièceJustificativeValue?: {

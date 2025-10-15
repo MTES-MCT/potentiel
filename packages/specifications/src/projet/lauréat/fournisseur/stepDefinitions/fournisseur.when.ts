@@ -81,7 +81,7 @@ Quand(
 Quand(
   'le DGEC validateur modifie le fournisseur du projet lauréat',
   async function (this: PotentielWorld) {
-    await mettreAJourFournisseur.call(this, 'modification');
+    await mettreAJourFournisseur.call(this, 'modification-admin');
   },
 );
 
@@ -91,7 +91,7 @@ Quand(
     const exemple = datatable.rowsHash();
     await mettreAJourFournisseur.call(
       this,
-      'modification',
+      'modification-admin',
       this.lauréatWorld.fournisseurWorld.mapExempleToFixtureValues(exemple),
     );
   },
@@ -108,7 +108,7 @@ Quand(
     });
     assert(Option.isSome(fournisseur), 'Fournisseur non trouvé');
 
-    await mettreAJourFournisseur.call(this, 'modification', {
+    await mettreAJourFournisseur.call(this, 'modification-admin', {
       évaluationCarbone: fournisseur.évaluationCarboneSimplifiée,
       fournisseurs: fournisseur.fournisseurs
         .map(Lauréat.Fournisseur.Fournisseur.bind)
@@ -145,7 +145,7 @@ export async function modifierÉvaluationCarbone(
 
 export async function mettreAJourFournisseur(
   this: PotentielWorld,
-  typeDeChangement: 'modification' | 'information-enregistrée',
+  typeDeChangement: 'modification-admin' | 'information-enregistrée',
   values: {
     évaluationCarbone?: number;
     fournisseurs?: Array<Lauréat.Fournisseur.Fournisseur.RawType>;

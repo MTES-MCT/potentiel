@@ -7,14 +7,12 @@ import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import {
-  EnregistrerChangementFournisseurForm,
-  EnregistrerChangementFournisseurFormProps,
-} from './componentes/MettreAJourFournisseur.form';
+  MettreÀJourFournisseurForm,
+  MettreÀJourFournisseurFormProps,
+} from './component/MettreÀJourFournisseur.form';
 
-export type EnregistrerChangementFournisseurPageProps = EnregistrerChangementFournisseurFormProps;
-export const EnregistrerChangementFournisseurPage: FC<
-  EnregistrerChangementFournisseurPageProps
-> = ({
+export type MettreÀJourFournisseurPageProps = MettreÀJourFournisseurFormProps;
+export const MettreÀJourFournisseurPage: FC<MettreÀJourFournisseurPageProps> = ({
   identifiantProjet,
   fournisseurs,
   évaluationCarboneSimplifiée,
@@ -29,7 +27,7 @@ export const EnregistrerChangementFournisseurPage: FC<
     }
   >
     <Heading1>Changer de fournisseurs</Heading1>
-    <EnregistrerChangementFournisseurForm
+    <MettreÀJourFournisseurForm
       identifiantProjet={identifiantProjet}
       fournisseurs={fournisseurs}
       évaluationCarboneSimplifiée={évaluationCarboneSimplifiée}

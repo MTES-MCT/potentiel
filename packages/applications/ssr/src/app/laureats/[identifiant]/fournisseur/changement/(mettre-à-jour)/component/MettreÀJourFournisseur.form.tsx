@@ -13,19 +13,17 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { AlerteChangementÉvaluationCarbone } from '../../AlerteChangementÉvaluationCarbone';
-import {
-  enregistrerChangementFournisseurAction,
-  EnregistrerChangementFournisseurFormKeys,
-} from '../../enregistrer/enregistrerChangementFournisseur.action';
 
 import { FournisseursField } from './FournisseursField';
+import {
+  MettreÀJourFournisseurFormKeys,
+  mettreAJourFournisseurAction,
+} from './mettreÀJourFournisseur.action';
 
-export type EnregistrerChangementFournisseurFormProps =
+export type MettreÀJourFournisseurFormProps =
   PlainType<Lauréat.Fournisseur.ConsulterFournisseurReadModel>;
 
-export const EnregistrerChangementFournisseurForm: FC<
-  EnregistrerChangementFournisseurFormProps
-> = ({
+export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> = ({
   identifiantProjet,
   évaluationCarboneSimplifiée: évaluationCarboneSimplifiéeActuelle,
   évaluationCarboneSimplifiéeInitiale,
@@ -33,7 +31,7 @@ export const EnregistrerChangementFournisseurForm: FC<
   technologie,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<EnregistrerChangementFournisseurFormKeys>
+    ValidationErrors<MettreÀJourFournisseurFormKeys>
   >({});
 
   const [évaluationCarboneSimplifiée, setÉvaluationCarboneSimplifiée] = useState<
@@ -42,7 +40,7 @@ export const EnregistrerChangementFournisseurForm: FC<
 
   return (
     <Form
-      action={enregistrerChangementFournisseurAction}
+      action={mettreAJourFournisseurAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Confirmer',

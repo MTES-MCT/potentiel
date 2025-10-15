@@ -10,10 +10,10 @@ import { PaysPicker } from '@/components/molecules/CountryPicker';
 
 import { typeFournisseurLabel } from '../../typeFournisseurLabel';
 
-import { EnregistrerChangementFournisseurFormProps } from './MettreAJourFournisseur.form';
+import { MettreÀJourFournisseurFormProps } from './MettreÀJourFournisseur.form';
 
 type FournisseursFieldProps = Pick<
-  EnregistrerChangementFournisseurFormProps,
+  MettreÀJourFournisseurFormProps,
   'fournisseurs' | 'technologie'
 > & {
   validationErrors: ValidationErrors;

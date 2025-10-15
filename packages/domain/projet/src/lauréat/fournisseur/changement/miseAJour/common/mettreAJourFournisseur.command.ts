@@ -13,7 +13,7 @@ export type MettreAJourFournisseurCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    typeDeChangement: 'modification' | 'information-enregistrée';
+    typeDeChangement: 'modification-admin' | 'information-enregistrée';
     date: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
     raison?: string;
@@ -53,7 +53,7 @@ export const registerMettreAJourFournisseurCommand = (
           }),
     };
 
-    if (payload.typeDeChangement === 'modification') {
+    if (payload.typeDeChangement === 'modification-admin') {
       await projet.lauréat.fournisseur.modifier(modifierPayload);
     } else {
       await projet.lauréat.fournisseur.enregistrerChangement(
