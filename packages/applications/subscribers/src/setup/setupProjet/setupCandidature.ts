@@ -45,6 +45,7 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
     name: 'attestation-saga',
     eventType: ['CandidatureNotifiée-V3', 'CandidatureCorrigée-V2'],
     messageType: 'System.Candidature.Attestation.Saga.Execute',
+    maxConcurrency: 5,
   });
 
   await candidature.setupSubscription<
