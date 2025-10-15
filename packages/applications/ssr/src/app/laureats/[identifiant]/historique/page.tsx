@@ -27,10 +27,10 @@ import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)';
 import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';
-import { mapToFournisseurTimelineItemProps } from '../fournisseur/changement/(historique)';
 import { mapToInstallateurTimelineItemProps } from '../installateur/(historique)/mapToInstallateurTimelineItemProps';
 import { mapToDispositifDeStockageProps } from '../dispositif-de-stockage/modifier/(historique)/mapToDispositifDeStockageTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
+import { mapToFournisseurTimelineItemProps } from '../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
 
 import { HistoriqueLauréatAction, HistoriqueLauréatPage } from './HistoriqueLauréat.page';
 

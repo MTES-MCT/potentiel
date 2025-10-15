@@ -10,7 +10,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { getFournisseurInfos } from '../../../_helpers/getLauréat';
-import { mapToFournisseurTimelineItemProps } from '../(historique)';
+import { mapToFournisseurTimelineItemProps } from '../../(historique)/mapToFournisseurTimelineItemProps';
 
 import { DétailsChangementFournisseurPage } from './DétailsChangementFournisseur.page';
 
