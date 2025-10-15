@@ -27,7 +27,7 @@ import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)';
 import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';
-import { mapToInstallationTimelineItemProps } from '../../../../utils/historique/mapToProps/installation/mapToInstallationTimelineItemProps';
+import { mapToInstallationTimelineItemProps } from '../installation/(historique)/mapToInstallationTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
 import { mapToFournisseurTimelineItemProps } from '../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
 import { mapToDispositifDeStockageProps } from '../dispositif-de-stockage/(historique)/mapToDispositifDeStockageTimelineItemProps';
