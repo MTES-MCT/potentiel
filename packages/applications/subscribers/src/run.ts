@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 
-import { createLogger, getLogger, initLogger } from '@potentiel-libraries/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import {
   executeSubscribersRetry,
   listDanglingSubscribers,
@@ -10,15 +10,11 @@ import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
 
 import { startSubscribers } from './index.js';
 
+import { setupLogger } from './setupLogger.js';
+
 const main = async () => {
   dotenv.config();
-
-  // TODO check sentry
-  initLogger(
-    createLogger({
-      defaultMeta: { service: 'subscribers' },
-    }),
-  );
+  setupLogger();
 
   const logger = getLogger('subscribers');
   logger.info('Starting subscribers...');
