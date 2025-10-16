@@ -52,12 +52,6 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
     'agrivoltaïque.serre',
   ];
 
-  const [afficherDetailsMap, setAfficherDetailsMap] = useState<Record<number, boolean>>(
-    Object.fromEntries(
-      typologiesProjet.map((t, i) => [i, typologiesAvecDetails.includes(t.typologie)]),
-    ),
-  );
-
   const handleTypologieChange = (
     index: number,
     value: Candidature.TypologieInstallation.ValueType['typologie'],
@@ -65,10 +59,6 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
     setTypologiesProjet((prev) =>
       prev.map((t, i) => (i === index ? { ...t, typologie: value } : t)),
     );
-    setAfficherDetailsMap((prev) => ({
-      ...prev,
-      [index]: typologiesAvecDetails.includes(value),
-    }));
   };
 
   const handleDetailsChange = (index: number, value: string) => {
@@ -78,12 +68,6 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
   const handleRemove = (index: number) => {
     setTypologiesProjet((prevTypos) => {
       const newTypologies = prevTypos.filter((_, i) => i !== index);
-
-      setAfficherDetailsMap(() => {
-        return Object.fromEntries(
-          newTypologies.map((t, i) => [i, typologiesAvecDetails.includes(t.typologie)]),
-        );
-      });
 
       return newTypologies;
     });
@@ -97,11 +81,6 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
         détails: '',
       };
       const newTypologies = [...prev, nouvelleTypologie];
-
-      setAfficherDetailsMap((prevAfficher) => ({
-        ...prevAfficher,
-        [newTypologies.length - 1]: typologiesAvecDetails.includes(nouvelleTypologie.typologie),
-      }));
 
       return newTypologies;
     });
@@ -156,7 +135,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
                   onChange: (e) => handleTypologieChange(index, e.target.value),
                 }}
               />
-              {afficherDetailsMap[index] && (
+              {typologiesAvecDetails.includes(typologie) && (
                 <Input
                   label=""
                   state={validationErrors[detailsFieldKey] ? 'error' : 'default'}
