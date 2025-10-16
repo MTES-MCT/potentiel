@@ -62,7 +62,10 @@ type ChangementAvecAutoritéCompétente =
       autoritéCompétente: AutoritéCompétente;
     };
 
-type ChangementActionnaire = Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
+type ChangementActionnaire = Changement & {
+  informationEnregistréeEstSoumiseÀConditions?: true;
+  modificationAdmin?: false;
+};
 
 type RatiosChangementPuissance =
   | { changementByTechnologie?: undefined; ratios: Ratios }
@@ -93,9 +96,13 @@ type ChangementReprésentantLégal =
       instructionAutomatique: 'accord' | 'rejet';
     };
 
+type ChangementFournisseur = Changement & {
+  modificationAdmin?: false;
+};
+
 export type RèglesDemandesChangement = {
   actionnaire: ChangementActionnaire;
-  fournisseur: Changement;
+  fournisseur: ChangementFournisseur;
   délai: ChangementAvecAutoritéCompétente;
   producteur: Changement;
   puissance: ChangementPuissance;
