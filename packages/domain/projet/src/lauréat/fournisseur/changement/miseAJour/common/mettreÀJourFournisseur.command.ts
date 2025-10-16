@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../../..';
 import { Fournisseur } from '../../..';
@@ -13,7 +14,7 @@ export type MettreÀJourFournisseurCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    typeDeChangement: 'modification-admin' | 'information-enregistrée';
+    rôleUtilisateur: Role.ValueType;
     date: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
     raison?: string;
@@ -39,7 +40,7 @@ export const registerMettreÀJourFournisseurCommand = (
   const handler: MessageHandler<MettreÀJourFournisseurCommand> = async (payload) => {
     const projet = await getProjetAggregateRoot(payload.identifiantProjet);
 
-    const modifierPayload: ModifierFournisseurOptions = {
+    const mettreÀJourPayload: ModifierFournisseurOptions = {
       ...payload,
       dateModification: payload.date,
       ...(payload.fournisseurs
@@ -53,11 +54,11 @@ export const registerMettreÀJourFournisseurCommand = (
           }),
     };
 
-    if (payload.typeDeChangement === 'modification-admin') {
-      await projet.lauréat.fournisseur.modifier(modifierPayload);
+    if (payload.rôleUtilisateur.aLaPermission('fournisseur.modifier')) {
+      await projet.lauréat.fournisseur.modifier(mettreÀJourPayload);
     } else {
       await projet.lauréat.fournisseur.enregistrerChangement(
-        mapToEnregistrerChangementPayload(modifierPayload),
+        mapToEnregistrerChangementPayload(mettreÀJourPayload),
       );
     }
   };

@@ -51,7 +51,6 @@ export const registerMettreÀJourFournisseurUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const date = DateTime.convertirEnValueType(dateValue);
-    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     const pièceJustificative = pièceJustificativeValue
       ? DocumentProjet.convertirEnValueType(
@@ -70,9 +69,7 @@ export const registerMettreÀJourFournisseurUseCase = () => {
         date,
         pièceJustificative,
         raison: raisonValue,
-        typeDeChangement: rôleUtilisateur.aLaPermission('fournisseur.modifier')
-          ? 'modification-admin'
-          : 'information-enregistrée',
+        rôleUtilisateur: Role.convertirEnValueType(rôleUtilisateurValue),
         ...(fournisseursValue
           ? {
               fournisseurs: fournisseursValue?.map(Fournisseur.convertirEnValueType),
