@@ -230,6 +230,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.publish(event);
 
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
+      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
     } else {
       const gestionnaireRéseau = await this.loadGestionnaireRéseau(
         identifiantGestionnaireRéseau.codeEIC,
@@ -267,8 +268,18 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(dossierDuRaccordementSupprimé);
 
-    await this.#tâcheTransmettreRéférenceRaccordement.achever();
-    await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+    const dossiersRestants = [...this.#dossiers.values()];
+
+    if (dossiersRestants.length === 0) {
+      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+    }
+    const dossiersSansAccuséDeRéception = dossiersRestants.filter((dossier) =>
+      Option.isSome(dossier.demandeComplèteRaccordement.format),
+    );
+
+    if (dossiersSansAccuséDeRéception.length > 0) {
+      await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.achever();
+    }
   }
 
   async modifierPropositionTechniqueEtFinancière({
@@ -415,6 +426,7 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     await this.publish(event);
 
+    await this.#tâcheTransmettreRéférenceRaccordement.achever();
     if (!event.payload.accuséRéception) {
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     }
