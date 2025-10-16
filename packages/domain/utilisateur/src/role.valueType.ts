@@ -394,11 +394,13 @@ const référencielPermissions = {
       },
       usecase: {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.UseCase.ModifierÉvaluationCarbone',
-        enregistrerChangement: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
+        enregistrerChangement: 'Lauréat.Fournisseur.UseCase.MettreÀJour',
+        modifier: 'Lauréat.Fournisseur.UseCase.MettreÀJour',
       },
       command: {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.Command.ModifierÉvaluationCarbone',
-        enregistrerChangement: 'Lauréat.Fournisseur.Command.EnregistrerChangement',
+        enregistrerChangement: 'Lauréat.Fournisseur.Command.MettreÀJour',
+        modifier: 'Lauréat.Fournisseur.Command.MettreÀJour',
       },
     },
     dispositifDeStockage: {
@@ -1243,6 +1245,12 @@ const policies = {
     enregistrerChangement: [
       référencielPermissions.lauréat.fournisseur.usecase.enregistrerChangement,
       référencielPermissions.lauréat.fournisseur.command.enregistrerChangement,
+      référencielPermissions.document.command.enregister,
+    ],
+    modifier: [
+      référencielPermissions.lauréat.fournisseur.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.fournisseur.command.enregistrerChangement,
+      référencielPermissions.document.command.enregister,
     ],
   },
   dispositifDeStockage: {
@@ -1591,6 +1599,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'fournisseur.modifierÉvaluationCarbone',
   'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
+  'fournisseur.modifier',
 
   // Délai
   'délai.consulterDemande',

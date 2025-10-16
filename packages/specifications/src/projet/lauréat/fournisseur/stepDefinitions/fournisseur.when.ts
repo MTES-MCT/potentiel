@@ -43,15 +43,16 @@ Quand(
 );
 
 Quand('le porteur enregistre un changement de fournisseur', async function (this: PotentielWorld) {
-  await enregistrerChangementFournisseur.call(this);
+  await mettreÀJourFournisseur.call(this, 'information-enregistrée');
 });
 
 Quand(
   'le porteur enregistre un changement de fournisseur avec :',
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await enregistrerChangementFournisseur.call(
+    await mettreÀJourFournisseur.call(
       this,
+      'information-enregistrée',
       this.lauréatWorld.fournisseurWorld.mapExempleToFixtureValues(exemple),
     );
   },
@@ -68,7 +69,46 @@ Quand(
     });
     assert(Option.isSome(fournisseur), 'Fournisseur non trouvé');
 
-    await enregistrerChangementFournisseur.call(this, {
+    await mettreÀJourFournisseur.call(this, 'information-enregistrée', {
+      évaluationCarbone: fournisseur.évaluationCarboneSimplifiée,
+      fournisseurs: fournisseur.fournisseurs
+        .map(Lauréat.Fournisseur.Fournisseur.bind)
+        .map((fournisseur) => fournisseur.formatter()),
+    });
+  },
+);
+
+Quand(
+  'le DGEC validateur modifie le fournisseur du projet lauréat',
+  async function (this: PotentielWorld) {
+    await mettreÀJourFournisseur.call(this, 'modification-admin');
+  },
+);
+
+Quand(
+  'le DGEC validateur modifie le fournisseur du projet lauréat avec :',
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    await mettreÀJourFournisseur.call(
+      this,
+      'modification-admin',
+      this.lauréatWorld.fournisseurWorld.mapExempleToFixtureValues(exemple),
+    );
+  },
+);
+
+Quand(
+  'le DGEC validateur modifie le fournisseur du projet lauréat avec des valeurs identiques',
+  async function (this: PotentielWorld) {
+    const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
+      type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+      data: {
+        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      },
+    });
+    assert(Option.isSome(fournisseur), 'Fournisseur non trouvé');
+
+    await mettreÀJourFournisseur.call(this, 'modification-admin', {
       évaluationCarbone: fournisseur.évaluationCarboneSimplifiée,
       fournisseurs: fournisseur.fournisseurs
         .map(Lauréat.Fournisseur.Fournisseur.bind)
@@ -103,36 +143,37 @@ export async function modifierÉvaluationCarbone(
   }
 }
 
-export async function enregistrerChangementFournisseur(
+export async function mettreÀJourFournisseur(
   this: PotentielWorld,
+  typeDeChangement: 'modification-admin' | 'information-enregistrée',
   values: {
     évaluationCarbone?: number;
     fournisseurs?: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
   } = {},
 ) {
-  try {
-    const {
-      évaluationCarbone,
-      fournisseurs,
-      enregistréLe,
-      enregistréPar,
-      pièceJustificative,
-      raison,
-    } = this.lauréatWorld.fournisseurWorld.enregistrerChangementFournisseur.créer({
-      enregistréPar: this.utilisateurWorld.adminFixture.email,
-      ...values,
-    });
+  const utilisateurFixture =
+    typeDeChangement === 'information-enregistrée'
+      ? this.utilisateurWorld.porteurFixture
+      : this.utilisateurWorld.validateurFixture;
 
-    await mediator.send<Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase>({
-      type: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
+  try {
+    const { évaluationCarbone, fournisseurs, misAJourLe, misAJourPar, pièceJustificative, raison } =
+      this.lauréatWorld.fournisseurWorld.mettreÀJourFournisseur.créer({
+        misAJourPar: utilisateurFixture.email,
+        ...values,
+      });
+
+    await mediator.send<Lauréat.Fournisseur.MettreÀJourFournisseurUseCase>({
+      type: 'Lauréat.Fournisseur.UseCase.MettreÀJour',
       data: {
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         évaluationCarboneSimplifiéeValue: évaluationCarbone,
         fournisseursValue: fournisseurs,
-        dateChangementValue: enregistréLe,
-        identifiantUtilisateurValue: enregistréPar,
+        dateValue: misAJourLe,
+        identifiantUtilisateurValue: misAJourPar,
         raisonValue: raison,
         pièceJustificativeValue: pièceJustificative,
+        rôleUtilisateurValue: utilisateurFixture.role,
       },
     });
   } catch (e) {

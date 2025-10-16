@@ -1,5 +1,8 @@
 import { encodeParameter } from '../encodeParameter';
 
+export const modifier = (identifiantProjet: string) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/fournisseur/modifier`;
+
 export const changement = {
   enregistrer: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/fournisseur/changement/enregistrer`,

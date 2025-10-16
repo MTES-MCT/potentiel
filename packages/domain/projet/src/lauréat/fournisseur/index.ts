@@ -7,7 +7,6 @@ import {
   ConsulterChangementFournisseurQuery,
   ConsulterChangementFournisseurReadModel,
 } from './changement/consulter/consulterChangementFournisseur.query';
-import { EnregistrerChangementFournisseurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import {
   ListerChangementFournisseurQuery,
   ListerChangementFournisseurReadModel,
@@ -17,6 +16,7 @@ import {
   ListerHistoriqueFournisseurProjetReadModel,
   HistoriqueFournisseurProjetListItemReadModel,
 } from './listerHistorique/listerHistoriqueFournisseurProjet.query';
+import { MettreÀJourFournisseurUseCase } from './changement/miseAJour/common/mettreÀJourFournisseur.usecase';
 
 // Query
 export type FournisseurQuery =
@@ -41,16 +41,15 @@ export {
 };
 
 // UseCases
-export type FournisseurUseCase =
-  | ModifierÉvaluationCarboneUseCase
-  | EnregistrerChangementFournisseurUseCase;
-export { ModifierÉvaluationCarboneUseCase, EnregistrerChangementFournisseurUseCase };
+export type FournisseurUseCase = ModifierÉvaluationCarboneUseCase | MettreÀJourFournisseurUseCase;
+export { ModifierÉvaluationCarboneUseCase, MettreÀJourFournisseurUseCase };
 
 // Event
 export { FournisseurEvent } from './fournisseur.event';
 export { FournisseurImportéEvent } from './importer/importerFournisseur.event';
 export { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
-export { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
+export { ChangementFournisseurEnregistréEvent } from './changement/miseAJour/enregistrerChangement.event';
+export { FournisseurModifiéEvent } from './changement/miseAJour/modifierFournisseur.event';
 
 // Register
 export { registerFournisseurQueries } from './fournisseur.register';

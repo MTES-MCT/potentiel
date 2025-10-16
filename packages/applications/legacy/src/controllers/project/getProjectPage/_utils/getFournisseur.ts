@@ -46,6 +46,8 @@ export const getFournisseur = async ({
 
     if (Option.isSome(fournisseur)) {
       const { fournisseurs, évaluationCarboneSimplifiée } = fournisseur;
+
+      const peutModifier = role.aLaPermission('fournisseur.modifier');
       const peutEnregistrerUnChangement =
         role.aLaPermission('fournisseur.enregistrerChangement') &&
         !aUnAbandonEnCours &&
@@ -56,13 +58,19 @@ export const getFournisseur = async ({
       return {
         fournisseurs,
         évaluationCarboneSimplifiée,
-        affichage: peutEnregistrerUnChangement
+        affichage: peutModifier
           ? {
-              url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
-              label: 'Changer de fournisseur',
-              labelActions: 'Changer de fournisseur',
+              url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
+              label: 'Modifier',
+              labelActions: 'Modifier le fournisseur',
             }
-          : undefined,
+          : peutEnregistrerUnChangement
+            ? {
+                url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
+                label: 'Changer de fournisseur',
+                labelActions: 'Changer de fournisseur',
+              }
+            : undefined,
       };
     }
 

@@ -6,14 +6,13 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { vérifierQueLeCahierDesChargesPermetUnChangement } from '@/app/_helpers';
 
-import { getFournisseurInfos } from '../../../_helpers/getLauréat';
-import { MettreÀJourFournisseurPage } from '../(mettre-à-jour)/MettreÀJourFournisseur.page';
+import { getFournisseurInfos } from '../../_helpers/getLauréat';
+import { MettreÀJourFournisseurPage } from '../changement/(mettre-à-jour)/MettreÀJourFournisseur.page';
 
 export const metadata: Metadata = {
   title: 'Changer le fournisseur du projet - Potentiel',
-  description: 'Formulaire de changement de fournisseur du projet',
+  description: 'Formulaire de modification du fournisseur du projet',
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
@@ -23,12 +22,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       identifiantProjet: identifiantProjet.formatter(),
     });
 
-    await vérifierQueLeCahierDesChargesPermetUnChangement(
-      fournisseur.identifiantProjet,
-      'information-enregistrée',
-      'fournisseur',
-    );
-
     return (
       <MettreÀJourFournisseurPage
         identifiantProjet={mapToPlainObject(fournisseur.identifiantProjet)}
@@ -36,7 +29,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         évaluationCarboneSimplifiée={fournisseur.évaluationCarboneSimplifiée}
         évaluationCarboneSimplifiéeInitiale={fournisseur.évaluationCarboneSimplifiéeInitiale}
         technologie={fournisseur.technologie}
-        isInformationEnregistrée={true}
       />
     );
   });

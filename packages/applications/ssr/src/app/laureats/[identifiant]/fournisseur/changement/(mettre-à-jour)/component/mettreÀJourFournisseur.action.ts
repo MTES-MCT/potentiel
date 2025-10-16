@@ -15,11 +15,14 @@ import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   evaluationCarboneSimplifiee: zod.coerce.number().positive(),
-  raison: zod.string(),
+  raison: zod.string().optional(),
+  isInformationEnregistree: zod.stringbool(),
   piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
+    optional: true,
   }),
 };
+
 const schema = zod.discriminatedUnion('technologie', [
   zod.object({
     ...commonSchema,
@@ -49,11 +52,18 @@ const schema = zod.discriminatedUnion('technologie', [
   }),
 ]);
 
-export type EnregistrerChangementFournisseurFormKeys = keyof zod.infer<typeof schema>;
+export type MettreÀJourFournisseurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, fournisseurs, evaluationCarboneSimplifiee, piecesJustificatives, raison },
+  {
+    identifiantProjet,
+    fournisseurs,
+    evaluationCarboneSimplifiee,
+    piecesJustificatives,
+    raison,
+    isInformationEnregistree,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
     const date = new Date().toISOString();
@@ -82,12 +92,13 @@ const action: FormAction<FormState, typeof schema> = async (
     const common = {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-      dateChangementValue: date,
+      dateValue: date,
       pièceJustificativeValue: piecesJustificatives,
       raisonValue: raison,
+      rôleUtilisateurValue: utilisateur.role.nom,
     };
 
-    const payload: Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase['data'] | undefined =
+    const payload: Lauréat.Fournisseur.MettreÀJourFournisseurUseCase['data'] | undefined =
       fournisseursModifiés
         ? {
             ...common,
@@ -115,21 +126,23 @@ const action: FormAction<FormState, typeof schema> = async (
       };
     }
 
-    await mediator.send<Lauréat.Fournisseur.EnregistrerChangementFournisseurUseCase>({
-      type: 'Lauréat.Fournisseur.UseCase.EnregistrerChangement',
+    await mediator.send<Lauréat.Fournisseur.MettreÀJourFournisseurUseCase>({
+      type: 'Lauréat.Fournisseur.UseCase.MettreÀJour',
       data: payload,
     });
 
     return {
       status: 'success',
       redirection: {
-        url: Routes.Fournisseur.changement.détails(identifiantProjet, date),
-        message: 'Votre changement de fournisseur a bien été pris en compte',
+        url: isInformationEnregistree
+          ? Routes.Fournisseur.changement.détails(identifiantProjet, date)
+          : Routes.Projet.details(identifiantProjet),
+        message: 'Le changement de fournisseur a bien été pris en compte',
       },
     };
   });
 
-export const enregistrerChangementFournisseurAction = formAction(action, schema);
+export const mettreÀJourFournisseurAction = formAction(action, schema);
 
 const fournisseursContiennentModification = ({
   nouveauxFournisseurs,
