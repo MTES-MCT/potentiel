@@ -16,8 +16,8 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
     représentantLégal: {
       informationEnregistrée: true,
     },
-    actionnaire: {},
-    fournisseur: {},
+    actionnaire: { modificationAdmin: false },
+    fournisseur: { modificationAdmin: false },
     délai: {
       demande: true,
       autoritéCompétente: 'dreal',

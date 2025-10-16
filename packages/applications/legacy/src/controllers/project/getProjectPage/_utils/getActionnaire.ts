@@ -64,7 +64,10 @@ export const getActionnaire = async ({
         };
       }
 
-      const peutModifier = role.aLaPermission('actionnaire.modifier');
+      const peutModifier =
+        role.aLaPermission('actionnaire.modifier') &&
+        règlesChangementPourAppelOffres.modificationAdmin !== false;
+
       const peutFaireUneDemandeDeChangement =
         demandeNécessiteInstruction &&
         role.aLaPermission('actionnaire.demanderChangement') &&
