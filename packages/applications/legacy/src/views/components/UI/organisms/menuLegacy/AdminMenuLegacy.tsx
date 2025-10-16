@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuLegacyGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
