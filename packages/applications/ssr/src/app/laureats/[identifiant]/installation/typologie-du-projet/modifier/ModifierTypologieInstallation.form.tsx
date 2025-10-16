@@ -52,7 +52,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
     'agrivoltaïque.serre',
   ];
 
-  const [afficherDetails, setAfficherDetails] = useState<Record<number, boolean>>(
+  const [afficherDetailsMap, setAfficherDetailsMap] = useState<Record<number, boolean>>(
     Object.fromEntries(
       typologiesProjet.map((t, i) => [i, typologiesAvecDetails.includes(t.typologie)]),
     ),
@@ -65,7 +65,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
     setTypologiesProjet((prev) =>
       prev.map((t, i) => (i === index ? { ...t, typologie: value } : t)),
     );
-    setAfficherDetails((prev) => ({
+    setAfficherDetailsMap((prev) => ({
       ...prev,
       [index]: typologiesAvecDetails.includes(value),
     }));
@@ -76,15 +76,35 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
   };
 
   const handleRemove = (index: number) => {
-    setTypologiesProjet((prev) => prev.filter((_, i) => i !== index));
+    setTypologiesProjet((prevTypos) => {
+      const newTypologies = prevTypos.filter((_, i) => i !== index);
+
+      setAfficherDetailsMap(() => {
+        return Object.fromEntries(
+          newTypologies.map((t, i) => [i, typologiesAvecDetails.includes(t.typologie)]),
+        );
+      });
+
+      return newTypologies;
+    });
     setValidationErrors({});
   };
 
   const handleAdd = () => {
-    setTypologiesProjet((prev) => [
-      ...prev,
-      { typologie: typologiesNonSélectionnées[0], détails: '' },
-    ]);
+    setTypologiesProjet((prev) => {
+      const nouvelleTypologie = {
+        typologie: typologiesNonSélectionnées[0],
+        détails: '',
+      };
+      const newTypologies = [...prev, nouvelleTypologie];
+
+      setAfficherDetailsMap((prevAfficher) => ({
+        ...prevAfficher,
+        [newTypologies.length - 1]: typologiesAvecDetails.includes(nouvelleTypologie.typologie),
+      }));
+
+      return newTypologies;
+    });
   };
 
   return (
@@ -136,7 +156,7 @@ export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallation
                   onChange: (e) => handleTypologieChange(index, e.target.value),
                 }}
               />
-              {afficherDetails[index] && (
+              {afficherDetailsMap[index] && (
                 <Input
                   label=""
                   state={validationErrors[detailsFieldKey] ? 'error' : 'default'}
