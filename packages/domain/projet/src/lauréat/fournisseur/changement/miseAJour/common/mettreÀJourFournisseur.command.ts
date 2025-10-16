@@ -10,7 +10,7 @@ import { ChangementFournisseurChampsManquantsError } from '../../../fournisseur.
 import { ModifierFournisseurOptions } from '../modifierFournisseur.option';
 
 export type MettreÀJourFournisseurCommand = Message<
-  'Lauréat.Fournisseur.Command.MettreAJour',
+  'Lauréat.Fournisseur.Command.MettreÀJour',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
@@ -62,7 +62,7 @@ export const registerMettreÀJourFournisseurCommand = (
       );
     }
   };
-  mediator.register('Lauréat.Fournisseur.Command.MettreAJour', handler);
+  mediator.register('Lauréat.Fournisseur.Command.MettreÀJour', handler);
 };
 
 const mapToEnregistrerChangementPayload = (payload: ModifierFournisseurOptions) => {

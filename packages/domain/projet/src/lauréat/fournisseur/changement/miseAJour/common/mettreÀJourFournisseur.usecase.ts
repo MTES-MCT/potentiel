@@ -10,7 +10,7 @@ import { Fournisseur, TypeDocumentFournisseur } from '../../..';
 import { MettreÀJourFournisseurCommand } from './mettreÀJourFournisseur.command';
 
 export type MettreÀJourFournisseurUseCase = Message<
-  'Lauréat.Fournisseur.UseCase.MettreAJour',
+  'Lauréat.Fournisseur.UseCase.MettreÀJour',
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
@@ -62,7 +62,7 @@ export const registerMettreÀJourFournisseurUseCase = () => {
       : undefined;
 
     await mediator.send<MettreÀJourFournisseurCommand>({
-      type: 'Lauréat.Fournisseur.Command.MettreAJour',
+      type: 'Lauréat.Fournisseur.Command.MettreÀJour',
       data: {
         identifiantProjet,
         identifiantUtilisateur,
@@ -92,5 +92,5 @@ export const registerMettreÀJourFournisseurUseCase = () => {
     }
   };
 
-  mediator.register('Lauréat.Fournisseur.UseCase.MettreAJour', handler);
+  mediator.register('Lauréat.Fournisseur.UseCase.MettreÀJour', handler);
 };

@@ -164,7 +164,7 @@ export async function mettreÀJourFournisseur(
       });
 
     await mediator.send<Lauréat.Fournisseur.MettreÀJourFournisseurUseCase>({
-      type: 'Lauréat.Fournisseur.UseCase.MettreAJour',
+      type: 'Lauréat.Fournisseur.UseCase.MettreÀJour',
       data: {
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
         évaluationCarboneSimplifiéeValue: évaluationCarbone,

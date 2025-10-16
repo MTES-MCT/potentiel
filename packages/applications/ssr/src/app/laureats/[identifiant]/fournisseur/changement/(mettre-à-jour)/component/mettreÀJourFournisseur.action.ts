@@ -119,7 +119,7 @@ const action: FormAction<FormState, typeof schema> = async (
     }
 
     await mediator.send<Lauréat.Fournisseur.MettreÀJourFournisseurUseCase>({
-      type: 'Lauréat.Fournisseur.UseCase.MettreAJour',
+      type: 'Lauréat.Fournisseur.UseCase.MettreÀJour',
       data: payload,
     });
 

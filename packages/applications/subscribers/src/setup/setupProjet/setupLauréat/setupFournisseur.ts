@@ -13,13 +13,7 @@ export const setupFournisseur: SetupProjet = async ({ sendEmail }) => {
     FournisseurProjector.Execute
   >({
     name: 'projector',
-    eventType: [
-      'RebuildTriggered',
-      'FournisseurImporté-V1',
-      'ÉvaluationCarboneSimplifiéeModifiée-V1',
-      'ChangementFournisseurEnregistré-V1',
-      'FournisseurModifié-V1',
-    ],
+    eventType: 'all',
     messageType: 'System.Projector.Lauréat.Fournisseur',
   });
 
