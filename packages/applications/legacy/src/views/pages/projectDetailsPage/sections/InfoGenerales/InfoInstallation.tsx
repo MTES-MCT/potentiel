@@ -54,17 +54,17 @@ export const InfoInstallation = ({
             ))}
           </ul>
         ) : (
-          <span>Typologie du projet non renseignée</span>
+          <div>Typologie du projet non renseignée</div>
+        )}
+        {typologieInstallation.affichage && (
+          <Link
+            href={typologieInstallation.affichage.url}
+            aria-label={typologieInstallation.affichage.label}
+          >
+            {typologieInstallation.affichage.label}
+          </Link>
         )}
       </div>
-      {typologieInstallation.affichage && (
-        <Link
-          href={typologieInstallation.affichage.url}
-          aria-label={typologieInstallation.affichage.label}
-        >
-          {typologieInstallation.affichage.label}
-        </Link>
-      )}
       <div>
         <Heading4 className="mb-0">Installateur</Heading4>
         <div className="m-0">{installateur.value || 'Non renseigné'}</div>
@@ -74,26 +74,26 @@ export const InfoInstallation = ({
           </Link>
         )}
       </div>
-      <div className="flex flex-col gap-0">
-        <Heading3 className="m-0">Dispositif de stockage</Heading3>
-        <span>
+      <div>
+        <Heading4 className="mb-0">Dispositif de stockage</Heading4>
+        <div>
           {dispositifDeStockage.value?.installationAvecDispositifDeStockage === true
             ? 'Installation couplée à un dispositif de stockage'
             : dispositifDeStockage.value?.installationAvecDispositifDeStockage === false
               ? 'Installation sans dispositif de stockage'
               : 'Non renseigné'}
-        </span>
+        </div>
         {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW ? (
-          <span>
+          <div>
             Puissance du dispositif de stockage :{' '}
             {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW} kW
-          </span>
+          </div>
         ) : null}
         {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh ? (
-          <span>
+          <div>
             Capacité du dispositif de stockage :{' '}
             {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh} kWh
-          </span>
+          </div>
         ) : null}
         {dispositifDeStockage.affichage && (
           <Link
