@@ -12,28 +12,28 @@ import { ArrayFormKeys } from '@/utils/zod/arrayFormKeys';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  typologieDuProjet: zod.array(
+  typologieInstallation: zod.array(
     zod.object({
-      typologie: zod.enum(Candidature.TypologieDuProjet.typologies),
+      typologie: zod.enum(Candidature.TypologieInstallation.typologies),
       details: zod.string().optional(),
     }),
   ),
 });
 
-export type ModifierTypologieDuProjetFormKeys = ArrayFormKeys<zod.infer<typeof schema>>;
+export type ModifierTypologieInstallationFormKeys = ArrayFormKeys<zod.infer<typeof schema>>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, typologieDuProjet },
+  { identifiantProjet, typologieInstallation },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Lauréat.Installation.ModifierTypologieDuProjetUseCase>({
-      type: 'Lauréat.Installation.UseCase.ModifierTypologieDuProjet',
+    await mediator.send<Lauréat.Installation.ModifierTypologieInstallationUseCase>({
+      type: 'Lauréat.Installation.UseCase.ModifierTypologieInstallation',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateModificationValue: new Date().toISOString(),
-        typologieDuProjetValue: typologieDuProjet.map((t) => ({
+        typologieInstallationValue: typologieInstallation.map((t) => ({
           typologie: t.typologie,
           détails: t.details,
         })),
@@ -49,4 +49,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const modifierTypologieDuProjetAction = formAction(action, schema);
+export const modifierTypologieInstallationAction = formAction(action, schema);

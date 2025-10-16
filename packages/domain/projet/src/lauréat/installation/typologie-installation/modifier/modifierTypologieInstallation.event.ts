@@ -2,13 +2,13 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '../../../..';
-import { TypologieDuProjet } from '../../../../candidature';
+import { TypologieInstallation } from '../../../../candidature';
 
-export type TypologieDuProjetModifiéeEvent = DomainEvent<
-  'TypologieDuProjetModifiée-V1',
+export type TypologieInstallationModifiéeEvent = DomainEvent<
+  'TypologieInstallationModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    typologieDuProjet: TypologieDuProjet.RawType[];
+    typologieInstallation: TypologieInstallation.RawType[];
     modifiéeLe: DateTime.RawType;
     modifiéePar: Email.RawType;
   }

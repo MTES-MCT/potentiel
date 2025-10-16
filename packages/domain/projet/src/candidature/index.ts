@@ -87,4 +87,4 @@ export * as Localité from './localité.valueType';
 export * as UnitéPuissance from './unitéPuissance.valueType';
 export * as Dépôt from './dépôt.valueType';
 export * as Instruction from './instruction.valueType';
-export * as TypologieDuProjet from './typologieDuProjet.valueType';
+export * as TypologieInstallation from './typologieInstallation.valueType';

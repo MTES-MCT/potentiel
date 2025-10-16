@@ -10,7 +10,7 @@ export type CandidatureCorrigéeEventV1 = DomainEvent<
   'CandidatureCorrigée-V1',
   Omit<
     CandidatureImportéeEvent['payload'],
-    'importéLe' | 'importéPar' | 'fournisseurs' | 'typologieDuProjet'
+    'importéLe' | 'importéPar' | 'fournisseurs' | 'typologieInstallation'
   > & {
     corrigéLe: DateTime.RawType;
     corrigéPar: Email.RawType;

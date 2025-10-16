@@ -13,33 +13,33 @@ import { PlainType } from '@potentiel-domain/core';
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { getTypologieDuProjetLabel } from '../typologieDuProjetLabel';
+import { getTypologieInstallationLabel } from '../typologieInstallationLabel';
 
 import {
-  modifierTypologieDuProjetAction,
-  ModifierTypologieDuProjetFormKeys,
-} from './modifierTypologieDuProjet.action';
+  modifierTypologieInstallationAction,
+  ModifierTypologieInstallationFormKeys,
+} from './modifierTypologieInstallation.action';
 
-export type ModifierTypologieDuProjetFormProps =
-  PlainType<Lauréat.Installation.ConsulterTypologieDuProjetReadModel>;
+export type ModifierTypologieInstallationFormProps =
+  PlainType<Lauréat.Installation.ConsulterTypologieInstallationReadModel>;
 
-export const ModifierTypologieDuProjetForm: FC<ModifierTypologieDuProjetFormProps> = ({
+export const ModifierTypologieInstallationForm: FC<ModifierTypologieInstallationFormProps> = ({
   identifiantProjet,
-  typologieDuProjet: typologieDuProjetActuelle,
+  typologieInstallation: typologieInstallationActuelle,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<ModifierTypologieDuProjetFormKeys>
+    ValidationErrors<ModifierTypologieInstallationFormKeys>
   >({});
 
   const [typologiesProjet, setTypologiesProjet] = useState<
-    Array<Candidature.TypologieDuProjet.RawType>
+    Array<Candidature.TypologieInstallation.RawType>
   >(() =>
-    typologieDuProjetActuelle.map((typologie) =>
-      Candidature.TypologieDuProjet.bind(typologie).formatter(),
+    typologieInstallationActuelle.map((typologie) =>
+      Candidature.TypologieInstallation.bind(typologie).formatter(),
     ),
   );
 
-  const typologiesExistantes = Candidature.TypologieDuProjet.typologies;
+  const typologiesExistantes = Candidature.TypologieInstallation.typologies;
 
   const typologiesNonSélectionnées = typologiesExistantes.filter(
     (te) => !typologiesProjet.map((tp) => tp.typologie).includes(te),
@@ -60,7 +60,7 @@ export const ModifierTypologieDuProjetForm: FC<ModifierTypologieDuProjetFormProp
 
   const handleTypologieChange = (
     index: number,
-    value: Candidature.TypologieDuProjet.ValueType['typologie'],
+    value: Candidature.TypologieInstallation.ValueType['typologie'],
   ) => {
     setTypologiesProjet((prev) =>
       prev.map((t, i) => (i === index ? { ...t, typologie: value } : t)),
@@ -89,7 +89,7 @@ export const ModifierTypologieDuProjetForm: FC<ModifierTypologieDuProjetFormProp
 
   return (
     <Form
-      action={modifierTypologieDuProjetAction}
+      action={modifierTypologieInstallationAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actionButtons={{
         submitLabel: 'Modifier',
@@ -108,9 +108,9 @@ export const ModifierTypologieDuProjetForm: FC<ModifierTypologieDuProjetFormProp
       <div className="flex flex-col gap-2">
         {typologiesProjet.map(({ typologie, détails }, index) => {
           const typologieFieldKey =
-            `typologieDuProjet.${index}.typologie` satisfies ModifierTypologieDuProjetFormKeys;
+            `typologieInstallation.${index}.typologie` satisfies ModifierTypologieInstallationFormKeys;
           const detailsFieldKey =
-            `typologieDuProjet.${index}.details` satisfies ModifierTypologieDuProjetFormKeys;
+            `typologieInstallation.${index}.details` satisfies ModifierTypologieInstallationFormKeys;
 
           return (
             <div className="flex flex-row gap-2" key={`${typologie}-${index}`}>
@@ -119,11 +119,11 @@ export const ModifierTypologieDuProjetForm: FC<ModifierTypologieDuProjetFormProp
                 stateRelatedMessage={validationErrors[typologieFieldKey]}
                 options={[
                   ...typologiesNonSélectionnées.map((t) => ({
-                    label: getTypologieDuProjetLabel(t),
+                    label: getTypologieInstallationLabel(t),
                     value: t,
                   })),
                   {
-                    label: getTypologieDuProjetLabel(typologie),
+                    label: getTypologieInstallationLabel(typologie),
                     value: typologie,
                   },
                 ]}

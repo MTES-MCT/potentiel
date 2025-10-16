@@ -1,11 +1,11 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DétailTypologieDuProjet } from './DétailTypologieDuProjet';
+import { DétailTypologieInstallation } from './DétailTypologieInstallation';
 
-export const mapToTypologieDuProjetModifiéeTimelineItemsProps = (
-  record: Lauréat.Installation.TypologieDuProjetModifiéeEvent,
+export const mapToTypologieInstallationModifiéeTimelineItemsProps = (
+  record: Lauréat.Installation.TypologieInstallationModifiéeEvent,
 ) => {
-  const { modifiéeLe, modifiéePar, typologieDuProjet } = record.payload;
+  const { modifiéeLe, modifiéePar, typologieInstallation } = record.payload;
 
   return {
     date: modifiéeLe,
@@ -17,7 +17,7 @@ export const mapToTypologieDuProjetModifiéeTimelineItemsProps = (
     content: (
       <div className="flex flex-col gap-2">
         <div>Nouvelle typologie du projet :</div>
-        {DétailTypologieDuProjet(typologieDuProjet)}
+        {DétailTypologieInstallation(typologieInstallation)}
       </div>
     ),
   };

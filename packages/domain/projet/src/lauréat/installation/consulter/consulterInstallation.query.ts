@@ -4,13 +4,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../../..';
-import { TypologieDuProjet } from '../../../candidature';
+import { TypologieInstallation } from '../../../candidature';
 import { InstallationEntity } from '..';
 
 export type ConsulterInstallationReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   installateur: string;
-  typologieDuProjet: TypologieDuProjet.ValueType[];
+  typologieInstallation: TypologieInstallation.ValueType[];
 };
 
 export type ConsulterInstallationQuery = Message<
@@ -41,11 +41,11 @@ export const registerConsulterInstallationQuery = ({ find }: ConsulterInstallati
 export const mapToReadModel = ({
   identifiantProjet,
   installateur,
-  typologieDuProjet,
+  typologieInstallation,
 }: InstallationEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   installateur,
-  typologieDuProjet: typologieDuProjet.map((typologie) =>
-    TypologieDuProjet.convertirEnValueType(typologie),
+  typologieInstallation: typologieInstallation.map((typologie) =>
+    TypologieInstallation.convertirEnValueType(typologie),
   ),
 });

@@ -1,5 +1,5 @@
 # language: fr
-@typologie-du-projet
+@typologie-installation
 @installation
 Fonctionnalité: Modifier la typologie d'un projet
 

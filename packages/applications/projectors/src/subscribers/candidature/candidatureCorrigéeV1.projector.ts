@@ -26,7 +26,7 @@ export const candidatureCorrigéeV1Projector = async ({
     payload: {
       ...payload,
       fournisseurs: Option.isSome(candidature) ? candidature.fournisseurs : [],
-      typologieDuProjet: Option.isSome(candidature) ? candidature.typologieDuProjet : [],
+      typologieInstallation: Option.isSome(candidature) ? candidature.typologieInstallation : [],
     },
     candidature,
     identifiantProjet,

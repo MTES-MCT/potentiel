@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { TypologieDuProjet } from '../../candidature';
+import { TypologieInstallation } from '../../candidature';
 import { Candidature } from '../..';
 
 import { InstallateurModifiéEvent } from '.';
@@ -14,12 +14,12 @@ import {
   InstallateurIdentiqueError,
   InstallationDéjàTransmiseError,
   JeuDeTypologiesIdentiquesError,
-  NouvelleTypologieDuProjetIdentiqueÀLActuelleError,
+  NouvelleTypologieInstallationIdentiqueÀLActuelleError,
 } from './installation.error';
 import { InstallationImportéeEvent } from './importer/importerInstallation.event';
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
-import { ModifierTypologieDuProjetOptions } from './typologie-du-projet/modifier/modifierTypologieDuProjet.option';
-import { TypologieDuProjetModifiéeEvent } from './typologie-du-projet/modifier/modifierTypologieDuProjet.event';
+import { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option';
+import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -27,7 +27,7 @@ export class InstallationAggregate extends AbstractAggregate<
   LauréatAggregate
 > {
   #installateur?: string;
-  #typologieDuProjet!: TypologieDuProjet.ValueType[];
+  #typologieInstallation!: TypologieInstallation.ValueType[];
 
   get lauréat() {
     return this.parent;
@@ -37,7 +37,7 @@ export class InstallationAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async importer({ installateur, typologieDuProjet, importéLe, importéPar }: ImporterOptions) {
+  async importer({ installateur, typologieInstallation, importéLe, importéPar }: ImporterOptions) {
     if (this.exists) {
       throw new InstallationDéjàTransmiseError();
     }
@@ -47,7 +47,7 @@ export class InstallationAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installateur: installateur ?? '',
-        typologieDuProjet: typologieDuProjet.map((t) => t.formatter()),
+        typologieInstallation: typologieInstallation.map((t) => t.formatter()),
         importéeLe: importéLe.formatter(),
         importéePar: importéPar.formatter(),
       },
@@ -80,20 +80,20 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async modifierTypologieDuProjet({
-    typologieDuProjet,
+  async modifierTypologieInstallation({
+    typologieInstallation,
     dateModification,
     identifiantUtilisateur,
-  }: ModifierTypologieDuProjetOptions) {
+  }: ModifierTypologieInstallationOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    this.vérifierQueModificationTypologieDuProjetEstPossible(typologieDuProjet);
+    this.vérifierQueModificationTypologieInstallationEstPossible(typologieInstallation);
 
-    const event: TypologieDuProjetModifiéeEvent = {
-      type: 'TypologieDuProjetModifiée-V1',
+    const event: TypologieInstallationModifiéeEvent = {
+      type: 'TypologieInstallationModifiée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        typologieDuProjet: typologieDuProjet.map((t) => t.formatter()),
+        typologieInstallation: typologieInstallation.map((t) => t.formatter()),
         modifiéeLe: dateModification.formatter(),
         modifiéePar: identifiantUtilisateur.formatter(),
       },
@@ -102,16 +102,16 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  private vérifierQueModificationTypologieDuProjetEstPossible = (
-    modification: Candidature.TypologieDuProjet.ValueType[],
+  private vérifierQueModificationTypologieInstallationEstPossible = (
+    modification: Candidature.TypologieInstallation.ValueType[],
   ) => {
-    const actuel = this.#typologieDuProjet;
+    const actuel = this.#typologieInstallation;
 
     if (
       actuel.length === modification.length &&
       modification.every((m) => actuel.some((a) => m.estÉgaleÀ(a)))
     ) {
-      throw new NouvelleTypologieDuProjetIdentiqueÀLActuelleError();
+      throw new NouvelleTypologieInstallationIdentiqueÀLActuelleError();
     }
 
     if (modification.length > 1) {
@@ -136,17 +136,19 @@ export class InstallationAggregate extends AbstractAggregate<
         },
         (event) => this.applyInstallateurModifiéV1(event),
       )
-      .with({ type: 'TypologieDuProjetModifiée-V1' }, (event) =>
-        this.applyTypologieDuProjetModifiéeV1(event),
+      .with({ type: 'TypologieInstallationModifiée-V1' }, (event) =>
+        this.applyTypologieInstallationModifiéeV1(event),
       )
       .exhaustive();
   }
 
   private applyInstallationImportéeV1({
-    payload: { installateur, typologieDuProjet },
+    payload: { installateur, typologieInstallation },
   }: InstallationImportéeEvent) {
     this.#installateur = installateur;
-    this.#typologieDuProjet = typologieDuProjet.map(TypologieDuProjet.convertirEnValueType);
+    this.#typologieInstallation = typologieInstallation.map(
+      TypologieInstallation.convertirEnValueType,
+    );
   }
 
   private applyInstallateurModifiéV1({
@@ -155,9 +157,11 @@ export class InstallationAggregate extends AbstractAggregate<
     this.#installateur = nouvelInstallateur;
   }
 
-  private applyTypologieDuProjetModifiéeV1({
-    payload: { typologieDuProjet: nouvelleTypologieDuProjet },
-  }: TypologieDuProjetModifiéeEvent) {
-    this.#typologieDuProjet = nouvelleTypologieDuProjet.map(TypologieDuProjet.convertirEnValueType);
+  private applyTypologieInstallationModifiéeV1({
+    payload: { typologieInstallation: nouvelleTypologieInstallation },
+  }: TypologieInstallationModifiéeEvent) {
+    this.#typologieInstallation = nouvelleTypologieInstallation.map(
+      TypologieInstallation.convertirEnValueType,
+    );
   }
 }

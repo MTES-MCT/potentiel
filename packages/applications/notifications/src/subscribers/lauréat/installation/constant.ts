@@ -1,4 +1,4 @@
 export const installationNotificationTemplateId = {
   modifierInstallateur: 7298462,
-  modifierTypologieDuProjet: 7386566,
+  modifierTypologieInstallation: 7386566,
 };

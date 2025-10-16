@@ -64,21 +64,21 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const typologieDuProjet =
-        await mediator.send<Lauréat.Installation.ConsulterTypologieDuProjetQuery>({
-          type: 'Lauréat.Installation.Query.ConsulterTypologieDuProjet',
+      const typologieInstallation =
+        await mediator.send<Lauréat.Installation.ConsulterTypologieInstallationQuery>({
+          type: 'Lauréat.Installation.Query.ConsulterTypologieInstallation',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
 
-      const actual = mapToPlainObject(typologieDuProjet);
+      const actual = mapToPlainObject(typologieInstallation);
       const expected = mapToPlainObject(
         this.lauréatWorld.installationWorld.mapToExpected(identifiantProjet),
       );
 
       if (Option.isSome(actual) && Option.isSome(expected)) {
-        actual.typologieDuProjet.should.be.deep.equal(expected.typologieDuProjet);
+        actual.typologieInstallation.should.be.deep.equal(expected.typologieInstallation);
       } else {
         actual.should.be.deep.equal(expected);
       }

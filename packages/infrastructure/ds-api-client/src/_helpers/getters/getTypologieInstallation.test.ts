@@ -7,7 +7,7 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { Champs } from '../../graphql';
 
-import { getTypologieDuProjet } from './getTypologieDuProjet';
+import { getTypologieInstallation } from './getTypologieInstallation';
 
 const baseChamp = {
   id: '1',
@@ -27,8 +27,10 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Array<Candidature.TypologieDuProjet.RawType> = [{ typologie: 'bâtiment.neuf' }];
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
+      { typologie: 'bâtiment.neuf' },
+    ];
     expect(actual).to.deep.equal(expected);
   });
 
@@ -42,8 +44,8 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Candidature.Dépôt.RawType['typologieDuProjet'] = [
+    const actual = getTypologieInstallation(data);
+    const expected: Candidature.Dépôt.RawType['typologieInstallation'] = [
       { typologie: 'bâtiment.stabulation' },
     ];
     expect(actual).to.deep.equal(expected);
@@ -59,8 +61,8 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Candidature.Dépôt.RawType['typologieDuProjet'] = [
+    const actual = getTypologieInstallation(data);
+    const expected: Candidature.Dépôt.RawType['typologieInstallation'] = [
       { typologie: 'bâtiment.existant-avec-rénovation-de-toiture' },
     ];
     expect(actual).to.deep.equal(expected);
@@ -76,8 +78,8 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Candidature.Dépôt.RawType['typologieDuProjet'] = [
+    const actual = getTypologieInstallation(data);
+    const expected: Candidature.Dépôt.RawType['typologieInstallation'] = [
       { typologie: 'bâtiment.existant-sans-rénovation-de-toiture' },
     ];
     expect(actual).to.deep.equal(expected);
@@ -99,8 +101,8 @@ describe(`Projet avec typologie "Bâtiment"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Array<Candidature.TypologieDuProjet.RawType> = [
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
       { typologie: 'bâtiment.serre', détails: 'les éléments...' },
     ];
     expect(actual).to.deep.equal(expected);
@@ -119,8 +121,8 @@ describe(`Projet avec typologie "Ombrière"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Array<Candidature.TypologieDuProjet.RawType> = [
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
       { typologie: 'ombrière.parking' },
     ];
     expect(actual).to.deep.equal(expected);
@@ -142,8 +144,8 @@ describe(`Projet avec typologie "Ombrière"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Array<Candidature.TypologieDuProjet.RawType> = [
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
       { typologie: 'ombrière.autre', détails: 'les éléments...' },
     ];
     expect(actual).to.deep.equal(expected);
@@ -165,8 +167,8 @@ describe(`Projet avec typologie "Ombrière"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Array<Candidature.TypologieDuProjet.RawType> = [
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
       { typologie: 'ombrière.mixte', détails: 'les éléments...' },
     ];
     expect(actual).to.deep.equal(expected);
@@ -202,8 +204,8 @@ describe(`Projet avec typologie "Mixte"`, () => {
       },
     ];
 
-    const actual = getTypologieDuProjet(data);
-    const expected: Array<Candidature.TypologieDuProjet.RawType> = [
+    const actual = getTypologieInstallation(data);
+    const expected: Array<Candidature.TypologieInstallation.RawType> = [
       { typologie: 'bâtiment.serre', détails: 'éléments sous serre' },
       { typologie: 'ombrière.autre', détails: 'les éléments...' },
     ];

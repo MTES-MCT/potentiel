@@ -1,11 +1,11 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { DétailTypologieDuProjet } from './DétailTypologieDuProjet';
+import { DétailTypologieInstallation } from './DétailTypologieInstallation';
 
 export const mapToInstallationImportéeTimelineItemProps = (
   record: Lauréat.Installation.InstallationImportéeEvent,
 ) => {
-  const { importéeLe, installateur, typologieDuProjet } = record.payload;
+  const { importéeLe, installateur, typologieInstallation } = record.payload;
   return {
     date: importéeLe,
     title: <div>Candidature :</div>,
@@ -13,7 +13,7 @@ export const mapToInstallationImportéeTimelineItemProps = (
       <>
         <div>
           <div>Typologie du projet : </div>
-          <div>{DétailTypologieDuProjet(typologieDuProjet)}</div>
+          <div>{DétailTypologieInstallation(typologieInstallation)}</div>
         </div>
         <div>Installateur : {installateur}</div>
       </>

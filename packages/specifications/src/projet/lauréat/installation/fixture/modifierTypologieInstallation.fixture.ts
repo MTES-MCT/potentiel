@@ -5,15 +5,15 @@ import { Candidature } from '@potentiel-domain/projet';
 import { AbstractFixture } from '../../../../fixture';
 import { LauréatWorld } from '../../lauréat.world';
 
-interface ModifierTypologieDuProjet {
+interface ModifierTypologieInstallation {
   readonly modifiéeLe: string;
   readonly modifiéePar: string;
-  readonly typologieDuProjet: { typologie: string; détails?: string }[];
+  readonly typologieInstallation: { typologie: string; détails?: string }[];
 }
 
-export class ModifierTypologieDuProjetFixture
-  extends AbstractFixture<ModifierTypologieDuProjet>
-  implements ModifierTypologieDuProjet
+export class ModifierTypologieInstallationFixture
+  extends AbstractFixture<ModifierTypologieInstallation>
+  implements ModifierTypologieInstallation
 {
   #modifiéeLe!: string;
 
@@ -27,25 +27,27 @@ export class ModifierTypologieDuProjetFixture
     return this.#modifiéePar;
   }
 
-  #typologieDuProjet!: ModifierTypologieDuProjet['typologieDuProjet'];
+  #typologieInstallation!: ModifierTypologieInstallation['typologieInstallation'];
 
-  get typologieDuProjet(): ModifierTypologieDuProjet['typologieDuProjet'] {
-    return this.#typologieDuProjet;
+  get typologieInstallation(): ModifierTypologieInstallation['typologieInstallation'] {
+    return this.#typologieInstallation;
   }
 
   constructor(public readonly lauréatWorld: LauréatWorld) {
     super();
   }
 
-  créer(partialData?: Partial<ModifierTypologieDuProjet>): Readonly<ModifierTypologieDuProjet> {
-    const fixture: ModifierTypologieDuProjet = {
+  créer(
+    partialData?: Partial<ModifierTypologieInstallation>,
+  ): Readonly<ModifierTypologieInstallation> {
+    const fixture: ModifierTypologieInstallation = {
       modifiéeLe: faker.date.recent().toISOString(),
       modifiéePar: faker.internet.email(),
-      typologieDuProjet: faker.helpers
+      typologieInstallation: faker.helpers
         .arrayElements(
-          Candidature.TypologieDuProjet.typologies.filter(
+          Candidature.TypologieInstallation.typologies.filter(
             (t) =>
-              !this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.typologieDuProjet
+              !this.lauréatWorld.candidatureWorld.importerCandidature.dépôtValue.typologieInstallation
                 .map((t) => t.typologie)
                 .includes(t),
           ),
@@ -59,7 +61,7 @@ export class ModifierTypologieDuProjetFixture
 
     this.#modifiéeLe = fixture.modifiéeLe;
     this.#modifiéePar = fixture.modifiéePar;
-    this.#typologieDuProjet = fixture.typologieDuProjet;
+    this.#typologieInstallation = fixture.typologieInstallation;
 
     this.aÉtéCréé = true;
     return fixture;

@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-import { ModifierTypologieDuProjetPage } from './ModifierTypologieDuProjet.page';
+import { ModifierTypologieInstallationPage } from './ModifierTypologieInstallation.page';
 
 export const metadata: Metadata = {
   title: 'Modification de la typologie du projet - Potentiel',
@@ -22,8 +22,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const actuel = await mediator.send<Lauréat.Installation.ConsulterTypologieDuProjetQuery>({
-      type: 'Lauréat.Installation.Query.ConsulterTypologieDuProjet',
+    const actuel = await mediator.send<Lauréat.Installation.ConsulterTypologieInstallationQuery>({
+      type: 'Lauréat.Installation.Query.ConsulterTypologieInstallation',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
       },
@@ -32,9 +32,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     return Option.isNone(actuel) ? (
       notFound()
     ) : (
-      <ModifierTypologieDuProjetPage
+      <ModifierTypologieInstallationPage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
-        typologieDuProjet={mapToPlainObject(actuel.typologieDuProjet)}
+        typologieInstallation={mapToPlainObject(actuel.typologieInstallation)}
       />
     );
   });

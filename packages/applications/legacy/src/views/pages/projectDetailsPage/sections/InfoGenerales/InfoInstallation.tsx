@@ -9,10 +9,10 @@ export type InfoInstallationProps = {
 };
 
 export const InfoInstallation = ({
-  installation: { installateur, typologieDuProjet },
+  installation: { installateur, typologieInstallation },
 }: InfoInstallationProps) => {
   const getTypologieLabels = (
-    typologie: GetInstallationForProjectPage['typologieDuProjet']['value'][number]['typologie'],
+    typologie: GetInstallationForProjectPage['typologieInstallation']['value'][number]['typologie'],
   ) => {
     return match(typologie)
       .with('agrivoltaïque.culture', () => 'Installation agrivoltaïque (culture)')
@@ -44,9 +44,9 @@ export const InfoInstallation = ({
       <Heading3 className="m-0">Installation</Heading3>
       <div>
         <Heading4 className="m-0">Typologie du projet</Heading4>
-        {typologieDuProjet.value.length > 0 ? (
+        {typologieInstallation.value.length > 0 ? (
           <ul className="m-0">
-            {typologieDuProjet.value.map((t) => (
+            {typologieInstallation.value.map((t) => (
               <li>
                 <div>{getTypologieLabels(t.typologie)}</div>
                 {t.détails && <div>Éléments sous l'installation : {t.détails}</div>}
@@ -57,9 +57,12 @@ export const InfoInstallation = ({
           <span>Typologie du projet non renseignée</span>
         )}
       </div>
-      {typologieDuProjet.affichage && (
-        <Link href={typologieDuProjet.affichage.url} aria-label={typologieDuProjet.affichage.label}>
-          {typologieDuProjet.affichage.label}
+      {typologieInstallation.affichage && (
+        <Link
+          href={typologieInstallation.affichage.url}
+          aria-label={typologieInstallation.affichage.label}
+        >
+          {typologieInstallation.affichage.label}
         </Link>
       )}
       <div>
