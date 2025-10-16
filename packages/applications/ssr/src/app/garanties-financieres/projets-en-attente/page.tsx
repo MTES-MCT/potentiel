@@ -107,7 +107,7 @@ export default async function Page({ searchParams }: PageProps) {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.delete('appelOffre');
         redirect(
-          `${Routes.GarantiesFinancières.enAttente.lister}?${newSearchParams}`,
+          `${Routes.GarantiesFinancières.enAttente.lister()}?${newSearchParams}`,
           RedirectType.replace,
         );
       }

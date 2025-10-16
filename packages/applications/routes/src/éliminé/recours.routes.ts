@@ -1,19 +1,13 @@
 import type { Éliminé } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
-import { applyStatutFilter } from '../lauréat/_helpers/applyStatutFilter';
+import { withFilters } from '../_helpers/withFilters';
 
 type ListerFilters = {
   statut?: Array<Éliminé.Recours.StatutRecours.RawType>;
 };
 
-export const lister = (filters: ListerFilters = {}) => {
-  const searchParams = new URLSearchParams();
-
-  applyStatutFilter<Éliminé.Recours.StatutRecours.RawType>(searchParams, filters.statut);
-
-  return `/recours${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
-};
+export const lister = withFilters<ListerFilters>(`/recours`);
 
 export const détail = (identifiantProjet: string) =>
   `/elimine/${encodeParameter(identifiantProjet)}/recours`;

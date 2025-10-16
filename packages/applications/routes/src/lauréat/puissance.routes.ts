@@ -1,8 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
-
-import { applyStatutFilter } from './_helpers/applyStatutFilter';
+import { withFilters } from '../_helpers/withFilters';
 
 type ListerFilters = {
   statut?: Array<Lauréat.Puissance.StatutChangementPuissance.RawType>;
@@ -23,18 +22,5 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/modele-reponse?estAccordé=true`,
   téléchargerModèleRéponseRejeté: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/modele-reponse?estAccordé=false`,
-  lister: (filters: ListerFilters = {}) => {
-    const searchParams = new URLSearchParams();
-
-    applyStatutFilter<Lauréat.Puissance.StatutChangementPuissance.RawType>(
-      searchParams,
-      filters.statut,
-    );
-
-    if (filters?.autoriteCompetente) {
-      searchParams.set('autoriteCompetente', filters.autoriteCompetente);
-    }
-
-    return `/laureats/changements/puissance${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
-  },
+  lister: withFilters<ListerFilters>(`/laureats/changements/puissance`),
 };
