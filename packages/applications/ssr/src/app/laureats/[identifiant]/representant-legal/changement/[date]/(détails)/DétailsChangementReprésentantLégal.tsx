@@ -11,7 +11,7 @@ import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
-import { DétailsInformationEnregistrée } from '@/components/organisms/demande/DétailsInformationEnregistrée';
+import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
@@ -38,7 +38,7 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
 
   return statut.statut === 'information-enregistrée' ? (
-    <DétailsInformationEnregistrée
+    <DétailsChangement
       title="Changement de représentant légal"
       détailsSpécifiques={
         <ReprésentantLégal
@@ -51,6 +51,7 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
         enregistréLe: demandéLe,
         pièceJustificative,
       }}
+      statut="information-enregistrée"
     />
   ) : (
     <div className="flex flex-col gap-4">

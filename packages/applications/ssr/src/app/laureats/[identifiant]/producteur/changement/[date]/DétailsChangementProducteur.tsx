@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { DétailsInformationEnregistrée } from '@/components/organisms/demande/DétailsInformationEnregistrée';
+import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 
 import { DétailsProducteurPageProps } from './DétailsChangementProducteur.page';
 
@@ -12,10 +12,11 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
   changement,
 }) => {
   return (
-    <DétailsInformationEnregistrée
+    <DétailsChangement
       title="Changement de producteur"
       changement={changement}
       détailsSpécifiques={<ProducteurChangé changement={changement} />}
+      statut="information-enregistrée"
     />
   );
 };

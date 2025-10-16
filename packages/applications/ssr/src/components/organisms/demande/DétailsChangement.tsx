@@ -8,11 +8,14 @@ import { PlainType } from '@potentiel-domain/core';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { StatutDemandeBadge } from '@/components/organisms/demande/StatutDemandeBadge';
+import {
+  StatutDemandeBadge,
+  StatutDemandeBadgeProps,
+} from '@/components/organisms/demande/StatutDemandeBadge';
 
 import { ReadMore } from '../../atoms/ReadMore';
 
-export type DétailsInformationEnregistréeProps = {
+export type DétailsChangementProps = {
   changement: PlainType<{
     enregistréPar: Email.ValueType;
     enregistréLe: DateTime.ValueType;
@@ -20,14 +23,18 @@ export type DétailsInformationEnregistréeProps = {
     pièceJustificative?: DocumentProjet.ValueType;
   }>;
   title: string;
+  statut: StatutDemandeBadgeProps['statut'];
   détailsSpécifiques: React.ReactNode;
 };
 
-export const DétailsInformationEnregistrée: FC<DétailsInformationEnregistréeProps> = ({
+export const DétailsChangement: FC<DétailsChangementProps> = ({
   changement,
   title,
+  statut,
   détailsSpécifiques,
 }) => {
+  const isInformationEnregistrée = statut === 'information-enregistrée';
+
   return (
     <div className="flex flex-col gap-4">
       <div>
@@ -35,10 +42,17 @@ export const DétailsInformationEnregistrée: FC<DétailsInformationEnregistrée
           <div>
             <Heading2>{title}</Heading2>
           </div>
-          <StatutDemandeBadge statut="information-enregistrée" />
+          <StatutDemandeBadge statut={statut} />
         </div>
-        <div className="text-xs italic">
-          Modifié le{' '}
+      </div>
+      <div className="flex flex-col">
+        <Heading5>
+          {isInformationEnregistrée
+            ? 'Détails du changement'
+            : 'Détails de la demande de changement'}
+        </Heading5>
+        <div className="mb-2 italic">
+          {isInformationEnregistrée ? 'Modifié' : 'Demandé'} le{' '}
           <FormattedDate
             className="font-medium"
             date={DateTime.bind(changement.enregistréLe).formatter()}
@@ -46,9 +60,6 @@ export const DétailsInformationEnregistrée: FC<DétailsInformationEnregistrée
           par{' '}
           <span className="font-medium">{Email.bind(changement.enregistréPar).formatter()}</span>
         </div>
-      </div>
-      <div className="flex flex-col">
-        <Heading5>Détails du changement</Heading5>
         <div className="flex flex-col">{détailsSpécifiques}</div>
         {changement.raison ? (
           <div className="flex gap-2">
