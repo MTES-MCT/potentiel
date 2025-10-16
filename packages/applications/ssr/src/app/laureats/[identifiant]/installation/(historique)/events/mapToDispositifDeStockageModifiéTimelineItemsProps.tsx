@@ -28,14 +28,14 @@ export const mapTodispositifDeStockagemodifiéTimelineItemsProps = (
             {installationAvecDispositifDeStockage ? 'avec' : 'sans'}
           </span>
           {puissanceDuDispositifDeStockageEnKW !== undefined ? (
-            <span>
-              Puissance du dispositif de stockage : ${puissanceDuDispositifDeStockageEnKW} kW
-            </span>
+            <div>
+              Puissance du dispositif de stockage : {puissanceDuDispositifDeStockageEnKW} kW
+            </div>
           ) : null}
           {capacitéDuDispositifDeStockageEnKWh !== undefined ? (
-            <span>
-              Capacité du dispositif de stockage : ${capacitéDuDispositifDeStockageEnKWh} kWh
-            </span>
+            <div>
+              Capacité du dispositif de stockage : {capacitéDuDispositifDeStockageEnKWh} kWh
+            </div>
           ) : null}
         </div>
       </div>
