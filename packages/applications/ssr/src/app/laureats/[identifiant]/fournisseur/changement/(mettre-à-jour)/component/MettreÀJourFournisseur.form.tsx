@@ -41,8 +41,6 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
     number | undefined
   >();
 
-  const raisonAndPJRequired = isInformationEnregistrée;
-
   return (
     <Form
       action={mettreÀJourFournisseurAction}
@@ -60,7 +58,14 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
         type="hidden"
         value={IdentifiantProjet.bind(identifiantProjet).formatter()}
       />
+
       <input name="technologie" type="hidden" value={technologie} />
+
+      <input
+        name="isInformationEnregistree"
+        type="hidden"
+        value={isInformationEnregistrée ? 'true' : 'false'}
+      />
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
@@ -107,22 +112,22 @@ export const MettreÀJourFournisseurForm: FC<MettreÀJourFournisseurFormProps> =
 
         <Input
           textArea
-          label={`Raison${raisonAndPJRequired ? '' : ' (optionnel)'}`}
+          label={`Raison${isInformationEnregistrée ? '' : ' (optionnel)'}`}
           id="raison"
           className="md:max-w-96"
           hintText="Veuillez détailler les raisons ayant conduit au changement de fournisseurs."
           nativeTextAreaProps={{
             name: 'raison',
-            required: raisonAndPJRequired,
-            'aria-required': raisonAndPJRequired,
+            required: isInformationEnregistrée,
+            'aria-required': isInformationEnregistrée,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label={`Pièce(s) justificative(s)${raisonAndPJRequired ? '' : ' (optionnel)'}`}
+          label={`Pièce(s) justificative(s)${isInformationEnregistrée ? '' : ' (optionnel)'}`}
           name="piecesJustificatives"
-          required={raisonAndPJRequired}
+          required={isInformationEnregistrée}
           multiple
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

@@ -16,6 +16,7 @@ const commonSchema = {
   identifiantProjet: zod.string().min(1),
   evaluationCarboneSimplifiee: zod.coerce.number().positive(),
   raison: zod.string().optional(),
+  isInformationEnregistree: zod.stringbool(),
   piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
     optional: true,
@@ -55,7 +56,14 @@ export type MettreÀJourFournisseurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, fournisseurs, evaluationCarboneSimplifiee, piecesJustificatives, raison },
+  {
+    identifiantProjet,
+    fournisseurs,
+    evaluationCarboneSimplifiee,
+    piecesJustificatives,
+    raison,
+    isInformationEnregistree,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
     const date = new Date().toISOString();
@@ -126,7 +134,9 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Fournisseur.changement.détails(identifiantProjet, date),
+        url: isInformationEnregistree
+          ? Routes.Fournisseur.changement.détails(identifiantProjet, date)
+          : Routes.Projet.details(identifiantProjet),
         message: 'Le changement de fournisseur a bien été pris en compte',
       },
     };
