@@ -1,20 +1,8 @@
-export const defaultStatutValueForPériodeList = 'a-notifier';
+import { withFilters } from '../_helpers/withFilters';
 
 type ListerFilters = {
   appelOffre?: string;
-  statut?: 'notifiee' | typeof defaultStatutValueForPériodeList;
+  statut?: 'notifiee' | 'a-notifier';
 };
 
-export const lister = (filters: ListerFilters) => {
-  const searchParams = new URLSearchParams();
-
-  if (filters?.appelOffre) {
-    searchParams.set('appelOffre', filters.appelOffre);
-  }
-
-  if (filters?.statut) {
-    searchParams.set('statut', filters.statut);
-  }
-
-  return `/periodes${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
-};
+export const lister = withFilters<ListerFilters>(`/periodes`);

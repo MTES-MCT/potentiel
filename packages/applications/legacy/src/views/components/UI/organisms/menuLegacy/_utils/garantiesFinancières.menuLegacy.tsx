@@ -5,10 +5,12 @@ import { DropdownMenu } from '../../../molecules';
 
 export const MenuLegacyGarantiesFinancières = () => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
-    <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.dépôt.lister}>
+    <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.dépôt.lister()}>
       Garanties financières à traiter
     </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.enAttente.lister}>
+    <DropdownMenu.DropdownItem
+      href={Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' })}
+    >
       Projets avec garanties financières en attente
     </DropdownMenu.DropdownItem>
     <DropdownMenu.DropdownItem

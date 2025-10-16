@@ -62,7 +62,7 @@ export const AdminMenuLegacy = (
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={Routes.Période.lister({
-          statut: Routes.Période.defaultStatutValueForPériodeList,
+          statut: 'a-notifier',
         })}
       >
         Candidats à notifier

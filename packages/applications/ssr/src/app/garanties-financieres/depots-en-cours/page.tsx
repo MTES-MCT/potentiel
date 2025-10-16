@@ -83,7 +83,7 @@ export default async function Page({ searchParams }: PageProps) {
         const newSearchParams = new URLSearchParams(searchParams);
         newSearchParams.delete('appelOffre');
         redirect(
-          `${Routes.GarantiesFinancières.dépôt.lister}?${newSearchParams}`,
+          `${Routes.GarantiesFinancières.dépôt.lister()}?${newSearchParams}`,
           RedirectType.replace,
         );
       }

@@ -113,13 +113,13 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Garanties financières à traiter',
       linkProps: {
-        href: Routes.GarantiesFinancières.dépôt.lister,
+        href: Routes.GarantiesFinancières.dépôt.lister(),
       },
     },
     {
       text: 'Projets avec garanties financières en attente',
       linkProps: {
-        href: Routes.GarantiesFinancières.enAttente.lister,
+        href: Routes.GarantiesFinancières.enAttente.lister({ statut: 'actif' }),
       },
     },
     {
@@ -158,7 +158,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
             text: 'Candidats à notifier',
             linkProps: {
               href: Routes.Période.lister({
-                statut: Routes.Période.defaultStatutValueForPériodeList,
+                statut: 'a-notifier',
               }),
             },
           },
