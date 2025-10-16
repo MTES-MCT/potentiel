@@ -64,7 +64,6 @@ type ChangementAvecAutoritéCompétente =
 
 type ChangementActionnaire = Changement & {
   informationEnregistréeEstSoumiseÀConditions?: true;
-  modificationAdmin?: false;
 };
 
 type RatiosChangementPuissance =
@@ -96,13 +95,9 @@ type ChangementReprésentantLégal =
       instructionAutomatique: 'accord' | 'rejet';
     };
 
-type ChangementFournisseur = Changement & {
-  modificationAdmin?: false;
-};
-
 export type RèglesDemandesChangement = {
   actionnaire: ChangementActionnaire;
-  fournisseur: ChangementFournisseur;
+  fournisseur: Changement;
   délai: ChangementAvecAutoritéCompétente;
   producteur: Changement;
   puissance: ChangementPuissance;

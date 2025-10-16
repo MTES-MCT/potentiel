@@ -278,6 +278,7 @@ v1Router.get(
             rôle: user.role,
             changementProducteurPossibleAvantAchèvement:
               cahierDesCharges.appelOffre.changementProducteurPossibleAvantAchèvement,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('producteur'),
           }),
           emailContact: lauréat.emailContact.formatter(),
           estAchevé: !!attestationConformité,

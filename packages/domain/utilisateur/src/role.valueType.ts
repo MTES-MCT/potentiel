@@ -1429,6 +1429,8 @@ type Leaves<O extends Record<string, unknown>> = {
 
 export type Policy = Leaves<typeof policies>;
 
+export type PolicyDomains = keyof typeof policies;
+
 const commonPolicies: ReadonlyArray<Policy> = [
   'historique.lister',
 
