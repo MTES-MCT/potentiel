@@ -42,7 +42,6 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         accordéParValue: utilisateur.identifiantUtilisateur.formatter(),
         accordéLeValue: DateTime.now().formatter(),
-        rôleUtilisateurValue: utilisateur.role.nom,
         ...(estUneDecisionDEtat === 'true'
           ? {
               estUneDécisionDEtatValue: true,

@@ -70,11 +70,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           historique={historique.items.map((item) =>
             mapToPuissanceTimelineItemProps(item, puissance.unitéPuissance.formatter()),
           )}
-          actions={mapToActions(
-            changement.demande.statut,
-            utilisateur.role,
-            changement.demande.autoritéCompétente?.autoritéCompétente,
-          )}
+          actions={mapToActions(changement.demande.statut, utilisateur.role)}
           demandeEnCoursDate={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
           }
@@ -87,20 +83,14 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   statut: Lauréat.Puissance.StatutChangementPuissance.ValueType,
   rôle: Role.ValueType,
-  autoritéCompétente?: Lauréat.Puissance.AutoritéCompétente.RawType,
 ): Array<ChangementPuissanceActions> => {
   const actions: Array<ChangementPuissanceActions> = [];
 
   if (statut.estDemandé()) {
-    const estAutoritéCompétente =
-      (autoritéCompétente === 'dreal' && rôle.nom === 'dreal') ||
-      rôle.nom === 'dgec-validateur' ||
-      rôle.nom === 'admin';
-
-    if (rôle.aLaPermission('puissance.accorderChangement') && estAutoritéCompétente) {
+    if (rôle.aLaPermission('puissance.accorderChangement')) {
       actions.push('accorder');
     }
-    if (rôle.aLaPermission('puissance.rejeterChangement') && estAutoritéCompétente) {
+    if (rôle.aLaPermission('puissance.rejeterChangement')) {
       actions.push('rejeter');
     }
     if (rôle.aLaPermission('puissance.annulerChangement')) {

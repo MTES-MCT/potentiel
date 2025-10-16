@@ -5,12 +5,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import {
-  AutoritéCompétente,
-  ChangementPuissanceEntity,
-  StatutChangementPuissance,
-  TypeDocumentPuissance,
-} from '../..';
+import { ChangementPuissanceEntity, StatutChangementPuissance, TypeDocumentPuissance } from '../..';
 import { IdentifiantProjet } from '../../../..';
 
 export type ConsulterChangementPuissanceReadModel = {
@@ -21,7 +16,6 @@ export type ConsulterChangementPuissanceReadModel = {
     demandéeLe: DateTime.ValueType;
     nouvellePuissance: number;
     statut: StatutChangementPuissance.ValueType;
-    autoritéCompétente?: AutoritéCompétente.ValueType;
     raison?: string;
     pièceJustificative?: DocumentProjet.ValueType;
     accord?: {
@@ -83,9 +77,6 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
       nouvellePuissance: result.demande.nouvellePuissance,
       statut,
       raison: result.demande.raison,
-      autoritéCompétente: result.demande.autoritéCompétente
-        ? AutoritéCompétente.convertirEnValueType(result.demande.autoritéCompétente)
-        : undefined,
       pièceJustificative: result.demande.pièceJustificative
         ? DocumentProjet.convertirEnValueType(
             result.identifiantProjet,

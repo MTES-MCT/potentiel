@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentPuissance } from '../..';
 import { IdentifiantProjet } from '../../../..';
@@ -19,7 +18,6 @@ export type RejeterChangementPuissanceUseCase = Message<
       content: ReadableStream;
       format: string;
     };
-    rôleUtilisateurValue: string;
     estUneDécisionDEtatValue: boolean;
   }
 >;
@@ -30,7 +28,6 @@ export const registerRejeterChangementPuissanceUseCase = () => {
     rejetéLeValue,
     rejetéParValue,
     réponseSignéeValue: { format, content },
-    rôleUtilisateurValue,
     estUneDécisionDEtatValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -42,7 +39,6 @@ export const registerRejeterChangementPuissanceUseCase = () => {
       rejetéLe.formatter(),
       format,
     );
-    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<RejeterChangementPuissanceCommand>({
       type: 'Lauréat.Puissance.Command.RejeterDemandeChangement',
@@ -51,7 +47,6 @@ export const registerRejeterChangementPuissanceUseCase = () => {
         rejetéPar,
         identifiantProjet,
         réponseSignée,
-        rôleUtilisateur,
         estUneDécisionDEtat: estUneDécisionDEtatValue,
       },
     });

@@ -27,7 +27,7 @@ EtantDonné(
     const exemple = dataTable.rowsHash();
     try {
       await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
-      await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+      await accorderChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -39,7 +39,7 @@ EtantDonné(
     const exemple = dataTable.rowsHash();
     try {
       await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
-      await rejeterChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+      await rejeterChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
     }

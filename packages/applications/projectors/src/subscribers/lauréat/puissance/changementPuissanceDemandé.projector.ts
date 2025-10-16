@@ -7,7 +7,6 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const changementPuissanceDemandéProjector = async ({
   payload: {
     puissance,
-    autoritéCompétente,
     identifiantProjet,
     demandéLe,
     demandéPar,
@@ -35,7 +34,6 @@ export const changementPuissanceDemandéProjector = async ({
       identifiantProjet,
       demande: {
         statut: Lauréat.Puissance.StatutChangementPuissance.demandé.statut,
-        autoritéCompétente,
         nouvellePuissance: puissance,
         demandéePar: demandéPar,
         demandéeLe: demandéLe,

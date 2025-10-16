@@ -31,7 +31,6 @@ import { RejeterChangementPuissanceOptions } from './changement/rejeter/rejeterC
 import { PuissanceEvent } from './puissance.event';
 import {
   DemandeDeChangementInexistanteError,
-  DemandeDoitÊtreInstruiteParDGECError,
   RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError,
 } from './changement/errors';
 
@@ -159,14 +158,12 @@ export class PuissanceAggregate extends AbstractAggregate<
       );
     }
 
-    const ratio = nouvellePuissance / this.lauréat.projet.candidature.puissanceProductionAnnuelle;
-
     const event: ChangementPuissanceDemandéEvent = {
       type: 'ChangementPuissanceDemandé-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         puissance: nouvellePuissance,
-        autoritéCompétente: AutoritéCompétente.déterminer(ratio).autoritéCompétente,
+        autoritéCompétente: AutoritéCompétente.déterminer().autoritéCompétente,
         pièceJustificative: {
           format: pièceJustificative.format,
         },
@@ -205,7 +202,6 @@ export class PuissanceAggregate extends AbstractAggregate<
     accordéLe,
     accordéPar,
     réponseSignée,
-    rôleUtilisateur,
     estUneDécisionDEtat,
   }: AccorderChangementPuissanceOptions) {
     if (!this.#demande) {
@@ -215,10 +211,6 @@ export class PuissanceAggregate extends AbstractAggregate<
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutChangementPuissance.accordé,
     );
-
-    if (this.#demande.autoritéCompétente === 'dgec-admin' && rôleUtilisateur.nom === 'dreal') {
-      throw new DemandeDoitÊtreInstruiteParDGECError();
-    }
 
     if (!estUneDécisionDEtat && !réponseSignée) {
       throw new RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError();
@@ -245,7 +237,6 @@ export class PuissanceAggregate extends AbstractAggregate<
     rejetéLe,
     rejetéPar,
     réponseSignée,
-    rôleUtilisateur,
     estUneDécisionDEtat,
   }: RejeterChangementPuissanceOptions) {
     if (!this.#demande) {
@@ -255,10 +246,6 @@ export class PuissanceAggregate extends AbstractAggregate<
     this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutChangementPuissance.rejeté,
     );
-
-    if (this.#demande.autoritéCompétente === 'dgec-admin' && !rôleUtilisateur.estDGEC()) {
-      throw new DemandeDoitÊtreInstruiteParDGECError();
-    }
 
     const event: ChangementPuissanceRejetéEvent = {
       type: 'ChangementPuissanceRejeté-V1',

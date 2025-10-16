@@ -25,10 +25,6 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                       |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
-        Et un email a été envoyé à la dgec avec :
-            | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
 
     Scénario: Demander le changement de puissance d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :

@@ -5,7 +5,6 @@ import { withFilters } from '../_helpers/withFilters';
 
 type ListerFilters = {
   statut?: Array<Lauréat.Puissance.StatutChangementPuissance.RawType>;
-  autoriteCompetente?: Lauréat.Puissance.AutoritéCompétente.RawType;
 };
 
 export const modifier = (identifiantProjet: string) =>

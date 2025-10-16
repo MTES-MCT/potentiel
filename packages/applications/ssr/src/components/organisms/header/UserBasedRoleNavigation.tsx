@@ -74,11 +74,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       linkProps: {
         href: Routes.Puissance.changement.lister({
           statut: ['demandé'],
-          autoriteCompetente: utilisateur.role.estDGEC()
-            ? 'dgec-admin'
-            : utilisateur.role.estDreal()
-              ? 'dreal'
-              : undefined,
         }),
       },
     },
