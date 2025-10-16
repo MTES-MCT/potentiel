@@ -1,5 +1,3 @@
-import React from 'react';
-import routes from '../../../../../routes';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuLegacyGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
@@ -35,7 +33,6 @@ export const AdminMenuLegacy = (
       <DropdownMenu.DropdownItem
         href={Routes.Puissance.changement.lister({
           statut: ['demandé'],
-          autoriteCompetente: 'dgec-admin',
         })}
       >
         Puissance

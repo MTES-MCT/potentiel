@@ -1,5 +1,3 @@
-import React from 'react';
-import routes from '../../../../../routes';
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
@@ -36,7 +34,6 @@ export const DrealMenuLegacy = (
       <DropdownMenu.DropdownItem
         href={Routes.Puissance.changement.lister({
           statut: ['demandé'],
-          autoriteCompetente: 'dreal',
         })}
       >
         Puissance
