@@ -6,8 +6,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
 
 type GetActionnaireAffichageForProjectPage = {
   label: string;
@@ -40,11 +40,6 @@ export const getActionnaire = async ({
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      rôle,
-    );
-
     if (Option.isSome(actionnaire)) {
       const { actionnaire: nom, dateDemandeEnCours } = actionnaire;
 
@@ -64,25 +59,14 @@ export const getActionnaire = async ({
         };
       }
 
-      const peutModifier =
-        role.aLaPermission('actionnaire.modifier') &&
-        règlesChangementPourAppelOffres.modificationAdmin !== false;
-
-      const peutFaireUneDemandeDeChangement =
-        demandeNécessiteInstruction &&
-        role.aLaPermission('actionnaire.demanderChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé &&
-        règlesChangementPourAppelOffres.demande;
-
-      const peutEnregistrerChangement =
-        !demandeNécessiteInstruction &&
-        role.aLaPermission('actionnaire.enregistrerChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé &&
-        règlesChangementPourAppelOffres.informationEnregistrée;
+      const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
+        await checkAutorisationChangement<'actionnaire'>({
+          rôle: Role.convertirEnValueType(rôle),
+          identifiantProjet,
+          règlesChangementPourAppelOffres,
+          conditionsÀRemplirSpécifiquesAuDomain: demandeNécessiteInstruction,
+          domain: 'actionnaire',
+        });
 
       if (peutModifier) {
         return {

@@ -5,9 +5,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
 
 export type GetFournisseurForProjectPage = Pick<
   Lauréat.Fournisseur.ConsulterFournisseurReadModel,
@@ -39,24 +39,16 @@ export const getFournisseur = async ({
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      rôle,
-    );
-
     if (Option.isSome(fournisseur)) {
       const { fournisseurs, évaluationCarboneSimplifiée } = fournisseur;
 
-      const peutModifier =
-        role.aLaPermission('fournisseur.modifier') &&
-        règlesChangementPourAppelOffres.modificationAdmin !== false;
-        
-      const peutEnregistrerUnChangement =
-        role.aLaPermission('fournisseur.enregistrerChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé &&
-        règlesChangementPourAppelOffres.informationEnregistrée;
+      const { peutModifier, peutEnregistrerChangement } =
+        await checkAutorisationChangement<'fournisseur'>({
+          rôle: Role.convertirEnValueType(rôle),
+          identifiantProjet,
+          règlesChangementPourAppelOffres,
+          domain: 'fournisseur',
+        });
 
       return {
         fournisseurs,
@@ -67,7 +59,7 @@ export const getFournisseur = async ({
               label: 'Modifier',
               labelActions: 'Modifier le fournisseur',
             }
-          : peutEnregistrerUnChangement
+          : peutEnregistrerChangement
             ? {
                 url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
                 label: 'Changer de fournisseur',

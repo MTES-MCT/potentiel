@@ -7,6 +7,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { mediator } from 'mediateur';
+import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type GetProducteurForProjectPage = {
   producteur: string;
@@ -21,12 +23,14 @@ type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
   changementProducteurPossibleAvantAchèvement: boolean;
+  règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['producteur'];
 };
 
 export const getProducteur = async ({
   identifiantProjet,
   rôle,
   changementProducteurPossibleAvantAchèvement,
+  règlesChangementPourAppelOffres,
 }: Props): Promise<GetProducteurForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -44,7 +48,16 @@ export const getProducteur = async ({
     if (Option.isSome(producteurProjection)) {
       const { producteur } = producteurProjection;
 
-      if (role.aLaPermission('producteur.modifier')) {
+      const { peutModifier, peutEnregistrerChangement } =
+        await checkAutorisationChangement<'producteur'>({
+          rôle: Role.convertirEnValueType(rôle),
+          identifiantProjet,
+          règlesChangementPourAppelOffres,
+          conditionsÀRemplirSpécifiquesAuDomain: changementProducteurPossibleAvantAchèvement,
+          domain: 'producteur',
+        });
+
+      if (peutModifier) {
         return {
           producteur,
           affichage: {
@@ -55,13 +68,7 @@ export const getProducteur = async ({
         };
       }
 
-      if (
-        role.aLaPermission('producteur.enregistrerChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé &&
-        changementProducteurPossibleAvantAchèvement
-      ) {
+      if (peutEnregistrerChangement) {
         return {
           producteur: producteur,
           affichage: {
