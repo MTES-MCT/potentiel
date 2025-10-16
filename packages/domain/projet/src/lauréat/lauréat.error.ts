@@ -1,11 +1,5 @@
 import { AggregateNotFoundError, InvalidOperationError } from '@potentiel-domain/core';
 
-export class AgrégatLauréatNonInitialiséError extends InvalidOperationError {
-  constructor() {
-    super(`L'agrégat Lauréat n'a pas été initialisé`);
-  }
-}
-
 export class LauréatNonTrouvéError extends AggregateNotFoundError {
   constructor() {
     super(`Le projet lauréat n'existe pas`);

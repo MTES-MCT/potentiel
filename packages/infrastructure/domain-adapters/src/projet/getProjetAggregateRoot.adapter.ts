@@ -5,7 +5,7 @@ import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAgg
 
 export const getProjetAggregateRootAdapter: GetProjetAggregateRoot = async (
   identifiant,
-  skipInitialization,
+  skipChildrenInitialization,
 ) => {
   const projet = await ProjetAggregateRoot.get(
     identifiant,
@@ -13,7 +13,7 @@ export const getProjetAggregateRootAdapter: GetProjetAggregateRoot = async (
       loadAggregate,
       loadAppelOffreAggregate: loadAppelOffreAggregateAdapter,
     },
-    skipInitialization,
+    skipChildrenInitialization,
   );
   return projet;
 };

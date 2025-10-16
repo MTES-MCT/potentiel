@@ -10,7 +10,6 @@ import { NotifierÉliminéOptions } from './notifier/notifierÉliminé.option';
 import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options';
 import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
 import { RecoursAggregate } from './recours/recours.aggregate';
-import { AgrégatÉliminéNonInitialiséError } from './éliminé.error';
 
 export class ÉliminéAggregate extends AbstractAggregate<
   ÉliminéEvent,
@@ -23,7 +22,6 @@ export class ÉliminéAggregate extends AbstractAggregate<
 
   #recours!: AggregateType<RecoursAggregate>;
   get recours() {
-    this.checkInitialized();
     return this.#recours;
   }
 
@@ -37,19 +35,11 @@ export class ÉliminéAggregate extends AbstractAggregate<
     return this.#estArchivé;
   }
 
-  #isInitialized: boolean = false;
-  private checkInitialized() {
-    if (!this.#isInitialized) {
-      throw new AgrégatÉliminéNonInitialiséError();
-    }
-  }
-
   async init() {
     this.#recours = await this.loadAggregate(
       RecoursAggregate,
       `recours|${this.projet.identifiantProjet.formatter()}`,
     );
-    this.#isInitialized = true;
   }
 
   async archiver({ dateArchive, identifiantUtilisateur }: ArchiverÉliminéOptions) {
