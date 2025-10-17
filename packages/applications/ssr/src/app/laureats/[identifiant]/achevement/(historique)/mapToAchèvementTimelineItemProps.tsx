@@ -1,8 +1,10 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import {
   mapToAttestationConformitéModifiéeTimelineItemProps,
@@ -10,11 +12,12 @@ import {
   mapToDateAchèvementPrévisionnelCalculéeProps,
 } from './events';
 
-export const mapToAchèvementTimelineItemProps = (
+type MapToAchèvementTimelineItemProps = (
   readmodel: Lauréat.HistoriqueAchèvementProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToAchèvementTimelineItemProps: MapToAchèvementTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps | undefined>()
     .with(
       {
         type: 'AttestationConformitéModifiée-V1',
@@ -30,7 +33,19 @@ export const mapToAchèvementTimelineItemProps = (
     .with(
       {
         type: 'DateAchèvementPrévisionnelCalculée-V1',
+        payload: {
+          raison: P.union('ajout-délai-cdc-30_08_2022', 'retrait-délai-cdc-30_08_2022', 'covid'),
+        },
       },
       mapToDateAchèvementPrévisionnelCalculéeProps,
+    )
+    .with(
+      {
+        type: 'DateAchèvementPrévisionnelCalculée-V1',
+        payload: {
+          raison: P.union('inconnue', 'délai-accordé', 'notification'),
+        },
+      },
+      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
     )
     .exhaustive();

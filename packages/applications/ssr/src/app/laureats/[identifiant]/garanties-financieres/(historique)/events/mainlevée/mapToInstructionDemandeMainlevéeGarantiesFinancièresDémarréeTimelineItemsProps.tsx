@@ -1,17 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToInstructionDemandeMainlevéeGarantiesFinancièresDémarréeTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
-) => {
-  const { démarréLe, démarréPar } = modification.payload;
+  event: Lauréat.GarantiesFinancières.InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent,
+): TimelineItemProps => {
+  const { démarréLe, démarréPar } = event.payload;
 
   return {
     date: démarréLe,
-    title: (
-      <div>
-        L'instruction de la demande de mainlevée des garanties financières a été démarée par{' '}
-        <span className="font-semibold">{démarréPar}</span>{' '}
-      </div>
-    ),
+    title: " L'instruction de la demande de mainlevée des garanties financières a été démarée",
+    acteur: démarréPar,
   };
 };

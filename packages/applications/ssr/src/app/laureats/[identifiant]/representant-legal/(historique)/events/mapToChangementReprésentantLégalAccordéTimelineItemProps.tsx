@@ -1,19 +1,19 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToChangementReprésentantLégalAccordéTimelineItemProps = (
-  changementAccordé: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent,
-) => {
-  const { accordéLe, accordéPar, nomReprésentantLégal, typeReprésentantLégal } =
-    changementAccordé.payload;
+  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAccordéEvent,
+): TimelineItemProps => {
+  const { accordéLe, accordéPar, nomReprésentantLégal, typeReprésentantLégal, accordAutomatique } =
+    event.payload;
 
   return {
     date: accordéLe,
-    title: (
-      <div>
-        Demande de changement de représentant légal accordée par{' '}
-        {<span className="font-semibold">{accordéPar}</span>}
-      </div>
-    ),
+    title: accordAutomatique
+      ? `Demande de changement de représentant légal accordée par le préfet de la région du projet`
+      : `Demande de changement de représentant légal accordée`,
+    acteur: accordAutomatique ? undefined : accordéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

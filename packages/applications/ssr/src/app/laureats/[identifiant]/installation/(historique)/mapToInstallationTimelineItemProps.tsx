@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
   mapToInstallationImportéeTimelineItemProps,
@@ -10,11 +10,12 @@ import {
 } from './events';
 import { mapToTypologieInstallationModifiéeTimelineItemsProps } from './events/mapToTypologieInstallationModifiéeTimelineItemsProps';
 
-export const mapToInstallationTimelineItemProps = (
+type MapToInstallationTimelineItemProps = (
   readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToInstallationTimelineItemProps: MapToInstallationTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with({ type: 'InstallationImportée-V1' }, (readmodel) =>
       mapToInstallationImportéeTimelineItemProps(readmodel),
     )

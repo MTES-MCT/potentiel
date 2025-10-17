@@ -3,15 +3,17 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
-  preuveRecandidatureTransmise: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent,
-) => {
-  const { preuveRecandidature, transmiseLe, transmisePar } = preuveRecandidatureTransmise.payload;
+  event: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent,
+): TimelineItemProps => {
+  const { preuveRecandidature, transmiseLe, transmisePar } = event.payload;
 
   return {
     date: transmiseLe,
     title: (
-      <div>
+      <>
         Le{' '}
         <Link
           href={Routes.Projet.details(preuveRecandidature)}
@@ -19,8 +21,9 @@ export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
         >
           projet faisant preuve de recandidature
         </Link>{' '}
-        a été transmis par {<span className="font-semibold">{transmisePar}</span>}
-      </div>
+        a été transmis
+      </>
     ),
+    acteur: transmisePar,
   };
 };

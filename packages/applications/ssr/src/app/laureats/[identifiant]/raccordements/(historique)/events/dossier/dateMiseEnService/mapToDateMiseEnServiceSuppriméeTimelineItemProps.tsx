@@ -1,17 +1,19 @@
 import { Lauréat } from '@potentiel-domain/projet';
+
+import { TimelineItemProps } from '@/components/organisms/timeline';
 export const mapToDossierRacordementSuppriméTimelineItemProps = (
-  modification: Lauréat.Raccordement.DateMiseEnServiceSuppriméeEvent,
-) => {
-  const { suppriméeLe, suppriméePar, référenceDossierRaccordement } = modification.payload;
+  event: Lauréat.Raccordement.DateMiseEnServiceSuppriméeEvent,
+): TimelineItemProps => {
+  const { suppriméeLe, suppriméePar, référenceDossierRaccordement } = event.payload;
 
   return {
     date: suppriméeLe,
     title: (
-      <div>
+      <>
         La date de mise en service du dossier de raccordement ayant comme référence
-        <span className="font-semibold">{référenceDossierRaccordement}</span>a été supprimée par{' '}
-        <span className="font-semiboold">{suppriméePar}</span>.
-      </div>
+        <span className="font-semibold">{référenceDossierRaccordement}</span>a été supprimée
+      </>
     ),
+    acteur: suppriméePar,
   };
 };

@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 import { IconProps } from '@/components/atoms/Icon';
 import { mapToRecoursTimelineItemProps } from '@/app/elimine/[identifiant]/recours/(historique)/mapToRecoursTimelineItemProps';
 import { mapToÉliminéTimelineItemProps } from '@/app/elimine/[identifiant]/(historique)/mapToÉliminéTimelineItemProps';
@@ -23,7 +23,7 @@ import { mapToReprésentantLégalTimelineItemProps } from '../representant-legal
 import { mapToLauréatTimelineItemProps } from '../(historique)/mapToLauréatTimelineItemProps';
 import { mapToGarantiesFinancièresTimelineItemProps } from '../garanties-financieres/(historique)/mapToGarantiesFinancièresTimelineItemProps';
 import { mapToProducteurTimelineItemProps } from '../producteur/(historique)/mapToProducteurTimelineItemProps';
-import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)';
+import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)/mapToPuissanceTimelineItemProps';
 import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';

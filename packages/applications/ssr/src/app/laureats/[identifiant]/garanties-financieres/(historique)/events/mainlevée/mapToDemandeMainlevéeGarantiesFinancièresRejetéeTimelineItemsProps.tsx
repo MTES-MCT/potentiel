@@ -1,17 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToDemandeMainlevéeGarantiesFinancièresRejetéeTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
-) => {
-  const { rejetéLe, rejetéPar } = modification.payload;
+  event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresRejetéeEvent,
+): TimelineItemProps => {
+  const { rejetéLe, rejetéPar } = event.payload;
 
   return {
     date: rejetéLe,
-    title: (
-      <div>
-        La demande de mainlevée des garanties financières a été rejetée par{' '}
-        <span className="font-semibold">{rejetéPar}</span>{' '}
-      </div>
-    ),
+    title: 'La demande de mainlevée des garanties financières a été rejetée',
+    acteur: rejetéPar,
   };
 };

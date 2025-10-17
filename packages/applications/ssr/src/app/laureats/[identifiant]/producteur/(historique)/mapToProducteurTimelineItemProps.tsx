@@ -2,17 +2,18 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import { mapToChangementProducteurEnregistréTimelineItemProps } from './events/mapToChangementProducteurEnregistréTimelineItemProps';
 import { mapToProducteurModifiéTimelineItemsProps } from './events/mapToProducteurModifiéTimelineItemsProps';
 import { mapToProducteurImportéTimelineItemProps } from './events/mapToProducteurImportéTimelineItemProps';
 
-export const mapToProducteurTimelineItemProps = (
+type MapToProducteurTimelineItemProps = (
   readmodel: Lauréat.Producteur.HistoriqueProducteurProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToProducteurTimelineItemProps: MapToProducteurTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with({ type: 'ProducteurImporté-V1' }, (readmodel) =>
       mapToProducteurImportéTimelineItemProps(readmodel),
     )

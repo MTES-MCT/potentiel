@@ -1,17 +1,16 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToLauréatCahierDesChargesChoisiTimelineItemProps = (
-  modification: Lauréat.CahierDesChargesChoisiEvent,
-) => {
-  const { cahierDesCharges, modifiéLe, modifiéPar } = modification.payload;
+  event: Lauréat.CahierDesChargesChoisiEvent,
+): TimelineItemProps => {
+  const { cahierDesCharges, modifiéLe, modifiéPar } = event.payload;
 
   return {
     date: modifiéLe,
-    title: (
-      <div>
-        Cahier des charges modifié par {<span className="font-semibold">{modifiéPar}</span>}
-      </div>
-    ),
+    title: 'Cahier des charges modifié',
+    acteur: modifiéPar,
     content: (
       <div>
         Nouveau cahier des charges choisi :{' '}

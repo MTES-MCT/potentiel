@@ -3,20 +3,21 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToLauréatNotifiéTimelineItemProps = (
-  modification: Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event,
+  event: Lauréat.LauréatNotifiéEvent | Lauréat.LauréatNotifiéV1Event,
   doitAfficherLienAttestationDésignation: boolean,
-) => {
+): TimelineItemProps => {
   const {
     identifiantProjet,
     notifiéLe,
     attestation: { format },
-  } = modification.payload;
+  } = event.payload;
 
   return {
     date: notifiéLe,
-    title: <div>Projet notifié lauréat</div>,
+    title: 'Projet notifié lauréat',
     content: doitAfficherLienAttestationDésignation ? (
       <DownloadDocument
         className="mb-0"

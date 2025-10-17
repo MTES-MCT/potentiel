@@ -3,17 +3,18 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementActionnaireAccordéTimelineItemProps = (
-  changementAccordé: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent,
-) => {
+  event: Lauréat.Actionnaire.ChangementActionnaireAccordéEvent,
+): TimelineItemProps => {
   const {
     accordéLe,
     accordéPar,
     identifiantProjet,
     réponseSignée: { format },
     nouvelActionnaire,
-  } = changementAccordé.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -24,12 +25,8 @@ export const mapToChangementActionnaireAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
-    title: (
-      <div>
-        Demande de changement d'actionnaire accordée par{' '}
-        {<span className="font-semibold">{accordéPar}</span>}
-      </div>
-    ),
+    title: "Demande de changement d'actionnaire accordée",
+    acteur: accordéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

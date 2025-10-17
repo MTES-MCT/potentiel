@@ -1,19 +1,17 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToSiteDeProductionModifiéTimelineItemProps = (
-  modification: Lauréat.SiteDeProductionModifiéEvent,
-) => {
-  const { localité, modifiéLe, modifiéPar, raison } = modification.payload;
+  event: Lauréat.SiteDeProductionModifiéEvent,
+): TimelineItemProps => {
+  const { localité, modifiéLe, modifiéPar, raison } = event.payload;
 
   return {
     date: modifiéLe,
-    title: (
-      <div>
-        Site de production modifié par {<span className="font-semibold">{modifiéPar}</span>}
-      </div>
-    ),
+    title: 'Site de production modifié',
+    acteur: modifiéPar,
     content: (
       <>
         {raison && (

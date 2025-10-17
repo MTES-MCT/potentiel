@@ -4,17 +4,17 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
-  record: Lauréat.Producteur.ChangementProducteurEnregistréEvent,
-) => {
+  event: Lauréat.Producteur.ChangementProducteurEnregistréEvent,
+): TimelineItemProps => {
   const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, producteur, raison } =
-    record.payload;
+    event.payload;
   return {
     date: enregistréLe,
-    title: (
-      <div>Producteur modifié par {<span className="font-semibold">{enregistréPar}</span>}</div>
-    ),
+    title: 'Producteur modifié',
+    acteur: enregistréPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

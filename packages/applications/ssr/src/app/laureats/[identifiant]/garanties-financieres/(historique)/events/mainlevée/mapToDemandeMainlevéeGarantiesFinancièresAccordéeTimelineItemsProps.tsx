@@ -3,16 +3,17 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
-) => {
+  event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAccordéeEvent,
+): TimelineItemProps => {
   const {
     accordéLe,
     accordéPar,
     identifiantProjet,
     réponseSignée: { format },
-  } = modification.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -23,12 +24,8 @@ export const mapToDemandeMainlevéeGarantiesFinancièresAccordéeTimelineItemsPr
 
   return {
     date: accordéLe,
-    title: (
-      <div>
-        La demande de mainlevée des garanties financières a été accordée par{' '}
-        <span className="font-semibold">{accordéPar}</span>{' '}
-      </div>
-    ),
+    title: 'La demande de mainlevée des garanties financières a été accordée',
+    acteur: accordéPar,
     content: (
       <DownloadDocument
         className="mb-0"

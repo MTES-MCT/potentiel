@@ -3,16 +3,17 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementActionnaireRejetéTimelineItemProps = (
-  changementRejeté: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent,
-) => {
+  event: Lauréat.Actionnaire.ChangementActionnaireRejetéEvent,
+): TimelineItemProps => {
   const {
     rejetéLe,
     rejetéPar,
     identifiantProjet,
     réponseSignée: { format },
-  } = changementRejeté.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -23,12 +24,8 @@ export const mapToChangementActionnaireRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
-    title: (
-      <div>
-        Demande de changement d'actionnaire rejetée par{' '}
-        {<span className="font-semibold">{rejetéPar}</span>}
-      </div>
-    ),
+    title: "Demande de changement d'actionnaire rejetée",
+    acteur: rejetéPar,
     content: (
       <DownloadDocument
         className="mb-0"

@@ -1,16 +1,15 @@
 import { Éliminé } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/projet';
+
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToRecoursAnnuléTimelineItemProps = (
-  recoursAnnulé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
-) => {
-  const { annuléLe, annuléPar } =
-    recoursAnnulé.payload as Éliminé.Recours.RecoursAnnuléEvent['payload'];
+  event: Éliminé.Recours.RecoursAnnuléEvent,
+): TimelineItemProps => {
+  const { annuléLe, annuléPar } = event.payload;
 
   return {
     date: annuléLe,
-    title: (
-      <div>Demande de recours annulée par {<span className="font-semibold">{annuléPar}</span>}</div>
-    ),
+    title: 'Demande de recours annulée',
+    acteur: annuléPar,
   };
 };

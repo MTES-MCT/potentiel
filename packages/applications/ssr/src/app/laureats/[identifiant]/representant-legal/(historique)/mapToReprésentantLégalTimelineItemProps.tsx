@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
   mapToReprésentantLégalImportéTimelineItemProps,
@@ -16,11 +16,14 @@ import {
 } from './events';
 import { mapToChangementReprésentantLégalSuppriméTimelineItemProps } from './events/mapToChangementReprésentantLégalSuppriméTimelineItemProps';
 
-export const mapToReprésentantLégalTimelineItemProps = (
+type MapToReprésentantLégalTimelineItemProps = (
   readmodel: Lauréat.ReprésentantLégal.HistoriqueReprésentantLégalProjetListItemReadModel,
+) => TimelineItemProps;
+
+export const mapToReprésentantLégalTimelineItemProps: MapToReprésentantLégalTimelineItemProps = (
+  readmodel,
 ) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'ReprésentantLégalImporté-V1',

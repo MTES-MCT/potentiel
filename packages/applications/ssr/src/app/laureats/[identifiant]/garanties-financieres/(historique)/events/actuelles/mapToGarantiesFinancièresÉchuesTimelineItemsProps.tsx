@@ -1,15 +1,16 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToGarantiesFinancièresÉchuesTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent,
-) => {
-  const { échuLe, dateÉchéance } = modification.payload;
+  event: Lauréat.GarantiesFinancières.GarantiesFinancièresÉchuesEvent,
+): TimelineItemProps => {
+  const { échuLe, dateÉchéance } = event.payload;
 
   return {
     date: échuLe,
-    title: <div>Les garanties financières sont arrivées à échéance</div>,
+    title: 'Les garanties financières sont arrivées à échéance',
     content: (
       <div className="flex flex-col gap-2">
         <div>

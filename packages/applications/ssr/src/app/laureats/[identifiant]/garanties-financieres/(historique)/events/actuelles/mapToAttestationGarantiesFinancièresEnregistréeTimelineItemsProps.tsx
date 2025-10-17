@@ -1,17 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToAttestationGarantiesFinancièresEnregistréeTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent,
-) => {
-  const { enregistréLe, enregistréPar } = modification.payload;
+  event: Lauréat.GarantiesFinancières.AttestationGarantiesFinancièresEnregistréeEvent,
+): TimelineItemProps => {
+  const { enregistréLe, enregistréPar } = event.payload;
 
   return {
     date: enregistréLe,
-    title: (
-      <div>
-        Attestion de garanties financières enregistrée par{' '}
-        {<span className="font-semibold">{enregistréPar}</span>}
-      </div>
-    ),
+    title: 'Attestation de garanties financières enregistrée',
+    acteur: enregistréPar,
   };
 };

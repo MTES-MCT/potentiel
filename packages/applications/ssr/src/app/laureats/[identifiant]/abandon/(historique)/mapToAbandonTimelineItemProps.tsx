@@ -2,7 +2,7 @@ import { match, P } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
   mapToAbandonAccordéTimelineItemProps,
@@ -16,11 +16,12 @@ import {
 } from './events';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapToAbandonPasséEnInstructionTimelineItemProps';
 
-export const mapToAbandonTimelineItemProps = (
+type MapToAbandonTimelineItemProps = (
   readmodel: Lauréat.Abandon.HistoriqueAbandonProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToAbandonTimelineItemProps: MapToAbandonTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with(
       {
         type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2'),

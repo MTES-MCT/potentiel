@@ -12,7 +12,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getPuissanceInfos } from '../../../_helpers/getLauréat';
-import { mapToPuissanceTimelineItemProps } from '../../(historique)';
+import { mapToPuissanceTimelineItemProps } from '../../(historique)/mapToPuissanceTimelineItemProps';
 
 import { ChangementPuissanceActions, DétailsPuissancePage } from './DétailsPuissance.page';
 

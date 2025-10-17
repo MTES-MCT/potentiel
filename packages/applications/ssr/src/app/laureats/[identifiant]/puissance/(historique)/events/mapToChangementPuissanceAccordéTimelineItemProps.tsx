@@ -3,11 +3,12 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementPuissanceAccordéTimelineItemProps = (
-  record: Lauréat.Puissance.ChangementPuissanceAccordéEvent,
+  event: Lauréat.Puissance.ChangementPuissanceAccordéEvent,
   unitéPuissance: string,
-) => {
+): TimelineItemProps => {
   const {
     accordéLe,
     accordéPar,
@@ -15,7 +16,7 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
     réponseSignée,
     nouvellePuissance,
     estUneDécisionDEtat,
-  } = record.payload;
+  } = event.payload;
 
   const réponseSignéeDocument = réponseSignée
     ? DocumentProjet.convertirEnValueType(
@@ -28,11 +29,8 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
-    title: (
-      <div>
-        Changement de puissance accordé par {<span className="font-semibold">{accordéPar}</span>}
-      </div>
-    ),
+    title: 'Changement de puissance accordé',
+    acteur: accordéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

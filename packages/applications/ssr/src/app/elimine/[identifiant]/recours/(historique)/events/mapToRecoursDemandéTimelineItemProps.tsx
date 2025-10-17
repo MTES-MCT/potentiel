@@ -1,19 +1,19 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToRecoursDemandéTimelineItemProps = (
-  recoursDemandé: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
-) => {
+  event: Éliminé.Recours.RecoursDemandéEvent,
+): TimelineItemProps => {
   const {
     demandéLe,
     demandéPar,
     identifiantProjet,
     pièceJustificative: { format },
-  } = recoursDemandé.payload as Éliminé.Recours.RecoursDemandéEvent['payload'];
+  } = event.payload;
 
   const pièceJustificative = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -24,11 +24,8 @@ export const mapToRecoursDemandéTimelineItemProps = (
 
   return {
     date: demandéLe,
-    title: (
-      <div>
-        Demande de recours déposée par {<span className="font-semibold">{demandéPar}</span>}
-      </div>
-    ),
+    title: 'Demande de recours déposée',
+    acteur: demandéPar,
     content: (
       <DownloadDocument
         className="mb-0"

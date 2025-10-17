@@ -1,16 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToAbandonConfirméTimelineItemProps = (
-  abandonConfirmé: Lauréat.Abandon.AbandonConfirméEvent,
-) => {
-  const { confirméLe, confirméPar } = abandonConfirmé.payload;
+  event: Lauréat.Abandon.AbandonConfirméEvent,
+): TimelineItemProps => {
+  const { confirméLe, confirméPar } = event.payload;
 
   return {
     date: confirméLe,
-    title: (
-      <div>
-        Demande d'abandon confirmée par {<span className="font-semibold">{confirméPar}</span>}
-      </div>
-    ),
+    title: "Demande d'abandon confirmée",
+    acteur: confirméPar,
   };
 };

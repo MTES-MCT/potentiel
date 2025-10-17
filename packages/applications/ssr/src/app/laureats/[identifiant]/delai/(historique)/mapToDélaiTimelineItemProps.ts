@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemProps } from '@/components/organisms/Timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 import {
   mapToDemandeDélaiAnnuléeTimelineItemProps,
@@ -15,11 +15,12 @@ import {
 } from './events';
 import { mapToDemandeDélaiSuppriméeTimelineItemProps } from './events/mapToDemandeDélaiSuppriméeTimelineItemProps';
 
-export const mapToDélaiTimelineItemProps = (
+type MapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToDélaiTimelineItemProps: MapToDélaiTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'DélaiDemandé-V1',

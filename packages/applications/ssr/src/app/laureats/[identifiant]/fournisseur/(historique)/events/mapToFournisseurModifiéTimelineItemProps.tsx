@@ -5,10 +5,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ListeFournisseurs } from '@/app/laureats/[identifiant]/fournisseur/changement/ListeFournisseurs';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToFournisseurModifiéTimelineItemProps = (
-  record: Lauréat.Fournisseur.FournisseurModifiéEvent,
-) => {
+  event: Lauréat.Fournisseur.FournisseurModifiéEvent,
+): TimelineItemProps => {
   const {
     identifiantProjet,
     pièceJustificative,
@@ -17,10 +18,11 @@ export const mapToFournisseurModifiéTimelineItemProps = (
     évaluationCarboneSimplifiée,
     fournisseurs,
     raison,
-  } = record.payload;
+  } = event.payload;
   return {
     date: modifiéLe,
-    title: <div>Fournisseur modifié par {<span className="font-semibold">{modifiéPar}</span>}</div>,
+    title: 'Fournisseur modifié',
+    acteur: modifiéPar,
     content: (
       <div className="flex flex-col gap-2">
         {évaluationCarboneSimplifiée !== undefined && (

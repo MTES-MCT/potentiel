@@ -1,17 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToChangementPuissanceAnnuléTimelineItemProps = (
-  record: Lauréat.Puissance.ChangementPuissanceAnnuléEvent,
-) => {
-  const { annuléLe, annuléPar } = record.payload;
+  event: Lauréat.Puissance.ChangementPuissanceAnnuléEvent,
+): TimelineItemProps => {
+  const { annuléLe, annuléPar } = event.payload;
 
   return {
     date: annuléLe,
-    title: (
-      <div>
-        Demande de changement de puissance annulée par{' '}
-        {<span className="font-semibold">{annuléPar}</span>}
-      </div>
-    ),
+    title: 'Demande de changement de puissance annulée',
+    acteur: annuléPar,
   };
 };

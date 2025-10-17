@@ -1,18 +1,16 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToÉvaluationCarboneModifiéeTimelineItemsProps = (
-  record: Lauréat.Fournisseur.ÉvaluationCarboneModifiéeEvent,
-) => {
-  const { modifiéeLe, modifiéePar, évaluationCarboneSimplifiée } = record.payload;
+  event: Lauréat.Fournisseur.ÉvaluationCarboneModifiéeEvent,
+): TimelineItemProps => {
+  const { modifiéeLe, modifiéePar, évaluationCarboneSimplifiée } = event.payload;
 
   return {
     date: modifiéeLe,
-    title: (
-      <div>
-        Évaluation carbone simplifiée modifiée par{' '}
-        {<span className="font-semibold">{modifiéePar}</span>}
-      </div>
-    ),
+    title: 'Évaluation carbone simplifiée modifiée',
+    acteur: modifiéePar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

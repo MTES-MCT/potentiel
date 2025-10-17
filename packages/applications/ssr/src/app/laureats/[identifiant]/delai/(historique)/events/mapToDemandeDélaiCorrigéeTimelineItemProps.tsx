@@ -4,10 +4,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ReadMore } from '@/components/atoms/ReadMore';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
-  record: Lauréat.Délai.DemandeDélaiCorrigéeEvent,
-) => {
+  event: Lauréat.Délai.DemandeDélaiCorrigéeEvent,
+): TimelineItemProps => {
   const {
     identifiantProjet,
     dateDemande,
@@ -16,15 +17,12 @@ export const mapToDemandeDélaiCorrigéeTimelineItemProps = (
     pièceJustificative,
     nombreDeMois,
     raison,
-  } = record.payload;
+  } = event.payload;
 
   return {
     date: corrigéeLe,
-    title: (
-      <div>
-        Demande de délai corrigée par {<span className="font-semibold">{corrigéePar}</span>}
-      </div>
-    ),
+    title: 'Demande de délai corrigée',
+    acteur: corrigéePar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

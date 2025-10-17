@@ -9,7 +9,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/ProjetLauréatBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
+import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { AccorderChangementActionnaire } from './accorder/AccorderChangementActionnaire.form';

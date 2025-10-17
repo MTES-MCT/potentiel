@@ -4,15 +4,12 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDateAchèvementPrévisionnelCalculéeProps = (
-  dateAchèvementPrévisionnelCalculée: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent,
-) => {
-  const { date, raison } = dateAchèvementPrévisionnelCalculée.payload;
-
-  if (['inconnue', 'notification', 'délai-accordé'].includes(raison)) {
-    return undefined;
-  }
+  event: Lauréat.Achèvement.DateAchèvementPrévisionnelCalculéeEvent,
+): TimelineItemProps => {
+  const { date, raison } = event.payload;
 
   return {
     date,
@@ -48,21 +45,21 @@ const getTitleFromRaison = (
 ) =>
   match(raison)
     .with('ajout-délai-cdc-30_08_2022', () => (
-      <div>
+      <>
         Attribution d'un délai supplémentaire prévu dans le{' '}
         <span className="font-semibold">cahier des charges rétroactif du 30/08/2022</span>
-      </div>
+      </>
     ))
     .with('retrait-délai-cdc-30_08_2022', () => (
-      <div>
+      <>
         Retrait d'un délai supplémentaire prévu dans le{' '}
         <span className="font-semibold">cahier des charges rétroactif du 30/08/2022</span>
-      </div>
+      </>
     ))
     .with('covid', () => (
-      <div>
+      <>
         Attribution d'un délai supplémentaire dû à la{' '}
         <span className="font-semibold">crise du COVID</span>
-      </div>
+      </>
     ))
     .otherwise(() => undefined);

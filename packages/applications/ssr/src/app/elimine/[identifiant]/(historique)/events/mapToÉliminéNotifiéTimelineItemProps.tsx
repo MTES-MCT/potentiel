@@ -3,8 +3,11 @@ import { Éliminé } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
-export const mapToÉliminéNotifiéTimelineItemProps = (modification: Éliminé.ÉliminéNotifiéEvent) => {
+export const mapToÉliminéNotifiéTimelineItemProps = (
+  modification: Éliminé.ÉliminéNotifiéEvent,
+): TimelineItemProps => {
   const {
     identifiantProjet,
     notifiéLe,
@@ -13,7 +16,7 @@ export const mapToÉliminéNotifiéTimelineItemProps = (modification: Éliminé.
 
   return {
     date: notifiéLe,
-    title: <div>Projet notifié éliminé</div>,
+    title: 'Projet notifié éliminé',
     content: (
       <DownloadDocument
         className="mb-0"

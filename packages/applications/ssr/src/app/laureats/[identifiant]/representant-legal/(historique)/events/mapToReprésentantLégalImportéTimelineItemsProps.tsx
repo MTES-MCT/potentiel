@@ -1,16 +1,16 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToReprésentantLégalImportéTimelineItemProps = (
-  modification: Lauréat.ReprésentantLégal.ReprésentantLégalImportéEvent,
-) => {
-  const { importéLe, nomReprésentantLégal } = modification.payload;
+  event: Lauréat.ReprésentantLégal.ReprésentantLégalImportéEvent,
+): TimelineItemProps => {
+  const { importéLe, nomReprésentantLégal } = event.payload;
 
   return {
     date: importéLe,
     title: (
-      <div>
-        Représentant légal : {<span className="font-semibold">{nomReprésentantLégal}</span>}
-      </div>
+      <>Représentant légal : {<span className="font-semibold">{nomReprésentantLégal}</span>}</>
     ),
   };
 };
