@@ -60,7 +60,7 @@ Fonctionnalité: Modifier un dépôt de garanties financières
             | type GF | consignation |
         Quand le porteur modifie le dépôt de garanties financières avec :
             | date de constitution | 2050-12-01 |
-        Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
+        Alors l'utilisateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible de modifier un dépôt de garanties financières si aucun dépôt de garanties financières n'est trouvé
         Quand le porteur modifie le dépôt de garanties financières avec :

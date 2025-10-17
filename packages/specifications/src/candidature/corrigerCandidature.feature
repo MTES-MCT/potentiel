@@ -280,7 +280,7 @@ Fonctionnalité: Corriger une candidature
             | type GF               | consignation    |
             | date de constitution  | 2050-01-01      |
             | format attestation GF | application/pdf |
-        Alors l'administrateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
+        Alors l'administrateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
 
 
 # garanties financières - fin

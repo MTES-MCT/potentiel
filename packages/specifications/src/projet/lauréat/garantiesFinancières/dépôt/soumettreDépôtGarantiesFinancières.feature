@@ -60,7 +60,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Impossible de soumettre un dépôt de garanties financières si la date de constitution est dans le futur
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | date de constitution | 2055-01-01 |
-        Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
+        Alors l'utilisateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si date d'échéance manquante
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :

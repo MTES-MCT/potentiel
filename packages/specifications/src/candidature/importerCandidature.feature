@@ -239,7 +239,7 @@ Fonctionnalité: Importer une candidature
             | type GF               | exemption               |
             | date de constitution  | 2050-01-01              |
             | format attestation GF | application/pdf         |
-        Alors l'administrateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
+        Alors l'administrateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible d'importer une candidature classée avec une date d'échéance pour un type de GF qui n'en attend pas
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
