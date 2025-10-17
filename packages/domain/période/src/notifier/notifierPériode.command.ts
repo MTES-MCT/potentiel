@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { LoadAggregateV2 } from '@potentiel-domain/core';
+import { LoadAggregate } from '@potentiel-domain/core';
 import { Accès, GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -22,7 +22,7 @@ export type NotifierPériodeCommand = Message<
 >;
 
 export const registerNotifierPériodeCommand = (
-  loadAggregate: LoadAggregateV2,
+  loadAggregate: LoadAggregate,
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const handler: MessageHandler<NotifierPériodeCommand> = async ({

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, ExpressionRegulière } from '@potentiel-domain/common';
-import { LoadAggregateV2 } from '@potentiel-domain/core';
+import { LoadAggregate } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import * as IdentifiantGestionnaireRéseau from '../identifiantGestionnaireRéseau.valueType';
@@ -21,7 +21,7 @@ export type AjouterGestionnaireRéseauCommand = Message<
   }
 >;
 
-export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAggregateV2) => {
+export const registerAjouterGestionnaireRéseauCommand = (loadAggregate: LoadAggregate) => {
   const handler: MessageHandler<AjouterGestionnaireRéseauCommand> = async ({
     aideSaisieRéférenceDossierRaccordement,
     identifiantGestionnaireRéseau,

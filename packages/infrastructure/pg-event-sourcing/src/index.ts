@@ -1,5 +1,5 @@
 export { Event } from './event';
-export { loadAggregateV2 } from './load/loadAggregateV2';
+export { loadAggregate } from './load/loadAggregate';
 export { loadFromStream } from './load/loadFromStream';
 export { publish } from './publish/publish';
 export { subscribe, executeSubscribersRetry, listDanglingSubscribers } from './subscribe/subscribe';

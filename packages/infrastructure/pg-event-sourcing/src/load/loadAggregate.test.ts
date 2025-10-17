@@ -8,7 +8,7 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
 import { publish } from '../publish/publish';
 
-import { loadAggregateV2 } from './loadAggregateV2';
+import { loadAggregate } from './loadAggregate';
 
 should();
 
@@ -53,7 +53,7 @@ describe(`loadAggregate`, () => {
   it(`Lorsqu'on charge un agrégat sans évènement
       Alors l'agrégat par défaut devrais être chargé`, async () => {
     // Act
-    const result = await loadAggregateV2(CustomAggregate, aggregateId, undefined);
+    const result = await loadAggregate(CustomAggregate, aggregateId, undefined);
 
     // Assert
     result.propriété.should.be.equal('unknownPropriété');
@@ -82,7 +82,7 @@ describe(`loadAggregate`, () => {
     await publish(aggregateId, event1, event2);
 
     // Act
-    const actual = await loadAggregateV2(CustomAggregate, aggregateId, undefined);
+    const actual = await loadAggregate(CustomAggregate, aggregateId, undefined);
 
     // Assert
     const expected = {

@@ -1,4 +1,4 @@
-import { LoadAggregateV2 } from '@potentiel-domain/core';
+import { LoadAggregate } from '@potentiel-domain/core';
 
 import { registerAjouterGestionnaireRéseauCommand } from './ajouter/ajouterGestionnaireRéseau.command';
 import { registerModifierGestionnaireRéseauCommand } from './modifier/modifierGestionnaireRéseau.command';
@@ -17,7 +17,7 @@ export type GestionnaireRéseauQueryDependencies = ListerGestionnaireRéseauQuer
   ConsulterGestionnaireRéseauQueryDependencies;
 
 export type GestionnaireRéseauCommandDependencies = {
-  loadAggregate: LoadAggregateV2;
+  loadAggregate: LoadAggregate;
 };
 
 export const registerGestionnaireRéseauUseCases = ({
