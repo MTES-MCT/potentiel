@@ -65,45 +65,49 @@ export const InfoInstallation = ({
           </Link>
         )}
       </div>
-      <div>
-        <Heading4 className="mb-0">Installateur</Heading4>
-        <div className="m-0">{installateur.value || 'Non renseigné'}</div>
-        {installateur.affichage && (
-          <Link href={installateur.affichage.url} aria-label={installateur.affichage.label}>
-            {installateur.affichage.label}
-          </Link>
-        )}
-      </div>
-      <div>
-        <Heading4 className="mb-0">Dispositif de stockage</Heading4>
+      {installateur && (
         <div>
-          {dispositifDeStockage.value?.installationAvecDispositifDeStockage === true
-            ? 'Installation couplée à un dispositif de stockage'
-            : dispositifDeStockage.value?.installationAvecDispositifDeStockage === false
-              ? 'Installation sans dispositif de stockage'
-              : 'Non renseigné'}
+          <Heading4 className="mb-0">Installateur</Heading4>
+          <div className="m-0">{installateur.value || 'Non renseigné'}</div>
+          {installateur.affichage && (
+            <Link href={installateur.affichage.url} aria-label={installateur.affichage.label}>
+              {installateur.affichage.label}
+            </Link>
+          )}
         </div>
-        {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW ? (
+      )}
+      {dispositifDeStockage && (
+        <div>
+          <Heading4 className="mb-0">Dispositif de stockage</Heading4>
           <div>
-            Puissance du dispositif de stockage :{' '}
-            {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW} kW
+            {dispositifDeStockage.value?.installationAvecDispositifDeStockage === true
+              ? 'Installation couplée à un dispositif de stockage'
+              : dispositifDeStockage.value?.installationAvecDispositifDeStockage === false
+                ? 'Installation sans dispositif de stockage'
+                : 'Non renseigné'}
           </div>
-        ) : null}
-        {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh ? (
-          <div>
-            Capacité du dispositif de stockage :{' '}
-            {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh} kWh
-          </div>
-        ) : null}
-        {dispositifDeStockage.affichage && (
-          <Link
-            href={dispositifDeStockage.affichage.url}
-            aria-label={dispositifDeStockage.affichage.label}
-          >
-            {dispositifDeStockage.affichage.label}
-          </Link>
-        )}
-      </div>
+          {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW ? (
+            <div>
+              Puissance du dispositif de stockage :{' '}
+              {dispositifDeStockage.value?.puissanceDuDispositifDeStockageEnKW} kW
+            </div>
+          ) : null}
+          {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh ? (
+            <div>
+              Capacité du dispositif de stockage :{' '}
+              {dispositifDeStockage.value?.capacitéDuDispositifDeStockageEnKWh} kWh
+            </div>
+          ) : null}
+          {dispositifDeStockage.affichage && (
+            <Link
+              href={dispositifDeStockage.affichage.url}
+              aria-label={dispositifDeStockage.affichage.label}
+            >
+              {dispositifDeStockage.affichage.label}
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 };
