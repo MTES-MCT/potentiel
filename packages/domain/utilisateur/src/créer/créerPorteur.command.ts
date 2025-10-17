@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { LoadAggregateV2 } from '@potentiel-domain/core';
+import { LoadAggregate } from '@potentiel-domain/core';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
 
@@ -13,7 +13,7 @@ export type CréerPorteurCommand = Message<
   }
 >;
 
-export const registerCréerPorteurCommand = (loadAggregate: LoadAggregateV2) => {
+export const registerCréerPorteurCommand = (loadAggregate: LoadAggregate) => {
   const handler: MessageHandler<CréerPorteurCommand> = async ({
     identifiantUtilisateur,
     crééLe,

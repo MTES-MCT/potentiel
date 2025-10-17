@@ -1,4 +1,4 @@
-import { LoadAggregateV2 } from '@potentiel-domain/core';
+import { LoadAggregate } from '@potentiel-domain/core';
 import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
@@ -15,7 +15,7 @@ import { registerNotifierPériodeUseCase } from './notifier/notifierPériode.use
 type PériodeQueryDependencies = ConsulterPériodeDependencies & ListerPériodesDependencies;
 
 type PériodeCommandDependencies = {
-  loadAggregate: LoadAggregateV2;
+  loadAggregate: LoadAggregate;
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 

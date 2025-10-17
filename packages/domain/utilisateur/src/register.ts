@@ -1,4 +1,4 @@
-import { LoadAggregateV2 } from '@potentiel-domain/core';
+import { LoadAggregate } from '@potentiel-domain/core';
 
 import {
   ConsulterUtilisateurDependencies,
@@ -40,7 +40,7 @@ export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDepende
 };
 
 export type UtilisateurCommandDependencies = {
-  loadAggregate: LoadAggregateV2;
+  loadAggregate: LoadAggregate;
 };
 
 export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
