@@ -62,7 +62,9 @@ type ChangementAvecAutoritéCompétente =
       autoritéCompétente: AutoritéCompétente;
     };
 
-type ChangementActionnaire = Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
+type ChangementActionnaire = Changement & {
+  informationEnregistréeEstSoumiseÀConditions?: true;
+};
 
 type RatiosChangementPuissance =
   | { changementByTechnologie?: undefined; ratios: Ratios }
