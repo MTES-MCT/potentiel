@@ -11,11 +11,12 @@ import {
   mapToFournisseurModifiéTimelineItemProps,
 } from './events';
 
-export const mapToFournisseurTimelineItemProps = (
+type MapToFournisseurTimelineItemProps = (
   readmodel: Lauréat.Fournisseur.HistoriqueFournisseurProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToFournisseurTimelineItemProps: MapToFournisseurTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with({ type: 'FournisseurImporté-V1' }, mapToFournisseurImportéTimelineItemProps)
     .with(
       { type: 'ÉvaluationCarboneSimplifiéeModifiée-V1' },

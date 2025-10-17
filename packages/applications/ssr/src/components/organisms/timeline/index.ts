@@ -1,3 +1,3 @@
 export * from './Timeline';
 export * from './TimelineItem';
-export * from './TimelineItemUserEmail';
+export * from './TimelineItemTitle';

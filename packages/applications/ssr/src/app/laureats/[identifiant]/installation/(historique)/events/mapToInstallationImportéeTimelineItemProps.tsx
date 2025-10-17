@@ -1,14 +1,16 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 import { DétailTypologieInstallation } from './DétailTypologieInstallation';
 
 export const mapToInstallationImportéeTimelineItemProps = (
-  record: Lauréat.Installation.InstallationImportéeEvent,
-) => {
-  const { importéeLe, installateur, typologieInstallation } = record.payload;
+  event: Lauréat.Installation.InstallationImportéeEvent,
+): TimelineItemProps => {
+  const { importéeLe, installateur, typologieInstallation } = event.payload;
   return {
     date: importéeLe,
-    title: <div>Candidature :</div>,
+    title: 'Candidature :',
     content: (
       <>
         <div>

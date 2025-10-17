@@ -1,6 +1,8 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
   event: (
     | Lauréat.Raccordement.DateMiseEnServiceTransmiseEvent
@@ -8,7 +10,7 @@ export const mapToDateMiseEnServiceTransmiseTimelineItemProps = (
   ) & {
     createdAt: string;
   },
-) => {
+): TimelineItemProps => {
   const { référenceDossierRaccordement } = event.payload;
 
   return {

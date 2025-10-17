@@ -1,21 +1,17 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent,
-) => {
-  const { type, dateÉchéance, dateConstitution, soumisLe, soumisPar } = modification.payload;
+  event: Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresSoumisEvent,
+): TimelineItemProps => {
+  const { type, dateÉchéance, dateConstitution, soumisLe, soumisPar } = event.payload;
 
   return {
     date: soumisLe,
-    title: (
-      <div>
-        Nouvelles garanties financières (soumises à instruction) déposées{' '}
-        <TimelineItemUserEmail email={soumisPar} />
-      </div>
-    ),
+    title: 'Nouvelles garanties financières (soumises à instruction) déposées',
+    acteur: soumisPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

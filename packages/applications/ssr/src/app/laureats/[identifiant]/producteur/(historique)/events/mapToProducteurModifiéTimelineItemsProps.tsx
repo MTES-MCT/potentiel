@@ -1,19 +1,16 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToProducteurModifiéTimelineItemsProps = (
-  record: Lauréat.Producteur.ProducteurModifiéEvent,
-) => {
-  const { modifiéLe, modifiéPar, producteur } = record.payload;
+  event: Lauréat.Producteur.ProducteurModifiéEvent,
+): TimelineItemProps => {
+  const { modifiéLe, modifiéPar, producteur } = event.payload;
 
   return {
     date: modifiéLe,
-    title: (
-      <div>
-        Producteur modifié <TimelineItemUserEmail email={modifiéPar} />
-      </div>
-    ),
+    title: 'Producteur modifié',
+    acteur: modifiéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

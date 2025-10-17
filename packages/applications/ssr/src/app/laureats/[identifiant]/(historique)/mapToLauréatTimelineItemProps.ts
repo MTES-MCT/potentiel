@@ -14,17 +14,16 @@ import { mapToSiteDeProductionModifiéTimelineItemProps } from './events/mapToSi
 
 export type LauréatHistoryRecord = HistoryRecord<'lauréat', Lauréat.LauréatEvent>;
 
-type MapToLauréatTimelineItemProps = {
+type MapToLauréatTimelineItemProps = (args: {
   readmodel: LauréatHistoryRecord;
   doitAfficherLienAttestationDésignation: boolean;
-};
+}) => TimelineItemProps;
 
-export const mapToLauréatTimelineItemProps = ({
+export const mapToLauréatTimelineItemProps: MapToLauréatTimelineItemProps = ({
   readmodel,
   doitAfficherLienAttestationDésignation,
-}: MapToLauréatTimelineItemProps) =>
+}) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with(
       {
         type: P.union('NomEtLocalitéLauréatImportés-V1'),

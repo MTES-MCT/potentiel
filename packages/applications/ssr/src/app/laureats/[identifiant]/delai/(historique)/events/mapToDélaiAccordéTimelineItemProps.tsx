@@ -5,21 +5,18 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDélaiAccordéTimelineItemProps = (
-  délaiAccordé: Lauréat.Délai.DélaiAccordéEvent,
-) => {
+  event: Lauréat.Délai.DélaiAccordéEvent,
+): TimelineItemProps => {
   const { accordéPar, accordéLe, nombreDeMois, dateAchèvementPrévisionnelCalculée, ...payload } =
-    délaiAccordé.payload;
+    event.payload;
 
   return {
     date: accordéLe,
-    title: (
-      <div>
-        Demande de délai exceptionnel accordée <TimelineItemUserEmail email={accordéPar} />
-      </div>
-    ),
+    title: 'Demande de délai exceptionnel accordée',
+    acteur: accordéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

@@ -35,6 +35,7 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => {
           type={item.type}
           status={item.status}
           title={item.title}
+          acteur={item.acteur}
           isLast={index === filteredItems.length - 1 ? true : undefined}
         />
       ))}

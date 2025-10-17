@@ -2,14 +2,16 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToLegacyDélaiAccordéTimelineItemProps = (
-  délaiAccordé: Lauréat.Délai.LegacyDélaiAccordéEvent,
-) => {
-  const { accordéLe, nombreDeMois, raison } = délaiAccordé.payload;
+  event: Lauréat.Délai.LegacyDélaiAccordéEvent,
+): TimelineItemProps => {
+  const { accordéLe, nombreDeMois, raison } = event.payload;
 
   return {
     date: accordéLe,
-    title: <div>{getTitleFromRaison(raison)}</div>,
+    title: getTitleFromRaison(raison),
     content: (
       <>
         Durée : <span className="font-semibold">{nombreDeMois} mois</span>

@@ -11,7 +11,9 @@ import { mapToÉliminéNotifiéTimelineItemProps } from './events';
 
 export type ÉliminéHistoryRecord = HistoryRecord<'éliminé', Éliminé.ÉliminéEvent>;
 
-export const mapToÉliminéTimelineItemProps = (record: ÉliminéHistoryRecord) =>
+type MapToÉliminéTimelineItemProps = (record: ÉliminéHistoryRecord) => TimelineItemProps;
+
+export const mapToÉliminéTimelineItemProps: MapToÉliminéTimelineItemProps = (record) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(

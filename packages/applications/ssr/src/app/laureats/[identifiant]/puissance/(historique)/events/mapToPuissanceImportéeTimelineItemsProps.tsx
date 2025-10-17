@@ -1,22 +1,24 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToPuissanceImportéeTimelineItemsProps = (
-  record: Lauréat.Puissance.PuissanceImportéeEvent,
+  event: Lauréat.Puissance.PuissanceImportéeEvent,
   unitéPuissance: string,
-) => {
-  const { importéeLe, puissance } = record.payload;
+): TimelineItemProps => {
+  const { importéeLe, puissance } = event.payload;
 
   return {
     date: importéeLe,
     title: (
-      <div>
+      <>
         Candidature :{' '}
         {
           <span className="font-semibold">
             {puissance} {unitéPuissance}
           </span>
         }
-      </div>
+      </>
     ),
   };
 };

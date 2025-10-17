@@ -15,11 +15,12 @@ import {
 } from './events';
 import { mapToChangementActionnaireSuppriméTimelineItemProps } from './events/mapToChangementActionnaireSuppriméTimelineItemProps';
 
-export const mapToActionnaireTimelineItemProps = (
+type MapToActionnaireTimelineItemProps = (
   readmodel: Lauréat.Actionnaire.HistoriqueActionnaireProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToActionnaireTimelineItemProps: MapToActionnaireTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'ActionnaireImporté-V1',

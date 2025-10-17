@@ -1,19 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementReprésentantLégalAnnuléTimelineItemProps = (
-  changementAnnulé: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent,
-) => {
-  const { annuléLe, annuléPar } = changementAnnulé.payload;
+  event: Lauréat.ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent,
+): TimelineItemProps => {
+  const { annuléLe, annuléPar } = event.payload;
 
   return {
     date: annuléLe,
-    title: (
-      <div>
-        Demande de changement de représentant légal annulée{' '}
-        <TimelineItemUserEmail email={annuléPar} />
-      </div>
-    ),
+    title: 'Demande de changement de représentant légal annulée',
+    acteur: annuléPar,
   };
 };

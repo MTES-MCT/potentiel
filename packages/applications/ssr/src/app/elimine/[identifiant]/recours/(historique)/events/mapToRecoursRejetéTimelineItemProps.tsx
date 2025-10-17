@@ -1,20 +1,19 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToRecoursRejetéTimelineItemProps = (
-  recoursRejeté: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
-) => {
+  event: Éliminé.Recours.RecoursRejetéEvent,
+): TimelineItemProps => {
   const {
     rejetéLe,
     rejetéPar,
     réponseSignée: { format },
     identifiantProjet,
-  } = recoursRejeté.payload as Éliminé.Recours.RecoursRejetéEvent['payload'];
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -25,11 +24,8 @@ export const mapToRecoursRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
-    title: (
-      <div>
-        Demande de recours rejetée <TimelineItemUserEmail email={rejetéPar} />
-      </div>
-    ),
+    title: 'Demande de recours rejetée',
+    acteur: rejetéPar,
     content: (
       <DownloadDocument
         className="mb-0"

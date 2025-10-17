@@ -1,6 +1,5 @@
 import { match, P } from 'ts-pattern';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
@@ -10,17 +9,15 @@ import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../historique
 import {
   dossierRaccordement,
   gestionnaireRéseau,
-  mapToRacordementSuppriméTimelineItemProps,
+  mapToRaccordementSuppriméTimelineItemProps,
 } from './events';
 
-export type RaccordementHistoryRecord = HistoryRecord<
-  'raccordement',
-  Lauréat.Raccordement.RaccordementEvent
->;
+type MapToRaccordementTimelineItemProps = (
+  record: Lauréat.Raccordement.HistoriqueRaccordementProjetListItemReadModel,
+) => TimelineItemProps;
 
-export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRecord) =>
+export const mapToRaccordementTimelineItemProps: MapToRaccordementTimelineItemProps = (record) =>
   match(record)
-    .returnType<TimelineItemProps>()
     /**
      * Dossier raccordement
      */
@@ -119,7 +116,7 @@ export const mapToRaccordementTimelineItemProps = (record: RaccordementHistoryRe
       {
         type: 'RaccordementSupprimé-V1',
       },
-      mapToRacordementSuppriméTimelineItemProps,
+      mapToRaccordementSuppriméTimelineItemProps,
     )
     /**
      * Ignoré

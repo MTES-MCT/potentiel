@@ -1,19 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAbandonPasséEnInstructionTimelineItemProps = (
-  abandonPasséEnInstruction: Lauréat.Abandon.AbandonPasséEnInstructionEvent,
-) => {
-  const { passéEnInstructionLe, passéEnInstructionPar } = abandonPasséEnInstruction.payload;
+  event: Lauréat.Abandon.AbandonPasséEnInstructionEvent,
+): TimelineItemProps => {
+  const { passéEnInstructionLe, passéEnInstructionPar } = event.payload;
 
   return {
     date: passéEnInstructionLe,
-    title: (
-      <div>
-        Demande d'abandon passée en instruction{' '}
-        <TimelineItemUserEmail email={passéEnInstructionPar} />
-      </div>
-    ),
+    title: "Demande d'abandon passée en instruction",
+    acteur: passéEnInstructionPar,
   };
 };

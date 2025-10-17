@@ -1,12 +1,14 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToPreuveRecandidatureDemandéeTimelineItemProps = (
-  preuveRecandidatureDemandée: Lauréat.Abandon.PreuveRecandidatureDemandéeEvent,
-) => {
-  const { demandéeLe } = preuveRecandidatureDemandée.payload;
+  event: Lauréat.Abandon.PreuveRecandidatureDemandéeEvent,
+): TimelineItemProps => {
+  const { demandéeLe } = event.payload;
 
   return {
     date: demandéeLe,
-    title: <div>Preuve de recandidature demandée</div>,
+    title: 'Preuve de recandidature demandée',
   };
 };

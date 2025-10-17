@@ -15,11 +15,12 @@ import {
 } from './events';
 import { mapToDemandeDélaiSuppriméeTimelineItemProps } from './events/mapToDemandeDélaiSuppriméeTimelineItemProps';
 
-export const mapToDélaiTimelineItemProps = (
+type MapToDélaiTimelineItemProps = (
   readmodel: Lauréat.Délai.HistoriqueDélaiProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToDélaiTimelineItemProps: MapToDélaiTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with(
       {
         type: 'DélaiDemandé-V1',

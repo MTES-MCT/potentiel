@@ -4,10 +4,11 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAttestationConformitéModifiéeTimelineItemProps = (
-  attestationConformitéModifiée: Lauréat.Achèvement.AttestationConformité.AttestationConformitéModifiéeEvent,
-) => {
+  event: Lauréat.Achèvement.AttestationConformité.AttestationConformitéModifiéeEvent,
+): TimelineItemProps => {
   const {
     identifiantProjet,
     attestation: { format },
@@ -15,7 +16,7 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
     dateTransmissionAuCocontractant,
     date,
     utilisateur,
-  } = attestationConformitéModifiée.payload;
+  } = event.payload;
 
   const attestation = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -33,7 +34,7 @@ export const mapToAttestationConformitéModifiéeTimelineItemProps = (
 
   return {
     date,
-    title: <div>Modification de l'attestation de conformité</div>,
+    title: "Modification de l'attestation de conformité",
     content: (
       <div className="flex flex-col gap-2">
         <DownloadDocument

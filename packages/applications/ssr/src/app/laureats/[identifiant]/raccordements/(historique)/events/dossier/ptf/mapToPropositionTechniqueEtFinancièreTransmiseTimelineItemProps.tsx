@@ -3,14 +3,16 @@ import { match } from 'ts-pattern';
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = (
-  readmodel: (
+  event: (
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEventV1
     | Lauréat.Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent
   ) & { createdAt: string },
-) => {
-  const { date, référenceDossierRaccordement } = match(readmodel)
+): TimelineItemProps => {
+  const { date, référenceDossierRaccordement } = match(event)
     .with({ type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' }, (event) => {
       const { référenceDossierRaccordement } = event.payload;
 
@@ -31,10 +33,10 @@ export const mapToPropositionTechniqueEtFinancièreTransmiseTimelineItemProps = 
   return {
     date,
     title: (
-      <div>
+      <>
         La proposition technique et financière a été transmise pour le dossier de raccordement{' '}
         <span className="font-semibold">{référenceDossierRaccordement}</span>
-      </div>
+      </>
     ),
   };
 };

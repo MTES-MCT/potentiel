@@ -8,11 +8,12 @@ import { mapToChangementProducteurEnregistréTimelineItemProps } from './events/
 import { mapToProducteurModifiéTimelineItemsProps } from './events/mapToProducteurModifiéTimelineItemsProps';
 import { mapToProducteurImportéTimelineItemProps } from './events/mapToProducteurImportéTimelineItemProps';
 
-export const mapToProducteurTimelineItemProps = (
+type MapToProducteurTimelineItemProps = (
   readmodel: Lauréat.Producteur.HistoriqueProducteurProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToProducteurTimelineItemProps: MapToProducteurTimelineItemProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with({ type: 'ProducteurImporté-V1' }, (readmodel) =>
       mapToProducteurImportéTimelineItemProps(readmodel),
     )

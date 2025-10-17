@@ -3,17 +3,17 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
-  confirmationAbandonDemandée: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent,
-) => {
+  event: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent,
+): TimelineItemProps => {
   const {
     confirmationDemandéeLe,
     confirmationDemandéePar,
     identifiantProjet,
     réponseSignée: { format },
-  } = confirmationAbandonDemandée.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -24,21 +24,15 @@ export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
 
   return {
     date: confirmationDemandéeLe,
-    title: (
-      <div>
-        Confirmation demandée pour la demande d'abandon{' '}
-        <TimelineItemUserEmail email={confirmationDemandéePar} />
-      </div>
-    ),
+    title: "Confirmation demandée pour la demande d'abandon",
+    acteur: confirmationDemandéePar,
     content: (
-      <>
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la pièce justificative"
-          format="pdf"
-          url={Routes.Document.télécharger(réponseSignée)}
-        />
-      </>
+      <DownloadDocument
+        className="mb-0"
+        label="Télécharger la pièce justificative"
+        format="pdf"
+        url={Routes.Document.télécharger(réponseSignée)}
+      />
     ),
   };
 };

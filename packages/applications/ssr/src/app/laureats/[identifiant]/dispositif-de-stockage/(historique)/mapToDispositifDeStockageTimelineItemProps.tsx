@@ -9,16 +9,16 @@ import {
   mapTodispositifDeStockagemodifiéTimelineItemsProps,
 } from './events';
 
-export const mapToDispositifDeStockageProps = (
+type MapToDispositifDeStockageProps = (
   readmodel: Lauréat.DispositifDeStockage.HistoriqueDispositifDeStockageProjetListItemReadModel,
-) =>
+) => TimelineItemProps;
+
+export const mapToDispositifDeStockageProps: MapToDispositifDeStockageProps = (readmodel) =>
   match(readmodel)
-    .returnType<TimelineItemProps>()
     .with({ type: 'DispositifDeStockageImporté-V1' }, (readmodel) =>
       mapToDispositifDeStockageImportéTimelineItemProps(readmodel),
     )
     .with({ type: 'DispositifDeStockageModifié-V1' }, (readmodel) =>
       mapTodispositifDeStockagemodifiéTimelineItemsProps(readmodel),
     )
-
     .exhaustive();

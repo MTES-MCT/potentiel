@@ -4,21 +4,18 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ReadMore } from '@/components/atoms/ReadMore';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementPuissanceEnregistréTimelineItemProps = (
-  record: Lauréat.Puissance.ChangementPuissanceEnregistréEvent,
+  event: Lauréat.Puissance.ChangementPuissanceEnregistréEvent,
   unitéPuissance: string,
-) => {
+): TimelineItemProps => {
   const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, puissance, raison } =
-    record.payload;
+    event.payload;
   return {
     date: enregistréLe,
-    title: (
-      <div>
-        Puissance modifiée par <TimelineItemUserEmail email={enregistréPar} />
-      </div>
-    ),
+    title: 'Puissance modifiée',
+    acteur: enregistréPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

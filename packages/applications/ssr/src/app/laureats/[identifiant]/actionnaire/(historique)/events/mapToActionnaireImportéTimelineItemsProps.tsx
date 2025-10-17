@@ -1,17 +1,19 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToActionnaireImportéTimelineItemProps = (
-  modification: Lauréat.Actionnaire.ActionnaireImportéEvent,
-) => {
-  const { importéLe, actionnaire } = modification.payload;
+  event: Lauréat.Actionnaire.ActionnaireImportéEvent,
+): TimelineItemProps => {
+  const { importéLe, actionnaire } = event.payload;
 
   return {
     date: importéLe,
     // actionnaire peut être une string vide
     title: actionnaire ? (
-      <div>Candidature : {<span className="font-semibold">{actionnaire}</span>}</div>
+      <>Candidature : {<span className="font-semibold">{actionnaire}</span>}</>
     ) : (
-      <div>Actionnaire non renseigné à la candidature</div>
+      'Actionnaire non renseigné à la candidature'
     ),
   };
 };

@@ -1,19 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDemandeMainlevéeGarantiesFinancièresAnnuléeTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
-) => {
-  const { annuléLe, annuléPar } = modification.payload;
+  event: Lauréat.GarantiesFinancières.DemandeMainlevéeGarantiesFinancièresAnnuléeEvent,
+): TimelineItemProps => {
+  const { annuléLe, annuléPar } = event.payload;
 
   return {
     date: annuléLe,
-    title: (
-      <div>
-        La demande de mainlevée des garanties financières a été annulée{' '}
-        <TimelineItemUserEmail email={annuléPar} />
-      </div>
-    ),
+    title: 'La demande de mainlevée des garanties financières a été annulée',
+    acteur: annuléPar,
   };
 };

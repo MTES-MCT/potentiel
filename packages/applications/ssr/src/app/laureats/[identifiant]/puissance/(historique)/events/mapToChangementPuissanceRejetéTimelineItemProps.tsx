@@ -3,18 +3,18 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementPuissanceRejetéTimelineItemProps = (
-  record: Lauréat.Puissance.ChangementPuissanceRejetéEvent,
-) => {
+  event: Lauréat.Puissance.ChangementPuissanceRejetéEvent,
+): TimelineItemProps => {
   const {
     rejetéLe,
     rejetéPar,
     identifiantProjet,
     réponseSignée: { format },
     estUneDécisionDEtat,
-  } = record.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -25,11 +25,8 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
-    title: (
-      <div>
-        Changement de puissance rejeté <TimelineItemUserEmail email={rejetéPar} />
-      </div>
-    ),
+    title: 'Changement de puissance rejeté',
+    acteur: rejetéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

@@ -5,7 +5,7 @@ import { TimelineItemProps, ETAPE_INCONNUE_TITLE } from '@/components/organisms/
 import { IconProps } from '@/components/atoms/Icon';
 
 export const mapToÉtapeInconnueOuIgnoréeTimelineItemProps = (
-  record: HistoryRecord,
+  event: HistoryRecord,
 ): TimelineItemProps => {
   const icon: IconProps = {
     id: 'ri-question-line',
@@ -13,8 +13,8 @@ export const mapToÉtapeInconnueOuIgnoréeTimelineItemProps = (
 
   return {
     title: ETAPE_INCONNUE_TITLE,
-    type: record.type,
+    type: event.type,
     icon,
-    date: record.createdAt as DateTime.RawType,
+    date: event.createdAt as DateTime.RawType,
   };
 };

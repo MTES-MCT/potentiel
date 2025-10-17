@@ -12,11 +12,14 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Icon, IconProps } from '../../atoms/Icon';
 import { FormattedDate } from '../../atoms/FormattedDate';
 
+import { TimelineItemTitle, TimelineItemTitleProps } from './TimelineItemTitle';
+
 export const ETAPE_INCONNUE_TITLE = 'Étape inconnue';
 
 export type TimelineItemProps = {
   status?: 'error' | 'success' | 'warning' | 'info';
-  title: ReactNode;
+  title: TimelineItemTitleProps['title'];
+  acteur?: TimelineItemTitleProps['acteur'];
   type?: string;
   content?: ReactNode;
   date: Iso8601DateTime;
@@ -26,6 +29,7 @@ export type TimelineItemProps = {
 export const TimelineItem: FC<TimelineItemProps> = ({
   date,
   title,
+  acteur,
   content,
   type,
   status,
@@ -76,7 +80,7 @@ export const TimelineItem: FC<TimelineItemProps> = ({
         }}
       >
         <div className={clsx('print:pt-0', icon && 'pt-3')}>
-          {title}
+          <TimelineItemTitle title={title} acteur={acteur} />
           {isÉtapeInconnue && type && ` (${type})`}
           {content ? <div className={clsx(title && 'mt-2')}>{content}</div> : null}
         </div>

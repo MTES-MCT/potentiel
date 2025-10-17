@@ -1,19 +1,15 @@
-import { Lauréat } from '@potentiel-domain/projet';
 import { Éliminé } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToRecoursPasséEnInstructionTimelineItemProp = (
-  recoursPasséEnInstruction: Lauréat.ListerHistoriqueProjetReadModel['items'][number],
-) => {
-  const { passéEnInstructionLe, passéEnInstructionPar } =
-    recoursPasséEnInstruction.payload as Éliminé.Recours.RecoursPasséEnInstructionEvent['payload'];
+  event: Éliminé.Recours.RecoursPasséEnInstructionEvent,
+): TimelineItemProps => {
+  const { passéEnInstructionLe, passéEnInstructionPar } = event.payload;
 
   return {
     date: passéEnInstructionLe,
-    title: (
-      <div>
-        Demande de recours passée en instruction par{' '}
-        {<span className="font-semibold">{passéEnInstructionPar}</span>}
-      </div>
-    ),
+    title: 'Demande de recours passée en instruction',
+    acteur: passéEnInstructionPar,
   };
 };

@@ -1,12 +1,12 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToDemandeDélaiSuppriméeTimelineItemProps = (
-  record: Lauréat.Délai.DemandeDélaiSuppriméeEvent,
+  event: Lauréat.Délai.DemandeDélaiSuppriméeEvent,
 ) => {
-  const { suppriméLe } = record.payload;
+  const { suppriméLe } = event.payload;
 
   return {
     date: suppriméLe,
-    title: <div>Demande de délai supprimée suite à l'accord de l'abandon</div>,
+    title: "Demande de délai supprimée suite à l'accord de l'abandon",
   };
 };

@@ -1,19 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToDemandeDélaiPasséeEnInstructionTimelineItemProps = (
-  record: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent,
-) => {
-  const { passéeEnInstructionLe, passéeEnInstructionPar } = record.payload;
+  event: Lauréat.Délai.DemandeDélaiPasséeEnInstructionEvent,
+): TimelineItemProps => {
+  const { passéeEnInstructionLe, passéeEnInstructionPar } = event.payload;
 
   return {
     date: passéeEnInstructionLe,
-    title: (
-      <div>
-        Demande de délai passée en instruction{' '}
-        <TimelineItemUserEmail email={passéeEnInstructionPar} />
-      </div>
-    ),
+    title: 'Demande de délai passée en instruction',
+    acteur: passéeEnInstructionPar,
   };
 };

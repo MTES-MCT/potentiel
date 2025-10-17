@@ -3,17 +3,17 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToAbandonAccordéTimelineItemProps = (
-  abandonAccordé: Lauréat.Abandon.AbandonAccordéEvent,
-) => {
+  event: Lauréat.Abandon.AbandonAccordéEvent,
+): TimelineItemProps => {
   const {
     accordéLe,
     accordéPar,
     identifiantProjet,
     réponseSignée: { format },
-  } = abandonAccordé.payload;
+  } = event.payload;
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -24,11 +24,8 @@ export const mapToAbandonAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
-    title: (
-      <div>
-        Demande d'abandon accordée <TimelineItemUserEmail email={accordéPar} />
-      </div>
-    ),
+    title: "Demande d'abandon accordée",
+    acteur: accordéPar,
     content: (
       <DownloadDocument
         className="mb-0"

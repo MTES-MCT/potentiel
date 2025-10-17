@@ -1,15 +1,13 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
+import { TimelineItemProps } from '@/components/organisms/timeline';
+
 export const mapToGestionnaireRéseauAttribuéTimelineItemProps = (
-  attribution: Lauréat.Raccordement.GestionnaireRéseauAttribuéEvent & {
+  event: Lauréat.Raccordement.GestionnaireRéseauAttribuéEvent & {
     createdAt: string;
   },
-) => {
-  return {
-    date: attribution.createdAt as DateTime.RawType,
-    title: (
-      <div>Un gestionnaire de réseau de raccordement a été attribué au raccordement du projet</div>
-    ),
-  };
-};
+): TimelineItemProps => ({
+  date: event.createdAt as DateTime.RawType,
+  title: 'Un gestionnaire de réseau de raccordement a été attribué au raccordement du projet',
+});

@@ -1,15 +1,16 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToTypeGarantiesFinancièresImportéTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent,
-) => {
-  const { importéLe, type, dateÉchéance } = modification.payload;
+  event: Lauréat.GarantiesFinancières.TypeGarantiesFinancièresImportéEvent,
+): TimelineItemProps => {
+  const { importéLe, type, dateÉchéance } = event.payload;
 
   return {
     date: importéLe,
-    title: <div>Type de garanties financières importé</div>,
+    title: 'Type de garanties financières importé',
     content: (
       <div className="flex flex-col gap-2">
         <div>

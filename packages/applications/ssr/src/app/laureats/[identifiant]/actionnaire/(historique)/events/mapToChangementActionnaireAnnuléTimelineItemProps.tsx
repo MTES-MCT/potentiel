@@ -1,18 +1,15 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementActionnaireAnnuléTimelineItemProps = (
-  changementAnnulé: Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent,
-) => {
-  const { annuléLe, annuléPar } = changementAnnulé.payload;
+  event: Lauréat.Actionnaire.ChangementActionnaireAnnuléEvent,
+): TimelineItemProps => {
+  const { annuléLe, annuléPar } = event.payload;
 
   return {
     date: annuléLe,
-    title: (
-      <div>
-        Demande de changement d'actionnaire annulée <TimelineItemUserEmail email={annuléPar} />
-      </div>
-    ),
+    title: "Demande de changement d'actionnaire annulée",
+    acteur: annuléPar,
   };
 };

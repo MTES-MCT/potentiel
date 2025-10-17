@@ -3,18 +3,18 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToChangementActionnaireDemandéTimelineItemProps = (
-  demandeChangement: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent,
-) => {
+  event: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent,
+): TimelineItemProps => {
   const {
     demandéLe,
     demandéPar,
     identifiantProjet,
     pièceJustificative: { format },
     actionnaire,
-  } = demandeChangement.payload;
+  } = event.payload;
 
   const pièceJustificative = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -25,11 +25,8 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
 
   return {
     date: demandéLe,
-    title: (
-      <div>
-        Demande de changement d'actionnaire déposée <TimelineItemUserEmail email={demandéPar} />
-      </div>
-    ),
+    title: "Demande de changement d'actionnaire déposée",
+    acteur: demandéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

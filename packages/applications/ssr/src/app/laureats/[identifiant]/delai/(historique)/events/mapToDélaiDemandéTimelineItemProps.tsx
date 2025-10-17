@@ -4,19 +4,18 @@ import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ReadMore } from '@/components/atoms/ReadMore';
-import { TimelineItemUserEmail } from '@/components/organisms/timeline';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
-export const mapToDélaiDemandéTimelineItemProps = (record: Lauréat.Délai.DélaiDemandéEvent) => {
+export const mapToDélaiDemandéTimelineItemProps = (
+  event: Lauréat.Délai.DélaiDemandéEvent,
+): TimelineItemProps => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, nombreDeMois, raison } =
-    record.payload;
+    event.payload;
 
   return {
     date: demandéLe,
-    title: (
-      <div>
-        Délai demandé <TimelineItemUserEmail email={demandéPar} />
-      </div>
-    ),
+    title: 'Délai demandé',
+    acteur: demandéPar,
     content: (
       <div className="flex flex-col gap-2">
         <div>

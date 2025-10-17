@@ -1,19 +1,20 @@
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { TimelineItemProps } from '@/components/organisms/timeline';
 
 export const mapToGarantiesFinancièresDemandéesTimelineItemsProps = (
-  modification: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent,
-) => {
-  const { demandéLe, dateLimiteSoumission, motif } = modification.payload;
+  event: Lauréat.GarantiesFinancières.GarantiesFinancièresDemandéesEvent,
+): TimelineItemProps => {
+  const { demandéLe, dateLimiteSoumission, motif } = event.payload;
 
   return {
     date: demandéLe,
     title: (
-      <div>
+      <>
         Garanties financières demandées au porteur par le{' '}
         <span className="font-semibold">système</span>
-      </div>
+      </>
     ),
     content: (
       <div className="flex flex-col gap-2">
