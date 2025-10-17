@@ -9,19 +9,19 @@ import {
 } from './lister/listerUtilisateurs.query';
 import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
-import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
-import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
+import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
+import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.event';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
 import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
-import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
+import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
-import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.behavior';
+import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
 import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
-export { UtilisateurInconnuError, AccèsFonctionnalitéRefuséError } from './errors';
+export { AccèsFonctionnalitéRefuséError } from './utilisateur.error';
 
 // Query
 export type UtilisateurQuery =
@@ -54,7 +54,7 @@ export {
 };
 
 // Events
-export { UtilisateurEvent } from './utilisateur.aggregate';
+export { UtilisateurEvent } from './utilisateur.event';
 export {
   PorteurInvitéEvent,
   UtilisateurInvitéEvent,

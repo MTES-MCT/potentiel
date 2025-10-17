@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { InviterPorteurCommand } from './inviterPorteur.command';
 
@@ -22,7 +22,6 @@ export const registerInviterPorteurUseCase = () => {
     invitéParValue,
   }) => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const identifiantsProjet = identifiantsProjetValues.map(IdentifiantProjet.convertirEnValueType);
     const invitéPar = Email.convertirEnValueType(invitéParValue);
     const invitéLe = DateTime.convertirEnValueType(invitéLeValue);
 
@@ -30,7 +29,7 @@ export const registerInviterPorteurUseCase = () => {
       type: 'Utilisateur.Command.InviterPorteur',
       data: {
         identifiantUtilisateur,
-        identifiantsProjet,
+        identifiantsProjet: identifiantsProjetValues,
         invitéLe,
         invitéPar,
       },

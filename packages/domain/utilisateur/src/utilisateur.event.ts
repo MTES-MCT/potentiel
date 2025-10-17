@@ -1,5 +1,10 @@
-import { IdentifiantProjet, Email, DateTime } from '@potentiel-domain/common';
+import { Email, DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
+
+import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
+import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.event';
+import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
+import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
 
 /**
  * @deprecated La gestion des accès des projets est dorénavant dans le package projet.
@@ -8,7 +13,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 export type AccèsProjetRetiréEvent = DomainEvent<
   'AccèsProjetRetiré-V1',
   {
-    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantProjet: string;
     identifiantUtilisateur: Email.RawType;
     retiréLe: DateTime.RawType;
     retiréPar: Email.RawType;
@@ -23,8 +28,16 @@ export type AccèsProjetRetiréEvent = DomainEvent<
 export type ProjetRéclaméEvent = DomainEvent<
   'ProjetRéclamé-V1',
   {
-    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantProjet: string;
     identifiantUtilisateur: Email.RawType;
     réclaméLe: DateTime.RawType;
   }
 >;
+
+export type UtilisateurEvent =
+  | PorteurInvitéEvent
+  | UtilisateurInvitéEvent
+  | UtilisateurDésactivéEvent
+  | UtilisateurRéactivéEvent
+  | AccèsProjetRetiréEvent
+  | ProjetRéclaméEvent;

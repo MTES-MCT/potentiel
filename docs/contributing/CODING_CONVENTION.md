@@ -285,9 +285,8 @@ export type Exemple1Command = Message<
 >;
 
 export const registerExemple1Command = (loadAggregate: LoadAggregate) => {
-  const load = loadExempleFactory(loadAggregate);
   const handler: MessageHandler<Exemple1Command> = async ({ date, identifiant, donnée }) => {
-    const agrégat = await load(identifiant);
+    const agrégat = await loadAggregate(ExempleAggregate, `exemple|${identifiant.formatter()}`);
 
     await domaine.comportement({
       date,
@@ -299,7 +298,7 @@ export const registerExemple1Command = (loadAggregate: LoadAggregate) => {
 ```
 
 ```typescript
-// file: exemple1.behavior.ts
+// file: exemple1.event.ts
 
 export type ComportementArrivéEvent = DomainEvent<
   'ComportementArrivé-V1',
@@ -308,31 +307,15 @@ export type ComportementArrivéEvent = DomainEvent<
     donnée: string;
   }
 >;
+```
+
+```typescript
+// file: exemple1.options.ts
 
 export type ComportementOptions = {
   date: DateTime.ValueType;
   donnée: string;
 };
-
-export async function comportement(this: ExempleAggregate, { date, donnée }: ComportementOptions) {
-  const event: ComportementArrivéEvent = {
-    type: 'ComportementArrivé-V1',
-    payload: {
-      date: date.formatter(),
-      donnée,
-    },
-  };
-
-  await this.publish(event);
-}
-
-export function applyComportementArrivé(
-  this: ExempleAggregate,
-  { payload: { date, identifiant, donnée } }: ComportementArrivéEvent,
-) {
-  this.date = DateTime.convertirEnValueType(date);
-  this.donnée = donnée;
-}
 ```
 
 ### <a id="aggregate"></a>Aggregate
@@ -344,48 +327,44 @@ Un agrégat permet le chargement de l'état actuel d'une entité métier depuis 
 
 export type ExempleEvent = ComportementArrivéEvent | AutreComportementArrivéEvent;
 
-export type ExempleAggregate = Aggregate<ExempleEvent> & {
-  date: DateTime.ValueType;
-  donnée: string;
-  readonly comportement: typeof comportement;
-  readonly autreComportement: typeof autreComportement;
-};
+export class ExempleAggregate extends AbstractAggregate<ExempleEvent, 'exemple'> {
+  #donnée = '';
+  #date = DateTime.now();
 
-export const getDefaultExempleAggregate: GetDefaultAggregateState<
-  ExempleAggregate,
-  ExempleEvent
-> = () => ({
-  apply,
-  date: DateTime.convertirEnValueType(new Date()),
-  donnée: '',
-  comportement,
-  autreComportement,
-});
+  async comportement({ date, donnée }: ComportementOptions) {
+    if (!this.exists) {
+      throw new AucuneExempleError();
+    }
 
-function apply(this: ExempleAggregate, event: ExempleEvent) {
-  switch (event.type) {
-    case 'ComportementArrivé-V1':
-      applyComportementArrivé.bind(this)(event);
-      break;
-    case 'AutreComportementArrivé-V1':
-      applyAutreComportementArrivé.bind(this)(event);
-      break;
+    const event: ComportementArrivéEvent = {
+      type: 'ComportementArrivé-V1',
+      payload: {
+        date: date.formatter(),
+        donnée,
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  autreComportement() {
+    // ...
+  }
+
+  apply(event: ExempleEvent) {
+    match(event.type)
+      .when({ type: 'ComportementArrivé-V1' }, this.applyComportementArrivé.bind(this))
+      .when({ type: 'AutreComportementArrivé-V1' }, this.applyAutreComportementArrivé.bind(this));
+  }
+
+  applyComportementArrivé(
+    this: ExempleAggregate,
+    { payload: { date, identifiant, donnée } }: ComportementArrivéEvent,
+  ) {
+    this.date = DateTime.convertirEnValueType(date);
+    this.donnée = donnée;
   }
 }
-
-export const loadExempleFactory =
-  (loadAggregate: LoadAggregate) =>
-  (identifiant: Identifiant.ValueType, throwOnNone = true) => {
-    return loadAggregate({
-      aggregateId: `exemple|${identifiant.formatter()}`,
-      getDefaultAggregate: getDefaultExempleAggregate,
-      onNone: throwOnNone
-        ? () => {
-            throw new AucuneExempleError();
-          }
-        : undefined,
-    });
-  };
 
 export class AucuneExempleError extends AggregateNotFoundError {}
 ```
@@ -523,7 +502,6 @@ export type ValueType = ReadonlyValueType<{
   estLevé: () => boolean;
 }>;
 ```
-
 
 ## Tests/Spécifications
 

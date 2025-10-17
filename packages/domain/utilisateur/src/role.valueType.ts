@@ -1,6 +1,6 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './errors';
+import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './utilisateur.error';
 
 export type RawType =
   | 'admin'

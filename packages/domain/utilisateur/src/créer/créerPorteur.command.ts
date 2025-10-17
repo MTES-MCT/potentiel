@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
+import { LoadAggregateV2 } from '@potentiel-domain/core';
 
-import { loadUtilisateurFactory } from '../utilisateur.aggregate';
+import { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type CréerPorteurCommand = Message<
   'Utilisateur.Command.CréerPorteur',
@@ -13,17 +13,19 @@ export type CréerPorteurCommand = Message<
   }
 >;
 
-export const registerCréerPorteurCommand = (loadAggregate: LoadAggregate) => {
-  const loadUtilisateur = loadUtilisateurFactory(loadAggregate);
+export const registerCréerPorteurCommand = (loadAggregate: LoadAggregateV2) => {
   const handler: MessageHandler<CréerPorteurCommand> = async ({
     identifiantUtilisateur,
     crééLe,
   }) => {
-    const utilisateurInvité = await loadUtilisateur(identifiantUtilisateur, false);
+    const utilisateurInvité = await loadAggregate(
+      UtilisateurAggregate,
+      `utilisateur|${identifiantUtilisateur.formatter()}`,
+      undefined,
+    );
 
     await utilisateurInvité.inviterPorteur({
       identifiantsProjet: [],
-      identifiantUtilisateur,
       invitéLe: crééLe,
       invitéPar: Email.système,
     });

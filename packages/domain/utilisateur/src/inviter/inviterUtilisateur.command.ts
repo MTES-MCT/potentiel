@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
+import { LoadAggregateV2 } from '@potentiel-domain/core';
 
-import { loadUtilisateurFactory } from '../utilisateur.aggregate';
 import { Role } from '..';
+import { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type InviterUtilisateurCommand = Message<
   'Utilisateur.Command.InviterUtilisateur',
@@ -20,8 +20,7 @@ export type InviterUtilisateurCommand = Message<
   }
 >;
 
-export const registerInviterCommand = (loadAggregate: LoadAggregate) => {
-  const loadUtilisateur = loadUtilisateurFactory(loadAggregate);
+export const registerInviterCommand = (loadAggregate: LoadAggregateV2) => {
   const handler: MessageHandler<InviterUtilisateurCommand> = async ({
     identifiantUtilisateur,
     invitéLe,
@@ -32,10 +31,13 @@ export const registerInviterCommand = (loadAggregate: LoadAggregate) => {
     région,
     identifiantGestionnaireRéseau,
   }) => {
-    const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
+    const utilisateur = await loadAggregate(
+      UtilisateurAggregate,
+      `utilisateur|${identifiantUtilisateur.formatter()}`,
+      undefined,
+    );
 
     await utilisateur.inviter({
-      identifiantUtilisateur,
       rôle,
       invitéLe,
       invitéPar,
