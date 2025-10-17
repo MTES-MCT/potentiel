@@ -62,7 +62,6 @@ export const typologieDeBâtimentCsvSchema = optionalEnum(
     'bâtiment neuf',
     'bâtiment existant avec rénovation de toiture',
     'bâtiment existant sans rénovation de toiture',
-    'mixte',
   ]),
 );
 export type TypologieBâtimentCsvShape = z.infer<typeof typologieDeBâtimentCsvSchema>;

@@ -27,7 +27,7 @@ import { mapToPuissanceTimelineItemProps } from '../puissance/(historique)';
 import { mapToAbandonTimelineItemProps } from '../abandon/(historique)/mapToAbandonTimelineItemProps';
 import { mapToRaccordementTimelineItemProps } from '../raccordements/(historique)/mapToRaccordementTimelineItemProps';
 import { mapToDélaiTimelineItemProps } from '../delai/(historique)/mapToDélaiTimelineItemProps';
-import { mapToInstallateurTimelineItemProps } from '../installateur/(historique)/mapToInstallateurTimelineItemProps';
+import { mapToInstallationTimelineItemProps } from '../installation/(historique)/mapToInstallationTimelineItemProps';
 import { mapToNatureDeLExploitationTimelineItemProps } from '../nature-de-l-exploitation/(historique)/mapToNatureDeLExploitationTimelineItemProps';
 import { mapToFournisseurTimelineItemProps } from '../fournisseur/(historique)/mapToFournisseurTimelineItemProps';
 import { mapToDispositifDeStockageProps } from '../dispositif-de-stockage/(historique)/mapToDispositifDeStockageTimelineItemProps';
@@ -48,7 +48,7 @@ const categoriesDisponibles = [
   'recours',
   'représentant-légal',
   'raccordement',
-  'installateur',
+  'installation',
   'dispositif-de-stockage',
   'nature-de-l-exploitation',
 ] as const;
@@ -171,7 +171,7 @@ const categoryToIconProps: Record<(typeof categoriesDisponibles)[number], IconPr
   recours: 'ri-scales-3-line',
   délai: 'ri-time-line',
   fournisseur: DEMANDE_GENERIQUE_ICONE,
-  installateur: DEMANDE_GENERIQUE_ICONE,
+  installation: DEMANDE_GENERIQUE_ICONE,
   'dispositif-de-stockage': DEMANDE_GENERIQUE_ICONE,
   'nature-de-l-exploitation': DEMANDE_GENERIQUE_ICONE,
 };
@@ -250,7 +250,7 @@ const mapToTimelineItemProps = ({
     .with({ category: 'raccordement' }, mapToRaccordementTimelineItemProps)
     .with({ category: 'délai' }, mapToDélaiTimelineItemProps)
     .with({ category: 'fournisseur' }, mapToFournisseurTimelineItemProps)
-    .with({ category: 'installateur' }, mapToInstallateurTimelineItemProps)
+    .with({ category: 'installation' }, mapToInstallationTimelineItemProps)
     .with(
       {
         category: 'dispositif-de-stockage',

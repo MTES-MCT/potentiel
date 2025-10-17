@@ -4,15 +4,22 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
+import { Candidature } from '../..';
 
 import { InstallateurModifiéEvent } from '.';
 
 import { InstallationEvent } from './installation.event';
 import { ImporterOptions } from './importer/importerInstallation.option';
-import { InstallationDéjàTransmiseError } from './installation.error';
+import {
+  InstallateurIdentiqueError,
+  InstallationDéjàTransmiseError,
+  JeuDeTypologiesIdentiquesError,
+  NouvelleTypologieInstallationIdentiqueÀLActuelleError,
+} from './installation.error';
 import { InstallationImportéeEvent } from './importer/importerInstallation.event';
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
-import { InstallateurIdentiqueError } from './installateur/installateur.error';
+import { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option';
+import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -40,9 +47,9 @@ export class InstallationAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         installateur: installateur ?? '',
-        typologieInstallation,
-        importéLe: importéLe.formatter(),
-        importéPar: importéPar.formatter(),
+        typologieInstallation: typologieInstallation.map((t) => t.formatter()),
+        importéeLe: importéLe.formatter(),
+        importéePar: importéPar.formatter(),
       },
     };
 
@@ -73,6 +80,48 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async modifierTypologieInstallation({
+    typologieInstallation,
+    dateModification,
+    identifiantUtilisateur,
+  }: ModifierTypologieInstallationOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
+    this.vérifierQueModificationTypologieInstallationEstPossible(typologieInstallation);
+
+    const event: TypologieInstallationModifiéeEvent = {
+      type: 'TypologieInstallationModifiée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        typologieInstallation: typologieInstallation.map((t) => t.formatter()),
+        modifiéeLe: dateModification.formatter(),
+        modifiéePar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  private vérifierQueModificationTypologieInstallationEstPossible = (
+    modification: Candidature.TypologieInstallation.ValueType[],
+  ) => {
+    const actuel = this.#typologieInstallation;
+
+    if (
+      actuel.length === modification.length &&
+      modification.every((m) => actuel.some((a) => m.estÉgaleÀ(a)))
+    ) {
+      throw new NouvelleTypologieInstallationIdentiqueÀLActuelleError();
+    }
+
+    if (modification.length > 1) {
+      const uniqueTypologies = new Set(modification.map((m) => m.typologie));
+      if (uniqueTypologies.size < modification.length) {
+        throw new JeuDeTypologiesIdentiquesError();
+      }
+    }
+  };
+
   apply(event: InstallationEvent): void {
     match(event)
       .with(
@@ -86,6 +135,9 @@ export class InstallationAggregate extends AbstractAggregate<
           type: 'InstallateurModifié-V1',
         },
         (event) => this.applyInstallateurModifiéV1(event),
+      )
+      .with({ type: 'TypologieInstallationModifiée-V1' }, (event) =>
+        this.applyTypologieInstallationModifiéeV1(event),
       )
       .exhaustive();
   }
@@ -103,5 +155,13 @@ export class InstallationAggregate extends AbstractAggregate<
     payload: { installateur: nouvelInstallateur },
   }: InstallateurModifiéEvent) {
     this.#installateur = nouvelInstallateur;
+  }
+
+  private applyTypologieInstallationModifiéeV1({
+    payload: { typologieInstallation: nouvelleTypologieInstallation },
+  }: TypologieInstallationModifiéeEvent) {
+    this.#typologieInstallation = nouvelleTypologieInstallation.map(
+      TypologieInstallation.convertirEnValueType,
+    );
   }
 }

@@ -1,2 +1,2 @@
-export { mapToInstallateurImportéTimelineItemProps } from './mapToInstallateurImportéTimelineItemProps';
+export { mapToInstallationImportéeTimelineItemProps } from './mapToInstallationImportéeTimelineItemProps';
 export { mapToInstallateurModifiéTimelineItemsProps } from './mapToInstallateurModifiéTimelineItemsProps';

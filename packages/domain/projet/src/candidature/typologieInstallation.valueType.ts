@@ -6,7 +6,6 @@ export const bâtiment = [
   'bâtiment.existant-sans-rénovation-de-toiture',
   'bâtiment.serre',
   'bâtiment.stabulation',
-  'bâtiment.mixte',
 ] as const;
 
 export const ombrière = ['ombrière.parking', 'ombrière.autre', 'ombrière.mixte'] as const;
@@ -64,7 +63,7 @@ function estValide(value: ConvertirEnValueTypeProps): asserts value is RawType {
 
 class TypologieInstallationInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`La typologie de l'installation ne correspond à aucune valeur connue`, {
+    super(`La typologie du projet ne correspond à aucune valeur connue`, {
       value,
     });
   }

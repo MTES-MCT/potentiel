@@ -8,16 +8,17 @@ import { getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import { installateurModifiéNotification } from './installateurModifié.notification';
+import { typologieInstallationModifiéeNotification } from './typologieInstallationModifiée.notification';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent & Event;
 
 export type Execute = Message<'System.Notification.Lauréat.Installation', SubscriptionEvent>;
 
-export type RegisterInstallateurNotificationDependencies = {
+export type RegisterInstallationNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-export const register = ({ sendEmail }: RegisterInstallateurNotificationDependencies) => {
+export const register = ({ sendEmail }: RegisterInstallationNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
@@ -28,6 +29,13 @@ export const register = ({ sendEmail }: RegisterInstallateurNotificationDependen
     return match(event)
       .with({ type: 'InstallateurModifié-V1' }, async (event) =>
         installateurModifiéNotification({
+          sendEmail,
+          event,
+          projet,
+        }),
+      )
+      .with({ type: 'TypologieInstallationModifiée-V1' }, async (event) =>
+        typologieInstallationModifiéeNotification({
           sendEmail,
           event,
           projet,

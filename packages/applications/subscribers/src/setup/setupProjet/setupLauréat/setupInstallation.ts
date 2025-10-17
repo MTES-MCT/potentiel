@@ -1,5 +1,5 @@
 import { HistoriqueProjector, InstallationProjector } from '@potentiel-applications/projectors';
-import { InstallateurNotification } from '@potentiel-applications/notifications';
+import { InstallationNotification } from '@potentiel-applications/notifications';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
@@ -14,17 +14,17 @@ export const setupInstallation: SetupProjet = async ({ sendEmail }) => {
     InstallationProjector.Execute
   >({
     name: 'projector',
-    eventType: ['RebuildTriggered', 'InstallationImportée-V1', 'InstallateurModifié-V1'],
+    eventType: 'all',
     messageType: 'System.Projector.Lauréat.Installation',
   });
 
-  InstallateurNotification.register({ sendEmail });
+  InstallationNotification.register({ sendEmail });
   await installation.setupSubscription<
-    InstallateurNotification.SubscriptionEvent,
-    InstallateurNotification.Execute
+    InstallationNotification.SubscriptionEvent,
+    InstallationNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['InstallateurModifié-V1'],
+    eventType: ['InstallateurModifié-V1', 'TypologieInstallationModifiée-V1'],
     messageType: 'System.Notification.Lauréat.Installation',
   });
 

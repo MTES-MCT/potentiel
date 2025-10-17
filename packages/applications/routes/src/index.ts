@@ -12,7 +12,7 @@ import {
   Fournisseur,
   Délai,
   GarantiesFinancières,
-  Installateur,
+  Installation,
   DispositifDeStockage,
   NatureDeLExploitation,
 } from './lauréat';
@@ -51,7 +51,7 @@ export const Routes = {
   Fournisseur,
   Délai,
   GarantiesFinancières,
-  Installateur,
+  Installation,
   DispositifDeStockage,
   NatureDeLExploitation,
   Éliminé,

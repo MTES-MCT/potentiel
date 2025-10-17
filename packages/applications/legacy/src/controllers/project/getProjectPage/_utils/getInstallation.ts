@@ -16,7 +16,14 @@ export type GetInstallationForProjectPage = {
       url: string;
     };
   };
-  typologieInstallation: { value: Candidature.TypologieInstallation.RawType[] };
+  typologieInstallation: {
+    value: Candidature.TypologieInstallation.RawType[];
+    affichage?: {
+      labelActions?: string;
+      label: string;
+      url: string;
+    };
+  };
 };
 
 type Props = {
@@ -39,22 +46,32 @@ export const getInstallation = async ({
 
     if (Option.isSome(installationProjection)) {
       const { installateur, typologieInstallation } = installationProjection;
-
-      return {
+      const data: GetInstallationForProjectPage = {
         installateur: {
           value: installateur,
-          ...(role.aLaPermission('installation.installateur.modifier') && {
-            affichage: {
-              url: Routes.Installateur.modifier(identifiantProjet.formatter()),
-              label: 'Modifier',
-              labelActions: "Modifier l'installateur",
-            },
-          }),
         },
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
         },
       };
+
+      if (role.aLaPermission('installation.installateur.modifier')) {
+        data.installateur.affichage = {
+          url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: "Modifier l'installateur",
+        };
+      }
+
+      if (role.aLaPermission('installation.typologieInstallation.modifier')) {
+        data.typologieInstallation.affichage = {
+          url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: 'Modifier la typologie du projet',
+        };
+      }
+
+      return data;
     }
 
     return undefined;

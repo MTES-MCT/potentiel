@@ -196,6 +196,7 @@ export const ProjectDetails = ({
         fournisseurAffichage={fournisseur?.affichage}
         délaiAffichage={délai.affichage}
         installateurAffichage={installation?.installateur.affichage}
+        typologieInstallationAffichage={installation?.typologieInstallation.affichage}
         features={user.features}
         dispositifDeStockageAffichage={dispositifDeStockage?.affichage}
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
