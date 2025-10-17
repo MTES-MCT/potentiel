@@ -1,13 +1,18 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { getBaseUrl, getCandidature } from '../../helpers';
 
 export const porteurInvitéNotification = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
 }: PorteurInvitéEvent) => {
-  const projets = await Promise.all(identifiantsProjet.map(getCandidature));
+  const projets = await Promise.all(
+    identifiantsProjet.map((identifiantProjet) =>
+      getCandidature(IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()),
+    ),
+  );
 
   const urlPageProjets = `${getBaseUrl()}${Routes.Lauréat.lister()}`;
 

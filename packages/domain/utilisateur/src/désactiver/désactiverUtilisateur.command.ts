@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
+import { LoadAggregateV2 } from '@potentiel-domain/core';
 
-import { loadUtilisateurFactory } from '../utilisateur.aggregate';
+import { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type DésactiverUtilisateurCommand = Message<
   'Utilisateur.Command.DésactiverUtilisateur',
@@ -14,17 +14,18 @@ export type DésactiverUtilisateurCommand = Message<
   }
 >;
 
-export const registerDésactiverCommand = (loadAggregate: LoadAggregate) => {
-  const loadUtilisateur = loadUtilisateurFactory(loadAggregate);
+export const registerDésactiverCommand = (loadAggregate: LoadAggregateV2) => {
   const handler: MessageHandler<DésactiverUtilisateurCommand> = async ({
     identifiantUtilisateur,
     désactivéPar,
     désactivéLe,
   }) => {
-    const utilisateur = await loadUtilisateur(identifiantUtilisateur);
-
+    const utilisateur = await loadAggregate(
+      UtilisateurAggregate,
+      `utilisateur|${identifiantUtilisateur.formatter()}`,
+      undefined,
+    );
     await utilisateur.désactiver({
-      identifiantUtilisateur,
       désactivéPar,
       désactivéLe,
     });
