@@ -12,6 +12,6 @@ export const getGarantiesFinancièresDateLabel = (
       'consignation',
       'six-mois-après-achèvement',
       'type-inconnu',
-      () => 'Date de constitution des garanties financières',
+      () => "Date de prise d'effet",
     )
     .exhaustive();
