@@ -6,11 +6,16 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
 import { Candidature } from '../..';
 
-import { InstallateurModifiéEvent } from '.';
+import {
+  DispositifDeStockage,
+  DispositifDeStockageModifiéEvent,
+  InstallateurModifiéEvent,
+} from '.';
 
 import { InstallationEvent } from './installation.event';
 import { ImporterOptions } from './importer/importerInstallation.option';
 import {
+  DispositifDeStockageIdentiqueError,
   InstallateurIdentiqueError,
   InstallationDéjàTransmiseError,
   JeuDeTypologiesIdentiquesError,
@@ -20,6 +25,7 @@ import { InstallationImportéeEvent } from './importer/importerInstallation.even
 import { ModifierInstallateurOptions } from './installateur/modifier/modifierInstallateur.option';
 import { ModifierTypologieInstallationOptions } from './typologie-installation/modifier/modifierTypologieInstallation.option';
 import { TypologieInstallationModifiéeEvent } from './typologie-installation/modifier/modifierTypologieInstallation.event';
+import { ModifierDispositifDeStockageOptions } from './dispositif-de-stockage/modifier/modifierDispositifDeStockage.options';
 
 export class InstallationAggregate extends AbstractAggregate<
   InstallationEvent,
@@ -28,6 +34,7 @@ export class InstallationAggregate extends AbstractAggregate<
 > {
   #installateur?: string;
   #typologieInstallation!: TypologieInstallation.ValueType[];
+  #dispositifDeStockage?: DispositifDeStockage.ValueType;
 
   get lauréat() {
     return this.parent;
@@ -37,7 +44,13 @@ export class InstallationAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async importer({ installateur, typologieInstallation, importéLe, importéPar }: ImporterOptions) {
+  async importer({
+    installateur,
+    typologieInstallation,
+    dispositifDeStockage,
+    importéLe,
+    importéPar,
+  }: ImporterOptions) {
     if (this.exists) {
       throw new InstallationDéjàTransmiseError();
     }
@@ -48,6 +61,8 @@ export class InstallationAggregate extends AbstractAggregate<
         identifiantProjet: this.identifiantProjet.formatter(),
         installateur: installateur ?? '',
         typologieInstallation: typologieInstallation.map((t) => t.formatter()),
+        dispositifDeStockage: dispositifDeStockage?.formatter(),
+
         importéeLe: importéLe.formatter(),
         importéePar: importéPar.formatter(),
       },
@@ -102,6 +117,27 @@ export class InstallationAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
+  async modifierDispositifDeStockage({
+    dispositifDeStockage,
+    modifiéLe,
+    modifiéPar,
+  }: ModifierDispositifDeStockageOptions) {
+    if (this.#dispositifDeStockage && dispositifDeStockage.estÉgaleÀ(this.#dispositifDeStockage)) {
+      throw new DispositifDeStockageIdentiqueError();
+    }
+
+    const event: DispositifDeStockageModifiéEvent = {
+      type: 'DispositifDeStockageModifié-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        dispositifDeStockage: dispositifDeStockage.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+      },
+    };
+    await this.publish(event);
+  }
+
   private vérifierQueModificationTypologieInstallationEstPossible = (
     modification: Candidature.TypologieInstallation.ValueType[],
   ) => {
@@ -139,16 +175,21 @@ export class InstallationAggregate extends AbstractAggregate<
       .with({ type: 'TypologieInstallationModifiée-V1' }, (event) =>
         this.applyTypologieInstallationModifiéeV1(event),
       )
+      .with({ type: 'DispositifDeStockageModifié-V1' }, (event) =>
+        this.applyDispositifDeStockageModifiéV1(event),
+      )
       .exhaustive();
   }
 
   private applyInstallationImportéeV1({
-    payload: { installateur, typologieInstallation },
+    payload: { installateur, typologieInstallation, dispositifDeStockage },
   }: InstallationImportéeEvent) {
     this.#installateur = installateur;
     this.#typologieInstallation = typologieInstallation.map(
       TypologieInstallation.convertirEnValueType,
     );
+    this.#dispositifDeStockage =
+      dispositifDeStockage && DispositifDeStockage.bind(dispositifDeStockage);
   }
 
   private applyInstallateurModifiéV1({
@@ -163,5 +204,11 @@ export class InstallationAggregate extends AbstractAggregate<
     this.#typologieInstallation = nouvelleTypologieInstallation.map(
       TypologieInstallation.convertirEnValueType,
     );
+  }
+
+  private applyDispositifDeStockageModifiéV1({
+    payload: { dispositifDeStockage },
+  }: DispositifDeStockageModifiéEvent) {
+    this.#dispositifDeStockage = DispositifDeStockage.bind(dispositifDeStockage);
   }
 }

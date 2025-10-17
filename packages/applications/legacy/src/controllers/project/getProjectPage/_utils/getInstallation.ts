@@ -24,6 +24,14 @@ export type GetInstallationForProjectPage = {
       url: string;
     };
   };
+  dispositifDeStockage: {
+    value?: Lauréat.Installation.DispositifDeStockage.RawType;
+    affichage?: {
+      labelActions?: string;
+      label: string;
+      url: string;
+    };
+  };
 };
 
 type Props = {
@@ -45,13 +53,16 @@ export const getInstallation = async ({
       });
 
     if (Option.isSome(installationProjection)) {
-      const { installateur, typologieInstallation } = installationProjection;
+      const { installateur, typologieInstallation, dispositifDeStockage } = installationProjection;
       const data: GetInstallationForProjectPage = {
         installateur: {
           value: installateur,
         },
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
+        },
+        dispositifDeStockage: {
+          value: dispositifDeStockage ? dispositifDeStockage.formatter() : undefined,
         },
       };
 
@@ -68,6 +79,14 @@ export const getInstallation = async ({
           url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
           label: 'Modifier',
           labelActions: 'Modifier la typologie du projet',
+        };
+      }
+
+      if (role.aLaPermission('installation.dispositifDeStockage.modifier')) {
+        data.dispositifDeStockage.affichage = {
+          url: Routes.Installation.modifierDispositifDeStockage(identifiantProjet.formatter()),
+          label: 'Modifier',
+          labelActions: 'Modifier le dispositif de stockage',
         };
       }
 

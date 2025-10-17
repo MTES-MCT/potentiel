@@ -45,7 +45,6 @@ import { TâchePlanifiéeAggregate } from './tâche-planifiée/tâchePlanifiée.
 import { TâcheAggregate } from './tâche/tâche.aggregate';
 import { NotifierOptions } from './notifier/notifierLauréat.option';
 import { InstallationAggregate } from './installation/installation.aggregate';
-import { DispositifDeStockageAggregate } from './dispositif-de-stockage/dispositifDeStockage.aggregate';
 import { NatureDeLExploitationAggregate } from './nature-de-l-exploitation/natureDeLExploitation.aggregate';
 import { NomProjetModifiéEvent } from './modifier/nomProjetModifié.event';
 import { ModifierNomProjetOptions } from './modifier/modifierNomProjet.option';
@@ -137,11 +136,6 @@ export class LauréatAggregate extends AbstractAggregate<
     return this.#garantiesFinancières;
   }
 
-  #dispositifDeStockage!: AggregateType<DispositifDeStockageAggregate>;
-  get dispositifDeStockage() {
-    return this.#dispositifDeStockage;
-  }
-
   #natureDeLExploitation!: AggregateType<NatureDeLExploitationAggregate>;
   get natureDeLExploitation() {
     return this.#natureDeLExploitation;
@@ -220,11 +214,6 @@ export class LauréatAggregate extends AbstractAggregate<
     this.#installation = await this.loadAggregate(
       InstallationAggregate,
       `installation|${this.projet.identifiantProjet.formatter()}`,
-    );
-
-    this.#dispositifDeStockage = await this.loadAggregate(
-      DispositifDeStockageAggregate,
-      `dispositif-de-stockage|${this.projet.identifiantProjet.formatter()}`,
     );
 
     this.#natureDeLExploitation = await this.loadAggregate(
@@ -314,21 +303,12 @@ export class LauréatAggregate extends AbstractAggregate<
     // Champs supplémentaires, dont l'import dépend de l'appel d'offre
     if (
       this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined ||
-      this.projet.candidature.dépôt.typologieInstallation
+      this.projet.candidature.dépôt.typologieInstallation ||
+      this.projet.candidature.dépôt.dispositifDeStockage
     ) {
       await this.#installation.importer({
         installateur: this.projet.candidature.installateur ?? '',
         typologieInstallation: this.projet.candidature.dépôt.typologieInstallation,
-        importéLe: notifiéLe,
-        importéPar: notifiéPar,
-      });
-    }
-
-    if (
-      this.projet.appelOffre.champsSupplémentaires?.dispositifDeStockage !== undefined &&
-      this.projet.candidature.dépôt.dispositifDeStockage !== undefined
-    ) {
-      await this.dispositifDeStockage.importer({
         dispositifDeStockage: this.projet.candidature.dépôt.dispositifDeStockage,
         importéLe: notifiéLe,
         importéPar: notifiéPar,

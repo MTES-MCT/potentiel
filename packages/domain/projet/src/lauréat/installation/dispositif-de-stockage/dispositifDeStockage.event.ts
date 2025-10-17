@@ -1,6 +1,7 @@
-import { DispositifDeStockageImportéEvent } from './importer/importerDispositifDeStockage.event';
+import { InstallationImportéeEvent } from '../importer/importerInstallation.event';
+
 import { DispositifDeStockageModifiéEvent } from './modifier/modifierDispositifDeStockage.event';
 
 export type DispositifDeStockageEvent =
-  | DispositifDeStockageImportéEvent
+  | InstallationImportéeEvent
   | DispositifDeStockageModifiéEvent;

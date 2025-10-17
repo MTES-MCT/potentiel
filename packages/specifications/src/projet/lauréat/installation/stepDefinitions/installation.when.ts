@@ -1,9 +1,12 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { ModifierDispositifDeStockage } from '../fixture/modifierDispositifDeStockage.fixture';
+import { mapToExemple } from '../../../../helpers/mapToExemple';
+import { dispositifDeStockageExempleMap } from '../../../../candidature/candidature.exempleMap';
 
 Quand(
   "le DGEC validateur modifie l'installateur du projet lauréat",
@@ -74,7 +77,26 @@ Quand(
   },
 );
 
-export async function modifierInstallateur(
+Quand(
+  `un admin modifie le dispositif de stockage du projet lauréat avec :`,
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    const dispositifDeStockage = mapToExemple(exemple, dispositifDeStockageExempleMap);
+
+    try {
+      await modifierDispositifDeStockage.call(
+        this,
+        this.utilisateurWorld.adminFixture.email,
+        dispositifDeStockage,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+async function modifierInstallateur(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
   installateurValue?: string,
@@ -116,6 +138,37 @@ export async function modifierTypologieInstallation(
       dateModificationValue: modifiéeLe,
       identifiantUtilisateurValue: modifiéePar,
       identifiantProjetValue: identifiantProjet.formatter(),
+    },
+  });
+}
+
+async function modifierDispositifDeStockage(
+  this: PotentielWorld,
+  modifiéPar: string,
+  dispositifDeStockageExemple: Partial<ModifierDispositifDeStockage['dispositifDeStockage']>,
+) {
+  const { identifiantProjet } = this.lauréatWorld;
+
+  const { dispositifDeStockage, dateModification } =
+    this.lauréatWorld.installationWorld.modifierDispositifDeStockageFixture.créer({
+      dispositifDeStockage:
+        dispositifDeStockageExemple.installationAvecDispositifDeStockage !== undefined
+          ? {
+              // otherwise typescript does not understand that dispositifDeStockageExemple.dispositifDeStockage is not undefined...
+              installationAvecDispositifDeStockage:
+                dispositifDeStockageExemple.installationAvecDispositifDeStockage,
+              ...dispositifDeStockageExemple,
+            }
+          : undefined,
+    });
+
+  await mediator.send<Lauréat.Installation.ModifierDispositifDeStockageUseCase>({
+    type: 'Lauréat.Installation.UseCase.ModifierDispositifDeStockage',
+    data: {
+      identifiantProjetValue: identifiantProjet.formatter(),
+      dispositifDeStockageValue: dispositifDeStockage,
+      modifiéLeValue: dateModification,
+      modifiéParValue: modifiéPar,
     },
   });
 }

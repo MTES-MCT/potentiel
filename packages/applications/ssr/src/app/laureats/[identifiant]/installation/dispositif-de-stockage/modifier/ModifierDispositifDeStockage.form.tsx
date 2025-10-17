@@ -18,7 +18,7 @@ import {
 } from './modifierDispositifDeStockage.action';
 
 export type ModifierDispositifDeStockageFormProps =
-  PlainType<Lauréat.DispositifDeStockage.ConsulterDispositifDeStockageReadModel>;
+  PlainType<Lauréat.Installation.ConsulterDispositifDeStockageReadModel>;
 
 export const ModifierDispositifDeStockageForm: FC<ModifierDispositifDeStockageFormProps> = ({
   identifiantProjet,

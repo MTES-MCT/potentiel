@@ -72,7 +72,6 @@ type ProjectDetailsProps = {
     };
   };
   autorisationDUrbanisme: Dépôt.ValueType['autorisationDUrbanisme'];
-  dispositifDeStockage?: InfoGeneralesProps['dispositifDeStockage'];
   natureDeLExploitation?: InfoGeneralesProps['natureDeLExploitation'];
   statutLauréat: Lauréat.StatutLauréat.RawType;
   siteDeProduction: InfoGeneralesProps['siteDeProduction'];
@@ -101,7 +100,6 @@ export const ProjectDetails = ({
   délai,
   autorisationDUrbanisme,
   installation,
-  dispositifDeStockage,
   natureDeLExploitation,
   statutLauréat,
   siteDeProduction,
@@ -198,7 +196,7 @@ export const ProjectDetails = ({
         installateurAffichage={installation?.installateur.affichage}
         typologieInstallationAffichage={installation?.typologieInstallation.affichage}
         features={user.features}
-        dispositifDeStockageAffichage={dispositifDeStockage?.affichage}
+        dispositifDeStockageAffichage={installation?.dispositifDeStockage?.affichage}
         natureDeLExploitationAffichage={natureDeLExploitation?.affichage}
         siteDeProductionAffichage={siteDeProduction?.affichage}
         doitAfficherAttestationDésignation={doitAfficherAttestationDésignation}
@@ -262,7 +260,6 @@ export const ProjectDetails = ({
               attestationConformité={attestationConformité}
               autorisationDUrbanisme={autorisationDUrbanisme}
               installation={installation}
-              dispositifDeStockage={dispositifDeStockage}
               natureDeLExploitation={natureDeLExploitation}
               siteDeProduction={siteDeProduction}
             />
