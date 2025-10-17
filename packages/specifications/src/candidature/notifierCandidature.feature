@@ -2,8 +2,10 @@
 @candidature
 Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notification d'une période
 
-    Scénario: Notifier un candidat lauréat
-        Etant donné la candidature lauréate "Du boulodrome de Marseille"
+    Plan du Scénario: Notifier un candidat lauréat
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offres | <Appel d'offre> |
+            | période        | <Période>       |
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet lauréat devrait être consultable
         Et le producteur du projet lauréat devrait être mis à jour
@@ -13,6 +15,24 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
         Et l'attestation de désignation de la candidature devrait être consultable
+
+        Exemples:
+            | Appel d'offre                     | Période |
+            | CRE4 - Bâtiment                   | 10      |
+            | CRE4 - Sol                        | 10      |
+            | CRE4 - Innovation                 | 3       |
+            | CRE4 - ZNI                        | 2       |
+            | CRE4 - Autoconsommation métropole | 10      |
+            | CRE4 - Autoconsommation ZNI       | 2       |
+            | Eolien                            | 6       |
+            | PPE2 - Sol                        | 1       |
+            | PPE2 - Eolien                     | 1       |
+            | PPE2 - Bâtiment                   | 1       |
+            | PPE2 - Neutre                     | 1       |
+            | PPE2 - Innovation                 | 1       |
+            | PPE2 - Autoconsommation métropole | 1       |
+            | PPE2 - ZNI                        | 1       |
+            | PPE2 - Petit PV Bâtiment          | 1       |
 
     Scénario: Notifier un candidat lauréat avec des champs spécifiques
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :

@@ -18,6 +18,13 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
   const paragrapheEngagementIPFPGPFC =
     période.paragrapheEngagementIPFPGPFC ?? appelOffre.paragrapheEngagementIPFPGPFC;
 
+  const afficherObligationGarantiesFinancières6MoisAprèsAchèvement =
+    !!appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres &&
+    (appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres === 'après candidature' ||
+      appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles.includes(
+        'six-mois-après-achèvement',
+      ));
+
   return {
     objet: `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`,
     content: (
@@ -116,7 +123,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
             ;
           </Text>
-          {appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel && (
+          {!!appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel && (
             <Text
               style={{
                 marginTop: 10,
@@ -125,24 +132,19 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               - {appelOffre.addendums.paragrapheRenseignerRaccordementDansPotentiel};
             </Text>
           )}
-          {appelOffre.garantiesFinancières.renvoiRetraitDesignationGarantieFinancieres &&
-            (appelOffre.garantiesFinancières.soumisAuxGarantiesFinancieres ===
-              'après candidature' ||
-              appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles.includes(
-                'six-mois-après-achèvement',
-              )) && (
-              <Text
-                style={{
-                  marginTop: 10,
-                }}
-              >
-                - prévoir une durée de garantie financière d’exécution couvrant le projet jusqu’à 6
-                mois après la date d’Achèvement de l’installation (date de fourniture de
-                l’attestation de conformité selon les dispositions du chapitre{' '}
-                {appelOffre.paragrapheAttestationConformite}) ou un renouvellement régulier afin
-                d’assurer une telle couverture temporelle;
-              </Text>
-            )}
+          {afficherObligationGarantiesFinancières6MoisAprèsAchèvement && (
+            <Text
+              style={{
+                marginTop: 10,
+              }}
+            >
+              - prévoir une durée de garantie financière d’exécution couvrant le projet jusqu’à 6
+              mois après la date d’Achèvement de l’installation (date de fourniture de l’attestation
+              de conformité selon les dispositions du chapitre{' '}
+              {appelOffre.paragrapheAttestationConformite}) ou un renouvellement régulier afin
+              d’assurer une telle couverture temporelle;
+            </Text>
+          )}
 
           {appelOffre.typeAppelOffre === 'innovation' && (
             <Text
