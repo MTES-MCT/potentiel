@@ -10,11 +10,13 @@ import { CahierDesCharges, IdentifiantProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 import {
+  AggrégatDéjàChargéError,
+  AggrégatNonChargéError,
   AppelOffreInexistantError,
   CahierDesChargesInexistantError,
   FamilleInexistanteError,
   PériodeInexistanteError,
-} from './appelOffre.error';
+} from './projet.error';
 import { CandidatureAggregate } from './candidature/candidature.aggregate';
 import { LauréatAggregate } from './lauréat/lauréat.aggregate';
 import { AccèsAggregate } from './accès/accès.aggregate';
@@ -41,15 +43,20 @@ export class ProjetAggregateRoot {
     return this.#identifiantProjet;
   }
 
-  #éliminé!: AggregateType<ÉliminéAggregate>;
+  #éliminé?: AggregateType<ÉliminéAggregate>;
 
   get éliminé() {
+    if (!this.#éliminé) {
+      throw new AggrégatNonChargéError('éliminé');
+    }
     return this.#éliminé;
   }
 
-  #lauréat!: AggregateType<LauréatAggregate>;
-
+  #lauréat?: AggregateType<LauréatAggregate>;
   get lauréat() {
+    if (!this.#lauréat) {
+      throw new AggrégatNonChargéError('lauréat');
+    }
     return this.#lauréat;
   }
 
@@ -59,18 +66,24 @@ export class ProjetAggregateRoot {
     return this.#appelOffre;
   }
 
-  #accès!: AggregateType<AccèsAggregate>;
+  #accès?: AggregateType<AccèsAggregate>;
   get accès() {
+    if (!this.#accès) {
+      throw new AggrégatNonChargéError('accès');
+    }
     return this.#accès;
   }
 
-  #candidature!: AggregateType<CandidatureAggregate>;
+  #candidature?: AggregateType<CandidatureAggregate>;
   get candidature() {
+    if (!this.#candidature) {
+      throw new AggrégatNonChargéError('candidature');
+    }
     return this.#candidature;
   }
 
   get estNotifié() {
-    return this.#lauréat.estNotifié || this.#éliminé.estNotifié;
+    return this.lauréat.estNotifié || this.éliminé.estNotifié;
   }
 
   #période!: AppelOffre.Periode;
@@ -84,18 +97,22 @@ export class ProjetAggregateRoot {
   }
 
   get cahierDesChargesActuel() {
-    const cahierDesChargesModificatif = this.lauréat.exists
+    const cahierDesChargesModificatif = this.#lauréat?.exists
       ? this.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
           AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(
             this.lauréat.référenceCahierDesCharges,
           ),
         )
       : undefined;
-    if (!this.lauréat.référenceCahierDesCharges.estInitial() && !cahierDesChargesModificatif) {
+    if (
+      this.#lauréat &&
+      !this.#lauréat.référenceCahierDesCharges.estInitial() &&
+      !cahierDesChargesModificatif
+    ) {
       throw new CahierDesChargesInexistantError(
         this.appelOffre.id,
         this.période.id,
-        this.lauréat.référenceCahierDesCharges.formatter(),
+        this.#lauréat.référenceCahierDesCharges.formatter(),
       );
     }
     return CahierDesCharges.bind({
@@ -103,8 +120,8 @@ export class ProjetAggregateRoot {
       période: this.période,
       famille: this.famille,
       cahierDesChargesModificatif,
-      technologie: this.candidature.exists
-        ? this.candidature.technologie.type
+      technologie: this.#candidature?.exists
+        ? this.#candidature.technologie.type
         : this.appelOffre.technologie,
     });
   }
@@ -122,42 +139,24 @@ export class ProjetAggregateRoot {
   static async get(
     identifiantProjet: IdentifiantProjet.ValueType,
     { loadAggregate, loadAppelOffreAggregate }: ProjetAggregateRootDependencies,
+    skipChildrenInitialization: boolean = false,
   ) {
     const root = new ProjetAggregateRoot(identifiantProjet, loadAggregate, loadAppelOffreAggregate);
-    await root.init();
+    await root.init(skipChildrenInitialization);
     return root;
   }
 
-  private async init() {
+  private async init(skipChildrenInitialization: boolean) {
     if (this.#initialized) {
       throw new ProjetAggregateRootAlreadyInitialized();
     }
 
-    this.#accès = await this.#loadAggregate(
-      AccèsAggregate,
-      `accès|${this.identifiantProjet.formatter()}`,
-      this,
-    );
-
-    this.#candidature = await this.#loadAggregate(
-      CandidatureAggregate,
-      `candidature|${this.identifiantProjet.formatter()}`,
-      this,
-    );
-
-    this.#lauréat = await this.#loadAggregate(
-      LauréatAggregate,
-      `lauréat|${this.identifiantProjet.formatter()}`,
-      this,
-    );
-    await this.#lauréat.init();
-
-    this.#éliminé = await this.#loadAggregate(
-      ÉliminéAggregate,
-      `éliminé|${this.identifiantProjet.formatter()}`,
-      this,
-    );
-    await this.#éliminé.init();
+    if (!skipChildrenInitialization) {
+      await this.initCandidature();
+      await this.initLauréat();
+      await this.initÉliminé();
+      await this.initAccès();
+    }
 
     const appelOffre = await this.#loadAppelOffreAggregate(this.#identifiantProjet.appelOffre);
 
@@ -189,5 +188,45 @@ export class ProjetAggregateRoot {
     }
 
     this.#initialized = true;
+  }
+
+  private async initÉliminé() {
+    this.#éliminé = await this.#loadAggregate(
+      ÉliminéAggregate,
+      `éliminé|${this.identifiantProjet.formatter()}`,
+      this,
+    );
+    await this.#éliminé.init();
+  }
+
+  private async initLauréat() {
+    this.#lauréat = await this.#loadAggregate(
+      LauréatAggregate,
+      `lauréat|${this.identifiantProjet.formatter()}`,
+      this,
+    );
+    await this.#lauréat.init();
+  }
+
+  async initCandidature() {
+    if (this.#candidature) {
+      throw new AggrégatDéjàChargéError('candidature');
+    }
+    this.#candidature = await this.#loadAggregate(
+      CandidatureAggregate,
+      `candidature|${this.identifiantProjet.formatter()}`,
+      this,
+    );
+  }
+
+  async initAccès() {
+    if (this.#accès) {
+      throw new AggrégatDéjàChargéError('accès');
+    }
+    this.#accès = await this.#loadAggregate(
+      AccèsAggregate,
+      `accès|${this.identifiantProjet.formatter()}`,
+      this,
+    );
   }
 }

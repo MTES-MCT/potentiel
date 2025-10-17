@@ -12,3 +12,5 @@ export * as Éliminé from './éliminé';
 export * as Lauréat from './lauréat';
 
 export * as CahierDesCharges from './cahierDesCharges.valueType';
+
+export * as ProjetSaga from './projet.saga';
