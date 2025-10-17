@@ -7,7 +7,7 @@ import {
   ConsulterUtilisateurReadModel,
   mapToReadModel,
 } from '../consulter/consulterUtilisateur.query';
-import { Role } from '..';
+import { Role, Zone } from '..';
 import * as Région from '../région.valueType';
 
 export type ListerUtilisateursReadModel = {
@@ -24,6 +24,7 @@ export type ListerUtilisateursQuery = Message<
     roles?: Array<string>;
     identifiantGestionnaireRéseau?: string;
     région?: string;
+    zone?: string;
     zni?: boolean;
     actif?: boolean;
   } & (
@@ -51,6 +52,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     identifiantsUtilisateur,
     identifiantGestionnaireRéseau,
     région,
+    zone,
     zni,
     actif,
   }) => {
@@ -59,7 +61,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
         ? {
             rôle: Where.equal('dreal'),
             région: région
-              ? Where.equal(région)
+              ? Where.equal(Région.convertirEnValueType(région).nom)
               : zni === true
                 ? Where.matchAny(Région.régionsZNI)
                 : zni === false
@@ -71,16 +73,21 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
               rôle: Where.equal('grd'),
               identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
             }
-          : {
-              rôle: (roles
-                ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
-                : // Typescript is lost with the union type :/
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  undefined) as any,
-              identifiantUtilisateur: identifiantsUtilisateur
-                ? Where.matchAny(identifiantsUtilisateur)
-                : Where.contain(identifiantUtilisateur),
-            };
+          : zone
+            ? {
+                rôle: Where.equal('cocontractant'),
+                zone: Where.equal(Zone.convertirEnValueType(zone).nom),
+              }
+            : {
+                rôle: (roles
+                  ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
+                  : // Typescript is lost with the union type :/
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    undefined) as any,
+                identifiantUtilisateur: identifiantsUtilisateur
+                  ? Where.matchAny(identifiantsUtilisateur)
+                  : Where.contain(identifiantUtilisateur),
+              };
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
       where: {

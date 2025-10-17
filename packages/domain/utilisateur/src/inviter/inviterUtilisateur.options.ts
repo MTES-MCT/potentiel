@@ -11,4 +11,5 @@ export type InviterOptions = {
   nomComplet?: string;
   région?: string;
   identifiantGestionnaireRéseau?: string;
+  zone?: string;
 };

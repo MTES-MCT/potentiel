@@ -6,6 +6,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
 import * as Role from '../role.valueType';
+import { Région, Zone } from '..';
 
 export type ConsulterUtilisateurReadModel = {
   identifiantUtilisateur: Email.ValueType;
@@ -13,7 +14,8 @@ export type ConsulterUtilisateurReadModel = {
   nomComplet: Option.Type<string>;
   rôle: Role.ValueType;
   fonction: Option.Type<string>;
-  région: Option.Type<string>;
+  région: Option.Type<Région.RawType>;
+  zone: Option.Type<Zone.RawType>;
   identifiantGestionnaireRéseau: Option.Type<string>;
   invitéLe: DateTime.ValueType;
   invitéPar: Email.ValueType;
@@ -58,6 +60,7 @@ export const mapToReadModel = (utilisateur: UtilisateurEntity): ConsulterUtilisa
   nomComplet: utilisateur.rôle === 'dgec-validateur' ? utilisateur.nomComplet : Option.none,
   fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
   région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
+  zone: utilisateur.rôle === 'cocontractant' ? utilisateur.zone : Option.none,
   identifiantGestionnaireRéseau:
     utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
   invitéLe: DateTime.convertirEnValueType(utilisateur.invitéLe),

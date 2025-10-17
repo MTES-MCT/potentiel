@@ -1,11 +1,13 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
-import { InviterUtilisateurUseCase, Role, Région } from '@potentiel-domain/utilisateur';
+import { InviterUtilisateurUseCase, Role, Région, Zone } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { getZoneLabel } from '../_helpers/getZoneLabel';
 
 import { InviterUtilisateurPage } from './InviterUtilisateur.page';
 
@@ -39,6 +41,7 @@ export default async function Page({ searchParams }: { searchParams: { role?: st
               value: codeEIC,
             }),
           )}
+          zones={Zone.zones.map((nom) => ({ label: getZoneLabel(nom), value: nom }))}
         />
       );
     }),

@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Role, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import { Role, UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
@@ -65,21 +65,7 @@ EtantDonné(
 EtantDonné(
   'un utilisateur invité avec le rôle {string}',
   async function (this: PotentielWorld, rôle: string) {
-    const payload = match(rôle)
-      .with(Role.dgecValidateur.nom, () => ({
-        rôle,
-        fonction: 'Fonction du DGEC Validateur',
-        nomComplet: 'Nom du DGEC Validateur',
-      }))
-      .with(Role.dreal.nom, () => ({
-        rôle,
-        région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
-      }))
-      .with(Role.grd.nom, () => ({
-        rôle,
-        identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
-      }))
-      .otherwise(() => ({ rôle }));
+    const payload = getPayloadForRôle.call(this, rôle);
     await inviterUtilisateur.call(this, payload);
   },
 );
@@ -87,21 +73,7 @@ EtantDonné(
 EtantDonné(
   'un utilisateur désactivé avec le rôle {string}',
   async function (this: PotentielWorld, rôle: string) {
-    const payload = match(rôle)
-      .with(Role.dgecValidateur.nom, () => ({
-        rôle,
-        fonction: 'Fonction du DGEC Validateur',
-        nomComplet: 'Nom du DGEC Validateur',
-      }))
-      .with(Role.dreal.nom, () => ({
-        rôle,
-        région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
-      }))
-      .with(Role.grd.nom, () => ({
-        rôle,
-        identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
-      }))
-      .otherwise(() => ({ rôle }));
+    const payload = getPayloadForRôle.call(this, rôle);
     await inviterUtilisateur.call(this, payload);
     await waitForSagasNotificationsAndProjectionsToFinish();
     await désactiverUtilisateur.call(this, {
@@ -129,4 +101,27 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
   });
   await inviterUtilisateur.call(this, { rôle: admin.role, email: admin.email });
   await inviterUtilisateur.call(this, { rôle: cre.role, email: cre.email });
+}
+
+export function getPayloadForRôle(this: PotentielWorld, rôle: string) {
+  return match(rôle)
+    .with(Role.dgecValidateur.nom, () => ({
+      rôle,
+      fonction: 'Fonction du DGEC Validateur',
+      nomComplet: 'Nom du DGEC Validateur',
+    }))
+    .with(Role.dreal.nom, () => ({
+      rôle,
+      région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
+    }))
+    .with(Role.grd.nom, () => ({
+      rôle,
+      identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
+    }))
+    .with(Role.cocontractant.nom, () => ({
+      rôle,
+      zone: Zone.déterminer(this.candidatureWorld.importerCandidature.values.localitéValue.région)
+        .nom,
+    }))
+    .otherwise(() => ({ rôle }));
 }

@@ -11,7 +11,10 @@ export type UtilisateurInvitéEvent = DomainEvent<
     invitéPar: Email.RawType;
   } & (
     | {
-        rôle: Exclude<Role.RawType, 'porteur-projet' | 'dreal' | 'grd' | 'dgec-validateur'>;
+        rôle: Exclude<
+          Role.RawType,
+          'porteur-projet' | 'dreal' | 'cocontractant' | 'grd' | 'dgec-validateur'
+        >;
       }
     | {
         rôle: 'dgec-validateur';
@@ -25,6 +28,10 @@ export type UtilisateurInvitéEvent = DomainEvent<
     | {
         rôle: 'grd';
         identifiantGestionnaireRéseau: string;
+      }
+    | {
+        rôle: 'cocontractant';
+        zone: string;
       }
   )
 >;

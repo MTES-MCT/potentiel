@@ -33,7 +33,7 @@ export const registerSagas = async () => {
 
   const lauréat = createSubscriptionSetup('lauréat');
   LauréatSaga.register();
-  lauréat.setupSubscription<LauréatSaga.SubscriptionEvent, LauréatSaga.Execute>({
+  await lauréat.setupSubscription<LauréatSaga.SubscriptionEvent, LauréatSaga.Execute>({
     name: 'legacy-saga',
     eventType: [
       'LauréatNotifié-V2',

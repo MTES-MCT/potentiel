@@ -7,15 +7,17 @@ import { exporterProjetsPourDREAL } from './requêtes/exporterProjetsPourDREAL';
 import { exporterProjetsPourADEME } from './requêtes/exporterProjetsPourADEME';
 import { exporterProjetsPourAcheteurObligé } from './requêtes/exporterProjetsPourAcheteurObligé';
 import { User } from '../../../../../entities';
-import { errAsync } from 'neverthrow';
 import { UnauthorizedError } from '../../../../../modules/shared';
+import { getProjetUtilisateurScopeAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Email } from '@potentiel-domain/common';
 
 type ExporterProjetsProps = {
   user: User;
   filtres?: FiltreListeProjets;
 };
 
-export const exporterProjets: ExporterProjets = ({ user, filtres }: ExporterProjetsProps) => {
+export const exporterProjets: ExporterProjets = async ({ user, filtres }: ExporterProjetsProps) => {
+  const scope = await getProjetUtilisateurScopeAdapter(Email.convertirEnValueType(user.email));
   switch (user.role) {
     case 'admin':
     case 'dgec-validateur':
@@ -27,12 +29,23 @@ export const exporterProjets: ExporterProjets = ({ user, filtres }: ExporterProj
     case 'porteur-projet':
       return exporterProjetsPourPorteurDeProjet({ user, filtres });
     case 'dreal':
-      return exporterProjetsPourDREAL({ userId: user.id, filtres });
+      return exporterProjetsPourDREAL({
+        filtres: {
+          ...filtres,
+          régions: scope.type === 'région' ? scope.régions : [],
+        },
+      });
     case 'ademe':
       return exporterProjetsPourADEME({ filtres });
     case 'acheteur-obligé':
-      return exporterProjetsPourAcheteurObligé({ filtres });
+    case 'cocontractant':
+      return exporterProjetsPourAcheteurObligé({
+        filtres: {
+          ...filtres,
+          régions: scope.type === 'région' ? scope.régions : [],
+        },
+      });
     default:
-      return errAsync(new UnauthorizedError());
+      throw new UnauthorizedError();
   }
 };

@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
@@ -23,6 +23,7 @@ import {
   UtilisateurInconnuError,
   UtilisateurNonActifError,
   UtilisateurNonPorteurError,
+  ZoneManquanteError,
 } from './utilisateur.error';
 import { RéactiverOptions } from './réactiver/réactiverUtilisateur.options';
 
@@ -47,6 +48,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     nomComplet,
     région,
     identifiantGestionnaireRéseau,
+    zone,
   }: InviterOptions) {
     if (this.exists) {
       throw new UtilisateurDéjàExistantError();
@@ -98,7 +100,21 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
         // voir `inviterPorteur` behavior
         throw new PorteurInvitéSansProjetError();
       })
-      .otherwise((rôle) => ({ ...basePayload, rôle }));
+      .with('cocontractant', (rôle) => {
+        if (!zone) {
+          throw new ZoneManquanteError();
+        }
+        return {
+          ...basePayload,
+          rôle,
+          zone,
+        };
+      })
+      .with(P.union('admin', 'cre', 'ademe', 'caisse-des-dépôts', 'acheteur-obligé'), (rôle) => ({
+        ...basePayload,
+        rôle,
+      }))
+      .exhaustive();
 
     const event: UtilisateurInvitéEvent = {
       type: 'UtilisateurInvité-V1',

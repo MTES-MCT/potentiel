@@ -16,8 +16,6 @@ import {
   évaluationCarbone,
 } from '../colonnesParCatégorie';
 import { récupérerExportProjets } from './récupérerExportProjets';
-import { wrapInfra } from '../../../../../../core/utils';
-import { UserDreal } from '../../../../projectionsNext';
 
 const colonnesÀExporter = [
   ...identificationProjet,
@@ -38,20 +36,6 @@ const colonnesÀExporter = [
 
 export const exporterProjetsPourDREAL = ({
   filtres,
-  userId,
 }: {
-  userId: string;
-  filtres?: FiltreListeProjets;
-}) =>
-  wrapInfra(
-    UserDreal.findOne({
-      where: { userId },
-      attributes: ['dreal'],
-    }),
-  ).andThen((régionDreal: any) =>
-    récupérerExportProjets({
-      colonnesÀExporter,
-      filtres,
-      seulementLesProjetsParRégion: régionDreal.dreal,
-    }),
-  );
+  filtres?: FiltreListeProjets & { régions: string[] };
+}) => récupérerExportProjets({ colonnesÀExporter, filtres });

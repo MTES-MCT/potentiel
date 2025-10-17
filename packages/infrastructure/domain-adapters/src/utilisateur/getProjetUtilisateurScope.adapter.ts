@@ -7,7 +7,7 @@ import {
   Accès,
   IdentifiantProjet,
 } from '@potentiel-domain/projet';
-import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { Région, UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Where } from '@potentiel-domain/entity';
 
@@ -23,7 +23,7 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
 
   return match(utilisateur)
     .returnType<Promise<ProjetUtilisateurScope>>()
-    .with({ rôle: 'dreal' }, async (value) => ({ type: 'region', region: value.région }))
+    .with({ rôle: 'dreal' }, async (value) => ({ type: 'région', régions: [value.région] }))
     .with({ rôle: 'porteur-projet' }, async () => {
       const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
         where: {
@@ -38,5 +38,18 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
         ),
       };
     })
-    .otherwise(async () => ({ type: 'all' }));
+    .with({ rôle: 'grd' }, async () => ({ type: 'projet', identifiantProjets: [] }))
+    .with({ rôle: 'cocontractant' }, async (value) => ({
+      type: 'région',
+      régions: Région.régions.filter((région) =>
+        Zone.convertirEnValueType(value.zone).aAccèsàLaRégion(région),
+      ),
+    }))
+    .with({ rôle: 'admin' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'dgec-validateur' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'cre' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'ademe' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'caisse-des-dépôts' }, async () => ({ type: 'all' }))
+    .with({ rôle: 'acheteur-obligé' }, async () => ({ type: 'all' }))
+    .exhaustive();
 };

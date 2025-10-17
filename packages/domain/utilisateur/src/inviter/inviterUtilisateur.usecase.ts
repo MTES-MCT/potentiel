@@ -18,6 +18,7 @@ export type InviterUtilisateurUseCase = Message<
     nomCompletValue?: string;
     régionValue?: string;
     identifiantGestionnaireRéseauValue?: string;
+    zoneValue?: string;
   }
 >;
 
@@ -31,6 +32,7 @@ export const registerInviterUseCase = () => {
     nomCompletValue: nomComplet,
     régionValue: région,
     identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
+    zoneValue: zone,
   }) => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const rôle = Role.convertirEnValueType(rôleValue);
@@ -48,6 +50,7 @@ export const registerInviterUseCase = () => {
         nomComplet,
         région,
         identifiantGestionnaireRéseau,
+        zone,
       },
     });
   };

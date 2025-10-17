@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import { Find } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
+import { UtilisateurEntity, Zone } from '@potentiel-domain/utilisateur';
 
 import { LauréatEntity } from '../../lauréat';
 import { CandidatureEntity } from '../../candidature';
@@ -42,9 +42,7 @@ export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProj
     return Option.match(utilisateur)
       .some(async (utilisateur) => {
         const hasAccess = await match(utilisateur)
-          .with({ rôle: 'acheteur-obligé' }, () =>
-            estUneCandidatureNotifiée(identifiantProjetValue),
-          )
+          .with({ rôle: 'acheteur-obligé' }, async () => true)
           .with({ rôle: 'ademe' }, () => estUneCandidatureNotifiée(identifiantProjetValue))
           .with({ rôle: 'admin' }, async () => true)
           .with({ rôle: 'caisse-des-dépôts' }, () =>
@@ -62,6 +60,18 @@ export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProj
             if (utilisateur.région) {
               const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
               return régionProjet === utilisateur.région;
+            }
+
+            return false;
+          })
+          .with({ rôle: 'cocontractant' }, async (utilisateur) => {
+            const projetNotifié = await estUneCandidatureNotifiée(identifiantProjetValue);
+            if (!projetNotifié) {
+              return false;
+            }
+            if (utilisateur.zone) {
+              const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
+              return Zone.convertirEnValueType(utilisateur.zone).aAccèsàLaRégion(régionProjet);
             }
 
             return false;

@@ -22,6 +22,9 @@
     },
     {
       "path": "../../domain/utilisateur"
+    },
+    {
+      "path": "../../domain/projet"
     }
   ]
 }

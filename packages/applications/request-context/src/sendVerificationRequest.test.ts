@@ -25,6 +25,7 @@ const porteurDeProjet: Utilisateur = {
   identifiantUtilisateur: Email.convertirEnValueType('porteur@test.test'),
   identifiantGestionnaireRéseau: Option.none,
   région: Option.none,
+  zone: Option.none,
 };
 
 const porteurDeProjetDésactivé: Utilisateur = {
@@ -33,6 +34,7 @@ const porteurDeProjetDésactivé: Utilisateur = {
   identifiantUtilisateur: Email.convertirEnValueType('porteur.desactive@test.test'),
   identifiantGestionnaireRéseau: Option.none,
   région: Option.none,
+  zone: Option.none,
   désactivé: true,
 };
 
@@ -42,6 +44,7 @@ const dgecValidateur: Utilisateur = {
   identifiantUtilisateur: Email.convertirEnValueType('dgec-validateur@test.test'),
   identifiantGestionnaireRéseau: Option.none,
   région: Option.none,
+  zone: Option.none,
 };
 
 const adminDGEC: Utilisateur = {
@@ -50,6 +53,7 @@ const adminDGEC: Utilisateur = {
   identifiantUtilisateur: Email.convertirEnValueType('dgec@test.test'),
   identifiantGestionnaireRéseau: Option.none,
   région: Option.none,
+  zone: Option.none,
 };
 
 const dreal: Utilisateur = {
@@ -58,6 +62,7 @@ const dreal: Utilisateur = {
   identifiantUtilisateur: Email.convertirEnValueType('dreal@test.test'),
   identifiantGestionnaireRéseau: Option.none,
   région: Option.none,
+  zone: Option.none,
 };
 
 const utilisateursExistants: ReadonlyArray<Utilisateur> = [

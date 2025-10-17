@@ -1,6 +1,5 @@
 export * from './asyncHandler';
 export * from './errorResponse';
-export * from './getOptionsFiltresParAOs';
 export * from './miseAJourStatistiquesUtilisation';
 export * from './notFoundResponse';
 export * from './safeAsyncHandler';

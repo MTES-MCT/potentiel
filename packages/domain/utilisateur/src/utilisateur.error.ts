@@ -65,6 +65,12 @@ export class IdentifiantGestionnaireRéseauManquantError extends InvalidOperatio
   }
 }
 
+export class ZoneManquanteError extends InvalidOperationError {
+  constructor() {
+    super(`La zone est obligatoire pour un utilisateur acheteur-obligé`);
+  }
+}
+
 export class DésactivationPropreCompteError extends InvalidOperationError {
   constructor() {
     super(`Il est impossible de désactiver son propre compte`);

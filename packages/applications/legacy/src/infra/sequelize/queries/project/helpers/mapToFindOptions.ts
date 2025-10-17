@@ -11,12 +11,14 @@ export const mapToFindOptions = (filtres?: FiltreListeProjets) => {
   const filtreRecherche = construireFiltreRecherche(recherche);
   const filtreAO = construireFiltreAppelOffre(appelOffre);
   const filtreClassement = construireFiltreClassement(classement);
+  const filtreRégion = construireFiltreRégions(filtres.régions);
 
   return {
     where: {
-      ...filtreRecherche?.where,
-      ...filtreAO?.where,
-      ...filtreClassement?.where,
+      ...filtreRecherche,
+      ...filtreAO,
+      ...filtreClassement,
+      ...filtreRégion,
     },
   };
 };
@@ -24,29 +26,36 @@ export const mapToFindOptions = (filtres?: FiltreListeProjets) => {
 const construireFiltreRecherche = (recherche?: string) =>
   recherche
     ? {
-        where: { nomProjet: { [Op.iLike]: `%${recherche}%` } },
+        nomProjet: { [Op.iLike]: `%${recherche}%` },
       }
     : undefined;
 
 const construireFiltreAppelOffre = (appelOffre: FiltreListeProjets['appelOffre']) =>
   appelOffre
     ? {
-        where: {
-          ...(appelOffre.appelOffreId && { appelOffreId: appelOffre.appelOffreId }),
-          ...(appelOffre.periodeId && { periodeId: appelOffre.periodeId }),
-          ...(appelOffre.familleId && { familleId: appelOffre.familleId }),
-        },
+        ...(appelOffre.appelOffreId && { appelOffreId: appelOffre.appelOffreId }),
+        ...(appelOffre.periodeId && { periodeId: appelOffre.periodeId }),
+        ...(appelOffre.familleId && { familleId: appelOffre.familleId }),
       }
     : undefined;
 
 const construireFiltreClassement = (classement: FiltreListeProjets['classement']) =>
   classement
     ? {
-        where: {
-          ...(classement === 'classé' && { classe: 'Classé' }),
-          ...(classement === 'actif' && { classe: 'Classé', abandonedOn: 0 }),
-          ...(classement === 'abandonné' && { classe: 'Classé', abandonedOn: { [Op.ne]: 0 } }),
-          ...(classement === 'éliminé' && { classe: 'Eliminé', abandonedOn: 0 }),
-        },
+        ...(classement === 'classé' && { classe: 'Classé' }),
+        ...(classement === 'actif' && { classe: 'Classé', abandonedOn: 0 }),
+        ...(classement === 'abandonné' && { classe: 'Classé', abandonedOn: { [Op.ne]: 0 } }),
+        ...(classement === 'éliminé' && { classe: 'Eliminé', abandonedOn: 0 }),
       }
     : undefined;
+
+const construireFiltreRégions = (régions?: Array<string>) =>
+  !régions
+    ? undefined
+    : régions.length === 1
+      ? {
+          regionProjet: régions[0],
+        }
+      : {
+          regionProjet: { [Op.in]: régions },
+        };

@@ -104,7 +104,7 @@ export const registerListerDossierRaccordementQuery = ({
           where: {
             appelOffre: Where.equal(appelOffre),
             localité: {
-              région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
             },
           },
         },

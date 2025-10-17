@@ -17,6 +17,7 @@ Fonctionnalité: Désactiver un utilisateur
             | Rôle              |
             | admin             |
             | acheteur-obligé   |
+            | cocontractant     |
             | ademe             |
             | caisse-des-dépôts |
             | cre               |

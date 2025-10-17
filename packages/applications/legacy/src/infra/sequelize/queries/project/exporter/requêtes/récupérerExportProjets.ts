@@ -1,4 +1,3 @@
-import { wrapInfra } from '../../../../../../core/utils';
 import { FiltreListeProjets } from '../../../../../../modules/project/queries/listerProjets';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneDétail } from '../Colonne';
@@ -10,52 +9,46 @@ type RécupérerExportProjetsProps = {
   colonnesÀExporter: Readonly<Array<Colonne>>;
   filtres?: FiltreListeProjets;
   seulementLesProjetsAvecAccèsPour?: string;
-  seulementLesProjetsParRégion?: string;
 };
 
-export const récupérerExportProjets = ({
+export const récupérerExportProjets = async ({
   colonnesÀExporter,
   filtres,
   seulementLesProjetsAvecAccèsPour,
-  seulementLesProjetsParRégion,
 }: RécupérerExportProjetsProps) => {
   const findOptions = mapToFindOptions(filtres);
 
   const appelOffreIdPetitPVBâtimentPPE2 = 'PPE2 - Petit PV Bâtiment';
 
-  return wrapInfra(
-    Project.findAll({
-      where: {
-        appelOffreId: { [Op.ne]: appelOffreIdPetitPVBâtimentPPE2 },
-        ...findOptions?.where,
-        notifiedOn: { [Op.gt]: 0 },
-        ...(seulementLesProjetsAvecAccèsPour && {
-          '$users.userId$': seulementLesProjetsAvecAccèsPour,
-        }),
-        ...(seulementLesProjetsParRégion && {
-          regionProjet: { [Op.substring]: seulementLesProjetsParRégion },
-        }),
-      },
-      include: [
-        ...(seulementLesProjetsAvecAccèsPour
-          ? [
-              {
-                model: UserProjects,
-                as: 'users',
-                attributes: [],
-              },
-            ]
-          : []),
-      ],
-      attributes: [...convertirEnAttributsSequelize(colonnesÀExporter), 'details'],
-      raw: true,
-    }),
-  ).map((projects) => ({
+  const projects = await Project.findAll({
+    where: {
+      appelOffreId: { [Op.ne]: appelOffreIdPetitPVBâtimentPPE2 },
+      ...findOptions?.where,
+      notifiedOn: { [Op.gt]: 0 },
+      ...(seulementLesProjetsAvecAccèsPour && {
+        '$users.userId$': seulementLesProjetsAvecAccèsPour,
+      }),
+    },
+    include: [
+      ...(seulementLesProjetsAvecAccèsPour
+        ? [
+            {
+              model: UserProjects,
+              as: 'users',
+              attributes: [],
+            },
+          ]
+        : []),
+    ],
+    attributes: [...convertirEnAttributsSequelize(colonnesÀExporter), 'details'],
+    raw: true,
+  });
+  return {
     colonnes: récupérerIntitulés(colonnesÀExporter),
     données: projects.map((project) =>
       applatirEtChangerLesIntitulés({ colonnesÀExporter, project }),
     ),
-  }));
+  };
 };
 
 type ApplatirEtChangerLesIntitulés = (args: {

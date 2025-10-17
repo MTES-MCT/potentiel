@@ -15,21 +15,21 @@ export const régionsMétropole = [
   "Provence-Alpes-Côte d'Azur",
 ] as const;
 
-export const régionsZNI = [
+export const régionsZNIHorsMayotte = [
   'Corse',
   'Guadeloupe',
   'Guyane',
   'La Réunion',
   'Martinique',
-  'Mayotte',
 ] as const;
+export const régionsZNI = [...régionsZNIHorsMayotte, 'Mayotte'] as const;
 
 export const régions = [...régionsMétropole, ...régionsZNI];
 
 export type RawType = (typeof régions)[number];
 
 export type ValueType = ReadonlyValueType<{
-  nom: string;
+  nom: RawType;
   formatter: () => string;
   isZNI: () => boolean;
 }>;

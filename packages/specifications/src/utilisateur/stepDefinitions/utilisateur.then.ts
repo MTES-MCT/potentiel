@@ -33,6 +33,27 @@ Alors(
 );
 
 Alors(
+  "l'utilisateur invité n'a pas accès au projet {lauréat-éliminé}",
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+    const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
+
+    try {
+      await mediator.send<Accès.VérifierAccèsProjetQuery>({
+        type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantUtilisateurValue: identifiantUtilisateur.formatter(),
+        },
+      });
+      expect.fail("L'utilisateur ne devrait pas avoir accès au projet");
+    } catch {}
+  },
+);
+
+Alors(
   /(l'utilisateur|le porteur) devrait être désactivé/,
   async function (this: PotentielWorld, typeUtilisateur: "l'utilisateur" | 'le porteur') {
     const { email: identifiantUtilisateur } =

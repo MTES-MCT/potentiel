@@ -7,7 +7,6 @@ import { Parser } from '@json2csv/plainjs';
 import { writeCsvOnDisk } from '../../helpers/csv';
 import { promises as fsPromises } from 'fs';
 import { logger } from '../../core/utils';
-import { InfraNotAvailableError } from '../../modules/shared';
 import { PermissionExporterProjets } from '../../modules/project/queries';
 
 v1Router.get(
@@ -39,16 +38,8 @@ v1Router.get(
       garantiesFinancieres,
     };
 
-    const exportProjets = await exporterProjets({ user, filtres });
-
-    if (exportProjets && exportProjets.isErr()) {
-      return new InfraNotAvailableError();
-    }
-
     try {
-      const {
-        value: { colonnes, données },
-      } = exportProjets;
+      const { colonnes, données } = await exporterProjets({ user, filtres });
 
       const parser = new Parser({
         fields: colonnes,

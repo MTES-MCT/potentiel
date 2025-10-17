@@ -15,6 +15,7 @@ const schema = zod.object({
   identifiantUtilisateurInvite: zod.string().min(1),
   region: zod.string().optional(),
   identifiantGestionnaireReseau: zod.string().optional(),
+  zone: zod.string().optional(),
   nomComplet: zod.string().optional(),
   fonction: zod.string().optional(),
 });
@@ -28,6 +29,7 @@ const action: FormAction<FormState, typeof schema> = async (
     identifiantUtilisateurInvite,
     identifiantGestionnaireReseau,
     region,
+    zone,
     fonction,
     nomComplet,
   },
@@ -43,6 +45,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
         régionValue: region,
         identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
+        zoneValue: zone,
         fonctionValue: fonction,
         nomCompletValue: nomComplet,
       },

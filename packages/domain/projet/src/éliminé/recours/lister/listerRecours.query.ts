@@ -69,7 +69,7 @@ export const registerListerRecoursQuery = ({
           appelOffre: Where.equal(appelOffre),
           nomProjet: Where.contain(nomProjet),
           localité: {
-            région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+            région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
           },
         },
       },

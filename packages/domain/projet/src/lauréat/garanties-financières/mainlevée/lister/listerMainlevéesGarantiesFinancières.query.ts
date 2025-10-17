@@ -98,7 +98,9 @@ export const registerListerMainlevéesQuery = ({
           on: 'identifiantProjet',
           where: {
             appelOffre: Where.equal(appelOffre),
-            localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
+            localité: {
+              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+            },
           },
         },
       },
