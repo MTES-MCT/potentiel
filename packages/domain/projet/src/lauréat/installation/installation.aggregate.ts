@@ -5,7 +5,10 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
 import { Candidature } from '../..';
-import { InstallateurNonAttenduError } from '../../candidature/candidature.error';
+import {
+  DispositifDeStockageNonAttenduError,
+  InstallateurNonAttenduError,
+} from '../../candidature/candidature.error';
 
 import {
   DispositifDeStockage,
@@ -130,6 +133,13 @@ export class InstallationAggregate extends AbstractAggregate<
     modifiéLe,
     modifiéPar,
   }: ModifierDispositifDeStockageOptions) {
+    const { dispositifDeStockage: champsSupplémentairedispositifDeStockage } =
+      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
+    if (!champsSupplémentairedispositifDeStockage) {
+      throw new DispositifDeStockageNonAttenduError();
+    }
+
     if (this.#dispositifDeStockage && dispositifDeStockage.estÉgaleÀ(this.#dispositifDeStockage)) {
       throw new DispositifDeStockageIdentiqueError();
     }
