@@ -59,7 +59,7 @@ async function getEmailPayloads(
       const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
-          roles: ['acheteur-obligé', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+          roles: ['cocontractant', 'acheteur-obligé', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
           actif: true,
         },
       });

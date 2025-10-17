@@ -32,5 +32,12 @@ const colonnesÀExporter = [
   ...modificationsAvantImport,
 ];
 
-export const exporterProjetsPourAcheteurObligé = ({ filtres }: { filtres?: FiltreListeProjets }) =>
-  récupérerExportProjets({ colonnesÀExporter, filtres });
+export const exporterProjetsPourAcheteurObligé = ({
+  filtres,
+}: {
+  filtres?: FiltreListeProjets & { régions: string[] };
+}) =>
+  récupérerExportProjets({
+    colonnesÀExporter,
+    filtres,
+  });

@@ -21,6 +21,7 @@ import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPor
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
+export * as Zone from './zone.valueType';
 export { AccèsFonctionnalitéRefuséError } from './utilisateur.error';
 
 // Query

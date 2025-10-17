@@ -48,6 +48,7 @@ export type FiltreListeProjets = {
     familleId?: AppelOffre.Famille['id'];
   };
   classement?: 'classé' | 'actif' | 'abandonné' | 'éliminé';
+  régions?: Array<string>;
 };
 
 export type ListerProjets = (args: {

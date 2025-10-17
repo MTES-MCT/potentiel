@@ -21,6 +21,7 @@ export async function utilisateurInvitéNotification({
     .with(
       P.union(
         'acheteur-obligé',
+        'cocontractant',
         'grd',
         'caisse-des-dépôts',
         'ademe',

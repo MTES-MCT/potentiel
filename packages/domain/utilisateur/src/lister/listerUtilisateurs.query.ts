@@ -7,7 +7,7 @@ import {
   ConsulterUtilisateurReadModel,
   mapToReadModel,
 } from '../consulter/consulterUtilisateur.query';
-import { Role } from '..';
+import { Role, Zone } from '..';
 import * as Région from '../région.valueType';
 
 export type ListerUtilisateursReadModel = {
@@ -24,6 +24,7 @@ export type ListerUtilisateursQuery = Message<
     roles?: Array<string>;
     identifiantGestionnaireRéseau?: string;
     région?: string;
+    zone?: string;
     zni?: boolean;
     actif?: boolean;
   } & (
@@ -51,6 +52,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     identifiantsUtilisateur,
     identifiantGestionnaireRéseau,
     région,
+    zone,
     zni,
     actif,
   }) => {
@@ -59,12 +61,18 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
         ? {
             rôle: Where.equal('dreal'),
             région: région
-              ? Where.equal(région)
-              : zni === true
-                ? Where.matchAny(Région.régionsZNI)
-                : zni === false
-                  ? Where.notMatchAny(Région.régionsZNI)
-                  : undefined,
+              ? Where.equal(Région.convertirEnValueType(région).nom)
+              : zone
+                ? Where.matchAny(
+                    Région.régions.filter((région) =>
+                      Zone.convertirEnValueType(zone).aAccèsàLaRégion(région),
+                    ),
+                  )
+                : zni === true
+                  ? Where.matchAny(Région.régionsZNI)
+                  : zni === false
+                    ? Where.notMatchAny(Région.régionsZNI)
+                    : undefined,
           }
         : identifiantGestionnaireRéseau
           ? {

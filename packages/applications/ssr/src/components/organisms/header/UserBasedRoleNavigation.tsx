@@ -315,7 +315,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         },
       },
     ])
-    .with('acheteur-obligé', () => [
+    .with(P.union('acheteur-obligé', 'cocontractant'), () => [
       {
         text: 'Projets',
         menuLinks: projetMenuLinks,

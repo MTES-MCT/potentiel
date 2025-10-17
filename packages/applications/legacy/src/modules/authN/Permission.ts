@@ -21,6 +21,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         'admin',
         'dgec-validateur',
         'acheteur-obligé',
+        'cocontractant',
         'cre',
         'ademe',
       ),

@@ -12,6 +12,7 @@ export type TrouverUtilisateurReadModel = {
   rôle: Role.ValueType;
   fonction: Option.Type<string>;
   région: Option.Type<string>;
+  zone: Option.Type<string>;
   identifiantGestionnaireRéseau: Option.Type<string>;
   désactivé?: true;
 };
@@ -48,6 +49,7 @@ export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisate
   rôle: Role.convertirEnValueType(utilisateur.rôle),
   fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
   région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
+  zone: utilisateur.rôle === 'cocontractant' ? utilisateur.zone : Option.none,
   identifiantGestionnaireRéseau:
     utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
   désactivé: utilisateur.désactivé,

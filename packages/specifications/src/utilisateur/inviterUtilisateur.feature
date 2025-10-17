@@ -46,6 +46,21 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | sujet           | Invitation à suivre les projets sur Potentiel |
             | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
 
+    Scénario: Inviter un cocontractant
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | région | <Région> |
+        Quand un administrateur invite un cocontractant pour la zone du projet
+        Alors l'utilisateur invité a accès au projet lauréat
+        Et un email a été envoyé au nouvel utilisateur avec :
+            | sujet           | Invitation à suivre les projets sur Potentiel |
+            | invitation_link | https://potentiel.beta.gouv.fr/laureats       |
+
+        Exemples:
+            | Région               |
+            | Auvergne-Rhône-Alpes |
+            | Mayotte              |
+            | Martinique           |
+
     Scénario: Impossible d'inviter un utilisateur déjà invité
         Quand un administrateur invite un utilisateur avec le rôle "admin"
         Et un administrateur réinvite le même utilisateur
@@ -66,6 +81,21 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
     Scénario: Impossible d'inviter un dgec-validateur sans fonction
         Quand un administrateur invite un utilisateur avec le rôle "dgec-validateur"
         Alors l'utilisateur devrait être informé que "La fonction est obligatoire pour un utilisateur dgec-validateur"
+
+    Scénario: Un cocontractant n'a accès qu'aux projets de sa zone
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | région | <Région> |
+        Quand un administrateur invite un cocontractant pour la zone "<Zone>"
+        Alors l'utilisateur invité n'a pas accès au projet lauréat
+
+        Exemples:
+            | Région               | Zone      |
+            | Auvergne-Rhône-Alpes | zni       |
+            | Auvergne-Rhône-Alpes | mayotte   |
+            | Mayotte              | métropole |
+            | Mayotte              | zni       |
+            | Martinique           | métropole |
+            | Martinique           | mayotte   |
 
     @NotImplemented
     Scénario: Inviter un utilisateur désactivé

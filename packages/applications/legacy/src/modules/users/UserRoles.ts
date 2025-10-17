@@ -1,19 +1,10 @@
+import { Role } from '@potentiel-domain/utilisateur';
 import { ForceArrayType } from '../../core/utils';
 import { User } from '../../entities';
 
-export const USER_ROLES = [
-  'admin',
-  'porteur-projet',
-  'dreal',
-  'acheteur-obligé',
-  'ademe',
-  'dgec-validateur',
-  'caisse-des-dépôts',
-  'cre',
-  'grd',
-] as const;
+export const USER_ROLES = Role.roles;
 
-export type UserRole = (typeof USER_ROLES)[number];
+export type UserRole = Role.RawType;
 
 export const userIs =
   <PossibleRoles extends UserRole[] | UserRole>(roles: PossibleRoles) =>

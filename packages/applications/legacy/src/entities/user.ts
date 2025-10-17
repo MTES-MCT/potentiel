@@ -12,6 +12,7 @@ const userSchema = Record({
     Literal('porteur-projet'),
     Literal('dreal'),
     Literal('acheteur-obligé'),
+    Literal('cocontractant'),
     Literal('ademe'),
     Literal('dgec-validateur'),
     Literal('cre'),

@@ -107,14 +107,17 @@ npm run start
 
 3. Se connecter à l'un des comptes suivants (mot de passe pour tous les comptes : **test**) :
    - admin@test.test
-   - dreal@test.test
+   - dreal@test.test (Ile-de-France)
    - porteur@test.test
    - ademe@test.test
    - ao@test.test
+   - cocontractant@test.test (Métropole)
+   - cocontractant+zni@test.test (ZNI)
+   - cocontractant+mayotte@test.test (Mayotte)
    - dgec-validateur@test.test
    - cre@test.test
    - caissedesdepots@test.test
-   - grd@test.test
+   - grd@test.test (Enedis)
 
 > ℹ️ Il est possible de couper les services utilisés localement pour lancer l'application via le script npm **`stop:dev`**
 

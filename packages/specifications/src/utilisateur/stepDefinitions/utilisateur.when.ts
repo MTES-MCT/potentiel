@@ -10,12 +10,15 @@ import {
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
   CréerPorteurUseCase,
+  Zone,
 } from '@potentiel-domain/utilisateur';
 import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
 import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture';
+
+import { getPayloadForRôle } from './utilisateur.given';
 
 Quand(
   /le porteur invite (un autre porteur|l'administrateur) sur le projet (lauréat|éliminé)/,
@@ -86,30 +89,37 @@ Quand('un administrateur réinvite le même utilisateur', async function (this: 
 });
 
 Quand('un administrateur invite un dgec validateur', async function (this: PotentielWorld) {
-  await inviterUtilisateur.call(this, {
-    rôle: Role.dgecValidateur.nom,
-    fonction: 'Fonction du DGEC Validateur',
-    nomComplet: 'Nom du DGEC Validateur',
-  });
+  await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.dgecValidateur.nom));
 });
 
 Quand(
   'un administrateur invite une dreal pour la région du projet',
   async function (this: PotentielWorld) {
+    await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.dreal.nom));
+  },
+);
+
+Quand(
+  'un administrateur invite un cocontractant pour la zone {string}',
+  async function (this: PotentielWorld, zone: string) {
     await inviterUtilisateur.call(this, {
-      rôle: Role.dreal.nom,
-      région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
+      rôle: Role.cocontractant.nom,
+      zone: Zone.convertirEnValueType(zone).nom,
     });
+  },
+);
+
+Quand(
+  'un administrateur invite un cocontractant pour la zone du projet',
+  async function (this: PotentielWorld) {
+    await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.cocontractant.nom));
   },
 );
 
 Quand(
   'un administrateur invite un gestionnaire de réseau attribué au raccordement du projet lauréat',
   async function (this: PotentielWorld) {
-    await inviterUtilisateur.call(this, {
-      rôle: Role.grd.nom,
-      identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
-    });
+    await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.grd.nom));
   },
 );
 
@@ -267,6 +277,7 @@ export async function inviterUtilisateur(
     email: utilisateurInvité,
     rôle: rôleValue,
     région,
+    zone,
     identifiantGestionnaireRéseau,
     fonction,
     nomComplet,
@@ -280,6 +291,7 @@ export async function inviterUtilisateur(
         invitéParValue: this.utilisateurWorld.adminFixture.email,
         rôleValue,
         régionValue: région,
+        zoneValue: zone,
         identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
         fonctionValue: fonction,
         nomCompletValue: nomComplet,

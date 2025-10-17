@@ -1,6 +1,8 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
+import { Région, Zone } from '.';
+
 type Common = {
   identifiantUtilisateur: Email.RawType;
   invitéLe: DateTime.RawType;
@@ -20,12 +22,17 @@ type UtilisateurDgecValidateur = {
 
 type UtilisateurDreal = {
   rôle: 'dreal';
-  région: string;
+  région: Région.RawType;
 };
 
 type UtilisateurGestionnaireRéseau = {
   rôle: 'grd';
   identifiantGestionnaireRéseau: string;
+};
+
+type UtilisateurCocontractant = {
+  rôle: 'cocontractant';
+  zone: Zone.RawType;
 };
 
 type UtilisateurPorteur = {
@@ -41,5 +48,6 @@ export type UtilisateurEntity = Entity<
       | UtilisateurPorteur
       | UtilisateurDgecValidateur
       | UtilisateurGestionnaireRéseau
+      | UtilisateurCocontractant
     )
 >;

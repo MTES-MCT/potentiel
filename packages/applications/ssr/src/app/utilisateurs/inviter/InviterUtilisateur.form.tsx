@@ -9,7 +9,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
-import { listeDesRoleSaufPorteur } from '@/utils/utilisateur/format-role';
+import { listeDesRolesSaufPorteur } from '@/utils/utilisateur/format-role';
 
 import { inviterUtilisateurAction, InviterUtilisateurFormKeys } from './inviterUtilisateur.action';
 
@@ -17,12 +17,14 @@ export type InviterUtilisateurFormProps = {
   role?: Role.RawType;
   régions: { label: string; value: string }[];
   gestionnairesRéseau: { label: string; value: string }[];
+  zones: { label: string; value: string }[];
 };
 
 export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
   role: roleProp,
   gestionnairesRéseau,
   régions,
+  zones,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<InviterUtilisateurFormKeys>
@@ -42,7 +44,7 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
         <div>
           <Select
             label="Role"
-            options={listeDesRoleSaufPorteur}
+            options={listeDesRolesSaufPorteur}
             nativeSelectProps={{
               name: 'role',
               value: role,
@@ -110,6 +112,19 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
                 stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
                 nativeSelectProps={{
                   name: 'identifiantGestionnaireReseau',
+                  required: true,
+                  'aria-required': true,
+                }}
+              />
+            ))
+            .with('cocontractant', () => (
+              <Select
+                label="Zone"
+                options={zones}
+                state={validationErrors['zone'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['zone']}
+                nativeSelectProps={{
+                  name: 'zone',
                   required: true,
                   'aria-required': true,
                 }}

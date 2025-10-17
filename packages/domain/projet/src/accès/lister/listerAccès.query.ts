@@ -53,7 +53,7 @@ export const registerListerAccèsQuery = ({
         on: 'identifiantProjet',
         where: {
           localité: {
-            région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
+            région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
           },
         },
       },
