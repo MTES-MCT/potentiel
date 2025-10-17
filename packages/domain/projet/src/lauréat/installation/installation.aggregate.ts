@@ -5,6 +5,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TypologieInstallation } from '../../candidature';
 import { Candidature } from '../..';
+import { InstallateurNonAttenduError } from '../../candidature/candidature.error';
 
 import {
   DispositifDeStockage,
@@ -77,6 +78,13 @@ export class InstallationAggregate extends AbstractAggregate<
     identifiantUtilisateur,
   }: ModifierInstallateurOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
+
+    const { installateur: champsSupplémentaireInstallateur } =
+      this.lauréat.parent.cahierDesChargesActuel.getChampsSupplémentaires();
+
+    if (!champsSupplémentaireInstallateur) {
+      throw new InstallateurNonAttenduError();
+    }
 
     if (this.#installateur === installateur) {
       throw new InstallateurIdentiqueError();

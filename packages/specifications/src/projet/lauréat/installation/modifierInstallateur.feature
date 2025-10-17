@@ -51,3 +51,10 @@ Fonctionnalité: Modifier l'installateur d'un projet lauréat
     Scénario: Impossible de modifier l'installateur avec une valeur identique
         Quand le DGEC validateur modifie l'installateur avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouvel installateur est identique à celui associé au projet"
+
+    Scénario: Impossible de modifier l'installateur si le champ n'est pas disponible dans l'appel d'offres du projet
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Bâtiment |
+            | période        | 11              |
+        Quand le DGEC validateur modifie l'installateur du projet lauréat
+        Alors l'utilisateur devrait être informé que "L'installateur ne peut être renseigné pour cet appel d'offres"
