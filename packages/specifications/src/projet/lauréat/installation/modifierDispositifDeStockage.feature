@@ -84,3 +84,10 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | capacité du dispositif                   | 4                        |
             | puissance du dispositif                  | 5                        |
         Alors l'utilisateur devrait être informé que "La capacité et la puissance du dispositif de stockage ne peuvent être renseignées en l'absence de dispositif de stockage"
+
+    Scénario: Impossible de modifier le dispositif de stockage si ce champ n'est pas disponible dans l'appel d'offres du projet
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Bâtiment |
+        Quand un admin modifie le dispositif de stockage du projet lauréat avec :
+            | installation avec dispositif de stockage | non |
+        Alors l'utilisateur devrait être informé que "Le dispositif de stockage n'est pas attendu pour cet appel d'offres"
