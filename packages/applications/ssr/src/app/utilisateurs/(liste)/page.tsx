@@ -78,7 +78,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Rôle',
           searchParamKey: 'role',
           options: listeDesRoles,
-          affects: ['identifiantGestionnaireReseau', 'region'],
+          affects: ['identifiantGestionnaireReseau', 'region', 'zni', 'zone'],
         },
       ];
 

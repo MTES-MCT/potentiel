@@ -62,33 +62,32 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
             rôle: Where.equal('dreal'),
             région: région
               ? Where.equal(Région.convertirEnValueType(région).nom)
-              : zone
-                ? Where.matchAny(
-                    Région.régions.filter((région) =>
-                      Zone.convertirEnValueType(zone).aAccèsàLaRégion(région),
-                    ),
-                  )
-                : zni === true
-                  ? Where.matchAny(Région.régionsZNI)
-                  : zni === false
-                    ? Where.notMatchAny(Région.régionsZNI)
-                    : undefined,
+              : zni === true
+                ? Where.matchAny(Région.régionsZNI)
+                : zni === false
+                  ? Where.notMatchAny(Région.régionsZNI)
+                  : undefined,
           }
         : identifiantGestionnaireRéseau
           ? {
               rôle: Where.equal('grd'),
               identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
             }
-          : {
-              rôle: (roles
-                ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
-                : // Typescript is lost with the union type :/
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  undefined) as any,
-              identifiantUtilisateur: identifiantsUtilisateur
-                ? Where.matchAny(identifiantsUtilisateur)
-                : Where.contain(identifiantUtilisateur),
-            };
+          : zone
+            ? {
+                rôle: Where.equal('cocontractant'),
+                zone: Where.equal(Zone.convertirEnValueType(zone).nom),
+              }
+            : {
+                rôle: (roles
+                  ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
+                  : // Typescript is lost with the union type :/
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    undefined) as any,
+                identifiantUtilisateur: identifiantsUtilisateur
+                  ? Where.matchAny(identifiantsUtilisateur)
+                  : Where.contain(identifiantUtilisateur),
+              };
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
       where: {

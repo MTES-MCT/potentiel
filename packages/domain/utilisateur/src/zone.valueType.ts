@@ -9,7 +9,7 @@ export const zones = ['métropole', 'zni', 'mayotte'] as const;
 export type RawType = (typeof zones)[number];
 
 export type ValueType = ReadonlyValueType<{
-  nom: string;
+  nom: RawType;
   formatter: () => string;
   aAccèsàLaRégion(région: string): boolean;
 }>;
