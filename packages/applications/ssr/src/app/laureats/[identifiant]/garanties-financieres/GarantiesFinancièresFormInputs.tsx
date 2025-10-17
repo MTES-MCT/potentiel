@@ -77,7 +77,7 @@ export const GarantiesFinancièresFormInputs: FC<GarantiesFinancièresFormInputs
         label={
           typeSélectionné
             ? getGarantiesFinancièresDateLabel(typeSélectionné)
-            : 'Date de constitution'
+            : "Date de prise d'effet"
         }
         name="dateConstitution"
         max={DateTime.now().formatter()}
