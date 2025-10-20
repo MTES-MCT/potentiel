@@ -17,6 +17,12 @@ export const setupProjet = () => {
   registerProjetUseCases({
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+    téléchargerGarantiesFinancières: () => ({
+      attestation: {
+        content: Buffer.from('Fake PDF content'),
+        format: 'application/pdf',
+      }
+    })ProjetAdapter.téléchargerGarantiesFinancièresAdapter,
   });
 
   registerProjetQueries({

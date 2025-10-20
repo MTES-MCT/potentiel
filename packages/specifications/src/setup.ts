@@ -28,6 +28,7 @@ import { EmailPayload } from '@potentiel-applications/notifications';
 import { Option } from '@potentiel-libraries/monads';
 import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { startSubscribers } from '@potentiel-applications/subscribers';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -138,6 +139,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
     dependencies: {
       sendEmail: testEmailAdapter.bind(this),
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
+      téléchargerAttestationGarantiesFinancièresAdapter:
+        mockTéléchargerAttestationGarantiesFinancièresAdapter.bind(this),
     },
   });
 
@@ -190,4 +193,14 @@ async function mockRécupérerGRDParVilleAdapter(
   search: { codePostal: string; commune: string },
 ) {
   return this.gestionnaireRéseauWorld.rechercherOREParVille(search) ?? Option.none;
+}
+
+async function mockTéléchargerAttestationGarantiesFinancièresAdapter(
+  this: PotentielWorld,
+  _: { identifiantProjet: IdentifiantProjet.RawType },
+) {
+  return {
+    attestation: getFakeDocument(),
+    dateConstitution: new Date().toISOString(),
+  };
 }

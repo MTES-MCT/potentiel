@@ -34,7 +34,8 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
             | PPE2 - ZNI                        | 1       |
             | PPE2 - Petit PV Bâtiment          | 1       |
 
-    Scénario: Notifier un candidat lauréat avec des champs spécifiques
+    @select
+    Scénario: Notifier un candidat lauréat PPE2 - Petit PV Bâtiment
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment         |
             | installateur                             | Installeur.INC                   |
@@ -50,6 +51,8 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et l'installation du projet lauréat devrait être mise à jour
         Et le dispositif de stockage du projet lauréat devrait être mise à jour
         Et la nature de l'exploitation du projet lauréat devrait être mise à jour
+        # TODO
+        Et les garanties financières actuelles devraient être consultables pour le projet lauréat
         Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Notifier un candidat éliminé
