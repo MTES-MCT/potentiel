@@ -13,9 +13,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
   return demande.statut.statut === 'information-enregistrée' ? (
     <DétailsChangement
       title="Changement d'actionnaire(s)"
-      détailsValeursDuDomaine={
-        <DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />
-      }
+      valeurs={<DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
       changement={{
         enregistréPar: demande.demandéePar,
         enregistréLe: demande.demandéeLe,
@@ -27,9 +25,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
   ) : (
     <DétailsDemande
       demande={demande}
-      détailsValeursDuDomaine={
-        <DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />
-      }
+      valeurs={<DétailsValeursActionnaire nouvelActionnaire={demande.nouvelActionnaire} />}
       statut={demande.statut.statut}
       title="Demande de changement d'actionnaire(s)"
     />

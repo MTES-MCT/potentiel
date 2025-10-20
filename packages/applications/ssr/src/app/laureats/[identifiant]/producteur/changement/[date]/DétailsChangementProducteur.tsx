@@ -15,7 +15,7 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
     <DétailsChangement
       title="Changement de producteur"
       changement={changement}
-      détailsValeursDuDomaine={<DétailsValeursProducteur changement={changement} />}
+      valeurs={<DétailsValeursProducteur changement={changement} />}
       statut="information-enregistrée"
     />
   );

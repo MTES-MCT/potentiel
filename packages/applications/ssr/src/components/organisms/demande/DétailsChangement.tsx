@@ -24,14 +24,14 @@ export type DétailsChangementProps = {
   }>;
   title: string;
   statut: StatutDemandeBadgeProps['statut'];
-  détailsValeursDuDomaine: React.ReactNode;
+  valeurs: React.ReactNode;
 };
 
 export const DétailsChangement: FC<DétailsChangementProps> = ({
   changement,
   title,
   statut,
-  détailsValeursDuDomaine,
+  valeurs,
 }) => {
   const isInformationEnregistrée = statut === 'information-enregistrée';
 
@@ -60,7 +60,7 @@ export const DétailsChangement: FC<DétailsChangementProps> = ({
           par{' '}
           <span className="font-medium">{Email.bind(changement.enregistréPar).formatter()}</span>
         </div>
-        <div className="flex flex-col">{détailsValeursDuDomaine}</div>
+        <div className="flex flex-col">{valeurs}</div>
         {changement.raison ? (
           <div className="flex gap-2">
             <div className="font-medium whitespace-nowrap">Raison du changement :</div>

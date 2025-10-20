@@ -24,7 +24,7 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
     <DétailsChangement
       title="Changement de fournisseurs"
       changement={changement}
-      détailsValeursDuDomaine={
+      valeurs={
         <DétailsValeursFournisseur
           changement={changement}
           évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}

@@ -34,20 +34,15 @@ export type DétailsDemandeProps = {
       motif?: string;
     };
   }>;
-  détailsValeursDuDomaine: React.ReactNode;
+  valeurs: React.ReactNode;
 };
 
-export const DétailsDemande: FC<DétailsDemandeProps> = ({
-  title,
-  statut,
-  demande,
-  détailsValeursDuDomaine,
-}) => {
+export const DétailsDemande: FC<DétailsDemandeProps> = ({ title, statut, demande, valeurs }) => {
   return (
     <div className="flex flex-col gap-4">
       <DétailsChangement
         title={title}
-        détailsValeursDuDomaine={détailsValeursDuDomaine}
+        valeurs={valeurs}
         changement={{
           enregistréPar: demande.demandéePar,
           enregistréLe: demande.demandéeLe,

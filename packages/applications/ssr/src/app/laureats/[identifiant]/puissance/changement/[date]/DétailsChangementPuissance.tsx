@@ -23,7 +23,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
   return statut.estInformationEnregistrée() ? (
     <DétailsChangement
       title="Changement de puissance"
-      détailsValeursDuDomaine={
+      valeurs={
         <DétailsValeursPuissance
           unitéPuissance={unitéPuissance}
           puissanceInitiale={puissanceInitiale}
@@ -41,7 +41,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
   ) : (
     <DétailsDemande
       demande={demande}
-      détailsValeursDuDomaine={
+      valeurs={
         <DétailsValeursPuissance
           unitéPuissance={unitéPuissance}
           puissanceInitiale={puissanceInitiale}
