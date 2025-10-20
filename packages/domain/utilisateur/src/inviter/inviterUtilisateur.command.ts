@@ -17,6 +17,7 @@ export type InviterUtilisateurCommand = Message<
     nomComplet?: string;
     région?: string;
     identifiantGestionnaireRéseau?: string;
+    zone?: string;
   }
 >;
 
@@ -30,6 +31,7 @@ export const registerInviterCommand = (loadAggregate: LoadAggregate) => {
     nomComplet,
     région,
     identifiantGestionnaireRéseau,
+    zone,
   }) => {
     const utilisateur = await loadAggregate(
       UtilisateurAggregate,
@@ -45,6 +47,7 @@ export const registerInviterCommand = (loadAggregate: LoadAggregate) => {
       nomComplet,
       région,
       identifiantGestionnaireRéseau,
+      zone,
     });
   };
   mediator.register('Utilisateur.Command.InviterUtilisateur', handler);

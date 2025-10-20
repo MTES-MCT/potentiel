@@ -2,28 +2,19 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { AccèsFonctionnalitéRefuséError, RoleRefuséError } from './utilisateur.error';
 
-export type RawType =
-  | 'admin'
-  | 'porteur-projet'
-  | 'dreal'
-  | 'acheteur-obligé'
-  | 'ademe'
-  | 'dgec-validateur'
-  | 'caisse-des-dépôts'
-  | 'cre'
-  | 'grd';
-
-export const roles: Array<RawType> = [
+export const roles = [
   'admin',
   'porteur-projet',
   'dreal',
   'acheteur-obligé',
+  'cocontractant',
   'ademe',
   'dgec-validateur',
   'caisse-des-dépôts',
   'cre',
   'grd',
-];
+] as const;
+export type RawType = (typeof roles)[number];
 
 type Message = { type: string };
 
@@ -81,7 +72,7 @@ export const bind = ({ nom }: PlainType<ValueType>) => {
 };
 
 export const estUnRoleValide = (value: string) => {
-  return (roles as Array<string>).includes(value);
+  return roles.includes(value as RawType);
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -99,6 +90,7 @@ export const dgecValidateur = convertirEnValueType('dgec-validateur');
 export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
 export const acheteurObligé = convertirEnValueType('acheteur-obligé');
+export const cocontractant = convertirEnValueType('cocontractant');
 export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
 export const grd = convertirEnValueType('grd');
 
@@ -1998,6 +1990,7 @@ const ademePolicies: ReadonlyArray<Policy> = [
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
   admin: adminPolicies,
   'acheteur-obligé': acheteurObligéPolicies,
+  cocontractant: acheteurObligéPolicies,
   ademe: ademePolicies,
   'caisse-des-dépôts': caisseDesDépôtsPolicies,
   cre: crePolicies,

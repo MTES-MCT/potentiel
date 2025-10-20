@@ -94,7 +94,7 @@ export const registerListerLauréatQuery = ({
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(periode),
         famille: Where.equal(famille),
-        localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
+        localité: { région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined },
       },
       join: [
         {

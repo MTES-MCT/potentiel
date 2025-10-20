@@ -21,6 +21,7 @@ export const UserNavigation = ({ user: { role } }: UserNavigationProps) =>
     .with(P.union('admin', 'dgec-validateur'), () => AdminMenuLegacy)
     .with('dreal', () => DrealMenuLegacy)
     .with('acheteur-obligé', () => AcheteurObligéMenuLegacy)
+    .with('cocontractant', () => AcheteurObligéMenuLegacy)
     .with('ademe', () => AdemeMenuLegacy)
     .with('cre', () => CreMenuLegacy)
     .with('caisse-des-dépôts', () => CaisseDesDépôtsMenuLegacy)

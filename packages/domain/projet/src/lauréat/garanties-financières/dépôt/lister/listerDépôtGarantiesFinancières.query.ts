@@ -84,7 +84,9 @@ export const registerListerDépôtsGarantiesFinancièresQuery = ({
                   ? Where.contain('PPE2')
                   : Where.notContains('PPE2')
                 : undefined,
-            localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
+            localité: {
+              région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
+            },
           },
         },
       },

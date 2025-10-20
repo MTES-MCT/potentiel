@@ -12,6 +12,7 @@ interface InviterPorteur {
   readonly fonction?: string | undefined;
   readonly nomComplet?: string | undefined;
   readonly région?: string | undefined;
+  readonly zone?: string | undefined;
   readonly identifiantGestionnaireRéseau?: string | undefined;
 }
 
@@ -46,6 +47,10 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
   get région(): string | undefined {
     return this.#région;
   }
+  #zone?: string;
+  get zone(): string | undefined {
+    return this.#zone;
+  }
 
   #identifiantGestionnaireRéseau?: string;
   get identifiantGestionnaireRéseau(): string | undefined {
@@ -64,6 +69,7 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
     this.#fonction = fixture.fonction;
     this.#nomComplet = fixture.nomComplet;
     this.#région = fixture.région;
+    this.#zone = fixture.zone;
     this.#identifiantGestionnaireRéseau = fixture.identifiantGestionnaireRéseau;
 
     this.#aÉtéCréé = true;
@@ -76,6 +82,7 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
       identifiantUtilisateur: email,
       rôle: Role.convertirEnValueType(this.rôle),
       région: this.région ?? Option.none,
+      zone: this.zone ?? Option.none,
       identifiantGestionnaireRéseau: this.identifiantGestionnaireRéseau ?? Option.none,
       fonction: this.fonction ?? Option.none,
     };

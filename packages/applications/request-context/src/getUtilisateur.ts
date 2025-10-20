@@ -99,6 +99,7 @@ export const getUtilisateurFromAccessToken = async (
     nom,
     identifiantUtilisateur: Email.convertirEnValueType(email),
     région: Option.none,
+    zone: Option.none,
     identifiantGestionnaireRéseau:
       groupes?.[0] && groupeRegex.test(groupes[0])
         ? groupes[0].match(groupeRegex)!.groups!.nom
@@ -134,6 +135,7 @@ export const getUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) =>
     identifiantUtilisateur: Email.convertirEnValueType(email),
     identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
     région: utilisateur.région,
+    zone: utilisateur.zone,
     désactivé: utilisateur.désactivé,
   };
 };
@@ -162,6 +164,7 @@ export const getSessionUtilisateurFromEmail = async (
     identifiantUtilisateur: Email.convertirEnValueType(email),
     nom: '',
     région: Option.none,
+    zone: Option.none,
     identifiantGestionnaireRéseau: Option.none,
   };
 };

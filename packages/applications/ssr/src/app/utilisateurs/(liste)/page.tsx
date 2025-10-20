@@ -9,6 +9,7 @@ import {
   Role,
   Région,
   Utilisateur,
+  Zone,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -19,6 +20,8 @@ import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { listeDesRoles } from '@/utils/utilisateur/format-role';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+
+import { getZoneLabel } from '../_helpers/getZoneLabel';
 
 import { UtilisateurListPage, UtilisateurListPageProps } from './UtilisateurList.page';
 import { UtilisateurListItemProps } from './UtilisateurListItem';
@@ -38,6 +41,7 @@ const paramsSchema = z.object({
   identifiantUtilisateur: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
   region: z.string().optional(),
+  zone: z.string().optional(),
   zni: z.stringbool().optional(),
   actif: z.stringbool().optional(),
 });
@@ -51,6 +55,7 @@ export default async function Page({ searchParams }: PageProps) {
         role,
         identifiantGestionnaireReseau,
         region,
+        zone,
         zni,
         actif,
       } = paramsSchema.parse(searchParams);
@@ -63,6 +68,7 @@ export default async function Page({ searchParams }: PageProps) {
           range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
           identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
           région: region,
+          zone,
           zni,
           actif,
         },
@@ -72,7 +78,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Rôle',
           searchParamKey: 'role',
           options: listeDesRoles,
-          affects: ['identifiantGestionnaireReseau', 'region'],
+          affects: ['identifiantGestionnaireReseau', 'region', 'zni', 'zone'],
         },
       ];
 
@@ -118,6 +124,16 @@ export default async function Page({ searchParams }: PageProps) {
             { label: 'Oui', value: 'true' },
             { label: 'Non', value: 'false' },
           ],
+        });
+      }
+      if (role === Role.cocontractant.nom) {
+        filters.push({
+          label: 'Zone',
+          searchParamKey: 'zone',
+          options: Zone.zones.map((zone) => ({
+            label: getZoneLabel(zone),
+            value: zone,
+          })),
         });
       }
       filters.push({

@@ -16,6 +16,10 @@ export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvit�
       rôle,
       région,
     }))
+    .with({ rôle: 'cocontractant' }, ({ rôle, zone }) => ({
+      rôle,
+      zone,
+    }))
     .with({ rôle: 'grd' }, ({ rôle, identifiantGestionnaireRéseau }) => ({
       rôle,
       identifiantGestionnaireRéseau,

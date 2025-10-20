@@ -11,6 +11,7 @@ export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
   role,
   gestionnairesRéseau,
   régions,
+  zones,
 }) => (
   <ColumnPageTemplate
     banner={<></>}
@@ -20,6 +21,7 @@ export const InviterUtilisateurPage: FC<InviterUtilisateurPageProps> = ({
           role={role}
           gestionnairesRéseau={gestionnairesRéseau}
           régions={régions}
+          zones={zones}
         />
       ),
     }}

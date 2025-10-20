@@ -103,8 +103,8 @@
         "attributes": {}
       },
       {
-        "id": "fc7ba59f-0a99-4f40-bc70-d5f0d0fe5910",
-        "name": "acheteur-obligé",
+        "id": "2264e0be-201e-46a2-a1dd-86126dd4902a",
+        "name": "cocontractant+mayotte",
         "composite": false,
         "clientRole": false,
         "containerId": "Potentiel",
@@ -741,6 +741,72 @@
       "realmRoles": ["default-roles-potentiel"],
       "notBefore": 0,
       "groups": ["/GestionnairesRéseau/17X100A100A0001A"]
+    },
+    {
+      "id": "040f309c-4974-4ff5-b75e-611a41a3107e",
+      "createdTimestamp": 1684921663742,
+      "username": "cocontractant@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Cocontractant",
+      "lastName": "Métropole",
+      "email": "cocontractant@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel"],
+      "notBefore": 0
+    },
+    {
+      "id": "d7c62c53-daa1-4f31-ac3f-d08cb0f26207",
+      "createdTimestamp": 1684921663742,
+      "username": "cocontractant+zni@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Cocontractant",
+      "lastName": "ZNI",
+      "email": "cocontractant+zni@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel"],
+      "notBefore": 0
+    },
+    {
+      "id": "2264e0be-201e-46a2-a1dd-86126dd4902a",
+      "createdTimestamp": 1684921663742,
+      "username": "cocontractant+mayotte@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "Cocontractant",
+      "lastName": "Mayotte",
+      "email": "cocontractant+mayotte@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel"],
+      "notBefore": 0
     }
   ],
   "scopeMappings": [

@@ -202,6 +202,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'porteur-projet',
             'dreal',
             'acheteur-obligé',
+            'cocontractant',
             'ademe',
             'dgec-validateur',
             'cre',
@@ -214,6 +215,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'porteur-projet',
             'dreal',
             'acheteur-obligé',
+            'cocontractant',
             'dgec-validateur',
             'cre',
           ])(user) && {
