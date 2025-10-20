@@ -83,7 +83,7 @@ export const registerListerTâchesQuery = ({
           appelOffre: cycle
             ? cycle === 'PPE2'
               ? Where.like('PPE2')
-              : Where.notContains('PPE2')
+              : Where.notLike('PPE2')
             : Where.equal(appelOffre),
           nomProjet: Where.like(nomProjet),
         },
