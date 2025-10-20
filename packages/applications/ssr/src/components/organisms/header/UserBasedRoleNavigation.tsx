@@ -313,12 +313,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         text: 'Projets',
         menuLinks: projetMenuLinks,
       },
-      {
-        text: 'Tableau de bord',
-        linkProps: {
-          href: '/ademe/statistiques.html',
-        },
-      },
     ])
     .with('acheteur-obligé', () => [
       {
@@ -361,12 +355,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
             },
           },
         ],
-      },
-      {
-        text: 'Tableau de bord',
-        linkProps: {
-          href: '/acheteur-oblige/statistiques.html',
-        },
       },
     ])
     .with('grd', () => [
