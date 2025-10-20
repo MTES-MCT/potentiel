@@ -8,7 +8,7 @@ import {
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
 import { récupérerTousLesGRD } from '@potentiel-infrastructure/ore-client';
-import { loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -27,7 +27,7 @@ export class UpdateGestionnaires extends Command {
   async init() {
     envSchema.parse(process.env);
     registerRéseauUseCases({
-      loadAggregate: loadAggregateV2,
+      loadAggregate,
     });
 
     registerRéseauQueries({

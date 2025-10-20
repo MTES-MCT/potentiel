@@ -1,5 +1,5 @@
 import { Option } from '@potentiel-libraries/monads';
-import { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
+import { AggregateType, LoadAggregate } from '@potentiel-domain/core';
 import {
   AppelOffre,
   AppelOffreAggregate,
@@ -20,7 +20,7 @@ import { LauréatAggregate } from './lauréat/lauréat.aggregate';
 import { AccèsAggregate } from './accès/accès.aggregate';
 
 interface ProjetAggregateRootDependencies {
-  loadAggregate: LoadAggregateV2;
+  loadAggregate: LoadAggregate;
   loadAppelOffreAggregate: LoadAppelOffreAggregatePort;
 }
 
@@ -32,7 +32,7 @@ class ProjetAggregateRootAlreadyInitialized extends Error {
 
 export class ProjetAggregateRoot {
   #initialized: boolean = false;
-  #loadAggregate: LoadAggregateV2;
+  #loadAggregate: LoadAggregate;
   #loadAppelOffreAggregate: LoadAppelOffreAggregatePort;
 
   #identifiantProjet: IdentifiantProjet.ValueType;
@@ -111,7 +111,7 @@ export class ProjetAggregateRoot {
 
   private constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
-    loadAggregate: LoadAggregateV2,
+    loadAggregate: LoadAggregate,
     loadAppelOffreAggregate: LoadAppelOffreAggregatePort,
   ) {
     this.#identifiantProjet = identifiantProjet;
