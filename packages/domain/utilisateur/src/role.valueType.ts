@@ -354,6 +354,17 @@ const référencielPermissions = {
     },
     installation: {
       query: { consulter: 'Lauréat.Installation.Query.ConsulterInstallation' },
+      dispositifDeStockage: {
+        query: {
+          consulter: 'Lauréat.Installation.Query.ConsulterDispositifDeStockage',
+        },
+        usecase: {
+          modifier: 'Lauréat.Installation.UseCase.ModifierDispositifDeStockage',
+        },
+        command: {
+          modifier: 'Lauréat.Installation.Command.ModifierDispositifDeStockage',
+        },
+      },
       installateur: {
         query: {
           consulter: 'Lauréat.Installation.Query.ConsulterInstallateur',
@@ -404,17 +415,6 @@ const référencielPermissions = {
         modifierÉvaluationCarbone: 'Lauréat.Fournisseur.Command.ModifierÉvaluationCarbone',
         enregistrerChangement: 'Lauréat.Fournisseur.Command.MettreÀJour',
         modifier: 'Lauréat.Fournisseur.Command.MettreÀJour',
-      },
-    },
-    dispositifDeStockage: {
-      query: {
-        consulter: 'Lauréat.DispositifDeStockage.Query.ConsulterDispositifDeStockage',
-      },
-      command: {
-        modifier: 'Lauréat.DispositifDeStockage.Command.ModifierDispositifDeStockage',
-      },
-      usecase: {
-        modifier: 'Lauréat.DispositifDeStockage.UseCase.ModifierDispositifDeStockage',
       },
     },
     cahierDesCharges: {
@@ -999,7 +999,15 @@ const policies = {
       référencielPermissions.lauréat.installation.query.consulter,
       référencielPermissions.lauréat.installation.installateur.query.consulter,
       référencielPermissions.lauréat.installation.typologieInstallation.query.consulter,
+      référencielPermissions.lauréat.installation.dispositifDeStockage.query.consulter,
     ],
+    dispositifDeStockage: {
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.lauréat.installation.dispositifDeStockage.usecase.modifier,
+        référencielPermissions.lauréat.installation.dispositifDeStockage.command.modifier,
+      ],
+    },
     installateur: {
       modifier: [
         référencielPermissions.candidature.query.consulterProjet,
@@ -1260,13 +1268,6 @@ const policies = {
       référencielPermissions.document.command.enregister,
     ],
   },
-  dispositifDeStockage: {
-    consulter: [référencielPermissions.lauréat.dispositifDeStockage.query.consulter],
-    modifier: [
-      référencielPermissions.lauréat.dispositifDeStockage.command.modifier,
-      référencielPermissions.lauréat.dispositifDeStockage.usecase.modifier,
-    ],
-  },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
     lister: [
@@ -1475,9 +1476,6 @@ const pageProjetPolicies: Policy[] = [
   // Installateur
   'installation.consulter',
 
-  // Installation avec dispositif de stockage
-  'dispositifDeStockage.consulter',
-
   // Nature de l'exploitation
   'natureDeLExploitation.consulter',
 
@@ -1625,10 +1623,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // installation
   'installation.installateur.modifier',
   'installation.typologieInstallation.modifier',
-
-  // Installation avec dispositif de stockage
-  'dispositifDeStockage.consulter',
-  'dispositifDeStockage.modifier',
+  'installation.dispositifDeStockage.modifier',
 
   // Nature de l'exploitation
   'natureDeLExploitation.consulter',

@@ -5,12 +5,13 @@ import { Find } from '@potentiel-domain/entity';
 
 import { IdentifiantProjet } from '../../..';
 import { TypologieInstallation } from '../../../candidature';
-import { InstallationEntity } from '..';
+import { DispositifDeStockage, InstallationEntity } from '..';
 
 export type ConsulterInstallationReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   installateur: string;
   typologieInstallation: TypologieInstallation.ValueType[];
+  dispositifDeStockage?: DispositifDeStockage.ValueType;
 };
 
 export type ConsulterInstallationQuery = Message<
@@ -42,10 +43,13 @@ export const mapToReadModel = ({
   identifiantProjet,
   installateur,
   typologieInstallation,
+  dispositifDeStockage,
 }: InstallationEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   installateur,
   typologieInstallation: typologieInstallation.map((typologie) =>
     TypologieInstallation.convertirEnValueType(typologie),
   ),
+  dispositifDeStockage:
+    dispositifDeStockage && DispositifDeStockage.convertirEnValueType(dispositifDeStockage),
 });

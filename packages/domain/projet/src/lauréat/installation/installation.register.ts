@@ -2,6 +2,12 @@ import {
   ConsulterInstallationDependencies,
   registerConsulterInstallationQuery,
 } from './consulter/consulterInstallation.query';
+import { ConsulterDispositifDeStockageDependencies } from './dispositif-de-stockage/consulter/consulterDispositifDeStockage.query';
+import {
+  DispositifDeStockageCommandDependencies,
+  registerDispositifDeStockageQueries,
+  registerDispositifDeStockageUseCase,
+} from './dispositif-de-stockage/dispositifDeStockage.register';
 import {
   InstallateurUseCaseDependencies,
   InstallateurQueryDependencies,
@@ -22,19 +28,23 @@ import {
 export type InstallationQueryDependencies = TypologieInstallationQueryDependencies &
   InstallateurQueryDependencies &
   ConsulterInstallationDependencies &
+  ConsulterDispositifDeStockageDependencies &
   ListerHistoriqueInstallationProjetDependencies;
 
 export type InstallationUseCasesDependencies = TypologieInstallationUseCaseDependencies &
-  InstallateurUseCaseDependencies;
+  InstallateurUseCaseDependencies &
+  DispositifDeStockageCommandDependencies;
 
 export const registerInstallationQueries = (dependencies: InstallationQueryDependencies) => {
   registerTypologieInstallationQueries(dependencies);
   registerInstallateurQueries(dependencies);
   registerConsulterInstallationQuery(dependencies);
   registerListerHistoriqueInstallationProjetQuery(dependencies);
+  registerDispositifDeStockageQueries(dependencies);
 };
 
 export const registerInstallationUseCases = (dependencies: InstallationUseCasesDependencies) => {
   registerInstallateurUseCases(dependencies);
   registerTypologieInstallationUseCases(dependencies);
+  registerDispositifDeStockageUseCase(dependencies);
 };

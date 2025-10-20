@@ -7,7 +7,6 @@ export * from './getReprésentantLégal';
 export * from './getActionnaire';
 export * from './getRecours';
 export * from './getRaccordement';
-export * from './getDispositifDeStockage';
 export * from './getProducteur';
 export * from './getFournisseur';
 export * from './getInstallation';

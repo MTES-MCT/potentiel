@@ -23,3 +23,19 @@ export class InstallateurIdentiqueError extends InvalidOperationError {
     super('Le nouvel installateur est identique à celui associé au projet');
   }
 }
+
+export class DispositifDeStockageDéjàTransmiseError extends InvalidOperationError {
+  constructor() {
+    super(
+      "L'information sur le couplage de l'installation avec un dispositif de stockage a déjà été transmise",
+    );
+  }
+}
+
+export class DispositifDeStockageIdentiqueError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Les informations relatives au dispositif de stockage sont identiques à celles du projet',
+    );
+  }
+}
