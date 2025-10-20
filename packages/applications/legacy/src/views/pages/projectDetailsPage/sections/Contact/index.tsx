@@ -53,7 +53,10 @@ export const Contact = ({
 
     {project.notifiedOn &&
       userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
-        <ListeComptesAyantAccès project={project} identifiantProjet={identifiantProjet} />
+        <div>
+          <Heading3 className="mt-0 mb-1">Comptes ayant accès à ce projet</Heading3>
+          <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
+        </div>
       )}
   </Section>
 );
@@ -64,19 +67,5 @@ type ListeComptesAyantAccèsProps = {
 };
 
 const ListeComptesAyantAccès = ({ project, identifiantProjet }: ListeComptesAyantAccèsProps) => (
-  <div>
-    <Heading3 className="mt-0 mb-1">Comptes ayant accès à ce projet</Heading3>
-    <ul className="my-1">
-      {project.users.map(({ id, fullName, email }) => (
-        <div key={'project_user_' + id}>
-          <li>
-            {fullName && `${fullName} - `}
-            {email}
-          </li>
-        </div>
-      ))}
-      {!project.users.length && <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>}
-    </ul>
-    <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
-  </div>
+  <div></div>
 );

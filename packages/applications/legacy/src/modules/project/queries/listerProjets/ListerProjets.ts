@@ -49,6 +49,7 @@ export type FiltreListeProjets = {
   };
   classement?: 'classé' | 'actif' | 'abandonné' | 'éliminé';
   régions?: Array<string>;
+  projets?: Array<string>;
 };
 
 export type ListerProjets = (args: {

@@ -12,6 +12,7 @@ export const mapToFindOptions = (filtres?: FiltreListeProjets) => {
   const filtreAO = construireFiltreAppelOffre(appelOffre);
   const filtreClassement = construireFiltreClassement(classement);
   const filtreRégion = construireFiltreRégions(filtres.régions);
+  const filtreProjet = construireFiltreProjets(filtres.projets);
 
   return {
     where: {
@@ -19,6 +20,7 @@ export const mapToFindOptions = (filtres?: FiltreListeProjets) => {
       ...filtreAO,
       ...filtreClassement,
       ...filtreRégion,
+      ...filtreProjet,
     },
   };
 };
@@ -58,4 +60,15 @@ const construireFiltreRégions = (régions?: Array<string>) =>
         }
       : {
           regionProjet: { [Op.in]: régions },
+        };
+
+const construireFiltreProjets = (projets?: Array<string>) =>
+  !projets
+    ? undefined
+    : projets.length === 1
+      ? {
+          id: projets[0],
+        }
+      : {
+          id: { [Op.in]: projets },
         };

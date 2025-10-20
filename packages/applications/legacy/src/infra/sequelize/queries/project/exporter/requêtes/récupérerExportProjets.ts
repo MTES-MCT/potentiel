@@ -2,19 +2,17 @@ import { FiltreListeProjets } from '../../../../../../modules/project/queries/li
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneDétail } from '../Colonne';
 import { Literal } from 'sequelize/types/utils';
-import { Project, UserProjects } from '../../../../projectionsNext';
+import { Project } from '../../../../projectionsNext';
 import { Op } from 'sequelize';
 
 type RécupérerExportProjetsProps = {
   colonnesÀExporter: Readonly<Array<Colonne>>;
   filtres?: FiltreListeProjets;
-  seulementLesProjetsAvecAccèsPour?: string;
 };
 
 export const récupérerExportProjets = async ({
   colonnesÀExporter,
   filtres,
-  seulementLesProjetsAvecAccèsPour,
 }: RécupérerExportProjetsProps) => {
   const findOptions = mapToFindOptions(filtres);
 
@@ -25,21 +23,7 @@ export const récupérerExportProjets = async ({
       appelOffreId: { [Op.ne]: appelOffreIdPetitPVBâtimentPPE2 },
       ...findOptions?.where,
       notifiedOn: { [Op.gt]: 0 },
-      ...(seulementLesProjetsAvecAccèsPour && {
-        '$users.userId$': seulementLesProjetsAvecAccèsPour,
-      }),
     },
-    include: [
-      ...(seulementLesProjetsAvecAccèsPour
-        ? [
-            {
-              model: UserProjects,
-              as: 'users',
-              attributes: [],
-            },
-          ]
-        : []),
-    ],
     attributes: [...convertirEnAttributsSequelize(colonnesÀExporter), 'details'],
     raw: true,
   });
