@@ -3,7 +3,4 @@ export * from './exporter';
 export * from './helpers';
 export * from './findProjectByIdentifiers';
 export * from './getIdentifiantProjetByLegacyId';
-export * from './getListIdentifiantsProjetByLegacyIds';
 export * from './getLegacyProjetByIdentifiantProjet';
-export * from './getProjectIdsForPeriode';
-export * from './récupérerDonnéesPorteursParProjet.queryHandler';
