@@ -1277,7 +1277,10 @@ const policies = {
   },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
-    lister: [référencielPermissions.lauréat.query.lister],
+    lister: [
+      référencielPermissions.lauréat.query.lister,
+      référencielPermissions.appelOffre.query.lister,
+    ],
     modifier: [
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.command.modifierSiteDeProduction,
@@ -1298,7 +1301,10 @@ const policies = {
   },
   éliminé: {
     consulter: [référencielPermissions.éliminé.query.consulter],
-    lister: [référencielPermissions.éliminé.query.lister],
+    lister: [
+      référencielPermissions.éliminé.query.lister,
+      référencielPermissions.appelOffre.query.lister,
+    ],
   },
   accès: {
     consulter: [référencielPermissions.accès.query.consulter],

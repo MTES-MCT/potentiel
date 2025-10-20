@@ -311,7 +311,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       {
         text: 'Tableau de bord',
         linkProps: {
-          href: '/ademe/statistiques.html',
+          href: 'https://potentiel.e2.rie.gouv.fr/',
         },
       },
     ])
@@ -356,12 +356,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
             },
           },
         ],
-      },
-      {
-        text: 'Tableau de bord',
-        linkProps: {
-          href: '/acheteur-oblige/statistiques.html',
-        },
       },
     ])
     .with('grd', () => [
