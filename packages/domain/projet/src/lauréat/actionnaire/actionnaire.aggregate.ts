@@ -75,7 +75,7 @@ export class ActionnaireAggregate extends AbstractAggregate<
     raison,
     pièceJustificative,
   }: ModifierOptions) {
-    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierQueLaModificationEstPossible('actionnaire');
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementEnCoursError();

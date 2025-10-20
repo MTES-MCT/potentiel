@@ -34,7 +34,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
   },
   changement: {
-    natureDeLExploitation: {},
     puissance: {
       demande: true,
       ratios: {
@@ -173,7 +172,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
@@ -210,7 +208,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       abandonAvecRecandidature: true,
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
@@ -242,7 +239,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
@@ -266,7 +262,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
@@ -290,7 +285,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
@@ -314,7 +308,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
@@ -338,7 +331,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',
@@ -362,7 +354,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
-        natureDeLExploitation: {},
         représentantLégal: {
           demande: true,
           instructionAutomatique: 'rejet',

@@ -12,7 +12,6 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     },
   },
   changement: {
-    natureDeLExploitation: {},
     puissance: {
       demande: true,
       ratios: {

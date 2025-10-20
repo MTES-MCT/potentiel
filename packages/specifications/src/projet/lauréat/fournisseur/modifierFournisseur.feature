@@ -3,7 +3,8 @@
 Fonctionnalité: Modifier un fournisseur
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Bâtiment |
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Modifier un fournisseur
@@ -33,3 +34,9 @@ Fonctionnalité: Modifier un fournisseur
             | fournisseur        | Fournisseur A |
             | évaluation carbone | hello         |
         Alors l'utilisateur devrait être informé que "L'évaluation carbone doit être un nombre"
+
+    Scénario: Impossible de modifier le fournisseur si le cahier des charges ne le permet pas
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+        Quand le DGEC validateur modifie le fournisseur du projet lauréat
+        Alors l'utilisateur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

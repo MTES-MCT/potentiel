@@ -143,7 +143,7 @@ export class ReprésentantLégalAggregate extends AbstractAggregate<
     typeReprésentantLégal,
     dateModification,
   }: ModifierOptions) {
-    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierQueLaModificationEstPossible('représentantLégal');
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementEnCoursError();

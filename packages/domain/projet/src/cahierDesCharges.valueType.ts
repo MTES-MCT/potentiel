@@ -16,14 +16,14 @@ export type ValueType = {
    * Cette règle, définie dans le Cahier des charges outrepasse celle de la période, qui elle même outrepasse celle de l'appel d'offre.
    **/
   changementEstDisponible(
-    typeChangement: 'information-enregistrée' | 'demande',
+    typeChangement: 'information-enregistrée' | 'demande' | 'modification',
     domaine: AppelOffre.DomainesConcernésParChangement,
   ): boolean;
   /**
    * Applique les règles de @see ValueType.changementEstDisponible, en émettant une erreur si le changement n'est pas disponible.
    **/
   vérifierQueLeChangementEstPossible(
-    typeChangement: 'information-enregistrée' | 'demande',
+    typeChangement: 'information-enregistrée' | 'demande' | 'modification',
     domaine: AppelOffre.DomainesConcernésParChangement,
   ): void;
   estSoumisAuxGarantiesFinancières(): boolean;
@@ -92,6 +92,10 @@ export const bind = ({
     const règleTypeChangement = match(typeChangement)
       .with('demande', () => règlesChangement.demande)
       .with('information-enregistrée', () => règlesChangement.informationEnregistrée)
+      .with(
+        'modification',
+        () => règlesChangement.demande || règlesChangement.informationEnregistrée,
+      )
       .exhaustive();
 
     return règleTypeChangement === true;

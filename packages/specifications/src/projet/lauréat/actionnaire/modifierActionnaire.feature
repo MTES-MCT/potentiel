@@ -3,9 +3,9 @@
 Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Bâtiment |
         Et la dreal "DREAL" associée à la région du projet
-        Et un cahier des charges permettant la modification du projet
 
     Scénario: Modifier l'actionnaire d'un projet lauréat par une dreal ou un admin
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat
@@ -77,3 +77,9 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Et une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
+
+    Scénario: Impossible de modifier l'actionnaire d'un projet si le cahier des charges ne le permet pas
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+        Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"

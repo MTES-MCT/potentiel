@@ -73,7 +73,7 @@ export class PuissanceAggregate extends AbstractAggregate<
   }
 
   async modifier({ puissance, dateModification, identifiantUtilisateur, raison }: ModifierOptions) {
-    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierQueLaModificationEstPossible('puissance');
 
     if (this.#puissance === puissance) {
       throw new PuissanceIdentiqueError();
