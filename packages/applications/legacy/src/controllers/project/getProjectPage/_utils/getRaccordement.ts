@@ -53,18 +53,19 @@ export const getRaccordement = async ({
       raccordement: Option.none,
       affichage: estAbandonné
         ? {
-            label:
-              'Aucun raccordement pour ce projet',
+            label: 'Aucun raccordement pour ce projet',
           }
         : aUnAbandonEnCours
           ? {
               label:
                 "Impossible de renseigner ce raccordement car une demande d'abandon est en cours",
             }
-          : {
-              label: 'Renseigner les données de raccordement',
-              url: Routes.Raccordement.détail(identifiantProjet.formatter()),
-            },
+          : role.aLaPermission('raccordement.demande-complète-raccordement.transmettre')
+            ? {
+                label: 'Renseigner les données de raccordement',
+                url: Routes.Raccordement.détail(identifiantProjet.formatter()),
+              }
+            : undefined,
     };
   }
 
