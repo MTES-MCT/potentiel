@@ -27,7 +27,7 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
     .with({ rôle: 'porteur-projet' }, async () => {
       const { items } = await listProjection<Accès.AccèsEntity>(`accès`, {
         where: {
-          utilisateursAyantAccès: Where.contain(utilisateur.identifiantUtilisateur),
+          utilisateursAyantAccès: Where.include(utilisateur.identifiantUtilisateur),
         },
       });
 
