@@ -300,7 +300,6 @@ v1Router.get(
           installation: await getInstallation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
-            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('installateur'),
           }),
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
