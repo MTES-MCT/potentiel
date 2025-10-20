@@ -49,30 +49,23 @@ export const getProducteur = async ({
           domain: 'producteur',
         });
 
-      if (peutModifier) {
-        return {
-          producteur,
-          affichage: {
+      const affichage = peutModifier
+        ? {
             url: Routes.Producteur.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: 'Modifier le producteur',
-          },
-        };
-      }
-
-      if (peutEnregistrerChangement) {
-        return {
-          producteur: producteur,
-          affichage: {
-            url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Changer le producteur',
-            labelActions: 'Changer le producteur',
-          },
-        };
-      }
+          }
+        : peutEnregistrerChangement
+          ? {
+              url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
+              label: 'Changer de producteur',
+              labelActions: 'Changer de producteur',
+            }
+          : undefined;
 
       return {
         producteur,
+        affichage,
       };
     }
 

@@ -73,38 +73,26 @@ export const getReprésentantLégal = async ({
           domain: 'représentantLégal',
         });
 
-      if (peutModifier) {
-        return {
-          nom: représentantLégal.nomReprésentantLégal,
-          affichage: {
+      const affichage = peutModifier
+        ? {
             url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: 'Modifier le représentant légal',
-          },
-        };
-      }
+          }
+        : peutFaireUneDemandeDeChangement || peutEnregistrerChangement
+          ? {
+              url: peutFaireUneDemandeDeChangement
+                ? Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter())
+                : Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
+              label: 'Changer de représentant légal',
+              labelActions: 'Changer de représentant légal',
+            }
+          : undefined;
 
-      if (peutFaireUneDemandeDeChangement) {
-        return {
-          nom: représentantLégal.nomReprésentantLégal,
-          affichage: {
-            url: Routes.ReprésentantLégal.changement.demander(identifiantProjet.formatter()),
-            label: 'Changer de représentant légal',
-            labelActions: 'Changer de représentant légal',
-          },
-        };
-      }
-
-      if (peutEnregistrerChangement) {
-        return {
-          nom: représentantLégal.nomReprésentantLégal,
-          affichage: {
-            url: Routes.ReprésentantLégal.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Changer de représentant légal',
-            labelActions: 'Changer de représentant légal',
-          },
-        };
-      }
+      return {
+        nom: représentantLégal.nomReprésentantLégal,
+        affichage,
+      };
     }
 
     return undefined;

@@ -48,22 +48,24 @@ export const getFournisseur = async ({
           domain: 'fournisseur',
         });
 
+      const affichage = peutModifier
+        ? {
+            url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
+            label: 'Modifier',
+            labelActions: 'Modifier le fournisseur',
+          }
+        : peutEnregistrerChangement
+          ? {
+              url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
+              label: 'Changer de fournisseur',
+              labelActions: 'Changer de fournisseur',
+            }
+          : undefined;
+
       return {
         fournisseurs,
         évaluationCarboneSimplifiée,
-        affichage: peutModifier
-          ? {
-              url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
-              label: 'Modifier',
-              labelActions: 'Modifier le fournisseur',
-            }
-          : peutEnregistrerChangement
-            ? {
-                url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
-                label: 'Changer de fournisseur',
-                labelActions: 'Changer de fournisseur',
-              }
-            : undefined,
+        affichage,
       };
     }
 

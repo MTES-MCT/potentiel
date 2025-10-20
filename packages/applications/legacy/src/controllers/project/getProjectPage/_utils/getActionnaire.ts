@@ -68,40 +68,29 @@ export const getActionnaire = async ({
           domain: 'actionnaire',
         });
 
-      if (peutModifier) {
-        return {
-          nom,
-          affichage: {
+      const affichage = peutModifier
+        ? {
             url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: 'Modifier l’actionnaire(s)',
-          },
-        };
-      }
+          }
+        : peutEnregistrerChangement
+          ? {
+              url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
+              label: 'Faire un changement',
+              labelActions: "Changer d'actionnaire(s)",
+            }
+          : peutFaireUneDemandeDeChangement
+            ? {
+                url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+                label: 'Faire une demande de changement',
+                labelActions: 'Demander un changement d’actionnaire(s)',
+              }
+            : undefined;
 
-      if (peutEnregistrerChangement) {
-        return {
-          nom,
-          affichage: {
-            url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Faire un changement',
-            labelActions: "Changer d'actionnaire(s)",
-          },
-        };
-      }
-
-      if (peutFaireUneDemandeDeChangement) {
-        return {
-          nom,
-          affichage: {
-            url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-            label: 'Faire une demande de changement',
-            labelActions: 'Demander un changement d’actionnaire(s)',
-          },
-        };
-      }
       return {
         nom,
+        affichage,
       };
     }
 

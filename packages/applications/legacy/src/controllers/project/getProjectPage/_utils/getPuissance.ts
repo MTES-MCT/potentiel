@@ -64,30 +64,23 @@ export const getPuissance = async ({
           domain: 'puissance',
         });
 
-      if (peutModifier) {
-        return {
-          puissance,
-          affichage: {
+      const affichage = peutModifier
+        ? {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: 'Modifier la puissance',
-          },
-        };
-      }
-
-      if (peutFaireUneDemandeDeChangement) {
-        return {
-          puissance: puissance,
-          affichage: {
-            url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
-            label: 'Changer de puissance',
-            labelActions: 'Changer de puissance',
-          },
-        };
-      }
+          }
+        : peutFaireUneDemandeDeChangement
+          ? {
+              url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
+              label: 'Changer de puissance',
+              labelActions: 'Changer de puissance',
+            }
+          : undefined;
 
       return {
         puissance,
+        affichage,
       };
     }
 
