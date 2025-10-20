@@ -46,7 +46,7 @@ export class GarantiesFinancièresDéjàLevéesError extends InvalidOperationErr
 
 export class DateConstitutionDansLeFuturError extends InvalidOperationError {
   constructor() {
-    super(`La date de constitution des garanties financières ne peut pas être une date future`);
+    super(`La date de prise d'effet des garanties financières ne peut pas être une date future`);
   }
 }
 
@@ -64,7 +64,7 @@ export class AttestationGarantiesFinancièresDéjàExistanteError extends Invali
 
 export class AttestationEtDateGarantiesFinancièresRequisesError extends InvalidOperationError {
   constructor() {
-    super(`L'attestation et la date de constitution des garanties financières sont requises`);
+    super(`L'attestation et la date de prise d'effet des garanties financières sont requises`);
   }
 }
 

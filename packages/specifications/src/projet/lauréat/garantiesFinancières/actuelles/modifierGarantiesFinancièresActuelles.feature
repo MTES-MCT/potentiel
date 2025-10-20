@@ -84,7 +84,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
             | type GF | consignation |
         Quand un admin modifie les garanties financières actuelles du projet lauréat avec :
             | date de constitution | 2050-01-01 |
-        Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
+        Alors l'utilisateur devrait être informé que "La date de prise d'effet des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible de modifier des garanties financières actuelles si aucunes garanties financières actuelles ne sont trouvées
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Lyon"

@@ -10,6 +10,7 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/timeline';
 
 import { StatutGarantiesFinancièresBadge } from '../StatutGarantiesFinancièresBadge';
 import { getGarantiesFinancièresTypeLabel } from '../_helpers/getGarantiesFinancièresTypeLabel';
+import { getGarantiesFinancièresDateLabel } from '../_helpers/getGarantiesFinancièresDateLabel';
 
 type ArchivesGarantiesFinancièresProps = {
   archives: PlainType<Lauréat.GarantiesFinancières.ListerArchivesGarantiesFinancièresReadModel>;
@@ -59,7 +60,7 @@ const mapToTimelineItem = ({
         )}
         {gf.estConstitué() && (
           <div>
-            Date de constitution :{' '}
+            {getGarantiesFinancièresDateLabel(gf.type.formatter())} :{' '}
             <FormattedDate className="font-semibold" date={gf.constitution.date.formatter()} />
           </div>
         )}
