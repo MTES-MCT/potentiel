@@ -32,8 +32,6 @@ export const getFournisseur = async ({
   règlesChangementPourAppelOffres,
 }: Props): Promise<GetFournisseurForProjectPage | undefined> => {
   try {
-    const role = Role.convertirEnValueType(rôle);
-
     const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
       type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
       data: { identifiantProjet: identifiantProjet.formatter() },

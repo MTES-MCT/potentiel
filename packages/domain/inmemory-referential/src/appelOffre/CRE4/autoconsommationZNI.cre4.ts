@@ -1,6 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 const changementsCDCModifié = {
+  natureDeLExploitation: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',

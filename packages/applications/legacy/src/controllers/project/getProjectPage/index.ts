@@ -261,6 +261,8 @@ v1Router.get(
           représentantLégal: await getReprésentantLégal({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres:
+              cahierDesCharges.getRèglesChangements('représentantLégal'),
           }),
           demandeRecours: recours && mapToPlainObject(recours),
           actionnaire: await getActionnaire({
@@ -272,6 +274,7 @@ v1Router.get(
           puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('puissance'),
           }),
           producteur: await getProducteur({
             identifiantProjet: identifiantProjetValueType,
@@ -297,10 +300,13 @@ v1Router.get(
           installation: await getInstallation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('installateur'),
           }),
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres:
+              cahierDesCharges.getRèglesChangements('natureDeLExploitation'),
           }),
           statutLauréat: lauréat.statut.statut,
           siteDeProduction: getSiteDeProduction({

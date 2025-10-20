@@ -3,46 +3,52 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-type Props<T extends keyof AppelOffre.RèglesDemandesChangement> = {
+type Props<TDomain extends keyof AppelOffre.RèglesDemandesChangement> = {
   rôle: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement[T];
-  conditionsÀRemplirSpécifiquesAuDomain?: boolean;
+  règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement[TDomain];
+  conditionsÀRemplirPourChangement?: boolean;
   domain: Role.PolicyDomains;
 };
 
 export const checkAutorisationChangement = async <
-  T extends keyof AppelOffre.RèglesDemandesChangement,
+  TDomain extends keyof AppelOffre.RèglesDemandesChangement,
 >({
   rôle,
   identifiantProjet,
   règlesChangementPourAppelOffres,
-  conditionsÀRemplirSpécifiquesAuDomain,
+  conditionsÀRemplirPourChangement,
   domain,
-}: Props<T>) => {
+}: Props<TDomain>) => {
   const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
     identifiantProjet,
     rôle.nom,
   );
 
+  const peutModifier =
+    rôle.aLaPermission(`${domain}.modifier` as Role.Policy) &&
+    (règlesChangementPourAppelOffres.demande ||
+      règlesChangementPourAppelOffres.informationEnregistrée);
+
+  const peutFaireUneDemandeDeChangement =
+    conditionsÀRemplirPourChangement !== false &&
+    rôle.aLaPermission(`${domain}.demanderChangement` as Role.Policy) &&
+    !aUnAbandonEnCours &&
+    !estAbandonné &&
+    !estAchevé &&
+    règlesChangementPourAppelOffres.demande;
+
+  const peutEnregistrerChangement =
+    conditionsÀRemplirPourChangement !== false &&
+    rôle.aLaPermission(`${domain}.enregistrerChangement` as Role.Policy) &&
+    !aUnAbandonEnCours &&
+    !estAbandonné &&
+    !estAchevé &&
+    règlesChangementPourAppelOffres.informationEnregistrée;
+
   return {
-    peutModifier:
-      rôle.aLaPermission(`${domain}.modifier` as Role.Policy) &&
-      !règlesChangementPourAppelOffres.demande &&
-      !règlesChangementPourAppelOffres.informationEnregistrée,
-    peutFaireUneDemandeDeChangement:
-      conditionsÀRemplirSpécifiquesAuDomain !== false &&
-      rôle.aLaPermission(`${domain}.demanderChangement` as Role.Policy) &&
-      !aUnAbandonEnCours &&
-      !estAbandonné &&
-      !estAchevé &&
-      règlesChangementPourAppelOffres.demande,
-    peutEnregistrerChangement:
-      !conditionsÀRemplirSpécifiquesAuDomain !== false &&
-      rôle.aLaPermission(`${domain}.enregistrerChangement` as Role.Policy) &&
-      !aUnAbandonEnCours &&
-      !estAbandonné &&
-      !estAchevé &&
-      règlesChangementPourAppelOffres.informationEnregistrée,
+    peutModifier,
+    peutFaireUneDemandeDeChangement,
+    peutEnregistrerChangement,
   };
 };

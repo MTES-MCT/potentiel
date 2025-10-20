@@ -28,6 +28,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
   },
   changement: {
+    natureDeLExploitation: {},
     puissance: {
       demande: true,
       ratios: {
@@ -62,6 +63,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',

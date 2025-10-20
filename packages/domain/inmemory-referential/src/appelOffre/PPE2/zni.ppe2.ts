@@ -13,6 +13,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',

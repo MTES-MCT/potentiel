@@ -13,6 +13,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 34,
   delaiRealisationTexte: 'trente-quatre (34) mois',
   changement: {
+    natureDeLExploitation: { informationEnregistrée: true },
     représentantLégal: {
       informationEnregistrée: true,
     },

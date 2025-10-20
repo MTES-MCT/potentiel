@@ -42,6 +42,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
   },
   changement: {
+    natureDeLExploitation: {},
     puissance: {
       demande: true,
       changementByTechnologie: true,
@@ -78,6 +79,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   multiplesTechnologies: true,
   unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'rejet',

@@ -26,6 +26,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
   },
   changement: {
+    natureDeLExploitation: {},
     puissance: {
       demande: true,
       ratios: {
@@ -66,6 +67,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 30,
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',

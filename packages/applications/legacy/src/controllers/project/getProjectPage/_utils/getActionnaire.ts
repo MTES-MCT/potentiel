@@ -64,7 +64,7 @@ export const getActionnaire = async ({
           rôle: Role.convertirEnValueType(rôle),
           identifiantProjet,
           règlesChangementPourAppelOffres,
-          conditionsÀRemplirSpécifiquesAuDomain: demandeNécessiteInstruction,
+          conditionsÀRemplirPourChangement: demandeNécessiteInstruction,
           domain: 'actionnaire',
         });
 

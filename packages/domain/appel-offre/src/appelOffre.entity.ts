@@ -104,6 +104,7 @@ export type RèglesDemandesChangement = {
   représentantLégal: ChangementReprésentantLégal;
   recours: Changement;
   abandon: ChangementAvecAutoritéCompétente;
+  natureDeLExploitation: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;

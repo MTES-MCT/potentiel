@@ -12,6 +12,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
     },
   },
   changement: {
+    natureDeLExploitation: {},
     puissance: {
       demande: true,
       ratios: {
@@ -33,6 +34,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'rejet',

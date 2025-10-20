@@ -36,6 +36,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
     },
   },
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',
