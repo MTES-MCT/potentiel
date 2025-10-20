@@ -191,10 +191,10 @@ async function vérifierInstructionAutomatiqueDemande(
     actual.demande.statut.should.be.deep.equal(expected.demande.statut);
 
     if (action === 'accord') {
-      actual.demande.accord?.accordéPar.should.be.deep.equal(expected.demande.accord?.accordéPar);
+      actual.demande.accord?.accordéePar.should.be.deep.equal(expected.demande.accord?.accordéePar);
     } else {
       actual.demande.rejet?.motif.should.be.equal(expected.demande.rejet?.motif);
-      actual.demande.rejet?.rejetéPar.should.be.deep.equal(expected.demande.rejet?.rejetéPar);
+      actual.demande.rejet?.rejetéePar.should.be.deep.equal(expected.demande.rejet?.rejetéePar);
     }
   });
 }

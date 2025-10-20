@@ -24,8 +24,8 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
     <DétailsChangement
       title="Changement de fournisseurs"
       changement={changement}
-      détailsSpécifiques={
-        <DétailsFournisseursEtÉvaluationCarbonesSimplifiée
+      détailsValeursDuDomaine={
+        <DétailsValeursFournisseur
           changement={changement}
           évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
           technologie={technologie}
@@ -36,7 +36,7 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
   );
 };
 
-const DétailsFournisseursEtÉvaluationCarbonesSimplifiée = ({
+const DétailsValeursFournisseur = ({
   changement,
   technologie,
   évaluationCarboneSimplifiéeInitiale,

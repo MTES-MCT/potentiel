@@ -64,10 +64,10 @@ export class ChangementReprésentantLégalWorld {
           this.#demanderOuEnregistrerChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:
           this.#demanderOuEnregistrerChangementReprésentantLégalFixture.typeReprésentantLégal,
-        demandéLe: DateTime.convertirEnValueType(
+        demandéeLe: DateTime.convertirEnValueType(
           this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéLe,
         ),
-        demandéPar: Email.convertirEnValueType(
+        demandéePar: Email.convertirEnValueType(
           this.#demanderOuEnregistrerChangementReprésentantLégalFixture.demandéPar,
         ),
         pièceJustificative: DocumentProjet.convertirEnValueType(
@@ -97,10 +97,10 @@ export class ChangementReprésentantLégalWorld {
         nomReprésentantLégal: this.accorderChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:
           this.accorderChangementReprésentantLégalFixture.typeReprésentantLégal,
-        accordéLe: DateTime.convertirEnValueType(
+        accordéeLe: DateTime.convertirEnValueType(
           this.accorderChangementReprésentantLégalFixture.accordéeLe,
         ),
-        accordéPar: Email.convertirEnValueType(
+        accordéePar: Email.convertirEnValueType(
           this.accorderChangementReprésentantLégalFixture.accordéePar,
         ),
       };
@@ -109,10 +109,10 @@ export class ChangementReprésentantLégalWorld {
     if (this.rejeterChangementReprésentantLégalFixture.aÉtéCréé) {
       expected.demande.rejet = {
         motif: this.rejeterChangementReprésentantLégalFixture.motif,
-        rejetéLe: DateTime.convertirEnValueType(
+        rejetéeLe: DateTime.convertirEnValueType(
           this.rejeterChangementReprésentantLégalFixture.rejetéLe,
         ),
-        rejetéPar: Email.convertirEnValueType(
+        rejetéePar: Email.convertirEnValueType(
           this.rejeterChangementReprésentantLégalFixture.rejetéPar,
         ),
       };

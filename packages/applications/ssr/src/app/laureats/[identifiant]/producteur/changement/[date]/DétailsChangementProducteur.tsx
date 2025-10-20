@@ -15,13 +15,13 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
     <DétailsChangement
       title="Changement de producteur"
       changement={changement}
-      détailsSpécifiques={<ProducteurChangé changement={changement} />}
+      détailsValeursDuDomaine={<DétailsValeursProducteur changement={changement} />}
       statut="information-enregistrée"
     />
   );
 };
 
-const ProducteurChangé = ({
+const DétailsValeursProducteur = ({
   changement,
 }: {
   changement: DétailsProducteurPageProps['changement'];

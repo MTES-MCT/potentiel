@@ -15,21 +15,21 @@ export type ConsulterChangementReprésentantLégalReadModel = {
     statut: StatutChangementReprésentantLégal.ValueType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-    demandéLe: DateTime.ValueType;
-    demandéPar: Email.ValueType;
+    demandéeLe: DateTime.ValueType;
+    demandéePar: Email.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
 
     accord?: {
       nomReprésentantLégal: string;
       typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-      accordéPar: Email.ValueType;
-      accordéLe: DateTime.ValueType;
+      accordéePar: Email.ValueType;
+      accordéeLe: DateTime.ValueType;
     };
 
     rejet?: {
       motif: string;
-      rejetéPar: Email.ValueType;
-      rejetéLe: DateTime.ValueType;
+      rejetéePar: Email.ValueType;
+      rejetéeLe: DateTime.ValueType;
     };
   };
 };
@@ -102,20 +102,20 @@ const mapToReadModel: MapToReadModel = ({
         demande.demandéLe,
         demande.pièceJustificative.format,
       ),
-      demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
-      demandéPar: Email.convertirEnValueType(demande.demandéPar),
+      demandéeLe: DateTime.convertirEnValueType(demande.demandéLe),
+      demandéePar: Email.convertirEnValueType(demande.demandéPar),
       accord: accord && {
         nomReprésentantLégal: accord.nomReprésentantLégal,
         typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
           accord.typeReprésentantLégal,
         ),
-        accordéPar: Email.convertirEnValueType(accord.accordéPar),
-        accordéLe: DateTime.convertirEnValueType(accord.accordéLe),
+        accordéePar: Email.convertirEnValueType(accord.accordéPar),
+        accordéeLe: DateTime.convertirEnValueType(accord.accordéLe),
       },
       rejet: rejet && {
         motif: rejet.motif,
-        rejetéPar: Email.convertirEnValueType(rejet.rejetéPar),
-        rejetéLe: DateTime.convertirEnValueType(rejet.rejetéLe),
+        rejetéePar: Email.convertirEnValueType(rejet.rejetéPar),
+        rejetéeLe: DateTime.convertirEnValueType(rejet.rejetéLe),
       },
     },
   };

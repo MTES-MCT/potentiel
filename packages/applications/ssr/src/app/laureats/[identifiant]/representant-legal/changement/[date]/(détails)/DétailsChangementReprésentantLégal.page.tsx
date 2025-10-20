@@ -68,7 +68,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 type: demande.typeReprésentantLégal.type,
               }).formatter(),
               nomReprésentantLégal: demande.nomReprésentantLégal,
-              dateDemande: DateTime.bind(demande.demandéLe).formatter(),
+              dateDemande: DateTime.bind(demande.demandéeLe).formatter(),
             })}
           </>
         ),

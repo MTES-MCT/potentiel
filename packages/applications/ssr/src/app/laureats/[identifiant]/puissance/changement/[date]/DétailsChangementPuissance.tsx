@@ -1,15 +1,9 @@
 import { FC } from 'react';
 
-import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Routes } from '@potentiel-applications/routes';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { PlainType } from '@potentiel-domain/core';
 
-import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Heading5 } from '@/components/atoms/headings';
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
+import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
 
 import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 
@@ -29,8 +23,8 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
   return statut.estInformationEnregistrée() ? (
     <DétailsChangement
       title="Changement de puissance"
-      détailsSpécifiques={
-        <DétailsPuissance
+      détailsValeursDuDomaine={
+        <DétailsValeursPuissance
           unitéPuissance={unitéPuissance}
           puissanceInitiale={puissanceInitiale}
           nouvellePuissance={demande.nouvellePuissance}
@@ -45,53 +39,32 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
       statut="information-enregistrée"
     />
   ) : (
-    <div className="flex flex-col gap-4">
-      <DétailsChangement
-        title="Demande de changement de puissance"
-        détailsSpécifiques={
-          <DétailsPuissance
-            unitéPuissance={unitéPuissance}
-            puissanceInitiale={puissanceInitiale}
-            nouvellePuissance={demande.nouvellePuissance}
-          />
-        }
-        changement={{
-          enregistréPar: demande.demandéePar,
-          enregistréLe: demande.demandéeLe,
-          raison: demande.raison,
-          pièceJustificative: demande.pièceJustificative,
-        }}
-        statut={demande.statut.statut}
-      />
-      {demande.accord && (
-        <ChangementAccordé
-          accordéeLe={demande.accord.accordéeLe}
-          accordéePar={demande.accord.accordéePar}
-          réponseSignée={demande.accord.réponseSignée}
+    <DétailsDemande
+      demande={demande}
+      détailsValeursDuDomaine={
+        <DétailsValeursPuissance
+          unitéPuissance={unitéPuissance}
+          puissanceInitiale={puissanceInitiale}
+          nouvellePuissance={demande.nouvellePuissance}
         />
-      )}
-      {demande.rejet && (
-        <ChangementRejeté
-          rejetéeLe={demande.rejet.rejetéeLe}
-          rejetéePar={demande.rejet.rejetéePar}
-          réponseSignée={demande.rejet.réponseSignée}
-        />
-      )}
-    </div>
+      }
+      statut={demande.statut.statut}
+      title="Demande de changement de puissance"
+    />
   );
 };
 
-type DétailsPuissanceProps = {
+type DétailsValeursPuissanceProps = {
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
   puissanceInitiale: DétailsChangementPuissanceProps['puissanceInitiale'];
   nouvellePuissance: DétailsPuissancePageProps['demande']['nouvellePuissance'];
 };
 
-const DétailsPuissance = ({
+const DétailsValeursPuissance = ({
   unitéPuissance,
   puissanceInitiale,
   nouvellePuissance,
-}: DétailsPuissanceProps) => (
+}: DétailsValeursPuissanceProps) => (
   <>
     <div>
       <span className="font-medium">Puissance demandée</span> : {nouvellePuissance} {unitéPuissance}
@@ -100,58 +73,4 @@ const DétailsPuissance = ({
       <span className="font-medium">Puissance initiale</span> : {puissanceInitiale} {unitéPuissance}
     </div>
   </>
-);
-
-type ChangementAccordéProps = NonNullable<
-  PlainType<Lauréat.Puissance.ConsulterChangementPuissanceReadModel['demande']['accord']>
->;
-
-const ChangementAccordé: FC<ChangementAccordéProps> = ({
-  accordéeLe,
-  accordéePar,
-  réponseSignée,
-}) => (
-  <div>
-    <Heading5>Accord</Heading5>
-    <div>
-      Accordée le{' '}
-      <FormattedDate className="font-medium" date={DateTime.bind(accordéeLe).formatter()} />, par{' '}
-      <span className="font-medium">{Email.bind(accordéePar).formatter()}</span>
-    </div>
-    {réponseSignée && (
-      <div className="flex gap-2">
-        <div className="font-medium whitespace-nowrap">Réponse signée :</div>
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la réponse signée"
-          format={réponseSignée.format}
-          url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
-        />
-      </div>
-    )}
-  </div>
-);
-
-type ChangementRejetéProps = NonNullable<
-  PlainType<Lauréat.Puissance.ConsulterChangementPuissanceReadModel['demande']['rejet']>
->;
-
-const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
-  <div>
-    <Heading5>Rejet</Heading5>
-    <div>
-      Rejetée le{' '}
-      <FormattedDate className="font-medium" date={DateTime.bind(rejetéeLe).formatter()} />, par{' '}
-      <span className="font-medium">{Email.bind(rejetéePar).formatter()}</span>
-    </div>
-    <div className="flex gap-2">
-      <div className="font-medium whitespace-nowrap">Réponse signée :</div>
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format={réponseSignée.format}
-        url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
-      />
-    </div>
-  </div>
 );

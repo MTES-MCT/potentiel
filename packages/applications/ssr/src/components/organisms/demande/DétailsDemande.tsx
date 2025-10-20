@@ -9,41 +9,53 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading5 } from '@/components/atoms/headings';
 
+import { ReadMore } from '../../atoms/ReadMore';
+
 import { StatutDemandeBadgeProps } from './StatutDemandeBadge';
+import { DétailsChangement } from './DétailsChangement';
 
 export type DétailsDemandeProps = {
-  demande: {
-    demandéePar: string;
-    demandéeLe: DateTime.RawType;
+  title: string;
+  statut: StatutDemandeBadgeProps['statut'];
+  demande: PlainType<{
+    demandéePar: Email.ValueType;
+    demandéeLe: DateTime.ValueType;
     raison?: string;
-    statut: StatutDemandeBadgeProps['statut'];
-    pièceJustificative?: {
-      format: string;
-    };
+    pièceJustificative?: DocumentProjet.ValueType;
     accord?: {
-      réponseSignée?: {
-        format: string;
-      };
-      accordéePar: string;
-      accordéeLe: DateTime.RawType;
+      accordéePar: Email.ValueType;
+      accordéeLe: DateTime.ValueType;
+      réponseSignée?: DocumentProjet.ValueType;
     };
-
     rejet?: {
-      réponseSignée: {
-        format: string;
-      };
-      rejetéePar: string;
-      rejetéeLe: DateTime.RawType;
+      rejetéePar: Email.ValueType;
+      rejetéeLe: DateTime.ValueType;
+      réponseSignée?: DocumentProjet.ValueType;
+      motif?: string;
     };
-  };
-  détailsChangement: React.ReactNode;
+  }>;
+  détailsValeursDuDomaine: React.ReactNode;
 };
 
-export const DétailsDemande: FC<DétailsDemandeProps> = ({ demande, détailsChangement }) => {
-
+export const DétailsDemande: FC<DétailsDemandeProps> = ({
+  title,
+  statut,
+  demande,
+  détailsValeursDuDomaine,
+}) => {
   return (
     <div className="flex flex-col gap-4">
-      {détailsChangement}
+      <DétailsChangement
+        title={title}
+        détailsValeursDuDomaine={détailsValeursDuDomaine}
+        changement={{
+          enregistréPar: demande.demandéePar,
+          enregistréLe: demande.demandéeLe,
+          raison: demande.raison,
+          pièceJustificative: demande.pièceJustificative,
+        }}
+        statut={statut}
+      />
       {demande.accord && (
         <ChangementAccordé
           accordéeLe={demande.accord.accordéeLe}
@@ -56,6 +68,7 @@ export const DétailsDemande: FC<DétailsDemandeProps> = ({ demande, détailsCha
           rejetéeLe={demande.rejet.rejetéeLe}
           rejetéePar={demande.rejet.rejetéePar}
           réponseSignée={demande.rejet.réponseSignée}
+          motif={demande.rejet.motif}
         />
       )}
     </div>
@@ -92,7 +105,12 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
 
 type ChangementRejetéProps = NonNullable<DétailsDemandeProps['demande']['rejet']>;
 
-const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
+const ChangementRejeté: FC<ChangementRejetéProps> = ({
+  rejetéeLe,
+  rejetéePar,
+  réponseSignée,
+  motif,
+}) => (
   <div>
     <Heading5>Rejet</Heading5>
     <div>
@@ -100,14 +118,22 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
       <FormattedDate className="font-medium" date={DateTime.bind(rejetéeLe).formatter()} />, par{' '}
       <span className="font-medium">{Email.bind(rejetéePar).formatter()}</span>
     </div>
-    <div className="flex gap-2">
-      <div className="font-medium whitespace-nowrap">Réponse signée :</div>
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format={réponseSignée.format}
-        url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
-      />
-    </div>
+    {réponseSignée && (
+      <div className="flex gap-2">
+        <div className="font-medium whitespace-nowrap">Réponse signée :</div>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la réponse signée"
+          format={réponseSignée.format}
+          url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
+        />
+      </div>
+    )}
+    {motif && (
+      <div className="flex gap-2">
+        <div className="font-medium">Motif :</div>
+        <ReadMore text={motif} />
+      </div>
+    )}
   </div>
 );

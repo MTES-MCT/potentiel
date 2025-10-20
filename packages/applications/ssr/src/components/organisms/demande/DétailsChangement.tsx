@@ -24,14 +24,14 @@ export type DétailsChangementProps = {
   }>;
   title: string;
   statut: StatutDemandeBadgeProps['statut'];
-  détailsSpécifiques: React.ReactNode;
+  détailsValeursDuDomaine: React.ReactNode;
 };
 
 export const DétailsChangement: FC<DétailsChangementProps> = ({
   changement,
   title,
   statut,
-  détailsSpécifiques,
+  détailsValeursDuDomaine,
 }) => {
   const isInformationEnregistrée = statut === 'information-enregistrée';
 
@@ -52,7 +52,7 @@ export const DétailsChangement: FC<DétailsChangementProps> = ({
             : 'Détails de la demande de changement'}
         </Heading5>
         <div className="mb-2 italic">
-          {isInformationEnregistrée ? 'Modifié' : 'Demandé'} le{' '}
+          {isInformationEnregistrée ? 'Modifié' : 'Demandée'} le{' '}
           <FormattedDate
             className="font-medium"
             date={DateTime.bind(changement.enregistréLe).formatter()}
@@ -60,7 +60,7 @@ export const DétailsChangement: FC<DétailsChangementProps> = ({
           par{' '}
           <span className="font-medium">{Email.bind(changement.enregistréPar).formatter()}</span>
         </div>
-        <div className="flex flex-col">{détailsSpécifiques}</div>
+        <div className="flex flex-col">{détailsValeursDuDomaine}</div>
         {changement.raison ? (
           <div className="flex gap-2">
             <div className="font-medium whitespace-nowrap">Raison du changement :</div>
