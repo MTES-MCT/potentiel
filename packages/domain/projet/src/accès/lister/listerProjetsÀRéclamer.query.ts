@@ -52,8 +52,8 @@ export const registerListerProjetsÀRéclamerQuery = ({
           estNotifiée: Where.equal(true),
           appelOffre: Where.equal(appelOffre),
           période: Where.equal(période),
-          nomProjet: Where.contain(nomProjet),
-          nomCandidat: Where.contain(nomCandidat),
+          nomProjet: Where.like(nomProjet),
+          nomCandidat: Where.like(nomCandidat),
         },
         join: {
           entity: 'accès',

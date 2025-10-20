@@ -90,7 +90,7 @@ export const registerListerLauréatQuery = ({
       where: {
         identifiantProjet:
           scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
-        nomProjet: Where.contain(nomProjet),
+        nomProjet: Where.like(nomProjet),
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(periode),
         famille: Where.equal(famille),
