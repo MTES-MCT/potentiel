@@ -244,11 +244,6 @@ v1Router.get(
       );
 
       const recours = await getRecours(identifiantProjetValueType);
-      const délai = await getDélai({
-        identifiantProjet: identifiantProjetValueType,
-        identifiantUtilisateur: user.email,
-        rôle: user.role,
-      });
 
       return response.send(
         ProjectDetailsPage({
@@ -295,7 +290,12 @@ v1Router.get(
             rôle: user.role,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('fournisseur'),
           }),
-          délai,
+          délai: await getDélai({
+            identifiantProjet: identifiantProjetValueType,
+            identifiantUtilisateur: user.email,
+            rôle: user.role,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('délai'),
+          }),
           autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
           installation: await getInstallation({
             identifiantProjet: identifiantProjetValueType,
