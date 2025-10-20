@@ -20,7 +20,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { Période } from '@potentiel-domain/periode';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { registerUtilisateurUseCases } from '@potentiel-domain/utilisateur';
 
 const envSchema = zod.object({
@@ -43,7 +43,7 @@ export class NotifierCandidatures extends Command {
 
     Période.registerPériodeUseCases({
       getProjetAggregateRoot: getProjetAggregateRootAdapter,
-      loadAggregate: loadAggregateV2,
+      loadAggregate,
     });
 
     registerProjetQueries({
