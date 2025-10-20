@@ -68,7 +68,7 @@ export const register = () => {
 
     return match(event)
       .with(
-        { type: 'CandidatureNotifiée-V2' },
+        { type: 'CandidatureNotifiée-V3' },
         async ({
           payload: {
             attestation: { format },

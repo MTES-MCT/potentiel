@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
-import { Accès, Éliminé } from '@potentiel-domain/projet';
+import { Accès, Candidature } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
@@ -65,22 +65,20 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation?:
     identifiantProjet: identifiantProjetValue,
   });
 
-  const data = {
-    identifiantProjetValue: identifiantProjetValue.formatter(),
-    notifiéLeValue: notifiéLe,
-    notifiéParValue: notifiéPar,
-    attestationValue: {
-      format: `application/pdf`,
+  await mediator.send<Candidature.NotifierCandidatureUseCase>({
+    type: 'Candidature.UseCase.NotifierCandidature',
+    data: {
+      identifiantProjetValue: identifiantProjetValue.formatter(),
+      notifiéeLeValue: notifiéLe,
+      notifiéeParValue: notifiéPar,
+      attestationValue: {
+        format: `application/pdf`,
+      },
+      validateurValue: {
+        fonction: this.utilisateurWorld.validateurFixture.fonction,
+        nomComplet: this.utilisateurWorld.validateurFixture.nom,
+      },
     },
-    validateurValue: {
-      fonction: this.utilisateurWorld.validateurFixture.fonction,
-      nomComplet: this.utilisateurWorld.validateurFixture.nom,
-    },
-  };
-
-  await mediator.send<Éliminé.NotifierÉliminéUseCase>({
-    type: 'Éliminé.UseCase.NotifierÉliminé',
-    data,
   });
 
   // L'invitation du porteur est normalement faite lors de la notification de la période

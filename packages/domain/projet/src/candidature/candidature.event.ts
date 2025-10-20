@@ -1,6 +1,7 @@
 import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
+  CandidatureNotifiéeEventV2,
 } from './notifier/candidatureNotifiée.event';
 import {
   CandidatureCorrigéeEvent,
@@ -19,4 +20,5 @@ export type CandidatureEvent =
   | CandidatureCorrigéeEventV1
   | CandidatureCorrigéeEvent
   | CandidatureNotifiéeEvent
-  | CandidatureNotifiéeEventV1;
+  | CandidatureNotifiéeEventV1
+  | CandidatureNotifiéeEventV2;

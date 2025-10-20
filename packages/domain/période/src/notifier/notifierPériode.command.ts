@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Accès, GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Accès, GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
 import { PériodeAggregate } from '../période.aggregate';
@@ -39,47 +39,28 @@ export const registerNotifierPériodeCommand = (
 
     let nbError = 0;
     for (const identifiantCandidature of identifiantCandidatures) {
-      const { candidature } = await getProjetAggregateRoot(identifiantCandidature);
-
-      candidature.vérifierQueLaCandidatureExiste();
+      const projet = await getProjetAggregateRoot(identifiantCandidature, true);
+      await projet.initCandidature();
 
       try {
-        if (candidature.statut?.estClassé()) {
-          // TODO: devrait être appelé dans le usecase NotifierPériode
-          await mediator.send<Lauréat.NotifierLauréatUseCase>({
-            type: 'Lauréat.UseCase.NotifierLauréat',
-            data: {
-              identifiantProjetValue: identifiantCandidature.formatter(),
-              notifiéLeValue: notifiéeLe.formatter(),
-              notifiéParValue: notifiéePar.formatter(),
-              validateurValue: validateur,
-              attestationValue: {
-                format: 'application/pdf',
-              },
-            },
-          });
+        await projet.candidature.notifier({
+          notifiéeLe,
+          notifiéePar,
+          validateur,
+          attestation: {
+            format: 'application/pdf',
+          },
+        });
 
+        if (projet.candidature.statut?.estClassé()) {
           identifiantLauréats.push(identifiantCandidature);
         }
 
-        if (candidature.statut?.estÉliminé()) {
-          // TODO: devrait être appelé dans le usecase NotifierPériode
-          await mediator.send<Éliminé.NotifierÉliminéUseCase>({
-            type: 'Éliminé.UseCase.NotifierÉliminé',
-            data: {
-              identifiantProjetValue: identifiantCandidature.formatter(),
-              notifiéLeValue: notifiéeLe.formatter(),
-              notifiéParValue: notifiéePar.formatter(),
-              validateurValue: validateur,
-              attestationValue: {
-                format: 'application/pdf',
-              },
-            },
-          });
-
+        if (projet.candidature.statut?.estÉliminé()) {
           identifiantÉliminés.push(identifiantCandidature);
         }
-        const emailPorteur = candidature.emailContact.formatter();
+
+        const emailPorteur = projet.candidature.emailContact.formatter();
         porteursAInviter[emailPorteur] ??= [];
         porteursAInviter[emailPorteur].push(identifiantCandidature.formatter());
       } catch (error) {

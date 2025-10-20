@@ -1,7 +1,23 @@
 import { Message, mediator } from 'mediateur';
+import { bulkhead, noop, IPolicy, wrap } from 'cockatiel';
 
 import { Event, Subscriber, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { runWorkerWithContext } from '@potentiel-applications/request-context';
+import { getLogger } from '@potentiel-libraries/monitoring';
+
+let globalPolicy: IPolicy | undefined = undefined;
+const getGlobalPolicy = () => {
+  if (!globalPolicy) {
+    const maxConcurrentSubscribers = parseInt(process.env.MAX_CONCURRENT_SUBSCRIBERS ?? '-1');
+    if (maxConcurrentSubscribers > 0) {
+      globalPolicy = bulkhead(maxConcurrentSubscribers, Infinity);
+    } else {
+      getLogger('subscribers').warn('No max concurrent subscribers set, using noop policy');
+      globalPolicy = noop;
+    }
+  }
+  return globalPolicy;
+};
 
 export const createSubscriptionSetup = <TCategory extends string>(streamCategory: TCategory) => {
   const listeners: (() => Promise<void>)[] = [];
@@ -9,24 +25,31 @@ export const createSubscriptionSetup = <TCategory extends string>(streamCategory
     messageType,
     eventType,
     name,
+    maxConcurrency,
   }: {
     messageType: TMessage['type'];
     eventType: Subscriber<TEvent>['eventType'];
     name: 'projector' | 'notifications' | 'saga' | 'historique' | string;
+    maxConcurrency?: number;
   }): Promise<void> => {
+    const policy = maxConcurrency
+      ? wrap(bulkhead(maxConcurrency, Infinity), getGlobalPolicy())
+      : getGlobalPolicy();
     const unsubscribe = await subscribe<TEvent>({
       name,
       eventType,
-      eventHandler: async (event) =>
-        runWorkerWithContext({
-          app: 'subscribers',
-          callback: async () => {
-            await mediator.send<Message<TMessage['type'], TMessage['data']>>({
-              type: messageType,
-              data: event,
-            });
-          },
-        }),
+      eventHandler: (event) =>
+        policy.execute(async () =>
+          runWorkerWithContext({
+            app: 'subscribers',
+            callback: async () => {
+              await mediator.send<Message<TMessage['type'], TMessage['data']>>({
+                type: messageType,
+                data: event,
+              });
+            },
+          }),
+        ),
       streamCategory,
     });
     listeners.push(unsubscribe);

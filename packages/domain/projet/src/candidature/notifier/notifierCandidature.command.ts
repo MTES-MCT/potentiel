@@ -23,8 +23,9 @@ export const registerNotifierCandidatureCommand = (
     identifiantProjet,
     ...options
   }) => {
-    const projet = await getProjetAggregateRoot(identifiantProjet);
-    await projet.candidature.notifier(options);
+    const projet = await getProjetAggregateRoot(identifiantProjet, true);
+    await projet.initCandidature();
+    return projet.candidature.notifier(options);
   };
 
   mediator.register('Candidature.Command.NotifierCandidature', handler);

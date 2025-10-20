@@ -461,7 +461,6 @@ const référencielPermissions = {
       },
     },
     usecase: {
-      notifier: 'Lauréat.UseCase.NotifierLauréat',
       modifierSiteDeProduction: 'Lauréat.UseCase.ModifierSiteDeProduction',
       modifierNomProjet: 'Lauréat.UseCase.ModifierNomProjet',
     },
@@ -474,7 +473,6 @@ const référencielPermissions = {
   },
   éliminé: {
     query: { consulter: 'Éliminé.Query.ConsulterÉliminé', lister: 'Éliminé.Query.ListerÉliminé' },
-    usecase: { notifier: 'Éliminé.UseCase.NotifierÉliminé' },
     command: {
       notifier: 'Éliminé.Command.NotifierÉliminé',
       archiver: 'Éliminé.Recours.Command.ArchiverÉliminé',
@@ -947,9 +945,7 @@ const policies = {
     notifier: [
       référencielPermissions.période.usecase.notifier,
       référencielPermissions.période.command.notifier,
-      référencielPermissions.lauréat.usecase.notifier,
       référencielPermissions.lauréat.command.notifier,
-      référencielPermissions.éliminé.usecase.notifier,
       référencielPermissions.éliminé.command.notifier,
       référencielPermissions.candidature.usecase.notifier,
       référencielPermissions.candidature.command.notifier,

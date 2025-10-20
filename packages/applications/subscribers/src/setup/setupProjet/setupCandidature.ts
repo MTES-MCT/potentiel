@@ -1,6 +1,7 @@
 import { CandidatureProjector, HistoriqueProjector } from '@potentiel-applications/projectors';
 import { CandidatureNotification } from '@potentiel-applications/notifications';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
+import { ProjetSaga } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../createSubscriptionSetup.js';
 
@@ -24,6 +25,7 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
       'CandidatureCorrigée-V2',
       'CandidatureNotifiée-V1',
       'CandidatureNotifiée-V2',
+      'CandidatureNotifiée-V3',
     ],
     messageType: 'System.Projector.Candidature',
   });
@@ -41,8 +43,9 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
   AttestationSaga.register();
   await candidature.setupSubscription<AttestationSaga.SubscriptionEvent, AttestationSaga.Execute>({
     name: 'attestation-saga',
-    eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V2'],
+    eventType: ['CandidatureNotifiée-V3', 'CandidatureCorrigée-V2'],
     messageType: 'System.Candidature.Attestation.Saga.Execute',
+    maxConcurrency: 5,
   });
 
   await candidature.setupSubscription<
@@ -52,6 +55,12 @@ export const setupCandidature: SetupProjet = async ({ sendEmail }) => {
     name: 'history',
     eventType: 'all',
     messageType: 'System.Projector.Historique',
+  });
+
+  await candidature.setupSubscription<ProjetSaga.SubscriptionEvent, ProjetSaga.Execute>({
+    name: 'projet-candidature-saga',
+    eventType: ['CandidatureNotifiée-V3'],
+    messageType: 'System.Projet.Saga.Execute',
   });
 
   return candidature.clearSubscriptions;

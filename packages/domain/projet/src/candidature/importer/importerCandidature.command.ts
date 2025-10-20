@@ -23,7 +23,8 @@ export const registerImporterCandidatureCommand = (
     identifiantProjet,
     ...options
   }) => {
-    const projet = await getProjetAggregateRoot(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet, true);
+    await projet.initCandidature();
     return projet.candidature.importer(options);
   };
 
