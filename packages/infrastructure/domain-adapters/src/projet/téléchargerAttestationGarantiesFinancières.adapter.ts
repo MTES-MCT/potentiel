@@ -1,52 +1,37 @@
-import { GetProjetAggregateRoot, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
+import { getAttestationGarantiesFinancières } from '@potentiel-infrastructure/ds-api-client';
 
 import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter';
 
 export const téléchargerAttestationGarantiesFinancièresAdapter: Lauréat.GarantiesFinancières.TéléchargerAttestationGarantiesFinancièresPort =
-  async ({ appelOffres, période }) => {
-    const ao = await loadAppelOffreAggregateAdapter(appelOffres);
+  async (identifiantProjet) => {
+    const ao = await loadAppelOffreAggregateAdapter(identifiantProjet.appelOffre);
 
     if (Option.isNone(ao)) {
       throw new Error("Appel d'offre introuvable");
     }
 
-    const période = ao.périodes.find((p) => p.id === période);
+    const périodeCible = ao.periodes.find((p) => p.id === identifiantProjet.période);
 
-    if (!période) {
+    if (!périodeCible) {
       throw new Error('Période introuvable');
     }
 
-    if (!période.numéroDémarche) {
-      return;
+    if (!périodeCible.numéroDémarche) {
+      throw new Error(`La période ne dispose pas de démarche numéro de démarche`);
     }
 
-    const { numéroCRE: numéroDossierDS } = identifiantProjet;
+    const attestationEtDateConstitution = await getAttestationGarantiesFinancières(
+      Number(identifiantProjet.numéroCRE),
+    );
 
-
-    /*** TODO : va dans getAttestationGf
-     *   const { url, dateConstitution } = gf;
-
-    const fichier = await fetch(url);
-
-    if (!fichier.ok) {
-      throw new Error("Impossible de récupérer l'attestation de garanties financières");
-    }
-
-    if (!fichier.body) {
-      throw new Error("Le fichier de l'attestation de garanties financières est introuvable");
-    }
-     * 
-     */
-    const attestation = await getAttestationGf(numeroDossierDS);
-
-    if (Option.isNone(attestation)) {
+    if (Option.isNone(attestationEtDateConstitution)) {
       throw new Error('Aucune garantie financière trouvée pour ce projet');
     }
 
     return {
-      attestation,
-      dateConstitution: //formattage ?,
-    }
+      attestation: attestationEtDateConstitution.attestation,
+      dateConstitution: attestationEtDateConstitution.dateConstitution,
+    };
   };

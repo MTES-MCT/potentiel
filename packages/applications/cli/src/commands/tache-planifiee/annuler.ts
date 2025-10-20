@@ -8,10 +8,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
-import {
-  DocumentAdapter,
-  getProjetAggregateRootAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export class Annuler extends Command {
   static flags = {
@@ -44,7 +41,7 @@ export class Annuler extends Command {
       },
     });
     registerProjetUseCases({
-      getProjetAggregateRoot: getProjetAggregateRootAdapter,
+      getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }

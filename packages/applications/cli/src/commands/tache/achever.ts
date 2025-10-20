@@ -1,7 +1,7 @@
 import { Command, Flags } from '@oclif/core';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { getProjetAggregateRootAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 export class AcheverTâche extends Command {
   static flags = {
@@ -14,7 +14,7 @@ export class AcheverTâche extends Command {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(flags.projet);
     const typeTâche = Lauréat.Tâche.TypeTâche.convertirEnValueType(flags.type);
 
-    const projet = await getProjetAggregateRootAdapter(identifiantProjet);
+    const projet = await ProjetAdapter.getProjetAggregateRootAdapter(identifiantProjet);
 
     const tâche = await projet.lauréat.loadTâche(typeTâche.type);
 

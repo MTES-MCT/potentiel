@@ -5,10 +5,7 @@ import { mediator } from 'mediateur';
 import { Candidature, IdentifiantProjet, registerProjetUseCases } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import {
-  DocumentAdapter,
-  getProjetAggregateRootAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { registerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getDossier } from '@potentiel-infrastructure/ds-api-client';
@@ -58,7 +55,7 @@ export class ImporterCandidatures extends Command {
     }
 
     registerProjetUseCases({
-      getProjetAggregateRoot: getProjetAggregateRootAdapter,
+      getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }

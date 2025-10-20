@@ -10,19 +10,19 @@ import {
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
   DocumentAdapter,
-  getProjetAggregateRootAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
 export const setupProjet = () => {
   registerProjetUseCases({
-    getProjetAggregateRoot: getProjetAggregateRootAdapter,
+    getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
-    téléchargerGarantiesFinancières: () => ({
-      attestation: {
-        content: Buffer.from('Fake PDF content'),
-        format: 'application/pdf',
-      }
-    })ProjetAdapter.téléchargerGarantiesFinancièresAdapter,
+
+    // téléchargerGarantiesFinancières: () => ({
+    //   attestation: {
+    //     content: Buffer.from('Fake PDF content'),
+    //     format: 'application/pdf',
+    //   },
+    // }),
   });
 
   registerProjetQueries({
