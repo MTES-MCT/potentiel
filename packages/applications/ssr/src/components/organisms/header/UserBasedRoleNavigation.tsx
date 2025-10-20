@@ -313,6 +313,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         text: 'Projets',
         menuLinks: projetMenuLinks,
       },
+      {
+        text: 'Tableau de bord',
+        linkProps: {
+          href: 'https://potentiel.e2.rie.gouv.fr/',
+        },
+      },
     ])
     .with('acheteur-obligé', () => [
       {
