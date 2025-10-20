@@ -7,7 +7,7 @@ import { TimelineItemProps } from '@/components/organisms/timeline';
 import { mapToInstallateurModifiéTimelineItemsProps } from './events/mapToInstallateurModifiéTimelineItemsProps';
 import { mapToInstallationImportéeTimelineItemProps } from './events/mapToInstallationImportéeTimelineItemProps';
 import { mapToTypologieInstallationModifiéeTimelineItemsProps } from './events/mapToTypologieInstallationModifiéeTimelineItemsProps';
-import { mapTodispositifDeStockagemodifiéTimelineItemsProps } from './events/mapToDispositifDeStockageModifiéTimelineItemsProps';
+import { mapToDispositifDeStockageModifiéTimelineItemsProps } from './events/mapToDispositifDeStockageModifiéTimelineItemsProps';
 
 type MapToInstallationTimelineItemProps = (
   readmodel: Lauréat.Installation.HistoriqueInstallationProjetListItemReadModel,
@@ -25,6 +25,6 @@ export const mapToInstallationTimelineItemProps: MapToInstallationTimelineItemPr
       mapToTypologieInstallationModifiéeTimelineItemsProps(readmodel),
     )
     .with({ type: 'DispositifDeStockageModifié-V1' }, (readmodel) =>
-      mapTodispositifDeStockagemodifiéTimelineItemsProps(readmodel),
+      mapToDispositifDeStockageModifiéTimelineItemsProps(readmodel),
     )
     .exhaustive();
