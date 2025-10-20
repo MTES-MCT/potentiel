@@ -71,4 +71,4 @@ export { registerInstallationQueries, registerInstallationUseCases } from './ins
 export * from './installation.entity';
 
 // Value type
-export * as DispositifDeStockage from './dispositif-de-stockage/valueType';
+export * as DispositifDeStockage from './dispositif-de-stockage/dispositifDeStockage.valueType';

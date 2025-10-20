@@ -50,5 +50,6 @@ export const mapToReadModel = ({
   typologieInstallation: typologieInstallation.map((typologie) =>
     TypologieInstallation.convertirEnValueType(typologie),
   ),
-  dispositifDeStockage: dispositifDeStockage && DispositifDeStockage.bind(dispositifDeStockage),
+  dispositifDeStockage:
+    dispositifDeStockage && DispositifDeStockage.convertirEnValueType(dispositifDeStockage),
 });

@@ -45,6 +45,6 @@ export const mapToReadModel = ({ identifiantProjet, dispositifDeStockage }: Inst
   dispositifDeStockage
     ? {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        dispositifDeStockage: DispositifDeStockage.bind(dispositifDeStockage),
+        dispositifDeStockage: DispositifDeStockage.convertirEnValueType(dispositifDeStockage),
       }
     : Option.none;

@@ -189,7 +189,7 @@ export class InstallationAggregate extends AbstractAggregate<
       TypologieInstallation.convertirEnValueType,
     );
     this.#dispositifDeStockage =
-      dispositifDeStockage && DispositifDeStockage.bind(dispositifDeStockage);
+      dispositifDeStockage && DispositifDeStockage.convertirEnValueType(dispositifDeStockage);
   }
 
   private applyInstallateurModifiéV1({
@@ -209,6 +209,6 @@ export class InstallationAggregate extends AbstractAggregate<
   private applyDispositifDeStockageModifiéV1({
     payload: { dispositifDeStockage },
   }: DispositifDeStockageModifiéEvent) {
-    this.#dispositifDeStockage = DispositifDeStockage.bind(dispositifDeStockage);
+    this.#dispositifDeStockage = DispositifDeStockage.convertirEnValueType(dispositifDeStockage);
   }
 }

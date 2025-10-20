@@ -63,11 +63,13 @@ export class InstallationWorld {
             Candidature.TypologieInstallation.convertirEnValueType,
           ),
       dispositifDeStockage: this.#modifierDispositifDeStockageFixture.aÉtéCréé
-        ? Lauréat.Installation.DispositifDeStockage.bind(
+        ? Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
             this.#modifierDispositifDeStockageFixture.dispositifDeStockage,
           )
         : dispositifDeStockageÀLaCandidature &&
-          Lauréat.Installation.DispositifDeStockage.bind(dispositifDeStockageÀLaCandidature),
+          Lauréat.Installation.DispositifDeStockage.convertirEnValueType(
+            dispositifDeStockageÀLaCandidature,
+          ),
     };
 
     return expected;

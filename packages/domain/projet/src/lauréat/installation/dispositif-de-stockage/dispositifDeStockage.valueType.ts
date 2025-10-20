@@ -47,6 +47,17 @@ export const bind = ({
   };
 };
 
+type ConvertirEnValueTypeProps = {
+  installationAvecDispositifDeStockage: boolean;
+  puissanceDuDispositifDeStockageEnKW?: number;
+  capacitéDuDispositifDeStockageEnKWh?: number;
+};
+
+export const convertirEnValueType = (props: ConvertirEnValueTypeProps) => {
+  estValide(props);
+  return bind(props);
+};
+
 function estValide(value: {
   installationAvecDispositifDeStockage: boolean;
   puissanceDuDispositifDeStockageEnKW?: number;

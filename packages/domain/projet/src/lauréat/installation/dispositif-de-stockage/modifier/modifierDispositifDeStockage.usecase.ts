@@ -30,7 +30,7 @@ export const registerModifierDispositifDeStockageUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
-        dispositifDeStockage: DispositifDeStockage.bind(dispositifDeStockageValue),
+        dispositifDeStockage: DispositifDeStockage.convertirEnValueType(dispositifDeStockageValue),
       },
     });
   };

@@ -262,7 +262,7 @@ export const convertirEnValueType = (raw: WithOptionalUndefined<RawType>) =>
     installateur: raw.installateur,
 
     dispositifDeStockage: bindOptional(
-      Lauréat.Installation.DispositifDeStockage.bind,
+      Lauréat.Installation.DispositifDeStockage.convertirEnValueType,
       raw.dispositifDeStockage,
     ),
     natureDeLExploitation: raw.natureDeLExploitation
