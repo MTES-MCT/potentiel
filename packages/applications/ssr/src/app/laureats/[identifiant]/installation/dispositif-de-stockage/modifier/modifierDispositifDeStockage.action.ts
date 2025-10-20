@@ -8,8 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
-import { optionalStrictlyPositiveNumberSchema } from '../../../../../../utils/candidature/schemaBase';
+import { optionalStrictlyPositiveNumberSchema } from '@/utils/candidature/schemaBase';
 
 const schema = zod
   .object({

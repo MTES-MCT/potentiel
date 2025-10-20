@@ -67,7 +67,7 @@ Fonctionnalité: Modifier le dispositif de stockage d'un projet lauréat
             | installation avec dispositif de stockage | oui                      |
             | capacité du dispositif                   | 1                        |
             | puissance du dispositif                  | 1                        |
-        Alors l'utilisateur devrait être informé que "Pour enregistrer une modification vous devez renseigner une valeur différente de la valeur actuelle"
+        Alors l'utilisateur devrait être informé que "Les informations relatives au dispositif de stockage sont identiques à celles du projet"
 
     Scénario: Impossible de modifier un projet avec dispositif de stockage avec des valeurs invalides
         Quand un admin modifie le dispositif de stockage du projet lauréat avec :

@@ -35,7 +35,7 @@ export class DispositifDeStockageDéjàTransmiseError extends InvalidOperationEr
 export class DispositifDeStockageIdentiqueError extends InvalidOperationError {
   constructor() {
     super(
-      'Pour enregistrer une modification vous devez renseigner une valeur différente de la valeur actuelle',
+      'Les informations relatives au dispositif de stockage sont identiques à celles du projet',
     );
   }
 }
