@@ -2,28 +2,19 @@ import { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 import { DétailsDemande } from '@/components/organisms/demande/DétailsDemande';
 
-import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
+import { DétailsChangementReprésentantLégalPageProps } from './DétailsChangementReprésentantLégal.page';
 
 type DétailsChangementReprésentantLégalProps =
-  PlainType<Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
-    identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-    dateDemandeEnCoursPourLien?: string;
-  };
+  DétailsChangementReprésentantLégalPageProps['demande'];
 
-export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprésentantLégalProps> = ({
-  identifiantProjet,
+export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprésentantLégalProps> = (
   demande,
-  dateDemandeEnCoursPourLien,
-}) => {
-  const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
-
+) => {
   return demande.statut.statut === 'information-enregistrée' ? (
     <DétailsChangement
       title="Changement de représentant légal"
@@ -47,8 +38,6 @@ export const DétailsChangementReprésentantLégal: FC<DétailsChangementReprés
         <DétailsValeursReprésentantLégal
           nomReprésentantLégal={demande.nomReprésentantLégal}
           typeReprésentantLégal={demande.typeReprésentantLégal.type}
-          idProjet={idProjet}
-          dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
         />
       }
       statut={demande.statut.statut}
@@ -70,27 +59,18 @@ const getTypeLabel = (type: Lauréat.ReprésentantLégal.TypeReprésentantLégal
 type Props = PlainType<{
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
-  idProjet?: string;
-  dateDemandeEnCoursPourLien?: string;
 }>;
 
 const DétailsValeursReprésentantLégal = ({
   typeReprésentantLégal,
   nomReprésentantLégal,
-  idProjet,
-  dateDemandeEnCoursPourLien,
 }: Props) => (
-  <div>
-    {dateDemandeEnCoursPourLien && idProjet && (
-      <InfoBoxDemandeEnCours
-        lien={Routes.ReprésentantLégal.changement.détails(idProjet, dateDemandeEnCoursPourLien)}
-      />
-    )}
+  <>
     <div>
       <span className="font-medium">Type :</span> {getTypeLabel(typeReprésentantLégal)}
     </div>
     <div>
       <span className="font-medium">Nom représentant légal :</span> {nomReprésentantLégal}
     </div>
-  </div>
+  </>
 );

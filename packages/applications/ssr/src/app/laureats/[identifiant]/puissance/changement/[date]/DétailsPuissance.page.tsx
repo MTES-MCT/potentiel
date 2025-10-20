@@ -26,7 +26,7 @@ export type DétailsPuissancePageProps = {
   puissanceInitiale: number;
   unitéPuissance: string;
   actions: Array<ChangementPuissanceActions>;
-  demandeEnCoursDate?: string;
+  dateDemandeEnCours?: string;
   historique: Array<TimelineItemProps>;
 };
 
@@ -36,7 +36,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
   unitéPuissance,
   puissanceInitiale,
   actions,
-  demandeEnCoursDate,
+  dateDemandeEnCours,
   historique,
 }) => (
   <ColumnPageTemplate
@@ -48,10 +48,10 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
-          {demandeEnCoursDate && demandeEnCoursDate !== demande.demandéeLe.date && (
+          {dateDemandeEnCours && dateDemandeEnCours !== demande.demandéeLe.date && (
             <InfoBoxDemandeEnCours
               identifiantProjet={identifiantProjet}
-              demandeEnCoursDate={demandeEnCoursDate}
+              dateDemandeEnCours={dateDemandeEnCours}
             />
           )}
           <DétailsChangementPuissance

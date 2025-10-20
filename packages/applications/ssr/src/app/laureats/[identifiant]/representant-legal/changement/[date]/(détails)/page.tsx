@@ -75,7 +75,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           },
         );
 
-      const dateDemandeEnCoursPourLien =
+      const dateDemandeEnCoursSiDifférente =
         Option.isSome(représentantLégal) &&
         représentantLégal.demandeEnCours &&
         représentantLégal.demandeEnCours.demandéLe !== demandéLe
@@ -93,7 +93,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             informationEnregistréeEstPossible,
           )}
           historique={historique.items.map(mapToReprésentantLégalTimelineItemProps)}
-          dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
+          dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente}
         />
       );
     }),
