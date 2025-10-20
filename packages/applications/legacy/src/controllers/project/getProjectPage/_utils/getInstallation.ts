@@ -52,17 +52,17 @@ export const getInstallation = async ({
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-    const appelOffres = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
+    const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
       type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
-    if (Option.isSome(installationProjection) && Option.isSome(appelOffres)) {
+    if (Option.isSome(installationProjection) && Option.isSome(cahierDesCharges)) {
       const { installateur, typologieInstallation, dispositifDeStockage } = installationProjection;
       const {
         installateur: champSuppléméntaireInstallateur,
         dispositifDeStockage: champSupplémentaireDispositifDeStockage,
-      } = appelOffres.getChampsSupplémentaires();
+      } = cahierDesCharges.getChampsSupplémentaires();
 
       const data: GetInstallationForProjectPage = {
         typologieInstallation: {
