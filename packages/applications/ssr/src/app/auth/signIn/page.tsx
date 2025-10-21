@@ -20,7 +20,6 @@ const searchParamsSchema = z.object({
 
 export default function SignIn({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    console.log({ searchParams });
     const { callbackUrl, forceProConnect } = searchParamsSchema.parse(searchParams);
     const providers = process.env.NEXTAUTH_PROVIDERS?.split(',') ?? [];
 
