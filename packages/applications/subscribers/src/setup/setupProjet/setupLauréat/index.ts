@@ -65,7 +65,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     Lauréat.Raccordement.RaccordementSaga.Execute
   >({
     name: 'raccordement-laureat-saga',
-    eventType: ['LauréatNotifié-V2'],
+    eventType: ['LauréatNotifié-V2', 'TâchePlanifiéeExecutée-V1'],
     messageType: 'System.Lauréat.Raccordement.Saga.Execute',
   });
 
