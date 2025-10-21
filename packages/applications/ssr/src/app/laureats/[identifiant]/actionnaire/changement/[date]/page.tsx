@@ -69,15 +69,19 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           },
         });
 
+      const dateDemandeEnCoursSiDifférente =
+        actionnaire.dateDemandeEnCours &&
+        !changement.demande.demandéeLe.estÉgaleÀ(actionnaire.dateDemandeEnCours)
+          ? actionnaire.dateDemandeEnCours.formatter()
+          : undefined;
+
       return (
         <DétailsActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           actions={mapToActions(changement.demande.statut, utilisateur.role)}
           historique={historique.items.map(mapToActionnaireTimelineItemProps)}
-          demandeEnCoursDate={
-            actionnaire.dateDemandeEnCours ? actionnaire.dateDemandeEnCours.formatter() : undefined
-          }
+          dateDemandeEnCoursSiDifférente={dateDemandeEnCoursSiDifférente}
         />
       );
     }),

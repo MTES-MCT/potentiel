@@ -30,7 +30,7 @@ export type CorrigerChangementReprésentantLégalFormProps = PlainType<{
   typeReprésentantLégal: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['typeReprésentantLégal'];
   nomReprésentantLégal: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['nomReprésentantLégal'];
   pièceJustificative: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['pièceJustificative'];
-  dateDemande: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['demandéLe'];
+  dateDemande: Lauréat.ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['demandéeLe'];
 }>;
 
 type CorrigerChangementReprésentantLégalState = {

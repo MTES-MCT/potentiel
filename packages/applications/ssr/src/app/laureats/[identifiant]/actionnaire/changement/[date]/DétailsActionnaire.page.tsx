@@ -25,7 +25,7 @@ export type DétailsActionnairePageProps = {
   demande: PlainType<Lauréat.Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
   historique: Array<TimelineItemProps>;
-  demandeEnCoursDate?: string;
+  dateDemandeEnCoursSiDifférente?: string;
 };
 
 export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
@@ -33,7 +33,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
   identifiantProjet,
   actions,
   historique,
-  demandeEnCoursDate,
+  dateDemandeEnCoursSiDifférente,
 }) => (
   <ColumnPageTemplate
     banner={
@@ -44,12 +44,6 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
-          {demandeEnCoursDate && demandeEnCoursDate !== demande.demandéeLe.date && (
-            <InfoBoxDemandeEnCours
-              identifiantProjet={identifiantProjet}
-              demandeEnCoursDate={demandeEnCoursDate}
-            />
-          )}
           <DétailsChangementActionnaire demande={demande} />
           <div>
             <Heading2>Historique</Heading2>
@@ -62,10 +56,17 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
       className: 'flex flex-col gap-8',
       children: (
         <>
+          {dateDemandeEnCoursSiDifférente && (
+            <InfoBoxDemandeEnCours
+              identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+              dateDemandeEnCours={dateDemandeEnCoursSiDifférente}
+            />
+          )}
           {mapToActionComponents({
             actions,
             identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
             dateDemande: demande.demandéeLe.date,
+            dateDemandeEnCoursSiDifférente,
           })}
         </>
       ),
@@ -77,6 +78,7 @@ type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementActionnaireActions>;
   identifiantProjet: string;
   dateDemande: DétailsActionnairePageProps['demande']['demandéeLe']['date'];
+  dateDemandeEnCoursSiDifférente?: string;
 };
 
 const mapToActionComponents = ({
@@ -97,7 +99,6 @@ const mapToActionComponents = ({
         dateDemande={dateDemande}
       />
     )}
-
     {actions.includes('demander') && (
       <Button
         priority="secondary"
@@ -108,7 +109,6 @@ const mapToActionComponents = ({
         Faire une nouvelle demande de changement
       </Button>
     )}
-
     {actions.includes('annuler') && (
       <AnnulerChangementActionnaire identifiantProjet={identifiantProjet} />
     )}

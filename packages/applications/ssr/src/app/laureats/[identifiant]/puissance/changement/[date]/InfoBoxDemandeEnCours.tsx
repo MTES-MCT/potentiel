@@ -8,12 +8,12 @@ import { PlainType } from '@potentiel-domain/core';
 
 type Props = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  demandeEnCoursDate: string;
+  dateDemandeEnCours: string;
 };
 
 export const InfoBoxDemandeEnCours: FC<Props> = ({
   identifiantProjet,
-  demandeEnCoursDate,
+  dateDemandeEnCours,
 }: Props) => (
   <Alert
     severity="info"
@@ -24,7 +24,7 @@ export const InfoBoxDemandeEnCours: FC<Props> = ({
         <Link
           href={Routes.Puissance.changement.détails(
             IdentifiantProjet.bind(identifiantProjet).formatter(),
-            demandeEnCoursDate,
+            dateDemandeEnCours,
           )}
           aria-label="voir le détail de la demande"
         >

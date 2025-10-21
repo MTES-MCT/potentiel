@@ -4,7 +4,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { DétailsInformationEnregistrée } from '@/components/organisms/demande/DétailsInformationEnregistrée';
+import { DétailsChangement } from '@/components/organisms/demande/DétailsChangement';
 
 import { ListeFournisseurs } from '../ListeFournisseurs';
 import { AlerteChangementÉvaluationCarbone } from '../AlerteChangementÉvaluationCarbone';
@@ -21,21 +21,22 @@ export const DétailsChangementFournisseur: FC<DétailsChangementFournisseurProp
   technologie,
 }) => {
   return (
-    <DétailsInformationEnregistrée
+    <DétailsChangement
       title="Changement de fournisseurs"
       changement={changement}
-      détailsSpécifiques={
-        <DétailsFournisseursEtÉvaluationCarbonesSimplifiée
+      valeurs={
+        <DétailsValeursFournisseur
           changement={changement}
           évaluationCarboneSimplifiéeInitiale={évaluationCarboneSimplifiéeInitiale}
           technologie={technologie}
         />
       }
+      statut="information-enregistrée"
     />
   );
 };
 
-const DétailsFournisseursEtÉvaluationCarbonesSimplifiée = ({
+const DétailsValeursFournisseur = ({
   changement,
   technologie,
   évaluationCarboneSimplifiéeInitiale,

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
@@ -17,6 +19,7 @@ import { AccorderChangementReprésentantLégal } from './accorder/AccorderChange
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
 import { DétailsChangementReprésentantLégal } from './DétailsChangementReprésentantLégal';
+import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
 export type AvailableChangementReprésentantLégalAction =
   | 'accorder'
@@ -31,12 +34,12 @@ export type DétailsChangementReprésentantLégalPageProps =
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
     historique: Array<TimelineItemProps>;
-    dateDemandeEnCoursPourLien?: string;
+    dateDemandeEnCoursSiDifférente?: string;
   };
 
 export const DétailsChangementReprésentantLégalPage: FC<
   DétailsChangementReprésentantLégalPageProps
-> = ({ identifiantProjet, demande, actions, historique, dateDemandeEnCoursPourLien }) => {
+> = ({ identifiantProjet, demande, actions, historique, dateDemandeEnCoursSiDifférente }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
 
   return (
@@ -45,11 +48,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
-            <DétailsChangementReprésentantLégal
-              demande={demande}
-              dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
-              identifiantProjet={identifiantProjet}
-            />
+            <DétailsChangementReprésentantLégal {...demande} />
             <div>
               <Heading2>Historique</Heading2>
               <Timeline items={historique} />
@@ -61,14 +60,22 @@ export const DétailsChangementReprésentantLégalPage: FC<
         className: 'flex flex-col gap-8',
         children: (
           <>
+            {dateDemandeEnCoursSiDifférente && (
+              <InfoBoxDemandeEnCours
+                lien={Routes.ReprésentantLégal.changement.détails(
+                  idProjet,
+                  dateDemandeEnCoursSiDifférente,
+                )}
+              />
+            )}
             {mapToActionComponents({
               actions,
-              identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+              identifiantProjet: idProjet,
               typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.bind({
                 type: demande.typeReprésentantLégal.type,
               }).formatter(),
               nomReprésentantLégal: demande.nomReprésentantLégal,
-              dateDemande: DateTime.bind(demande.demandéLe).formatter(),
+              dateDemande: DateTime.bind(demande.demandéeLe).formatter(),
             })}
           </>
         ),
@@ -117,7 +124,6 @@ const mapToActionComponents = ({
         dateDemande={dateDemande}
       />
     )}
-
     {actions.includes('corriger') && (
       <Button
         priority="secondary"
@@ -129,7 +135,6 @@ const mapToActionComponents = ({
         Corriger
       </Button>
     )}
-
     {actions.includes('annuler') && (
       <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
     )}

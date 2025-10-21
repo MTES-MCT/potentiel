@@ -71,7 +71,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
             mapToPuissanceTimelineItemProps(item, puissance.unitéPuissance.formatter()),
           )}
           actions={mapToActions(changement.demande.statut, utilisateur.role)}
-          demandeEnCoursDate={
+          dateDemandeEnCours={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
           }
         />

@@ -45,7 +45,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
     return (
       <CorrigerChangementReprésentantLégalPage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
-        dateDemande={mapToPlainObject(changement.demande.demandéLe)}
+        dateDemande={mapToPlainObject(changement.demande.demandéeLe)}
         nomReprésentantLégal={changement.demande.nomReprésentantLégal}
         typeReprésentantLégal={mapToPlainObject(changement.demande.typeReprésentantLégal)}
         pièceJustificative={mapToPlainObject(changement.demande.pièceJustificative)}
