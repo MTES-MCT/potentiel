@@ -10,6 +10,8 @@ import { User } from '../../../../../entities';
 import { UnauthorizedError } from '../../../../../modules/shared';
 import { getProjetUtilisateurScopeAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Email } from '@potentiel-domain/common';
+import { getLegacyProjetsIdsByIdentifiantsProjet } from '../getLegacyProjetByIdentifiantProjet';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 type ExporterProjetsProps = {
   user: User;
@@ -27,7 +29,16 @@ export const exporterProjets: ExporterProjets = async ({ user, filtres }: Export
     case 'caisse-des-dépôts':
       return exporterProjetsPourCaisseDesDépôts({ filtres });
     case 'porteur-projet':
-      return exporterProjetsPourPorteurDeProjet({ user, filtres });
+      const identifiantsProjets = scope.type === 'projet' ? scope.identifiantProjets : [];
+      const projets = await getLegacyProjetsIdsByIdentifiantsProjet(
+        identifiantsProjets.map(IdentifiantProjet.convertirEnValueType),
+      );
+      return exporterProjetsPourPorteurDeProjet({
+        filtres: {
+          ...filtres,
+          projets,
+        },
+      });
     case 'dreal':
       return exporterProjetsPourDREAL({
         filtres: {

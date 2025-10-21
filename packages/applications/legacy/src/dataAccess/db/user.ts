@@ -1,12 +1,12 @@
 import { DataTypes } from 'sequelize';
 import { UserRepo } from '..';
 import { logger } from '../../core/utils';
-import { Project, User } from '../../entities';
+import { User } from '../../entities';
 import { mapExceptError } from '../../helpers/results';
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types';
 import CONFIG from '../config';
 import isDbReady from './helpers/isDbReady';
-import { UserDreal, UserProjects } from '../../infra/sequelize/projectionsNext';
+import { UserDreal } from '../../infra/sequelize/projectionsNext';
 import { Région } from '../../modules/dreal/région';
 
 // Override these to apply serialization/deserialization on inputs/outputs
@@ -56,15 +56,11 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
   return Object.freeze({
     findById,
     findAll,
-    findUsersForDreal,
     findDrealsForUser,
     addToDreal,
     insert,
     update,
     remove,
-    hasProject,
-    addUserToProjectsWithEmail,
-    addProjectToUserWithEmail,
   });
 
   // findDrealsForUser: (userId: User['id']) => Promise<Array<Région>>
@@ -180,75 +176,6 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error);
       return Err(error);
-    }
-  }
-
-  async function addUserToProjectsWithEmail(
-    userId: User['id'],
-    email: Project['email'],
-  ): ResultAsync<null> {
-    try {
-      const userInstance = await UserModel.findByPk(userId);
-
-      if (!userInstance) {
-        throw new Error('Cannot find user to add project to');
-      }
-
-      const ProjectModel = sequelizeInstance.model('Project');
-      const projectsWithEmail = await ProjectModel.findAll({ where: { email } });
-
-      await userInstance.addProjects(projectsWithEmail);
-
-      return Ok(null);
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return Err(error);
-    }
-  }
-
-  async function addProjectToUserWithEmail(
-    projectId: Project['id'],
-    email: Project['email'],
-  ): ResultAsync<null> {
-    try {
-      const userInstance = await UserModel.findOne({ where: { email } });
-
-      if (!userInstance) {
-        // No user with that email, just ignore the command
-        return Ok(null);
-      }
-
-      const ProjectModel = sequelizeInstance.model('Project');
-      const projectInstance = await ProjectModel.findByPk(projectId);
-
-      if (!projectInstance) {
-        throw new Error('Cannot find project to be added to user');
-      }
-
-      await userInstance.addProject(projectInstance);
-      return Ok(null);
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return Err(error);
-    }
-  }
-
-  async function hasProject(userId: User['id'], projectId: Project['id']): Promise<boolean> {
-    try {
-      const userProject = await UserProjects.findOne({
-        where: {
-          userId,
-          projectId,
-        },
-      });
-
-      return !!userProject;
-    } catch (error) {
-      if (CONFIG.logDbErrors) {
-        logger.error(error);
-        logger.info(userId, projectId);
-      }
-      return false;
     }
   }
 

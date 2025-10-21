@@ -32,6 +32,6 @@ export const preuveCandidatureDemandéeProjector = async ({
       },
     });
   } else {
-    getLogger().warn(`Pas de recandidature dans la demande d'abandon`, { event });
+    getLogger().warn(`Pas de recandidature dans la demande d'abandon`, { identifiantProjet });
   }
 };

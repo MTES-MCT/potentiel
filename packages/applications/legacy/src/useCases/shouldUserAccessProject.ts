@@ -1,5 +1,4 @@
 import { User, Project } from '../entities';
-import { UserRepo, ProjectRepo } from '../dataAccess';
 import { mediator } from 'mediateur';
 import { Accès } from '@potentiel-domain/projet';
 import { getIdentifiantProjetByLegacyId } from '../config';

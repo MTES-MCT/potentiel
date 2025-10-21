@@ -76,8 +76,7 @@ export type ProjectDataForProjectPage = {
 
   notifiedOn: number;
   completionDueOn: number;
-} & (IsClasse | IsElimine | IsAbandoned) &
-  Users;
+} & (IsClasse | IsElimine | IsAbandoned);
 
 type IsClasse = {
   isClasse: true;
@@ -94,14 +93,6 @@ type IsAbandoned = {
   isAbandoned: true;
   isClasse: false;
   recoursEnCours: false;
-};
-
-type Users = {
-  users: Array<{
-    id: string;
-    fullName: string;
-    email: string;
-  }>;
 };
 
 type NotesInnovation = {

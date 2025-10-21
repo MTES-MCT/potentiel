@@ -5,7 +5,7 @@ import {
   GetProjectDataForProjectPage,
 } from '../../../../../modules/project';
 import { EntityNotFoundError } from '../../../../../modules/shared';
-import { Project, User as UserModel, UserProjects, File } from '../../../projectionsNext';
+import { Project, File } from '../../../projectionsNext';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../../../../../entities';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { userIs, userIsNot } from '../../../../../modules/users';
@@ -20,19 +20,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           model: File,
           as: 'certificateFile',
           attributes: ['id', 'filename'],
-        },
-        {
-          model: UserProjects,
-          as: 'users',
-          where: { projectId },
-          required: false,
-          include: [
-            {
-              model: UserModel,
-              as: 'user',
-              attributes: ['id', 'fullName', 'email', 'registeredOn'],
-            },
-          ],
         },
       ],
     }),
@@ -183,13 +170,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           motifsElimination,
           dcrDueOn,
           désignationCatégorie,
-          users: users
-            ?.map(({ user }) => user.get())
-            .map(({ id, email, fullName }) => ({
-              id,
-              email,
-              fullName,
-            })),
           updatedAt,
           unitePuissance: Candidature.UnitéPuissance.déterminer({
             appelOffres: appelOffre,

@@ -224,9 +224,13 @@ const getProjetsÀSélectionner = async ({
   return projetsEligiblesPreuveRecandidature
     .filter((p) => !p.identifiantProjet.estÉgaleÀ(identifiantProjet))
     .map((projet) => ({
-      ...projet,
-      statut: 'actif',
       identifiantProjet: projet.identifiantProjet.formatter(),
+      nom: projet.nom,
+      dateDésignation: projet.dateDésignation.formatter(),
+      appelOffre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      famille: projet.identifiantProjet.famille,
+      numéroCRE: projet.identifiantProjet.numéroCRE,
     }));
 };
 
