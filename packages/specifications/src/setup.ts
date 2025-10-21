@@ -76,10 +76,8 @@ BeforeStep(async ({ pickleStep }) => {
   }
 });
 
-AfterStep(async function (this: PotentielWorld, { pickleStep, result, pickle }) {
-  if (pickleStep.type && ['Context', 'Action'].includes(pickleStep.type)) {
-    await waitForSagasNotificationsAndProjectionsToFinish();
-  }
+AfterStep(async function (this: PotentielWorld, { result, pickle }) {
+  await waitForSagasNotificationsAndProjectionsToFinish();
 
   const expectsErrorOutcome = pickle.steps.find(
     (step) => step.type === 'Outcome' && step.text.includes('devrait être informé que'),
