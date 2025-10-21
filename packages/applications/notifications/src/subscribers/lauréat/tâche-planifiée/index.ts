@@ -10,10 +10,12 @@ import { SendEmail } from '../../../sendEmail';
 
 import { tâchePlanifiéeGarantiesFinancièresNotifications } from './garanties-financières';
 import { tâchePlanifiéeReprésentantLégalNotifications } from './représentant-légal';
+import { tâchePlanifiéeRaccordementNotifications } from './raccordement';
 
 type TypeTâchePlanifiée =
   | Lauréat.GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
-  | Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
+  | Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType
+  | Lauréat.Raccordement.TypeTâchePlanifiéeRaccordement.RawType;
 
 export type SubscriptionEvent = Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent &
   Event & { payload: { typeTâchePlanifiée: TypeTâchePlanifiée } };
@@ -58,6 +60,19 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         },
         (payload) =>
           tâchePlanifiéeReprésentantLégalNotifications({
+            sendEmail,
+            identifiantProjet,
+            projet,
+            baseUrl,
+            payload,
+          }),
+      )
+      .with(
+        {
+          typeTâchePlanifiée: P.union(...Lauréat.Raccordement.TypeTâchePlanifiéeRaccordement.types),
+        },
+        (payload) =>
+          tâchePlanifiéeRaccordementNotifications({
             sendEmail,
             identifiantProjet,
             projet,

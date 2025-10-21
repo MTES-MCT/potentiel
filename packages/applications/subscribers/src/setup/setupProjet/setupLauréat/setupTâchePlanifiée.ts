@@ -50,5 +50,14 @@ export const setupTâchePlanifiée = async ({ sendEmail }: { sendEmail: SendEmai
     messageType: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
   });
 
+  await tâchePlanifiée.setupSubscription<
+    Lauréat.Raccordement.RaccordementSaga.SubscriptionEvent,
+    Lauréat.Raccordement.RaccordementSaga.Execute
+  >({
+    name: 'raccordement-tache-planifiee-saga',
+    eventType: ['TâchePlanifiéeExecutée-V1'],
+    messageType: 'System.Lauréat.Raccordement.Saga.Execute',
+  });
+
   return tâchePlanifiée.clearSubscriptions;
 };
