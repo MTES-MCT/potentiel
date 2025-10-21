@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import z from 'zod';
 
 import {
   AggregateNotFoundError,
@@ -13,11 +14,18 @@ import { Routes } from '@potentiel-applications/routes';
 import { CustomErrorPage } from '@/app/error/CustomError.page';
 
 import { withErrorHandling } from './withErrorHandling';
+import './zod/setupLocale';
 
 export const PageWithErrorHandling = async (
   render: () => Promise<JSX.Element>,
 ): Promise<JSX.Element> =>
-  withErrorHandling(render, renderDomainError, redirectOnAuthenticationError, renderUnknownError);
+  withErrorHandling(
+    render,
+    renderDomainError,
+    redirectOnAuthenticationError,
+    renderValidationError,
+    renderUnknownError,
+  );
 
 const renderDomainError = (e: DomainError) => {
   if (e instanceof AggregateNotFoundError) {
@@ -39,4 +47,12 @@ const renderUnknownError = (_: Error) => {
 
 const redirectOnAuthenticationError = () => {
   redirect(Routes.Auth.signIn());
+};
+
+const renderValidationError = (error: z.ZodError) => {
+  const message = error.issues
+    .map((issue) => `La valeur de ${issue.path.join('.')} est invalide`)
+    .join('. ');
+
+  return <CustomErrorPage statusCode="400" type="InvalidOperationError" message={message} />;
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { redirect, useSearchParams } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
@@ -17,14 +17,12 @@ import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
 
 type SignUpPageProps = {
   providers: Array<string>;
+  callbackUrl: string;
+  error?: string;
 };
 
-export default function SignUpPage({ providers }: SignUpPageProps) {
+export default function SignUpPage({ providers, callbackUrl, error }: SignUpPageProps) {
   const { status, data } = useSession();
-
-  const params = useSearchParams();
-  const callbackUrl = params.get('callbackUrl') ?? Routes.Auth.redirectToDashboard();
-  const error = params.get('error');
 
   useEffect(() => {
     switch (status) {
@@ -32,11 +30,9 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
         // This checks that the session is up to date with the necessary requirements
         // it's useful when changing what's inside the cookie for instance
         if (!data.utilisateur) {
-          redirect(Routes.Auth.signOut({ callbackUrl }));
-          break;
+          redirect(Routes.Auth.signOut());
         }
         redirect(callbackUrl);
-        break;
     }
   }, [status, callbackUrl, data]);
 

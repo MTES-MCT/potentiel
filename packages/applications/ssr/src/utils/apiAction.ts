@@ -10,7 +10,7 @@ import {
 import { withErrorHandling } from './withErrorHandling';
 
 export const apiAction = async (action: () => Promise<Response>) =>
-  withErrorHandling(action, mapDomainError, mapTo401, mapTo500);
+  withErrorHandling(action, mapDomainError, mapTo401, mapTo400, mapTo500);
 
 const mapDomainError = (e: DomainError) => {
   if (e instanceof InvalidOperationError) {
