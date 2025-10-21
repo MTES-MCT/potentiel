@@ -22,6 +22,7 @@ import { ChangementPuissanceEnregistréEvent } from './changement/enregistrerCha
 import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options';
 import {
   DemandeDeChangementPuissanceEnCoursError,
+  PuissanceDeSiteNulleOuNégativeError,
   PuissanceDéjàImportéeError,
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
@@ -55,9 +56,17 @@ export class PuissanceAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async importer({ puissance, importéeLe }: ImporterOptions) {
+  async importer({ puissance, puissanceDeSite, importéeLe }: ImporterOptions) {
     if (this.#puissance) {
       throw new PuissanceDéjàImportéeError();
+    }
+
+    if (puissance <= 0) {
+      throw new PuissanceNulleOuNégativeError();
+    }
+
+    if (puissanceDeSite && puissanceDeSite <= 0) {
+      throw new PuissanceDeSiteNulleOuNégativeError();
     }
 
     const event: PuissanceImportéeEvent = {
@@ -72,7 +81,13 @@ export class PuissanceAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async modifier({ puissance, dateModification, identifiantUtilisateur, raison }: ModifierOptions) {
+  async modifier({
+    puissance,
+    puissanceDeSite,
+    dateModification,
+    identifiantUtilisateur,
+    raison,
+  }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
     if (this.#puissance === puissance) {
@@ -81,6 +96,10 @@ export class PuissanceAggregate extends AbstractAggregate<
 
     if (puissance <= 0) {
       throw new PuissanceNulleOuNégativeError();
+    }
+
+    if (puissanceDeSite && puissanceDeSite <= 0) {
+      throw new PuissanceDeSiteNulleOuNégativeError();
     }
 
     if (this.#demande?.statut.estDemandé()) {
@@ -92,6 +111,7 @@ export class PuissanceAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         puissance,
+        puissanceDeSite,
         modifiéeLe: dateModification.formatter(),
         modifiéePar: identifiantUtilisateur.formatter(),
         raison,

@@ -1,5 +1,6 @@
 # language: fr
 @candidature
+@select
 Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notification d'une période
 
     Plan du Scénario: Notifier un candidat lauréat
@@ -37,6 +38,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment         |
             | période                                  | 1                                |
+            | puissance de site                        | 153                              |
             | installateur                             | Installeur.INC                   |
             | installation avec dispositif de stockage | oui                              |
             | type de nature de l'exploitation         | vente-avec-injection-en-totalité |

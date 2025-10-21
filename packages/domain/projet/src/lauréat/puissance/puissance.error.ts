@@ -18,6 +18,11 @@ export class PuissanceNulleOuNégativeError extends DomainError {
   }
 }
 
+export class PuissanceDeSiteNulleOuNégativeError extends DomainError {
+  constructor() {
+    super("La puissance de site d'un projet doit être une valeur positive");
+  }
+}
 export class DemandeDeChangementPuissanceEnCoursError extends DomainError {
   constructor() {
     super('Une demande de changement de puissance est déjà en cours');
