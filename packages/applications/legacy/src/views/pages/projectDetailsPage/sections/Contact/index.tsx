@@ -60,12 +60,3 @@ export const Contact = ({
       )}
   </Section>
 );
-
-type ListeComptesAyantAccèsProps = {
-  identifiantProjet: string;
-  project: ProjectDataForProjectPage & { notifiedOn: number };
-};
-
-const ListeComptesAyantAccès = ({ project, identifiantProjet }: ListeComptesAyantAccèsProps) => (
-  <div></div>
-);
