@@ -2,7 +2,7 @@
 
 /**
  * Script to extract distinct tags from Cucumber/Gherkin feature files
- * 
+ *
  * This script:
  * - Parses all .feature files in packages/specifications/src
  * - Extracts the first tag (line starting with @ after # language: fr)
@@ -42,19 +42,19 @@ function extractFirstTag(filePath) {
 
   for (const line of lines) {
     const trimmedLine = line.trim();
-    
+
     // Skip empty lines and language declaration
     if (!trimmedLine || trimmedLine.startsWith('#')) {
       continue;
     }
-    
+
     // Check if this line is a tag
     if (trimmedLine.startsWith('@')) {
       // Extract the first tag (there might be multiple tags on the same line)
-      const tags = trimmedLine.split(/\s+/).filter(t => t.startsWith('@'));
+      const tags = trimmedLine.split(/\s+/).filter((t) => t.startsWith('@'));
       return tags[0];
     }
-    
+
     // If we encounter a non-tag, non-comment line, stop looking
     break;
   }
@@ -64,14 +64,14 @@ function extractFirstTag(filePath) {
 
 function main() {
   const specsDir = path.join(__dirname, '..', 'packages', 'specifications', 'src');
-  
+
   if (!fs.existsSync(specsDir)) {
     console.error(`Error: Specifications directory not found: ${specsDir}`);
     process.exit(1);
   }
 
   const featureFiles = findFeatureFiles(specsDir);
-  
+
   if (featureFiles.length === 0) {
     console.error('Error: No feature files found');
     process.exit(1);
@@ -82,7 +82,7 @@ function main() {
 
   for (const file of featureFiles) {
     const tag = extractFirstTag(file);
-    
+
     if (tag) {
       tags.add(tag);
     } else {
@@ -93,7 +93,7 @@ function main() {
   // Check if any files are missing tags
   if (filesWithoutTags.length > 0) {
     console.error('Error: The following feature files are missing tags at the top:');
-    filesWithoutTags.forEach(file => console.error(`  - ${file}`));
+    filesWithoutTags.forEach((file) => console.error(`  - ${file}`));
     process.exit(1);
   }
 

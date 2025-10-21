@@ -56,7 +56,7 @@ jobs:
       fail-fast: false
       matrix:
         tag: ${{ fromJson(needs.get_tags.outputs.tags) }}
-    
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -2,29 +2,19 @@
 
 This directory contains utility scripts for the Potentiel project.
 
-## get-feature-tags.js / get-feature-tags.sh
+## get-feature-tags.js
 
-These scripts parse all Cucumber/Gherkin feature files in `packages/specifications/src` and extract distinct tags.
-
-Both scripts provide the same functionality - use whichever you prefer:
-- **get-feature-tags.js**: JavaScript/Node.js version (used in GitHub Actions)
-- **get-feature-tags.sh**: Bash version (requires `bash`, `grep`, and `jq`)
+This script parses all Cucumber/Gherkin feature files in `packages/specifications/src` and extracts distinct tags.
 
 ### Usage
 
-JavaScript version:
 ```bash
 node scripts/get-feature-tags.js
 ```
 
-Bash version:
-```bash
-./scripts/get-feature-tags.sh
-```
-
 ### Output
 
-The scripts output a JSON array of distinct tags (sorted alphabetically):
+The script outputs a JSON array of distinct tags (sorted alphabetically):
 
 ```json
 ["@abandon","@achèvement","@actionnaire","@cahier-des-charges",...]
@@ -37,8 +27,8 @@ The scripts output a JSON array of distinct tags (sorted alphabetically):
 
 ### Requirements
 
-All feature files must have a tag at the top of the file (after the `# language: fr` line). The scripts will exit with an error if any file is missing a tag.
+All feature files must have a tag at the top of the file (after the `# language: fr` line). The script will exit with an error if any file is missing a tag.
 
 ### Integration with GitHub Actions
 
-The JavaScript version is used in the GitHub Actions workflow (`.github/workflows/shared-workflow.yml`) to run Cucumber tests in a matrix, where each tag runs in a separate job for parallel execution.
+This script is used in the GitHub Actions workflow (`.github/workflows/shared-workflow.yml`) to run Cucumber tests in a matrix, where each tag runs in a separate job for parallel execution.
