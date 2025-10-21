@@ -2,6 +2,7 @@
 import { isNotFoundError } from 'next/dist/client/components/not-found';
 // eslint-disable-next-line no-restricted-imports
 import { isRedirectError } from 'next/dist/client/components/redirect';
+import z from 'zod';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
@@ -12,6 +13,7 @@ export async function withErrorHandling<TResult>(
   action: () => Promise<TResult>,
   onDomainError: (error: DomainError) => TResult,
   onAuthenticationError: () => TResult,
+  onValidationError: (error: z.ZodError) => TResult,
   onUnknownError: (error: Error) => TResult,
 ): Promise<TResult> {
   try {
@@ -23,6 +25,11 @@ export async function withErrorHandling<TResult>(
 
     if (e instanceof NoAuthenticatedUserError || e instanceof AuthenticationError) {
       return onAuthenticationError();
+    }
+
+    if (e instanceof z.ZodError) {
+      getLogger().warn('Validation error: ' + e.message);
+      return onValidationError(e);
     }
 
     if (e instanceof DomainError) {

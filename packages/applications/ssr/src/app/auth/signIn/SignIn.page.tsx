@@ -1,6 +1,6 @@
 'use client';
 
-import { redirect, useSearchParams } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
@@ -16,14 +16,12 @@ import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
 
 type SignInPageProps = {
   providers: Array<string>;
+  callbackUrl: string;
+  forceProConnect?: boolean;
 };
 
-export default function SignInPage({ providers }: SignInPageProps) {
+export default function SignInPage({ providers, callbackUrl, forceProConnect }: SignInPageProps) {
   const { status, data } = useSession();
-
-  const params = useSearchParams();
-  const callbackUrl = params.get('callbackUrl') ?? Routes.Auth.redirectToDashboard();
-  const forceProConnect = params.get('forceProConnect');
 
   const onlyKeycloak = providers.length === 1 && providers.includes('keycloak');
 
