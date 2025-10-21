@@ -26,7 +26,7 @@ export const computePourcentageProjetEnServiceParCycle = async (cycle: 'PPE2' | 
               WHERE
                 p1.key LIKE 'dossier-raccordement|%'
                 AND p1.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
-                AND p2."value" ->> 'cycleAppelOffre' = 'CRE4'
+                AND p2."value" ->> 'cycleAppelOffre' = $2
             )::decimal / (
               ${getCountProjetsLauréatsNonAbandonnésParCycle}
             )::decimal
