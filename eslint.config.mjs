@@ -128,16 +128,6 @@ export default eslintTs.config(
       '@typescript-eslint/no-unused-expressions': 'off',
     },
   },
-  // Node.js scripts
-  {
-    files: ['scripts/**/*.js'],
-    languageOptions: {
-      globals: globals.node,
-    },
-    rules: {
-      '@typescript-eslint/no-var-requires': 'off',
-    },
-  },
   // allow "any" in tests
   {
     files: ['**/*.spec.ts'],

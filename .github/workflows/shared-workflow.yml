@@ -36,16 +36,17 @@ jobs:
   get_tags:
     runs-on: ubuntu-latest
     outputs:
-      tags: ${{ steps.get-tags.outputs.tags }}
+      tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
+      - run: npm ci
       - id: get-tags
         run: |
-          TAGS=$(node scripts/get-feature-tags.js)
-          echo "tags=$TAGS" >> $GITHUB_OUTPUT
+          TAG_CHUNKS=$(npx tsx scripts/get-feature-tags.ts --chunks=3)
+          echo "tag_chunks=$TAG_CHUNKS" >> $GITHUB_OUTPUT
 
   test_specs:
     needs: get_tags
@@ -55,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag: ${{ fromJson(needs.get_tags.outputs.tags) }}
+        tags: ${{ fromJson(needs.get_tags.outputs.tag_chunks) }}
 
     steps:
       - uses: actions/checkout@v4
@@ -64,8 +65,13 @@ jobs:
           node-version-file: package.json
           cache: 'npm'
       - run: npm ci
-      - name: Run specs for tag ${{ matrix.tag }}
-        run: npm run specs -- --tags "${{ matrix.tag }}" --tags "not @NotImplemented"
+      - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
+        run: |
+          TAGS_ARGS=""
+          for tag in $(echo '${{ toJson(matrix.tags) }}' | jq -r '.[]'); do
+            TAGS_ARGS="$TAGS_ARGS --tags \"$tag\""
+          done
+          npm run specs -- $TAGS_ARGS --tags "not @NotImplemented"
 
   test_apps_libraries:
     runs-on: ubuntu-latest

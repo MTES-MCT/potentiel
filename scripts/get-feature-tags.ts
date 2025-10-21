@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 
 /**
  * Script to extract distinct tags from Cucumber/Gherkin feature files
@@ -6,17 +6,25 @@
  * This script:
  * - Parses all .feature files in packages/specifications/src
  * - Extracts the first tag (line starting with @ after # language: fr)
- * - Returns a JSON array of distinct tags
+ * - Returns a JSON array of distinct tags or chunked arrays for parallel execution
  * - Exits with error code 1 if any file doesn't have a tag at the top
+ *
+ * Usage:
+ *   node scripts/get-feature-tags.ts              # Returns flat array of tags
+ *   node scripts/get-feature-tags.ts --chunks 3   # Returns array chunked into 3 groups
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /**
  * Recursively find all .feature files in a directory
  */
-function findFeatureFiles(dir) {
+function findFeatureFiles(dir: string): string[] {
   const files = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -36,7 +44,7 @@ function findFeatureFiles(dir) {
  * Extract the first tag from a feature file
  * Returns null if no tag is found
  */
-function extractFirstTag(filePath) {
+function extractFirstTag(filePath: string): string | null {
   const content = fs.readFileSync(filePath, 'utf8');
   const lines = content.split('\n');
 
@@ -62,7 +70,25 @@ function extractFirstTag(filePath) {
   return null;
 }
 
-function main() {
+/**
+ * Chunk an array into smaller arrays
+ */
+function chunkArray<T>(array: T[], chunks: number): T[][] {
+  const result: T[][] = [];
+  const chunkSize = Math.ceil(array.length / chunks);
+
+  for (let i = 0; i < chunks; i++) {
+    const start = i * chunkSize;
+    const chunk = array.slice(start, start + chunkSize);
+    if (chunk.length > 0) {
+      result.push(chunk);
+    }
+  }
+
+  return result;
+}
+
+function main(): void {
   const specsDir = path.join(__dirname, '..', 'packages', 'specifications', 'src');
 
   if (!fs.existsSync(specsDir)) {
@@ -99,7 +125,20 @@ function main() {
 
   // Output the tags as a JSON array
   const sortedTags = Array.from(tags).sort();
-  console.log(JSON.stringify(sortedTags));
+
+  // Check if chunking is requested
+  const chunksArg = process.argv.find((arg) => arg.startsWith('--chunks'));
+  if (chunksArg) {
+    const chunks = parseInt(chunksArg.split('=')[1], 10);
+    if (isNaN(chunks) || chunks < 1) {
+      console.error('Error: --chunks must be a positive integer');
+      process.exit(1);
+    }
+    const chunkedTags = chunkArray(sortedTags, chunks);
+    console.log(JSON.stringify(chunkedTags));
+  } else {
+    console.log(JSON.stringify(sortedTags));
+  }
 }
 
 main();
