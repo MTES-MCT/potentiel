@@ -21,11 +21,11 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
   );
 };
 
-const DétailsValeursProducteur = ({
-  changement,
-}: {
+type DétailsValeursProducteurProps = {
   changement: DétailsProducteurPageProps['changement'];
-}) => (
+};
+
+const DétailsValeursProducteur: FC<DétailsValeursProducteurProps> = ({ changement }) => (
   <>
     <div>
       <span className="font-medium">Nouveau producteur</span>: {changement.nouveauProducteur}

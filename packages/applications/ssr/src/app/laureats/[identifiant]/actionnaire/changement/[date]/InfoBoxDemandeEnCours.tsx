@@ -4,15 +4,15 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
-type Props = {
+type InfoBoxDemandeEnCoursProps = {
   identifiantProjet: string;
   dateDemandeEnCours: string;
 };
 
-export const InfoBoxDemandeEnCours: FC<Props> = ({
+export const InfoBoxDemandeEnCours: FC<InfoBoxDemandeEnCoursProps> = ({
   identifiantProjet,
   dateDemandeEnCours,
-}: Props) => (
+}) => (
   <Alert
     severity="info"
     small

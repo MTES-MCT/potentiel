@@ -56,7 +56,7 @@ const getTypeLabel = (type: Lauréat.ReprésentantLégal.TypeReprésentantLégal
     .with('inconnu', () => 'Inconnu')
     .exhaustive();
 
-type Props = PlainType<{
+type DétailsValeursReprésentantLégalProps = PlainType<{
   typeReprésentantLégal: Lauréat.ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
 }>;
@@ -64,7 +64,7 @@ type Props = PlainType<{
 const DétailsValeursReprésentantLégal = ({
   typeReprésentantLégal,
   nomReprésentantLégal,
-}: Props) => (
+}: DétailsValeursReprésentantLégalProps) => (
   <>
     <div>
       <span className="font-medium">Type :</span> {getTypeLabel(typeReprésentantLégal)}
