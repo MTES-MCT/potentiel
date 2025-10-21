@@ -60,7 +60,6 @@ export const getDélai: GetDélai = async ({
       rôle: Role.convertirEnValueType(rôle),
       identifiantProjet,
       règlesChangementPourAppelOffres,
-      domain: 'délai',
     });
 
     const affichage = peutFaireUneDemandeDeChangement

@@ -64,29 +64,32 @@ export const getActionnaire = async ({
           rôle: Role.convertirEnValueType(rôle),
           identifiantProjet,
           règlesChangementPourAppelOffres,
-          conditionsÀRemplirPourChangement: demandeNécessiteInstruction,
+          changementEstInterdit: demandeNécessiteInstruction,
           domain: 'actionnaire',
         });
 
-      const affichage = peutModifier
-        ? {
-            url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
-            labelActions: 'Modifier l’actionnaire(s)',
-          }
-        : peutEnregistrerChangement
+      const nestPasPetitPV = identifiantProjet.appelOffre !== 'PPE2 - Petit PV Bâtiment';
+
+      const affichage =
+        peutModifier && nestPasPetitPV
           ? {
-              url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-              label: 'Faire un changement',
-              labelActions: "Changer d'actionnaire(s)",
+              url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+              label: 'Modifier',
+              labelActions: 'Modifier l’actionnaire(s)',
             }
-          : peutFaireUneDemandeDeChangement
+          : peutEnregistrerChangement
             ? {
-                url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-                label: 'Faire une demande de changement',
-                labelActions: 'Demander un changement d’actionnaire(s)',
+                url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
+                label: 'Faire un changement',
+                labelActions: "Changer d'actionnaire(s)",
               }
-            : undefined;
+            : peutFaireUneDemandeDeChangement
+              ? {
+                  url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+                  label: 'Faire une demande de changement',
+                  labelActions: 'Demander un changement d’actionnaire(s)',
+                }
+              : undefined;
 
       return {
         nom,
