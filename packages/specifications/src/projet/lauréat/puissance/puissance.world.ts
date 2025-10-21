@@ -25,6 +25,7 @@ export class PuissanceWorld {
     identifiantProjet: IdentifiantProjet.ValueType,
     puissanceInitiale: number,
     unitéPuissance: Candidature.UnitéPuissance.ValueType,
+    puissanceDeSiteInitiale?: number,
   ) {
     const expected: Lauréat.Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
@@ -34,6 +35,9 @@ export class PuissanceWorld {
         : this.#modifierPuissanceFixture.aÉtéCréé
           ? this.#modifierPuissanceFixture.puissance
           : puissanceInitiale,
+      puissanceDeSite: this.#modifierPuissanceFixture.aÉtéCréé
+        ? this.#modifierPuissanceFixture.puissanceDeSite
+        : puissanceDeSiteInitiale,
       puissanceInitiale,
       unitéPuissance,
     };

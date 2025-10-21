@@ -25,7 +25,7 @@ Alors(
 
       const {
         unitéPuissance,
-        dépôt: { puissanceProductionAnnuelle },
+        dépôt: { puissanceProductionAnnuelle, puissanceDeSite },
       } = this.candidatureWorld.mapToExpected();
 
       const actual = mapToPlainObject(puissance);
@@ -34,6 +34,7 @@ Alors(
           identifiantProjet,
           puissanceProductionAnnuelle,
           unitéPuissance,
+          puissanceDeSite,
         ),
       );
 
