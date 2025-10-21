@@ -33,7 +33,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
         // This checks that the session is up to date with the necessary requirements
         // it's useful when changing what's inside the cookie for instance
         if (!data.utilisateur) {
-          redirect(Routes.Auth.signOut({ callbackUrl }));
+          redirect(Routes.Auth.signOut());
           break;
         }
         redirect(callbackUrl);

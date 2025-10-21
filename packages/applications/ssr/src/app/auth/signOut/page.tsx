@@ -8,13 +8,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 import { SignOutRedirect } from './SignOutRedirect';
 
-type PageProps = {
-  searchParams: {
-    callbackUrl?: string;
-  };
-};
-
-export default async function SignOut({ searchParams }: PageProps) {
+export default async function SignOut() {
   return PageWithErrorHandling(async () => {
     const { BASE_URL = '' } = process.env;
     const session = await getServerSession({
@@ -27,7 +21,7 @@ export default async function SignOut({ searchParams }: PageProps) {
     });
 
     if (!session) {
-      redirect(searchParams?.callbackUrl ?? '/');
+      redirect('/');
     }
 
     const callbackUrl = session.idToken
@@ -35,7 +29,7 @@ export default async function SignOut({ searchParams }: PageProps) {
           id_token_hint: session.idToken,
           post_logout_redirect_uri: BASE_URL,
         })
-      : searchParams?.callbackUrl;
+      : undefined;
 
     return (
       <PageTemplate>

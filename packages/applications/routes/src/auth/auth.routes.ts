@@ -28,7 +28,6 @@ export const signUp = () => `/auth/signUp`;
 
 // The signout page, where the user is redirected after federeated logout
 type SignOutProps = {
-  callbackUrl?: string;
   idToken?: string;
 };
 
