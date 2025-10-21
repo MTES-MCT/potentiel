@@ -27,7 +27,6 @@ export type ProjectListItem = {
     title?: ProjectAppelOffre['title'];
     type: ProjectAppelOffre['typeAppelOffre'];
     periode: ProjectAppelOffre['periode'];
-    changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];
   };
   prixReference?: number;
   evaluationCarbone?: number;

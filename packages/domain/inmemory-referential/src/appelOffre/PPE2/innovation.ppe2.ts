@@ -121,7 +121,7 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
     ],
     renvoiRetraitDesignationGarantieFinancieres: '',
   },
-  changementProducteurPossibleAvantAchèvement: true,
+
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

@@ -276,8 +276,6 @@ v1Router.get(
           producteur: await getProducteur({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
-            changementProducteurPossibleAvantAchèvement:
-              cahierDesCharges.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
           emailContact: lauréat.emailContact.formatter(),
           estAchevé: !!attestationConformité,

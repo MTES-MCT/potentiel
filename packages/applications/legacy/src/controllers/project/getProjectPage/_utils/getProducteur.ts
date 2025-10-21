@@ -20,13 +20,11 @@ export type GetProducteurForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
-  changementProducteurPossibleAvantAchèvement: boolean;
 };
 
 export const getProducteur = async ({
   identifiantProjet,
   rôle,
-  changementProducteurPossibleAvantAchèvement,
 }: Props): Promise<GetProducteurForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -59,8 +57,7 @@ export const getProducteur = async ({
         role.aLaPermission('producteur.enregistrerChangement') &&
         !aUnAbandonEnCours &&
         !estAbandonné &&
-        !estAchevé &&
-        changementProducteurPossibleAvantAchèvement
+        !estAchevé
       ) {
         return {
           producteur: producteur,

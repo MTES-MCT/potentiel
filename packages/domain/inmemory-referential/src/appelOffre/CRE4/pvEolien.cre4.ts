@@ -50,8 +50,9 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       demande: true,
       autoritéCompétente: 'dreal',
     },
+    // changement de producteur pas possible avant achèvement
     producteur: {
-      informationEnregistrée: true,
+      informationEnregistrée: false,
     },
     // NB: le ratio max de changement de puissance pour cet AO est de 1, mais l'AO en lui même ne permet pas le changement si ce CDC n'a pas été choisi, qui porte ce ratio à 1.4.
     puissance: {
@@ -117,7 +118,6 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
     garantieFinanciereEnMois,
   },
-  changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',

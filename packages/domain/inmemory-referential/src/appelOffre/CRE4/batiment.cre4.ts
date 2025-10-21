@@ -115,7 +115,7 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois.toString()} mois`,
     renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   },
-  changementProducteurPossibleAvantAchèvement: true,
+
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',

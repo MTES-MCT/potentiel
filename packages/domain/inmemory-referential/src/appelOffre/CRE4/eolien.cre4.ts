@@ -49,8 +49,9 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
       demande: true,
       autoritéCompétente: 'dgec',
     },
+    // changement de producteur pas possible avant achèvement
     producteur: {
-      informationEnregistrée: true,
+      informationEnregistrée: false,
     },
     puissance: {
       informationEnregistrée: true,
@@ -106,8 +107,6 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
     garantieFinanciereEnMois: 51,
   },
   doitPouvoirChoisirCDCInitial: true,
-
-  changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3 et 6.6',

@@ -115,7 +115,7 @@ export const autoconsommationZNI2017: AppelOffre.AppelOffreReadModel = {
       'type-inconnu',
     ],
   },
-  changementProducteurPossibleAvantAchèvement: true,
+
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

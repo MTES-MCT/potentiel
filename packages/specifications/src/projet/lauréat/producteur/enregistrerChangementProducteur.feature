@@ -65,7 +65,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | appel d'offres | Eolien |
             | période        | 1      |
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur devrait être informé que "L'appel d'offres du projet empêche un changement de producteur avant l'achèvement du projet"
+        Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
 
     Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat avec un producteur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :

@@ -63,7 +63,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
-  changementProducteurPossibleAvantAchèvement: true,
+
   dépôtDCRPossibleSeulementAprèsDésignation: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
