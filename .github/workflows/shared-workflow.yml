@@ -33,11 +33,30 @@ jobs:
       - run: npm ci --include=dev
       - run: npm run build
 
+  get_tags:
+    runs-on: ubuntu-latest
+    outputs:
+      tags: ${{ steps.get-tags.outputs.tags }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+      - id: get-tags
+        run: |
+          TAGS=$(node scripts/get-feature-tags.js)
+          echo "tags=$TAGS" >> $GITHUB_OUTPUT
+
   test_specs:
+    needs: get_tags
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
-
+    strategy:
+      fail-fast: false
+      matrix:
+        tag: ${{ fromJson(needs.get_tags.outputs.tags) }}
+    
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -45,7 +64,8 @@ jobs:
           node-version-file: package.json
           cache: 'npm'
       - run: npm ci
-      - run: npm run specs
+      - name: Run specs for tag ${{ matrix.tag }}
+        run: npm run specs -- --tags "${{ matrix.tag }}" --tags "not @NotImplemented"
 
   test_apps_libraries:
     runs-on: ubuntu-latest
