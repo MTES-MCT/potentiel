@@ -2,6 +2,7 @@
 @candidature
 Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notification d'une période
 
+    @select
     Plan du Scénario: Notifier un candidat lauréat
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres | <Appel d'offre> |
@@ -14,6 +15,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le fournisseur devrait être mis à jour
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Et l'attestation de constitution des garanties financières ne devraient pas être consultable pour le projet lauréat
         Et l'attestation de désignation de la candidature devrait être consultable
 
         Exemples:
@@ -51,8 +53,8 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et l'installation du projet lauréat devrait être mise à jour
         Et le dispositif de stockage du projet lauréat devrait être mise à jour
         Et la nature de l'exploitation du projet lauréat devrait être mise à jour
-        # TODO
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
+        Et l'attestation de constitution des garanties financières devraient être consultable pour le projet lauréat
         Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Notifier un candidat éliminé
