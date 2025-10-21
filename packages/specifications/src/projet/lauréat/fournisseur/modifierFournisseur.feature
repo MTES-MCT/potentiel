@@ -3,8 +3,7 @@
 Fonctionnalité: Modifier un fournisseur
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
-            | appel d'offres | PPE2 - Bâtiment |
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Modifier un fournisseur
