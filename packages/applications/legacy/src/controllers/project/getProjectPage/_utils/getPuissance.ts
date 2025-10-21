@@ -5,8 +5,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { mediator } from 'mediateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
 
 export type GetPuissanceForProjectPage = {
   puissance: number;
@@ -20,11 +21,13 @@ export type GetPuissanceForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
+  règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['puissance'];
 };
 
 export const getPuissance = async ({
   identifiantProjet,
   rôle,
+  règlesChangementPourAppelOffres,
 }: Props): Promise<GetPuissanceForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -33,11 +36,6 @@ export const getPuissance = async ({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
-
-    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      rôle,
-    );
 
     if (Option.isSome(puissanceProjection)) {
       const { puissance, dateDemandeEnCours } = puissanceProjection;
@@ -58,35 +56,31 @@ export const getPuissance = async ({
         };
       }
 
-      if (role.aLaPermission('puissance.modifier')) {
-        return {
-          puissance,
-          affichage: {
+      const { peutModifier, peutFaireUneDemandeDeChangement } =
+        await checkAutorisationChangement<'puissance'>({
+          rôle: Role.convertirEnValueType(rôle),
+          identifiantProjet,
+          règlesChangementPourAppelOffres,
+          domain: 'puissance',
+        });
+
+      const affichage = peutModifier
+        ? {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
             labelActions: 'Modifier la puissance',
-          },
-        };
-      }
-
-      if (
-        role.aLaPermission('puissance.demanderChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé
-      ) {
-        return {
-          puissance: puissance,
-          affichage: {
-            url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
-            label: 'Changer de puissance',
-            labelActions: 'Changer de puissance',
-          },
-        };
-      }
+          }
+        : peutFaireUneDemandeDeChangement
+          ? {
+              url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
+              label: 'Changer de puissance',
+              labelActions: 'Changer de puissance',
+            }
+          : undefined;
 
       return {
         puissance,
+        affichage,
       };
     }
 

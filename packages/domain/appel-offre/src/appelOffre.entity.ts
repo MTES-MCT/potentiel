@@ -62,7 +62,9 @@ type ChangementAvecAutoritéCompétente =
       autoritéCompétente: AutoritéCompétente;
     };
 
-type ChangementActionnaire = Changement & { informationEnregistréeEstSoumiseÀConditions?: true };
+type ChangementActionnaire = Changement & {
+  informationEnregistréeEstSoumiseÀConditions?: true;
+};
 
 type RatiosChangementPuissance =
   | { changementByTechnologie?: undefined; ratios: Ratios }
@@ -102,6 +104,7 @@ export type RèglesDemandesChangement = {
   représentantLégal: ChangementReprésentantLégal;
   recours: Changement;
   abandon: ChangementAvecAutoritéCompétente;
+  natureDeLExploitation: Changement;
 };
 
 export type DomainesConcernésParChangement = keyof RèglesDemandesChangement;
@@ -328,7 +331,6 @@ export type AppelOffreReadModel = {
   afficherPhraseRegionImplantation: boolean;
   dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
-  changementProducteurPossibleAvantAchèvement: boolean;
   dépôtDCRPossibleSeulementAprèsDésignation?: true;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;

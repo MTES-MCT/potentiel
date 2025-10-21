@@ -65,7 +65,7 @@ Fonctionnalité: Enregistrer un changement de fournisseur
         Quand le porteur enregistre un changement de fournisseur
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-    Scénario: Impossible d'enregistrer le changement de fournisseur d'un projet lauréat dont le cahier des charges ne le permet pas
+    Scénario: Impossible d'enregistrer le changement de fournisseur d'un projet lauréat si le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offres | CRE4 - Sol |
             | période        | 1          |

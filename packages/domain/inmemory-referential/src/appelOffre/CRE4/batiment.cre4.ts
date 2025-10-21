@@ -3,6 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 const garantieFinanciereEnMois = 36;
 
 const changementsCdcModifiéOuApplicablesAPartirDeP13 = {
+  natureDeLExploitation: {},
   représentantLégal: {
     demande: true,
     instructionAutomatique: 'accord',
@@ -115,7 +116,6 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
     renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois.toString()} mois`,
     renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
   },
-  changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',

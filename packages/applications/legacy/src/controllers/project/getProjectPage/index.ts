@@ -237,18 +237,13 @@ v1Router.get(
               : undefined,
         });
 
-      const demandeNécessiteInstructionPourActionnaire = !!(
+      const nécessiteInstructionPourActionnaire = !!(
         role.estÉgaleÀ(Role.porteur) &&
         cahierDesCharges.getRèglesChangements('actionnaire').demande &&
         instructionChangementActionnaire.estRequise()
       );
 
       const recours = await getRecours(identifiantProjetValueType);
-      const délai = await getDélai({
-        identifiantProjet: identifiantProjetValueType,
-        identifiantUtilisateur: user.email,
-        rôle: user.role,
-      });
 
       return response.send(
         ProjectDetailsPage({
@@ -261,23 +256,25 @@ v1Router.get(
           représentantLégal: await getReprésentantLégal({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres:
+              cahierDesCharges.getRèglesChangements('représentantLégal'),
           }),
           demandeRecours: recours && mapToPlainObject(recours),
           actionnaire: await getActionnaire({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
-            demandeNécessiteInstruction: demandeNécessiteInstructionPourActionnaire,
+            nécessiteInstruction: nécessiteInstructionPourActionnaire,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('actionnaire'),
           }),
           puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('puissance'),
           }),
           producteur: await getProducteur({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
-            changementProducteurPossibleAvantAchèvement:
-              cahierDesCharges.appelOffre.changementProducteurPossibleAvantAchèvement,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('producteur'),
           }),
           emailContact: lauréat.emailContact.formatter(),
           estAchevé: !!attestationConformité,
@@ -291,7 +288,12 @@ v1Router.get(
             rôle: user.role,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('fournisseur'),
           }),
-          délai,
+          délai: await getDélai({
+            identifiantProjet: identifiantProjetValueType,
+            identifiantUtilisateur: user.email,
+            rôle: user.role,
+            règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('délai'),
+          }),
           autorisationDUrbanisme: lauréat.autorisationDUrbanisme,
           installation: await getInstallation({
             identifiantProjet: identifiantProjetValueType,
@@ -300,6 +302,8 @@ v1Router.get(
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            règlesChangementPourAppelOffres:
+              cahierDesCharges.getRèglesChangements('natureDeLExploitation'),
           }),
           statutLauréat: lauréat.statut.statut,
           siteDeProduction: getSiteDeProduction({

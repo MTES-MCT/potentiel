@@ -5,9 +5,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
 
 export type GetFournisseurForProjectPage = Pick<
   Lauréat.Fournisseur.ConsulterFournisseurReadModel,
@@ -32,45 +32,45 @@ export const getFournisseur = async ({
   règlesChangementPourAppelOffres,
 }: Props): Promise<GetFournisseurForProjectPage | undefined> => {
   try {
-    const role = Role.convertirEnValueType(rôle);
-
     const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
       type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      rôle,
-    );
-
     if (Option.isSome(fournisseur)) {
       const { fournisseurs, évaluationCarboneSimplifiée } = fournisseur;
 
-      const peutModifier = role.aLaPermission('fournisseur.modifier');
-      const peutEnregistrerUnChangement =
-        role.aLaPermission('fournisseur.enregistrerChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé &&
-        règlesChangementPourAppelOffres.informationEnregistrée;
+      const { peutModifier, peutEnregistrerChangement } =
+        await checkAutorisationChangement<'fournisseur'>({
+          rôle: Role.convertirEnValueType(rôle),
+          identifiantProjet,
+          règlesChangementPourAppelOffres,
+          domain: 'fournisseur',
+        });
 
-      return {
-        fournisseurs,
-        évaluationCarboneSimplifiée,
-        affichage: peutModifier
+      // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
+      const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
+
+      const affichage = estPetitPV
+        ? undefined
+        : peutModifier
           ? {
               url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
               label: 'Modifier',
               labelActions: 'Modifier le fournisseur',
             }
-          : peutEnregistrerUnChangement
+          : peutEnregistrerChangement
             ? {
                 url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
                 label: 'Changer de fournisseur',
                 labelActions: 'Changer de fournisseur',
               }
-            : undefined,
+            : undefined;
+
+      return {
+        fournisseurs,
+        évaluationCarboneSimplifiée,
+        affichage,
       };
     }
 

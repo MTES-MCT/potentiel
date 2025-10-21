@@ -16,11 +16,7 @@ import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
 import { ModifierOptions } from './modifier/modifierProducteur.option';
 import { ImporterOptions } from './importer/importerProducteur.option';
 import { ProducteurImportéEvent } from './importer/importerProducteur.event';
-import {
-  ProducteurIdentiqueError,
-  AOEmpêcheChangementProducteurError,
-  ProducteurDéjàTransmisError,
-} from './producteur.error';
+import { ProducteurIdentiqueError, ProducteurDéjàTransmisError } from './producteur.error';
 
 export class ProducteurAggregate extends AbstractAggregate<
   ProducteurEvent,
@@ -63,9 +59,6 @@ export class ProducteurAggregate extends AbstractAggregate<
 
     if (this.producteur === producteur) {
       throw new ProducteurIdentiqueError();
-    }
-    if (!this.lauréat.projet.appelOffre.changementProducteurPossibleAvantAchèvement) {
-      throw new AOEmpêcheChangementProducteurError();
     }
 
     const event: ChangementProducteurEnregistréEvent = {

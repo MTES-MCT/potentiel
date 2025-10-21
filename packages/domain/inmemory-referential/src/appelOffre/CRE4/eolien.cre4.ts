@@ -33,6 +33,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   dossierSuiviPar: 'aoeolien@developpement-durable.gouv.fr',
   launchDate: 'mai 2017',
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'rejet',
@@ -50,7 +51,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
       autoritéCompétente: 'dgec',
     },
     producteur: {
-      informationEnregistrée: true,
+      informationEnregistrée: false,
     },
     puissance: {
       informationEnregistrée: true,
@@ -107,7 +108,6 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   },
   doitPouvoirChoisirCDCInitial: true,
 
-  changementProducteurPossibleAvantAchèvement: false,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3 et 6.6',

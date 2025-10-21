@@ -46,27 +46,6 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
 
-    # Cette règle ne concerne que Eolien et PV Eolien, et le cas ne s'est pas encore présenté, il a donc été décidé de ne pas l'implémenter pour le moment
-    @NotImplemented
-    Scénario: Enregistrer un changement de producteur d'un projet lauréat après l'achèvement du projet, si l'appel d'offres empêche un changement avant l'achèvement du projet
-        Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
-            | appel d'offres | Eolien |
-            | période        | 1      |
-        Et un cahier des charges permettant la modification du projet
-        Et une attestation de conformité transmise pour le projet lauréat
-        Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Et le changement enregistré du producteur du projet lauréat devrait être consultable
-        Et le porteur ne doit plus avoir accès au projet lauréat
-        # à challenger, le projet étant achevé il ne devrait sûrement pas apparaitre dans la list des projets à réclamer...
-        Et le projet lauréat est consultable dans la liste des projets à réclamer
-
-    Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat si l'appel d'offres empêche un changement avant l'achèvement du projet
-        Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
-            | appel d'offres | Eolien |
-            | période        | 1      |
-        Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur devrait être informé que "L'appel d'offres du projet empêche un changement de producteur avant l'achèvement du projet"
-
     Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat avec un producteur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offres | PPE2 - Bâtiment |
@@ -98,9 +77,14 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-    Scénario: Impossible d'enregistrer le changement de producteur d'un projet lauréat dont le cahier des charges ne le permet pas
+    Scénario: Impossible d'enregistrer le changement de producteur d'un projet lauréat si le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
-            | appel d'offres | CRE4 - Sol |
-            | période        | 1          |
+            | appel d'offres | <Appel d'offre> |
+            | période        | <Période>       |
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Le cahier des charges de ce projet ne permet pas ce changement"
+
+        Exemples:
+            | Appel d'offre | Période |
+            | Eolien        | 1       |
+            | CRE4 - Sol    | 1       |

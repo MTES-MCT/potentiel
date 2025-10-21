@@ -61,6 +61,7 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
   technologie: 'pv',
   unitePuissance: 'MWc',
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',
@@ -121,7 +122,7 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
     ],
     renvoiRetraitDesignationGarantieFinancieres: '',
   },
-  changementProducteurPossibleAvantAchèvement: true,
+
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

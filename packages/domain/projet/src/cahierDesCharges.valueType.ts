@@ -55,7 +55,7 @@ export const bind = ({
   technologie,
 
   getRèglesChangements(domaine) {
-    const changementIndisponible: AppelOffre.RèglesDemandesChangement = {
+    const changementOuModificationIndisponible: AppelOffre.RèglesDemandesChangement = {
       abandon: {},
       actionnaire: {},
       délai: {},
@@ -64,14 +64,15 @@ export const bind = ({
       puissance: {},
       recours: {},
       représentantLégal: {},
+      natureDeLExploitation: {},
     };
 
     const règlesChangement = {
       ...(this.appelOffre.changement === 'indisponible'
-        ? changementIndisponible
+        ? changementOuModificationIndisponible
         : this.appelOffre.changement),
       ...(this.période.changement === 'indisponible'
-        ? changementIndisponible
+        ? changementOuModificationIndisponible
         : this.période.changement),
       ...this.cahierDesChargesModificatif?.changement,
     };

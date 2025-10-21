@@ -13,6 +13,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   délaiRéalisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   changement: {
+    natureDeLExploitation: {},
     représentantLégal: {
       demande: true,
       instructionAutomatique: 'accord',
@@ -72,7 +73,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
-  changementProducteurPossibleAvantAchèvement: true,
+
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

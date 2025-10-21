@@ -6,8 +6,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { checkAbandonAndAchèvement } from './checkLauréat/checkAbandonAndAchèvement';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { checkAutorisationChangement } from './checkLauréat/checkAutorisationChangement';
 
 type GetActionnaireAffichageForProjectPage = {
   label: string;
@@ -22,14 +22,14 @@ export type GetActionnaireForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
-  demandeNécessiteInstruction: boolean;
+  nécessiteInstruction: boolean;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['actionnaire'];
 };
 
 export const getActionnaire = async ({
   identifiantProjet,
   rôle,
-  demandeNécessiteInstruction,
+  nécessiteInstruction,
   règlesChangementPourAppelOffres,
 }: Props): Promise<GetActionnaireForProjectPage | undefined> => {
   try {
@@ -39,11 +39,6 @@ export const getActionnaire = async ({
       type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
-
-    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      rôle,
-    );
 
     if (Option.isSome(actionnaire)) {
       const { actionnaire: nom, dateDemandeEnCours } = actionnaire;
@@ -64,57 +59,43 @@ export const getActionnaire = async ({
         };
       }
 
-      const peutModifier = role.aLaPermission('actionnaire.modifier');
-      const peutFaireUneDemandeDeChangement =
-        demandeNécessiteInstruction &&
-        role.aLaPermission('actionnaire.demanderChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé &&
-        règlesChangementPourAppelOffres.demande;
+      const { peutModifier, peutFaireUneDemandeDeChangement, peutEnregistrerChangement } =
+        await checkAutorisationChangement<'actionnaire'>({
+          rôle: Role.convertirEnValueType(rôle),
+          identifiantProjet,
+          règlesChangementPourAppelOffres,
+          nécessiteInstruction,
+          domain: 'actionnaire',
+        });
 
-      const peutEnregistrerChangement =
-        !demandeNécessiteInstruction &&
-        role.aLaPermission('actionnaire.enregistrerChangement') &&
-        !aUnAbandonEnCours &&
-        !estAbandonné &&
-        !estAchevé &&
-        règlesChangementPourAppelOffres.informationEnregistrée;
+      // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
+      const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
 
-      if (peutModifier) {
-        return {
-          nom,
-          affichage: {
-            url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
-            labelActions: 'Modifier l’actionnaire(s)',
-          },
-        };
-      }
+      const affichage = estPetitPV
+        ? undefined
+        : peutModifier
+          ? {
+              url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+              label: 'Modifier',
+              labelActions: 'Modifier l’actionnaire(s)',
+            }
+          : peutEnregistrerChangement
+            ? {
+                url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
+                label: 'Faire un changement',
+                labelActions: "Changer d'actionnaire(s)",
+              }
+            : peutFaireUneDemandeDeChangement
+              ? {
+                  url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+                  label: 'Faire une demande de changement',
+                  labelActions: 'Demander un changement d’actionnaire(s)',
+                }
+              : undefined;
 
-      if (peutEnregistrerChangement) {
-        return {
-          nom,
-          affichage: {
-            url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Faire un changement',
-            labelActions: "Changer d'actionnaire(s)",
-          },
-        };
-      }
-
-      if (peutFaireUneDemandeDeChangement) {
-        return {
-          nom,
-          affichage: {
-            url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-            label: 'Faire une demande de changement',
-            labelActions: 'Demander un changement d’actionnaire(s)',
-          },
-        };
-      }
       return {
         nom,
+        affichage,
       };
     }
 
