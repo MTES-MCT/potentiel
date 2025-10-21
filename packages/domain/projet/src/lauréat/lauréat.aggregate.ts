@@ -491,11 +491,6 @@ export class LauréatAggregate extends AbstractAggregate<
     this.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible(typeChangement, domaine);
   }
 
-  vérifierQueLaModificationEstPossible(domaine: AppelOffre.DomainesConcernésParChangement) {
-    this.vérifierQueLeLauréatExiste();
-    this.projet.cahierDesChargesActuel.vérifierQueLeChangementEstPossible('modification', domaine);
-  }
-
   apply(event: LauréatEvent): void {
     match(event)
       .with({ type: 'LauréatNotifié-V1' }, (event) => this.applyLauréatNotifiéV1(event))

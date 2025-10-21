@@ -127,7 +127,7 @@ export class FournisseurAggregate extends AbstractAggregate<
     pièceJustificative,
     raison,
   }: ModifierFournisseurOptions) {
-    this.lauréat.vérifierQueLaModificationEstPossible('fournisseur');
+    this.lauréat.vérifierQueLeLauréatExiste();
 
     if (évaluationCarboneSimplifiée !== undefined && fournisseurs !== undefined) {
       this.vérifierÉvaluationCarboneEtFournisseurs(évaluationCarboneSimplifiée, fournisseurs);

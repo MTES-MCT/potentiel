@@ -45,7 +45,6 @@ export const getProducteur = async ({
           rôle: Role.convertirEnValueType(rôle),
           identifiantProjet,
           règlesChangementPourAppelOffres,
-          changementEstInterdit: changementProducteurPossibleAvantAchèvement,
           domain: 'producteur',
         });
 

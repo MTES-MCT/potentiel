@@ -22,14 +22,14 @@ export type GetActionnaireForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
-  demandeNécessiteInstruction: boolean;
+  nécessiteInstruction: boolean;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['actionnaire'];
 };
 
 export const getActionnaire = async ({
   identifiantProjet,
   rôle,
-  demandeNécessiteInstruction,
+  nécessiteInstruction,
   règlesChangementPourAppelOffres,
 }: Props): Promise<GetActionnaireForProjectPage | undefined> => {
   try {
@@ -64,14 +64,16 @@ export const getActionnaire = async ({
           rôle: Role.convertirEnValueType(rôle),
           identifiantProjet,
           règlesChangementPourAppelOffres,
-          changementEstInterdit: demandeNécessiteInstruction,
+          nécessiteInstruction,
           domain: 'actionnaire',
         });
 
-      const nestPasPetitPV = identifiantProjet.appelOffre !== 'PPE2 - Petit PV Bâtiment';
+      // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
+      const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
 
-      const affichage =
-        peutModifier && nestPasPetitPV
+      const affichage = estPetitPV
+        ? undefined
+        : peutModifier
           ? {
               url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
               label: 'Modifier',

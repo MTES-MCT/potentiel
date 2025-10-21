@@ -48,19 +48,24 @@ export const getFournisseur = async ({
           domain: 'fournisseur',
         });
 
-      const affichage = peutModifier
-        ? {
-            url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
-            labelActions: 'Modifier le fournisseur',
-          }
-        : peutEnregistrerChangement
+      // règle spécifique à AOS, à rapatrier dans les règles métier présentes dans les AO si besoin
+      const estPetitPV = identifiantProjet.appelOffre === 'PPE2 - Petit PV Bâtiment';
+
+      const affichage = estPetitPV
+        ? undefined
+        : peutModifier
           ? {
-              url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
-              label: 'Changer de fournisseur',
-              labelActions: 'Changer de fournisseur',
+              url: Routes.Fournisseur.modifier(identifiantProjet.formatter()),
+              label: 'Modifier',
+              labelActions: 'Modifier le fournisseur',
             }
-          : undefined;
+          : peutEnregistrerChangement
+            ? {
+                url: Routes.Fournisseur.changement.enregistrer(identifiantProjet.formatter()),
+                label: 'Changer de fournisseur',
+                labelActions: 'Changer de fournisseur',
+              }
+            : undefined;
 
       return {
         fournisseurs,

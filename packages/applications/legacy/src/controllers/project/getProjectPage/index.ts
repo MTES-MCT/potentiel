@@ -237,7 +237,7 @@ v1Router.get(
               : undefined,
         });
 
-      const demandeNécessiteInstructionPourActionnaire = !!(
+      const nécessiteInstructionPourActionnaire = !!(
         role.estÉgaleÀ(Role.porteur) &&
         cahierDesCharges.getRèglesChangements('actionnaire').demande &&
         instructionChangementActionnaire.estRequise()
@@ -263,7 +263,7 @@ v1Router.get(
           actionnaire: await getActionnaire({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
-            demandeNécessiteInstruction: demandeNécessiteInstructionPourActionnaire,
+            nécessiteInstruction: nécessiteInstructionPourActionnaire,
             règlesChangementPourAppelOffres: cahierDesCharges.getRèglesChangements('actionnaire'),
           }),
           puissance: await getPuissance({

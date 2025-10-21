@@ -7,10 +7,7 @@ type Props<TDomain extends keyof AppelOffre.RèglesDemandesChangement> = {
   rôle: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement[TDomain];
-  règlesSpécifiquesParDomain?: {
-    demandeActionnaireNécessiteInstruction?: boolean;
-    changementProducteurPossibleAvantAchèvement?: boolean;
-  };
+  nécessiteInstruction?: boolean;
   domain: TDomain;
 };
 
@@ -20,7 +17,7 @@ export const checkAutorisationChangement = async <
   rôle,
   identifiantProjet,
   règlesChangementPourAppelOffres,
-  règlesSpécifiquesParDomain,
+  nécessiteInstruction,
   domain,
 }: Props<TDomain>) => {
   const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
@@ -28,18 +25,11 @@ export const checkAutorisationChangement = async <
     rôle.nom,
   );
 
-  if(domain === "producteur" && règlesChangementPourAppelOffres.)
-  const règleSpéciale
-
-
   const peutModifier =
-    rôle.aLaPermission(`${domain}.modifier` as Role.Policy) &&
-    (règlesChangementPourAppelOffres.demande ||
-      règlesChangementPourAppelOffres.informationEnregistrée);
+    rôle.aLaPermission(`${domain}.modifier` as Role.Policy);
 
   const peutFaireUneDemandeDeChangement =
-    ((domain === 'actionnaire' &&
-    règlesSpécifiquesParDomain?.demandeActionnaireNécessiteInstruction) &&
+    nécessiteInstruction !== false &&
     rôle.aLaPermission(`${domain}.demanderChangement` as Role.Policy) &&
     !aUnAbandonEnCours &&
     !estAbandonné &&
@@ -47,7 +37,7 @@ export const checkAutorisationChangement = async <
     règlesChangementPourAppelOffres.demande;
 
   const peutEnregistrerChangement =
-    !changementEstInterdit &&
+    nécessiteInstruction !== true &&
     rôle.aLaPermission(`${domain}.enregistrerChangement` as Role.Policy) &&
     !aUnAbandonEnCours &&
     !estAbandonné &&
