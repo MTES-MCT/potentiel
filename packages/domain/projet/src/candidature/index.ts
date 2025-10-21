@@ -77,7 +77,6 @@ export * from './candidature.register';
 
 // Entities
 export * from './candidature.entity';
-export * from './projet.entity';
 
 // ValueType
 export * as TypeTechnologie from './typeTechnologie.valueType';

@@ -35,6 +35,6 @@ export const preuveCandidatureTransmiseProjector = async ({
       },
     });
   } else {
-    getLogger().warn('Pas de preuve de recandidature demandée', { event });
+    getLogger().warn('Pas de preuve de recandidature demandée', { identifiantProjet });
   }
 };
