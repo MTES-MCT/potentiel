@@ -88,7 +88,7 @@ export const Form: FC<FormProps> = ({
       <div className="flex flex-col gap-5">
         {children}
         {actionButtons && (
-          <div className="flex flex-col md:flex-row gap-2">
+          <div className="flex flex-col md:flex-row gap-4">
             <FormActionButtons
               secondaryAction={actionButtons.secondaryAction}
               submitLabel={actionButtons.submitLabel}
