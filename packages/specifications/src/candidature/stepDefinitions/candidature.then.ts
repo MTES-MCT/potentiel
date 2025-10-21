@@ -182,6 +182,23 @@ Alors(
   },
 );
 
+Alors(
+  'les informations de constitution des garanties financières ne devraient pas être consultables',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    assert(Option.isSome(candidature), 'Candidature non trouvée');
+    expect(candidature.dépôt.garantiesFinancières?.constitution).to.be.undefined;
+  },
+);
+
 // effectue une comparaison non stricte pour s'assurer que les propriétés de `expected` sont présentes dans `actual`, avec la bonne valeur
 const shallowCompareObject = (
   expected: Record<string, unknown>,

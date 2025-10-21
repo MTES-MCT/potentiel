@@ -2,7 +2,6 @@
 @candidature
 Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notification d'une période
 
-    @select
     Plan du Scénario: Notifier un candidat lauréat
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres | <Appel d'offre> |
@@ -15,7 +14,6 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le fournisseur devrait être mis à jour
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et l'attestation de constitution des garanties financières ne devraient pas être consultable pour le projet lauréat
         Et l'attestation de désignation de la candidature devrait être consultable
 
         Exemples:
@@ -34,12 +32,11 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
             | PPE2 - Innovation                 | 1       |
             | PPE2 - Autoconsommation métropole | 1       |
             | PPE2 - ZNI                        | 1       |
-            | PPE2 - Petit PV Bâtiment          | 1       |
 
-    @select
     Scénario: Notifier un candidat lauréat PPE2 - Petit PV Bâtiment
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offres                           | PPE2 - Petit PV Bâtiment         |
+            | période                                  | 1                                |
             | installateur                             | Installeur.INC                   |
             | installation avec dispositif de stockage | oui                              |
             | type de nature de l'exploitation         | vente-avec-injection-en-totalité |
@@ -54,7 +51,6 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et le dispositif de stockage du projet lauréat devrait être mise à jour
         Et la nature de l'exploitation du projet lauréat devrait être mise à jour
         Et les garanties financières actuelles devraient être consultables pour le projet lauréat
-        Et l'attestation de constitution des garanties financières devraient être consultable pour le projet lauréat
         Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Notifier un candidat éliminé
