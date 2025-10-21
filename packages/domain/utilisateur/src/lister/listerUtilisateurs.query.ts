@@ -86,7 +86,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
                     undefined) as any,
                 identifiantUtilisateur: identifiantsUtilisateur
                   ? Where.matchAny(identifiantsUtilisateur)
-                  : Where.contain(identifiantUtilisateur),
+                  : Where.like(identifiantUtilisateur),
               };
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {

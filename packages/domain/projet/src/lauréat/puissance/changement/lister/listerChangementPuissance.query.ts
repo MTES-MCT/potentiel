@@ -68,7 +68,7 @@ export const registerListerChangementPuissanceQuery = ({
             on: 'identifiantProjet',
             where: {
               appelOffre: Where.equal(appelOffre),
-              nomProjet: Where.contain(nomProjet),
+              nomProjet: Where.like(nomProjet),
               localité: {
                 région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,
               },

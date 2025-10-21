@@ -22,7 +22,7 @@ export const notEndWith = (value: string | undefined): WhereCondition<string> | 
   } satisfies NotLikeWhereCondition;
 };
 
-export const notContains = (value: string | undefined): WhereCondition<string> | undefined => {
+export const notLike = (value: string | undefined): WhereCondition<string> | undefined => {
   if (value === undefined) {
     return undefined;
   }

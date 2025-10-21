@@ -47,7 +47,7 @@ export const registerListerGestionnaireRéseauQuery = ({
         raisonSociale: 'ascending',
       },
       where: {
-        raisonSociale: Where.contain(raisonSociale),
+        raisonSociale: Where.like(raisonSociale),
         codeEIC: Where.matchAny(identifiants),
       },
       range,

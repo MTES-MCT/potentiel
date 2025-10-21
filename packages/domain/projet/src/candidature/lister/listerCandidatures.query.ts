@@ -80,7 +80,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
           typeActionnariat && typeActionnariat.length > 0
             ? Where.matchAny(typeActionnariat)
             : undefined,
-        nomProjet: Where.contain(nomProjet),
+        nomProjet: Where.like(nomProjet),
         identifiantProjet: Where.matchAny(identifiantProjets),
       },
       range,

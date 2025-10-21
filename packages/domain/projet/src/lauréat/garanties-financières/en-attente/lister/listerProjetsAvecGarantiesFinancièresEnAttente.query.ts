@@ -85,8 +85,8 @@ export const registerListerGarantiesFinancièresEnAttenteQuery = ({
               ? Where.equal(appelOffre)
               : cycle
                 ? cycle === 'PPE2'
-                  ? Where.contain('PPE2')
-                  : Where.notContains('PPE2')
+                  ? Where.like('PPE2')
+                  : Where.notLike('PPE2')
                 : undefined,
             localité: {
               région: scope.type === 'région' ? Where.matchAny(scope.régions) : undefined,

@@ -37,7 +37,7 @@ export const registerRechercherDossierRaccordementQuery = ({
       {
         where: {
           identifiantProjet: Where.endWith(numéroCRE ? `#${numéroCRE}` : undefined),
-          référence: Where.contain(référenceDossierRaccordement),
+          référence: Where.like(référenceDossierRaccordement),
         },
       },
     );

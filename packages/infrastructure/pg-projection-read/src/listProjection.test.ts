@@ -782,7 +782,7 @@ describe('listProjection', () => {
               entity: category3,
               on: 'data.value',
               where: {
-                moreData3: Where.contain('foo'),
+                moreData3: Where.like('foo'),
               },
             },
           ],
