@@ -12,6 +12,7 @@ export const petitPVBâtimentPPE2: AppelOffre.AppelOffreReadModel = {
   unitePuissance: 'MWc',
   délaiRéalisationEnMois: 34,
   delaiRealisationTexte: 'trente-quatre (34) mois',
+  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant: true,
   changement: {
     natureDeLExploitation: { informationEnregistrée: true },
     représentantLégal: {
@@ -92,12 +93,6 @@ Des dérogations au délai d’Achèvement sont toutefois accordées dans le cas
 Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié. 
 De plus, dans le cas où le Candidat a fourni une garantie à première demande comme garantie financière, si un prolongement de délai a été accordé, le Producteur doit fournir, par voie dématérialisée dans son espace Potentiel, au plus tard deux mois avant l’échéance de la garantie en cours, une garantie financière conforme au 3.2.3. Cette garantie pourra prendre la forme d’une consignation auprès de la Caisse des dépôts et consignations ou d’une autre garantie à première demande conforme au modèle en Annexe 2, d’une durée minimale de trente-six (36) mois à compter de l’échéance de la garantie en cours. Si le renouvellement n’a pas eu lieu avant cette échéance, l’État peut prélever la totalité ou une partie de la garantie en cours, conformément au 5.1. Cette garantie devra être renouvelée dans ces mêmes conditions si la durée de prolongement accordée dépasse le délai de la garantie en cours.`,
     },
-  },
-  addendums: {
-    paragrapheRenseignerRaccordementDansPotentiel:
-      'renseigner dans votre espace Potentiel la référence de l’affaire de raccordement dans les quatre (4) mois à compter de la présente notification',
-    paragrapheRenseignerAttestationConformitéDansPotentiel:
-      'par voie dématérialisée dans votre espace Potentiel',
   },
   champsSupplémentaires: {
     puissanceDeSite: 'requis',

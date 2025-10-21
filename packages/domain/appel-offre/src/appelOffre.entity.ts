@@ -334,10 +334,7 @@ export type AppelOffreReadModel = {
   dépôtDCRPossibleSeulementAprèsDésignation?: true;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponseParDomaine>;
   doitPouvoirChoisirCDCInitial?: true;
-  addendums?: {
-    paragrapheRenseignerRaccordementDansPotentiel?: string;
-    paragrapheRenseignerAttestationConformitéDansPotentiel?: string;
-  };
+  transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant?: true;
   /**
    * "indisponible" indique que les projets de cet appel d'offre ne peuvent pas faire de modification dans Potentiel sans choisir un CDC modificatif.
    **/

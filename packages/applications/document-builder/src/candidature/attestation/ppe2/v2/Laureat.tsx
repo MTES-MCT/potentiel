@@ -108,7 +108,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             }}
           >
             - respecter l'ensemble des obligations et prescriptions de toute nature figurant au
-            cahier des charges;
+            cahier des charges ;
           </Text>
 
           <Text
@@ -120,16 +120,17 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             déposer une demande complète de raccordement dans les {delaiDcrEnMois.texte} (
             {delaiDcrEnMois.valeur}) mois à compter de la présente notification
             {appelOffre.typeAppelOffre === 'eolien' &&
-              ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
+              ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}{' '}
             ;
           </Text>
-          {!!appelOffre.addendums?.paragrapheRenseignerRaccordementDansPotentiel && (
+          {appelOffre.transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant && (
             <Text
               style={{
                 marginTop: 10,
               }}
             >
-              - {appelOffre.addendums.paragrapheRenseignerRaccordementDansPotentiel};
+              - renseigner dans votre espace Potentiel la référence de l’affaire de raccordement
+              dans les quatre (4) mois à compter de la présente notification ;
             </Text>
           )}
           {afficherObligationGarantiesFinancières6MoisAprèsAchèvement && (
@@ -142,7 +143,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               mois après la date d’Achèvement de l’installation (date de fourniture de l’attestation
               de conformité selon les dispositions du chapitre{' '}
               {appelOffre.paragrapheAttestationConformite}) ou un renouvellement régulier afin
-              d’assurer une telle couverture temporelle;
+              d’assurer une telle couverture temporelle ;
             </Text>
           )}
 
@@ -154,7 +155,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             >
               - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le
               rapport de contribution à l’innovation et le cas échéant dans le mémoire technique sur
-              la synergie avec l’usage agricole, remis lors du dépôt de l’offre;
+              la synergie avec l’usage agricole, remis lors du dépôt de l’offre ;
             </Text>
           )}
 
@@ -166,7 +167,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier
             des charges, achever l’installation dans un délai de{' '}
             {cahierDesCharges.getDélaiRéalisationEnMois()} mois à compter de la présente
-            notification;
+            notification ;
           </Text>
 
           <Text
@@ -175,10 +176,10 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
             }}
           >
             - fournir à EDF
-            {appelOffre.addendums?.paragrapheRenseignerAttestationConformitéDansPotentiel &&
-              `, ${appelOffre.addendums.paragrapheRenseignerAttestationConformitéDansPotentiel},`}{' '}
+            {appelOffre.transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant &&
+              `, par voie dématérialisée dans votre espace Potentiel,`}{' '}
             l’attestation de conformité de l’installation prévue au paragraphe{' '}
-            {appelOffre.paragrapheAttestationConformite} du cahier des charges;
+            {appelOffre.paragrapheAttestationConformite} du cahier des charges ;
           </Text>
 
           {project.actionnariat === 'gouvernance-partagée' && (
@@ -188,7 +189,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               }}
             >
               - respecter les engagements pris conformément aux paragraphes{' '}
-              {paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
+              {paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée ;
             </Text>
           )}
 
@@ -199,7 +200,7 @@ export const buildLauréat = ({ project, cahierDesCharges }: LaureatProps) => {
               }}
             >
               - respecter les engagements pris conformément aux paragraphes{' '}
-              {paragrapheEngagementIPFPGPFC} concernant le financement collectif;
+              {paragrapheEngagementIPFPGPFC} concernant le financement collectif ;
             </Text>
           )}
         </View>
