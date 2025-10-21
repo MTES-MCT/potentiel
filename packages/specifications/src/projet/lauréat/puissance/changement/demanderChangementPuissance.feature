@@ -100,7 +100,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
-    Scénario: Impossible de demander le changement de puissance d'un projet lauréat dont le cahier des charges ne le permet pas
+    Scénario: Impossible de demander le changement de puissance d'un projet lauréat si le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offres | CRE4 - Sol |
             | période        | 1          |

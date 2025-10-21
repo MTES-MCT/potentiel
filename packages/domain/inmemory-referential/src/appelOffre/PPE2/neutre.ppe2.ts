@@ -75,7 +75,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
     soumisAuxGarantiesFinancieres: 'à la candidature',
     renvoiRetraitDesignationGarantieFinancieres: '5.1',
   },
-  changementProducteurPossibleAvantAchèvement: true,
+
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',

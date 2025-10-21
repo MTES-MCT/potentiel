@@ -21,14 +21,12 @@ export type GetProducteurForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
-  changementProducteurPossibleAvantAchèvement: boolean;
   règlesChangementPourAppelOffres: AppelOffre.RèglesDemandesChangement['producteur'];
 };
 
 export const getProducteur = async ({
   identifiantProjet,
   rôle,
-  changementProducteurPossibleAvantAchèvement,
   règlesChangementPourAppelOffres,
 }: Props): Promise<GetProducteurForProjectPage | undefined> => {
   try {

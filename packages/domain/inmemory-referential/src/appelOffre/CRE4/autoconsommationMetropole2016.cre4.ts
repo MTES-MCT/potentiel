@@ -88,7 +88,6 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
       'type-inconnu',
     ],
   },
-  changementProducteurPossibleAvantAchèvement: true,
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
