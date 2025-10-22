@@ -5,7 +5,7 @@ import { EnregistrerDocumentProjetCommand, DocumentProjet } from '@potentiel-dom
 import { Option } from '@potentiel-libraries/monads';
 
 import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '..';
-import { Candidature } from '../../..';
+import { Candidature, Éliminé } from '../../..';
 import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event';
 import { ImporterGarantiesFinancièresCommand } from '../actuelles/importer/importerGarantiesFinancières.command';
 import { RécupererConstitutionGarantiesFinancièresPort } from '../port';
@@ -14,6 +14,17 @@ export const handleLauréatNotifié = async (
   { payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéEvent,
   récupererConstitutionGarantiesFinancières: RécupererConstitutionGarantiesFinancièresPort,
 ) => {
+  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+    type: 'Éliminé.Recours.Query.ConsulterRecours',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+    },
+  });
+
+  if (Option.isSome(recours)) {
+    return;
+  }
+
   const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
     type: 'Candidature.Query.ConsulterCandidature',
     data: {

@@ -5,8 +5,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter';
 
-import {} from './getProjetAggregateRoot.adapter';
-
 export const récupererConstututionGarantiesFinancièresAdapter: Lauréat.GarantiesFinancières.RécupererConstitutionGarantiesFinancièresPort =
   async (identifiantProjet) => {
     const ao = await loadAppelOffreAggregateAdapter(identifiantProjet.appelOffre);
