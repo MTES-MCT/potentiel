@@ -1,0 +1,41 @@
+name: 'Turbo Cache Setup'
+description: 'Setup or restore Turbo build cache'
+inputs:
+  mode:
+    description: 'Cache mode: "setup" (save cache) or "restore" (restore only)'
+    required: true
+    default: 'restore'
+  cache-key:
+    description: 'Cache key for turbo build'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Cache turbo build setup
+      if: inputs.mode == 'setup'
+      uses: actions/cache@v4
+      with:
+        path: |
+          .turbo
+          packages/*/dist
+          packages/*/*/dist
+          packages/*/.next
+          packages/*/*/.next
+        key: ${{ inputs.cache-key }}
+        restore-keys: |
+          ${{ runner.os }}-turbo-
+      shell: bash
+    - name: Cache turbo build restore
+      if: inputs.mode == 'restore'
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          .turbo
+          packages/*/dist
+          packages/*/*/dist
+          packages/*/.next
+          packages/*/*/.next
+        key: ${{ inputs.cache-key }}
+        restore-keys: |
+          ${{ runner.os }}-turbo-
+      shell: bash

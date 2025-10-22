@@ -33,13 +33,12 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
+          cache-key: ${{ needs.setup.outputs.cache-key }}
+      - run: npm run build:dev
       - name: Cache turbo build setup
-        uses: actions/cache@v4
+        uses: actions/cache/save@v4
         with:
           path: |
             .turbo
@@ -48,34 +47,15 @@ jobs:
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
-      - name: Restore node modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            packages/*/*/node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
-      - run: npm run build:dev
 
   lint:
     needs: setup
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - name: Restore node modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            packages/*/*/node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run lint
         env:
           NODE_OPTIONS: '--max-old-space-size=10240'
@@ -88,29 +68,9 @@ jobs:
       NODE_ENV: production
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - name: Cache turbo build restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            .turbo
-            packages/*/dist
-            packages/*/*/dist
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-      - name: Restore node modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            packages/*/*/node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build
 
   get_tags:
@@ -119,28 +79,9 @@ jobs:
     outputs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-      - name: Cache turbo build restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            .turbo
-            packages/*/dist
-            packages/*/*/dist
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-      - name: Restore node modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            packages/*/*/node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm i -g tsx
       - id: get-tags
         env:
@@ -160,29 +101,9 @@ jobs:
         tags: ${{ fromJson(needs.get_tags.outputs.tag_chunks) }}
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - name: Cache turbo build restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            .turbo
-            packages/*/dist
-            packages/*/*/dist
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-      - name: Restore node modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            packages/*/*/node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
         run: |
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
@@ -195,29 +116,9 @@ jobs:
       APPLICATION_STAGE: test
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - name: Cache turbo build restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            .turbo
-            packages/*/dist
-            packages/*/*/dist
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-      - name: Restore node modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            packages/*/*/node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run test:apps
       - run: npm run test:libraries
 
@@ -228,29 +129,9 @@ jobs:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
       APPLICATION_STAGE: production
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - name: Cache turbo build restore
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            .turbo
-            packages/*/dist
-            packages/*/*/dist
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
-      - name: Restore node modules cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            packages/*/*/node_modules
-          key: ${{ needs.setup.outputs.cache-key }}
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:cli
       - run: npm run up
       - run: npm exec potentiel-cli stats extraire
