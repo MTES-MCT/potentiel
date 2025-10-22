@@ -6,6 +6,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type GetInstallationForProjectPage = {
   installateur?: {
@@ -37,11 +38,13 @@ export type GetInstallationForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
+  champsSupplémentairesCahierDesCharges: AppelOffre.ChampsSupplémentairesCandidature;
 };
 
 export const getInstallation = async ({
   identifiantProjet,
   rôle,
+  champsSupplémentairesCahierDesCharges,
 }: Props): Promise<GetInstallationForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -52,24 +55,18 @@ export const getInstallation = async ({
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-    const cahierDesCharges = await mediator.send<Lauréat.ConsulterCahierDesChargesQuery>({
-      type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesCharges',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
-
-    if (Option.isSome(installationProjection) && Option.isSome(cahierDesCharges)) {
+    if (Option.isSome(installationProjection)) {
       const { installateur, typologieInstallation, dispositifDeStockage } = installationProjection;
       const {
         installateur: champSupplémentaireInstallateur,
         dispositifDeStockage: champSupplémentaireDispositifDeStockage,
-      } = cahierDesCharges.getChampsSupplémentaires();
+      } = champsSupplémentairesCahierDesCharges;
 
       const data: GetInstallationForProjectPage = {
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
         },
       };
-
       if (role.aLaPermission('installation.typologieInstallation.modifier')) {
         data.typologieInstallation.affichage = {
           url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
@@ -82,7 +79,6 @@ export const getInstallation = async ({
         data.dispositifDeStockage = {
           value: dispositifDeStockage ? dispositifDeStockage.formatter() : undefined,
         };
-
         if (role.aLaPermission('installation.dispositifDeStockage.modifier')) {
           data.dispositifDeStockage.affichage = {
             url: Routes.Installation.modifierDispositifDeStockage(identifiantProjet.formatter()),
