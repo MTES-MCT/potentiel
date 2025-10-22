@@ -1,4 +1,3 @@
-import React from 'react';
 import { Heading3, Link } from '../../../../components';
 
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
@@ -37,6 +36,11 @@ export const InfoPuissance = ({
       <span>
         Puissance installée : {puissance.puissance} {unitePuissance}
       </span>
+      {puissance.puissanceDeSite !== undefined && (
+        <span>
+          Puissance de site : {puissance.puissanceDeSite} {unitePuissance}
+        </span>
+      )}
       {volumeRéservéLabel && <span>{volumeRéservéLabel}</span>}
       {afficherSelonRole && puissance.affichage && (
         <Link href={puissance.affichage.url} aria-label={puissance.affichage.label}>
