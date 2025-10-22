@@ -8,11 +8,15 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { puissanceProductionAnnuelleSchema } from '@/utils/candidature/candidatureFields.schema';
+import {
+  puissanceDeSiteSchema,
+  puissanceProductionAnnuelleSchema,
+} from '@/utils/candidature/candidatureFields.schema';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   puissance: puissanceProductionAnnuelleSchema,
+  puissanceDeSite: puissanceDeSiteSchema,
   raison: zod.string().optional(),
 });
 
@@ -20,7 +24,7 @@ export type ModifierPuissanceFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, puissance, raison },
+  { identifiantProjet, puissance, raison, puissanceDeSite },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
@@ -31,6 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateModificationValue: new Date().toISOString(),
         raisonValue: raison,
         puissanceValue: puissance,
+        puissanceDeSiteValue: puissanceDeSite,
       },
     });
 

@@ -15,13 +15,14 @@ import { modifierPuissanceAction, ModifierPuissanceFormKeys } from './modifierPu
 export type ModifierPuissanceFormProps = PlainType<
   Pick<
     Lauréat.Puissance.ConsulterPuissanceReadModel,
-    'identifiantProjet' | 'puissance' | 'unitéPuissance'
+    'identifiantProjet' | 'puissance' | 'unitéPuissance' | 'puissanceDeSite'
   >
 >;
 
 export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
   identifiantProjet,
   puissance,
+  puissanceDeSite,
   unitéPuissance: { unité: unitéPuissance },
 }) => {
   const [validationErrors, setValidationErrors] = useState<
@@ -62,6 +63,21 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
             step: 'any',
           }}
         />
+        {puissanceDeSite !== 0 ? (
+          <Input
+            state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['puissanceDeSite']}
+            label={`Puissance de site (en ${unitéPuissance}) (optionnel)`}
+            nativeInputProps={{
+              name: 'puissanceDeSite',
+              defaultValue: puissanceDeSite,
+              type: 'number',
+              inputMode: 'decimal',
+              pattern: '[0-9]+([.][0-9]+)?',
+              step: 'any',
+            }}
+          />
+        ) : null}
         <Input
           textArea
           label={`Raison (optionnel)`}

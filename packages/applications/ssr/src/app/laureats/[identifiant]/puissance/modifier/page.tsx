@@ -26,6 +26,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       <ModifierPuissancePage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
         puissance={puissance.puissance}
+        puissanceDeSite={puissance.puissanceDeSite}
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
       />
     );
