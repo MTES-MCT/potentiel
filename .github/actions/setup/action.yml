@@ -15,7 +15,6 @@ runs:
       with:
         node-version-file: package.json
         cache: 'npm'
-      shell: bash
     - name: Restore node modules cache
       id: cache-node-modules
       uses: actions/cache/restore@v4
@@ -25,7 +24,6 @@ runs:
           packages/*/node_modules
           packages/*/*/node_modules
         key: ${{ inputs.cache-key }}
-      shell: bash
     - name: Restore turbo build cache
       uses: actions/cache/restore@v4
       with:
@@ -36,4 +34,3 @@ runs:
         key: ${{ runner.os }}-turbo-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-turbo-
-      shell: bash
