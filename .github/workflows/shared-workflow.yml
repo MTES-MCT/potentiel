@@ -4,9 +4,8 @@ on:
   workflow_call:
 
 jobs:
-  lint:
+  setup:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -14,11 +13,36 @@ jobs:
           node-version-file: package.json
           cache: 'npm'
       - run: npm ci
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm run lint
         env:
           NODE_OPTIONS: '--max-old-space-size=10240'
 
   build:
+    needs: setup
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: production
@@ -29,11 +53,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci --include=dev
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm run build
 
   get_tags:
+    needs: setup
     runs-on: ubuntu-latest
     outputs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
@@ -42,7 +72,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-      - run: npm ci
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - id: get-tags
         env:
           SPECS_WORKERS: ${{ vars.SPECS_WORKERS || '3' }}
@@ -51,7 +87,7 @@ jobs:
           echo "tag_chunks=$TAG_CHUNKS" >> $GITHUB_OUTPUT
 
   test_specs:
-    needs: get_tags
+    needs: [setup, get_tags]
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
@@ -65,14 +101,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
         run: |
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'map("\"" + . + "\"") | join(" or ")')
           npm run specs -- --tags "$TAGS_FILTER" --tags "not @NotImplemented"
 
   test_apps_libraries:
+    needs: setup
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
@@ -82,12 +124,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm run test:apps
       - run: npm run test:libraries
 
   verify_statistics:
+    needs: setup
     runs-on: ubuntu-latest
     env:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
@@ -97,8 +145,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci
+      - name: Restore node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - run: npm run build:cli
       - run: npm run up
       - run: npm exec potentiel-cli stats extraire
