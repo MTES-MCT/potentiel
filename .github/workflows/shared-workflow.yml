@@ -70,7 +70,7 @@ jobs:
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
         run: |
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
-          npm run specs -- --tags "$TAGS_FILTER" --tags "not @NotImplemented"
+          npm run specs -- --tags "$TAGS_FILTER"
 
   test_apps_libraries:
     runs-on: ubuntu-latest
