@@ -1,6 +1,5 @@
 # language: fr
 @candidature
-@select
 Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notification d'une période
 
     Plan du Scénario: Notifier un candidat lauréat

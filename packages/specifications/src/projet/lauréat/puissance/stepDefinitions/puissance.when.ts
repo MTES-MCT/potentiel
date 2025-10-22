@@ -54,19 +54,28 @@ async function modifierPuissance(
   modifiéPar: string,
   statutProjet?: 'lauréat' | 'éliminé',
   ratio?: number,
+  ratioPuissanceDeSite?: number,
 ) {
   const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
-  const { puissance, dateModification, raison } =
-    this.lauréatWorld.puissanceWorld.modifierPuissanceFixture.créer(
-      ratio !== undefined
+  const { puissance, puissanceDeSite, dateModification, raison } =
+    this.lauréatWorld.puissanceWorld.modifierPuissanceFixture.créer({
+      appelOffres: this.lauréatWorld.identifiantProjet.appelOffre,
+      ...(ratio !== undefined
         ? {
             puissance:
-              this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue *
+              this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle *
               ratio,
           }
-        : undefined,
-    );
+        : {}),
+      ...(ratioPuissanceDeSite !== undefined
+        ? {
+            puissanceDeSite:
+              (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite ?? 0) *
+              ratioPuissanceDeSite,
+          }
+        : {}),
+    });
 
   await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
@@ -74,6 +83,7 @@ async function modifierPuissance(
       identifiantProjetValue: identifiantProjet.formatter(),
       identifiantUtilisateurValue: modifiéPar,
       puissanceValue: puissance,
+      puissanceDeSiteValue: puissanceDeSite,
       dateModificationValue: dateModification,
       raisonValue: raison,
     },

@@ -6,7 +6,11 @@ export const puissanceModifiéeProjector = async ({
 }: Lauréat.Puissance.PuissanceModifiéeEvent) => {
   await updateOneProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
     puissance,
-    puissanceDeSite,
     miseÀJourLe: modifiéeLe,
+    ...(puissanceDeSite !== undefined
+      ? {
+          puissanceDeSite,
+        }
+      : {}),
   });
 };

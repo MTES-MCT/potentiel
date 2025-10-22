@@ -22,6 +22,7 @@ export async function waitForSagasNotificationsAndProjectionsToFinish() {
   // wait for sagas, notifications and projections to finish
   await waitForExpect(async () => {
     const pending = await executeSelect(queryPendingAcknowledgements);
+    console.log(pending);
     expect(pending).to.deep.eq([], "pending_acknowledgement n'est pas vide");
   });
 }

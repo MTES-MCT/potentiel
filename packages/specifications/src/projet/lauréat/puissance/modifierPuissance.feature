@@ -15,6 +15,18 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                            |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                 |
 
+    Scénario: Modifier la puissance d'un projet lauréat par un admin avec un champs spécifique
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
+            | ratio puissance de site | 2 |
+        Alors la puissance du projet lauréat devrait être mise à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Modification de la puissance du projet Du bouchon lyonnais dans le département(.*) |
+            | nom_projet | Du bouchon lyonnais                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                          |
+
     Scénario: Modifier la puissance d'un projet lauréat abandonné par un admin
         Etant donné un abandon accordé pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
