@@ -15,7 +15,7 @@ jobs:
           node-version-file: package.json
           cache: 'npm'
       - id: cache-key
-        run: echo "key=node-modules-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
+        run: echo "key=node-cache-${{ runner.os }}-${{ runner.arch }}-npm-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
       - name: Cache node modules
         id: cache-node-modules
         uses: actions/cache@v4
