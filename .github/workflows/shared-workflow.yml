@@ -38,6 +38,13 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
+      - name: Cache turbo build setup
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Restore node modules cache
         uses: actions/cache/restore@v4
         with:
@@ -47,13 +54,6 @@ jobs:
             packages/*/*/node_modules
           key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:dev
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-dev-artifacts
-          path: |
-            packages/*/*/dist
-          retention-days: 1
 
   lint:
     needs: setup
@@ -90,6 +90,13 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
+      - name: Cache turbo build restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Restore node modules cache
         uses: actions/cache/restore@v4
         with:
@@ -98,10 +105,6 @@ jobs:
             packages/*/node_modules
             packages/*/*/node_modules
           key: ${{ needs.setup.outputs.cache-key }}
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-dev-artifacts
       - run: npm run build
 
   get_tags:
@@ -114,6 +117,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
+      - name: Cache turbo build restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Restore node modules cache
         uses: actions/cache/restore@v4
         with:
@@ -146,6 +156,13 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
+      - name: Cache turbo build restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Restore node modules cache
         uses: actions/cache/restore@v4
         with:
@@ -154,10 +171,6 @@ jobs:
             packages/*/node_modules
             packages/*/*/node_modules
           key: ${{ needs.setup.outputs.cache-key }}
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-dev-artifacts
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
         run: |
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
@@ -175,6 +188,13 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
+      - name: Cache turbo build restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Restore node modules cache
         uses: actions/cache/restore@v4
         with:
@@ -183,10 +203,6 @@ jobs:
             packages/*/node_modules
             packages/*/*/node_modules
           key: ${{ needs.setup.outputs.cache-key }}
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-dev-artifacts
       - run: npm run test:apps
       - run: npm run test:libraries
 
@@ -202,6 +218,13 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
+      - name: Cache turbo build restore
+        uses: actions/cache/restore@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
       - name: Restore node modules cache
         uses: actions/cache/restore@v4
         with:
@@ -210,10 +233,6 @@ jobs:
             packages/*/node_modules
             packages/*/*/node_modules
           key: ${{ needs.setup.outputs.cache-key }}
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-dev-artifacts
       - run: npm run build:cli
       - run: npm run up
       - run: npm exec potentiel-cli stats extraire
