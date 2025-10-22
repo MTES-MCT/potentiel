@@ -20,8 +20,7 @@ export async function mockRécupererGarantiesFinancières(
         format: this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.attestation.format,
         identifiantProjet: identifiantProjet.formatter(),
         typeDocument:
-          Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières
-            .attestationGarantiesFinancièresActuellesValueType.type,
+          Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
       }),
     },
     garantiesFinancières: Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({

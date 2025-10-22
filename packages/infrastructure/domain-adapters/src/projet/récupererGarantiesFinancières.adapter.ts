@@ -54,12 +54,11 @@ export const récupererGarantiesFinancièresAdapter: Lauréat.GarantiesFinanciè
       }),
       attestation: {
         key: DocumentProjet.bind({
-          dateCréation: attestationEtDateConstitution.dateConstitution,
+          dateCréation: projet.candidature.notifiéeLe.formatter(),
           format: attestationEtDateConstitution.attestation.format,
           identifiantProjet: identifiantProjet.formatter(),
           typeDocument:
-            Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières
-              .attestationGarantiesFinancièresActuellesValueType.type,
+            Lauréat.GarantiesFinancières.TypeDocumentGarantiesFinancières.attestationGarantiesFinancièresActuellesValueType.formatter(),
         }),
         content: attestationEtDateConstitution.attestation.content,
       },

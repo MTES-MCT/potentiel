@@ -196,6 +196,7 @@ Fonctionnalité: Importer une candidature
             | installation avec dispositif de stockage | non             |
         Alors l'administrateur devrait être informé que "Le dispositif de stockage n'est pas attendu pour cet appel d'offres"
 
+    # garanties financières - début
     Plan du Scénario: Importer une candidature avec les différents types de garanties financières
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut          | classé            |
@@ -256,3 +257,6 @@ Fonctionnalité: Importer une candidature
             | appel d'offres | PPE2 - Bâtiment |
             | type GF        | exemption       |
         Alors l'administrateur devrait être informé que "Ce type de garanties financières n'est pas disponible pour cet appel d'offres"
+
+
+# garanties financières - fin

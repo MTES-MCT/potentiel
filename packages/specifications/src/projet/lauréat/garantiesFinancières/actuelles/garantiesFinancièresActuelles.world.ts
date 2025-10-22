@@ -37,9 +37,10 @@ export class GarantiesFinancièresActuellesWorld {
 
     return mapToExemple(exemple, garantiesFinancièresMap);
   }
+
   mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
-    const actions = [this.importer, this.enregistrer, this.modifier, this.enregistrerAttestation]
+    const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
       .filter((action) => action.aÉtéCréé)
       .sort((a, b) => a.enregistréLe.localeCompare(b.enregistréLe));
 
@@ -53,20 +54,26 @@ export class GarantiesFinancièresActuellesWorld {
       dateConstitutionGf,
       attestationConstitutionGf,
     } = dépôtCandidature;
-    const valeurImport = typeGarantiesFinancières
+
+    const garantiesFinancièresÀLaDésignation = typeGarantiesFinancières
       ? ({
           garantiesFinancières:
             Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
               type: typeGarantiesFinancières,
               dateÉchéance: dateÉchéanceGf,
-              attestation: attestationConstitutionGf,
-              dateConstitution: dateConstitutionGf,
+              attestation: this.importer.aÉtéCréé
+                ? this.importer.attestation
+                : attestationConstitutionGf,
+              dateConstitution: this.importer.aÉtéCréé
+                ? this.importer.dateConstitution
+                : dateConstitutionGf,
             }),
           statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
           dernièreMiseÀJour: {
             date: DateTime.convertirEnValueType(notifiéLe),
           },
           identifiantProjet,
+          document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
         } satisfies Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel)
       : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
 
@@ -75,7 +82,7 @@ export class GarantiesFinancièresActuellesWorld {
         ...prev,
         ...curr.mapToExpected(),
       }),
-      valeurImport,
+      garantiesFinancièresÀLaDésignation,
     );
 
     const sontÉchues =
@@ -95,5 +102,7 @@ export class GarantiesFinancièresActuellesWorld {
     if (lastAction) {
       return lastAction.attestation;
     }
+
+    return this.importer.attestation;
   }
 }
