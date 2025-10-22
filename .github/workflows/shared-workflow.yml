@@ -191,7 +191,7 @@ jobs:
       - run: npm run test:libraries
 
   verify_statistics:
-    needs: setup
+    needs: [setup, build_dev]
     runs-on: ubuntu-latest
     env:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
@@ -210,6 +210,10 @@ jobs:
             packages/*/node_modules
             packages/*/*/node_modules
           key: ${{ needs.setup.outputs.cache-key }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-dev-artifacts
       - run: npm run build:cli
       - run: npm run up
       - run: npm exec potentiel-cli stats extraire
