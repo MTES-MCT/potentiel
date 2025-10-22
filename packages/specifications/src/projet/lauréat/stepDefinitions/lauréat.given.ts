@@ -9,11 +9,14 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
 import { choisirCahierDesCharges } from './lauréat.when';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, { nomProjet, statut: 'classé' });
+
+  await waitForSagasNotificationsAndProjectionsToFinish();
 
   await notifierLauréat.call(this);
 });
