@@ -71,6 +71,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
+      - run: npm i -g tsx
       - id: get-tags
         env:
           SPECS_WORKERS: ${{ vars.SPECS_WORKERS || '3' }}
