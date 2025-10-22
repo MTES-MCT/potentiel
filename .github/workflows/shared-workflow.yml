@@ -46,8 +46,6 @@ jobs:
             packages/*/dist
             packages/*/*/dist
           key: ${{ runner.os }}-turbo-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-turbo-
 
   lint:
     needs: setup
