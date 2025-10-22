@@ -81,9 +81,6 @@ jobs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup
-        with:
-          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm i -g tsx
       - id: get-tags
         env:
