@@ -4,7 +4,57 @@ on:
   workflow_call:
 
 jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.key }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: 'npm'
+      - id: cache-key
+        run: echo "key=node-modules-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
+      - name: Cache node modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ steps.cache-key.outputs.key }}
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --include=dev
+
+  build_dev:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: 'npm'
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+      - run: npm run build:dev
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-dev-artifacts
+          path: |
+            packages/*/*/dist
+          retention-days: 1
+
   lint:
+    needs: setup
     runs-on: ubuntu-latest
 
     steps:
@@ -13,12 +63,19 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
-      - run: npm ci
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run lint
         env:
           NODE_OPTIONS: '--max-old-space-size=10240'
 
   build:
+    needs: [setup, build_dev]
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: production
@@ -30,10 +87,21 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
-      - run: npm ci --include=dev
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-dev-artifacts
       - run: npm run build
 
   get_tags:
+    needs: setup
     runs-on: ubuntu-latest
     outputs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
@@ -42,6 +110,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
       - run: npm i -g tsx
       - id: get-tags
         env:
@@ -51,7 +126,7 @@ jobs:
           echo "tag_chunks=$TAG_CHUNKS" >> $GITHUB_OUTPUT
 
   test_specs:
-    needs: get_tags
+    needs: [setup, get_tags, build_dev]
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
@@ -66,13 +141,24 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
-      - run: npm ci
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-dev-artifacts
       - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
         run: |
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
           npm run specs -- --tags "$TAGS_FILTER"
 
   test_apps_libraries:
+    needs: [setup, build_dev]
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
@@ -83,11 +169,22 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
-      - run: npm ci
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-dev-artifacts
       - run: npm run test:apps
       - run: npm run test:libraries
 
   verify_statistics:
+    needs: setup
     runs-on: ubuntu-latest
     env:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
@@ -98,7 +195,13 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
-      - run: npm ci
+      - name: Restore node modules cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:cli
       - run: npm run up
       - run: npm exec potentiel-cli stats extraire
