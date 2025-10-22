@@ -4,16 +4,19 @@
   "tasks": {
     "build": {
       "inputs": ["src/**/*.{ts,tsx}"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build"],
       "outputLogs": "new-only"
     },
     "build:dev": {
       "inputs": ["src/**/*.{ts,tsx}"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build:dev"],
       "outputLogs": "new-only"
     },
     "build:test": {
       "inputs": ["src/**/*.{ts,tsx}"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build:test"],
       "outputLogs": "new-only"
     },
