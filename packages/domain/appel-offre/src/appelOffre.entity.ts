@@ -292,7 +292,7 @@ export type Periode = {
     paragrapheECS?: string;
   };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
-  numéroDémarche?: string;
+  importAvecDS?: true;
 } & (NotifiedPeriode | LegacyPeriode);
 
 // Territoire

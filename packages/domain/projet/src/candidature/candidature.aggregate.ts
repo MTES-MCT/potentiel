@@ -440,7 +440,7 @@ export class CandidatureAggregate extends AbstractAggregate<
   private vérifierSiLesGarantiesFinancièresPeuventContenirLesInformationsDeConstitution(
     garantiesFinancières: GarantiesFinancières.ValueType | undefined,
   ) {
-    if (this.projet.période.numéroDémarche && garantiesFinancières?.constitution) {
+    if (this.projet.période.importAvecDS && garantiesFinancières?.constitution) {
       throw new InformationsDeConstitutionDesGarantiesFinancièresNonAttenduesPourCettePériodeError();
     }
   }

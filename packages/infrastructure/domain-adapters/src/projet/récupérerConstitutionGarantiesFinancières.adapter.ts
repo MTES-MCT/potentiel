@@ -21,7 +21,7 @@ export const récupererConstututionGarantiesFinancièresAdapter: Lauréat.Garant
     }
 
     // Pour les périodes importées via CSV, on a uniquement le type de GF, dans la candidatures
-    if (!périodeCible.numéroDémarche) {
+    if (!périodeCible.importAvecDS) {
       return undefined;
     }
 
