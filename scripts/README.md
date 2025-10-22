@@ -8,25 +8,26 @@ This script parses all Cucumber/Gherkin feature files in `packages/specification
 
 ### Usage
 
-Get all tags as a flat array:
+Get tags chunked into groups for parallel execution (defaults to 3 workers):
 ```bash
 npx tsx scripts/get-feature-tags.ts
 ```
 
-Get tags chunked into groups for parallel execution:
+Override the number of workers with environment variable:
 ```bash
-npx tsx scripts/get-feature-tags.ts --chunks=3
+SPECS_WORKERS=4 npx tsx scripts/get-feature-tags.ts
+```
+
+Or use command-line argument:
+```bash
+npx tsx scripts/get-feature-tags.ts --chunks=5
 ```
 
 ### Output
 
-The script outputs a JSON array of distinct tags (sorted alphabetically):
+The script outputs an array of arrays (tags chunked by worker):
 
-```json
-["@abandon","@achèvement","@actionnaire","@cahier-des-charges",...]
-```
-
-With `--chunks=3`, it outputs an array of arrays:
+With default (3 workers):
 ```json
 [
   ["@abandon","@achèvement","@actionnaire",...],
@@ -46,4 +47,4 @@ All feature files must have a tag at the top of the file (after the `# language:
 
 ### Integration with GitHub Actions
 
-This script is used in the GitHub Actions workflow (`.github/workflows/shared-workflow.yml`) to run Cucumber tests in a matrix with 3 parallel workers, where each worker runs tests for a subset of tags.
+This script is used in the GitHub Actions workflow (`.github/workflows/shared-workflow.yml`) to run Cucumber tests in a matrix with parallel workers. The number of workers can be configured via the `SPECS_WORKERS` repository variable (defaults to 3 if not set).

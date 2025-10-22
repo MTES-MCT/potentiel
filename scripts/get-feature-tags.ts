@@ -10,8 +10,9 @@
  * - Exits with error code 1 if any file doesn't have a tag at the top
  *
  * Usage:
- *   node scripts/get-feature-tags.ts              # Returns flat array of tags
- *   node scripts/get-feature-tags.ts --chunks 3   # Returns array chunked into 3 groups
+ *   node scripts/get-feature-tags.ts              # Returns array chunked into 3 groups (default)
+ *   node scripts/get-feature-tags.ts --chunks=5   # Returns array chunked into 5 groups
+ *   SPECS_WORKERS=4 node scripts/get-feature-tags.ts  # Returns array chunked into 4 groups
  */
 
 import fs from 'fs';
@@ -126,18 +127,29 @@ function main(): void {
   // Output the tags as a JSON array
   const sortedTags = Array.from(tags).sort();
 
-  // Check if chunking is requested
+  // Check if chunking is requested (from argument or environment variable)
   const chunksArg = process.argv.find((arg) => arg.startsWith('--chunks'));
+  const chunksFromEnv = process.env.SPECS_WORKERS;
+  
+  let chunks: number | undefined;
+  
   if (chunksArg) {
-    const chunks = parseInt(chunksArg.split('=')[1], 10);
+    chunks = parseInt(chunksArg.split('=')[1], 10);
+  } else if (chunksFromEnv) {
+    chunks = parseInt(chunksFromEnv, 10);
+  }
+  
+  if (chunks !== undefined) {
     if (isNaN(chunks) || chunks < 1) {
-      console.error('Error: --chunks must be a positive integer');
+      console.error('Error: chunks must be a positive integer');
       process.exit(1);
     }
     const chunkedTags = chunkArray(sortedTags, chunks);
     console.log(JSON.stringify(chunkedTags));
   } else {
-    console.log(JSON.stringify(sortedTags));
+    // Default to 3 workers if no argument or env var provided
+    const chunkedTags = chunkArray(sortedTags, 3);
+    console.log(JSON.stringify(chunkedTags));
   }
 }
 
