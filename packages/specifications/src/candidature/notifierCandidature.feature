@@ -59,7 +59,7 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
         Et l'attestation de désignation de la candidature devrait être consultable
 
     Scénario: Impossible de notifier une candidature déjà notifiée
-        Etant donné la candidature lauréate notifiée "Boulodrome de Lyon"
+        Etant donné le projet lauréat "Boulodrome de Lyon"
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le DGEC validateur devrait être informé que "La candidature est déjà notifiée"
 
