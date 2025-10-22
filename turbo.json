@@ -5,7 +5,7 @@
     "build": {
       "inputs": ["src/**/*.{ts,tsx}"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build:dev", "^build"],
       "outputLogs": "new-only"
     },
     "build:dev": {
