@@ -41,7 +41,10 @@ jobs:
       - name: Cache turbo build setup
         uses: actions/cache@v4
         with:
-          path: .turbo
+          path: |
+            .turbo
+            packages/*/dist
+            packages/*/*/dist
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
@@ -93,7 +96,10 @@ jobs:
       - name: Cache turbo build restore
         uses: actions/cache/restore@v4
         with:
-          path: .turbo
+          path: |
+            .turbo
+            packages/*/dist
+            packages/*/*/dist
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
@@ -120,7 +126,10 @@ jobs:
       - name: Cache turbo build restore
         uses: actions/cache/restore@v4
         with:
-          path: .turbo
+          path: |
+            .turbo
+            packages/*/dist
+            packages/*/*/dist
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
@@ -159,7 +168,10 @@ jobs:
       - name: Cache turbo build restore
         uses: actions/cache/restore@v4
         with:
-          path: .turbo
+          path: |
+            .turbo
+            packages/*/dist
+            packages/*/*/dist
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
@@ -191,7 +203,10 @@ jobs:
       - name: Cache turbo build restore
         uses: actions/cache/restore@v4
         with:
-          path: .turbo
+          path: |
+            .turbo
+            packages/*/dist
+            packages/*/*/dist
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
@@ -221,7 +236,10 @@ jobs:
       - name: Cache turbo build restore
         uses: actions/cache/restore@v4
         with:
-          path: .turbo
+          path: |
+            .turbo
+            packages/*/dist
+            packages/*/*/dist
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
