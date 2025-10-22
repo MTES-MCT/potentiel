@@ -12,7 +12,7 @@ jobs:
         with:
           node-version-file: package.json
           cache: 'npm'
-      - run: npm ci
+      - run: npm ci --include=dev
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
@@ -63,7 +63,6 @@ jobs:
       - run: npm run build
 
   get_tags:
-    needs: setup
     runs-on: ubuntu-latest
     outputs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
@@ -72,18 +71,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
-      - name: Restore node_modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
       - id: get-tags
         env:
           SPECS_WORKERS: ${{ vars.SPECS_WORKERS || '3' }}
         run: |
-          TAG_CHUNKS=$(npx tsx scripts/get-feature-tags.ts)
+          TAG_CHUNKS=$(.github/get-feature-tags.ts)
           echo "tag_chunks=$TAG_CHUNKS" >> $GITHUB_OUTPUT
 
   test_specs:

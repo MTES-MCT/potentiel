@@ -10,9 +10,8 @@
  * - Exits with error code 1 if any file doesn't have a tag at the top
  *
  * Usage:
- *   node scripts/get-feature-tags.ts              # Returns array chunked into 3 groups (default)
- *   node scripts/get-feature-tags.ts --chunks=5   # Returns array chunked into 5 groups
- *   SPECS_WORKERS=4 node scripts/get-feature-tags.ts  # Returns array chunked into 4 groups
+ *   node ./get-feature-tags.ts --chunks=5   # Returns array chunked into 5 groups
+ *   SPECS_WORKERS=4 node ./get-feature-tags.ts  # Returns array chunked into 4 groups
  */
 
 import fs from 'fs';
@@ -89,7 +88,30 @@ function chunkArray<T>(array: T[], chunks: number): T[][] {
   return result;
 }
 
+function getChunkSizeArg() {
+  const chunksArg = process.argv.find((arg) => arg.startsWith('--chunks'));
+  const chunksFromEnv = process.env.SPECS_WORKERS;
+
+  let chunks: number | undefined;
+
+  if (chunksArg) {
+    chunks = parseInt(chunksArg.split('=')[1], 10);
+  } else if (chunksFromEnv) {
+    chunks = parseInt(chunksFromEnv, 10);
+  } else {
+    console.error('Error: chunks argument is required');
+    process.exit(1);
+  }
+
+  if (!chunks || isNaN(chunks) || chunks < 1) {
+    console.error('Error: chunks must be a positive integer');
+    process.exit(1);
+  }
+  return chunks;
+}
+
 function main(): void {
+  const chunkSize = getChunkSizeArg();
   const specsDir = path.join(__dirname, '..', 'packages', 'specifications', 'src');
 
   if (!fs.existsSync(specsDir)) {
@@ -126,31 +148,8 @@ function main(): void {
 
   // Output the tags as a JSON array
   const sortedTags = Array.from(tags).sort();
-
-  // Check if chunking is requested (from argument or environment variable)
-  const chunksArg = process.argv.find((arg) => arg.startsWith('--chunks'));
-  const chunksFromEnv = process.env.SPECS_WORKERS;
-  
-  let chunks: number | undefined;
-  
-  if (chunksArg) {
-    chunks = parseInt(chunksArg.split('=')[1], 10);
-  } else if (chunksFromEnv) {
-    chunks = parseInt(chunksFromEnv, 10);
-  }
-  
-  if (chunks !== undefined) {
-    if (isNaN(chunks) || chunks < 1) {
-      console.error('Error: chunks must be a positive integer');
-      process.exit(1);
-    }
-    const chunkedTags = chunkArray(sortedTags, chunks);
-    console.log(JSON.stringify(chunkedTags));
-  } else {
-    // Default to 3 workers if no argument or env var provided
-    const chunkedTags = chunkArray(sortedTags, 3);
-    console.log(JSON.stringify(chunkedTags));
-  }
+  const chunkedTags = chunkArray(sortedTags, chunkSize);
+  console.log(JSON.stringify(chunkedTags));
 }
 
 main();
