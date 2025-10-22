@@ -63,7 +63,7 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
             step: 'any',
           }}
         />
-        {puissanceDeSite !== 0 ? (
+        {puissanceDeSite !== undefined ? (
           <Input
             state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['puissanceDeSite']}
