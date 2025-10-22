@@ -2,6 +2,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getAttestationGarantiesFinancières } from '@potentiel-infrastructure/ds-api-client';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { loadAppelOffreAggregateAdapter } from '../appel-offre/loadAppelOffreAggregate.adapter';
 
@@ -10,6 +11,7 @@ import { getProjetAggregateRootAdapter } from './getProjetAggregateRoot.adapter'
 export const récupererGarantiesFinancièresAdapter: Lauréat.GarantiesFinancières.RécupérerGarantiesFinancièresPort =
   async (identifiantProjet) => {
     const ao = await loadAppelOffreAggregateAdapter(identifiantProjet.appelOffre);
+    const logger = getLogger('récupererGarantiesFinancièresAdapter');
 
     if (Option.isNone(ao)) {
       throw new Error("Appel d'offre introuvable");
@@ -40,7 +42,8 @@ export const récupererGarantiesFinancièresAdapter: Lauréat.GarantiesFinanciè
     );
 
     if (Option.isNone(attestationEtDateConstitution)) {
-      throw new Error('Aucune garantie financière trouvée pour ce projet');
+      logger.warn('Aucune garantie financière trouvée pour ce projet');
+      return;
     }
 
     return {
