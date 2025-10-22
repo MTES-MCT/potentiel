@@ -60,7 +60,7 @@ export const getInstallation = async ({
     if (Option.isSome(installationProjection) && Option.isSome(cahierDesCharges)) {
       const { installateur, typologieInstallation, dispositifDeStockage } = installationProjection;
       const {
-        installateur: champSuppléméntaireInstallateur,
+        installateur: champSupplémentaireInstallateur,
         dispositifDeStockage: champSupplémentaireDispositifDeStockage,
       } = cahierDesCharges.getChampsSupplémentaires();
 
@@ -92,7 +92,7 @@ export const getInstallation = async ({
         }
       }
 
-      if (champSuppléméntaireInstallateur) {
+      if (champSupplémentaireInstallateur) {
         data.installateur = { value: installateur };
         if (role.aLaPermission('installation.installateur.modifier')) {
           data.installateur.affichage = {
