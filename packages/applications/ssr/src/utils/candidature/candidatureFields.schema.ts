@@ -9,7 +9,6 @@ import {
   optionalDateSchema,
   optionalEnum,
   optionalEnumForCorrection,
-  optionalNumberSchema,
   optionalPercentageSchema,
   optionalStrictlyPositiveNumberSchema,
   optionalStringSchema,
@@ -73,7 +72,7 @@ export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 export const choixCoefficientKSchema = booleanSchema.optional();
 export const obligationDeSolarisationSchema = booleanSchema.optional();
 
-export const puissanceDeSiteSchema = optionalNumberSchema;
+export const puissanceDeSiteSchema = optionalStrictlyPositiveNumberSchema;
 
 export const dateDAutorisationDUrbanismeSchema = optionalDateSchema;
 export const numéroDAutorisationDUrbanismeSchema = optionalStringSchema;
