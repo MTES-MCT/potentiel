@@ -49,6 +49,16 @@ EtantDonné(
   },
 );
 
+EtantDonné(
+  'des garanties financières déposées avec la candidature',
+  async function (this: PotentielWorld) {
+    this.lauréatWorld.garantiesFinancièresWorld.actuelles.importer.créer({
+      type: this.candidatureWorld.importerCandidature.dépôtValue.typeGarantiesFinancières,
+      dateÉchéance: this.candidatureWorld.importerCandidature.dépôtValue.dateÉchéanceGf,
+    });
+  },
+);
+
 export async function enregistrerAttestation(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,

@@ -238,7 +238,7 @@ export class LauréatAggregate extends AbstractAggregate<
 
   async notifier({
     attestation: { format },
-    importerGarantiesFinancières,
+    garantiesFinancières,
     notifiéLe,
     notifiéPar,
   }: NotifierOptions) {
@@ -262,9 +262,9 @@ export class LauréatAggregate extends AbstractAggregate<
     await this.publish(event);
 
     // Garanties Financières
-    if (importerGarantiesFinancières && this.projet.candidature.garantiesFinancières) {
+    if (garantiesFinancières) {
       await this.garantiesFinancières.importer({
-        garantiesFinancières: this.projet.candidature.garantiesFinancières,
+        garantiesFinancières,
         importéLe: notifiéLe,
       });
     }

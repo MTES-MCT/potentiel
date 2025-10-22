@@ -40,6 +40,8 @@ Fonctionnalité: Notifier une candidature d'un appel d'offres, suite à la notif
             | installateur                             | Installeur.INC                   |
             | installation avec dispositif de stockage | oui                              |
             | type de nature de l'exploitation         | vente-avec-injection-en-totalité |
+            | type GF                                  | consignation                     |
+        Et des garanties financières déposées avec la candidature
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet lauréat devrait être consultable
         Et le producteur du projet lauréat devrait être mis à jour

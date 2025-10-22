@@ -1,3 +1,3 @@
 export * from './getProjetAggregateRoot.adapter';
 export * from './récupérerProjetsEligiblesPreuveRecanditureAdapter.adapter';
-export * from './téléchargerAttestationGarantiesFinancières.adapter';
+export * from './récupererGarantiesFinancières.adapter';

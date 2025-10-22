@@ -11,18 +11,21 @@ import {
 import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture';
 import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture';
 import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture';
+import { ImporterGarantiesFinancièresFixture } from './fixtures/importerGarantiesFinancières.fixture';
 
 export class GarantiesFinancièresActuellesWorld {
   readonly modifier: ModifierGarantiesFinancièresFixture;
   readonly enregistrer: EnregistrerGarantiesFinancièresFixture;
   readonly enregistrerAttestation: EnregistrerAttestationGarantiesFinancièresFixture;
   readonly demander: DemanderGarantiesFinancièresFixture;
+  readonly importer: ImporterGarantiesFinancièresFixture;
 
   constructor(public readonly garantiesFinancièresWorld: GarantiesFinancièresWorld) {
     this.modifier = new ModifierGarantiesFinancièresFixture(this);
     this.enregistrer = new EnregistrerGarantiesFinancièresFixture(this);
     this.enregistrerAttestation = new EnregistrerAttestationGarantiesFinancièresFixture(this);
     this.demander = new DemanderGarantiesFinancièresFixture(this);
+    this.importer = new ImporterGarantiesFinancièresFixture(this);
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>): EnregistrerGarantiesFinancièresProps {
@@ -36,7 +39,7 @@ export class GarantiesFinancièresActuellesWorld {
   }
   mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
-    const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
+    const actions = [this.importer, this.enregistrer, this.modifier, this.enregistrerAttestation]
       .filter((action) => action.aÉtéCréé)
       .sort((a, b) => a.enregistréLe.localeCompare(b.enregistréLe));
 

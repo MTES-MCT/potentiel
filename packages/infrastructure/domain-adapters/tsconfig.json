@@ -25,6 +25,12 @@
     },
     {
       "path": "../../domain/projet"
+    },
+    {
+      "path": "../../infrastructure/pg-projection-read"
+    },
+    {
+      "path": "../../infrastructure/ds-api-client"
     }
   ]
 }

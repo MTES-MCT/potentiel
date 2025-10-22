@@ -7,7 +7,7 @@ import { setupCandidature } from './setupCandidature.js';
 import { setupAccès } from './setupAccès.js';
 
 export const setupProjet: SetupProjet = async (dependencies) => {
-  ProjetSaga.register();
+  ProjetSaga.register(dependencies);
 
   const unsetupÉliminé = await setupÉliminé(dependencies);
   const unsetupLauréat = await setupLauréat(dependencies);

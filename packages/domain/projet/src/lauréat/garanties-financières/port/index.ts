@@ -1,1 +1,1 @@
-export * from './téléchargerAttestationGarantiesFinancières.port';
+export * from './récupérerGarantiesFinancières.port';

@@ -4,6 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 import { IdentifiantProjet } from '../..';
+import { GarantiesFinancières } from '../garanties-financières';
 
 export type NotifierLauréatCommand = Message<
   'Lauréat.Command.NotifierLauréat',
@@ -12,6 +13,7 @@ export type NotifierLauréatCommand = Message<
     notifiéLe: DateTime.ValueType;
     notifiéPar: Email.ValueType;
     attestation: { format: string };
+    garantiesFinancières: GarantiesFinancières.ValueType | undefined;
   }
 >;
 
@@ -21,12 +23,13 @@ export const registerNotifierLauréatCommand = (getProjetAggregateRoot: GetProje
     identifiantProjet,
     notifiéLe,
     notifiéPar,
+    garantiesFinancières,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.notifier({
       attestation: { format: attestation.format },
-      importerGarantiesFinancières: true,
+      garantiesFinancières,
       notifiéLe,
       notifiéPar,
     });

@@ -1,6 +1,7 @@
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 import { seedAppelOffre } from '@potentiel-applications/projectors';
+import { ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { setupProjet } from './setupProjet/index.js';
 import { setupHistorique } from './setupHistorique.js';
@@ -11,6 +12,7 @@ import { setupRéseau } from './setupRéseau.js';
 const defaultDependencies = {
   sendEmail,
   récupérerGRDParVille,
+  récupererGarantiesFinancières: ProjetAdapter.récupererGarantiesFinancièresAdapter,
 };
 
 export type SetupSubscribersProps = {
