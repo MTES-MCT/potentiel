@@ -33,6 +33,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -53,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -68,6 +70,7 @@ jobs:
       NODE_ENV: production
 
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -79,6 +82,7 @@ jobs:
     outputs:
       tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -101,6 +105,7 @@ jobs:
         tags: ${{ fromJson(needs.get_tags.outputs.tag_chunks) }}
 
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -116,6 +121,7 @@ jobs:
       APPLICATION_STAGE: test
 
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
@@ -129,6 +135,7 @@ jobs:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
       APPLICATION_STAGE: production
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
         with:
           cache-key: ${{ needs.setup.outputs.cache-key }}
