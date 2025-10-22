@@ -42,6 +42,7 @@ Quand(
         this.utilisateurWorld.adminFixture.email,
         'lauréat',
         Number(exemple['ratio puissance']),
+        Number(exemple['ratio puissance de site']),
       );
     } catch (error) {
       this.error = error as Error;
