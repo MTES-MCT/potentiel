@@ -8,9 +8,14 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupGarantiesFinancières: SetupProjet = async ({ sendEmail }) => {
+export const setupGarantiesFinancières: SetupProjet = async ({
+  sendEmail,
+  récupererConstitutionGarantiesFinancières,
+}) => {
   const garantiesFinancières = createSubscriptionSetup('garanties-financieres');
-  Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.register();
+  Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.register({
+    récupererConstitutionGarantiesFinancières,
+  });
 
   GarantiesFinancièreProjector.register();
   await garantiesFinancières.setupSubscription<

@@ -15,7 +15,8 @@
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
-    "@potentiel-libraries/monads": "*"
+    "@potentiel-libraries/monads": "*",
+    "mediateur": "^0.3.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
