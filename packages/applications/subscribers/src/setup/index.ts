@@ -12,7 +12,8 @@ import { setupRéseau } from './setupRéseau.js';
 const defaultDependencies = {
   sendEmail,
   récupérerGRDParVille,
-  récupererGarantiesFinancières: ProjetAdapter.récupererGarantiesFinancièresAdapter,
+  récupererConstitutionGarantiesFinancières:
+    ProjetAdapter.récupererConstututionGarantiesFinancièresAdapter,
 };
 
 export type SetupSubscribersProps = {

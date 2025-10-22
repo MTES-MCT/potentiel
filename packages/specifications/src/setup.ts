@@ -141,7 +141,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
     dependencies: {
       sendEmail: mockEmailAdapter.bind(this),
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
-      récupererGarantiesFinancières: mockRécupererGarantiesFinancières.bind(this),
+      récupererConstitutionGarantiesFinancières: mockRécupererGarantiesFinancières.bind(this),
     },
   });
 
