@@ -57,12 +57,16 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
       .with(
         { type: 'TâchePlanifiéeExecutée-V1' },
         async ({ payload: { typeTâchePlanifiée, identifiantProjet, exécutéeLe } }) => {
-          if (typeTâchePlanifiée === TypeTâchePlanifiéeRaccordement.premièreRelanceDeuxMois.type) {
+          if (
+            typeTâchePlanifiée ===
+            TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement.type
+          ) {
             await mediator.send<AjouterTâchePlanifiéeCommand>({
               type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
               data: {
                 identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-                typeTâchePlanifiée: TypeTâchePlanifiéeRaccordement.relanceUnMois.type,
+                typeTâchePlanifiée:
+                  TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement.type,
                 àExécuterLe: DateTime.convertirEnValueType(exécutéeLe).ajouterNombreDeMois(1),
               },
             });

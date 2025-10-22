@@ -30,10 +30,6 @@ export class TâchePlanifiéeAggregate extends AbstractAggregate<
     );
   }
 
-  get àExécuterLe() {
-    return this.#àExécuterLe;
-  }
-
   async ajouter({ àExécuterLe }: AjouterOptions) {
     if (!this.#àExécuterLe?.estÉgaleÀ(àExécuterLe) || this.#statut.estAnnulé()) {
       const event: TâchePlanifiéeAjoutéeEvent = {

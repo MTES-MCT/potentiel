@@ -1,4 +1,4 @@
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
@@ -28,10 +28,7 @@ export const tâchePlanifiéeRaccordementNotifications = (
   return match(props.payload)
     .with(
       {
-        typeTâchePlanifiée: P.union(
-          'demande-complète-raccordement.première-relance-deux-mois',
-          'demande-complète-raccordement.relance-un-mois',
-        ),
+        typeTâchePlanifiée: 'demande-complète-raccordement.relance',
       },
       () => demandeComplèteRaccordementAttendueRelanceNotification(props),
     )

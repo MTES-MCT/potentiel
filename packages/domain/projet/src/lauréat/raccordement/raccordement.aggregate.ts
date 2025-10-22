@@ -124,8 +124,7 @@ export class RaccordementAggregate extends AbstractAggregate<
   #tâcheGestionnaireRéseauInconnuAttribué!: AggregateType<TâcheAggregate>;
 
   // Tâches planifiées
-  #tâchePlanifiéePremièreRelanceDemandeComplèteRaccordementDeuxMois!: AggregateType<TâchePlanifiéeAggregate>;
-  #tâchePlanifiéeRelanceDemandeComplèteRaccordementUnMois!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeRelanceDemandeComplèteRaccordement!: AggregateType<TâchePlanifiéeAggregate>;
 
   async init() {
     this.#gestionnaireRéseau = await this.loadGestionnaireRéseau(
@@ -144,13 +143,9 @@ export class RaccordementAggregate extends AbstractAggregate<
       TypeTâche.raccordementGestionnaireRéseauInconnuAttribué.type,
     );
 
-    this.#tâchePlanifiéePremièreRelanceDemandeComplèteRaccordementDeuxMois =
-      await this.lauréat.loadTâchePlanifiée(
-        TypeTâchePlanifiéeRaccordement.premièreRelanceDeuxMois.type,
-      );
-
-    this.#tâchePlanifiéeRelanceDemandeComplèteRaccordementUnMois =
-      await this.lauréat.loadTâchePlanifiée(TypeTâchePlanifiéeRaccordement.relanceUnMois.type);
+    this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement.type,
+    );
   }
 
   get lauréat() {
@@ -218,38 +213,20 @@ export class RaccordementAggregate extends AbstractAggregate<
     return !date.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
   }
 
-  private async planifierPremièreRelanceDemandeComplèteRaccordementÀDeuxMois(
-    dateDésignation: DateTime.ValueType,
-  ) {
+  private async planifierRelanceDemandeComplèteRaccordement(àExécuterLe: DateTime.ValueType) {
     if (
       !this.lauréat.parent.appelOffre
         .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
     ) {
       return;
     }
-    await this.#tâchePlanifiéePremièreRelanceDemandeComplèteRaccordementDeuxMois.ajouter({
-      àExécuterLe: dateDésignation.ajouterNombreDeMois(2),
+    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.ajouter({
+      àExécuterLe,
     });
   }
 
-  private async planifierRelanceDemandeComplèteRaccordementÀUnMois(
-    dateDernièreRelance: DateTime.ValueType,
-  ) {
-    if (
-      !this.lauréat.parent.appelOffre
-        .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
-    ) {
-      return;
-    }
-
-    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordementUnMois.ajouter({
-      àExécuterLe: dateDernièreRelance.ajouterNombreDeMois(1),
-    });
-  }
-
-  private async annulerTâchesPlanifiéesRelanceDCR() {
-    await this.#tâchePlanifiéePremièreRelanceDemandeComplèteRaccordementDeuxMois.annuler();
-    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordementUnMois.annuler();
+  private async annulerTâchePlanifiéeRelanceDCR() {
+    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
   }
 
   async loadGestionnaireRéseau(codeEIC: string) {
@@ -301,8 +278,8 @@ export class RaccordementAggregate extends AbstractAggregate<
       this.parent.projet.appelOffre
         .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
     ) {
-      await this.planifierPremièreRelanceDemandeComplèteRaccordementÀDeuxMois(
-        this.lauréat.notifiéLe,
+      await this.planifierRelanceDemandeComplèteRaccordement(
+        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
       );
     }
   }
@@ -328,17 +305,6 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     if (dossiersRestants.length === 0) {
       await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
-      if (
-        this.parent.projet.appelOffre
-          .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
-      ) {
-        const dernièreRelance =
-          this.#tâchePlanifiéeRelanceDemandeComplèteRaccordementUnMois.àExécuterLe ||
-          this.#tâchePlanifiéePremièreRelanceDemandeComplèteRaccordementDeuxMois.àExécuterLe;
-
-        dernièreRelance &&
-          (await this.planifierRelanceDemandeComplèteRaccordementÀUnMois(dernièreRelance));
-      }
     }
     const dossiersSansAccuséDeRéception = dossiersRestants.filter((dossier) =>
       Option.isSome(dossier.demandeComplèteRaccordement.format),
@@ -498,7 +464,7 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     }
 
-    await this.annulerTâchesPlanifiéesRelanceDCR();
+    await this.annulerTâchePlanifiéeRelanceDCR();
   }
 
   async transmettreDateMiseEnService({

@@ -1,9 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const types = [
-  'demande-complète-raccordement.première-relance-deux-mois',
-  'demande-complète-raccordement.relance-un-mois',
-] as const;
+export const types = ['demande-complète-raccordement.relance'] as const;
 
 export type RawType = (typeof types)[number];
 
@@ -35,10 +32,9 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const premièreRelanceDeuxMois = convertirEnValueType(
-  'demande-complète-raccordement.première-relance-deux-mois',
+export const relanceDemandeComplèteRaccordement = convertirEnValueType(
+  'demande-complète-raccordement.relance',
 );
-export const relanceUnMois = convertirEnValueType('demande-complète-raccordement.relance-un-mois');
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
