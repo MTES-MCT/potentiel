@@ -31,7 +31,7 @@ jobs:
         with:
           node-version-file: package.json
       - name: Restore node_modules
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: |
             node_modules
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version-file: package.json
       - name: Restore node_modules
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: |
             node_modules
@@ -95,7 +95,7 @@ jobs:
         with:
           node-version-file: package.json
       - name: Restore node_modules
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: |
             node_modules
@@ -118,7 +118,7 @@ jobs:
         with:
           node-version-file: package.json
       - name: Restore node_modules
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: |
             node_modules
@@ -139,7 +139,7 @@ jobs:
         with:
           node-version-file: package.json
       - name: Restore node_modules
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: |
             node_modules
