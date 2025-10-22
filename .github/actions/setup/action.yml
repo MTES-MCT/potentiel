@@ -16,7 +16,6 @@ runs:
         node-version-file: package.json
         cache: 'npm'
     - name: Restore node modules cache
-      id: cache-node-modules
       uses: actions/cache/restore@v4
       with:
         path: |

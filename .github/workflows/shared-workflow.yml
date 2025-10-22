@@ -92,7 +92,7 @@ jobs:
           TAG_CHUNKS=$(.github/get-feature-tags.ts)
           echo "tag_chunks=$TAG_CHUNKS" >> $GITHUB_OUTPUT
 
-  test_specs:
+  test_specs_matrix:
     needs: [setup, get_tags, build_dev]
     runs-on: ubuntu-latest
     env:
@@ -111,6 +111,14 @@ jobs:
         run: |
           TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
           npm run specs -- --tags "$TAGS_FILTER"
+
+  # Final job to wait for all spec tests to complete, so that we can make it required
+  test_specs:
+    needs: test_specs_matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: All specs tests completed
+        run: echo "All specs tests have completed successfully"
 
   test_apps_libraries:
     needs: [setup, build_dev]
