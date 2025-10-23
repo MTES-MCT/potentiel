@@ -1,0 +1,35 @@
+name: 'Setup Node, Dependencies and Turbo Cache'
+description: 'Setup Node.js, restore node_modules cache and turbo build cache'
+inputs:
+  cache-key:
+    description: 'Cache key for node_modules'
+    required: true
+outputs:
+  cache-hit:
+    description: 'Whether node_modules cache was hit'
+    value: ${{ steps.cache-node-modules.outputs.cache-hit }}
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: package.json
+        cache: 'npm'
+    - name: Restore node modules cache
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          node_modules
+          packages/*/node_modules
+          packages/*/*/node_modules
+        key: ${{ inputs.cache-key }}
+    - name: Restore turbo build cache
+      uses: actions/cache/restore@v4
+      with:
+        path: |
+          .turbo
+          packages/*/dist
+          packages/*/*/dist
+        key: ${{ runner.os }}-turbo-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-turbo-

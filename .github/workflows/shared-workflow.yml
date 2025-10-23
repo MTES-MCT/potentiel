@@ -4,21 +4,64 @@ on:
   workflow_call:
 
 jobs:
-  lint:
+  setup:
     runs-on: ubuntu-latest
-
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.key }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: package.json
           cache: 'npm'
-      - run: npm ci
+      - id: cache-key
+        run: echo "key=node-cache-${{ runner.os }}-${{ runner.arch }}-npm-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
+      - name: Cache node modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            packages/*/*/node_modules
+          key: ${{ steps.cache-key.outputs.key }}
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --include=dev
+
+  build_dev:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          cache-key: ${{ needs.setup.outputs.cache-key }}
+      - run: npm run build:dev
+      - name: Cache turbo build setup
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .turbo
+            packages/*/dist
+            packages/*/*/dist
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+        with:
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run lint
         env:
           NODE_OPTIONS: '--max-old-space-size=10240'
 
   build:
+    needs: [setup, build_dev]
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: production
@@ -26,54 +69,78 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci --include=dev
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build
 
-  test_specs:
+  get_tags:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_chunks: ${{ steps.get-tags.outputs.tag_chunks }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm i -g tsx
+      - id: get-tags
+        env:
+          SPECS_WORKERS: ${{ vars.SPECS_WORKERS || '3' }}
+        run: |
+          TAG_CHUNKS=$(.github/get-feature-tags.ts)
+          echo "tag_chunks=$TAG_CHUNKS" >> $GITHUB_OUTPUT
+
+  test_specs_matrix:
+    needs: [setup, get_tags, build_dev]
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
+    strategy:
+      fail-fast: false
+      matrix:
+        tags: ${{ fromJson(needs.get_tags.outputs.tag_chunks) }}
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run specs
+          cache-key: ${{ needs.setup.outputs.cache-key }}
+      - name: Run specs for tags ${{ join(matrix.tags, ', ') }}
+        run: |
+          TAGS_FILTER=$(echo '${{ toJson(matrix.tags) }}' | jq -r 'join(" or ")')
+          npm run specs -- --tags "$TAGS_FILTER"
+
+  # Final job to wait for all spec tests to complete, so that we can make it required
+  test_specs:
+    needs: test_specs_matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: All specs tests completed
+        run: echo "All specs tests have completed successfully"
 
   test_apps_libraries:
+    needs: [setup, build_dev]
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run test:apps
       - run: npm run test:libraries
 
   verify_statistics:
+    needs: [setup, build_dev]
     runs-on: ubuntu-latest
     env:
       DATABASE_CONNECTION_STRING: postgres://postgres_admin:postgres_password@localhost:5432/potentiel
       APPLICATION_STAGE: production
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: ./.github/actions/setup
         with:
-          node-version-file: package.json
-          cache: 'npm'
-      - run: npm ci
+          cache-key: ${{ needs.setup.outputs.cache-key }}
       - run: npm run build:cli
       - run: npm run up
       - run: npm exec potentiel-cli stats extraire
