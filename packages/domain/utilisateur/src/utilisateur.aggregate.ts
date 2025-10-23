@@ -135,12 +135,10 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       throw new UtilisateurInconnuError();
     }
 
-    // // TODO add specs
     if (!this.#actif) {
       throw new UtilisateurNonActifError();
     }
 
-    // TODO add specs
     if (options.rôle.estPorteur() || this.#rôle?.estPorteur()) {
       throw new ModificationRolePorteurRefuséeError();
     }
