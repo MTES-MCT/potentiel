@@ -65,7 +65,7 @@ export class PuissanceAggregate extends AbstractAggregate<
       throw new PuissanceNulleOuNégativeError();
     }
 
-    if (puissanceDeSite && puissanceDeSite <= 0) {
+    if (puissanceDeSite !== undefined && puissanceDeSite <= 0) {
       throw new PuissanceDeSiteNulleOuNégativeError();
     }
 
