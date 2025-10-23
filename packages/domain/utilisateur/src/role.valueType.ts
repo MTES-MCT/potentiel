@@ -1789,6 +1789,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'fournisseur.listerChangement',
   'fournisseur.consulterChangement',
   'fournisseur.consulter',
+  'fournisseur.modifier',
 
   // Délai
   'délai.consulterDemande',
