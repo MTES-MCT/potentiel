@@ -12,7 +12,7 @@ import {
   AfterStep,
 } from '@cucumber/cucumber';
 import { should } from 'chai';
-import { Message, MessageResult, clear } from 'mediateur';
+import { clear } from 'mediateur';
 import {
   CreateBucketCommand,
   DeleteBucketCommand,
@@ -24,8 +24,6 @@ import waitForExpect from 'wait-for-expect';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap, logMiddleware } from '@potentiel-applications/bootstrap';
-import { EmailPayload } from '@potentiel-applications/notifications';
-import { Option } from '@potentiel-libraries/monads';
 import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { startSubscribers } from '@potentiel-applications/subscribers';
 
@@ -38,6 +36,11 @@ import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/util
 import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
 import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
 import { TestTransport } from './test-transport.logger';
+import {
+  mockRécupererGarantiesFinancières,
+  mockRécupérerGRDParVilleAdapter,
+  mockEmailAdapter,
+} from './_mocks';
 
 should();
 setWorldConstructor(PotentielWorld);
@@ -136,8 +139,9 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
 
   unsetup = await startSubscribers({
     dependencies: {
-      sendEmail: testEmailAdapter.bind(this),
+      sendEmail: mockEmailAdapter.bind(this),
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
+      récupererConstitutionGarantiesFinancières: mockRécupererGarantiesFinancières.bind(this),
     },
   });
 
@@ -177,17 +181,3 @@ After(async ({ result }) => {
 AfterAll(async () => {
   await killPool();
 });
-
-async function testEmailAdapter(
-  this: PotentielWorld,
-  emailPayload: EmailPayload,
-): Promise<MessageResult<Message>> {
-  this.notificationWorld.ajouterNotification(emailPayload);
-}
-
-async function mockRécupérerGRDParVilleAdapter(
-  this: PotentielWorld,
-  search: { codePostal: string; commune: string },
-) {
-  return this.gestionnaireRéseauWorld.rechercherOREParVille(search) ?? Option.none;
-}

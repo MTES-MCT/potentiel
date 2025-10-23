@@ -122,6 +122,7 @@ De plus, dans le cas où le Candidat a fourni une garantie à première demande 
         paragraphePrix:
           "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 de l'annexe 2 du cahier des charges.",
       },
+      typeImport: 'démarche-simplifiée',
     },
   ],
 };

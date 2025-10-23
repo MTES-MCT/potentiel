@@ -14,6 +14,7 @@
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-infrastructure/ds-api-client": "*",
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",

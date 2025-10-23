@@ -292,6 +292,7 @@ export type Periode = {
     paragrapheECS?: string;
   };
   champsSupplémentaires?: ChampsSupplémentairesCandidature;
+  typeImport: 'démarche-simplifiée' | 'csv';
 } & (NotifiedPeriode | LegacyPeriode);
 
 // Territoire

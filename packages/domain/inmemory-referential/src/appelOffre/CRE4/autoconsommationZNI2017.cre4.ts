@@ -155,6 +155,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
   ],
 };

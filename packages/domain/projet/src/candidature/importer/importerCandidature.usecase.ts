@@ -23,14 +23,14 @@ export type ImporterCandidatureUseCase = Message<
 >;
 
 export const registerImporterCandidatureUseCase = () => {
-  const handler: MessageHandler<ImporterCandidatureUseCase> = async (message) => {
+  const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      message.identifiantProjetValue,
+      payload.identifiantProjetValue,
     );
-    const importéLe = DateTime.convertirEnValueType(message.importéLe);
+    const importéLe = DateTime.convertirEnValueType(payload.importéLe);
 
     // pour le moment, on garde ce fichier de détails car tous les champs n'ont pas vocation à être extraits
-    const buf = Buffer.from(JSON.stringify(message.détailsValue));
+    const buf = Buffer.from(JSON.stringify(payload.détailsValue));
     const blob = new Blob([buf]);
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -49,10 +49,10 @@ export const registerImporterCandidatureUseCase = () => {
       type: 'Candidature.Command.ImporterCandidature',
       data: {
         identifiantProjet,
-        dépôt: Dépôt.convertirEnValueType(message.dépôtValue),
-        instruction: Instruction.convertirEnValueType(message.instructionValue),
+        dépôt: Dépôt.convertirEnValueType(payload.dépôtValue),
+        instruction: Instruction.convertirEnValueType(payload.instructionValue),
         importéLe,
-        importéPar: Email.convertirEnValueType(message.importéPar),
+        importéPar: Email.convertirEnValueType(payload.importéPar),
       },
     });
   };

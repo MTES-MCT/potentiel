@@ -221,6 +221,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -287,6 +288,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -353,6 +355,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '4',
@@ -419,6 +422,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '5',
@@ -485,6 +489,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '6',
@@ -550,6 +555,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '7',
@@ -615,6 +621,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '8',
@@ -680,6 +687,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '9',
@@ -745,6 +753,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '10',
@@ -810,6 +819,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
   ],
 };

@@ -10,12 +10,11 @@ import {
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
   DocumentAdapter,
-  getProjetAggregateRootAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 
 export const setupProjet = () => {
   registerProjetUseCases({
-    getProjetAggregateRoot: getProjetAggregateRootAdapter,
+    getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
   });
 

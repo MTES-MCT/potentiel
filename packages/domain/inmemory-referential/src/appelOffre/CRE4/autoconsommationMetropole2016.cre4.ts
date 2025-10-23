@@ -127,6 +127,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -139,6 +140,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
   ],
 };

@@ -167,6 +167,7 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
         },
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
+      typeImport: 'csv',
     },
   ],
 };

@@ -25,9 +25,14 @@ export const getDossier = async (dossierNumber: number) => {
           champs,
         }),
         attestationConstitutionGf: fichiers.garantiesFinancières
-          ? { format: fichiers.garantiesFinancières.contentType }
+          ? {
+              format: fichiers.garantiesFinancières.contentType,
+              url: fichiers.garantiesFinancières.url,
+            }
           : undefined,
-      } satisfies DeepPartial<Candidature.Dépôt.RawType>,
+      } satisfies DeepPartial<
+        Candidature.Dépôt.RawType & { attestationConstitutionGf?: { format: string; url: string } }
+      >,
     };
   } catch (e) {
     logger.warn('Impossible de lire le dossier', {

@@ -8,10 +8,7 @@ import {
   registerProjetUseCases,
 } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
-import {
-  DocumentAdapter,
-  getProjetAggregateRootAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { DateTime, Email } from '@potentiel-domain/common';
 import {
   countProjection,
@@ -42,7 +39,7 @@ export class NotifierCandidatures extends Command {
     }
 
     Période.registerPériodeUseCases({
-      getProjetAggregateRoot: getProjetAggregateRootAdapter,
+      getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
       loadAggregate,
     });
 
@@ -62,7 +59,7 @@ export class NotifierCandidatures extends Command {
     });
 
     registerProjetUseCases({
-      getProjetAggregateRoot: getProjetAggregateRootAdapter,
+      getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }

@@ -236,12 +236,7 @@ export class LauréatAggregate extends AbstractAggregate<
     );
   }
 
-  async notifier({
-    attestation: { format },
-    importerGarantiesFinancières,
-    notifiéLe,
-    notifiéPar,
-  }: NotifierOptions) {
+  async notifier({ attestation: { format }, notifiéLe, notifiéPar }: NotifierOptions) {
     this.vérifierQueLeLauréatPeutÊtreNotifié();
 
     const { nomProjet, localité } = this.projet.candidature;
@@ -260,14 +255,6 @@ export class LauréatAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
-
-    // Garanties Financières
-    if (importerGarantiesFinancières && this.projet.candidature.garantiesFinancières) {
-      await this.garantiesFinancières.importer({
-        garantiesFinancières: this.projet.candidature.garantiesFinancières,
-        importéLe: notifiéLe,
-      });
-    }
 
     // Champs soumis à demande
     await this.producteur.importer({

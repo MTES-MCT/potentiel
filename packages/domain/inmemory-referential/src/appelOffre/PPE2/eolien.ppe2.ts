@@ -177,6 +177,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -213,6 +214,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -244,6 +246,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '4',
@@ -267,6 +270,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '5',
@@ -290,6 +294,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '6',
@@ -313,6 +318,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '7',
@@ -336,6 +342,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '8',
@@ -359,6 +366,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
           instructionAutomatique: 'rejet',
         },
       },
+      typeImport: 'csv',
     },
     {
       id: '9',
@@ -376,6 +384,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
+      typeImport: 'csv',
     },
     {
       id: '10',
@@ -396,6 +405,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       champsSupplémentaires: {
         coefficientKChoisi: 'requis',
       },
+      typeImport: 'csv',
     },
   ],
 };

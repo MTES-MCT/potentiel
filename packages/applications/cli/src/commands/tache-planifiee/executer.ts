@@ -11,10 +11,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { Lauréat, registerProjetQueries, registerProjetUseCases } from '@potentiel-domain/projet';
-import {
-  DocumentAdapter,
-  getProjetAggregateRootAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { DocumentAdapter, ProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 const envSchema = z.object({
   APPLICATION_STAGE: z.string(),
@@ -49,7 +46,7 @@ export class Executer extends Command {
       },
     });
     registerProjetUseCases({
-      getProjetAggregateRoot: getProjetAggregateRootAdapter,
+      getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
     });
   }

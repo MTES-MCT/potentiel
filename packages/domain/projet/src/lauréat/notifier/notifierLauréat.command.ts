@@ -26,7 +26,6 @@ export const registerNotifierLauréatCommand = (getProjetAggregateRoot: GetProje
 
     await projet.lauréat.notifier({
       attestation: { format: attestation.format },
-      importerGarantiesFinancières: true,
       notifiéLe,
       notifiéPar,
     });

@@ -58,8 +58,6 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Historique',
   });
 
-  Lauréat.Raccordement.RaccordementSaga.register(dependencies);
-
   await lauréat.setupSubscription<
     Lauréat.Raccordement.RaccordementSaga.SubscriptionEvent,
     Lauréat.Raccordement.RaccordementSaga.Execute
@@ -67,6 +65,15 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     name: 'raccordement-laureat-saga',
     eventType: ['LauréatNotifié-V2'],
     messageType: 'System.Lauréat.Raccordement.Saga.Execute',
+  });
+
+  await lauréat.setupSubscription<
+    Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.SubscriptionEvent,
+    Lauréat.GarantiesFinancières.GarantiesFinancièresSaga.Execute
+  >({
+    name: 'garanties-financieres-laureat-saga',
+    eventType: ['LauréatNotifié-V2'],
+    messageType: 'System.Lauréat.GarantiesFinancières.Saga.Execute',
   });
 
   const unsetupPuissance = await setupPuissance(dependencies);

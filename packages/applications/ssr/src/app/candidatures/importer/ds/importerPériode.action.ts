@@ -118,15 +118,17 @@ const action: FormAction<FormState, typeof schema> = async (
             obligationDeSolarisation: undefined,
             territoireProjet: '',
             fournisseurs: [],
-            typeGarantiesFinancières: undefined,
-            dateÉchéanceGf: undefined,
             puissanceDeSite: undefined,
             installateur: undefined,
             dispositifDeStockage: undefined,
             natureDeLExploitation: undefined,
+            typeGarantiesFinancières: undefined,
+            dateÉchéanceGf: undefined,
+            ...dépôt,
+            // On force ces valeurs à undefined puisqu'elles
+            // seront récupérées lors de la désignation lauréate de la candidature
             attestationConstitutionGf: undefined,
             dateConstitutionGf: undefined,
-            ...dépôt,
             puissanceProductionAnnuelle: convertirKWcEnMWc(dépôt.puissanceProductionAnnuelle),
             localité: {
               ...dépôt.localité,

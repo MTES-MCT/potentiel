@@ -131,6 +131,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -156,6 +157,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -181,6 +183,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
     // ℹ️ à partir de la P4, penser à activer champsSupplémentaires: {coefficientKChoisi: "requis"}

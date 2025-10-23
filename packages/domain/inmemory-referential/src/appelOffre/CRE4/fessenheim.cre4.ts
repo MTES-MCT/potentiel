@@ -209,6 +209,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -252,6 +253,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -294,6 +296,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
   ],
 };

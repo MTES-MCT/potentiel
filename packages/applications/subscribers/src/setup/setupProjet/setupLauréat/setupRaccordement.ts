@@ -1,11 +1,14 @@
 import { RaccordementProjector } from '@potentiel-applications/projectors';
 import { HistoriqueProjector } from '@potentiel-applications/projectors';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { createSubscriptionSetup } from '../../createSubscriptionSetup.js';
 import { SetupProjet } from '../setup.js';
 
-export const setupRaccordement: SetupProjet = async () => {
+export const setupRaccordement: SetupProjet = async (dependencies) => {
   const raccordement = createSubscriptionSetup('raccordement');
+
+  Lauréat.Raccordement.RaccordementSaga.register(dependencies);
 
   RaccordementProjector.register();
 

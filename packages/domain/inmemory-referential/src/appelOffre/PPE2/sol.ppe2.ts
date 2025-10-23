@@ -177,6 +177,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -206,6 +207,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -230,6 +232,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '4',
@@ -265,6 +268,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '5',
@@ -300,6 +304,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '6',
@@ -335,6 +340,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '7',
@@ -370,6 +376,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '8',
@@ -406,6 +413,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       champsSupplémentaires: {
         coefficientKChoisi: 'requis',
       },
+      typeImport: 'csv',
     },
   ],
 };

@@ -182,6 +182,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -206,6 +207,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -236,6 +238,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '4',
@@ -260,6 +263,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '5',
@@ -295,6 +299,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '6',
@@ -330,6 +335,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '7',
@@ -365,6 +371,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      typeImport: 'csv',
     },
     {
       id: '8',
@@ -403,6 +410,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
 
       // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
       addendums: addendumPériode8EtSuivantes,
+      typeImport: 'csv',
     },
     {
       id: '9',
@@ -440,6 +448,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [],
 
       addendums: addendumPériode8EtSuivantes,
+      typeImport: 'csv',
     },
     {
       id: '10',
@@ -480,6 +489,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       champsSupplémentaires: {
         coefficientKChoisi: 'requis',
       },
+      typeImport: 'csv',
     },
     {
       id: '11',
@@ -518,6 +528,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       champsSupplémentaires: {
         coefficientKChoisi: 'requis',
       },
+      typeImport: 'csv',
     },
   ],
 };

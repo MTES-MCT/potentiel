@@ -11,18 +11,21 @@ import {
 import { ModifierGarantiesFinancièresFixture } from './fixtures/modifierGarantiesFinancières.fixture';
 import { EnregistrerAttestationGarantiesFinancièresFixture } from './fixtures/enregistrerAttestationGarantiesFinancières.fixture';
 import { DemanderGarantiesFinancièresFixture } from './fixtures/demanderGarantiesFinancières.fixture';
+import { ImporterGarantiesFinancièresFixture } from './fixtures/importerGarantiesFinancières.fixture';
 
 export class GarantiesFinancièresActuellesWorld {
   readonly modifier: ModifierGarantiesFinancièresFixture;
   readonly enregistrer: EnregistrerGarantiesFinancièresFixture;
   readonly enregistrerAttestation: EnregistrerAttestationGarantiesFinancièresFixture;
   readonly demander: DemanderGarantiesFinancièresFixture;
+  readonly importer: ImporterGarantiesFinancièresFixture;
 
   constructor(public readonly garantiesFinancièresWorld: GarantiesFinancièresWorld) {
     this.modifier = new ModifierGarantiesFinancièresFixture(this);
     this.enregistrer = new EnregistrerGarantiesFinancièresFixture(this);
     this.enregistrerAttestation = new EnregistrerAttestationGarantiesFinancièresFixture(this);
     this.demander = new DemanderGarantiesFinancièresFixture(this);
+    this.importer = new ImporterGarantiesFinancièresFixture(this);
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>): EnregistrerGarantiesFinancièresProps {
@@ -34,6 +37,7 @@ export class GarantiesFinancièresActuellesWorld {
 
     return mapToExemple(exemple, garantiesFinancièresMap);
   }
+
   mapToExpected(): Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel {
     const identifiantProjet = this.garantiesFinancièresWorld.lauréatWorld.identifiantProjet;
     const actions = [this.enregistrer, this.modifier, this.enregistrerAttestation]
@@ -50,20 +54,26 @@ export class GarantiesFinancièresActuellesWorld {
       dateConstitutionGf,
       attestationConstitutionGf,
     } = dépôtCandidature;
-    const valeurImport = typeGarantiesFinancières
+
+    const garantiesFinancièresÀLaDésignation = typeGarantiesFinancières
       ? ({
           garantiesFinancières:
             Lauréat.GarantiesFinancières.GarantiesFinancières.convertirEnValueType({
               type: typeGarantiesFinancières,
               dateÉchéance: dateÉchéanceGf,
-              attestation: attestationConstitutionGf,
-              dateConstitution: dateConstitutionGf,
+              attestation: this.importer.aÉtéCréé
+                ? this.importer.attestation
+                : attestationConstitutionGf,
+              dateConstitution: this.importer.aÉtéCréé
+                ? this.importer.dateConstitution
+                : dateConstitutionGf,
             }),
           statut: Lauréat.GarantiesFinancières.StatutGarantiesFinancières.validé,
           dernièreMiseÀJour: {
             date: DateTime.convertirEnValueType(notifiéLe),
           },
           identifiantProjet,
+          document: this.importer.aÉtéCréé ? this.importer.mapToExpected().document : undefined,
         } satisfies Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel)
       : ({} as Lauréat.GarantiesFinancières.ConsulterGarantiesFinancièresReadModel);
 
@@ -72,7 +82,7 @@ export class GarantiesFinancièresActuellesWorld {
         ...prev,
         ...curr.mapToExpected(),
       }),
-      valeurImport,
+      garantiesFinancièresÀLaDésignation,
     );
 
     const sontÉchues =
@@ -92,5 +102,7 @@ export class GarantiesFinancièresActuellesWorld {
     if (lastAction) {
       return lastAction.attestation;
     }
+
+    return this.importer.attestation;
   }
 }

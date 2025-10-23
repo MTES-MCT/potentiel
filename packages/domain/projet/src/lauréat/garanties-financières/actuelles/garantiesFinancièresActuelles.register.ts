@@ -11,6 +11,7 @@ import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifie
 import { registerÉchoirGarantiesFinancièresCommand } from './échoir/échoirGarantiesFinancières.command';
 import { registerConsulterGarantiesFinancièresQuery } from './consulter/consulterGarantiesFinancières.query';
 import { registerListerArchivesGarantiesFinancièresQuery } from './archives/lister/listerArchivesGarantiesFinancières.query';
+import { registerImporterGarantiesFinancièresCommand } from './importer/importerGarantiesFinancières.command';
 
 export type GarantiesFinancièresActuellesQueryDependencies = {
   find: Find;
@@ -23,6 +24,8 @@ export type GarantiesFinancièresActuellesUseCasesDependencies = {
 export const registerGarantiesFinancièresActuellesUseCases = ({
   getProjetAggregateRoot,
 }: GarantiesFinancièresActuellesUseCasesDependencies) => {
+  registerImporterGarantiesFinancièresCommand(getProjetAggregateRoot);
+
   registerModifierGarantiesFinancièresCommand(getProjetAggregateRoot);
   registerModifierGarantiesFinancièresUseCase();
 
