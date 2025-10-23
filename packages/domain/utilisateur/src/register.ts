@@ -20,6 +20,8 @@ import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur
 import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
 import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.command';
+import { registerModifierRôleUseCase } from './modifierRôle/modifierRôleUtilisateurusecase';
+import { registerModifierRôleCommand } from './modifierRôle/modifierRôleUtilisateur.command';
 import { registerCréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { registerCréerPorteurCommand } from './créer/créerPorteur.command';
 
@@ -49,6 +51,9 @@ export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurComman
 
   registerRéactiverUseCase();
   registerRéactiverCommand(loadAggregate);
+
+  registerModifierRôleUseCase();
+  registerModifierRôleCommand(loadAggregate);
 
   registerCréerPorteurUseCase();
   registerCréerPorteurCommand(loadAggregate);

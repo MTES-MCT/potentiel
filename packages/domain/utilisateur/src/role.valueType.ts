@@ -588,6 +588,7 @@ const référencielPermissions = {
       créerPorteur: 'Utilisateur.Command.CréerPorteur',
       désactiver: 'Utilisateur.Command.DésactiverUtilisateur',
       réactiver: 'Utilisateur.Command.RéactiverUtilisateur',
+      modifierRôle: 'Utilisateur.Command.ModifierRôleUtilisateur',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
@@ -595,6 +596,7 @@ const référencielPermissions = {
       créerPorteur: 'Utilisateur.UseCase.CréerPorteur',
       désactiver: 'Utilisateur.UseCase.DésactiverUtilisateur',
       réactiver: 'Utilisateur.UseCase.RéactiverUtilisateur',
+      modifierRôle: 'Utilisateur.UseCase.ModifierRôleUtilisateur',
     },
   },
   tâche: {
@@ -1360,6 +1362,12 @@ const policies = {
       référencielPermissions.utilisateur.command.réactiver,
       référencielPermissions.utilisateur.usecase.réactiver,
     ],
+    modifierRôle: [
+      référencielPermissions.utilisateur.command.modifierRôle,
+      référencielPermissions.utilisateur.usecase.modifierRôle,
+      référencielPermissions.utilisateur.query.consulter,
+      référencielPermissions.réseau.gestionnaire.query.lister,
+    ],
   },
   cahierDesCharges: {
     consulter: [référencielPermissions.lauréat.cahierDesCharges.query.consulter],
@@ -1612,6 +1620,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'utilisateur.inviterPorteur',
   'utilisateur.désactiver',
   'utilisateur.réactiver',
+  'utilisateur.modifierRôle',
 
   // Puissance
   'puissance.modifier',

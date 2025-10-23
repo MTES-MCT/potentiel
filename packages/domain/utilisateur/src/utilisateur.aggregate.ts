@@ -7,6 +7,7 @@ import {
   Role,
   UtilisateurInvitéEvent,
   UtilisateurInvitéEventV1,
+  SpécificitésRoleEventPayload,
   UtilisateurRéactivéEvent,
 } from '.';
 
@@ -15,11 +16,15 @@ import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
 import { InviterOptions } from './inviter/inviterUtilisateur.options';
 import { DésactiverOptions } from './désactiver/désactiverUtilisateur.options';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
+import { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options';
+import { RoleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 import { UtilisateurEvent } from './utilisateur.event';
 import {
   DésactivationPropreCompteError,
   FonctionManquanteError,
   IdentifiantGestionnaireRéseauManquantError,
+  ModificationPropreRoleRefuséeError,
+  ModificationRolePorteurRefuséeError,
   NomCompletManquantError,
   PorteurInvitéSansProjetError,
   RégionManquanteError,
@@ -45,85 +50,20 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     return this.#projets.has(identifiantProjet);
   }
 
-  async inviter({
-    rôle,
-    invitéLe,
-    invitéPar,
-    fonction,
-    nomComplet,
-    région,
-    identifiantGestionnaireRéseau,
-    zone,
-  }: InviterOptions) {
+  async inviter(options: InviterOptions) {
+    const { invitéLe, invitéPar } = options;
     if (this.exists) {
       throw new UtilisateurDéjàExistantError();
     }
 
-    const basePayload = {
-      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
-      invitéLe: invitéLe.formatter(),
-      invitéPar: invitéPar.formatter(),
-    };
-
-    const payload = match(rôle.nom)
-      .returnType<UtilisateurInvitéEvent['payload']>()
-      .with('dgec-validateur', (rôle) => {
-        if (!fonction) {
-          throw new FonctionManquanteError();
-        }
-        if (!nomComplet) {
-          throw new NomCompletManquantError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          fonction,
-          nomComplet,
-        };
-      })
-      .with('dreal', (rôle) => {
-        if (!région) {
-          throw new RégionManquanteError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          région: région.formatter(),
-        };
-      })
-      .with('grd', (rôle) => {
-        if (!identifiantGestionnaireRéseau) {
-          throw new IdentifiantGestionnaireRéseauManquantError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          identifiantGestionnaireRéseau,
-        };
-      })
-      .with('porteur-projet', () => {
-        // voir `inviterPorteur` behavior
-        throw new PorteurInvitéSansProjetError();
-      })
-      .with('cocontractant', (rôle) => {
-        if (!zone) {
-          throw new ZoneManquanteError();
-        }
-        return {
-          ...basePayload,
-          rôle,
-          zone: zone.formatter(),
-        };
-      })
-      .with(P.union('admin', 'cre', 'ademe', 'caisse-des-dépôts'), (rôle) => ({
-        ...basePayload,
-        rôle,
-      }))
-      .exhaustive();
-
     const event: UtilisateurInvitéEvent = {
       type: 'UtilisateurInvité-V2',
-      payload,
+      payload: {
+        identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+        invitéLe: invitéLe.formatter(),
+        invitéPar: invitéPar.formatter(),
+        ...this.mapToSpécificitésRolePayload(options),
+      },
     };
     await this.publish(event);
   }
@@ -189,6 +129,96 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     await this.publish(event);
   }
 
+  async modifierRôle(options: ModifierRôleOptions) {
+    const { modifiéLe, modifiéPar } = options;
+    if (!this.exists) {
+      throw new UtilisateurInconnuError();
+    }
+
+    // // TODO add specs
+    if (!this.#actif) {
+      throw new UtilisateurNonActifError();
+    }
+
+    // TODO add specs
+    if (options.rôle.estPorteur() || this.#rôle?.estPorteur()) {
+      throw new ModificationRolePorteurRefuséeError();
+    }
+
+    if (this.identifiantUtilisateur.estÉgaleÀ(modifiéPar)) {
+      throw new ModificationPropreRoleRefuséeError();
+    }
+
+    const event: RoleUtilisateurModifiéEvent = {
+      type: 'RoleUtilisateurModifié-V1',
+      payload: {
+        identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+        ...this.mapToSpécificitésRolePayload(options),
+      },
+    };
+    await this.publish(event);
+  }
+
+  private mapToSpécificitésRolePayload({
+    rôle,
+    fonction,
+    identifiantGestionnaireRéseau,
+    nomComplet,
+    région,
+    zone,
+  }: Omit<InviterOptions, 'invitéLe' | 'invitéPar'>) {
+    return match(rôle.nom)
+      .returnType<SpécificitésRoleEventPayload>()
+      .with('dgec-validateur', (rôle) => {
+        if (!fonction) {
+          throw new FonctionManquanteError();
+        }
+        if (!nomComplet) {
+          throw new NomCompletManquantError();
+        }
+        return {
+          rôle,
+          fonction,
+          nomComplet,
+        };
+      })
+      .with('dreal', (rôle) => {
+        if (!région) {
+          throw new RégionManquanteError();
+        }
+        return {
+          rôle,
+          région: région.formatter(),
+        };
+      })
+      .with('grd', (rôle) => {
+        if (!identifiantGestionnaireRéseau) {
+          throw new IdentifiantGestionnaireRéseauManquantError();
+        }
+        return {
+          rôle,
+          identifiantGestionnaireRéseau,
+        };
+      })
+      .with('porteur-projet', () => {
+        // voir `inviterPorteur` behavior
+        throw new PorteurInvitéSansProjetError();
+      })
+      .with('cocontractant', (rôle) => {
+        if (!zone) {
+          throw new ZoneManquanteError();
+        }
+        return {
+          rôle,
+          zone: zone.formatter(),
+        };
+      })
+      .with(P.union('admin', 'cre', 'ademe', 'caisse-des-dépôts'), (rôle) => ({ rôle }))
+      .exhaustive();
+  }
+
   apply(event: UtilisateurEvent) {
     match(event)
       .with({ type: 'PorteurInvité-V1' }, this.applyPorteurInvité.bind(this))
@@ -196,6 +226,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       .with({ type: 'UtilisateurInvité-V2' }, this.applyUtilisateurInvité.bind(this))
       .with({ type: 'UtilisateurDésactivé-V1' }, this.applyUtilisateurDésactivé.bind(this))
       .with({ type: 'UtilisateurRéactivé-V1' }, this.applyUtilisateurRéactivé.bind(this))
+      .with({ type: 'RoleUtilisateurModifié-V1' }, this.applyRoleUtilisateurModifié.bind(this))
       .with({ type: 'AccèsProjetRetiré-V1' }, () => {})
       .with({ type: 'ProjetRéclamé-V1' }, () => {})
       .exhaustive();
@@ -223,5 +254,9 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
   }
   applyUtilisateurRéactivé(_: UtilisateurRéactivéEvent) {
     this.#actif = true;
+  }
+
+  applyRoleUtilisateurModifié({ payload: { rôle } }: RoleUtilisateurModifiéEvent) {
+    this.#rôle = Role.convertirEnValueType(rôle);
   }
 }
