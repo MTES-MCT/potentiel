@@ -49,14 +49,6 @@ export class TypeGarantiesFinancièresNonModifiableAprèsNotificationError exten
   }
 }
 
-export class InformationsDeConstitutionDesGarantiesFinancièresNonAttenduesPourCettePériodeError extends InvalidOperationError {
-  constructor() {
-    super(
-      `Les informations de constitution des garanties financières ne sont pas attendues pour cette période d'appel d'offres`,
-    );
-  }
-}
-
 export class CandidatureNonNotifiéeError extends InvalidOperationError {
   constructor() {
     super(`La candidature n'est pas notifiée`);

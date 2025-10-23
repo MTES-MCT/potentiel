@@ -157,6 +157,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -177,6 +178,7 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       },
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
   ],
 };

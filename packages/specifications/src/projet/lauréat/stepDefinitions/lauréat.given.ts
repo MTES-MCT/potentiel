@@ -37,6 +37,7 @@ EtantDonné(
       : undefined;
 
     await waitForSagasNotificationsAndProjectionsToFinish();
+
     await notifierLauréat.call(this, dateDésignation);
   },
 );

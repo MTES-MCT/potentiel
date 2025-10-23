@@ -16,13 +16,6 @@ export const setupProjet = () => {
   registerProjetUseCases({
     getProjetAggregateRoot: ProjetAdapter.getProjetAggregateRootAdapter,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
-
-    // téléchargerGarantiesFinancières: () => ({
-    //   attestation: {
-    //     content: Buffer.from('Fake PDF content'),
-    //     format: 'application/pdf',
-    //   },
-    // }),
   });
 
   registerProjetQueries({

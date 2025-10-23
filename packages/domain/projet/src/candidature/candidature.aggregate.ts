@@ -49,7 +49,6 @@ import {
   TechnologieIndisponibleError,
   TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
-  InformationsDeConstitutionDesGarantiesFinancièresNonAttenduesPourCettePériodeError,
 } from './candidature.error';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
 import {
@@ -203,9 +202,6 @@ export class CandidatureAggregate extends AbstractAggregate<
 
     if (candidature.instruction.statut.estClassé()) {
       this.vérifierSiLesGarantiesFinancièresSontValides(candidature.dépôt.garantiesFinancières);
-      this.vérifierSiLesGarantiesFinancièresPeuventContenirLesInformationsDeConstitution(
-        candidature.dépôt.garantiesFinancières,
-      );
     }
 
     const event: CandidatureImportéeEvent = {
@@ -434,14 +430,6 @@ export class CandidatureAggregate extends AbstractAggregate<
       this.projet.appelOffre.garantiesFinancières.typeGarantiesFinancièresDisponibles;
     if (garantiesFinancières?.type && !typesDisponibles.includes(garantiesFinancières.type.type)) {
       throw new TypeGarantiesFinancièresNonDisponiblePourAppelOffreError();
-    }
-  }
-
-  private vérifierSiLesGarantiesFinancièresPeuventContenirLesInformationsDeConstitution(
-    garantiesFinancières: GarantiesFinancières.ValueType | undefined,
-  ) {
-    if (this.projet.période.importAvecDS && garantiesFinancières?.constitution) {
-      throw new InformationsDeConstitutionDesGarantiesFinancièresNonAttenduesPourCettePériodeError();
     }
   }
 

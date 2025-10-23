@@ -201,6 +201,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -255,6 +256,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -309,6 +311,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '4',
@@ -363,6 +366,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '5',
@@ -417,6 +421,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '6',
@@ -471,6 +476,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '7',
@@ -525,6 +531,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '8',
@@ -579,6 +586,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '9',
@@ -633,6 +641,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '10',
@@ -687,6 +696,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '11',
@@ -741,6 +751,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '12',
@@ -795,6 +806,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       ],
       abandonAvecRecandidature: true,
       changement: 'indisponible',
+      typeImport: 'csv',
     },
     {
       id: '13',
@@ -847,6 +859,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
   ],
 };

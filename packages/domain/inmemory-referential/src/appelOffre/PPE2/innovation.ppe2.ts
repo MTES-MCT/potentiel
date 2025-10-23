@@ -181,6 +181,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
     // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)

@@ -179,6 +179,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '2',
@@ -230,6 +231,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '3',
@@ -280,6 +282,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '4',
@@ -330,6 +333,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '5',
@@ -380,6 +384,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '6',
@@ -430,6 +435,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '7',
@@ -480,6 +486,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
     {
       id: '8',
@@ -530,6 +537,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
         },
       ],
       abandonAvecRecandidature: true,
+      typeImport: 'csv',
     },
   ],
 };
