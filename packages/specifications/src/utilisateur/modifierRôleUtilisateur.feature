@@ -5,6 +5,7 @@ Fonctionnalité: Modifier le rôle d'un utilisateur en tant qu'admin
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
+        Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
     Plan du scénario: Modifier le rôle d'un utilisateur avec accès global
         Etant donné un utilisateur invité avec le rôle "<RôleInitial>"
@@ -22,10 +23,6 @@ Fonctionnalité: Modifier le rôle d'un utilisateur en tant qu'admin
             | grd               | cocontractant     |
             | cocontractant     | admin             |
 
-    Scénario: Impossible de modifier le rôle d'un utilisateur inexistant
-        Quand un administrateur modifie le rôle d'un utilisateur inexistant vers "admin"
-        Alors l'utilisateur devrait être informé que "L'utilisateur n'existe pas"
-
     Scénario: Impossible de modifier un utilisateur vers porteur-projet
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand un administrateur modifie le rôle de l'utilisateur vers "porteur-projet"
@@ -41,18 +38,33 @@ Fonctionnalité: Modifier le rôle d'un utilisateur en tant qu'admin
     Scénario: Impossible de modifier vers grd sans identifiant
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand un administrateur modifie le rôle de l'utilisateur avec :
-            | rôle                            | grd |
-            | identifiant gestionnaire réseau |     |
+            | rôle                | grd |
+            | gestionnaire réseau |     |
         Alors l'utilisateur devrait être informé que "L'identifiant du gestionnaire de réseau est obligatoire pour un utilisateur grd"
 
     Scénario: Impossible de modifier vers dgec-validateur sans fonction
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand un administrateur modifie le rôle de l'utilisateur avec :
-            | rôle     | dgec-validateur |
-            | fonction |                 |
+            | rôle        | dgec-validateur |
+            | fonction    |                 |
+            | nom complet | un nom          |
+
         Alors l'utilisateur devrait être informé que "La fonction est obligatoire pour un utilisateur dgec-validateur"
+
+    Scénario: Impossible de modifier vers dgec-validateur sans nom
+        Etant donné un utilisateur invité avec le rôle "admin"
+        Quand un administrateur modifie le rôle de l'utilisateur avec :
+            | rôle        | dgec-validateur |
+            | fonction    | une fonction    |
+            | nom complet |                 |
+        Alors l'utilisateur devrait être informé que "Le nom complet est obligatoire pour un utilisateur dgec-validateur"
 
     Scénario: Impossible de modifier son propre rôle
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand l'administrateur modifie son propre rôle vers "ademe"
         Alors l'utilisateur devrait être informé que "Il est impossible de modifier son propre rôle"
+
+    Scénario: Impossible de modifier un utilisateur désactivé
+        Etant donné un utilisateur désactivé avec le rôle "ademe"
+        Quand un administrateur modifie le rôle de l'utilisateur vers "admin"
+        Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas actif"

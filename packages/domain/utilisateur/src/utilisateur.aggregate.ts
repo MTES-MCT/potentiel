@@ -130,7 +130,6 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       throw new UtilisateurInconnuError();
     }
 
-    // TODO add specs
     if (!this.#actif) {
       throw new UtilisateurNonActifError();
     }
