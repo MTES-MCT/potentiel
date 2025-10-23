@@ -16,7 +16,7 @@ export type ModifierPuissanceFormProps = PlainType<
   Pick<
     Lauréat.Puissance.ConsulterPuissanceReadModel,
     'identifiantProjet' | 'puissance' | 'unitéPuissance' | 'puissanceDeSite'
-  >
+  > & { infosCahierDesChargesPuissanceDeSite: 'requis' | 'optionnel' | undefined }
 >;
 
 export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
@@ -24,6 +24,7 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
   puissance,
   puissanceDeSite,
   unitéPuissance: { unité: unitéPuissance },
+  infosCahierDesChargesPuissanceDeSite,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierPuissanceFormKeys>
@@ -55,29 +56,60 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
           nativeInputProps={{
             name: 'puissance',
             defaultValue: puissance,
-            required: true,
-            'aria-required': true,
+            required: puissanceDeSite !== undefined ? false : true,
+            'aria-required': puissanceDeSite !== undefined ? false : true,
             type: 'number',
             inputMode: 'decimal',
             pattern: '[0-9]+([.][0-9]+)?',
             step: 'any',
           }}
         />
-        {puissanceDeSite !== undefined ? (
+        {infosCahierDesChargesPuissanceDeSite ? (
+          <>
+            <Input
+              state={validationErrors['puissance'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['puissance']}
+              label={`Puissance (en ${unitéPuissance}) (optionnel)`}
+              nativeInputProps={{
+                name: 'puissance',
+                defaultValue: puissance,
+                type: 'number',
+                inputMode: 'decimal',
+                pattern: '[0-9]+([.][0-9]+)?',
+                step: 'any',
+              }}
+            />
+            <Input
+              state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['puissanceDeSite']}
+              label={`Puissance de site (en ${unitéPuissance})`}
+              nativeInputProps={{
+                name: 'puissanceDeSite',
+                defaultValue: puissanceDeSite,
+                type: 'number',
+                inputMode: 'decimal',
+                pattern: '[0-9]+([.][0-9]+)?',
+                step: 'any',
+              }}
+            />
+          </>
+        ) : (
           <Input
-            state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['puissanceDeSite']}
-            label={`Puissance de site (en ${unitéPuissance}) (optionnel)`}
+            state={validationErrors['puissance'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['puissance']}
+            label={`Puissance (en ${unitéPuissance})`}
             nativeInputProps={{
-              name: 'puissanceDeSite',
-              defaultValue: puissanceDeSite,
+              name: 'puissance',
+              defaultValue: puissance,
+              required: true,
+              'aria-required': true,
               type: 'number',
               inputMode: 'decimal',
               pattern: '[0-9]+([.][0-9]+)?',
               step: 'any',
             }}
           />
-        ) : null}
+        )}
         <Input
           textArea
           label={`Raison (optionnel)`}

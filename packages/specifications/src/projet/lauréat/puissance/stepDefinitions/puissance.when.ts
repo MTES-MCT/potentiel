@@ -21,17 +21,6 @@ Quand(
 );
 
 Quand(
-  'le DGEC validateur modifie la puissance avec la même valeur pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await modifierPuissance.call(this, this.utilisateurWorld.adminFixture.email, 'lauréat', 1);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   'le DGEC validateur modifie la puissance pour le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
@@ -41,8 +30,10 @@ Quand(
         this,
         this.utilisateurWorld.adminFixture.email,
         'lauréat',
-        Number(exemple['ratio puissance']),
-        Number(exemple['ratio puissance de site']),
+        exemple['ratio puissance'] === '' ? 'non-défini' : exemple['ratio puissance'],
+        exemple['ratio puissance de site'] === ''
+          ? 'non-défini'
+          : exemple['ratio puissance de site'],
       );
     } catch (error) {
       this.error = error as Error;
@@ -54,8 +45,8 @@ async function modifierPuissance(
   this: PotentielWorld,
   modifiéPar: string,
   statutProjet?: 'lauréat' | 'éliminé',
-  ratio?: number,
-  ratioPuissanceDeSite?: number,
+  ratio?: string | 'non-défini',
+  ratioPuissanceDeSite?: string | 'non-défini',
 ) {
   const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
@@ -65,15 +56,19 @@ async function modifierPuissance(
       ...(ratio !== undefined
         ? {
             puissance:
-              this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle *
-              ratio,
+              ratio !== 'non-défini'
+                ? this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle *
+                  Number(ratio)
+                : undefined,
           }
         : {}),
       ...(ratioPuissanceDeSite !== undefined
         ? {
             puissanceDeSite:
-              (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite ?? 0) *
-              ratioPuissanceDeSite,
+              ratioPuissanceDeSite !== 'non-défini'
+                ? (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite ?? 0) *
+                  Number(ratioPuissanceDeSite)
+                : undefined,
           }
         : {}),
     });

@@ -5,7 +5,7 @@ export type PuissanceModifiéeEvent = DomainEvent<
   'PuissanceModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    puissance?: number;
+    puissance: number;
     puissanceDeSite?: number;
     modifiéeLe: DateTime.RawType;
     modifiéePar: Email.RawType;

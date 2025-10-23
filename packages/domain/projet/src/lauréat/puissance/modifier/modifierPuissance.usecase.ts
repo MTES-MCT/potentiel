@@ -9,7 +9,7 @@ export type ModifierPuissanceUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
-    puissanceValue?: number;
+    puissanceValue: number;
     puissanceDeSiteValue?: number;
     dateModificationValue: string;
     raisonValue?: string;

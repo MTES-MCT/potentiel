@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { PuissanceDeSiteNonAttendueError } from '../../candidature/candidature.error';
 
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
 
@@ -22,9 +23,8 @@ import { ChangementPuissanceEnregistréEvent } from './changement/enregistrerCha
 import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options';
 import {
   DemandeDeChangementPuissanceEnCoursError,
-  PuissanceDeSiteDoitÊtreModifiéeError,
+  ModificationPuissanceDeSiteRequiseError,
   PuissanceDeSiteNulleOuNégativeError,
-  PuissanceDoitÊtreModifiéeError,
   PuissanceDéjàImportéeError,
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
@@ -95,8 +95,29 @@ export class PuissanceAggregate extends AbstractAggregate<
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    if (this.#puissance === puissance) {
-      throw new PuissanceIdentiqueError();
+    if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
+      if (puissanceDeSite !== undefined) {
+        throw new PuissanceDeSiteNonAttendueError();
+      }
+      if (this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
+    }
+
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'requis') {
+      if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+    }
+
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'optionnel') {
+      if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+
+      if (puissanceDeSite === undefined && this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
     }
 
     if (puissance !== undefined && puissance <= 0) {
@@ -109,19 +130,6 @@ export class PuissanceAggregate extends AbstractAggregate<
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementPuissanceEnCoursError();
-    }
-
-    if (
-      this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite &&
-      this.#puissanceDeSite !== undefined
-    ) {
-      if (puissanceDeSite === undefined) {
-        throw new PuissanceDeSiteDoitÊtreModifiéeError();
-      }
-    } else {
-      if (!puissance) {
-        throw new PuissanceDoitÊtreModifiéeError();
-      }
     }
 
     const event: PuissanceModifiéeEvent = {

@@ -15,6 +15,7 @@ export const ModifierPuissancePage: FC<ModifierPuissancePageProps> = ({
   puissance,
   unitéPuissance,
   puissanceDeSite,
+  infosCahierDesChargesPuissanceDeSite,
 }) => (
   <PageTemplate
     banner={
@@ -29,6 +30,7 @@ export const ModifierPuissancePage: FC<ModifierPuissancePageProps> = ({
       puissance={puissance}
       unitéPuissance={unitéPuissance}
       puissanceDeSite={puissanceDeSite}
+      infosCahierDesChargesPuissanceDeSite={infosCahierDesChargesPuissanceDeSite}
     />
   </PageTemplate>
 );
