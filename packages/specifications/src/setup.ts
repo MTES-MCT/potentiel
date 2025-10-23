@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker';
 import {
   Before,
   setWorldConstructor,
+  BeforeStep,
   After,
   BeforeAll,
   setDefaultTimeout,
@@ -29,6 +30,7 @@ import { createLogger, initLogger, resetLogger } from '@potentiel-libraries/moni
 import { startSubscribers } from '@potentiel-applications/subscribers';
 
 import { PotentielWorld } from './potentiel.world';
+import { sleep } from './helpers/sleep';
 import { getFakeFormat } from './helpers/getFakeFormat';
 import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
 import { getFakeContent, getFakeDocument } from './helpers/getFakeContent';
@@ -40,7 +42,7 @@ import { TestTransport } from './test-transport.logger';
 should();
 setWorldConstructor(PotentielWorld);
 setDefaultTimeout(5000);
-waitForExpect.defaults.timeout = 500;
+waitForExpect.defaults.timeout = 300;
 
 declare module '@faker-js/faker' {
   interface Faker {
@@ -66,10 +68,16 @@ let unsetup: (() => Promise<void>) | undefined;
 const testLoggerTransport = new TestTransport();
 const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
 
-AfterStep(async function (this: PotentielWorld, { pickleStep, result, pickle }) {
-  if (pickleStep.type && ['Context', 'Action'].includes(pickleStep.type)) {
-    await waitForSagasNotificationsAndProjectionsToFinish();
+BeforeStep(async ({ pickleStep }) => {
+  // As read data are inconsistant, we wait 100ms before each step.
+  if (pickleStep.type !== 'Context') {
+    // As read data are inconsistant, we wait 100ms before each step.
+    await sleep(100);
   }
+});
+
+AfterStep(async function (this: PotentielWorld, { result, pickle }) {
+  await waitForSagasNotificationsAndProjectionsToFinish();
 
   const expectsErrorOutcome = pickle.steps.find(
     (step) => step.type === 'Outcome' && step.text.includes('devrait être informé que'),
