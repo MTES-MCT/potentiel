@@ -10,6 +10,7 @@ import { IdentifiantProjet } from '../..';
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { TâcheAggregate } from '../tâche/tâche.aggregate';
 import { TypeTâche } from '../tâche';
+import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
@@ -35,6 +36,7 @@ import {
   RéférenceDossierRaccordement,
   RéférenceDossierRacordementModifiéeEvent,
   RéférenceDossierRacordementModifiéeEventV1,
+  TypeTâchePlanifiéeRaccordement,
 } from '.';
 
 import {
@@ -116,9 +118,13 @@ export class RaccordementAggregate extends AbstractAggregate<
   #identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType =
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
 
+  // Tâches
   #tâcheTransmettreRéférenceRaccordement!: AggregateType<TâcheAggregate>;
   #tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement!: AggregateType<TâcheAggregate>;
   #tâcheGestionnaireRéseauInconnuAttribué!: AggregateType<TâcheAggregate>;
+
+  // Tâches planifiées
+  #tâchePlanifiéeRelanceDemandeComplèteRaccordement!: AggregateType<TâchePlanifiéeAggregate>;
 
   async init() {
     this.#gestionnaireRéseau = await this.loadGestionnaireRéseau(
@@ -135,6 +141,10 @@ export class RaccordementAggregate extends AbstractAggregate<
 
     this.#tâcheGestionnaireRéseauInconnuAttribué = await this.lauréat.loadTâche(
       TypeTâche.raccordementGestionnaireRéseauInconnuAttribué.type,
+    );
+
+    this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement.type,
     );
   }
 
@@ -203,6 +213,22 @@ export class RaccordementAggregate extends AbstractAggregate<
     return !date.estÉgaleÀ(dossier.miseEnService.dateMiseEnService);
   }
 
+  private async planifierRelanceDemandeComplèteRaccordement(àExécuterLe: DateTime.ValueType) {
+    if (
+      !this.lauréat.parent.appelOffre
+        .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
+    ) {
+      return;
+    }
+    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.ajouter({
+      àExécuterLe,
+    });
+  }
+
+  private async annulerTâchePlanifiéeRelanceDCR() {
+    await this.#tâchePlanifiéeRelanceDemandeComplèteRaccordement.annuler();
+  }
+
   async loadGestionnaireRéseau(codeEIC: string) {
     return await this.loadAggregate(
       GestionnaireRéseau.GestionnaireRéseauAggregate,
@@ -230,7 +256,6 @@ export class RaccordementAggregate extends AbstractAggregate<
       await this.publish(event);
 
       await this.#tâcheGestionnaireRéseauInconnuAttribué.ajouter();
-      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
     } else {
       const gestionnaireRéseau = await this.loadGestionnaireRéseau(
         identifiantGestionnaireRéseau.codeEIC,
@@ -246,8 +271,16 @@ export class RaccordementAggregate extends AbstractAggregate<
       };
 
       await this.publish(event);
+    }
+    await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
 
-      await this.#tâcheTransmettreRéférenceRaccordement.ajouter();
+    if (
+      this.parent.projet.appelOffre
+        .transmissionAutomatiséeDesDonnéesDeContractualisationAuCocontractant
+    ) {
+      await this.planifierRelanceDemandeComplèteRaccordement(
+        this.lauréat.notifiéLe.ajouterNombreDeMois(2),
+      );
     }
   }
 
@@ -430,6 +463,8 @@ export class RaccordementAggregate extends AbstractAggregate<
     if (!event.payload.accuséRéception) {
       await this.#tâcheRenseignerAccuséRéceptionDemandeComplèteRaccordement.ajouter();
     }
+
+    await this.annulerTâchePlanifiéeRelanceDCR();
   }
 
   async transmettreDateMiseEnService({

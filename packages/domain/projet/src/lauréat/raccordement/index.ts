@@ -123,6 +123,7 @@ export * from './raccordement.entity';
 // Value types
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
 export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType';
+export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType';
 
 // Saga
 export * as RaccordementSaga from './saga';

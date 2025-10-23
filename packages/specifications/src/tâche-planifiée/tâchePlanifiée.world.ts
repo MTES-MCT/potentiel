@@ -9,7 +9,8 @@ export type TypeTâchePlanifiée =
   | 'rappel des garanties financières à transmettre'
   | 'gestion automatique de la demande de changement de représentant légal'
   | "rappel d'instruction de la demande de changement de représentant légal à deux mois"
-  | 'supprimer automatiquement le document à trois mois';
+  | 'supprimer automatiquement le document à trois mois'
+  | 'relance demande complète raccordement';
 
 export class TâchePlanifiéeWorld {
   rechercherTypeTâchePlanifiée(value: TypeTâchePlanifiée) {
@@ -51,6 +52,12 @@ export class TâchePlanifiéeWorld {
           Lauréat.ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
             .suppressionDocumentÀTroisMois,
       )
+      .with(
+        'relance demande complète raccordement',
+        () =>
+          Lauréat.Raccordement.TypeTâchePlanifiéeRaccordement.relanceDemandeComplèteRaccordement,
+      )
+
       .exhaustive();
   }
 }
