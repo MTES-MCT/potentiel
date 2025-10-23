@@ -5,13 +5,9 @@ import { GetFournisseurForProjectPage } from '../../../../controllers/project/ge
 
 export type MaterielsEtTechnologiesProps = {
   fournisseur?: GetFournisseurForProjectPage;
-  modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
-export const MaterielsEtTechnologies = ({
-  fournisseur,
-  modificationsNonPermisesParLeCDCActuel,
-}: MaterielsEtTechnologiesProps) => {
+export const MaterielsEtTechnologies = ({ fournisseur }: MaterielsEtTechnologiesProps) => {
   if (!fournisseur) {
     return null;
   }
@@ -28,7 +24,7 @@ export const MaterielsEtTechnologies = ({
         <div className="flex flex-col gap-0">
           <Heading3 className="m-0">Fournisseurs</Heading3>
           <ListeFournisseurs fournisseurs={fournisseurs} />
-          {affichage && !modificationsNonPermisesParLeCDCActuel && (
+          {affichage && (
             <Link href={affichage.url} aria-label={affichage.label}>
               {affichage.label}
             </Link>

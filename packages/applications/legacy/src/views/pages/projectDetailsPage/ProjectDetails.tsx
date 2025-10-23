@@ -272,10 +272,7 @@ export const ProjectDetails = ({
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
               emailContact={emailContact}
             />
-            <MaterielsEtTechnologies
-              fournisseur={fournisseur}
-              modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-            />
+            <MaterielsEtTechnologies fournisseur={fournisseur} />
 
             {project.notesInnovation && (
               <ResultatsAppelOffreInnovation
