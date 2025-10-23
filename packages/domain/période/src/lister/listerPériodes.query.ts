@@ -1,12 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { ConsulterPériodeReadModel } from '../consulter/consulterPériode.query';
-
-import { listerPériodesNotifiées } from './listerPériodesNotifiées';
-import { listerPériodesNonNotifiées } from './listerPériodesNonNotifiées';
-import { listerToutesLesPériodes } from './listerToutesLesPériodes';
+import { ConsulterPériodeReadModel, mapToReadModel } from '../consulter/consulterPériode.query';
+import { PériodeEntity } from '../période.entity';
+import { IdentifiantPériode } from '../période';
 
 export type ListerPériodeItemReadModel = ConsulterPériodeReadModel;
 
@@ -22,6 +20,7 @@ export type ListerPériodesQuery = Message<
     appelOffre?: string;
     estNotifiée?: boolean;
     range?: RangeOptions;
+    identifiantsPériodes?: Array<IdentifiantPériode.RawType>;
   },
   ListerPériodesReadModel
 >;
@@ -35,16 +34,25 @@ export const registerListerPériodesQuery = ({ list }: ListerPériodesDependenci
     range,
     estNotifiée,
     appelOffre,
+    identifiantsPériodes,
   }) => {
-    if (estNotifiée === true) {
-      return await listerPériodesNotifiées(list, range, appelOffre);
-    }
+    const notifiées = await list<PériodeEntity>(`période`, {
+      range,
+      where: {
+        identifiantPériode: Where.matchAny(identifiantsPériodes),
+        appelOffre: Where.equal(appelOffre),
+        estNotifiée: Where.equal(estNotifiée),
+      },
+      orderBy: {
+        notifiéeLe: 'descending',
+      },
+    });
 
-    if (estNotifiée === false) {
-      return await listerPériodesNonNotifiées(list, range, appelOffre);
-    }
-
-    return await listerToutesLesPériodes(list, range, appelOffre);
+    return {
+      items: notifiées.items.map(mapToReadModel),
+      range: notifiées.range,
+      total: notifiées.total,
+    };
   };
 
   mediator.register('Période.Query.ListerPériodes', handler);

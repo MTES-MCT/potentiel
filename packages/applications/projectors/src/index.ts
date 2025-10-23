@@ -1,4 +1,4 @@
-export { seedAppelOffre } from './subscribers/appel-offre/seed';
+export { seedAppelOffre, seedPériodes } from './subscribers/appel-offre/seed';
 export * as AbandonProjector from './subscribers/lauréat/abandon';
 export * as GestionnaireRéseauProjector from './subscribers/réseau/gestionnaire-réseau';
 export * as RaccordementProjector from './subscribers/lauréat/raccordement';

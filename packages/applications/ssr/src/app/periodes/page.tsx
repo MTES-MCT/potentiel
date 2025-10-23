@@ -169,20 +169,21 @@ async function getPériodesPartiellementNotifiées(appelOffre: string | undefine
       appelOffre,
     },
   });
-  const identifiantsPériodes = candidats.items
-    .map(({ identifiantProjet }) => `${identifiantProjet.appelOffre}#${identifiantProjet.période}`)
-    .filter((val, i, self) => self.indexOf(val) === i);
-
-  const nouvellesPériodes = await Promise.all(
-    identifiantsPériodes.map((identifiantPériodeValue) =>
-      mediator.send<Période.ConsulterPériodeQuery>({
-        type: 'Période.Query.ConsulterPériode',
-        data: {
-          identifiantPériodeValue,
-        },
-      }),
+  const identifiantsPériodes = [
+    ...new Set(
+      candidats.items.map(
+        ({ identifiantProjet }): Période.IdentifiantPériode.RawType =>
+          `${identifiantProjet.appelOffre}#${identifiantProjet.période}`,
+      ),
     ),
-  );
+  ];
 
-  return nouvellesPériodes.filter(Option.isSome);
+  const nouvellesPériodes = await mediator.send<Période.ListerPériodesQuery>({
+    type: 'Période.Query.ListerPériodes',
+    data: {
+      identifiantsPériodes,
+    },
+  });
+
+  return nouvellesPériodes.items.filter(Option.isSome);
 }
