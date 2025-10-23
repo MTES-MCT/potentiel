@@ -86,6 +86,13 @@ Quand(
 );
 
 Quand(
+  'la DREAL associée au projet modifie le fournisseur du projet lauréat',
+  async function (this: PotentielWorld) {
+    await mettreÀJourFournisseur.call(this, 'modification-dreal');
+  },
+);
+
+Quand(
   'le DGEC validateur modifie le fournisseur du projet lauréat avec :',
   async function (this: PotentielWorld, datatable: DataTable) {
     const exemple = datatable.rowsHash();
@@ -145,7 +152,7 @@ export async function modifierÉvaluationCarbone(
 
 export async function mettreÀJourFournisseur(
   this: PotentielWorld,
-  typeDeChangement: 'modification-admin' | 'information-enregistrée',
+  typeDeChangement: 'modification-dreal' | 'modification-admin' | 'information-enregistrée',
   values: {
     évaluationCarbone?: number;
     fournisseurs?: Array<Lauréat.Fournisseur.Fournisseur.RawType>;
@@ -154,7 +161,9 @@ export async function mettreÀJourFournisseur(
   const utilisateurFixture =
     typeDeChangement === 'information-enregistrée'
       ? this.utilisateurWorld.porteurFixture
-      : this.utilisateurWorld.validateurFixture;
+      : typeDeChangement === 'modification-admin'
+        ? this.utilisateurWorld.validateurFixture
+        : this.utilisateurWorld.drealFixture;
 
   try {
     const { évaluationCarbone, fournisseurs, misAJourLe, misAJourPar, pièceJustificative, raison } =
