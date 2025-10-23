@@ -4,7 +4,6 @@ export const roleToLabel: Record<Role.RawType, string> = {
   admin: 'Admin',
   'porteur-projet': 'Porteur de projet',
   dreal: 'DREAL',
-  'acheteur-obligé': 'Acheteur Obligé',
   cocontractant: 'Cocontractant',
   ademe: 'Ademe',
   'dgec-validateur': 'DGEC Validateur',

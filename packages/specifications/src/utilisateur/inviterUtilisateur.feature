@@ -16,7 +16,6 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Exemples:
             | Rôle              |
             | admin             |
-            | acheteur-obligé   |
             | ademe             |
             | caisse-des-dépôts |
             | cre               |

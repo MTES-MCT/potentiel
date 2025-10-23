@@ -110,7 +110,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
           zone: zone.formatter(),
         };
       })
-      .with(P.union('admin', 'cre', 'ademe', 'caisse-des-dépôts', 'acheteur-obligé'), (rôle) => ({
+      .with(P.union('admin', 'cre', 'ademe', 'caisse-des-dépôts'), (rôle) => ({
         ...basePayload,
         rôle,
       }))

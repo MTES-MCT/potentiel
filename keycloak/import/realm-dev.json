@@ -611,29 +611,7 @@
       "notBefore": 0,
       "groups": []
     },
-    {
-      "id": "109c65df-7c7f-4392-b93c-09e11d8aebd5",
-      "createdTimestamp": 1684921663742,
-      "username": "ao@test.test",
-      "enabled": true,
-      "totp": false,
-      "emailVerified": true,
-      "firstName": "Acheteur obligé",
-      "lastName": "Test",
-      "email": "ao@test.test",
-      "credentials": [
-        {
-          "temporary": false,
-          "type": "password",
-          "value": "test"
-        }
-      ],
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": ["default-roles-potentiel", "acheteur-obligé"],
-      "notBefore": 0,
-      "groups": []
-    },
+
     {
       "id": "109c65df-7c7f-4392-b93c-09e11d8aebd6",
       "createdTimestamp": 1684921663742,

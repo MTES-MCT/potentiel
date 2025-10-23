@@ -67,7 +67,7 @@ export class IdentifiantGestionnaireRéseauManquantError extends InvalidOperatio
 
 export class ZoneManquanteError extends InvalidOperationError {
   constructor() {
-    super(`La zone est obligatoire pour un utilisateur acheteur-obligé`);
+    super(`La zone est obligatoire pour un utilisateur cocontractant`);
   }
 }
 

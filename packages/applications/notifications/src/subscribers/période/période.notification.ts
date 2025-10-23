@@ -16,7 +16,7 @@ export type SubscriptionEvent = Période.PériodeEvent & Event;
 export type Execute = Message<'System.Notification.Période', SubscriptionEvent>;
 
 const templateId = {
-  notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE: 3849728,
+  notifierDrealCocontractantAdemeCaisseDesDépôtsCRE: 3849728,
   notifierPorteur: 1350523,
 };
 
@@ -59,7 +59,7 @@ async function getEmailPayloads(
       const usersOthersThanDGECOrPorteur = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
-          roles: ['cocontractant', 'acheteur-obligé', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
+          roles: ['cocontractant', 'ademe', 'caisse-des-dépôts', 'cre', 'dreal'],
           actif: true,
         },
       });
@@ -92,7 +92,7 @@ async function getEmailPayloads(
 
       return [
         ...usersOthersThanDGECOrPorteur.items.map(({ email }) => ({
-          templateId: templateId.notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE,
+          templateId: templateId.notifierDrealCocontractantAdemeCaisseDesDépôtsCRE,
           recipients: [
             {
               email,

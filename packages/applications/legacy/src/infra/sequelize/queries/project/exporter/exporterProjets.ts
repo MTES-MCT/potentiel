@@ -48,7 +48,6 @@ export const exporterProjets: ExporterProjets = async ({ user, filtres }: Export
       });
     case 'ademe':
       return exporterProjetsPourADEME({ filtres });
-    case 'acheteur-obligé':
     case 'cocontractant':
       return exporterProjetsPourAcheteurObligé({
         filtres: {
