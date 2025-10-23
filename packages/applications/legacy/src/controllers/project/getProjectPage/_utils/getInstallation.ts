@@ -6,9 +6,10 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type GetInstallationForProjectPage = {
-  installateur: {
+  installateur?: {
     value: string;
     affichage?: {
       labelActions?: string;
@@ -24,7 +25,7 @@ export type GetInstallationForProjectPage = {
       url: string;
     };
   };
-  dispositifDeStockage: {
+  dispositifDeStockage?: {
     value?: Lauréat.Installation.DispositifDeStockage.RawType;
     affichage?: {
       labelActions?: string;
@@ -37,11 +38,13 @@ export type GetInstallationForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
+  champsSupplémentairesCahierDesCharges: AppelOffre.ChampsSupplémentairesCandidature;
 };
 
 export const getInstallation = async ({
   identifiantProjet,
   rôle,
+  champsSupplémentairesCahierDesCharges,
 }: Props): Promise<GetInstallationForProjectPage | undefined> => {
   try {
     const role = Role.convertirEnValueType(rôle);
@@ -54,26 +57,16 @@ export const getInstallation = async ({
 
     if (Option.isSome(installationProjection)) {
       const { installateur, typologieInstallation, dispositifDeStockage } = installationProjection;
+      const {
+        installateur: champSupplémentaireInstallateur,
+        dispositifDeStockage: champSupplémentaireDispositifDeStockage,
+      } = champsSupplémentairesCahierDesCharges;
+
       const data: GetInstallationForProjectPage = {
-        installateur: {
-          value: installateur,
-        },
         typologieInstallation: {
           value: typologieInstallation.map((typologie) => typologie.formatter()),
         },
-        dispositifDeStockage: {
-          value: dispositifDeStockage ? dispositifDeStockage.formatter() : undefined,
-        },
       };
-
-      if (role.aLaPermission('installation.installateur.modifier')) {
-        data.installateur.affichage = {
-          url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: "Modifier l'installateur",
-        };
-      }
-
       if (role.aLaPermission('installation.typologieInstallation.modifier')) {
         data.typologieInstallation.affichage = {
           url: Routes.Installation.modifierTypologie(identifiantProjet.formatter()),
@@ -82,12 +75,28 @@ export const getInstallation = async ({
         };
       }
 
-      if (role.aLaPermission('installation.dispositifDeStockage.modifier')) {
-        data.dispositifDeStockage.affichage = {
-          url: Routes.Installation.modifierDispositifDeStockage(identifiantProjet.formatter()),
-          label: 'Modifier',
-          labelActions: 'Modifier le dispositif de stockage',
+      if (champSupplémentaireDispositifDeStockage) {
+        data.dispositifDeStockage = {
+          value: dispositifDeStockage ? dispositifDeStockage.formatter() : undefined,
         };
+        if (role.aLaPermission('installation.dispositifDeStockage.modifier')) {
+          data.dispositifDeStockage.affichage = {
+            url: Routes.Installation.modifierDispositifDeStockage(identifiantProjet.formatter()),
+            label: 'Modifier',
+            labelActions: 'Modifier le dispositif de stockage',
+          };
+        }
+      }
+
+      if (champSupplémentaireInstallateur) {
+        data.installateur = { value: installateur };
+        if (role.aLaPermission('installation.installateur.modifier')) {
+          data.installateur.affichage = {
+            url: Routes.Installation.modifierInstallateur(identifiantProjet.formatter()),
+            label: 'Modifier',
+            labelActions: "Modifier l'installateur",
+          };
+        }
       }
 
       return data;

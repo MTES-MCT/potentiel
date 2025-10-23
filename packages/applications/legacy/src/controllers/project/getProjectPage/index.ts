@@ -298,6 +298,7 @@ v1Router.get(
           installation: await getInstallation({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+            champsSupplémentairesCahierDesCharges: cahierDesCharges.getChampsSupplémentaires(),
           }),
           natureDeLExploitation: await getNatureDeLExploitation({
             identifiantProjet: identifiantProjetValueType,
