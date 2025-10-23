@@ -22,7 +22,9 @@ import { ChangementPuissanceEnregistréEvent } from './changement/enregistrerCha
 import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options';
 import {
   DemandeDeChangementPuissanceEnCoursError,
+  PuissanceDeSiteDoitÊtreModifiéeError,
   PuissanceDeSiteNulleOuNégativeError,
+  PuissanceDoitÊtreModifiéeError,
   PuissanceDéjàImportéeError,
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
@@ -41,6 +43,8 @@ export class PuissanceAggregate extends AbstractAggregate<
   LauréatAggregate
 > {
   #puissance!: number;
+
+  #puissanceDeSite?: number;
 
   #demande?: {
     statut: StatutChangementPuissance.ValueType;
@@ -95,7 +99,7 @@ export class PuissanceAggregate extends AbstractAggregate<
       throw new PuissanceIdentiqueError();
     }
 
-    if (puissance <= 0) {
+    if (puissance !== undefined && puissance <= 0) {
       throw new PuissanceNulleOuNégativeError();
     }
 
@@ -105,6 +109,19 @@ export class PuissanceAggregate extends AbstractAggregate<
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementPuissanceEnCoursError();
+    }
+
+    if (
+      this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite &&
+      this.#puissanceDeSite !== undefined
+    ) {
+      if (puissanceDeSite === undefined) {
+        throw new PuissanceDeSiteDoitÊtreModifiéeError();
+      }
+    } else {
+      if (!puissance) {
+        throw new PuissanceDoitÊtreModifiéeError();
+      }
     }
 
     const event: PuissanceModifiéeEvent = {
@@ -357,12 +374,18 @@ export class PuissanceAggregate extends AbstractAggregate<
     this.#puissance = puissance;
   }
 
-  private applyPuissanceImportée({ payload: { puissance } }: PuissanceImportéeEvent) {
+  private applyPuissanceImportée({
+    payload: { puissance, puissanceDeSite },
+  }: PuissanceImportéeEvent) {
     this.#puissance = puissance;
+    this.#puissanceDeSite = puissanceDeSite;
   }
 
-  private applyPuissanceModifiée({ payload: { puissance } }: PuissanceModifiéeEvent) {
-    this.#puissance = puissance;
+  private applyPuissanceModifiée({
+    payload: { puissance, puissanceDeSite },
+  }: PuissanceModifiéeEvent) {
+    this.#puissance = puissance ? puissance : this.#puissance;
+    this.#puissanceDeSite = puissanceDeSite ? puissanceDeSite : this.#puissanceDeSite;
   }
 
   private applyChangementPuissanceDemandé({

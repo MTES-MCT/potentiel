@@ -28,3 +28,15 @@ export class DemandeDeChangementPuissanceEnCoursError extends DomainError {
     super('Une demande de changement de puissance est déjà en cours');
   }
 }
+
+export class PuissanceDeSiteDoitÊtreModifiéeError extends DomainError {
+  constructor() {
+    super('La puissance de site doit être modifiée');
+  }
+}
+
+export class PuissanceDoitÊtreModifiéeError extends DomainError {
+  constructor() {
+    super('La puissance doit être modifiée');
+  }
+}

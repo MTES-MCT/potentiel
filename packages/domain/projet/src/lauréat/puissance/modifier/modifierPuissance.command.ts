@@ -9,7 +9,7 @@ export type ModifierPuissanceCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    puissance: number;
+    puissance?: number;
     puissanceDeSite?: number;
     dateModification: DateTime.ValueType;
     raison?: string;
