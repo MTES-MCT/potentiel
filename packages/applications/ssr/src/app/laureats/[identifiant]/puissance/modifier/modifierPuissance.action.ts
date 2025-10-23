@@ -29,7 +29,6 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, puissance, raison, puissanceDeSite },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    console.log({ identifiantProjet, puissance, raison, puissanceDeSite });
     await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
       type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
       data: {

@@ -49,21 +49,6 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
       />
 
       <div className="flex flex-col gap-6">
-        <Input
-          state={validationErrors['puissance'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['puissance']}
-          label={`Puissance (en ${unitéPuissance})`}
-          nativeInputProps={{
-            name: 'puissance',
-            defaultValue: puissance,
-            required: puissanceDeSite !== undefined ? false : true,
-            'aria-required': puissanceDeSite !== undefined ? false : true,
-            type: 'number',
-            inputMode: 'decimal',
-            pattern: '[0-9]+([.][0-9]+)?',
-            step: 'any',
-          }}
-        />
         {infosCahierDesChargesPuissanceDeSite ? (
           <>
             <Input
@@ -82,7 +67,7 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
             <Input
               state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
               stateRelatedMessage={validationErrors['puissanceDeSite']}
-              label={`Puissance de site (en ${unitéPuissance})`}
+              label={`Puissance de site (en ${unitéPuissance}) ${infosCahierDesChargesPuissanceDeSite === 'optionnel' ? '(optionnel)' : ''}`}
               nativeInputProps={{
                 name: 'puissanceDeSite',
                 defaultValue: puissanceDeSite,
