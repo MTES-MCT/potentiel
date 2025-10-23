@@ -76,10 +76,44 @@ Alors(
 );
 
 Alors(
-  'le porteur devrait avoir accès au projet {lauréat-éliminé}',
+  'le porteur a accès au projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const { identifiantProjet } =
       statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+    await waitForExpect(() =>
+      vérifierAccèsProjet.call(this, {
+        identifiantProjet,
+        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
+        expectHasAccess: true,
+      }),
+    );
+  },
+);
+
+Alors(
+  `le porteur n'a pas accès au projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+    await waitForExpect(() =>
+      vérifierAccèsProjet.call(this, {
+        identifiantProjet,
+        identifiantUtilisateur: this.accèsWorld.réclamerProjet.email,
+        expectHasAccess: true,
+      }),
+    );
+  },
+);
+
+Alors(
+  `le porteur n'a pas accès au projet {lauréat-éliminé} {string}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé'
+        ? this.éliminéWorld.rechercherÉliminéFixture(nomProjet)
+        : this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(() =>
       vérifierAccèsProjet.call(this, {

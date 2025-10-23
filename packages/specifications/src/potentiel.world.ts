@@ -108,7 +108,7 @@ export class PotentielWorld extends World {
     this.#tâcheWorld = new TâcheWorld();
     this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();
     this.#accèsWorld = new AccèsWorld();
-    this.#utilisateurWorld = new UtilisateurWorld(this.#accèsWorld);
+    this.#utilisateurWorld = new UtilisateurWorld(this);
     this.#notificationWorld = new NotificationWorld();
   }
 }

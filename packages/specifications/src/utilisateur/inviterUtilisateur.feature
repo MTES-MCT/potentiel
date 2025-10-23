@@ -71,16 +71,30 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Alors l'utilisateur devrait être informé que "Il est impossible d'inviter un porteur sans projet"
 
     Scénario: Impossible d'inviter une dreal sans région
-        Quand un administrateur invite un utilisateur avec le rôle "dreal"
+        Quand un administrateur invite un utilisateur avec :
+            | rôle   | dreal |
+            | région |       |
         Alors l'utilisateur devrait être informé que "La région est obligatoire pour un utilisateur dreal"
 
     Scénario: Impossible d'inviter un grd sans identifiant
-        Quand un administrateur invite un utilisateur avec le rôle "grd"
+        Quand un administrateur invite un utilisateur avec :
+            | rôle                | grd |
+            | gestionnaire réseau |     |
         Alors l'utilisateur devrait être informé que "L'identifiant du gestionnaire de réseau est obligatoire pour un utilisateur grd"
 
     Scénario: Impossible d'inviter un dgec-validateur sans fonction
-        Quand un administrateur invite un utilisateur avec le rôle "dgec-validateur"
+        Quand un administrateur invite un utilisateur avec :
+            | rôle        | dgec-validateur |
+            | fonction    |                 |
+            | nom complet | un nom          |
         Alors l'utilisateur devrait être informé que "La fonction est obligatoire pour un utilisateur dgec-validateur"
+
+    Scénario: Impossible d'inviter un dgec-validateur sans nom
+        Quand un administrateur invite un utilisateur avec :
+            | rôle        | dgec-validateur |
+            | fonction    | une fonction    |
+            | nom complet |                 |
+        Alors l'utilisateur devrait être informé que "Le nom complet est obligatoire pour un utilisateur dgec-validateur"
 
     Scénario: Une dreal n'a accès qu'aux projets de sa région
         Etant donné le projet lauréat "Du boulodrome de Toulon" avec :

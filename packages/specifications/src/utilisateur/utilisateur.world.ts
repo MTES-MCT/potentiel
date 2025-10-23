@@ -1,11 +1,15 @@
-import { AccèsWorld } from '../accès/accès.world';
+import { FieldToExempleMapper, mapToExemple } from '../helpers/mapToExemple';
+import { PotentielWorld } from '../potentiel.world';
 
 import { PorteurFixture } from './fixtures/porteur.fixture';
 import { ValidateurFixture } from './fixtures/validateur.fixture';
 import { DREALFixture } from './fixtures/dreal.fixture';
 import { AdminFixture } from './fixtures/admin.fixture';
 import { GRDFixture } from './fixtures/grd.fixture';
-import { InviterUtilisateurFixture } from './fixtures/inviter/inviter.fixture';
+import {
+  InviterUtilisateurFixture,
+  InviterUtilisateurProps,
+} from './fixtures/inviter/inviter.fixture';
 import { CREFixture } from './fixtures/cre.fixture';
 
 export class UtilisateurWorld {
@@ -50,7 +54,7 @@ export class UtilisateurWorld {
     return this.#inviterUtilisateur;
   }
 
-  constructor(private readonly accèsWorld: AccèsWorld) {
+  constructor(private readonly potentielWorld: PotentielWorld) {
     this.#porteurFixture = new PorteurFixture('porteur-projet');
     this.#validateurFixture = new ValidateurFixture('dgec-validateur');
     this.#drealFixture = new DREALFixture('dreal');
@@ -80,9 +84,37 @@ export class UtilisateurWorld {
     }
   }
 
+  mapExempleToFixtureData(exemple: Record<string, string>): InviterUtilisateurProps {
+    const map: FieldToExempleMapper<InviterUtilisateurProps> = {
+      email: ['email'],
+      rôle: ['rôle'],
+      fonction: ['fonction'],
+      nomComplet: ['nom complet'],
+      région: ['région'],
+      zone: ['zone'],
+      identifiantGestionnaireRéseau: [
+        'gestionnaire réseau',
+        (raisonSociale) =>
+          raisonSociale
+            ? this.potentielWorld.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
+                raisonSociale,
+              ).codeEIC
+            : undefined,
+      ],
+    };
+    const data = mapToExemple(exemple, map);
+    if (!data.rôle) {
+      throw new Error('le champ rôle est requis');
+    }
+    return {
+      ...data,
+      rôle: data.rôle,
+    };
+  }
+
   mapToExpected() {
-    if (this.accèsWorld.réclamerProjet.aÉtéCréé) {
-      return this.accèsWorld.réclamerProjet.mapToExpected();
+    if (this.potentielWorld.accèsWorld.réclamerProjet.aÉtéCréé) {
+      return this.potentielWorld.accèsWorld.réclamerProjet.mapToExpected();
     }
     return this.inviterUtilisateur.mapToExpected();
   }

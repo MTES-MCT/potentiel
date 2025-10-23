@@ -1,4 +1,4 @@
-import { When as Quand } from '@cucumber/cucumber';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -13,7 +13,7 @@ import {
 import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
+import { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture';
 
 import { getPayloadForRôle } from './utilisateur.given';
 
@@ -46,6 +46,14 @@ Quand(
   'un administrateur invite un utilisateur avec le rôle {string}',
   async function (this: PotentielWorld, rôle: string) {
     await inviterUtilisateur.call(this, getPayloadForRôle.call(this, rôle));
+  },
+);
+
+Quand(
+  'un administrateur invite un utilisateur avec :',
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    await inviterUtilisateur.call(this, this.utilisateurWorld.mapExempleToFixtureData(exemple));
   },
 );
 
@@ -185,10 +193,7 @@ export async function inviterPorteur(
   }
 }
 
-export async function inviterUtilisateur(
-  this: PotentielWorld,
-  props: Parameters<typeof InviterUtilisateurFixture.prototype.créer>[0],
-) {
+export async function inviterUtilisateur(this: PotentielWorld, props: InviterUtilisateurProps) {
   const {
     email: utilisateurInvité,
     rôle: rôleValue,
