@@ -14,7 +14,6 @@ import {
 import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { ModifierRôleUtilisateurFixture } from '../fixtures/inviter/modifier.fixture';
 import { InviterUtilisateurProps } from '../fixtures/inviter/inviter.fixture';
 
 import { getPayloadForRôle } from './utilisateur.given';
@@ -160,6 +159,27 @@ Quand(
   },
 );
 
+Quand(
+  "un administrateur modifie le rôle de l'utilisateur avec :",
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    await modifierRôleUtilisateur.call(
+      this,
+      this.utilisateurWorld.mapExempleToFixtureData(exemple),
+    );
+  },
+);
+
+Quand(
+  `l'administrateur modifie son propre rôle vers {string}`,
+  async function (this: PotentielWorld, nouveauRôle: string) {
+    await modifierRôleUtilisateur.call(this, {
+      rôle: nouveauRôle,
+      email: this.utilisateurWorld.adminFixture.email,
+    });
+  },
+);
+
 export async function inviterPorteur(
   this: PotentielWorld,
   {
@@ -273,7 +293,7 @@ export async function réactiverUtilisateur(
 
 export async function modifierRôleUtilisateur(
   this: PotentielWorld,
-  props: Parameters<typeof ModifierRôleUtilisateurFixture.prototype.créer>[0],
+  props: InviterUtilisateurProps,
 ) {
   const {
     email: utilisateurModifié,
