@@ -9,6 +9,7 @@ import {
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
   Zone,
+  ModifierRôleUtilisateurUseCase,
 } from '@potentiel-domain/utilisateur';
 import { Accès } from '@potentiel-domain/projet';
 
@@ -151,6 +152,34 @@ Quand(
   },
 );
 
+Quand(
+  "un administrateur modifie le rôle de l'utilisateur vers {string}",
+  async function (this: PotentielWorld, nouveauRôle: string) {
+    await modifierRôleUtilisateur.call(this, getPayloadForRôle.call(this, nouveauRôle));
+  },
+);
+
+Quand(
+  "un administrateur modifie le rôle de l'utilisateur avec :",
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    await modifierRôleUtilisateur.call(
+      this,
+      this.utilisateurWorld.mapExempleToFixtureData(exemple),
+    );
+  },
+);
+
+Quand(
+  `l'administrateur modifie son propre rôle vers {string}`,
+  async function (this: PotentielWorld, nouveauRôle: string) {
+    await modifierRôleUtilisateur.call(this, {
+      rôle: nouveauRôle,
+      email: this.utilisateurWorld.adminFixture.email,
+    });
+  },
+);
+
 export async function inviterPorteur(
   this: PotentielWorld,
   {
@@ -255,6 +284,42 @@ export async function réactiverUtilisateur(
         identifiantUtilisateurValue: identifiantUtilisateur,
         réactivéLeValue: DateTime.now().formatter(),
         réactivéParValue: this.utilisateurWorld.adminFixture.email,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function modifierRôleUtilisateur(
+  this: PotentielWorld,
+  props: InviterUtilisateurProps,
+) {
+  const {
+    email: utilisateurModifié,
+    rôle: nouveauRôleValue,
+    région,
+    zone,
+    identifiantGestionnaireRéseau,
+    fonction,
+    nomComplet,
+  } = this.utilisateurWorld.modifierRôleUtilisateur.créer({
+    email: this.utilisateurWorld.inviterUtilisateur.email,
+    ...props,
+  });
+  try {
+    await mediator.send<ModifierRôleUtilisateurUseCase>({
+      type: 'Utilisateur.UseCase.ModifierRôleUtilisateur',
+      data: {
+        identifiantUtilisateurValue: utilisateurModifié,
+        modifiéLeValue: DateTime.now().formatter(),
+        modifiéParValue: this.utilisateurWorld.adminFixture.email,
+        nouveauRôleValue,
+        régionValue: région,
+        zoneValue: zone,
+        identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
+        fonctionValue: fonction,
+        nomCompletValue: nomComplet,
       },
     });
   } catch (error) {

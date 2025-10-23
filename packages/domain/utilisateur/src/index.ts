@@ -10,13 +10,18 @@ import {
 import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
-import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.event';
+import {
+  SpécificitésRoleEventPayload,
+  UtilisateurInvitéEvent,
+} from './inviter/inviterUtilisateur.event';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
 import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
+import { ModifierRôleUtilisateurUseCase } from './modifierRôle/modifierRôleUtilisateurusecase';
+import { RoleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
@@ -44,6 +49,7 @@ export type UtilisateurUseCase =
   | InviterPorteurUseCase
   | DésactiverUtilisateurUseCase
   | RéactiverUtilisateurUseCase
+  | ModifierRôleUtilisateurUseCase
   | CréerPorteurUseCase;
 
 export {
@@ -51,6 +57,7 @@ export {
   InviterPorteurUseCase,
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
+  ModifierRôleUtilisateurUseCase,
   CréerPorteurUseCase,
 };
 
@@ -61,6 +68,8 @@ export {
   UtilisateurInvitéEvent,
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
+  RoleUtilisateurModifiéEvent,
+  SpécificitésRoleEventPayload,
 };
 export * from './utilisateur.event';
 
