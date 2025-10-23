@@ -15,9 +15,13 @@ import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
 import { InviterOptions } from './inviter/inviterUtilisateur.options';
 import { DésactiverOptions } from './désactiver/désactiverUtilisateur.options';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
+import { ModifierRôleOptions } from './modifierRôle/modifierRôleUtilisateur.options';
+import { RoleUtilisateurModifiéEvent } from './modifierRôle/modifierRôleUtilisateur.event';
 import { UtilisateurEvent } from './utilisateur.event';
 import {
   DésactivationPropreCompteError,
+  ModificationPropreRoleRefuséeError,
+  ModificationRolePorteurRefuséeError,
   PorteurInvitéSansProjetError,
   UtilisateurDéjàActifError,
   UtilisateurDéjàExistantError,
@@ -121,6 +125,36 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
     await this.publish(event);
   }
 
+  async modifierRôle({ nouvelUtilisateur, modifiéLe, modifiéPar }: ModifierRôleOptions) {
+    if (!this.exists) {
+      throw new UtilisateurInconnuError();
+    }
+
+    // TODO add specs
+    if (!this.#actif) {
+      throw new UtilisateurNonActifError();
+    }
+
+    const payload = nouvelUtilisateur.formatter();
+    if (payload.rôle === 'porteur-projet' || this.#rôle?.estPorteur()) {
+      throw new ModificationRolePorteurRefuséeError();
+    }
+
+    if (this.identifiantUtilisateur.estÉgaleÀ(modifiéPar)) {
+      throw new ModificationPropreRoleRefuséeError();
+    }
+
+    const event: RoleUtilisateurModifiéEvent = {
+      type: 'RoleUtilisateurModifié-V1',
+      payload: {
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+        ...payload,
+      },
+    };
+    await this.publish(event);
+  }
+
   apply(event: UtilisateurEvent) {
     match(event)
       .with({ type: 'PorteurInvité-V1' }, this.applyPorteurInvité.bind(this))
@@ -128,6 +162,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       .with({ type: 'UtilisateurInvité-V2' }, this.applyUtilisateurInvité.bind(this))
       .with({ type: 'UtilisateurDésactivé-V1' }, this.applyUtilisateurDésactivé.bind(this))
       .with({ type: 'UtilisateurRéactivé-V1' }, this.applyUtilisateurRéactivé.bind(this))
+      .with({ type: 'RoleUtilisateurModifié-V1' }, this.applyRoleUtilisateurModifié.bind(this))
       .with({ type: 'AccèsProjetRetiré-V1' }, () => {})
       .with({ type: 'ProjetRéclamé-V1' }, () => {})
       .exhaustive();
@@ -155,5 +190,9 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
   }
   applyUtilisateurRéactivé(_: UtilisateurRéactivéEvent) {
     this.#actif = true;
+  }
+
+  applyRoleUtilisateurModifié({ payload: { rôle } }: RoleUtilisateurModifiéEvent) {
+    this.#rôle = Role.convertirEnValueType(rôle);
   }
 }

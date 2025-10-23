@@ -1,6 +1,10 @@
 import { match } from 'ts-pattern';
 
-import { UtilisateurEntity, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import {
+  UtilisateurEntity,
+  SpécificitésRoleEventPayload,
+  UtilisateurInvitéEvent,
+} from '@potentiel-domain/utilisateur';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvitéEvent) => {
@@ -14,7 +18,7 @@ export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvit�
   });
 };
 
-export const mapToUtilisateurPayload = (payload: UtilisateurInvitéEvent['payload']) => {
+export const mapToUtilisateurPayload = (payload: SpécificitésRoleEventPayload) => {
   return match(payload)
     .with({ rôle: 'dgec-validateur' }, ({ rôle, fonction, nomComplet }) => ({
       rôle,

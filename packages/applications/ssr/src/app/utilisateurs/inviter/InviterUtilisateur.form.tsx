@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
-import { match } from 'ts-pattern';
 
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -11,17 +10,19 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { listeDesRolesSaufPorteur } from '@/utils/utilisateur/format-role';
 
+import { SpécificitésRoleInput } from '../_components/SpécifitéRoleInput';
+
 import { inviterUtilisateurAction, InviterUtilisateurFormKeys } from './inviterUtilisateur.action';
 
 export type InviterUtilisateurFormProps = {
-  role?: Role.RawType;
+  rôle?: Role.RawType;
   régions: { label: string; value: string }[];
   gestionnairesRéseau: { label: string; value: string }[];
   zones: { label: string; value: string }[];
 };
 
 export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
-  role: roleProp,
+  rôle: rôleProp,
   gestionnairesRéseau,
   régions,
   zones,
@@ -29,7 +30,7 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<InviterUtilisateurFormKeys>
   >({});
-  const [role, setRole] = useState(roleProp);
+  const [rôle, setRôle] = useState(rôleProp);
 
   return (
     <Form
@@ -47,8 +48,8 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
             options={listeDesRolesSaufPorteur}
             nativeSelectProps={{
               name: 'role',
-              value: role,
-              onChange: (e) => setRole(e.target.value),
+              value: rôle,
+              onChange: (e) => setRôle(e.target.value),
               required: true,
               'aria-required': true,
             }}
@@ -66,73 +67,15 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
             stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
           />
 
-          {match(role)
-            .with('dgec-validateur', () => (
-              <>
-                <Input
-                  label="Nom Complet"
-                  state={validationErrors['nomComplet'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['nomComplet']}
-                  nativeInputProps={{
-                    name: 'nomComplet',
-                    required: true,
-                    'aria-required': true,
-                  }}
-                />
-                <Input
-                  label="Fonction"
-                  state={validationErrors['fonction'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['fonction']}
-                  nativeInputProps={{
-                    name: 'fonction',
-                    required: true,
-                    'aria-required': true,
-                  }}
-                />
-              </>
-            ))
-            .with('dreal', () => (
-              <Select
-                label="Région"
-                options={régions}
-                state={validationErrors['region'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['region']}
-                nativeSelectProps={{
-                  name: 'region',
-                  required: true,
-                  'aria-required': true,
-                }}
-              />
-            ))
-            .with('grd', () => (
-              <Select
-                label="Gestionnaire Réseau"
-                options={gestionnairesRéseau}
-                state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
-                nativeSelectProps={{
-                  name: 'identifiantGestionnaireReseau',
-                  required: true,
-                  'aria-required': true,
-                }}
-              />
-            ))
-            .with('cocontractant', () => (
-              <Select
-                label="Zone"
-                options={zones}
-                state={validationErrors['zone'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['zone']}
-                nativeSelectProps={{
-                  name: 'zone',
-                  required: true,
-                  'aria-required': true,
-                }}
-              />
-            ))
-            .otherwise(() => (
-              <></>
-            ))}
+          {rôle && (
+            <SpécificitésRoleInput
+              rôle={rôle}
+              gestionnairesRéseau={gestionnairesRéseau}
+              régions={régions}
+              zones={zones}
+              validationErrors={validationErrors}
+            />
+          )}
         </div>
       </div>
     </Form>

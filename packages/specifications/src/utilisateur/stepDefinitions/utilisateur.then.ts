@@ -67,3 +67,19 @@ Alors(`le porteur devrait être actif`, async function (this: PotentielWorld) {
     expect(utilisateur.désactivé).to.be.undefined;
   });
 });
+
+Alors("l'utilisateur devrait être modifié", async function (this: PotentielWorld) {
+  await waitForExpect(async () => {
+    const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
+      type: 'System.Utilisateur.Query.TrouverUtilisateur',
+      data: {
+        identifiantUtilisateur: this.utilisateurWorld.modifierRôleUtilisateur.email,
+      },
+    });
+
+    const actual = mapToPlainObject(utilisateur);
+    const expected = mapToPlainObject(this.utilisateurWorld.mapToExpected());
+
+    expect(actual).to.deep.equal(expected);
+  });
+});
