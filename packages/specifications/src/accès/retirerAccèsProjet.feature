@@ -1,5 +1,5 @@
 # language: fr
-@utilisateur
+@accès
 Fonctionnalité: Retirer les accès d'un utilisateur à un projet
 
     Scénario: Retirer les accès d'un utilisateur à un projet

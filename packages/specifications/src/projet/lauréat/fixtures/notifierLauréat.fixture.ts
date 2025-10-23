@@ -5,6 +5,7 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture';
 import { getFakeLocation } from '../../../helpers/getFakeLocation';
+import { LauréatWorld } from '../lauréat.world';
 
 export interface NotifierLauréat {
   readonly nomProjet: string;
@@ -47,6 +48,10 @@ export class NotifierLauréatFixture
     return this.#localité;
   }
 
+  constructor(private lauréatWorld: LauréatWorld) {
+    super();
+  }
+
   créer(
     partialFixture: Partial<Readonly<NotifierLauréat>> & { notifiéPar: string },
   ): Readonly<NotifierLauréat> {
@@ -67,6 +72,8 @@ export class NotifierLauréatFixture
     this.#notifiéPar = fixture.notifiéPar;
 
     this.aÉtéCréé = true;
+
+    this.lauréatWorld.lauréatFixtures.set(fixture.nomProjet, this.lauréatWorld.identifiantProjet);
 
     return fixture;
   }

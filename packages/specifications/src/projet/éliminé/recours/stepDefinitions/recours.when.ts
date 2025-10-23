@@ -85,7 +85,6 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       const { identifiantProjet } = this.éliminéWorld;
-      const nomProjet = this.éliminéWorld.nomProjet;
 
       const {
         accordéLe: accordéeLe,
@@ -93,14 +92,6 @@ Quand(
         réponseSignée,
       } = this.éliminéWorld.recoursWorld.accorderRecoursFixture.créer({
         accordéPar: this.utilisateurWorld.validateurFixture.email,
-      });
-
-      this.lauréatWorld.lauréatFixtures.set(nomProjet, {
-        nom: nomProjet,
-        identifiantProjet: this.éliminéWorld.identifiantProjet,
-        dateDésignation: accordéeLe,
-        appelOffre: identifiantProjet.appelOffre,
-        période: identifiantProjet.période,
       });
 
       this.lauréatWorld.identifiantProjet = identifiantProjet;

@@ -18,6 +18,12 @@ Fonctionnalité: Inviter un porteur sur un projet
             | lauréat |
             | éliminé |
 
+    Scénario: Un porteur n'a pas accès à un projet auquel il n'est pas invité
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et le projet lauréat "Du boulodrome de Tourcoing"
+        Et un porteur invité sur le projet lauréat "Du boulodrome de Marseille"
+        Alors l'utilisateur invité n'a pas accès au projet lauréat "Du boulodrome de Tourcoing"
+
     Scénario: Impossible d'inviter un porteur déjà invité
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur invite un autre porteur sur le projet lauréat

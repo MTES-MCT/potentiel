@@ -106,7 +106,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
 
   this.lauréatWorld.identifiantProjet = identifiantProjetValue;
 
-  const { nomProjet, notifiéLe, notifiéPar } = this.lauréatWorld.notifierLauréatFixture.créer({
+  const { notifiéLe, notifiéPar } = this.lauréatWorld.notifierLauréatFixture.créer({
     nomProjet: candidature.values.nomProjetValue,
     localité: candidature.values.localitéValue,
     notifiéPar: this.utilisateurWorld.validateurFixture.email,
@@ -115,14 +115,6 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
 
   this.utilisateurWorld.porteurFixture.créer({
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
-  });
-
-  this.lauréatWorld.lauréatFixtures.set(candidature.values.nomProjetValue, {
-    nom: nomProjet,
-    identifiantProjet: identifiantProjetValue,
-    dateDésignation: notifiéLe,
-    appelOffre: identifiantProjetValue.appelOffre,
-    période: identifiantProjetValue.période,
   });
 
   await mediator.send<Candidature.NotifierCandidatureUseCase>({

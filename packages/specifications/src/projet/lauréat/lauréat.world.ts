@@ -19,16 +19,8 @@ import { InstallationWorld } from './installation/installation.world';
 import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
 import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture';
 
-type LauréatFixture = {
-  nom: string;
-  identifiantProjet: IdentifiantProjet.ValueType;
-  dateDésignation: string;
-  appelOffre: string;
-  période: string;
-};
-
 export class LauréatWorld {
-  #lauréatFixtures: Map<string, LauréatFixture> = new Map();
+  #lauréatFixtures: Map<string, IdentifiantProjet.ValueType> = new Map();
   get lauréatFixtures() {
     return this.#lauréatFixtures;
   }
@@ -56,15 +48,16 @@ export class LauréatWorld {
     return this.potentielWorld.candidatureWorld;
   }
 
-  /** @deprecated use `identifiantProjet` */
-  rechercherLauréatFixture(nom: string): LauréatFixture {
-    const lauréat = this.#lauréatFixtures.get(nom);
+  // Recherche un projet lauréat dans les fixtures par son nom,
+  // uniquement pour les tests qui nécessitent de manipuler plusieurs projets lauréats
+  rechercherLauréatFixture(nom: string): { identifiantProjet: IdentifiantProjet.ValueType } {
+    const identifiantProjet = this.#lauréatFixtures.get(nom);
 
-    if (!lauréat) {
+    if (!identifiantProjet) {
       throw new Error(`Aucun projet lauréat correspondant à ${nom} dans les jeux de données`);
     }
 
-    return lauréat;
+    return { identifiantProjet };
   }
 
   #identifiantProjet: IdentifiantProjet.ValueType;
@@ -155,7 +148,7 @@ export class LauréatWorld {
     this.#garantiesFinancièresWorld = new GarantiesFinancièresWorld(this);
     this.#natureDeLExploitationWorld = new NatureDeLExploitationWorld(this);
 
-    this.#notifierLauréatFixture = new NotifierLauréatFixture();
+    this.#notifierLauréatFixture = new NotifierLauréatFixture(this);
     this.#modifierSiteDeProductionFixture = new ModifierSiteDeProductionFixture();
     this.#modifierNomProjetFixture = new ModifierNomProjetFixture();
     this.#choisirCahierDesChargesFixture = new ChoisirCahierDesChargesFixture();

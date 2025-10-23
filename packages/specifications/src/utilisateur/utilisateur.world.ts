@@ -1,10 +1,11 @@
+import { AccèsWorld } from '../accès/accès.world';
+
 import { PorteurFixture } from './fixtures/porteur.fixture';
 import { ValidateurFixture } from './fixtures/validateur.fixture';
 import { DREALFixture } from './fixtures/dreal.fixture';
 import { AdminFixture } from './fixtures/admin.fixture';
 import { GRDFixture } from './fixtures/grd.fixture';
 import { InviterUtilisateurFixture } from './fixtures/inviter/inviter.fixture';
-import { RéclamerProjetFixture } from './fixtures/réclamer/réclamerProjet.fixture';
 import { CREFixture } from './fixtures/cre.fixture';
 
 export class UtilisateurWorld {
@@ -49,13 +50,7 @@ export class UtilisateurWorld {
     return this.#inviterUtilisateur;
   }
 
-  #réclamerProjet: RéclamerProjetFixture;
-
-  get réclamerProjet() {
-    return this.#réclamerProjet;
-  }
-
-  constructor() {
+  constructor(private readonly accèsWorld: AccèsWorld) {
     this.#porteurFixture = new PorteurFixture('porteur-projet');
     this.#validateurFixture = new ValidateurFixture('dgec-validateur');
     this.#drealFixture = new DREALFixture('dreal');
@@ -63,7 +58,6 @@ export class UtilisateurWorld {
     this.#adminFixture = new AdminFixture('admin');
     this.#creFixture = new CREFixture('cre');
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
-    this.#réclamerProjet = new RéclamerProjetFixture();
   }
 
   récupérerEmailSelonRôle(role: string): string {
@@ -87,8 +81,8 @@ export class UtilisateurWorld {
   }
 
   mapToExpected() {
-    if (this.réclamerProjet.aÉtéCréé) {
-      return this.réclamerProjet.mapToExpected();
+    if (this.accèsWorld.réclamerProjet.aÉtéCréé) {
+      return this.accèsWorld.réclamerProjet.mapToExpected();
     }
     return this.inviterUtilisateur.mapToExpected();
   }

@@ -10,6 +10,7 @@ import { TâchePlanifiéeWorld } from './tâche-planifiée/tâchePlanifiée.worl
 import { NotificationWorld } from './notification/notification.world';
 import { CandidatureWorld } from './candidature/candidature.world';
 import { PériodeWorld } from './période/période.world';
+import { AccèsWorld } from './accès/accès.world';
 
 export class PotentielWorld extends World {
   #périodeWorld!: PériodeWorld;
@@ -66,6 +67,12 @@ export class PotentielWorld extends World {
     return this.#utilisateurWorld;
   }
 
+  #accèsWorld!: AccèsWorld;
+
+  get accèsWorld() {
+    return this.#accèsWorld;
+  }
+
   #notificationWorld!: NotificationWorld;
 
   get notificationWorld() {
@@ -100,7 +107,8 @@ export class PotentielWorld extends World {
     this.#raccordementWorld = new RaccordementWorld(this.#lauréatWorld);
     this.#tâcheWorld = new TâcheWorld();
     this.#tâchePlanifiéeWorld = new TâchePlanifiéeWorld();
-    this.#utilisateurWorld = new UtilisateurWorld();
+    this.#accèsWorld = new AccèsWorld();
+    this.#utilisateurWorld = new UtilisateurWorld(this.#accèsWorld);
     this.#notificationWorld = new NotificationWorld();
   }
 }
