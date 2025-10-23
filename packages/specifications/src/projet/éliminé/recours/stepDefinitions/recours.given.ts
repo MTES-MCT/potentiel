@@ -61,14 +61,13 @@ async function créerAccordRecours(this: PotentielWorld) {
     accordéPar: this.utilisateurWorld.validateurFixture.email,
   });
 
-  this.lauréatWorld.notifierLauréatFixture.créer({
+  this.lauréatWorld.notifier({
+    identifiantProjet: this.éliminéWorld.identifiantProjet.formatter(),
     notifiéLe: accordéeLe,
     notifiéPar: accordéePar,
     localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,
     nomProjet: this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
   });
-
-  this.lauréatWorld.identifiantProjet = this.éliminéWorld.identifiantProjet;
 
   await mediator.send<Éliminé.Recours.RecoursUseCase>({
     type: 'Éliminé.Recours.UseCase.AccorderRecours',

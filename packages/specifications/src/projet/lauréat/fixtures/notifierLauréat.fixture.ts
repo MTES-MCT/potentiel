@@ -5,9 +5,9 @@ import { Candidature } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../../fixture';
 import { getFakeLocation } from '../../../helpers/getFakeLocation';
-import { LauréatWorld } from '../lauréat.world';
 
 export interface NotifierLauréat {
+  readonly identifiantProjet: string;
   readonly nomProjet: string;
   readonly notifiéLe: string;
   readonly notifiéPar: string;
@@ -21,10 +21,20 @@ export interface NotifierLauréat {
   };
 }
 
+export type NotifierLauréatProps = Partial<Readonly<NotifierLauréat>> & {
+  identifiantProjet: string;
+  notifiéPar: string;
+};
+
 export class NotifierLauréatFixture
   extends AbstractFixture<NotifierLauréat>
   implements NotifierLauréat
 {
+  #identifiantProjet!: string;
+
+  get identifiantProjet(): string {
+    return this.#identifiantProjet;
+  }
   #nomProjet!: string;
 
   get nomProjet(): string {
@@ -48,13 +58,7 @@ export class NotifierLauréatFixture
     return this.#localité;
   }
 
-  constructor(private lauréatWorld: LauréatWorld) {
-    super();
-  }
-
-  créer(
-    partialFixture: Partial<Readonly<NotifierLauréat>> & { notifiéPar: string },
-  ): Readonly<NotifierLauréat> {
+  créer(partialFixture: NotifierLauréatProps): Readonly<NotifierLauréat> {
     const fixture = {
       nomProjet: faker.person.fullName(),
       notifiéLe: faker.date.recent().toISOString(),
@@ -66,14 +70,13 @@ export class NotifierLauréatFixture
       ...partialFixture,
     };
 
+    this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomProjet = fixture.nomProjet;
     this.#localité = fixture.localité;
     this.#notifiéLe = fixture.notifiéLe;
     this.#notifiéPar = fixture.notifiéPar;
 
     this.aÉtéCréé = true;
-
-    this.lauréatWorld.lauréatFixtures.set(fixture.nomProjet, this.lauréatWorld.identifiantProjet);
 
     return fixture;
   }

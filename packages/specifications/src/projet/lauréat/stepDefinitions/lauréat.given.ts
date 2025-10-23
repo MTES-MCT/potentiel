@@ -1,7 +1,7 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Email } from '@potentiel-domain/common';
 import { Accès, CahierDesCharges, Candidature } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
@@ -100,13 +100,10 @@ EtantDonné(
 export async function notifierLauréat(this: PotentielWorld, dateDésignation?: string) {
   const candidature = this.candidatureWorld.importerCandidature;
 
-  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
-    candidature.identifiantProjet,
-  );
+  const identifiantProjetValue = candidature.identifiantProjet;
 
-  this.lauréatWorld.identifiantProjet = identifiantProjetValue;
-
-  const { notifiéLe, notifiéPar } = this.lauréatWorld.notifierLauréatFixture.créer({
+  const { notifiéLe, notifiéPar } = this.lauréatWorld.notifier({
+    identifiantProjet: identifiantProjetValue,
     nomProjet: candidature.values.nomProjetValue,
     localité: candidature.values.localitéValue,
     notifiéPar: this.utilisateurWorld.validateurFixture.email,
@@ -120,7 +117,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
   await mediator.send<Candidature.NotifierCandidatureUseCase>({
     type: 'Candidature.UseCase.NotifierCandidature',
     data: {
-      identifiantProjetValue: identifiantProjetValue.formatter(),
+      identifiantProjetValue,
       notifiéeLeValue: notifiéLe,
       notifiéeParValue: notifiéPar,
       attestationValue: {
@@ -139,7 +136,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
     type: 'Utilisateur.UseCase.InviterPorteur',
     data: {
       identifiantUtilisateurValue: candidature.values.emailContactValue,
-      identifiantsProjetValues: [identifiantProjetValue.formatter()],
+      identifiantsProjetValues: [identifiantProjetValue],
       invitéLeValue: notifiéLe,
       invitéParValue: Email.système.formatter(),
     },
@@ -148,7 +145,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation?: 
   await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
     type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
     data: {
-      identifiantProjetValue: identifiantProjetValue.formatter(),
+      identifiantProjetValue,
       identifiantUtilisateurValue: candidature.values.emailContactValue,
       autoriséLeValue: notifiéLe,
       autoriséParValue: Email.système.formatter(),

@@ -4,31 +4,14 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { PotentielWorld } from '../../potentiel.world';
 
 import { RecoursWord } from './recours/recours.world';
-import { NotifierÉliminéFixture } from './fixtures/notifierÉliminé.fixture';
-
-type ÉliminéFixture = {
-  nom: string;
-  identifiantProjet: IdentifiantProjet.ValueType;
-};
+import {
+  NotifierÉliminé,
+  NotifierÉliminéFixture,
+  NotifierÉliminéProps,
+} from './fixtures/notifierÉliminé.fixture';
 
 export class ÉliminéWorld {
-  #éliminéFixtures: Map<string, ÉliminéFixture> = new Map();
-
-  /** @deprecated use notifierEliminéFixture */
-  get éliminéFixtures() {
-    return this.#éliminéFixtures;
-  }
-
-  /** @deprecated use notifierEliminéFixture */
-  rechercherÉliminéFixture(nom: string): ÉliminéFixture {
-    const éliminé = this.#éliminéFixtures.get(nom);
-
-    if (!éliminé) {
-      throw new Error(`Aucun projet éliminé correspondant à ${nom} dans les jeux de données`);
-    }
-
-    return éliminé;
-  }
+  #éliminéFixtures: Map<string, IdentifiantProjet.ValueType> = new Map();
 
   #recoursWorld!: RecoursWord;
 
@@ -46,9 +29,6 @@ export class ÉliminéWorld {
   }
 
   #identifiantProjet: IdentifiantProjet.ValueType;
-  set identifiantProjet(value: IdentifiantProjet.ValueType) {
-    this.#identifiantProjet = value;
-  }
 
   get identifiantProjet() {
     return this.#identifiantProjet;
@@ -111,5 +91,29 @@ export class ÉliminéWorld {
     };
 
     return expected;
+  }
+
+  /**
+   * Recherche un projet éliminé dans les fixtures par son nom,
+   * uniquement pour les tests qui nécessitent de manipuler plusieurs projets éliminés
+   */
+  rechercherÉliminéFixture(nom: string): { identifiantProjet: IdentifiantProjet.ValueType } {
+    const identifiantProjet = this.#éliminéFixtures.get(nom);
+
+    if (!identifiantProjet) {
+      throw new Error(`Aucun projet éliminé correspondant à ${nom} dans les jeux de données`);
+    }
+
+    return { identifiantProjet };
+  }
+
+  notifier(props: NotifierÉliminéProps): Readonly<NotifierÉliminé> {
+    const fixture = this.#notifierEliminéFixture.créer(props);
+    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(fixture.identifiantProjet);
+    this.#éliminéFixtures.set(
+      this.candidatureWorld.importerCandidature.dépôtValue.nomProjet,
+      this.identifiantProjet,
+    );
+    return fixture;
   }
 }

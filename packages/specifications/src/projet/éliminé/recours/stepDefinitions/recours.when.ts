@@ -94,8 +94,6 @@ Quand(
         accordéPar: this.utilisateurWorld.validateurFixture.email,
       });
 
-      this.lauréatWorld.identifiantProjet = identifiantProjet;
-
       await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.AccorderRecours',
         data: {
@@ -106,7 +104,8 @@ Quand(
         },
       });
 
-      this.lauréatWorld.notifierLauréatFixture.créer({
+      this.lauréatWorld.notifier({
+        identifiantProjet: identifiantProjet.formatter(),
         notifiéLe: accordéeLe,
         notifiéPar: accordéePar,
         localité: this.candidatureWorld.importerCandidature.dépôtValue.localité,

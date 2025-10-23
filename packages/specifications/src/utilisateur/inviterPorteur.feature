@@ -1,6 +1,5 @@
 # language: fr
 @utilisateur
-@select
 Fonctionnalité: Inviter un porteur sur un projet
 
     Plan du scénario: Inviter un porteur
