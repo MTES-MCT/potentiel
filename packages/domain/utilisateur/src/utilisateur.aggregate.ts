@@ -83,7 +83,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
         return {
           ...basePayload,
           rôle,
-          région,
+          région: région.formatter(),
         };
       })
       .with('grd', (rôle) => {
@@ -107,7 +107,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
         return {
           ...basePayload,
           rôle,
-          zone,
+          zone: zone.formatter(),
         };
       })
       .with(P.union('admin', 'cre', 'ademe', 'caisse-des-dépôts', 'acheteur-obligé'), (rôle) => ({
