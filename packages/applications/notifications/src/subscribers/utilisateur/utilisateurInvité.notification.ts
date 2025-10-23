@@ -20,7 +20,6 @@ export async function utilisateurInvitéNotification({
     .with('dreal', () => templateIds.dreal)
     .with(
       P.union(
-        'acheteur-obligé',
         'cocontractant',
         'grd',
         'caisse-des-dépôts',

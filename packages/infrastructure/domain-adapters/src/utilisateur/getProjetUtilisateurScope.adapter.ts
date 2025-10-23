@@ -50,6 +50,5 @@ export const getProjetUtilisateurScopeAdapter: GetProjetUtilisateurScope = async
     .with({ rôle: 'cre' }, async () => ({ type: 'all' }))
     .with({ rôle: 'ademe' }, async () => ({ type: 'all' }))
     .with({ rôle: 'caisse-des-dépôts' }, async () => ({ type: 'all' }))
-    .with({ rôle: 'acheteur-obligé' }, async () => ({ type: 'all' }))
     .exhaustive();
 };

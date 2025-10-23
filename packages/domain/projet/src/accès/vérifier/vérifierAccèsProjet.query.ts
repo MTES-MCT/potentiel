@@ -42,7 +42,6 @@ export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProj
     return Option.match(utilisateur)
       .some(async (utilisateur) => {
         const hasAccess = await match(utilisateur)
-          .with({ rôle: 'acheteur-obligé' }, async () => true)
           .with({ rôle: 'ademe' }, () => estUneCandidatureNotifiée(identifiantProjetValue))
           .with({ rôle: 'admin' }, async () => true)
           .with({ rôle: 'caisse-des-dépôts' }, () =>
