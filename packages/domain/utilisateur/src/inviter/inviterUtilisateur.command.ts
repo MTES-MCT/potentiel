@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { Role } from '..';
+import { Role, Région, Zone } from '..';
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
 
 export type InviterUtilisateurCommand = Message<
@@ -15,9 +15,9 @@ export type InviterUtilisateurCommand = Message<
     invitéPar: Email.ValueType;
     fonction?: string;
     nomComplet?: string;
-    région?: string;
+    région?: Région.ValueType;
     identifiantGestionnaireRéseau?: string;
-    zone?: string;
+    zone?: Zone.ValueType;
   }
 >;
 

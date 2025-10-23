@@ -40,6 +40,7 @@ Alors(
 
     const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
 
+    let hasAccess = false;
     try {
       await mediator.send<Accès.VérifierAccèsProjetQuery>({
         type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
@@ -48,8 +49,9 @@ Alors(
           identifiantUtilisateurValue: identifiantUtilisateur.formatter(),
         },
       });
-      expect.fail("L'utilisateur ne devrait pas avoir accès au projet");
+      hasAccess = true;
     } catch {}
+    expect(hasAccess).to.eq(false, "L'utilisateur ne devrait pas avoir accès au projet");
   },
 );
 

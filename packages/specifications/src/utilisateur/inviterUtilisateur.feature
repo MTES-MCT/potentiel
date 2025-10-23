@@ -82,6 +82,32 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Quand un administrateur invite un utilisateur avec le rôle "dgec-validateur"
         Alors l'utilisateur devrait être informé que "La fonction est obligatoire pour un utilisateur dgec-validateur"
 
+    Scénario: Une dreal n'a accès qu'aux projets de sa région
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | région | Occitanie |
+        Quand un administrateur invite une dreal pour la région "Auvergne-Rhône-Alpes"
+        Alors l'utilisateur invité n'a pas accès au projet lauréat
+
+    Scénario: Un gestionnaire de réseau n'a accès qu'aux projets qu'il raccorde
+        Etant donné le gestionnaire de réseau "Enedis"
+        Et le gestionnaire de réseau "Arc Energies Maurienne"
+        Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
+        Quand un administrateur invite le gestionnaire de réseau "Arc Energies Maurienne"
+        Alors l'utilisateur invité n'a pas accès au projet lauréat
+
+    Plan du scénario: Les utilisateurs hors CRE et DGEC n'ont pas accès aux projets avant notification
+        Etant donné la candidature lauréate "Du boulodrome de Toulouse"
+        Quand un administrateur invite un utilisateur avec le rôle "<Rôle>"
+        Alors l'utilisateur invité n'a pas accès au projet lauréat
+
+        Exemples:
+            | Rôle              |
+            | ademe             |
+            | caisse-des-dépôts |
+            | dreal             |
+            | grd               |
+            | cocontractant     |
+
     Scénario: Un cocontractant n'a accès qu'aux projets de sa zone
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | région | <Région> |

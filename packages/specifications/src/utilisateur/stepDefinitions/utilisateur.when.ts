@@ -100,6 +100,17 @@ Quand(
 );
 
 Quand(
+  'un administrateur invite une dreal pour la région {string}',
+  async function (this: PotentielWorld, région: string) {
+    await inviterUtilisateur.call(this, {
+      ...getPayloadForRôle.call(this, Role.dreal.nom),
+      rôle: Role.dreal.nom,
+      région,
+    });
+  },
+);
+
+Quand(
   'un administrateur invite un cocontractant pour la zone {string}',
   async function (this: PotentielWorld, zone: string) {
     await inviterUtilisateur.call(this, {
@@ -120,6 +131,18 @@ Quand(
   'un administrateur invite un gestionnaire de réseau attribué au raccordement du projet lauréat',
   async function (this: PotentielWorld) {
     await inviterUtilisateur.call(this, getPayloadForRôle.call(this, Role.grd.nom));
+  },
+);
+
+Quand(
+  'un administrateur invite le gestionnaire de réseau {string}',
+  async function (this: PotentielWorld, grd: string) {
+    await inviterUtilisateur.call(this, {
+      ...getPayloadForRôle.call(this, Role.grd.nom),
+      rôle: Role.grd.nom,
+      identifiantGestionnaireRéseau:
+        this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(grd).codeEIC,
+    });
   },
 );
 
