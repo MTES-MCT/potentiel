@@ -325,6 +325,7 @@ const DrealActions = ({
   actionnaireAffichage,
   producteurAffichage,
   siteDeProductionAffichage,
+  fournisseurAffichage,
 }: DrealActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -335,6 +336,7 @@ const DrealActions = ({
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
           siteDeProductionAffichage={siteDeProductionAffichage}
+          fournisseurAffichage={fournisseurAffichage}
         />
       )}
       <PrimaryButton onClick={() => window.print()}>
@@ -421,6 +423,7 @@ export const ProjectActions = ({
           actionnaireAffichage={actionnaireAffichage}
           représentantLégalAffichage={représentantLégalAffichage}
           siteDeProductionAffichage={siteDeProductionAffichage}
+          fournisseurAffichage={fournisseurAffichage}
         />
       )}
     </div>
