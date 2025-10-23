@@ -1,13 +1,25 @@
 # language: fr
 @fournisseur
-Fonctionnalité: Modifier un fournisseur
+Fonctionnalité: Modifier un fournisseur en tant que DREAL ou DGEC
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    Scénario: Modifier un fournisseur
+    Scénario: Modifier un fournisseur en tant que admin
         Quand le DGEC validateur modifie le fournisseur du projet lauréat
+        Alors le fournisseur devrait être mis à jour
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+
+    Scénario: Modifier un fournisseur en tant que DREAL
+        Quand la DREAL associée au projet modifie le fournisseur du projet lauréat
         Alors le fournisseur devrait être mis à jour
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Modification du fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
