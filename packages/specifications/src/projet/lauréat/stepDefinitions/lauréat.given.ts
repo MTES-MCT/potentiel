@@ -9,11 +9,14 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
 import { choisirCahierDesCharges } from './lauréat.when';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, { nomProjet, statut: 'classé' });
+
+  await waitForSagasNotificationsAndProjectionsToFinish();
 
   await notifierLauréat.call(this);
 });
@@ -33,6 +36,7 @@ EtantDonné(
       ? new Date(exemple['date notification']).toISOString()
       : undefined;
 
+    await waitForSagasNotificationsAndProjectionsToFinish();
     await notifierLauréat.call(this, dateDésignation);
   },
 );
@@ -40,23 +44,20 @@ EtantDonné(
 EtantDonné(
   'le projet lauréat sans garanties financières importées {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    try {
-      await importerCandidature.call(this, {
-        nomProjet,
-        statut: 'classé',
-        dépôt: { typeGarantiesFinancières: undefined, dateÉchéanceGf: undefined },
-        // PPE2 Innovation n'est pas soumis aux GF,
-        // donc permet l'import d'une candidature sans type de GF
-        identifiantProjet: {
-          appelOffre: 'PPE2 - Innovation',
-          période: '1',
-        },
-      });
+    await importerCandidature.call(this, {
+      nomProjet,
+      statut: 'classé',
+      dépôt: { typeGarantiesFinancières: undefined, dateÉchéanceGf: undefined },
+      // PPE2 Innovation n'est pas soumis aux GF,
+      // donc permet l'import d'une candidature sans type de GF
+      identifiantProjet: {
+        appelOffre: 'PPE2 - Innovation',
+        période: '1',
+      },
+    });
 
-      await notifierLauréat.call(this);
-    } catch (error) {
-      this.error = error as Error;
-    }
+    await waitForSagasNotificationsAndProjectionsToFinish();
+    await notifierLauréat.call(this);
   },
 );
 EtantDonné(

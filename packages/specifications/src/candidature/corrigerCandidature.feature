@@ -24,7 +24,7 @@ Fonctionnalité: Corriger une candidature
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
     Scénario: Corriger une candidature notifiée en régénérant l'attestation
-        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
+        Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
             | doit régénérer attestation | oui  |
@@ -34,7 +34,7 @@ Fonctionnalité: Corriger une candidature
         Et l'attestation de désignation de la candidature devrait être régénérée
 
     Scénario: Corriger une candidature notifiée sans régénérer l'attestation
-        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
+        Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat               | abcd |
             | doit régénérer attestation | non  |
@@ -74,19 +74,19 @@ Fonctionnalité: Corriger une candidature
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
 
     Scénario: Impossible de regénérer l'attestation d'une candidature sans modifications
-        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
+        Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | doit régénérer attestation | oui |
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
 
     Scénario: Impossible de changer le statut d'une candidature lauréate notifiée en éliminée
-        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
+        Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | statut | éliminé |
         Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
 
     Scénario: Impossible de changer le statut d'une candidature éliminée notifiée en lauréate
-        Etant donné la candidature éliminée notifiée "Boulodrome Sainte Livrade"
+        Etant donné le projet éliminé "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | statut | classé |
         Alors l'administrateur devrait être informé que "Le statut d'une candidature ne peut être modifié après la notification"
@@ -254,7 +254,7 @@ Fonctionnalité: Corriger une candidature
         Alors l'administrateur devrait être informé que "La date d'échéance ne peut être renseignée pour ce type de garanties financières"
 
     Scénario: Impossible de changer le type de GF d'une candidature lauréate notifiée
-        Etant donné la candidature lauréate notifiée "Boulodrome Sainte Livrade"
+        Etant donné le projet lauréat "Boulodrome Sainte Livrade"
         Quand le DGEC validateur corrige la candidature avec :
             | type GF | six-mois-après-achèvement |
         Alors l'administrateur devrait être informé que "Le type de garanties financières d'une candidature ne peut être modifié après la notification"

@@ -8,9 +8,11 @@ import { Accès, Candidature } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
 import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, { nomProjet, statut: 'éliminé' });
+  await waitForSagasNotificationsAndProjectionsToFinish();
   await notifierÉliminé.call(this);
 });
 
@@ -29,6 +31,7 @@ EtantDonné(
       ? new Date(exemple['date notification']).toISOString()
       : undefined;
 
+    await waitForSagasNotificationsAndProjectionsToFinish();
     await notifierÉliminé.call(this, dateDésignation);
   },
 );
@@ -40,6 +43,7 @@ EtantDonné(
 
     await importerCandidaturePériodeLegacy.call(this, nomProjet, 'éliminé', exemple);
 
+    await waitForSagasNotificationsAndProjectionsToFinish();
     await notifierÉliminé.call(this);
   },
 );
