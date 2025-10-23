@@ -31,7 +31,7 @@ export default async function Page({ searchParams }: { searchParams: { role?: st
 
       return (
         <InviterUtilisateurPage
-          role={role?.nom}
+          rôle={role?.nom}
           régions={Région.régions
             .map((nom) => ({ label: nom, value: nom }))
             .sort((a, b) => a.label.localeCompare(b.label))}

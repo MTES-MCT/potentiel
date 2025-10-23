@@ -11,5 +11,9 @@ export const lister = ({ actif }: { actif?: boolean } = {}) => {
 export const inviter = `/utilisateurs/inviter`;
 export const réclamerProjet = `/reclamer`;
 
+/** TODO à déplacer dans /projet */
 export const listerPorteurs = (identifiantProjet: string) =>
   `/utilisateurs/${encodeParameter(identifiantProjet)}`;
+
+export const modifierRôle = (identifiantUtilisateur: string) =>
+  `/utilisateurs/${encodeParameter(identifiantUtilisateur)}/role:modifier`;

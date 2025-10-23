@@ -88,3 +88,15 @@ export class UtilisateurDéjàActifError extends InvalidOperationError {
     super(`L'utilisateur est déjà actif`);
   }
 }
+
+export class ModificationRolePorteurRefuséeError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de modifier un utilisateur depuis ou vers le rôle porteur de projet`);
+  }
+}
+
+export class ModificationPropreRoleRefuséeError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de modifier son propre rôle`);
+  }
+}

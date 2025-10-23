@@ -1,12 +1,38 @@
 import { match } from 'ts-pattern';
 
-import { UtilisateurEntity, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import {
+  SpécificitésRoleEventPayload,
+  UtilisateurEntity,
+  UtilisateurInvitéEvent,
+} from '@potentiel-domain/utilisateur';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvitéEvent) => {
+export const utilisateurInvitéProjector = async ({ type, payload }: UtilisateurInvitéEvent) => {
   const { identifiantUtilisateur, invitéLe, invitéPar } = payload;
 
-  const porteurToUpsert = match(payload)
+  // Gérer le cas particulier de l'ancien rôle "acheteur-obligé"
+  if ((payload.rôle as string) === 'acheteur-obligé') {
+    await utilisateurInvitéProjector({
+      type,
+      payload: {
+        ...payload,
+        rôle: 'cocontractant',
+        zone: 'métropole',
+      },
+    });
+    return;
+  }
+
+  await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
+    ...mapToRôleUtilisateurPayload(payload),
+    identifiantUtilisateur,
+    invitéLe,
+    invitéPar,
+  });
+};
+
+export const mapToRôleUtilisateurPayload = (payload: SpécificitésRoleEventPayload) => {
+  return match(payload)
     .with({ rôle: 'dgec-validateur' }, ({ rôle, fonction, nomComplet }) => ({
       rôle,
       fonction,
@@ -25,11 +51,4 @@ export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvit�
       identifiantGestionnaireRéseau,
     }))
     .otherwise(({ rôle }) => ({ rôle }));
-
-  await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
-    ...porteurToUpsert,
-    identifiantUtilisateur,
-    invitéLe,
-    invitéPar,
-  });
 };
