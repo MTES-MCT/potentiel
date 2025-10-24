@@ -115,7 +115,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
-    // annuler tâche planifiée relance achèvement
+    await this.lauréat.achèvement.annulerTâchesPlanifiéesRappelsÉchéance();
   }
 
   async accorder({
