@@ -27,6 +27,23 @@ Fonctionnalité: Accorder la demande de délai d'un projet lauréat
             | 2020-02-29                            | 56                     | 2024-10-29                            |
             | 2023-04-21                            | 46                     | 2027-02-21                            |
 
+    Scénario: Un délai est accordé pour un projet de l'appel d'offres Petit PV
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+        Et une date d'achèvement prévisionnel pour le projet lauréat au "2028-07-02"
+        Et une demande de délai en cours de "1" mois pour le projet lauréat
+        Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
+        Alors la demande de délai devrait être accordée
+        Et la date d'achèvement prévisionnel du projet lauréat devrait être au "2028-08-02"
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - La demande de délai pour le projet Du boulodrome de Bordeaux situé dans le département(.*) a été accordée |
+            | nom_projet | Du boulodrome de Bordeaux                                                                                             |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                 |
+
+        Et une tâche "rappel échéance achèvement à trois mois" est planifiée à la date du "2028-05-02" pour le projet lauréat
+        Et une tâche "rappel échéance achèvement à deux mois" est planifiée à la date du "2028-06-02" pour le projet lauréat
+        Et une tâche "rappel échéance achèvement à un mois" est planifiée à la date du "2028-07-02" pour le projet lauréat
+
     Scénario: Impossible d'accorder le délai d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet accorde la demande de délai pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de délai n'est en cours"

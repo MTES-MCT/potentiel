@@ -61,7 +61,7 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} n'est plus planifiée pour le projet lauréat`,
+  `il n'y a pas de tâche {string} planifiée pour le projet lauréat`,
   async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée) {
     const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
     const { identifiantProjet } = this.lauréatWorld;
