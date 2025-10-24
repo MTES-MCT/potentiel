@@ -54,10 +54,12 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
             <Input
               state={validationErrors['puissance'] ? 'error' : 'default'}
               stateRelatedMessage={validationErrors['puissance']}
-              label={`Puissance (en ${unitéPuissance}) (optionnel)`}
+              label={`Puissance (en ${unitéPuissance})`}
               nativeInputProps={{
                 name: 'puissance',
                 defaultValue: puissance,
+                'aria-required': true,
+                required: true,
                 type: 'number',
                 inputMode: 'decimal',
                 pattern: '[0-9]+([.][0-9]+)?',
@@ -71,6 +73,8 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
               nativeInputProps={{
                 name: 'puissanceDeSite',
                 defaultValue: puissanceDeSite,
+                'aria-required': infosCahierDesChargesPuissanceDeSite === 'requis',
+                required: infosCahierDesChargesPuissanceDeSite === 'requis',
                 type: 'number',
                 inputMode: 'decimal',
                 pattern: '[0-9]+([.][0-9]+)?',
