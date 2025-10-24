@@ -56,7 +56,7 @@ Fonctionnalité: Valider un dépôt de garanties financières
         Alors les garanties financières actuelles du projet sont échues
         Et des garanties financières devraient être attendues pour le projet lauréat avec :
             | motif | échéance-garanties-financières-actuelles |
-        Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+        Et il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
         Et une tâche "rappel des garanties financières à transmettre" est planifiée pour le projet lauréat
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-3 de la date d'échéance en cas de dépôt validé
