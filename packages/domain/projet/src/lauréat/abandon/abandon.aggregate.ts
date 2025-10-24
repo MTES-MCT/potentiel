@@ -115,6 +115,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+    await this.lauréat.achèvement.annulerTâchesPlanifiéesRappelsÉchéance();
   }
 
   async accorder({
@@ -325,6 +326,9 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+    await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
+      this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
+    );
   }
 
   async rejeter({
@@ -349,6 +353,9 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+    await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
+      this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
+    );
   }
 
   async supprimerDemandeChangement({

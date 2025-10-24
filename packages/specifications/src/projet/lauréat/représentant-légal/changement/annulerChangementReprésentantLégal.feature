@@ -11,8 +11,8 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable
-        Et une tâche "gestion automatique de la demande de changement de représentant légal" n'est plus planifiée pour le projet lauréat
-        Et une tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" n'est plus planifiée pour le projet lauréat
+        Et il n'y a pas de tâche "gestion automatique de la demande de changement de représentant légal" planifiée pour le projet lauréat
+        Et il n'y a pas de tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" planifiée pour le projet lauréat
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Annulation de la demande de modification du représentant légal pour le projet Du boulodrome de Marseille situé dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                                         |

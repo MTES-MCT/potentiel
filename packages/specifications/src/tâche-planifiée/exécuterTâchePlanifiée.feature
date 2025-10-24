@@ -12,7 +12,7 @@ Fonctionnalité: Exécuter une tâche planifiée
             | type             | échoir les garanties financières |
             | date d'exécution | 2050-07-02                       |
         Quand on exécute les tâches planifiées à la date du "2050-07-02"
-        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
 
     Scénario: Impossible d'executer une tâche planifiée déjà exécutée
         Etant donné une tâche planifiée exécutée pour le projet lauréat avec :

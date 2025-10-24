@@ -37,7 +37,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-01         |
-        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
 
     Scénario: Une tâche du type "rappel échéance garanties financières à un mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
@@ -46,7 +46,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-01         |
-        Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "rappel échéance garanties financières à un mois" planifiée pour le projet lauréat
 
     Scénario: Une tâche du type "rappel échéance garanties financières à trois mois" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet lauréat avec :
@@ -55,7 +55,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-01         |
-        Alors une tâche "rappel échéance garanties financières à trois mois" n'est plus planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "rappel échéance garanties financières à trois mois" planifiée pour le projet lauréat
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si la date de constitution est dans le futur
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat avec :
@@ -122,7 +122,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
     Scénario: Soumettre un dépôt de garanties financière annule la relance de demande de Garanties Financières
         Etant donné des garanties financières en attente pour le projet lauréat
         Quand un porteur soumet un dépôt de garanties financières pour le projet lauréat
-        Alors une tâche "rappel des garanties financières à transmettre" n'est plus planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "rappel des garanties financières à transmettre" planifiée pour le projet lauréat
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si le projet est exempt de garanties financières
         Etant donné le projet lauréat "Du Boulodrome de Tourcoing" avec :

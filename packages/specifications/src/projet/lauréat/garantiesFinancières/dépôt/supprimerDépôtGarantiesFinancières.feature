@@ -74,7 +74,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
     Scénario: Une tâche du type "échoir les garanties financières" n'est pas planifiée quand le porteur supprime un dépôt et que le projet ne dispose pas de garanties financières actuelles avec date d'échéance
         Etant donné un dépôt de garanties financières
         Quand le porteur supprime le dépôt de garanties financières du projet
-        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
 
     Scénario: Impossible de supprimer des garanties financières en attente de validation s'il n'y a pas de dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet lauréat
