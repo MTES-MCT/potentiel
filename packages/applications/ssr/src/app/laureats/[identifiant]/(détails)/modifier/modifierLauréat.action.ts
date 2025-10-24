@@ -15,6 +15,7 @@ import {
 } from '@/utils/candidature';
 import {
   getLauréatInfos,
+  getPuissanceInfos,
   getReprésentantLégalInfos,
 } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
 
@@ -73,14 +74,17 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         });
       }
 
-      if (laureat.puissanceProductionAnnuelle) {
+      if (laureat.puissanceProductionAnnuelle || laureat.puissanceDeSite) {
+        const puissanceActuelle = await getPuissanceInfos({ identifiantProjet });
+
         await mediator.send<Lauréat.Puissance.ModifierPuissanceUseCase>({
           type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
           data: {
             identifiantProjetValue: identifiantProjet,
             identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
             dateModificationValue: new Date().toISOString(),
-            puissanceValue: laureat.puissanceProductionAnnuelle,
+            puissanceValue: laureat.puissanceProductionAnnuelle ?? puissanceActuelle.puissance,
+            puissanceDeSiteValue: laureat.puissanceDeSite ?? puissanceActuelle.puissanceDeSite,
           },
         });
       }

@@ -211,7 +211,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.puissanceProductionAnnuelle}
             lauréat={lauréat.puissanceProductionAnnuelle.currentValue}
             estEnCoursDeModification={lauréat.puissanceProductionAnnuelle.estEnCoursDeModification}
-            label={`Puissance (en ${projet.unitéPuissance})`}
+            label={`Puissance installée (en ${projet.unitéPuissance})`}
             name="puissanceProductionAnnuelle"
             validationErrors={validationErrors}
             nativeInputProps={{
@@ -238,10 +238,11 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
 
         {champsSupplémentaires.puissanceDeSite && (
           <FormRow>
-            <CandidatureField
+            <ProjectField
               candidature={candidature.puissanceDeSite ?? 0}
               label={`Puissance de site (en ${projet.unitéPuissance})`}
               name="puissanceDeSite"
+              lauréat={lauréat.puissanceDeSite.currentValue}
               validationErrors={validationErrors}
               required={champsSupplémentaires.puissanceDeSite === 'requis'}
             />

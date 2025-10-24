@@ -70,6 +70,7 @@ const lauréatSchema = z
     nomRepresentantLegal: nomReprésentantLégalSchema,
     nomProjet: nomProjetSchema,
     puissanceProductionAnnuelle: puissanceOuPuissanceDeSiteSchema,
+    puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
     nomCandidat: nomCandidatSchema,
     evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
   })
