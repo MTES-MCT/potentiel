@@ -37,7 +37,7 @@ Pour afficher le contenu d'une URL, on utilise une `page.tsx` qui a les responsa
 
 - D'abord, récupérer les données à afficher à l'aide d'une `query` en utilisant le `mediator`
 - Ensuite, convertir le `read model` en `props`
-- Enfin retourner la page correspondante située dans la partie `pages` de l'Atomic Design (répertoire `components`)
+- Enfin retourner la page correspondante en lui passant les props
 
 Exemple d'une page listant des exemples :
 
