@@ -114,3 +114,21 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
         Quand le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :
             | La date de mise en service | 2025-06-10 |
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2020-01-01"
+
+    Scénario: Rappels pour les Dreals et porteurs sur le délai restant avant l'arrivée à échéance du projet lauréat
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offres | PPE2 - Petit PV Bâtiment |
+            | période        | 1                        |
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et une tâche planifiée pour le projet lauréat avec :
+            | type             | rappel échéance achèvement à un mois |
+            | date d'exécution | 2025-01-11                           |
+        Quand on exécute la tâche planifiée "rappel échéance achèvement à un mois" pour le projet lauréat à la date du "2025-11-01"
+        Alors un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Projet Du boulodrome de Marseille arrivant à échéance |
+            | nom_projet | Du boulodrome de Marseille                                        |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html             |
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Projet Du boulodrome de Marseille arrivant à échéance dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                     |
