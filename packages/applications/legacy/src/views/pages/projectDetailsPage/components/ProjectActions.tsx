@@ -150,50 +150,32 @@ const PorteurProjetActions = ({
         {project.isClasse && auMoinsUneActionDisponible && (
           <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
             {!!producteurAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={producteurAffichage.url}
-                disabled={demandesDisabled}
-              >
+              <DropdownMenuSecondaryButton.DropdownItem href={producteurAffichage.url}>
                 <span>{producteurAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {!!fournisseurAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={fournisseurAffichage.url}
-                disabled={demandesDisabled}
-              >
+              <DropdownMenuSecondaryButton.DropdownItem href={fournisseurAffichage.url}>
                 <span>{fournisseurAffichage.labelActions ?? fournisseurAffichage.label}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {!!actionnaireAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={actionnaireAffichage.url}
-                disabled={demandesDisabled}
-              >
+              <DropdownMenuSecondaryButton.DropdownItem href={actionnaireAffichage.url}>
                 <span>{actionnaireAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {!!puissanceAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={puissanceAffichage.url}
-                disabled={demandesDisabled}
-              >
+              <DropdownMenuSecondaryButton.DropdownItem href={puissanceAffichage.url}>
                 <span>{puissanceAffichage.labelActions ?? puissanceAffichage.label}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {!!représentantLégalAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={représentantLégalAffichage.url}
-                disabled={demandesDisabled}
-              >
+              <DropdownMenuSecondaryButton.DropdownItem href={représentantLégalAffichage.url}>
                 <span>{représentantLégalAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {!!délaiAffichage && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={délaiAffichage.url}
-                disabled={demandesDisabled}
-              >
+              <DropdownMenuSecondaryButton.DropdownItem href={délaiAffichage.url}>
                 <span>{délaiAffichage.label ?? délaiAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}

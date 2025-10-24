@@ -254,7 +254,6 @@ export const ProjectDetails = ({
               garantiesFinancières={garantiesFinancières}
               actionnaire={actionnaire}
               puissance={puissance}
-              modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
               coefficientKChoisi={coefficientKChoisi}
               estAchevé={estAchevé}
               attestationConformité={attestationConformité}
@@ -269,7 +268,6 @@ export const ProjectDetails = ({
               user={user}
               représentantLégal={représentantLégal}
               producteur={producteur}
-              modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
               emailContact={emailContact}
             />
             <MaterielsEtTechnologies fournisseur={fournisseur} />

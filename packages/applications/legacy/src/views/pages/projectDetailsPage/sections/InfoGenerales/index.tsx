@@ -25,6 +25,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { GetRaccordementForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getRaccordement';
 import { GetNatureDeLExploitationForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { InfoSiteDeProduction, InfoSiteDeProductionProps } from './InfoSiteDeProduction';
+import { getTypeActionnariat } from './helpers/getTypeActionnariat';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -35,7 +36,6 @@ export type InfoGeneralesProps = {
   actionnaire?: GetActionnaireForProjectPage;
   puissance?: GetPuissanceForProjectPage;
   installation?: GetInstallationForProjectPage;
-  modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   estAchevé: boolean;
   attestationConformité?: GetAttestationDeConformitéForProjectPage;
@@ -64,7 +64,6 @@ export const InfoGenerales = ({
   garantiesFinancières,
   demandeRecours,
   actionnaire,
-  modificationsNonPermisesParLeCDCActuel,
   puissance,
   coefficientKChoisi,
   estAchevé,
@@ -127,14 +126,12 @@ export const InfoGenerales = ({
       {puissance !== undefined ? (
         <InfoPuissance
           puissance={puissance}
-          modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
           unitePuissance={unitePuissance}
           désignationCatégorie={désignationCatégorie}
           puissanceInférieurePuissanceMaxVolRéservé={
             appelOffre.periode.noteThresholdBy === 'category' &&
             puissance.puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax
           }
-          role={role}
         />
       ) : null}
 
@@ -156,13 +153,7 @@ export const InfoGenerales = ({
       {natureDeLExploitation !== undefined ? (
         <InfoNatureDeLExploitation data={natureDeLExploitation} />
       ) : null}
-      {actionnaire ? (
-        <InfoActionnaire
-          actionnaire={actionnaire}
-          modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
-          role={role}
-        />
-      ) : null}
+      {actionnaire ? <InfoActionnaire actionnaire={actionnaire} /> : null}
       {coefficientKChoisi !== undefined ? (
         <div>
           <Heading3 className="m-0">Coefficient K choisi</Heading3>
@@ -343,34 +334,4 @@ const AlertMessage = ({ children }: AlertMessageProps) => {
       <WarningIcon title="Information alerte" className="text-lg -mb-1 shrink-0" /> {children}
     </div>
   );
-};
-
-type GetTypeActionnariatProps = {
-  actionnariat?: ProjectDataForProjectPage['actionnariat'];
-  isFinancementParticipatif: ProjectDataForProjectPage['isFinancementParticipatif'];
-  isInvestissementParticipatif: ProjectDataForProjectPage['isInvestissementParticipatif'];
-};
-const getTypeActionnariat = ({
-  actionnariat,
-  isFinancementParticipatif,
-  isInvestissementParticipatif,
-}: GetTypeActionnariatProps) => {
-  if (actionnariat) {
-    if (actionnariat === 'financement-collectif') {
-      return 'Financement collectif';
-    }
-    if (actionnariat === 'gouvernance-partagee') {
-      return 'Gouvernance partagée';
-    }
-  }
-
-  if (isFinancementParticipatif) {
-    return 'Financement participatif';
-  }
-
-  if (isInvestissementParticipatif) {
-    return 'Investissement participatif';
-  }
-
-  return undefined;
 };

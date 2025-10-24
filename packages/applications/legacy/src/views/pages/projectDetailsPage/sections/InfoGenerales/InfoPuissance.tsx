@@ -3,27 +3,20 @@ import { Heading3, Link } from '../../../../components';
 
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { DésignationCatégorie } from '../../../../../modules/project';
-import { Role } from '@potentiel-domain/utilisateur';
 
 export type InfoPuissanceProps = {
   puissance: GetPuissanceForProjectPage;
-  modificationsPermisesParLeCDCActuel: boolean;
   unitePuissance: string;
   désignationCatégorie: DésignationCatégorie | undefined;
   puissanceInférieurePuissanceMaxVolRéservé: boolean;
-  role: Role.ValueType;
 };
 
 export const InfoPuissance = ({
   puissance,
-  modificationsPermisesParLeCDCActuel,
   unitePuissance,
   désignationCatégorie,
   puissanceInférieurePuissanceMaxVolRéservé,
-  role,
 }: InfoPuissanceProps) => {
-  const afficherSelonRole =
-    (role.estPorteur() && modificationsPermisesParLeCDCActuel) || !role.estPorteur();
   const volumeRéservéLabel =
     désignationCatégorie === 'volume-réservé'
       ? 'Ce projet fait partie du volume réservé de la période.'
@@ -43,7 +36,7 @@ export const InfoPuissance = ({
         </span>
       )}
       {volumeRéservéLabel && <span>{volumeRéservéLabel}</span>}
-      {afficherSelonRole && puissance.affichage && (
+      {puissance.affichage && (
         <Link href={puissance.affichage.url} aria-label={puissance.affichage.label}>
           {puissance.affichage.label}
         </Link>

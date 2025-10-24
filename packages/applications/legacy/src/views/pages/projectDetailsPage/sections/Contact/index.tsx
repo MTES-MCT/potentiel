@@ -10,7 +10,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { GetProducteurForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getProducteur';
 import { InfoProducteur } from './InfoProducteur';
 import { InfoReprésentantLégal } from './InfoReprésentantLégal';
-import { Role } from '@potentiel-domain/utilisateur';
 
 export type ContactProps = {
   identifiantProjet: string;
@@ -18,7 +17,6 @@ export type ContactProps = {
   user: Request['user'];
   représentantLégal?: GetReprésentantLégalForProjectPage;
   producteur?: GetProducteurForProjectPage;
-  modificationsNonPermisesParLeCDCActuel: boolean;
   emailContact: string;
 };
 
@@ -29,23 +27,10 @@ export const Contact = ({
   représentantLégal,
   producteur,
   emailContact,
-  modificationsNonPermisesParLeCDCActuel,
 }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />} className="flex gap-4 flex-col">
-    {producteur && (
-      <InfoProducteur
-        producteur={producteur}
-        modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
-        role={Role.convertirEnValueType(user.role)}
-      />
-    )}
-    {représentantLégal && (
-      <InfoReprésentantLégal
-        représentantLégal={représentantLégal}
-        modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
-        role={Role.convertirEnValueType(user.role)}
-      />
-    )}
+    {producteur && <InfoProducteur producteur={producteur} />}
+    {représentantLégal && <InfoReprésentantLégal représentantLégal={représentantLégal} />}
     <div>
       <Heading3 className="m-0">Adresse email de candidature</Heading3>
       <div>{emailContact}</div>
