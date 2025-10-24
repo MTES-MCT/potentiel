@@ -1,6 +1,6 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { Role } from '..';
+import { Role, Région, Zone } from '..';
 
 export type InviterOptions = {
   rôle: Role.ValueType;
@@ -9,7 +9,7 @@ export type InviterOptions = {
 
   fonction?: string;
   nomComplet?: string;
-  région?: string;
+  région?: Région.ValueType;
   identifiantGestionnaireRéseau?: string;
-  zone?: string;
+  zone?: Zone.ValueType;
 };

@@ -8,7 +8,11 @@ import { ReprésentantLégalWorld } from './représentant-légal/représentantL�
 import { ActionnaireWorld } from './actionnaire/actionnaire.world';
 import { AchèvementWorld } from './achèvement/achèvement.world';
 import { ModifierNomProjetFixture } from './fixtures/modifierNomProjet.fixture';
-import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
+import {
+  NotifierLauréat,
+  NotifierLauréatFixture,
+  NotifierLauréatProps,
+} from './fixtures/notifierLauréat.fixture';
 import { PuissanceWorld } from './puissance/puissance.world';
 import { ChoisirCahierDesChargesFixture } from './fixtures/choisirCahierDesCharges.fixture';
 import { ProducteurWorld } from './producteur/producteur.world';
@@ -19,19 +23,8 @@ import { InstallationWorld } from './installation/installation.world';
 import { NatureDeLExploitationWorld } from './nature-de-l-exploitation/natureDeLExploitation.world';
 import { ModifierSiteDeProductionFixture } from './fixtures/modifierSiteDeProduction.fixture';
 
-type LauréatFixture = {
-  nom: string;
-  identifiantProjet: IdentifiantProjet.ValueType;
-  dateDésignation: string;
-  appelOffre: string;
-  période: string;
-};
-
 export class LauréatWorld {
-  #lauréatFixtures: Map<string, LauréatFixture> = new Map();
-  get lauréatFixtures() {
-    return this.#lauréatFixtures;
-  }
+  #lauréatFixtures: Map<string, IdentifiantProjet.ValueType> = new Map();
 
   #notifierLauréatFixture: NotifierLauréatFixture;
   get notifierLauréatFixture() {
@@ -56,25 +49,10 @@ export class LauréatWorld {
     return this.potentielWorld.candidatureWorld;
   }
 
-  /** @deprecated use `identifiantProjet` */
-  rechercherLauréatFixture(nom: string): LauréatFixture {
-    const lauréat = this.#lauréatFixtures.get(nom);
-
-    if (!lauréat) {
-      throw new Error(`Aucun projet lauréat correspondant à ${nom} dans les jeux de données`);
-    }
-
-    return lauréat;
-  }
-
   #identifiantProjet: IdentifiantProjet.ValueType;
 
   get identifiantProjet() {
     return this.#identifiantProjet;
-  }
-
-  set identifiantProjet(value: IdentifiantProjet.ValueType) {
-    this.#identifiantProjet = value;
   }
 
   #abandonWorld!: AbandonWord;
@@ -204,5 +182,26 @@ export class LauréatWorld {
           ),
     };
     return expected;
+  }
+
+  /**
+   * Recherche un projet lauréat dans les fixtures par son nom,
+   * uniquement pour les tests qui nécessitent de manipuler plusieurs projets lauréats
+   */
+  rechercherLauréatFixture(nom: string): { identifiantProjet: IdentifiantProjet.ValueType } {
+    const identifiantProjet = this.#lauréatFixtures.get(nom);
+
+    if (!identifiantProjet) {
+      throw new Error(`Aucun projet lauréat correspondant à ${nom} dans les jeux de données`);
+    }
+
+    return { identifiantProjet };
+  }
+
+  notifier(props: NotifierLauréatProps): Readonly<NotifierLauréat> {
+    const fixture = this.notifierLauréatFixture.créer(props);
+    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(fixture.identifiantProjet);
+    this.#lauréatFixtures.set(fixture.nomProjet, this.identifiantProjet);
+    return fixture;
   }
 }

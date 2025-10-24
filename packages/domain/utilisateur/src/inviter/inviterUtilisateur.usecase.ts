@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Email, DateTime } from '@potentiel-domain/common';
 
-import { Role } from '..';
+import { Role, Région, Zone } from '..';
 
 import { InviterUtilisateurCommand } from './inviterUtilisateur.command';
 
@@ -30,14 +30,16 @@ export const registerInviterUseCase = () => {
     invitéParValue,
     fonctionValue: fonction,
     nomCompletValue: nomComplet,
-    régionValue: région,
+    régionValue,
     identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
-    zoneValue: zone,
+    zoneValue,
   }) => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const rôle = Role.convertirEnValueType(rôleValue);
     const invitéLe = DateTime.convertirEnValueType(invitéLeValue);
     const invitéPar = Email.convertirEnValueType(invitéParValue);
+    const région = régionValue ? Région.convertirEnValueType(régionValue) : undefined;
+    const zone = zoneValue ? Zone.convertirEnValueType(zoneValue) : undefined;
 
     await mediator.send<InviterUtilisateurCommand>({
       type: 'Utilisateur.Command.InviterUtilisateur',

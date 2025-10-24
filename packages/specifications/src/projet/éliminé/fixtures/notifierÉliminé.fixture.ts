@@ -4,15 +4,27 @@ import { DateTime, Email } from '@potentiel-domain/common';
 
 import { AbstractFixture } from '../../../fixture';
 
-interface NotifierÉliminé {
+export interface NotifierÉliminé {
+  readonly identifiantProjet: string;
   readonly notifiéLe: string;
   readonly notifiéPar: string;
 }
+
+export type NotifierÉliminéProps = Partial<Readonly<NotifierÉliminé>> & {
+  identifiantProjet: string;
+  notifiéPar: string;
+};
 
 export class NotifierÉliminéFixture
   extends AbstractFixture<NotifierÉliminé>
   implements NotifierÉliminé
 {
+  #identifiantProjet!: string;
+
+  get identifiantProjet(): string {
+    return this.#identifiantProjet;
+  }
+
   #notifiéLe!: string;
 
   get notifiéLe(): string {
@@ -25,14 +37,13 @@ export class NotifierÉliminéFixture
     return this.#notifiéPar;
   }
 
-  créer(
-    partialFixture: Partial<Readonly<NotifierÉliminé>> & { notifiéPar: string },
-  ): Readonly<NotifierÉliminé> {
+  créer(partialFixture: NotifierÉliminéProps): Readonly<NotifierÉliminé> {
     const fixture = {
       notifiéLe: faker.date.recent().toISOString(),
       ...partialFixture,
     };
 
+    this.#identifiantProjet = fixture.identifiantProjet;
     this.#notifiéLe = fixture.notifiéLe;
     this.#notifiéPar = fixture.notifiéPar;
 

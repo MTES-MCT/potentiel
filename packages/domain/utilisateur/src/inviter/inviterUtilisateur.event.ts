@@ -2,6 +2,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import * as Role from '../role.valueType';
+import { Région, Zone } from '..';
 
 export type UtilisateurInvitéEvent = DomainEvent<
   'UtilisateurInvité-V1',
@@ -23,7 +24,7 @@ export type UtilisateurInvitéEvent = DomainEvent<
       }
     | {
         rôle: 'dreal';
-        région: string;
+        région: Région.RawType;
       }
     | {
         rôle: 'grd';
@@ -31,7 +32,7 @@ export type UtilisateurInvitéEvent = DomainEvent<
       }
     | {
         rôle: 'cocontractant';
-        zone: string;
+        zone: Zone.RawType;
       }
   )
 >;

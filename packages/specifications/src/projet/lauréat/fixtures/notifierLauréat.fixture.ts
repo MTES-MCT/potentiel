@@ -7,6 +7,7 @@ import { AbstractFixture } from '../../../fixture';
 import { getFakeLocation } from '../../../helpers/getFakeLocation';
 
 export interface NotifierLauréat {
+  readonly identifiantProjet: string;
   readonly nomProjet: string;
   readonly notifiéLe: string;
   readonly notifiéPar: string;
@@ -20,10 +21,20 @@ export interface NotifierLauréat {
   };
 }
 
+export type NotifierLauréatProps = Partial<Readonly<NotifierLauréat>> & {
+  identifiantProjet: string;
+  notifiéPar: string;
+};
+
 export class NotifierLauréatFixture
   extends AbstractFixture<NotifierLauréat>
   implements NotifierLauréat
 {
+  #identifiantProjet!: string;
+
+  get identifiantProjet(): string {
+    return this.#identifiantProjet;
+  }
   #nomProjet!: string;
 
   get nomProjet(): string {
@@ -47,9 +58,7 @@ export class NotifierLauréatFixture
     return this.#localité;
   }
 
-  créer(
-    partialFixture: Partial<Readonly<NotifierLauréat>> & { notifiéPar: string },
-  ): Readonly<NotifierLauréat> {
+  créer(partialFixture: NotifierLauréatProps): Readonly<NotifierLauréat> {
     const fixture = {
       nomProjet: faker.person.fullName(),
       notifiéLe: faker.date.recent().toISOString(),
@@ -61,6 +70,7 @@ export class NotifierLauréatFixture
       ...partialFixture,
     };
 
+    this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomProjet = fixture.nomProjet;
     this.#localité = fixture.localité;
     this.#notifiéLe = fixture.notifiéLe;

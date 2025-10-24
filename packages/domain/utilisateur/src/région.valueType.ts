@@ -30,7 +30,7 @@ export type RawType = (typeof régions)[number];
 
 export type ValueType = ReadonlyValueType<{
   nom: RawType;
-  formatter: () => string;
+  formatter: () => RawType;
   isZNI: () => boolean;
 }>;
 

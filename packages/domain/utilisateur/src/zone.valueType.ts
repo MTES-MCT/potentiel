@@ -10,7 +10,7 @@ export type RawType = (typeof zones)[number];
 
 export type ValueType = ReadonlyValueType<{
   nom: RawType;
-  formatter: () => string;
+  formatter: () => RawType;
   aAccèsàLaRégion(région: string): boolean;
 }>;
 

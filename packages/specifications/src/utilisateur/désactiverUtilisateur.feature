@@ -48,11 +48,10 @@ Fonctionnalité: Désactiver un utilisateur
 
     Scénario: Impossible de désactiver son propre compte
         Etant donné un utilisateur invité avec le rôle "admin"
-        Quand l'utilisateur désactive son compte
+        Quand l'utilisateur désactive son propre compte
         Alors l'utilisateur devrait être informé que "Il est impossible de désactiver son propre compte"
 
     Scénario: Impossible de désactiver un utilisateur déjà désactivé
-        Etant donné un utilisateur invité avec le rôle "admin"
+        Etant donné un utilisateur désactivé avec le rôle "admin"
         Quand un administrateur désactive l'utilisateur
-        Et un administrateur désactive l'utilisateur
         Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas actif"

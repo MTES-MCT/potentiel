@@ -1,7 +1,7 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Email } from '@potentiel-domain/common';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { Accès, Candidature } from '@potentiel-domain/projet';
 
@@ -49,30 +49,22 @@ EtantDonné(
 );
 export async function notifierÉliminé(this: PotentielWorld, dateDésignation?: string) {
   const candidature = this.candidatureWorld.importerCandidature;
-  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
-    candidature.identifiantProjet,
-  );
+  const identifiantProjetValue = candidature.identifiantProjet;
 
   this.utilisateurWorld.porteurFixture.créer({
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
 
-  const { notifiéPar, notifiéLe } = this.éliminéWorld.notifierEliminéFixture.créer({
+  const { notifiéPar, notifiéLe } = this.éliminéWorld.notifier({
     notifiéPar: this.utilisateurWorld.validateurFixture.email,
-    ...(dateDésignation ? { notifiéLe: dateDésignation } : {}),
-  });
-
-  this.éliminéWorld.identifiantProjet = identifiantProjetValue;
-
-  this.éliminéWorld.éliminéFixtures.set(candidature.values.nomProjetValue, {
-    nom: candidature.values.nomProjetValue,
     identifiantProjet: identifiantProjetValue,
+    ...(dateDésignation ? { notifiéLe: dateDésignation } : {}),
   });
 
   await mediator.send<Candidature.NotifierCandidatureUseCase>({
     type: 'Candidature.UseCase.NotifierCandidature',
     data: {
-      identifiantProjetValue: identifiantProjetValue.formatter(),
+      identifiantProjetValue,
       notifiéeLeValue: notifiéLe,
       notifiéeParValue: notifiéPar,
       attestationValue: {
@@ -91,7 +83,7 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation?:
     type: 'Utilisateur.UseCase.InviterPorteur',
     data: {
       identifiantUtilisateurValue: candidature.values.emailContactValue,
-      identifiantsProjetValues: [identifiantProjetValue.formatter()],
+      identifiantsProjetValues: [identifiantProjetValue],
       invitéLeValue: notifiéLe,
       invitéParValue: Email.système.formatter(),
     },
@@ -100,7 +92,7 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation?:
   await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
     type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
     data: {
-      identifiantProjetValue: identifiantProjetValue.formatter(),
+      identifiantProjetValue,
       identifiantUtilisateurValue: candidature.values.emailContactValue,
       autoriséLeValue: notifiéLe,
       autoriséParValue: Email.système.formatter(),
