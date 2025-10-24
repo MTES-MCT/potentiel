@@ -12,7 +12,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
-import { importerPériodeAction, ImporterPériodeFormKeys } from './importerPériode.action';
+import { importerPériodeAction, ImporterPériodeFormKeys } from './importerCandidaturesParDS.action';
 
 export type ImporterPériodeFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;

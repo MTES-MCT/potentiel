@@ -6,7 +6,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { ImporterCandidaturesParCSVTestForm } from './ImporterCandidaturesParCSVTest.form';
 
-export const ImporterCandImporterCandidaturesParCSVTestPage: FC = () => (
+export const ImporterCandidaturesParCSVTestPage: FC = () => (
   <PageTemplate
     banner={<Heading1 className="text-theme-white">Importer des candidats (test)</Heading1>}
   >
