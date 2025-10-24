@@ -168,6 +168,8 @@ export class LauréatAggregate extends AbstractAggregate<
       `achevement|${this.projet.identifiantProjet.formatter()}`,
     );
 
+    await this.#achèvement.init();
+
     this.#producteur = await this.loadAggregate(
       ProducteurAggregate,
       `producteur|${this.projet.identifiantProjet.formatter()}`,

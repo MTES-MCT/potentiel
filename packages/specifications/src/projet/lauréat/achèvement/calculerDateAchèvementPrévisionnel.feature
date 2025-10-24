@@ -8,6 +8,25 @@ Fonctionnalité: Calculer la date d'achèvement prévisionnel
             | délai de réalisation | <délai de réalisation> |
         Quand le DGEC validateur notifie la candidature lauréate le "<date notification>"
         Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "<date achèvement prévisionnel attendue>"
+        Et il n'y a pas de tâche "rappel échéance achèvement à trois mois" planifiée pour le projet lauréat
+        Et il n'y a pas de tâche "rappel échéance achèvement à deux mois" planifiée pour le projet lauréat
+        Et il n'y a pas de tâche "rappel échéance achèvement à un mois" planifiée pour le projet lauréat
+
+        Exemples:
+            | appel d'offres  | délai de réalisation | date notification | date achèvement prévisionnel attendue |
+            | PPE2 - Bâtiment | 30                   | 2021-01-31        | 2023-07-30                            |
+            | PPE2 - Bâtiment | 30                   | 2024-10-05        | 2027-04-04                            |
+            | PPE2 - Eolien   | 36                   | 2024-10-05        | 2027-10-04                            |
+
+    Scénario: Calculer la date d'achèvement prévisionnel lorsqu'un projet lauréat Petit PV est notifié
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offres       | PPE2 - Petit PV Bâtiment |
+            | délai de réalisation | 34                       |
+        Quand le DGEC validateur notifie la candidature lauréate le "2025-10-03"
+        Alors la date d'achèvement prévisionnel du projet lauréat devrait être au "2028-08-02"
+        Et une tâche "rappel échéance achèvement à trois mois" est planifiée à la date du "2028-05-02" pour le projet lauréat
+        Et une tâche "rappel échéance achèvement à deux mois" est planifiée à la date du "2028-06-02" pour le projet lauréat
+        Et une tâche "rappel échéance achèvement à un mois" est planifiée à la date du "2028-07-02" pour le projet lauréat
 
         Exemples:
             | appel d'offres  | délai de réalisation | date notification | date achèvement prévisionnel attendue |

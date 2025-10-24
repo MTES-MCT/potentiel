@@ -115,6 +115,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+    // annuler tâche planifiée relance achèvement
   }
 
   async accorder({
@@ -325,6 +326,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+    // si AOS, créer tâche planifier relance achèvement
   }
 
   async rejeter({
@@ -349,6 +351,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
+    // si AOS, créer tâche planifier relance achèvement
   }
 
   async supprimerDemandeChangement({

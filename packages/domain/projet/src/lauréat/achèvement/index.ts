@@ -16,6 +16,7 @@ export { AchèvementEntity } from './achèvement.entity';
 
 // ValueTypes
 export * as DateAchèvementPrévisionnel from './dateAchèvementPrévisionnel.valueType';
+export * as TypeTâchePlanifiéeAchèvement from './typeTâchePlanifiéeAchèvement.valueType';
 
 // Event
 export * from './achèvement.event';

@@ -1,12 +1,14 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { DateTime } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { TâchePlanifiéeAggregate } from '../tâche-planifiée/tâchePlanifiée.aggregate';
 
-import { DateAchèvementPrévisionnel } from '.';
+import { DateAchèvementPrévisionnel, TypeTâchePlanifiéeAchèvement } from '.';
 
 import {
   AttestationDeConformitéDéjàTransmiseError,
@@ -55,6 +57,22 @@ export class AchèvementAggregate extends AbstractAggregate<
     return this.#dateAchèvementPrévisionnel;
   }
 
+  #tâchePlanifiéeRappelÉchéanceTroisMois!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeRappelÉchéanceDeuxMois!: AggregateType<TâchePlanifiéeAggregate>;
+  #tâchePlanifiéeRappelÉchéanceUnMois!: AggregateType<TâchePlanifiéeAggregate>;
+
+  async init() {
+    this.#tâchePlanifiéeRappelÉchéanceTroisMois = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeAchèvement.rappelÉchéanceTroisMois.type,
+    );
+    this.#tâchePlanifiéeRappelÉchéanceDeuxMois = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeAchèvement.rappelÉchéanceDeuxMois.type,
+    );
+    this.#tâchePlanifiéeRappelÉchéanceUnMois = await this.lauréat.loadTâchePlanifiée(
+      TypeTâchePlanifiéeAchèvement.rappelÉchéanceUnMois.type,
+    );
+  }
+
   async getDateAchèvementPrévisionnelCalculée(
     options: CalculerDateAchèvementPrévisionnelOptions,
   ): Promise<DateAchèvementPrévisionnel.RawType> {
@@ -98,6 +116,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+    await this.planifierTâchesRappelsÉchéance(DateTime.convertirEnValueType(date));
 
     return date;
   }
@@ -138,6 +157,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
 
     await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
+    // annuler tâches planifiées relance achèvement
   }
 
   async modifierAttestationConformité({
@@ -169,6 +189,41 @@ export class AchèvementAggregate extends AbstractAggregate<
     };
 
     await this.publish(event);
+  }
+
+  async planifierTâchesRappelsÉchéance(dateAchèvementPrévisionnelle: DateTime.ValueType) {
+    if (
+      this.lauréat.projet.cahierDesChargesActuel.appelOffre.id !== 'PPE2 - Petit PV Bâtiment' ||
+      this.#estAchevé ||
+      this.lauréat.abandon.statut.estEnCours() ||
+      this.lauréat.statut.estAbandonné()
+    ) {
+      return;
+    }
+
+    if (dateAchèvementPrévisionnelle.retirerNombreDeMois(3).estDansLeFutur()) {
+      await this.#tâchePlanifiéeRappelÉchéanceTroisMois.ajouter({
+        àExécuterLe: dateAchèvementPrévisionnelle.retirerNombreDeMois(3),
+      });
+    }
+
+    if (dateAchèvementPrévisionnelle.retirerNombreDeMois(2).estDansLeFutur()) {
+      await this.#tâchePlanifiéeRappelÉchéanceDeuxMois.ajouter({
+        àExécuterLe: dateAchèvementPrévisionnelle.retirerNombreDeMois(2),
+      });
+    }
+
+    if (dateAchèvementPrévisionnelle.retirerNombreDeMois(1).estDansLeFutur()) {
+      await this.#tâchePlanifiéeRappelÉchéanceUnMois.ajouter({
+        àExécuterLe: dateAchèvementPrévisionnelle.retirerNombreDeMois(1),
+      });
+    }
+  }
+
+  async annulerTâchesPlanifiéesRappelsÉchéance() {
+    await this.#tâchePlanifiéeRappelÉchéanceTroisMois.annuler();
+    await this.#tâchePlanifiéeRappelÉchéanceDeuxMois.annuler();
+    await this.#tâchePlanifiéeRappelÉchéanceUnMois.annuler();
   }
 
   apply(event: AchèvementEvent): void {
