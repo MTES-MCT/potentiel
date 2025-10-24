@@ -326,7 +326,9 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
-    // si AOS, créer tâche planifier relance achèvement
+    await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
+      this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
+    );
   }
 
   async rejeter({
@@ -351,7 +353,9 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent, 'abandon',
     };
 
     await this.publish(event);
-    // si AOS, créer tâche planifier relance achèvement
+    await this.lauréat.achèvement.planifierTâchesRappelsÉchéance(
+      this.lauréat.achèvement.dateAchèvementPrévisionnel.dateTime,
+    );
   }
 
   async supprimerDemandeChangement({

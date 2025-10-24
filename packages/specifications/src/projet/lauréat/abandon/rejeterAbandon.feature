@@ -27,6 +27,9 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand la DREAL rejette l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
+        Et une tâche "rappel échéance achèvement à trois mois" est planifiée pour le projet lauréat
+        Et une tâche "rappel échéance achèvement à deux mois" est planifiée pour le projet lauréat
+        Et une tâche "rappel échéance achèvement à un mois" est planifiée pour le projet lauréat
 
     Scénario: La DGEC peut rejeter l'abandon si l'autorité compétente est la DREAL
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
