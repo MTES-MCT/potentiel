@@ -13,14 +13,12 @@ import {
   puissanceOuPuissanceDeSiteSchema,
 } from '@/utils/candidature/candidatureFields.schema';
 
-const schema = zod.union([
-  zod.object({
-    identifiantProjet: zod.string().min(1),
-    puissance: puissanceOuPuissanceDeSiteSchema,
-    puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
-    raison: zod.string().optional(),
-  }),
-]);
+const schema = zod.object({
+  identifiantProjet: zod.string().min(1),
+  puissance: puissanceOuPuissanceDeSiteSchema,
+  puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
+  raison: zod.string().optional(),
+});
 
 export type ModifierPuissanceFormKeys = keyof zod.infer<typeof schema>;
 

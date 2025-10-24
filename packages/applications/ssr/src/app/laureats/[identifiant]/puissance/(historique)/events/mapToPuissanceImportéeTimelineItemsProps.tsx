@@ -21,14 +21,14 @@ export const mapToPuissanceImportéeTimelineItemsProps = (
                 {puissance} {unitéPuissance}
               </span>
             </li>
-            {puissanceDeSite !== undefined ? (
+            {puissanceDeSite !== undefined && (
               <li>
                 Puissance de site :{' '}
                 <span className="font-semibold">
                   {puissanceDeSite} {unitéPuissance}
                 </span>
               </li>
-            ) : null}
+            )}
           </ul>
         }
       </>
