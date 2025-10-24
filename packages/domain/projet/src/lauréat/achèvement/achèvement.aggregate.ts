@@ -157,7 +157,7 @@ export class AchèvementAggregate extends AbstractAggregate<
     await this.publish(event);
 
     await this.lauréat.garantiesFinancières.annulerTâchesPlanififées();
-    // annuler tâches planifiées relance achèvement
+    await this.annulerTâchesPlanifiéesRappelsÉchéance();
   }
 
   async modifierAttestationConformité({
