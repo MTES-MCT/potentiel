@@ -8,20 +8,27 @@ export const types = [
 
 export type RawType = (typeof types)[number];
 
-export type ValueType = ReadonlyValueType<{
-  type: RawType;
+export type ValueType<Type extends RawType = RawType> = ReadonlyValueType<{
+  type: Type;
 }>;
 
-export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+export const bind = <Type extends RawType = RawType>({
+  type,
+}: PlainType<ValueType>): ValueType<Type> => {
+  estValide(type);
   return {
-    type,
+    get type() {
+      return type as Type;
+    },
     estÉgaleÀ({ type }) {
       return this.type === type;
     },
   };
 };
 
-export const convertirEnValueType = (value: string): ValueType => {
+export const convertirEnValueType = <Type extends RawType = RawType>(
+  value: string,
+): ValueType<Type> => {
   estValide(value);
   return bind({
     type: value,
@@ -36,11 +43,16 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const rappelÉchéanceUnMois = convertirEnValueType('achèvement.rappel-échéance-un-mois');
-export const rappelÉchéanceDeuxMois = convertirEnValueType('achèvement.rappel-échéance-deux-mois');
-export const rappelÉchéanceTroisMois = convertirEnValueType(
-  'achèvement.rappel-échéance-trois-mois',
+export const rappelÉchéanceUnMois = convertirEnValueType<'achèvement.rappel-échéance-un-mois'>(
+  'achèvement.rappel-échéance-un-mois',
 );
+export const rappelÉchéanceDeuxMois = convertirEnValueType<'achèvement.rappel-échéance-deux-mois'>(
+  'achèvement.rappel-échéance-deux-mois',
+);
+export const rappelÉchéanceTroisMois =
+  convertirEnValueType<'achèvement.rappel-échéance-trois-mois'>(
+    'achèvement.rappel-échéance-trois-mois',
+  );
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {
