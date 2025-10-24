@@ -3,16 +3,21 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
+import { PlainType } from '@potentiel-domain/core';
+import { Période } from '@potentiel-domain/periode';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { ImporterCandidaturesForm } from './ImporterCandidatures.form';
+import { ImporterCandidaturesParCSVForm } from './(csv)/ImporterCandidaturesParCSV.form';
+type ImporterCandidaturesPageProps = {
+  périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
+};
 
-export const ImporterCandidaturesPage: FC = () => (
+export const ImporterCandidaturesPage: FC<ImporterCandidaturesPageProps> = ({ périodes }) => (
   <ColumnPageTemplate
     banner={<Heading1 className="text-theme-white">Importer des candidats</Heading1>}
-    leftColumn={{ children: <ImporterCandidaturesForm /> }}
+    leftColumn={{ children: <ImporterCandidaturesParCSVForm /> }}
     rightColumn={{
       className: 'mt-20',
       children: (

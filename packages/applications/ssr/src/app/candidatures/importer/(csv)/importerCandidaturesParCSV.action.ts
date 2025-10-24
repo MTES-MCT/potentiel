@@ -21,7 +21,7 @@ const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 });
 
-export type ImporterCandidaturesFormKeys = keyof zod.infer<typeof schema>;
+export type ImporterCandidaturesParCSVFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCandidature }) => {
   return withUtilisateur(async (utilisateur) => {
@@ -105,4 +105,4 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
   });
 };
 
-export const importerCandidaturesAction = formAction(action, schema);
+export const importerCandidaturesParCSVAction = formAction(action, schema);

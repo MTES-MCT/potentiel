@@ -7,11 +7,11 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  ImporterCandidaturesParCSVFormKeys,
   importerCandidaturesParCSVAction,
-} from '../(csv)/importerCandidaturesParCSV.action';
+  ImporterCandidaturesParCSVFormKeys,
+} from './importerCandidaturesParCSV.action';
 
-export const ImporterCandidaturesParCSVTestForm: FC = () => {
+export const ImporterCandidaturesParCSVForm: FC = () => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ImporterCandidaturesParCSVFormKeys>
   >({});
@@ -19,6 +19,7 @@ export const ImporterCandidaturesParCSVTestForm: FC = () => {
   return (
     <Form
       action={importerCandidaturesParCSVAction}
+      heading="Importer les candidats de la période d'un appel d'offres"
       pendingModal={{
         id: 'form-import-candidatures',
         title: 'Importer des candidats',
