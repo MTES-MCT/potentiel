@@ -6,7 +6,7 @@ export const mapToPuissanceImportéeTimelineItemsProps = (
   event: Lauréat.Puissance.PuissanceImportéeEvent,
   unitéPuissance: string,
 ): TimelineItemProps => {
-  const { importéeLe, puissance } = event.payload;
+  const { importéeLe, puissance, puissanceDeSite } = event.payload;
 
   return {
     date: importéeLe,
@@ -14,9 +14,22 @@ export const mapToPuissanceImportéeTimelineItemsProps = (
       <>
         Candidature :{' '}
         {
-          <span className="font-semibold">
-            {puissance} {unitéPuissance}
-          </span>
+          <ul className="list-disc pl-4">
+            <li>
+              Puissance :{' '}
+              <span className="font-semibold">
+                {puissance} {unitéPuissance}
+              </span>
+            </li>
+            {puissanceDeSite !== undefined && (
+              <li>
+                Puissance de site :{' '}
+                <span className="font-semibold">
+                  {puissanceDeSite} {unitéPuissance}
+                </span>
+              </li>
+            )}
+          </ul>
         }
       </>
     ),

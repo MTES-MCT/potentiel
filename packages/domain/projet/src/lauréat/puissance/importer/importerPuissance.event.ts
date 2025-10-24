@@ -8,6 +8,7 @@ export type PuissanceImportéeEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     puissance: number;
+    puissanceDeSite?: number;
     importéeLe: DateTime.RawType;
   }
 >;

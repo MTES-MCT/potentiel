@@ -21,17 +21,6 @@ Quand(
 );
 
 Quand(
-  'le DGEC validateur modifie la puissance avec la même valeur pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await modifierPuissance.call(this, this.utilisateurWorld.adminFixture.email, 'lauréat', 1);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   'le DGEC validateur modifie la puissance pour le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
@@ -41,7 +30,10 @@ Quand(
         this,
         this.utilisateurWorld.adminFixture.email,
         'lauréat',
-        Number(exemple['ratio puissance']),
+        exemple['ratio puissance'] === '' ? 'non-défini' : exemple['ratio puissance'],
+        exemple['ratio puissance de site'] === ''
+          ? 'non-défini'
+          : exemple['ratio puissance de site'],
       );
     } catch (error) {
       this.error = error as Error;
@@ -53,20 +45,33 @@ async function modifierPuissance(
   this: PotentielWorld,
   modifiéPar: string,
   statutProjet?: 'lauréat' | 'éliminé',
-  ratio?: number,
+  ratio?: string | 'non-défini',
+  ratioPuissanceDeSite?: string | 'non-défini',
 ) {
   const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
 
-  const { puissance, dateModification, raison } =
-    this.lauréatWorld.puissanceWorld.modifierPuissanceFixture.créer(
-      ratio !== undefined
+  const { puissance, puissanceDeSite, dateModification, raison } =
+    this.lauréatWorld.puissanceWorld.modifierPuissanceFixture.créer({
+      appelOffres: this.lauréatWorld.identifiantProjet.appelOffre,
+      ...(ratio !== undefined
         ? {
             puissance:
-              this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue *
-              ratio,
+              ratio !== 'non-défini'
+                ? this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle *
+                  Number(ratio)
+                : undefined,
           }
-        : undefined,
-    );
+        : {}),
+      ...(ratioPuissanceDeSite !== undefined
+        ? {
+            puissanceDeSite:
+              ratioPuissanceDeSite !== 'non-défini'
+                ? (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite ?? 0) *
+                  Number(ratioPuissanceDeSite)
+                : undefined,
+          }
+        : {}),
+    });
 
   await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
@@ -74,6 +79,7 @@ async function modifierPuissance(
       identifiantProjetValue: identifiantProjet.formatter(),
       identifiantUtilisateurValue: modifiéPar,
       puissanceValue: puissance,
+      puissanceDeSiteValue: puissanceDeSite,
       dateModificationValue: dateModification,
       raisonValue: raison,
     },

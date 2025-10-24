@@ -10,6 +10,7 @@ export type ModifierPuissanceUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     puissanceValue: number;
+    puissanceDeSiteValue?: number;
     dateModificationValue: string;
     raisonValue?: string;
   }
@@ -20,6 +21,7 @@ export const registerModifierPuissanceUseCase = () => {
     identifiantProjetValue,
     identifiantUtilisateurValue,
     puissanceValue,
+    puissanceDeSiteValue,
     dateModificationValue,
     raisonValue,
   }) => {
@@ -29,6 +31,7 @@ export const registerModifierPuissanceUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         puissance: puissanceValue,
+        puissanceDeSite: puissanceDeSiteValue,
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
         raison: raisonValue,
       },

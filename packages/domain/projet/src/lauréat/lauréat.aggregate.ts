@@ -264,11 +264,6 @@ export class LauréatAggregate extends AbstractAggregate<
       producteur: this.projet.candidature.nomCandidat,
     });
 
-    await this.puissance.importer({
-      importéeLe: notifiéLe,
-      puissance: this.projet.candidature.puissanceProductionAnnuelle,
-    });
-
     await this.actionnaire.importer({
       importéLe: notifiéLe,
       actionnaire: this.projet.candidature.sociétéMère,
@@ -287,7 +282,18 @@ export class LauréatAggregate extends AbstractAggregate<
       identifiantUtilisateur: notifiéPar,
     });
 
-    // Champs supplémentaires, dont l'import dépend de l'appel d'offre
+    // champs mixte, dont une valeur dépend de l'appel d'offres
+    await this.puissance.importer({
+      importéeLe: notifiéLe,
+      puissance: this.projet.candidature.puissanceProductionAnnuelle,
+      puissanceDeSite:
+        this.projet.appelOffre.champsSupplémentaires?.puissanceDeSite &&
+        this.projet.candidature.dépôt.puissanceDeSite
+          ? this.projet.candidature.dépôt.puissanceDeSite
+          : undefined,
+    });
+
+    // Champs supplémentaires, dont l'import dépend de l'appel d'offres
     if (
       this.projet.appelOffre.champsSupplémentaires?.installateur !== undefined ||
       this.projet.candidature.dépôt.typologieInstallation ||

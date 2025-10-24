@@ -25,14 +25,16 @@ Alors(
 
       const {
         unitéPuissance,
-        dépôt: { puissanceProductionAnnuelle },
+        dépôt: { puissanceProductionAnnuelle, puissanceDeSite },
       } = this.candidatureWorld.mapToExpected();
+
       const actual = mapToPlainObject(puissance);
       const expected = mapToPlainObject(
         this.lauréatWorld.puissanceWorld.mapToExpected(
           identifiantProjet,
           puissanceProductionAnnuelle,
           unitéPuissance,
+          puissanceDeSite,
         ),
       );
 

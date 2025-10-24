@@ -116,6 +116,10 @@ const mapToProps: MapToProps = ({ candidature, lauréat, cahierDesCharges }) => 
       currentValue: lauréat.puissance.puissance,
       estEnCoursDeModification: !!lauréat.puissance.dateDemandeEnCours,
     },
+    puissanceDeSite: {
+      currentValue: lauréat.puissance.puissanceDeSite,
+      estEnCoursDeModification: !!lauréat.puissance.dateDemandeEnCours,
+    },
     nomCandidat: {
       currentValue: lauréat.producteur.producteur,
       estEnCoursDeModification: false,

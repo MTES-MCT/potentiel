@@ -7,7 +7,10 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-import { getPuissanceInfos } from '../../_helpers/getLauréat';
+import {
+  getCahierDesChargesPuissanceDeSiteInfos,
+  getPuissanceInfos,
+} from '../../_helpers/getLauréat';
 
 import { ModifierPuissancePage } from './ModifierPuissance.page';
 
@@ -20,12 +23,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const puissance = await getPuissanceInfos({ identifiantProjet: identifiantProjet.formatter() });
+    const puissance = await getPuissanceInfos({
+      identifiantProjet: identifiantProjet.formatter(),
+    });
+    const infosCahierDesChargesPuissanceDeSite = await getCahierDesChargesPuissanceDeSiteInfos({
+      identifiantProjet,
+    });
 
     return (
       <ModifierPuissancePage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
         puissance={puissance.puissance}
+        puissanceDeSite={puissance.puissanceDeSite}
+        infosCahierDesChargesPuissanceDeSite={infosCahierDesChargesPuissanceDeSite}
         unitéPuissance={mapToPlainObject(puissance.unitéPuissance)}
       />
     );

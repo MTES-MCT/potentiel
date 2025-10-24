@@ -12,6 +12,7 @@ export type ConsulterPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   puissance: number;
   puissanceInitiale: number;
+  puissanceDeSite?: number;
   unitéPuissance: UnitéPuissance.ValueType;
   dateDemandeEnCours?: DateTime.ValueType;
 };
@@ -53,12 +54,14 @@ type MapToReadModel = (
 export const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   puissance,
+  puissanceDeSite,
   dateDemandeEnCours,
   candidature: { puissanceProductionAnnuelle: puissanceInitiale, unitéPuissance },
 }) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   puissance,
   puissanceInitiale,
+  puissanceDeSite,
   dateDemandeEnCours: dateDemandeEnCours
     ? DateTime.convertirEnValueType(dateDemandeEnCours)
     : undefined,

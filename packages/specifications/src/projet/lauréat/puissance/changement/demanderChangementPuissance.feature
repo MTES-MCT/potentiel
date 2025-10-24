@@ -50,7 +50,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
     Scénario: Impossible de demander le changement de puissance si la nouvelle valeur est nulle ou négative
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors l'utilisateur devrait être informé que "La puissance d'un projet doit être une valeur positive"
+        Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
 
         Exemples:
             | Ratio |

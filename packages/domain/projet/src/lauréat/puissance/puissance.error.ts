@@ -12,12 +12,23 @@ export class PuissanceIdentiqueError extends DomainError {
   }
 }
 
-export class PuissanceNulleOuNégativeError extends DomainError {
+export class ModificationPuissanceDeSiteRequiseError extends DomainError {
   constructor() {
-    super("La puissance d'un projet doit être une valeur positive");
+    super('La puissance de site doit être modifiée');
   }
 }
 
+export class PuissanceNulleOuNégativeError extends DomainError {
+  constructor() {
+    super("La puissance d'un projet doit avoir une valeur positive");
+  }
+}
+
+export class PuissanceDeSiteNulleOuNégativeError extends DomainError {
+  constructor() {
+    super("La puissance de site d'un projet doit avoir une valeur positive");
+  }
+}
 export class DemandeDeChangementPuissanceEnCoursError extends DomainError {
   constructor() {
     super('Une demande de changement de puissance est déjà en cours');

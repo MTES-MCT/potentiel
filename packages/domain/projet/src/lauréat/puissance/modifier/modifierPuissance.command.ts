@@ -10,6 +10,7 @@ export type ModifierPuissanceCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     puissance: number;
+    puissanceDeSite?: number;
     dateModification: DateTime.ValueType;
     raison?: string;
   }
@@ -22,6 +23,7 @@ export const registerModifierPuissanceCommand = (
     identifiantProjet,
     identifiantUtilisateur,
     puissance,
+    puissanceDeSite,
     dateModification,
     raison,
   }) => {
@@ -30,6 +32,7 @@ export const registerModifierPuissanceCommand = (
     await projet.lauréat.puissance.modifier({
       identifiantUtilisateur,
       puissance,
+      puissanceDeSite,
       dateModification,
       raison,
     });

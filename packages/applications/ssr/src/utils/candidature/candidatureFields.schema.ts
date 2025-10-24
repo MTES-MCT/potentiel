@@ -9,7 +9,6 @@ import {
   optionalDateSchema,
   optionalEnum,
   optionalEnumForCorrection,
-  optionalNumberSchema,
   optionalPercentageSchema,
   optionalStrictlyPositiveNumberSchema,
   optionalStringSchema,
@@ -28,7 +27,7 @@ export const numéroCRESchema = requiredStringSchema;
 export const nomProjetSchema = requiredStringSchema;
 export const sociétéMèreSchema = optionalStringWithDefaultValueSchema;
 export const nomCandidatSchema = requiredStringSchema;
-export const puissanceProductionAnnuelleSchema = strictlyPositiveNumberSchema;
+export const optionalPuissanceProductionAnnuelleSchema = optionalStrictlyPositiveNumberSchema;
 export const prixRéférenceSchema = strictlyPositiveNumberSchema;
 export const noteTotaleSchema = numberSchema;
 export const nomReprésentantLégalSchema = requiredStringSchema;
@@ -73,7 +72,8 @@ export const territoireProjetSchema = optionalStringWithDefaultValueSchema;
 export const choixCoefficientKSchema = booleanSchema.optional();
 export const obligationDeSolarisationSchema = booleanSchema.optional();
 
-export const puissanceDeSiteSchema = optionalNumberSchema;
+export const puissanceOuPuissanceDeSiteSchema = strictlyPositiveNumberSchema;
+export const optionalPuissanceOuPuissanceDeSiteSchema = optionalStrictlyPositiveNumberSchema;
 
 export const dateDAutorisationDUrbanismeSchema = optionalDateSchema;
 export const numéroDAutorisationDUrbanismeSchema = optionalStringSchema;

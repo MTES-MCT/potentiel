@@ -3,6 +3,7 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { PuissanceDeSiteNonAttendueError } from '../../candidature/candidature.error';
 
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
 
@@ -22,6 +23,8 @@ import { ChangementPuissanceEnregistréEvent } from './changement/enregistrerCha
 import { EnregistrerChangementOptions } from './changement/enregistrerChangement/enregistrerChangementPuissance.options';
 import {
   DemandeDeChangementPuissanceEnCoursError,
+  ModificationPuissanceDeSiteRequiseError,
+  PuissanceDeSiteNulleOuNégativeError,
   PuissanceDéjàImportéeError,
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
@@ -41,6 +44,8 @@ export class PuissanceAggregate extends AbstractAggregate<
 > {
   #puissance!: number;
 
+  #puissanceDeSite?: number;
+
   #demande?: {
     statut: StatutChangementPuissance.ValueType;
     nouvellePuissance: number;
@@ -55,9 +60,17 @@ export class PuissanceAggregate extends AbstractAggregate<
     return this.lauréat.projet.identifiantProjet;
   }
 
-  async importer({ puissance, importéeLe }: ImporterOptions) {
+  async importer({ puissance, puissanceDeSite, importéeLe }: ImporterOptions) {
     if (this.#puissance) {
       throw new PuissanceDéjàImportéeError();
+    }
+
+    if (puissance <= 0) {
+      throw new PuissanceNulleOuNégativeError();
+    }
+
+    if (puissanceDeSite !== undefined && puissanceDeSite <= 0) {
+      throw new PuissanceDeSiteNulleOuNégativeError();
     }
 
     const event: PuissanceImportéeEvent = {
@@ -65,6 +78,7 @@ export class PuissanceAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         puissance,
+        puissanceDeSite,
         importéeLe: importéeLe.formatter(),
       },
     };
@@ -72,15 +86,46 @@ export class PuissanceAggregate extends AbstractAggregate<
     await this.publish(event);
   }
 
-  async modifier({ puissance, dateModification, identifiantUtilisateur, raison }: ModifierOptions) {
+  async modifier({
+    puissance,
+    puissanceDeSite,
+    dateModification,
+    identifiantUtilisateur,
+    raison,
+  }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
 
-    if (this.#puissance === puissance) {
-      throw new PuissanceIdentiqueError();
+    if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
+      if (puissanceDeSite !== undefined) {
+        throw new PuissanceDeSiteNonAttendueError();
+      }
+      if (this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
     }
 
-    if (puissance <= 0) {
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'requis') {
+      if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+    }
+
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'optionnel') {
+      if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+
+      if (puissanceDeSite === undefined && this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
+    }
+
+    if (puissance !== undefined && puissance <= 0) {
       throw new PuissanceNulleOuNégativeError();
+    }
+
+    if (puissanceDeSite !== undefined && puissanceDeSite <= 0) {
+      throw new PuissanceDeSiteNulleOuNégativeError();
     }
 
     if (this.#demande?.statut.estDemandé()) {
@@ -92,6 +137,7 @@ export class PuissanceAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         puissance,
+        puissanceDeSite,
         modifiéeLe: dateModification.formatter(),
         modifiéePar: identifiantUtilisateur.formatter(),
         raison,
@@ -336,12 +382,18 @@ export class PuissanceAggregate extends AbstractAggregate<
     this.#puissance = puissance;
   }
 
-  private applyPuissanceImportée({ payload: { puissance } }: PuissanceImportéeEvent) {
+  private applyPuissanceImportée({
+    payload: { puissance, puissanceDeSite },
+  }: PuissanceImportéeEvent) {
     this.#puissance = puissance;
+    this.#puissanceDeSite = puissanceDeSite;
   }
 
-  private applyPuissanceModifiée({ payload: { puissance } }: PuissanceModifiéeEvent) {
-    this.#puissance = puissance;
+  private applyPuissanceModifiée({
+    payload: { puissance, puissanceDeSite },
+  }: PuissanceModifiéeEvent) {
+    this.#puissance = puissance ? puissance : this.#puissance;
+    this.#puissanceDeSite = puissanceDeSite ? puissanceDeSite : this.#puissanceDeSite;
   }
 
   private applyChangementPuissanceDemandé({

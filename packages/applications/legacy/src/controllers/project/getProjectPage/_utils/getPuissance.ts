@@ -11,6 +11,7 @@ import { checkAutorisationChangement } from './checkLauréat/checkAutorisationCh
 
 export type GetPuissanceForProjectPage = {
   puissance: number;
+  puissanceDeSite?: number;
   affichage?: {
     labelActions?: string;
     label: string;
@@ -38,11 +39,12 @@ export const getPuissance = async ({
     });
 
     if (Option.isSome(puissanceProjection)) {
-      const { puissance, dateDemandeEnCours } = puissanceProjection;
+      const { puissance, dateDemandeEnCours, puissanceDeSite } = puissanceProjection;
 
       if (dateDemandeEnCours) {
         return {
           puissance,
+          puissanceDeSite,
           affichage: role.aLaPermission('puissance.consulterChangement')
             ? {
                 url: Routes.Puissance.changement.détails(
@@ -80,6 +82,7 @@ export const getPuissance = async ({
 
       return {
         puissance,
+        puissanceDeSite,
         affichage,
       };
     }

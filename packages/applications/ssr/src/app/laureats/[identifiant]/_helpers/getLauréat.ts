@@ -3,8 +3,10 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { getCahierDesCharges } from '../../../_helpers';
 
 type Props = {
   identifiantProjet: string;
@@ -108,6 +110,16 @@ export const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return puissance;
+};
+
+export const getCahierDesChargesPuissanceDeSiteInfos = async ({
+  identifiantProjet,
+}: {
+  identifiantProjet: IdentifiantProjet.ValueType;
+}) => {
+  const cahierDesCharges = await getCahierDesCharges(identifiantProjet);
+
+  return cahierDesCharges.getChampsSupplémentaires()['puissanceDeSite'];
 };
 
 export const getProducteurInfos = async ({ identifiantProjet }: Props) => {
