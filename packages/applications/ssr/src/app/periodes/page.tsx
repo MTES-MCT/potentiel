@@ -77,7 +77,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      const périodesPartiellementNotifiées: Période.ConsulterPériodeReadModel[] =
+      const périodesPartiellementNotifiées: Période.ListerPériodeItemReadModel[] =
         estNotifiée === false ? await getPériodesPartiellementNotifiées(appelOffre) : [];
 
       const props = await mapToProps({
@@ -102,14 +102,13 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-const mapToProps = async ({
-  périodes,
-  utilisateur,
-}: {
+type MapToProps = (args: {
   périodes: Période.ListerPériodeItemReadModel[];
   utilisateur: Utilisateur.ValueType;
-}): Promise<ReadonlyArray<PériodeListItemProps>> => {
-  return await Promise.all(
+}) => Promise<ReadonlyArray<PériodeListItemProps>>;
+
+const mapToProps: MapToProps = async ({ périodes, utilisateur }) =>
+  Promise.all(
     périodes.map(async (période) => {
       const stats = await getCandidaturesStatsForPeriode(
         période.identifiantPériode.appelOffre,
@@ -132,7 +131,6 @@ const mapToProps = async ({
       return props;
     }),
   );
-};
 
 const getCandidaturesStatsForPeriode = async (
   appelOffre: string,
@@ -169,20 +167,21 @@ async function getPériodesPartiellementNotifiées(appelOffre: string | undefine
       appelOffre,
     },
   });
-  const identifiantsPériodes = candidats.items
-    .map(({ identifiantProjet }) => `${identifiantProjet.appelOffre}#${identifiantProjet.période}`)
-    .filter((val, i, self) => self.indexOf(val) === i);
-
-  const nouvellesPériodes = await Promise.all(
-    identifiantsPériodes.map((identifiantPériodeValue) =>
-      mediator.send<Période.ConsulterPériodeQuery>({
-        type: 'Période.Query.ConsulterPériode',
-        data: {
-          identifiantPériodeValue,
-        },
-      }),
+  const identifiantsPériodes = [
+    ...new Set(
+      candidats.items.map(
+        ({ identifiantProjet }): Période.IdentifiantPériode.RawType =>
+          `${identifiantProjet.appelOffre}#${identifiantProjet.période}`,
+      ),
     ),
-  );
+  ];
 
-  return nouvellesPériodes.filter(Option.isSome);
+  const nouvellesPériodes = await mediator.send<Période.ListerPériodesQuery>({
+    type: 'Période.Query.ListerPériodes',
+    data: {
+      identifiantsPériodes,
+    },
+  });
+
+  return nouvellesPériodes.items.filter(Option.isSome);
 }
