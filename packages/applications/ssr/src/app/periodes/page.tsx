@@ -77,7 +77,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      const périodesPartiellementNotifiées: Période.ConsulterPériodeReadModel[] =
+      const périodesPartiellementNotifiées: Période.ListerPériodeItemReadModel[] =
         estNotifiée === false ? await getPériodesPartiellementNotifiées(appelOffre) : [];
 
       const props = await mapToProps({
@@ -102,14 +102,13 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-const mapToProps = async ({
-  périodes,
-  utilisateur,
-}: {
+type MapToProps = (args: {
   périodes: Période.ListerPériodeItemReadModel[];
   utilisateur: Utilisateur.ValueType;
-}): Promise<ReadonlyArray<PériodeListItemProps>> => {
-  return await Promise.all(
+}) => Promise<ReadonlyArray<PériodeListItemProps>>;
+
+const mapToProps: MapToProps = async ({ périodes, utilisateur }) =>
+  Promise.all(
     périodes.map(async (période) => {
       const stats = await getCandidaturesStatsForPeriode(
         période.identifiantPériode.appelOffre,
@@ -132,7 +131,6 @@ const mapToProps = async ({
       return props;
     }),
   );
-};
 
 const getCandidaturesStatsForPeriode = async (
   appelOffre: string,

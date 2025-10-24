@@ -29,7 +29,7 @@ const schema = zod.object({
   test: zod.stringbool().optional(),
 });
 
-export type ImporterPériodeFormKeys = keyof zod.infer<typeof schema>;
+export type ImporterCandidaturesParDSFormKeys = keyof zod.infer<typeof schema>;
 
 const instructionCsvSchema = zod.object({
   numeroDossierDS: zod.coerce.number(),
@@ -240,4 +240,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const importerPériodeAction = formAction(action, schema);
+export const importerCandidaturesParDSAction = formAction(action, schema);

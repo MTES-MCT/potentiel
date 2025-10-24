@@ -11,7 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ImporterCandidaturesPage } from './ImporterCandidatures.page';
 
 const paramsSchema = z.object({
-  reimport: z.string(),
+  reimport: z.string().optional(),
 });
 
 type PageProps = {
