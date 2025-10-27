@@ -108,7 +108,7 @@ const mapToReadModel = ({
   return {
     nomProjet: lauréat.nomProjet,
     statut: StatutChangementPuissance.convertirEnValueType(entity.demande.statut),
-    misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+    misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
     identifiantProjet,
     demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
     nouvellePuissance: entity.demande.nouvellePuissance,
