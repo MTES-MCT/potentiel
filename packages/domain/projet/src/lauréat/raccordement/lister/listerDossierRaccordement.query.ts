@@ -1,16 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, LeftJoin, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { DossierRaccordementEntity, RéférenceDossierRaccordement } from '..';
 import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
 import { LauréatEntity, Puissance, Raccordement, StatutLauréat } from '../..';
+import { AbandonEntity } from '../../abandon';
+import { AttestationConformitéEntity } from '../../achèvement/attestationConformité';
 
 type DossierRaccordement = {
   nomProjet: string;
   identifiantProjet: IdentifiantProjet.ValueType;
+  statutProjet: StatutLauréat.ValueType;
   appelOffre: string;
   période: string;
   famille: string;
@@ -49,6 +52,7 @@ export type ListerDossierRaccordementQuery = Message<
     range?: RangeOptions;
     référenceDossier?: string;
     région?: string;
+    statutProjet?: StatutLauréat.RawType;
   },
   ListerDossierRaccordementReadModel
 >;
@@ -63,6 +67,8 @@ type DossierRaccordementJoins = [
   Candidature.CandidatureEntity,
   Puissance.PuissanceEntity,
   GestionnaireRéseau.GestionnaireRéseauEntity,
+  LeftJoin<AbandonEntity>,
+  LeftJoin<AttestationConformitéEntity>,
 ];
 
 export const registerListerDossierRaccordementQuery = ({
@@ -76,6 +82,7 @@ export const registerListerDossierRaccordementQuery = ({
     référenceDossier,
     range,
     utilisateur,
+    statutProjet,
   }) => {
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
     const {
@@ -120,6 +127,28 @@ export const registerListerDossierRaccordementQuery = ({
           entity: 'gestionnaire-réseau',
           on: 'identifiantGestionnaireRéseau',
         },
+        {
+          entity: 'abandon',
+          on: 'identifiantProjet',
+          type: 'left',
+          where:
+            statutProjet === 'abandonné'
+              ? { statut: Where.equal('accordé') }
+              : statutProjet === 'actif'
+                ? { statut: Where.notEqual('accordé') }
+                : undefined,
+        },
+        {
+          entity: 'attestation-conformité',
+          on: 'identifiantProjet',
+          type: 'left',
+          where:
+            statutProjet === 'achevé'
+              ? { identifiantProjet: Where.notEqualNull() }
+              : statutProjet === 'actif'
+                ? { identifiantProjet: Where.equalNull() }
+                : undefined,
+        },
       ],
       orderBy: {
         référence: 'ascending',
@@ -158,6 +187,8 @@ export const mapToReadModel: MapToReadModelProps = ({
   'gestionnaire-réseau': gestionnaireRéseau,
   puissance: { puissance },
   candidature: { emailContact, nomCandidat, sociétéMère, unitéPuissance },
+  abandon,
+  'attestation-conformité': attestationConformité,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -190,5 +221,11 @@ export const mapToReadModel: MapToReadModelProps = ({
     nomCandidat,
     siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} (${département}, ${région})`,
     sociétéMère,
+    statutProjet:
+      abandon?.statut === 'accordé'
+        ? StatutLauréat.abandonné
+        : attestationConformité
+          ? StatutLauréat.achevé
+          : StatutLauréat.actif,
   };
 };

@@ -12,6 +12,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToRangeOptions } from '@/utils/pagination';
+import { getStatutLauréatLabel } from '@/app/_helpers/getStatutLauréatLabel';
 
 import { DossierRaccordementListPage } from './DossierRaccordementList.page';
 
@@ -30,6 +31,7 @@ const paramsSchema = z.object({
   appelOffre: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
+  statutProjet: z.enum(Lauréat.StatutLauréat.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -41,6 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
         avecDateMiseEnService,
         page,
         referenceDossier,
+        statutProjet,
       } = paramsSchema.parse(searchParams);
 
       const identifiantGestionnaireRéseauUtilisateur =
@@ -57,6 +60,7 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
           }),
           référenceDossier: referenceDossier,
+          statutProjet,
         },
       });
 
@@ -75,6 +79,14 @@ export default async function Page({ searchParams }: PageProps) {
           ).items;
 
       const filters = [
+        {
+          label: 'Statut du projet',
+          searchParamKey: 'statutProjet',
+          options: Lauréat.StatutLauréat.statuts.map((value) => ({
+            label: getStatutLauréatLabel(value),
+            value,
+          })),
+        },
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',

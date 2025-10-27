@@ -11,6 +11,7 @@ import { ProjectListItemHeading } from '@/components/molecules/projet/liste/Proj
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { StatutLauréatBadge } from '@/components/molecules/projet/lauréat/StatutLauréatBadge';
 
 export type DossierRaccordementListItemProps = PlainType<
   Lauréat.Raccordement.ListerDossierRaccordementReadModel['items'][number]
@@ -27,6 +28,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   dateMiseEnService,
   raisonSocialeGestionnaireRéseau,
   puissance,
+  statutProjet,
 }) => (
   <ListItem
     heading={
@@ -34,6 +36,9 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix="Projet lauréat"
+        statutBadge={
+          <StatutLauréatBadge statut={Lauréat.StatutLauréat.bind(statutProjet).formatter()} />
+        }
       />
     }
     actions={
