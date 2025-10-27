@@ -104,10 +104,11 @@ const mapToReadModel = ({
   statut,
   nombreDeMois,
   lauréat: { nomProjet },
+  misÀJourLe,
 }: DemandeDélaiEntity & Joined<LauréatEntity>): DemandeDélaiItemReadModel => ({
   nomProjet,
   statut: StatutDemandeDélai.convertirEnValueType(statut),
-  misÀJourLe: DateTime.convertirEnValueType(demandéLe),
+  misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   demandéLe: DateTime.convertirEnValueType(demandéLe),
   nombreDeMois,

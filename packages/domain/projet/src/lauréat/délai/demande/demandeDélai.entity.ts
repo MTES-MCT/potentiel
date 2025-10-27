@@ -7,6 +7,8 @@ export type DemandeDélaiEntity = Entity<
   {
     identifiantProjet: string;
 
+    misÀJourLe: string;
+
     statut: StatutDemandeDélai.RawType;
     nombreDeMois: number;
     raison: string;
