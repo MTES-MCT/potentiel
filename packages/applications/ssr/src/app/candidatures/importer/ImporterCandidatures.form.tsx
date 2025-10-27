@@ -15,16 +15,19 @@ import { ImporterCandidaturesParDSForm } from './(demarche-simplifiée)/Importer
 export type ImporterCandidaturesFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
 };
+
+type State = {
+  appelOffre: string | undefined;
+  période: string | undefined;
+  typeImport: AppelOffre.Periode['typeImport'] | undefined;
+};
+
 export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ périodes }) => {
   const searchParams = useSearchParams();
 
   const appelOffres = Object.groupBy(périodes, (p) => p.identifiantPériode.appelOffre);
 
-  const [state, setState] = useState<{
-    appelOffre: string | undefined;
-    période: string | undefined;
-    typeImport: AppelOffre.Periode['typeImport'] | undefined;
-  }>({
+  const [state, setState] = useState<State>({
     appelOffre:
       périodes.length === 1
         ? périodes[0].identifiantPériode.appelOffre
@@ -52,20 +55,30 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
     }
   }, [state.appelOffre, state.période]);
 
+  const displayMissingData = () => {
+    if (state.appelOffre && state.période) {
+      return;
+    }
+
+    return (
+      <div className="mt-6 md:mt-0">
+        Veuillez saisir{' '}
+        {match(state)
+          .with({ appelOffre: undefined, période: undefined }, () => (
+            <span className="font-semibold">un appel d'offres et une période</span>
+          ))
+          .with({ appelOffre: undefined }, () => (
+            <span className="font-semibold">un appel d'offres</span>
+          ))
+          .with({ période: undefined }, () => <span className="font-semibold">une période</span>)
+          .otherwise(() => null)}
+      </div>
+    );
+  };
+
   return (
     <div>
-      <div className="mb-6">
-        Veuillez saisir{' '}
-        <span className="font-semibold">
-          {!state.appelOffre && !state.période
-            ? "un appel d'offres et une période"
-            : !state.appelOffre
-              ? "un appel d'offres"
-              : 'une période'}
-        </span>
-      </div>
-
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row md:gap-4">
         <Select
           label="Appel Offre"
           options={Object.keys(appelOffres).map((appelOffre) => ({
@@ -115,21 +128,26 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
         />
       </div>
 
-      {state.typeImport &&
-        match(state.typeImport)
-          .with('csv', () => (
-            <ImporterCandidaturesParCSVForm
-              appelOffre={state.appelOffre!}
-              période={state.période!}
-            />
-          ))
-          .with('démarche-simplifiée', () => (
-            <ImporterCandidaturesParDSForm
-              appelOffre={state.appelOffre!}
-              période={state.période!}
-            />
-          ))
-          .exhaustive()}
+      {displayMissingData()}
+
+      {state.typeImport && (
+        <div className="mt-6 md:mt-0">
+          {match(state.typeImport)
+            .with('csv', () => (
+              <ImporterCandidaturesParCSVForm
+                appelOffre={state.appelOffre!}
+                période={state.période!}
+              />
+            ))
+            .with('démarche-simplifiée', () => (
+              <ImporterCandidaturesParDSForm
+                appelOffre={state.appelOffre!}
+                période={state.période!}
+              />
+            ))
+            .exhaustive()}
+        </div>
+      )}
     </div>
   );
 };
