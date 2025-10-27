@@ -5,6 +5,8 @@ export type ChangementReprésentantLégalEntity = Entity<
   {
     identifiantProjet: string;
 
+    miseÀJourLe: string;
+
     demande: {
       statut: string;
       nomReprésentantLégal: string;

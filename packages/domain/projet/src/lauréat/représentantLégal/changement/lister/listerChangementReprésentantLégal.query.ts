@@ -97,7 +97,7 @@ const mapToReadModel = (
 ): ChangementReprésentantLégalItemReadModel => ({
   nomProjet: entity.lauréat.nomProjet,
   statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.demande.statut),
-  misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
+  misÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   demandéLe: entity.demande.demandéLe,
 });

@@ -23,6 +23,7 @@ export const changementReprésentantLégalAccordéProjector = async (
       `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
       {
         ...représentantLégal.changementEnCours,
+        miseÀJourLe: accordéLe,
         demande: {
           ...représentantLégal.changementEnCours.demande,
           statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter(),

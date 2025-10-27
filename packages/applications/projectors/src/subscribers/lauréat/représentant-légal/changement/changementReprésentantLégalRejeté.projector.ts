@@ -17,6 +17,7 @@ export const changementReprésentantLégalRejetéProjector = async (
       `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
       {
         ...représentantLégal.changementEnCours,
+        miseÀJourLe: rejetéLe,
         demande: {
           ...représentantLégal.changementEnCours.demande,
           statut: Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
