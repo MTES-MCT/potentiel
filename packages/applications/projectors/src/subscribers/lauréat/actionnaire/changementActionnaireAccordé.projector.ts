@@ -53,6 +53,7 @@ export const changementActionnaireAccordéProjector = async ({
     `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
     {
       ...projectionToUpsert,
+      miseÀJourLe: accordéLe,
       demande: {
         ...projectionToUpsert.demande,
         statut: Lauréat.Actionnaire.StatutChangementActionnaire.accordé.statut,
