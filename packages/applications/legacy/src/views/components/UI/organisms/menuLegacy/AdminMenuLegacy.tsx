@@ -53,6 +53,9 @@ export const AdminMenuLegacy = (
       >
         Délai
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
+        Nature de l'exploitation
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>
