@@ -8,6 +8,7 @@ export class NotificationWorld {
   #notifications: EmailPayload[] = [];
 
   ajouterNotification(notification: EmailPayload) {
+    console.log(notification);
     this.#notifications.push(notification);
   }
 
