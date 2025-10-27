@@ -57,7 +57,7 @@ Fonctionnalité: Enregistrer un changement de représentant légal
         Et un cahier des charges permettant la modification du projet
         Et un changement de représentant légal enregistré pour le projet lauréat
         Quand on exécute la tâche planifiée "supprimer automatiquement le document à trois mois" pour le projet lauréat
-        Alors une tâche "supprimer automatiquement le document à trois mois" n'est plus planifiée pour le projet lauréat
+        Alors il n'y a pas de tâche "supprimer automatiquement le document à trois mois" planifiée pour le projet lauréat
         Et le document sensible fourni lors du changement de représentant légal devrait être remplacé
 
     Scénario: Le document sensible est automatiquement supprimé et une tâche planifiée est créée lorsqu'un nouveau changement de représentant légal est déclaré

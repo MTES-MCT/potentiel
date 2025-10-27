@@ -35,7 +35,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | type GF         | avec-date-échéance |
             | date d'échéance | 2050-01-01         |
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet lauréat
+        Et il n'y a pas de tâche "échoir les garanties financières" planifiée pour le projet lauréat
 
     Scénario: Enregistrer un changement de producteur d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
