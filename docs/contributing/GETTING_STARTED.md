@@ -230,20 +230,6 @@ Pour se connecter à l'interface, il faut utiliser les credentials suivant :
 Il est possible d'avoir un metabase local qui reprend le contenu du metabase DGEC interne au ministère.
 Pour faire cela, merci de vous référer à la [documentation sécurisée](https://collab.din.developpement-durable.gouv.fr/sites/dgec-team-potentiel/Documents%20partages/60-Tech/Metabase%20public)
 
-## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a>
-
-- Pour cette partie il vaut mieux préférer la méthode "one-off-container" en téléchargeant le dump directement sur les serveurs Scalingo.
-
-`scalingo --app [nom-de-l-application] run --file ./potentiel.dump bash`
-
-- Il faut ensuite installer les outils postgres.
-
-`dbclient-fetcher psql`
-
-- Enfin restaurer le dump téléchargé sur le container dans le répertoire /tmp/upload.
-
-`pg_restore --clean --if-exists --no-owner --no-privileges --no-comments --dbname $DATABASE_URL /tmp/uploads/potentiel.dump`
-
 ## Lancer des commandes CLI
 
 Des commandes d'administration du produit sont disponible via ligne de commande.
