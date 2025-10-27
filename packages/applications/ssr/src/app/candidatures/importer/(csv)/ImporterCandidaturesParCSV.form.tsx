@@ -67,7 +67,11 @@ export const ImporterCandidaturesParCSVForm: FC<ImporterCandidaturesParCSVFormPr
         actionButtons={{
           submitLabel: 'Importer',
         }}
+        className="mt-4"
       >
+        <input type="hidden" name="appelOffre" value={appelOffre} />
+        <input type="hidden" name="periode" value={période} />
+
         <UploadNewOrModifyExistingDocument
           label="Fichier CSV"
           name="fichierImportCandidature"

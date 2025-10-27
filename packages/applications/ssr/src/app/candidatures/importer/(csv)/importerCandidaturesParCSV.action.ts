@@ -17,14 +17,21 @@ import { candidatureCsvSchema } from '@/utils/candidature';
 import { mapCsvRowToFournisseurs } from '@/utils/candidature/csv/fournisseurCsv';
 import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
+import { vérifierAppelOffresEtPériodeImportés } from './vérifierAppelOffresEtPériodeImportés';
+
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
+  appelOffre: zod.string(),
+  periode: zod.string(),
 });
 
 export type ImporterCandidaturesParCSVFormKeys = keyof zod.infer<typeof schema>;
 
-const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCandidature }) => {
-  return withUtilisateur(async (utilisateur) => {
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  { fichierImportCandidature, appelOffre, periode },
+) =>
+  withUtilisateur(async (utilisateur) => {
     const { parsedData, rawData } = await parseCsv(
       fichierImportCandidature.content,
       candidatureCsvSchema,
@@ -43,6 +50,17 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
 
     for (const line of parsedData) {
       try {
+        vérifierAppelOffresEtPériodeImportés({
+          line: {
+            appelOffre: line.appelOffre,
+            période: line.période,
+          },
+          cible: {
+            appelOffre,
+            periode,
+          },
+        });
+
         const rawLine = removeEmptyValues(
           rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {},
         );
@@ -73,6 +91,17 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
           });
           continue;
         }
+
+        if (error instanceof zod.ZodError) {
+          error.issues.forEach((error) => {
+            errors.push({
+              key: `${line.numéroCRE} - ${line.nomProjet}`,
+              reason: `${error.message}`,
+            });
+          });
+          continue;
+        }
+
         getLogger().error(error as Error);
         errors.push({
           key: `${line.numéroCRE} - ${line.nomProjet}`,
@@ -103,6 +132,5 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
           : undefined,
     };
   });
-};
 
 export const importerCandidaturesParCSVAction = formAction(action, schema);
