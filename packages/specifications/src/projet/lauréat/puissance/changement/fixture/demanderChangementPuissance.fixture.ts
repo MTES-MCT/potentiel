@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+
 import { AbstractFixture } from '../../../../../fixture';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
@@ -8,7 +10,8 @@ interface DemanderChangementPuissance {
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
-  readonly ratio: number;
+  readonly ratioPuissance: number;
+  readonly puissanceDeSite?: number;
 }
 
 export class DemanderChangementPuissanceFixture
@@ -43,15 +46,26 @@ export class DemanderChangementPuissanceFixture
     return this.#raison;
   }
 
-  #ratio!: number;
+  #ratioPuissance!: number;
 
-  get ratio(): number {
-    return this.#ratio;
+  get ratioPuissance(): number {
+    return this.#ratioPuissance;
+  }
+
+  #puissanceDeSite?: number;
+
+  get puissanceDeSite(): number | undefined {
+    return this.#puissanceDeSite;
   }
 
   créer(
-    partialData?: Partial<DemanderChangementPuissance> & { ratio: number },
+    partialData?: Partial<DemanderChangementPuissance> & {
+      ratioPuissance: number;
+      appelOffres?: string;
+    },
   ): Readonly<DemanderChangementPuissance> {
+    const aoData = appelsOffreData.find((x) => x.id === partialData?.appelOffres);
+
     const content = faker.word.words();
 
     const fixture: DemanderChangementPuissance = {
@@ -62,7 +76,14 @@ export class DemanderChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      ratio: partialData?.ratio ?? faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
+      // viovio est ce que ça pète ?
+      // ratioPuissance:
+      //   partialData?.ratioPuissance ?? faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
+      ratioPuissance: faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
+      puissanceDeSite:
+        aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
+          ? faker.number.int({ min: 1 })
+          : undefined,
       ...partialData,
     };
 
@@ -71,7 +92,8 @@ export class DemanderChangementPuissanceFixture
     this.#raison = fixture.raison;
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
-    this.#ratio = fixture.ratio;
+    this.#ratioPuissance = fixture.ratioPuissance;
+    this.#puissanceDeSite = fixture.puissanceDeSite;
 
     this.aÉtéCréé = true;
 

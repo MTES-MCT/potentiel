@@ -66,7 +66,7 @@ async function modifierPuissance(
         ? {
             puissanceDeSite:
               ratioPuissanceDeSite !== 'non-défini'
-                ? (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite ?? 0) *
+                ? (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite ?? 1) *
                   Number(ratioPuissanceDeSite)
                 : undefined,
           }

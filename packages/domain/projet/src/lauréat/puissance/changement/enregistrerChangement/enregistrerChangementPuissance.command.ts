@@ -11,6 +11,7 @@ export type EnregistrerChangementPuissanceCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     nouvellePuissance: number;
+    nouvellePuissanceDeSite?: number;
     dateChangement: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
     raison?: string;
@@ -24,6 +25,7 @@ export const registerEnregistrerChangementPuissanceCommand = (
     identifiantProjet,
     identifiantUtilisateur,
     nouvellePuissance,
+    nouvellePuissanceDeSite,
     dateChangement,
     pièceJustificative,
     raison,
@@ -32,6 +34,7 @@ export const registerEnregistrerChangementPuissanceCommand = (
 
     await projet.lauréat.puissance.enregistrerChangement({
       nouvellePuissance,
+      nouvellePuissanceDeSite,
       identifiantUtilisateur,
       dateChangement,
       pièceJustificative,
