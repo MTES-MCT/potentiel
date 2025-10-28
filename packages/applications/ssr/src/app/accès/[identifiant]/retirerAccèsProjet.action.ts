@@ -33,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Utilisateur.listerPorteurs(identifiantProjet),
+        url: Routes.Accès.lister(identifiantProjet),
         message: "L'accès au projet a été retiré avec succès",
       },
     };

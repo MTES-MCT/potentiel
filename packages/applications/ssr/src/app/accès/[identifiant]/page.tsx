@@ -1,21 +1,17 @@
 import { mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { Accès } from '@potentiel-domain/projet';
-import {
-  ListerPorteursQuery,
-  ListerPorteursReadModel,
-  Utilisateur,
-} from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { Email } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { PorteurListPage } from './PorteurList.page';
+import { PorteurListPage, PorteurListPageProps } from './PorteurList.page';
 
 type PageProps = IdentifiantParameter;
 
@@ -35,46 +31,47 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const utilisateurs: ListerPorteursReadModel['items'] = await Option.match(accèsProjet)
-        .some(async (accèsProjet) => {
-          const identifiantsUtilisateur = accèsProjet.utilisateursAyantAccès.map((utilisateur) =>
-            utilisateur.formatter(),
-          );
-
-          const utilisateurs = await mediator.send<ListerPorteursQuery>({
-            type: 'Utilisateur.Query.ListerPorteurs',
-            data: {
-              identifiantsUtilisateur,
-            },
-          });
-
-          return utilisateurs.items;
-        })
-        .none(async () => []);
-
+      const props = mapToProps({
+        accès: Option.match(accèsProjet)
+          .some((accèsProjet) => accèsProjet.utilisateursAyantAccès)
+          .none(() => []),
+        utilisateurQuiInvite: utilisateur,
+        identifiantProjet,
+        nombreDeProjets,
+      });
       return (
         <PorteurListPage
-          identifiantProjet={identifiantProjet.formatter()}
-          nombreDeProjets={nombreDeProjets}
-          items={mapToProps(utilisateurs, utilisateur)}
+          identifiantProjet={props.identifiantProjet}
+          nombreDeProjets={props.nombreDeProjets}
+          accès={props.accès}
         />
       );
     }),
   );
 }
 
-const mapToProps = (
-  utilisateurs: ListerPorteursReadModel['items'],
-  utilisateurQuiInvite: Utilisateur.ValueType,
-) =>
-  mapToPlainObject(
-    utilisateurs.map((utilisateur) => ({
-      ...utilisateur,
-      peutRetirerAccès: !utilisateur.identifiantUtilisateur.estÉgaleÀ(
-        utilisateurQuiInvite.identifiantUtilisateur,
-      ),
-    })),
-  );
+type MapToProps = (props: {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  nombreDeProjets?: number;
+  accès: Email.ValueType[];
+  utilisateurQuiInvite: Utilisateur.ValueType;
+}) => PorteurListPageProps;
+
+const mapToProps: MapToProps = ({
+  accès,
+  identifiantProjet,
+  nombreDeProjets,
+  utilisateurQuiInvite,
+}) => ({
+  accès: accès.map((identifiantUtilisateur) => ({
+    identifiantUtilisateur: identifiantUtilisateur.formatter(),
+    peutRetirerAccès: !identifiantUtilisateur.estÉgaleÀ(
+      utilisateurQuiInvite.identifiantUtilisateur,
+    ),
+  })),
+  identifiantProjet: identifiantProjet.formatter(),
+  nombreDeProjets,
+});
 
 const getNombreProjets = async (utilisateur: Utilisateur.ValueType) => {
   if (!utilisateur.role.estPorteur()) {

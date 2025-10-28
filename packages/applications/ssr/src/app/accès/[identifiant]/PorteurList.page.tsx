@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
-import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
@@ -11,17 +9,17 @@ import { ProjetLauréatBanner } from '@/components/molecules/projet/lauréat/Pro
 import { ActionsList } from '@/components/templates/ActionsList.template';
 
 import { InviterPorteurForm } from './(inviter)/InviterPorteur.form';
-import { PorteurListItem } from './PorteurListItem';
+import { PorteurListItem, PorteurListItemProps } from './PorteurListItem';
 
 export type PorteurListPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  items: PlainType<ConsulterUtilisateurReadModel & { peutRetirerAccès: boolean }>[];
+  accès: Omit<PorteurListItemProps, 'identifiantProjet'>[];
   nombreDeProjets?: number;
 };
 
 export const PorteurListPage: FC<PorteurListPageProps> = ({
   identifiantProjet,
-  items,
+  accès,
   nombreDeProjets,
 }) => {
   return (
@@ -31,18 +29,18 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({
         children: (
           <div className="flex flex-col">
             <Heading2>Comptes ayant accès au projet</Heading2>
-            {items.length === 0 ? (
+            {accès.length === 0 ? (
               <div className="flex flex-col items-center justify-center my-16">
                 <p className="text-lg font-semibold">Aucun porteur n'a accès à ce projet</p>
               </div>
             ) : (
               <div>
                 <div className="flex flex-col gap-4 mt-4">
-                  {items.map(({ email, peutRetirerAccès }) => (
+                  {accès.map(({ identifiantUtilisateur, peutRetirerAccès }) => (
                     <PorteurListItem
-                      key={email}
+                      key={identifiantUtilisateur}
                       identifiantProjet={identifiantProjet}
-                      identifiantUtilisateur={email}
+                      identifiantUtilisateur={identifiantUtilisateur}
                       peutRetirerAccès={peutRetirerAccès}
                     />
                   ))}
@@ -56,7 +54,7 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({
         children: (
           <PorteurListActions
             identifiantProjet={identifiantProjet}
-            items={items}
+            accès={accès}
             nombreDeProjets={nombreDeProjets}
           />
         ),
@@ -67,15 +65,15 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({
 
 const PorteurListActions: FC<{
   identifiantProjet: IdentifiantProjet.RawType;
-  items: PlainType<ConsulterUtilisateurReadModel>[];
+  accès: Omit<PorteurListItemProps, 'identifiantProjet'>[];
   nombreDeProjets?: number;
-}> = ({ identifiantProjet, items, nombreDeProjets }) => (
+}> = ({ identifiantProjet, accès, nombreDeProjets }) => (
   <ActionsList actionsListLength={2} className="pl-10">
     <InviterPorteurForm identifiantProjet={identifiantProjet} nombreDeProjets={nombreDeProjets} />
     <Button
       iconId="fr-icon-mail-line"
       priority="secondary"
-      linkProps={{ href: `mailto:${items.map((item) => item.email).join(',')}` }}
+      linkProps={{ href: `mailto:${accès.map((item) => item.identifiantUtilisateur).join(',')}` }}
     >
       Contacter tous les utilisateurs
     </Button>
