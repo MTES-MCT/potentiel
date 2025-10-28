@@ -18,11 +18,13 @@ import {
 export type ImporterCandidaturesParCSVFormProps = {
   appelOffre: string;
   période: string;
+  modeMultiple: boolean;
 };
 
 export const ImporterCandidaturesParCSVForm: FC<ImporterCandidaturesParCSVFormProps> = ({
   appelOffre,
   période,
+  modeMultiple,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ImporterCandidaturesParCSVFormKeys>
@@ -31,9 +33,17 @@ export const ImporterCandidaturesParCSVForm: FC<ImporterCandidaturesParCSVFormPr
   return (
     <>
       <div className="mb-4 text-lg">
-        Importer des candidats <span className="font-semibold">par CSV</span> de la{' '}
-        <span className="font-semibold">période {période}</span> de l'appel d'offres{' '}
-        <span className="font-semibold">{appelOffre}</span>
+        Importer des candidats <span className="font-semibold">par CSV</span>{' '}
+        {modeMultiple ? (
+          <>
+            pour <span className="font-semibold">plusieurs appels d'offres et périodes</span>
+          </>
+        ) : (
+          <>
+            de la <span className="font-semibold">période {période}</span> de l'appel d'offres{' '}
+            <span className="font-semibold">{appelOffre}</span>
+          </>
+        )}
       </div>
 
       <Alert
@@ -71,6 +81,7 @@ export const ImporterCandidaturesParCSVForm: FC<ImporterCandidaturesParCSVFormPr
       >
         <input type="hidden" name="appelOffre" value={appelOffre} />
         <input type="hidden" name="periode" value={période} />
+        <input type="hidden" name="modeMultiple" value={modeMultiple ? 'true' : 'false'} />
 
         <UploadNewOrModifyExistingDocument
           label="Fichier CSV"

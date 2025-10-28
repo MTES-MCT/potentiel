@@ -23,13 +23,14 @@ const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
   appelOffre: zod.string(),
   periode: zod.string(),
+  modeMultiple: zod.stringbool().optional(),
 });
 
 export type ImporterCandidaturesParCSVFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { fichierImportCandidature, appelOffre, periode },
+  { fichierImportCandidature, appelOffre, periode, modeMultiple },
 ) =>
   withUtilisateur(async (utilisateur) => {
     const { parsedData, rawData } = await parseCsv(
@@ -50,16 +51,18 @@ const action: FormAction<FormState, typeof schema> = async (
 
     for (const line of parsedData) {
       try {
-        vérifierAppelOffresEtPériodeImportés({
-          line: {
-            appelOffre: line.appelOffre,
-            période: line.période,
-          },
-          cible: {
-            appelOffre,
-            periode,
-          },
-        });
+        if (!modeMultiple) {
+          vérifierAppelOffresEtPériodeImportés({
+            line: {
+              appelOffre: line.appelOffre,
+              période: line.période,
+            },
+            cible: {
+              appelOffre,
+              periode,
+            },
+          });
+        }
 
         const rawLine = removeEmptyValues(
           rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {},

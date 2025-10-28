@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useSearchParams } from 'next/navigation';
 import { match } from 'ts-pattern';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
@@ -14,15 +15,20 @@ import { ImporterCandidaturesParDSForm } from './(demarche-simplifiée)/Importer
 
 export type ImporterCandidaturesFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
+  importMultipleAOEtPeriodePossible: boolean;
 };
 
 type State = {
   appelOffre: string | undefined;
   période: string | undefined;
   typeImport: AppelOffre.Periode['typeImport'] | undefined;
+  modeMultiple: boolean;
 };
 
-export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ périodes }) => {
+export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
+  périodes,
+  importMultipleAOEtPeriodePossible,
+}) => {
   const searchParams = useSearchParams();
 
   const appelOffres = Object.groupBy(périodes, (p) => p.identifiantPériode.appelOffre);
@@ -39,10 +45,15 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
             searchParams.get('periode') &&
             searchParams.get('periode')) ??
           undefined),
-    typeImport: undefined,
+    typeImport: importMultipleAOEtPeriodePossible ? 'csv' : undefined,
+    modeMultiple: importMultipleAOEtPeriodePossible,
   });
 
   useEffect(() => {
+    if (state.modeMultiple) {
+      setState((prev) => ({ ...prev, typeImport: 'csv' }));
+    }
+
     if (state.appelOffre && state.période) {
       const type = périodes.find(
         (p) =>
@@ -50,13 +61,11 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
           p.identifiantPériode.période === state.période,
       )?.typeImport;
       setState((prev) => ({ ...prev, typeImport: type }));
-    } else {
-      setState((prev) => ({ ...prev, typeImport: undefined }));
     }
-  }, [state.appelOffre, state.période]);
+  }, [state.appelOffre, state.période, state.modeMultiple]);
 
   const displayMissingData = () => {
-    if (state.appelOffre && state.période) {
+    if (state.modeMultiple || (state.appelOffre && state.période)) {
       return;
     }
 
@@ -78,6 +87,35 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
 
   return (
     <div>
+      {importMultipleAOEtPeriodePossible && (
+        <Checkbox
+          id="importMultipleAOEtPeriode"
+          options={[
+            {
+              label: "Autoriser l'import avec des AOs et périodes multiples",
+              hintText: (
+                <>
+                  Cette option est destinée aux{' '}
+                  <span className="font-semibold">environnements de test uniquement</span>. <br />
+                  Elle permet de faire des imports de candidatures de plusieurs périodes et appels
+                  d'offres en un seul fichier CSV.
+                </>
+              ),
+              nativeInputProps: {
+                name: 'importMultipleAOEtPeriode',
+                value: 'true',
+                defaultChecked: importMultipleAOEtPeriodePossible,
+                onChange: (ev) =>
+                  setState((prev) => ({
+                    ...prev,
+                    modeMultiple: ev.target.checked,
+                    typeImport: undefined,
+                  })),
+              },
+            },
+          ]}
+        />
+      )}
       <div className="flex flex-col md:flex-row md:gap-4">
         <Select
           label="Appel Offre"
@@ -85,6 +123,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
             label: appelOffre,
             value: appelOffre,
           }))}
+          disabled={state.modeMultiple}
           nativeSelectProps={{
             name: 'appelOffre',
             value: state.appelOffre,
@@ -108,6 +147,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
 
         <Select
           label="Période"
+          disabled={state.modeMultiple || !state.appelOffre}
           options={
             périodes
               .filter((période) => période.identifiantPériode.appelOffre == state.appelOffre)
@@ -124,11 +164,10 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
             onChange: (event) => setState((prev) => ({ ...prev, période: event.target.value })),
             required: true,
           }}
-          disabled={!state.appelOffre}
         />
       </div>
 
-      {displayMissingData()}
+      {!state.modeMultiple && displayMissingData()}
 
       {state.typeImport && (
         <div className="mt-6 md:mt-0">
@@ -137,6 +176,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({ p�
               <ImporterCandidaturesParCSVForm
                 appelOffre={state.appelOffre!}
                 période={state.période!}
+                modeMultiple={state.modeMultiple}
               />
             ))
             .with('démarche-simplifiée', () => (

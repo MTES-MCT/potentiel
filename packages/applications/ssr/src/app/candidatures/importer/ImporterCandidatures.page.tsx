@@ -10,10 +10,17 @@ import { ImporterCandidaturesForm } from './ImporterCandidatures.form';
 
 type ImporterCandidaturesPageProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
+  importMultipleAOEtPeriodePossible: boolean;
 };
 
-export const ImporterCandidaturesPage: FC<ImporterCandidaturesPageProps> = ({ périodes }) => (
+export const ImporterCandidaturesPage: FC<ImporterCandidaturesPageProps> = ({
+  périodes,
+  importMultipleAOEtPeriodePossible,
+}) => (
   <PageTemplate banner={<Heading1 className="text-theme-white">Importer des candidats</Heading1>}>
-    <ImporterCandidaturesForm périodes={périodes} />
+    <ImporterCandidaturesForm
+      périodes={périodes}
+      importMultipleAOEtPeriodePossible={importMultipleAOEtPeriodePossible}
+    />
   </PageTemplate>
 );

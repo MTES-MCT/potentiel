@@ -40,6 +40,7 @@ export default async function Page({ searchParams }: PageProps) {
               a.identifiantPériode.formatter().localeCompare(b.identifiantPériode.formatter()),
             ),
           )}
+          importMultipleAOEtPeriodePossible={process.env.APPLICATION_STAGE !== 'production'}
         />
       ));
     }),
