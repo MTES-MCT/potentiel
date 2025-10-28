@@ -6,6 +6,6 @@ export const tâcheRelancéeProjector = async ({
 }: Lauréat.Tâche.TâcheRelancéeEvent) => {
   await updateOneProjection<Lauréat.Tâche.TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
     typeTâche,
-    misÀJourLe: relancéeLe,
+    miseÀJourLe: relancéeLe,
   });
 };

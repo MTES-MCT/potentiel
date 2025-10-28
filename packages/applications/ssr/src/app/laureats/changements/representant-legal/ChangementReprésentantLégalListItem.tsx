@@ -18,11 +18,11 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
   identifiantProjet,
   nomProjet,
   statut,
-  misÀJourLe,
+  miseÀJourLe,
   demandéLe,
 }) => (
   <ListItem
-    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
+    miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}

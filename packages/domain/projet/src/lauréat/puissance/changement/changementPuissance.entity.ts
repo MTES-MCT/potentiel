@@ -8,7 +8,7 @@ export type ChangementPuissanceEntity = Entity<
   {
     identifiantProjet: string;
 
-    misÀJourLe: string;
+    miseÀJourLe: string;
 
     demande: {
       demandéePar: string;

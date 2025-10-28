@@ -20,6 +20,6 @@ export const recoursAccordéProjector = async ({
       },
     },
     statut: Éliminé.Recours.StatutRecours.accordé.value,
-    misÀJourLe: accordéLe,
+    miseÀJourLe: accordéLe,
   });
 };

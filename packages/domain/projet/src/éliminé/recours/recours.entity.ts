@@ -6,7 +6,7 @@ export type RecoursEntity = Entity<
     identifiantProjet: string;
 
     statut: string;
-    misÀJourLe: string;
+    miseÀJourLe: string;
 
     demande: {
       demandéPar: string;

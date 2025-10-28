@@ -22,9 +22,9 @@ type DossierRaccordement = {
   miseEnService?: {
     dateMiseEnService: DateTime.RawType;
     transmiseLe: DateTime.RawType;
-    tranmisePar?: Email.RawType;
+    transmisePar?: Email.RawType;
   };
-  misÀJourLe: DateTime.RawType;
+  miseÀJourLe: DateTime.RawType;
 };
 
 export type RaccordementEntity = Entity<

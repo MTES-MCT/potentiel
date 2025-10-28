@@ -12,7 +12,7 @@ export const demandeDélaiPasséeEnInstructionProjector = async ({
         passéeEnInstructionPar,
       },
       statut: Lauréat.Délai.StatutDemandeDélai.enInstruction.statut,
-      misÀJourLe: passéeEnInstructionLe,
+      miseÀJourLe: passéeEnInstructionLe,
     },
   );
 };

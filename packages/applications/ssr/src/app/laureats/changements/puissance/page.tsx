@@ -101,7 +101,7 @@ const mapToListProps = (
       identifiantProjet: mapToPlainObject(item.identifiantProjet),
       nomProjet: item.nomProjet,
       statut: mapToPlainObject(item.statut),
-      misÀJourLe: mapToPlainObject(item.misÀJourLe),
+      miseÀJourLe: mapToPlainObject(item.miseÀJourLe),
       demandéLe: mapToPlainObject(item.demandéLe),
       nouvellePuissance: item.nouvellePuissance,
       unitéPuissance: item.unitéPuissance,

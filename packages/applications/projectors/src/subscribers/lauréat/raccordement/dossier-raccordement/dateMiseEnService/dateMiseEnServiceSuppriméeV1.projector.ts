@@ -13,7 +13,7 @@ export const dateMiseEnServiceSuppriméeV1Projector = async ({
     identifiantProjet,
     référenceDossierRaccordement,
   );
-  const misÀJourLe = DateTime.convertirEnValueType(created_at).formatter();
+  const miseÀJourLe = DateTime.convertirEnValueType(created_at).formatter();
 
   await upsertDossierRaccordement({
     identifiantProjet,
@@ -21,7 +21,7 @@ export const dateMiseEnServiceSuppriméeV1Projector = async ({
     dossierRaccordement: {
       ...dossier,
       miseEnService: undefined,
-      misÀJourLe,
+      miseÀJourLe,
     },
   });
 };

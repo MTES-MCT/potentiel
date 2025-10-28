@@ -12,7 +12,7 @@ type DemandeDélaiItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: StatutDemandeDélai.ValueType;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
   demandéLe: DateTime.ValueType;
   nombreDeMois: number;
 };
@@ -104,11 +104,11 @@ const mapToReadModel = ({
   statut,
   nombreDeMois,
   lauréat: { nomProjet },
-  misÀJourLe,
+  miseÀJourLe,
 }: DemandeDélaiEntity & Joined<LauréatEntity>): DemandeDélaiItemReadModel => ({
   nomProjet,
   statut: StatutDemandeDélai.convertirEnValueType(statut),
-  misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+  miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   demandéLe: DateTime.convertirEnValueType(demandéLe),
   nombreDeMois,

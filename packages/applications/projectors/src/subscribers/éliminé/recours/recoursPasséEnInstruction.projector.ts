@@ -12,6 +12,6 @@ export const recoursPasséEnInstructionProjector = async ({
       },
     },
     statut: Éliminé.Recours.StatutRecours.enInstruction.value,
-    misÀJourLe: passéEnInstructionLe,
+    miseÀJourLe: passéEnInstructionLe,
   });
 };

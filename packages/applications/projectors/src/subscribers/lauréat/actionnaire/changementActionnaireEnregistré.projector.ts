@@ -19,7 +19,7 @@ export const changementActionnaireEnregistréProjector = async ({
     {
       actionnaire: {
         nom: actionnaire,
-        misÀJourLe: enregistréLe,
+        miseÀJourLe: enregistréLe,
       },
     },
   );

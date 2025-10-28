@@ -36,7 +36,7 @@ export const délaiDemandéProjector = async ({
       autoritéCompétente:
         cahierDesCharges.getRèglesChangements('délai').autoritéCompétente ??
         Lauréat.Délai.AutoritéCompétente.DEFAULT_AUTORITE_COMPETENTE_DELAI,
-      misÀJourLe: demandéLe,
+      miseÀJourLe: demandéLe,
     },
   );
 };

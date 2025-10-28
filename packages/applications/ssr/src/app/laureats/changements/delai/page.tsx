@@ -111,11 +111,11 @@ const mapToListProps = (
 
   return {
     items: changements.items.map(
-      ({ identifiantProjet, nomProjet, statut, misÀJourLe, demandéLe, nombreDeMois }) => ({
+      ({ identifiantProjet, nomProjet, statut, miseÀJourLe, demandéLe, nombreDeMois }) => ({
         identifiantProjet: mapToPlainObject(identifiantProjet),
         nomProjet,
         statut: mapToPlainObject(statut),
-        misÀJourLe: mapToPlainObject(misÀJourLe),
+        miseÀJourLe: mapToPlainObject(miseÀJourLe),
         demandéLe: mapToPlainObject(demandéLe),
         nombreDeMois,
       }),

@@ -11,7 +11,7 @@ export const tâchePlanifiéeAjoutéeProjector = async ({
     {
       identifiantProjet,
       typeTâche: typeTâchePlanifiée,
-      misÀJourLe: ajoutéeLe,
+      miseÀJourLe: ajoutéeLe,
       àExécuterLe,
     },
   );

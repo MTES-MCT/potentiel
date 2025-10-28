@@ -25,7 +25,7 @@ export const propositionTechniqueEtFinancièreSignéeTransmiseV1Projector = asyn
           format,
         },
       },
-      misÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
+      miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
   });
 };

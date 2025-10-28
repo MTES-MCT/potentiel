@@ -20,6 +20,7 @@ export const preuveCandidatureDemandéeProjector = async ({
   if (abandonToUpsert.demande.recandidature) {
     await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
       ...abandonToUpsert,
+      miseÀJourLe: demandéeLe,
       demande: {
         ...abandonToUpsert.demande,
         recandidature: {

@@ -31,7 +31,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
   peutInstruireMainlevée,
 }) => (
   <ListItem
-    misÀJourLe={misÀJourLe}
+    miseÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}

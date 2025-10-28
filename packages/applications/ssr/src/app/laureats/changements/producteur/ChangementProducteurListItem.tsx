@@ -21,7 +21,7 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
   nouveauProducteur,
 }) => (
   <ListItem
-    misÀJourLe={DateTime.bind(enregistréLe).formatter()}
+    miseÀJourLe={DateTime.bind(enregistréLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}

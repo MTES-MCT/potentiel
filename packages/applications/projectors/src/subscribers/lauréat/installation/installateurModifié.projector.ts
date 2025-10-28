@@ -9,7 +9,7 @@ export const installateurModifiéProjector = async ({
     {
       identifiantProjet,
       installateur,
-      misÀJourLe: modifiéLe,
+      miseÀJourLe: modifiéLe,
     },
   );
 };

@@ -43,7 +43,7 @@ export const changementActionnaireAccordéProjector = async ({
       ...actionnaire,
       actionnaire: {
         nom: nouvelActionnaire,
-        misÀJourLe: accordéLe,
+        miseÀJourLe: accordéLe,
       },
       dateDemandeEnCours: undefined,
     },

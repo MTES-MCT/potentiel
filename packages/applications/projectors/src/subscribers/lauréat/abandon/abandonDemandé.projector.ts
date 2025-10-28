@@ -42,6 +42,6 @@ export const abandonDemandéProjector = async (
         : undefined,
     },
     statut: Lauréat.Abandon.StatutAbandon.demandé.statut,
-    misÀJourLe: event.payload.demandéLe,
+    miseÀJourLe: event.payload.demandéLe,
   });
 };

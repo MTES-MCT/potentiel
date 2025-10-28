@@ -13,7 +13,7 @@ export const demandeDélaiRejetéeProjector = async ({
         rejetéePar,
         réponseSignée: { format: réponseSignée.format },
       },
-      misÀJourLe: rejetéeLe,
+      miseÀJourLe: rejetéeLe,
     },
   );
 };

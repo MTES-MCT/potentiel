@@ -5,7 +5,7 @@ export type ActionnaireEntity = Entity<
   'actionnaire',
   {
     identifiantProjet: string;
-    actionnaire: { nom: string; misÀJourLe: DateTime.RawType };
+    actionnaire: { nom: string; miseÀJourLe: DateTime.RawType };
     dateDemandeEnCours?: DateTime.RawType;
   }
 >;

@@ -64,6 +64,6 @@ export type AbandonEntity = Entity<
     };
 
     statut: StatutAbandon.RawType;
-    misÀJourLe: string;
+    miseÀJourLe: string;
   }
 >;

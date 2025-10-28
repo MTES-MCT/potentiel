@@ -7,7 +7,7 @@ export type FournisseurEntity = Entity<
   'fournisseur',
   {
     identifiantProjet: string;
-    misÀJourLe: DateTime.RawType;
+    miseÀJourLe: DateTime.RawType;
     évaluationCarboneSimplifiée: number;
     fournisseurs: Array<Fournisseur.RawType>;
   }

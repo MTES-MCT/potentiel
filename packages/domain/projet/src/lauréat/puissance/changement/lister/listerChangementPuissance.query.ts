@@ -12,7 +12,7 @@ type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: StatutChangementPuissance.ValueType;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
   demandéLe: DateTime.ValueType;
   nouvellePuissance: number;
   unitéPuissance: string;
@@ -108,7 +108,7 @@ const mapToReadModel = ({
   return {
     nomProjet: lauréat.nomProjet,
     statut: StatutChangementPuissance.convertirEnValueType(entity.demande.statut),
-    misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
+    miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet,
     demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
     nouvellePuissance: entity.demande.nouvellePuissance,

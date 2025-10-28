@@ -32,7 +32,7 @@ export const demandeComplèteRaccordementModifiéeV1Projector = async ({
         ...dossier.demandeComplèteRaccordement,
         dateQualification,
       },
-      misÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
+      miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
   });
 };

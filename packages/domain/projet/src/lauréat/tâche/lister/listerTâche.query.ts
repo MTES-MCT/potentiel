@@ -12,7 +12,7 @@ type TâcheListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   typeTâche: TypeTâche.ValueType;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
 };
 
 export type ListerTâchesReadModel = {
@@ -104,12 +104,12 @@ export const registerListerTâchesQuery = ({
 
 const mapToReadModel = ({
   identifiantProjet,
-  misÀJourLe,
+  miseÀJourLe,
   typeTâche,
   lauréat: { nomProjet },
 }: TâcheEntity & Joined<LauréatEntity>): TâcheListItem => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+  miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
   typeTâche: TypeTâche.convertirEnValueType(typeTâche),
   nomProjet,
 });
