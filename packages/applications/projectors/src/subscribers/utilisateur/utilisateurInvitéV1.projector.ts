@@ -1,22 +1,25 @@
-import { UtilisateurInvitéEventV1 } from '@potentiel-domain/utilisateur';
+import { match } from 'ts-pattern';
 
-import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
+import { UtilisateurInvitéEventV1 } from '@potentiel-domain/utilisateur';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+
+import { mapToUtilisateurPayload } from './utilisateurInvité.projector';
 
 export const utilisateurInvitéV1Projector = async ({ payload }: UtilisateurInvitéEventV1) => {
-  // Gérer le cas particulier de l'ancien rôle "acheteur-obligé"
-  if (payload.rôle === 'acheteur-obligé') {
-    await utilisateurInvitéProjector({
-      type: 'UtilisateurInvité-V2',
-      payload: {
+  const utilisateurToUpsert = match(payload)
+    .with({ rôle: 'acheteur-obligé' }, () =>
+      mapToUtilisateurPayload({
         ...payload,
         rôle: 'cocontractant',
         zone: 'métropole',
-      },
-    });
-  } else {
-    await utilisateurInvitéProjector({
-      type: 'UtilisateurInvité-V2',
-      payload,
-    });
-  }
+      }),
+    )
+    .otherwise(mapToUtilisateurPayload);
+
+  await upsertProjection(`utilisateur|${payload.identifiantUtilisateur}`, {
+    ...utilisateurToUpsert,
+    identifiantUtilisateur: payload.identifiantUtilisateur,
+    invitéLe: payload.invitéLe,
+    invitéPar: payload.invitéPar,
+  });
 };

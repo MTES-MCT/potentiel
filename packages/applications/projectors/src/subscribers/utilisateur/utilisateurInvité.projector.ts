@@ -6,7 +6,18 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvitéEvent) => {
   const { identifiantUtilisateur, invitéLe, invitéPar } = payload;
 
-  const porteurToUpsert = match(payload)
+  const porteurToUpsert = mapToUtilisateurPayload(payload);
+
+  await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
+    ...porteurToUpsert,
+    identifiantUtilisateur,
+    invitéLe,
+    invitéPar,
+  });
+};
+
+export const mapToUtilisateurPayload = (payload: UtilisateurInvitéEvent['payload']) => {
+  return match(payload)
     .with({ rôle: 'dgec-validateur' }, ({ rôle, fonction, nomComplet }) => ({
       rôle,
       fonction,
@@ -25,11 +36,4 @@ export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvit�
       identifiantGestionnaireRéseau,
     }))
     .otherwise(({ rôle }) => ({ rôle }));
-
-  await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
-    ...porteurToUpsert,
-    identifiantUtilisateur,
-    invitéLe,
-    invitéPar,
-  });
 };
