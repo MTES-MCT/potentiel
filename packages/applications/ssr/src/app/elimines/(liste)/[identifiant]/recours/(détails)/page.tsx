@@ -12,13 +12,11 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  AvailableRecoursAction,
-  DétailsRecoursPage,
-} from '@/app/elimine/[identifiant]/recours/(détails)/DétailsRecours.page';
 import { getProjetÉliminé } from '@/app/projets/[identifiant]/_helpers/getÉliminé';
 
 import { mapToRecoursTimelineItemProps } from '../(historique)/mapToRecoursTimelineItemProps';
+
+import { AvailableRecoursAction, DétailsRecoursPage } from './DétailsRecours.page';
 
 type PageProps = IdentifiantParameter;
 

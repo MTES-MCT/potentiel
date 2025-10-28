@@ -5,7 +5,7 @@ import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { TimelineItemProps } from '@/components/organisms/timeline';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../laureats/[identifiant]/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../../../../laureats/[identifiant]/historique/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import { mapToÉliminéNotifiéTimelineItemProps } from './events';
 
