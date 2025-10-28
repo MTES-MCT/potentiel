@@ -11,13 +11,7 @@ import { ChangementPuissanceListItem } from './ChangementPuissanceListItem';
 
 export type ChangementPuissanceListPageProps = {
   list: {
-    items: Array<
-      PlainType<
-        Lauréat.Puissance.ListerChangementPuissanceReadModel['items'][number] & {
-          unitéPuissance: string;
-        }
-      >
-    >;
+    items: PlainType<Lauréat.Puissance.ListerChangementPuissanceReadModel['items']>;
     pagination: Pagination;
     total: number;
   };
