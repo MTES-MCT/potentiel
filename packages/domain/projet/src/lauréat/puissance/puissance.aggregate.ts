@@ -94,39 +94,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     raison,
   }: ModifierOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-
-    if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
-      if (puissanceDeSite !== undefined) {
-        throw new PuissanceDeSiteNonAttendueError();
-      }
-      if (this.#puissance === puissance) {
-        throw new PuissanceIdentiqueError();
-      }
-    }
-
-    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'requis') {
-      if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
-        throw new ModificationPuissanceDeSiteRequiseError();
-      }
-    }
-
-    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'optionnel') {
-      if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
-        throw new ModificationPuissanceDeSiteRequiseError();
-      }
-
-      if (puissanceDeSite === undefined && this.#puissance === puissance) {
-        throw new PuissanceIdentiqueError();
-      }
-    }
-
-    if (puissance !== undefined && puissance <= 0) {
-      throw new PuissanceNulleOuNégativeError();
-    }
-
-    if (puissanceDeSite !== undefined && puissanceDeSite <= 0) {
-      throw new PuissanceDeSiteNulleOuNégativeError();
-    }
+    this.vérifierLaCohérenceDesDonnées(puissance, puissanceDeSite);
 
     if (this.#demande?.statut.estDemandé()) {
       throw new DemandeDeChangementPuissanceEnCoursError();
@@ -149,16 +117,13 @@ export class PuissanceAggregate extends AbstractAggregate<
 
   async enregistrerChangement({
     nouvellePuissance,
+    nouvellePuissanceDeSite,
     dateChangement,
     identifiantUtilisateur,
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
-    this.vérifierChangementPossible('information-enregistrée', nouvellePuissance);
-
-    if (this.#puissance === nouvellePuissance) {
-      throw new PuissanceIdentiqueError();
-    }
+    this.vérifierLaCohérenceDesDonnées(nouvellePuissance, nouvellePuissanceDeSite);
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
@@ -171,6 +136,7 @@ export class PuissanceAggregate extends AbstractAggregate<
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         puissance: nouvellePuissance,
+        puissanceDeSite: nouvellePuissanceDeSite,
         enregistréLe: dateChangement.formatter(),
         enregistréPar: identifiantUtilisateur.formatter(),
         raison,
@@ -334,6 +300,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     nouvellePuissance: number,
   ) {
     this.lauréat.vérifierQueLeChangementEstPossible(type, 'puissance');
+    // voir comment on vérifie pour la puissance de site
 
     RatioChangementPuissance.bind({
       ratios: this.lauréat.projet.cahierDesChargesActuel.getRatiosChangementPuissance(),
@@ -423,5 +390,40 @@ export class PuissanceAggregate extends AbstractAggregate<
 
   private applyChangementPuissanceSupprimé(_: ChangementPuissanceSuppriméEvent) {
     this.#demande = undefined;
+  }
+
+  private vérifierLaCohérenceDesDonnées(puissance?: number, puissanceDeSite?: number) {
+    if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
+      if (puissanceDeSite !== undefined) {
+        throw new PuissanceDeSiteNonAttendueError();
+      }
+      if (this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
+    }
+
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'requis') {
+      if (puissanceDeSite === undefined || this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+    }
+
+    if (this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite === 'optionnel') {
+      if (puissanceDeSite !== undefined && this.#puissanceDeSite === puissanceDeSite) {
+        throw new ModificationPuissanceDeSiteRequiseError();
+      }
+
+      if (puissanceDeSite === undefined && this.#puissance === puissance) {
+        throw new PuissanceIdentiqueError();
+      }
+    }
+
+    if (puissance !== undefined && puissance <= 0) {
+      throw new PuissanceNulleOuNégativeError();
+    }
+
+    if (puissanceDeSite !== undefined && puissanceDeSite <= 0) {
+      throw new PuissanceDeSiteNulleOuNégativeError();
+    }
   }
 }

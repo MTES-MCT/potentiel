@@ -72,7 +72,8 @@ export class ChangementPuissanceWorld {
       demande: {
         demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
         demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
-        nouvellePuissance: baseFixture.ratio * puissanceActuelle,
+        nouvellePuissance: baseFixture.ratioPuissance * puissanceActuelle,
+        nouvellePuissanceDeSite: baseFixture.puissanceDeSite,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
