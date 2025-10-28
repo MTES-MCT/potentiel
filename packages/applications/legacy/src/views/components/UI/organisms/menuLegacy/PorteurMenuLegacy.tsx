@@ -46,7 +46,6 @@ export const PorteurMenuLegacy = (
       >
         Délai
       </DropdownMenu.DropdownItem>
-      {/* TODO: à discuter, un porteur qui n'a que des projets hors petit PV doit il voir ? */}
       <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
         Nature de l'exploitation
       </DropdownMenu.DropdownItem>
