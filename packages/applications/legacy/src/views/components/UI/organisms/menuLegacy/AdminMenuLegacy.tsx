@@ -99,7 +99,6 @@ export const AdminMenuLegacy = (
         Inviter un utilisateur
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-
     <DropdownMenu buttonChildren={'Outils'}>
       <DropdownMenu.DropdownItem href={'https://potentiel.e2.rie.gouv.fr/'} externe>
         Tableau de bord
