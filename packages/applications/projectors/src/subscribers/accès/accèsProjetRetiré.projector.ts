@@ -14,12 +14,12 @@ export const accèsProjetRetiréProjector = async ({
     );
 
     if (nouveauxUtilisateurs.length > 0) {
-      await upsertProjection(`accès|${identifiantProjet}`, {
+      await upsertProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`, {
         ...accèsProjetActuel,
         utilisateursAyantAccès: nouveauxUtilisateurs,
       });
     } else {
-      await removeProjection(`accès|${identifiantProjet}`);
+      await removeProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`);
     }
   }
 };
