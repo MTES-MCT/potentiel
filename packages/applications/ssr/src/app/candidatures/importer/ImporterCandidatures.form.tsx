@@ -15,7 +15,7 @@ import { ImporterCandidaturesParDSForm } from './(demarche-simplifiée)/Importer
 
 export type ImporterCandidaturesFormProps = {
   périodes: PlainType<Période.ListerPériodeItemReadModel[]>;
-  importMultipleAOEtPeriodePossible: boolean;
+  importMultipleAOEtPeriodesPossible: boolean;
 };
 
 type State = {
@@ -27,7 +27,7 @@ type State = {
 
 export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
   périodes,
-  importMultipleAOEtPeriodePossible,
+  importMultipleAOEtPeriodesPossible,
 }) => {
   const searchParams = useSearchParams();
 
@@ -45,13 +45,18 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
             searchParams.get('periode') &&
             searchParams.get('periode')) ??
           undefined),
-    typeImport: importMultipleAOEtPeriodePossible ? 'csv' : undefined,
-    modeMultiple: importMultipleAOEtPeriodePossible,
+    typeImport: importMultipleAOEtPeriodesPossible ? 'csv' : undefined,
+    modeMultiple: importMultipleAOEtPeriodesPossible,
   });
 
   useEffect(() => {
     if (state.modeMultiple) {
-      setState((prev) => ({ ...prev, typeImport: 'csv' }));
+      setState((prev) => ({
+        ...prev,
+        appelOffre: undefined,
+        période: undefined,
+        typeImport: 'csv',
+      }));
     }
 
     if (state.appelOffre && state.période) {
@@ -64,35 +69,14 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
     }
   }, [state.appelOffre, state.période, state.modeMultiple]);
 
-  const displayMissingData = () => {
-    if (state.modeMultiple || (state.appelOffre && state.période)) {
-      return;
-    }
-
-    return (
-      <div className="mt-6 md:mt-0">
-        Veuillez saisir{' '}
-        {match(state)
-          .with({ appelOffre: undefined, période: undefined }, () => (
-            <span className="font-semibold">un appel d'offres et une période</span>
-          ))
-          .with({ appelOffre: undefined }, () => (
-            <span className="font-semibold">un appel d'offres</span>
-          ))
-          .with({ période: undefined }, () => <span className="font-semibold">une période</span>)
-          .otherwise(() => null)}
-      </div>
-    );
-  };
-
   return (
     <div>
-      {importMultipleAOEtPeriodePossible && (
+      {importMultipleAOEtPeriodesPossible && (
         <Checkbox
           id="importMultipleAOEtPeriode"
           options={[
             {
-              label: "Autoriser l'import avec des AOs et périodes multiples",
+              label: "Autoriser l'import avec plusieurs appel d'offres et périodes",
               hintText: (
                 <>
                   Cette option est destinée aux{' '}
@@ -104,7 +88,7 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
               nativeInputProps: {
                 name: 'importMultipleAOEtPeriode',
                 value: 'true',
-                defaultChecked: importMultipleAOEtPeriodePossible,
+                defaultChecked: importMultipleAOEtPeriodesPossible,
                 onChange: (ev) =>
                   setState((prev) => ({
                     ...prev,
@@ -116,58 +100,62 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
           ]}
         />
       )}
-      <div className="flex flex-col md:flex-row md:gap-4">
-        <Select
-          label="Appel Offre"
-          options={Object.keys(appelOffres).map((appelOffre) => ({
-            label: appelOffre,
-            value: appelOffre,
-          }))}
-          disabled={state.modeMultiple}
-          nativeSelectProps={{
-            name: 'appelOffre',
-            value: state.appelOffre,
-            onChange: (ev) => {
-              const périodesPourAppelOffre = périodes.filter(
-                (période) => période.identifiantPériode.appelOffre === ev.target.value,
-              );
 
-              setState((prev) => ({
-                ...prev,
-                appelOffre: ev.target.value,
-                période:
-                  périodesPourAppelOffre.length === 1
-                    ? périodesPourAppelOffre[0].identifiantPériode.période
-                    : undefined,
-              }));
-            },
-            required: true,
-          }}
-        />
+      {!state.modeMultiple && (
+        <div className="flex items-start flex-col md:flex-row md:gap-6">
+          <Select
+            label="Appel Offres"
+            options={Object.keys(appelOffres).map((appelOffre) => ({
+              label: appelOffre,
+              value: appelOffre,
+            }))}
+            state={state.appelOffre ? 'default' : 'error'}
+            stateRelatedMessage={state.appelOffre ? undefined : `Veuillez saisir un appel d'offres`}
+            nativeSelectProps={{
+              name: 'appelOffre',
+              value: state.appelOffre,
+              onChange: (ev) => {
+                const périodesPourAppelOffre = périodes.filter(
+                  (période) => période.identifiantPériode.appelOffre === ev.target.value,
+                );
 
-        <Select
-          label="Période"
-          disabled={state.modeMultiple || !state.appelOffre}
-          options={
-            périodes
-              .filter((période) => période.identifiantPériode.appelOffre == state.appelOffre)
-              .map(({ identifiantPériode }) => ({
-                label: identifiantPériode.période,
-                value: identifiantPériode.période,
-              }))
-              .sort((a, b) => a.label.padStart(2, '0').localeCompare(b.label.padStart(2, '0'))) ??
-            []
-          }
-          nativeSelectProps={{
-            name: 'periode',
-            value: state.période,
-            onChange: (event) => setState((prev) => ({ ...prev, période: event.target.value })),
-            required: true,
-          }}
-        />
-      </div>
+                setState((prev) => ({
+                  ...prev,
+                  appelOffre: ev.target.value,
+                  période:
+                    périodesPourAppelOffre.length === 1
+                      ? périodesPourAppelOffre[0].identifiantPériode.période
+                      : undefined,
+                }));
+              },
+              required: true,
+            }}
+          />
 
-      {!state.modeMultiple && displayMissingData()}
+          <Select
+            label="Période"
+            disabled={!state.appelOffre}
+            state={state.période ? 'default' : 'error'}
+            stateRelatedMessage={state.période ? undefined : `Veuillez saisir une période`}
+            options={
+              périodes
+                .filter((période) => période.identifiantPériode.appelOffre == state.appelOffre)
+                .map(({ identifiantPériode }) => ({
+                  label: identifiantPériode.période,
+                  value: identifiantPériode.période,
+                }))
+                .sort((a, b) => a.label.padStart(2, '0').localeCompare(b.label.padStart(2, '0'))) ??
+              []
+            }
+            nativeSelectProps={{
+              name: 'periode',
+              value: state.période,
+              onChange: (event) => setState((prev) => ({ ...prev, période: event.target.value })),
+              required: true,
+            }}
+          />
+        </div>
+      )}
 
       {state.typeImport && (
         <div className="mt-6 md:mt-0">
