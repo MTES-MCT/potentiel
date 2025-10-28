@@ -76,7 +76,7 @@ export class EnregistrerChangementPuissanceFixture
       ratioPuissance: faker.number.float({ min: 0.9, max: 0.99, multipleOf: 0.01 }),
       puissanceDeSite:
         aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
-          ? faker.number.int({ min: 1 })
+          ? faker.number.int({ min: 1, max: 100 })
           : undefined,
       ...partialData,
     };

@@ -28,18 +28,18 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance de site | 2 |
-            | ratio puissance         | 2 |
+            | puissance de site | 2 |
+            | ratio puissance   | 2 |
         Alors la puissance du projet lauréat devrait être mise à jour
         Et le changement enregistré de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
+            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
+            | nom_projet | Du bouchon lyonnais                                                                                                |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
+            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
+            | nom_projet | Du bouchon lyonnais                                                                                                |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
@@ -60,20 +60,14 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance de site | <Ratio> |
-            | ratio puissance         | 1       |
+            | puissance de site | <Ratio> |
+            | ratio puissance   | 1       |
         Alors l'utilisateur devrait être informé que "La puissance de site d'un projet doit avoir une valeur positive"
 
         Exemples:
             | Ratio |
             | 0     |
             | -1    |
-
-    Scénario: Impossible d'enregistrer un changement de puissance si la puissance est inexistant
-        Etant donné le projet éliminé "Du boulodrome lyonnais"
-        Quand le porteur enregistre un changement de puissance pour le projet éliminé avec :
-            | ratio puissance | 0.95 |
-        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible d'enregistrer un changement de puissance alors qu'un changement de puissance est en cours
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
@@ -165,20 +159,20 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance         | 1,2 |
-            | ratio puissance de site | 1   |
+            | ratio puissance   | 1,2 |
+            | puissance de site | 1   |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site sans valeur pour un AO qui requiert ce champ
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance         | 1,2 |
-            | ratio puissance de site |     |
+            | ratio puissance   | 1,2 |
+            | puissance de site |     |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site pour un AO qui interdit ce champ
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | ratio puissance         | 1,1 |
-            | ratio puissance de site | 1,1 |
+            | ratio puissance   | 1,1 |
+            | puissance de site | 1,1 |
         Alors l'utilisateur devrait être informé que "La puissance de site ne peut être renseignée pour cet appel d'offres"

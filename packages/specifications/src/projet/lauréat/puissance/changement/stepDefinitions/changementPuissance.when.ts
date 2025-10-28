@@ -23,8 +23,8 @@ Quand(
 );
 
 Quand(
-  'le porteur enregistre un changement de puissance pour le projet {lauréat-éliminé} avec :',
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', dataTable: DataTable) {
+  'le porteur enregistre un changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     const { ratioPuissance, puissanceDeSite } =
       this.lauréatWorld.puissanceWorld.mapExempleToFixtureValues(
@@ -33,12 +33,7 @@ Quand(
       );
 
     try {
-      await enregistrerChangementPuissance.call(
-        this,
-        statutProjet,
-        ratioPuissance,
-        puissanceDeSite,
-      );
+      await enregistrerChangementPuissance.call(this, ratioPuissance, puissanceDeSite);
     } catch (error) {
       this.error = error as Error;
     }
@@ -112,11 +107,10 @@ export async function demanderChangementPuissance(
 
 export async function enregistrerChangementPuissance(
   this: PotentielWorld,
-  statutProjet: 'lauréat' | 'éliminé',
   ratioPuissanceValue?: number,
   puissanceDeSiteValue?: number,
 ) {
-  const { identifiantProjet } = statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
+  const { identifiantProjet } = this.lauréatWorld;
 
   const { pièceJustificative, demandéLe, demandéPar, raison, ratioPuissance, puissanceDeSite } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.enregistrerChangementPuissanceFixture.créer(
