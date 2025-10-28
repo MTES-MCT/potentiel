@@ -8,7 +8,7 @@ import { Role, UtilisateurInvitéEvent, Zone } from '@potentiel-domain/utilisate
 import { PotentielWorld } from '../../potentiel.world';
 import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
-import { désactiverUtilisateur, inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
+import { désactiverUtilisateur, inviterPorteur, inviterUtilisateur } from './utilisateur.when';
 
 EtantDonné(
   'la dreal {string} associée à la région du projet',
@@ -50,19 +50,6 @@ EtantDonné(
 );
 
 EtantDonné(
-  `l'accès retiré au projet {lauréat-éliminé}`,
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const { identifiantProjet } =
-      statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
-
-    await retirerAccèsProjet.call(this, {
-      identifiantProjet: identifiantProjet.formatter(),
-      identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
-    });
-  },
-);
-
-EtantDonné(
   'un utilisateur invité avec le rôle {string}',
   async function (this: PotentielWorld, rôle: string) {
     const payload = getPayloadForRôle.call(this, rôle);
@@ -87,6 +74,23 @@ EtantDonné('le porteur du projet désactivé', async function (this: PotentielW
     identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
   });
 });
+
+EtantDonné(
+  'un porteur invité sur le projet {lauréat-éliminé} {string}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.éliminéWorld.rechercherÉliminéFixture(nomProjet);
+
+    const porteur = this.utilisateurWorld.porteurFixture.créer();
+
+    await inviterPorteur.call(this, {
+      identifiantsProjet: [identifiantProjet.formatter()],
+      identifiantUtilisateur: porteur.email,
+    });
+  },
+);
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();

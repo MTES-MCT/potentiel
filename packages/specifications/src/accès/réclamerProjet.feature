@@ -1,5 +1,5 @@
 # language: fr
-@utilisateur
+@accès
 Fonctionnalité: Réclamer un projet en tant que porteur
 
     Plan du scénario: Réclamer un projet avec le même email que celui de la candidature
@@ -8,7 +8,7 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Et l'accès retiré au projet <Statut>
         Quand un porteur réclame le projet <Statut> avec le même email que celui de la candidature
         Alors l'utilisateur devrait être actif
-        Et le porteur devrait avoir accès au projet <Statut>
+        Et le porteur a accès au projet <Statut>
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Récupération de la gestion du projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                  |
@@ -30,7 +30,7 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Et l'accès retiré au projet lauréat
         Quand un porteur réclame le projet lauréat en connaissant le prix et le numéro CRE
         Alors l'utilisateur devrait être actif
-        Et le porteur devrait avoir accès au projet lauréat
+        Et le porteur a accès au projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Récupération de la gestion du projet Du boulodrome de Marseille |
             | nom_projet | Du boulodrome de Marseille                                                  |

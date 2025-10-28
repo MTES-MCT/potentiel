@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { Fixture } from '../../../fixture';
 
-interface InviterPorteur {
+interface InviterUtilisateur {
   readonly email: string;
   readonly rôle: string;
   readonly fonction?: string | undefined;
@@ -16,7 +16,10 @@ interface InviterPorteur {
   readonly identifiantGestionnaireRéseau?: string | undefined;
 }
 
-export class InviterUtilisateurFixture implements InviterPorteur, Fixture<InviterPorteur> {
+export type InviterUtilisateurProps = Partial<Readonly<InviterUtilisateur>> &
+  Pick<InviterUtilisateur, 'rôle'>;
+
+export class InviterUtilisateurFixture implements InviterUtilisateur, Fixture<InviterUtilisateur> {
   #aÉtéCréé: boolean = false;
 
   get aÉtéCréé() {
@@ -57,10 +60,8 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
     return this.#identifiantGestionnaireRéseau;
   }
 
-  créer(
-    partialFixture: Partial<Readonly<InviterPorteur>> & Pick<InviterPorteur, 'rôle'>,
-  ): Readonly<InviterPorteur> {
-    const fixture: InviterPorteur = {
+  créer(partialFixture: InviterUtilisateurProps): Readonly<InviterUtilisateur> {
+    const fixture: InviterUtilisateur = {
       email: faker.internet.email({ firstName: partialFixture.rôle }),
       ...partialFixture,
     };
