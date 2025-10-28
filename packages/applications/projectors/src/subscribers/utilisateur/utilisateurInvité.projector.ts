@@ -6,10 +6,8 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvitéEvent) => {
   const { identifiantUtilisateur, invitéLe, invitéPar } = payload;
 
-  const porteurToUpsert = mapToUtilisateurPayload(payload);
-
   await upsertProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
-    ...porteurToUpsert,
+    ...mapToUtilisateurPayload(payload),
     identifiantUtilisateur,
     invitéLe,
     invitéPar,
