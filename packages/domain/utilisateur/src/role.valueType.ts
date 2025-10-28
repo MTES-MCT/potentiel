@@ -1913,6 +1913,40 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'délai.corrigerDemande',
 ];
 
+const cocontractantPolicies: ReadonlyArray<Policy> = [
+  // Projet
+  ...pageProjetPolicies,
+  'projet.accèsDonnées.prix',
+
+  // Raccordement
+  'raccordement.consulter',
+
+  // Achèvement
+
+  // Actionnaire
+  'actionnaire.consulterChangement',
+  'actionnaire.listerChangement',
+
+  // Représentant Légal
+  'représentantLégal.consulterChangement',
+  'représentantLégal.listerChangement',
+
+  // Puissance
+  'puissance.listerChangement',
+
+  // Producteur
+  'producteur.consulterChangement',
+  'producteur.listerChangement',
+
+  // Fournisseur
+  'fournisseur.consulterChangement',
+  'fournisseur.listerChangement',
+
+  // Délai
+  'délai.consulterDemande',
+  'délai.listerDemande',
+];
+
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
@@ -1947,40 +1981,6 @@ const ademePolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
-];
-
-const cocontractantPolicies: ReadonlyArray<Policy> = [
-  // Projet
-  ...pageProjetPolicies,
-  'projet.accèsDonnées.prix',
-
-  // Raccordement
-  'raccordement.consulter',
-
-  // Achèvement
-
-  // Actionnaire
-  'actionnaire.consulterChangement',
-  'actionnaire.listerChangement',
-
-  // Représentant Légal
-  'représentantLégal.consulterChangement',
-  'représentantLégal.listerChangement',
-
-  // Puissance
-  'puissance.listerChangement',
-
-  // Producteur
-  'producteur.consulterChangement',
-  'producteur.listerChangement',
-
-  // Fournisseur
-  'fournisseur.consulterChangement',
-  'fournisseur.listerChangement',
-
-  // Délai
-  'délai.consulterDemande',
-  'délai.listerDemande',
 ];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
