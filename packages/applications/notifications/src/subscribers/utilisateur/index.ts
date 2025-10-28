@@ -2,14 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
+import { PorteurInvitéEvent, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
 import { porteurInvitéNotification } from './porteurInvité.notification';
 import { utilisateurInvitéNotification } from './utilisateurInvité.notification';
 
-export type SubscriptionEvent = UtilisateurEvent & Event;
+export type SubscriptionEvent = (PorteurInvitéEvent | UtilisateurInvitéEvent) & Event;
 
 export type Execute = Message<'System.Notification.Utilisateur', SubscriptionEvent>;
 
@@ -22,12 +22,7 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
     const emailPayloads = await match(event)
       .returnType<Promise<EmailPayload[]>>()
       .with({ type: 'PorteurInvité-V1' }, porteurInvitéNotification)
-      .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéNotification)
-      .with({ type: 'UtilisateurDésactivé-V1' }, async () => [])
-      .with({ type: 'UtilisateurRéactivé-V1' }, async () => [])
-      // Deprecated events
-      .with({ type: 'AccèsProjetRetiré-V1' }, async () => [])
-      .with({ type: 'ProjetRéclamé-V1' }, async () => [])
+      .with({ type: 'UtilisateurInvité-V2' }, utilisateurInvitéNotification)
       .exhaustive();
 
     await Promise.all(emailPayloads.map(sendEmail));

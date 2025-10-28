@@ -3,7 +3,12 @@ import { match, P } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { Email } from '@potentiel-domain/common';
 
-import { Role, UtilisateurInvitéEvent, UtilisateurRéactivéEvent } from '.';
+import {
+  Role,
+  UtilisateurInvitéEvent,
+  UtilisateurInvitéEventV1,
+  UtilisateurRéactivéEvent,
+} from '.';
 
 import { InviterPorteurOptions } from './inviter/inviterPorteur.options';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
@@ -117,7 +122,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       .exhaustive();
 
     const event: UtilisateurInvitéEvent = {
-      type: 'UtilisateurInvité-V1',
+      type: 'UtilisateurInvité-V2',
       payload,
     };
     await this.publish(event);
@@ -187,7 +192,8 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
   apply(event: UtilisateurEvent) {
     match(event)
       .with({ type: 'PorteurInvité-V1' }, this.applyPorteurInvité.bind(this))
-      .with({ type: 'UtilisateurInvité-V1' }, this.applyUtilisateurInvité.bind(this))
+      .with({ type: 'UtilisateurInvité-V1' }, this.applyUtilisateurInvitéV1.bind(this))
+      .with({ type: 'UtilisateurInvité-V2' }, this.applyUtilisateurInvité.bind(this))
       .with({ type: 'UtilisateurDésactivé-V1' }, this.applyUtilisateurDésactivé.bind(this))
       .with({ type: 'UtilisateurRéactivé-V1' }, this.applyUtilisateurRéactivé.bind(this))
       .with({ type: 'AccèsProjetRetiré-V1' }, () => {})
@@ -198,6 +204,10 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
   applyUtilisateurInvité({ payload: { rôle } }: UtilisateurInvitéEvent) {
     this.#actif = true;
     this.#rôle = Role.convertirEnValueType(rôle);
+  }
+  applyUtilisateurInvitéV1({ payload: { rôle } }: UtilisateurInvitéEventV1) {
+    this.#actif = true;
+    this.#rôle = rôle === 'acheteur-obligé' ? Role.cocontractant : Role.convertirEnValueType(rôle);
   }
 
   applyPorteurInvité({ payload: { identifiantsProjet } }: PorteurInvitéEvent) {

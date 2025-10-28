@@ -9,6 +9,7 @@ import { porteurInvitéProjector } from './porteurInvité.projector';
 import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
 import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector';
 import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector';
+import { utilisateurInvitéV1Projector } from './utilisateurInvitéV1.projector';
 
 export type SubscriptionEvent = (UtilisateurEvent & Event) | RebuildTriggered;
 
@@ -18,7 +19,8 @@ export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, utilisateurRebuildTriggered)
-      .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéProjector)
+      .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéV1Projector)
+      .with({ type: 'UtilisateurInvité-V2' }, utilisateurInvitéProjector)
       .with({ type: 'PorteurInvité-V1' }, porteurInvitéProjector)
       .with({ type: 'UtilisateurDésactivé-V1' }, utilisateurDésactivéProjector)
       .with({ type: 'UtilisateurRéactivé-V1' }, utilisateurRéactivéProjector)

@@ -6,7 +6,7 @@ export class UtilisateurInconnuError extends InvalidOperationError {
   }
 }
 
-export class RoleRefuséError extends OperationRejectedError {
+export class RoleRefuséError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le rôle ne correspond à aucune valeur connue`, {
       value,

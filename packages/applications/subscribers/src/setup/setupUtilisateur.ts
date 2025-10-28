@@ -19,6 +19,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     eventType: [
       'RebuildTriggered',
       'UtilisateurInvité-V1',
+      'UtilisateurInvité-V2',
       'PorteurInvité-V1',
       'UtilisateurDésactivé-V1',
       'UtilisateurRéactivé-V1',
@@ -33,7 +34,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     UtilisateurNotification.Execute
   >({
     name: 'notifications',
-    eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V1'],
+    eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V2'],
     messageType: 'System.Notification.Utilisateur',
   });
 
