@@ -76,13 +76,10 @@ export class DemanderChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      // viovio est ce que ça pète ?
-      // ratioPuissance:
-      //   partialData?.ratioPuissance ?? faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
       ratioPuissance: faker.number.float({ min: 0.5, max: 2, multipleOf: 0.01 }),
       puissanceDeSite:
         aoData?.champsSupplémentaires?.puissanceDeSite === 'requis'
-          ? faker.number.int({ min: 1 })
+          ? faker.number.int({ min: 1, max: 100 })
           : undefined,
       ...partialData,
     };

@@ -27,7 +27,10 @@ export class PuissanceWorld {
         exemple['nouvelle puissance'] !== undefined
           ? Number(exemple['nouvelle puissance']) / candidatureValue
           : Number(exemple['ratio puissance']),
-      puissanceDeSite: Number(exemple['ratio puissance de site']),
+      // viovio - à voir si cela suffit
+      puissanceDeSite: exemple['puissance de site']
+        ? Number(exemple['puissance de site'])
+        : undefined,
     };
   }
 
