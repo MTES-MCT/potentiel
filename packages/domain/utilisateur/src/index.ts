@@ -10,7 +10,10 @@ import {
 import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
-import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.event';
+import {
+  UtilisateurInvitéEvent,
+  UtilisateurInvitéEventV1,
+} from './inviter/inviterUtilisateur.event';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
 import { CréerPorteurUseCase } from './créer/créerPorteur.usecase';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
@@ -59,6 +62,7 @@ export { UtilisateurEvent } from './utilisateur.event';
 export {
   PorteurInvitéEvent,
   UtilisateurInvitéEvent,
+  UtilisateurInvitéEventV1,
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
 };

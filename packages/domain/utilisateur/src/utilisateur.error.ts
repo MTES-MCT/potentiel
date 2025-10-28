@@ -6,7 +6,7 @@ export class UtilisateurInconnuError extends InvalidOperationError {
   }
 }
 
-export class RoleRefuséError extends OperationRejectedError {
+export class RoleRefuséError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le rôle ne correspond à aucune valeur connue`, {
       value,
@@ -67,7 +67,7 @@ export class IdentifiantGestionnaireRéseauManquantError extends InvalidOperatio
 
 export class ZoneManquanteError extends InvalidOperationError {
   constructor() {
-    super(`La zone est obligatoire pour un utilisateur acheteur-obligé`);
+    super(`La zone est obligatoire pour un utilisateur cocontractant`);
   }
 }
 

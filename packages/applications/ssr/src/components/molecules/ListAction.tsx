@@ -5,7 +5,7 @@ type ListActionProps = {
 };
 
 export const ListAction = ({ actions }: ListActionProps) => (
-  <div className="mb-4">
+  <div className="mb-4 flex flex-col">
     {actions.map((a) => (
       <LinkAction key={a.href} label={a.label} href={a.href} iconId={a.iconId} />
     ))}

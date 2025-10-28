@@ -18,7 +18,7 @@ export const register = () => {
     const { payload, type } = event;
 
     switch (type) {
-      case 'UtilisateurInvité-V1': {
+      case 'UtilisateurInvité-V2': {
         const { identifiantUtilisateur, rôle, invitéPar } = payload;
 
         const invitéParUserId = await getUserIdByEmail(invitéPar);

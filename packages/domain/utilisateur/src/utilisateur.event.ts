@@ -2,7 +2,10 @@ import { Email, DateTime } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
-import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.event';
+import {
+  UtilisateurInvitéEvent,
+  UtilisateurInvitéEventV1,
+} from './inviter/inviterUtilisateur.event';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
 
@@ -37,6 +40,7 @@ export type ProjetRéclaméEvent = DomainEvent<
 export type UtilisateurEvent =
   | PorteurInvitéEvent
   | UtilisateurInvitéEvent
+  | UtilisateurInvitéEventV1
   | UtilisateurDésactivéEvent
   | UtilisateurRéactivéEvent
   | AccèsProjetRetiréEvent

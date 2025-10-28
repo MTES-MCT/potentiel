@@ -76,7 +76,7 @@ export const registerSagas = async () => {
   UtilisateurSaga.register();
   await utilisateur.setupSubscription<UtilisateurSaga.SubscriptionEvent, UtilisateurSaga.Execute>({
     name: 'legacy-saga',
-    eventType: ['UtilisateurInvité-V1'],
+    eventType: ['UtilisateurInvité-V2'],
     messageType: 'System.Saga.Utilisateur',
   });
 

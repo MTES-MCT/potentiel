@@ -6,7 +6,6 @@ export const roles = [
   'admin',
   'porteur-projet',
   'dreal',
-  'acheteur-obligé',
   'cocontractant',
   'ademe',
   'dgec-validateur',
@@ -89,7 +88,6 @@ export const ademe = convertirEnValueType('ademe');
 export const dgecValidateur = convertirEnValueType('dgec-validateur');
 export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
-export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 export const cocontractant = convertirEnValueType('cocontractant');
 export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
 export const grd = convertirEnValueType('grd');
@@ -1915,7 +1913,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'délai.corrigerDemande',
 ];
 
-const acheteurObligéPolicies: ReadonlyArray<Policy> = [
+const cocontractantPolicies: ReadonlyArray<Policy> = [
   // Projet
   ...pageProjetPolicies,
   'projet.accèsDonnées.prix',
@@ -1987,8 +1985,7 @@ const ademePolicies: ReadonlyArray<Policy> = [
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
   admin: adminPolicies,
-  'acheteur-obligé': acheteurObligéPolicies,
-  cocontractant: acheteurObligéPolicies,
+  cocontractant: cocontractantPolicies,
   ademe: ademePolicies,
   'caisse-des-dépôts': caisseDesDépôtsPolicies,
   cre: crePolicies,

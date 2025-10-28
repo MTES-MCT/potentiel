@@ -35,7 +35,7 @@ EtantDonné(
     );
 
     const event: UtilisateurInvitéEvent = {
-      type: 'UtilisateurInvité-V1',
+      type: 'UtilisateurInvité-V2',
       payload: {
         fonction: validateur.fonction,
         identifiantUtilisateur: validateur.email,

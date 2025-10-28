@@ -20,7 +20,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         'caisse-des-dépôts',
         'admin',
         'dgec-validateur',
-        'acheteur-obligé',
         'cocontractant',
         'cre',
         'ademe',

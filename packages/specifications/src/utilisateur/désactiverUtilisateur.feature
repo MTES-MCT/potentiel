@@ -16,7 +16,6 @@ Fonctionnalité: Désactiver un utilisateur
         Exemples:
             | Rôle              |
             | admin             |
-            | acheteur-obligé   |
             | cocontractant     |
             | ademe             |
             | caisse-des-dépôts |
