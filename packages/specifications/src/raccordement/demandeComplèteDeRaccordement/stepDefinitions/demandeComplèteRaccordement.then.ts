@@ -86,7 +86,7 @@ function vérifierRaccordement(
   if (Option.isSome(actualRaccordement)) {
     for (const doss of actualRaccordement.dossiers) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      delete (doss as any).misÀJourLe;
+      delete (doss as any).miseÀJourLe;
     }
   }
 
