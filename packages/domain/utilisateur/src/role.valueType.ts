@@ -392,7 +392,7 @@ const référencielPermissions = {
         consulterChangement:
           'Lauréat.NatureDeLExploitation.Query.ConsulterChangementNatureDeLExploitation',
         listerChangement:
-          'Lauréat.NatureDeLExploitation.Query.ListerChangementNatureDeLExploitation',
+          'Lauréat.NatureDeLExploitation.Query.ListerChangementsNatureDeLExploitation',
         listerHistoriqueNatureDeLExploitation:
           'Lauréat.NatureDeLExploitation.Query.ListerHistoriqueNatureDeLExploitationProjet',
       },
