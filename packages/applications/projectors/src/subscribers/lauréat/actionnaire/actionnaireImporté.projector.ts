@@ -10,7 +10,7 @@ export const actionnaireImportéProjector = async ({
       identifiantProjet,
       actionnaire: {
         nom: actionnaire,
-        misÀJourLe: importéLe,
+        miseÀJourLe: importéLe,
       },
     },
   );

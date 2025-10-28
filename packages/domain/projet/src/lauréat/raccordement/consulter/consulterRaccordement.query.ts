@@ -27,7 +27,7 @@ export type ConsulterRaccordementReadModel = {
     miseEnService?: {
       dateMiseEnService?: DateTime.ValueType;
     };
-    misÀJourLe: DateTime.ValueType;
+    miseÀJourLe: DateTime.ValueType;
   }>;
 };
 
@@ -67,7 +67,7 @@ const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadMo
     dossiers: entity.dossiers.map(
       ({
         demandeComplèteRaccordement,
-        misÀJourLe,
+        miseÀJourLe,
         référence,
         miseEnService,
         propositionTechniqueEtFinancière,
@@ -116,7 +116,7 @@ const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadMo
               dateMiseEnService: DateTime.convertirEnValueType(miseEnService.dateMiseEnService),
             }
           : undefined,
-        misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+        miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
       }),
     ),
   };

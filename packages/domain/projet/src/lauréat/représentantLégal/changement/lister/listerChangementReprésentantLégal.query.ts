@@ -12,7 +12,7 @@ type ChangementReprésentantLégalItemReadModel = {
   demandéLe: string;
   nomProjet: string;
   statut: StatutChangementReprésentantLégal.ValueType;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
 };
 
 export type ListerChangementReprésentantLégalReadModel = {
@@ -97,7 +97,7 @@ const mapToReadModel = (
 ): ChangementReprésentantLégalItemReadModel => ({
   nomProjet: entity.lauréat.nomProjet,
   statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.demande.statut),
-  misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
+  miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   demandéLe: entity.demande.demandéLe,
 });

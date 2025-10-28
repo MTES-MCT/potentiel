@@ -39,7 +39,7 @@ export const changementProducteurEnregistréProjector = async ({
     `producteur|${identifiantProjet}`,
     {
       nom: producteur,
-      misÀJourLe: enregistréLe,
+      miseÀJourLe: enregistréLe,
     },
   );
 

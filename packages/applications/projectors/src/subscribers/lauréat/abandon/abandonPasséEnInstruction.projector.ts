@@ -12,6 +12,6 @@ export const abandonPasséEnInstructionProjector = async ({
       },
     },
     statut: Lauréat.Abandon.StatutAbandon.enInstruction.statut,
-    misÀJourLe: passéEnInstructionLe,
+    miseÀJourLe: passéEnInstructionLe,
   });
 };

@@ -10,7 +10,7 @@ export type InstallationEntity = Entity<
   'installation',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    misÀJourLe: DateTime.RawType;
+    miseÀJourLe: DateTime.RawType;
     installateur: string;
     typologieInstallation: TypologieInstallation.RawType[];
     dispositifDeStockage?: DispositifDeStockage.RawType;

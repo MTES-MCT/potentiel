@@ -19,12 +19,12 @@ export const DemandeDélaiListItem: FC<DemandeDélaiListItemProps> = ({
   identifiantProjet,
   nomProjet,
   statut: { statut },
-  misÀJourLe,
+  miseÀJourLe,
   demandéLe,
   nombreDeMois,
 }) => (
   <ListItem
-    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
+    miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}

@@ -15,7 +15,7 @@ export type ConsulterCandidatureReadModel = {
   dépôt: Dépôt.ValueType;
   instruction: Instruction.ValueType;
 
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
 
   détailsImport: DocumentProjet.ValueType;
 
@@ -62,14 +62,14 @@ type MapToReadModel = (
 ) => ConsulterCandidatureReadModel;
 
 export const mapToReadModel: MapToReadModel = (candidature): ConsulterCandidatureReadModel => {
-  const { identifiantProjet, misÀJourLe, détailsMisÀJourLe, notification } = candidature;
+  const { identifiantProjet, miseÀJourLe, détailsMisÀJourLe, notification } = candidature;
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
 
     dépôt: Dépôt.convertirEnValueType(candidature),
     instruction: Instruction.convertirEnValueType(candidature),
 
-    misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+    miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
 
     détailsImport: DocumentProjet.convertirEnValueType(
       identifiantProjet,

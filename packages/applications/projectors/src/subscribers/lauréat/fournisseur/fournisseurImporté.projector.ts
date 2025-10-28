@@ -10,7 +10,7 @@ export const fournisseurImportéProjector = async ({
       identifiantProjet,
       évaluationCarboneSimplifiée,
       fournisseurs,
-      misÀJourLe: importéLe,
+      miseÀJourLe: importéLe,
     },
   );
 };

@@ -14,7 +14,7 @@ type AbandonListItemReadModel = {
   statut: StatutAbandon.ValueType;
   recandidature: boolean;
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
 };
 
 export type ListerAbandonReadModel = {
@@ -62,7 +62,7 @@ export const registerListerAbandonQuery = ({
     const options: ListOptions<AbandonEntity, LauréatEntity> = {
       range,
       orderBy: {
-        misÀJourLe: 'descending',
+        miseÀJourLe: 'descending',
       },
       where: {
         identifiantProjet:
@@ -104,7 +104,7 @@ const mapToReadModel = (
     nomProjet: entity.lauréat.nomProjet,
     statut: StatutAbandon.convertirEnValueType(entity.statut),
     recandidature: !!entity.demande.recandidature,
-    misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
+    miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
     preuveRecandidatureStatut: entity.demande.recandidature
       ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)

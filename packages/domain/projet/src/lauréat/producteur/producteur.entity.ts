@@ -6,6 +6,6 @@ export type ProducteurEntity = Entity<
   {
     identifiantProjet: string;
     nom: string;
-    misÀJourLe: DateTime.RawType;
+    miseÀJourLe: DateTime.RawType;
   }
 >;

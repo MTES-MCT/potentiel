@@ -19,7 +19,6 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
     identifiantProjet,
     référenceDossierRaccordement,
   );
-  const misÀJourLe = DateTime.convertirEnValueType(created_at).formatter();
 
   await upsertDossierRaccordement({
     identifiantProjet,
@@ -29,9 +28,9 @@ export const dateMiseEnServiceTransmiseV2Projector = async ({
       miseEnService: {
         dateMiseEnService,
         transmiseLe,
-        tranmisePar: Email.convertirEnValueType(transmisePar).formatter(),
+        transmisePar: Email.convertirEnValueType(transmisePar).formatter(),
       },
-      misÀJourLe,
+      miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
   });
 };

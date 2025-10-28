@@ -23,7 +23,7 @@ export const demandeComplèteRaccordementModifiéeV2Projector = async ({
         ...dossier.demandeComplèteRaccordement,
         dateQualification,
       },
-      misÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
+      miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
   });
 };

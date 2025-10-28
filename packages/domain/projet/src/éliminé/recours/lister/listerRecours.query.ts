@@ -15,7 +15,7 @@ type RecoursListItemReadModel = {
   famille?: string;
   nomProjet: string;
   statut: StatutRecours.ValueType;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
 };
 
 export type ListerRecoursReadModel = {
@@ -55,7 +55,7 @@ export const registerListerRecoursQuery = ({
     const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     const recours = await list<RecoursEntity, Candidature.CandidatureEntity>('recours', {
-      orderBy: { misÀJourLe: 'descending' },
+      orderBy: { miseÀJourLe: 'descending' },
       range,
       where: {
         identifiantProjet:
@@ -97,7 +97,7 @@ const mapToReadModel = (
     famille,
     nomProjet: entity.candidature?.nomProjet ?? 'N/A',
     statut: StatutRecours.convertirEnValueType(entity.statut),
-    misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
+    miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   };
 };

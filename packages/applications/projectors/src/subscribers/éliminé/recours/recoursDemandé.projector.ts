@@ -13,6 +13,6 @@ export const recoursDemandéProjector = async ({
       pièceJustificative,
     },
     statut: Éliminé.Recours.StatutRecours.demandé.value,
-    misÀJourLe: demandéLe,
+    miseÀJourLe: demandéLe,
   });
 };

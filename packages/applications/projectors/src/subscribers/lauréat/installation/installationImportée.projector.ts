@@ -17,7 +17,7 @@ export const installationImportéeProjector = async ({
       installateur,
       typologieInstallation,
       dispositifDeStockage,
-      misÀJourLe: importéeLe,
+      miseÀJourLe: importéeLe,
     },
   );
 };

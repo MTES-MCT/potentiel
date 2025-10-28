@@ -6,6 +6,6 @@ export type TâcheEntity = Entity<
     identifiantProjet: string;
 
     typeTâche: string;
-    misÀJourLe: string;
+    miseÀJourLe: string;
   }
 >;

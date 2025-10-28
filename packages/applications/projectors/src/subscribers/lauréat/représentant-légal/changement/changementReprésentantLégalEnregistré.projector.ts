@@ -20,6 +20,7 @@ export const changementReprésentantLégalEnregistréProjector = async ({
     `changement-représentant-légal|${identifiantChangement}`,
     {
       identifiantProjet,
+      miseÀJourLe: enregistréLe,
       demande: {
         statut:
           Lauréat.ReprésentantLégal.StatutChangementReprésentantLégal.informationEnregistrée.formatter(),

@@ -25,7 +25,7 @@ export const ListItemDépôtGarantiesFinancières: FC<ListItemDépôtGarantiesFi
   dateÉchéance,
 }) => (
   <ListItem
-    misÀJourLe={misÀJourLe}
+    miseÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}

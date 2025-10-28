@@ -15,6 +15,6 @@ export const abandonAccordéProjector = async ({
       },
     },
     statut: Lauréat.Abandon.StatutAbandon.accordé.statut,
-    misÀJourLe: accordéLe,
+    miseÀJourLe: accordéLe,
   });
 };

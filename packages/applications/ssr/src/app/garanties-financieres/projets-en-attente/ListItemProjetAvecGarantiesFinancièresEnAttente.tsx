@@ -33,7 +33,7 @@ export const ListItemProjetAvecGarantiesFinancièresEnAttente: FC<
   actions,
 }) => (
   <ListItem
-    misÀJourLe={misÀJourLe}
+    miseÀJourLe={misÀJourLe}
     heading={
       <ProjectListItemHeading
         identifiantProjet={IdentifiantProjet.bind(identifiantProjet)}
