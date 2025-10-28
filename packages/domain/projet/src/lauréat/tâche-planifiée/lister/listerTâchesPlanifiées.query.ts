@@ -9,7 +9,7 @@ type TâchePlanifiéeListItem = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
   typeTâchePlanifiée: string;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
   àExécuterLe: DateTime.ValueType;
 };
 
@@ -71,13 +71,13 @@ export const registerListerTâchesPlanifiéesQuery = ({
 
 const mapToReadModel = ({
   identifiantProjet,
-  misÀJourLe,
+  miseÀJourLe,
   typeTâche,
   àExécuterLe,
 }: TâchePlanifiéeEntity): TâchePlanifiéeListItem => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+    miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
     àExécuterLe: DateTime.convertirEnValueType(àExécuterLe),
     typeTâchePlanifiée: typeTâche,
   };

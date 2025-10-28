@@ -46,7 +46,7 @@ export const demandeComplèteDeRaccordementTransmiseV2Projector = async ({
         },
       },
       projetNotifiéLe,
-      misÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
+      miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
   });
 

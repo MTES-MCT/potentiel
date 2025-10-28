@@ -34,7 +34,7 @@ export const référenceDossierRacordementModifiéeV1Projector = async ({
     dossierRaccordement: {
       ...dossier,
       référence: nouvelleRéférenceDossierRaccordement,
-      misÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
+      miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
     },
   });
 };

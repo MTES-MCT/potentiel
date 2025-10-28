@@ -8,6 +8,8 @@ export type ChangementPuissanceEntity = Entity<
   {
     identifiantProjet: string;
 
+    miseÀJourLe: string;
+
     demande: {
       demandéePar: string;
       demandéeLe: DateTime.RawType;

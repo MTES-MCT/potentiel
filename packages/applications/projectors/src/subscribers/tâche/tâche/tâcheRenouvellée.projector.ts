@@ -12,7 +12,7 @@ export const tâcheRenouvelléeProjector = async ({
   await upsertProjection<Lauréat.Tâche.TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
     ...tâche,
     typeTâche,
-    misÀJourLe: ajoutéeLe,
+    miseÀJourLe: ajoutéeLe,
   });
 };
 
@@ -24,7 +24,7 @@ const récupérerTâche = async (typeTâche: string, identifiantProjet: string) 
   const tâcheDefaultEntity: Lauréat.Tâche.TâcheEntity = {
     identifiantProjet,
     typeTâche: Lauréat.Tâche.TypeTâche.inconnue.type,
-    misÀJourLe: DateTime.now().formatter(),
+    miseÀJourLe: DateTime.now().formatter(),
     type: 'tâche',
   };
 

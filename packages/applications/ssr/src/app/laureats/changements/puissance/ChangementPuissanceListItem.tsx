@@ -19,13 +19,13 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
   identifiantProjet,
   nomProjet,
   statut: { statut },
-  misÀJourLe,
+  miseÀJourLe,
   demandéLe,
   nouvellePuissance,
   unitéPuissance,
 }) => (
   <ListItem
-    misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
+    miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}

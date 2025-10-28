@@ -19,11 +19,11 @@ export const RecoursListItem: FC<RecoursListItemProps> = ({
   identifiantProjet,
   nomProjet,
   statut,
-  misÀJourLe,
+  miseÀJourLe,
 }) => {
   return (
     <ListItem
-      misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
+      miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
       heading={
         <ProjectListItemHeading
           nomProjet={nomProjet}

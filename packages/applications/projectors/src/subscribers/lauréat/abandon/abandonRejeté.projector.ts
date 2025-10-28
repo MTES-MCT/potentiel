@@ -15,6 +15,6 @@ export const abandonRejetéProjector = async ({
       },
     },
     statut: Lauréat.Abandon.StatutAbandon.rejeté.statut,
-    misÀJourLe: rejetéLe,
+    miseÀJourLe: rejetéLe,
   });
 };

@@ -12,6 +12,6 @@ export const abandonConfirméProjector = async ({
       },
     },
     statut: Lauréat.Abandon.StatutAbandon.confirmé.statut,
-    misÀJourLe: confirméLe,
+    miseÀJourLe: confirméLe,
   });
 };

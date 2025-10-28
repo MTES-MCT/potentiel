@@ -9,7 +9,7 @@ export const fournisseurModifiéProjector = async ({
     {
       ...(évaluationCarboneSimplifiée !== undefined && { évaluationCarboneSimplifiée }),
       ...(fournisseurs && { fournisseurs }),
-      misÀJourLe: modifiéLe,
+      miseÀJourLe: modifiéLe,
     },
   );
 };

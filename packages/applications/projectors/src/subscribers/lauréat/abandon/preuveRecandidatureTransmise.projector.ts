@@ -20,6 +20,7 @@ export const preuveCandidatureTransmiseProjector = async ({
   if (abandonToUpsert.demande.recandidature && abandonToUpsert.demande.recandidature.preuve) {
     await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
       ...abandonToUpsert,
+      miseÀJourLe: transmiseLe,
       demande: {
         ...abandonToUpsert.demande,
         recandidature: {

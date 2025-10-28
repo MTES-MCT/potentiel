@@ -11,7 +11,7 @@ type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: StatutChangementActionnaire.ValueType;
-  misÀJourLe: DateTime.ValueType;
+  miseÀJourLe: DateTime.ValueType;
   demandéLe: DateTime.ValueType;
   nouvelActionnaire: string;
 };
@@ -96,7 +96,7 @@ const mapToReadModel = (
 ): ChangementActionnaireItemReadModel => ({
   nomProjet: entity.lauréat.nomProjet,
   statut: StatutChangementActionnaire.convertirEnValueType(entity.demande.statut),
-  misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+  miseÀJourLe: DateTime.convertirEnValueType(entity.miseÀJourLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
   nouvelActionnaire: entity.demande.nouvelActionnaire,

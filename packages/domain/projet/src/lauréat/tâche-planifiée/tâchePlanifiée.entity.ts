@@ -6,7 +6,7 @@ export type TâchePlanifiéeEntity = Entity<
     identifiantProjet: string;
 
     typeTâche: string;
-    misÀJourLe: string;
+    miseÀJourLe: string;
     àExécuterLe: string;
   }
 >;

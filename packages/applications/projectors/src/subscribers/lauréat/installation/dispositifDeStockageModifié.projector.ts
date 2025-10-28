@@ -24,7 +24,7 @@ export const dispositifDeStockageModifiéProjector = async ({
     {
       ...projectionToUpsert,
       dispositifDeStockage,
-      misÀJourLe: modifiéLe,
+      miseÀJourLe: modifiéLe,
       identifiantProjet,
     },
   );

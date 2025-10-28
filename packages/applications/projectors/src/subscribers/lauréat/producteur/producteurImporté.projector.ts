@@ -7,6 +7,6 @@ export const producteurImportéProjector = async ({
   await upsertProjection<Lauréat.Producteur.ProducteurEntity>(`producteur|${identifiantProjet}`, {
     identifiantProjet,
     nom: producteur,
-    misÀJourLe: importéLe,
+    miseÀJourLe: importéLe,
   });
 };

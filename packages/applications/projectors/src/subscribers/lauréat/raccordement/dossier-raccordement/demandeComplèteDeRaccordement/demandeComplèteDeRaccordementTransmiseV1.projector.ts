@@ -38,7 +38,7 @@ export const demandeComplèteDeRaccordementTransmiseV1Projector = async ({
       dateQualification,
     },
     projetNotifiéLe,
-    misÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
+    miseÀJourLe: DateTime.convertirEnValueType(created_at).formatter(),
   };
 
   await upsertProjection<Lauréat.Raccordement.RaccordementEntity>(

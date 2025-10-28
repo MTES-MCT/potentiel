@@ -9,7 +9,7 @@ export const typologieInstallationModifiéeProjector = async ({
     {
       identifiantProjet,
       typologieInstallation,
-      misÀJourLe: modifiéeLe,
+      miseÀJourLe: modifiéeLe,
     },
   );
 };

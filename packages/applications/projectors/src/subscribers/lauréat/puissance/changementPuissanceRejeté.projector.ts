@@ -55,6 +55,7 @@ export const changementPuissanceRejetéProjector = async ({
     `changement-puissance|${identifiantProjet}#${projectionPuissance.dateDemandeEnCours}`,
     {
       identifiantProjet,
+      miseÀJourLe: rejetéLe,
       demande: {
         ...projectionDemandeChangementPuissance.demande,
         statut: Lauréat.Puissance.StatutChangementPuissance.rejeté.statut,

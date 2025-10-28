@@ -20,6 +20,6 @@ export const recoursRejetéProjector = async ({
       },
     },
     statut: Éliminé.Recours.StatutRecours.rejeté.value,
-    misÀJourLe: rejetéLe,
+    miseÀJourLe: rejetéLe,
   });
 };

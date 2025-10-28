@@ -69,7 +69,7 @@ export const mapToCandidatureToUpsert = ({
     ...Candidature.Instruction.convertirEnValueType(payload).formatter(),
     estNotifiée: Option.isSome(candidature) ? candidature.estNotifiée : false,
     notification,
-    misÀJourLe: payload.corrigéLe,
+    miseÀJourLe: payload.corrigéLe,
     détailsMisÀJourLe: payload.détailsMisÀJour
       ? payload.corrigéLe
       : Option.isSome(candidature)

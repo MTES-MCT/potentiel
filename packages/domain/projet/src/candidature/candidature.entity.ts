@@ -75,7 +75,7 @@ export type CandidatureEntity = Entity<
     };
     puissanceDeSite?: number;
 
-    misÀJourLe: DateTime.RawType;
+    miseÀJourLe: DateTime.RawType;
     détailsMisÀJourLe: DateTime.RawType;
 
     // Plus spécifique que `technologie`, ne peut valoir N/A

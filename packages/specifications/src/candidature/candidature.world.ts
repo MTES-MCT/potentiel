@@ -63,7 +63,7 @@ export class CandidatureWorld {
     const { dépôtValue, instructionValue } = this.corrigerCandidature.aÉtéCréé
       ? this.corrigerCandidature
       : this.importerCandidature;
-    const misÀJourLe = this.#corrigerCandidature.aÉtéCréé
+    const miseÀJourLe = this.#corrigerCandidature.aÉtéCréé
       ? this.corrigerCandidature.corrigéLe
       : this.importerCandidature.importéLe;
     const détailsMisÀJourLe =
@@ -93,7 +93,7 @@ export class CandidatureWorld {
         'application/json',
       ),
       identifiantProjet,
-      misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+      miseÀJourLe: DateTime.convertirEnValueType(miseÀJourLe),
 
       unitéPuissance: Candidature.UnitéPuissance.déterminer({
         appelOffres,

@@ -19,19 +19,19 @@ export type AbandonListItemProps = {
   statut: Lauréat.Abandon.StatutAbandon.RawType;
   recandidature: boolean;
   preuveRecandidatureStatut: Lauréat.Abandon.StatutPreuveRecandidature.RawType;
-  misÀJourLe: Iso8601DateTime;
+  miseÀJourLe: Iso8601DateTime;
 };
 
 export const AbandonListItem: FC<AbandonListItemProps> = ({
   identifiantProjet,
   nomProjet,
   statut,
-  misÀJourLe,
+  miseÀJourLe,
   recandidature,
   preuveRecandidatureStatut,
 }) => (
   <ListItem
-    misÀJourLe={misÀJourLe}
+    miseÀJourLe={miseÀJourLe}
     heading={
       <ProjectListItemHeading
         nomProjet={nomProjet}

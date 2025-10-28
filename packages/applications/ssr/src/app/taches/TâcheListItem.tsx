@@ -15,14 +15,14 @@ export type TâcheListItemProps = PlainType<Lauréat.Tâche.ListerTâchesReadMod
 export const TâcheListItem: FC<TâcheListItemProps> = ({
   identifiantProjet,
   nomProjet,
-  misÀJourLe,
+  miseÀJourLe,
   typeTâche,
 }) => {
   const descriptionTâche = getDescriptionTâche(typeTâche, identifiantProjet, nomProjet);
 
   return (
     <ListItem
-      misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
+      miseÀJourLe={DateTime.bind(miseÀJourLe).formatter()}
       heading={
         <ProjectListItemHeading
           prefix="À faire pour le projet"
