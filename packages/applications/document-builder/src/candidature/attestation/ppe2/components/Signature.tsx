@@ -9,7 +9,7 @@ type SignatureProps = {
 
 export const Signature = ({ validateur }: SignatureProps) => (
   <View wrap={false}>
-    <Text style={{ marginTop: 30 }}>
+    <Text style={{ marginTop: 25 }}>
       Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.
     </Text>
     <View
