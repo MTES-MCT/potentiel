@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { UtilisateurInvitéEventV1 } from '@potentiel-domain/utilisateur';
+import { UtilisateurEntity, UtilisateurInvitéEventV1 } from '@potentiel-domain/utilisateur';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { mapToUtilisateurPayload } from './utilisateurInvité.projector';
@@ -16,7 +16,7 @@ export const utilisateurInvitéV1Projector = async ({ payload }: UtilisateurInvi
     )
     .otherwise(mapToUtilisateurPayload);
 
-  await upsertProjection(`utilisateur|${payload.identifiantUtilisateur}`, {
+  await upsertProjection<UtilisateurEntity>(`utilisateur|${payload.identifiantUtilisateur}`, {
     ...utilisateurToUpsert,
     identifiantUtilisateur: payload.identifiantUtilisateur,
     invitéLe: payload.invitéLe,

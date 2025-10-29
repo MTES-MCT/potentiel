@@ -6,7 +6,7 @@ import * as zod from 'zod';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Accès } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
@@ -93,9 +93,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         message: 'Utilisateur invité avec succès',
-        url: Routes.Utilisateur.listerPorteurs(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-        ),
+        url: Routes.Accès.lister(identifiantProjet),
       },
     };
   });

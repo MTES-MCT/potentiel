@@ -20,7 +20,6 @@ import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisat
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.event';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.event';
-import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
@@ -31,15 +30,9 @@ export { AccèsFonctionnalitéRefuséError } from './utilisateur.error';
 export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
-  | ListerPorteursQuery
   | TrouverUtilisateurQuery;
 
-export {
-  ConsulterUtilisateurQuery,
-  ListerUtilisateursQuery,
-  TrouverUtilisateurQuery,
-  ListerPorteursQuery,
-};
+export { ConsulterUtilisateurQuery, ListerUtilisateursQuery, TrouverUtilisateurQuery };
 
 // UseCases
 export type UtilisateurUseCase =
@@ -78,4 +71,4 @@ export { RécupérerUtilisateurPort };
 export * from './utilisateur.entity';
 
 // readmodel
-export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel, ListerPorteursReadModel };
+export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel };

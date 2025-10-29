@@ -18,9 +18,9 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { roleToLabel } from '@/utils/utilisateur/format-role';
 
-import { RoleBadge } from '../[identifiant]/RoleBadge';
 import { getZoneLabel } from '../_helpers/getZoneLabel';
 
+import { RoleBadge } from './RoleBadge';
 import { réactiverUtilisateurAction } from './réactiverUtilisateur.action';
 import { désactiverUtilisateurAction } from './désactiverUtilisateur.action';
 

@@ -1,5 +1,3 @@
-import { encodeParameter } from '../encodeParameter';
-
 export const lister = ({ actif }: { actif?: boolean } = {}) => {
   const url = `/utilisateurs`;
   const searchParams = new URLSearchParams();
@@ -10,6 +8,3 @@ export const lister = ({ actif }: { actif?: boolean } = {}) => {
 };
 export const inviter = `/utilisateurs/inviter`;
 export const réclamerProjet = `/reclamer`;
-
-export const listerPorteurs = (identifiantProjet: string) =>
-  `/utilisateurs/${encodeParameter(identifiantProjet)}`;

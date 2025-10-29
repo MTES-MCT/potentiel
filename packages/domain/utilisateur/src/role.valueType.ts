@@ -573,7 +573,6 @@ const référencielPermissions = {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
       lister: 'Utilisateur.Query.ListerUtilisateurs',
-      listerPorteurs: 'Utilisateur.Query.ListerPorteurs',
     },
     command: {
       inviter: 'Utilisateur.Command.InviterUtilisateur',
@@ -1316,7 +1315,6 @@ const policies = {
   },
   utilisateur: {
     lister: [référencielPermissions.utilisateur.query.lister],
-    listerPorteurs: [référencielPermissions.utilisateur.query.listerPorteurs],
     inviter: [
       référencielPermissions.utilisateur.command.inviter,
       référencielPermissions.utilisateur.usecase.inviter,
@@ -1587,7 +1585,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Utilisateur
   'utilisateur.lister',
-  'utilisateur.listerPorteurs',
   'utilisateur.inviter',
   'utilisateur.inviterPorteur',
   'utilisateur.désactiver',
@@ -1775,7 +1772,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
-  'utilisateur.listerPorteurs',
   'utilisateur.inviterPorteur',
 
   // Producteur
@@ -1886,7 +1882,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
-  'utilisateur.listerPorteurs',
   'utilisateur.inviterPorteur',
   'utilisateur.créerPorteur',
 

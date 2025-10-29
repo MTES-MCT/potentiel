@@ -4,8 +4,8 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 import { formAction, FormAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -29,11 +29,10 @@ const action: FormAction<FormState, typeof schema> = async (
         retiréParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
-
     return {
       status: 'success',
       redirection: {
-        url: Routes.Utilisateur.listerPorteurs(identifiantProjet),
+        url: Routes.Accès.lister(identifiantProjet),
         message: "L'accès au projet a été retiré avec succès",
       },
     };
