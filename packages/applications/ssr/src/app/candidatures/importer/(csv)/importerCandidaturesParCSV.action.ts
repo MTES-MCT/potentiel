@@ -7,8 +7,9 @@ import { DomainError } from '@potentiel-domain/core';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
-import { Routes } from '@potentiel-applications/routes';
+import { Période } from '@potentiel-domain/periode';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -19,16 +20,25 @@ import { removeEmptyValues } from '@/utils/candidature/removeEmptyValues';
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
+  appelOffre: zod.string(),
+  periode: zod.string(),
+  modeMultiple: zod.stringbool().optional(),
 });
 
-export type ImporterCandidaturesFormKeys = keyof zod.infer<typeof schema>;
+export type ImporterCandidaturesParCSVFormKeys = keyof zod.infer<typeof schema>;
 
-const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCandidature }) => {
-  return withUtilisateur(async (utilisateur) => {
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  { fichierImportCandidature, appelOffre, periode, modeMultiple },
+) =>
+  withUtilisateur(async (utilisateur) => {
     const { parsedData, rawData } = await parseCsv(
       fichierImportCandidature.content,
       candidatureCsvSchema,
-      { encoding: 'win1252', delimiter: ';' },
+      {
+        encoding: 'win1252',
+        delimiter: ';',
+      },
     );
 
     if (parsedData.length === 0) {
@@ -38,8 +48,34 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
       };
     }
 
-    let success: number = 0;
     const errors: ActionResult['errors'] = [];
+    let success: number = 0;
+    if (!modeMultiple) {
+      const périodeCible = Période.IdentifiantPériode.convertirEnValueType(
+        `${appelOffre}#${periode}`,
+      );
+      for (const line of parsedData) {
+        const identifiantPériode = Période.IdentifiantPériode.convertirEnValueType(
+          `${line.appelOffre}#${line.période})`,
+        );
+        if (!identifiantPériode.estÉgaleÀ(périodeCible)) {
+          errors.push({
+            key: `${line.numéroCRE} - ${line.nomProjet}`,
+            reason: 'La période ne correspond pas à la cible',
+          });
+        }
+      }
+    }
+
+    if (errors.length > 0) {
+      return {
+        status: 'success',
+        result: {
+          successMessage: '',
+          errors,
+        },
+      };
+    }
 
     for (const line of parsedData) {
       try {
@@ -73,6 +109,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
           });
           continue;
         }
+
         getLogger().error(error as Error);
         errors.push({
           key: `${line.numéroCRE} - ${line.nomProjet}`,
@@ -103,6 +140,5 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
           : undefined,
     };
   });
-};
 
-export const importerCandidaturesAction = formAction(action, schema);
+export const importerCandidaturesParCSVAction = formAction(action, schema);
