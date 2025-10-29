@@ -5,11 +5,11 @@ import * as zod from 'zod';
 import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
+import { UtilisateurPotentiel } from '@potentiel-applications/request-context';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -62,7 +62,7 @@ export const accorderAbandonAvecRecandidatureAction = formAction(action, schema)
 
 const buildReponseSignee = async (
   abandon: Lauréat.Abandon.ConsulterAbandonReadModel,
-  utilisateur: Utilisateur.ValueType,
+  utilisateur: UtilisateurPotentiel,
 ): Promise<Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
   const identifiantProjet = abandon.identifiantProjet;
   const candidature = await getCandidature(identifiantProjet.formatter());
@@ -98,8 +98,8 @@ const buildReponseSignee = async (
     demandeAbandon: {
       date: abandon.demande.demandéLe.date.toISOString(),
       instructeur: {
-        nom: utilisateur.nom,
-        fonction: '', // TODO
+        nom: utilisateur.nom ?? '',
+        fonction: '',
       },
     },
   };
