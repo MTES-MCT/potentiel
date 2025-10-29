@@ -49,6 +49,7 @@ export class PuissanceAggregate extends AbstractAggregate<
   #demande?: {
     statut: StatutChangementPuissance.ValueType;
     nouvellePuissance: number;
+    nouvellePuissanceDeSite?: number;
     autoritéCompétente?: AutoritéCompétente.RawType;
   };
 
@@ -222,6 +223,7 @@ export class PuissanceAggregate extends AbstractAggregate<
           format: réponseSignée.format,
         },
         nouvellePuissance: this.#demande.nouvellePuissance,
+        nouvellePuissanceDeSite: this.#demande.nouvellePuissanceDeSite,
         estUneDécisionDEtat: estUneDécisionDEtat ? true : undefined,
       },
     };
@@ -355,11 +357,12 @@ export class PuissanceAggregate extends AbstractAggregate<
   }
 
   private applyChangementPuissanceDemandé({
-    payload: { puissance, autoritéCompétente },
+    payload: { puissance, autoritéCompétente, puissanceDeSite },
   }: ChangementPuissanceDemandéEvent) {
     this.#demande = {
       statut: StatutChangementPuissance.demandé,
       nouvellePuissance: puissance,
+      nouvellePuissanceDeSite: puissanceDeSite,
       autoritéCompétente,
     };
   }
@@ -369,9 +372,10 @@ export class PuissanceAggregate extends AbstractAggregate<
   }
 
   private applyChangementPuissanceAccordé({
-    payload: { nouvellePuissance },
+    payload: { nouvellePuissance, nouvellePuissanceDeSite },
   }: ChangementPuissanceAccordéEvent) {
     this.#puissance = nouvellePuissance;
+    this.#puissanceDeSite = nouvellePuissanceDeSite;
     this.#demande = undefined;
   }
 
