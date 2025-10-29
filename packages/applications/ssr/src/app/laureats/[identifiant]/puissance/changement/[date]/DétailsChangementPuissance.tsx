@@ -28,6 +28,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           unitéPuissance={unitéPuissance}
           puissanceInitiale={puissanceInitiale}
           nouvellePuissance={demande.nouvellePuissance}
+          nouvellePuissanceDeSite={demande.nouvellePuissanceDeSite}
         />
       }
       changement={{
@@ -46,6 +47,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           unitéPuissance={unitéPuissance}
           puissanceInitiale={puissanceInitiale}
           nouvellePuissance={demande.nouvellePuissance}
+          nouvellePuissanceDeSite={demande.nouvellePuissanceDeSite}
         />
       }
       statut={demande.statut.statut}
@@ -58,19 +60,32 @@ type DétailsValeursPuissanceProps = {
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
   puissanceInitiale: DétailsChangementPuissanceProps['puissanceInitiale'];
   nouvellePuissance: DétailsPuissancePageProps['demande']['nouvellePuissance'];
+  nouvellePuissanceDeSite: DétailsPuissancePageProps['demande']['nouvellePuissanceDeSite'];
 };
 
 const DétailsValeursPuissance = ({
   unitéPuissance,
   puissanceInitiale,
   nouvellePuissance,
+  nouvellePuissanceDeSite,
 }: DétailsValeursPuissanceProps) => (
   <>
-    <div>
-      <span className="font-medium">Puissance demandée</span> : {nouvellePuissance} {unitéPuissance}
-    </div>
+    {puissanceInitiale === nouvellePuissance ? (
+      <div>La puissane n'a pas été modifiée.</div>
+    ) : (
+      <div>
+        <span className="font-medium">Puissance demandée</span> : {nouvellePuissance}{' '}
+        {unitéPuissance}
+      </div>
+    )}
     <div>
       <span className="font-medium">Puissance initiale</span> : {puissanceInitiale} {unitéPuissance}
     </div>
+    {nouvellePuissanceDeSite !== undefined ? (
+      <div>
+        <span className="font-medium">Puissance de site </span> : {nouvellePuissanceDeSite}{' '}
+        {unitéPuissance}
+      </div>
+    ) : null}
   </>
 );
