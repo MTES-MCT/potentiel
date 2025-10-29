@@ -1,7 +1,7 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
@@ -25,9 +25,10 @@ export const changementReprésentantLégalEnregistréNotification = async ({
 }: ChangementReprésentantLégalEnregistréNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
 
-  if (dreals.length === 0) {
-    getLogger().info('Aucune dreal trouvée', {
+  if (dreals.length === 0 && porteurs.length === 0) {
+    getLogger().info('Aucun porteur ou dreal trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'changementReprésentantLégalEnregistréNotifications',
@@ -39,6 +40,17 @@ export const changementReprésentantLégalEnregistréNotification = async ({
     templateId: représentantLégalNotificationTemplateId.changement.enregistrer,
     messageSubject: `Potentiel - Déclaration de changement de représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
+    variables: {
+      nom_projet: projet.nom,
+      departement_projet: projet.département,
+      url: projet.url,
+    },
+  });
+
+  await sendEmail({
+    templateId: représentantLégalNotificationTemplateId.changement.enregistrer,
+    messageSubject: `Potentiel - Déclaration de changement de représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
+    recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
