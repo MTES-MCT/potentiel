@@ -31,7 +31,7 @@ const paramsSchema = z.object({
   appelOffre: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
   avecDateMiseEnService: z.stringbool().optional(),
-  statutProjet: z.enum(Lauréat.StatutLauréat.statuts).optional(),
+  statutProjet: z.enum(['actif', 'achevé']).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -82,10 +82,12 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut du projet',
           searchParamKey: 'statutProjet',
-          options: Lauréat.StatutLauréat.statuts.map((value) => ({
-            label: getStatutLauréatLabel(value),
-            value,
-          })),
+          options: Lauréat.StatutLauréat.statuts
+            .filter((s) => s !== 'abandonné')
+            .map((value) => ({
+              label: getStatutLauréatLabel(value),
+              value,
+            })),
         },
         {
           label: `Appel d'offres`,
