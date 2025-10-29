@@ -352,8 +352,8 @@ export class PuissanceAggregate extends AbstractAggregate<
   private applyPuissanceModifiée({
     payload: { puissance, puissanceDeSite },
   }: PuissanceModifiéeEvent) {
-    this.#puissance = puissance ? puissance : this.#puissance;
-    this.#puissanceDeSite = puissanceDeSite ? puissanceDeSite : this.#puissanceDeSite;
+    this.#puissance = puissance;
+    this.#puissanceDeSite = puissanceDeSite;
   }
 
   private applyChangementPuissanceDemandé({
@@ -388,6 +388,13 @@ export class PuissanceAggregate extends AbstractAggregate<
   }
 
   private vérifierLaCohérenceDesDonnées(puissance?: number, puissanceDeSite?: number) {
+    // a vérifier
+    // console.log('viovio');
+    // console.log(puissance);
+    // console.log(puissanceDeSite);
+    // // pas mise à jour
+    // console.log(this.#puissanceDeSite);
+
     if (!this.lauréat.projet.appelOffre.champsSupplémentaires?.puissanceDeSite) {
       if (puissanceDeSite !== undefined) {
         throw new PuissanceDeSiteNonAttendueError();
