@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useSearchParams } from 'next/navigation';
 import { match } from 'ts-pattern';
@@ -49,26 +49,6 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
     modeMultiple: importMultipleAOEtPeriodesPossible,
   });
 
-  useEffect(() => {
-    if (state.modeMultiple) {
-      setState((prev) => ({
-        ...prev,
-        appelOffre: undefined,
-        période: undefined,
-        typeImport: 'csv',
-      }));
-    }
-
-    if (state.appelOffre && state.période) {
-      const type = périodes.find(
-        (p) =>
-          p.identifiantPériode.appelOffre === state.appelOffre &&
-          p.identifiantPériode.période === state.période,
-      )?.typeImport;
-      setState((prev) => ({ ...prev, typeImport: type }));
-    }
-  }, [state.appelOffre, state.période, state.modeMultiple]);
-
   return (
     <div>
       {importMultipleAOEtPeriodesPossible && (
@@ -92,8 +72,9 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
                 onChange: (ev) =>
                   setState((prev) => ({
                     ...prev,
+                    appelOffre: undefined,
+                    période: undefined,
                     modeMultiple: ev.target.checked,
-                    typeImport: undefined,
                   })),
               },
             },
@@ -119,13 +100,14 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
                   (période) => période.identifiantPériode.appelOffre === ev.target.value,
                 );
 
+                const période =
+                  périodesPourAppelOffre.length === 1 ? périodesPourAppelOffre[0] : undefined;
+
                 setState((prev) => ({
                   ...prev,
                   appelOffre: ev.target.value,
-                  période:
-                    périodesPourAppelOffre.length === 1
-                      ? périodesPourAppelOffre[0].identifiantPériode.période
-                      : undefined,
+                  période: période ? période.identifiantPériode.période : undefined,
+                  typeImport: période ? période.typeImport : undefined,
                 }));
               },
               required: true,
@@ -150,7 +132,20 @@ export const ImporterCandidaturesForm: FC<ImporterCandidaturesFormProps> = ({
             nativeSelectProps={{
               name: 'periode',
               value: state.période,
-              onChange: (event) => setState((prev) => ({ ...prev, période: event.target.value })),
+              onChange: ({ target: { value } }) =>
+                setState((prev) => {
+                  const période = périodes.find(
+                    (p) =>
+                      p.identifiantPériode.appelOffre === state.appelOffre &&
+                      p.identifiantPériode.période === value,
+                  );
+
+                  return {
+                    ...prev,
+                    période: période ? période.identifiantPériode.période : undefined,
+                    typeImport: période ? période.typeImport : undefined,
+                  };
+                }),
               required: true,
             }}
           />
