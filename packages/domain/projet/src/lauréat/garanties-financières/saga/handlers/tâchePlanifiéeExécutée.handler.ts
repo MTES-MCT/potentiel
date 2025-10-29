@@ -3,11 +3,11 @@ import { match } from 'ts-pattern';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { TâchePlanifiéeExecutéeEvent } from '../../tâche-planifiée';
-import { TypeTâchePlanifiéeGarantiesFinancières } from '..';
-import { AjouterTâchePlanifiéeCommand } from '../../tâche-planifiée/ajouter/ajouterTâchePlanifiée.command';
-import { ÉchoirGarantiesFinancièresCommand } from '../actuelles/échoir/échoirGarantiesFinancières.command';
-import { IdentifiantProjet } from '../../..';
+import { TâchePlanifiéeExecutéeEvent } from '../../../tâche-planifiée';
+import { TypeTâchePlanifiéeGarantiesFinancières } from '../..';
+import { AjouterTâchePlanifiéeCommand } from '../../../tâche-planifiée/ajouter/ajouterTâchePlanifiée.command';
+import { ÉchoirGarantiesFinancièresCommand } from '../../actuelles/échoir/échoirGarantiesFinancières.command';
+import { IdentifiantProjet } from '../../../..';
 
 export const handleTâchePlanifiéeExecutée = async ({
   payload: { exécutéeLe, identifiantProjet, typeTâchePlanifiée },

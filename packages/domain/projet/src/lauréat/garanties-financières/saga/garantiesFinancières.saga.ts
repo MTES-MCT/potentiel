@@ -5,8 +5,7 @@ import { TâchePlanifiéeExecutéeEvent } from '../../tâche-planifiée';
 import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event';
 import { RécupererConstitutionGarantiesFinancièresPort } from '..';
 
-import { handleTâchePlanifiéeExecutée } from './tâchePlanifiéeExécutée.saga';
-import { handleLauréatNotifié } from './lauréatNotifié.saga';
+import { handleLauréatNotifié, handleTâchePlanifiéeExecutée } from './handlers';
 
 type Event = { version: number; created_at: string; stream_id: string };
 
