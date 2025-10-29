@@ -78,7 +78,7 @@ export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) 
 
 export const getUtilisateurFromAccessToken = async (
   accessToken: string,
-): Promise<Utilisateur.ValueType> => {
+): Promise<PotentielUtilisateur> => {
   const jwtSchema = z.object({
     email: z.string(),
   });
