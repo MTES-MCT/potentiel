@@ -38,7 +38,7 @@ export const changementFournisseurEnregistréNotifications = async ({
 
   await sendEmail({
     templateId: fournisseurNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement de fournisseur pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement de fournisseur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
       nom_projet: projet.nom,
@@ -49,7 +49,7 @@ export const changementFournisseurEnregistréNotifications = async ({
 
   await sendEmail({
     templateId: fournisseurNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement de fournisseur pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement de fournisseur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,

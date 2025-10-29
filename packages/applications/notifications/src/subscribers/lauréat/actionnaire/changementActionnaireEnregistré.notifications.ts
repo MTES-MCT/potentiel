@@ -38,7 +38,7 @@ export const changementActionnaireEnregistréNotifications = async ({
 
   await sendEmail({
     templateId: actionnaireNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
       nom_projet: projet.nom,
@@ -49,7 +49,7 @@ export const changementActionnaireEnregistréNotifications = async ({
 
   await sendEmail({
     templateId: actionnaireNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
