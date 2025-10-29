@@ -1,3 +1,4 @@
 import { encodeParameter } from '../encodeParameter';
 
-export const lister = (identifiantProjet: string) => `/acces/${encodeParameter(identifiantProjet)}`;
+export const lister = (identifiantProjet: string) =>
+  `/projets/${encodeParameter(identifiantProjet)}/acces`;
