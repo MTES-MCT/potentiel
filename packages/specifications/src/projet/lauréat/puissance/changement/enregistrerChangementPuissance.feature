@@ -22,13 +22,13 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | nom_projet | Du boulodrome de Marseille                                                                                           |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                |
 
-    Scénario: Enregistrer un changement de puissance et de puissance de site d'un projet lauréat
+    Scénario: Enregistrer un changement de puissance et de puissance de site, en modifiant ou non la puissance, d'un projet lauréat pour un projet dont l'AO requiert la puissance de site
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | puissance de site | 2    |
-            | ratio puissance   | 1.05 |
+            | puissance de site | <Puissance de site> |
+            | ratio puissance   | <Ratio>             |
         Alors la puissance du projet lauréat devrait être mise à jour
         Et le changement enregistré de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
@@ -40,12 +40,17 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | nom_projet | Du bouchon lyonnais                                                                                                |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                              |
 
-    Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
+        Exemples:
+            | Ratio | Puissance de site |
+            | 1     | 1                 |
+            | 1.05  | 1                 |
+
+    Scénario: Impossible d'enregistrer un changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1 |
         Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
 
-    Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur négative ou nulle
+    Scénario: Impossible d'enregistrer un changement de puissance avec une valeur négative ou nulle
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
         Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
@@ -55,7 +60,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | 0     |
             | -1    |
 
-    Scénario: Impossible de demander le changement de puissance de site d'un projet lauréat avec une valeur négative ou nulle
+    Scénario: Impossible d'enregistrer un changement de puissance de site avec une valeur négative ou nulle
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :

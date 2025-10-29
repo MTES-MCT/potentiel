@@ -6,16 +6,17 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../../potentiel.world';
 
 Quand(
-  'le porteur demande le changement de puissance pour le projet {lauréat-éliminé} avec :',
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', dataTable: DataTable) {
+  'le porteur demande le changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
-    const { ratioPuissance } = this.lauréatWorld.puissanceWorld.mapExempleToFixtureValues(
-      exemple,
-      this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle,
-    );
+    const { ratioPuissance, puissanceDeSite } =
+      this.lauréatWorld.puissanceWorld.mapExempleToFixtureValues(
+        exemple,
+        this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle,
+      );
 
     try {
-      await demanderChangementPuissance.call(this, statutProjet, ratioPuissance);
+      await demanderChangementPuissance.call(this, ratioPuissance, puissanceDeSite);
     } catch (error) {
       this.error = error as Error;
     }
@@ -75,28 +76,30 @@ Quand(
 
 export async function demanderChangementPuissance(
   this: PotentielWorld,
-  statutProjet: 'lauréat' | 'éliminé',
-  ratioValue: number,
+  ratioPuissanceValue: number,
+  puissanceDeSiteValue?: number,
 ) {
-  const { identifiantProjet } = statutProjet === 'lauréat' ? this.lauréatWorld : this.éliminéWorld;
+  const { identifiantProjet } = this.lauréatWorld;
 
-  const { pièceJustificative, demandéLe, demandéPar, raison, ratioPuissance } =
+  const { pièceJustificative, demandéLe, demandéPar, raison, ratioPuissance, puissanceDeSite } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture.créer(
       {
         demandéPar: this.utilisateurWorld.porteurFixture.email,
-        ratioPuissance: ratioValue,
+        ratioPuissance: ratioPuissanceValue,
+        ...(puissanceDeSiteValue !== undefined && {
+          puissanceDeSite: puissanceDeSiteValue,
+        }),
       },
     );
-
-  const puissanceValue =
-    ratioPuissance *
-    this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue;
 
   await mediator.send<Lauréat.Puissance.DemanderChangementUseCase>({
     type: 'Lauréat.Puissance.UseCase.DemanderChangement',
     data: {
       raisonValue: raison,
-      puissanceValue,
+      puissanceValue:
+        ratioPuissance *
+        this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
+      puissanceDeSiteValue: puissanceDeSite,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet.formatter(),

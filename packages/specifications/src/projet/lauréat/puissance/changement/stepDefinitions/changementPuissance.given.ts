@@ -14,7 +14,7 @@ EtantDonné(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {
-      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
+      await demanderChangementPuissance.call(this, Number(exemple['ratio puissance']));
     } catch (error) {
       this.error = error as Error;
     }
@@ -26,7 +26,7 @@ EtantDonné(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {
-      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
+      await demanderChangementPuissance.call(this, Number(exemple['ratio puissance']));
       await accorderChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
@@ -38,7 +38,7 @@ EtantDonné(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {
-      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
+      await demanderChangementPuissance.call(this, Number(exemple['ratio puissance']));
       await rejeterChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
@@ -51,7 +51,7 @@ EtantDonné(
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {
-      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
+      await demanderChangementPuissance.call(this, Number(exemple['ratio puissance']));
       await annulerChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
