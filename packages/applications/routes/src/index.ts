@@ -25,9 +25,11 @@ import { Période } from './période';
 import { Auth } from './auth';
 import { StatistiquesPubliques } from './statistiques-publiques';
 import { Utilisateur } from './utilisateur';
+import { Accès } from './accès';
 
 export const Routes = {
   Abandon,
+  Accès,
   Achèvement,
   Candidature,
   Document,

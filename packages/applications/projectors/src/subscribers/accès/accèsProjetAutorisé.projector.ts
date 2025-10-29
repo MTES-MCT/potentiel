@@ -8,7 +8,7 @@ export const accèsProjetAutoriséProjector = async ({
 }: Accès.AccèsProjetAutoriséEvent) => {
   const accèsProjetActuel = await findProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`);
 
-  await upsertProjection(`accès|${identifiantProjet}`, {
+  await upsertProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`, {
     identifiantProjet,
     utilisateursAyantAccès: Option.match(accèsProjetActuel)
       .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.concat(identifiantUtilisateur))

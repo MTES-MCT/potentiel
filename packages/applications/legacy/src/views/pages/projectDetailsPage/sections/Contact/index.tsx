@@ -55,7 +55,7 @@ export const Contact = ({
       userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
         <div>
           <Heading3 className="mt-0 mb-1">Comptes ayant accès à ce projet</Heading3>
-          <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
+          <Link href={Routes.Accès.lister(identifiantProjet)}>Gérer les accès</Link>
         </div>
       )}
   </Section>
