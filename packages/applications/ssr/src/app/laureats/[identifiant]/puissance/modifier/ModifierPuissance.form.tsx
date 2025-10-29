@@ -6,6 +6,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { Routes } from '@potentiel-applications/routes';
 import { Lauréat, IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -16,7 +17,9 @@ export type ModifierPuissanceFormProps = PlainType<
   Pick<
     Lauréat.Puissance.ConsulterPuissanceReadModel,
     'identifiantProjet' | 'puissance' | 'unitéPuissance' | 'puissanceDeSite'
-  > & { infosCahierDesChargesPuissanceDeSite: 'requis' | 'optionnel' | undefined }
+  > & {
+    infosCahierDesChargesPuissanceDeSite: AppelOffre.ChampsSupplémentairesCandidature['puissanceDeSite'];
+  }
 >;
 
 export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({

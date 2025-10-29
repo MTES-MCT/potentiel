@@ -11,6 +11,7 @@ export type DemanderChangementUseCase = Message<
   'Lauréat.Puissance.UseCase.DemanderChangement',
   {
     puissanceValue: number;
+    puissanceDeSiteValue?: number;
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
@@ -30,6 +31,7 @@ export const registerDemanderChangementPuissanceUseCase = () => {
     identifiantUtilisateurValue,
     raisonValue,
     puissanceValue,
+    puissanceDeSiteValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
@@ -55,10 +57,11 @@ export const registerDemanderChangementPuissanceUseCase = () => {
       data: {
         dateDemande,
         raison: raisonValue,
-        nouvellePuissance: puissanceValue,
+        puissance: puissanceValue,
         identifiantProjet,
         identifiantUtilisateur,
         pièceJustificative,
+        puissanceDeSite: puissanceDeSiteValue,
       },
     });
   };

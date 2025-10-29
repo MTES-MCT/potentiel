@@ -1,6 +1,5 @@
 # language: fr
 @puissance
-@select
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par un porteur
 
     Contexte:

@@ -10,8 +10,8 @@ export type EnregistrerChangementPuissanceCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    nouvellePuissance: number;
-    nouvellePuissanceDeSite?: number;
+    puissance: number;
+    puissanceDeSite?: number;
     dateChangement: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
     raison?: string;
@@ -24,8 +24,8 @@ export const registerEnregistrerChangementPuissanceCommand = (
   const handler: MessageHandler<EnregistrerChangementPuissanceCommand> = async ({
     identifiantProjet,
     identifiantUtilisateur,
-    nouvellePuissance,
-    nouvellePuissanceDeSite,
+    puissance,
+    puissanceDeSite,
     dateChangement,
     pièceJustificative,
     raison,
@@ -33,8 +33,8 @@ export const registerEnregistrerChangementPuissanceCommand = (
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.lauréat.puissance.enregistrerChangement({
-      nouvellePuissance,
-      nouvellePuissanceDeSite,
+      puissance,
+      puissanceDeSite,
       identifiantUtilisateur,
       dateChangement,
       pièceJustificative,

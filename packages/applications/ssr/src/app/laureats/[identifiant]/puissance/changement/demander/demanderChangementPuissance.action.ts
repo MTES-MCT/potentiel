@@ -8,12 +8,16 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { strictlyPositiveNumberSchema } from '@/utils/candidature/schemaBase';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
+import {
+  puissanceOuPuissanceDeSiteSchema,
+  optionalPuissanceOuPuissanceDeSiteSchema,
+} from '@/utils/candidature';
 
 const demanderChangementPuissanceSchema = zod.object({
   identifiantProjet: zod.string().min(1),
-  puissance: strictlyPositiveNumberSchema,
+  puissance: puissanceOuPuissanceDeSiteSchema,
+  puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
   raison: zod.string().min(1),
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
@@ -23,7 +27,8 @@ const demanderChangementPuissanceSchema = zod.object({
 
 const enregistrerChangementPuissanceSchema = zod.object({
   identifiantProjet: zod.string().min(1),
-  puissance: strictlyPositiveNumberSchema,
+  puissance: puissanceOuPuissanceDeSiteSchema,
+  puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
   raison: zod.string().optional(),
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
@@ -38,7 +43,14 @@ export type DemanderChangementPuissanceFormKeys = keyof zod.infer<typeof schema>
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, puissance, piecesJustificatives, raison, isInformationEnregistree },
+  {
+    identifiantProjet,
+    puissance,
+    puissanceDeSite,
+    piecesJustificatives,
+    raison,
+    isInformationEnregistree,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
     const date = new Date().toISOString();
@@ -53,6 +65,7 @@ const action: FormAction<FormState, typeof schema> = async (
           dateChangementValue: date,
           pièceJustificativeValue: piecesJustificatives,
           puissanceValue: puissance,
+          puissanceDeSiteValue: puissanceDeSite,
           raisonValue: raison,
         },
       });
@@ -65,6 +78,7 @@ const action: FormAction<FormState, typeof schema> = async (
           dateDemandeValue: date,
           pièceJustificativeValue: piecesJustificatives,
           puissanceValue: puissance,
+          puissanceDeSiteValue: puissanceDeSite,
           raisonValue: raison,
         },
       });
