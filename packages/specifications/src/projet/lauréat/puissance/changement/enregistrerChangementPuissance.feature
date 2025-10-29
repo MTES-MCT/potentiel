@@ -28,8 +28,8 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | puissance de site | 2 |
-            | ratio puissance   | 2 |
+            | puissance de site | 2    |
+            | ratio puissance   | 1.05 |
         Alors la puissance du projet lauréat devrait être mise à jour
         Et le changement enregistré de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
@@ -160,7 +160,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat par
             | appel d'offres | PPE2 - Petit PV Bâtiment |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance   | 1,2 |
-            | puissance de site | 1   |
+            | puissance de site |     |
         Alors l'utilisateur devrait être informé que "La puissance de site doit être modifiée"
 
     Scénario: Impossible d'enregistrer un changement de puissance de site sans valeur pour un AO qui requiert ce champ
