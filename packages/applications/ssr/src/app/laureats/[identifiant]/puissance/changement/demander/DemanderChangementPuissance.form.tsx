@@ -122,7 +122,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
               <Input
                 state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['puissanceDeSite']}
-                label={`Puissance de site (en ${unitéPuissance}) ${infosCahierDesChargesPuissanceDeSite === 'optionnel' ? '(optionnel)' : ''}`}
+                label={`Puissance de site (en ${unitéPuissance.unité}) ${infosCahierDesChargesPuissanceDeSite === 'optionnel' ? '(optionnel)' : ''}`}
                 nativeInputProps={{
                   name: 'puissanceDeSite',
                   defaultValue: puissanceDeSite,
