@@ -10,6 +10,10 @@ export interface PotentielJWT {
   job?: string;
 }
 
+export type UtilisateurPotentiel = Utilisateur.ValueType & {
+  nom?: string;
+};
+
 // This is the content of the session, as returned by getServerSession or useSession
 export interface PotentielSession {
   idToken?: string;

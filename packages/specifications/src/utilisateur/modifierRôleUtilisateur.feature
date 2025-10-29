@@ -68,3 +68,19 @@ Fonctionnalité: Modifier le rôle d'un utilisateur en tant qu'admin
         Etant donné un utilisateur désactivé avec le rôle "ademe"
         Quand un administrateur modifie le rôle de l'utilisateur vers "admin"
         Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas actif"
+
+    Plan du scénario: Impossible de modifier avec les même valeurs
+        Etant donné un utilisateur invité avec le rôle "<Rôle>"
+        Quand un administrateur modifie le rôle de l'utilisateur avec les même valeurs
+        Alors l'utilisateur devrait être informé que "L'utilisateur a déjà ce rôle ou les mêmes attributs"
+
+        Exemples:
+            | Rôle              |
+            | admin             |
+            | ademe             |
+            | cre               |
+            | caisse-des-dépôts |
+            | dreal             |
+            | dgec-validateur   |
+            | grd               |
+            | cocontractant     |

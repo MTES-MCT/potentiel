@@ -6,9 +6,9 @@ export type ModifierRôleOptions = {
   rôle: Role.ValueType;
   modifiéLe: DateTime.ValueType;
   modifiéPar: Email.ValueType;
-  fonction?: string;
-  nomComplet?: string;
-  région?: Région.ValueType;
-  identifiantGestionnaireRéseau?: string;
-  zone?: Zone.ValueType;
+  fonction: string | undefined;
+  nomComplet: string | undefined;
+  région: Région.ValueType | undefined;
+  identifiantGestionnaireRéseau: string | undefined;
+  zone: Zone.ValueType | undefined;
 };

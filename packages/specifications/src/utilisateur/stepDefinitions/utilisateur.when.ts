@@ -180,6 +180,21 @@ Quand(
   },
 );
 
+Quand(
+  `un administrateur modifie le rôle de l'utilisateur avec les même valeurs`,
+  async function (this: PotentielWorld) {
+    await modifierRôleUtilisateur.call(this, {
+      rôle: this.utilisateurWorld.inviterUtilisateur.rôle,
+      fonction: this.utilisateurWorld.inviterUtilisateur.fonction,
+      nomComplet: this.utilisateurWorld.inviterUtilisateur.nomComplet,
+      région: this.utilisateurWorld.inviterUtilisateur.région,
+      identifiantGestionnaireRéseau:
+        this.utilisateurWorld.inviterUtilisateur.identifiantGestionnaireRéseau,
+      zone: this.utilisateurWorld.inviterUtilisateur.zone,
+    });
+  },
+);
+
 export async function inviterPorteur(
   this: PotentielWorld,
   {

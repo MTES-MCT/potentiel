@@ -45,6 +45,11 @@ export const ModifierRôleUtilisateurForm: FC<ModifierRôleUtilisateurFormProps>
       }}
     >
       <div className="flex flex-col gap-5">
+        <input
+          type="hidden"
+          name="identifiantUtilisateur"
+          value={utilisateur.identifiantUtilisateur.email}
+        />
         <div>
           <p className="mb-2">
             <strong>Rôle actuel :</strong> {utilisateur.rôle.nom}

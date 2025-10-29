@@ -100,3 +100,9 @@ export class ModificationPropreRoleRefuséeError extends InvalidOperationError {
     super(`Il est impossible de modifier son propre rôle`);
   }
 }
+
+export class ModificationMêmesValeursError extends InvalidOperationError {
+  constructor() {
+    super(`L'utilisateur a déjà ce rôle ou les mêmes attributs`);
+  }
+}

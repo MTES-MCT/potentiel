@@ -15,6 +15,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { authOptions } from './authOptions';
 import { getJwks } from './openid';
 import { getProviderAccountUrl } from './getProviderConfiguration';
+import { UtilisateurPotentiel } from './types';
 
 const parseRequest = (req: IncomingMessage) => {
   const { query } = parse(req.url!, true);
@@ -72,7 +73,7 @@ export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) 
 
 export const getUtilisateurFromAccessToken = async (
   accessToken: string,
-): Promise<PlainType<Utilisateur.ValueType>> => {
+): Promise<PlainType<UtilisateurPotentiel>> => {
   const jwtSchema = z.object({
     name: z.string().default(''),
     email: z.string(),
@@ -98,12 +99,12 @@ export const getUtilisateurFromAccessToken = async (
     role: Role.convertirEnValueType(role ?? ''),
     nom,
     identifiantUtilisateur: Email.convertirEnValueType(email),
-    région: Option.none,
-    zone: Option.none,
+    région: undefined,
+    zone: undefined,
     identifiantGestionnaireRéseau:
       groupes?.[0] && groupeRegex.test(groupes[0])
         ? groupes[0].match(groupeRegex)!.groups!.nom
-        : Option.none,
+        : undefined,
   };
 };
 
@@ -146,8 +147,8 @@ export const getUtilisateurFromEmail: GetUtilisateurFromEmail = async (email) =>
  **/
 export const getSessionUtilisateurFromEmail = async (
   email: string,
-  name?: string,
-): Promise<PlainType<Utilisateur.ValueType>> => {
+  nom?: string,
+): Promise<PlainType<UtilisateurPotentiel>> => {
   const utilisateur = await getUtilisateurFromEmail(email);
   if (Option.isSome(utilisateur)) {
     if (utilisateur.désactivé) {
@@ -155,16 +156,16 @@ export const getSessionUtilisateurFromEmail = async (
     }
     return {
       ...mapToPlainObject(utilisateur),
-      nom: name ?? utilisateur.nom,
+      nom: nom ?? '',
     };
   }
 
   return {
     role: Role.porteur,
     identifiantUtilisateur: Email.convertirEnValueType(email),
-    nom: '',
-    région: Option.none,
-    zone: Option.none,
-    identifiantGestionnaireRéseau: Option.none,
+    nom: nom ?? '',
+    région: undefined,
+    zone: undefined,
+    identifiantGestionnaireRéseau: undefined,
   };
 };

@@ -9,6 +9,7 @@ import {
   UtilisateurInvitéEventV1,
   SpécificitésRoleEventPayload,
   UtilisateurRéactivéEvent,
+  Utilisateur,
 } from '.';
 
 import { InviterPorteurOptions } from './inviter/inviterPorteur.options';
@@ -23,6 +24,7 @@ import {
   DésactivationPropreCompteError,
   FonctionManquanteError,
   IdentifiantGestionnaireRéseauManquantError,
+  ModificationMêmesValeursError,
   ModificationPropreRoleRefuséeError,
   ModificationRolePorteurRefuséeError,
   NomCompletManquantError,
@@ -39,7 +41,7 @@ import { RéactiverOptions } from './réactiver/réactiverUtilisateur.options';
 
 export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'utilisateur'> {
   #actif = false;
-  #rôle: Role.ValueType | undefined = undefined;
+  #utilisateur: Utilisateur.ValueType | undefined = undefined;
   #projets: Set<string> = new Set();
 
   get identifiantUtilisateur() {
@@ -69,7 +71,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
   }
 
   async inviterPorteur({ identifiantsProjet, invitéLe, invitéPar }: InviterPorteurOptions) {
-    if (this.exists && !this.#rôle?.estÉgaleÀ(Role.porteur)) {
+    if (this.exists && !this.#utilisateur?.role.estPorteur()) {
       throw new UtilisateurNonPorteurError();
     }
 
@@ -131,7 +133,12 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
 
   async modifierRôle(options: ModifierRôleOptions) {
     const { modifiéLe, modifiéPar } = options;
-    if (!this.exists) {
+    const nouvelUtilisateur = Utilisateur.bind({
+      identifiantUtilisateur: this.identifiantUtilisateur,
+      role: options.rôle,
+      ...options,
+    });
+    if (!this.exists || !this.#utilisateur) {
       throw new UtilisateurInconnuError();
     }
 
@@ -139,7 +146,7 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       throw new UtilisateurNonActifError();
     }
 
-    if (options.rôle.estPorteur() || this.#rôle?.estPorteur()) {
+    if (options.rôle.estPorteur() || nouvelUtilisateur.role.estPorteur()) {
       throw new ModificationRolePorteurRefuséeError();
     }
 
@@ -147,6 +154,9 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       throw new ModificationPropreRoleRefuséeError();
     }
 
+    if (this.#utilisateur.estÉgaleÀ(nouvelUtilisateur)) {
+      throw new ModificationMêmesValeursError();
+    }
     const event: RoleUtilisateurModifiéEvent = {
       type: 'RoleUtilisateurModifié-V1',
       payload: {
@@ -230,31 +240,60 @@ export class UtilisateurAggregate extends AbstractAggregate<UtilisateurEvent, 'u
       .exhaustive();
   }
 
-  applyUtilisateurInvité({ payload: { rôle } }: UtilisateurInvitéEvent) {
+  applyUtilisateurInvité({ payload }: UtilisateurInvitéEvent) {
     this.#actif = true;
-    this.#rôle = Role.convertirEnValueType(rôle);
+    this.#utilisateur = Utilisateur.convertirEnValueType({
+      role: payload.rôle,
+      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+      identifiantGestionnaireRéseau:
+        payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
+      région: payload.rôle === 'dreal' ? payload.région : undefined,
+      zone: payload.rôle === 'cocontractant' ? payload.zone : undefined,
+    });
   }
-  applyUtilisateurInvitéV1({ payload: { rôle } }: UtilisateurInvitéEventV1) {
+
+  applyUtilisateurInvitéV1({ payload }: UtilisateurInvitéEventV1) {
     this.#actif = true;
-    this.#rôle = rôle === 'acheteur-obligé' ? Role.cocontractant : Role.convertirEnValueType(rôle);
+    this.#utilisateur = Utilisateur.convertirEnValueType({
+      role: payload.rôle,
+      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+      identifiantGestionnaireRéseau:
+        payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
+      région: payload.rôle === 'dreal' ? payload.région : undefined,
+      zone: payload.rôle === 'acheteur-obligé' ? 'métropole' : undefined,
+    });
   }
 
   applyPorteurInvité({ payload: { identifiantsProjet } }: PorteurInvitéEvent) {
     this.#actif = true;
-    this.#rôle = Role.porteur;
+    this.#utilisateur = Utilisateur.convertirEnValueType({
+      identifiantGestionnaireRéseau: undefined,
+      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+      role: Role.porteur.nom,
+      région: undefined,
+      zone: undefined,
+    });
     for (const identifiantProjet of identifiantsProjet) {
       this.#projets.add(identifiantProjet);
     }
   }
 
+  applyRoleUtilisateurModifié({ payload }: RoleUtilisateurModifiéEvent) {
+    this.#utilisateur = Utilisateur.convertirEnValueType({
+      role: payload.rôle,
+      identifiantUtilisateur: this.identifiantUtilisateur.formatter(),
+      identifiantGestionnaireRéseau:
+        payload.rôle === 'grd' ? payload.identifiantGestionnaireRéseau : undefined,
+      région: payload.rôle === 'dreal' ? payload.région : undefined,
+      zone: payload.rôle === 'cocontractant' ? payload.zone : undefined,
+    });
+  }
+
   applyUtilisateurDésactivé(_: UtilisateurDésactivéEvent) {
     this.#actif = false;
   }
+
   applyUtilisateurRéactivé(_: UtilisateurRéactivéEvent) {
     this.#actif = true;
-  }
-
-  applyRoleUtilisateurModifié({ payload: { rôle } }: RoleUtilisateurModifiéEvent) {
-    this.#rôle = Role.convertirEnValueType(rôle);
   }
 }
