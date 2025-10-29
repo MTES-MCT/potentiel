@@ -13,7 +13,7 @@ Fonctionnalité: Passer le recours d'un projet éliminé en instruction
         Et un email a été envoyé au porteur avec :
             | sujet        | Potentiel - La demande de recours pour le projet Du boulodrome de Marseille est en instruction |
             | nom_projet   | Du boulodrome de Marseille                                                                     |
-            | redirect_url | https://potentiel.beta.gouv.fr/elimine/.*/recours                                              |
+            | redirect_url | https://potentiel.beta.gouv.fr/elimines/.*/recours                                             |
 
     Scénario: Un administrateur reprend l'instruction du recours du projet éliminé
         Etant donné une demande de recours en instruction pour le projet éliminé

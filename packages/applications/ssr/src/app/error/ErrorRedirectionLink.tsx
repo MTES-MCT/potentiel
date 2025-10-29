@@ -11,7 +11,7 @@ export const ErrorRedirectionLink = () => {
   const pathname = usePathname();
 
   const identifiantProjet =
-    pathname.startsWith('/laureats/') || pathname.startsWith('/elimine/') ? identifiant : null;
+    pathname.startsWith('/laureats/') || pathname.startsWith('/elimines/') ? identifiant : null;
 
   return (
     <ul className={fr.cx('fr-btns-group', 'fr-btns-group--inline-md')}>
