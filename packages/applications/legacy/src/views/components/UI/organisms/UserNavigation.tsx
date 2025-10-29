@@ -15,6 +15,7 @@ type UserNavigationProps = {
   user: UtilisateurReadModel;
   currentPage?: string;
 };
+
 export const UserNavigation = ({ user: { role } }: UserNavigationProps) =>
   match(role)
     .with('porteur-projet', () => PorteurMenuLegacy)

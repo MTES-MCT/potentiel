@@ -36,7 +36,7 @@ export const changementPuissanceEnregistréNotification = async ({
 
   await sendEmail({
     templateId: puissanceNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
       nom_projet: projet.nom,
@@ -47,7 +47,7 @@ export const changementPuissanceEnregistréNotification = async ({
 
   await sendEmail({
     templateId: puissanceNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Déclaration de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,

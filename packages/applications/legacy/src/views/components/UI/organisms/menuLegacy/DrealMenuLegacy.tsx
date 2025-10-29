@@ -54,6 +54,9 @@ export const DrealMenuLegacy = (
       >
         Délai
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
+        Nature de l'exploitation
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>

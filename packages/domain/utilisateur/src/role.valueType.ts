@@ -389,12 +389,20 @@ const référencielPermissions = {
     natureDeLExploitation: {
       query: {
         consulter: 'Lauréat.NatureDeLExploitation.Query.ConsulterNatureDeLExploitation',
+        consulterChangement:
+          'Lauréat.NatureDeLExploitation.Query.ConsulterChangementNatureDeLExploitation',
+        listerChangement:
+          'Lauréat.NatureDeLExploitation.Query.ListerChangementsNatureDeLExploitation',
+        listerHistoriqueNatureDeLExploitation:
+          'Lauréat.NatureDeLExploitation.Query.ListerHistoriqueNatureDeLExploitationProjet',
       },
       usecase: {
         modifier: 'Lauréat.NatureDeLExploitation.UseCase.ModifierNatureDeLExploitation',
+        enregistrerChangement: 'Lauréat.NatureDeLExploitation.UseCase.EnregistrerChangement',
       },
       command: {
         modifier: 'Lauréat.NatureDeLExploitation.Command.ModifierNatureDeLExploitation',
+        enregistrerChangement: 'Lauréat.NatureDeLExploitation.Command.EnregistrerChangement',
       },
     },
     fournisseur: {
@@ -1030,6 +1038,19 @@ const policies = {
       référencielPermissions.lauréat.natureDeLExploitation.usecase.modifier,
       référencielPermissions.lauréat.natureDeLExploitation.command.modifier,
     ],
+    consulterChangement: [
+      référencielPermissions.lauréat.natureDeLExploitation.query.consulterChangement,
+      référencielPermissions.document.query.consulter,
+    ],
+    enregistrerChangement: [
+      référencielPermissions.lauréat.natureDeLExploitation.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.natureDeLExploitation.command.enregistrerChangement,
+      référencielPermissions.document.command.enregister,
+    ],
+    listerChangement: [
+      référencielPermissions.appelOffre.query.lister,
+      référencielPermissions.lauréat.natureDeLExploitation.query.listerChangement,
+    ],
   },
   historique: {
     lister: [
@@ -1042,6 +1063,8 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.query.listerHistoriqueReprésentantLégal,
       référencielPermissions.lauréat.raccordement.query.listerHistoriqueRaccordement,
       référencielPermissions.lauréat.fournisseur.query.listerHistoriqueFournisseur,
+      référencielPermissions.lauréat.natureDeLExploitation.query
+        .listerHistoriqueNatureDeLExploitation,
     ],
     imprimer: [],
   },
@@ -1623,8 +1646,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'installation.dispositifDeStockage.modifier',
 
   // Nature de l'exploitation
-  'natureDeLExploitation.consulter',
   'natureDeLExploitation.modifier',
+  'natureDeLExploitation.listerChangement',
+  'natureDeLExploitation.consulterChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1685,6 +1709,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+
+  // Nature de l'exploitation
+  'natureDeLExploitation.listerChangement',
+  'natureDeLExploitation.consulterChangement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1778,6 +1806,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'producteur.modifier',
   'producteur.listerChangement',
   'producteur.consulterChangement',
+
+  // Nature de l'exploitation
+  'natureDeLExploitation.listerChangement',
+  'natureDeLExploitation.consulterChangement',
 
   // Fournisseur
   'fournisseur.listerChangement',
@@ -1906,6 +1938,12 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'délai.demander',
   'délai.annulerDemande',
   'délai.corrigerDemande',
+
+  // Nature de l'exploitation
+  'natureDeLExploitation.listerChangement',
+  'natureDeLExploitation.enregistrerChangement',
+  'natureDeLExploitation.consulterChangement',
+  'natureDeLExploitation.consulter',
 ];
 
 const cocontractantPolicies: ReadonlyArray<Policy> = [
@@ -1940,6 +1978,10 @@ const cocontractantPolicies: ReadonlyArray<Policy> = [
   // Délai
   'délai.consulterDemande',
   'délai.listerDemande',
+
+  // Nature de l'exploitation
+  'natureDeLExploitation.listerChangement',
+  'natureDeLExploitation.consulterChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

@@ -1,5 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 import React from 'react';
+
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import {
@@ -122,6 +123,7 @@ const PorteurProjetActions = ({
   producteurAffichage,
   fournisseurAffichage,
   délaiAffichage,
+  natureDeLExploitationAffichage,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
@@ -133,6 +135,7 @@ const PorteurProjetActions = ({
     puissanceAffichage ||
     représentantLégalAffichage ||
     délaiAffichage ||
+    natureDeLExploitationAffichage ||
     peutDemanderAbandonOuAchèvement;
 
   return (
@@ -179,6 +182,17 @@ const PorteurProjetActions = ({
                 <span>{délaiAffichage.label ?? délaiAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
+            {!!natureDeLExploitationAffichage && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={natureDeLExploitationAffichage.url}
+                disabled={demandesDisabled}
+              >
+                <span>
+                  {natureDeLExploitationAffichage.label ??
+                    natureDeLExploitationAffichage.labelActions}
+                </span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
             {peutDemanderAbandonOuAchèvement && (
               <>
                 <DropdownMenuSecondaryButton.DropdownItem
@@ -223,7 +237,7 @@ type AdminActionsProps = EnregistrerUneModificationProps & {
 };
 
 const AdminActions = ({
-  project: { notifiedOn, isLegacy, isClasse },
+  project: { notifiedOn, isClasse },
   identifiantProjet,
   producteurAffichage,
   puissanceAffichage,
@@ -391,6 +405,7 @@ export const ProjectActions = ({
           actionnaireAffichage={actionnaireAffichage}
           producteurAffichage={producteurAffichage}
           fournisseurAffichage={fournisseurAffichage}
+          natureDeLExploitationAffichage={natureDeLExploitationAffichage}
           délaiAffichage={délaiAffichage}
           identifiantProjet={identifiantProjet}
           features={features}

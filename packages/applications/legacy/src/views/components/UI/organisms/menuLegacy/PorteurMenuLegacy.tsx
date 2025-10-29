@@ -1,5 +1,5 @@
 import React from 'react';
-import routes from '../../../../../routes';
+
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
@@ -45,6 +45,9 @@ export const PorteurMenuLegacy = (
         href={Routes.Délai.lister({ statut: ['demandé', 'en-instruction'] })}
       >
         Délai
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.NatureDeLExploitation.changement.lister}>
+        Nature de l'exploitation
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuLegacyGarantiesFinancières />

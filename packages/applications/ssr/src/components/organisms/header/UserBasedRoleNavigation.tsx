@@ -102,6 +102,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         }),
       },
     },
+    {
+      text: "Nature de l'exploitation",
+      linkProps: {
+        href: Routes.NatureDeLExploitation.changement.lister,
+      },
+    },
   ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [

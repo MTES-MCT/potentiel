@@ -11,9 +11,7 @@ import { ChangementProducteurListItem } from './ChangementProducteurListItem';
 
 export type ChangementProducteurListPageProps = {
   list: {
-    items: Array<
-      PlainType<Lauréat.Producteur.ListerChangementProducteurReadModel['items'][number]>
-    >;
+    items: PlainType<Lauréat.Producteur.ListerChangementProducteurReadModel['items']>;
     pagination: Pagination;
     total: number;
   };
