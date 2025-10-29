@@ -36,6 +36,10 @@ const action: FormAction<FormState, typeof schema> = async (
       return notFound();
     }
 
+    if (!utilisateur.estValidateur()) {
+      throw new Error('Utilisateur non autorisé à accorder un abandon.');
+    }
+
     const réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
 
     await mediator.send<Lauréat.Abandon.AbandonUseCase>({
@@ -62,7 +66,7 @@ export const accorderAbandonAvecRecandidatureAction = formAction(action, schema)
 
 const buildReponseSignee = async (
   abandon: Lauréat.Abandon.ConsulterAbandonReadModel,
-  utilisateur: Utilisateur.ValueType,
+  utilisateur: Omit<Utilisateur.RôleDgecValidateurPayload, 'rôle'>,
 ): Promise<Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
   const identifiantProjet = abandon.identifiantProjet;
   const candidature = await getCandidature(identifiantProjet.formatter());
@@ -98,8 +102,8 @@ const buildReponseSignee = async (
     demandeAbandon: {
       date: abandon.demande.demandéLe.date.toISOString(),
       instructeur: {
-        nom: utilisateur.nom,
-        fonction: '', // TODO
+        nom: utilisateur.nomComplet,
+        fonction: utilisateur.fonction,
       },
     },
   };

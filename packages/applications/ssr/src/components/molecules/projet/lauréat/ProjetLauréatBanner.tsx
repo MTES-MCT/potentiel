@@ -5,7 +5,6 @@ import { FC } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getLauréatInfos } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
@@ -38,9 +37,7 @@ export const ProjetLauréatBanner: FC<ProjetLauréatBannerProps> = async ({
         /***
          * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser role.aLaPermissionDe)
          */
-        href={
-          noLink || role.estÉgaleÀ(Role.grd) ? undefined : Routes.Projet.details(identifiantProjet)
-        }
+        href={noLink || role.estGrd() ? undefined : Routes.Projet.details(identifiantProjet)}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
       />

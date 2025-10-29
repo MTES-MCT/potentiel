@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
 
 import { NavLinks } from './NavLinks';
@@ -39,14 +39,10 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       text: 'Abandon',
       linkProps: {
         href: Routes.Abandon.lister({
-          statut: utilisateur.role.estÉgaleÀ(Role.porteur)
+          statut: utilisateur.estPorteur()
             ? ['demandé', 'en-instruction', 'confirmé', 'confirmation-demandée']
             : ['demandé', 'en-instruction', 'confirmé'],
-          autorite: utilisateur.role.estDGEC()
-            ? 'dgec'
-            : utilisateur.role.estDreal()
-              ? 'dreal'
-              : undefined,
+          autorite: utilisateur.estDGEC() ? 'dgec' : utilisateur.estDreal() ? 'dreal' : undefined,
         }),
       },
     },

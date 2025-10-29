@@ -1,14 +1,14 @@
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 export const récupérerLesGestionnairesParUtilisateur = async (
   utilisateur: Utilisateur.ValueType,
 ) => {
-  if (utilisateur.role.estÉgaleÀ(Role.grd)) {
-    if (Option.isSome(utilisateur.identifiantGestionnaireRéseau)) {
+  if (utilisateur.estGrd()) {
+    if (utilisateur.identifiantGestionnaireRéseau) {
       const gestionnaireRéseau =
         await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
           type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
