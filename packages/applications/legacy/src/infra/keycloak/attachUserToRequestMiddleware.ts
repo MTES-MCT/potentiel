@@ -86,6 +86,7 @@ const makeAttachUserToRequestMiddleware =
 
       request.user = {
         ...user,
+        fullName: user.fullName ?? '',
         accountUrl,
         permissions: getPermissions(user),
         features: getContext()?.features || [],
