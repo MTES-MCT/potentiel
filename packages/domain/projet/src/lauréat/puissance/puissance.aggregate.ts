@@ -124,6 +124,7 @@ export class PuissanceAggregate extends AbstractAggregate<
     raison,
   }: EnregistrerChangementOptions) {
     this.vérifierLaCohérenceDesDonnées(nouvellePuissance, nouvellePuissanceDeSite);
+    this.vérifierChangementPossible('information-enregistrée', nouvellePuissance);
 
     if (this.#demande) {
       this.#demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
@@ -300,7 +301,6 @@ export class PuissanceAggregate extends AbstractAggregate<
     nouvellePuissance: number,
   ) {
     this.lauréat.vérifierQueLeChangementEstPossible(type, 'puissance');
-    // voir comment on vérifie pour la puissance de site
 
     RatioChangementPuissance.bind({
       ratios: this.lauréat.projet.cahierDesChargesActuel.getRatiosChangementPuissance(),
