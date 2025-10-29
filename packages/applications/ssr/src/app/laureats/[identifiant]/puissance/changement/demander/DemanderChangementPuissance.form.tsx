@@ -100,23 +100,25 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          {infosCahierDesChargesPuissanceDeSite ? (
-            <>
-              <Input
-                state={validationErrors['puissance'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['puissance']}
-                label={`Puissance (en ${unitéPuissance.unité}) (optionnel)`}
-                hintText={ratioHintText}
-                nativeInputProps={{
-                  name: 'puissance',
-                  defaultValue: puissance,
-                  type: 'number',
-                  inputMode: 'decimal',
-                  pattern: '[0-9]+([.][0-9]+)?',
-                  step: 'any',
-                  onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
-                }}
-              />
+          <>
+            <Input
+              state={validationErrors['puissance'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['puissance']}
+              label={`Puissance (en ${unitéPuissance.unité})`}
+              hintText={ratioHintText}
+              nativeInputProps={{
+                name: 'puissance',
+                defaultValue: puissance,
+                type: 'number',
+                inputMode: 'decimal',
+                'aria-required': true,
+                required: true,
+                pattern: '[0-9]+([.][0-9]+)?',
+                step: 'any',
+                onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
+              }}
+            />
+            {infosCahierDesChargesPuissanceDeSite && (
               <Input
                 state={validationErrors['puissanceDeSite'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['puissanceDeSite']}
@@ -132,26 +134,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
                   step: 'any',
                 }}
               />
-            </>
-          ) : (
-            <Input
-              state={validationErrors['puissance'] ? 'error' : 'default'}
-              stateRelatedMessage={validationErrors['puissance']}
-              label={`Puissance (en ${unitéPuissance.unité})`}
-              hintText={ratioHintText}
-              nativeInputProps={{
-                name: 'puissance',
-                defaultValue: puissance,
-                required: true,
-                'aria-required': true,
-                type: 'number',
-                inputMode: 'decimal',
-                pattern: '[0-9]+([.][0-9]+)?',
-                step: 'any',
-                onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
-              }}
-            />
-          )}
+            )}
+          </>
           <DemanderChangementPuissanceFormErrors
             ratioCdcActuel={ratioCdcActuel}
             aChoisiCDC2022={
