@@ -1,11 +1,11 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import { match } from 'ts-pattern';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 type BienvenueProps = {
-  utilisateur: Utilisateur.ValueType;
+  utilisateur: PotentielUtilisateur;
 };
 export const Bienvenue = ({ utilisateur }: BienvenueProps) => {
   const { lien, texte } = match(utilisateur.role.nom)

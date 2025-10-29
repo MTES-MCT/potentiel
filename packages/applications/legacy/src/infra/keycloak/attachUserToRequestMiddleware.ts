@@ -2,14 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 import { logger, ResultAsync } from '../../core/utils';
 import { CreateUser, GetUserByEmail } from '../../modules/users';
 import { getPermissions, Permission } from '../../modules/authN';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { getContext } from '@potentiel-applications/request-context';
-import { Option } from '@potentiel-libraries/monads';
+import { Role } from '@potentiel-domain/utilisateur';
+import { getContext, PotentielUtilisateur } from '@potentiel-applications/request-context';
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail;
   createUser: CreateUser;
-  getUtilisateur?: () => Promise<(Utilisateur.ValueType & { accountUrl: string }) | undefined>;
+  getUtilisateur?: () => Promise<PotentielUtilisateur | undefined>;
 };
 
 declare module 'express-serve-static-core' {
@@ -19,9 +18,9 @@ declare module 'express-serve-static-core' {
       role: Role.RawType;
       fullName: string;
       id: string;
-      accountUrl: string;
+      accountUrl?: string;
       permissions: Permission[];
-      région: Option.Type<string>;
+      // région: Option.Type<string>;
       features: Array<string>;
     };
     errorFileSizeLimit?: string;
@@ -68,9 +67,8 @@ const makeAttachUserToRequestMiddleware =
       const {
         identifiantUtilisateur: { email },
         role: { nom: role },
-        nom: fullName,
+        nom: fullName = '',
         accountUrl,
-        région,
       } = utilisateur;
 
       // Ceci couvre le cas où l'utilisateur s'inscrit spontanément sur Potentiel
@@ -91,7 +89,6 @@ const makeAttachUserToRequestMiddleware =
         ...user,
         accountUrl,
         permissions: getPermissions(user),
-        région,
         features: getContext()?.features || [],
       };
     } catch (e) {

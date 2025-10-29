@@ -17,9 +17,9 @@ export type RawType = (typeof roles)[number];
 
 type Message = { type: string };
 
-export type ValueType = ReadonlyValueType<{
-  nom: RawType;
-  libellé(): string;
+export type ValueType<TRole extends RawType = RawType> = ReadonlyValueType<{
+  nom: TRole;
+  estÉgaleÀ(valueType: ValueType): boolean;
   peutExécuterMessage<TMessageType extends Message = Message>(
     typeMessage: TMessageType['type'],
   ): void;
@@ -28,17 +28,25 @@ export type ValueType = ReadonlyValueType<{
   estDreal(): boolean;
   estPorteur(): boolean;
   estGrd(): boolean;
+  estCocontractant(): boolean;
+  estValidateur(): boolean;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
+export const convertirEnValueType = <TRole extends RawType = RawType>(
+  value: string,
+): ValueType<TRole> => {
+  estValide(value);
+  return bind<TRole>({ nom: value });
+};
+
+export const bind = <TRole extends RawType = RawType>({
+  nom: value,
+}: PlainType<ValueType>): ValueType<TRole> => {
   estValide(value);
   return {
-    nom: value,
-    estÉgaleÀ(valueType) {
+    nom: value as TRole,
+    estÉgaleÀ(valueType: ValueType) {
       return valueType.nom === this.nom;
-    },
-    libellé() {
-      return this.nom.replace('-', ' ').toLocaleUpperCase();
     },
     aLaPermission(permission) {
       const aLaPermission = policiesParRole[this.nom].includes(permission);
@@ -63,11 +71,13 @@ export const convertirEnValueType = (value: string): ValueType => {
     estGrd() {
       return this.nom === 'grd';
     },
+    estCocontractant() {
+      return this.nom === 'cocontractant';
+    },
+    estValidateur() {
+      return this.nom === 'dgec-validateur';
+    },
   };
-};
-
-export const bind = ({ nom }: PlainType<ValueType>) => {
-  return convertirEnValueType(nom);
 };
 
 export const estUnRoleValide = (value: string) => {
@@ -82,15 +92,15 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const porteur = convertirEnValueType('porteur-projet');
-export const admin = convertirEnValueType('admin');
-export const ademe = convertirEnValueType('ademe');
-export const dgecValidateur = convertirEnValueType('dgec-validateur');
-export const dreal = convertirEnValueType('dreal');
-export const cre = convertirEnValueType('cre');
-export const cocontractant = convertirEnValueType('cocontractant');
-export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
-export const grd = convertirEnValueType('grd');
+export const porteur = convertirEnValueType<'porteur-projet'>('porteur-projet');
+export const admin = convertirEnValueType<'admin'>('admin');
+export const ademe = convertirEnValueType<'ademe'>('ademe');
+export const dgecValidateur = convertirEnValueType<'dgec-validateur'>('dgec-validateur');
+export const dreal = convertirEnValueType<'dreal'>('dreal');
+export const cre = convertirEnValueType<'cre'>('cre');
+export const cocontractant = convertirEnValueType<'cocontractant'>('cocontractant');
+export const caisseDesDépôts = convertirEnValueType<'caisse-des-dépôts'>('caisse-des-dépôts');
+export const grd = convertirEnValueType<'grd'>('grd');
 
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
 /**
@@ -588,6 +598,7 @@ const référencielPermissions = {
       créerPorteur: 'Utilisateur.Command.CréerPorteur',
       désactiver: 'Utilisateur.Command.DésactiverUtilisateur',
       réactiver: 'Utilisateur.Command.RéactiverUtilisateur',
+      modifierRôle: 'Utilisateur.Command.ModifierRôleUtilisateur',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
@@ -595,6 +606,7 @@ const référencielPermissions = {
       créerPorteur: 'Utilisateur.UseCase.CréerPorteur',
       désactiver: 'Utilisateur.UseCase.DésactiverUtilisateur',
       réactiver: 'Utilisateur.UseCase.RéactiverUtilisateur',
+      modifierRôle: 'Utilisateur.UseCase.ModifierRôleUtilisateur',
     },
   },
   tâche: {
@@ -1360,6 +1372,12 @@ const policies = {
       référencielPermissions.utilisateur.command.réactiver,
       référencielPermissions.utilisateur.usecase.réactiver,
     ],
+    modifierRôle: [
+      référencielPermissions.utilisateur.command.modifierRôle,
+      référencielPermissions.utilisateur.usecase.modifierRôle,
+      référencielPermissions.utilisateur.query.consulter,
+      référencielPermissions.réseau.gestionnaire.query.lister,
+    ],
   },
   cahierDesCharges: {
     consulter: [référencielPermissions.lauréat.cahierDesCharges.query.consulter],
@@ -1612,6 +1630,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'utilisateur.inviterPorteur',
   'utilisateur.désactiver',
   'utilisateur.réactiver',
+  'utilisateur.modifierRôle',
 
   // Puissance
   'puissance.modifier',

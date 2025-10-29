@@ -7,7 +7,10 @@ import {
   ListerUtilisateursQuery,
   ListerUtilisateursReadModel,
 } from './lister/listerUtilisateurs.query';
-import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
+import {
+  TrouverUtilisateurQuery,
+  TrouverUtilisateurReadModel,
+} from './trouver/trouverUtilisateur.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.event';
 import {
@@ -71,4 +74,4 @@ export { RécupérerUtilisateurPort };
 export * from './utilisateur.entity';
 
 // readmodel
-export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel };
+export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel, TrouverUtilisateurReadModel };
