@@ -4,11 +4,11 @@ import { DateTime } from '@potentiel-domain/common';
 import { EnregistrerDocumentProjetCommand, DocumentProjet } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 
-import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '..';
-import { Candidature, Éliminé } from '../../..';
-import { LauréatNotifiéEvent } from '../../notifier/lauréatNotifié.event';
-import { ImporterGarantiesFinancièresCommand } from '../actuelles/importer/importerGarantiesFinancières.command';
-import { RécupererConstitutionGarantiesFinancièresPort } from '../port';
+import { GarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';
+import { Candidature, Éliminé } from '../../../..';
+import { LauréatNotifiéEvent } from '../../../notifier/lauréatNotifié.event';
+import { ImporterGarantiesFinancièresCommand } from '../../actuelles/importer/importerGarantiesFinancières.command';
+import { RécupererConstitutionGarantiesFinancièresPort } from '../../port';
 
 export const handleLauréatNotifié = async (
   { payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéEvent,

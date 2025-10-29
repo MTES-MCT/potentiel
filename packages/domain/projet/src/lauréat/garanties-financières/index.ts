@@ -33,7 +33,7 @@ export * as TypeDocumentRéponseMainlevée from './mainlevée/typeDocumentRépon
 export * as MotifArchivageGarantiesFinancières from './actuelles/archives/motifArchivageGarantiesFinancières.valueType';
 
 // Saga
-export * as GarantiesFinancièresSaga from './saga';
+export * as GarantiesFinancièresSaga from './saga/garantiesFinancières.saga';
 
 // Helpers
 export * from './_helpers/appelOffreSoumisAuxGarantiesFinancières';
