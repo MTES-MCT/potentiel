@@ -82,12 +82,10 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut du projet',
           searchParamKey: 'statutProjet',
-          options: Lauréat.StatutLauréat.statuts
-            .filter((s) => s !== 'abandonné')
-            .map((value) => ({
-              label: getStatutLauréatLabel(value),
-              value,
-            })),
+          options: (['actif', 'achevé'] satisfies Lauréat.StatutLauréat.RawType[]).map((value) => ({
+            label: getStatutLauréatLabel(value),
+            value,
+          })),
         },
         {
           label: `Appel d'offres`,
