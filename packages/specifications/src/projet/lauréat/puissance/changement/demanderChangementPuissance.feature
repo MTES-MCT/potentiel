@@ -35,9 +35,9 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance   | 1.2 |
         Alors la demande de changement de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                       |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
+            | sujet      | Potentiel - Demande de changement de puissance pour le projet Du bouchon lyonnais dans le département(.*) |
+            | nom_projet | Du bouchon lyonnais                                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                        |
 
     Scénario: Demander le changement de puissance d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :

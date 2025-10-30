@@ -113,8 +113,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld, { pickle }) {
   testLoggerTransport.clear();
   const logger = createLogger({
     defaultMeta: { test: pickle.name },
-    // viovio
-    // transports: [testLoggerTransport],
   });
   initLogger(logger);
   await executeQuery(`delete from "projects"`);

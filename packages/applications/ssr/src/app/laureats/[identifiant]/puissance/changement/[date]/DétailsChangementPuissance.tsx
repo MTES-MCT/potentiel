@@ -71,7 +71,7 @@ const DétailsValeursPuissance = ({
 }: DétailsValeursPuissanceProps) => (
   <>
     {puissanceInitiale === nouvellePuissance ? (
-      <div>La puissane n'a pas été modifiée.</div>
+      <div>La puissance n'a pas été modifiée.</div>
     ) : (
       <div>
         <span className="font-medium">Puissance demandée</span> : {nouvellePuissance}{' '}
