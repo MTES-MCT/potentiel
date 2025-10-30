@@ -1,17 +1,18 @@
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerPorteursRecipients } from '../../../_helpers';
-import { listerRecipientsAutoritéInstructrice } from '../../../_helpers/listerRecipientsAutoritéInstructrice';
+import { getBaseUrl, listerPorteursRecipients } from '../../../../_helpers';
+import { listerRecipientsAutoritéInstructrice } from '../../../../_helpers/listerRecipientsAutoritéInstructrice';
+import { AbandonNotificationsProps } from '../type';
+import { abandonNotificationTemplateId } from '../constant';
 
-import { abandonNotificationTemplateId } from './constant';
-import { AbandonNotificationsProps } from './type';
-
-export const abandonConfirméNotifications = async ({
+export const handleAbandonDemandé = async ({
   sendEmail,
   event,
   projet,
-}: AbandonNotificationsProps<Lauréat.Abandon.AbandonConfirméEvent>) => {
+}: AbandonNotificationsProps<
+  Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1
+>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const { appelOffre, période } = identifiantProjet;
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -22,14 +23,14 @@ export const abandonConfirméNotifications = async ({
   });
 
   await sendEmail({
-    templateId: abandonNotificationTemplateId.confirmer,
-    messageSubject: `Potentiel - Demande d'abandon confirmée pour le projet ${projet.nom} (${appelOffre} période ${période})`,
+    templateId: abandonNotificationTemplateId.demander,
+    messageSubject: `Potentiel - Nouvelle demande d'abandon pour le projet ${projet.nom} (${appelOffre} période ${période})`,
     recipients: porteurs,
     bcc: adminRecipients,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      nouveau_statut: 'confirmée',
+      nouveau_statut: 'envoyée',
       abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
     },
   });

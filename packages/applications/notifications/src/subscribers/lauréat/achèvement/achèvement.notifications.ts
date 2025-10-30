@@ -7,7 +7,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { SendEmail } from '../../../sendEmail';
 import { getLauréat } from '../../../_helpers';
 
-import { attestationConformitéTransmiseNotifications } from './attestationConformitéTransmise.notifications';
+import { handleAttestationConformitéTransmise } from './handlers';
 
 export type SubscriptionEvent =
   Lauréat.Achèvement.AttestationConformité.AttestationConformitéEvent & Event;
@@ -30,7 +30,7 @@ export const register = ({ sendEmail }: RegisterAttestationConformitéNotificati
 
     return match(event)
       .with({ type: 'AttestationConformitéTransmise-V1' }, async (event) =>
-        attestationConformitéTransmiseNotifications({ sendEmail, event, projet }),
+        handleAttestationConformitéTransmise({ sendEmail, event, projet }),
       )
       .otherwise(() => Promise.resolve());
   };

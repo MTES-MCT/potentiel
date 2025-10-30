@@ -1,26 +1,14 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../_helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
+import { AchèvementNotificationsProps } from '../type';
 
-import { RegisterAttestationConformitéNotificationDependencies } from '.';
-
-type AttestationConformitéTransmiseNotificationsProps = {
-  sendEmail: RegisterAttestationConformitéNotificationDependencies['sendEmail'];
-  event: Lauréat.Achèvement.AttestationConformité.AttestationConformitéTransmiseEvent;
-  projet: {
-    nom: string;
-    région: string;
-    département: string;
-    url: string;
-  };
-};
-
-export const attestationConformitéTransmiseNotifications = async ({
+export const handleAttestationConformitéTransmise = async ({
   sendEmail,
   event,
   projet,
-}: AttestationConformitéTransmiseNotificationsProps) => {
+}: AchèvementNotificationsProps<Lauréat.Achèvement.AttestationConformité.AttestationConformitéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
