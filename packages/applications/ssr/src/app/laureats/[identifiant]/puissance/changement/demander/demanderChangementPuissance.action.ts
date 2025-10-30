@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 import {
   puissanceOuPuissanceDeSiteSchema,
   optionalPuissanceOuPuissanceDeSiteSchema,
@@ -19,7 +19,7 @@ const demanderChangementPuissanceSchema = zod.object({
   puissance: puissanceOuPuissanceDeSiteSchema,
   puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
   raison: zod.string().min(1),
-  piecesJustificatives: singleDocument({
+  piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
   }),
   isInformationEnregistree: zod.literal('false'),
@@ -30,7 +30,7 @@ const enregistrerChangementPuissanceSchema = zod.object({
   puissance: puissanceOuPuissanceDeSiteSchema,
   puissanceDeSite: optionalPuissanceOuPuissanceDeSiteSchema,
   raison: zod.string().optional(),
-  piecesJustificatives: singleDocument({
+  piecesJustificatives: manyDocuments({
     acceptedFileTypes: ['application/pdf'],
     optional: true,
   }),

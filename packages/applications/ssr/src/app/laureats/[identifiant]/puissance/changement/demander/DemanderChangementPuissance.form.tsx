@@ -167,8 +167,9 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
         <UploadNewOrModifyExistingDocument
           label={`Pièce justificative ${dépasseLesRatioDeAppelOffres ? '' : '(optionnel)'}`}
           name="piecesJustificatives"
-          hintText="Joindre votre justificatif"
+          hintText={`Joindre vos justificatifs.${dépasseLesRatioDeAppelOffres && infosCahierDesChargesPuissanceDeSite ? " N'oubliez pas de joindre un document pour également justifier le changement de puissance de site." : ''}`}
           required={dépasseLesRatioDeAppelOffres}
+          multiple
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
