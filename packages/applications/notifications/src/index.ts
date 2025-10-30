@@ -11,12 +11,12 @@ export * as AttestationConformitéNotification from './subscribers/lauréat/ach�
 export * as TâchePlanifiéeNotification from './subscribers/lauréat/tâche-planifiée';
 export * as ReprésentantLégalNotification from './subscribers/lauréat/représentant-légal';
 export * as ActionnaireNotification from './subscribers/lauréat/actionnaire/actionnaire.notifications';
-export * as PuissanceNotification from './subscribers/lauréat/puissance';
+export * as PuissanceNotification from './subscribers/lauréat/puissance/puissance.notifications';
 export * as LauréatNotification from './subscribers/lauréat/lauréat/lauréat.notifications';
-export * as ProducteurNotification from './subscribers/lauréat/producteur';
+export * as ProducteurNotification from './subscribers/lauréat/producteur/producteur.notifications';
 export * as FournisseurNotification from './subscribers/lauréat/fournisseur/founisseur.notifications';
 export * as DélaiNotification from './subscribers/lauréat/délai/délai.notifications';
-export * as InstallationNotification from './subscribers/lauréat/installation';
+export * as InstallationNotification from './subscribers/lauréat/installation/installation.notifications';
 export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation';
 
 // Éliminé

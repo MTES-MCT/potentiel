@@ -5,11 +5,9 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../_helpers';
-
-import { RegisterReprésentantLégalNotificationDependencies } from '.';
-
-import { représentantLégalNotificationTemplateId } from './constant';
+import { listerDrealsRecipients } from '../../../../_helpers';
+import { RegisterReprésentantLégalNotificationDependencies } from '..';
+import { représentantLégalNotificationTemplateId } from '../constant';
 
 type ChangementReprésentantLégalCorrigéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
