@@ -31,7 +31,6 @@
 - [Lancer l'application en local](./docs/contributing/GETTING_STARTED.md#lancer-application-en-local)
 - [Lancer les tests](./docs/contributing/GETTING_STARTED.md#lancer-les-tests)
 - [Metabase](./docs/contributing//GETTING_STARTED.md#metabase)
-- [Restaurer un dump de la base de données](./docs/contributing/GETTING_STARTED.md#restaurer-dump-db)
 - [Démarches Simplifiées](./docs/contributing/DEMARCHES_SIMPLIFIEES.md)
 
 ## <a id="architecture"></a> Architecture
