@@ -2,7 +2,6 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
-import { redirect } from 'next/navigation';
 
 import { ModifierRôleUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
@@ -42,7 +41,13 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
-    redirect(Routes.Utilisateur.lister());
+    return {
+      status: 'success',
+      redirection: {
+        url: Routes.Utilisateur.lister(),
+        message: "Le rôle de l'utilisateur a été modifié avec succès.",
+      },
+    };
   });
 
 export const modifierRôleUtilisateurAction = formAction(action, schema);
