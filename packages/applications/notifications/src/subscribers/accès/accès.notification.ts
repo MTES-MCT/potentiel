@@ -5,10 +5,9 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Accès } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../sendEmail';
-import { getCandidature } from '../../helpers';
+import { getCandidature } from '../../_helpers';
 
-import { accèsProjetRetiréNotification } from './accèsProjetRetiré.notification';
-import { accèsProjetAutoriséSuiteÀRéclamationNotification } from './accèsProjetAutoriséSuiteÀRéclamation.notification';
+import { handleAccèsProjetRetiré, handleAccèsProjetAutoriséSuiteÀRéclamation } from './handlers';
 
 export type SubscriptionEvent = Accès.AccèsEvent & Event;
 
@@ -24,7 +23,7 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
 
     await match(event)
       .with({ type: 'AccèsProjetRetiré-V1' }, (event) =>
-        accèsProjetRetiréNotification({
+        handleAccèsProjetRetiré({
           sendEmail,
           event,
           candidature,
@@ -37,8 +36,7 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
             raison: 'réclamation',
           },
         },
-        (event) =>
-          accèsProjetAutoriséSuiteÀRéclamationNotification({ sendEmail, event, candidature }),
+        (event) => handleAccèsProjetAutoriséSuiteÀRéclamation({ sendEmail, event, candidature }),
       )
       .otherwise(() => Promise.resolve());
   };

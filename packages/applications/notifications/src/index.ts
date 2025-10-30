@@ -1,5 +1,5 @@
 // Accès
-export * as AccèsNotification from './subscribers/accès';
+export * as AccèsNotification from './subscribers/accès/accès.notification';
 
 // Candidature
 export * as CandidatureNotification from './subscribers/candidature/candidature.notification';

@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat, listerPorteursRecipients } from '../../../helpers';
+import { getLauréat, listerPorteursRecipients } from '../../../_helpers';
 import { EmailPayload, SendEmail } from '../../../sendEmail';
 
 import { lauréatNotificationTemplateId } from './constant';

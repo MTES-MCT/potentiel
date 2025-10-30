@@ -5,7 +5,7 @@ import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../helpers';
+import { getLauréat } from '../../../_helpers';
 
 import { attestationConformitéTransmiseNotifications } from './attestationConformitéTransmise.notifications';
 

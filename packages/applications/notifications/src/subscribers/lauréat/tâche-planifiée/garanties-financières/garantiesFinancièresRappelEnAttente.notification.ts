@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
 
 import { TâchePlanifiéeGarantiesFinancièresNotificationProps } from '.';
 

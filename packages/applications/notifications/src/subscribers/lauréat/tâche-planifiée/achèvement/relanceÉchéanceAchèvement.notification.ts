@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
 
 import { TâchePlanifiéeAchèvementNotificationProps } from '.';
 

@@ -9,7 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl } from '../../helpers';
+import { getBaseUrl } from '../../_helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Période.PériodeEvent & Event;

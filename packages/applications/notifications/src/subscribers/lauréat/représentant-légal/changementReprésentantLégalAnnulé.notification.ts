@@ -1,7 +1,7 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../helpers';
+import { listerDrealsRecipients } from '../../../_helpers';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 

@@ -4,7 +4,7 @@ import { match, P } from 'ts-pattern';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getLauréat } from '../../../helpers';
+import { getLauréat } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import { abandonDemandéNotifications } from './abandonDemandé.notifications';
