@@ -92,4 +92,4 @@ export * as StatutChangementReprésentantLégal from './changement/statutChangem
 export { type SupprimerDocumentProjetSensiblePort } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 // Saga
-export * as ReprésentantLégalSaga from './saga';
+export * as ReprésentantLégalSaga from './saga/représentantLégal.saga';

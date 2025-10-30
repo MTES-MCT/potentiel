@@ -126,4 +126,4 @@ export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType'
 export * as TypeTâchePlanifiéeRaccordement from './typeTâchePlanifiéeRaccordement.valueType';
 
 // Saga
-export * as RaccordementSaga from './saga';
+export * as RaccordementSaga from './saga/raccordement.saga';

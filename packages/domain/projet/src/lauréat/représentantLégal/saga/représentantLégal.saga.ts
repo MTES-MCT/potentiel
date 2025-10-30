@@ -4,9 +4,7 @@ import { match } from 'ts-pattern';
 import { Abandon } from '../..';
 import { Lauréat } from '../../..';
 
-import { abandonAccordéSaga } from './abandonAccordé.saga';
-import { tâchePlanifiéeReprésentantLégalExecutéeSaga } from './tâchePlanifiéeReprésentantLégalExecutée.saga';
-
+import { handleAbandonAccordé, handleTâchePlanifiéeReprésentantLégalExecutée } from './handlers';
 type Event = { version: number; created_at: string; stream_id: string };
 export type SubscriptionEvent = (
   | Lauréat.TâchePlanifiée.TâchePlanifiéeExecutéeEvent
@@ -23,10 +21,10 @@ export const register = () => {
         {
           type: 'TâchePlanifiéeExecutée-V1',
         },
-        tâchePlanifiéeReprésentantLégalExecutéeSaga,
+        handleTâchePlanifiéeReprésentantLégalExecutée,
       )
 
-      .with({ type: 'AbandonAccordé-V1' }, abandonAccordéSaga)
+      .with({ type: 'AbandonAccordé-V1' }, handleAbandonAccordé)
       .exhaustive();
 
   mediator.register('System.Lauréat.ReprésentantLégal.Saga.Execute', handler);
