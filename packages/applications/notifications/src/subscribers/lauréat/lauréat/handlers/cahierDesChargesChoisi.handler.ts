@@ -3,20 +3,15 @@ import { match } from 'ts-pattern';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { getLauréat, listerPorteursRecipients } from '../../../_helpers';
-import { EmailPayload, SendEmail } from '../../../sendEmail';
+import { getLauréat, listerPorteursRecipients } from '../../../../_helpers';
+import { EmailPayload } from '../../../../sendEmail';
+import { lauréatNotificationTemplateId } from '../constant';
+import { LauréatNotificationsProps } from '../type';
 
-import { lauréatNotificationTemplateId } from './constant';
-
-type CahierDesChargesChoisiNotificationProps = {
-  sendEmail: SendEmail;
-  event: Lauréat.CahierDesChargesChoisiEvent;
-};
-
-export const cahierDesChargesChoisiNotification = async ({
+export const handleCahierDesChargesChoisi = async ({
   event: { payload },
   sendEmail,
-}: CahierDesChargesChoisiNotificationProps) => {
+}: LauréatNotificationsProps<Lauréat.CahierDesChargesChoisiEvent>) => {
   const lauréat = await getLauréat(payload.identifiantProjet);
   const recipients = await listerPorteursRecipients(lauréat.identifiantProjet);
   const cahierDesCharges = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
