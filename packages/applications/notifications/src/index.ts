@@ -12,7 +12,7 @@ export * as TâchePlanifiéeNotification from './subscribers/lauréat/tâche-pla
 export * as ReprésentantLégalNotification from './subscribers/lauréat/représentant-légal';
 export * as ActionnaireNotification from './subscribers/lauréat/actionnaire/actionnaire.notifications';
 export * as PuissanceNotification from './subscribers/lauréat/puissance';
-export * as LauréatNotification from './subscribers/lauréat/lauréat';
+export * as LauréatNotification from './subscribers/lauréat/lauréat/lauréat.notifications';
 export * as ProducteurNotification from './subscribers/lauréat/producteur';
 export * as FournisseurNotification from './subscribers/lauréat/fournisseur/founisseur.notifications';
 export * as DélaiNotification from './subscribers/lauréat/délai/délai.notifications';

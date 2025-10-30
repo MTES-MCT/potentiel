@@ -7,9 +7,11 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getLauréat } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { DispositifDeStockageModifiéNotifications } from './dispositifDeStockageModifiée.notifications';
-import { installateurModifiéNotification } from './installateurModifié.notification';
-import { typologieInstallationModifiéeNotification } from './typologieInstallationModifiée.notification';
+import {
+  handleDispositifDeStockageModifié,
+  handleInstallateurModifié,
+  handleTypologieInstallationModifiée,
+} from './handlers';
 
 export type SubscriptionEvent = Lauréat.Installation.InstallationEvent & Event;
 
@@ -29,21 +31,21 @@ export const register = ({ sendEmail }: RegisterInstallationNotificationDependen
 
     return match(event)
       .with({ type: 'InstallateurModifié-V1' }, async (event) =>
-        installateurModifiéNotification({
+        handleInstallateurModifié({
           sendEmail,
           event,
           projet,
         }),
       )
       .with({ type: 'TypologieInstallationModifiée-V1' }, async (event) =>
-        typologieInstallationModifiéeNotification({
+        handleTypologieInstallationModifiée({
           sendEmail,
           event,
           projet,
         }),
       )
       .with({ type: 'DispositifDeStockageModifié-V1' }, async (event) =>
-        DispositifDeStockageModifiéNotifications({
+        handleDispositifDeStockageModifié({
           sendEmail,
           event,
           projet,
