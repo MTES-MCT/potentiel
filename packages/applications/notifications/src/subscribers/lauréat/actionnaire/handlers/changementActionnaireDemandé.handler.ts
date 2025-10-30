@@ -2,29 +2,15 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../_helpers';
+import { getBaseUrl, listerDrealsRecipients } from '../../../../_helpers';
+import { actionnaireNotificationTemplateId } from '../constant';
+import { ActionnaireNotificationsProps } from '../type';
 
-import { RegisterActionnaireNotificationDependencies } from '.';
-
-import { actionnaireNotificationTemplateId } from './constant';
-
-type changementActionnaireDemandéNotificationsProps = {
-  sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
-  event: Lauréat.Actionnaire.ChangementActionnaireDemandéEvent;
-  projet: {
-    nom: string;
-    région: string;
-    département: string;
-  };
-  baseUrl: string;
-};
-
-export const changementActionnaireDemandéNotifications = async ({
+export const handleChangementActionnaireDemandé = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
-}: changementActionnaireDemandéNotificationsProps) => {
+}: ActionnaireNotificationsProps<Lauréat.Actionnaire.ChangementActionnaireDemandéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
 
@@ -44,7 +30,7 @@ export const changementActionnaireDemandéNotifications = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Actionnaire.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
+      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
     },
   });
 };

@@ -1,28 +1,15 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients, listerPorteursRecipients } from '../../../_helpers';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../_helpers';
+import { actionnaireNotificationTemplateId } from '../constant';
+import { ActionnaireNotificationsProps } from '../type';
 
-import { RegisterActionnaireNotificationDependencies } from '.';
-
-import { actionnaireNotificationTemplateId } from './constant';
-
-type ActionnaireModifiéNotificationsProps = {
-  sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
-  event: Lauréat.Actionnaire.ActionnaireModifiéEvent;
-  projet: {
-    nom: string;
-    région: string;
-    département: string;
-    url: string;
-  };
-};
-
-export const actionnaireModifiéNotifications = async ({
+export const handleActionnaireModifié = async ({
   sendEmail,
   event,
   projet,
-}: ActionnaireModifiéNotificationsProps) => {
+}: ActionnaireNotificationsProps<Lauréat.Actionnaire.ActionnaireModifiéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);

@@ -1,12 +1,11 @@
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import { getBaseUrl, listerPorteursRecipients } from '../../../_helpers';
+import { getBaseUrl, listerPorteursRecipients } from '../../../../_helpers';
+import { abandonNotificationTemplateId } from '../constant';
+import { AbandonNotificationsProps } from '../type';
 
-import { abandonNotificationTemplateId } from './constant';
-import { AbandonNotificationsProps } from './type';
-
-export const abandonRejetéNotifications = async ({
+export const handleAbandonRejeté = async ({
   sendEmail,
   event,
   projet,

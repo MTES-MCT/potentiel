@@ -1,11 +1,9 @@
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '../../../_helpers';
-
-import { RegisterActionnaireNotificationDependencies } from '.';
-
-import { actionnaireNotificationTemplateId } from './constant';
+import { listerPorteursRecipients } from '../../../../_helpers';
+import { RegisterActionnaireNotificationDependencies } from '../actionnaire.notifications';
+import { actionnaireNotificationTemplateId } from '../constant';
 
 type changementActionnaireRejetéNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
@@ -17,7 +15,7 @@ type changementActionnaireRejetéNotificationsProps = {
   };
 };
 
-export const changementActionnaireRejetéNotifications = async ({
+export const handleChangementActionnaireRejeté = async ({
   sendEmail,
   event,
   projet,
