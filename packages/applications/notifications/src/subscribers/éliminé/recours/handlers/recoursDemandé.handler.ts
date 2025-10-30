@@ -1,12 +1,11 @@
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '../../../_helpers';
+import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '../../../../_helpers';
+import { recoursNotificationTemplateId } from '../constant';
+import { RecoursNotificationsProps } from '../type';
 
-import { recoursNotificationTemplateId } from './constant';
-import { RecoursNotificationsProps } from './type';
-
-export const recoursDemandéNotification = async ({
+export const handleRecoursDemandé = async ({
   sendEmail,
   event,
   projet,
