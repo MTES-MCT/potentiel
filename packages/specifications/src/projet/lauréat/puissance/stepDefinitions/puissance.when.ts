@@ -30,10 +30,9 @@ Quand(
         this,
         this.utilisateurWorld.adminFixture.email,
         'lauréat',
-        exemple['ratio puissance'] === '' ? 'non-défini' : exemple['ratio puissance'],
-        exemple['ratio puissance de site'] === ''
-          ? 'non-défini'
-          : exemple['ratio puissance de site'],
+        exemple['ratio puissance'],
+        exemple['ratio puissance de site'],
+        exemple['puissance de site'],
       );
     } catch (error) {
       this.error = error as Error;
@@ -45,10 +44,18 @@ async function modifierPuissance(
   this: PotentielWorld,
   modifiéPar: string,
   statutProjet?: 'lauréat' | 'éliminé',
-  ratio?: string | 'non-défini',
-  ratioPuissanceDeSite?: string | 'non-défini',
+  ratio?: string,
+  ratioPuissanceDeSite?: string,
+  puissanceDeSiteExemple?: string,
 ) {
   const { identifiantProjet } = statutProjet === 'éliminé' ? this.éliminéWorld : this.lauréatWorld;
+
+  const nouvellePuissanceDeSite =
+    Number(puissanceDeSiteExemple) ||
+    (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite
+      ? this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite *
+        Number(ratioPuissanceDeSite)
+      : undefined);
 
   const { puissance, puissanceDeSite, dateModification, raison } =
     this.lauréatWorld.puissanceWorld.modifierPuissanceFixture.créer({
@@ -56,21 +63,11 @@ async function modifierPuissance(
       ...(ratio !== undefined
         ? {
             puissance:
-              ratio !== 'non-défini'
-                ? this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle *
-                  Number(ratio)
-                : undefined,
+              this.candidatureWorld.importerCandidature.dépôtValue.puissanceProductionAnnuelle *
+              Number(ratio),
           }
         : {}),
-      ...(ratioPuissanceDeSite !== undefined
-        ? {
-            puissanceDeSite:
-              ratioPuissanceDeSite !== 'non-défini'
-                ? (this.candidatureWorld.importerCandidature.dépôtValue?.puissanceDeSite ?? 1) *
-                  Number(ratioPuissanceDeSite)
-                : undefined,
-          }
-        : {}),
+      puissanceDeSite: nouvellePuissanceDeSite,
     });
 
   await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
