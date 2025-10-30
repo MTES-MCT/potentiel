@@ -1,9 +1,16 @@
 import { Candidature } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
-export const handleCandidatureCorrigée = async (event: Candidature.CandidatureCorrigéeEvent) => {
+import { getBaseUrl, NotificationHandlerProps } from '../../../_helpers';
+import { candidatureNotificationTemplateId } from '../constant';
+
+export const handleCandidatureCorrigée = async ({
+  sendEmail,
+  event,
+}: NotificationHandlerProps<Candidature.CandidatureCorrigéeEvent>) => {
   if (event.payload.doitRégénérerAttestation) {
     await sendEmail({
-      templateId: templateId.attestationRegénéréePorteur,
+      templateId: candidatureNotificationTemplateId.attestationRegénéréePorteur,
       messageSubject: `Potentiel - Une nouvelle attestation est disponible pour le projet ${event.payload.nomProjet}`,
       recipients: [
         {
@@ -14,7 +21,7 @@ export const handleCandidatureCorrigée = async (event: Candidature.CandidatureC
       variables: {
         nom_projet: event.payload.nomProjet,
         raison: 'Votre candidature a été modifiée',
-        redirect_url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
+        redirect_url: `${getBaseUrl()}${Routes.Projet.details(event.payload.identifiantProjet)}`,
       },
     });
   }

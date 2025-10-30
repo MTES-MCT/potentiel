@@ -1,8 +1,8 @@
 // Accès
-export * as AccèsNotification from './subscribers/accès/accès.notification';
+export * as AccèsNotification from './subscribers/accès/accès.notifications';
 
 // Candidature
-export * as CandidatureNotification from './subscribers/candidature/candidature.notification';
+export * as CandidatureNotification from './subscribers/candidature/candidature.notifications';
 
 // Lauréat
 export * as AbandonNotification from './subscribers/lauréat/abandon';
@@ -20,12 +20,12 @@ export * as InstallationNotification from './subscribers/lauréat/installation';
 export * as NatureDeLExploitationNotification from './subscribers/lauréat/nature-de-l-exploitation';
 
 // Éliminé
-export * as RecoursNotification from './subscribers/éliminé/recours';
+export * as RecourNotification from './subscribers/éliminé/recours/recours.notifications';
 
 // Période
 export * as PériodeNotification from './subscribers/période/période.notification';
 
 // Utilisateur
-export * as UtilisateurNotification from './subscribers/utilisateur';
+export * as UtilisateurNotification from './subscribers/utilisateur/utilisateur.notifications';
 
 export { SendEmail, EmailPayload } from './sendEmail';

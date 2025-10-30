@@ -8,11 +8,13 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getBaseUrl, getCandidature } from '../../../_helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { recoursAccordéNotification } from './recoursAccordé.notifications';
-import { recoursRejetéNotification } from './recoursRejeté.notifications';
-import { recoursDemandéNotification } from './recoursDemandé.notifications';
-import { recoursAnnuléNotification } from './recoursAnnulé.notifications';
-import { recoursPasséEnInstructionNotification } from './recoursPasséEnInstruction.notifications';
+import {
+  handleRecoursDemandé,
+  handleRecoursAnnulé,
+  handleRecoursAccordé,
+  handleRecoursRejeté,
+  handleRecoursPasséEnInstruction,
+} from './handlers';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent & Event;
 
@@ -36,19 +38,19 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
 
     await match(event)
       .with({ type: 'RecoursDemandé-V1' }, (event) =>
-        recoursDemandéNotification({ sendEmail, event, projet }),
+        handleRecoursDemandé({ sendEmail, event, projet }),
       )
       .with({ type: 'RecoursAnnulé-V1' }, (event) =>
-        recoursAnnuléNotification({ sendEmail, event, projet }),
+        handleRecoursAnnulé({ sendEmail, event, projet }),
       )
       .with({ type: 'RecoursAccordé-V1' }, (event) =>
-        recoursAccordéNotification({ sendEmail, event, projet }),
+        handleRecoursAccordé({ sendEmail, event, projet }),
       )
       .with({ type: 'RecoursRejeté-V1' }, (event) =>
-        recoursRejetéNotification({ sendEmail, event, projet }),
+        handleRecoursRejeté({ sendEmail, event, projet }),
       )
       .with({ type: 'RecoursPasséEnInstruction-V1' }, (event) =>
-        recoursPasséEnInstructionNotification({ sendEmail, event, projet }),
+        handleRecoursPasséEnInstruction({ sendEmail, event, projet }),
       )
       .exhaustive();
   };

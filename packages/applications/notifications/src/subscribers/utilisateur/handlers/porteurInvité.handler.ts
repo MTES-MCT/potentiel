@@ -3,11 +3,15 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { getBaseUrl, getCandidature } from '../../_helpers';
+import { getBaseUrl, getCandidature, NotificationHandlerProps } from '../../../_helpers';
+import { utilisateurNotificationTemplateId } from '../constant';
 
-export const porteurInvitéNotification = async ({
-  payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
-}: PorteurInvitéEvent) => {
+export const handlePorteurInvité = async ({
+  event: {
+    payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
+  },
+  sendEmail,
+}: NotificationHandlerProps<PorteurInvitéEvent>) => {
   const projets = await Promise.all(
     identifiantsProjet.map((identifiantProjet) =>
       getCandidature(IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()),
@@ -20,12 +24,8 @@ export const porteurInvitéNotification = async ({
   // car cela correspond à l'invitation liée à la candidature,
   // pour laquelle le porteur est déjà notifié
   if (Email.convertirEnValueType(invitéPar).estSystème()) {
-    return [];
-  }
-
-  return [
-    {
-      templateId: 1402576,
+    await sendEmail({
+      templateId: utilisateurNotificationTemplateId.inviter.porteur,
       messageSubject: `Invitation à suivre les projets sur Potentiel`,
       recipients: [{ email: identifiantUtilisateur }],
       variables: {
@@ -35,6 +35,6 @@ export const porteurInvitéNotification = async ({
           .join(', '),
         invitation_link: urlPageProjets,
       },
-    },
-  ];
+    });
+  }
 };

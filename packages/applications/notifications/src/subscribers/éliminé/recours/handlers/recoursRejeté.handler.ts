@@ -4,16 +4,15 @@ import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '../../../_helpers';
+import { getBaseUrl, listerDgecRecipients, listerPorteursRecipients } from '../../../../_helpers';
+import { recoursNotificationTemplateId } from '../constant';
+import { RecoursNotificationsProps } from '../type';
 
-import { recoursNotificationTemplateId } from './constant';
-import { RecoursNotificationsProps } from './type';
-
-export const recoursAccordéNotification = async ({
+export const handleRecoursRejeté = async ({
   sendEmail,
   event,
   projet,
-}: RecoursNotificationsProps<Éliminé.Recours.RecoursAccordéEvent>) => {
+}: RecoursNotificationsProps<Éliminé.Recours.RecoursRejetéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const utilisateursCre = await mediator.send<ListerUtilisateursQuery>({
     type: 'Utilisateur.Query.ListerUtilisateurs',
@@ -24,11 +23,12 @@ export const recoursAccordéNotification = async ({
   });
   const porteursRecipients = await listerPorteursRecipients(identifiantProjet);
   const adminRecipients = await listerDgecRecipients(identifiantProjet);
+
   const creRecipients = utilisateursCre.items.map(({ email }) => ({ email }));
 
   await sendEmail({
-    templateId: recoursNotificationTemplateId.accorder,
-    messageSubject: `Potentiel - Demande de recours accordée pour le projet ${projet.nom} (${identifiantProjet.appelOffre} période ${identifiantProjet.période})`,
+    templateId: recoursNotificationTemplateId.rejeter,
+    messageSubject: `Potentiel - Demande de recours rejetée pour le projet ${projet.nom} (${identifiantProjet.appelOffre} période ${identifiantProjet.période})`,
     recipients: porteursRecipients,
     bcc: [...adminRecipients, ...creRecipients],
     variables: {
