@@ -2,7 +2,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const changementPuissanceDemandéProjector = async ({
   payload: {
@@ -24,8 +27,7 @@ export const changementPuissanceDemandéProjector = async ({
     return;
   }
 
-  await upsertProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
-    ...projectionToUpsert,
+  await updateOneProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
     dateDemandeEnCours: demandéLe,
   });
 
