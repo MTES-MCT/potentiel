@@ -2,7 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { getBaseUrl, listerDrealsRecipients } from '../../../../_helpers';
+import { listerDrealsRecipients } from '../../../../_helpers';
 import { actionnaireNotificationTemplateId } from '../constant';
 import { ActionnaireNotificationsProps } from '../type';
 
@@ -10,6 +10,7 @@ export const handleChangementActionnaireDemandé = async ({
   sendEmail,
   event,
   projet,
+  baseUrl,
 }: ActionnaireNotificationsProps<Lauréat.Actionnaire.ChangementActionnaireDemandéEvent>) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
@@ -30,7 +31,7 @@ export const handleChangementActionnaireDemandé = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${getBaseUrl()}${Routes.Actionnaire.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
+      url: `${baseUrl}${Routes.Actionnaire.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
     },
   });
 };
