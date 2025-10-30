@@ -72,7 +72,9 @@ Alors(
           data: {
             identifiantProjet: identifiantProjet.formatter(),
             identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
-            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+            statut: [
+              Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+            ],
           },
         });
       expect(actualReadModelList.items).to.be.length(1);

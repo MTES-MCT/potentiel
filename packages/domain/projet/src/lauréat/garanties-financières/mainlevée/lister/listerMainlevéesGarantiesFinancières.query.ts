@@ -53,7 +53,7 @@ export type ListerMainlevéesQuery = Message<
     range?: RangeOptions;
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
-    statut?: StatutMainlevéeGarantiesFinancières.RawType;
+    statut?: Array<StatutMainlevéeGarantiesFinancières.RawType>;
     identifiantUtilisateur: string;
   },
   ListerMainlevéesReadModel
@@ -91,7 +91,7 @@ export const registerListerMainlevéesQuery = ({
           identifiantProjet:
             scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
           motif: Where.equal(motif),
-          statut: Where.equal(statut),
+          statut: Where.matchAny(statut),
         },
         join: {
           entity: 'lauréat',

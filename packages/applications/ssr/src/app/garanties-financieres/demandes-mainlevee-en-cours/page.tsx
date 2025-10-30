@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import z from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -12,6 +13,8 @@ import {
   convertMotifMainlevéeForView,
   convertStatutMainlevéeForView,
 } from '@/app/laureats/[identifiant]/garanties-financieres/(mainlevée)/_helpers';
+import { transformToOptionalEnumArray } from '@/app/_helpers/transformToOptionalStringArray';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import {
   ListeDemandeMainlevéePage,
@@ -27,13 +30,23 @@ export const metadata: Metadata = {
   description: 'Liste des demandes de mainlevée des garanties financières',
 };
 
+const paramsSchema = z.object({
+  page: z.coerce.number().int().optional().default(1),
+  appelOffre: z.string().optional(),
+  statut: transformToOptionalEnumArray(
+    z.enum(Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts),
+  ),
+  motif: z
+    .enum(Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs)
+    .optional(),
+});
+
+type SearchParams = keyof z.infer<typeof paramsSchema>;
+
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-      const appelOffre = searchParams?.appelOffre;
-      const motif = searchParams?.motif;
-      const statut = searchParams?.statut;
+      const { page, appelOffre, motif, statut } = paramsSchema.parse(searchParams);
 
       const demandeMainlevéeDesGarantiesFinancières =
         await mediator.send<Lauréat.GarantiesFinancières.ListerMainlevéesQuery>({
@@ -47,10 +60,13 @@ export default async function Page({ searchParams }: PageProps) {
                   motif,
                 ).motif
               : undefined,
-            statut: statut
-              ? Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
-                  statut,
-                ).statut
+            statut: statut?.length
+              ? statut.map(
+                  (s) =>
+                    Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+                      s,
+                    ).statut,
+                )
               : undefined,
             range: mapToRangeOptions({
               currentPage: page,
@@ -67,16 +83,17 @@ export default async function Page({ searchParams }: PageProps) {
       const motifMainlevée =
         Lauréat.GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
 
-      const filters = [
+      const filters: ListFilterItem<SearchParams>[] = [
         {
-          label: `Statut de mainlevée`,
+          label: 'Statut de mainlevée',
           searchParamKey: 'statut',
-          options: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.map(
-            (statut) => ({
+          multiple: true,
+          options: [...Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts]
+            .sort((a, b) => a.localeCompare(b))
+            .map((statut) => ({
               label: convertStatutMainlevéeForView(statut),
               value: statut,
-            }),
-          ),
+            })),
         },
         {
           label: 'Motif de mainlevée',

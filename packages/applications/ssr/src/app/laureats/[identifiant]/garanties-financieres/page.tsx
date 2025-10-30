@@ -81,7 +81,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           data: {
             identifiantProjet: identifiantProjet.formatter(),
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            statut: Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+            statut: [
+              Lauréat.GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+            ],
           },
         });
 
